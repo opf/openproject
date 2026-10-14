@@ -864,26 +864,6 @@ RSpec.describe User do
     end
   end
 
-  describe ".find_by_rss_key" do
-    let(:rss_key) { user.rss_key }
-
-    context "feeds enabled" do
-      before do
-        allow(Setting).to receive(:feeds_enabled?).and_return(true)
-      end
-
-      it { expect(described_class.find_by_rss_key(rss_key)).to eq(user) }
-    end
-
-    context "feeds disabled" do
-      before do
-        allow(Setting).to receive(:feeds_enabled?).and_return(false)
-      end
-
-      it { expect(described_class.find_by_rss_key(rss_key)).to be_nil }
-    end
-  end
-
   describe "#rss_key" do
     let(:user) { create(:user) }
 
@@ -1117,41 +1097,6 @@ RSpec.describe User do
               .to eq user
           end
         end
-      end
-    end
-  end
-
-  describe ".find_by_api_key" do
-    let(:status) { described_class.statuses[:active] }
-
-    let!(:user) do
-      create(:user,
-             status:)
-    end
-    let!(:token) do
-      create(:api_token, user:)
-    end
-
-    context "if the right token is used" do
-      it "returns the user" do
-        expect(described_class.find_by_api_key(token.plain_value))
-          .to eq user
-      end
-    end
-
-    context "if it isn't the right user" do
-      it "returns nil" do
-        expect(described_class.find_by_api_key("#{token.value}abc"))
-          .to be_nil
-      end
-    end
-
-    context "if the right token is used but the user is locked" do
-      let(:status) { described_class.statuses[:locked] }
-
-      it "returns nil" do
-        expect(described_class.find_by_api_key(token.plain_value))
-          .to be_nil
       end
     end
   end

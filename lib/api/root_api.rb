@@ -81,15 +81,12 @@ module API
       def apply_admin_elevation
         return unless current_user.admin?
 
-        current_user.admin_elevation =
-          if authenticated_by_session?
-            Users::AdminElevation.for_session(current_user, env["rack.session"].id&.private_id)
-          else
-            # Admins authenticated in any other way (API key, basic auth, OAuth, JWT) are elevated
-            # everywhere for now, so that integrations keep working. This will be handled once
-            # tokens can carry their own elevation, e.g. through a sudo scope.
-            Users::AdminElevation.everywhere
-          end
+        # Strategies other than the session set the elevation on the user they authenticate.
+        if authenticated_by_session?
+          current_user.admin_elevation = Users::AdminElevation.for_session(current_user, env["rack.session"].id&.private_id)
+        end
+
+        RequestStore[:admin_elevations] = { current_user.id => current_user.admin_elevation }
       end
 
       def authenticated_by_session?

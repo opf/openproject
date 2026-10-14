@@ -80,6 +80,8 @@ module OpenProject
             end
 
             if user.active?
+              # Elevated everywhere until JWTs can request the admin_elevation scope.
+              user.admin_elevation = ::Users::AdminElevation.everywhere
               success!(user)
             else
               fail_with_header!(

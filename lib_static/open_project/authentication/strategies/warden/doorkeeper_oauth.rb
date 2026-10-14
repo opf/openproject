@@ -73,6 +73,8 @@ module OpenProject
             # ServiceAccount is found explicitly because ServiceAccount is builtin, but User.active excludes builtin entities.
             user = id && User.active.where(id:).or(ServiceAccount.where(id:, status: ServiceAccount.statuses[:active])).first
             if user
+              # Elevated everywhere until OAuth tokens can request the admin_elevation scope.
+              user.admin_elevation = ::Users::AdminElevation.everywhere
               success!(user)
             else
               fail_with_header!(error: "invalid_token")

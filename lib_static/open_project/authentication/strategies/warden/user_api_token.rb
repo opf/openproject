@@ -54,7 +54,14 @@ module OpenProject
             token = ::Token::API.find_by_plaintext_value(@access_token)
             return fail_with_header!(error: "invalid_token") if token.nil?
 
-            authentication_result(token.user)
+            unless token.includes_scope?(scope)
+              return fail_with_header!(error: "insufficient_scope",
+                                       error_description: "Requires scope #{scope} to access this resource.")
+            end
+
+            user = token.user
+            user&.admin_elevation = ::Users::AdminElevation.for_api_token(token)
+            authentication_result(user)
           end
 
           private

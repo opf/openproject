@@ -76,5 +76,11 @@ module Users
 
       project_ids.empty? ? none : in_projects(project_ids.uniq)
     end
+
+    def self.for_api_token(token)
+      return everywhere unless OpenProject::FeatureDecisions.admin_privilege_elevation_active?
+
+      token.includes_scope?(:admin_elevation) ? everywhere : none
+    end
   end
 end

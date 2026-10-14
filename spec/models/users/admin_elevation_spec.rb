@@ -217,6 +217,31 @@ RSpec.describe Users::AdminElevation do
     end
   end
 
+  describe ".for_api_token", with_flag: { admin_privilege_elevation: true } do
+    let(:scopes) { %w[api_v3] }
+    let(:token) { build_stubbed(:api_token, scopes:) }
+
+    subject(:elevation) { described_class.for_api_token(token) }
+
+    it "is not elevated without the admin_elevation scope" do
+      expect(elevation).to be_a(described_class::None)
+    end
+
+    context "with the admin_elevation scope" do
+      let(:scopes) { %w[api_v3 admin_elevation] }
+
+      it "is elevated everywhere" do
+        expect(elevation).to be_a(described_class::Everywhere)
+      end
+    end
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "is elevated everywhere without the admin_elevation scope" do
+        expect(elevation).to be_a(described_class::Everywhere)
+      end
+    end
+  end
+
   describe Users::AdminElevation::Everywhere do
     subject(:elevation) { described_class.new }
 

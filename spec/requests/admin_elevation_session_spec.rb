@@ -193,13 +193,55 @@ RSpec.describe "Admin privilege elevation for Rails requests",
       browser.response
     end
 
-    it "grants access to the news feed without an elevation" do
-      expect(get_news_feed).to have_http_status(:ok)
+    it "denies access to the news feed" do
+      expect(get_news_feed).to have_http_status(:forbidden)
     end
 
     context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
       it "grants access to the news feed without an elevation" do
         expect(get_news_feed).to have_http_status(:ok)
+      end
+    end
+  end
+
+  context "when authenticated by an API key on a webhook", with_settings: { api_tokens_enabled: true } do
+    let(:hook_name) { "admin_elevation_session_spec" }
+    let(:scopes) { %w[webhooks] }
+    let(:token) { create(:api_token, user: admin, scopes:) }
+
+    def post_hook
+      browser.post "/webhooks/#{hook_name}?key=#{token.plain_value}",
+                   params: "{}",
+                   headers: { "Content-Type" => "application/json" }
+      browser.response
+    end
+
+    before do
+      elevated_project = project
+      OpenProject::Webhooks.register_hook(hook_name) do |_hook, _request, _params, current_user|
+        User.find(current_user.id).admin_in_project?(elevated_project) ? 200 : 403
+      end
+    end
+
+    after do
+      OpenProject::Webhooks.unregister_hook(hook_name)
+    end
+
+    it "is not elevated without the admin_elevation scope" do
+      expect(post_hook).to have_http_status(:forbidden)
+    end
+
+    context "with the admin_elevation scope" do
+      let(:scopes) { %w[webhooks admin_elevation] }
+
+      it "is elevated" do
+        expect(post_hook).to have_http_status(:ok)
+      end
+    end
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "is elevated without the admin_elevation scope" do
+        expect(post_hook).to have_http_status(:ok)
       end
     end
   end
