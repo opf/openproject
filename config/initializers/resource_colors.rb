@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module HighlightingHelper
-  def highlight_css_version_tag(max_updated_at = highlight_css_updated_at)
-    OpenProject::Cache::CacheKey.expand [max_updated_at, Meetings::Statuses::AVAILABLE]
-  end
+Rails.application.config.to_prepare do
+  Highlighting::Registry.register_model key: "status", model: Status
+  Highlighting::Registry.register_model key: "priority", model: IssuePriority
+  Highlighting::Registry.register_model key: "type", model: Type
+  Highlighting::Registry.register_model key: "project_phase_definition", model: Project::PhaseDefinition
+  Highlighting::Registry.register_model key: "color", model: Color
 
-  def highlight_css_updated_at
-    ApplicationRecord.most_recently_changed Status, IssuePriority, Type, Color, Project::PhaseDefinition
-  end
+  Highlighting::Registry.register_static key: "project_status", values: Projects::Statuses::AVAILABLE
 end

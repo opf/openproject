@@ -30,14 +30,16 @@
 
 module Meetings
   module Statuses
-    RECORD = Struct.new(:id, :color, keyword_init: true) do
+    RECORD = Struct.new(:id, :hexcode, keyword_init: true) do
       def name = I18n.t("label_meeting_state_#{id}")
+
+      def color = Color.new(hexcode:)
     end
 
-    DRAFT = RECORD.new(id: "draft", color: Color.new(hexcode: "#BF3989"))
-    OPEN = RECORD.new(id: "open", color: Color.new(hexcode: "#006edb"))
-    IN_PROGRESS = RECORD.new(id: "in_progress", color: Color.new(hexcode: "#1F883D"))
-    CLOSED = RECORD.new(id: "closed", color: Color.new(hexcode: "#25292e"))
+    DRAFT = RECORD.new(id: "draft", hexcode: "#BF3989")
+    OPEN = RECORD.new(id: "open", hexcode: "#006edb")
+    IN_PROGRESS = RECORD.new(id: "in_progress", hexcode: "#1F883D")
+    CLOSED = RECORD.new(id: "closed", hexcode: "#25292e")
 
     AVAILABLE = [
       DRAFT,

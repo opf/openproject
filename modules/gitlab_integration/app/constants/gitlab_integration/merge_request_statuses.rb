@@ -31,19 +31,19 @@
 module GitlabIntegration
   module MergeRequestStatuses
     OPEN = GitlabStatus.merge_request_status(code: :open,
-                                             color: Color.new(hexcode: "#1A7F37"),
+                                             hexcode: "#1A7F37",
                                              icon: :"git-pull-request")
     DRAFT = GitlabStatus.merge_request_status(code: :draft,
-                                              color: Color.new(hexcode: "#24292F"),
+                                              hexcode: "#24292F",
                                               icon: :"git-pull-request-draft")
     CLOSED = GitlabStatus.merge_request_status(code: :closed,
-                                               color: Color.new(hexcode: "#CF222E"),
+                                               hexcode: "#CF222E",
                                                icon: :"git-pull-request-closed")
     MERGED = GitlabStatus.merge_request_status(code: :merged,
-                                               color: Color.new(hexcode: "#8250DF"),
+                                               hexcode: "#8250DF",
                                                icon: :"git-merge")
     LOCKED = GitlabStatus.merge_request_status(code: :locked,
-                                               color: Color.new(hexcode: "#BC4C00"),
+                                               hexcode: "#BC4C00",
                                                icon: :"git-pull-request-locked")
 
     AVAILABLE = [OPEN, DRAFT, CLOSED, MERGED, LOCKED].freeze
