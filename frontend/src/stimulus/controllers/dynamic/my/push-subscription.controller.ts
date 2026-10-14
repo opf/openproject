@@ -31,17 +31,10 @@ import { destroy, post } from '@rails/request.js';
 interface KnownSubscription {
   endpoint:string;
   revokeUrl:string;
+  current?:boolean;
 }
 
 type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error';
-
-const STATUS_KEYS:Record<State, string> = {
-  unsupported: 'js.push_subscription.unsupported',
-  blocked: 'js.push_subscription.blocked',
-  enabled: 'js.push_subscription.enabled',
-  disabled: 'js.push_subscription.disabled',
-  error: 'js.push_subscription.error',
-};
 
 const REGISTRATION_TIMEOUT_MS = 5000;
 
@@ -58,10 +51,13 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
 /**
  * Owns the "this device" box on the Browser push tab of My account.
  *
- * The server is the source of truth. A browser push subscription only counts
- * when its endpoint is in the list the server rendered into this element. One
- * the server does not know is dropped on the next visit, because a revoke from
- * another device, a logout or a key rotation has already invalidated it.
+ * The server is the source of truth, and both directions are reconciled. A
+ * browser push subscription only counts when its endpoint is in the list the
+ * server rendered into this element; one the server does not know is dropped,
+ * because a revoke from another device, a logout or a key rotation has already
+ * invalidated it. A server row for this device without a browser subscription
+ * (the browser deactivates it when notification permission is revoked) is
+ * revoked.
  *
  * Flow
  *
@@ -80,6 +76,7 @@ export default class PushSubscriptionController extends Controller {
     vapidPublicKey: String,
     createUrl: String,
     subscriptions: Array,
+    messages: Object,
   };
 
   static targets = ['status', 'enable', 'disable'];
@@ -87,6 +84,7 @@ export default class PushSubscriptionController extends Controller {
   declare readonly vapidPublicKeyValue:string;
   declare readonly createUrlValue:string;
   declare readonly subscriptionsValue:KnownSubscription[];
+  declare readonly messagesValue:Record<State, string>;
   declare readonly statusTarget:HTMLElement;
   declare readonly enableTarget:HTMLButtonElement;
   declare readonly disableTarget:HTMLButtonElement;
@@ -152,7 +150,8 @@ export default class PushSubscriptionController extends Controller {
         return;
       }
       if (this.permissionBlocked()) {
-        this.render('blocked');
+        await this.revokeStaleRow(isCurrent);
+        if (isCurrent()) this.render('blocked');
         return;
       }
 
@@ -180,8 +179,18 @@ export default class PushSubscriptionController extends Controller {
       return;
     }
 
+    await this.revokeStaleRow(isCurrent);
+    if (!isCurrent()) return;
+
     await this.forget(subscription);
     if (isCurrent()) this.render('disabled');
+  }
+
+  private async revokeStaleRow(isCurrent:() => boolean):Promise<void> {
+    const staleRow = this.subscriptionsValue.find((entry) => entry.current);
+    if (!staleRow || !isCurrent()) return;
+
+    await this.revokeOnServer(staleRow, { silent: true }).catch(() => undefined);
   }
 
   private beginRun():() => boolean {
@@ -222,8 +231,9 @@ export default class PushSubscriptionController extends Controller {
     assertOk(response);
   }
 
-  private async revokeOnServer(known:KnownSubscription):Promise<void> {
-    assertOk(await destroy(known.revokeUrl, { responseKind: 'turbo-stream' }));
+  private async revokeOnServer(known:KnownSubscription, { silent = false } = {}):Promise<void> {
+    const query = silent ? { silent: 'true' } : undefined;
+    assertOk(await destroy(known.revokeUrl, { responseKind: 'turbo-stream', query }));
   }
 
   private async forget(subscription:PushSubscription|null|undefined):Promise<void> {
@@ -251,7 +261,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private render(state:State, subscribed = false):void {
-    this.statusTarget.textContent = I18n.t(STATUS_KEYS[state]);
+    this.statusTarget.textContent = this.messagesValue[state];
     const actionable = state !== 'unsupported' && state !== 'blocked';
     this.enableTarget.hidden = !actionable || subscribed;
     this.disableTarget.hidden = !actionable || !subscribed;

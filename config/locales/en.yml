@@ -5271,7 +5271,7 @@ en:
         notifications: "Notification settings"
       title: "Notification and email"
     push_notifications:
-      description: "Get a notification on this device when you have unread notifications, even while OpenProject is closed. The push itself carries no content: the application fetches your unread notifications from this instance."
+      description: "Get notified on this device when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is only loaded when the notification is shown."
       disable: "Disable on this device"
       enable: "Enable on this device"
       no_devices: "No device receives browser push notifications yet."
@@ -5280,6 +5280,12 @@ en:
       revoke_confirm: "Stop sending push notifications to %{device}?"
       revoke_device: "Revoke %{device}"
       revoked: "Browser push was disabled for that device."
+      status:
+        blocked: "Notifications are blocked for this site in your browser settings."
+        disabled: "Browser push is off on this device."
+        enabled: "Browser push is enabled on this device."
+        error: "Browser push could not be changed. Please try again."
+        unsupported: "Browser push is not available in this browser."
       status_checking: "Checking this device…"
       this_device: "This device"
       title: "Browser push"

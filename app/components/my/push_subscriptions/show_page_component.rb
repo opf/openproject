@@ -59,14 +59,25 @@ module My
           controller: "my--push-subscription",
           "my--push-subscription-vapid-public-key-value": OpenProject::WebPush.public_key,
           "my--push-subscription-create-url-value": my_push_subscriptions_path,
-          "my--push-subscription-subscriptions-value": subscriptions_json
+          "my--push-subscription-subscriptions-value": subscriptions_json,
+          "my--push-subscription-messages-value": messages_json
         }
       end
 
       def subscriptions_json
         subscriptions
-          .map { { endpoint: it.endpoint, revokeUrl: my_push_subscription_path(it) } }
+          .map { { endpoint: it.endpoint, revokeUrl: my_push_subscription_path(it), current: bound_to_current_session?(it) } }
           .to_json
+      end
+
+      def messages_json
+        %i[unsupported blocked enabled disabled error]
+          .index_with { t("my_account.push_notifications.status.#{it}") }
+          .to_json
+      end
+
+      def bound_to_current_session?(subscription)
+        subscription.session.current?(current_session)
       end
     end
   end
