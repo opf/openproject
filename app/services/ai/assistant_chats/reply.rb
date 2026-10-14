@@ -69,11 +69,11 @@ module AI
       def ask
         system = skill.system_prompt(locale: message.locale)
         raise Llm::Errors::NotReady, "no system prompt" if system.blank?
-        raise Llm::Errors::NotReady, "no model" unless model_id
+        raise Llm::Errors::NotReady, llm.status unless llm.ready?
 
         history = earlier_turns
         question = history.pop
-        llm_call.ask(model_id:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
+        llm_call.ask(llm:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
                      message: question&.content.to_s, schema: answer_format.schema, temperature: TEMPERATURE,
                      history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn_text(turn)] })
       end
@@ -110,8 +110,8 @@ module AI
         message.log_event(:stored, findings: raw_proposals.size, stored: kept.size, dropped: dropped.map { |raw, _| raw.to_h })
       end
 
-      def model_id
-        @model_id ||= skill.assistant.effective_model_id
+      def llm
+        @llm ||= skill.assistant.llm_resolution
       end
 
       def change_options

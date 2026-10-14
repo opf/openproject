@@ -70,13 +70,10 @@ module AI
       principal.is_a?(Group)
     end
 
-    # The assistant's own model when the connection still offers it, otherwise the
-    # connection's default chat model.
-    def effective_model_id
-      connection = LlmConnection.active_connection
-      return model_id if model_id.present? && connection.available_model_ids.include?(model_id)
-
-      connection.default_chat_model&.external_id
+    # The assistant's own model while the connection still offers it. Otherwise the
+    # feature binding, then the connection default.
+    def llm_resolution
+      Llm::Runtime.for(:ai_assistance, override: offered_model_id)
     end
 
     # A personal assistant is offered only while its owner may manage their own. Global
@@ -86,6 +83,12 @@ module AI
     end
 
     private
+
+    def offered_model_id
+      return if model_id.blank? || !LlmConnection.available?
+
+      model_id if LlmConnection.active_connection.available_model_ids.include?(model_id)
+    end
 
     def owner_type_supported
       errors.add(:principal, :inclusion) if principal && OWNER_TYPES.exclude?(principal.type)

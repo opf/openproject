@@ -5038,6 +5038,9 @@ en:
       registry: "the figure published for this model"
       server: "reported by the server"
     features:
+      ai_assistance:
+        caption: "Answers the skills of AI assistants on work packages, unless an assistant sets its own model."
+        label: "AI Assistance"
       description_assistant:
         caption: "Rewrites and restructures work package text on request."
         label: "Description assistant"

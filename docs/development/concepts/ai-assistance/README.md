@@ -100,7 +100,7 @@ A user can create their own assistants with their own skills at **My account →
 
 - **Permission:** the global permission `manage_own_ai_assistants`. An admin gives it through a global role. To give it to all users, add it to the Standard global role.
 - **Menu:** a personal assistant shows only in its owner's menu, after the global assistants. When the owner loses the permission, the assistant stays, but it is not offered (`AI::Assistant#usable?`).
-- **Model:** a personal assistant uses the default model of the LLM connection. Only an admin can set a model, also on a personal assistant.
+- **Model:** `Llm::Runtime` resolves the model of the `:ai_assistance` feature, with the assistant's model as the override. An assistant model that the connection does not offer is ignored. Without an assistant model, the feature binding applies, then the connection default. A personal assistant has no model of its own. Only an admin can set a model, also on a personal assistant.
 - **Admin:** the admin list shows all assistants with their owner, and filters by owner (Global, Groups, Personal). The admin edits, deactivates and deletes personal assistants on the same pages.
 - **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `app/views/ai_assistants/` and `app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
 

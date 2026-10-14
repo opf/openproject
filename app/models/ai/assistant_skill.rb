@@ -102,7 +102,7 @@ module AI
       return false if skill_type.nil? || prompt.blank?
       return false unless assistant.usable?
 
-      LlmConnection.available? && assistant.effective_model_id.present?
+      assistant.llm_resolution.ready?
     end
 
     # The action keys this skill may propose: none when read-only, a comment when

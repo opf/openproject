@@ -89,7 +89,7 @@ module AI
 
       # The current model stays selectable even when the connection no longer offers it.
       def model_ids
-        ids = LlmConnection.active_connection.available_model_ids
+        ids = LlmConnection.active_connection.chat_model_ids
         model.model_id.present? ? (ids | [model.model_id]) : ids
       end
     end

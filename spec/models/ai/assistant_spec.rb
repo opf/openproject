@@ -124,4 +124,42 @@ RSpec.describe AI::Assistant do
       expect(create(:ai_assistant, principal: allowed)).to be_usable
     end
   end
+
+  describe "#llm_resolution", with_flag: { ai_assistance: true, llm_connection: true },
+                              with_settings: { llm_features_enabled: true } do
+    subject(:resolution) { assistant.llm_resolution }
+
+    let!(:connection) { create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b") }
+
+    before { create(:llm_model, llm_connection: connection, external_id: "bound-model") }
+
+    it "uses the connection default without a binding" do
+      expect(resolution).to be_ready
+      expect(resolution.model_id).to eq("qwen3.6-27b")
+    end
+
+    it "uses the bound model over the connection default" do
+      connection.feature_bindings.create!(feature_key: "ai_assistance", model_id: "bound-model")
+
+      expect(resolution.model_id).to eq("bound-model")
+    end
+
+    it "uses the assistant's model over the binding" do
+      connection.feature_bindings.create!(feature_key: "ai_assistance", model_id: "bound-model")
+      assistant.model_id = "qwen3.6-27b"
+
+      expect(resolution.model_id).to eq("qwen3.6-27b")
+    end
+
+    it "ignores an assistant model that the connection does not offer" do
+      assistant.model_id = "gone-model"
+
+      expect(resolution).to be_ready
+      expect(resolution.model_id).to eq("qwen3.6-27b")
+    end
+
+    it "is not ready while AI Assistance is off", with_flag: { ai_assistance: false } do
+      expect(resolution.status).to eq(:feature_disabled)
+    end
+  end
 end

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe AI::AssistantChats::Reply do
+RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
   include_context "with an available LLM for AI Assistance"
 
   shared_let(:project) { create(:project, enabled_internal_comments: true) }
@@ -122,7 +122,7 @@ RSpec.describe AI::AssistantChats::Reply do
   end
 
   context "without a model" do
-    before { allow(LlmConnection.active_connection).to receive(:default_chat_model).and_return(nil) }
+    before { allow(LlmConnection.active_connection).to receive(:default_model_for).and_return(nil) }
 
     it "fails the answer" do
       expect(ask("Hello")).to be_failed
