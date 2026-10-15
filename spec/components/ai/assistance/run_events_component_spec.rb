@@ -36,7 +36,9 @@ RSpec.describe AI::Assistance::RunEventsComponent, type: :component do
   let(:events) do
     [
       { "at" => Time.current.iso8601, "kind" => "tool_call",
-        "data" => { "name" => "count_work_packages", "arguments" => { "project_id" => 1 }, "seconds" => 0.2, "size" => 12 } },
+        "data" => { "name" => "count_work_packages", "arguments" => { "project_id" => 1 }, "seconds" => 0.2, "size" => 12,
+                    "result" => %({"total":12}) } },
+      { "at" => Time.current.iso8601, "kind" => "thought", "data" => { "text" => "Counting once more." } },
       { "at" => Time.current.iso8601, "kind" => "tool_call",
         "data" => { "name" => "count_work_packages", "arguments" => { "project_id" => 1 }, "repeated" => true } },
       { "at" => Time.current.iso8601, "kind" => "tool_call",
@@ -55,7 +57,10 @@ RSpec.describe AI::Assistance::RunEventsComponent, type: :component do
     expect(rendered).to have_text("The model answered in 3.5 s, after 4 tool calls.")
   end
 
-  it "shows the arguments of a tool call" do
+  it "shows the arguments and the result of a tool call, and the model's text between calls" do
     expect(rendered).to have_text(%("project_id": 1))
+    expect(rendered).to have_text(%({"total":12}))
+    expect(rendered).to have_text("The model explained its next tool calls.")
+    expect(rendered).to have_text("Counting once more.")
   end
 end

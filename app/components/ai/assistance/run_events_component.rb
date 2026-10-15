@@ -34,8 +34,8 @@ module AI
     # to and received from the model. Only the user it belongs to sees it. Error
     # messages can name servers, so only admins see them.
     class RunEventsComponent < ApplicationComponent
-      ICONS = { "request" => :"arrow-up", "answer" => :"arrow-down", "tool_call" => :tools, "stored" => :check,
-                "failure" => :alert }.freeze
+      ICONS = { "request" => :"arrow-up", "answer" => :"arrow-down", "tool_call" => :tools, "thought" => :comment,
+                "stored" => :check, "failure" => :alert }.freeze
 
       attr_reader :events
 
@@ -93,7 +93,9 @@ module AI
         when "answer"
           { I18n.t("ai_assistance.events.raw_answer") => data["content"] }
         when "tool_call"
-          { I18n.t("ai_assistance.events.arguments") => JSON.pretty_generate(data["arguments"] || {}) }
+          tool_call_blocks(data)
+        when "thought"
+          { I18n.t("ai_assistance.events.thought_text") => data["text"] }
         when "stored"
           dropped = Array(data["dropped"])
           dropped.any? ? { I18n.t("ai_assistance.events.dropped") => JSON.pretty_generate(dropped) } : {}
@@ -105,6 +107,11 @@ module AI
       end
 
       private
+
+      def tool_call_blocks(data)
+        { I18n.t("ai_assistance.events.arguments") => JSON.pretty_generate(data["arguments"] || {}),
+          I18n.t("ai_assistance.events.result") => data["result"] }
+      end
 
       def answer_summary(data)
         count = data["tool_calls"].to_i

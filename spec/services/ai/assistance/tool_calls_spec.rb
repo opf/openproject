@@ -37,24 +37,25 @@ RSpec.describe AI::Assistance::ToolCalls do
   let(:llm_call) { AI::Assistance::LlmCall.new(record:, log_tag: "spec") }
   let(:events) { record.reload.events.select { it["kind"] == "tool_call" }.pluck("data") }
 
-  it "runs a call and records its name, arguments, time and size" do
+  it "runs a call and records its name, arguments, time, size and result" do
     expect(calls.run("search", { project_id: 1 }) { "result" }).to eq("result")
-    expect(events).to contain_exactly(include("name" => "search", "arguments" => { "project_id" => 1 }, "size" => 6))
+    expect(events).to contain_exactly(include("name" => "search", "arguments" => { "project_id" => 1 }, "size" => 6,
+                                              "result" => "result"))
     expect(events.first).to have_key("seconds")
   end
 
   it "answers an identical call with the earlier result, without running it again" do
     runs = 0
-    2.times { calls.run("search", { b: 2, a: 1 }) { (runs += 1) && "result" } }
+    calls.run("search", { b: 2, a: 1 }) { (runs += 1) && "result" }
     second = calls.run("search", { a: 1, b: 2 }) { (runs += 1) && "result" }
 
     expect(runs).to eq(1)
     expect(second).to eq("#{described_class::REPEATED_TEXT}\nresult")
-    expect(events.pluck("repeated")).to eq([nil, true, true])
+    expect(events.pluck("repeated")).to eq([nil, true])
   end
 
-  it "refuses every call after three repeated calls" do
-    4.times { calls.run("search", { a: 1 }) { "result" } }
+  it "refuses every call after a repeated call" do
+    2.times { calls.run("search", { a: 1 }) { "result" } }
 
     expect(calls.run("search", { a: 2 }) { "new" }).to eq(described_class::LIMIT_TEXT)
     expect(events.last).to include("refused" => true)

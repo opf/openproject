@@ -35,8 +35,8 @@ module AI
     class ToolCalls
       SOFT_LIMIT = 20
       HARD_LIMIT = 25
-      # A model that repeats calls after the note usually loops: stop it early.
-      MAX_REPEATS = 3
+      # A model that repeats a call after the note usually loops: the next one answers now.
+      MAX_REPEATS = 1
       LIMIT_TEXT = "No more tool calls. Answer now with what you have."
       REPEATED_TEXT = "You already called this tool with these arguments. Use this result:"
       ERROR_TEXT = { error: "The tool failed. Check the arguments against the tool's schema." }.to_json
@@ -70,7 +70,7 @@ module AI
         started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         text = yield
         seconds = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(2)
-        record(name, args, seconds:, size: text.size)
+        record(name, args, seconds:, size: text.size, result: text)
         @llm_call.log(:info, "tool #{name} in #{seconds}s, #{text.size}c")
         text
       rescue StandardError => e

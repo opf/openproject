@@ -51,6 +51,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     allow(llm).to receive(:with_temperature) { |value| (sent[:temperature] = value) && llm }
     allow(llm).to receive(:with_schema) { |schema| (sent[:schema] = schema) && llm }
     allow(llm).to receive(:with_tools) { |*tools| (sent[:tools] = tools) && llm }
+    allow(llm).to receive(:on_end_message) { |&block| (sent[:on_end_message] = block) && llm }
     allow(llm).to receive(:add_message) { |role:, content:| (sent[:history] ||= []) << [role, content] }
     allow(llm).to receive(:ask) do |text|
       sent[:user] = text
@@ -147,17 +148,20 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     context "when the model calls a tool" do
       before do
         allow(llm).to receive(:ask) do
+          sent[:on_end_message].call(instance_double(RubyLLM::Message, tool_call?: true, content: "Let me count them."))
           sent[:tools].find { it.name == "count_work_packages" }.call({ "project_id" => project.id })
           instance_double(RubyLLM::Message, content: { "answer" => "One.", "proposals" => [] })
         end
       end
 
-      it "runs it as the user and records it" do
+      it "runs it as the user and records it with its result, and the model's text before it" do
         message = ask("How many?")
 
         expect(message.content).to eq("One.")
         tool_call = message.events.find { it["kind"] == "tool_call" }
-        expect(tool_call["data"]).to include("name" => "count_work_packages", "arguments" => { "project_id" => project.id })
+        expect(tool_call["data"]).to include("name" => "count_work_packages", "arguments" => { "project_id" => project.id },
+                                             "result" => include('"total"'))
+        expect(message.events.find { it["kind"] == "thought" }["data"]).to eq("text" => "Let me count them.")
         expect(message.events.find { it["kind"] == "answer" }["data"]).to include("tool_calls" => 1)
       end
     end

@@ -86,9 +86,20 @@ module AI
       def build_chat(llm:, system:, history:, temperature:, tools:)
         chat = llm.chat.with_instructions(system)
         chat.with_temperature(temperature) unless temperature.nil?
-        chat.with_tools(*tools) if tools.any?
+        if tools.any?
+          chat.with_tools(*tools)
+          chat.on_end_message { |reply| record_thought(reply) }
+        end
         history.each { |role, content| chat.add_message(role:, content:) }
         chat
+      end
+
+      # The model's text on a turn that calls tools: why it calls them.
+      def record_thought(reply)
+        return unless reply&.tool_call?
+
+        text = reply.content.respond_to?(:text) ? reply.content.text : reply.content
+        record.log_event(:thought, text: text.to_s) if text.present?
       end
 
       # Llm::Errors.wrap raises with the original error as the cause.
