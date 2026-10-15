@@ -35,10 +35,14 @@ module ResourceAllocations
   # release dates and deadlines this is optimal for feasibility, so any minutes
   # left over could not have fit under any placement.
   #
+  # Those leftover minutes are spread as `overtime` over the working days of
+  # the item's own window, in proportion to each day's capacity. Items whose
+  # window has no working day report them as `unplannable` instead.
+  #
   # The `calendar` must span the items' combined window.
   class FitCalculator
-    Result = Data.define(:placements, :daily_load, :unscheduled) do
-      def feasible? = unscheduled.empty?
+    Result = Data.define(:placements, :overtime, :unplannable) do
+      def feasible? = overtime.empty? && unplannable.empty?
     end
 
     def initialize(calendar:, items:)
@@ -49,34 +53,71 @@ module ResourceAllocations
     def call
       remaining = @items.to_h { |item| [item.id, item.minutes] }
       placements = Hash.new { |hash, id| hash[id] = {} }
-      daily_load = {}
 
       each_day_with_active_items(remaining) do |date, active|
-        fill_day(date, active, remaining, placements, daily_load)
+        fill_day(date, active, remaining, placements)
       end
 
-      Result.new(
-        placements:,
-        daily_load:,
-        unscheduled: remaining.select { |_id, minutes| minutes.positive? }
-      )
+      overtime, unplannable = distribute_leftover(remaining)
+
+      Result.new(placements:, overtime:, unplannable:)
     end
 
     private
 
-    def fill_day(date, active, remaining, placements, daily_load)
-      capacity = @calendar.capacity_on(date)
-      return if capacity.zero?
+    def distribute_leftover(remaining)
+      items_by_id = @items.index_by(&:id)
+      overtime = {}
+      unplannable = {}
 
-      free = place_items(date, active, capacity, remaining, placements)
-      used = capacity - free
-      daily_load[date] = used if used.positive?
+      remaining.each do |id, minutes|
+        next unless minutes.positive?
+
+        shares = overtime_shares(items_by_id.fetch(id), minutes)
+        if shares.empty?
+          unplannable[id] = minutes
+        else
+          overtime[id] = shares
+        end
+      end
+
+      [overtime, unplannable]
     end
 
-    # Fills the day from the active items in earliest-deadline order, returning
-    # the capacity left over.
-    def place_items(date, active, capacity, remaining, placements)
-      free = capacity
+    def overtime_shares(item, minutes)
+      capacities = working_day_capacities(item)
+      total = capacities.values.sum
+      return {} if total.zero?
+
+      exact = capacities.transform_values { |capacity| Rational(minutes * capacity, total) }
+      round_keeping_total(exact, minutes).select { |_date, share| share.positive? }
+    end
+
+    # Rounds each share down and hands the minutes this leaves out one by one,
+    # by largest fractional part and earlier date first, so the shares add up
+    # to exactly `total`.
+    def round_keeping_total(exact, total)
+      shares = exact.transform_values(&:floor)
+      leftover = total - shares.values.sum
+
+      exact.keys
+        .sort_by { |date| [exact[date].floor - exact[date], date] }
+        .first(leftover)
+        .each { |date| shares[date] += 1 }
+
+      shares
+    end
+
+    def working_day_capacities(item)
+      (item.start_date..item.end_date).filter_map do |date|
+        capacity = @calendar.capacity_on(date)
+        [date, capacity] if capacity.positive?
+      end.to_h
+    end
+
+    # Fills the day from the active items in earliest-deadline order.
+    def fill_day(date, active, remaining, placements)
+      free = @calendar.capacity_on(date)
       active.each do |item|
         break if free.zero?
 
@@ -85,7 +126,6 @@ module ResourceAllocations
         remaining[item.id] -= take
         free -= take
       end
-      free
     end
 
     # Yields each day on which items with work left are within their window,
