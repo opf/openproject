@@ -27,7 +27,7 @@
 #++
 
 namespace :attachments do
-  desc "Clear all attachments created before yesterday"
+  desc "Clear cached attachment files older than the defined setting (defaults to 2 hours)"
   task clear: [:environment] do
     Attachment.clean_cached_files!
   end
