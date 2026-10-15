@@ -9,6 +9,10 @@ required:
   - digest
   - createdAt
 properties:
+  _type:
+    type: string
+    enum:
+      - Attachment
   id:
     type: integer
     description: Attachment's id
@@ -112,7 +116,7 @@ example:
       href: "/some/remote/aws/url/image.png"
   id: 1
   fileName: cat.png
-  filesize: 24
+  fileSize: 24
   status: uploaded
   description:
     format: plain
