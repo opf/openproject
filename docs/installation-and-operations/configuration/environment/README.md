@@ -425,6 +425,10 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_USERS__DELETABLE__BY__ADMINS` | `false` | User accounts deletable by admins |
 | `OPENPROJECT_USERS__DELETABLE__BY__SELF` | `false` | Users allowed to delete their accounts |
 | `OPENPROJECT_WEB` | `{"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 4, "max_threads" => 16, "term_on_timeout" => 1}` | Web worker count and threads configuration |
+| `OPENPROJECT_WEB__PUSH__ENABLED` | `true` | Browser push notifications |
+| `OPENPROJECT_WEB__PUSH__SERVICE__HOSTS` | `["fcm.googleapis.com", "updates.push.services.mozilla.com", "push.apple.com", "notify.windows.com"]` | Push services a browser may subscribe through. Subdomains are included. Every host must be reachable over HTTPS from the instance. |
+| `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` | `<randomly generated>` | The VAPID private key used to sign browser push requests, given as the plaintext base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject generates a key the first time it is needed, stores it encrypted in the database and lets administrators regenerate it from the administration page. If you set it through this environment variable, the key is managed by you: the administration page can no longer regenerate it, and you rotate it by changing the variable. Whichever way the key changes, every existing browser push subscription becomes invalid. |
+| `OPENPROJECT_WEB__PUSH__VAPID__SUBJECT` | `nil` | The contact the instance presents to the browser push services when it signs a push, given as an https URL or a mailto: address. By default OpenProject uses its own root URL. Apple's push service rejects a subject whose domain is not public, for example an intranet hostname; set this to a public https URL or a mailto: address on your public domain in that case. |
 | `OPENPROJECT_WELCOME__ON__HOMESCREEN` | `false` | Display welcome block on homescreen |
 | `OPENPROJECT_WELCOME__TEXT` | `nil` | Welcome block text |
 | `OPENPROJECT_WELCOME__TITLE` | `nil` | Welcome block title |

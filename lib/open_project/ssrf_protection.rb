@@ -126,6 +126,14 @@ module OpenProject
       end
 
       ##
+      # Performs an SSRF-safe HTTP HEAD request to the given URL.
+      #
+      # Accepts the same options as {get}.
+      def head(url, options = {}, &)
+        super(url, { resolver: resolver }.merge(options), &)
+      end
+
+      ##
       # Given a hostname or IP address, returns the first one which is safe to use
       # for triggering a user initiated request.
       #
