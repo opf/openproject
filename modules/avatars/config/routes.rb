@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
   # Update my avatar
   scope "my" do
-    resource :avatar, controller: "avatars/my_avatar", as: "edit_my_avatar", only: %i[update destroy] do
+    resource :avatar, controller: "avatars/my_avatar", as: "edit_my_avatar", only: %i[show update destroy] do
       member do
+        get :image
+        patch :update_settings
         patch :update_color
+        patch :update_text
       end
     end
   end
@@ -15,7 +18,10 @@ Rails.application.routes.draw do
   scope "users/:id" do
     resource :avatar, controller: "avatars/users", as: "edit_user_avatar", only: %i[show update destroy] do
       member do
+        get :image
+        patch :update_settings
         patch :update_color
+        patch :update_text
       end
     end
   end
@@ -24,7 +30,10 @@ Rails.application.routes.draw do
   scope "groups/:id" do
     resource :avatar, controller: "avatars/groups", as: "edit_group_avatar", only: %i[update destroy] do
       member do
+        get :image
+        patch :update_settings
         patch :update_color
+        patch :update_text
       end
     end
   end

@@ -39,6 +39,11 @@ module Groups
     attribute :lastname
     attribute :parent_id
     attribute :avatar_color
+    attribute :avatar_text
+    attribute :avatar_type
+
+    validates :avatar_text, avatar_text: true, allow_nil: true
+    validates :avatar_type, inclusion: { in: %w[image initials] }, allow_nil: true
 
     validate :validate_unique_users
     validate :validate_users_not_in_other_department

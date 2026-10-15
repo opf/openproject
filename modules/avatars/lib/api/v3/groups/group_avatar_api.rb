@@ -51,7 +51,7 @@ module API
           header "Cache-Control", "public, max-age=0, must-revalidate"
           with_etag! [@group.id, @group.detail&.updated_at, @group.local_avatar_attachment&.updated_at]
 
-          if (local_avatar = local_avatar?(@group))
+          if avatar_manager.avatar_type_for(@group) == "image" && (local_avatar = local_avatar?(@group))
             respond_with_attachment(local_avatar)
           else
             content_type "image/svg+xml"

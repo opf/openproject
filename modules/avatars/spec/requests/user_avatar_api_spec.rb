@@ -113,6 +113,48 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       it_behaves_like "cache headers set to 24 hours"
     end
 
+    context "with an initials override" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:setup) do
+        other_user.attachments = [build(:avatar_attachment, author: other_user)]
+        other_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "🚀" })
+      end
+
+      it "renders the override instead of the uploaded image or Gravatar" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">🚀<")
+      end
+    end
+
+    context "with an emoji override and a stored image" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:setup) do
+        other_user.attachments = [build(:avatar_attachment, author: other_user)]
+        other_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "🚀" })
+      end
+
+      it "renders the selected emoji" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">🚀<")
+      end
+    end
+
+    context "with custom avatar text" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:setup) { other_user.pref.update!(settings: { avatar_text: "👩🏽‍💻", avatar_color: "#AABBCC" }) }
+
+      it "renders the chosen text and color instead of redirecting to Gravatar" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">👩🏽‍💻<", 'fill="#AABBCC"')
+      end
+    end
+
     context "with local avatar" do
       let(:gravatars) { true }
       let(:local_avatars) { true }
@@ -128,6 +170,24 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       end
 
       it_behaves_like "cache headers set to 24 hours"
+
+      context "with an explicit choice of image" do
+        let(:setup) { other_user.pref.update!(settings: { avatar_type: "image" }) }
+
+        it "serves the uploaded image" do
+          expect(response).to have_http_status :ok
+          expect(response.content_type).not_to eq "image/svg+xml"
+        end
+      end
+
+      context "with custom avatar text" do
+        let(:setup) { other_user.pref.update!(settings: { avatar_text: "🚀" }) }
+
+        it "keeps the uploaded image as the avatar" do
+          expect(response).to have_http_status :ok
+          expect(response.content_type).not_to eq "image/svg+xml"
+        end
+      end
 
       context "with external file storage (S3)" do
         let(:setup) do

@@ -43,6 +43,10 @@ class Group < Principal
     def avatar_color=(value)
       super(value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil)
     end
+
+    def avatar_text=(value)
+      super(value.is_a?(String) ? value.strip.presence : value)
+    end
   end
 
   validate :no_circular_parent, if: -> { parent_id.present? }

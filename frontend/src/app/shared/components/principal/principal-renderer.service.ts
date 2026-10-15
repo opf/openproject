@@ -154,7 +154,7 @@ export class PrincipalRendererService {
     ariaHidden:boolean,
   ):HTMLElement {
     // The backend always returns a displayable image for users and groups (an
-    // uploaded photo, a Gravatar, or a generated initials avatar), so there is
+    // uploaded image, a Gravatar, or a generated initials avatar), so there is
     // nothing to compute or swap in locally here, unlike for placeholder users.
     if (type === 'user' || type === 'group') {
       const url = this.principalAvatarUrl(principal, type);
@@ -233,7 +233,7 @@ export class PrincipalRendererService {
     // Avatars are never meaningfully draggable; suppressing the browser's native
     // image drag stops it from pre-empting Pragmatic DnD card reordering.
     image.draggable = false;
-    // For users, the backend tries the uploaded photo or a redirect to Gravatar
+    // For users, the backend tries the uploaded image or a redirect to Gravatar
     // first; either can fail (e.g. no Gravatar registered for the user's
     // email). Retrying once with `fallback=true` asks the backend to skip
     // straight to the generated initials avatar, which always succeeds,

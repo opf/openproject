@@ -32,41 +32,58 @@ module Avatars
   class FormSectionComponent < ApplicationComponent
     include OpPrimer::FormHelpers
 
-    def initialize(principal:, target_avatar_path:, avatar_color_path:)
+    delegate :avatar_color, :avatar_text, to: :@principal
+
+    def initialize(principal:, target_avatar_path:, avatar_settings_path:)
       super()
       @principal = principal
       @target_avatar_path = target_avatar_path
-      @avatar_color_path = avatar_color_path
+      @avatar_settings_path = avatar_settings_path
     end
 
-    def render?
-      manager.avatars_enabled?
+    def avatar_type
+      manager.avatar_type_for(@principal)
     end
 
-    def avatar_color
-      @principal.avatar_color
+    def types
+      manager.available_types(@principal)
     end
 
-    def description
-      parts = []
-      if gravatar_applicable?
-        gravatar_link = link_to("gravatar.com", "https://gravatar.com")
-        parts << t("avatars.text_avatar_gravatar_html", gravatar_url: gravatar_link)
-      end
-      if manager.local_avatars_enabled?
-        parts << (gravatar_applicable? ? t("avatars.text_avatar_local") : t("avatars.text_avatar_local_only"))
-      end
-      helpers.safe_join(parts, " ")
+    def type_caption(type)
+      description = t("avatars.types.#{type}.description")
+      return description unless type == "gravatar"
+
+      link = helpers.static_link_to(:gravatar, label: t("avatars.manage_gravatar"))
+      helpers.safe_join([description, link], helpers.tag.br)
+    end
+
+    def initials
+      OpenProject::Avatars::InitialsSvg.initials_for(@principal.name)
+    end
+
+    def automatic_color
+      "hsl(#{OpenProject::Avatars::InitialsSvg.hue_for("#{@principal.id}#{@principal.name}")}, 50%, 30%)"
+    end
+
+    def gravatar_url
+      helpers.build_gravatar_image_url(@principal) if types.include?("gravatar")
+    end
+
+    def image_url
+      return unless helpers.local_avatar?(@principal)
+
+      principal_type = API::V3::Principals::PrincipalType.for(@principal)
+      "#{API::V3::Utilities::PathHelper::ApiV3Path.send(principal_type, @principal.id)}/avatar?source=image"
+    end
+
+    def palette
+      %w[#0969DA #1B4185 #1F883D #044F1E #9A6700 #BC4C00 #CF222E #8250DF #6639BA #6E7781]
     end
 
     private
 
-    def gravatar_applicable?
-      manager.gravatar_enabled? && @principal.is_a?(User)
-    end
-
     def manager
-      ::OpenProject::Avatars::AvatarManager
+      OpenProject::Avatars::AvatarManager
     end
   end
 end

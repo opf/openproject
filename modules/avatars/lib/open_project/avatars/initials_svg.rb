@@ -36,8 +36,16 @@ module OpenProject
     module InitialsSvg
       module_function
 
-      def render(user)
-        build_svg(color_for(user), initials_for(user.name))
+      def render(principal)
+        build_svg(color_for(principal), text_for(principal))
+      end
+
+      def text_for(principal)
+        if AvatarManager.avatar_type_for(principal) == "initials" && principal.avatar_text.present?
+          principal.avatar_text
+        else
+          initials_for(principal.name)
+        end
       end
 
       def color_for(user)
@@ -48,7 +56,7 @@ module OpenProject
       end
 
       def initials_for(name)
-        characters = name.to_s.each_char.to_a
+        characters = name.to_s.grapheme_clusters
         return "" if characters.empty?
 
         first = characters.first.upcase
@@ -68,9 +76,15 @@ module OpenProject
         <<~SVG
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
             <rect width="64" height="64" fill="#{escape(color)}" />
-            <text x="32" y="34" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#ffffff">#{escape(initials)}</text>
+            <text x="32" y="34" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#{text_color_for(color)}">#{escape(initials)}</text>
           </svg>
         SVG
+      end
+
+      def text_color_for(color)
+        return "#ffffff" unless color.start_with?("#")
+
+        ::Color.new(hexcode: color).contrasting_font_color(light: "#ffffff", dark: "#1f2328")
       end
 
       def escape(value)

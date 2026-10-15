@@ -50,6 +50,21 @@ RSpec.describe "API v3 Group avatar resource", content_type: :json do
   end
 
   describe "/avatar", with_settings: { protocol: "http" } do
+    context "with an initials override and a stored image" do
+      let(:group) do
+        create(:group, avatar_type: "initials", avatar_text: "🚀").tap do |principal|
+          principal.attachments = [build(:avatar_attachment, author: current_user)]
+        end
+      end
+
+      it "renders the override without deleting the image" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">🚀<")
+        expect(group.local_avatar_attachment).to be_present
+      end
+    end
+
     context "without a local avatar" do
       it "renders a generated initials SVG, never a Gravatar redirect" do
         expect(response).to have_http_status :ok
@@ -64,8 +79,9 @@ RSpec.describe "API v3 Group avatar resource", content_type: :json do
     end
 
     context "with a local avatar" do
+      let(:avatar_type) { nil }
       let(:group) do
-        g = create(:group)
+        g = create(:group, avatar_type:)
         g.attachments = [build(:avatar_attachment, author: current_user)]
         g
       end
@@ -76,6 +92,15 @@ RSpec.describe "API v3 Group avatar resource", content_type: :json do
 
       it "sets an ETag" do
         expect(response.headers["ETag"]).to be_present
+      end
+
+      context "with an explicit choice of image" do
+        let(:avatar_type) { "image" }
+
+        it "serves the uploaded image" do
+          expect(response).to have_http_status :ok
+          expect(response.content_type).not_to eq "image/svg+xml"
+        end
       end
     end
 
@@ -99,6 +124,21 @@ RSpec.describe "API v3 Group avatar resource", content_type: :json do
 
         expect(last_response).to have_http_status :ok
         expect(last_response.headers["ETag"]).not_to eq stale_etag
+      end
+    end
+
+    context "when the avatar text changes after the client cached it" do
+      it "renders the updated text and invalidates the ETag" do
+        stale_etag = response.headers["ETag"]
+
+        result = Groups::UpdateService.new(model: group, user: current_user).call(avatar_text: "👩🏽‍💻")
+        expect(result).to be_success
+
+        get "#{api_v3_paths.group(group.id)}/avatar", nil, { "HTTP_IF_NONE_MATCH" => stale_etag }
+
+        expect(last_response).to have_http_status :ok
+        expect(last_response.headers["ETag"]).not_to eq stale_etag
+        expect(last_response.body).to include(">👩🏽‍💻<")
       end
     end
 

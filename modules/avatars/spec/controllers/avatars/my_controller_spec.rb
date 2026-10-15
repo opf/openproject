@@ -10,7 +10,7 @@ RSpec.describe Avatars::MyAvatarController do
 
   before do
     login_as user
-    allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
+    allow(OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
   end
 
   describe "#update" do

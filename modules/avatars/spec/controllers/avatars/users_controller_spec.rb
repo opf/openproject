@@ -11,7 +11,7 @@ RSpec.describe Avatars::UsersController do
 
   before do
     allow(User).to receive(:current).and_return current_user
-    allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
+    allow(OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
   end
 
   describe ":show" do
@@ -22,8 +22,8 @@ RSpec.describe Avatars::UsersController do
         get :show, params: { id: target_user.id }
       end
 
-      it "renders the edit action" do
-        expect(response).to redirect_to edit_user_path(target_user)
+      it "redirects to the avatar tab" do
+        expect(response).to redirect_to edit_user_path(target_user, tab: :avatar)
       end
     end
 
@@ -37,6 +37,18 @@ RSpec.describe Avatars::UsersController do
       it "renders 403" do
         expect(response).to have_http_status :forbidden
       end
+    end
+  end
+
+  describe "#update_settings" do
+    let(:target_user) { user_without_avatar }
+
+    it "saves settings and returns to the avatar tab" do
+      patch :update_settings, params: { id: target_user.id, avatar_type: "initials", avatar_text: "OP" }
+
+      expect(response).to redirect_to edit_user_path(target_user, tab: :avatar)
+      expect(flash[:notice]).to eq I18n.t("avatars.message_avatar_updated")
+      expect(target_user.reload.avatar_text).to eq "OP"
     end
   end
 
@@ -86,6 +98,28 @@ RSpec.describe Avatars::UsersController do
       put :update, params: { id: target_user.id }
       expect(response).not_to be_successful
       expect(response).to have_http_status :bad_request
+    end
+  end
+
+  describe "#update_text" do
+    let(:target_user) { user_without_avatar }
+
+    it "updates the user's avatar text" do
+      patch :update_text, params: { id: target_user.id, avatar_text: "🚀" }
+
+      expect(flash[:notice]).to eq I18n.t("avatars.message_avatar_text_updated")
+      expect(target_user.reload.avatar_text).to eq "🚀"
+    end
+
+    context "as another user" do
+      let(:current_user) { create(:user) }
+
+      it "forbids updating another user's text" do
+        patch :update_text, params: { id: target_user.id, avatar_text: "OP" }
+
+        expect(response).to have_http_status :forbidden
+        expect(target_user.reload.avatar_text).to be_nil
+      end
     end
   end
 

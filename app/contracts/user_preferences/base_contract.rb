@@ -32,6 +32,10 @@ module UserPreferences
   class BaseContract < ::BaseContract
     property :settings
 
+    delegate :avatar_text, to: :model
+
+    validates :avatar_text, avatar_text: true, allow_nil: true
+
     validate :user_allowed_to_access
     validates :settings,
               not_nil: true,

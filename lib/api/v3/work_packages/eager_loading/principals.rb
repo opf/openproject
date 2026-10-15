@@ -45,6 +45,7 @@ module API
 
           def principals_by_id
             @principals_by_id ||= ::Principal
+                .includes(:preference)
                 .where(id: principal_ids)
                 .to_a
                 .index_by(&:id)

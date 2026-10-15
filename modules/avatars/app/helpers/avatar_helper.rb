@@ -53,12 +53,13 @@ module AvatarHelper
   end
 
   def avatar_url(user, options = {})
-    if local_avatar? user
-      user_avatar_url(user.id)
-    elsif avatar_manager.gravatar_enabled?
+    avatar_type = avatar_manager.avatar_type_for(user)
+    if avatar_type == "gravatar"
       build_gravatar_image_url user, options
-    else
-      nil
+    elsif avatar_type == "image" && local_avatar?(user)
+      user_avatar_url(user.id)
+    elsif user.is_a?(User)
+      "#{API::V3::Utilities::PathHelper::ApiV3Path.user(user.id)}/avatar"
     end
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar url for #{user}: #{e}"

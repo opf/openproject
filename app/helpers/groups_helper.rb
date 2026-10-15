@@ -38,6 +38,12 @@ module GroupsHelper
         label: :label_general
       },
       {
+        name: "avatar",
+        partial: "avatars/groups/avatar_section",
+        path: edit_group_path(group, tab: :avatar),
+        label: :label_avatar
+      },
+      {
         name: "users",
         partial: "groups/users",
         path: edit_group_path(group, tab: :users),

@@ -92,6 +92,8 @@ glossary:
   label: homescreen.links.glossary
 github:
   href: https://github.com/opf/openproject
+gravatar:
+    href: https://gravatar.com
 hocuspocus_server_docs:
   href: https://github.com/opf/openproject/tree/dev/extensions/op-blocknote-hocuspocus
 ical_docs:

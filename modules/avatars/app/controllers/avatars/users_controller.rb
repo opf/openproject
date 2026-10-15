@@ -12,7 +12,7 @@ module ::Avatars
     private
 
     def redirect_path
-      edit_user_path(@principal)
+      edit_user_path(@principal, tab: :avatar)
     end
 
     def find_user
@@ -23,6 +23,12 @@ module ::Avatars
       ::Users::UpdateService
         .new(model: @principal, user: current_user)
         .call(pref: { avatar_color: params[:avatar_color] })
+    end
+
+    def update_text_request
+      ::Users::UpdateService
+        .new(model: @principal, user: current_user)
+        .call(pref: params.permit(:avatar_text).to_h)
     end
   end
 end
