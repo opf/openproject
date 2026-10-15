@@ -28,4 +28,19 @@
 .login-auth-providers .auth-provider-icon
   width: 18px
   height: 18px
+  margin-right: var(--base-size-8)
+  vertical-align: text-bottom
 
+// Primer sizes buttons to `min-width: max-content`, so a long provider name
+// widens the whole login box instead of being cut off.
+.auth-provider.Button,
+.auth-provider .Button-content,
+.auth-provider .Button-label
+  min-width: 0
+
+.auth-provider .Button-content
+  flex: 1 1 auto
+
+.auth-provider .Button-label
+  overflow: hidden
+  text-overflow: ellipsis
