@@ -438,16 +438,17 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def duplicate_agenda_item_in_meeting(target_meeting)
-    attributes = @meeting_agenda_item.copy_attributes
-    attributes = attributes.except("author_id", "created_at", "updated_at", "lock_version", "position")
+    include_outcomes = params.dig(:meeting_agenda_item, :include_outcomes)
 
-    attributes[:meeting_id] = target_meeting.id
-    attributes[:meeting_section_id] = MeetingSection.find_by(id: params.dig(:meeting_agenda_item, :meeting_section_id))&.id
-    attributes[:source_meeting_id] = @meeting_agenda_item.meeting_id
-
-    ::MeetingAgendaItems::CreateService
-      .new(user: current_user)
-      .call(attributes)
+    ::MeetingAgendaItems::CopyService
+      .new(user: current_user, model: @meeting_agenda_item)
+      .call(
+        include_outcomes: ActiveModel::Type::Boolean.new.cast(include_outcomes),
+        attributes: {
+          meeting_id: target_meeting.id,
+          meeting_section_id: params.dig(:meeting_agenda_item, :meeting_section_id)
+        }
+      )
   end
 
   def init_next_meeting_occurrence
