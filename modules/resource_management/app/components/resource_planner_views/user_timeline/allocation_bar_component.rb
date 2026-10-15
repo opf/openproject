@@ -37,10 +37,11 @@ module ResourcePlannerViews
       # `project_names` is only given on a global planner, where the bar has to say
       # which project the work sits in; it holds the visible projects alone, so an
       # entry is missing exactly when the project must stay undisclosed.
-      def initialize(allocation:, overbooked_ranges: [], visible_work_package_ids: nil, project_names: nil)
+      def initialize(allocation:, overbooked: false, overbooked_dates: [], visible_work_package_ids: nil, project_names: nil)
         super
         @allocation = allocation
-        @overbooked_ranges = overbooked_ranges
+        @overbooked = overbooked
+        @overbooked_dates = overbooked_dates
         @visible_work_package_ids = visible_work_package_ids
         @project_names = project_names
       end
@@ -83,31 +84,27 @@ module ResourcePlannerViews
         [project_name, entity_subject].compact_blank.join(" - ")
       end
 
-      def overbooked? = @overbooked_ranges.any?
+      def overbooked? = @overbooked
 
       def overbooked_tooltip_id
         "user-timeline-overbooked-#{allocation.id}"
       end
 
       def overbooked_tooltip
-        @overbooked_ranges.map { |range| overbooked_range_summary(range) }.join("; ")
+        return t("resource_management.user_timeline.overbooked_tooltip.unplannable") if @overbooked_dates.empty?
+
+        t("resource_management.user_timeline.overbooked_tooltip.dates", dates: overbooked_periods)
       end
 
-      def overbooked_range_summary(range)
-        t("resource_management.user_timeline.overbooked_tooltip.range",
-          dates: date_range(range.start_date, range.end_date),
-          scheduled: format_hours(range.items.sum(&:minutes)),
-          available: format_hours(range.available_minutes))
+      def overbooked_periods
+        @overbooked_dates
+          .slice_when { |previous, current| current != previous + 1 }
+          .map { |run| run.one? ? helpers.format_date(run.first) : date_range(run.first, run.last) }
+          .join(", ")
       end
 
       def date_range(from_date, to_date)
         "#{helpers.format_date(from_date)} - #{helpers.format_date(to_date)}"
-      end
-
-      def format_hours(minutes)
-        hours = minutes.to_f / 60
-        formatted = hours == hours.to_i ? hours.to_i : hours.round(2)
-        "#{formatted}h"
       end
 
       # Nil when the status has no colour, in which case the CSS falls back to a muted border.

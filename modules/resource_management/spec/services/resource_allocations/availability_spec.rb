@@ -71,6 +71,8 @@ RSpec.describe ResourceAllocations::Availability do
 
       expect(availability.overbooked_dates).to contain_exactly(monday, tuesday, wednesday)
       expect(availability.overbooked_allocation_ids).to contain_exactly(fitting.id, exceeding.id)
+      expect(availability.overbooked_dates_of(fitting)).to eq([monday, tuesday])
+      expect(availability.overbooked_dates_of(exceeding)).to eq([monday, tuesday, wednesday])
     end
 
     it "does not mark a global non-working day" do
