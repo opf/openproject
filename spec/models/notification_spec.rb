@@ -75,4 +75,61 @@ RSpec.describe Notification do
       end
     end
   end
+
+  describe "push scheduling", with_flag: { progressive_web_app: true } do
+    let(:recipient) { create(:user) }
+    let(:work_package) { create(:work_package) }
+
+    before { create(:push_subscription, user: recipient) }
+
+    def create_notification(**)
+      create(:notification, recipient:, resource: work_package, **)
+    end
+
+    it "enqueues the push job when an unread notification is created" do
+      expect { create_notification(read_ian: false) }
+        .to have_enqueued_job(PushSubscriptions::NotifyJob).with(recipient.id)
+    end
+
+    it "enqueues the push job when a read notification becomes unread" do
+      notification = create_notification(read_ian: true)
+
+      expect { notification.update!(read_ian: false) }
+        .to have_enqueued_job(PushSubscriptions::NotifyJob).with(recipient.id)
+    end
+
+    it "does not enqueue when read_ian is nil" do
+      expect { create_notification(read_ian: nil) }
+        .not_to have_enqueued_job(PushSubscriptions::NotifyJob)
+    end
+
+    it "enqueues when a read notification is marked unread through the update service" do
+      notification = create_notification(read_ian: true)
+
+      expect { Notifications::UpdateService.new(user: recipient, model: notification, contract_class: EmptyContract).call(read_ian: false) }
+        .to have_enqueued_job(PushSubscriptions::NotifyJob).with(recipient.id)
+    end
+
+    it "does not enqueue when an unread notification stays unread through the update service" do
+      notification = create_notification(read_ian: false)
+      clear_enqueued_jobs
+
+      expect { Notifications::UpdateService.new(user: recipient, model: notification, contract_class: EmptyContract).call(read_ian: false) }
+        .not_to have_enqueued_job(PushSubscriptions::NotifyJob)
+    end
+
+    it "does not enqueue on bulk updates because update_all skips callbacks" do
+      notification = create_notification(read_ian: true)
+
+      expect { described_class.where(id: notification.id).update_all(read_ian: false) }
+        .not_to have_enqueued_job(PushSubscriptions::NotifyJob)
+    end
+
+    it "does not enqueue when the recipient has no subscription" do
+      PushSubscription.delete_all
+
+      expect { create_notification(read_ian: false) }
+        .not_to have_enqueued_job(PushSubscriptions::NotifyJob)
+    end
+  end
 end

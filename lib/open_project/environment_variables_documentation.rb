@@ -53,6 +53,7 @@ module OpenProject
     RANDOM_DEFAULTS = %i[
       hashed_token_pepper
       installation_uuid
+      web_push_vapid_private_key
     ].freeze
 
     # `real_time_text_collaboration_enabled` derives its default from the two
