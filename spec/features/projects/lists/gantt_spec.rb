@@ -114,8 +114,7 @@ RSpec.describe "Projects lists page with Gantt menu", :js, with_settings: { logi
       model_filters.expect_filter_by("Type", "is (OR)", type_milestone.name)
       model_filters.save
 
-      # Save the page
-      scroll_to_and_click(find(".button", text: "Save"))
+      click_on "Save"
 
       expect_flash(message: "Successful update.")
 

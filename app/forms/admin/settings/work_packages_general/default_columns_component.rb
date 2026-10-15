@@ -33,18 +33,20 @@ module Admin
     module WorkPackagesGeneral
       class DefaultColumnsComponent < ApplicationComponent
         def call
-          helpers.angular_component_tag "opce-draggable-autocompleter",
-                                        inputs: {
-                                          autofocus: false,
-                                          options: helpers.work_packages_columns_options,
-                                          selected: helpers.selected_work_packages_columns_options,
-                                          protected: helpers.protected_work_packages_columns_options,
-                                          name: "settings[work_package_list_default_columns][]",
-                                          id: "setting_column_options",
-                                          inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
-                                          inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
-                                          dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label")
-                                        }
+          helpers.angular_component_tag(
+            "opce-draggable-autocompleter",
+            inputs: {
+              autofocus: false,
+              options: helpers.work_packages_columns_options,
+              selected: helpers.selected_work_packages_columns_options,
+              protected: helpers.protected_work_packages_columns_options,
+              name: "settings[work_package_list_default_columns][]",
+              id: "setting_column_options",
+              inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
+              inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
+              dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label")
+            }
+          )
         end
       end
     end
