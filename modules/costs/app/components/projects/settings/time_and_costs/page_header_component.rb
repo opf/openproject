@@ -43,7 +43,7 @@ module Projects
             {
               name: :time_entry_activities,
               path: helpers.project_settings_time_entry_activities_path(@project),
-              label: I18n.t(:enumeration_activities)
+              label: I18n.t("cost_types.settings.time_entry_activities.heading")
             },
             {
               name: :cost_types,
