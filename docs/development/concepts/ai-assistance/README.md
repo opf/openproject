@@ -49,6 +49,8 @@ flowchart LR
 - **Assistants are records, not users.** An answer always acts with the permissions of the user who asked. The job runs in `User.execute_as(chat.user)`.
 - **One runtime, one answer format.** Every skill answers in a conversation, and every answer is text with 0..n proposals (`AI::Assistance::AnswerFormat`). Whether a skill lists findings is up to its prompt. There are no built-in rules: the seeded "Refresh work package" asks the model for what rules used to check.
 - **What the AI reads.** It reads only what the user can see (`AI::Assistance::WorkPackageContext`, with `AI::Assistance::Visibility`): the project name; the work package, with its default-status flag and last activity; visible descendants, with their parent, status and update time; visible relations, with their status; linked pull requests that the user may read; comments filtered by `journals.internal_visible`; and the agendas of the newest 10 visible meetings that have the work package on the agenda or in an outcome. The prompt tells the model that this text is user data, not instructions.
+- **Read-only MCP tools.** For data outside the context, for example other work packages or counts, the model can call OpenProject's read-only MCP tools (`AI::Assistance::McpTool`). They run in-process, through RubyLLM's tool loop, as the chat user, so each tool's own visibility rules apply. No token and no HTTP. Write tools are never offered: changes stay proposals. `search_time_entries` is left out. A model whose `function_calling` verdict is `unsupported` gets no tools.
+- **Tool calls are limited.** RubyLLM has no limit, so `AI::Assistance::ToolCalls` counts them: an identical call gets the earlier result, every call after 20 calls or after three repeated calls gets "answer now", and the answer fails after 25. Each call is a `tool_call` event in "Details", with its name, arguments, time and result size, but not the result. While the answer loads, the dialog lists the calls so far.
 - **Evidence is required for findings.** A finding without evidence is dropped, and so is a plain proposal without a valid change. Text and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
 - **Stable answers.** Every call uses temperature 0.2, so one work package gives similar answers from run to run.
 - **Change sets are Automations actions.** `AI::Assistance::ApplyProposalService` looks up each action key in `Automations::Register`. It refuses actions that `ChangeOptions#allowed?` does not allow now: keys outside the skill's proposal scope, and values that are not valid now. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
@@ -64,7 +66,7 @@ The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`
 
 1. **The assistant's instructions** (`ai_assistants.instructions`, optional): what every skill of the assistant shares, for example who it helps and the domain. Edited on the assistant page.
 2. **The skill's system prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, the skill is not offered.
-3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, findings and plain proposals, the changes that the proposal scope allows, and the guard against instructions in the context. Admins and users do not edit them, so a skill cannot break the contract with the code.
+3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, findings and plain proposals, the changes that the proposal scope allows, how to use the tools (`TOOLS`, only when tools are sent), and the guard against instructions in the context and the tool results. Admins and users do not edit them, so a skill cannot break the contract with the code.
 
 The work package context (JSON) follows the system prompt. The message is the user's question, with the last 20 turns before it. An earlier answer is sent with a short list of its proposals and their state, so the model knows what it proposed.
 
@@ -214,6 +216,9 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 24 | Give AI skills a first message instead of start and answer settings | One answer format (`AnswerFormat`), simpler settings | 23 |
 | 25 | Open every AI skill in the conversation, with its proposals as cards | "Answer at once when opened", `ProposalItemComponent`, dismiss in the chat | 24 |
 | 26 | Remove AI runs and the built-in rules, and check consistency with the LLM | Runs, findings and rules removed; the context gets pull requests, the default status and activity times; the seeded prompt | 25 |
+| – | Add an open filter and a count tool to the MCP work package tools | `open` and a status list on `search_work_packages`, `count_work_packages` with `group_by` | – |
+| – | Let AI Assistance skills call the read-only MCP tools | `AI::Assistance::McpTool`, `ToolCalls`, the tool rule, the project id in the context, `tool_call` events | the MCP tool step, 26 |
+| – | Show AI tool calls while the answer loads, and stop repeated calls | The poll shows new events while pending, id normalization, the repeat limit | the step before |
 
 Steps 21–26 replace runs with conversations. For review, they are best folded into the steps they change (7, 9, 10, 12 and 13), so that runs, rules and the three skill types never appear. This table is updated when that is done.
 
@@ -225,5 +230,6 @@ Steps 1 and 2 are useful on their own and can merge first.
 - **Enterprise gate.** Gate the menu, the chats and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
 - **Specs.** Model, service, request and component specs cover the chat, the proposals and the admin pages. The toolbar and the chat dialog need browser specs (full view and split view).
 - **Automations can start a skill.** A "Run assistant skill" action type that uses `after_success` and starts a conversation with `trigger: "automation"`, and notifies the user. It gives skills the triggers of Automations. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
+- **MCP tools.** Decide the gating: the Enterprise `mcp_server` feature and the admin's per-tool switches apply to `/mcp`, but not yet to the chat. Decide about `search_time_entries`. Tool results are not kept for later turns, so a follow-up question calls the tools again. Weaker models (gpt-4o-mini) use the tools badly: they skip `group_by` and read data that the context holds. Recommend a Sonnet-class model.
 - **Edit before apply.** Open a proposed description in the description editor.
 - **Retention.** Chats are kept without a limit. A cleanup job can come when usage shows the need.
