@@ -42,7 +42,7 @@
          ) %>
       <% skills_by_assistant.each do |assistant, assistant_skills| %>
         <% menu.with_group(data: { test_selector: "wp-ai-assistance-group" }) do |group| %>
-          <% group.with_heading(title: assistant.name) %>
+          <% group.with_heading(title: heading_title(assistant)) %>
           <% assistant_skills.each do |skill| %>
             <% group.with_item(
                  label: skill.display_label,

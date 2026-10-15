@@ -55,13 +55,13 @@
     <%= render(Primer::Beta::Link.new(href: pages.edit_assistant_path(assistant), font_weight: :bold, mr: 2)) { assistant.name } %>
     <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, data: { test_selector: "ai-assistant-owner" })) do %>
       <% if assistant.group? %>
-        <%= render(Primer::Beta::Octicon.new(icon: :people, mr: 1, "aria-label": t("admin.ai_assistants.index.owner_kinds.group"))) %>
+        <%= render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1, "aria-label": t("admin.ai_assistants.index.owner_kinds.group"))) %>
         <%= render(Primer::Beta::Link.new(href: show_group_path(owner), scheme: :secondary)) { owner.name } %>
       <% elsif assistant.personal? %>
-        <%= render(Primer::Beta::Octicon.new(icon: :person, mr: 1, "aria-label": t("admin.ai_assistants.index.owner_kinds.user"))) %>
+        <%= render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1, "aria-label": t("admin.ai_assistants.index.owner_kinds.user"))) %>
         <%= render(Primer::Beta::Link.new(href: user_path(owner), scheme: :secondary)) { owner.name } %>
       <% else %>
-        <%= render(Primer::Beta::Octicon.new(icon: :globe, mr: 1)) %>
+        <%= render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1)) %>
         <%= t("admin.ai_assistants.index.owners.global") %>
       <% end %>
     <% end %>

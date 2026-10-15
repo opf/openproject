@@ -52,6 +52,12 @@ module AI
         skills.group_by(&:assistant).sort_by.with_index { |(assistant, _), index| [owner_rank(assistant), index] }
       end
 
+      # The assistant's name after the icon of its owner kind (global, group, personal).
+      def heading_title(assistant)
+        icon = render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, mr: 1, "aria-hidden": true))
+        helpers.safe_join([icon, assistant.name])
+      end
+
       # A chat skill opens its chat; any other starts a new conversation that it answers at once.
       def item_arguments(skill)
         if skill.chat?

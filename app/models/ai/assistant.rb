@@ -80,8 +80,9 @@ module AI
       end
     end
 
-    # The owner kinds, in the order of the admin list.
+    # The owner kinds, in the order of the admin list, and their Octicons.
     OWNER_SCOPES = %w[global groups personal].freeze
+    OWNER_ICONS = { "global" => :globe, "groups" => :people, "personal" => :person }.freeze
 
     # "Name (copy)", then "Name (copy 2)", so that the name stays unique for the owner.
     def copy_name
@@ -98,6 +99,8 @@ module AI
     def next_position
       (self.class.where(principal_id:).maximum(:position) || 0) + 1
     end
+
+    def owner_icon = OWNER_ICONS.fetch(owner_scope)
 
     def owner_scope
       if personal? then "personal"
