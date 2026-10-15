@@ -42,19 +42,20 @@ module My
       end
 
       def browser
-        return browser_label unless current?
+        label = status_label
+        return browser_label unless label
 
         safe_join(
           [
             browser_label,
             render(Primer::Beta::Text.new(classes: "sr-only")) { ", " },
-            render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { I18n.t("my_account.push_notifications.this_session") }
+            label
           ]
         )
       end
 
       def device
-        session_data[:platform] || I18n.t("users.sessions.unknown_os")
+        model.platform || I18n.t("users.sessions.unknown_os")
       end
 
       def button_links
@@ -63,17 +64,25 @@ module My
 
       private
 
-      def session_data
-        @session_data ||= model.session.data.with_indifferent_access
+      def current?
+        model.session&.current?(current_session)
       end
 
-      def current?
-        model.session.current?(current_session)
+      def dormant?
+        model.session_id.nil?
+      end
+
+      def status_label
+        if current?
+          render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { I18n.t("my_account.push_notifications.this_session") }
+        elsif dormant?
+          render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { I18n.t("my_account.push_notifications.signed_out") }
+        end
       end
 
       def browser_label
-        name = session_data[:browser] || I18n.t("users.sessions.unknown_browser")
-        version = session_data[:browser_version]
+        name = model.browser_name || I18n.t("users.sessions.unknown_browser")
+        version = model.browser_version
 
         version ? I18n.t("users.sessions.browser_with_version", name:, version:) : name
       end
