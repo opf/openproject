@@ -72,7 +72,7 @@ module McpTools
         result = { total: filtered.count }
         return Success(result) if group_by.blank?
 
-        Success(result.merge(group_by:, groups: groups(filtered, group_by)))
+        Success(result.merge(group_by:, groups: groups(filtered, group_by, assignee_ids: Array(filters[:assigned_to_id]))))
       end
     end
 
@@ -80,24 +80,38 @@ module McpTools
       Success(WorkPackage.visible(current_user))
     end
 
-    def groups(scope, group_by)
-      counts = if group_by == "assignee"
-                 assignee_counts(scope)
-               else
-                 association, column = GROUPS.fetch(group_by)
-                 scope.left_joins(association).group(column).count
-               end
+    def groups(scope, group_by, assignee_ids: [])
+      return assignee_groups(scope, assignee_ids) if group_by == "assignee"
 
-      counts.map { |name, count| { name: name || "(none)", count: } }.sort_by { |group| -group[:count] }
+      association, column = GROUPS.fetch(group_by)
+      scope.left_joins(association).group(column).count
+           .map { |name, count| { name: name || "(none)", count: } }.sort_by { |group| -group[:count] }
     end
 
-    # Names only principals that the user can see.
-    def assignee_counts(scope)
+    # Names only principals that the user can see. Each assignee asked for by id is listed,
+    # also with no work packages, so that a missing person is not a question.
+    def assignee_groups(scope, assignee_ids)
+      requested = assignee_ids.compact.map(&:to_i)
       counts = scope.group(:assigned_to_id).count
-      names = visible_names(counts.keys.compact)
+      names = visible_names(counts.keys.compact | requested)
 
-      counts.each_with_object(Hash.new(0)) do |(id, count), result|
-        result[id && names.fetch(id, "(not visible)")] += count
+      assignee_totals(counts, requested, names)
+        .map { |key, count| assignee_group(key, count, names) }
+        .sort_by { -it[:count] }
+    end
+
+    def assignee_totals(counts, requested, names)
+      totals = requested.select { names.key?(it) }.index_with(0)
+      totals.default = 0
+      counts.each { |id, count| totals[id.nil? || names.key?(id) ? id : :not_visible] += count }
+      totals
+    end
+
+    def assignee_group(key, count, names)
+      case key
+      when nil then { name: "(none)", count: }
+      when :not_visible then { name: "(not visible)", count: }
+      else { id: key, name: names[key], count: }
       end
     end
 

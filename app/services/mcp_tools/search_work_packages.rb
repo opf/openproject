@@ -72,8 +72,9 @@ module McpTools
                        "is returned, but passing 'full' can return all information."
         },
         assigned_to_id: {
-          type: %w[number null],
-          description: "The ID of the user or group that is assigned to this work package. " \
+          type: %w[number array null],
+          items: { type: "number" },
+          description: "The ID of the user or group that is assigned to this work package, or a list of IDs. " \
                        "Pass null to search for work packages without an assignee."
         },
         author_id: { type: "number", description: "The ID of the user that created this work package." },

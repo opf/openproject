@@ -110,8 +110,19 @@ RSpec.describe McpTools::CountWorkPackages do
 
       it "names the assignees, and counts unassigned work packages as (none)" do
         mcp_request
-        expect(result["groups"]).to contain_exactly({ "name" => "Ada Assignee", "count" => 1 },
+        expect(result["groups"]).to contain_exactly({ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
                                                     { "name" => "(none)", "count" => 1 })
+      end
+    end
+
+    context "when grouped by assignee for a list of people" do
+      let(:idle) { create(:user, firstname: "Ida", lastname: "Idle", member_with_permissions: { project => [] }) }
+      let(:call_args) { { group_by: "assignee", open: true, assigned_to_id: [assignee.id, idle.id] } }
+
+      it "lists every one of them, also with no work packages" do
+        mcp_request
+        expect(result["groups"]).to eq([{ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
+                                        { "id" => idle.id, "name" => "Ida Idle", "count" => 0 }])
       end
     end
 
