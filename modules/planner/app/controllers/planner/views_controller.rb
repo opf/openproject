@@ -33,7 +33,7 @@ module Planner
     include OpTurbo::ComponentStream
     include Planner::RequestContext
 
-    no_authorization_required! :show
+    authorization_checked! :show
 
     menu_item :planner
     layout "global"

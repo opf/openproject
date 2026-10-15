@@ -79,6 +79,18 @@ RSpec.describe Planner::ProjectService do
     end
   end
 
+  context "when the first user speaks another language than the instance", with_settings: { default_language: "en" } do
+    subject { I18n.with_locale(:de) { described_class.new(user).call } }
+
+    before { I18n.backend.store_translations(:de, planner: { day_part: { name: "Tageszeit" } }) }
+    after { I18n.backend.reload! }
+
+    it "names the shared field in the instance's language" do
+      expect(subject).to be_success
+      expect(day_part.name).to eq("Day part")
+    end
+  end
+
   context "when called again" do
     let!(:first_project) { described_class.new(user).call.result }
 

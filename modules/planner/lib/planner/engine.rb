@@ -71,6 +71,38 @@ module Planner
                                         description: "My planner: personal Today, Upcoming, Overdue and Completed views."
     end
 
+    initializer "planner.permissions" do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:view_work_packages)
+          .controller_actions
+          .push(
+            "planner/views/show",
+            "planner/menus/show"
+          )
+
+        OpenProject::AccessControl.permission(:add_work_packages)
+          .controller_actions
+          .push(
+            "planner/tasks/new_dialog",
+            "planner/tasks/create"
+          )
+
+        OpenProject::AccessControl.permission(:edit_work_packages)
+          .controller_actions
+          .push(
+            "planner/tasks/update",
+            "planner/tasks/plan",
+            "planner/tasks/drop"
+          )
+
+        OpenProject::AccessControl.permission(:delete_work_packages)
+          .controller_actions
+          .push(
+            "planner/tasks/destroy"
+          )
+      end
+    end
+
     initializer "planner.event_subscriptions" do
       Rails.application.config.after_initialize do
         OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_DESTROYED) do |payload|
