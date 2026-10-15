@@ -179,11 +179,12 @@ Rails.application.configure do
   if OpenProject::Configuration.host_name.present?
     # Enable DNS rebinding protection and other `Host` header attacks.
     config.hosts = [OpenProject::Configuration.host_name] + OpenProject::Configuration.additional_host_names
-    # Skip DNS rebinding protection for the default health check endpoint.
+    # Skip DNS rebinding protection for the default health check endpoint, and for the AnyCable RPC endpoint,
+    # which the AnyCable server calls by an internal host name and which requires its own token.
     config.host_authorization = {
       exclude: ->(request) do
         base = OpenProject::Configuration["rails_relative_url_root"]
-        request.path.start_with?("#{base}/health_check", "#{base}/sys")
+        request.path.start_with?("#{base}/health_check", "#{base}/sys", "#{base}/_anycable")
       end,
       response_app: ->(_env) do
         [400, { "Content-Type" => "text/plain" }, ["Invalid host_name configuration"]]
