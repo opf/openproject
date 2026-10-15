@@ -847,9 +847,7 @@ ne:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: Stop
       title: Log time
-      tracking: Time tracking
       work_package_required: सबै भन्दा पहिले कार्य प्याकेज चयन गर्न आवश्यक छ।
     timer:
       button_stop: Stop current timer

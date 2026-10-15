@@ -4,12 +4,15 @@ hy:
   avatar_deleted: Ավատարը հաջողությամբ ջնջվել է։
   avatars:
     label_avatar: Ավատար
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Հատուկ ավատար
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Միացնել օգտատերերի Gravatar-ները
       enable_local_avatars: Միացնել օգտատերերի հատուկ ավատարները
       gravatar_default: Կանխադրված Gravatar պատկեր
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject-ը օգտագործում է Ձեր Gravatar-ը, եթե գրանցել եք այն %{gravatar_url} կայքում, կամ կանխադրված պատկեր կամ պատկերակ, եթե այդպիսին առկա է։
     text_avatar_local: Պատկերի վրա սեղմելով կարող եք նաև վերբեռնել հատուկ ավատար, որը գերակայում է Gravatar-ին։ Խորհուրդ ենք տալիս 128 առ 128 պիքսել չափի պատկեր։
     text_avatar_local_only: Պատկերի վրա սեղմելով կարող եք վերբեռնել հատուկ ավատար։ Խորհուրդ ենք տալիս 128 առ 128 պիքսել չափի պատկեր։

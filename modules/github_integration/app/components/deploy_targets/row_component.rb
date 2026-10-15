@@ -29,7 +29,7 @@
 #++
 
 module DeployTargets
-  class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class RowComponent < ::OpPrimer::BorderBoxRowComponent
     property :host, :type
 
     def deploy_target
@@ -45,10 +45,17 @@ module DeployTargets
     end
 
     def delete_link
-      link_to I18n.t(:button_delete),
-              deploy_target_path(deploy_target),
-              data: { turbo_method: :delete },
-              class: "icon icon-delete"
+      render(Primer::Beta::IconButton.new(
+               icon: :trash,
+               scheme: :danger,
+               tag: :a,
+               href: deploy_target_path(deploy_target),
+               "aria-label": t(:button_delete),
+               tooltip_direction: :w,
+               data: {
+                 turbo_method: :delete
+               }
+             ))
     end
   end
 end

@@ -844,9 +844,7 @@ th:
     text_user_wrote: "%{value} เขียนว่า:"
     text_work_packages_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?
     time_entry:
-      stop: Stop
       title: เวลาที่ถูกบันทึก
-      tracking: ติดตามเวลาที่ใช้
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

@@ -4,12 +4,15 @@ fi:
   avatar_deleted: Kuva poistettu.
   avatars:
     label_avatar: Kuva
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Valinnainen kuva
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Salli käyttäjien gravatar kuvat
       enable_local_avatars: Salli käyttäjien omat kuvat
       gravatar_default: Oletus Gravatar käyttäjäikoni
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject käyttää Gravatar-kuvaasi, jos olet rekisteröinyt sellaisen osoitteessa %{gravatar_url}, tai oletuskuvaa tai -kuvaketta, jos sellainen on olemassa.
     text_avatar_local: Voit myös ladata oman avatarin, joka korvaa Gravatar-kuvan, napsauttamalla kuvaa. Suosittelemme 128 × 128 pikselin kokoista kuvaa.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
