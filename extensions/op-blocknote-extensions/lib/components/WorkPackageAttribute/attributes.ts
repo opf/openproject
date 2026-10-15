@@ -73,10 +73,14 @@ export interface FormatOptions {
 }
 
 interface LinkValue { title?:string | null; href?:string | null }
+type TitledLink = LinkValue & { title:string };
 
-function linkTitles(link:LinkValue | LinkValue[] | null | undefined):string[] {
-  const links = Array.isArray(link) ? link : link ? [link] : [];
-  return links.flatMap((entry) => (entry.title ? [entry.title] : []));
+/** The links an attribute holds, or undefined when it is no link at all. */
+function linksOf(workPackage:WorkPackage, attribute:WorkPackageAttribute):TitledLink[] | undefined {
+  const links = workPackage._links as Record<string, LinkValue | LinkValue[] | null | undefined> | null | undefined;
+  if (!links || !(attribute.key in links)) return undefined;
+  const link = links[attribute.key];
+  return (Array.isArray(link) ? link : link ? [link] : []).filter((entry):entry is TitledLink => Boolean(entry.title));
 }
 
 const ISO_DURATION = /^P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
@@ -123,11 +127,8 @@ export function formatAttributeValue(
   attribute:WorkPackageAttribute,
   options:FormatOptions,
 ):string {
-  const links = workPackage._links as Record<string, LinkValue | LinkValue[] | null | undefined> | null | undefined;
-  if (links && attribute.key in links) {
-    const titles = linkTitles(links[attribute.key]);
-    return titles.length > 0 ? titles.join(', ') : EMPTY_VALUE;
-  }
+  const links = linksOf(workPackage, attribute);
+  if (links) return links.length > 0 ? links.map((link) => link.title).join(', ') : EMPTY_VALUE;
 
   const value = (workPackage as unknown as Record<string, unknown>)[attribute.key];
   if (value === null || value === undefined || value === '') return EMPTY_VALUE;
@@ -136,6 +137,24 @@ export function formatAttributeValue(
     return parts.length > 0 ? parts.join(', ') : EMPTY_VALUE;
   }
   return formatScalar(attribute, value, options);
+}
+
+export type AttributeValueKind = 'type' | 'status' | 'priority' | 'principal' | 'plain';
+
+const PRINCIPAL_TYPES = new Set(['User', '[]User']);
+
+export function valueKindOf(attribute:WorkPackageAttribute):AttributeValueKind {
+  if (attribute.key === 'type' || attribute.key === 'status' || attribute.key === 'priority') return attribute.key;
+  return PRINCIPAL_TYPES.has(attribute.type) ? 'principal' : 'plain';
+}
+
+export interface Principal {
+  name:string;
+  href?:string;
+}
+
+export function principalsOf(workPackage:WorkPackage, attribute:WorkPackageAttribute):Principal[] {
+  return (linksOf(workPackage, attribute) ?? []).map((link) => ({ name: link.title, href: link.href ?? undefined }));
 }
 
 /** The long text of a block attribute, as OpenProject rendered it. */

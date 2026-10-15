@@ -252,3 +252,49 @@ export const MenuAnchor = styled.span`
   inset: 0 0 auto;
   height: 0;
 `;
+
+// Keeps a dot or an avatar on the line of what it marks.
+export const Unbroken = styled.span`
+  white-space: nowrap;
+`;
+
+export const ValueDot = styled.span.attrs({ className: 'op-bn-wp-attribute--dot' })<{ $color:string }>`
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.25em;
+  border-radius: 50%;
+  vertical-align: middle;
+  background: ${({ $color }) => $color};
+`;
+
+export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar', 'aria-hidden': true })<{ $color:string }>`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  height: 1.15em;
+  margin-right: 0.25em;
+  border-radius: 50%;
+  overflow: hidden;
+  vertical-align: middle;
+  background: ${({ $color }) => $color};
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1;
+
+  &::before {
+    content: attr(data-initials);
+    font-size: 0.5em;
+  }
+`;
+
+export const AvatarPicture = styled.img<{ $loaded:boolean }>`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  visibility: ${({ $loaded }) => ($loaded ? 'visible' : 'hidden')};
+`;
