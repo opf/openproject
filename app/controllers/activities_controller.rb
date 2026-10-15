@@ -45,7 +45,7 @@ class ActivitiesController < ApplicationController
 
   after_action :set_session
 
-  accept_key_auth :index
+  accept_rss_key_auth :index
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     op_handle_warning "Failed to find all resources in activities: #{exception.message}"
