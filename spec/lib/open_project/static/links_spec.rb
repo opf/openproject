@@ -96,6 +96,41 @@ RSpec.describe OpenProject::Static::Links do
       end
     end
 
+    context "with URL templates" do
+      let(:args) { %i[release_videos] }
+      let(:url_templates) { { MAJOR: 99, MINOR: 1 } }
+
+      it "expands the template and adds the locale parameter" do
+        result = described_class.url_for(*args, url_templates:)
+
+        expect(result).to eq("https://www.openproject.org/release-videos/99-1#{locale_param}")
+      end
+
+      it "expands the template when localization is disabled" do
+        result = described_class.url_for(*args, url_templates:, localize_url: false)
+
+        expect(result).to eq("https://www.openproject.org/release-videos/99-1")
+      end
+
+      it "escapes reserved characters in template values" do
+        result = described_class.url_for(*args, url_templates: { MAJOR: 99, MINOR: "1/preview" }, localize_url: false)
+
+        expect(result).to eq("https://www.openproject.org/release-videos/99-1%2Fpreview")
+      end
+
+      it "merges query parameters after expanding the template and preserves the fragment" do
+        allow(described_class).to receive(:links).and_return(
+          website: { href: "https://www.openproject.org" },
+          release_videos: { href: "https://example.com/{MAJOR}-{MINOR}{?ref}#video" }
+        )
+
+        result = described_class.url_for(*args, url_templates: url_templates.merge(ref: "release"),
+                                                url_params: { utm_source: "test" })
+
+        expect(result).to eq("https://example.com/99-1?ref=release&utm_source=test#video")
+      end
+    end
+
     context "with localize_url disabled" do
       let(:args) { %i[enterprise_features board_view] }
 

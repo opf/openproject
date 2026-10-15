@@ -45,9 +45,6 @@ RSpec.describe WhatsNew::Release do
               new_features_list: {
                 first: { title: "First", description: "The first one", url: "https://example.com/first" },
                 second: { title: "Second", description: "The second one", url: "https://example.com/second" }
-              },
-              whats_new: {
-                video_url: "https://example.com/video"
               }
             },
             "99_3": {
@@ -76,7 +73,7 @@ RSpec.describe WhatsNew::Release do
                                   url: "https://example.com/second")
       ]
     )
-    expect(release.video_url).to eq("https://example.com/video")
+    expect(release.video_url).to eq("https://www.openproject.org/release-videos/99-1?go_to_locale=en")
     expect(release.version).to eq("99.1")
   end
 

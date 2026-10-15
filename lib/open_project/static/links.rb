@@ -51,9 +51,11 @@ module OpenProject
           I18n.t(key)
         end
 
-        def url_for(*path, localize_url: true, url_params: {})
+        def url_for(*path, localize_url: true, url_templates: {}, url_params: {})
           href = links.dig(*path, :href)
           return if href.nil?
+
+          href = Addressable::Template.new(href).expand(url_templates).to_s unless url_templates.empty?
 
           if localize_url && website_link?(href)
             url_with_query(href, **url_params, go_to_locale: I18n.locale)

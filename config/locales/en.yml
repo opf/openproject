@@ -3877,8 +3877,6 @@ en:
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
           new_features_title: >
             The release contains various new features and improvements, such as:
-          whats_new:
-            video_url: "https://www.youtube.com/c/OpenProjectCommunity"
         header: "Read about new features and product updates."
         learn_about: "Learn more about all new features"
         missing: "There are no highlighted features yet."
