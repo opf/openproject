@@ -170,26 +170,34 @@ module ResourceAllocations
       return OptimalSchedule.new(by_date: {}, capacity_by_date: {}) if items.empty?
 
       result = FitCalculator.new(calendar: base_calendar, items:).call
-      allocations_by_id = allocations.index_by(&:id)
 
       OptimalSchedule.new(
-        by_date: placements_by_date(result.placements, allocations_by_id),
+        by_date: entries_by_date(result),
         capacity_by_date: base_calendar.each_day.to_h
       )
     end
 
-    def placements_by_date(placements, allocations_by_id)
-      by_date = Hash.new { |hash, date| hash[date] = [] }
+    def entries_by_date(result)
+      allocations
+        .flat_map { |allocation| scheduled_entries(allocation, result) }
+        .group_by(&:allocated_on)
+        .transform_values { |entries| entries.sort_by(&:minutes) }
+    end
 
-      placements.each do |allocation_id, minutes_per_day|
-        allocation = allocations_by_id.fetch(allocation_id)
-        minutes_per_day.each do |date, minutes|
-          by_date[date] << ScheduledEntry.new(allocation:, work_package: allocation.entity, allocated_on: date, minutes:)
-        end
+    def scheduled_entries(allocation, result)
+      placed = result.placements.fetch(allocation.id, {})
+      overtime = result.overtime.fetch(allocation.id, {})
+
+      (placed.keys | overtime.keys).map do |date|
+        overtime_minutes = overtime.fetch(date, 0)
+        ScheduledEntry.new(
+          allocation:,
+          work_package: allocation.entity,
+          allocated_on: date,
+          minutes: placed.fetch(date, 0) + overtime_minutes,
+          overtime_minutes:
+        )
       end
-
-      by_date.each_value { |entries| entries.sort_by!(&:minutes) }
-      by_date
     end
 
     def booked_minutes_within(range)
