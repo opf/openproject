@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:"menus.admin.push_notifications") -%>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:"menus.admin.push_notifications") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_settings_aggregation_path, text: t(:"menus.admin.mails_and_notifications") },
+       t(:"menus.admin.push_notifications")]
+    )
+  end
+%>
+
+<% unless OpenProject::WebPush.key_readable? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :danger, mb: 3)) do
+      t("admin.settings.push_notifications.key_unreadable")
+    end
+  %>
+<% end %>
+
+<%=
+  settings_primer_form_with(
+    url: admin_settings_push_notifications_path,
+    scope: :settings,
+    method: :patch,
+    data: { turbo: false }
+  ) do |form|
+    render Admin::Settings::PushNotificationsSettingForm.new(form)
+  end
+%>
+
+<%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 4)) { t("admin.settings.push_notifications.what_is_sent") } %>
+<%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
+<ul class="color-fg-muted pl-4">
+  <% OpenProject::WebPush.push_service_hosts.each do |host| %>
+    <% result = @reachability&.find { |candidate| candidate.host == host } %>
+    <li>
+      <code><%= host %></code>
+      <% if result&.reachable? %>
+        <%= render(Primer::Beta::Label.new(scheme: :success, ml: 2)) { t("admin.settings.push_notifications.reachable") } %>
+        <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) { t("admin.settings.push_notifications.http_status", code: result.code) } %>
+      <% elsif result %>
+        <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 2)) { t("admin.settings.push_notifications.unreachable") } %>
+        <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) do %>
+          <%= t("admin.settings.push_notifications.reasons.#{result.reason}", seconds: OpenProject::WebPush::ReachabilityCheck::TIMEOUT) %>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+<%= primer_form_with(
+      url: check_admin_settings_push_notifications_path,
+      method: :post,
+      data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
+    ) do %>
+  <%= render(Primer::Beta::Button.new(type: :submit)) { t("admin.settings.push_notifications.check_reachability") } %>
+<% end %>
+
+<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mt: 4, mb: 2)) { t("admin.settings.push_notifications.key_section") } %>
+<% if OpenProject::WebPush.key_managed_by_environment? %>
+  <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.key_managed_by_environment") } %>
+<% else %>
+  <%= primer_form_with(
+        url: regenerate_key_admin_settings_push_notifications_path,
+        method: :post,
+        data: { turbo_confirm: t("admin.settings.push_notifications.regenerate_key_confirm") }
+      ) do %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :danger)) { t("admin.settings.push_notifications.regenerate_key") } %>
+  <% end %>
+<% end %>
