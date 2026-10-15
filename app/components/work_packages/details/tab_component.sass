@@ -32,12 +32,13 @@
       // This is breaking the encapsulation of the UnderlinedNav component
       // Ideally, this CSS would be applied to a variant of that component
       // that we render in the view. Then remove the CSS from here.
-      border-block-end: 1px solid var(--borderColor-muted)
+      box-shadow: inset 0 -1px 0 var(--borderColor-muted)
       margin-block-end: 12px
 
       > *
-        margin-block-end: -1px
-        border-block-end: 0
+        margin-block-end: 0
+        position: relative
+        box-shadow: none
         mask-image: linear-gradient(to right, transparent,#000 var(--tab-component-fade-left-size),#000 calc(100% - var(--tab-component-fade-right-size)), transparent)
         animation: tab-component-fade-left linear both, tab-component-fade-right linear both
         animation-timeline: scroll(self inline), scroll(self inline)
