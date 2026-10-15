@@ -44,12 +44,12 @@ module Redmine
           c.iv = iv
           e = c.update(text.to_s)
           e << c.final
-          "aes-256-cbc:" + [e, iv].map { |v| Base64.encode64(v).strip }.join("--")
+          "aes-256-cbc:#{[e, iv].map { |v| Base64.strict_encode64(v) }.join('--')}"
         end
       end
 
       def decrypt_text(text)
-        if text && match = text.match(/\Aaes-256-cbc:(.+)\Z/)
+        if text && match = text.match(/\Aaes-256-cbc:(.+)\z/m)
           text = match[1]
           c = OpenSSL::Cipher.new("aes-256-cbc")
           e, iv = text.split("--").map { |s| Base64.decode64(s) }
