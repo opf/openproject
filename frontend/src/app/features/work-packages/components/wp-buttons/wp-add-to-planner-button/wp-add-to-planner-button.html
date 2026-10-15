@@ -1,9 +1,10 @@
-<button
+<a
   class="button toolbar-icon"
+  data-controller="async-dialog"
   data-test-selector="op-wp-add-to-planner-button"
+  [attr.href]="dialogPath"
   [attr.title]="buttonTitle"
   [attr.aria-label]="buttonTitle"
-  (click)="openPlannerDialog()"
   >
   <svg sun-icon class="button--icon" size="small"></svg>
-</button>
+</a>

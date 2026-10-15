@@ -28,7 +28,6 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
@@ -41,16 +40,13 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 export class WorkPackageAddToPlannerButtonComponent {
   readonly I18n = inject(I18nService);
   readonly pathHelper = inject(PathHelperService);
-  readonly turboRequests = inject(TurboRequestsService);
 
   @Input() public workPackage:WorkPackageResource;
 
   public buttonTitle = this.I18n.t('js.planner.add_to_planner');
 
-  openPlannerDialog():void {
+  get dialogPath():string {
     const query = new URLSearchParams({ work_package_id: this.workPackage.id! });
-    void this.turboRequests
-      .requestStream(`${this.pathHelper.staticBase}/planner/tasks/new_dialog?${query.toString()}`)
-      .catch(() => undefined);
+    return `${this.pathHelper.staticBase}/planner/tasks/new_dialog?${query.toString()}`;
   }
 }
