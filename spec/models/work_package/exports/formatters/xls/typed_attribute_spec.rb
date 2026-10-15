@@ -31,6 +31,26 @@
 require "spec_helper"
 
 RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
+  describe "formatter registration" do
+    it "chooses specialized XLS formatters before the typed database fallback" do
+      expected = {
+        id: WorkPackage::Exports::Formatters::XLS::Id,
+        estimated_hours: WorkPackage::Exports::Formatters::XLS::Hours,
+        derived_estimated_hours: WorkPackage::Exports::Formatters::XLS::Hours,
+        remaining_hours: WorkPackage::Exports::Formatters::XLS::Hours,
+        derived_remaining_hours: WorkPackage::Exports::Formatters::XLS::Hours,
+        done_ratio: WorkPackage::Exports::Formatters::XLS::DoneRatio,
+        derived_done_ratio: WorkPackage::Exports::Formatters::XLS::DoneRatio
+      }
+
+      expected.each do |attribute, formatter|
+        expect(Exports::Register.formatter_for(WorkPackage, attribute, :xls)).to be_a(formatter)
+      end
+
+      expect(Exports::Register.formatter_for(WorkPackage, :start_date, :xls)).to be_a(described_class)
+    end
+  end
+
   describe ".apply?" do
     it "applies to date, datetime, numeric and boolean database columns" do
       expect(described_class.apply?(:start_date, :xls)).to be true
@@ -91,13 +111,13 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
   end
 
   describe "#format_options" do
-    it "formats dates with the configured date format", with_settings: { date_format: "%d.%m.%Y" } do
-      expect(described_class.new(:start_date).format_options).to eq({ number_format: "DD.MM.YYYY" })
+    it "formats dates consistently across date settings", with_settings: { date_format: "%d.%m.%Y" } do
+      expect(described_class.new(:start_date).format_options).to eq({ number_format: "YYYY-MM-DD" })
     end
 
-    it "formats datetimes with the configured date and time format",
+    it "formats datetimes consistently across date and time settings",
        with_settings: { date_format: "%d.%m.%Y", time_format: "%H:%M" } do
-      expect(described_class.new(:created_at).format_options).to eq({ number_format: "DD.MM.YYYY HH:MM" })
+      expect(described_class.new(:created_at).format_options).to eq({ number_format: "YYYY-MM-DD HH:MM" })
     end
 
     it "formats integers without decimals" do

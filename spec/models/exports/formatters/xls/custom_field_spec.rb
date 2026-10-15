@@ -100,8 +100,8 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
       expect(described_class.new(float_cf.column_name).format_options).to eq({ number_format: "0.00" })
     end
 
-    it "formats date custom fields with the configured date format", with_settings: { date_format: "%d.%m.%Y" } do
-      expect(described_class.new(date_cf.column_name).format_options).to eq({ number_format: "DD.MM.YYYY" })
+    it "formats date custom fields consistently across date settings", with_settings: { date_format: "%d.%m.%Y" } do
+      expect(described_class.new(date_cf.column_name).format_options).to eq({ number_format: "YYYY-MM-DD" })
     end
 
     it "leaves boolean custom fields unformatted" do

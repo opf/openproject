@@ -63,8 +63,8 @@ module Exports
 
         def format_options
           case column_type
-          when :date then { number_format: DateFormat.date }
-          when :datetime then { number_format: DateFormat.datetime }
+          when :date then { number_format: date_format }
+          when :datetime then { number_format: datetime_format }
           when :integer then { number_format: integer_format }
           when :boolean then {}
           else { number_format: }

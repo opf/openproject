@@ -91,6 +91,14 @@ module Exports
         "0"
       end
 
+      def date_format
+        "YYYY-MM-DD"
+      end
+
+      def datetime_format
+        "YYYY-MM-DD HH:MM"
+      end
+
       def percentage_format
         "0%"
       end

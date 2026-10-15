@@ -347,11 +347,11 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     let(:date_cf) { create(:date_wp_custom_field, name: "Reviewed on") }
     let(:custom_fields) { [int_cf, float_cf, date_cf] }
 
-    let(:project) { create(:project, work_package_custom_fields: custom_fields) }
+    let(:project) { create(:project) }
 
     let(:type) do
       type = project.enabled_types.first
-      type.default_variant.custom_fields << custom_fields
+      type.default_variant.custom_field_ids |= custom_fields.map(&:id)
 
       type
     end
@@ -388,17 +388,15 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
 
     it "sets a matching cell format on every typed column" do
-      # With the date and time settings unset the formats follow the locale,
-      # just like the rest of the product does through I18n.l.
       expect(number_formats)
-        .to eq(["0", "MM/DD/YYYY", "MM/DD/YYYY", "MM/DD/YYYY HH:MM AM/PM", "0", "0.00", "MM/DD/YYYY"])
+        .to eq(["0", "YYYY-MM-DD", "YYYY-MM-DD", "YYYY-MM-DD HH:MM", "0", "0.00", "YYYY-MM-DD"])
     end
 
     context "with a localised date format",
             with_settings: { date_format: "%d.%m.%Y", time_format: "%H:%M" } do
-      it "translates the setting into an excel cell format" do
-        expect(number_formats.values_at(1, 2, 6)).to all(eq("DD.MM.YYYY"))
-        expect(number_formats[3]).to eq("DD.MM.YYYY HH:MM")
+      it "keeps the same cell format" do
+        expect(number_formats.values_at(1, 2, 6)).to all(eq("YYYY-MM-DD"))
+        expect(number_formats[3]).to eq("YYYY-MM-DD HH:MM")
       end
     end
 

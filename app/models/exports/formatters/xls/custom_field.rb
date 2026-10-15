@@ -54,7 +54,7 @@ module Exports
           return {} unless custom_field && typed?(custom_field)
 
           case custom_field.field_format
-          when "date" then { number_format: DateFormat.date }
+          when "date" then { number_format: date_format }
           when "int" then { number_format: integer_format }
           else { number_format: }
           end
