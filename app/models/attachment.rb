@@ -346,9 +346,9 @@ class Attachment < ApplicationRecord
   end
 
   ##
-  # Deletes locally cached files. This is mostly relevant for remote attachments
-  # but would also apply for local attachments if things such as carrierwave
-  # filters were used.
+  # Deletes locally cached files and CarrierWave workfiles staged under CarrierWave.tmp_path.
+  # This is mostly relevant for remote attachments but would also apply for local attachments
+  # if things such as carrierwave filters were used.
   #
   # @param age_in_seconds [Integer] Delete all cached files older than this many seconds.
   def self.clean_cached_files!(age_in_seconds: 60 * 60 * 24)
@@ -356,7 +356,21 @@ class Attachment < ApplicationRecord
     cache_storage = uploader.cache_storage
 
     cache_storage.new(uploader.new).clean_cache! age_in_seconds
+    clean_carrierwave_tmp!(age_in_seconds)
   end
+
+  def self.clean_carrierwave_tmp!(age_in_seconds)
+    cutoff = age_in_seconds.seconds.ago
+
+    Dir.glob(File.join(CarrierWave.tmp_path, "*")).each do |path|
+      match = File.basename(path).match(/\A(\d+)-\d+-\d+(?:-\d+)?\z/)
+      next unless match
+
+      FileUtils.rm_rf(path) if Time.zone.at(match[1].to_i).before?(cutoff)
+    end
+  end
+
+  private_class_method :clean_carrierwave_tmp!
 
   def pending_direct_upload?
     digest == "" && downloads == -1
