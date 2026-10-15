@@ -245,6 +245,8 @@ Rails/RequireDependency:
 # Require save! to prevent saving without validation when saving outside of a condition.
 Rails/SaveBang:
   Enabled: true
+  AllowedReceivers:
+    - Resolv::DNS::Name
   Exclude:
     - "spec/**/*"
     - "modules/**/spec/**/*"
