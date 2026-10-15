@@ -222,4 +222,26 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
       expect(ask("Hello")).to be_failed
     end
   end
+
+  context "when the answer timed out while the model was working" do
+    let(:answer) do
+      { answer: "Late answer",
+        proposals: [{ severity: "none", area: "none", text: "Neuer Betreff", evidence: [],
+                      changes: [{ field: "subject", value: "New subject" }] }] }
+    end
+
+    it "keeps the answer failed and stores nothing" do
+      allow(llm).to receive(:ask) do
+        AI::AssistantChatMessage.pending.update_all(status: "failed")
+        instance_double(RubyLLM::Message, content: answer.deep_stringify_keys)
+      end
+
+      message = ask("Hello")
+
+      expect(message).to be_failed
+      expect(message.content).to eq("")
+      expect(message.proposals).to be_empty
+      expect(message.events.pluck("kind")).to include("late")
+    end
+  end
 end

@@ -55,10 +55,16 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     replace_chat
   end
 
-  # A new conversation that the skill answers at once.
+  # A new conversation that the skill answers at once. While the user's last start of this
+  # skill is still answering, it opens that chat instead (a double click, a second tab).
   def start
-    @chat = new_chat
-    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).start
+    call = OpenProject::Mutex.with_advisory_lock_transaction(current_user, "ai_start_#{@work_package.id}_#{@skill.id}") do
+      @chat = running_chat
+      next ServiceResult.success if @chat
+
+      @chat = new_chat
+      AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).start
+    end
     return respond_with_failure(call) if call.failure?
 
     respond_with_wp_dialog chat_dialog
@@ -135,6 +141,12 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     @skill = offered_skill(@chat&.skill_id)
     @read_only = !@skill && @chat.present? && READABLE.include?(action_name)
     @skill = @chat.skill if @read_only
+  end
+
+  def running_chat
+    chat = AI::AssistantChat.for(current_user, @work_package).where(skill: @skill).with_pending_answer.order(id: :desc).first
+    chat&.fail_stale_answers!
+    chat if chat&.pending?
   end
 
   def new_chat

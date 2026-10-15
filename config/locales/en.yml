@@ -2563,6 +2563,7 @@ en:
       dropped: "dropped proposals"
       error: "error message"
       failure: "The model call failed (%{error})."
+      late: "The model answered after the time limit. The answer was not kept."
       message: "message"
       raw_answer: "answer"
       request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."

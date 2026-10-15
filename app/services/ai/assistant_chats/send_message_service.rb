@@ -31,7 +31,8 @@
 module AI
   module AssistantChats
     # Stores the user's question, or a start of the skill, and a pending answer, and starts
-    # the reply job. One answer at a time: a question while an answer is pending is refused.
+    # the reply job. One answer at a time: a question while an answer is pending is refused,
+    # also when two requests come at the same moment (a unique index).
     class SendMessageService
       MAX_LENGTH = 10_000
 
@@ -58,15 +59,27 @@ module AI
 
       def ask(role:, content: "")
         chat.fail_stale_answers!
-        return ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.pending")) if chat.pending?
+        return pending_failure if chat.pending?
 
-        answer = AI::AssistantChat.transaction do
+        answer = create_answer(role:, content:)
+        ReplyJob.perform_later(answer.id)
+        ServiceResult.success(result: answer)
+      rescue ActiveRecord::RecordNotUnique
+        chat.messages.reset
+        pending_failure
+      end
+
+      # A savepoint, so that the unique index error does not abort an outer transaction.
+      def create_answer(role:, content:)
+        AI::AssistantChat.transaction(requires_new: true) do
           chat.messages.create!(role:, content:)
           chat.messages.create!(role: "assistant", status: "pending", locale: I18n.locale.to_s,
                                 base_lock_version: chat.work_package.reload.lock_version)
         end
-        ReplyJob.perform_later(answer.id)
-        ServiceResult.success(result: answer)
+      end
+
+      def pending_failure
+        ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.pending"))
       end
     end
   end

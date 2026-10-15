@@ -55,6 +55,25 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
       expect(chat.messages.map(&:role)).to eq(%w[start assistant])
     end
 
+    context "when the last start of the skill is still answering" do
+      it "opens that chat and starts nothing new" do
+        post "#{base}/start", params: { skill_id: skill.id }, as: :turbo_stream
+
+        expect { request }.not_to have_enqueued_job(AI::AssistantChats::ReplyJob)
+
+        expect(response).to have_turbo_stream(action: "dialog")
+        expect(AI::AssistantChat.for(user, work_package).sole.messages.count).to eq(2)
+      end
+
+      it "starts a new chat once the answer is done" do
+        post "#{base}/start", params: { skill_id: skill.id }, as: :turbo_stream
+        AI::AssistantChatMessage.pending.update_all(status: "done")
+
+        expect { request }.to have_enqueued_job(AI::AssistantChats::ReplyJob)
+        expect(AI::AssistantChat.for(user, work_package).count).to eq(2)
+      end
+    end
+
     context "without the permission" do
       let(:permissions) { %i[view_work_packages] }
 

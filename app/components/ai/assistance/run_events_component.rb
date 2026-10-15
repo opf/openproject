@@ -75,8 +75,12 @@ module AI
         when "failure"
           I18n.t("ai_assistance.events.failure", error: data["error"].to_s.demodulize)
         else
-          event["kind"]
+          other_summary(event["kind"])
         end
+      end
+
+      def other_summary(kind)
+        I18n.t("ai_assistance.events.#{kind}", default: kind)
       end
 
       # Blocks the user can open: the texts the model got and gave.

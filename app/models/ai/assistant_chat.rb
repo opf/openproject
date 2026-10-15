@@ -54,6 +54,8 @@ module AI
       messages.any?(&:pending?)
     end
 
+    scope :with_pending_answer, -> { where(id: AI::AssistantChatMessage.pending.select(:chat_id)) }
+
     def fail_stale_answers!
       stale = messages.where(status: "pending", created_at: ...ANSWER_TIMEOUT.ago)
       return if stale.none?

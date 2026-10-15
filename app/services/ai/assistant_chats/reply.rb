@@ -48,10 +48,7 @@ module AI
 
       def call
         answer = ask
-        store_proposals(Array(answer[:proposals]))
-        message.update!(content: answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"),
-                        status: "done")
-        llm_call.log(:info, "answered with #{message.proposals.count} proposals")
+        finish { store_answer(answer) }
       rescue StandardError => e
         fail_reply(e)
       end
@@ -103,6 +100,24 @@ module AI
                                              .to_json
       end
 
+      # Stores the result only while the answer is still pending. A result after the timeout
+      # (fail_stale_answers!) is dropped, because the user may have asked again.
+      def finish
+        AI::AssistantChatMessage.transaction do
+          message.reload(lock: true)
+          next message.log_event(:late) unless message.pending?
+
+          yield
+        end
+      end
+
+      def store_answer(answer)
+        store_proposals(Array(answer[:proposals]))
+        message.update!(content: answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"),
+                        status: "done")
+        llm_call.log(:info, "answered with #{message.proposals.count} proposals")
+      end
+
       def store_proposals(raw_proposals)
         kept, dropped = raw_proposals.first(MAX_PROPOSALS).map { |raw| [raw, answer_format.proposal_attributes(raw)] }
                                      .partition { |_raw, attributes| attributes }
@@ -143,7 +158,7 @@ module AI
       def fail_reply(error)
         message.reload
         llm_call.record_failure(error)
-        message.update!(status: "failed", content: "")
+        message.update!(status: "failed", content: "") if message.pending?
       rescue StandardError => e
         llm_call.log(:error, "could not mark the answer as failed: #{e.class}: #{e.message}")
       end

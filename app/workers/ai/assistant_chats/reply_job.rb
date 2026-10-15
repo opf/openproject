@@ -31,7 +31,12 @@
 module AI
   module AssistantChats
     class ReplyJob < ApplicationJob
+      include GoodJob::ActiveJobExtensions::Concurrency
+
       queue_with_priority :above_normal
+
+      # One job for each answer. A run after a crashed worker still runs.
+      good_job_control_concurrency_with(total_limit: 1, key: -> { "ai_assistant_reply_#{arguments.first}" })
 
       def perform(message_id)
         message = AI::AssistantChatMessage.find_by(id: message_id)
