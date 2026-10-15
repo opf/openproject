@@ -57,10 +57,10 @@ module Pages
 
         def expect_non_listed
           expect(page)
-            .to have_no_css("tr.placeholder-user")
+            .to have_no_css("[role='row'].placeholder-user")
 
           expect(page)
-            .to have_css("tr.generic-table--empty-row", text: "There is currently nothing to display.")
+            .to have_css("[role='row'].generic-table--empty-row", text: "There is currently nothing to display.")
         end
 
         def filter_by_name(value)
@@ -108,7 +108,7 @@ module Pages
         private
 
         def within_placeholder_user_row(placeholder_user, &)
-          row = find("tr.placeholder_user td.name", text: placeholder_user.name).ancestor("tr")
+          row = find("[role='row'].placeholder_user td.name", text: placeholder_user.name)
           within(row, &)
         end
       end

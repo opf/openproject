@@ -32,13 +32,22 @@ module PlaceholderUsers
   class TableComponent < ::OpPrimer::BorderBoxTableComponent
     columns :name, :criteria, :created_at
     sortable_columns :name, :created_at
+    mobile_labels :name, :criteria, :created_at
 
     def mobile_title
-      PlaceholderUser.model_name.human
+      PlaceholderUser.model_name.human(count: 2)
+    end
+
+    def has_actions?
+      true
     end
 
     def initial_sort
       %i[id asc]
+    end
+
+    def paginated?
+      true
     end
 
     def headers
@@ -61,6 +70,14 @@ module PlaceholderUsers
 
     def desc_by_default
       [:created_at]
+    end
+
+    def blank_title
+      I18n.t("admin.members.index.blank_title")
+    end
+
+    def blank_description
+      I18n.t("admin.members.index.blank_description")
     end
   end
 end
