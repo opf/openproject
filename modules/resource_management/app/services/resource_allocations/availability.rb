@@ -49,39 +49,31 @@ module ResourceAllocations
     end
 
     def overbooked_dates
-      @overbooked_dates ||= optimal_schedule.by_date.filter_map do |date, entries|
-        date if entries.any? { |entry| entry.overtime_minutes.positive? }
-      end.to_set
+      @overbooked_dates ||= optimal_schedule.overbooked_dates
     end
 
     def overbooked_dates_of(allocation)
-      overbooked_dates
-        .select { |date| optimal_schedule.entries_on(date).any? { |entry| entry.allocation == allocation } }
-        .sort
+      overbooked_dates.select { |date| optimal_schedule.allocations_on(date).include?(allocation) }
     end
 
     def overbooked_allocation_ids
       @overbooked_allocation_ids ||=
-        if allocations.empty?
-          Set.new
-        else
-          allocation_ids_on(overbooked_dates) | fit_result.unplannable.keys.map(&:id)
-        end
+        (overbooked_dates.flat_map { |date| optimal_schedule.allocations_on(date) } + optimal_schedule.unplannable)
+          .to_set(&:id)
     end
 
     def optimal_schedule
-      @optimal_schedule ||= build_optimal_schedule
+      @optimal_schedule ||= schedule_for(allocations)
     end
 
     def overbooking_with(allocation)
       others = allocations.reject { |other| other.id == allocation.id }
-      prospective = others + [allocation]
-      calendar = calendar_for(prospective)
-      result = FitCalculator.new(calendar:, allocations: prospective).call
+      prospective_schedule = schedule_for(others + [allocation])
+      baseline_schedule = others.size == allocations.size ? optimal_schedule : schedule_for(others)
 
       ProspectiveOverbooking.new(
-        days: overbooked_days(entries_by_date(result), overtime_by_date_of(others), allocation, calendar),
-        unplannable: result.unplannable.key?(allocation)
+        days: overbooked_days(prospective_schedule, baseline_schedule, allocation),
+        unplannable: prospective_schedule.unplannable.include?(allocation)
       )
     end
 
@@ -145,53 +137,25 @@ module ResourceAllocations
                          .to_a
     end
 
-    def base_calendar
-      @base_calendar ||= calendar_for(allocations)
+    def schedule_for(scheduled)
+      return OptimalSchedule.new if scheduled.empty?
+
+      range = scheduled.map(&:start_date).min..scheduled.map(&:end_date).max
+      calendar = WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days)
+      result = FitCalculator.new(calendar:, allocations: scheduled).call
+
+      OptimalSchedule.new(by_date: entries_by_date(result), unplannable: result.unplannable.keys, calendar:)
     end
 
-    def calendar_for(windows)
-      range = windows.map(&:start_date).min..windows.map(&:end_date).max
-      WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days)
-    end
+    def overbooked_days(prospective_schedule, baseline_schedule, allocation)
+      prospective_schedule.overbooked_dates.filter_map do |date|
+        overtime = prospective_schedule.overtime_on(date)
+        next if overtime <= baseline_schedule.overtime_on(date)
 
-    def fit_result
-      @fit_result ||= FitCalculator.new(calendar: base_calendar, allocations:).call
-    end
-
-    def allocation_ids_on(dates)
-      dates.flat_map { |date| optimal_schedule.entries_on(date).map { |entry| entry.allocation.id } }.to_set
-    end
-
-    def build_optimal_schedule
-      return OptimalSchedule.new(by_date: {}, capacity_by_date: {}) if allocations.empty?
-
-      OptimalSchedule.new(
-        by_date: entries_by_date(fit_result),
-        capacity_by_date: base_calendar.each_day.to_h
-      )
-    end
-
-    def overtime_by_date_of(others)
-      by_date =
-        if others.size == allocations.size
-          optimal_schedule.by_date
-        elsif others.empty?
-          {}
-        else
-          entries_by_date(FitCalculator.new(calendar: calendar_for(others), allocations: others).call)
-        end
-
-      by_date.transform_values { |entries| entries.sum(&:overtime_minutes) }
-    end
-
-    def overbooked_days(by_date, overtime_without, allocation, calendar)
-      by_date.sort.filter_map do |date, entries|
-        overtime = entries.sum(&:overtime_minutes)
-        next if overtime <= overtime_without.fetch(date, 0)
-
+        entries = prospective_schedule.entries_on(date)
         added = entries.select { |entry| entry.allocation == allocation }.sum(&:minutes)
-        OverbookedDay.new(date:, working_minutes: calendar.capacity_on(date), planned_minutes: entries.sum(&:minutes) - added,
-                          added_minutes: added, overtime_minutes: overtime)
+        OverbookedDay.new(date:, working_minutes: prospective_schedule.capacity_on(date),
+                          planned_minutes: entries.sum(&:minutes) - added, added_minutes: added, overtime_minutes: overtime)
       end
     end
 
