@@ -292,7 +292,8 @@ en:
       no_work_schedule: No work schedule planned for this user
       overbooked: This user is over-allocated in the selected period.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        dates: "Beyond working hours on %{dates}"
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Add user
     view_types:

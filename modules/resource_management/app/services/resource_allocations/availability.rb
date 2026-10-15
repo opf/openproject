@@ -58,23 +58,18 @@ module ResourceAllocations
       end.to_set
     end
 
+    def overbooked_dates_of(allocation)
+      overbooked_dates
+        .select { |date| optimal_schedule.entries_on(date).any? { |entry| entry.allocation == allocation } }
+        .sort
+    end
+
     def overbooked_allocation_ids
       @overbooked_allocation_ids ||=
         if allocations.empty?
           Set.new
         else
           allocation_ids_on(overbooked_dates) | fit_result.unplannable.keys.map(&:id)
-        end
-    end
-
-    # @return [Array<ResourceAllocations::OverbookedRange>] ranges to highlight,
-    #   each carrying the work packages forced into it.
-    def overbooked_ranges
-      @overbooked_ranges ||=
-        if items.empty?
-          []
-        else
-          OverbookingAnalysis.new(calendar: base_calendar, items:).call
         end
     end
 
