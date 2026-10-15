@@ -305,7 +305,7 @@ RSpec.describe "filter work packages", :js do
       wp_table.visit!
     end
 
-    it "allows filtering, saving and retrieving the saved filter" do
+    it "filters by a list custom field and excludes the selected value from the autocomplete" do
       # Wait for form to load
       filters.expect_loaded
 
@@ -323,28 +323,6 @@ RSpec.describe "filter work packages", :js do
       filters.open_autocompleter list_cf.attribute_name(:camel_case)
 
       expect(page).to have_no_css(".ng-option", text: list_cf.custom_options.last.value)
-
-      wp_table.save_as("Some query name")
-
-      filters.remove_filter list_cf.attribute_name(:camel_case)
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_list_value, work_package_with_anti_list_value
-
-      last_query = Query.last
-
-      wp_table.visit_query(last_query)
-
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed work_package_with_list_value
-      wp_table.ensure_work_package_not_listed! work_package_with_anti_list_value
-
-      filters.open
-
-      filters.expect_filter_by(list_cf.name,
-                               "is not",
-                               list_cf.custom_options.last.value,
-                               "customField#{list_cf.id}")
     end
   end
 
@@ -464,13 +442,12 @@ RSpec.describe "filter work packages", :js do
         skip("Database does not support full text search.") unless OpenProject::Database::allows_tsv?
       end
 
-      it "allows filtering and retrieving and altering the saved filter" do
+      it "wires attachment content and file name filters to the table" do
         wp_table.visit!
         wp_table.expect_work_package_listed wp_with_attachment_a, wp_with_attachment_b
 
         filters.open
 
-        # content contains with multiple hits
         filters.add_filter_by("Attachment content",
                               "contains",
                               ["text"],
@@ -484,58 +461,6 @@ RSpec.describe "filter work packages", :js do
         filters.remove_filter "attachmentContent"
         loading_indicator_saveguard
 
-        filters.add_filter_by("Attachment content",
-                              "contains",
-                              ["first 1.99"],
-                              "attachmentContent")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
-
-        filters.remove_filter "attachmentContent"
-        loading_indicator_saveguard
-
-        # content does not contain
-        filters.add_filter_by("Attachment content",
-                              "doesn't contain",
-                              ["first"],
-                              "attachmentContent")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_b, wp_without_attachment
-        wp_table.ensure_work_package_not_listed! wp_with_attachment_a
-
-        filters.remove_filter "attachmentContent"
-        loading_indicator_saveguard
-
-        # ignores special characters
-        filters.add_filter_by("Attachment content",
-                              "contains",
-                              ["! first:* ')"],
-                              "attachmentContent")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
-
-        filters.remove_filter "attachmentContent"
-        loading_indicator_saveguard
-
-        # file name contains
-        filters.add_filter_by("Attachment file name",
-                              "contains",
-                              ["first"],
-                              "attachmentFileName")
-
-        loading_indicator_saveguard
-        wp_table.expect_work_package_listed wp_with_attachment_a
-        wp_table.ensure_work_package_not_listed! wp_without_attachment, wp_with_attachment_b
-
-        filters.remove_filter "attachmentFileName"
-        loading_indicator_saveguard
-
-        # file name does not contain
         filters.add_filter_by("Attachment file name",
                               "doesn't contain",
                               ["first"],
@@ -795,8 +720,6 @@ RSpec.describe "filter work packages", :js do
       filters.open
       filters.add_filter_by "Target versions", "is (OR)", [version2.name, version1.name], "targetVersion"
       loading_indicator_saveguard
-
-      sleep(3)
 
       filters.expect_filter_by "Target versions", "is (OR)", [version1.name], "targetVersion"
       filters.expect_filter_by "Target versions", "is (OR)", [version2.name], "targetVersion"

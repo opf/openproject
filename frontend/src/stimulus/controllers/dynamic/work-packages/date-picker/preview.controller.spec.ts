@@ -289,6 +289,15 @@ describe('Date picker preview controller', () => {
     expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('2026-06-15');
   });
 
+  it('uses the start date when duration is highlighted and only a due date exists', async () => {
+    await renderDateForm({ dueDate: '2026-06-15', highlighted: 'duration' });
+
+    flatpickrDatesChanged([new Date('2026-06-12')]);
+
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_start_date')!.value).toBe('2026-06-12');
+    expect(ctx.container.querySelector<HTMLInputElement>('#work_package_due_date')!.value).toBe('2026-06-15');
+  });
+
   it('keeps a lone highlighted date in single-date calendar mode', async () => {
     await renderDateForm({ dueDate: '2026-06-12', highlighted: 'due_date' });
     let calendarMode:string|undefined;
