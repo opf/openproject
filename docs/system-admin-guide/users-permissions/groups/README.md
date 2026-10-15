@@ -48,6 +48,15 @@ You will then see the detailed view of the group, including following tabs:
 
 ![Various tabs shown when editing an existing group in OpenProject administration](openproject_system_guide_edit_group_tabs.png)
 
+### General settings
+
+The **General** tab is divided into several sections.
+
+The **Avatar** section displays the groups's current avatar. By default, a generic image is shown. The color for that image can be defined. You can also upload a custom avatar image for the group.
+
+The **Group attributes** section allows you to edit the group's name, parent group, and custom group attributes.
+
+
 ### Add users to a group
 
 Select the **Users** tab. Select the users you want to add to this group from the **New user** drop-down list. Click the green **Add** button. Users already in the group are not shown in the list. Click the **X** next to a user to remove that user from the group.
