@@ -146,6 +146,7 @@ OPENPROJECT_APPSIGNAL__FRONTEND__KEY (default=nil) Appsignal API key for JavaScr
 OPENPROJECT_ATTACHMENT__DEFAULT__CHARSET (default="utf-8") Fallback charset used when serving text attachments whose encoding was not detected on upload
 OPENPROJECT_ATTACHMENT__MAX__SIZE (default=5120) Attachment max. size
 OPENPROJECT_ATTACHMENT__WHITELIST (default=[]) Attachment upload whitelist
+OPENPROJECT_ATTACHMENTS__CLEANUP__PERIOD__HOURS (default=2) Time in hours to wait before deleting up uploaded files that were not cleaned up before
 OPENPROJECT_ATTACHMENTS__GRACE__PERIOD (default=180) Time in minutes to wait before uploaded files not attached to any container are removed
 OPENPROJECT_ATTACHMENTS__STORAGE (default=:file) File storage configuration
 OPENPROJECT_ATTACHMENTS__STORAGE__PATH (default=nil) File storage disk location (only applicable for local file storage)

@@ -124,6 +124,10 @@ module Settings
         description: "Time in minutes to wait before uploaded files not attached to any container are removed",
         default: 180
       },
+      attachments_cleanup_period_hours: {
+        description: "Time in hours to wait before deleting up uploaded files that were not cleaned up before",
+        default: 2
+      },
       antivirus_scan_available: {
         description: "Virus scanning option selectable in the UI",
         default: true

@@ -351,7 +351,7 @@ class Attachment < ApplicationRecord
   # if things such as carrierwave filters were used.
   #
   # @param age_in_seconds [Integer] Delete all cached files older than this many seconds.
-  def self.clean_cached_files!(age_in_seconds: 60 * 60 * 24)
+  def self.clean_cached_files!(age_in_seconds: Setting.attachments_cleanup_period_hours.to_i.hours.to_i)
     uploader = OpenProject::Configuration.file_uploader
     cache_storage = uploader.cache_storage
 

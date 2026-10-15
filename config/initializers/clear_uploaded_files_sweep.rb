@@ -35,8 +35,9 @@ require "concurrent/timer_task"
 Rails.application.config.after_initialize do
   next unless GoodJob::CLI.within_exe? || defined?(Rails::Server)
 
-  Concurrent::TimerTask.execute(execution_interval: 6.hours.to_i, run_now: false) do
-    Rails.application.executor.wrap { Attachment.clean_cached_files!(age_in_seconds: 6.hours.to_i) }
+  interval = Setting.attachments_cleanup_period_hours.to_i.hours.to_i
+  Concurrent::TimerTask.execute(execution_interval: interval, run_now: false) do
+    Rails.application.executor.wrap { Attachment.clean_cached_files!(age_in_seconds: interval) }
   rescue StandardError => e
     Rails.logger.error "Failed to clean cached uploaded files: #{e.message}"
   end
