@@ -29,13 +29,21 @@
 .op-whats-new-menu
   &::after
     position: absolute
-    top: calc(-1 * var(--base-size-8))
-    right: var(--base-size-8)
-    width: var(--base-size-16)
-    height: calc(var(--base-size-8) + 1px)
+    top: calc(var(--borderWidth-thin) - var(--base-size-6) * 0.7071)
+    right: calc(var(--base-size-32) - var(--base-size-6) * 0.7071)
+    box-sizing: border-box
+    width: calc(var(--base-size-6) * 1.4142)
+    height: calc(var(--base-size-6) * 1.4142)
     content: ""
     background: var(--overlay-bgColor)
-    clip-path: polygon(50% 0, 100% var(--base-size-8), 100% 100%, 0 100%, 0 var(--base-size-8))
+    border-top: var(--borderWidth-thin) solid var(--borderColor-default)
+    border-left: var(--borderWidth-thin) solid var(--borderColor-default)
+    rotate: 45deg
+
+  .Overlay
+    border: var(--borderWidth-thin) solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    box-shadow: var(--shadow-floating-legacy)
 
   &--badge
     position: absolute
