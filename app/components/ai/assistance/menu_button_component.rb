@@ -54,7 +54,9 @@ module AI
 
       # The assistant's name, then the icon of its owner kind (global, group, personal).
       def heading_title(assistant)
-        icon = render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, ml: 1, color: :subtle, "aria-hidden": true))
+        # color-fg-subtle is as dark as the heading text in OpenProject's theme.
+        icon = render(Primer::Beta::Octicon.new(icon: assistant.owner_icon, ml: 1, color: :muted, style: "opacity: 0.5",
+                                                "aria-hidden": true))
         helpers.safe_join([assistant.name, icon])
       end
 
