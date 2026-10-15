@@ -38,6 +38,7 @@
   end
 %>
 
-<%= settings_primer_form_with(model: @skill, scope: :ai_assistant_skill, url:, method:) do |f| %>
+<%= settings_primer_form_with(model: @skill, scope: :ai_assistant_skill, url:, method:,
+                              data: { controller: "show-when-checked", show_when_checked_visibility_class: "d-none" }) do |f| %>
   <%= render(AI::AssistantSkillForm.new(f)) %>
 <% end %>

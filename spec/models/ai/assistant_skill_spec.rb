@@ -113,5 +113,13 @@ RSpec.describe AI::AssistantSkill do
       expect(skill.system_prompt(locale: "en")).to be_nil
       expect(skill.full_system_prompt(locale: "en")).to start_with("You help the COMMS team.\n\nWrite \"answer\"")
     end
+
+    it "explains the tools by default, and not when the skill opts out" do
+      expect(skill.use_tools).to be(true)
+      expect(skill.system_prompt(locale: "en")).to include(AI::Assistance::OutputRules::TOOLS)
+
+      skill.use_tools = false
+      expect(skill.system_prompt(locale: "en")).not_to include(AI::Assistance::OutputRules::TOOLS)
+    end
   end
 end

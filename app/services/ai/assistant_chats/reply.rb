@@ -118,9 +118,9 @@ module AI
         @llm ||= skill.assistant.llm_resolution
       end
 
-      # The read-only MCP tools, unless the model is known not to call functions.
+      # The read-only MCP tools, unless the skill opts out or the model is known not to call functions.
       def tools
-        @tools ||= if function_calling_unsupported?
+        @tools ||= if !skill.use_tools || function_calling_unsupported?
                      []
                    else
                      AI::Assistance::McpTool.read_only_classes

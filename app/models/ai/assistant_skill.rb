@@ -44,6 +44,8 @@ module AI
     # Opening the skill starts a new chat, and the skill answers its instructions at once.
     # Without it, the skill opens an empty chat for the user's own questions.
     store_attribute :settings, :answers_at_once, :boolean, default: true
+    # Off: the model sees only the work package context, without the read-only MCP tools.
+    store_attribute :settings, :use_tools, :boolean, default: true
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -130,12 +132,12 @@ module AI
 
     # The system prompt for a run, or nil when the skill has no prompt: the assistant's
     # instructions, the skill's prompt, and the output rules that the code owns.
-    def system_prompt(locale:, tools: true)
+    def system_prompt(locale:, tools: use_tools)
       full_system_prompt(locale:, tools:) if prompt.present?
     end
 
     # Also without a prompt, to show on the skill page.
-    def full_system_prompt(locale:, tools: true)
+    def full_system_prompt(locale:, tools: use_tools)
       [assistant&.instructions, prompt, AI::Assistance::OutputRules.new(self, locale:, tools:).to_s]
         .compact_blank.join("\n\n")
     end

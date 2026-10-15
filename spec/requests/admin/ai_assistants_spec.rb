@@ -90,6 +90,27 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "the tools setting of a skill" do
+    let(:skill) { create(:ai_assistant_skill, assistant: global_assistant) }
+
+    it "stores the opt-out" do
+      patch admin_ai_assistant_skill_path(global_assistant, skill), params: { ai_assistant_skill: { use_tools: "0" } }
+
+      expect(skill.reload.use_tools).to be(false)
+    end
+
+    it "previews the system prompt for both states, and shows the saved one" do
+      skill.update!(prompt: "Check it.", use_tools: false)
+
+      get edit_admin_ai_assistant_skill_path(global_assistant, skill)
+
+      expect(page).to have_css("[data-test-selector='ai-skill-prompt-preview'].d-none",
+                               text: AI::Assistance::OutputRules::TOOLS, visible: :all)
+      expect(page).to have_css("[data-test-selector='ai-skill-prompt-preview-without-tools']:not(.d-none)",
+                               text: "Check it.", visible: :all)
+    end
+  end
+
   describe "POST /admin/ai_assistants" do
     it "creates a global assistant" do
       post admin_ai_assistants_path, params: { ai_assistant: { name: "Release helper" } }

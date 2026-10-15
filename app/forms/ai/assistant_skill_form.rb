@@ -51,6 +51,10 @@ module AI
         g.text_area(name: :prompt, label: AI::AssistantSkill.human_attribute_name(:prompt), rows: 8,
                     caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
 
+        g.check_box(name: :use_tools, label: AI::AssistantSkill.human_attribute_name(:use_tools),
+                    caption: I18n.t("admin.ai_assistants.skills.use_tools_caption"),
+                    data: { target_name: "use_tools", show_when_checked_target: "cause" })
+
         g.html_content { prompt_preview }
       end
 
@@ -94,11 +98,20 @@ module AI
           render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :muted, mt: 1, mb: 0)) do
             I18n.t("admin.ai_assistants.skills.prompt_preview_caption")
           end +
-          render(Primer::Beta::Text.new(tag: :pre, font_size: :small, p: 2, mt: 1, bg: :subtle, border: true, border_radius: 2,
-                                        style: "white-space: pre-wrap", data: { test_selector: "ai-skill-prompt-preview" })) do
-            model.full_system_prompt(locale: I18n.locale)
-          end
+          prompt_variant(tools: true) + prompt_variant(tools: false)
         end
+      end
+    end
+
+    # One variant for each state of "Use OpenProject MCP tools"; the checkbox shows the matching one.
+    def prompt_variant(tools:)
+      render(Primer::Beta::Text.new(tag: :pre, font_size: :small, p: 2, mt: 1, bg: :subtle, border: true, border_radius: 2,
+                                    style: "white-space: pre-wrap",
+                                    classes: ("d-none" if model.use_tools != tools),
+                                    data: { test_selector: "ai-skill-prompt-preview#{'-without-tools' unless tools}",
+                                            target_name: "use_tools", show_when_checked_target: "effect",
+                                            show_when: tools ? "checked" : "unchecked" })) do
+        model.full_system_prompt(locale: I18n.locale, tools:)
       end
     end
 

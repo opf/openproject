@@ -178,6 +178,17 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
       end
     end
 
+    context "when the skill opts out of the tools" do
+      let(:skill) { create(:ai_assistant_skill, prompt: "Check it.", use_tools: false) }
+
+      it "offers no tools and does not mention them" do
+        ask("How many?")
+
+        expect(sent).not_to have_key(:tools)
+        expect(sent[:system]).not_to include(AI::Assistance::OutputRules::TOOLS)
+      end
+    end
+
     context "when the model cannot call functions" do
       before do
         connection = create(:llm_connection)

@@ -104,6 +104,7 @@ en:
         prompt: "System prompt"
         proposal_scope: "Proposals"
         skill_key: "Type"
+        use_tools: "Use OpenProject MCP tools"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1594,7 +1595,7 @@ en:
         no_prompt_not_offered: "No system prompt: not offered"
         prompt_caption: "What the model does in this skill. Without it, the skill is not offered."
         prompt_preview: "Show the full system prompt"
-        prompt_preview_caption: "The assistant's instructions, this system prompt, and the output rules that OpenProject adds for the skill type and its proposals. Shown as saved."
+        prompt_preview_caption: "The assistant's instructions, this system prompt, and the output rules that OpenProject adds for the skill type, its proposals and the MCP tools. Shown as saved, with the tool rule as the checkbox above says."
         proposal_scopes:
           changes: "Changes"
           changes_caption: "Proposes changes to attributes and comments. The model also gets the names of the users who can be assigned."
@@ -1608,6 +1609,7 @@ en:
           menu: "Menu entry"
           menu_description: "How the skill shows in the AI Assistance menu on work packages."
         title: "Skills"
+        use_tools_caption: "The AI can search OpenProject for more data than the work package, for example other work packages, counts, users or versions. It sees only what the user can see, and the tools cannot change anything. Off: the AI sees only the work package."
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_fields:
