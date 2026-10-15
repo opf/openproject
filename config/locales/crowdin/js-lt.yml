@@ -853,9 +853,7 @@ lt:
     text_user_wrote: "%{value} parašė:"
     text_work_packages_destroy_confirmation: Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?
     time_entry:
-      stop: Stabdyti
       title: Registruoti laiką
-      tracking: Laiko apskaita
       work_package_required: Reikia pirma pasirinkti darbo paketą.
     timer:
       button_stop: Stabdyti dabartinį laikmatį

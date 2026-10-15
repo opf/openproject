@@ -4,12 +4,15 @@ id:
   avatar_deleted: Avatar berhasil dihapus
   avatars:
     label_avatar: Avatar
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Avatar khusus
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Aktifkan gravatar pengguna
       enable_local_avatars: Aktifkan Avatar khusus pengguna
       gravatar_default: Gambar Gravatar default
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject akan menggunakan Gravatar Anda jika Anda telah mendaftarkannya di %{gravatar_url}, atau gambar atau ikon bawaan jika tersedia.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: Anda dapat mengunggah avatar kustom dengan mengklik gambar tersebut. Kami menyarankan menggunakan gambar berukuran 128 × 128 piksel.

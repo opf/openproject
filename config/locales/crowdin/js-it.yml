@@ -847,9 +847,7 @@ it:
     text_user_wrote: "%{value} ha scritto:"
     text_work_packages_destroy_confirmation: Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?
     time_entry:
-      stop: Interrompi
       title: Registra l'orario effettuato
-      tracking: Monitoraggio tempi
       work_package_required: Richiede prima di selezionare una macro-attività.
     timer:
       button_stop: Interrompi il timer corrente

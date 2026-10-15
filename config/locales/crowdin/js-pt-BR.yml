@@ -847,9 +847,7 @@ pt-BR:
     text_user_wrote: "%{value} escreveu:"
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?
     time_entry:
-      stop: Parar
       title: Registro de tempo
-      tracking: Controle de tempo
       work_package_required: É necessário selecionar primeiro um pacote de trabalho.
     timer:
       button_stop: Interromper temporizador atual
