@@ -57,6 +57,7 @@ import LazyPageController from './controllers/dynamic/work-packages/activities-t
 import EditablePageHeaderTitleController from './controllers/dynamic/editable-page-header-title.controller';
 import WorkingHoursFormController from './controllers/dynamic/users/working-hours-form.controller';
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
+import PushSubscriptionController from './controllers/dynamic/my/push-subscription.controller';
 import HeaderProjectSelectController from './controllers/header-project-select.controller';
 import ResourceTimelineController from './controllers/dynamic/resource-management/resource-timeline.controller';
 import CreatedPlaceholderUserController from './controllers/dynamic/resource-management/created-placeholder-user.controller';
@@ -130,6 +131,7 @@ OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeCont
 OpenProjectStimulusApplication.preregister('editable-page-header-title', EditablePageHeaderTitleController);
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);
 OpenProjectStimulusApplication.preregister('my--daily-reminders', DailyRemindersController);
+OpenProjectStimulusApplication.preregister('my--push-subscription', PushSubscriptionController);
 OpenProjectStimulusApplication.preregister('resource-management--resource-timeline', ResourceTimelineController);
 OpenProjectStimulusApplication.preregister('resource-management--created-placeholder-user', CreatedPlaceholderUserController);
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);

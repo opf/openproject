@@ -5274,9 +5274,33 @@ en:
         title: "Project-specific notifications"
     notifications_and_email:
       tabs:
+        browser_push: "Browser push"
         email_reminders: "Email reminders"
         notifications: "Notification settings"
       title: "Notification and email"
+    push_notifications:
+      description: "Get notified on this device when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is only loaded when the notification is shown."
+      disable: "Disable on this device"
+      enable: "Enable on this device"
+      no_devices: "No device receives browser push notifications yet."
+      no_devices_description: "Enable browser push on a device and it appears here."
+      revoke: "Revoke"
+      revoke_confirm: "Stop sending push notifications to %{device}?"
+      revoke_device: "Revoke %{device}"
+      revoked: "Browser push was disabled for that device."
+      status:
+        blocked: "Notifications are blocked for this site in your browser settings."
+        disabled: "Browser push is off on this device."
+        enabled: "Browser push is enabled on this device."
+        error: "Browser push could not be changed. Please try again."
+        prompting: "Waiting for you to allow notifications in the browser prompt…"
+        subscribing: "Registering this device with your browser's push service…"
+        timeout: "Your browser did not finish registering for push in time. Check your network connection and try again."
+        unsupported: "Browser push is not available in this browser."
+      status_checking: "Checking this device…"
+      this_device: "This device"
+      title: "Browser push"
+      unavailable: "Browser push is temporarily unavailable on this instance."
 
   news:
     index:
@@ -7693,6 +7717,7 @@ en:
     sessions:
       browser: "Browser"
       browser_session: "(Browser session)"
+      browser_with_version: "%{name} (Version %{version})"
       current: "Current (this device)"
       deletion_warning: "Are you sure you want to revoke this session? You will be logged out on this device."
       device: "Device / OS"
