@@ -107,6 +107,8 @@ module MeetingSections
     end
 
     def edit_action_item(menu)
+      return unless editable?
+
       menu.with_item(label: t("label_section_rename"),
                      href: edit_project_meeting_section_path(@meeting_section.meeting.project,
                                                              @meeting_section.meeting,
@@ -115,6 +117,17 @@ module MeetingSections
                        data: { "turbo-stream": true, "test-selector": "meeting-section-edit" }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def copy_action_item(menu)
+      url = project_meeting_url(@meeting_section.meeting.project,
+                                @meeting_section.meeting,
+                                anchor: MeetingSections::ShowComponent.component_id(@meeting_section))
+      menu.with_item(label: t("meeting.copy.to_clipboard"),
+                     tag: :"clipboard-copy",
+                     content_arguments: { value: url }) do |item|
+        item.with_leading_visual_icon(icon: :paste)
       end
     end
 
