@@ -66,4 +66,26 @@ RSpec.describe "Mentioning members in a forum message", :js do
     expect(page).to have_link("Bob Member")
     expect(Message.last.content).to include(%(data-id="#{member.id}"))
   end
+
+  context "on a public forum" do
+    let(:public_project) { create(:project, public: true) }
+    let(:requester) { create(:user, firstname: "Bob", lastname: "Requester") }
+    let(:feature_request) do
+      create(:message, forum: create(:forum, project: public_project), author: requester, subject: "Feature request")
+    end
+    let(:staff) do
+      create(:user, global_permissions: %i[view_all_principals],
+                    member_with_permissions: { public_project => %i[view_messages add_messages] })
+    end
+
+    before { login_as(staff) }
+
+    it "suggests the topic's author who is not a member" do
+      Pages::Messages::Show.new(feature_request).visit!
+
+      editor.click_and_type_slowly("@Bob")
+
+      expect(page).to have_css(".mention-list-item", text: "Bob Requester")
+    end
+  end
 end

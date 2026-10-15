@@ -46,7 +46,13 @@ describe('ApiV3Paths#principals', () => {
     expect(filtersOf(url)).toContainEqual({ name: { operator: '~', values: ['al'] } });
   });
 
-  it('restricts a new post to the members of its project', () => {
+  it('restricts a new reply to the principals mentionable on its topic', () => {
+    const url = paths.principals(resource({ _type: 'Post', id: null, topic: { id: '5' }, project: { id: '3' } }), null);
+
+    expect(filtersOf(url)).toContainEqual({ mentionable_on_message: { operator: '=', values: ['5'] } });
+  });
+
+  it('restricts a new topic to the members of its project', () => {
     const url = paths.principals(resource({ _type: 'Post', id: null, project: { id: '3' } }), null);
 
     expect(filtersOf(url)).toContainEqual({ member: { operator: '=', values: ['3'] } });
