@@ -5280,6 +5280,8 @@ en:
       revoke_confirm: "Stop sending push notifications to %{device}?"
       revoke_device: "Revoke %{device}"
       revoked: "Browser push was disabled for that device."
+      signed_out: "Signed out"
+      signed_out_description: "A device that is signed out keeps browser push suspended and resumes it when you sign in there again. Revoke the device to stop it for good."
       status:
         blocked: "Notifications are blocked for this site in your browser settings."
         disabled: "Browser push is off on this device."
