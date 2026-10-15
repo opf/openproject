@@ -24,6 +24,7 @@ pt-BR:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Duração
         end_time: Hora de término
         location: Local
@@ -90,6 +91,7 @@ pt-BR:
         meeting_agenda_item:
           section_not_belong_to_meeting: A seção não pertence à mesma reunião.
           user_invalid: não é um participante válido.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: não é um participante válido.
         recurring_meeting:
@@ -318,6 +320,21 @@ pt-BR:
   label_view_meeting_series: Visualizar série de reuniões
   label_write_outcome: Gravar resultado
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: Esses arquivos anexados serão adicionados a todas as reuniões futuras usando este modelo.
       series_template: Esses arquivos anexados serão adicionados a todas as reuniões futuras da série.

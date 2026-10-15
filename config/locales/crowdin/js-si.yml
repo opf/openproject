@@ -847,9 +847,7 @@ si:
     text_user_wrote: "%{value} ලිවීය:"
     text_work_packages_destroy_confirmation: ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
     time_entry:
-      stop: Stop
       title: ලොග් වේලාව
-      tracking: ෙසොයා ගැනීෙම්
       work_package_required: පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.
     timer:
       button_stop: Stop current timer

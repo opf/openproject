@@ -847,9 +847,7 @@ el:
     text_user_wrote: "%{value} έγραψε:"
     text_work_packages_destroy_confirmation: Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;
     time_entry:
-      stop: Stop
       title: Καταγραφή χρόνου
-      tracking: Παρακολούθηση χρόνου
       work_package_required: Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.
     timer:
       button_stop: Stop current timer

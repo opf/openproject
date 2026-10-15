@@ -87,7 +87,6 @@ module My
       end
 
       def collapsed?(date) # rubocop:disable Metrics/AbcSize
-        return false if mode == :day
         return false if mode.in?(%i[week workweek]) && range.exclude?(Date.current)
         return false if mode == :month && range.exclude?(Date.current.beginning_of_week)
 
@@ -110,6 +109,12 @@ module My
         elsif date.yesterday?
           t(:label_yesterday)
         end
+      end
+
+      def collapsed_state(date)
+        return :locked if mode == :day
+
+        collapsed?(date)
       end
     end
   end

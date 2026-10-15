@@ -855,9 +855,7 @@ sl:
     text_user_wrote: "%{value} je napisal(a):"
     text_work_packages_destroy_confirmation: Ali ste prepričani, da želite izbrisati izbrane delovne pakete?
     time_entry:
-      stop: Stop
       title: Beleži čas
-      tracking: Sledenje časa
       work_package_required: Najprej izberite opravilo
     timer:
       button_stop: Stop current timer

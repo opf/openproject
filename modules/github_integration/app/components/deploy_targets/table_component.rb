@@ -29,12 +29,16 @@
 #++
 
 module DeployTargets
-  class TableComponent < ::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  class TableComponent < ::OpPrimer::BorderBoxTableComponent
     columns :host, :type, :created_at
     options :current_user
 
     def initial_sort
       %i[id asc]
+    end
+
+    def mobile_title
+      I18n.t(:label_deploy_target_plural)
     end
 
     def headers
@@ -45,6 +49,14 @@ module DeployTargets
 
     def header_options(name)
       { caption: User.human_attribute_name(name) }
+    end
+
+    def has_actions?
+      true
+    end
+
+    def sortable?
+      true
     end
   end
 end

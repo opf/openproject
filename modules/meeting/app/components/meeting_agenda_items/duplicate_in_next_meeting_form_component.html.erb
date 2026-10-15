@@ -40,7 +40,15 @@ See COPYRIGHT and LICENSE files for more details.
         datetime: @datetime
       )
     ) do |f|
-      render(Meeting::AddToSection.new(f, wrapper_id: "duplicate-in-next-meeting-dialog", occurrence: @next_occurrence, move_to_section: false))
+      render(
+        Meeting::AddToSection.new(
+          f,
+          wrapper_id: "duplicate-in-next-meeting-dialog",
+          occurrence: @next_occurrence,
+          item: @agenda_item,
+          move_to_section: false
+        )
+      )
     end
   end
 %>

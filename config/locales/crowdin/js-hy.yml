@@ -847,9 +847,7 @@ hy:
     text_user_wrote: "%{value}-ը գրել է՝"
     text_work_packages_destroy_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթ(ներ)ը։
     time_entry:
-      stop: Դադարեցնել
       title: Գրանցել ժամանակ
-      tracking: Ժամանակի հաշվառում
       work_package_required: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ։
     timer:
       button_stop: Դադարեցնել ընթացիկ ժամաչափը

@@ -126,7 +126,8 @@ import {
   ChevronDownIconComponent,
   VersionsIconComponent,
   BriefcaseIconComponent,
-  CircleSlashIconComponent
+  CircleSlashIconComponent,
+  OpIncludeProjectsIconComponent,
 } from '@openproject/octicons-angular';
 
 @NgModule({
@@ -170,6 +171,7 @@ import {
     OpGridMenuIconComponent,
     OpGroupIconComponent,
     OpHierarchyIconComponent,
+    OpIncludeProjectsIconComponent,
     OpNoHierarchyIconComponent,
     OpMarkNextcloudIconComponent,
     OpOrthographicPerspectiveIconComponent,
@@ -279,6 +281,7 @@ import {
     OpGridMenuIconComponent,
     OpGroupIconComponent,
     OpHierarchyIconComponent,
+    OpIncludeProjectsIconComponent,
     OpNoHierarchyIconComponent,
     OpMarkNextcloudIconComponent,
     OpOrthographicPerspectiveIconComponent,

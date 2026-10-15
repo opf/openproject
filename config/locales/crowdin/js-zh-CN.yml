@@ -844,9 +844,7 @@ zh-CN:
     text_user_wrote: "%{value} 写道："
     text_work_packages_destroy_confirmation: 确实要删除所选的工作包吗?
     time_entry:
-      stop: 停止
       title: 记录时间
-      tracking: 时间跟踪
       work_package_required: 需要先选择一个工作包。
     timer:
       button_stop: 停止当前计时器

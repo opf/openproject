@@ -844,9 +844,7 @@ ja:
     text_user_wrote: "%{value} が書き込みました："
     text_work_packages_destroy_confirmation: 選択したワークパッケージを削除してもよろしいですか？
     time_entry:
-      stop: ストップ
       title: 時間を記録
-      tracking: 作業時間の記録
       work_package_required: 最初にワークパッケージを選択する必要があります。
     timer:
       button_stop: 現在のタイマーを停止する

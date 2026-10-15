@@ -845,9 +845,7 @@ es:
     text_user_wrote: "%{value} escribió:"
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
     time_entry:
-      stop: Detener
       title: Registro de tiempo
-      tracking: Control de tiempo
       work_package_required: Es necesario seleccionar primero un paquete de trabajo.
     timer:
       button_stop: Detener el temporizador actual

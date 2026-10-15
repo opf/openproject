@@ -847,9 +847,7 @@ fil:
     text_user_wrote: "%{value} isinulat:"
     text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang napiling work package?
     time_entry:
-      stop: Stop
       title: Ang oras ng tala
-      tracking: Time tracking
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

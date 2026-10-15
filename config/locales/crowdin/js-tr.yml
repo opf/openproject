@@ -847,9 +847,7 @@ tr:
     text_user_wrote: "%{value} demiş ki:"
     text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?
     time_entry:
-      stop: Dur
       title: Zaman kaydet
-      tracking: Zaman takibi
       work_package_required: Önce bir iş paketi seçilmesini gerektirir.
     timer:
       button_stop: Geçerli zamanlayıcıyı durdur
