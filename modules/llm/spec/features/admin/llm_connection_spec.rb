@@ -261,5 +261,63 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
       expect(page).to be_axe_clean.within("#content")
     end
+
+    describe "semantic indexes" do
+      include Components::Autocompleter::NgSelectAutocompleteHelpers
+
+      before do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+      end
+
+      def within_semantic_index_menu(semantic_index, &)
+        find_test_selector("llm-semantic-index--menu-#{semantic_index.id}").click_link_or_button
+        within("anchored-position", &)
+      end
+
+      it "creates, edits and deletes a set" do
+        visit llm_feature_bindings_path
+
+        find_test_selector("llm-semantic-index--new-button").click
+
+        within_test_selector("llm-semantic-index-dialog") do
+          fill_in "Display name", with: "   "
+          fill_in "Context length", with: "2048"
+          fill_in "Dimensions", with: "768"
+          select_autocomplete(find_test_selector("llm-semantic-index--model"),
+                              query: "bge-m3",
+                              results_selector: "#llm-semantic-index-dialog")
+          expect(page).to be_axe_clean
+
+          click_on "Create"
+
+          expect(page).to have_text("can't be blank")
+          fill_in "Display name", with: "Nomic small"
+          click_on "Create"
+        end
+
+        expect_flash(message: "Successful creation.")
+        semantic_index = SemanticIndex.find_by!(title: "Nomic small")
+        within_test_selector("llm-semantic-index--row-#{semantic_index.id}") do
+          expect(page).to have_text("bge-m3")
+          expect(page).to have_text("Not indexed")
+        end
+
+        within_semantic_index_menu(semantic_index) { click_on "Edit" }
+        within_test_selector("llm-semantic-index-dialog") do
+          fill_in "Display name", with: "Nomic large"
+          click_on "Save"
+        end
+
+        expect_flash(message: "Successful update.")
+        expect(page).to have_test_selector("llm-semantic-index--row-#{semantic_index.id}", text: "Nomic large")
+
+        within_semantic_index_menu(semantic_index) { click_on "Delete…" }
+        within_test_selector("llm-semantic-index--delete-dialog") { click_on "Delete" }
+
+        expect_flash(message: "Successful deletion.")
+        expect(page).to have_no_test_selector("llm-semantic-index--row-#{semantic_index.id}")
+      end
+    end
   end
 end

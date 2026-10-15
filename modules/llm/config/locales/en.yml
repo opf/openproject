@@ -79,6 +79,29 @@ en:
             model_id:
               not_offered: "is not an embedding model offered by the configured LLM server."
   admin:
+    semantic_indexes:
+      box:
+        blank_description: "Create a Semantic Index to choose the model, context length and dimensions used to index work packages."
+        blank_title: "No Semantic Indexes yet"
+        caption: "Each Semantic Index describes one way of indexing work packages for semantic search."
+        new: "New Semantic Index"
+        title: "Semantic Indexes"
+      destroy:
+        description: "The Semantic Index and its settings will be removed. This cannot be undone."
+        heading: "Delete %{title}?"
+        title: "Delete Semantic Index"
+      dialog:
+        edit_title: "Edit \"%{title}\""
+        new_title: "New Semantic Index"
+      form:
+        context_token_length_caption: "Maximum number of tokens embedded per work package."
+        embedding_vector_dimensions_caption: "How many numbers each vector has."
+        model_caption: "Only models known to create embeddings are offered."
+        option_unqualified: "%{model} (no longer eligible)"
+      menu:
+        delete: "Delete…"
+      states:
+        not_indexed: "Not indexed"
     llm_connections:
       delete_api_key:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
