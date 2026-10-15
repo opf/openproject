@@ -52,7 +52,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   end
 
   shared_let(:other_project) do
-    create(:project, name: "Other project", enabled_module_names: enabled_modules)
+    create(:project, name: "Other project", identifier: "unrelated-slug", enabled_module_names: enabled_modules)
   end
 
   shared_let(:other_sub_project) do
@@ -443,6 +443,37 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
       dropdown.expect_checkbox(portfolio.id, true)
       dropdown.expect_checkbox(program.id)
       dropdown.expect_checkbox(sub_sub_sub_project.id)
+    end
+  end
+
+  it "filters projects in the list by their identifier" do
+    dropdown.expect_count 1
+    dropdown.toggle!
+    dropdown.expect_open
+
+    retry_block do
+      dropdown.search ""
+
+      dropdown.expect_checkbox(other_project.id)
+      dropdown.expect_checkbox(other_sub_project.id)
+      dropdown.expect_checkbox(other_sub_sub_project.id)
+      dropdown.expect_checkbox(another_sub_sub_project.id)
+      dropdown.expect_checkbox(portfolio.id, true)
+      dropdown.expect_checkbox(program.id, true)
+      dropdown.expect_checkbox(sub_sub_sub_project.id, true)
+    end
+
+    retry_block do
+      dropdown.search other_project.identifier
+
+      # Assert non-matching projects first to ensure the filtering was already done.
+      dropdown.expect_no_checkbox(other_sub_project.id)
+      dropdown.expect_no_checkbox(other_sub_sub_project.id)
+      dropdown.expect_no_checkbox(another_sub_sub_project.id)
+      dropdown.expect_no_checkbox(portfolio.id)
+      dropdown.expect_no_checkbox(program.id)
+      dropdown.expect_no_checkbox(sub_sub_sub_project.id)
+      dropdown.expect_checkbox(other_project.id)
     end
   end
 

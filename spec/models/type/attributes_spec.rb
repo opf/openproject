@@ -36,17 +36,14 @@ RSpec.describe Type::Attributes do
   describe ".all_work_package_form_attributes" do
     subject(:attributes) { TypeVariant.all_work_package_form_attributes }
 
-    context "when the multiple versions feature is inactive",
-            with_settings: { work_package_multiple_versions: false } do
-      it "offers the deprecated version and hides target_versions" do
-        expect(attributes).to have_key("version")
-        expect(attributes).not_to have_key("target_versions")
-      end
+    it "offers target_versions and hides the deprecated version" do
+      expect(attributes).to have_key("target_versions")
+      expect(attributes).not_to have_key("version")
     end
 
-    context "when the multiple versions feature is active",
-            with_settings: { work_package_multiple_versions: true } do
-      it "offers target_versions and hides the deprecated version" do
+    context "when the multiple versions feature is inactive",
+            with_settings: { work_package_multiple_versions: false } do
+      it "still offers target_versions and hides the deprecated version" do
         expect(attributes).to have_key("target_versions")
         expect(attributes).not_to have_key("version")
       end
@@ -54,20 +51,19 @@ RSpec.describe Type::Attributes do
   end
 
   describe ".translated_work_package_form_attributes" do
-    context "when the multiple versions feature is inactive",
-            with_settings: { work_package_multiple_versions: false } do
-      it "labels the deprecated version field" do
-        expect(TypeVariant.translated_work_package_form_attributes["version"])
-          .to eq(I18n.t("activerecord.attributes.work_package.version"))
-      end
+    it "labels the target versions field" do
+      expect(TypeVariant.translated_work_package_form_attributes["target_versions"])
+        .to eq(I18n.t("activerecord.attributes.work_package.target_versions"))
     end
+  end
 
-    context "when the multiple versions feature is active",
-            with_settings: { work_package_multiple_versions: true } do
-      it "labels the target versions field" do
-        expect(TypeVariant.translated_work_package_form_attributes["target_versions"])
-          .to eq(I18n.t("activerecord.attributes.work_package.target_versions"))
-      end
+  describe "#passes_attribute_constraint?" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, types: [type]) }
+    let(:field) { create(:work_package_custom_field) }
+
+    it "constrains a custom field by nothing but the module constraints" do
+      expect(type.default_variant.passes_attribute_constraint?(field.attribute_name, project:)).to be true
     end
   end
 end

@@ -59,7 +59,7 @@ module WorkPackageTypes
       result = sync_projects(desired_project_ids)
 
       if result.success?
-        redirect_to edit_type_projects_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
+        redirect_to edit_variant_projects_path(@variant), notice: I18n.t(:notice_successful_update)
       else
         flash.now[:error] = aggregate_refusal_message(result)
         render :edit, status: :unprocessable_entity
@@ -84,7 +84,7 @@ module WorkPackageTypes
 
       result = apply_to(projects)
 
-      close_dialog_via_turbo_stream("##{ProjectsTab::AddFormComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
       refresh_projects
 
       if result.success?
@@ -195,7 +195,7 @@ module WorkPackageTypes
     end
 
     def switch_path
-      switch_type_projects_path(**@variant.path_args, project_id: @linked_project.id)
+      switch_variant_projects_path(@variant, project_id: @linked_project.id)
     end
 
     def sync_projects(desired)
@@ -243,7 +243,7 @@ module WorkPackageTypes
 
     def on_switched(target)
       close_dialog_via_turbo_stream(
-        "##{::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}"
+        ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID
       )
       refresh_projects
       render_success_flash_message_via_turbo_stream(
@@ -302,18 +302,10 @@ module WorkPackageTypes
       scope = ::Project.order(:lft)
       return scope.to_a if filter_term.blank?
 
-      matching = scope.where("LOWER(projects.name) LIKE LOWER(?)", "%#{sanitized_filter_term}%")
-      (matching.to_a + ancestors_of(matching)).uniq(&:id).sort_by(&:lft)
-    end
-
-    def ancestors_of(projects)
-      return [] if projects.empty?
-
-      ::Project.where(
-        "EXISTS (SELECT 1 FROM projects descendants WHERE descendants.id IN (:ids) " \
-        "AND projects.lft < descendants.lft AND projects.rgt > descendants.rgt)",
-        ids: projects.map(&:id)
-      ).to_a
+      matching = Queries::Projects::Filters::NameAndIdentifierFilter
+                   .create!(operator: "~", values: [sanitized_filter_term])
+                   .apply_to(scope)
+      scope.self_and_ancestors_of(matching).to_a
     end
 
     def filter_term = params[:query].to_s.strip

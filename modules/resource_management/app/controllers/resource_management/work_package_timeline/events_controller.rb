@@ -38,6 +38,7 @@ module ResourceManagement
 
       def index # rubocop:disable Metrics/AbcSize
         allocations = allocations_by_work_package.values.flatten
+        preload_principal_custom_values(allocations)
         overbooked = ResourceAllocation.overbooked_ids(allocations)
         visible = ResourceAllocation.visible_principal_ids(allocations, current_user)
         candidates = ResourceAllocation.candidate_counts(allocations, project: @project)
@@ -64,15 +65,22 @@ module ResourceManagement
       private
 
       def edit_url_for(allocation)
-        return unless may_allocate?
+        return unless may_allocate?(allocation)
 
-        edit_project_resource_allocation_path(@project, allocation)
+        edit_allocation_path(@project, allocation)
       end
 
-      def may_allocate?
-        return @may_allocate if defined?(@may_allocate)
+      # The permission lives on the allocation's own project, which on a global
+      # planner differs from bar to bar.
+      def may_allocate?(allocation)
+        allocation_project = allocation.project
+        return false if allocation_project.nil?
 
-        @may_allocate = current_user.allowed_in_project?(:allocate_user_resources, @project)
+        @may_allocate ||= {}
+        @may_allocate.fetch(allocation_project.id) do
+          @may_allocate[allocation_project.id] =
+            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
+        end
       end
 
       # One background event per work package spanning the days it is active,
@@ -138,6 +146,13 @@ module ResourceManagement
         ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
           .new(allocation:, visible_principal_ids:, candidate_count:)
           .render_in(view_context)
+      end
+
+      def preload_principal_custom_values(allocations)
+        ActiveRecord::Associations::Preloader
+          .new(records: allocations.filter_map(&:principal).uniq,
+               associations: [{ custom_values: :custom_field }])
+          .call
       end
     end
   end

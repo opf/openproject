@@ -32,35 +32,27 @@ module WorkPackageTypes
   module ConfigurationLinks
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       DIALOG_ID = "configuration-link-confirm-dialog"
 
-      def initialize(variant:, aspect:, source:)
+      def initialize(variant:, aspect:)
         super()
 
         @variant = variant
         @aspect = aspect
-        @source = source
       end
 
       private
 
-      attr_reader :variant, :aspect, :source
+      attr_reader :variant, :aspect
 
-      def changing_source?
-        variant.linked?(aspect)
-      end
+      def title = t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.title")
 
-      def title
-        if changing_source?
-          t("types.edit.reuse_mode.linked.confirm_dialog.change_source.title")
-        else
-          t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.title")
-        end
-      end
+      def heading = t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
 
       def switch_path
-        type_configuration_link_switch_path(**variant.path_args, aspect:)
+        variant_configuration_link_switch_path(helpers.variant_scope_project, variant, aspect)
       end
     end
   end

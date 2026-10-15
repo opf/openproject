@@ -78,9 +78,18 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     end
 
     context "with a version that no longer exists" do
-      it "renders only the existing version names" do
+      it "keeps a placeholder in the deleted version's position" do
         expect(instance.render(:target_versions, [nil, "#{version.id},99999"]))
-          .to eq(I18n.t(:text_journal_set_to, label:, value: "<i>Alpha</i>"))
+          .to eq(I18n.t(:text_journal_set_to, label:, value: "<i>Alpha, (deleted version)</i>"))
+      end
+
+      it "still shows the change when only the deleted version was removed" do
+        expect(instance.render(:target_versions, ["#{version.id},99999", version.id.to_s]))
+          .to eq(I18n.t(:text_journal_changed_plain,
+                        label:,
+                        linebreak: nil,
+                        old: "<i>Alpha, (deleted version)</i>",
+                        new: "<i>Alpha</i>"))
       end
     end
 

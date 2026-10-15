@@ -10,10 +10,10 @@ keywords: wiki, documentation
 
 OpenProject offers two different ways to work with project documentation:
 
-- **Internal wiki** – the built-in OpenProject wiki described on this page.
+- **Project wiki** – the built-in OpenProject wiki described on this page.
 - **External wiki providers** – integrations with external documentation platforms, including **XWiki**.
 
-This page explains how to use the **internal OpenProject wiki**.
+This page explains how to use the **OpenProject wiki**.
 
 If you want to connect an external documentation platform such as XWiki to your projects, see the documentation on **[external wiki providers setup](../../system-admin-guide/wikis/wiki-providers)**.
 
@@ -31,9 +31,9 @@ For organizations that prefer to manage documentation outside of OpenProject, ex
 | [Wiki navigation](wiki-navigation/) | Navigate and organize wiki pages within a project. |
 | [Wiki FAQ](wiki-faq/) | Frequently asked questions about the wiki. |
 
-## Enable internal wiki
+## Enable project wiki
 
-The internal wiki can be enabled for each project individually.
+The project wiki can be enabled for each project individually.
 
 To use the internal wiki, it must first be [enabled on your OpenProject instance](../../system-admin-guide/wikis/wiki-providers) and then **enabled for the project** under the [project settings](../projects/project-settings/project-wiki).
 
@@ -61,9 +61,11 @@ The wiki includes additional features that are only available when editing wiki 
 
 Click **+ Insert** in the toolbar to access the following wiki-specific macros:
 
-- **List of sub-pages** – inserts a hierarchical list of all child pages.
+- **List of sub-pages** – inserts a hierarchical list of all child pages. This macro is only available when editing wiki pages.
 - **Existing wiki page** – inserts a link to an existing wiki page.
 - **New wiki page** – creates and inserts a link to a new wiki page.
+
+The **Existing wiki page** and **New wiki page** macros are also available in other rich text editors in OpenProject, including meeting descriptions and outcomes, comments, and custom fields of type **Text**.
 
 ![Wiki specific macros in a CKeditor on a wiki page in OpenProject](openproject_user_guide_wiki_macros.png)
 

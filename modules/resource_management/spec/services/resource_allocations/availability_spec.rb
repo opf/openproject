@@ -121,6 +121,15 @@ RSpec.describe ResourceAllocations::Availability do
       expect(scheduled_minutes).to eq(960)
       expect(schedule.capacity_on(monday)).to eq(480)
     end
+
+    it "dates each entry with the day it is placed on" do
+      allocate(960, start_date: monday, end_date: tuesday)
+
+      schedule = availability.optimal_schedule
+
+      expect(schedule.entries_on(monday).map(&:allocated_on)).to eq([monday])
+      expect(schedule.entries_on(tuesday).map(&:allocated_on)).to eq([tuesday])
+    end
   end
 
   describe "#fits?" do
@@ -211,6 +220,38 @@ RSpec.describe ResourceAllocations::Availability do
       other = described_class.new(user: create(:user))
 
       expect(other.working_schedules(monday..friday)).to be_empty
+    end
+  end
+
+  describe "#unscheduled_range" do
+    it "is nil when a schedule covers the whole range" do
+      expect(availability.unscheduled_range(monday..friday)).to be_nil
+    end
+
+    it "is the whole range when the user has no working time configured" do
+      other = described_class.new(user: create(:user))
+
+      expect(other.unscheduled_range(monday..friday)).to eq(monday..friday)
+    end
+
+    it "is the stretch before the earliest schedule takes effect" do
+      newcomer = create(:user)
+      create(:user_working_hours, user: newcomer, valid_from: tuesday)
+
+      expect(described_class.new(user: newcomer).unscheduled_range(monday..friday)).to eq(monday..monday)
+    end
+
+    it "is the whole range when the earliest schedule only takes effect after it" do
+      newcomer = create(:user)
+      create(:user_working_hours, user: newcomer, valid_from: Date.new(2027, 1, 1))
+
+      expect(described_class.new(user: newcomer).unscheduled_range(monday..friday)).to eq(monday..friday)
+    end
+
+    it "ignores later schedule changes within the range" do
+      create(:user_working_hours, user:, valid_from: tuesday)
+
+      expect(availability.unscheduled_range(monday..friday)).to be_nil
     end
   end
 

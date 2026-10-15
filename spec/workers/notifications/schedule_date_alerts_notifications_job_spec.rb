@@ -32,7 +32,6 @@ require "spec_helper"
 
 RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob,
                type: :job,
-               with_ee: %i[date_alerts],
                with_good_job_batches: [Notifications::CreateDateAlertsNotificationsJob] do
   shared_let(:project) { create(:project, name: "main") }
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
@@ -170,14 +169,6 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob,
         let(:cron_at) { "1:00" }
         let(:local_time) { "1:04" }
         let(:user) { user_kathmandu }
-      end
-    end
-
-    context "without enterprise token", with_ee: false do
-      it_behaves_like "job execution creates no date alerts creation job" do
-        let(:timezone) { timezone_paris }
-        let(:cron_at) { "1:00" }
-        let(:local_time) { "1:04" }
       end
     end
 

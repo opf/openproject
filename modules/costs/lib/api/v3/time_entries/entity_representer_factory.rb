@@ -78,6 +78,10 @@ module API
           ->(*) {
             entity = represented.send(name)
 
+            # entity_id can reference a record that no longer exists, e.g. when a form request
+            # links a deleted work package.
+            next { href: nil } unless entity
+
             unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(entity, current_user)
               next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
             end
@@ -138,7 +142,9 @@ module API
               represented.public_send("#{name}_id=", result[:id])
               represented.public_send("#{name}_type=", "Meeting")
             when "work_packages"
-              represented.public_send("#{name}_id=", result[:id])
+              id = WorkPackage.find_by_display_id(result[:id])&.id if WorkPackage::SemanticIdentifier.semantic_id?(result[:id])
+              id ||= result[:id]
+              represented.public_send("#{name}_id=", id)
               represented.public_send("#{name}_type=", "WorkPackage")
             else
               # TODO: Handle error if unexpected object

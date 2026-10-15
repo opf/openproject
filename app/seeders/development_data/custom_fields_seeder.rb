@@ -39,26 +39,19 @@ module DevelopmentData
     end
 
     def all_cfs
-      %w(string text date list multilist int intrange float bool user version)
+      %w(string text date datetime list multilist int intrange float floatrange bool user version)
     end
 
     def create_types!(cfs)
-      # Create ALL CFs types
-      non_req_cfs = cfs.reject(&:is_required).map(&:attribute_name)
-      type = FactoryBot.create :type, name: "All CFS"
-      extend_group(type, ["Custom fields", non_req_cfs])
-
-      # Create type
-      req_cfs = cfs.select(&:is_required).map(&:attribute_name)
-      type_req = FactoryBot.create :type, name: "Required CF"
-      extend_group(type_req, ["Custom fields", req_cfs])
+      extend_group(FactoryBot.create(:type, name: "All CFS"), cfs.reject(&:is_required))
+      extend_group(FactoryBot.create(:type, name: "Required CF"), cfs.select(&:is_required))
     end
 
     def create_cfs!
       cfs = []
 
       # create some custom fields and add them to the project
-      (all_cfs - %w(list multilist intrange)).each do |type|
+      (all_cfs - %w(list multilist intrange floatrange)).each do |type|
         cfs << CustomField.create!(name: "CF DEV #{type}",
                                    type: "WorkPackageCustomField",
                                    is_required: false,
@@ -85,17 +78,27 @@ module DevelopmentData
 
       cfs << CustomField.create!(name: "CF DEV intrange",
                                  type: "WorkPackageCustomField",
-                                 min_length: 2,
-                                 max_length: 5,
+                                 min_value: 10,
+                                 max_value: 99999,
                                  field_format: "int")
+
+      cfs << CustomField.create!(name: "CF DEV floatrange",
+                                 type: "WorkPackageCustomField",
+                                 min_value: -1.5,
+                                 max_value: 10.25,
+                                 field_format: "float")
 
       cfs
     end
 
-    def extend_group(type, group)
+    # A group only names attributes; the fields also have to be on the form configuration, which
+    # is what decides whether a work package offers them.
+    def extend_group(type, custom_fields)
       variant = type.default_variant
+      variant.custom_fields += custom_fields
+
       groups = variant.send(:custom_attribute_groups) || variant.default_attribute_groups
-      groups << group
+      groups << ["Custom fields", custom_fields.map(&:attribute_name)]
       variant.attribute_groups = groups
       variant.save!
     end

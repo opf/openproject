@@ -114,12 +114,8 @@ module Users
         end
       end
 
-      # Maps Setting.start_of_week to FullCalendar's firstDay convention.
-      # Setting: nil=locale default, 1=Monday, 6=Saturday, 7=Sunday
-      # FullCalendar firstDay: 0=Sunday, 1=Monday, ..., 6=Saturday
-      # Nil defaults to 1 (Monday) to match Rails/OpenProject convention.
       def first_day_of_week
-        (Setting.start_of_week || 1) % 7
+        OpenProject::Internationalization::Date.first_day_of_week_index
       end
     end
   end

@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::ExportConfigurationComponent, type: :component do
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
 

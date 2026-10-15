@@ -28,16 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% OpenProject::Plugins::AuthPlugin.providers.each do |provider| %>
-  <%
-    opts = { script_name: OpenProject::Configuration.rails_relative_url_root }
-
-    if params["back_url"]
-      opts[:origin] = params["back_url"]
-    end
-  %>
-  <a
-    href="<%= omni_auth_start_path(provider[:name], opts) %>"
-    class="auth-provider auth-provider-<%= provider[:name] %> <%= provider[:icon] ? "auth-provider--imaged" : "" %> button">
-    <span class="auth-provider-name"><%= provider[:display_name] || provider[:name] %></span>
-  </a>
+  <%= omniauth_provider_button(
+        provider[:name],
+        display_name: provider[:display_name],
+        icon: provider[:icon].present?
+      ) %>
 <% end %>

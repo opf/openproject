@@ -59,6 +59,7 @@ module Queries::WorkPackages
     filter Filter::UpdatedAtFilter
     filter Filter::VersionFilter
     filter Filter::TargetVersionsFilter
+    filter Filter::ObservedInVersionsFilter
     filter Filter::WatcherFilter
     filter Filter::DatesIntervalFilter
     filter Filter::ParentFilter
@@ -83,6 +84,7 @@ module Queries::WorkPackages
     filter Filter::MilestoneFilter
     filter Filter::TypeaheadFilter
     filter Filter::DurationFilter
+    filter Filter::LabelsFilter
     exclude Filter::RelatableFilter
 
     select Selects::PropertySelect

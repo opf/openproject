@@ -45,9 +45,9 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
 
   def where
     if filtering_for_true?
-      "type_id IN (#{milestone_subselect})"
+      "#{WorkPackage.table_name}.type_id IN (#{milestone_subselect})"
     else
-      "type_id NOT IN (#{milestone_subselect})"
+      "#{WorkPackage.table_name}.type_id NOT IN (#{milestone_subselect})"
     end
   end
 

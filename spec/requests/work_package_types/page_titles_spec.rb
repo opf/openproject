@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Work package type tab page titles",
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -43,7 +42,8 @@ RSpec.describe "Work package type tab page titles",
     response.parsed_body.at_css("title")&.text
   end
 
-  def tab_paths(args)
+  def type_tab_paths
+    args = { type_id: type.id }
     {
       details: edit_type_details_path(**args),
       form_configuration: edit_type_form_configuration_path(**args),
@@ -55,8 +55,21 @@ RSpec.describe "Work package type tab page titles",
     }
   end
 
+  def variant_tab_paths
+    args = { type_id: type.id, variant_id: variant.id }
+    {
+      details: edit_type_variant_details_path(**args),
+      form_configuration: edit_type_variant_form_configuration_path(**args),
+      defaults: edit_type_variant_defaults_path(**args),
+      projects: edit_type_variant_projects_path(**args),
+      project_attributes: edit_type_variant_project_attributes_path(**args),
+      workflow: edit_type_variant_workflow_path(**args),
+      pdf_export: edit_type_variant_pdf_export_template_index_path(**args)
+    }
+  end
+
   it "names the variant on every tab", :aggregate_failures do
-    tab_paths(variant.path_args).each do |tab, path|
+    variant_tab_paths.each do |tab, path|
       get path
 
       expect(page_title).to include("Bug: Hardware"), "expected the #{tab} tab title to name the variant"
@@ -64,7 +77,7 @@ RSpec.describe "Work package type tab page titles",
   end
 
   it "names the type on the tabs of its base variant", :aggregate_failures do
-    tab_paths(type.default_variant.path_args).each do |tab, path|
+    type_tab_paths.each do |tab, path|
       get path
 
       expect(page_title).to include("Bug"), "expected the #{tab} tab title to name the type"

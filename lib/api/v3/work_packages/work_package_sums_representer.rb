@@ -5,7 +5,6 @@ module API
     module WorkPackages
       class WorkPackageSumsRepresenter < ::API::Decorators::Single
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
-        include ActionView::Helpers::NumberHelper
         include ::API::Decorators::DateProperty
 
         custom_field_injector(injector_class: ::API::V3::Utilities::CustomFieldSumInjector)
@@ -41,24 +40,6 @@ module API
                  getter: ->(*) {
                    datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                  allow_nil: true)
-                 }
-
-        property :overall_costs,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   number_to_currency(represented.overall_costs)
-                 }
-
-        property :labor_costs,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   number_to_currency(represented.labor_costs)
-                 }
-
-        property :material_costs,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   number_to_currency(represented.material_costs)
                  }
       end
     end

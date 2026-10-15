@@ -62,7 +62,8 @@ class Queries::WorkPackages::Filter::TypeaheadFilter <
   end
 
   def subject_condition(string)
-    Queries::Operators::Contains.sql_for_field([string], WorkPackage.table_name, "subject")
+    "#{WorkPackage.table_name}.id IN (SELECT id FROM #{WorkPackage.table_name} " \
+      "WHERE #{Queries::Operators::Contains.sql_for_field([string], WorkPackage.table_name, 'subject')})"
   end
 
   def project_name_condition(string)

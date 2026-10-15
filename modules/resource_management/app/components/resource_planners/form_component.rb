@@ -33,6 +33,7 @@ module ResourcePlanners
     include ApplicationHelper
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     def initialize(resource_planner:, project:, base_errors: nil,
                    form_id: NewDialogComponent::FORM_ID,
@@ -55,11 +56,11 @@ module ResourcePlanners
     private
 
     def form_url
-      @url || project_resource_planners_path(@project)
+      @url || planners_path(@project)
     end
 
     def can_manage_public?
-      User.current.allowed_in_project?(:manage_public_resource_planners, @project)
+      ResourcePlanner.public_manageable_by?(User.current, @project)
     end
   end
 end

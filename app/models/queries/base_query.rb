@@ -41,7 +41,7 @@ module Queries::BaseQuery
 
     validate :filters_valid,
              :sortation_valid
-    validate :group_by_valid, if: -> { respond_to?(:group_by) }
+    validate :group_bys_valid, if: -> { respond_to?(:group_bys) }
   end
 
   class_methods do
@@ -72,15 +72,20 @@ module Queries::BaseQuery
   end
 
   def groups
-    return nil if group_by.nil?
+    return nil if group_bys.empty?
     return empty_scope unless valid?
 
     apply_group_by(apply_filters(default_scope))
-      .select(group_by.name, Arel.sql("COUNT(*)"))
+      .select(*group_by_names, Arel.sql("COUNT(*)"))
   end
 
+  # Keys are the plain value when grouping by a single attribute, and an array
+  # of values - one per group by - when grouping by several.
   def group_values
-    groups_hash = groups.pluck(group_by.name, Arel.sql("COUNT(*)")).to_h
+    groups_hash = groups.pluck(*group_by_names, Arel.sql("COUNT(*)")).to_h do |*values, count|
+      [group_bys.one? ? values.first : values, count]
+    end
+
     instantiate_group_keys groups_hash
   end
 
@@ -123,8 +128,8 @@ module Queries::BaseQuery
     self
   end
 
-  def group(attribute)
-    self.group_by = group_by_for(attribute)
+  def group(*attributes)
+    self.group_bys = attributes.map { |attribute| group_by_for(attribute) }
 
     self
   end
@@ -163,10 +168,12 @@ module Queries::BaseQuery
     end
   end
 
-  def group_by_valid
-    return if group_by.nil? || group_by.valid?
+  def group_bys_valid
+    group_bys.each do |group_by|
+      next if group_by.valid?
 
-    add_error(:group_by, group_by.name, group_by)
+      add_error(:group_bys, group_by.name, group_by)
+    end
   end
 
   def add_error(local_attribute, attribute_name, object)
@@ -215,30 +222,42 @@ module Queries::BaseQuery
   end
 
   def apply_group_by(query_scope)
-    return query_scope if group_by.nil?
+    return query_scope if group_bys.empty?
 
-    group_by.apply_to(query_scope)
-      .order(group_by.name)
+    group_bys
+      .inject(query_scope) { |scope, group_by| group_by.apply_to(scope) }
+      .order(*group_by_names)
+  end
+
+  def group_by_names
+    group_bys.map(&:name)
   end
 
   def build_orders
-    return orders if !respond_to?(:group_by) || group_by.nil? || has_group_by_order?
+    return orders unless respond_to?(:group_bys)
 
-    [group_by_order] + orders
+    group_by_orders + orders
   end
 
-  def has_group_by_order?
-    !!group_by && orders.detect { |order| order.class.key == group_by.order_key }
+  def group_by_orders
+    group_bys
+      .reject { |group_by| ordered_by?(group_by) }
+      .map { |group_by| group_by_order(group_by) }
   end
 
-  def group_by_order
+  def ordered_by?(group_by)
+    orders.any? { |order| order.class.key == group_by.order_key }
+  end
+
+  def group_by_order(group_by)
     order_for(group_by.order_key).tap do |order|
       order.direction = :asc
     end
   end
 
   def instantiate_group_keys(groups)
-    return groups unless group_by&.association_class
+    group_by = group_bys.first
+    return groups unless group_bys.one? && group_by.association_class
 
     ar_keys = group_by.association_class.where(id: groups.keys.compact)
 

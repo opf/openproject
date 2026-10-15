@@ -1,7 +1,7 @@
 ---
 fr:
   plugin_openproject_recaptcha:
-    description: Ce module fournit des vérifications de ReCaptcha au moment de la connexion.
+    description: Ce module ajoute des vérifications ReCaptcha lors de la connexion.
     name: ReCaptcha OpenProject
   recaptcha:
     button_please_wait: Veuillez patienter ...

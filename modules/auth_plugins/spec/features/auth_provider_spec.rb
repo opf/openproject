@@ -46,8 +46,7 @@ RSpec.describe "rendering the login buttons", :js do
       visit project_path(public_project)
 
       click_link_or_button "Sign in"
-      item = page.find("a.auth-provider", text: "mock_auth")
-      expect(item[:href]).to end_with "/auth/mock_auth"
+      expect(page).to have_link("mock_auth", href: %r{/login/omniauth/mock_auth})
     end
   end
 end

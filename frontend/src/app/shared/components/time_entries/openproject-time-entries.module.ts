@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,7 +33,6 @@ import {
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { CommonModule } from '@angular/common';
-import { TimerAccountMenuComponent } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 import {
   StopExistingTimerModalComponent,
 } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
@@ -48,7 +46,6 @@ import {
   ],
   declarations: [
     TriggerActionsEntryComponent,
-    TimerAccountMenuComponent,
     StopExistingTimerModalComponent,
   ],
   providers: [

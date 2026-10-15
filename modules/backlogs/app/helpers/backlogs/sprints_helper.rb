@@ -32,7 +32,7 @@ module Backlogs
   module SprintsHelper
     # Returns the appropriate path for a sprint based on its status, or nil if no link applies.
     def href_for_sprint(sprint, project)
-      if sprint.active? && sprint_board.present?
+      if sprint.active? && sprint_board(sprint, project).present?
         project_backlogs_sprint_taskboard_path(project, sprint)
       elsif sprint.in_planning?
         project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
@@ -43,21 +43,23 @@ module Backlogs
 
     private
 
-    def sprint_board
+    def sprint_board(sprint, project)
       @sprint_board ||= sprint.task_board_for(project)
     end
 
-    def sprint_work_packages_path(sprint, project)
+    def sprint_work_packages_path(sprint, project, extra_filters: [], timestamps: nil)
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)
 
-      project_work_packages_path(
-        project,
-        query_props: {
-          f: [{ n: "sprintId", o: "=", v: [sprint.id.to_s] }],
-          t: "position:asc",
-          c: default_columns | ["sprint"]
-        }.to_json
-      )
+      query_props = {
+        f: [{ n: "sprintId", o: "=", v: [sprint.id.to_s] }] + extra_filters,
+        t: "position:asc",
+        c: default_columns | ["sprint"]
+      }
+      if timestamps.present?
+        query_props[:ts] = API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
+      end
+
+      project_work_packages_path(project, query_props: query_props.to_json)
     end
   end
 end

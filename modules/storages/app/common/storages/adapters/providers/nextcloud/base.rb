@@ -89,14 +89,18 @@ module Storages
             Failure(error.with(code: :invalid_response, payload: response))
           end
 
-          # Validates the OCS Meta Statuscode for fatal errors (i.e. unexpected server-side errors). Client-side errors,
-          # such as a 404 File Not Found do not cause an error.
+          # Validates the OCS Meta Statuscode for errors. In most circumstances we expect this one to be a success,
+          # because many of the more detailed status check are performed on the ocs.data.statuscode, which is only reliably
+          # available if the meta status indicated a success.
           # @return [Dry::Result]
           def fail_on_ocs_error(json, error)
-            if json_fetch(json, :ocs, :meta, :statuscode) < 500
+            case json_fetch(json, :ocs, :meta, :statuscode)
+            when 100, 200
               Success(json)
+            when 404
+              Failure(error.with(code: :not_found))
             else
-              Failure(error.with(code: :error))
+              Failure(error.with(code: :error, payload: json.dig(:ocs, :meta, :message)))
             end
           end
 

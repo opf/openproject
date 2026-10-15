@@ -4,12 +4,15 @@ ar:
   avatar_deleted: الصورة الرمزية حذفت بنجاح.
   avatars:
     label_avatar: الصورة الرمزية
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: الصورة الرمزية المخصصة
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: 'تفعيل مستخدم gravatars '
       enable_local_avatars: تفعيل مستخدم الصورة الرمزية المخصصة
       gravatar_default: الصورة الافتراضية Gravatar
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: يستخدم OpenProject صورة Gravatar الخاصة بك إذا كنت قد سجلت واحدة على %{gravatar_url}، أو صورة أو أيقونة افتراضية إن وجدت.
     text_avatar_local: يمكنك أيضًا تحميل صورة رمزية مخصصة لتحل محل صورة Gravatar بالنقر على الصورة. نوصي باستخدام صورة بحجم 128 × 128 بكسل.
     text_avatar_local_only: يمكنك تحميل صورة رمزية مخصصة بالنقر على الصورة. نوصي باستخدام صورة بحجم 128 × 128 بكسل.

@@ -248,8 +248,8 @@ module OpenProject
         Manager.scope_config(scope).realm || default_realm
       end
 
-      def response_header(scope: nil, error: nil, error_description: nil)
-        header = %{Bearer realm="#{scope_realm(scope)}", resource_metadata="#{resource_metadata}"}
+      def response_header(env:, scope: nil, error: nil, error_description: nil)
+        header = %{Bearer realm="#{scope_realm(scope)}", resource_metadata="#{resource_metadata(env)}"}
         header << %{, scope="#{escape_string scope}"} if scope
 
         if error
@@ -264,8 +264,15 @@ module OpenProject
         string.to_s.dump[1..-2]
       end
 
-      def resource_metadata
-        OpenProject::StaticRouting::StaticRouter.new.url_helpers.protected_resource_metadata_url
+      def resource_metadata(env)
+        request = ActionDispatch::Request.new(env)
+        url_helpers = OpenProject::StaticRouting::StaticRouter.new.url_helpers
+
+        url_helpers.protected_resource_metadata_url(
+          host: request.host,
+          protocol: request.protocol,
+          port: request.optional_port
+        )
       end
     end
 

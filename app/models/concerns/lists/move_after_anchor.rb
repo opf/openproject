@@ -33,18 +33,22 @@ module Lists
   # directly below another record of the same list, addressed by id.
   module MoveAfterAnchor
     # Moves the record below the record identified by `prev_id` within
-    # `scope` (a relation over the same acts_as_list list). A blank
-    # `prev_id` moves the record to the top.
+    # `scope` (a relation over the same acts_as_list list). `nil` or an
+    # empty string moves the record to the top; otherwise `prev_id` must
+    # be a positive Integer or its canonical decimal String.
     #
-    # Returns false without mutating when the anchor is unknown, outside
-    # the scope, or the record itself.
+    # Returns false without mutating for any other `prev_id`, or when the
+    # anchor is unknown, outside the scope, or the record itself.
     def move_after_anchor(prev_id, scope:) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
-      if prev_id.blank?
+      if prev_id.nil? || prev_id == ""
         move_to_top
         return true
       end
 
-      anchor = scope.find_by(id: prev_id)
+      anchor_id = anchor_id_from(prev_id)
+      return false if anchor_id.nil?
+
+      anchor = scope.find_by(id: anchor_id)
       return false if anchor.nil? || anchor.id == id
 
       # Removing the record first shifts the anchor up by one when the
@@ -52,6 +56,15 @@ module Lists
       # direction of travel.
       insert_at(position > anchor.position ? anchor.position + 1 : anchor.position)
       true
+    end
+
+    private
+
+    def anchor_id_from(prev_id)
+      case prev_id
+      when Integer then prev_id if prev_id.positive?
+      when /\A[1-9]\d*\z/ then prev_id.to_i
+      end
     end
   end
 end

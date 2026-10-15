@@ -41,8 +41,8 @@ module McpTools
       required: %w[id data],
       properties: {
         id: {
-          type: :number,
-          description: "The ID of the work package that shall be updated."
+          type: %w[string number],
+          description: "The identifier of the work package that shall be updated."
         },
         data: {
           type: %w[object],
@@ -66,23 +66,27 @@ module McpTools
     )
 
     def call(id:, data:)
-      work_package = WorkPackage.visible(current_user).find_by(id:)
-      return { error: "The given work package could not be found." } if work_package.nil?
+      work_package = WorkPackage.visible(current_user).find_by_display_id(id)
+      return Failure("The given work package could not be found.") if work_package.nil?
 
-      attributes = parse_work_package(data).on_failure { |result| return { error: result.message } }.result
+      attributes = parse_work_package(data).on_failure { |result| return Failure(result.message) }.result
       result = WorkPackages::UpdateService.new(user: current_user, model: work_package).call(**attributes)
 
-      if result.success?
-        API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:)
-      else
-        { error: result.message }
-      end
+      format_result(result)
     end
 
     private
 
     def parse_work_package(data)
       ::API::V3::WorkPackages::ParseParamsService.new(current_user, model: WorkPackage).call(data.deep_stringify_keys)
+    end
+
+    def format_result(result)
+      if result.success?
+        Success(API::V3::WorkPackages::WorkPackageRepresenter.create(result.result, current_user:))
+      else
+        Failure(result.message)
+      end
     end
   end
 end

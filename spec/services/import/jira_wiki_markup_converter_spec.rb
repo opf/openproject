@@ -177,6 +177,24 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       it { is_expected.to eq("```\n// comment\n```") }
     end
 
+    context "with an empty language specifier" do
+      let(:input) { "{code:}\n// comment\n{code}" }
+
+      it { is_expected.to eq("```\n// comment\n```") }
+    end
+
+    context "with an empty language specifier and content on the opening line" do
+      let(:input) { "{code:}// comment\n{code}" }
+
+      it { is_expected.to eq("```\n// comment\n```") }
+    end
+
+    context "with a header consisting only of separators" do
+      let(:input) { "See {code:||}// comment{code} above" }
+
+      it { is_expected.to eq("See ```\n// comment\n``` above") }
+    end
+
     context "when code block content is protected from other conversions" do
       let(:input) { "{code}\n*bold* and _italic_\n{code}" }
 
@@ -390,6 +408,32 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "with an empty bq. line" do
+      let(:input) { "bq. " }
+
+      it "renders nothing rather than a bare quote marker" do
+        expect(result).to eq("")
+      end
+    end
+
+    context "with an empty bq. line between paragraphs" do
+      let(:input) { "before\nbq. \nafter" }
+
+      it { is_expected.to eq("before\n\nafter") }
+    end
+
+    context "with an empty {quote} block" do
+      let(:input) { "{quote}\n{quote}" }
+
+      it { is_expected.to eq("") }
+    end
+
+    context "with an empty {quote} inside a line" do
+      let(:input) { "a {quote}{quote} b" }
+
+      it { is_expected.to eq("a\n\nb") }
+    end
+
     context "with {quote} block" do
       let(:input) { "{quote}\nLine one\nLine two\n{quote}" }
 
@@ -411,6 +455,62 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
       it "adds a blank line after the quote so the link is not inside the quote" do
         expect(result).to eq("`This is preformatted`\n> This is a paragraph quote\n\nAnd\n> This is a block quote\n\n\n")
+      end
+    end
+
+    context "with content on the opening {quote} line spanning several lines" do
+      let(:input) { "{quote}Line one\nLine two\n{quote}" }
+
+      it "quotes every line instead of leaking the opening tag" do
+        expect(result).to eq("> Line one\n> Line two\n")
+      end
+    end
+
+    context "with a closing {quote} trailing the last quoted line" do
+      let(:input) { "{quote}\nLine one\nLine two{quote}" }
+
+      it { is_expected.to eq("> Line one\n> Line two\n") }
+    end
+
+    context "with an unterminated {quote} carrying content on the opening line" do
+      let(:input) { "{quote}Line one\nLine two" }
+
+      it { is_expected.to eq("> Line one\n> Line two\n") }
+    end
+
+    context "with content after a {quote} opened on the same line" do
+      let(:input) { "{quote}Line one\nLine two\n{quote}\nAfterwards" }
+
+      it "ends the quote at the closing tag" do
+        expect(result).to eq("> Line one\n> Line two\n\nAfterwards")
+      end
+    end
+
+    context "with a {quote} opened and closed inside a line of text" do
+      let(:input) { "see {quote}first{quote} here" }
+
+      it "breaks the paragraph around the quote" do
+        expect(result).to eq("see\n> first\n\nhere")
+      end
+    end
+
+    context "with a {quote} opened and closed on a line of its own" do
+      let(:input) { "{quote}first{quote}" }
+
+      it { is_expected.to eq("> first\n") }
+    end
+
+    context "with several {quote} macros on one line" do
+      let(:input) { "a {quote}one{quote} b {quote}two{quote} c" }
+
+      it { is_expected.to eq("a\n> one\n\nb\n> two\n\nc") }
+    end
+
+    context "with a {quote} inside a heading" do
+      let(:input) { "h1. see {quote}first{quote} here" }
+
+      it "keeps the quoted text, since a heading cannot hold a block quote" do
+        expect(result).to eq("# see first here")
       end
     end
   end
@@ -554,6 +654,26 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
     context "without title" do
       let(:input) { "{panel}\nPanel content\n{panel}" }
+
+      it { is_expected.to eq("Panel content") }
+    end
+
+    context "with an empty title" do
+      let(:input) { "{panel:title=}\nPanel content\n{panel}" }
+
+      it "omits the title rather than emitting bare emphasis" do
+        expect(result).to eq("Panel content")
+      end
+    end
+
+    context "with a blank title" do
+      let(:input) { "{panel:title= }\nPanel content\n{panel}" }
+
+      it { is_expected.to eq("Panel content") }
+    end
+
+    context "with an empty title and content on the opening line" do
+      let(:input) { "{panel:title=}Panel content{panel}" }
 
       it { is_expected.to eq("Panel content") }
     end

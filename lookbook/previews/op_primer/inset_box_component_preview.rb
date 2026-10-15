@@ -41,13 +41,15 @@ module OpPrimer
     # @param scheme [Symbol] select [default, info, warning, danger, success]
     # @param title [String]
     # @param title_icon [Symbol] select [none, info, alert, stop, check-circle, link, pencil, git-branch]
-    # @param action [Symbol] select [none, button, buttons, menu]
+    # @param action_type [Symbol] select [none, button, buttons, menu]
+    # @param clipboard_copy_button [Boolean]
     # @param content [String]
     def playground(border: true,
                    scheme: :default,
                    title: "Inset box title",
                    title_icon: :none,
-                   action: :none,
+                   action_type: :none,
+                   clipboard_copy_button: false,
                    content: "Group some information here")
       render OpPrimer::InsetBoxComponent.new(
         border: ActiveModel::Type::Boolean.new.cast(border),
@@ -55,7 +57,10 @@ module OpPrimer
       ) do |box|
         box.with_title_icon(icon: title_icon.to_sym) unless title_icon.to_s == "none"
         box.with_title { title } if title.present?
-        playground_actions(box, action.to_sym)
+        if ActiveModel::Type::Boolean.new.cast(clipboard_copy_button)
+          box.with_clipboard_copy_button(value: content, aria: { label: "Copy content" })
+        end
+        playground_actions(box, action_type.to_sym)
         content
       end
     end
@@ -108,7 +113,7 @@ module OpPrimer
     def with_title_icon
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
+        box.with_title { "Inherited configuration" }
         "The configuration of this section is inherited from another type."
       end
     end
@@ -116,9 +121,9 @@ module OpPrimer
     def with_action_buttons
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
+        box.with_title { "Inherited configuration" }
         box.with_action_button { "Change source type" }
-        box.with_action_button(scheme: :primary) { "Switch to independent mode" }
+        box.with_action_button(scheme: :primary) { "Configure manually" }
         "The configuration of this section is inherited from another type."
       end
     end
@@ -126,20 +131,28 @@ module OpPrimer
     def with_action_menu
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :"git-branch")
-        box.with_title { "Dependents" }
+        box.with_title { "Inherited by" }
         box.with_action_menu do |menu|
           menu.with_show_button { "Actions" }
-          menu.with_item(label: "Show dependents", href: "#")
-          menu.with_item(label: "Unlink all", href: "#", scheme: :danger)
+          menu.with_item(label: "View dependent types", href: "#")
+          menu.with_item(label: "Remove inheritance", href: "#", scheme: :danger)
         end
         "Two types inherit this configuration."
       end
     end
 
+    def with_clipboard_copy_button
+      render OpPrimer::InsetBoxComponent.new do |box|
+        box.with_title { "API token" }
+        box.with_clipboard_copy_button(value: "s3cr3t-token", aria: { label: "Copy token" })
+        "1234-5678-9012-3456"
+      end
+    end
+
     private
 
-    def playground_actions(box, action)
-      case action
+    def playground_actions(box, action_type)
+      case action_type
       when :button
         box.with_action_button { "Primary action" }
       when :buttons

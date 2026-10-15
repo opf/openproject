@@ -24,6 +24,7 @@ ko:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: 기간
         end_time: 종료 시간
         location: 위치
@@ -89,6 +90,7 @@ ko:
         meeting_agenda_item:
           section_not_belong_to_meeting: 섹션이 같은 미팅에 속하지 않습니다.
           user_invalid: "- 유효한 참가자가 아닙니다."
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: "- 유효한 참가자가 아닙니다."
         recurring_meeting:
@@ -143,6 +145,10 @@ ko:
     meeting_agenda_opened: 미팅 의제 열림
     meeting_minutes: 미팅 의제 편집됨
     meeting_minutes_created: 미팅 의제 생성됨
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: 미팅에 추가
   label_add_work_package_to_meeting_dialog_title: 미팅 선택
   label_add_work_package_to_meeting_section_label: 섹션
@@ -151,6 +157,8 @@ ko:
   label_agenda_backlog_clear_title: 의제 백로그를 지우시겠습니까?
   label_agenda_item_actions: 의제 항목 작업
   label_agenda_item_add: 의제 항목 추가
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: 메모 추가
   label_agenda_item_add_outcome: 결과 추가
   label_agenda_item_convert_to_work_package: 작업 패키지로 전환
@@ -298,6 +306,21 @@ ko:
   label_view_meeting_series: 미팅 시리즈 보기
   label_write_outcome: 결과 작성
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: 이러한 첨부 파일은 이 템플릿을 사용하는 모든 향후 미팅에 포함됩니다.
       series_template: 이러한 첨부 파일은 시리즈의 모든 향후 미팅에 포함됩니다.
@@ -472,6 +495,7 @@ ko:
       no_items: 의제 항목 없음
       no_items_flash: 발표할 의제 항목이 없습니다.
       previous: 이전
+      slide_progress: Slide %{current}/%{total}
       title: 프레젠테이션 모드
       total_items: "%{current}/%{total}"
     types:
@@ -676,6 +700,7 @@ ko:
   text_agenda_item_duplicate_in_next_meeting: "%{date}, %{time}의 다음 미팅에 이 의제의 사본을 추가하시겠습니까? 결과는 복제되지 않습니다."
   text_agenda_item_duplicated_in_next_meeting: 의제 항목이 %{date}의 다음 미팅에서 복제되었습니다
   text_agenda_item_move_next_meeting: 이 항목은 %{date}, %{time}에 다음 미팅으로 이동됩니다.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: 의제 항목이 %{date}의 다음 미팅으로 이동되었습니다.
   text_agenda_item_no_available_occurrence: 향후 항목이 없습니다.
   text_agenda_item_no_notes: 제공된 메모 없음

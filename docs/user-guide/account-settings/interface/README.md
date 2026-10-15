@@ -16,6 +16,8 @@ In the **Look and feel** section under **Interface** in your profile settings (a
 
 You can also **disable keyboard shortcuts** . This is useful if you rely on a screen reader or want to avoid triggering actions by accident.
 
+If you often select and copy text from work packages, you can **require a double click to edit fields**.
+
 Click **Update look and feel** to save your changes.
 
 !["Look and feel" section under Interface settings in OpenProject account settings](openproject_account_settings_interface_look_and_feel.png)
@@ -59,6 +61,16 @@ If you choose newest on top, the latest comment will appear on top in the Activi
 ### Disable keyboard shortcuts
 
 If you use a screen reader or want to avoid accidentally triggering an action with a  shortcut, you can choose to disable default [keyboard shortcuts](../../keyboard-shortcuts-access-keys/) by selecting the respective option.
+
+### Require double click to edit fields
+
+By default, a single click on an editable field, for example the description of a work package, opens it for editing. This can get in the way when you only want to select and copy some text.
+
+If you activate **Require double click to edit fields**, a single click no longer opens a field. Instead, you need to double click it to start editing. This applies to the work package details and full screen view, the work package table and to editable attributes on the project overview page. In the work package table, a single click on a field selects the work package instead.
+
+You can still open a field with the keyboard by focusing it and pressing **Enter**.
+
+This setting is disabled by default and only affects your own account.
 
 ## Alerts
 

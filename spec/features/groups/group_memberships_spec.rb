@@ -210,6 +210,25 @@ RSpec.describe "group memberships through groups page", :js do
         expect(target_dropdown).to have_css(".ng-option", text: "Other project")
         expect(target_dropdown).to have_no_css(".ng-option", text: "Archived project")
       end
+
+      it_behaves_like "a project picker searchable by identifier" do
+        let(:target_project) { other_project }
+        # The group is already a member of `project` and `project2`, and archived
+        # projects are never offered, so the control has to be yet another
+        # project the group may still be added to.
+        let(:control_project) do
+          create(:project, name: "Control project", identifier: "control_project")
+        end
+
+        before do
+          group_page.visit!
+          group_page.open_projects_tab!
+        end
+
+        def search_project(query)
+          group_page.search_for_project(query)
+        end
+      end
     end
   end
 end

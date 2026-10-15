@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,9 +28,11 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class GeneratePdfController extends Controller {
-  static targets = ['templates', 'inputGroups'];
+  static targets = ['templates', 'inputGroups', 'submit'];
 
   declare inputGroupsTargets:HTMLElement[];
+
+  declare readonly submitTarget:HTMLElement;
 
   templatesChanged(event:Event) {
     const target = event.target as HTMLSelectElement;
@@ -46,9 +47,19 @@ export default class GeneratePdfController extends Controller {
     this.inputGroupsTargets.forEach((inputGroup:HTMLElement) => {
       if (inputGroup.dataset.template === template) {
         inputGroup.classList.remove('d-none');
+        this.adjustFormSubmitTarget(inputGroup);
       } else {
         inputGroup.classList.add('d-none');
       }
     });
+  }
+
+  // point the dialog submit button at whichever form is currently visible
+  private adjustFormSubmitTarget(inputGroup:HTMLElement) {
+    const form = inputGroup.querySelector('form');
+    const formID = form?.getAttribute('id');
+    if (formID) {
+      this.submitTarget.setAttribute('form', formID);
+    }
   }
 }

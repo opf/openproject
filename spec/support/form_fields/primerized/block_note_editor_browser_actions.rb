@@ -35,6 +35,10 @@ module FormFields
         JS
       end
 
+      def select_to_line_start
+        page.driver.browser.action.key_down(:shift).send_keys(:home).key_up(:shift).perform
+      end
+
       # Forward Delete via the W3C actions API; pair with a selection helper.
       def send_forward_delete
         page.driver.browser.action.send_keys(:delete).perform

@@ -13,10 +13,10 @@
       message.with_description_content(t("working_days.dialog.description"))
     end
 
-    dialog.with_additional_details do
+    dialog.with_additional_details(mb: 0) do
       concat hidden_settings_fields
       concat(
-        tag.div do
+        render(Primer::BaseComponent.new(tag: :div, px: 5)) do
           if removed_non_working_days.any?
             concat tag.p(t("working_days.dialog.removed_title"))
             concat(
@@ -31,7 +31,7 @@
             )
           end
 
-          concat tag.p(t("working_days.dialog.warning"))
+          concat(render(Primer::Beta::Text.new(tag: :p, mb: 0).with_content(t("working_days.dialog.warning"))))
         end
       )
     end

@@ -340,7 +340,8 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       load_and_open_filters admin
     end
 
-    specify "filters projects matching on when they were created" do
+    specify "filters projects matching on when they were created",
+            with_settings: { date_format: "%Y-%m-%d", time_format: "%H:%M" } do
       # created on 'today' shows projects that were created today
       projects_page.set_filter("created_at",
                                "Created on",
@@ -444,10 +445,22 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
                                            project_created_on_this_week,
                                            project_created_on_fixed_date)
 
+      # a range row without dates yet is not a filter: the list and the URL stay as they are.
+      # The operator change submits behind a 300 ms debounce, so the quiet period must outlast it
+      # for the assertions below to see a request that should not have happened.
       projects_page.set_filter("created_at",
                                "Created on",
-                               "between",
-                               ["2017-11-10", "2017-11-12"])
+                               "between")
+      wait_for_network_idle(duration: 0.5)
+
+      projects_page.expect_projects_listed(project_created_on_today,
+                                           project_created_on_this_week,
+                                           project_created_on_fixed_date)
+      expect(page).to have_no_current_path(/created_at/)
+
+      projects_page.within_filter("created_at") do
+        projects_page.set_datetime_filter("created_at", "between", ["2017-11-10 00:00", "2017-11-12 23:59"])
+      end
 
       projects_page.expect_projects_not_listed(project_created_on_today)
       projects_page.expect_projects_listed(project_created_on_fixed_date)
@@ -611,8 +624,10 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       within(cf_filter) do
         projects_page.expect_ng_value_label(select_value_id, list_custom_field.possible_values[2].value)
-        projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value, clear: false
       end
+      projects_page.set_autocomplete_filter list_custom_field.possible_values[3].value,
+                                            filter_name: list_custom_field.column_name,
+                                            clear: false
       wait_for_reload
 
       projects_page.expect_projects_not_listed(development_project)
@@ -714,7 +729,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       shared_let(:portfolio) { create(:portfolio, name: "Corporate Portfolio") }
 
       it "does not offer the filter" do
@@ -770,7 +785,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       shared_let(:program) { create(:program, name: "Growth Program") }
 
       it "does not offer the filter" do
@@ -841,7 +856,6 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
 
       # Applies the filters to the filters section
       projects_page.expect_filter_set "active"
-      click_button accessible_name: "Project name filter"
       projects_page.expect_filter_set "name_and_identifier"
 
       # Columns are taken from the default set as defined by the setting

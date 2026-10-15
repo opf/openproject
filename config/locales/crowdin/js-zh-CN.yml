@@ -202,6 +202,7 @@ zh-CN:
     description_subwork_package: '子工作包 #%{id}'
     editor:
       ckeditor_error: CKEditor 发生错误
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
       macro:
         attribute_reference:
@@ -384,7 +385,7 @@ zh-CN:
     include_workspaces:
       types:
         portfolio: 项目组合
-        program: 项目群
+        program: 计划
     inplace:
       btn_preview_disable: 禁用预览
       btn_preview_enable: 预览
@@ -719,6 +720,7 @@ zh-CN:
     placeholders:
       default: "-"
       description: 描述：点击以编辑…
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 点击为此关系添加描述
       selection: 请选择
       subject: 在此处输入标题
@@ -805,12 +807,30 @@ zh-CN:
       sorting_disabled: 排序被禁用
     sortable_lists:
       announcements:
+        batch_too_large: 无法一次性移动 %{count} 个条目。选择的条目数量不得超过 %{max} 个。
         fallback_item_label: 条目
         fallback_list_name: 另一个列表
         move_failed_check_position: 移动失败。请检查该条目的当前位置。
+        move_failed_check_positions_batch:
+          other: 移动失败。请检查条目的当前位置。
         move_failed_rolled_back: 移动失败。%{label} 已回到其先前位置。
+        move_failed_rolled_back_batch:
+          other: 移动失败。%{count} 个条目已回到其先前位置。
         moved: "%{label} 已移至位置 %{position}，总计 %{total}"
+        moved_batch:
+          other: "%{count} 个条目已被移至位置 %{first} 到 %{last}，总计 %{total}"
+        moved_batch_to_list:
+          other: "%{count} 个条目已被移至 %{list} 的位置 %{first} 到 %{last}，总计 %{total}"
         moved_to_list: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
+      selection:
+        cleared: 选择已清除。
+        not_selectable: 选择未更改。此条目不参与此列表的排序。
+        range_blocked: 选择未更改。该范围包含不参与此列表排序的条目。
+        range_restarted:
+          other: 无法扩展范围。已选择 %{count} 个条目。
+        range_unavailable: 选择未更改。扩展此列表，以选择该范围。
+        selected:
+          other: 已选择 %{count} 个条目。
     spot:
       drop_modal:
         close: 关闭模式
@@ -824,9 +844,7 @@ zh-CN:
     text_user_wrote: "%{value} 写道："
     text_work_packages_destroy_confirmation: 确实要删除所选的工作包吗?
     time_entry:
-      stop: 停止
       title: 记录时间
-      tracking: 时间跟踪
       work_package_required: 需要先选择一个工作包。
     timer:
       button_stop: 停止当前计时器

@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi } from 'vitest';
 import { StreamActions } from '@hotwired/turbo';
 import { registerDispatchEventStreamAction } from './dispatch-event-stream-action';
 
@@ -46,7 +44,7 @@ describe('dispatchEvent turbo stream action', () => {
   beforeEach(() => {
     registerDispatchEventStreamAction();
     dispatched = [];
-    // jsdom does not let us add a listener for an arbitrary name retroactively,
+    // A listener cannot be added for an arbitrary event name retroactively,
     // so we spy on dispatchEvent itself to record everything.
     vi.spyOn(document, 'dispatchEvent').mockImplementation((event:Event) => {
       dispatched.push(event as CustomEvent);

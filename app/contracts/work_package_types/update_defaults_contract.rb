@@ -29,7 +29,10 @@
 #++
 
 module WorkPackageTypes
-  class UpdateDefaultsContract < BaseContract
+  # Not BaseContract: that one is the type's, and requires an instance administrator.
+  class UpdateDefaultsContract < ::ModelContract
+    include AuthorizesVariantAuthoring
+
     def self.model = TypeVariant
 
     attribute :patterns
@@ -52,11 +55,7 @@ module WorkPackageTypes
       return if blueprint.nil?
 
       valid_tokens = flat_valid_token_list
-      invalid_tokens = blueprint.scan(WorkPackageTypes::PatternResolver::TOKEN_REGEX)
-                                .reduce([]) do |acc, match|
-        token = WorkPackageTypes::Patterns::PatternToken.build(match).key
-        valid_tokens.include?(token) ? acc : acc << token
-      end
+      invalid_tokens = WorkPackageTypes::Patterns::PatternToken.scan_tokens(blueprint).reject { |t| valid_tokens.include?(t.key) }
 
       if invalid_tokens.any?
         errors.add(:patterns, :invalid_tokens)

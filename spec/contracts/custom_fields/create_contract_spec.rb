@@ -43,6 +43,8 @@ RSpec.describe CustomFields::CreateContract do
                       is_required: custom_field_is_required,
                       max_length: custom_field_max_length,
                       min_length: custom_field_min_length,
+                      max_value: custom_field_max_value,
+                      min_value: custom_field_min_value,
                       possible_values: custom_field_possible_values,
                       regexp: custom_field_regexp,
                       formula: custom_field_formula,

@@ -38,7 +38,7 @@ module OpenProject::WorkPackages
     def playground(size: :medium, inline: false, readonly: false)
       # Colors will be applied in code as well but there are not loaded in the lookbook
       # The lock is only drawn where the readonly work packages Enterprise feature is available
-      status = Status.first
+      status = FactoryBot.build_stubbed(:status)
       status.is_readonly = readonly
 
       render(WorkPackages::StatusBadgeComponent.new(status:, size:, inline:))

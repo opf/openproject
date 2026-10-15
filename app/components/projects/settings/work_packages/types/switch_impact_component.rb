@@ -75,23 +75,28 @@ module Projects
           # Every counter answers "which ones?" by linking to the work packages behind it.
           # In a new tab on purpose: following a link in place would navigate away from the
           # dialog and discard the variant the reader is still deciding on.
-          def work_packages_path(filters, columns: [])
-            project_work_packages_path(
-              impact.project,
-              query_props: {
-                c: DEFAULT_COLUMNS + columns,
-                t: "id:asc",
-                f: filters
-              }.to_json
-            )
+          def filtered_work_packages_path(filters, columns: [])
+            query_props = { c: DEFAULT_COLUMNS + columns, t: "id:asc", f: scope_filters + filters }.to_json
+
+            if impact.single_project?
+              project_work_packages_path(impact.project, query_props:)
+            else
+              work_packages_path(query_props:)
+            end
+          end
+
+          def scope_filters
+            return [] if impact.single_project?
+
+            [{ "n" => "project_id", "o" => "=", "v" => impact.project_ids.map(&:to_s) }]
           end
 
           def all_path
-            work_packages_path([type_filter])
+            filtered_work_packages_path([type_filter])
           end
 
           def status_path(status)
-            work_packages_path([type_filter, { "n" => "status", "o" => "=", "v" => [status.id.to_s] }])
+            filtered_work_packages_path([type_filter, { "n" => "status", "o" => "=", "v" => [status.id.to_s] }])
           end
 
           # Filtered on the field holding a value, so the list is exactly what the counter
@@ -99,7 +104,7 @@ module Projects
           def field_path(field)
             name = api_name(field)
 
-            work_packages_path([type_filter, { "n" => name, "o" => "*", "v" => [] }], columns: [name])
+            filtered_work_packages_path([type_filter, { "n" => name, "o" => "*", "v" => [] }], columns: [name])
           end
 
           def type_filter

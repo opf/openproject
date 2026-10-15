@@ -214,13 +214,23 @@ module My
       if params[:token_api]
         APITokens::CreateService
         .new(user: current_user, model: Token::API.new)
-        .call(token_name: params[:token_api][:token_name])
+        .call(token_name: params[:token_api][:token_name], expires_on_date: api_token_expires_on_date)
       elsif params[:token_ical_meeting]
         APITokens::CreateService
         .new(user: current_user, model: Token::ICalMeeting.new)
         .call(token_name: params[:token_ical_meeting][:token_name])
       else
         raise ArgumentError, "Unknown token type"
+      end
+    end
+
+    def api_token_expires_on_date
+      expiry = params[:token_api][:expiry]
+
+      case expiry
+      when My::AccessToken::NewAccessTokenForm::CUSTOM_EXPIRY then params[:token_api][:expires_on_date]
+      when My::AccessToken::NewAccessTokenForm::NO_EXPIRY then nil
+      else expiry
       end
     end
   end

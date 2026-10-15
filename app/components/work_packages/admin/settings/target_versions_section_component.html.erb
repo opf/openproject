@@ -29,7 +29,7 @@
   ++#
 %>
 
-<%= component_wrapper(**wrapper_data_attrs) do %>
+<%= component_wrapper do %>
   <% if action_required? %>
     <%= render(WorkPackages::Admin::Settings::NoticeBoxComponent.new(heading: scoped_t(:"planned_changes.heading"))) do |box| %>
       <% box.with_row(icon: :info) { scoped_t(:"planned_changes.renamed") } %>
@@ -56,13 +56,6 @@
           )
         ) { scoped_t(:"action_required.button") }
       %>
-    <% end %>
-  <% elsif in_progress? %>
-    <%= render(OpPrimer::InsetBoxComponent.new) do %>
-      <%= render(Primer::Box.new(display: :flex, align_items: :center)) do %>
-        <%= render(Primer::Beta::Spinner.new(size: :small, mr: 2)) %>
-        <%= render(Primer::Beta::Text.new(font_weight: :bold)) { scoped_t(:"in_progress.heading") } %>
-      <% end %>
     <% end %>
   <% else %>
     <%= render(WorkPackages::Admin::Settings::NoticeBoxComponent.new(heading: scoped_t(:"recent_changes.heading"))) do |box| %>

@@ -66,7 +66,7 @@ module Users
     def invalidate_tokens
       ::Users::DropTokensService
         .new(current_user:)
-        .call!
+        .call!(clear_autologin_tokens: true)
     end
 
     def invalidate_other_sessions

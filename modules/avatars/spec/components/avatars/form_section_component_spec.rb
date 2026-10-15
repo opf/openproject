@@ -14,7 +14,13 @@ RSpec.describe Avatars::FormSectionComponent, type: :component do
   end
 
   def render_section
-    render_inline(described_class.new(user:, target_avatar_path: "/users/1/avatar"))
+    render_inline(
+      described_class.new(
+        user:,
+        target_avatar_path: "/users/1/avatar",
+        avatar_color_path: "/users/1/avatar/update_color"
+      )
+    )
   end
 
   context "when avatars are disabled" do
@@ -75,6 +81,28 @@ RSpec.describe Avatars::FormSectionComponent, type: :component do
       render_section
 
       expect(page).to have_css("[data-test-selector='avatar-delete-link']")
+    end
+  end
+
+  describe "the avatar color field" do
+    let(:enable_local_avatars) { true }
+
+    it "renders an empty input pointed at the color update path by default" do
+      render_section
+
+      expect(page).to have_css("form[action='/users/1/avatar/update_color']")
+      expect(page).to have_field("avatar_color")
+      expect(page.find_field("avatar_color").value).to be_blank
+    end
+
+    context "when the user already has a custom avatar color set" do
+      before { user.pref.avatar_color = "#AABBCC" }
+
+      it "renders the stored color as the input's value" do
+        render_section
+
+        expect(page).to have_field("avatar_color", with: "#AABBCC")
+      end
     end
   end
 end

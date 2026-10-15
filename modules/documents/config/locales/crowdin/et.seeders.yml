@@ -7,14 +7,14 @@ et:
     common:
       document_types:
         item_0:
-          name: Note
+          name: Märkus
         item_1:
-          name: Idea
+          name: Idee
         item_2:
-          name: Proposal
+          name: Ettepanek
         item_3:
-          name: Specification
+          name: Spetsifikatsioon
         item_4:
-          name: Report
+          name: Aruanne
         item_5:
-          name: Documentation
+          name: Dokumentatsioon

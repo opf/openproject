@@ -151,6 +151,19 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
             <div class="form--field">
+              <%= styled_label_tag :work_package_observed_in_version_ids,
+                                   WorkPackage.human_attribute_name(:observed_in_versions) %>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "work_package[observed_in_version_ids][]",
+                      content_tag("option", t(:label_none), value: "none") +
+                      version_options_for_select(@project.shared_versions.order(:name)),
+                      include_blank: t(:label_no_change_option),
+                      multiple: true
+                    ) %>
+              </div>
+            </div>
+            <div class="form--field">
               <%= styled_label_tag :work_package_budget_id, Budget.model_name.human %>
               <div class="form--field-container">
                 <%= styled_select_tag(

@@ -30,7 +30,7 @@
 
 class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::TargetVersionNormalization
+  include WorkPackages::VersionIdsNormalization
   include OpTurbo::ComponentStream
 
   default_search_scope :work_packages
@@ -141,17 +141,26 @@ class WorkPackages::MovesController < ApplicationController
   def prepare_for_work_package_move
     @copy = params.has_key? :copy
     if params[:new_project_id]
-      @target_project = WorkPackage.allowed_target_projects_on_move(current_user).find_by(id: params[:new_project_id])
+      @target_project = allowed_target_projects.find_by(id: params[:new_project_id])
     end
     @target_project ||= @project
     @notes = params[:notes] || ""
   end
 
+  def allowed_target_projects
+    if @copy
+      WorkPackage.allowed_target_projects_on_copy(current_user)
+    else
+      WorkPackage.allowed_target_projects_on_move(current_user)
+    end
+  end
+
   def attributes_for_create
     attributes = permitted_params.move_work_package
-    # target_version_ids is an array param and must not be run through the scalar
-    # "none"/blank magic value transforms below.
+    # target_version_ids and observed_in_version_ids are array params and must not be run through
+    # the scalar "none"/blank magic value transforms below.
     target_version_ids = normalized_target_version_ids(attributes.delete(:target_version_ids))
+    observed_in_version_ids = normalized_observed_in_version_ids(attributes.delete(:observed_in_version_ids))
 
     attributes = attributes
       .compact_blank
@@ -159,6 +168,7 @@ class WorkPackages::MovesController < ApplicationController
       .transform_values { |v| v == "none" ? nil : v }
       .to_h
     attributes[:target_version_ids] = target_version_ids unless target_version_ids.nil?
+    attributes[:observed_in_version_ids] = observed_in_version_ids unless observed_in_version_ids.nil?
     attributes
   end
 end

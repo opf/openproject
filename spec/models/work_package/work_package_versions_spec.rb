@@ -60,4 +60,76 @@ RSpec.describe WorkPackage, "target versions" do
 
     expect(work_package.reload.target_versions).to be_empty
   end
+
+  describe "#target_versions_changed?" do
+    it "is false without an override" do
+      expect(work_package).not_to be_target_versions_changed
+    end
+
+    it "is false when the override assigns the versions already assigned" do
+      work_package.target_version_ids_replacements = [higher_version.id, lower_version.id]
+      work_package.save!
+
+      work_package.target_version_ids_replacements = [lower_version.id, higher_version.id]
+
+      expect(work_package).not_to be_target_versions_changed
+    end
+
+    it "is false when a new work package is assigned no versions" do
+      new_work_package = described_class.new
+      new_work_package.target_version_ids_replacements = []
+
+      expect(new_work_package).not_to be_target_versions_changed
+    end
+
+    it "is true when the override assigns different versions" do
+      work_package.target_version_ids_replacements = [lower_version.id]
+      work_package.save!
+
+      work_package.target_version_ids_replacements = [higher_version.id]
+
+      expect(work_package).to be_target_versions_changed
+    end
+
+    it "is true when the override clears assigned versions" do
+      work_package.target_version_ids_replacements = [lower_version.id]
+      work_package.save!
+
+      work_package.target_version_ids_replacements = []
+
+      expect(work_package).to be_target_versions_changed
+    end
+  end
+end
+
+RSpec.describe WorkPackage, "observed in versions" do
+  let(:project) { create(:project) }
+  let!(:lower_version) { create(:version, project:) }
+  let!(:higher_version) { create(:version, project:) }
+  let(:work_package) { create(:work_package, project:) }
+
+  it "returns observed in versions in id order even when preloaded" do
+    work_package.observed_in_version_ids_replacements = [higher_version.id, lower_version.id]
+    work_package.save!
+
+    preloaded = described_class.where(id: work_package.id).includes(:observed_in_versions).first
+    expect(preloaded.observed_in_versions.map(&:id)).to eq([lower_version.id, higher_version.id])
+  end
+
+  describe "#observed_in_versions_changed?" do
+    it "is false when the override assigns the versions already assigned" do
+      work_package.observed_in_version_ids_replacements = [lower_version.id]
+      work_package.save!
+
+      work_package.observed_in_version_ids_replacements = [lower_version.id]
+
+      expect(work_package).not_to be_observed_in_versions_changed
+    end
+
+    it "is true when the override assigns different versions" do
+      work_package.observed_in_version_ids_replacements = [lower_version.id]
+
+      expect(work_package).to be_observed_in_versions_changed
+    end
+  end
 end

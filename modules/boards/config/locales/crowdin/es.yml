@@ -3,8 +3,8 @@ es:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: Tablero
+        other: Tableros
   boards:
     board_type_attributes:
       assignee: Asignado a

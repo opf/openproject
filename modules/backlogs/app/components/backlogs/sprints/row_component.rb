@@ -131,7 +131,7 @@ module Backlogs
       end
 
       def show_task_board_link?
-        sprint_board.present?
+        sprint_board(sprint, project).present?
       end
 
       def can_open_edit_dialog?

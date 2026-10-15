@@ -85,7 +85,8 @@ RSpec.describe "Work package navigation", :js, :selenium do
     split_work_package.visit!
     split_work_package.expect_subject
     # Should be checked in table
-    expect(global_work_packages.table_container).to have_css(".wp-row-#{work_package.id}.-checked")
+    global_work_packages.expect_work_package_listed(work_package)
+    expect(page).to have_css("#{global_work_packages.row_selector(work_package)}.-checked")
 
     # deep link work package show
 
@@ -133,7 +134,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
     # Back to split screen using the button
     full_work_package.go_back
     global_work_packages.expect_work_package_listed(work_package)
-    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}/overview"
+    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
@@ -189,7 +190,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
 
     wait_for_network_idle
 
-    page.find(".wp-table--cell-td.id a", text: work_package.id).click
+    page.find(".wp-table--cell-td.id a", text: work_package.id, wait: 20).click
 
     full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded

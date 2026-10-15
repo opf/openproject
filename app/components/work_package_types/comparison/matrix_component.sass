@@ -1,0 +1,30 @@
+.type-variant-comparison--scroll
+  overflow-x: auto
+
+  .type-variant-comparison--grid
+    display: grid
+    align-items: start
+    column-gap: 16px
+
+  .type-variant-comparison--label
+    position: sticky
+    left: 0
+    z-index: 1
+    background: var(--bgColor-default)
+    font-weight: var(--base-text-weight-semibold)
+
+  .type-variant-comparison--label_indented
+    padding-left: 16px
+    font-weight: var(--base-text-weight-normal)
+    color: var(--fgColor-muted)
+
+  > *,
+  .Box
+    min-width: max-content
+
+  .type-variant-comparison--head
+    padding: 0 16px 8px
+    margin-bottom: 4px
+
+  .Box
+    overflow: visible

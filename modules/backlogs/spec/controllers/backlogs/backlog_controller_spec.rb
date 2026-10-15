@@ -45,8 +45,14 @@ RSpec.describe Backlogs::BacklogController do
   current_user { user }
 
   describe "GET #show" do
+    let(:params) { {} }
+
+    subject do
+      get :show, params: { project_id: project.id }.merge(params), format: :html
+    end
+
     it "loads the backlog page and preserves the backlog menu item", :aggregate_failures do
-      get :show, params: { project_id: project.id }, format: :html
+      subject
 
       expect(response).to be_successful
       expect(response).to render_template("backlogs/backlog/show")
@@ -57,9 +63,10 @@ RSpec.describe Backlogs::BacklogController do
     end
 
     context "for turbo frame request with frame id backlogs_container" do
+      before { request.headers["Turbo-Frame"] = "backlogs_container" }
+
       it "renders the backlog_list partial without layout", :aggregate_failures do
-        request.headers["Turbo-Frame"] = "backlogs_container"
-        get :show, params: { project_id: project.id }, format: :html
+        subject
 
         expect(response).to be_successful
         expect(response).to render_template("backlogs/backlog/_backlog_list")
@@ -70,6 +77,82 @@ RSpec.describe Backlogs::BacklogController do
         expect(assigns(:work_packages_by_sprint_id)).to eq({ sprint.id => [sprint_work_package] })
         expect(assigns(:work_packages_by_backlog_id)).to eq({ nil => [inbox_work_package],
                                                               backlog_bucket.id => [bucket_work_package] })
+      end
+
+      context "when filtering" do
+        context "with a work package attribute via params[:filters]" do
+          shared_let(:other_status) { create(:status, name: "status 2") }
+          shared_let(:other_sprint_work_package) { create(:work_package, project:, status: other_status, sprint:) }
+          shared_let(:other_bucket_work_package) { create(:work_package, project:, status: other_status, backlog_bucket:) }
+
+          let(:params) { { filters: "status_id = \"#{status.id}\"" } }
+
+          it "narrows both the sprint and backlog listings", :aggregate_failures do
+            subject
+
+            expect(assigns(:work_packages_by_sprint_id)).to eq({ sprint.id => [sprint_work_package] })
+            expect(assigns(:work_packages_by_backlog_id)).to eq({ nil => [inbox_work_package],
+                                                                  backlog_bucket.id => [bucket_work_package] })
+          end
+        end
+
+        context "when filtering by the permanent subject search field via params[:filters]" do
+          shared_let(:matching_sprint_wp) { create(:work_package, project:, status:, sprint:, subject: "needle in a haystack") }
+          shared_let(:matching_bucket_wp) do
+            create(:work_package, project:, status:, backlog_bucket:, subject: "needle in a haystack")
+          end
+          shared_let(:non_matching_sprint_wp) { create(:work_package, project:, status:, sprint:, subject: "unrelated") }
+          shared_let(:non_matching_bucket_wp) { create(:work_package, project:, status:, backlog_bucket:, subject: "unrelated") }
+
+          let(:params) { { filters: 'subject ~ "needle"' } }
+
+          it "narrows the sprint and backlog listings to matching subjects", :aggregate_failures do
+            subject
+
+            expect(assigns(:work_packages_by_sprint_id)[sprint.id]).to contain_exactly(matching_sprint_wp)
+            expect(assigns(:work_packages_by_backlog_id)[backlog_bucket.id]).to contain_exactly(matching_bucket_wp)
+          end
+        end
+
+        context "with a malformed filters param" do
+          let(:params) { { filters: "invalid" } }
+
+          it "ignores it instead of erroring", :aggregate_failures do
+            subject
+
+            expect(response).to be_successful
+            expect(assigns(:work_packages_by_sprint_id)).to eq({ sprint.id => [sprint_work_package] })
+          end
+        end
+
+        context "when selecting a specific sprint via sprint_ids" do
+          shared_let(:other_sprint) { create(:sprint, project:) }
+          shared_let(:other_sprint_work_package) { create(:work_package, project:, status:, sprint: other_sprint) }
+
+          let(:params) { { sprint_ids: [sprint.id] } }
+
+          it "only loads the selected sprint's work packages", :aggregate_failures do
+            subject
+
+            expect(assigns(:sprints)).to contain_exactly(sprint)
+            expect(assigns(:work_packages_by_sprint_id)).to eq({ sprint.id => [sprint_work_package] })
+          end
+        end
+
+        context "when selecting both a specific bucket and inbox via bucket_ids" do
+          shared_let(:other_bucket) { create(:backlog_bucket, project:) }
+          shared_let(:other_bucket_work_package) { create(:work_package, project:, status:, backlog_bucket: other_bucket) }
+
+          let(:params) { { bucket_ids: [backlog_bucket.id.to_s, "inbox"] } }
+
+          it "returns the union of the selected bucket's and the inbox's work packages", :aggregate_failures do
+            subject
+
+            expect(assigns(:backlog_buckets)).to contain_exactly(backlog_bucket)
+            expect(assigns(:work_packages_by_backlog_id)).to eq({ nil => [inbox_work_package],
+                                                                  backlog_bucket.id => [bucket_work_package] })
+          end
+        end
       end
 
       context "when a shared sprint's owning project has another active sprint invisible to this project" do
@@ -85,7 +168,6 @@ RSpec.describe Backlogs::BacklogController do
         end
 
         it "includes the invisible active sprint among @active_sprints", :aggregate_failures do
-          request.headers["Turbo-Frame"] = "backlogs_container"
           get :show, params: { project_id: receiving_project.id }, format: :html
 
           expect(assigns(:sprints)).to contain_exactly(shared_sprint)

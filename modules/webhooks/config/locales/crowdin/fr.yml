@@ -21,7 +21,7 @@ fr:
         one: Webhook
         other: Webhooks
   plugin_openproject_webhooks:
-    description: Fournit un plug-in API pour prendre en charge les webhooks d'OpenProject afin d'améliorer l'intégration des tiers.
+    description: Fournit une API de plugin prenant en charge les webhooks OpenProject afin de faciliter l'intégration avec des services tiers.
     name: Webhooks OpenProject
   webhooks:
     outgoing:
@@ -66,7 +66,7 @@ fr:
       label_x_events:
         one: 1 événement
         other: "%{count} événements"
-        zero: Aucun évènement
+        zero: Aucun événement
       no_results_table: Aucun webhook n'a encore été défini.
       status:
         disabled: Webhook désactivé

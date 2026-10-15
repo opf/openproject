@@ -65,8 +65,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   primer_form_with(url: request_backup_admin_backups_path, method: :post, data: { turbo: true }) do |f|
+    # The render_inline_form method loses context and thus does not know about the global variables
+    may_include_attachments = @may_include_attachments
     render_inline_form(f) do |form|
-      if @may_include_attachments
+      if may_include_attachments
         form.check_box(
           name: :include_attachments,
           label: helpers.t("js.backup.include_attachments"),

@@ -76,6 +76,8 @@ module AllMeetings
       recurring_meeting = RecurringMeeting.visible(user).find_by(uid:)
 
       if recurring_meeting.blank?
+        return ignore_historic_schedule(uid) if historic_schedule_uid?(uid)
+
         # No recurring meeting, we can leave
         errors = ActiveModel::Errors.new(self)
         errors.add(uid, I18n.t("meeting.ical_response.meeting_not_found"))
@@ -101,24 +103,47 @@ module AllMeetings
         # We have an instantiated (non-cancelled) meeting, update that one
         update_participation_status(occurrence, event)
       else
-        # No instantiated meeting, create or update an interim response
-        response = RecurringMeetingInterimResponse.find_or_initialize_by(
-          user: user,
-          recurring_meeting: recurring_meeting,
-          start_time: recurrence_start_time
-        )
-
-        attendee_from_event = attendee(event)
-        status = partstat(attendee_from_event)
-
-        if status.present?
-          response.participation_status = status
-          response.comment = comment(attendee_from_event, event)
-          response.save!
-        end
+        write_interim_response(recurring_meeting, recurrence_start_time, event)
       end
 
       ServiceResult.success
+    end
+
+    # A meaningful schedule change will end the old UID and start a new one.
+    # A reply to the old UID will be ignored
+    def historic_schedule_uid?(uid)
+      RecurringMeetings::HistoricSchedule
+        .where(recurring_meeting: RecurringMeeting.visible(user))
+        .exists?(uid:)
+    end
+
+    def ignore_historic_schedule(uid)
+      Rails.logger.info("[iCal Meeting Response] Reply from #{user.mail} for the ended schedule #{uid}")
+
+      ServiceResult.success
+    end
+
+    # A reschedule changes recurrence_start_time to match the new schedule.
+    # When we receive RECURRENCE-ID from an older schedule, we ignore it as it no longer matches the current schedule.
+    def write_interim_response(recurring_meeting, recurrence_start_time, event)
+      unless recurring_meeting.occurs_at?(recurrence_start_time)
+        Rails.logger.info("[iCal Meeting Response] Reply from #{user.mail} for #{recurrence_start_time}, " \
+                          "which is not a slot of meeting series #{recurring_meeting.id}")
+        return
+      end
+
+      attendee_from_event = attendee(event)
+      status = partstat(attendee_from_event)
+      return if status.blank?
+
+      response = RecurringMeetingInterimResponse.find_or_initialize_by(
+        user:,
+        recurring_meeting:,
+        start_time: recurrence_start_time
+      )
+      response.participation_status = status
+      response.comment = comment(attendee_from_event, event)
+      response.save!
     end
 
     def parsed_calendar
@@ -159,15 +184,16 @@ module AllMeetings
       status = partstat(attendee_from_event)
 
       if status.present?
-        participant = meeting.participants.find_by!(user: user)
-        participant.update!(
-          participation_status: status,
-          comment: comment(attendee_from_event, event)
-        )
+        update_participant(meeting, participation_status: status, comment: comment(attendee_from_event, event))
       else
         Rails.logger.warn("[iCal Meeting Response] No attendee found for user #{user.mail} in " \
                           "event #{event.uid}#{" with recurrence ID #{event.recurrence_id.iso8601}" if event.recurrence_id}")
       end
+    end
+
+    def update_participant(meeting, attributes)
+      meeting.participants.find_by!(user:).update!(attributes)
+      User.execute_as(user) { meeting.save_journals }
     end
 
     def instantiated_scheduled_meetings_awaiting_responses(recurring_meeting)

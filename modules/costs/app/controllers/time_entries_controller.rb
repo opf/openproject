@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -89,7 +89,8 @@ class TimeEntriesController < ApplicationController
     @time_entry = call.result
 
     if call.success?
-      close_dialog_via_turbo_stream("#time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
+      close_dialog_via_turbo_stream("time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
+      dispatch_timer_changed
     else
       form_component = TimeEntries::TimeEntryFormComponent.new(time_entry: @time_entry, **form_config_options)
       update_via_turbo_stream(component: form_component, status: :bad_request)
@@ -104,10 +105,11 @@ class TimeEntriesController < ApplicationController
       .call(permitted_params.time_entries)
 
     @time_entry = call.result
+    dispatch_timer_changed if call.success?
 
     if call.success?
       if request_from_dialog?
-        close_dialog_via_turbo_stream("#time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
+        close_dialog_via_turbo_stream("time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
       else
         reload_page_via_turbo_stream
       end
@@ -126,10 +128,11 @@ class TimeEntriesController < ApplicationController
     call = TimeEntries::DeleteService.new(user: current_user, model: @time_entry).call
 
     @time_entry = call.result
+    dispatch_timer_changed if call.success?
 
     if request_from_dialog?
       if call.success?
-        close_dialog_via_turbo_stream("#time-entry-dialog")
+        close_dialog_via_turbo_stream("time-entry-dialog")
       else
         form_component = TimeEntries::TimeEntryFormComponent.new(time_entry: @time_entry, **form_config_options)
         update_via_turbo_stream(component: form_component, status: :bad_request)
@@ -146,6 +149,12 @@ class TimeEntriesController < ApplicationController
 
   private
 
+  def dispatch_timer_changed
+    return unless @time_entry.ongoing? || @time_entry.saved_change_to_ongoing?
+
+    dispatch_event_via_turbo_stream(My::Timer::MenuSectionComponent::CHANGED_EVENT)
+  end
+
   def request_from_dialog?
     !ActiveModel::Type::Boolean.new.cast(params[:no_dialog])
   end
@@ -156,6 +165,8 @@ class TimeEntriesController < ApplicationController
 
     if params[:date].present?
       @time_entry.spent_on = params[:date]
+      # A duration without a start time, for views whose axis measures hours logged.
+      @time_entry.hours = params[:hours].to_f if params[:hours].present?
     elsif params[:startTime].present? && params[:endTime].present?
       parsed_start_time = DateTime.parse(params[:startTime]).in_time_zone(User.current.time_zone)
       parsed_end_time = DateTime.parse(params[:endTime]).in_time_zone(User.current.time_zone)

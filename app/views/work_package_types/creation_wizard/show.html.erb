@@ -1,4 +1,4 @@
-<% html_title t(:label_administration),
+<% html_title variant_scope_title,
               adding_variant? ? t("types.creation_wizard.create_variant") : t("types.creation_wizard.create_type") %>
 
 <%= render(
@@ -6,6 +6,7 @@
         type: @type,
         variant: @variant,
         current_step: @current_step,
-        back_url: @back_url
+        back_url: @back_url,
+        started_form_configuration_id: @started_form_configuration_id
       )
     ) %>

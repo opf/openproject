@@ -24,6 +24,7 @@ he:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: משך זמן
         end_time: End time
         location: מיקום
@@ -32,7 +33,6 @@ he:
         participant:
           one: 1 Participant
           two: "%{count} Participants"
-          many: "%{count} Participants"
           other: "%{count} Participants"
         participants: משתתפים
         participants_added: 'Participants added:'
@@ -92,6 +92,7 @@ he:
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: is not a valid participant.
         recurring_meeting:
@@ -105,42 +106,34 @@ he:
       meeting:
         one: One-time meeting
         two: One-time meetings
-        many: One-time meetings
         other: One-time meetings
       meeting_agenda_item:
         one: Agenda item
         two: Agenda items
-        many: Agenda items
         other: Agenda items
       meeting_outcome:
         one: Outcome
         two: Outcomes
-        many: Outcomes
         other: Outcomes
       meeting_participant:
         one: Meeting participant
         two: Meeting participants
-        many: Meeting participants
         other: Meeting participants
       meeting_section:
         one: Section
         two: Sections
-        many: Sections
         other: Sections
       recurring_meeting:
         one: Recurring meeting
         two: Recurring meetings
-        many: Recurring meetings
         other: Recurring meetings
       scheduled_meeting:
         one: Scheduled meeting
         two: Scheduled meetings
-        many: Scheduled meetings
         other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
         two: iCal Meeting subscriptions
-        many: iCal Meeting subscriptions
         other: iCal Meeting subscriptions
   activity:
     filter:
@@ -170,6 +163,10 @@ he:
     meeting_agenda_opened: סדר היום לפגישה נפתח
     meeting_minutes: דקות פגישה נערך
     meeting_minutes_created: דקות פגישה נוצר
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Add to meeting
   label_add_work_package_to_meeting_dialog_title: Select meeting
   label_add_work_package_to_meeting_section_label: Section
@@ -178,6 +175,8 @@ he:
   label_agenda_backlog_clear_title: Clear agenda backlog?
   label_agenda_item_actions: Agenda items actions
   label_agenda_item_add: Add agenda item
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: הוסף הערות
   label_agenda_item_add_outcome: Add outcome
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -250,7 +249,6 @@ he:
   label_meeting_more:
     one: There is one more meeting.
     two: There are %{count} more meetings.
-    many: There are %{count} more meetings.
     other: There are %{count} more meetings.
   label_meeting_new: פגישה חדשה
   label_meeting_new_dynamic: New one-time meeting
@@ -298,12 +296,10 @@ he:
   label_recurring_meeting_more:
     one: There is one more scheduled meeting (%{schedule}).
     two: There are %{count} more scheduled meetings (%{schedule}).
-    many: There are %{count} more scheduled meetings (%{schedule}).
     other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
     one: There is one more past meeting.
     two: There are %{count} more past meetings.
-    many: There are %{count} more past meetings.
     other: There are %{count} more past meetings.
   label_recurring_meeting_new: New recurring meeting
   label_recurring_meeting_next_occurrence: Next occurrence
@@ -334,6 +330,21 @@ he:
   label_view_meeting_series: View meeting series
   label_write_outcome: Write outcome
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -508,6 +519,7 @@ he:
       no_items: No agenda items
       no_items_flash: There are no agenda items to present.
       previous: Previous
+      slide_progress: Slide %{current}/%{total}
       title: Presentation Mode
       total_items: "%{current} of %{total}"
     types:
@@ -586,7 +598,6 @@ he:
       occurrences:
         one: This results in 1 upcoming occurrence
         two: This results in %{count} upcoming occurrences
-        many: This results in %{count} upcoming occurrences
         other: This results in %{count} upcoming occurrences
       occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
@@ -621,17 +632,14 @@ he:
       x_daily:
         one: Every day
         two: Every %{count} days
-        many: Every %{count} days
         other: Every %{count} days
       x_monthly:
         one: Every month
         two: Every %{count} months
-        many: Every %{count} months
         other: Every %{count} months
       x_weekly:
         one: Every week
         two: Every %{count} weeks
-        many: Every %{count} weeks
         other: Every %{count} weeks
     in_words:
       daily_interval: Every %{interval} days
@@ -728,6 +736,7 @@ he:
   text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: No notes provided

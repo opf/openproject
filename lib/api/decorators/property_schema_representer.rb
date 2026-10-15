@@ -71,6 +71,8 @@ module API
                     :attribute_group,
                     :min_length,
                     :max_length,
+                    :minimum,
+                    :maximum,
                     :regular_expression,
                     :options,
                     :formula,
@@ -87,6 +89,8 @@ module API
       property :attribute_group, exec_context: :decorator
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
+      property :minimum, exec_context: :decorator
+      property :maximum, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
       property :deprecated, exec_context: :decorator
       property :options, exec_context: :decorator

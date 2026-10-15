@@ -42,17 +42,11 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def top_menu_left_menu_items
-    items = [
+    [
       render_module_top_menu_node,
-      render_logo
+      render_logo,
+      render_logo_icon
     ]
-
-    cs = CustomStyle.current
-    if cs&.logo_mobile.present? || !custom_logo?
-      items << render_logo_icon
-    end
-
-    items
   end
 
   def render_top_menu_center
@@ -78,9 +72,8 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_waffle_menu_logo_icon
-    style = CustomStyle.current
     classes = ["op-logo"]
-    if style&.logo_mobile.present?
+    if mobile_logo_present?
       classes << "op-logo--icon"
     else
       mode_class = User.current.pref.theme == "dark" ? "op-logo--icon_white" : "op-logo--icon"
@@ -114,6 +107,7 @@ module Redmine::MenuManager::TopMenuHelper
     capture do
       concat render_top_menu_teaser
       concat render_quick_add_menu
+      concat render(Header::WhatsNewMenuComponent.new)
       concat render_notification_top_menu_node
       concat render_help_top_menu_node
       concat render_user_top_menu_node

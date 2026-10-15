@@ -51,9 +51,16 @@ All changes of a work package are documented in the work package [Activity](../.
 
 ### Link to or create a wiki page
 
-You can link an existing wiki page to a work package or create a new one directly from the work package description.
+You can link an existing wiki page to a work package or create a new one in two ways:
 
-In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**. 
+- From the work package description using the rich text editor.
+- From the [**Wikis** tab of the work package](#manage-linked-wiki-pages).
+
+#### Link to or create a wiki page from the description
+
+In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**.
+
+These options are also available in other supported rich text editors, including meeting descriptions and outcomes, comments, wiki page content and custom fields of type **Text**.
 
 ![Insert menu with wiki page options opened in a CKEditor in an OpenProject work package](openproject_user_guide_wp_insert_wiki_menu.png)
 
@@ -67,8 +74,8 @@ Next steps vary depending on whether you are creating a new wiki page or linking
 
 Depending on your system configuration, you can choose between:
 
-- **Internal wiki**, if the OpenProject wiki module is enabled by an administrator.
-- **External wiki**, if an administrator has configured an external wiki integration, such as **XWiki** (Enterprise add-on).
+- **OpenProject**, if the OpenProject project wiki is enabled by an administrator.
+- an external wiki, if an administrator has configured it, such as **XWiki** (Enterprise add-on).
 
 > [!NOTE]
 > If only one wiki provider is configured, OpenProject automatically uses it and skips the **Wiki provider** selection step.
@@ -84,10 +91,14 @@ Depending on your system configuration, you can choose between:
 #### Link an existing wiki page
 
 3. Naming step is skipped. If there is more than one provider, you will need to select a Wiki provider. Click **Next**.
-4. Search for and select the wiki page you want to link. You can also enter a URL if you already know the destination.
+4. Search for or browse to select the wiki page you want to link. If you know part of the page title or another relevant term, enter it in the search bar to filter the available pages. The search results replace the page hierarchy. Clear the search bar to return to the hierarchy with all pages collapsed. You can also enter a URL if you already know the destination.
 5. Click **Add** to add the link to the work package description.
 
+![Add an existing wiki page](openproject_user_guide_wp_wiki_existing_page_search.png)
+
 The wiki page is inserted into the description as a link.
+
+When added from the work package description, the wiki page is inserted into the description as a link.
 
 All linked wiki pages are also listed in the **Wikis** tab of the work package.
 
@@ -99,7 +110,7 @@ The **Wikis** tab displays all wiki pages related to the work package.
 
 Depending on your configuration and existing links, it can contain the following sections:
 
-- One section for each configured wiki provider (for example, **Internal wiki** or **XWiki Knowledge Hub**) listing related wiki pages
+- One section for each configured wiki provider (for example, **OpenProject** or **XWiki Knowledge Hub**) listing related wiki pages
 - **Mentioned in description**
 - **Referenced in**
 

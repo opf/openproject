@@ -389,7 +389,7 @@ RSpec.describe DemoData::WorkPackageSeeder do
     end
   end
 
-  describe "target_versions" do
+  describe "versions" do
     let(:version_alpha) { create(:version, project:, name: "Alpha") }
     let(:version_beta) { create(:version, project:, name: "Beta") }
     let(:seed_data) do
@@ -399,7 +399,7 @@ RSpec.describe DemoData::WorkPackageSeeder do
       seed_data
     end
 
-    context "without target_versions" do
+    context "without any version reference" do
       let(:work_packages_data) do
         [work_package_data(subject: "no versions")]
       end
@@ -434,6 +434,33 @@ RSpec.describe DemoData::WorkPackageSeeder do
         expect(wp.work_package_versions.pluck(:kind, :version_id))
           .to contain_exactly(["target", version_alpha.id], ["target", version_beta.id])
         expect(wp.target_versions).to contain_exactly(version_alpha, version_beta)
+      end
+    end
+
+    context "with observed_in_versions references" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "observed", observed_in_versions: %i[version_alpha version_beta])]
+      end
+
+      it "creates one kind: 'observed_in' row per resolved version" do
+        wp = WorkPackage.find_by(subject: "observed")
+        expect(wp.work_package_versions.pluck(:kind, :version_id))
+          .to contain_exactly(["observed_in", version_alpha.id], ["observed_in", version_beta.id])
+        expect(wp.observed_in_versions).to contain_exactly(version_alpha, version_beta)
+      end
+    end
+
+    context "with both target_versions and observed_in_versions references" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "both",
+                           target_versions: [:version_beta],
+                           observed_in_versions: [:version_alpha])]
+      end
+
+      it "keeps the two kinds apart" do
+        wp = WorkPackage.find_by(subject: "both")
+        expect(wp.target_versions).to contain_exactly(version_beta)
+        expect(wp.observed_in_versions).to contain_exactly(version_alpha)
       end
     end
   end

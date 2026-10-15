@@ -26,7 +26,7 @@ get:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
   responses:
     "200":
       description: OK
@@ -78,7 +78,7 @@ post:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
   requestBody:
     content:
       application/json:

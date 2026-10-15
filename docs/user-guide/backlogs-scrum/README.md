@@ -25,6 +25,35 @@ The Backlogs module is divided into two sides: on the left, you'll find the **Ba
 
 ![Backlogs module in OpenProject showing backlog items and multiple sprints with work packages](openproject_user_guide_backlog_bucket.png)
 
+### Backlog and sprint filters
+
+At the top of the Backlog and sprints page, you can search and filter work packages to focus on specific items during backlog refinement or sprint planning.
+
+Enter text in the **Search by name** field to show only work packages with a matching subject. The results are updated as you type across sprints, backlog buckets and the Inbox backlog.
+
+![Search box at the top of the backlog and sprints page](openproject_user_guide_backlogs_search_box.png)
+
+Click the **All filters** button to further narrow down the displayed work packages.
+
+![All filters button](openproject_user_guide_all_filters_button.png)
+
+In the filter panel, you can add filters for type, subject, assignee, status, other available work package attributes and custom fields. [Filtering work packages](../work-packages/work-package-table-configuration/#filter-work-packages) works the same way as throughout the application.
+The Backlog and sprints view is updated automatically when filters are applied.
+
+![Add filter form displaying different filtering options](openproject_user_guide_backlogs_add_filter_options.png)
+
+![Details of opened add filter form](openproject_user_guide_all_filters_opened_form.png)
+
+Search and filters apply to work packages in all containers: sprints, backlog buckets and the Inbox backlog. Work packages that do not match the current criteria are temporarily hidden.
+
+The work package count and story points shown for each container are adjusted to reflect the currently visible work packages. If no work packages in a container match the current criteria, the container remains visible but indicates that there are no matching work packages.
+
+> [!NOTE]
+> Searching and filtering only changes which work packages are displayed. It does not change their assignment to a sprint, backlog bucket or the Inbox backlog.
+
+Click the **All filters** button again to close the filter panel. 
+> [!NOTE]
+> Filtered Backlogs views were introduced in OpenProject 17.9 and cannot yet be saved. In the meantime, you can bookmark the URL of a filtered view to return to it later or share the URL with others.
 ### Sprint containers
 
 Each sprint is displayed in a dedicated container showing key planning information, including the sprint name, status, start and end dates, number of work packages, and total story points. 
@@ -113,6 +142,8 @@ The Inbox backlog is automatically populated with all work packages in a project
 
 When there are too many items in the backlog, a **Show more items** link appears in the middle of the Inbox backlog. This collapses the middle section so that you always see the top and the bottom of the Inbox backlog.
 
+If search or filters are active, the number of hidden work packages is adjusted accordingly. Clicking **Show more items** only displays work packages that match the current criteria.
+
 ![Backlog view with many items collapsed behind a "Show more items" link in the middle](openproject_user_guide_backlogs_show_more_items.png)
 
 ## Sort and move work packages
@@ -157,6 +188,10 @@ The URL is the same URL available through **More (three dots) → Copy**.
 
 > [!NOTE]
 > How a dropped work package is handled and displayed depends on the target application, browser and operating system. Some applications may not accept drag and drop from all browsers.
+
+When search or filters are active, sorting and move actions consider only the currently visible work packages. If you reorder a work package while the view is filtered, its new position is retained after clearing the search or filters.
+
+If filtering leaves a sprint or backlog bucket with no visible work packages, a work package dragged into that container is placed at the top.
 
 ### Excluded work package types and statuses
 

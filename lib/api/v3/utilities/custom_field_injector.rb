@@ -40,6 +40,7 @@ module API
           "int" => "Integer",
           "float" => "Float",
           "date" => "Date",
+          "datetime" => "DateTime",
           "bool" => "Boolean",
           "user" => "User",
           "version" => "Version",
@@ -207,6 +208,8 @@ module API
                         has_default: custom_field.default_value.present?,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
+                        minimum: custom_field.min_bound,
+                        maximum: custom_field.max_bound,
                         regular_expression: cf_regexp(custom_field),
                         options: cf_options(custom_field),
                         formula: cf_formula(custom_field)
@@ -317,8 +320,11 @@ module API
 
             value = send(custom_field.attribute_getter)
 
-            if custom_field.field_format == "text"
+            case custom_field.field_format
+            when "text"
               ::API::Decorators::Formattable.new(value, object: self)
+            when "datetime"
+              ::API::V3::Utilities::DateTimeFormatter.format_datetime(value, allow_nil: true)
             else
               value
             end

@@ -38,6 +38,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_header(variant: :large) %>
 
   <%= render(
-        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:)
+        Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(project:, source:, url:, selected:)
       ) %>
 <% end %>

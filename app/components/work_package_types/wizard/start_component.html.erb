@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_scoped(:heading) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:lead_html) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:description) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 4)) { t_scoped(:step_by_step) } %>
+
+<% if show_reuse? %>
+  <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 2)) { t_start(:reuse_heading) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_intro) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_named) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_inherit) } %>
+
+  <%= flex_layout(align_items: :stretch, classes: "gap-3", direction: [:column, nil, :row]) do |modes| %>
+    <% modes.with_box(flex: 1) do %>
+      <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
+        <% box.with_title { t_start(:inherit_title) } %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:inherit_description) } %>
+        <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
+        <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+      <% end %>
+    <% end %>
+
+    <% modes.with_box(flex: 1) do %>
+      <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
+        <% box.with_title { t_start(:manual_title) } %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:manual_description) } %>
+        <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
+        <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

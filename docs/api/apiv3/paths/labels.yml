@@ -1,0 +1,49 @@
+# /api/v3/labels
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            'simple label collection':
+              $ref: "../components/examples/label_collection.yml"
+          schema:
+            "$ref": "../components/schemas/label_collection_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      $ref: "../components/responses/invalid_query.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view work package (on any project)
+      headers: {}
+  tags:
+  - Labels
+  description: Returns a paginated collection of labels, sorted by name.
+  operationId: List_all_Labels
+  summary: List all Labels
+  parameters:
+    - name: filters
+      description: |-
+        JSON specifying filter conditions.
+        Currently supported filters are:
+
+        + name: filters labels by name, with the operators `~` (contains), `!~` (does not contain) and `**` (all)
+      example: '[{ "name": { "operator": "~", "values": ["bug"] } }]'
+      in: query
+      required: false
+      schema:
+        type: string

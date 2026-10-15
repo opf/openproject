@@ -33,10 +33,11 @@ module ResourceManagement
     # Shared setup for the timeline's JSON feeds: locates the planner and view and
     # loads its allocations. Subclasses render the FullCalendar resources and events.
     class FeedsController < BaseController
+      include ResourceManagement::PlannerRoutes
+
       menu_item :resource_management
 
-      before_action :find_project_by_project_id
-      before_action :authorize
+      load_and_authorize_in_planner_section
       before_action :find_resource_planner
       before_action :find_view
 

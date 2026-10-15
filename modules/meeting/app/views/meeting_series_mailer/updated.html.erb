@@ -35,12 +35,15 @@ See COPYRIGHT and LICENSE files for more details.
                bottom_spacing: false
              } %>
 
+  <% new_schedule = @changes.fetch(:new_schedule) { @series.full_schedule_in_words } %>
+  <% current_location = @changes.fetch(:new_location) { @series.location.presence || @series.template&.location } %>
+
   <%= render layout: "mailer/border_table" do %>
     <tr>
       <%= placeholder_cell("24px", vertical: true) %>
       <td>
         <table>
-          <% if @changes[:old_schedule].present? && @changes[:old_schedule] != @series.full_schedule_in_words %>
+          <% if @changes[:old_schedule].present? && @changes[:old_schedule] != new_schedule %>
           <tr>
             <td style="<%= placeholder_text_styles(width: "30%") %>">
               <%= t("meeting.email.series_updated.old_schedule") %>:
@@ -56,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= t("meeting.email.series_updated.new_schedule") %>:
             </td>
             <td style="<%= placeholder_text_styles(color: "#1f2328", "font-weight": "bold") %>">
-              <%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+              <%= new_schedule %> (<%= formatted_time_zone_offset %>)
             </td>
           </tr>
           <% else %>
@@ -65,12 +68,11 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= I18n.t(:label_recurring_meeting_schedule) %>:
               </td>
               <td style="<%= placeholder_text_styles %>">
-                <%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+                <%= new_schedule %> (<%= formatted_time_zone_offset %>)
               </td>
             </tr>
           <% end %>
 
-          <% current_location = @series.location.presence || @series.template&.location %>
           <% if @changes[:old_location].present? || current_location.present? %>
             <% if @changes[:old_location] != current_location %>
               <tr>

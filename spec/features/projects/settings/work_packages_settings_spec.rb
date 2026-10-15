@@ -44,7 +44,7 @@ RSpec.describe "Projects", "work packages settings menu", :js do
       it "displays the types tab" do
         work_packages_settings_page.visit!
         expect(page).to have_css(".tabnav-tab", text: "Types")
-        expect(page).to have_css("#types-form")
+        expect(page).to have_test_selector("project-types-add-button")
       end
     end
 
@@ -57,18 +57,6 @@ RSpec.describe "Projects", "work packages settings menu", :js do
         work_packages_settings_page.visit!
         expect(page).to have_css(".tabnav-tab", text: "Categories")
         expect(page).to have_css("span", text: "There are currently no work package categories.")
-      end
-    end
-
-    context "when the user has access to the custom fields tab" do
-      let(:permissions) { %i(edit_project view_work_packages select_custom_fields) }
-
-      current_user { create(:user, member_with_permissions: { project => permissions }) }
-
-      it "displays the custom fields tab" do
-        work_packages_settings_page.visit!
-        expect(page).to have_css(".tabnav-tab", text: "Custom fields")
-        expect(page).to have_css("span", text: "There are currently no custom fields available.")
       end
     end
 

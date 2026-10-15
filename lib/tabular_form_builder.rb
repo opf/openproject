@@ -310,7 +310,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def label_for_field_prefix(content, options)
     if options[:prefix]
-      content << content_tag(:span, options[:prefix].html_safe, class: "sr-only")
+      content << content_tag(:span, options[:prefix], class: "sr-only")
     end
   end
 

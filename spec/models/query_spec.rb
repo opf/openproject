@@ -85,6 +85,13 @@ RSpec.describe Query,
       expect(query.find_active_filter("status_id")).to be_nil
       expect(query.find_active_filter(:status_id)).not_to be_nil
     end
+
+    it "finds a filter added under the other interchangeable version key" do
+      query.add_filter("version_id", "=", ["1"])
+
+      expect(query.find_active_filter(:target_version_id))
+        .to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+    end
   end
 
   describe "#available_advanced_filters" do
@@ -94,6 +101,23 @@ RSpec.describe Query,
       classes = query.available_advanced_filters.map(&:class)
 
       expect(classes).not_to include(Queries::WorkPackages::Filter::ManualSortFilter)
+    end
+
+    it "excludes the relation-type filters and the generic relatable filter" do
+      classes = query.available_advanced_filters.map(&:class)
+
+      expect(classes).not_to include(Queries::WorkPackages::Filter::BlocksFilter,
+                                     Queries::WorkPackages::Filter::BlockedFilter,
+                                     Queries::WorkPackages::Filter::PrecedesFilter,
+                                     Queries::WorkPackages::Filter::FollowsFilter,
+                                     Queries::WorkPackages::Filter::DuplicatesFilter,
+                                     Queries::WorkPackages::Filter::DuplicatedFilter,
+                                     Queries::WorkPackages::Filter::PartofFilter,
+                                     Queries::WorkPackages::Filter::IncludesFilter,
+                                     Queries::WorkPackages::Filter::RequiresFilter,
+                                     Queries::WorkPackages::Filter::RequiredFilter,
+                                     Queries::WorkPackages::Filter::RelatesFilter,
+                                     Queries::WorkPackages::Filter::RelatableFilter)
     end
 
     it "still exposes regular work-package filters" do
@@ -365,9 +389,6 @@ RSpec.describe Query,
 
         # rubocop:disable RSpec/MessageSpies -- a spy would also record the call above
         expect(project)
-          .not_to receive(:all_work_package_custom_fields)
-
-        expect(project)
           .not_to receive(:enabled_types)
         # rubocop:enable RSpec/MessageSpies
 
@@ -382,8 +403,7 @@ RSpec.describe Query,
         query.project = project2
 
         allow(project2)
-          .to receive_messages(all_work_package_custom_fields: WorkPackageCustomField.none,
-                               enabled_types: Type.none)
+          .to receive(:enabled_types).and_return(Type.none)
 
         query.displayable_columns
       end
@@ -395,12 +415,9 @@ RSpec.describe Query,
 
         query.project = nil
 
-        empty_wp_relation = double(on_visible_type_and_project: [])
-        # We cannot simply return `WorkPackageCustomField.none` here, as that aliases to `all` and would trigger
-        # its own expectation again. Hence, we must set up a double.
         allow(WorkPackageCustomField)
-          .to receive(:all)
-                .and_return empty_wp_relation
+          .to receive(:on_visible_type_and_project)
+                .and_return []
 
         allow(Type)
           .to receive(:all)
@@ -408,7 +425,7 @@ RSpec.describe Query,
 
         query.displayable_columns
 
-        expect(WorkPackageCustomField).to have_received(:all).once
+        expect(WorkPackageCustomField).to have_received(:on_visible_type_and_project).once
       end
     end
 
@@ -488,7 +505,7 @@ RSpec.describe Query,
 
   describe ".available_columns", with_settings: { work_package_multiple_versions: false } do
     let(:type) { create(:type) }
-    let(:custom_field) { create(:list_wp_custom_field, types: [type], projects: [project]) }
+    let(:custom_field) { create(:list_wp_custom_field, types: [type]) }
 
     before do
       custom_field
@@ -814,6 +831,22 @@ RSpec.describe Query,
         expect(subject.object_id).to eql query.filter_for("status_id").object_id
       end
     end
+
+    context "for version_id/target_version_id, which are interchangeable" do
+      context "with multiple versions active", with_settings: { work_package_multiple_versions: true } do
+        it "returns the target versions filter for either key" do
+          expect(query.filter_for("version_id")).to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+          expect(query.filter_for("target_version_id")).to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+        end
+      end
+
+      context "with multiple versions inactive", with_settings: { work_package_multiple_versions: false } do
+        it "returns the version filter for either key" do
+          expect(query.filter_for("version_id")).to be_a(Queries::WorkPackages::Filter::VersionFilter)
+          expect(query.filter_for("target_version_id")).to be_a(Queries::WorkPackages::Filter::VersionFilter)
+        end
+      end
+    end
   end
 
   describe "filters after deserialization" do
@@ -840,6 +873,15 @@ RSpec.describe Query,
       it "is a noop" do
         expect { query.remove_filter("assigned_to_id") }
           .not_to change { query.filters.count }
+      end
+    end
+
+    context "if the filter was added under the other interchangeable version key" do
+      it "removes it" do
+        query.add_filter("version_id", "=", ["1"])
+
+        expect { query.remove_filter("target_version_id") }
+          .to change { query.filters.count }.by(-1)
       end
     end
   end

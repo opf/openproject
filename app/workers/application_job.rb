@@ -34,6 +34,7 @@ class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
   include SharedJobSetup
   include JobPriority
+  include GoodJob::ActiveJobExtensions::Labels
 
   def job_scheduled_at
     GoodJob::Job.where(id: job_id).pick(:scheduled_at)

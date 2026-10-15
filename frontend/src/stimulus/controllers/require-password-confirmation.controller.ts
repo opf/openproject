@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,6 +28,7 @@
 import { ApplicationController } from 'stimulus-use';
 import { renderStreamMessage } from '@hotwired/turbo';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 export default class RequirePasswordConfirmationController extends ApplicationController {
   static services:ServiceKey[] = ['pathHelperService'];
@@ -75,9 +75,9 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
     document.removeEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
   }
 
-  private onDialogClose(event:CustomEvent) {
-    const dialog = (event.detail as { dialog?:HTMLElement }|undefined)?.dialog;
-    if (dialog?.id !== 'password-confirmation-dialog') {
+  private onDialogClose(event:CustomEvent<DialogCloseDetail>) {
+    const { detail: { dialog } } = event;
+    if (dialog.id !== 'password-confirmation-dialog') {
       return;
     }
 

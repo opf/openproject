@@ -36,6 +36,18 @@ RSpec.describe Budget do
   let(:project) { create(:project_with_types) }
   let(:user) { create(:user) }
 
+  describe "#labor_budget_items" do
+    it "eager-loads the principal for users and placeholder users alike" do
+      budget.save!
+      create(:labor_budget_item, budget:, principal: user, hours: 1)
+      create(:labor_budget_item, budget:, principal: create(:placeholder_user), hours: 2)
+
+      principals = budget.reload.labor_budget_items.map(&:principal)
+
+      expect(principals.map(&:class)).to contain_exactly(User, PlaceholderUser)
+    end
+  end
+
   describe "destroy" do
     let(:work_package) { create(:work_package, project:) }
 

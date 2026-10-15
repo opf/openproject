@@ -75,6 +75,10 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     expect(rendered_component).to have_select("target_version_ids[]", selected: I18n.t(:label_no_change_option))
   end
 
+  it "defaults the observed-in-versions select to '(no change)' when nothing is selected" do
+    expect(rendered_component).to have_select("observed_in_version_ids[]", selected: I18n.t(:label_no_change_option))
+  end
+
   it "wires the refresh-on-form-changes controller" do
     expect(rendered_component).to have_css(
       "form[data-controller='refresh-on-form-changes']" \
@@ -121,6 +125,25 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     end
   end
 
+  context "with a selected observed-in version" do
+    let(:component) do
+      build_component(selected_values: { observed_in_version_ids: [version.id.to_s] })
+    end
+
+    it "preserves the selected value" do
+      expect(rendered_component).to have_select("observed_in_version_ids[]", selected: version.name)
+    end
+  end
+
+  context "with a closed observed-in version" do
+    let!(:closed_version) { create(:version, project: target_project, name: "Closed version", status: "closed") }
+
+    it "offers closed versions, unlike the target-version select" do
+      expect(rendered_component).to have_select("observed_in_version_ids[]", with_options: [closed_version.name])
+      expect(rendered_component).to have_no_select("target_version_ids[]", with_options: [closed_version.name])
+    end
+  end
+
   context "when the user's roles differ between source and target project" do
     let(:source_status) { create(:status, name: "Source only") }
     let(:target_status) { create(:status, name: "Target only") }
@@ -146,8 +169,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       create(:string_wp_custom_field,
              name: "Risk score",
              is_required: true,
-             types: [type],
-             projects: [project, target_project])
+             types: [type])
     end
 
     it "renders the required marker as an HTML element, not escaped text" do
@@ -197,8 +219,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       create(:version_wp_custom_field,
              name: "Milestone",
              is_required: true,
-             types: [type],
-             projects: [project, target_project])
+             types: [type])
     end
 
     it "scopes the custom field options to the target project" do

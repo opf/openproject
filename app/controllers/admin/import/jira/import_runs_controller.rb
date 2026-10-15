@@ -36,14 +36,24 @@ module Admin::Import::Jira
 
     layout "admin"
 
-    VALID_STEPS = %i[
-      fetch_instance_meta
-      fetch_projects_meta
-      configure
-      import
-      revert
-      finalize
-    ].freeze
+    # The step a wizard action may submit depends on the state it is rendered in.
+    # Mirrors the links in the ImportRuns::WizardStep* components; states absent
+    # here render no action at all.
+    STEPS_BY_STATE = {
+      initial: %i[fetch_instance_meta],
+      instance_meta_error: %i[fetch_instance_meta],
+      instance_meta_done: %i[configure],
+      configuring: %i[fetch_projects_meta],
+      projects_meta_error: %i[fetch_projects_meta],
+      projects_meta_done: %i[import],
+      importing: %i[abort_import],
+      import_error: %i[import revert],
+      imported: %i[finalize revert],
+      revert_error: %i[revert],
+      finalizing_error: %i[finalize]
+    }.freeze
+
+    VALID_STEPS = STEPS_BY_STATE.values.flatten.uniq.freeze
 
     menu_item :jira_import
 
@@ -60,7 +70,7 @@ module Admin::Import::Jira
 
     def continue
       step = params[:step]
-      change_step(step) unless @jira_import.status_running?
+      change_step(step)
       stream_wizard do
         open_select_projects_dialog if step.present? && step.to_sym == :configure && @jira_import.in_state?(:configuring)
       end
@@ -81,7 +91,7 @@ module Admin::Import::Jira
     end
 
     def remove
-      raise StandardError.new(I18n.t(:"admin.jira.run.remove_error")) if @jira_import.status_running?
+      raise StandardError.new(I18n.t(:"admin.jira.run.remove_error")) if @jira_import.running?
 
       @jira_import.destroy!
       redirect_to admin_import_jira_path(@jira), status: :see_other
@@ -96,23 +106,32 @@ module Admin::Import::Jira
     def change_step(step)
       return if step.blank?
 
-      method_name = VALID_STEPS.detect { |i| i == step.to_sym }
+      method_name = VALID_STEPS.detect { |i| i.to_s == step }
       raise ArgumentError, "Invalid step: #{step}" unless method_name
+      raise ArgumentError, I18n.t(:"admin.jira.run.step_not_available") unless allowed_steps.include?(method_name)
 
       send(method_name)
     end
 
+    def allowed_steps
+      STEPS_BY_STATE.fetch(@jira_import.current_state.to_sym, [])
+    end
+
     def handle_error(error)
       respond_to do |format|
-        format.turbo_stream do
-          render_error_flash_message_via_turbo_stream(message: error.message.to_s)
-          respond_with_turbo_streams
-        end
-        format.html do
-          flash[:error] = error.message
-          redirect_to(admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id))
-        end
+        format.turbo_stream { render_error_turbo_stream(error) }
+        format.html { redirect_after_error(error) }
       end
+    end
+
+    def render_error_turbo_stream(error)
+      render_error_flash_message_via_turbo_stream(message: error.message.to_s)
+      respond_with_turbo_streams
+    end
+
+    def redirect_after_error(error)
+      flash[:error] = error.message
+      redirect_to(admin_import_jira_run_path(jira_id: @jira.id, id: @jira_import.id))
     end
 
     def fetch_instance_meta
@@ -124,25 +143,23 @@ module Admin::Import::Jira
     end
 
     def import
-      # raise StandardError.new(I18n.t(:"admin.jira.run.import_blocked_error")) if blocking_run
+      raise StandardError, semantic_identifiers_required_message unless Setting::WorkPackageIdentifier.semantic?
 
       @jira_import.transition_to!(:importing)
     end
 
-    def blocking_run
-      Import::JiraImport
-        .joins(:transitions)
-        .where.not(id: @jira_import.id)
-        .where(
-          jira_import_transitions: {
-            # Filtering by most_recent: true ensures the query checks each import's current state, not its history.
-            # Without it, an import that once passed through importing but has since moved to reverted
-            # would still match — giving a false positive.
-            most_recent: true,
-            to_state: %w[imported import_error importing reverting revert_error]
-          }
-        )
-        .first
+    def semantic_identifiers_required_message
+      helpers.safe_join(
+        [
+          I18n.t(:"admin.jira.errors.semantic_identifiers_must_be_enabled.title"),
+          link_translate(
+            "admin.jira.errors.semantic_identifiers_must_be_enabled.description",
+            links: { link: admin_settings_work_packages_identifier_path },
+            external: true
+          )
+        ],
+        " "
+      )
     end
 
     def configure
@@ -155,6 +172,10 @@ module Admin::Import::Jira
 
     def finalize
       @jira_import.transition_to!(:finalizing)
+    end
+
+    def abort_import
+      @jira_import.transition_to!(:import_aborting)
     end
 
     def find_jira_and_jira_import

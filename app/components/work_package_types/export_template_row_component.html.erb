@@ -31,13 +31,17 @@ See COPYRIGHT and LICENSE files for more details.
     flex_layout(align_items: :center) do |item_information|
       unless readonly?
         item_information.with_column(mr: 2) do
-          render(Primer::OpenProject::DragHandle.new)
+          render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" }))
         end
       end
       item_information.with_column(flex: 1, flex_layout: true) do |title_container|
         title_container.with_column(pt: 1, mr: 2) do
-          render(Primer::Beta::Text.new) do
-            @template.label
+          if readonly?
+            render(Primer::Beta::Text.new) { @template.label }
+          else
+            render(Primer::Beta::Link.new(href: edit_settings_path, data: { "turbo-frame": "_top" })) do
+              @template.label
+            end
           end
         end
         title_container.with_column(pt: 1, mr: 2) do
@@ -58,13 +62,24 @@ See COPYRIGHT and LICENSE files for more details.
         # A read-only toggle is disabled, so it never posts; omit the mutation wiring entirely.
         unless readonly?
           toggle_options.merge!(
-            src: toggle_type_pdf_export_template_path(**@variant.path_args, id: @template.id),
+            src: toggle_variant_pdf_export_template_path(helpers.variant_scope_project, @variant, @template.id),
             csrf_token: form_authenticity_token,
             data: { turbo_method: :post, turbo_stream: true },
             classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
           )
         end
         render(Primer::Alpha::ToggleSwitch.new(**toggle_options))
+      end
+      unless readonly?
+        item_information.with_column do
+          render(
+            Primer::Alpha::ActionMenu.new(test_selector: "pdf-export-template-row-#{@template.id}-menu")
+          ) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:button_actions), scheme: :invisible)
+
+            with_move_items(menu)
+          end
+        end
       end
     end
   end

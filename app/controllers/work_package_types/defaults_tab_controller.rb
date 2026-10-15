@@ -46,7 +46,7 @@ module WorkPackageTypes
                                   default_work_package_description: permitted[:default_work_package_description])
 
       if result.success?
-        redirect_to edit_type_defaults_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
+        redirect_to edit_variant_defaults_path(variant_scope_project, @variant), notice: I18n.t(:notice_successful_update)
       else
         render :edit, status: :unprocessable_entity
       end

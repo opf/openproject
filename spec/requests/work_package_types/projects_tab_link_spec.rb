@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
-               type: :rails_request, with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -40,7 +40,7 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
   before { login_as admin }
 
   def link_projects(*projects, variant: hardware, include_sub_items: false)
-    post link_type_projects_path(type_id: type.id, variant_id: variant.id),
+    post link_type_variant_projects_path(type_id: type.id, variant_id: variant.id),
          params: { project_ids: projects.map { { nodeId: it.id.to_s }.to_json },
                    include_sub_items: include_sub_items ? "1" : "0" },
          as: :turbo_stream

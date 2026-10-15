@@ -37,6 +37,11 @@ RSpec.describe "Versions and categories admin settings" do
     login_as(admin)
   end
 
+  def confirm_irreversible_action
+    check "I understand that this action is not reversible"
+    expect(page).to have_checked_field("I understand that this action is not reversible")
+  end
+
   context "when the setting is off", with_settings: { work_package_multiple_versions: false } do
     before do
       visit "/admin/settings/versions_and_categories"
@@ -127,7 +132,6 @@ RSpec.describe "Versions and categories admin settings" do
   end
 
   context "when confirming the enable dialog", :js do
-    # Persisted rather than stubbed so the job's own write to the setting is observable.
     before do
       Setting.work_package_multiple_versions = false
 
@@ -140,43 +144,24 @@ RSpec.describe "Versions and categories admin settings" do
       within "[role=alertdialog]" do
         expect(page).to have_button("Enable", disabled: true)
 
-        check "I understand that this action is not reversible"
+        confirm_irreversible_action
 
-        expect(page).to have_button("Enable", disabled: false)
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
       end
     end
 
-    it "enqueues the job and shows the in-progress state",
-       with_good_job_batches: [WorkPackages::EnableMultipleVersionsJob] do
+    it "flips the setting synchronously and shows the success state" do
       click_on "Enable multiple values"
 
       within_dialog "Enable multiple target versions" do
-        check "I understand that this action is not reversible"
+        confirm_irreversible_action
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
         click_button "Enable"
       end
 
-      expect(page).to have_text("Enabling multiple versions", wait: 10)
-      expect(WorkPackages::EnableMultipleVersionsJob.in_progress?).to be true
-    end
-
-    # The inline adapter completes the job during the request, so the spinner can only
-    # come from the response asserting in_progress instead of re-deriving the state.
-    it "shows the in-progress state even when the job finishes immediately, then flips to success",
-       with_good_job: [WorkPackages::EnableMultipleVersionsJob] do
-      click_on "Enable multiple values"
-
-      within_dialog "Enable multiple target versions" do
-        check "I understand that this action is not reversible"
-        click_button "Enable"
-      end
-
-      expect(page).to have_text("Enabling multiple versions", wait: 10)
       expect(page).to have_no_css("dialog")
-
       expect(page).to have_text("Recent changes", wait: 10)
       expect(page).to have_no_text("Enable multiple values")
-      # Read the row directly: the spec thread's setting cache still holds the value
-      # from before the job ran.
       expect(Setting.find_by(name: "work_package_multiple_versions")).to have_attributes(value: true)
     end
   end

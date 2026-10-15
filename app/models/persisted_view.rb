@@ -41,7 +41,8 @@ class PersistedView < ApplicationRecord
   enum :category, {
     work_package: "work_package",
     project: "project",
-    resource_management: "resource_management"
+    resource_management: "resource_management",
+    cost_report: "cost_report"
   }, validate: { allow_nil: true }
 
   validates :name, presence: true, length: { maximum: 255 }

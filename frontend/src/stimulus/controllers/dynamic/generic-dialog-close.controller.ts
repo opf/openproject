@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 export default class GenericDialogCloseController extends Controller<HTMLElement> {
   // TODO: Add something that we can only refresh a certain turbo frame, etc
@@ -39,8 +39,8 @@ export default class GenericDialogCloseController extends Controller<HTMLElement
     document.removeEventListener('dialog:close', this.dialogCloseListener);
   }
 
-  dialogCloseListener(this:void, event:CustomEvent):void {
-    const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+  dialogCloseListener(this:void, event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
 
     if (dialog.id === 'time-entry-dialog' && submitted) {
       window.location.reload();

@@ -24,6 +24,7 @@ tr:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Süre
         end_time: End time
         location: Yer
@@ -90,6 +91,7 @@ tr:
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: geçerli bir katılımcı değildir.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: geçerli bir katılımcı değildir.
         recurring_meeting:
@@ -152,6 +154,10 @@ tr:
     meeting_agenda_opened: Toplantı gündemi açıldı
     meeting_minutes: Toplantı dakikaları düzenlendi
     meeting_minutes_created: Toplantı tutanakları oluşturuldu
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Toplantıya ekle
   label_add_work_package_to_meeting_dialog_title: Toplantı seç
   label_add_work_package_to_meeting_section_label: Bölüm
@@ -160,6 +166,8 @@ tr:
   label_agenda_backlog_clear_title: Gündemdeki birikmiş iş listesi temizlensin mi?
   label_agenda_item_actions: Gündem maddeleri için eylemler
   label_agenda_item_add: Gündem maddesi ekle
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Not ekle
   label_agenda_item_add_outcome: Sonuç ekle
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -310,6 +318,21 @@ tr:
   label_view_meeting_series: Toplantı serisini görüntüle
   label_write_outcome: Sonuç yazın
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -484,6 +507,7 @@ tr:
       no_items: Gündem maddesi yok
       no_items_flash: Sunulacak herhangi bir gündem maddesi bulunmamaktadır.
       previous: Önceki
+      slide_progress: Slide %{current}/%{total}
       title: Sunum modu
       total_items: "%{current} / %{total}"
     types:
@@ -690,6 +714,7 @@ tr:
   text_agenda_item_duplicate_in_next_meeting: "%{time}Bu gündem maddesinin bir kopyasını %{date} adresindeki bir sonraki toplantıya eklemek istediğinizden emin misiniz? Sonuçlar çoğaltılmayacaktır."
   text_agenda_item_duplicated_in_next_meeting: Gündem maddesi bir sonraki toplantıda tekrarlandı, %{date}adresinde
   text_agenda_item_move_next_meeting: Bu madde %{date} tarihindeki %{time} saatli bir sonraki toplantıya taşınacaktır.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Gündem maddesi %{date} tarihli sonraki toplantıya taşındı
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Not verilmemiştir

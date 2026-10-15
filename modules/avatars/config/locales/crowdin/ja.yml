@@ -4,12 +4,15 @@ ja:
   avatar_deleted: アバターの削除が完了しました。
   avatars:
     label_avatar: アバター
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: カスタムのアバター
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: ユーザーのGravatarを有効にする
       enable_local_avatars: ユーザーのカスタムアバターを有効にする
       gravatar_default: デフォルトのグラバター画像
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProjectでは、 %{gravatar_url}でGravatarを登録している場合はその画像を使用し、登録がない場合はデフォルトの画像またはアイコンを使用します。
     text_avatar_local: また、画像をクリックすることで、Gravatarの代わりに独自のアバターをアップロードすることもできます。128×128ピクセルの画像の使用をお勧めします。
     text_avatar_local_only: 画像をクリックすると、独自のアバターをアップロードできます。128×128ピクセルの画像をお勧めします。

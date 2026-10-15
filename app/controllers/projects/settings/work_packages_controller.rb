@@ -32,12 +32,10 @@ class Projects::Settings::WorkPackagesController < Projects::SettingsController
   menu_item :settings_work_packages
 
   def show
-    if User.current.allowed_in_project?(:manage_types, @project)
+    if User.current.allowed_in_project?(%i[manage_types manage_project_variants], @project)
       redirect_to project_settings_work_packages_types_path
     elsif User.current.allowed_in_project?(:manage_categories, @project)
       redirect_to project_settings_work_packages_categories_path
-    elsif User.current.allowed_in_project?(:select_custom_fields, @project)
-      redirect_to project_settings_work_packages_custom_fields_path
     elsif User.current.allowed_in_project?(:edit_project, @project)
       redirect_to project_settings_work_packages_internal_comments_path
     end

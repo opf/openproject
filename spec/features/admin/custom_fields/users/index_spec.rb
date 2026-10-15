@@ -152,9 +152,11 @@ RSpec.describe "List user custom fields", :js do
 
     it "allows to delete a custom field" do
       within_user_custom_field_menu(boolean_user_custom_field) do
-        accept_confirm do
-          click_on("Delete")
-        end
+        click_on("Delete")
+      end
+
+      within_dialog("Delete custom field #{boolean_user_custom_field.name}") do
+        click_on "Delete"
       end
 
       expect(page).to have_no_css("[data-test-selector='user-custom-field-container-#{boolean_user_custom_field.id}']")

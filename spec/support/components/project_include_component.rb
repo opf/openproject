@@ -47,7 +47,7 @@ module Components
       expect(page).to have_css("[data-test-selector='project-include-list']")
     end
 
-    def expect_count(count, wait: 5)
+    def expect_count(count, wait: 20)
       expect(page).to have_css("[data-test-selector='project-include-button'] .badge", text: count, wait:)
     end
 

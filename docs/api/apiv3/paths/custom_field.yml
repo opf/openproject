@@ -5,11 +5,13 @@ get:
   operationId: get_custom_field
   description: |-
     Retrieves the custom field with the given ID.
+  tags:
+    - Custom Fields
   parameters:
     - name: id
       description: The custom field's unique identifier
       in: path
-      example: '42'
+      example: 42
       required: true
       schema:
         type: integer

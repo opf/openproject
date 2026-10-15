@@ -40,6 +40,8 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("admin.custom_styles.default_colors.description") } %>
+
 <%= render(
       OpenProject::Common::BorderBoxListComponent.new(
         container: :default_colors,

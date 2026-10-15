@@ -60,7 +60,7 @@ RSpec.describe "users/edit" do
     end
 
     it "does not show a no-login warning when password login is disabled" do
-      allow(OpenProject::Configuration).to receive(:disable_password_login).and_return(true)
+      allow(Users::PasswordLogin).to receive(:none?).and_return(true)
       render
 
       expect(rendered).not_to include I18n.t("user.no_login")
@@ -108,11 +108,7 @@ RSpec.describe "users/edit" do
   context "with password-based login" do
     let(:user) { build_stubbed(:user) }
 
-    context "with password login disabled" do
-      before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
-      end
-
+    context "with password login disabled", with_settings: { password_login: "none" } do
       it "warns that the user cannot login" do
         render
 
@@ -135,10 +131,6 @@ RSpec.describe "users/edit" do
     end
 
     context "with password login enabled" do
-      before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
-      end
-
       it "shows password options" do
         render
 

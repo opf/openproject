@@ -16,7 +16,9 @@ To enable the project wiki open **Project settings**, select **Project wiki** an
 
 This enables native wiki functionality for all project members. 
 
-> [!TIP]
-> If project wikis are disabled by your OpenProject administrator for your instance, this page is not visible and the project wiki cannot be enabled.
-
 ![Enable or disable project wiki under project settings in OpenProject](openproject_user_guide_project_settings_project_wiki.png)
+
+> [!TIP]
+> If project wikis are disabled globally by your OpenProject administrator, you cannot enable the wiki for an individual project. The Project wiki settings page remains visible and informs you that project wikis must first be enabled globally in the administration settings.
+
+![Message that project wikis are disabled globally in the OpenProject project wiki settings](openproject_user_guide_project_settings_project_wiki_disabled_message.png)

@@ -43,13 +43,21 @@ module OpenProject::TextFormatting
       end
 
       def add_header_link_class_and_id(node, id)
-        anchor = node.css("a").first
+        anchor = permalink_anchor(node)
         if anchor
           anchor["class"] = "op-uc-link_permalink icon-link"
           anchor["href"] = "##{fragment_id_prefix}#{id}"
+          anchor["aria-hidden"] = "true"
+          anchor.remove_attribute("aria-label") # Commonmarker only labels it in English
           anchor.remove_attribute("id") # avoid duplicate id with heading; only heading keeps the id
         end
         node["id"] = "#{fragment_id_prefix}#{id}"
+      end
+
+      # Commonmarker renders the permalink as an empty anchor, placed before or
+      # after the heading text depending on its version. Author links carry text.
+      def permalink_anchor(node)
+        node.css("a").find { |anchor| anchor.text.blank? }
       end
 
       ##
@@ -73,7 +81,7 @@ module OpenProject::TextFormatting
       # that prefix is used if it matches the calculated number.
       def process_item(node, number)
         text = node.text
-        return "".html_safe if text.blank?
+        return if text.blank?
 
         id = get_unique_id(text)
         add_header_link_class_and_id(node, id)
@@ -88,7 +96,7 @@ module OpenProject::TextFormatting
       end
 
       def render_nested(level = 0, parent_number = "") # rubocop:disable Metrics/AbcSize
-        result = "".html_safe
+        items = []
         num_in_level = 0
 
         while !headings.empty?
@@ -100,19 +108,19 @@ module OpenProject::TextFormatting
             node = headings.shift
             num_in_level = num_in_level + 1
             current_number = get_heading_number(parent_number, num_in_level)
-            result << process_item(node, current_number)
+            items << process_item(node, current_number)
           elsif level < node_level
             # Render a child list
-            result << (content_tag(:ul, class: "op-uc-toc--list") do
+            items << content_tag(:ul, class: "op-uc-toc--list") do
               render_nested(node_level, num_in_level > 0 ? get_heading_number(parent_number, num_in_level) : "")
-            end)
+            end
           elsif level > node_level
             # Break and return to the parent loop
             break
           end
         end
 
-        result
+        safe_join(items)
       end
 
       def call

@@ -15,8 +15,8 @@ es:
         url: URL de carga
     models:
       webhooks/log:
-        one: Webhook log
-        other: Webhook logs
+        one: Registro de webhooks
+        other: Registros de webhooks
       webhooks/webhook:
         one: Webhook
         other: Webhooks

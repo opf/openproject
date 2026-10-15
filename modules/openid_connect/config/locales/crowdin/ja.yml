@@ -48,7 +48,7 @@ ja:
         other: OpenID Connect providers
       openid_connect/user_token:
         other: OpenID Connect tokens
-  logout_warning: 'ログアウトしています。送信したフォームの内容は失われる可能性があります。 [ログイン] してください。
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -77,7 +77,7 @@ ja:
       display_name: プロバイダーの名前。これはログインボタンとプロバイダーリストに表示されます。
       endpoint_url: OpenID Connectプロバイダーから与えられたエンドポイントURL
       group_regexes: 1行に1つの正規表現パターン。この方法については[ドキュメント](docs_url)を読んでください。
-      group_regexes_detail: オプションで、正規表現を使用してパターンを定義し、グループ・クレームからグループ名をマッ チさせます。例えば、<code>^Level1/Level2/([ \w/]+)$ の</code>ようなパターンを入力すると、"Level1/Level2/GroupName/SubGroup" を含む応答から "Groupname/SubGroup" というグループが抽出されます。パターンが一致しない場合、グループは無視されます。完全なグループ名を使用してすべてのグループを同期するには、空のままにします。
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
       group_sync: アイデンティティ・プロバイダからグループ・メンバーシップ情報を自動的に抽出し、同期する。
       groups_claim: ユーザーがメンバーであるグループ名を示すと予想される請求の名前を指定する。
@@ -102,7 +102,7 @@ ja:
       oidc_information: これらの値は OpenID Connect プロバイダーを構成するために必要です。
       post_logout_redirect_uri: ログアウト要求後にOpenID ConnectプロバイダがリダイレクトすべきURL。
       scope: カスタムスコープをリクエストしたい場合は、スペースで区切られた1つまたは複数のスコープ値を追加できます。 詳細については、[OpenID Connect documentation](docs_url)を参照してください。
-      tenant: 該当する場合は、デフォルトのテナントをご自身のテナントに置き換えてください。<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">こちらを</a>ご覧ください。
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID プロバイダー
     providers:
       client_details_description: OIDCクライアントとしてのOpenProjectの設定詳細

@@ -61,9 +61,9 @@ vi:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: URL máy chủ Hocuspocus
         page_header:
-          description: |-
-            Khi được bật, cộng tác theo thời gian thực cho phép nhiều người dùng chỉnh sửa tài liệu cùng một lúc.
-            Nó yêu cầu %{hocuspocus_server_link} hoạt động.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Tôi hiểu rằng tôi có thể mất dữ liệu vĩnh viễn
         confirmation_message: |-
@@ -117,7 +117,7 @@ vi:
       currently_offline: You are currently offline.
     label_attachment_author: Tác giả đính kèm
     label_categories: danh mục
-    last_updated_at: Đã lưu lần cuối %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Tất cả tài liệu
       collaboration_settings: Hợp tác thời gian thực

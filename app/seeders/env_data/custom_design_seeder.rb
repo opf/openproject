@@ -44,10 +44,17 @@ module EnvData
     end
 
     def applicable?
-      Setting.seed_design.present?
+      return false if Setting.seed_design.blank?
+      return true unless only_when_empty?
+
+      CustomStyle.none?
     end
 
     private
+
+    def only_when_empty?
+      ActiveRecord::Type::Boolean.new.deserialize(Setting.seed_design["only_when_empty"])
+    end
 
     def seed_logos(custom_style)
       CustomStyle.uploaders.each_key do |key|

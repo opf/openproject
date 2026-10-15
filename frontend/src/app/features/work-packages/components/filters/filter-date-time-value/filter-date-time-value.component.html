@@ -1,15 +1,28 @@
-<op-basic-single-date-picker [id]="'values-' + filter.id"
-  [name]="'v[' + filter.id + ']'"
-  class="advanced-filters--date-field"
-  required="true"
+@if (pointInTime) {
+  <op-basic-single-datetime-picker [id]="'values-' + filter.id"
+    [name]="'v[' + filter.id + ']'"
+    class="advanced-filters--date-field"
+    required="true"
 
-  (valueChange)="value = isoDateParser($event)"
-  [value]="isoDateFormatter(value)"
+    (valueChange)="value = $event"
+    [value]="valueString"
 
-  [opAutofocus]="shouldFocus"
- />
+    [opAutofocus]="shouldFocus"
+   />
+} @else {
+  <op-basic-single-date-picker [id]="'values-' + filter.id"
+    [name]="'v[' + filter.id + ']'"
+    class="advanced-filters--date-field"
+    required="true"
 
-@if (isTimeZoneDifferent) {
+    (valueChange)="value = isoDateParser($event)"
+    [value]="isoDateFormatter(value)"
+
+    [opAutofocus]="shouldFocus"
+   />
+}
+
+@if (!pointInTime && isTimeZoneDifferent) {
   <span
     class="advanced-filters--tooltip-trigger -multiline"
     [attr.data-tooltip]="timeZoneText"

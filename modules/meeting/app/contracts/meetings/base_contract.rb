@@ -34,6 +34,7 @@ module Meetings
     end
 
     attribute :title
+    attribute :agenda_sorting_mode
     attribute :author_id
     attribute :project_id
     attribute :location

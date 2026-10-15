@@ -36,7 +36,6 @@ class Project < ApplicationRecord
   include Projects::Storage
   include Projects::EnabledTypes
   include Projects::Versions
-  include Projects::WorkPackageCustomFields
   include Projects::CreationWizard
   include Projects::Identifier
   include Projects::SemanticIdentifier
@@ -63,15 +62,23 @@ class Project < ApplicationRecord
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)
   }, class_name: "Member"
+
+  has_many :member_groups, -> {
+    includes(:principal)
+      .where("#{Principal.table_name}.type='Group'")
+  }, class_name: "Member"
   # rubocop:enable Rails/HasManyOrHasOneDependent, Rails/InverseOf
 
   has_many :memberships, class_name: "Member"
   has_many :users, through: :member_users, source: :principal
+  has_many :groups, through: :member_groups, source: :principal
   has_many :principals, through: :members, source: :principal
   has_many :calculated_value_errors, dependent: :delete_all, as: :customized
 
   has_many :enabled_modules, dependent: :delete_all, after_remove: :module_disabled
   has_many :project_types, dependent: :delete_all
+  # The variants this project authored. Removal is left to the FK's cascade.
+  has_many :owned_type_variants, class_name: "TypeVariant", dependent: nil
 
   has_many :work_packages, -> {
     order("#{WorkPackage.table_name}.created_at DESC")
@@ -83,8 +90,6 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :cost_types_projects, dependent: :delete_all
-  has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
   has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
@@ -191,6 +196,7 @@ class Project < ApplicationRecord
          :assignable_parents,
          :available_custom_fields,
          :available_templates,
+         :self_and_ancestors_of,
          :visible,
          :with_settings
 

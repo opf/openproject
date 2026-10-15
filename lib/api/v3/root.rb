@@ -45,6 +45,8 @@ module API
 
       mount ::API::V3::Actions::ActionsAPI
       mount ::API::V3::Activities::ActivitiesAPI
+      mount ::API::V3::AI::TextTransformActionsAPI
+      mount ::API::V3::AI::TextTransformRunsAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Backups::BackupsAPI
       mount ::API::V3::Capabilities::CapabilitiesAPI
@@ -58,6 +60,7 @@ module API
       mount ::API::V3::Grids::GridsAPI
       mount ::API::V3::Notifications::NotificationsAPI
       mount ::API::V3::HelpTexts::HelpTextsAPI
+      mount ::API::V3::Labels::LabelsAPI
       mount ::API::V3::Memberships::MembershipsAPI
       mount ::API::V3::News::NewsAPI
       mount ::API::V3::OAuth::OAuthApplicationsAPI

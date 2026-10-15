@@ -24,7 +24,7 @@ et:
   activerecord:
     attributes:
       document:
-        content_binary: Content binary
+        content_binary: Sisu binaarvorming
         title: Pealkiri
     errors:
       models:
@@ -32,21 +32,21 @@ et:
           one_or_more_required: Cannot delete the last document type
     models:
       document:
-        one: Document
-        other: Documents
+        one: Dokument
+        other: Dokumendid
       document_type:
-        one: Document type
-        other: Document types
+        one: Dokumendi liik
+        other: Dokumendi liigid
   activity:
     filter:
       document: Dokumendid
   attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus server URL
-    documents: Documents
+    collaborative_editing_hocuspocus_url: Hocuspocusi serveri URL
+    documents: Dokumendid
   default_doc_category_tech: Tehniline dokumentatsioon
   default_doc_category_user: Kasutaja dokumentatsioon
   documents:
-    active_editors: Active editors
+    active_editors: Aktiivsed toimetajad
     active_editors_count:
       one: 1 active editor
       other: "%{count} active editors"
@@ -64,9 +64,9 @@ et:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: Hocuspocus server URL
         page_header:
-          description: |-
+          description_html: |-
             When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working %{hocuspocus_server_link} to function.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: I understand that I might permanently lose data
         confirmation_message: |-
@@ -83,11 +83,11 @@ et:
         heading: Real-time collaboration is not enabled
         primary_action: Enable real-time collaboration
         success: Real-time collaboration has been enabled.
-    button_add_type: Type
+    button_add_type: Liik
     delete_dialog:
       confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
-      heading: Delete this document?
-      title: Delete document
+      heading: Kas kustutada see dokument?
+      title: Kustuta dokument
     delete_document_type_dialog:
       at_least_one_type_required:
         heading: Cannot delete the last document type
@@ -115,34 +115,34 @@ et:
       label_legacy: Legacy
       name: Nimi
       type: Tüüp
-      updated_at: Last edited
+      updated_at: Viimati muudetud
     info_line:
-      connection_restored: You are now back online.
-      currently_offline: You are currently offline.
+      connection_restored: Nüüd oled jälle võrgus.
+      currently_offline: Oled hetkel võrguühenduseta.
     label_attachment_author: Lisatud faili autor
     label_categories: Kategooriad
-    last_updated_at: Last saved %{time}.
+    last_updated_at_html: Viimati salvestatud %{time}.
     menu:
-      all: All documents
+      all: Kõik dokumendid
       collaboration_settings: Real-time collaboration
       types: Tüübid
     new_category: Uus kategooria
-    new_type: New type
+    new_type: Uus liik
     page_header:
       action_menu:
-        document_actions: Document actions
-        edit_title: Edit title
-      heading: All documents
+        document_actions: Dokumendi toimingud
+        edit_title: Muuda pealkirja
+      heading: Kõik dokumendid
     show_edit_view:
       connection_error_notice:
-        action: Try again
+        action: Proovi uuesti
         description_server_unavailable: |-
           Unable to open document because the real-time text collaboration server is unreachable.
           Please contact the administrator if the problem persists.
-      tabs: Document tabs
+      tabs: Dokumendi vahekaardid
     subheader:
       filter:
-        label: Document name filter
+        label: Dokumendi nime filter
         placeholder: Type here to search document names
     text_collaboration_disabled_notice:
       description: |-
@@ -155,7 +155,7 @@ et:
   label_document_new: Uus dokument
   label_document_plural: Dokumendid
   label_document_title: Pealkiri
-  label_document_type: Type
+  label_document_type: Liik
   label_documents: Dokumendid
   permission_manage_documents: Dokumentide haldamine
   permission_view_documents: Dokumentide vaatamine

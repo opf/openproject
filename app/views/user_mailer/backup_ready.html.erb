@@ -31,3 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
   <%= t(:mail_body_backup_ready) %><br>
   <%= link_to(@download_url, @download_url) %>
 </p>
+
+<% if @missing_attachments_count.to_i.positive? %>
+  <p>
+    <%= t(:mail_body_backup_ready_incomplete, file_count: t(:label_x_files, count: @missing_attachments_count)) %>
+  </p>
+<% end %>

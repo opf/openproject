@@ -39,6 +39,12 @@ module MetaTagsHelper
     (parts.reverse + [Setting.app_title]).join(" | ")
   end
 
+  # Unescaped counterpart of +html_title_parts+ for callers that assemble a title outside
+  # of a page render, where neither @html_title nor @project is set.
+  def page_title_with_project(*parts, project: nil)
+    page_title(*[project&.name, *parts].compact_blank.map(&:to_s))
+  end
+
   def initializer_meta_tag
     tag :meta,
         name: :openproject_initializer,

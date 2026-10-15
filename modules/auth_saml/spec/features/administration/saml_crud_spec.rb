@@ -56,6 +56,7 @@ RSpec.describe "SAML administration CRUD",
       # Fill out configuration
       fill_in "Identity provider login endpoint", with: "https://example.com/sso"
       fill_in "Identity provider logout endpoint", with: "https://example.com/slo"
+      fill_in "Additional allowed login redirect URLs", with: "https://idp.prod.soloidp.dk/login\nhttps://broker.example.com"
       fill_in "Public certificate of identity provider", with: CertificateHelper.valid_certificate.to_pem
       check "Limit self registration"
 
@@ -100,6 +101,7 @@ RSpec.describe "SAML administration CRUD",
       expect(provider.private_key.strip.gsub("\r\n", "\n")).to eq CertificateHelper.private_key.private_to_pem.strip
       expect(provider.idp_sso_service_url).to eq "https://example.com/sso"
       expect(provider.idp_slo_service_url).to eq "https://example.com/slo"
+      expect(provider.additional_form_action_urls).to eq %w[https://idp.prod.soloidp.dk/login https://broker.example.com]
       expect(provider.mapping_login.gsub("\r\n", "\n")).to eq "login\nmail"
       expect(provider.mapping_mail).to eq "mail"
       expect(provider.mapping_firstname).to eq "myName"
@@ -110,8 +112,14 @@ RSpec.describe "SAML administration CRUD",
 
       click_link_or_button "Delete"
 
-      check "I understand that this deletion cannot be reversed."
-      click_on "Delete permanently"
+      within_dialog "Delete SAML provider" do
+        confirmation = find_field("I understand that this deletion cannot be reversed.")
+        confirmation.click
+
+        expect(confirmation).to be_checked
+        expect(page).to have_button("Delete permanently", disabled: false)
+        click_on "Delete permanently"
+      end
 
       expect(page).to have_text "No SAML providers configured yet."
       expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -182,7 +190,7 @@ RSpec.describe "SAML administration CRUD",
     end
   end
 
-  context "without EE", without_ee: %i[sso_auth_providers] do
+  context "without EE" do
     it "renders the upsell page" do
       visit "/admin/saml/providers"
       expect(page).to have_enterprise_banner(:professional)

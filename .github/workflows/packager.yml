@@ -53,17 +53,18 @@ jobs:
             echo "channel=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           fi
       - name: Package
-        uses: pkgr/action/package@c5666febcd31750da6428042193fc5b2fb765435 # main
+        uses: pkgr/action/package@72711239e8f309a29f078b90bd269af6c7db3f70 # v1
         id: package
         with:
           target: ${{ matrix.target }}
           version: ${{ steps.setup.outputs.version }}
+          pkgr_version: acc46f88dd24241e118139cb0e1f38ea948bb8c5
           debug: true
           cache_prefix: ${{ github.ref_name }}
           env: |
             DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1:5432/app
       - name: Publish
-        uses: pkgr/action/publish@c5666febcd31750da6428042193fc5b2fb765435 # main
+        uses: pkgr/action/publish@72711239e8f309a29f078b90bd269af6c7db3f70 # v1
         with:
           target: ${{ matrix.target }}
           token: ${{ secrets.PACKAGER_PUBLISH_TOKEN }}

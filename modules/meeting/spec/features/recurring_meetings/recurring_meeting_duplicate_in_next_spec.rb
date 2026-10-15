@@ -128,6 +128,39 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
         duplicated_item = next_meeting.agenda_items.find_by(title: "Test agenda item")
         expect(duplicated_item.outcomes).to be_empty
       end
+
+      context "when the next meeting has a matching section" do
+        let(:intro_section) { create(:meeting_section, meeting:, title: "Intro") }
+
+        let!(:agenda_item) do
+          create(:meeting_agenda_item, meeting:, meeting_section: intro_section, title: "Test agenda item")
+        end
+
+        let!(:next_meeting_sections) do
+          %w[Intro Outro].map { |title| create(:meeting_section, meeting: next_meeting, title:) }
+        end
+
+        it "preselects the matching section and duplicates the item" do
+          meeting_page.visit!
+          meeting_page.open_menu(agenda_item) do
+            click_on "Duplicate"
+            click_on "Duplicate in next meeting"
+          end
+
+          page.within_modal "Duplicate in next meeting?" do
+            expect_current_autocompleter_value(page.find("opce-autocompleter"), "Intro")
+            click_on "Duplicate"
+          end
+
+          expect_and_dismiss_flash(message: "Agenda item duplicated in the next meeting")
+
+          duplicated_item = next_meeting.agenda_items.find_by(title: "Test agenda item")
+          expect(duplicated_item.meeting_section).to eq(next_meeting_sections.first)
+
+          next_meeting_page.visit!
+          next_meeting_page.expect_agenda_item_in_section(title: "Test agenda item", section: next_meeting_sections.first)
+        end
+      end
     end
 
     context "with manage_agendas permission, but next occurrence is cancelled" do

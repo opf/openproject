@@ -66,5 +66,8 @@ class Queries::Serialization::Filters
     @klass = klass
   end
 
-  attr_reader :klass
+  def klass
+    @klass = @klass.call if @klass.is_a?(Proc)
+    @klass
+  end
 end

@@ -53,10 +53,6 @@ module My
       def edit_mode?
         notification_setting.persisted?
       end
-
-      def date_alerts_available?
-        EnterpriseToken.allows_to?(:date_alerts)
-      end
     end
   end
 end

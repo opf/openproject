@@ -55,7 +55,7 @@ module RecurringMeetings
 
     def start_time_constraints
       return if model.start_time.nil?
-      return if model.start_time >= Time.zone.now
+      return if model.start_time >= Time.zone.now.change(sec: 0)
 
       if model.start_time.today?
         errors.add :start_time_hour, :after_today

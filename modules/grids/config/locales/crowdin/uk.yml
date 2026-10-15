@@ -16,15 +16,15 @@ uk:
           overlaps: перекриваються.
     models:
       grids/grid:
-        one: Grid
-        few: Grids
-        many: Grids
-        other: Grids
+        one: Сітка
+        few: Сітки
+        many: Сітки
+        other: Сітки
       grids/widget:
-        one: Widget
-        few: Widgets
-        many: Widgets
-        other: Widgets
+        one: Віджет
+        few: Віджети
+        many: Віджети
+        other: Віджети
   grids:
     label_widget_in_grid: Віджет, що міститься в сітці %{grid_name}
     widgets:

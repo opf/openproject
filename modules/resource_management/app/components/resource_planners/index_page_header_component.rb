@@ -43,9 +43,9 @@ module ResourcePlanners
 
     def breadcrumb_items
       [
-        { href: project_overview_path(@project.id), text: @project.name },
+        ({ href: project_overview_path(@project.id), text: @project.name } if @project),
         page_title
-      ]
+      ].compact
     end
   end
 end

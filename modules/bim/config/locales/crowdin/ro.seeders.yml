@@ -69,9 +69,9 @@ ro:
         item_6:
           name: Planificatori
         item_7:
-          name: Ingineri structurali
+          name: Ingineri structuriști
       welcome:
-        title: Bine ați venit la ediția OpenProject BIM!
+        title: Bine ai venit la ediția OpenProject BIM!
         text: |
           Checkout the demo projects to get started with some examples.
 
@@ -92,16 +92,16 @@ ro:
           description: Acesta este un rezumat al obiectivelor acestui proiect demonstrativ de construcție.
           news:
             item_0:
-              title: Bine ați venit la proiectul demo
+              title: Bine ai venit la proiectul demo
               summary: |
-                Ne bucurăm că v-ați alăturat.
-                În acest modul puteți comunica noutăți despre proiect membrilor echipei.
+                Ne bucurăm că te-ai alăturat.
+                În acest modul poți comunica noutăți despre proiect membrilor echipei.
               description: Știri de actualitate
           categories:
             item_0: Categoria 1 (de modificat în setările proiectului)
           queries:
             item_0:
-              name: Planul de proiect
+              name: Planul proiectului
             item_1:
               name: Etape
             item_2:
@@ -154,16 +154,16 @@ ro:
           description: Acesta este un rezumat al obiectivelor acestui proiect demonstrativ de construcție.
           news:
             item_0:
-              title: Bine ați venit la proiectul demo
+              title: Bine ai venit la proiectul demo
               summary: |
                 Ne bucurăm că v-ați alăturat.
-                În acest modul puteți comunica noutăți despre proiect membrilor echipei.
+                În acest modul poți comunica noutăți despre proiect membrilor echipei.
               description: Știri de actualitate
           categories:
             item_0: Categoria 1 (de modificat în setările proiectului)
           queries:
             item_0:
-              name: Plan de proiect
+              name: Planul proiectului
             item_1:
               name: Etape
             item_2:

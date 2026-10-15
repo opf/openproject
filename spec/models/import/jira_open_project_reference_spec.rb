@@ -35,10 +35,9 @@ RSpec.describe Import::JiraOpenProjectReference do
   let(:author) { create(:user) }
   let(:jira_import) { create(:jira_import, jira:, author:) }
 
-  subject(:reference) { create(:jira_open_project_reference, jira:, jira_import:) }
+  subject(:reference) { create(:jira_open_project_reference, jira_import:) }
 
   describe "associations" do
-    it { is_expected.to belong_to(:jira).class_name("Import::Jira") }
     it { is_expected.to belong_to(:jira_import).class_name("Import::JiraImport") }
   end
 
@@ -47,7 +46,6 @@ RSpec.describe Import::JiraOpenProjectReference do
       let(:user) { create(:user) }
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                op_entity_id: user.id.to_s,
                op_entity_class: "User")
@@ -61,21 +59,20 @@ RSpec.describe Import::JiraOpenProjectReference do
     context "when op_entity does not exist" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                op_entity_id: "999999",
                op_entity_class: "User")
       end
 
-      it "raises an error with descriptive message" do
-        expect { reference.op_leg }.to raise_error("User with id 999999 not found!")
+      it "raises a LegNotFoundError with descriptive message" do
+        expect { reference.op_leg }
+          .to raise_error(described_class::LegNotFoundError, "User with id 999999 not found!")
       end
     end
 
     context "when op_entity_class is nil" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                op_entity_id: "123",
                op_entity_class: nil)
@@ -89,10 +86,9 @@ RSpec.describe Import::JiraOpenProjectReference do
 
   describe "#jira_leg" do
     context "when jira_entity exists" do
-      let(:jira_user) { create(:jira_user, jira:, jira_import:) }
+      let(:jira_user) { create(:jira_user, jira_import:) }
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: jira_user.id.to_s,
                jira_entity_class: "Import::JiraUser")
@@ -106,21 +102,20 @@ RSpec.describe Import::JiraOpenProjectReference do
     context "when jira_entity does not exist" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: "999999",
                jira_entity_class: "Import::JiraUser")
       end
 
-      it "raises an error with descriptive message" do
-        expect { reference.jira_leg }.to raise_error("Import::JiraUser with id 999999 not found!")
+      it "raises a LegNotFoundError with descriptive message" do
+        expect { reference.jira_leg }
+          .to raise_error(described_class::LegNotFoundError, "Import::JiraUser with id 999999 not found!")
       end
     end
 
     context "when jira_entity_class is nil" do
       let(:reference) do
         create(:jira_open_project_reference,
-               jira:,
                jira_import:,
                jira_entity_id: "123",
                jira_entity_class: nil)

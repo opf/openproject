@@ -29,18 +29,16 @@
 #++
 
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
-  include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include WorkPackageTypes::SwitchLookup
 
   menu_item :settings_work_packages
 
-  before_action :require_type_variants_feature
   before_action :load_source
 
   def new
     respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
-                          .new(project: @project, source: @source, url: switch_path)
+                          .new(project: @project, source: @source, url: switch_path, selected: requested_target)
   end
 
   def create
@@ -72,13 +70,19 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
     )
   end
 
+  # A list row asks about the variant it sits on, so the dialog opens on that one. It comes off a
+  # URL: only a variant this project may use counts, as in the list itself.
+  def requested_target
+    @source.type.variants.available_in(@project).find_by(id: params[:target_id]) || @source
+  end
+
   def switch_path
     project_settings_work_packages_type_switch_path(@project, @source.type)
   end
 
   # Reload so the repainted list no longer sees the association's cached types.
   def on_switched(target)
-    close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}")
+    close_dialog_via_turbo_stream(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
     replace_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
     )

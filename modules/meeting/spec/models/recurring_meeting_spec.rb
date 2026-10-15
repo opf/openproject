@@ -446,11 +446,78 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "#schedule_changed? and #reschedule_required?" do
+    let(:series) { create(:recurring_meeting, time_zone: "UTC") }
+
+    it "reports a time zone change as a schedule change" do
+      series.time_zone = "Europe/Berlin"
+
+      expect(series).to be_schedule_changed
+      expect(series).to be_reschedule_required
+    end
+
+    it "reports a frequency change as a schedule change" do
+      series.frequency = "daily"
+
+      expect(series).to be_schedule_changed
+      expect(series).to be_reschedule_required
+    end
+
+    it "does not report a title change as either" do
+      series.title = "A new title"
+
+      expect(series).not_to be_schedule_changed
+      expect(series).not_to be_reschedule_required
+    end
+
+    it "reports a location change as a reschedule but not as a schedule change" do
+      series.location = "A new location"
+
+      expect(series).not_to be_schedule_changed
+      expect(series).to be_reschedule_required
+    end
+  end
+
   describe "#uid" do
     it "assigns a uid on create" do
       series = build(:recurring_meeting)
       expect(series.uid).to be_present
       expect(series.uid).to include "@#{Setting.host_name}"
+    end
+  end
+
+  describe "#bump_ical_sequence!" do
+    it "advances the counter without touching the lock version of the template" do
+      series = create(:recurring_meeting)
+      lock_version = series.template.lock_version
+
+      expect { series.bump_ical_sequence! }.to change(series, :ical_sequence).by(1)
+      expect(series.reload.ical_sequence).to eq 1
+      expect(series.template.reload.lock_version).to eq lock_version
+    end
+  end
+
+  describe "#last_historic_schedule" do
+    let(:series) { create(:recurring_meeting) }
+
+    it "is nil while no schedule ended" do
+      expect(series.last_historic_schedule).to be_nil
+    end
+
+    it "is the one that ended most recently" do
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series, uid: "first@example.com")
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series, uid: "second@example.com")
+
+      expect(series.reload.last_historic_schedule.uid).to eq "second@example.com"
+      expect(series.historic_schedules.map(&:uid))
+        .to eq ["first@example.com", "second@example.com"]
+    end
+
+    it "keeps every schedule that ended, as an audit log" do
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series)
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series)
+
+      expect(series.reload.historic_schedules.count).to eq 2
     end
   end
 

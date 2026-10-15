@@ -47,20 +47,22 @@ pt-BR:
               not_a_member_of_budget_project: não é membro do projeto do orçamento
     models:
       budget:
-        one: Budget
-        other: Budgets
+        one: Orçamento
+        other: Orçamentos
       labor_budget_item:
-        one: Planned labor cost
-        other: Planned labor costs
+        one: Custo de mão de obra planejado
+        other: Custos de mão de obra planejado
       material_budget_item:
-        one: Unit
-        other: Units
+        one: Unidade
+        other: Unidades
   activity:
     filter:
       budget: Orçamentos
   attributes:
     budget: Orçamento
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Nenhuma taxa horária em %{date}
     widgets:
       budget_by_cost_type:
         blankslate:

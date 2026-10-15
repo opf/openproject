@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -64,9 +65,10 @@ RSpec.describe "Recurring meetings global creation",
         meetings_page.click_on "Recurring"
       end
 
+      meetings_page.set_starts_on Time.zone.tomorrow.iso8601
+      meetings_page.set_start_time "10:00"
       meetings_page.set_project project
-      meetings_page.click_create
-      wait_for_network_idle
+      meetings_page.click_create(wait_for: false)
 
       expect(page).to have_text "Title can't be blank."
 
@@ -76,12 +78,32 @@ RSpec.describe "Recurring meetings global creation",
 
       meetings_page.set_title "Some title"
       meetings_page.click_create
-      wait_for_network_idle
 
       expect(page).to have_heading "Some title"
       meeting = Meeting.last
       expect(meeting.title).to eq "Some title"
       expect(meeting.project).to eq project
+    end
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               enabled_module_names: %w[meetings],
+               member_with_permissions: { user => %i[view_meetings create_meetings] })
+      end
+
+      before do
+        meetings_page.click_on "add-meeting-button"
+
+        page.within("action-list") do
+          meetings_page.click_on "Recurring"
+        end
+      end
+
+      delegate :search_project, to: :meetings_page
     end
 
     it "shows a project validation error when empty (Regression #61176)" do
@@ -92,9 +114,10 @@ RSpec.describe "Recurring meetings global creation",
         meetings_page.click_on "Recurring"
       end
 
+      meetings_page.set_starts_on Time.zone.tomorrow.iso8601
+      meetings_page.set_start_time "10:00"
       meetings_page.set_title "Some title"
-      meetings_page.click_create
-      wait_for_network_idle
+      meetings_page.click_create(wait_for: false)
 
       expect(page).to have_text "Project can't be blank."
       meetings_page.set_project project
@@ -103,7 +126,6 @@ RSpec.describe "Recurring meetings global creation",
         expect(page).to have_text project.name
       end
       meetings_page.click_create
-      wait_for_network_idle
 
       expect(page).to have_heading "Some title (Template)"
       meeting = Meeting.last

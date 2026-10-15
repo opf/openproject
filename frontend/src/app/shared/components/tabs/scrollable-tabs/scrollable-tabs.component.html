@@ -18,60 +18,30 @@
           [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"
           [attr.data-qa-tab-disabled]="tab.disable || undefined"
           >
-          @if (!tab.route) {
-            <a
-              [href]="tab.path"
-              class="op-tab-row--link"
-              role="tab"
-              [class.op-tab-row--link_selected]="tab.id === currentTabId"
-              [class.op-tab-row--link_disabled]="tab.disable !== undefined"
-              [attr.aria-selected]="tab.id === currentTabId"
-              (click)="clickTab(tab, $event)"
-              [attr.title]="tabTitle(tab)"
-              >
-              <span [textContent]="tab.name"></span>
-              @if (counter(tab) | async; as tabCounter) {
-                @if (tab.showCountAsBubble) {
-                <op-tab-count [count]="tabCounter"
-                              [attr.data-test-selector]="'tab-counter-' + tab.name"
-                />
-                }
-                @if (tabCounter > 0 && !tab.showCountAsBubble) {
-                <span
-                  data-test-selector="tab-count"
-                > ({{ tabCounter }})</span>
-                }
+          <a
+            [href]="tab.path"
+            class="op-tab-row--link"
+            role="tab"
+            [class.op-tab-row--link_selected]="tab.id === currentTabId"
+            [class.op-tab-row--link_disabled]="tab.disable !== undefined"
+            [attr.aria-selected]="tab.id === currentTabId"
+            (click)="clickTab(tab, $event)"
+            [attr.title]="tabTitle(tab)"
+            >
+            <span [textContent]="tab.name"></span>
+            @if (counter(tab) | async; as tabCounter) {
+              @if (tab.showCountAsBubble) {
+              <op-tab-count [count]="tabCounter"
+                            [attr.data-test-selector]="'tab-counter-' + tab.name"
+              />
               }
-            </a>
-          }
-          @if (tab.route) {
-            <a
-              [uiSref]="tab.route"
-              [uiParams]="tab.routeParams"
-              [attr.aria-selected]="tab.id === currentTabId"
-              role="tab"
-              class="op-tab-row--link"
-              uiSrefActive="op-tab-row--link_selected"
-              (click)="clickTab(tab, $event)"
-              [attr.title]="tabTitle(tab)"
-              [class.op-tab-row--link_disabled]="tab.disable !== undefined"
-              href=""
-              >
-              <span [textContent]="tab.name"></span>
-              @if (counter(tab) | async; as tabCounter) {
-                @if (tab.showCountAsBubble) {
-                  <op-tab-count [count]="tabCounter"
-                    [attr.data-test-selector]="'tab-counter-' + tab.name"
-                   />
-                }
-                @if (tabCounter > 0 && !tab.showCountAsBubble) {
-                  <span
-                    data-test-selector="tab-count"
-                  > ({{ tabCounter }})</span>
-                }
+              @if (tabCounter > 0 && !tab.showCountAsBubble) {
+              <span
+                data-test-selector="tab-count"
+              > ({{ tabCounter }})</span>
               }
-            </a>
-          }
+            }
+          </a>
         </li>
       }
     </ul>

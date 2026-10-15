@@ -103,7 +103,7 @@ RSpec.describe API::V3::TimeEntries::UpdateFormAPI, content_type: :json do
       end
 
       it "does not alter the entry" do
-        expect(time_entry.work_package)
+        expect(time_entry.entity)
           .not_to eql work_package
       end
 

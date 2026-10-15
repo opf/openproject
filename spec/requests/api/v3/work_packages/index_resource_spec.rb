@@ -149,6 +149,28 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    context "when filtering by typeahead with a number beyond the 64-bit integer range and sorting by exact_match" do
+      let(:filters) do
+        [
+          {
+            typeahead: {
+              operator: "**",
+              values: "2608049472608049476767"
+            }
+          }
+        ]
+      end
+      let(:path) do
+        api_v3_paths.path_for :work_packages, filters:, sort_by: [["exact_match", "desc"], ["updatedAt", "desc"]]
+      end
+
+      before { get path }
+
+      it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
+        let(:elements) { [] }
+      end
+    end
+
     context "with a user not seeing any work packages" do
       # Create a public project so that the non-member permission has something to attach to
       let!(:public_project) { create(:project, public: true, active: true) }
@@ -323,8 +345,7 @@ RSpec.describe "API v3 Work package resource",
       let(:custom_field) do
         create(:string_wp_custom_field,
                name: "String CF",
-               types: project.enabled_types,
-               projects: [project])
+               types: project.enabled_types)
       end
 
       let(:custom_value) do
@@ -417,6 +438,33 @@ RSpec.describe "API v3 Work package resource",
           .at_path("_embedded/elements/0/_meta/timestamp")
       end
 
+      describe "update links" do
+        context "when last timestamp is current" do
+          it "has the update links" do
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with one timestamp in the past" do
+          let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with two timestamps in the past" do
+          let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+      end
+
       context "when a custom value changes" do
         before do
           custom_value
@@ -449,8 +497,7 @@ RSpec.describe "API v3 Work package resource",
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
 
         let(:custom_value) do
@@ -505,10 +552,10 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when there is a custom value in the past but not in the now" \
-              "as the custom field has been disabled for the project" do
+              "as the custom field is no longer on the type" do
         before do
           create_customizable_journal(journal: original_journal, custom_field:, value: "Original value")
-          project.update(work_package_custom_fields: [])
+          custom_field.form_configurations.each { it.custom_field_ids -= [custom_field.id] }
         end
 
         it "does not embed the custom fields in the attributesByTimestamp" do

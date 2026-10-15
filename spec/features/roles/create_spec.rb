@@ -80,7 +80,7 @@ RSpec.describe "Role creation", :js do
       .to have_current_path(roles_path)
 
     expect(page)
-      .to have_css("table td", text: "New role name")
+      .to have_link("New role name")
 
     click_link "New role name"
 
@@ -107,10 +107,10 @@ RSpec.describe "Role creation", :js do
     # Workflow should be copied over from the source role.
     new_role = Role.find_by!(name: "New role name")
     expect(
-      Workflow.exists?(role_id: new_role.id,
-                       type_variant_id: type.default_variant.id,
-                       old_status_id: existing_workflow.old_status_id,
-                       new_status_id: existing_workflow.new_status_id)
+      Workflows::StatusTransition.exists?(role_id: new_role.id,
+                                          workflow_id: type.default_variant.workflow_id,
+                                          old_status_id: existing_workflow.old_status_id,
+                                          new_status_id: existing_workflow.new_status_id)
     ).to be true
   end
 end

@@ -79,22 +79,26 @@ module McpTools
 
     def call(id:, data:)
       time_entry = TimeEntry.visible(current_user).find_by(id:)
-      return { error: "The given time entry could not be found." } if time_entry.nil?
+      return Failure("The given time entry could not be found.") if time_entry.nil?
 
-      attributes = parse_time_entry(data).on_failure { |result| return { error: result.message } }.result
+      attributes = parse_time_entry(data).on_failure { |result| return Failure(result.message) }.result
       result = TimeEntries::UpdateService.new(user: current_user, model: time_entry).call(**attributes)
 
-      if result.success?
-        API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:)
-      else
-        { error: result.message }
-      end
+      format_result(result)
     end
 
     private
 
     def parse_time_entry(data)
       ::API::V3::ParseResourceParamsService.new(current_user, model: TimeEntry).call(data.deep_stringify_keys)
+    end
+
+    def format_result(result)
+      if result.success?
+        Success(API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:))
+      else
+        Failure(result.message)
+      end
     end
   end
 end

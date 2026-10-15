@@ -36,20 +36,22 @@ RSpec.describe "Gantt routing" do
               .to(controller: "gantt/gantt", action: :index, project_id: "foobar")
     end
 
-    it "connects GET /projects/:project_id/gantt/create_new to gantt#index" do
-      expect(get("/projects/1/gantt/create_new"))
-        .to route_to(controller: "gantt/gantt",
-                     action: "index",
-                     project_id: "1",
-                     state: "create_new")
-    end
-
-    it "connects GET /projects/:project_id/gantt/details/:id/:state to gantt#index" do
+    it "connects GET /projects/:project_id/gantt/details/:work_package_id/:tab to gantt#split_view" do
       expect(get("/projects/1/gantt/details/2/overview"))
         .to route_to(controller: "gantt/gantt",
-                     action: "index",
+                     action: "split_view",
                      project_id: "1",
-                     state: "details/2/overview")
+                     work_package_id: "2",
+                     tab: "overview",
+                     work_package_split_view: true)
+    end
+
+    it "connects GET /projects/:project_id/gantt/create_new to gantt#split_create" do
+      expect(get("/projects/1/gantt/create_new"))
+        .to route_to(controller: "gantt/gantt",
+                     action: "split_create",
+                     project_id: "1",
+                     work_package_split_create: true)
     end
   end
 
@@ -60,11 +62,20 @@ RSpec.describe "Gantt routing" do
               .to(controller: "gantt/gantt", action: :index)
     end
 
-    it "connects GET /gantt/details/:state to gantt#index" do
+    it "connects GET /gantt/details/:work_package_id/:tab to gantt#split_view" do
       expect(get("/gantt/details/5/overview"))
         .to route_to(controller: "gantt/gantt",
-                     action: "index",
-                     state: "5/overview")
+                     action: "split_view",
+                     work_package_id: "5",
+                     tab: "overview",
+                     work_package_split_view: true)
+    end
+
+    it "connects GET /gantt/create_new to gantt#split_create" do
+      expect(get("/gantt/create_new"))
+        .to route_to(controller: "gantt/gantt",
+                     action: "split_create",
+                     work_package_split_create: true)
     end
   end
 end

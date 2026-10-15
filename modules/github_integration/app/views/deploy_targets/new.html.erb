@@ -40,9 +40,44 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= error_messages_for @deploy_target %>
+<%=
+  settings_primer_form_with(model: @deploy_target, url: deploy_targets_path) do |f|
+    render_inline_settings_form(f) do |form|
+      form.object.text_field(
+        name: :host,
+        label: t("attributes.host"),
+        value: @deploy_target.host,
+        disabled: false,
+        required: true,
+        input_width: :medium
+      )
 
-<%= labelled_tabular_form_for @deploy_target, url: deploy_targets_path do |f| %>
-  <%= render partial: "deploy_targets/form", locals: { f: f, deploy_target: @deploy_target } %>
-  <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
-<% end %>
+      form.select_list(
+        name: :type,
+        label: t("attributes.type"),
+        required: true,
+        disabled: true,
+        input_width: :small,
+        caption: t(:text_deploy_target_type_info)
+      ) do |list|
+        list.option(value: "OpenProject", label: "OpenProject", selected: true)
+      end
+
+      # This field is specific to the only type of DeployTarget we support for now, which is OpenProject.
+      form.object.text_field(
+        name: :api_key,
+        label: t("attributes.api_key"),
+        value: @deploy_target.api_key,
+        disabled: false,
+        required: true,
+        input_width: :large,
+        caption: link_translate(
+          :text_deploy_target_api_key_info,
+          links: { docs_url: %i[api authentication_basic_auth] }
+        )
+      )
+
+      form.submit(label: I18n.t(:button_save))
+    end
+  end
+%>

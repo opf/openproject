@@ -4,12 +4,15 @@ uk:
   avatar_deleted: Аватар успішно видалено.
   avatars:
     label_avatar: Avatar
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Довільний avatar
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Увімкнути gravatars
       enable_local_avatars: Увімкнути можливість завантажувати особисті avatars
       gravatar_default: Зображення Gravatar за замовчуванням
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject використовує ваш Gravatar, якщо ви зареєстрували його на %{gravatar_url}, або зображення за замовчуванням чи значок, якщо вони доступні.
     text_avatar_local: Ви також можете завантажити власний аватар, який замінить Gravatar, натиснувши на зображення. Рекомендований розмір зображення — 128 × 128 пікселів.
     text_avatar_local_only: Ви можете завантажити власний аватар, натиснувши на зображення. Рекомендований розмір зображення — 128 × 128 пікселів.

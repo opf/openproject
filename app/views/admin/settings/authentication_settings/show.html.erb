@@ -28,33 +28,34 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t(:label_authentication) -%>
 
-<% tabs = [
-  {
-    name: :login,
-    path: admin_settings_authentication_path(tab: :login),
-    label: :"settings.authentication.login",
-    partial: "admin/settings/authentication_settings/login"
-  },
-  {
-    name: :sso,
-    path: admin_settings_authentication_path(tab: :sso),
-    label: :"settings.authentication.sso",
-    partial: "admin/settings/authentication_settings/sso",
-    enterprise_feature: :sso_auth_providers
-  },
-  {
-    name: :registration,
-    path: admin_settings_authentication_path(tab: :registration),
-    label: :"settings.authentication.registration",
-    partial: "admin/settings/authentication_settings/registration"
-  },
-  {
-    name: :passwords,
-    path: admin_settings_authentication_path(tab: :passwords),
-    label: :"settings.passwords",
-    partial: "admin/settings/authentication_settings/passwords"
-  }
-]
+<%
+  tabs = [
+    {
+      name: :login,
+      path: admin_settings_authentication_path(tab: :login),
+      label: :"settings.authentication.login",
+      partial: "admin/settings/authentication_settings/login"
+    },
+    {
+      name: :sso,
+      path: admin_settings_authentication_path(tab: :sso),
+      label: :"settings.authentication.sso",
+      partial: "admin/settings/authentication_settings/sso",
+      enterprise_feature: :sso_auth_providers
+    },
+    {
+      name: :registration,
+      path: admin_settings_authentication_path(tab: :registration),
+      label: :"settings.authentication.registration",
+      partial: "admin/settings/authentication_settings/registration"
+    },
+    {
+      name: :passwords,
+      path: admin_settings_authentication_path(tab: :passwords),
+      label: :"settings.passwords",
+      partial: "admin/settings/authentication_settings/passwords"
+    }
+  ]
 %>
 
 <%=

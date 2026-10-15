@@ -39,13 +39,23 @@ RSpec.describe Lists::MoveAfterAnchor do
 
   def order = scope.reload.order(:position).pluck(:name)
 
-  it "moves to the top for a blank anchor" do
+  it "moves to the top for an empty anchor" do
     expect(section_c.move_after_anchor("", scope:)).to be(true)
+    expect(order).to eq(%w[C A B])
+  end
+
+  it "moves to the top for a nil anchor" do
+    expect(section_c.move_after_anchor(nil, scope:)).to be(true)
     expect(order).to eq(%w[C A B])
   end
 
   it "moves downward directly below the anchor" do
     expect(section_a.move_after_anchor(section_b.id.to_s, scope:)).to be(true)
+    expect(order).to eq(%w[B A C])
+  end
+
+  it "accepts an Integer anchor" do
+    expect(section_a.move_after_anchor(section_b.id, scope:)).to be(true)
     expect(order).to eq(%w[B A C])
   end
 
@@ -68,5 +78,29 @@ RSpec.describe Lists::MoveAfterAnchor do
     foreign = create(:user_custom_field_section)
     expect(section_a.move_after_anchor(foreign.id.to_s, scope:)).to be(false)
     expect(order).to eq(%w[A B C])
+  end
+
+  describe "malformed anchors" do
+    {
+      "false" => -> { false },
+      "true" => -> { true },
+      "a Float" => -> { section_b.id + 0.5 },
+      "zero" => -> { 0 },
+      "a zero string" => -> { "0" },
+      "a negative Integer" => -> { -1 },
+      "a negative string" => -> { "-1" },
+      "a signed id" => -> { "+#{section_b.id}" },
+      "a zero-padded id" => -> { "0#{section_b.id}" },
+      "a decimal id string" => -> { "#{section_b.id}.0" },
+      "a suffixed id" => -> { "#{section_b.id}junk" },
+      "a padded id" => -> { " #{section_b.id}" },
+      "an Array" => -> { [section_b.id] },
+      "a Hash" => -> { { id: section_b.id } }
+    }.each do |description, anchor_builder|
+      it "rejects #{description} without mutating" do
+        expect(section_c.move_after_anchor(instance_exec(&anchor_builder), scope:)).to be(false)
+        expect(order).to eq(%w[A B C])
+      end
+    end
   end
 end

@@ -41,22 +41,18 @@ he:
       bim/bcf/comment:
         one: BCF comment
         two: BCF comments
-        many: BCF comments
         other: BCF comments
       bim/bcf/issue:
         one: BCF issue
         two: BCF issues
-        many: BCF issues
         other: BCF issues
       bim/bcf/viewpoint:
         one: BCF viewpoint
         two: BCF viewpoints
-        many: BCF viewpoints
         other: BCF viewpoints
       bim/ifc_models/ifc_model:
         one: IFC model
         two: IFC models
-        many: IFC models
         other: IFC models
   attributes:
     bcf_thumbnail: BCF snapshot
@@ -119,6 +115,7 @@ he:
       zero: No BCF issues
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

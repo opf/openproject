@@ -32,7 +32,7 @@ module WorkPackageTypes
   # Renaming a variant. Which type it belongs to and what it links to are settled when it is
   # created, and its configuration belongs to the aspect services.
   class UpdateVariantContract < ::ModelContract
-    include RequiresAdminGuard
+    include AuthorizesVariantAuthoring
 
     def self.model = TypeVariant
 

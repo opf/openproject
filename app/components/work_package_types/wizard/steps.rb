@@ -33,13 +33,35 @@ module WorkPackageTypes
     # The steps of the variant creation wizard, in order. Every step submits its form
     # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = %i[details defaults form_configuration project_attributes workflows projects pdf].freeze
+      ALL = %i[start details defaults form_configuration project_attributes workflows projects pdf].freeze
+
+      FIRST_EDITABLE = :details
+
+      # Keyed off the variant, not off where it is configured from: a variant a project owns may
+      # only ever be used there, for an administrator too.
+      OWNED_EXCLUDED = %i[projects].freeze
+
+      DESCRIBED = %i[defaults form_configuration project_attributes projects pdf].freeze
 
       module_function
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
 
+      def description(step)
+        I18n.t("types.creation_wizard.descriptions.#{step}") if DESCRIBED.include?(step)
+      end
+
       def all = ALL
+
+      # While a type is being created the wizard holds the type itself in the variant slot, and a
+      # type is owned by no project, so #try rather than a plain send.
+      def available_for(variant)
+        variant.try(:project_owned?) ? ALL - OWNED_EXCLUDED : ALL
+      end
+
+      def available?(step, variant) = available_for(variant).include?(step)
+
+      def last_for(variant) = available_for(variant).last
 
       def first = ALL.first
 
@@ -53,14 +75,16 @@ module WorkPackageTypes
 
       def index(step) = ALL.index(step)
 
-      def next_after(step)
-        idx = ALL.index(step)
-        ALL[idx + 1] if idx && idx + 1 < ALL.length
+      def next_after(step, variant = nil)
+        steps = available_for(variant)
+        idx = steps.index(step)
+        steps[idx + 1] if idx && idx + 1 < steps.length
       end
 
-      def previous_before(step)
-        idx = ALL.index(step)
-        ALL[idx - 1] if idx&.positive?
+      def previous_before(step, variant = nil)
+        steps = available_for(variant)
+        idx = steps.index(step)
+        steps[idx - 1] if idx&.positive?
       end
     end
   end

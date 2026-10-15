@@ -192,81 +192,64 @@ RSpec.describe "Notification center date alerts", :js, with_settings: { journal_
     wait_for_reload
   end
 
-  context "without date alerts ee" do
-    it "shows the upsell page" do
-      side_menu.click_item "Date alert"
+  it "shows the date alerts according to specification" do
+    center.expect_item(notification_wp_start_past, "Start date was 1 day ago.")
+    center.expect_item(notification_wp_start_future, "Start date is in 7 days.")
 
-      expect(page).to have_current_path(/notifications\/date_alerts/)
-      expect(page).to have_enterprise_banner(:basic)
+    center.expect_item(notification_wp_due_past, "Overdue for 3 days.")
+    center.expect_item(notification_wp_due_future, "Finish date is in 3 days.")
 
-      # It does not allows direct url access
-      visit notifications_center_path(filter: "reason", name: "dateAlert")
+    center.expect_item(notification_milestone_past, "Overdue for 2 days.")
+    center.expect_item(notification_milestone_future, "Milestone date is in 1 day.")
 
-      expect(page).to have_current_path(/notifications\/date_alerts/)
-      expect(page).to have_enterprise_banner(:basic)
-    end
-  end
+    center.expect_item(notification_wp_unset_date, "Finish date is deleted.")
 
-  context "with date alerts ee", with_ee: %i[date_alerts] do
-    it "shows the date alerts according to specification" do
-      center.expect_item(notification_wp_start_past, "Start date was 1 day ago.")
-      center.expect_item(notification_wp_start_future, "Start date is in 7 days.")
+    center.expect_item(notification_wp_due_today, "Finish date is today.")
 
-      center.expect_item(notification_wp_due_past, "Overdue for 3 days.")
-      center.expect_item(notification_wp_due_future, "Finish date is in 3 days.")
+    # Doesn't show the date alert for the mention, not the alert
+    center.expect_item(notification_wp_double_mention, "Finish date is in 1 day.")
+    center.expect_no_item(notification_wp_double_date_alert)
 
-      center.expect_item(notification_milestone_past, "Overdue for 2 days.")
-      center.expect_item(notification_milestone_future, "Milestone date is in 1 day.")
+    # When switch to date alerts, it shows the alert, no longer the mention
+    side_menu.click_item "Date alert"
+    wait_for_network_idle
+    center.expect_item(notification_wp_double_date_alert, "Finish date is in 1 day.")
+    center.expect_no_item(notification_wp_double_mention)
 
-      center.expect_item(notification_wp_unset_date, "Finish date is deleted.")
+    # Ensure that start is created later than due for implicit ID sorting
+    double_alert_start, double_alert_due = notification_wp_double_alerts
+    expect(double_alert_start.id).to be > double_alert_due.id
 
-      center.expect_item(notification_wp_due_today, "Finish date is today.")
+    # We see that start is actually the newest ID, hence shown as the primary notification
+    # but the date alert still shows the finish date
+    center.expect_item(double_alert_start, "Finish date is in 1 day.")
+    center.expect_no_item(double_alert_due)
 
-      # Doesn't show the date alert for the mention, not the alert
-      center.expect_item(notification_wp_double_mention, "Finish date is in 1 day.")
-      center.expect_no_item(notification_wp_double_date_alert)
+    # Opening a date alert opens in overview
+    center.click_item notification_wp_start_past
+    split_screen = Pages::PrimerizedSplitWorkPackage.new wp_start_past
+    split_screen.expect_tab :overview
+    wait_for_network_idle
 
-      # When switch to date alerts, it shows the alert, no longer the mention
-      side_menu.click_item "Date alert"
-      wait_for_network_idle
-      center.expect_item(notification_wp_double_date_alert, "Finish date is in 1 day.")
-      center.expect_no_item(notification_wp_double_mention)
+    # We expect no badge count
+    tabs.expect_no_counter "activity"
 
-      # Ensure that start is created later than due for implicit ID sorting
-      double_alert_start, double_alert_due = notification_wp_double_alerts
-      expect(double_alert_start.id).to be > double_alert_due.id
+    # The same is true for the mention item that is opened in date alerts filter
+    center.click_item notification_wp_double_date_alert
+    split_screen = Pages::PrimerizedSplitWorkPackage.new wp_double_notification
+    split_screen.expect_tab :overview
+    wait_for_network_idle
 
-      # We see that start is actually the newest ID, hence shown as the primary notification
-      # but the date alert still shows the finish date
-      center.expect_item(double_alert_start, "Finish date is in 1 day.")
-      center.expect_no_item(double_alert_due)
+    # We expect one badge
+    tabs.expect_counter "activity", 1
 
-      # Opening a date alert opens in overview
-      center.click_item notification_wp_start_past
-      split_screen = Pages::PrimerizedSplitWorkPackage.new wp_start_past
-      split_screen.expect_tab :overview
-      wait_for_network_idle
+    # When a work package is updated to a different date
+    wp_double_notification.update_column(:due_date, time_zone.now + 5.days)
+    page.driver.refresh
+    wait_for_reload
 
-      # We expect no badge count
-      tabs.expect_no_counter "activity"
-
-      # The same is true for the mention item that is opened in date alerts filter
-      center.click_item notification_wp_double_date_alert
-      split_screen = Pages::PrimerizedSplitWorkPackage.new wp_double_notification
-      split_screen.expect_tab :overview
-      wait_for_network_idle
-
-      # We expect one badge
-      tabs.expect_counter "activity", 1
-
-      # When a work package is updated to a different date
-      wp_double_notification.update_column(:due_date, time_zone.now + 5.days)
-      page.driver.refresh
-      wait_for_reload
-
-      center.expect_item(notification_wp_double_date_alert, "Finish date is in 5 days.")
-      center.expect_no_item(notification_wp_double_mention)
-    end
+    center.expect_item(notification_wp_double_date_alert, "Finish date is in 5 days.")
+    center.expect_no_item(notification_wp_double_mention)
   end
 end
 # rubocop:enable RSpec/ScatteredLet

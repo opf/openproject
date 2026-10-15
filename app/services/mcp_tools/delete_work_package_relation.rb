@@ -49,14 +49,14 @@ module McpTools
 
     def call(id:)
       relation = Relation.visible(current_user).find_by(id:)
-      return { error: "The given relation could not be found." } if relation.nil?
+      return Failure("The given relation could not be found.") if relation.nil?
 
       result = Relations::DeleteService.new(user: current_user, model: relation).call
 
       if result.success?
-        API::V3::Relations::RelationRepresenter.create(result.result, current_user:)
+        Success(API::V3::Relations::RelationRepresenter.create(result.result, current_user:))
       else
-        { error: result.message }
+        Failure(result.message)
       end
     end
   end

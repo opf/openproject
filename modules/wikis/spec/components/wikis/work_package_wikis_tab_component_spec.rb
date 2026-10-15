@@ -86,6 +86,13 @@ RSpec.describe Wikis::WorkPackageWikisTabComponent, type: :component do
       expect(page).to have_css("collapsible-header", count: 2)
     end
 
+    # The keep-collapsed-state controller keys the collapsed state it carries
+    # over re-renders on these ids, so they must not be generated ones.
+    it "gives every collapsible section a toggle with a stable target", :aggregate_failures do
+      expect(page).to have_css("collapsible-header [data-collapsible-toggle][aria-controls='inline_page_links_list']")
+      expect(page).to have_css("collapsible-header [data-collapsible-toggle][aria-controls='referencing_wiki_pages_list']")
+    end
+
     it "renders the inline page links section", :aggregate_failures do
       expect(page).to have_text(I18n.t("wikis.work_package_wikis_tab_component.inline_page_links"))
       expect(page).to have_text("Inline page")

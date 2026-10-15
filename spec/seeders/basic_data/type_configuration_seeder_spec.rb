@@ -128,4 +128,74 @@ RSpec.describe BasicData::TypeConfigurationSeeder do
       end
     end
   end
+
+  context "with a form_configuration entry listing plain attributes" do
+    context "with an explicit group_name" do
+      let(:data_hash) do
+        YAML.load <<~SEEDING_DATA_YAML
+          type_configuration:
+          - type: :default_type_summary_task
+            form_configuration:
+              - group_name: "Versions"
+                attributes:
+                  - observed_in_versions
+        SEEDING_DATA_YAML
+      end
+
+      it "adds an attribute group with the given title and attributes" do
+        seeder.seed!
+        attribute_groups_now = phase_variant.reload.attribute_groups
+
+        expect(attribute_groups_now)
+          .to include(an_instance_of(Type::AttributeGroup)
+            .and(having_attributes(key: "Versions", attributes: ["observed_in_versions"])))
+      end
+
+      context "with merge_form_configuration enabled" do
+        let(:data_hash) do
+          YAML.load <<~SEEDING_DATA_YAML
+            type_configuration:
+            - type: :default_type_summary_task
+              merge_form_configuration: true
+              form_configuration:
+                - group_name: "Versions"
+                  attributes:
+                    - observed_in_versions
+          SEEDING_DATA_YAML
+        end
+
+        it "keeps the seeded attribute group alongside the type's default form configuration" do
+          default_group_keys = phase_variant.default_attribute_groups.map(&:first)
+          seeder.seed!
+          attribute_groups_now = phase_variant.reload.attribute_groups
+
+          expect(attribute_groups_now.map(&:key)).to include("Versions", *default_group_keys)
+        end
+      end
+    end
+
+    context "with a group_name matching one of the type's default groups" do
+      let(:data_hash) do
+        YAML.load <<~SEEDING_DATA_YAML
+          type_configuration:
+          - type: :default_type_summary_task
+            merge_form_configuration: true
+            form_configuration:
+              - group_name: :details
+                attributes:
+                  - observed_in_versions
+        SEEDING_DATA_YAML
+      end
+
+      it "merges the seeded attributes into that default group instead of creating a separate one" do
+        default_details_members = phase_variant.default_attribute_groups.find { |key, _| key == :details }.last
+        seeder.seed!
+        attribute_groups_now = phase_variant.reload.attribute_groups
+
+        details_groups = attribute_groups_now.select { |group| group.key == :details }
+        expect(details_groups.size).to eq(1)
+        expect(details_groups.first.attributes).to eq(default_details_members + ["observed_in_versions"])
+      end
+    end
+  end
 end

@@ -33,16 +33,13 @@ require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::AuthenticationStrategies::BearerToken, :webmock do
   let(:url) { "https://xwiki.local/rest/" }
-  let(:user) { build_stubbed(:user) }
-  let(:oauth_client) { build_stubbed(:oauth_client) }
-  let(:provider) { instance_double(Wikis::XWikiProvider, oauth_client:) }
-  let(:oauth_client_token) { instance_double(OAuthClientToken, access_token: "test-token", expires_in: nil) }
+  let(:user) { create(:user) }
+  let(:provider) { create(:xwiki_provider, :with_oauth_client) }
+  let!(:oauth_client_token) do
+    create(:oauth_client_token, oauth_client: provider.oauth_client, user:, access_token: "test-token")
+  end
 
   subject(:strategy) { described_class.new(user, provider) }
-
-  before do
-    allow(OAuthClientToken).to receive(:find_by).with(user:, oauth_client:).and_return(oauth_client_token)
-  end
 
   describe "#call" do
     it "yields an http client configured with the bearer token" do
@@ -67,7 +64,7 @@ RSpec.describe Wikis::Adapters::AuthenticationStrategies::BearerToken, :webmock 
       expect(request_stub).to have_been_requested
     end
 
-    context "when no OAuth token exists for the user" do
+    context "when the user has not connected to the provider" do
       let(:oauth_client_token) { nil }
 
       it "returns a missing_token failure without yielding" do

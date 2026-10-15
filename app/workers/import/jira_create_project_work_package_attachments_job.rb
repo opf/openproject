@@ -1,0 +1,193 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Import
+  class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
+    def text
+      jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
+    end
+
+    def progress
+      jira_import = Import::JiraImport.find(arguments[0])
+      cursor = jira_import.get_job_cursor(self)
+      if cursor.present?
+        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
+        total = issues.count
+        current = issues.where(id: ..cursor).count
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
+      else
+        { current: 0, total: 0, percentage: 0 }
+      end
+    end
+
+    # rubocop:disable-next Metrics/AbcSize
+    def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      @jira_import = Import::JiraImport.find(jira_import_id)
+      jira = @jira_import.jira
+      @jira_id = jira.id
+      @system_user = User.system
+      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+      jira_project = Import::JiraProject.find(jira_project_id)
+
+      @project_role = Role.find_by!(name: "JiraMember")
+
+      @project = JiraOpenProjectReference.find_by!(
+        jira_entity_id: jira_project.id,
+        jira_entity_class: jira_project.class.to_s
+      ).op_leg
+
+      cursor ||= @jira_import.get_job_cursor(self)
+      enumerator_builder.active_record_on_records(
+        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+        cursor: cursor
+      )
+    end
+
+    # rubocop:disable-next Metrics/AbcSize
+    def each_iteration(jira_issue, jira_import_id, jira_project_id)
+      jira_issue_key = jira_issue.payload["key"]
+      Rails.logger.tagged("jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project_id}",
+                          "jira_issue_key:#{jira_issue_key}") do
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
+            Rails.logger.debug "Creating work package attachment"
+            work_package = JiraOpenProjectReference.find_by!(
+              jira_entity_id: jira_issue.id,
+              jira_entity_class: jira_issue.class.to_s
+            ).op_leg
+            attachments = jira_issue.payload.dig("fields", "attachment") || []
+            attachments.each do |attachment|
+              Rails.logger.tagged("attachment_filename:#{attachment['filename']}") do
+                key = attachment.dig("author", "key")
+                Rails.logger.tagged("author:#{key}") do
+                  author = find_user(key)
+                  create_member(@project, author) if author.present?
+                  create_attachment(work_package, attachment, author || User.system)
+                end
+              end
+            end
+            journal_service = Import::JiraImportJournals.new(work_package:)
+            journal_service.backfill_attachments
+            # This is the last stage touching a work package, so the migration entry closes its
+            # activity behind everything the import journalized.
+            journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
+            @jira_import.set_job_cursor(self, jira_issue.id)
+          end
+        end
+      end
+    end
+
+    private
+
+    # rubocop:disable-next Metrics/AbcSize
+    def create_attachment(work_package, attachment, author)
+      filename = attachment["filename"]
+      content_url = attachment["content"]
+      mime_type = attachment["mimeType"]
+      size = attachment["size"]
+      @jira_client.download_attachment(content_url, filename) do |tempfile|
+        tempfile.rewind
+        tempfile.define_singleton_method(:original_filename) { filename }
+        tempfile.define_singleton_method(:content_type) { mime_type }
+        tempfile.define_singleton_method(:size) { size }
+        call = Attachments::ImportCreateService
+                 .new(user: author, contract_class: EmptyContract)
+                 .call(container: work_package, filename:, file: tempfile)
+
+        call.on_failure do
+          raise call.message
+        end
+
+        backdate(call.result, attachment["created"])
+      end
+    rescue Import::JiraClient::Error => e
+      app_backtrace = Rails.backtrace_cleaner.clean(e.backtrace)
+      project = work_package.project
+      jira_project_for_log = project.slice(:identifier)
+      jira_issue_for_log = work_package.slice(:identifier)
+      attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
+      Rails.logger.error(
+        "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
+        "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
+      )
+    end
+
+    # Jira attachments cannot be replaced, so both timestamps take the date the file was
+    # attached in Jira rather than the date the import downloaded it.
+    def backdate(record, created)
+      return if created.blank?
+
+      attached_at = Time.zone.parse(created)
+      record.update_columns(created_at: attached_at, updated_at: attached_at)
+    end
+
+    def create_member(project, member)
+      service_call = Members::CreateService
+                       .new(user: @system_user, contract_class: EmptyContract)
+                       .call(
+                         project:,
+                         roles: [@project_role],
+                         user_id: member.id,
+                         principal: member
+                       )
+      return if service_call.success?
+
+      if service_call.errors.find { |error| error.type == :taken }.blank?
+        raise service_call.message
+      end
+    end
+
+    def find_user(jira_user_key)
+      return if jira_user_key.blank?
+
+      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
+      if jira_user
+        ref = JiraOpenProjectReference.find_by(
+          jira_entity_class: "Import::JiraUser",
+          jira_entity_id: jira_user.id
+        )
+        if ref.present?
+          ref.op_leg
+        else
+          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          Rails.logger.error log_message
+          raise log_message
+        end
+      else
+        log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        Rails.logger.error log_message
+        raise log_message
+      end
+    end
+  end
+end

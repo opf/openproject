@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -156,6 +155,9 @@ export class ApiV3Service {
 
   // /api/v3/users
   public readonly users = this.apiV3CustomEndpoint(ApiV3UsersPaths);
+
+  // /api/v3/user_resources
+  public readonly user_resources = this.apiV3CollectionEndpoint('user_resources');
 
   // /api/v3/placeholder_users
   public readonly placeholder_users = this.apiV3CustomEndpoint(ApiV3PlaceholderUsersPaths);

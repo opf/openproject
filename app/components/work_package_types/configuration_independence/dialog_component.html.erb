@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(
       Primer::Alpha::Dialog.new(
         id: DIALOG_ID,
-        title: t("types.edit.reuse_mode.independent.dialog.title"),
+        title: t("types.edit.reuse_mode.manual.dialog.title"),
         size: :medium_portrait
       )
     ) do |dialog| %>
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <%= render(Primer::Alpha::Dialog::Footer.new) do %>
       <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": DIALOG_ID })) { t(:button_cancel) } %>
-      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t("types.edit.reuse_mode.independent.dialog.submit") } %>
+      <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t("types.edit.reuse_mode.manual.dialog.submit") } %>
     <% end %>
   <% end %>
 <% end %>

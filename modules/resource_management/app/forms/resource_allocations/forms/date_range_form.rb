@@ -46,6 +46,10 @@ module ResourceAllocations
         f.html_content do
           render(ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation: model))
         end
+
+        f.html_content do
+          render(ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation: model))
+        end
       end
 
       def initialize(dialog_id:)

@@ -64,10 +64,11 @@ module WorkPackages
 
       private
 
-      # Unlinking a survivor is a side effect of the deletion, so this deliberately does not
-      # consider the "manage_subtasks" permission.
+      # include_descendants? is supplied by the includer. When false, every descendant is detached instead of deleted.
+      # Unlinking a survivor is a side effect of the deletion, so this deliberately does not consider the
+      # "manage_subtasks" permission.
       def deleted_with_roots?(descendant)
-        visible_descendant_ids.include?(descendant.id) && deletable?(descendant)
+        include_descendants? && visible_descendant_ids.include?(descendant.id) && deletable?(descendant)
       end
 
       def deletable?(descendant)

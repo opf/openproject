@@ -102,9 +102,19 @@ module OpenProject
       @all ||= []
     end
 
+    def setting_name(flag_name)
+      :"feature_#{flag_name}_active"
+    end
+
+    def setting_names
+      all.map { |flag_name| setting_name(flag_name) }
+    end
+
     def define_flag_methods(flag_name)
+      setting = setting_name(flag_name)
+
       define_singleton_method :"#{flag_name}_active?" do
-        Setting.exists?("feature_#{flag_name}_active") && Setting.send(:"feature_#{flag_name}_active?")
+        Setting.exists?(setting) && Setting.send(:"#{setting}?")
       end
     end
 
@@ -115,7 +125,7 @@ module OpenProject
                    allow_enabling
                  end
 
-      Settings::Definition.add :"feature_#{flag_name}_active",
+      Settings::Definition.add setting_name(flag_name),
                                description:,
                                default: force_active || Rails.env.development?,
                                writable: writable,

@@ -42,13 +42,11 @@ RSpec.describe "Notification center date alert and mention",
     travel_back
   end
 
-  context "with date alerts ee", with_ee: %i[date_alerts] do
-    it "shows only the date alert time, not the mentioned author" do
-      center.within_item(notification_date_alert) do
-        expect(page).to have_text("##{work_package.id}\n- #{project.name} -\nDate alert, Mentioned")
-        expect(page).to have_no_text("Actor User")
-        expect(page).to have_text("Overdue for 1 day.")
-      end
+  it "shows only the date alert time, not the mentioned author" do
+    center.within_item(notification_date_alert) do
+      expect(page).to have_text("##{work_package.id}\n- #{project.name} -\nDate alert, Mentioned")
+      expect(page).to have_no_text("Actor User")
+      expect(page).to have_text("Overdue for 1 day.")
     end
   end
 end

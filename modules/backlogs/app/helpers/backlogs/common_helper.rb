@@ -30,8 +30,6 @@
 
 module Backlogs
   module CommonHelper
-    include PermittedParamsHelper
-
     def user_allowed?(permission, project: nil)
       current_user.allowed_in_project?(permission, project || self.project)
     end
@@ -49,9 +47,19 @@ module Backlogs
       user_allowed?(:share_sprint)
     end
 
+    # Batch selection is the same capability as ordering: without the right to
+    # reorder, enabling it would only cost the viewer their Space, arrow,
+    # Home/End and Ctrl/Cmd+A keys.
+    #
+    # Takes the project because the backlog view, unlike the components the
+    # predicates above serve, exposes no `project` method.
+    def batch_selection_allowed?(project)
+      user_allowed?(:manage_sprint_items, project:)
+    end
+
     def backlog_filters
       RequestStore.fetch(:backlog_filters) do
-        Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
+        Backlogs::BacklogFilters.from_params(params.permit(:all, :filters, bucket_ids: [], sprint_ids: []))
       end
     end
 
@@ -75,8 +83,7 @@ module Backlogs
     def filtered_buckets_for(project)
       return all_buckets_for(project) if backlog_filters.bucket_ids.nil?
 
-      bucket_ids = backlog_filters.bucket_ids.reject { |id| id == "inbox" }
-      all_buckets_for(project).where(id: bucket_ids)
+      all_buckets_for(project).where(id: backlog_filters.bucket_ids_without_inbox)
     end
 
     def backlogs_move_url_template(project)

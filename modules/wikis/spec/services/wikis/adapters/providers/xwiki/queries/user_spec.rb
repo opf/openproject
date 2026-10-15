@@ -32,20 +32,15 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
-  let(:user) { build_stubbed(:user) }
-  let(:oauth_client) { build_stubbed(:oauth_client) }
-  let(:wiki_provider) { build_stubbed(:xwiki_provider, url: "https://xwiki.local/") }
+  let(:user) { create(:user) }
+  let(:wiki_provider) do
+    create(:xwiki_provider, :with_connected_user,
+           url: "https://xwiki.local/", connected_user: user, connected_user_token: "some-token")
+  end
   let(:root_url) { "https://xwiki.local/rest/" }
   let(:auth_strategy) { Wikis::Adapters::Input::AuthStrategy.build(key: :bearer_token, user:, provider: wiki_provider).value! }
 
   subject(:query) { described_class.new(model: wiki_provider) }
-
-  before do
-    allow(wiki_provider).to receive(:oauth_client).and_return(oauth_client)
-    allow(OAuthClientToken).to receive(:find_by)
-      .with(user:, oauth_client:)
-      .and_return(instance_double(OAuthClientToken, access_token: "some-token", expires_in: nil))
-  end
 
   it "is registered" do
     expect(Wikis::Adapters::Registry.resolve("xwiki.queries.user")).to eq(described_class)

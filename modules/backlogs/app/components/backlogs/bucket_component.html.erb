@@ -76,8 +76,8 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       list.with_empty_state(
-        title: t(".blankslate_title"),
-        description: t(".blankslate_description"),
+        title: backlog_filters.filtered? ? t("backlogs.blankslate_filtered_title") : t(".blankslate_title"),
+        description: backlog_filters.filtered? ? nil : t(".blankslate_description"),
         drop_target_label: t(".drop_zone_label")
       )
     end

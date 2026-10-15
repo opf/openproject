@@ -16,9 +16,9 @@ zh-CN:
           overlaps: 重叠.
     models:
       grids/grid:
-        other: Grids
+        other: 网格
       grids/widget:
-        other: Widgets
+        other: 微件
   grids:
     label_widget_in_grid: 网格 %{grid_name} 中包含的微件
     widgets:
@@ -42,7 +42,7 @@ zh-CN:
         sprints_link: 冲刺概览
         title: 项目时间线
         title_portfolio: 项目组合时间线
-        title_program: 项目群时间线
+        title_program: 计划时间线
       subitems:
         button_text: 子条目
         no_results: 没有可见的子级。

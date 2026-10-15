@@ -186,6 +186,32 @@ RSpec.describe API::V3::TimeEntries::CreateFormAPI, content_type: :json do
       end
     end
 
+    context "with a link to a work package that does not exist" do
+      let(:parameters) do
+        {
+          _links: {
+            workPackage: {
+              href: api_v3_paths.work_package(not_existing_id(WorkPackage))
+            }
+          }
+        }
+      end
+
+      it "returns 200 OK" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "renders an empty entity link in the payload" do
+        expect(subject.body)
+          .to be_json_eql(nil.to_json)
+          .at_path("_embedded/payload/_links/entity/href")
+      end
+
+      it "has a validation error on entity" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/entity")
+      end
+    end
+
     context "without the necessary permission" do
       let(:permissions) { [] }
 

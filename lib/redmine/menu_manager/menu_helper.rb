@@ -39,7 +39,6 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(menu, project = nil) # rubocop:disable Metrics/PerceivedComplexity
-    # Fall back to project_menu when project exists (not during project creation)
     if menu.nil? && project&.persisted?
       menu = :project_menu
     end

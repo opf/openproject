@@ -44,7 +44,7 @@ module WorkPackageTypes
       def call(source:)
         return invalid_source_result unless valid_source?(source)
 
-        copy_from(source.effective_source_for(aspect))
+        copy_from(source.owner_of(aspect))
 
         ServiceResult.success(result: variant)
       rescue ActiveRecord::RecordInvalid

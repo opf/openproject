@@ -3,7 +3,7 @@ zh-CN:
   activerecord:
     attributes:
       saml/provider:
-        allowed_clock_drift: Allowed clock drift
+        allowed_clock_drift: 允许的时钟偏差
         assertion_consumer_service_url: ACS（断言消费者服务）URL
         authn_requests_signed: 签署 SAML AuthnRequests
         certificate: OpenProject 为 SAML 请求使用的证书
@@ -35,7 +35,7 @@ zh-CN:
           unmatched_private_key: 不属于给定证书
     models:
       saml/provider:
-        other: SAML providers
+        other: SAML 提供商
   saml:
     delete_heading: 是否删除此 SAML 提供商？
     delete_title: 删除 SAML 提供商
@@ -45,7 +45,7 @@ zh-CN:
         '
       title: SAML 协议配置参数
     instructions:
-      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+      allowed_clock_drift: '验证身份提供商响应时间戳时应用的容差（秒）。支持毫秒级精度。仅在确认 OpenProject 与身份提供商的时钟不同步时使用此设置，且请尽可能保持较低值（默认值：0）。
 
         '
       authn_requests_signed: '如果选中，OpenProject 将签署 SAML 作者请求。您必须提供签名证书和私人密钥，使用下面的字段。

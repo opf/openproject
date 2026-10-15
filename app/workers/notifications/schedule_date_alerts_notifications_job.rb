@@ -35,8 +35,6 @@ module Notifications
     include Cron::QuarterHourScheduleJob
 
     def perform
-      return unless EnterpriseToken.allows_to?(:date_alerts)
-
       Service.new(every_quarter_hour_between_predecessor_cron_at_and_own_cron_at).call
     end
 

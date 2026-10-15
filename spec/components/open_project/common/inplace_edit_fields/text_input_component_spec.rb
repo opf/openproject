@@ -52,6 +52,8 @@ RSpec.describe OpenProject::Common::InplaceEditFields::TextInputComponent,
 
     expect(rendered_content).to have_field("project[name]", type: "text")
     expect(rendered_content).to include("keydown.esc-&gt;inplace-edit#request")
+    expect(rendered_content).to include("keydown.enter-&gt;inplace-edit#submitForm")
+    expect(rendered_content).to include("change-&gt;inplace-edit#submitForm")
   end
 
   it "does not add a submit-on-change Stimulus action whe show_action_buttons is false" do
@@ -65,5 +67,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::TextInputComponent,
     end
 
     expect(rendered_content).not_to include("keydown.esc-&gt;inplace-edit#request")
+    expect(rendered_content).not_to include("keydown.enter-&gt;inplace-edit#submitForm")
+    expect(rendered_content).not_to include("change-&gt;inplace-edit#submitForm")
   end
 end

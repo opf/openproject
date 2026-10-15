@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true } do
+RSpec.describe Projects::Types::Switch::Impact do
   subject(:impact) { described_class.new(project:, source:, target:) }
 
   shared_let(:story_points) { create(:integer_wp_custom_field, name: "Story points") }
@@ -49,7 +49,7 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
   let(:design) { create(:type_variant, type: epic, variant_name: "Design", custom_fields: [design_stage]) }
 
   let(:project) do
-    create(:project, types: [epic], work_package_custom_fields: [story_points, design_stage])
+    create(:project, types: [epic])
   end
   let(:source) { epic_base }
   let(:target) { design }
@@ -76,7 +76,7 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
     # counting the source itself finds none of them as soon as the source is a variant.
     context "when the project already resolves the family to a variant" do
       let(:project) do
-        create(:project, types: [design], work_package_custom_fields: [story_points, design_stage])
+        create(:project, types: [design])
       end
       let(:source) { design }
       let(:target) { epic_base }
@@ -201,7 +201,7 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
     let(:bug) { create(:type, name: "Bug") }
     let(:bug_base) { bug.default_variant }
 
-    let(:project) { create(:project, types: [bug], work_package_custom_fields: [story_points]) }
+    let(:project) { create(:project, types: [bug]) }
     let(:source) { bug_base }
     # Reloaded because the outer before assigned groups to this instance, and
     # the memoized objects would win over the link's effective source.
@@ -213,13 +213,55 @@ RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true
 
       # Restores the link the outer before severed, which is the state a variant
       # is created in.
-      design.link!(TypeVariant::FORM_CONFIGURATION, source: epic_base)
+      link_configuration(design, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     # The variant stores no groups of its own, so the diff has to read the
     # configuration it borrows rather than an empty list.
     it "compares against the configuration the variant actually borrows" do
       expect(impact.new_fields.map(&:label)).to include("Story points")
+    end
+  end
+
+  describe "how the work packages are scoped" do
+    it "requires exactly one of project or work_packages" do
+      expect { described_class.new(source:, target:) }.to raise_error(ArgumentError)
+      expect { described_class.new(source:, target:, project:, work_packages: WorkPackage.all) }
+        .to raise_error(ArgumentError)
+    end
+
+    it "is single-project only when scoped to a project" do
+      expect(described_class.new(source:, target:, project:)).to be_single_project
+      expect(described_class.new(source:, target:, work_packages: WorkPackage.all)).not_to be_single_project
+    end
+
+    describe "#project_ids" do
+      it "is the one project when scoped to it" do
+        expect(described_class.new(source:, target:, project:).project_ids).to contain_exactly(project.id)
+      end
+
+      it "is every project applying the source variant otherwise" do
+        applied = design
+        one = create(:project, types: [epic])
+        two = create(:project, types: [epic])
+        [one, two].each { |p| p.project_types.find_by(type: epic).update!(variant: applied) }
+
+        impact = described_class.new(source: applied, target: epic_base, work_packages: applied.work_packages)
+
+        expect(impact.project_ids).to contain_exactly(one.id, two.id)
+      end
+    end
+
+    it "counts across the injected scope rather than a single project" do
+      one = create(:project, types: [epic])
+      two = create(:project, types: [epic])
+      create(:work_package, project: one, type: epic)
+      create_list(:work_package, 2, project: two, type: epic)
+
+      impact = described_class.new(source: epic_base, target: design,
+                                   work_packages: WorkPackage.where(type_id: epic.id))
+
+      expect(impact.work_package_count).to eq(3)
     end
   end
 end

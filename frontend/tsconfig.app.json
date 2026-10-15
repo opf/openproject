@@ -21,6 +21,8 @@
   ],
   "exclude": [
     "src/**/*.spec.ts",
+    "src/**/testing/**",
+    "src/stimulus/test-helpers.ts",
     "src/test-setup.ts",
     "src/test-providers.ts",
     "src/test-browser-polyfills.ts"

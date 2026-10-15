@@ -61,9 +61,9 @@ id:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: URL server Hocuspocus
         page_header:
-          description: |-
-            Saat diaktifkan, kolaborasi secara langusng memungkinkan beberapa pengguna untuk menyunting dokumen secara bersamaan.
-            Fitur ini memerlukan server %{hocuspocus_server_link} yang berfungsi untuk beroperasi.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Saya mengerti bahwa saya mungkin akan kehilangan data secara permanen
         confirmation_message: |-
@@ -117,7 +117,7 @@ id:
       currently_offline: You are currently offline.
     label_attachment_author: Lampiran penulis
     label_categories: Kategori
-    last_updated_at: Terakhir disimpan %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Semua dokumen
       collaboration_settings: Kolaborasi secara langsung

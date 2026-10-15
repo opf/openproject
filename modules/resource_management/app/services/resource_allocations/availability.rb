@@ -107,11 +107,33 @@ module ResourceAllocations
       active_index.nil? ? records : records[active_index..]
     end
 
+    # The leading part of the range before the user's earliest working schedule
+    # takes effect, which WorkingTimeCalendar counts as zero capacity. Nil when
+    # a schedule covers the whole range.
+    #
+    # @return [Range<Date>, nil]
+    def unscheduled_range(range)
+      earliest = UserWorkingHours.for_user(@user).minimum(:valid_from)
+      return range if earliest.nil?
+      return if earliest <= range.begin
+
+      range.begin..[earliest - 1, range.end].min
+    end
+
     def utilization_ratio(range)
-      capacity = WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
+      capacity = capacity_minutes_within(range)
       return if capacity.zero?
 
       ((booked_minutes_within(range).to_f / capacity) * 100).round
+    end
+
+    # The minutes the user works within the given range, before anything booked
+    # against them. A user without a working schedule reads zero here, where
+    # their capacity is unknown rather than absent.
+    def capacity_minutes_within(range)
+      @capacity_minutes_within ||= {}
+      @capacity_minutes_within[range] ||=
+        WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
     end
 
     # Minutes already booked against the user within the given range. Allocations
@@ -162,7 +184,7 @@ module ResourceAllocations
       placements.each do |allocation_id, minutes_per_day|
         allocation = allocations_by_id.fetch(allocation_id)
         minutes_per_day.each do |date, minutes|
-          by_date[date] << ScheduledEntry.new(allocation:, work_package: allocation.entity, minutes:)
+          by_date[date] << ScheduledEntry.new(allocation:, work_package: allocation.entity, allocated_on: date, minutes:)
         end
       end
 

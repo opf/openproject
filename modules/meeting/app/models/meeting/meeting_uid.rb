@@ -35,7 +35,13 @@ module Meeting::MeetingUid
     after_initialize :generate_uid, if: :new_record?
   end
 
+  class_methods do
+    def new_uid
+      "#{SecureRandom.uuid}@#{Setting.host_name}"
+    end
+  end
+
   def generate_uid
-    self.uid = "#{SecureRandom.uuid}@#{Setting.host_name}"
+    self.uid = self.class.new_uid
   end
 end

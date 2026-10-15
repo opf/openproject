@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -44,6 +43,7 @@ import {
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -136,7 +136,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public comment(entry:TimeEntryResource):string | undefined {
-    return entry.comment && entry.comment.raw;
+    return entry.comment?.raw;
   }
 
   public hours(entry:TimeEntryResource):string {
@@ -241,8 +241,8 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       .get();
   }
 
-  private handleDialogClose(event:CustomEvent):void {
-    const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+  private handleDialogClose(event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
     if (dialog.id === 'time-entry-dialog' && submitted) {
       this.loadTimeEntries();
     }

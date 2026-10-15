@@ -32,6 +32,7 @@ module ResourcePlannerViews
   class EditDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "edit-resource-planner-view-dialog"
     FORM_ID = "edit-resource-planner-view-form"
@@ -52,7 +53,7 @@ module ResourcePlannerViews
     end
 
     def form_url
-      project_resource_planner_view_path(@project, @resource_planner, @view)
+      planner_view_path(@resource_planner, @view)
     end
   end
 end

@@ -39,30 +39,22 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if date_alerts_available? %>
-  <%=
-    settings_primer_form_with(
-      model: global_notification_setting,
-      scope: :notification_setting,
-      url: update_date_alerts_url,
-      method: :patch,
-      data: {
-        turbo: false,
-        controller: "show-when-checked",
-        show_when_checked_visibility_class: "d-none",
-        test_selector: "date-alerts-form"
-      }
-    ) do |form|
-      render(My::Notifications::DateAlertsForm.new(form))
-    end
-  %>
-<% else %>
-  <%= render(Primer::Beta::Subhead.new(mt: 3)) do |component|
-        component.with_heading(size: :medium) { t("my_account.notifications.date_alerts.title") }
-        component.with_description { t("my_account.notifications.date_alerts.description") }
-      end %>
-  <%= render(EnterpriseEdition::BannerComponent.new(:date_alerts, variant: :inline)) %>
-<% end %>
+<%=
+  settings_primer_form_with(
+    model: global_notification_setting,
+    scope: :notification_setting,
+    url: update_date_alerts_url,
+    method: :patch,
+    data: {
+      turbo: false,
+      controller: "show-when-checked",
+      show_when_checked_visibility_class: "d-none",
+      test_selector: "date-alerts-form"
+    }
+  ) do |form|
+    render(My::Notifications::DateAlertsForm.new(form))
+  end
+%>
 
 <%=
   settings_primer_form_with(

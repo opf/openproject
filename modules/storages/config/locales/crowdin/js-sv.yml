@@ -24,7 +24,7 @@ sv:
           '
         remove_short: Ta bort länk
         select: Välj filer
-        select_all: Markera alla
+        select_all: Välj alla
         selection:
           zero: Välj filer att länka
           one: Länka 1 fil

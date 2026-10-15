@@ -32,19 +32,21 @@ module Import
   class JiraOpenProjectReference < ApplicationRecord
     self.table_name = "jira_open_project_references"
 
-    belongs_to :jira, class_name: "Import::Jira"
+    # Raised when a reference dangles, i.e. the entity it points at no longer exists
+    class LegNotFoundError < StandardError; end
+
     belongs_to :jira_import, class_name: "Import::JiraImport"
 
     def op_leg
       op_entity_class&.constantize&.find(op_entity_id)
     rescue ActiveRecord::RecordNotFound
-      raise "#{op_entity_class} with id #{op_entity_id} not found!"
+      raise LegNotFoundError, "#{op_entity_class} with id #{op_entity_id} not found!"
     end
 
     def jira_leg
       jira_entity_class&.constantize&.find(jira_entity_id)
     rescue ActiveRecord::RecordNotFound
-      raise "#{jira_entity_class} with id #{jira_entity_id} not found!"
+      raise LegNotFoundError, "#{jira_entity_class} with id #{jira_entity_id} not found!"
     end
   end
 end

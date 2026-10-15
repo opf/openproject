@@ -103,19 +103,13 @@ module Pages
         select_box.select time
       end
 
-      def expect_no_date_alert_setting(label)
-        expect(page).to have_no_css(
-          "select[data-test-selector='global-notification-type-op-reminder-settings-#{label.underscore}-alerts']"
-        )
-      end
-
       def edit_project(project)
         within_test_selector "project-specific-settings-list", text: project.name do
           within_test_selector("project-specific-settings-list--action-menu") do
             click_on
           end
         end
-        click_on "Edit"
+        wait_for_turbo_stream { click_on "Edit" }
       end
 
       def delete_project(project)
@@ -131,6 +125,7 @@ module Pages
         within_test_selector "project-specific-settings-form" do
           click_button "Save"
         end
+        expect(page).to have_no_test_selector("project-specific-settings-form")
         expect_and_dismiss_flash
       end
 
@@ -156,14 +151,6 @@ module Pages
       def disable_project_date_alert(label)
         within_test_selector "project-specific-settings-form" do
           enable_date_alert label, false
-        end
-      end
-
-      def expect_no_project_date_alert_setting(label)
-        within_test_selector "project-specific-settings-form" do
-          expect(page).to have_no_css(
-            "select[data-test-selector='op-reminder-settings-#{label.underscore}-alerts']"
-          )
         end
       end
 

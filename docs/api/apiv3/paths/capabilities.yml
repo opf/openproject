@@ -15,7 +15,7 @@ get:
 
         + **Deprecation**: The now deprecated context `p` for project still works, but must eventually be replaced
           with the `w` for the workspace context.
-    example: '[{ "principal": { "operator": "=", "values": ["1"] }" }]'
+    example: '[{ "principal": { "operator": "=", "values": ["1"] } }]'
     in: query
     name: filters
     required: false

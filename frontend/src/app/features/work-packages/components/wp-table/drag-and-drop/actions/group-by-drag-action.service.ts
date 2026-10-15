@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -64,7 +63,7 @@ export class GroupByDragActionService extends TableDragActionService {
 
   public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
     const changeset = this.halEditing.changeFor(workPackage);
-    const groupedValue = this.getValueForGroup(el);
+    const groupedValue = this.getValueForGroup(workPackage, el);
 
     changeset.projectedResource[this.groupedAttribute!] = groupedValue;
     return this.halEditing
@@ -73,7 +72,7 @@ export class GroupByDragActionService extends TableDragActionService {
       .catch((e) => this.halNotification.handleRawError(e, workPackage));
   }
 
-  private getValueForGroup(el:HTMLElement):unknown|null {
+  private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown {
     const groupHeader = locatePredecessorBySelector(el, `.${rowGroupClassName}`)!;
     const match = this.groups.find((group) => groupIdentifier(group) === groupHeader.dataset.groupIdentifier);
 
@@ -81,8 +80,14 @@ export class GroupByDragActionService extends TableDragActionService {
       return null;
     }
 
-    if (match._links && match._links.valueLink) {
+    if (match._links?.valueLink) {
       const links = match._links.valueLink;
+      const schema = this.schemaCache.state(workPackage).value;
+      const fieldSchema = schema && this.schemaCache.proxied(workPackage, schema).ofProperty(this.groupedAttribute!);
+
+      if (fieldSchema?.type?.startsWith('[]')) {
+        return links;
+      }
 
       // Unwrap single links to properly use them
       return links.length === 1 ? links[0] : links;

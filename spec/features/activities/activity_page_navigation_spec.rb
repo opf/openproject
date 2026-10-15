@@ -282,7 +282,7 @@ RSpec.describe "Activity page navigation", :js do
         activity_page_path = page.current_path
 
         if is_work_package
-          wp_page = Pages::SplitWorkPackage.new(project_work_package, project)
+          wp_page = Pages::PrimerizedSplitWorkPackage.new(project_work_package, project)
           wp_page.switch_to_tab tab: :activity
           wp_page.wait_for_activity_tab
         end

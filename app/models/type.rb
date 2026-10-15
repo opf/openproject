@@ -45,6 +45,8 @@ class Type < ApplicationRecord
   has_many :project_types, dependent: :delete_all
   has_many :projects, through: :project_types
 
+  include Lists::MoveAfterAnchor
+
   acts_as_list
 
   validates :name,
@@ -91,7 +93,10 @@ class Type < ApplicationRecord
   def ensure_base_variant
     return if variants.any?(&:is_default_variant?)
 
-    variants.build(is_default_variant: true, variant_name: nil)
+    variants.build(is_default_variant: true,
+                   variant_name: nil,
+                   workflow: Workflow.new(name: Workflow.implicit_name(name)),
+                   form_configuration: FormConfiguration.new(name: FormConfiguration.implicit_name(name)))
   end
 
   def check_integrity # rubocop:disable Naming/PredicateMethod

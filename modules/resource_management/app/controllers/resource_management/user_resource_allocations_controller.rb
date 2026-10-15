@@ -31,38 +31,23 @@
 module ::ResourceManagement
   class UserResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::UserAllocationsDialog
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
+    load_and_authorize_in_planner_section
     before_action :find_resource_planner_view
     before_action :find_user
-    before_action :authorize
 
     def index
-      respond_with_dialog ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
-        project: @project,
-        view: @resource_planner_view,
-        user: @user,
-        allocations:,
-        overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
-      )
+      respond_with_dialog user_allocations_dialog_component(view: @resource_planner_view, user: @user)
     end
 
     private
 
-    def allocations
-      @allocations ||=
-        ResourceAllocation
-          .allocated
-          .for_principal(@user)
-          .includes(:entity)
-          .to_a
-    end
-
     def find_resource_planner_view
       @resource_planner_view = PersistedView
-                                 .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+                                 .where(parent: ResourcePlanner.visible_to(current_user, @project))
                                  .find(params.expect(:resource_planner_view_id))
     end
 

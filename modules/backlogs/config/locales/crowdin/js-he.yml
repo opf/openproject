@@ -22,6 +22,37 @@
 ---
 he:
   js:
+    backlogs:
+      announcements:
+        batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
+        fallback_item_label: Work package
+        fallback_list_name: another list
+        move_failed_check_position: Move failed. Check the work package's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the work packages' current positions.
+        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} work packages returned to their previous positions.
+        moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
+        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        card_state: Selected
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        range_restarted:
+          one: Could not extend the range. 1 work package selected.
+          two: Could not extend the range. %{count} work packages selected.
+          other: Could not extend the range. %{count} work packages selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          one: 1 work package selected.
+          two: "%{count} work packages selected."
+          other: "%{count} work packages selected."
     burndown:
       day: יום
       points: נקודות

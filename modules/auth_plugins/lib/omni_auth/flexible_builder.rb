@@ -28,7 +28,7 @@
 
 module OmniAuth
   class FlexibleBuilder < Builder
-    def use(middleware, *, &)
+    def use(middleware, *, **, &)
       middleware.extend FlexibleStrategyClass
       super
     end

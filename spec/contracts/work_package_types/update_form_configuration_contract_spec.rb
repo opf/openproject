@@ -62,10 +62,10 @@ module WorkPackageTypes
 
       context "when deactivating fields" do
         before do
-          model.update_column(:attribute_groups, [
-                                [:people, %w[assignee responsible]],
-                                [:details, %w[priority category percentage_done]]
-                              ])
+          model.form_configuration.update!(attribute_groups: [
+                                             [:people, %w[assignee responsible]],
+                                             [:details, %w[priority category percentage_done]]
+                                           ])
         end
 
         it "is valid" do
@@ -106,7 +106,7 @@ module WorkPackageTypes
 
       context "when preserving existing custom groups without changes" do
         before do
-          model.update_column(:attribute_groups, [["Existing Custom", %w[assignee responsible]]])
+          model.form_configuration.update!(attribute_groups: [["Existing Custom", %w[assignee responsible]]])
         end
 
         it "is valid when not making structural changes" do
@@ -139,7 +139,7 @@ module WorkPackageTypes
 
       context "when renaming an existing custom group" do
         before do
-          model.update_column(:attribute_groups, [["Original Name", %w[assignee responsible]]])
+          model.form_configuration.update!(attribute_groups: [["Original Name", %w[assignee responsible]]])
         end
 
         it "is invalid" do
@@ -152,10 +152,10 @@ module WorkPackageTypes
 
       context "when normalizing an unnamed legacy group" do
         before do
-          model.update_column(:attribute_groups, [
-                                ["", ["assignee"]],
-                                [:details, ["priority"]]
-                              ])
+          model.form_configuration.update!(attribute_groups: [
+                                             ["", ["assignee"]],
+                                             [:details, ["priority"]]
+                                           ])
         end
 
         it "is valid" do
@@ -237,32 +237,23 @@ module WorkPackageTypes
           end
         end
 
-        context "when the multiple versions feature is inactive",
-                with_settings: { work_package_multiple_versions: false } do
-          it "accepts the deprecated version" do
-            model.attribute_groups = [["foo", ["version"]]]
+        it "accepts target_versions" do
+          model.attribute_groups = [["foo", ["target_versions"]]]
 
-            expect(contract).to be_valid
-          end
-
-          it "rejects target_versions as an unknown attribute" do
-            model.attribute_groups = [["foo", ["target_versions"]]]
-
-            expect(contract).not_to be_valid
-            expect(contract.errors.details[:attribute_groups]).to include(
-              error: "Invalid work package attribute used: target_versions"
-            )
-          end
+          expect(contract).to be_valid
         end
 
-        context "when the multiple versions feature is active",
-                with_settings: { work_package_multiple_versions: true } do
-          it "accepts target_versions" do
-            model.attribute_groups = [["foo", ["target_versions"]]]
+        it "rejects the deprecated version as an unknown attribute" do
+          model.attribute_groups = [["foo", ["version"]]]
 
-            expect(contract).to be_valid
-          end
+          expect(contract).not_to be_valid
+          expect(contract.errors.details[:attribute_groups]).to include(
+            error: "Invalid work package attribute used: version"
+          )
+        end
 
+        context "when the multiple versions feature is inactive",
+                with_settings: { work_package_multiple_versions: false } do
           it "rejects the deprecated version as an unknown attribute" do
             model.attribute_groups = [["foo", ["version"]]]
 

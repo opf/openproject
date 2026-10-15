@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { readScriptNonce, scrubScriptElements } from './csp-script-nonce';
+import { DialogCloseDetail } from './dialog-stream-action';
 
 export function addTurboEventListeners(doc:Document = document, signal?:AbortSignal) {
   // Close the primer dialog when the form inside has been submitted with a success response.
@@ -47,7 +47,7 @@ export function addTurboEventListeners(doc:Document = document, signal?:AbortSig
       if (dialog) {
         if (dialog.dataset.keepOpenOnSubmit !== 'true') {
           dialog.close('close-event-already-dispatched');
-          doc.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: true } }));
+          doc.dispatchEvent(new CustomEvent<DialogCloseDetail>('dialog:close', { detail: { dialog, submitted: true } }));
         }
       }
     }

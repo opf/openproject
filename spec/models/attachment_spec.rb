@@ -168,6 +168,27 @@ RSpec.describe Attachment do
       expect(attachment.digest)
         .to eql Digest::MD5.file(file.path).hexdigest
     end
+
+    context "when CarrierWave moves the source file during cache" do
+      it "still detects size, content type, and digest from the original file" do
+        expected_size = file.size
+        expected_digest = Digest::MD5.file(file.path).hexdigest
+
+        # Simulate FogFileUploader::MovableSource: cache! moves (deletes) the source.
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(LocalFileUploader).to receive(:cache!) do |_uploader, new_file|
+          path = new_file.respond_to?(:path) ? new_file.path : new_file.to_s
+          FileUtils.rm_f(path) if path.present? && File.exist?(path)
+        end
+        # rubocop:enable RSpec/AnyInstance
+
+        moved = described_class.new(author:, container: work_package, content_type: nil, file:)
+
+        expect(moved.filesize).to eq expected_size
+        expect(moved.content_type).to eq "image/jpeg"
+        expect(moved.digest).to eq expected_digest
+      end
+    end
   end
 
   describe "content type detection" do

@@ -59,6 +59,7 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
   it { expect(subject).to have_json_path("disableKeyboardShortcuts") }
   it { expect(subject).to have_json_path("warnOnLeavingUnsaved") }
   it { expect(subject).to have_json_path("autoHidePopups") }
+  it { expect(subject).to have_json_path("requireDoubleClickForInlineEdit") }
 
   describe "timeZone" do
     context "without a timezone set" do
@@ -78,7 +79,7 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe "notification_settings", with_ee: %i[date_alerts] do
+  describe "notification_settings" do
     it "renders them as a nested array" do
       expect(subject).to have_json_type(Array).at_path("notifications")
       expect(subject).to be_json_eql(nil.to_json).at_path("notifications/0/_links/project/href")
