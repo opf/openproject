@@ -459,8 +459,18 @@ class User < Principal
     @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
   end
 
+  def date_format
+    @date_format ||= pref.date_format.presence || Setting.date_format.to_s
+  end
+
+  def time_format
+    @time_format ||= pref.time_format.presence || Setting.time_format.to_s
+  end
+
   def reload(*)
     @time_zone = nil
+    @date_format = nil
+    @time_format = nil
 
     super
   end

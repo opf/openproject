@@ -42,7 +42,7 @@ module TimeEntries
       return unless TimeEntry.prohibit_logging_for_past_months?
       return unless restricted_spent_on_dates.any? { it < earliest_open_date }
 
-      errors.add :spent_on, :in_past_month, date: I18n.l(earliest_open_date)
+      errors.add :spent_on, :in_past_month, date: Redmine::I18n.format_date(earliest_open_date)
     end
 
     # The persisted date is checked alongside the assigned one, so that an entry belonging

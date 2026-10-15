@@ -47,13 +47,20 @@ module My
       def time_options
         (0..23).map do |hour|
           time = Time.utc(2000, 1, 1, hour)
-          [I18n.l(time, format: :time), time.strftime("%H:00:00+00:00")]
+          [
+            helpers.format_time(time, include_date: false, time_zone: "UTC"),
+            format_value(time)
+          ]
         end
       end
 
       def selected_value_for(time_str)
-        Time.zone.parse(time_str.to_s).strftime("%H:00:00+00:00")
+        format_value(Time.zone.parse(time_str.to_s))
       end
+
+      private
+
+      def format_value(time) = time.strftime("%H:00:00+00:00")
     end
   end
 end

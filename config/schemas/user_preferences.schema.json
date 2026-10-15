@@ -9,6 +9,12 @@
                 "time_zone": {
                     "type": ["string", "null"]
                 },
+                "date_format": {
+                    "type": ["string", "null"]
+                },
+                "time_format": {
+                    "type": ["string", "null"]
+                },
                 "avatar_color": {
                     "type": ["string", "null"]
                 },

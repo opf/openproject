@@ -1,4 +1,4 @@
-<% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_list)} #{I18n.l(date)}" -%>
+<% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_list)} #{helpers.format_date(date)}" -%>
 <%= render(My::Work::ViewFrameComponent.new) do %>
   <%= component_wrapper(tag: "div", data: wrapper_data) do %>
     <%= render(My::Work::HeaderComponent.new(mode:, date:, entries:, view_mode: :list)) %>
