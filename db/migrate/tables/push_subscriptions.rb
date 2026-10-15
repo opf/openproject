@@ -34,8 +34,12 @@ class Tables::PushSubscriptions < Tables::Base
   def self.table(migration)
     create_unlogged_table migration do |t|
       t.references :user, null: false, foreign_key: { on_delete: :cascade }
-      t.references :session, null: false, index: { unique: true }, foreign_key: { on_delete: :cascade }
+      t.references :session, null: true, index: { unique: true }, foreign_key: { on_delete: :nullify }
       t.text :endpoint, null: false
+      t.string :browser_name
+      t.string :browser_version
+      t.string :platform
+      t.datetime :suspended_at
 
       t.timestamps
 
