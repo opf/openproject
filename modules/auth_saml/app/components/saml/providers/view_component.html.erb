@@ -57,6 +57,7 @@
                 view_mode:,
                 heading: t("saml.providers.label_metadata"),
                 description: t("saml.providers.section_texts.metadata"),
+                action: refresh_metadata_action,
                 label: provider.has_metadata? ? t(:label_completed) : t(:label_not_configured),
                 label_scheme: provider.has_metadata? ? :success : :secondary
               )
