@@ -33,19 +33,7 @@ module Admin
     class ProjectSettingsForm < ApplicationForm
       settings_form do |sf|
         sf.html_content do
-          helpers.angular_component_tag(
-            "opce-draggable-autocompleter",
-            inputs: {
-              options: helpers.projects_columns_options,
-              selected: helpers.selected_projects_columns_options,
-              protected: helpers.protected_projects_columns_options,
-              name: "settings[enabled_projects_columns][]",
-              id: "settings_enabled_projects_columns",
-              inputLabel: I18n.t(:"queries.configure_view.columns.input_label"),
-              inputPlaceholder: I18n.t(:"queries.configure_view.columns.input_placeholder"),
-              dragAreaLabel: I18n.t(:"queries.configure_view.columns.drag_area_label")
-            }
-          )
+          render(Admin::Settings::ProjectSettings::DefaultColumnsComponent.new)
         end
         sf.fieldset_group(title: I18n.t(:setting_project_gantt_query),
                           description: I18n.t(:setting_project_gantt_query_text)) do |fg|

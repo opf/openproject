@@ -86,7 +86,7 @@ RSpec.describe "Projects lists page with Gantt menu", :js, with_settings: { logi
     it "can manage and browse the project portfolio Gantt" do
       visit admin_settings_projects_path
 
-      page.all(".op-draggable-autocomplete--item", text: /^(?!Name).*$/).each do |item| # rubocop:disable Rails/FindEach
+      page.all(".op-draggable-autocomplete--item", text: /^(?!Name).*$/).each do |item|
         item.find(".op-draggable-autocomplete--remove-item").click
       end
 

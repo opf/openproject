@@ -67,7 +67,7 @@ RSpec.describe "Projects admin settings", :js do
       expect(items.map(&:text)).to eq ["Name", "Status", "Identifier"]
     end
 
-    # NOTE: The grantt query settings are tested thoroughly in the projects/lists/gantt_spec.rb
+    # NOTE: The gantt query settings are tested thoroughly in the projects/lists/gantt_spec.rb
     within "section", text: "Project portfolio Gantt view" do
       expect(page).to have_text "You can modify the query that is used to display Gantt chart from the project overview page."
       expect(page).to have_field "settings[project_gantt_query]", type: :hidden
