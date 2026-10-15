@@ -132,6 +132,43 @@ describe('PrincipalRendererService', () => {
     });
   });
 
+  describe('avatar image overrides', () => {
+    const renderPreview = (fallbackImageUrl?:string):HTMLImageElement => {
+      const container = document.createElement('div');
+      service.render(
+        container,
+        { id: '1', name: 'John Doe', href: '/api/v3/users/1' },
+        { hide: false, link: false },
+        { hide: false, size: 'mini', imageUrl: 'blob:avatar-preview', fallbackImageUrl },
+        { isActivated: false },
+      );
+      return container.querySelector<HTMLImageElement>('.op-principal--avatar')!;
+    };
+
+    it('uses the override with the standard avatar size and principal name', () => {
+      const image = renderPreview();
+
+      expect(image.getAttribute('src')).toBe('blob:avatar-preview');
+      expect(image).toHaveClass('op-avatar_mini');
+      expect(image.parentElement).toHaveTextContent('John Doe');
+    });
+
+    it('uses the fallback override when the preview image fails', () => {
+      const image = renderPreview('data:image/svg+xml,preview');
+      image.dispatchEvent(new Event('error'));
+
+      expect(image.getAttribute('src')).toBe('data:image/svg+xml,preview');
+      expect(image.onerror).toBeNull();
+    });
+
+    it('uses the backend fallback when no fallback override is provided', () => {
+      const image = renderPreview();
+      image.dispatchEvent(new Event('error'));
+
+      expect(image.getAttribute('src')).toBe('/api/v3/users/1/avatar?fallback=true');
+    });
+  });
+
   describe('group avatar', () => {
     const renderGroup = ():HTMLElement => {
       const container = document.createElement('div');

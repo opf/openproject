@@ -28,10 +28,15 @@
 import { Controller } from '@hotwired/stimulus';
 import { resizeImage } from 'core-app/shared/helpers/images/resizer';
 
+interface AvatarPreviewElement extends HTMLElement {
+  avatarImageUrl:string;
+  avatarFallbackImageUrl:string;
+}
+
 export default class AvatarSettingsController extends Controller<HTMLElement> {
   static targets = [
-    'type', 'panel', 'text', 'color', 'swatch', 'file', 'uploadError', 'submit',
-    'previewImage', 'previewSvg',
+    'type', 'panel', 'text', 'color', 'file', 'uploadError', 'submit',
+    'preview',
   ];
 
   static values = {
@@ -48,12 +53,10 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
   declare readonly panelTargets:HTMLElement[];
   declare readonly textTarget:HTMLInputElement;
   declare readonly colorTarget:HTMLInputElement;
-  declare readonly swatchTargets:HTMLButtonElement[];
   declare readonly fileTarget:HTMLInputElement;
   declare readonly uploadErrorTarget:HTMLElement;
   declare readonly submitTarget:HTMLButtonElement;
-  declare readonly previewImageTargets:HTMLImageElement[];
-  declare readonly previewSvgTargets:SVGSVGElement[];
+  declare readonly previewTargets:HTMLElement[];
   declare readonly initialsValue:string;
   declare readonly colorValue:string;
   declare readonly imageValue:string;
@@ -63,13 +66,15 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
   declare readonly textLengthErrorValue:string;
 
   private imagePreview?:string;
-  private failedImageSource?:string;
   private resizing = false;
   private invalidImage = false;
   private imageGeneration = 0;
 
   connect() {
     this.update();
+    void customElements.whenDefined('opce-principal').then(() => {
+      if (this.element.isConnected) this.update();
+    });
   }
 
   disconnect() {
@@ -91,9 +96,6 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
 
     const color = /^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(this.colorTarget.value)
       ? this.colorTarget.value : this.colorValue;
-    this.swatchTargets.forEach((button) => {
-      button.setAttribute('aria-pressed', String(button.dataset.color === this.colorTarget.value.toUpperCase()));
-    });
 
     let text = this.initialsValue;
     this.textTarget.setCustomValidity('');
@@ -106,25 +108,44 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
     }
     const source = type === 'image' ? this.imagePreview ?? this.imageValue
       : type === 'gravatar' ? this.gravatarValue : '';
-    const showImage = Boolean(source) && source !== this.failedImageSource;
-    this.previewSvgTargets.forEach((svg) => {
-      svg.querySelector('text')!.textContent = text;
-      svg.querySelector('rect')!.setAttribute('fill', color);
-      svg.classList.toggle('d-none', showImage);
-    });
-    this.previewImageTargets.forEach((img) => {
-      img.hidden = !showImage;
-      if (showImage && img.getAttribute('src') !== source) img.src = source;
+    if (!customElements.get('opce-principal')) return;
+
+    const fallbackImageUrl = this.fallbackImageUrl(text, color);
+    this.previewTargets.forEach((preview) => {
+      const component = preview.querySelector<AvatarPreviewElement>('opce-principal');
+      if (!component) return;
+
+      component.avatarFallbackImageUrl = fallbackImageUrl;
+      component.avatarImageUrl = source || fallbackImageUrl;
     });
   }
 
-  imageFailed(event:Event) {
-    this.failedImageSource = (event.currentTarget as HTMLImageElement).getAttribute('src') ?? '';
-    this.update();
+  private fallbackImageUrl(text:string, color:string):string {
+    const svg = new DOMParser().parseFromString(this.svgTemplateValue, 'image/svg+xml');
+    const svgText = svg.querySelector('text')!;
+    svgText.textContent = text;
+    svgText.setAttribute('fill', this.textColorFor(color));
+    svg.querySelector('rect')!.setAttribute('fill', color);
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(new XMLSerializer().serializeToString(svg))}`;
   }
 
-  setColor(event:Event) {
-    this.colorTarget.value = (event.currentTarget as HTMLElement).dataset.color ?? '';
+  private textColorFor(color:string):string {
+    if (!color.startsWith('#')) return '#ffffff';
+
+    let hex = color.slice(1);
+    if (hex.length === 3) hex = hex.split('').map((character) => character.repeat(2)).join('');
+    const [red, green, blue] = hex.match(/../g)!.map((channel) => parseInt(channel, 16));
+    return (red * 299 + green * 587 + blue * 114) / 1000 >= 150 ? '#1f2328' : '#ffffff';
+  }
+
+  randomizeColor() {
+    const currentColor = this.colorTarget.value.toUpperCase();
+    let color:string;
+    do {
+      color = `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0').toUpperCase()}`;
+    } while (color === currentColor);
+
+    this.colorTarget.value = color;
     this.colorTarget.dispatchEvent(new Event('input', { bubbles: true }));
   }
 

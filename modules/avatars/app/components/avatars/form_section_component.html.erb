@@ -75,23 +75,33 @@
       <% color_value = avatar_color %>
       <%=
         render_inline_form(f) do |form|
-          form.color_field(
-            name: :avatar_color,
-            label: I18n.t("avatars.label_background_color"),
-            caption: I18n.t("avatars.background_color_hint"),
-            value: color_value,
-            placeholder: "#AABBCC",
-            input_width: :small,
-            data: { "avatars--settings-target": "color", action: "input->avatars--settings#update change->avatars--settings#update" }
-          )
+          form.group(layout: :horizontal, classes: "avatars--color-input-group") do |row|
+            row.color_field(
+              name: :avatar_color,
+              label: I18n.t("avatars.label_background_color"),
+              value: color_value,
+              placeholder: "#AABBCC",
+              input_width: :small,
+              full_width: false,
+              aria: { describedby: "avatar_color_hint" },
+              data: { "avatars--settings-target": "color", action: "input->avatars--settings#update change->avatars--settings#update" }
+            )
+            row.html_content do
+              render(
+                Primer::Beta::IconButton.new(
+                  icon: :sync,
+                  type: :button,
+                  mt: 4,
+                  aria: { label: I18n.t("avatars.randomize_color") },
+                  test_selector: "avatar-randomize-color",
+                  data: { action: "avatars--settings#randomizeColor" }
+                )
+              )
+            end
+          end
         end
       %>
-      <div class="avatars--palette mt-2" role="group" aria-label="<%= t("avatars.label_background_color") %>">
-        <%= render(Primer::Beta::Button.new(type: :button, size: :small, data: { action: "avatars--settings#setColor", color: "", "avatars--settings-target": "swatch" }, aria: { pressed: avatar_color.blank? })) { t("avatars.automatic_color") } %>
-        <% palette.each do |color| %>
-          <%= render(Primer::Beta::Button.new(type: :button, size: :small, classes: "avatars--swatch", style: "--avatar-swatch-color: #{color}", aria: { label: color, pressed: avatar_color == color }, data: { action: "avatars--settings#setColor", color: color, "avatars--settings-target": "swatch" })) { "" } %>
-        <% end %>
-      </div>
+      <%= render(Primer::Beta::Text.new(tag: :p, id: "avatar_color_hint", classes: "FormControl-caption", mt: 1)) { t("avatars.background_color_hint") } %>
     </div>
 
     <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 4, data: { "avatars--settings-target": "submit" })) { t(:button_save) } %>
@@ -101,16 +111,18 @@
     <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
       <% panel.with_section do |section| %>
         <% section.with_title { t("avatars.preview") } %>
-        <% [40, 32, 20].each do |size| %>
-          <div class="avatars--preview-row">
-            <div class="avatars--preview-image avatars--preview-image_<%= size %>" role="img" aria-label="<%= t("avatars.preview_for", name: @principal.name) %>">
-              <img alt="" data-avatars--settings-target="previewImage" data-action="error->avatars--settings#imageFailed" hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" data-avatars--settings-target="previewSvg">
-                <rect width="64" height="64" fill="<%= avatar_color.presence || automatic_color %>"></rect>
-                <text x="32" y="34" text-anchor="middle" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#ffffff"><%= initials %></text>
-              </svg>
-            </div>
-            <%= render(Primer::Beta::Text.new(color: :accent)) { @principal.name } %>
+        <% %i[default medium mini].each do |size| %>
+          <div class="avatars--preview-row" data-avatars--settings-target="preview">
+            <%= render(
+                  Users::AvatarComponent.new(
+                    user: @principal,
+                    size:,
+                    link: false,
+                    hover_card: { active: false },
+                    avatar_image_url: preview_image_url,
+                    avatar_fallback_image_url: preview_fallback_image_url
+                  )
+                ) %>
           </div>
         <% end %>
       <% end %>

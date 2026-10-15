@@ -12,6 +12,16 @@ RSpec.describe "My avatar management", :js do
   let(:enable_gravatars) { false }
   let(:enable_local_avatars) { true }
 
+  def avatar_preview(text, color: nil, text_color: nil, font_size: nil)
+    have_css(".avatars--preview img[src^='data:image/svg+xml']", count: 3) do |image|
+      svg = Nokogiri::XML(CGI.unescape(image[:src].split(",", 2).last), &:strict)
+      svg.at_css("text").text == text &&
+        (color.nil? || svg.at_css("rect")["fill"] == color) &&
+        (text_color.nil? || svg.at_css("text")["fill"] == text_color) &&
+        (font_size.nil? || svg.at_css("text")["font-size"] == font_size.to_s)
+    end
+  end
+
   before do
     login_as user
     allow(Setting)
@@ -30,7 +40,7 @@ RSpec.describe "My avatar management", :js do
     expect(page).to have_checked_field("Initials")
     expect(page).to have_no_field("Custom text", type: "radio")
     expect(page).to have_field("avatar_text", with: "", placeholder: OpenProject::Avatars::InitialsSvg.initials_for(user.name))
-    expect(page).to have_css(".avatars--preview-image", count: 3)
+    expect(page).to have_css(".avatars--preview .op-avatar", count: 3)
   end
 
   context "when Gravatar is enabled" do
@@ -75,37 +85,55 @@ RSpec.describe "My avatar management", :js do
   it "previews and saves custom text and color, validates text, and switches back to initials" do
     visit avatar_management_path
     choose "Initials"
-    fill_in "avatar_text", with: "山田"
+    fill_in "avatar_text", with: "本田"
     fill_in "avatar_color", with: "#123456"
 
-    expect(page).to have_css(".avatars--preview text", text: "山田", count: 3)
+    expect(page).to have_css("#avatar_text:valid")
+    expect(page).to avatar_preview("本田", color: "#123456", text_color: "#ffffff", font_size: 28)
     expect(user.reload.avatar_text).to be_nil
+    fill_in "avatar_color", with: "#D1F0FF"
+    expect(page).to avatar_preview("本田", color: "#D1F0FF", text_color: "#1f2328")
     click_button "Save"
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
-    expect(page).to have_field("avatar_text", with: "山田")
+    expect(page).to have_field("avatar_text", with: "本田")
     expect(user.reload.avatar_type).to eq "initials"
-    expect(user.avatar_color).to eq "#123456"
+    expect(user.avatar_color).to eq "#D1F0FF"
+    expect(page).to avatar_preview("本田", color: "#D1F0FF", text_color: "#1f2328")
+
+    find_test_selector("avatar-randomize-color").click
+    random_color = find_field("avatar_color").value
+    expect(random_color).not_to eq "#D1F0FF"
+    expect(random_color).to match(/\A#[0-9A-F]{6}\z/)
+    text_color = Color.new(hexcode: random_color).contrasting_font_color(light: "#ffffff", dark: "#1f2328")
+    expect(page).to avatar_preview("本田", color: random_color, text_color:)
+    click_button "Save"
+    expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+    expect(user.reload.avatar_color).to eq random_color
+    expect(page).to avatar_preview("本田", color: random_color, text_color:)
 
     fill_in "avatar_text", with: "ABC"
     expect(page).to have_css("#avatar_text:invalid")
     click_button "Save"
 
     expect(page).to have_field("avatar_text", with: "ABC")
-    expect(user.reload.avatar_text).to eq "山田"
+    expect(user.reload.avatar_text).to eq "本田"
 
     find_field("avatar_text").send_keys(:end, :backspace, :backspace, :backspace)
-    expect(page).to have_css(".avatars--preview text", text: OpenProject::Avatars::InitialsSvg.initials_for(user.name), count: 3)
-    click_button "Automatic"
+    expect(page).to avatar_preview(OpenProject::Avatars::InitialsSvg.initials_for(user.name))
+    fill_in "avatar_color", with: ""
     click_button "Save"
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     expect(user.reload.avatar_type).to eq "initials"
     expect(user.avatar_text).to be_nil
     expect(user.avatar_color).to be_nil
+    expect(page).to avatar_preview(OpenProject::Avatars::InitialsSvg.initials_for(user.name),
+                                   color: OpenProject::Avatars::InitialsSvg.color_for(user),
+                                   text_color: "#ffffff")
   end
 
-  it "accepts one complete emoji through custom text and rejects combinations" do
+  it "accepts up to two visible characters without splitting combined characters" do
     visit avatar_management_path
     choose "Initials"
 
@@ -113,27 +141,35 @@ RSpec.describe "My avatar management", :js do
       fill_in "avatar_text", with: text
 
       expect(page).to have_css("#avatar_text:valid")
-      expect(page).to have_css(".avatars--preview text", text:, count: 3)
+      expect(page).to avatar_preview(text)
     end
 
     fill_in "avatar_text", with: "👩🏽‍💻"
 
     expect(page).to have_css("#avatar_text:valid")
-    expect(page).to have_css(".avatars--preview text", text: "👩🏽‍💻", count: 3)
+    expect(page).to avatar_preview("👩🏽‍💻")
     expect(user.reload.avatar_text).to be_nil
+
+    ["本田", "OP", "👩🏽‍💻🇯🇵"].each do |text|
+      fill_in "avatar_text", with: text
+
+      expect(page).to have_css("#avatar_text:valid")
+      expect(page).to avatar_preview(text, font_size: 28)
+    end
+
     click_button "Save"
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     expect(user.reload.avatar_type).to eq "initials"
-    expect(user.avatar_text).to eq "👩🏽‍💻"
+    expect(user.avatar_text).to eq "👩🏽‍💻🇯🇵"
 
-    ["🚀🚀", "A🚀"].each do |text|
+    ["本田技", "🚀🚀🚀"].each do |text|
       fill_in "avatar_text", with: text
       expect(page).to have_css("#avatar_text:invalid")
       click_button "Save"
 
       expect(page).to have_field("avatar_text", with: text)
-      expect(user.reload.avatar_text).to eq "👩🏽‍💻"
+      expect(user.reload.avatar_text).to eq "👩🏽‍💻🇯🇵"
     end
   end
 

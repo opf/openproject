@@ -37,7 +37,7 @@ module Users
     with_collection_parameter :user
 
     def initialize(user:, show_name: true, link: true, size: "default", classes: "", title: nil, name_classes: "",
-                   hover_card: { active: true })
+                   hover_card: { active: true }, avatar_image_url: nil, avatar_fallback_image_url: nil)
       super
 
       @user = user
@@ -48,6 +48,8 @@ module Users
       @hover_card = hover_card
       @classes = classes
       @name_classes = name_classes
+      @avatar_image_url = avatar_image_url
+      @avatar_fallback_image_url = avatar_fallback_image_url
     end
 
     def render?
@@ -62,7 +64,9 @@ module Users
         title: @title,
         class: @classes,
         name_classes: @name_classes,
-        hover_card: @hover_card
+        hover_card: @hover_card,
+        avatar_image_url: @avatar_image_url,
+        avatar_fallback_image_url: @avatar_fallback_image_url
       }
 
       helpers.avatar(

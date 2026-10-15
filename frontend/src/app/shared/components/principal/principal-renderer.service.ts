@@ -46,6 +46,8 @@ export interface AvatarOptions {
   hide:boolean;
   size:AvatarSize;
   imageAltText?:string;
+  imageUrl?:string;
+  fallbackImageUrl?:string;
 }
 
 export interface NameOptions {
@@ -157,7 +159,7 @@ export class PrincipalRendererService {
     // uploaded image, a Gravatar, or a generated initials avatar), so there is
     // nothing to compute or swap in locally here, unlike for placeholder users.
     if (type === 'user' || type === 'group') {
-      const url = this.principalAvatarUrl(principal, type);
+      const url = options.imageUrl ?? this.principalAvatarUrl(principal, type);
       if (url) {
         return this.renderPrincipalAvatarImage(principal, options, hoverCard, type, ariaHidden, url);
       }
@@ -241,7 +243,8 @@ export class PrincipalRendererService {
     // against, so this retry is a harmless no-op for them.
     image.onerror = () => {
       image.onerror = null;
-      image.src = `${url}${url.includes('?') ? '&' : '?'}fallback=true`;
+      const fallbackUrl = (type === 'user' || type === 'group' ? this.principalAvatarUrl(principal, type) : null) ?? url;
+      image.src = options.fallbackImageUrl ?? `${fallbackUrl}${fallbackUrl.includes('?') ? '&' : '?'}fallback=true`;
     };
 
     return image;

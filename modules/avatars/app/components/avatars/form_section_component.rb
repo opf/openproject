@@ -76,8 +76,21 @@ module Avatars
       "#{API::V3::Utilities::PathHelper::ApiV3Path.send(principal_type, @principal.id)}/avatar?source=image"
     end
 
-    def palette
-      %w[#0969DA #1B4185 #1F883D #044F1E #9A6700 #BC4C00 #CF222E #8250DF #6639BA #6E7781]
+    def preview_svg
+      text = avatar_type == "initials" ? avatar_text.presence || initials : initials
+      OpenProject::Avatars::InitialsSvg.build_svg(avatar_color.presence || automatic_color, text)
+    end
+
+    def preview_fallback_image_url
+      "data:image/svg+xml;charset=UTF-8,#{ERB::Util.url_encode(preview_svg)}"
+    end
+
+    def preview_image_url
+      source = case avatar_type
+               when "image" then image_url
+               when "gravatar" then gravatar_url
+               end
+      source.presence || preview_fallback_image_url
     end
 
     private

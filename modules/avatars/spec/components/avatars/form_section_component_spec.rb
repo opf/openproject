@@ -41,17 +41,19 @@ RSpec.describe Avatars::FormSectionComponent, type: :component do
     render_section
 
     expect(page).to have_css("aside[aria-label='Preview']")
-    expect(page).to have_css(".avatars--preview-image", count: 3)
-    expect(page).to have_text(user.name, count: 3)
+    expect(page).to have_css(".avatars--preview opce-principal", count: 3)
+    %w[default medium mini].each do |size|
+      selector = ".avatars--preview opce-principal[data-size='\"#{size}\"'][data-hover-card='false'][data-link='false']"
+      expect(page).to have_css(selector)
+    end
   end
 
-  it "renders a background color field, automatic color, and palette" do
+  it "renders a background color field and randomize button" do
     user.pref.avatar_color = "#AABBCC"
     render_section
 
     expect(page).to have_field("avatar_color", with: "#AABBCC")
-    expect(page).to have_button("Automatic")
-    expect(page).to have_css(".avatars--swatch", count: 10)
+    expect(page).to have_css("button[data-test-selector='avatar-randomize-color'][type='button']")
   end
 
   context "when Gravatar and local avatars are disabled" do

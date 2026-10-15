@@ -37,7 +37,10 @@ RSpec.describe "Group avatar management", :js do
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     expect(group.reload.avatar_text).to be_nil
-    expect(page).to have_css(".avatars--preview text", text: OpenProject::Avatars::InitialsSvg.initials_for(group.name), count: 3)
+    expect(page).to have_css(".avatars--preview img[src^='data:image/svg+xml']", count: 3) do |image|
+      svg = Nokogiri::XML(CGI.unescape(image[:src].split(",", 2).last), &:strict)
+      svg.at_css("text").text == OpenProject::Avatars::InitialsSvg.initials_for(group.name)
+    end
   end
 
   context "when Gravatar and local avatars are disabled" do

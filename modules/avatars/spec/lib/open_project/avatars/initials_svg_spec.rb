@@ -94,6 +94,16 @@ RSpec.describe OpenProject::Avatars::InitialsSvg do
 
     before { user.pref.avatar_type = "initials" }
 
+    { "#D1F0FF" => "#1f2328", "#FFFFFF" => "#1f2328", "#123456" => "#ffffff" }.each do |background, foreground|
+      it "uses contrasting text on #{background}" do
+        user.pref.avatar_color = background
+
+        svg = Nokogiri::XML(described_class.render(user), &:strict)
+
+        expect(svg.at_css("text")["fill"]).to eq foreground
+      end
+    end
+
     ["x", "OP", "山田", "本田", "👩🏽‍💻", "🇯🇵", "👨‍👩‍👧‍👦", "e\u0301"].each do |text|
       it "renders custom avatar text #{text.inspect} unchanged" do
         user.pref.avatar_text = text

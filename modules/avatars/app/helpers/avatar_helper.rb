@@ -156,6 +156,12 @@ module AvatarHelper
       if tag_options.key?(:avatar_image_alt_text)
         inputs[:avatarImageAltText] = tag_options[:avatar_image_alt_text]
       end
+      if tag_options[:avatar_image_url]
+        inputs[:avatarImageUrl] = tag_options[:avatar_image_url]
+      end
+      if tag_options[:avatar_fallback_image_url]
+        inputs[:avatarFallbackImageUrl] = tag_options[:avatar_fallback_image_url]
+      end
     end
   end
 
