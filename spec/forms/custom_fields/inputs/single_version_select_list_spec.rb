@@ -43,4 +43,12 @@ RSpec.describe CustomFields::Inputs::SingleVersionSelectList, type: :forms do
       expect(autocompleter["data-model"]).to be_json_eql(%{{"name": "Version 26"}}).excluding("group_by", "selected", "disabled")
     end
   end
+
+  context "with a blank stored value" do
+    before { model.custom_field_values.first.value = nil }
+
+    it "renders no selected version" do
+      expect(rendered_form.find("opce-autocompleter")["data-model"]).to be_json_eql("null")
+    end
+  end
 end
