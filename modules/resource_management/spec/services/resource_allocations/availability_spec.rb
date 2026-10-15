@@ -42,43 +42,63 @@ RSpec.describe ResourceAllocations::Availability do
     create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
   end
 
-  def allocate(minutes, start_date: monday, end_date: friday, entity: create(:work_package))
-    create(:resource_allocation, principal: user, entity:, allocated_time: minutes, start_date:, end_date:)
-  end
-
-  describe "#overbooked? / #overbooked_ranges" do
-    it "is overbooked when allocations exceed capacity over a shared window" do
-      wp1 = create(:work_package)
-      wp2 = create(:work_package)
-      allocate(1500, entity: wp1)
-      allocate(1500, entity: wp2)
-
-      expect(availability).to be_overbooked
-      range = availability.overbooked_ranges.sole
-      expect(range).to have_attributes(start_date: monday, end_date: friday, over_by_minutes: 3000 - 2400)
-      expect(range.work_package_ids).to contain_exactly(wp1.id, wp2.id)
-    end
+  describe "#overbooked? / #overbooked_dates / #overbooked_allocation_ids" do
+    let(:wednesday) { Date.new(2026, 1, 7) }
 
     it "is not overbooked when the allocations fit" do
-      allocate(600)
-      allocate(600)
+      create(:resource_allocation, principal: user, allocated_time: 600)
+      create(:resource_allocation, principal: user, allocated_time: 600)
 
       expect(availability).not_to be_overbooked
-      expect(availability.overbooked_ranges).to be_empty
+      expect(availability.overbooked_dates).to be_empty
+      expect(availability.overbooked_allocation_ids).to be_empty
+    end
+
+    it "marks the days with overtime and every allocation with time on them" do
+      first = create(:resource_allocation, principal: user, allocated_time: 1500)
+      second = create(:resource_allocation, principal: user, allocated_time: 1500)
+
+      expect(availability).to be_overbooked
+      expect(availability.overbooked_dates).to eq((monday..friday).to_set)
+      expect(availability.overbooked_allocation_ids).to contain_exactly(first.id, second.id)
+    end
+
+    it "marks an allocation that fits on its own when it shares an overbooked day" do
+      fitting = create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
+      exceeding = create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: wednesday)
+      create(:resource_allocation, principal: user, allocated_time: 480, start_date: friday, end_date: friday)
+
+      expect(availability.overbooked_dates).to contain_exactly(monday, tuesday, wednesday)
+      expect(availability.overbooked_allocation_ids).to contain_exactly(fitting.id, exceeding.id)
+    end
+
+    it "does not mark a global non-working day" do
+      create(:non_working_day, date: tuesday)
+      create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: wednesday)
+
+      expect(availability.overbooked_dates).to contain_exactly(monday, wednesday)
+    end
+
+    it "marks an allocation whose window has no working day" do
+      unplannable = create(:resource_allocation, principal: user, allocated_time: 240,
+                                                 start_date: friday + 1, end_date: friday + 2)
+
+      expect(availability).to be_overbooked
+      expect(availability.overbooked_dates).to be_empty
+      expect(availability.overbooked_allocation_ids).to contain_exactly(unplannable.id)
     end
 
     it "counts allocations across all projects (capacity is user-level)" do
-      wp_a = create(:work_package, project: create(:project))
-      wp_b = create(:work_package, project: create(:project))
-      allocate(1500, entity: wp_a)
-      allocate(1500, entity: wp_b)
+      in_project_a = create(:resource_allocation, principal: user, allocated_time: 1500,
+                                                  entity: create(:work_package, project: create(:project)))
+      in_project_b = create(:resource_allocation, principal: user, allocated_time: 1500,
+                                                  entity: create(:work_package, project: create(:project)))
 
-      expect(availability).to be_overbooked
-      expect(availability.overbooked_ranges.sole.work_package_ids).to contain_exactly(wp_a.id, wp_b.id)
+      expect(availability.overbooked_allocation_ids).to contain_exactly(in_project_a.id, in_project_b.id)
     end
 
     it "ignores filter-based allocations that have no principal" do
-      allocate(600)
+      create(:resource_allocation, principal: user, allocated_time: 600)
       create(:resource_allocation, :with_user_filter, start_date: monday, end_date: friday, allocated_time: 5000)
 
       expect(availability).not_to be_overbooked
@@ -87,8 +107,8 @@ RSpec.describe ResourceAllocations::Availability do
 
   describe "#scheduled_minutes_within" do
     it "sums the minutes booked within the range" do
-      allocate(600)
-      allocate(600)
+      create(:resource_allocation, principal: user, allocated_time: 600)
+      create(:resource_allocation, principal: user, allocated_time: 600)
 
       expect(availability.scheduled_minutes_within(monday..friday)).to eq(1200)
     end
@@ -98,21 +118,9 @@ RSpec.describe ResourceAllocations::Availability do
     end
   end
 
-  describe "#overbooked_on?" do
-    before do
-      allocate(1500)
-      allocate(1500)
-    end
-
-    it "is true for days inside an overbooked range and false outside" do
-      expect(availability.overbooked_on?(Date.new(2026, 1, 7))).to be true
-      expect(availability.overbooked_on?(Date.new(2026, 1, 12))).to be false
-    end
-  end
-
   describe "#optimal_schedule" do
     it "distributes a feasible allocation across the days, summing back to its time" do
-      allocate(960, start_date: monday, end_date: tuesday)
+      create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
 
       schedule = availability.optimal_schedule
       scheduled_minutes = schedule.by_date.values.flatten.sum(&:minutes)
@@ -122,7 +130,7 @@ RSpec.describe ResourceAllocations::Availability do
     end
 
     it "dates each entry with the day it is placed on" do
-      allocate(960, start_date: monday, end_date: tuesday)
+      create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
 
       schedule = availability.optimal_schedule
 
@@ -134,13 +142,13 @@ RSpec.describe ResourceAllocations::Availability do
       let(:wednesday) { Date.new(2026, 1, 7) }
 
       it "has no overtime when the allocation fits" do
-        allocate(960, start_date: monday, end_date: tuesday)
+        create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
 
         expect(availability.optimal_schedule.entries_on(monday).sole.overtime_minutes).to eq(0)
       end
 
       it "merges the overtime into the allocation's single entry per day" do
-        allocate(960 + 120, start_date: monday, end_date: tuesday)
+        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: tuesday)
 
         schedule = availability.optimal_schedule
 
@@ -149,14 +157,14 @@ RSpec.describe ResourceAllocations::Availability do
       end
 
       it "schedules the full allocated time" do
-        allocate(2400 + 300)
+        create(:resource_allocation, principal: user, allocated_time: 2400 + 300)
 
         expect(availability.optimal_schedule.by_date.values.flatten.sum(&:minutes)).to eq(2700)
       end
 
       it "adds an entry on days where the allocation has only overtime" do
-        fitting = allocate(960, start_date: monday, end_date: tuesday)
-        exceeding = allocate(960, start_date: monday, end_date: wednesday)
+        fitting = create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
+        exceeding = create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: wednesday)
 
         schedule = availability.optimal_schedule
 
@@ -168,7 +176,7 @@ RSpec.describe ResourceAllocations::Availability do
 
       it "puts no time on a global non-working day" do
         create(:non_working_day, date: tuesday)
-        allocate(960 + 120, start_date: monday, end_date: wednesday)
+        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: wednesday)
 
         schedule = availability.optimal_schedule
 
@@ -179,7 +187,7 @@ RSpec.describe ResourceAllocations::Availability do
 
       it "puts no time on the user's non-working time" do
         create(:user_non_working_time, user:, start_date: tuesday, end_date: tuesday)
-        allocate(960 + 120, start_date: monday, end_date: wednesday)
+        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: wednesday)
 
         schedule = availability.optimal_schedule
 
@@ -188,7 +196,7 @@ RSpec.describe ResourceAllocations::Availability do
       end
 
       it "puts no time on weekends" do
-        allocate(960 + 120, start_date: friday, end_date: friday + 3)
+        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: friday, end_date: friday + 3)
 
         schedule = availability.optimal_schedule
 
@@ -200,53 +208,85 @@ RSpec.describe ResourceAllocations::Availability do
     end
   end
 
-  describe "#fits?" do
-    before { allocate(600) }
-
-    it "is true for a prospective allocation that still fits" do
-      expect(availability.fits?(start_date: monday, end_date: friday, minutes: 1000)).to be true
-    end
-
-    it "is false for a prospective allocation that would overbook" do
-      expect(availability.fits?(start_date: monday, end_date: friday, minutes: 2000)).to be false
-    end
-
-    it "can exclude an existing allocation being edited" do
-      existing = ResourceAllocation.where(principal: user).sole
-
-      expect(availability.fits?(start_date: monday, end_date: friday, minutes: 2400, exclude_id: existing.id)).to be true
-    end
-  end
-
   describe "#overbooking_with" do
-    it "is empty when the prospective allocation still fits" do
-      allocate(600)
+    let(:wednesday) { Date.new(2026, 1, 7) }
 
-      ranges = availability.overbooking_with(start_date: monday, end_date: friday, minutes: 1000)
+    it "is not overbooked when the prospective allocation fits" do
+      create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
 
-      expect(ranges).to be_empty
+      prospective = build(:resource_allocation, principal: user, allocated_time: 480,
+                                                start_date: wednesday, end_date: wednesday)
+      overbooking = availability.overbooking_with(prospective)
+
+      expect(overbooking).not_to be_overbooked
+      expect(overbooking).to have_attributes(days: [], unplannable: false)
     end
 
-    it "returns the overbooked range including the candidate, flagged by its id" do
-      wp = create(:work_package)
-      allocate(1500, entity: wp)
-      candidate_wp = create(:work_package)
+    it "lists the days on which the prospective allocation generates overtime" do
+      create(:resource_allocation, principal: user, allocated_time: 1920)
 
-      range = availability
-                .overbooking_with(start_date: monday, end_date: friday, minutes: 1500, work_package_id: candidate_wp.id)
-                .sole
+      overbooking = availability.overbooking_with(build(:resource_allocation, principal: user, allocated_time: 960))
 
-      expect(range.work_package_ids).to contain_exactly(wp.id, candidate_wp.id)
-      candidate = range.items.find { |item| item.id == described_class::CANDIDATE_ID }
-      expect(candidate.work_package_id).to eq(candidate_wp.id)
-      expect(candidate.minutes).to eq(1500)
+      expect(overbooking).to be_overbooked
+      expect(overbooking.days.map(&:date)).to eq((monday..friday).to_a)
+      expect(overbooking.days.first).to have_attributes(
+        date: monday, working_minutes: 480, planned_minutes: 480, added_minutes: 96, overtime_minutes: 96
+      )
+      expect(overbooking.days.last).to have_attributes(
+        date: friday, working_minutes: 480, planned_minutes: 0, added_minutes: 576, overtime_minutes: 96
+      )
     end
 
-    it "overbooks even without existing allocations when the candidate alone exceeds capacity" do
-      # 2400 minutes over Mon-Tue against an 8h/day (960 min) window.
-      ranges = availability.overbooking_with(start_date: monday, end_date: tuesday, minutes: 2400)
+    it "ignores an existing overbooking the prospective allocation does not add to" do
+      create(:resource_allocation, principal: user, allocated_time: 600, start_date: monday, end_date: monday)
+      create(:resource_allocation, principal: user, allocated_time: 240, start_date: friday + 1, end_date: friday + 2)
 
-      expect(ranges).not_to be_empty
+      prospective = build(:resource_allocation, principal: user, allocated_time: 480,
+                                                start_date: friday, end_date: friday)
+      overbooking = availability.overbooking_with(prospective)
+
+      expect(overbooking).not_to be_overbooked
+    end
+
+    it "includes an already overbooked day when it adds to the overtime there" do
+      create(:resource_allocation, principal: user, allocated_time: 600, start_date: monday, end_date: monday)
+
+      prospective = build(:resource_allocation, principal: user, allocated_time: 240,
+                                                start_date: monday, end_date: monday)
+      overbooking = availability.overbooking_with(prospective)
+
+      expect(overbooking.days.sole).to have_attributes(
+        date: monday, working_minutes: 480, planned_minutes: 600, added_minutes: 240, overtime_minutes: 360
+      )
+    end
+
+    it "includes days on which it pushes existing work into overtime" do
+      create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: wednesday)
+
+      prospective = build(:resource_allocation, principal: user, allocated_time: 960,
+                                                start_date: monday, end_date: tuesday)
+      overbooking = availability.overbooking_with(prospective)
+
+      expect(overbooking.days.map(&:date)).to eq([monday, tuesday, wednesday])
+      expect(overbooking.days.last).to have_attributes(
+        date: wednesday, working_minutes: 480, planned_minutes: 640, added_minutes: 0, overtime_minutes: 160
+      )
+    end
+
+    it "replaces the persisted version of an allocation being edited" do
+      existing = create(:resource_allocation, principal: user, allocated_time: 2000)
+      existing.allocated_time = 2400
+
+      expect(availability.overbooking_with(existing)).not_to be_overbooked
+    end
+
+    it "is overbooked without any days when the window contains no working day" do
+      prospective = build(:resource_allocation, principal: user, allocated_time: 240,
+                                                start_date: friday + 1, end_date: friday + 2)
+      overbooking = availability.overbooking_with(prospective)
+
+      expect(overbooking).to be_overbooked
+      expect(overbooking).to have_attributes(days: [], unplannable: true)
     end
   end
 
@@ -325,26 +365,26 @@ RSpec.describe ResourceAllocations::Availability do
 
   describe "#utilization_ratio" do
     it "expresses booked time as a percentage of the window's capacity" do
-      allocate(1200) # half of the 2400 min Mon-Fri capacity
+      create(:resource_allocation, principal: user, allocated_time: 1200) # half of the 2400 min Mon-Fri capacity
 
       expect(availability.utilization_ratio(monday..friday)).to eq(50)
     end
 
     it "exceeds 100% when the user is overbooked" do
-      allocate(3600)
+      create(:resource_allocation, principal: user, allocated_time: 3600)
 
       expect(availability.utilization_ratio(monday..friday)).to eq(150)
     end
 
     it "rounds to the nearest whole percent" do
-      allocate(800) # 800 / 2400 => 33.33%
+      create(:resource_allocation, principal: user, allocated_time: 800) # 800 / 2400 => 33.33%
 
       expect(availability.utilization_ratio(monday..friday)).to eq(33)
     end
 
     it "sums every allocation overlapping the window" do
-      allocate(600)
-      allocate(1200)
+      create(:resource_allocation, principal: user, allocated_time: 600)
+      create(:resource_allocation, principal: user, allocated_time: 1200)
 
       expect(availability.utilization_ratio(monday..friday)).to eq(75)
     end
@@ -352,7 +392,7 @@ RSpec.describe ResourceAllocations::Availability do
     it "counts only the portion of an allocation that overlaps the window" do
       # 2000 min booked across Mon-Fri, only 2/5 (800 min) fall in the Mon-Tue window,
       # measured against that window's 960 min capacity
-      allocate(2000, start_date: monday, end_date: friday)
+      create(:resource_allocation, principal: user, allocated_time: 2000, start_date: monday, end_date: friday)
 
       expect(availability.utilization_ratio(monday..tuesday)).to eq(83) # 800 / 960
     end
@@ -373,7 +413,7 @@ RSpec.describe ResourceAllocations::Availability do
     end
 
     it "ignores allocations that fall entirely outside the window" do
-      allocate(2400, start_date: monday, end_date: tuesday)
+      create(:resource_allocation, principal: user, allocated_time: 2400, start_date: monday, end_date: tuesday)
 
       expect(availability.utilization_ratio(friday..friday)).to eq(0)
     end

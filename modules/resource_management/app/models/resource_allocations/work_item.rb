@@ -42,9 +42,9 @@ module ResourceAllocations
     attribute :minutes, :integer
     attribute :work_package_id, :integer
 
-    def self.from_allocation(allocation)
+    def self.from_allocation(allocation, id: allocation.id)
       new(
-        id: allocation.id,
+        id:,
         start_date: allocation.start_date,
         end_date: allocation.end_date,
         minutes: allocation.allocated_time,

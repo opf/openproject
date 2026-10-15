@@ -201,15 +201,7 @@ module ::ResourceManagement
     def compute_overbooked_ranges(allocation)
       return [] unless overbooking_checkable?(allocation)
 
-      # `exclude_id` drops the persisted version of an allocation being edited,
-      # so its old booking does not count against the new one.
-      availability(allocation).overbooking_with(
-        start_date: allocation.start_date,
-        end_date: allocation.end_date,
-        minutes: allocation.allocated_time,
-        work_package_id: allocation.entity_id,
-        exclude_id: allocation.id
-      )
+      availability(allocation).overbooking_ranges_with(allocation)
     end
 
     def overbooking_checkable?(allocation)

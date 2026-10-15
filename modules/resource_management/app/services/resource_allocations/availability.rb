@@ -49,7 +49,22 @@ module ResourceAllocations
     end
 
     def overbooked?
-      overbooked_ranges.any?
+      overbooked_allocation_ids.any?
+    end
+
+    def overbooked_dates
+      @overbooked_dates ||= optimal_schedule.by_date.filter_map do |date, entries|
+        date if entries.any? { |entry| entry.overtime_minutes.positive? }
+      end.to_set
+    end
+
+    def overbooked_allocation_ids
+      @overbooked_allocation_ids ||=
+        if allocations.empty?
+          Set.new
+        else
+          allocation_ids_on(overbooked_dates) | fit_result.unplannable.keys.map(&:id)
+        end
     end
 
     # @return [Array<ResourceAllocations::OverbookedRange>] ranges to highlight,
@@ -63,28 +78,24 @@ module ResourceAllocations
         end
     end
 
-    def overbooked_on?(date)
-      overbooked_ranges.any? { |range| range.covers?(date) }
-    end
-
     def optimal_schedule
       @optimal_schedule ||= build_optimal_schedule
     end
 
-    # Whether a prospective allocation would still fit. `exclude_id` drops an
-    # existing allocation from the check (e.g. the one being edited).
-    def fits?(start_date:, end_date:, minutes:, exclude_id: nil)
-      overbooking_with(start_date:, end_date:, minutes:, exclude_id:).empty?
+    def overbooking_with(allocation)
+      prospective = allocations.reject { |other| other.id == allocation.id } << allocation
+      calendar = calendar_for(prospective)
+      result = FitCalculator.new(calendar:, allocations: prospective).call
+
+      ProspectiveOverbooking.new(
+        days: overbooked_days(entries_by_date(result), allocation, calendar),
+        unplannable: result.unplannable.key?(allocation)
+      )
     end
 
-    # The overbooked ranges that would result from adding a prospective
-    # allocation. The candidate is included in the ranges' items (carrying
-    # `work_package_id`) so a warning can list and flag it. Empty when it fits.
-    # `exclude_id` drops an existing allocation from the check (e.g. the one
-    # being edited).
-    def overbooking_with(start_date:, end_date:, minutes:, work_package_id: nil, exclude_id: nil)
-      candidate = WorkItem.new(id: CANDIDATE_ID, start_date:, end_date:, minutes:, work_package_id:)
-      work_items = items.reject { |item| item.id == exclude_id } << candidate
+    def overbooking_ranges_with(allocation)
+      candidate = WorkItem.from_allocation(allocation, id: CANDIDATE_ID)
+      work_items = items.reject { |item| item.id == allocation.id } << candidate
 
       OverbookingAnalysis.new(calendar: calendar_for(work_items), items: work_items).call
     end
@@ -165,19 +176,36 @@ module ResourceAllocations
       WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days)
     end
 
+    def fit_result
+      @fit_result ||= FitCalculator.new(calendar: base_calendar, allocations:).call
+    end
+
+    def allocation_ids_on(dates)
+      dates.flat_map { |date| optimal_schedule.entries_on(date).map { |entry| entry.allocation.id } }.to_set
+    end
+
     def build_optimal_schedule
       return OptimalSchedule.new(by_date: {}, capacity_by_date: {}) if allocations.empty?
 
-      result = FitCalculator.new(calendar: base_calendar, allocations:).call
-
       OptimalSchedule.new(
-        by_date: entries_by_date(result),
+        by_date: entries_by_date(fit_result),
         capacity_by_date: base_calendar.each_day.to_h
       )
     end
 
+    def overbooked_days(by_date, allocation, calendar)
+      by_date.sort.filter_map do |date, entries|
+        overtime = entries.sum(&:overtime_minutes)
+        next if overtime <= optimal_schedule.entries_on(date).sum(&:overtime_minutes)
+
+        added = entries.select { |entry| entry.allocation == allocation }.sum(&:minutes)
+        OverbookedDay.new(date:, working_minutes: calendar.capacity_on(date), planned_minutes: entries.sum(&:minutes) - added,
+                          added_minutes: added, overtime_minutes: overtime)
+      end
+    end
+
     def entries_by_date(result)
-      allocations
+      (result.placements.keys | result.overtime.keys)
         .flat_map { |allocation| scheduled_entries(allocation, result) }
         .group_by(&:allocated_on)
         .transform_values { |entries| entries.sort_by(&:minutes) }
