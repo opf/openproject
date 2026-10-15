@@ -34,9 +34,12 @@ RSpec.describe PushSubscription do
   let(:user) { create(:user) }
   let!(:subscription) { create(:push_subscription, user:) }
 
-  it "is removed when its session is deleted" do
-    expect { Sessions::UserSession.where(id: subscription.session_id).delete_all }
-      .to change { described_class.exists?(subscription.id) }.from(true).to(false)
+  it "becomes dormant when its session is deleted" do
+    Sessions::UserSession.where(id: subscription.session_id).delete_all
+
+    expect(subscription.reload.session_id).to be_nil
+    expect(described_class.dormant).to contain_exactly(subscription)
+    expect(described_class.active).to be_empty
   end
 
   it "is removed when its user is destroyed" do

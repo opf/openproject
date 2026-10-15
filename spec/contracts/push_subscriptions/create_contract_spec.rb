@@ -113,6 +113,14 @@ RSpec.describe PushSubscriptions::CreateContract do
     it_behaves_like "contract is invalid", base: :too_many_push_subscriptions
   end
 
+  context "when the user also holds signed out subscriptions beyond the maximum" do
+    before do
+      create_list(:push_subscription, PushSubscription::MAX_PER_USER, user: current_user, session: nil)
+    end
+
+    it_behaves_like "contract is valid"
+  end
+
   context "when the user holds one fewer than the maximum" do
     before { create_list(:push_subscription, PushSubscription::MAX_PER_USER - 1, user: current_user) }
 

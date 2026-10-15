@@ -71,6 +71,14 @@ RSpec.describe PushSubscriptions::NotifyJob,
       expect(described_class).not_to have_been_enqueued.with(user.id)
     end
 
+    it "does nothing when the user only has dormant subscriptions" do
+      PushSubscription.update_all(session_id: nil)
+
+      described_class.schedule_for(user.id)
+
+      expect(described_class).not_to have_been_enqueued.with(user.id)
+    end
+
     it "does nothing with the feature flag off", with_flag: { progressive_web_app: false } do
       described_class.schedule_for(user.id)
 
@@ -102,6 +110,14 @@ RSpec.describe PushSubscriptions::NotifyJob,
               body: nil,
               http_options: { open_timeout: 5, read_timeout: 10 })
         .twice
+    end
+
+    it "skips dormant subscriptions" do
+      subscriptions.first.update_columns(session_id: nil)
+
+      perform
+
+      expect(OpenProject::SsrfProtection).to have_received(:post).once
     end
 
     it "sends the time-to-live header" do
