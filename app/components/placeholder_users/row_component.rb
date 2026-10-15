@@ -29,7 +29,7 @@
 #++
 
 module PlaceholderUsers
-  class RowComponent < ::RowComponent
+  class RowComponent < ::OpPrimer::BorderBoxRowComponent
     def placeholder_user
       model
     end
