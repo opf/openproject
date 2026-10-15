@@ -45,6 +45,10 @@ module API
             project&.type_variant(type)
           end
 
+          def form_configuration
+            type_variant&.form_configuration
+          end
+
           def custom_field_required?(custom_field_id)
             type_variant&.required_custom_field_ids&.include?(custom_field_id) || false
           end

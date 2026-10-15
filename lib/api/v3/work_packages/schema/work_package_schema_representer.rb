@@ -37,8 +37,9 @@ module API
 
           # type_variant is part of the key on top of type: the configuration in force changes
           # when the project resolves the family to a different variant, which touches neither
-          # the project's nor the type's timestamp.
-          cached_representer key_parts: %i[project type type_variant],
+          # the project's nor the type's timestamp. form_configuration is a record of its own,
+          # shared between variants, so editing it touches neither of the above either.
+          cached_representer key_parts: %i[project type type_variant form_configuration],
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
@@ -445,6 +446,7 @@ module API
              I18n.locale,
              represented.project,
              represented.type_variant,
+             represented.form_configuration,
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact
