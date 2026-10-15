@@ -259,7 +259,9 @@ describe('Create work package - the list a fixed set of values is picked from', 
 
     const walked = document.getElementById(trigger.getAttribute('aria-activedescendant')!)!;
     expect(list.scrollTop).toBeGreaterThan(0);
-    expect(walked.getBoundingClientRect().bottom).toBeLessThanOrEqual(list.getBoundingClientRect().bottom);
+    // The list is still settling against its field, so it is the end state that has to show the option.
+    await expect.poll(() => walked.getBoundingClientRect().bottom - list.getBoundingClientRect().bottom)
+      .toBeLessThanOrEqual(0);
   });
 
   it('is picked from and not typed into', async () => {

@@ -849,9 +849,7 @@ de:
     text_user_wrote: "%{value} schrieb:"
     text_work_packages_destroy_confirmation: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?
     time_entry:
-      stop: Anhalten
       title: Zeit buchen
-      tracking: Zeiterfassung
       work_package_required: Benötigt zuerst die Auswahl eines Arbeitspakets.
     timer:
       button_stop: Aktuellen Timer stoppen

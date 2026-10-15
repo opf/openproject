@@ -499,6 +499,11 @@ Rails.application.routes.draw do
         get :children
       end
     end
+    resource :whats_new, only: :show, controller: "whats_new" do
+      get :dialog
+      post :seen
+      post :read
+    end
   end
 
   %w[portfolio project program].each do |workspace_type|

@@ -38,7 +38,7 @@ class NewsController < ApplicationController
   before_action :find_news_object, except: %i[new create index]
   before_action :authorize
 
-  accept_key_auth :index
+  accept_rss_key_auth :index
 
   def index # rubocop:disable Metrics/AbcSize
     scope = @project ? @project.news : News.visible

@@ -844,9 +844,7 @@ ms:
     text_user_wrote: "%{value} menulis:"
     text_work_packages_destroy_confirmation: Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?
     time_entry:
-      stop: Berhenti
       title: Masa log
-      tracking: Penjejakan masa
       work_package_required: Memerlukan pemilihan pakej kerja dahulu.
     timer:
       button_stop: Hentikan pemasa semasa

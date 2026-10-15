@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Roles report", :js, :selenium do
+RSpec.describe "Roles report", :js do
   shared_let(:admin) { create(:admin) }
   let(:project) { create(:project, name: "Project 1", identifier: "project1") }
   let(:permissions) { %i[view_project permission1 permission2] }

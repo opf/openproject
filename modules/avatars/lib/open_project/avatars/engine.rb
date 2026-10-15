@@ -39,6 +39,10 @@ module OpenProject::Avatars
       mount ::API::V3::Users::UserAvatarAPI
     end
 
+    add_api_endpoint "API::V3::Groups::GroupsAPI", :id do
+      mount ::API::V3::Groups::GroupAvatarAPI
+    end
+
     config.to_prepare do
       OpenProject::Avatars::Hooks
     end

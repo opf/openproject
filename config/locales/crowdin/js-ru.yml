@@ -855,9 +855,7 @@ ru:
     text_user_wrote: "%{value} написал:"
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные пакеты работ?
     time_entry:
-      stop: Стоп
       title: Журналировать время
-      tracking: Учет времени
       work_package_required: Сначала необходимо выбрать пакет работ.
     timer:
       button_stop: Остановить текущий таймер

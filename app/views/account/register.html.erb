@@ -21,7 +21,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -30,8 +30,8 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_register) %>
 <% @user ||= User.new %>
 
-<%= render(Primer::BaseComponent.new(tag: :div, classes: "op-account-registration")) do %>
-  <%= render(Primer::Beta::Text.new(tag: :p, classes: "op-account-registration--subtitle")) do %>
+<%= render(Primer::Box.new(classes: "op-account-registration")) do %>
+  <%= render(Primer::Beta::Heading.new(tag: :h1, font_size: 4, font_weight: :bold, text_align: :center, mb: 3)) do %>
     <%= t("account.signup_title", app_title: Setting.app_title) %>
   <% end %>
 
@@ -54,10 +54,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% unless @user.uses_external_authentication? %>
-    <%= render("account/auth_providers", omniauth_title: I18n.t("account.signup_with_external_account"), wide: true) %>
+    <%= render("account/auth_providers", omniauth_title: I18n.t("account.signup_with_external_account")) %>
   <% end %>
 
-  <div class="op-account-registration--signin">
-    <%= link_to t(:button_login), signin_path %>
-  </div>
+  <%= render partial: "account/signin_prompt" %>
 <% end %>

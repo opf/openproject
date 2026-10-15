@@ -100,6 +100,81 @@ RSpec.describe "Quick-add menu", :js do
     end
   end
 
+  context "with current user as member with permission :manage_board_views in one project" do
+    let!(:project) { create(:project) }
+
+    current_user do
+      create(:user,
+             member_with_permissions: { project => %i[show_board_views manage_board_views
+                                                      add_work_packages view_work_packages
+                                                      manage_public_queries] })
+    end
+
+    it "shows the add board option" do
+      visit project_path(project)
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_board
+
+      quick_add.click_link "Board"
+      expect(page).to have_current_path new_project_work_package_board_path(project)
+    end
+  end
+
+  context "with current user as member with permission :create_meetings in one project" do
+    let!(:project) { create(:project) }
+
+    current_user do
+      create(:user,
+             member_with_permissions: { project => %i[view_meetings create_meetings] })
+    end
+
+    it "shows the add meeting option within the project and globally" do
+      visit project_path(project)
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_meeting
+
+      quick_add.click_link "Meeting"
+      expect(page).to have_css("#new-meeting-dialog")
+
+      visit home_path
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_meeting
+
+      quick_add.click_link "Meeting"
+      expect(page).to have_css("#new-meeting-dialog")
+    end
+  end
+
+  context "with current user as member with permission :manage_documents in one project" do
+    let!(:project) { create(:project, enabled_module_names: %w[documents]) }
+
+    current_user do
+      create(:user,
+             member_with_permissions: { project => %i[view_documents manage_documents] })
+    end
+
+    it "shows the add document option only within the project" do
+      visit project_path(project)
+
+      quick_add.expect_visible
+      quick_add.toggle
+      quick_add.expect_document
+
+      quick_add.click_link "Document"
+      expect(page).to have_current_path new_project_document_path(project)
+
+      visit home_path
+
+      quick_add.expect_invisible
+    end
+  end
+
   context "with a project with one of three work package types" do
     let!(:type_bug) { create(:type_bug) }
     let!(:other_type) { create(:type_task) }
@@ -131,6 +206,7 @@ RSpec.describe "Quick-add menu", :js do
       quick_add.toggle
       quick_add.expect_add_project present: false
       quick_add.expect_user_invite present: false
+      quick_add.open_work_package_submenu
       quick_add.expect_work_package_type type_bug.name
       quick_add.expect_work_package_type other_type.name, present: false
       quick_add.expect_work_package_type other_project_type.name, present: false
@@ -147,6 +223,7 @@ RSpec.describe "Quick-add menu", :js do
 
       quick_add.expect_visible
       quick_add.toggle
+      quick_add.open_work_package_submenu
       quick_add.expect_work_package_type type_bug.name
       quick_add.expect_work_package_type other_type.name, present: false
       quick_add.expect_work_package_type other_project_type.name
@@ -192,6 +269,7 @@ RSpec.describe "Quick-add menu", :js do
 
       quick_add.expect_visible
       quick_add.toggle
+      quick_add.open_work_package_submenu
       quick_add.expect_work_package_type root_type.name
       quick_add.expect_work_package_type variant.variant_name, present: false
     end

@@ -60,6 +60,36 @@ RSpec.describe Groups::UpdateContract do
     end
   end
 
+  describe "avatar_color validation" do
+    let(:current_user) { create(:admin) }
+    let(:group) { create(:group) }
+    let(:contract) { described_class.new(group, current_user) }
+
+    context "with a valid hex color" do
+      before { group.avatar_color = "#abc" }
+
+      it "is valid and normalizes the color" do
+        expect(contract.validate).to be true
+        expect(group.avatar_color).to eq "#AABBCC"
+      end
+    end
+
+    context "with an invalid color" do
+      before { group.avatar_color = "not-a-color" }
+
+      it "is invalid" do
+        expect(contract.validate).to be false
+        expect(contract.errors[:avatar_color]).to include("is invalid.")
+      end
+    end
+
+    context "when blank" do
+      it "is valid" do
+        expect(contract.validate).to be true
+      end
+    end
+  end
+
   describe "department user uniqueness validation" do
     let(:current_user) { create(:admin) }
     let(:user) { create(:user) }

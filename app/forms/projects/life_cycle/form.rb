@@ -55,7 +55,6 @@ module Projects::LifeCycle
         placeholder:,
         show_clear_button: show_clear_button?(field_name),
         clear_button_id: "#{field_name}_clear_button",
-        inset: true,
         data: {
           action: "focus->overview--project-life-cycle-form#onHighlightField " \
                   "overview--project-life-cycle-form#previewForm ",

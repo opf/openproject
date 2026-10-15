@@ -847,9 +847,7 @@ pt-PT:
     text_user_wrote: "%{value} escreveu:"
     text_work_packages_destroy_confirmation: Tem certeza que quer eliminar o(s) pacote(s) de trabalho selecionado(s)?
     time_entry:
-      stop: Parar
       title: Hora de registo
-      tracking: Controlo do tempo
       work_package_required: É necessário selecionar primeiro um pacote de trabalho.
     timer:
       button_stop: Parar temporizador atual

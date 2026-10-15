@@ -8,6 +8,23 @@ module Components::Autocompleter
                             wait_dropdown_open: true,
                             wait_for_fetched_options: true,
                             wait: Capybara.default_max_wait_time)
+      enter_autocomplete_query(element, query:, results_selector:, wait_dropdown_open:, wait_for_fetched_options:, wait:)
+
+      # Wait for options to be refreshed after having entered some text.
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
+
+      # probably not necessary anymore
+      sleep(0.5) unless using_cuprite?
+
+      # Find the open dropdown
+      page.document.synchronize do
+        dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+        scroll_to_element(dropdown_list)
+        dropdown_list
+      end
+    end
+
+    def enter_autocomplete_query(element, query:, results_selector:, wait_dropdown_open:, wait_for_fetched_options:, wait:)
       SeleniumHubWaiter.wait unless using_cuprite?
 
       # Wait for dropdown to open
@@ -25,19 +42,6 @@ module Components::Autocompleter
         within(current_element) do
           ng_enter_query(current_element, query, wait_for_fetched_options:)
         end
-      end
-
-      # Wait for options to be refreshed after having entered some text.
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
-
-      # probably not necessary anymore
-      sleep(0.5) unless using_cuprite?
-
-      # Find the open dropdown
-      page.document.synchronize do
-        dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
-        scroll_to_element(dropdown_list)
-        dropdown_list
       end
     end
 
@@ -174,12 +178,12 @@ module Components::Autocompleter
                             wait_dropdown_open: true,
                             wait_for_fetched_options: true,
                             wait: Capybara.default_max_wait_time)
-      search_autocomplete(element,
-                          query:,
-                          results_selector:,
-                          wait_dropdown_open:,
-                          wait_for_fetched_options:,
-                          wait:)
+      enter_autocomplete_query(element,
+                               query:,
+                               results_selector:,
+                               wait_dropdown_open:,
+                               wait_for_fetched_options:,
+                               wait:)
 
       ##
       # If a specific select_text is given, use that to locate the match,

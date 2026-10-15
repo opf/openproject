@@ -54,10 +54,11 @@ module ::Avatars
 
     private
 
+    # Users and groups store/update avatar_color through different services and
+    # param shapes (UserPreference vs. a plain Group attribute), so subclasses
+    # provide their own.
     def update_color_request
-      ::Users::UpdateService
-        .new(model: @user, user: current_user)
-        .call(pref: { avatar_color: params[:avatar_color] })
+      raise SubclassResponsibilityError
     end
 
     def redirect_path
@@ -71,7 +72,7 @@ module ::Avatars
     end
 
     def service_request(type:)
-      service = ::Avatars::UpdateService.new @user
+      service = ::Avatars::UpdateService.new @principal
 
       if type == :update
         service.replace params[:file]

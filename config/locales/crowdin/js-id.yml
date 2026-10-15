@@ -844,9 +844,7 @@ id:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Yakin akan menghapus?
     time_entry:
-      stop: Stop
       title: Catatan waktu
-      tracking: Time tracking
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

@@ -32,6 +32,7 @@ require "spec_helper"
 require_relative "../support//board_index_page"
 require_relative "../support/board_page"
 
+# Drags cards with the Selenium action API. Boards specs move to Cuprite in their own review.
 RSpec.describe "Custom field filter in boards",
                :js,
                :selenium do

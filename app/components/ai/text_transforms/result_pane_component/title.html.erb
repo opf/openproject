@@ -27,18 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% OpenProject::Plugins::AuthPlugin.providers.each do |provider| %>
-  <% if provider[:icon] %>
-    <style>
-      #content .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
-        background-image: url('<%= asset_path(provider[:icon]) %>');
-      }
-      .op-app-header #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
-        background-image:  url('<%= asset_path(provider[:icon]) %>') ;
-      }
-      .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
-        background-image: url('<%= asset_path(provider[:icon]) %>') ;
-      }
-    </style>
-  <% end -%>
+<%= component_wrapper do %>
+  <%=
+    flex_layout(align_items: :center) do |header|
+      header.with_column(mr: 2) do
+        render(Primer::Beta::Octicon.new(icon: :sparkle, color: :done, size: :medium))
+      end
+      header.with_column do
+        render(Primer::Beta::Heading.new(tag: :h2, font_size: 4)) { pane.label }
+      end
+    end
+  %>
 <% end %>

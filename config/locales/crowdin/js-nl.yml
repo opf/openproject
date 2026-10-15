@@ -847,9 +847,7 @@ nl:
     text_user_wrote: "%{value} schreef:"
     text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?
     time_entry:
-      stop: Stop
       title: Gelogde tijd
-      tracking: Tijdregistratie
       work_package_required: Vereist eerst een werkpakket te selecteren.
     timer:
       button_stop: Stop current timer

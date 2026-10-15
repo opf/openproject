@@ -168,6 +168,7 @@ fa:
         uid: شناسه کلاینت
       emoji_reaction:
         reactable: واکنش داده‌شده به
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: کاربران فعال
         encoded_token: توکن پشتیبانی Enterprise
@@ -242,7 +243,13 @@ fa:
         base_url: نشانی URL سرور
         default_chat_model: مدل پیش‌فرض گفت‌وگو
         default_embedding_model: مدل پیش‌فرض تعبیه‌سازی
+        env_fingerprint: Applied environment configuration
+        env_provisioned_at: Applied from the environment
         llm_features_enabled: فعال‌کردن مدل‌های زبانی بزرگ (LLM) برای این نمونه
+      llm_feature_binding:
+        dimensions: Dimensions
+        feature_key: Feature
+        model: Model
       llm_model:
         admin_context_window: پنجره زمینه
         display_name: نام نمایشی
@@ -450,7 +457,9 @@ fa:
       user_preference:
         auto_hide_popups: پنهان‌سازی خودکار بنرهای موفقیت
         auto_hide_popups_caption: در صورت فعال‌بودن، بنرهای سبز موفقیت پس از ۵ ثانیه به‌طور خودکار ناپدید می‌شوند.
+        avatar_color: Fallback color
         button_update_alerts: هشدارهای به‌روزرسانی
+        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: به‌روزرسانی ظاهر
         button_update_user_information: به‌روزرسانی پروفایل
         comments_sorting: نمایش فعالیت بسته کاری مرتب‌شده بر اساس
@@ -775,8 +784,24 @@ fa:
               ssrf_filtered: به نشانی مسدودشده‌ای اشاره می‌کند. اگر سرور LLM در شبکه داخلی قرار دارد، IP آن را از طریق متغیر محیطی %{env_name} مجاز کنید.
             custom_headers:
               invalid: باید نام سرآیندها را به مقدارهای متنی ساده نگاشت کند.
+            default_chat_model_id:
+              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
+              not_available: is not offered by the configured LLM server.
+            default_embedding_model_id:
+              cannot_embed: is known not to create embeddings, according to the LLM server.
+              not_available: is not offered by the configured LLM server.
             llm_features_enabled:
               requires_connection: پیش از پیکربندی اتصال نمی‌توان آن را فعال کرد.
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
+              not_for_chat_feature: only applies to features that create embeddings.
+            feature_key:
+              not_registered: does not belong to a known AI feature.
+            model_id:
+              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
+              not_available: is not offered by the configured LLM server.
         llm_model:
           attributes:
             external_id:
@@ -1474,6 +1499,10 @@ fa:
   admin:
     banners:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1917,6 +1946,7 @@ fa:
           title: هیچ برچسبی با جستجوی شما مطابقت ندارد
     llm_connections:
       delete_api_key:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject دیگر کلید API را همراه درخواست‌هایش ارسال نمی‌کند. قابلیت‌ها فقط در صورتی به کار ادامه می‌دهند که سرور به احراز هویت نیاز نداشته باشد. هر زمان می‌توانید کلید جدیدی وارد کنید.
         heading: کلید API ذخیره‌شده حذف شود؟
         menu_label: حذف کلید API
@@ -1924,8 +1954,10 @@ fa:
         title: حذف کلید API
       disabled_notice: قابلیت‌های LLM برای این نمونه غیرفعال‌اند. ابتدا آن‌ها را از اینجا فعال کنید.
       disconnect:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject استفاده از سرور LLM را متوقف می‌کند. قابلیت‌های هوش مصنوعی تا برقراری اتصال مجدد در دسترس نخواهند بود.
         heading: اتصال به سرور LLM قطع شود؟
+        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
         keeps_models: فهرست مدل‌ها، از جمله مدل‌هایی که دستی اضافه کرده‌اید، حفظ می‌شود.
         keeps_settings: نشانی نقطه پایانی و قالب API حفظ می‌شوند. فقط کلید API ذخیره‌شده حذف می‌شود.
         menu_label: قطع اتصال
@@ -1935,11 +1967,14 @@ fa:
         api_format_caption: نوع API که سرور از آن پشتیبانی می‌کند. برای بیشتر درگاه‌ها و سرورهای میزبانی‌شده در محل، OpenAI را انتخاب کنید.
         api_key_caption: کلیدی که OpenProject با آن احراز هویت می‌کند. اگر سرور به احراز هویت نیاز ندارد، خالی بگذارید.
         api_key_caption_discarded: کلیدی که وارد کردید ذخیره نشد و دوباره نمایش داده نمی‌شود. برای ذخیره، آن را دوباره وارد کنید؛ یا برای نگه‌داشتن کلید ذخیره‌شده، این فیلد را خالی بگذارید.
+        api_key_caption_env: The key comes from the environment.
         api_key_caption_stored: یک کلید ذخیره شده است. برای حفظ کلید فعلی، این فیلد را خالی بگذارید؛ یا برای جایگزینی، کلید جدیدی وارد کنید.
         api_key_placeholder_stored: کلید API ذخیره شده است
         api_key_remove: حذف کلید
         base_url_caption: نشانی URL پایه سرور؛ برای مثال https://example.com/v1.
-        button_connect: اتصال
+        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
+        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
+        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
         label_connecting: در حال برقراری ارتباط با سرور LLM…
         llm_features_enabled_caption: با غیرفعال‌کردن این گزینه، همه قابلیت‌های هوش مصنوعی مبتنی بر LLM متوقف می‌شوند. تنظیمات اتصال حفظ خواهند شد.
         server_description: OpenProject را به سروری متصل کنید که از API با قالب %{api_format} پشتیبانی می‌کند تا قابلیت‌های هوش مصنوعی بتوانند از آن استفاده کنند. نشانی URL میزبان در زیر، سرور موردنظر را تعیین می‌کند.
@@ -1949,14 +1984,55 @@ fa:
         description_enabled: پس از اتصال، مدل‌های ارائه‌شده توسط سرور را در زبانه [مدل‌ها](models_url) بررسی کنید.
       tabs:
         connection: اتصال
+        features: Feature configuration
         models: مدل‌ها
       update:
         disabled: ذخیره شد. قابلیت‌های LLM برای این نمونه غیرفعال‌اند.
         no_models: ذخیره شد، اما هنوز هیچ مدلی ثبت نشده است. یا سرور فهرست مدل‌ها را ارائه نمی‌کند، یا بخش نسخه API (مثلاً /v1) در نشانی نقطه پایانی وجود ندارد. فهرست را در زبانه مدل‌ها تازه‌سازی کنید.
         success: اتصال به سرور LLM با موفقیت برقرار شد.
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      form:
+        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
+        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
+        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
+      index:
+        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
+      inherit_with_default: Use the default (%{model})
+      inherit_without_default: Use the default (none set)
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: Values fixed by the existing index
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
+        success: The model for %{feature} has been saved.
+    llm_health_status:
+      create:
+        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
+      create_health_status_report:
+        success: The checks have run.
+      show:
+        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
+        blankslate_heading: This connection has not been checked yet
+        download: Download report
+        last_check: Last checked %{datetime}.
+        run_checks: Run checks
+        running: Running checks...
+        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
+        title: Health status
     llm_models:
+      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
         success: مدل %{model} اضافه شد.
+      defaults:
+        chat_caption: Embedding models are not offered.
+        description: Used by AI features that do not choose a model themselves.
+        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
+        heading: Default models
+        success: The default models have been saved.
       destroy:
         description: این مدل دیگر برای قابلیت‌های هوش مصنوعی ارائه نخواهد شد.
         description_bound: این مدل اکنون توسط %{features} استفاده می‌شود. این قابلیت‌ها تا انتخاب مدل دیگری از کار خواهند افتاد.
@@ -4667,6 +4743,69 @@ fa:
     context_window_sources:
       registry: مقدار منتشرشده برای این مدل
       server: گزارش‌شده توسط سرور
+    features:
+      description_assistant:
+        caption: Rewrites and restructures work package text on request.
+        label: Description assistant
+      semantic_search:
+        caption: Indexes work packages so they can be found by meaning rather than by keyword.
+        label: Semantic search
+    health_checks:
+      configuration:
+        api_format_supported: Endpoint format is usable
+        base_url_present: Endpoint is configured
+        credentials_present: API key is stored
+        enabled: Connection is switched on
+        feature_flag: AI features are switched on
+        header: Configuration
+      errors:
+        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
+        catalogue_never_fetched: The model list has never been retrieved from the server.
+        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
+        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
+        chat_failed: The server refused a request for %{model} with status %{status}.
+        connection_disabled: The connection is configured but switched off, so no feature will use it.
+        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: The server rejected the stored API key.
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
+        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
+        no_model_to_test: No model is available to test with. Add a model or choose a default first.
+        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
+        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
+        not_configured: No endpoint has been configured.
+        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
+        request_timed_out: The server did not respond in time.
+        server_error: The server responded with status %{status}.
+        ssrf_filtered: The endpoint resolves to a blocked address.
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: Every feature has a usable model
+        header: AI features
+        locked_bindings_intact: Indexed data still has its model
+      inference:
+        chat_round_trip: The server answers a request
+        header: Inference
+      models:
+        catalogue_fresh: Model list is up to date
+        catalogue_present: Models are available
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        header: Models
+      server:
+        credentials_accepted: The server accepts the API key
+        header: Server
+        reachable: The server can be reached
+    health_report_kinds:
+      full: Full check, including an inference request.
+      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
     model_kinds:
       chat: گفت‌وگو
       embedding: تعبیه‌سازی
@@ -4674,6 +4813,15 @@ fa:
       supported: پشتیبانی‌شده
       unknown: تأییدنشده
       unsupported: پشتیبانی‌نشده
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: Last checked %{datetime}.
+        never_checked: This connection has not been checked yet.
+        open_report: Open full health report
+        run_checks: Run checks now
+        running: Running checks...
+        title: Health status
   macro_execution_error: خطا در اجرای Macro %{macro_name}
   macro_unavailable: Macro %{macro_name} قابل نمایش نیست.
   macro_unknown: Macro ناشناخته یا پشتیبانی‌نشده.
@@ -4958,6 +5106,9 @@ fa:
     password_confirmation_dialog:
       confirmation_required: برای تأیید این تغییر باید گذرواژه حساب خود را وارد کنید.
       title: برای ادامه گذرواژه خود را تأیید کنید
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
         assign_to_me: اختصاص بسته کاری به من

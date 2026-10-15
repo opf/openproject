@@ -19,4 +19,13 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  # Update a group's avatar
+  scope "groups/:id" do
+    resource :avatar, controller: "avatars/groups", as: "edit_group_avatar", only: %i[update destroy] do
+      member do
+        patch :update_color
+      end
+    end
+  end
 end
