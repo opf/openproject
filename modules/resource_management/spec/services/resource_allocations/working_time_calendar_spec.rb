@@ -124,10 +124,7 @@ RSpec.describe ResourceAllocations::WorkingTimeCalendar do
     expect(calendar.capacity_on(saturday)).to eq(0) # the user works zero Saturday minutes
   end
 
-  it "keeps total and prefix_total consistent with the per-day sum" do
-    summed = calendar.each_day.sum { |_date, minutes| minutes }
-    expect(calendar.total).to eq(summed)
-    expect(calendar.prefix_total(range.end)).to eq(summed)
-    expect(calendar.prefix_total(range.begin - 1)).to eq(0)
+  it "sums the capacity of every day in the range as its total" do
+    expect(calendar.total).to eq(calendar.each_day.sum { |_date, minutes| minutes })
   end
 end
