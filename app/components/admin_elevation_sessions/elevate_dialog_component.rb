@@ -35,16 +35,19 @@ module AdminElevationSessions
 
     DIALOG_ID = "admin-elevation-dialog"
 
-    def initialize(project:, back_url: nil)
+    def initialize(project:, user:, back_url: nil, include_subprojects: false, password_error: nil)
       super()
 
       @project = project
+      @user = user
       @back_url = back_url
+      @include_subprojects = include_subprojects
+      @password_error = password_error
     end
 
     private
 
-    attr_reader :project, :back_url
+    attr_reader :project, :user, :back_url, :include_subprojects, :password_error
 
     def idle_timeout_minutes
       Setting.admin_elevation_idle_timeout

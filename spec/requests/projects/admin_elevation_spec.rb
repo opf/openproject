@@ -76,11 +76,13 @@ RSpec.describe "Elevating admin privileges in a project",
 
   describe "POST create" do
     let(:include_subprojects) { "0" }
+    let(:entered_password) { password }
     let(:back_url) { "/projects/#{project.identifier}/settings/general" }
 
     def elevate
       browser.post "/projects/#{project.identifier}/admin_elevation",
-                   params: { back_url:, admin_elevation: { include_subprojects: } }
+                   params: { back_url:, admin_elevation: { include_subprojects:, password: entered_password } },
+                   headers: { "Accept" => "text/vnd.turbo-stream.html, text/html" }
       browser.response
     end
 
@@ -91,7 +93,40 @@ RSpec.describe "Elevating admin privileges in a project",
                                                             project:,
                                                             session_id:,
                                                             include_subprojects: false,
-                                                            confirmed_with: "confirmation")
+                                                            confirmed_with: "password")
+    end
+
+    context "with a wrong password" do
+      let(:entered_password) { "wrong" }
+
+      it "shows the dialog again with an error without elevating", :aggregate_failures do
+        expect { elevate }.not_to change(AdminElevationSession, :count)
+
+        expect(browser.response).to have_http_status(:unprocessable_entity)
+        expect(browser.response.body).to include('data-test-selector="admin-elevation-dialog"')
+        expect(browser.response.body).to include(I18n.t(:notice_password_confirmation_failed))
+      end
+    end
+
+    context "without a password" do
+      let(:entered_password) { nil }
+
+      it "does not elevate", :aggregate_failures do
+        expect { elevate }.not_to change(AdminElevationSession, :count)
+        expect(browser.response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context "for an admin without a password" do
+      let(:entered_password) { nil }
+
+      before { UserPassword.where(user: admin).delete_all }
+
+      it "elevates the admin by confirming", :aggregate_failures do
+        expect { elevate }.to change(AdminElevationSession, :count).by(1)
+
+        expect(AdminElevationSession.last.confirmed_with).to eq("confirmation")
+      end
     end
 
     it "redirects back", :aggregate_failures do
