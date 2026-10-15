@@ -8,18 +8,20 @@ import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { formatWorkPackageId } from '../../utils/id';
 import { PreviewIndicator } from './PreviewIndicator';
-import { buttonActivationProps } from '../../utils/a11y';
+import { menuButtonProps } from '../../utils/a11y';
+import { describeUnavailableWorkPackage, workPackageLabel, type UnavailableKind } from '../WorkPackage/description';
 import type { TapActivationProps } from '../../utils/tapActivation';
 import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackagePreview } from '../../hooks/useWorkPackagePreview';
 
 export interface UnavailableChipProps {
-  kind:'unauthorized' | 'error';
+  kind:UnavailableKind;
   size:InlineWpSize;
   displayId:string;
   setRef:(node:HTMLElement | null) => void;
   anchorEl:HTMLElement | null;
   selected:boolean;
+  optionsOpen:boolean;
   preview:WorkPackagePreview;
   onActivation:TapActivationProps;
   optionsPopover:ReactNode;
@@ -36,12 +38,13 @@ export const UnavailableChip = ({
   setRef,
   anchorEl,
   selected,
+  optionsOpen,
   preview,
   onActivation,
   optionsPopover,
 }:UnavailableChipProps) => {
   const { t } = useTranslation();
-  const { previewOpen, triggerProps, indicatorProps, cardProps } = preview;
+  const { previewOpen, triggerProps, cardProps } = preview;
 
   const shortLabel = t(`unavailableWorkPackage.${kind}.short_message`);
   const inlineIcon = kind === 'unauthorized'
@@ -57,22 +60,23 @@ export const UnavailableChip = ({
   const iconOnly = size === 'xxs';
   const Base = iconOnly ? ChipBaseXXS : ChipBase;
   const showPreview = iconOnly && previewOpen;
-  const hasIndicator = indicatorProps !== undefined;
+  // Icon-only, the icon stands in for the identifier as what opens the options.
+  const menuButton = menuButtonProps(
+    iconOnly ? describeUnavailableWorkPackage(t, displayId, kind) : workPackageLabel(t, displayId),
+    optionsOpen,
+  );
 
   return (
     <InlineChip
       ref={setRef}
       data-drag-handle
-      // icon-only xxs is a labelled state graphic; larger sizes carry visible text
-      role={iconOnly && !hasIndicator ? 'img' : undefined}
       selected={selected}
-      aria-label={iconOnly && !hasIndicator ? shortLabel : undefined}
       {...triggerProps}
       {...onActivation}
     >
       <Base>
-        {hasIndicator ? <span {...buttonActivationProps(shortLabel)}>{inlineIcon}</span> : inlineIcon}
-        {!iconOnly && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
+        {iconOnly ? <span {...menuButton}>{inlineIcon}</span> : inlineIcon}
+        {!iconOnly && <WorkPackageId as="span" $compact {...menuButton}>{formatWorkPackageId(displayId)}</WorkPackageId>}
         {!iconOnly && (
           <UnavailableLabel>
             {linked

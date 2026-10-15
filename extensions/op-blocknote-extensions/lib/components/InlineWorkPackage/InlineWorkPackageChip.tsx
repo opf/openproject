@@ -21,10 +21,14 @@ import {
 } from '../../utils/inlineChipActions';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { useTranslation } from 'react-i18next';
-import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
+import { useOptionsMenu } from '../../hooks/useOptionsMenu';
+import { useSelectionAnnouncement } from '../../hooks/useSelectionAnnouncement';
 import { useTapActivation } from '../../utils/tapActivation';
+import { useOptionsHost } from '../../utils/optionsHost';
+import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
+import { describeLinkedWorkPackage, unavailableKindOf, workPackageLabel } from '../WorkPackage/description';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
@@ -58,25 +62,37 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     updateInlineContent({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, displayId: wp.displayId } });
   }, [wp?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [isSelected, setIsSelected] = useState(false);
+  const options = useOptionsMenu();
   const chipRef = useRef<HTMLElement | null>(null);
   const [chipEl, setChipEl] = useState<HTMLElement | null>(null);
 
   const preview = useWorkPackagePreview({
     enabled: size === 'xxs',
-    suppressed: isSelected,
+    suppressed: options.isOpen,
     // The indicator shows the preview instead of the options menu, not over it.
-    onOpen: () => setIsSelected(false),
+    onOpen: options.close,
   });
   const { previewOpen, closePreview, triggerProps, cardProps } = preview;
 
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
-  useSuppressFormattingToolbar(editor, isSelected || previewOpen);
+  useSuppressFormattingToolbar(editor, options.isOpen || previewOpen);
+
+  const unavailableKind = unavailableKindOf({ unauthorized, error });
+  const hasOptions = Boolean(wpid && (wp ?? unavailableKind));
+
+  const optionsHostRef = useOptionsHost(() => {
+    if (!hasOptions) return;
+    closePreview();
+    options.open(true);
+  });
+
+  useSelectionAnnouncement(chipRef, editor, describeLinkedWorkPackage(t, displayId, wp, unavailableKind));
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
     if (pendingCallbacks || node === null) setChipEl(node);
+    optionsHostRef(node);
     contentRef(node);
   };
 
@@ -87,9 +103,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     editor.getExtension('formattingToolbar')?.store?.setState(false);
   };
 
-  const toggleOptions = () => {
+  const toggleOptions = (takesFocus:boolean) => {
     closePreview();
-    setIsSelected((prev) => !prev);
+    options.toggle(takesFocus);
     selectWorkPackageNode();
   };
 
@@ -99,15 +115,16 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const onChipActivation = tapProps((event) => {
     event?.preventDefault();
     event?.stopPropagation();
-    toggleOptions();
+    toggleOptions(isKeyboardClick(event));
   });
 
   // Close the options popover and the preview when the user taps outside the chip
+  const { isOpen: isOptionsOpen, close: closeOptions } = options;
   useEffect(() => {
-    if (!isSelected && !previewOpen) return;
+    if (!isOptionsOpen && !previewOpen) return;
     const onPressOutside = (e:Event) => {
       if (chipRef.current && !chipRef.current.contains(e.target as Node)) {
-        setIsSelected(false);
+        closeOptions();
         closePreview();
       }
     };
@@ -118,7 +135,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
       document.removeEventListener('mousedown', onPressOutside);
       document.removeEventListener('touchstart', onPressOutside);
     };
-  }, [isSelected, previewOpen, closePreview]);
+  }, [isOptionsOpen, previewOpen, closeOptions, closePreview]);
 
   const optionsPopover = (
     <WpOptionsPopover
@@ -127,7 +144,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
       currentSize={size}
       // eslint-disable-next-line react-hooks/refs
       anchorEl={chipRef.current}
-      onClose={() => setIsSelected(false)}
+      autoFocus={options.takesFocus}
+      onClose={options.close}
+      onRestoreFocus={() => editor?.focus()}
       onResize={(newSize) => {
         updateInlineContent?.({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, size: newSize } });
       }}
@@ -191,23 +210,20 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   // Resolved
   if (wpid && wp) {
     // Hidden while the options menu is open so the two popovers never stack.
-    const showPreview = size === 'xxs' && previewOpen && !isSelected;
-    const chipLabel = t('options.chipAriaLabel', { id: formatWorkPackageId(wp.displayId) });
-    const hasIndicator = preview.indicatorProps !== undefined;
+    const showPreview = size === 'xxs' && previewOpen && !options.isOpen;
+    const menuButton = menuButtonProps(workPackageLabel(t, wp.displayId), options.isOpen);
 
     return (
       <InlineChip
         data-drag-handle
-        role={hasIndicator ? undefined : 'button'}
-        aria-label={hasIndicator ? undefined : chipLabel}
         ref={setRef}
-        selected={isSelected || isEditorSelected}
+        selected={options.isOpen || isEditorSelected}
         {...triggerProps}
         {...onChipActivation}
       >
-        {size === 'xxs' && <WpChipXXS wp={wp} preview={preview} actionLabel={chipLabel} />}
-        {size === 'xs' && <WpChipXS wp={wp} />}
-        {size === 's' && <WpChipS wp={wp} />}
+        {size === 'xxs' && <WpChipXXS wp={wp} preview={preview} menuButton={menuButton} />}
+        {size === 'xs' && <WpChipXS wp={wp} menuButton={menuButton} />}
+        {size === 's' && <WpChipS wp={wp} menuButton={menuButton} />}
 
         {showPreview && (
           <WpPreviewPopover
@@ -219,25 +235,26 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
           </WpPreviewPopover>
         )}
 
-        {isSelected && optionsPopover}
+        {options.isOpen && optionsPopover}
       </InlineChip>
     );
   }
 
   // Unavailable: the work package exists but this user cannot see it, or the fetch failed
-  if (wpid && (unauthorized || error)) {
+  if (wpid && unavailableKind) {
     return (
       <UnavailableChip
-        kind={unauthorized ? 'unauthorized' : 'error'}
+        kind={unavailableKind}
         size={size}
         displayId={displayId}
         setRef={setRef}
         // eslint-disable-next-line react-hooks/refs
         anchorEl={chipRef.current}
-        selected={isSelected || isEditorSelected}
+        selected={options.isOpen || isEditorSelected}
+        optionsOpen={options.isOpen}
         preview={preview}
         onActivation={onChipActivation}
-        optionsPopover={isSelected && optionsPopover}
+        optionsPopover={options.isOpen && optionsPopover}
       />
     );
   }
