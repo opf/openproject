@@ -640,6 +640,10 @@ module API
           index :group
           show :group
 
+          def self.group_avatar(id)
+            "#{group(id)}/avatar"
+          end
+
           def self.value_schema(property)
             "#{root}/values/schemas/#{property}"
           end

@@ -38,13 +38,19 @@ module Groups
     attribute :name
     attribute :lastname
     attribute :parent_id
+    attribute :avatar_color
 
     validate :validate_unique_users
     validate :validate_users_not_in_other_department
     validate :validate_not_ldap_managed
     validate :validate_parent_not_ldap_managed
+    validate :validate_avatar_color_correctness, if: -> { model.avatar_color.present? }
 
     private
+
+    def validate_avatar_color_correctness
+      errors.add(:avatar_color, :invalid) unless model.avatar_color.match?(/\A#[0-9A-F]{6}\z/)
+    end
 
     # Departments synchronized from LDAP are read-only: their name, parent and members are owned by
     # the sync. The sync itself bypasses this through Groups::SyncUpdateContract.

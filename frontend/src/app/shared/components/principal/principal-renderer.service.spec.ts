@@ -42,7 +42,10 @@ describe('PrincipalRendererService', () => {
         { provide: PathHelperService, useValue: {} },
         {
           provide: ApiV3Service,
-          useValue: { users: { id: (id:string) => ({ avatar: { toString: () => `/api/v3/users/${id}/avatar` } }) } },
+          useValue: {
+            users: { id: (id:string) => ({ avatar: { toString: () => `/api/v3/users/${id}/avatar` } }) },
+            groups: { id: (id:string) => ({ avatar: { toString: () => `/api/v3/groups/${id}/avatar` } }) },
+          },
         },
       ],
     });
@@ -126,6 +129,31 @@ describe('PrincipalRendererService', () => {
       image?.dispatchEvent(new Event('error'));
 
       expect(image?.onerror).toBeNull();
+    });
+  });
+
+  describe('group avatar', () => {
+    const renderGroup = ():HTMLElement => {
+      const container = document.createElement('div');
+
+      service.render(
+        container,
+        { id: '1', name: 'A-Team', href: '/api/v3/groups/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'default' },
+        { isActivated: false },
+      );
+
+      return container;
+    };
+
+    it('renders an <img> pointed at the backend group avatar endpoint, same as for users', () => {
+      const container = renderGroup();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      expect(image?.tagName).toBe('IMG');
+      expect(image?.getAttribute('src')).toBe('/api/v3/groups/1/avatar');
+      expect(image).toHaveClass('op-avatar_group');
     });
   });
 });

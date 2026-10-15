@@ -30,6 +30,11 @@ module OpenProject
       # where it replaces the former standalone "Avatar" my-menu page.
       render_on :view_my_account_top,
                 partial: "avatars/my/avatar_section"
+
+      # Renders the avatar management section at the top of the group
+      # administration "General" tab.
+      render_on :view_groups_general_top,
+                partial: "avatars/groups/avatar_section"
     end
   end
 end

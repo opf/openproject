@@ -31,6 +31,7 @@
 class Group < Principal
   include ::Scopes::Scoped
   include Groups::Hierarchy
+  include ::Groups::Avatars
 
   attr_accessor :hierarchy_depth
 
@@ -38,6 +39,10 @@ class Group < Principal
     belongs_to :parent, class_name: "Group", optional: true
 
     validates :parent, presence: true, if: -> { parent_id.present? }
+
+    def avatar_color=(value)
+      super(value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil)
+    end
   end
 
   validate :no_circular_parent, if: -> { parent_id.present? }
