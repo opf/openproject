@@ -27,11 +27,13 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { destroy, post } from '@rails/request.js';
+import { boundToKey, decodeBase64Url } from 'core-stimulus/helpers/push-subscription-helpers';
 
 interface KnownSubscription {
   endpoint:string;
   revokeUrl:string;
   current?:boolean;
+  dormant?:boolean;
 }
 
 type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error'|'prompting'|'subscribing'|'timeout';
@@ -54,12 +56,6 @@ const SCHEME_BY_STATE:Record<State, Scheme> = {
 const REGISTRATION_TIMEOUT_MS = 5000;
 const SUBSCRIBE_TIMEOUT_MS = 30000;
 
-function decodeBase64Url(value:string):Uint8Array<ArrayBuffer> {
-  // The key is base64url without padding; atob only accepts standard base64.
-  const base64 = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
-  return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
-}
-
 function assertOk(response:{ ok:boolean; statusCode:number }):void {
   if (!response.ok) throw new Error(`Request failed with ${response.statusCode}`);
 }
@@ -73,7 +69,8 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
  * otherwise it is dropped, because a revoke from another device, a logout or a
  * key rotation has already invalidated it. A server row for this device without
  * a browser subscription (the browser deactivates it when notification
- * permission is revoked) is revoked.
+ * permission is revoked) is revoked. A row that lost its session but matches
+ * this browser's subscription is resumed by registering it again.
  *
  * Flow
  *
@@ -229,7 +226,13 @@ export default class PushSubscriptionController extends Controller {
     const subscription = await registration.pushManager.getSubscription();
     if (!isLatestRun()) return;
 
-    if (subscription && this.knownToServer(subscription) && this.boundToCurrentKey(subscription)) {
+    const known = this.knownToServer(subscription);
+    if (subscription && known && this.boundToCurrentKey(subscription)) {
+      if (known.dormant) {
+        await this.registerWithServer(subscription);
+        if (!isLatestRun()) return;
+      }
+
       this.render('enabled');
       return;
     }
@@ -329,12 +332,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private boundToCurrentKey(subscription:PushSubscription):boolean {
-    const bound = subscription.options.applicationServerKey;
-    if (!bound) return true;
-
-    const current = decodeBase64Url(this.vapidPublicKeyValue);
-    const boundBytes = new Uint8Array(bound);
-    return boundBytes.length === current.length && boundBytes.every((byte, index) => byte === current[index]);
+    return boundToKey(subscription, this.vapidPublicKeyValue);
   }
 
   private permissionBlocked():boolean {
