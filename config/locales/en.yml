@@ -5287,6 +5287,8 @@ en:
       revoke_confirm: "Stop sending browser notifications to %{device}?"
       revoke_device: "Revoke %{device}"
       revoked: "Browser notifications were disabled for that device."
+      signed_out: "Signed out"
+      signed_out_description: "A device that is signed out keeps browser notifications suspended and resumes them when you sign in there again. Revoke the device to stop them for good."
       status:
         blocked: "Notifications are blocked for this site in your browser settings."
         disabled: "Browser notifications are not enabled for this browser in the current session."
