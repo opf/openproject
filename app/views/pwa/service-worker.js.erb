@@ -1,0 +1,103 @@
+<% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
+const PUSH_URL = <%== pwa_push_notification_path.to_json %>;
+const PUSH_TAG = "openproject-unread";
+const PUSH_FETCH_TIMEOUT_MS = 10000;
+const PUSH_FALLBACK_TITLE = <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>;
+const PUSH_ALL_READ_TITLE = <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>;
+const PUSH_ICON = <%== image_path("pwa/icon-192.png").to_json %>;
+const HOME_URL = <%== root_path.to_json %>;
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.clients.claim());
+});
+
+const fetchUnread = async () => {
+  try {
+    const response = await fetch(PUSH_URL, {
+      credentials: "include",
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(PUSH_FETCH_TIMEOUT_MS),
+    });
+    return response.ok ? await response.json() : null;
+  } catch {
+    return null;
+  }
+};
+
+const showUnread = async () => {
+  const data = await fetchUnread();
+
+  if (!data) {
+    return self.registration.showNotification(PUSH_FALLBACK_TITLE, {
+      tag: PUSH_TAG,
+      icon: PUSH_ICON,
+      silent: true,
+      renotify: false,
+      data: { url: HOME_URL },
+    });
+  }
+
+  if (data.count === 0) {
+    await self.registration.showNotification(PUSH_ALL_READ_TITLE, {
+      tag: PUSH_TAG,
+      icon: PUSH_ICON,
+      silent: true,
+      data: { url: HOME_URL },
+    });
+    return navigator.clearAppBadge?.().catch(() => undefined);
+  }
+
+  await navigator.setAppBadge?.(data.count).catch(() => undefined);
+  return self.registration.showNotification(data.title, {
+    body: data.body,
+    tag: PUSH_TAG,
+    renotify: true,
+    icon: PUSH_ICON,
+    data: { url: data.url },
+  });
+};
+
+self.addEventListener("push", (event) => {
+  event.waitUntil(showUnread());
+});
+
+const sameOriginUrl = (url) => {
+  const resolved = new URL(url, self.location.href);
+  return resolved.origin === self.location.origin ? resolved.href : HOME_URL;
+};
+
+const openOrFocus = async (requestedUrl) => {
+  const url = sameOriginUrl(requestedUrl);
+  const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  const clients = windows.filter((candidate) => candidate.url.startsWith(self.registration.scope));
+  const client =
+    clients.find((candidate) => candidate.visibilityState === "visible" || candidate.focused) || clients[0];
+  if (!client) return self.clients.openWindow(url);
+
+  let navigated;
+  try {
+    navigated = await client.navigate(url);
+  } catch {
+    return self.clients.openWindow(url);
+  }
+  return navigated?.focus();
+};
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(openOrFocus(event.notification.data?.url || HOME_URL));
+});
+<% else %>
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(self.registration.unregister());
+});
+<% end %>
