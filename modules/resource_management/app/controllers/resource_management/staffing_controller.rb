@@ -144,13 +144,7 @@ module ::ResourceManagement
       return [] unless UserWorkingHours.for_user(principal).exists?
       return [] if @allocation.allocated_time.to_i <= 0
 
-      ResourceAllocations::Availability.new(user: principal).overbooking_with(
-        start_date: @allocation.start_date,
-        end_date: @allocation.end_date,
-        minutes: @allocation.allocated_time,
-        work_package_id: @allocation.entity_id,
-        exclude_id: @allocation.id
-      )
+      ResourceAllocations::Availability.new(user: principal).overbooking_ranges_with(@allocation)
     end
 
     def working_schedules(principal, ranges)

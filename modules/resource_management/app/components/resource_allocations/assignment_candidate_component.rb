@@ -65,13 +65,7 @@ module ResourceAllocations
     end
 
     def prospective_overbooking
-      availability.overbooking_with(
-        start_date: allocation.start_date,
-        end_date: allocation.end_date,
-        minutes: allocation.allocated_time,
-        work_package_id: allocation.entity_id,
-        exclude_id: allocation.id
-      )
+      availability.overbooking_ranges_with(allocation)
     end
 
     def availability
