@@ -241,7 +241,7 @@ gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.37.0"
 gem "openproject-octicons_helper", "~>19.37.0"
-gem "openproject-primer_view_components", "~>0.93.0"
+gem "openproject-primer_view_components", "~>0.94.0"
 gem "view_component", "~> 4.15.0"
 
 # Lookbook
@@ -280,7 +280,7 @@ group :test do
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
-  gem "simplecov", "~> 1.1.1", require: false
+  gem "simplecov", "~> 1.3.2", require: false
   # also add to development group, so 'spec' rake task gets loaded
   gem "rspec-rails", "~> 8.0.4", group: :development
 
