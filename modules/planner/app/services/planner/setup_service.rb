@@ -34,8 +34,12 @@ module Planner
   class SetupService
     def call
       OpenProject::Mutex.with_advisory_lock(TypeVariant, "planner_setup") do
-        variant = existing_variant
-        variant ? ServiceResult.success(result: variant) : create_variant
+        # Every user's planner shares these, so they are named in the instance's language rather than
+        # in the language of whoever happens to open My planner first.
+        I18n.with_locale(Setting.default_language) do
+          variant = existing_variant
+          variant ? ServiceResult.success(result: variant) : create_variant
+        end
       end
     end
 

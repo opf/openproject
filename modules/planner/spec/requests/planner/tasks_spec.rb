@@ -60,6 +60,15 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       expect(page).to have_test_selector("planner-task-evening", text: "Book train to the offsite")
     end
 
+    context "when the user's role in My work cannot add work packages" do
+      before { role.remove_permission!(:add_work_packages) }
+
+      it "is forbidden" do
+        expect { subject }.not_to change(WorkPackage, :count)
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
     describe "the Add to-do dialog" do
       let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 

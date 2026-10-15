@@ -33,8 +33,9 @@ module Planner
     include OpTurbo::ComponentStream
     include Planner::RequestContext
 
+    authorization_checked! :new_dialog, :create, :update, :destroy, :plan, :drop
+
     before_action :find_task, only: %i[update destroy plan drop]
-    no_authorization_required! :new_dialog, :create, :update, :destroy, :plan, :drop
 
     def new_dialog
       work_package = find_visible_work_package(params[:work_package_id]) if params.key?(:work_package_id)

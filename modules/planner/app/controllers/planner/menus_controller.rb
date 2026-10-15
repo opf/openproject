@@ -32,7 +32,7 @@ module Planner
   class MenusController < ApplicationController
     include Planner::RequestContext
 
-    no_authorization_required! :show
+    authorization_checked! :show
 
     def show
       @sidebar_menu_items = Planner::Menu.new(params:, user: current_user, project: planner_project).menu_items

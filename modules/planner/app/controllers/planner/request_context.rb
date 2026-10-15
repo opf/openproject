@@ -38,6 +38,7 @@ module Planner
       before_action :require_login
       before_action :require_planner
       before_action :require_planner_project
+      before_action :authorize_in_planner
     end
 
     private
@@ -48,6 +49,14 @@ module Planner
 
     def require_planner_project
       render_error(message: I18n.t("planner.errors.unavailable"), status: 422) unless planner_project
+    end
+
+    # Like `authorize`, but in "My work" without making it the page's @project, which would put the
+    # layout into that project's context.
+    def authorize_in_planner
+      action = { controller: controller_path, action: action_name }
+
+      deny_access unless current_user.allowed_based_on_permission_context?(action, project: planner_project)
     end
 
     def planner_project
