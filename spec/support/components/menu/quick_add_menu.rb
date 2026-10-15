@@ -51,11 +51,25 @@ module Components
       expect_link "Invite user", present:
     end
 
-    def expect_work_package_type(*names, present: true)
-      within_dropdown do
-        expect(page).to have_text "Work packages"
-      end
+    def expect_board(present: true)
+      expect_link "Board", present:
+    end
 
+    def expect_meeting(present: true)
+      expect_link "Meeting", present:
+    end
+
+    def expect_document(present: true)
+      expect_link "Document", present:
+    end
+
+    def open_work_package_submenu
+      within_dropdown do
+        page.click_button "Work package"
+      end
+    end
+
+    def expect_work_package_type(*names, present: true)
       names.each do |name|
         expect_link name, present:
       end
@@ -63,7 +77,7 @@ module Components
 
     def expect_no_work_package_types
       within_dropdown do
-        expect(page).to have_no_text "Work packages"
+        expect(page).to have_no_button "Work package"
       end
     end
 
