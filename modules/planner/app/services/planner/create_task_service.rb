@@ -30,22 +30,21 @@
 
 module Planner
   class CreateTaskService
-    def initialize(user:)
+    def initialize(user:, project:)
       @user = user
+      @project = project
     end
 
     def call(subject:, day_part: nil, date: user.today, description: nil)
-      ProjectService.new(user).call.bind do |project|
-        create_task(project, subject:, day_part:, date:, description:)
-          .on_success { |call| link_references(call.result) }
-      end
+      create_task(subject:, day_part:, date:, description:)
+        .on_success { |call| link_references(call.result) }
     end
 
     private
 
-    attr_reader :user
+    attr_reader :user, :project
 
-    def create_task(project, subject:, day_part:, date:, description:)
+    def create_task(subject:, day_part:, date:, description:)
       WorkPackages::CreateService
         .new(user:)
         .call(project:,

@@ -30,16 +30,15 @@
 
 module Planner
   class AddWorkPackageService
-    def initialize(user:)
+    def initialize(user:, project:)
       @user = user
+      @project = project
     end
 
     # With a note, the task says what to do about the work package, so it is added even when the
     # work package is already planned for that day.
     def call(work_package:, date: user.today, day_part: nil, note: nil, description: nil)
-      project = ProjectService.new(user).call.result
-      return ServiceResult.failure(message: I18n.t("planner.errors.unavailable")) unless project
-      if note.blank? && planned?(project, work_package, date)
+      if note.blank? && planned?(work_package, date)
         return ServiceResult.success(message: I18n.t("planner.already_planned"))
       end
 
@@ -49,7 +48,7 @@ module Planner
 
     private
 
-    attr_reader :user
+    attr_reader :user, :project
 
     def subject_for(work_package, note)
       return note if References.ids_in(note).intersect?(References.ids_of(work_package))
@@ -59,12 +58,12 @@ module Planner
 
     def create_task(subject:, date:, day_part:, description:)
       CreateTaskService
-        .new(user:)
+        .new(user:, project:)
         .call(subject:, day_part:, date:, description:)
         .tap { |call| call.message = added_message(date, day_part) if call.success? }
     end
 
-    def planned?(project, work_package, date)
+    def planned?(work_package, date)
       ids = References.ids_of(work_package)
 
       project.work_packages.where(due_date: date).pluck(:subject).any? { References.planned_id(it).in?(ids) }

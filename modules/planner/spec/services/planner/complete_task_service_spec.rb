@@ -46,7 +46,8 @@ RSpec.describe Planner::CompleteTaskService do
     end
   end
   let(:user) { create(:user) }
-  let(:task) { Planner::CreateTaskService.new(user:).call(subject: "Book train", day_part: :evening).result }
+  let(:planner_project) { Planner::ProjectService.new(user).call.result }
+  let(:task) { Planner::CreateTaskService.new(user:, project: planner_project).call(subject: "Book train", day_part: :evening).result }
   let(:done) { true }
 
   subject { described_class.new(user:, work_package: task).call(done:) }

@@ -44,8 +44,10 @@ RSpec.describe Planner::AddWorkPackageService do
     create(:user, member_with_permissions: { team_project => %i[view_work_packages manage_work_package_relations] })
   end
   let(:work_package) { create(:work_package, project: team_project) }
+  let(:planner_project) { Planner::ProjectService.new(user).call.result }
+  let(:service) { described_class.new(user:, project: planner_project) }
 
-  subject { described_class.new(user:).call(work_package:) }
+  subject { service.call(work_package:) }
 
   around { |example| travel_to(Time.zone.parse("2026-10-06 14:00")) { example.run } }
 
@@ -60,7 +62,7 @@ RSpec.describe Planner::AddWorkPackageService do
   end
 
   context "with a later day and a day part" do
-    subject { described_class.new(user:).call(work_package:, date: Date.new(2026, 10, 9), day_part: "evening") }
+    subject { service.call(work_package:, date: Date.new(2026, 10, 9), day_part: "evening") }
 
     it "plans it there" do
       expect(subject).to be_success, -> { subject.message }
@@ -70,14 +72,14 @@ RSpec.describe Planner::AddWorkPackageService do
     end
 
     it "still adds it when it is planned for another day" do
-      described_class.new(user:).call(work_package:)
+      service.call(work_package:)
 
       expect { subject }.to change(WorkPackage, :count).by(1)
     end
   end
 
   context "when a to-do about it is planned for today" do
-    before { described_class.new(user:).call(work_package:, note: "Write Maya about") }
+    before { service.call(work_package:, note: "Write Maya about") }
 
     it "still plans the work package itself" do
       expect { subject }.to change(WorkPackage, :count).by(1)
@@ -86,7 +88,7 @@ RSpec.describe Planner::AddWorkPackageService do
   end
 
   context "with a note that already references it" do
-    subject { described_class.new(user:).call(work_package:, note: "Ask Maya about ##{work_package.display_id} docs") }
+    subject { service.call(work_package:, note: "Ask Maya about ##{work_package.display_id} docs") }
 
     it "does not add the reference twice" do
       expect(subject.result.subject).to eq("Ask Maya about ##{work_package.display_id} docs")
@@ -94,7 +96,7 @@ RSpec.describe Planner::AddWorkPackageService do
   end
 
   context "when it is already planned for today" do
-    before { described_class.new(user:).call(work_package:) }
+    before { service.call(work_package:) }
 
     it "does not add it twice" do
       expect { subject }.not_to change(WorkPackage, :count)
@@ -103,7 +105,7 @@ RSpec.describe Planner::AddWorkPackageService do
     end
 
     context "with a note" do
-      subject { described_class.new(user:).call(work_package:, note: "Write Maya about the docs", description: "API docs") }
+      subject { service.call(work_package:, note: "Write Maya about the docs", description: "API docs") }
 
       it "adds a to-do about it" do
         expect { subject }.to change(WorkPackage, :count).by(1)
