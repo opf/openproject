@@ -1535,6 +1535,9 @@ GEM
       rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
+    web-push (3.1.0)
+      jwt (~> 3.0)
+      openssl (>= 3.0)
     webauthn (3.4.3)
       android_key_attestation (~> 0.3.0)
       bindata (~> 2.4)
@@ -1821,6 +1824,7 @@ DEPENDENCIES
   view_component (~> 4.15.0)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
+  web-push (~> 3.1)
   webmock (~> 3.29)
   will_paginate (~> 4.0.0)
   with_advisory_lock (~> 7.6.0)
@@ -2350,6 +2354,7 @@ CHECKSUMS
   view_component (4.15.0) sha256=2924e207b102c04ab51c4d318535f03f1c3aab3c81ecff99b1cc631b43e14eac
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
+  web-push (3.1.0) sha256=501ab00340c58fb70dabda59f28a86b3cccb0930c6f1f30721b2a5b24de7187d
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
   webfinger (2.1.3) sha256=567a52bde77fb38ca6b67e55db755f988766ec4651c1d24916a65aa70540695c
   webmock (3.29.0) sha256=a854b243019d503d3446ab7807c9192f41826d5b673b5dfe0d287ced9606ecbc
