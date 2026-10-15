@@ -149,10 +149,10 @@ class RecurringMeetingsController < ApplicationController
     )
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     RecurringMeetings::DeleteService
-      .new(model: @recurring_meeting, user: User.current)
+      .new(model: @recurring_meeting, user: User.current, cancellation_reason: params[:cancellation_reason])
       .call
       .on_success { flash[:notice] = I18n.t(:notice_successful_delete) }
       .on_failure { flash[:error] = I18n.t(:error_failed_to_delete_entry) }

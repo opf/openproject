@@ -349,6 +349,9 @@ en:
     blankslate:
       desc: "You can create a new meeting or change filter criteria"
       title: "There are no meetings to display"
+    cancel:
+      reason_caption: "This will be included in the cancellation email sent to participants when notifications are enabled."
+      reason_label: "Reason for cancellation"
     copied: "Copied from Meeting #%{id}"
     copy:
       agenda: "Copy agenda"
@@ -390,6 +393,7 @@ en:
         header: "Cancelled: Meeting '%{title}'"
         header_occurrence: "Cancelled: Meeting occurrence '%{title}'"
         header_series: "Cancelled: Meeting series '%{title}'"
+        reason: "Reason for cancellation"
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_occurrence: "An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_series: "Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
