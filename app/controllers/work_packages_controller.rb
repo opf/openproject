@@ -170,15 +170,11 @@ class WorkPackagesController < ApplicationController
   end
 
   def work_package_exporter
-    case params[:template]
-    when "contract"
-      WorkPackage::PDFExport::DocumentGenerator.new(work_package, params)
-    when "artefact"
-      WorkPackage::PDFExport::Artefact.new(work_package, params)
-    else
-      # when "attributes"
-      WorkPackage::PDFExport::WorkPackageToPdf.new(work_package, params)
-    end
+    template_id = params[:template]
+    template = work_package.type_variant.pdf_export_templates.find(template_id)
+    exporter = template&.exporter || WorkPackage::PDFExport::WorkPackageToPdf
+
+    exporter.new(work_package, params)
   end
 
   def show_conflict_flash_message

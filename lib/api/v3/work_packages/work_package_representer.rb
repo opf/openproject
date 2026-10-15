@@ -131,6 +131,17 @@ module API
           }
         end
 
+        link :exportPdf,
+             cache_if: -> { export_work_packages_allowed? } do
+          next if represented.new_record?
+
+          {
+            href: api_v3_paths.work_package_pdf(represented.id),
+            type: "application/pdf",
+            title: "Export as PDF"
+          }
+        end
+
         link :generate_pdf,
              cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record?

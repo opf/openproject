@@ -1417,6 +1417,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "exportPdf" do
+      it_behaves_like "has a titled action link" do
+        let(:link) { "exportPdf" }
+        let(:permission) { :export_work_packages }
+        let(:href) { api_v3_paths.work_package_pdf(work_package.id) }
+        let(:title) { "Export as PDF" }
+      end
+    end
+
     describe "atom" do
       context "with feeds enabled", with_settings: { feeds_enabled?: true } do
         it_behaves_like "has a titled action link" do
