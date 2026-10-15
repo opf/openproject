@@ -92,7 +92,8 @@ COPY . .
 # the superseded gem versions bundle-install.sh pruned are back and need pruning again.
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
   bundle clean --force && \
-  ./docker/prod/setup/precompile-assets.sh
+  ./docker/prod/setup/precompile-assets.sh && \
+  ./docker/prod/setup/dump-schema.sh
 
 FROM app-build AS app-build-slim
 COPY ./docker/prod/setup/prune-slim-runtime.sh ./docker/prod/setup/prune-slim-runtime.sh
