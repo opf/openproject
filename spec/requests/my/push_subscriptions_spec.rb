@@ -323,4 +323,33 @@ RSpec.describe "My::PushSubscriptionsController",
       end
     end
   end
+
+  describe "resume offer on every page" do
+    context "when signed in" do
+      before { sign_in }
+
+      it "mounts the resume controller with the url and a session fingerprint" do
+        get "/my/page"
+
+        expect(response).to have_http_status(:ok)
+        assert_select "body[data-pwa-push-resume-url-value='/my/push_subscriptions']"
+        expect(response.body).to match(/data-pwa-push-resume-session-value="\h{16}"/)
+      end
+
+      context "with the setting off", with_settings: { web_push_enabled: false } do
+        it "does not mount it" do
+          get "/my/page"
+
+          assert_select "body[data-pwa-push-resume-url-value]", count: 0
+        end
+      end
+    end
+
+    it "does not mount it for anonymous visitors" do
+      host! Setting.host_name
+      get "/login"
+
+      assert_select "body[data-pwa-push-resume-url-value]", count: 0
+    end
+  end
 end
