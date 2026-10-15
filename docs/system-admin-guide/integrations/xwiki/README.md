@@ -46,6 +46,9 @@ OpenProject.
 
 Then, enter the **Instance URL** of your XWiki instance. This URL will be checked on submitting this form.
 
+> [!NOTE]
+> XWiki is often installed under the `/xwiki` subpath. In this case, you will need to enter the URL as follows: `https://xwiki.example.com/xwiki`.
+
 Lastly, choose the **Authentication method**. This determines how OpenProject users will connect their user accounts to
 their XWiki accounts. Additional information is provided in the next step.
 
