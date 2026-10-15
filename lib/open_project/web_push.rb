@@ -71,7 +71,7 @@ module OpenProject::WebPush
   end
 
   def subject
-    OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
+    Setting.web_push_vapid_subject.to_s.strip.presence || OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
   end
 
   def public_key
