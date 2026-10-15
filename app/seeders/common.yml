@@ -484,11 +484,11 @@ ai_assistants:
     t_name: OP assistant
     t_description: Keeps work packages consistent and answers questions about them.
     t_instructions: You help the users of OpenProject, a project management tool, with one work package at a time. Use only the context you get. When it does not answer a question, say so.
-    icon: checklist
     position: 1
     skills:
       - skill_key: conversation
         t_label: Refresh work package
+        icon: sync
         t_description: Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates.
         proposal_scope: changes
         prompt: |

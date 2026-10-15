@@ -32,7 +32,6 @@ FactoryBot.define do
   factory :ai_assistant, class: "AI::Assistant" do
     sequence(:name) { |n| "Assistant #{n}" }
     description { "Checks work packages." }
-    icon { "checklist" }
     sequence(:position)
   end
 

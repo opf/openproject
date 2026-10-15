@@ -90,6 +90,28 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "the icon of a skill" do
+    let(:skill) { create(:ai_assistant_skill, assistant: global_assistant) }
+
+    it "stores the chosen icon, and an empty choice uses the default again" do
+      patch admin_ai_assistant_skill_path(global_assistant, skill), params: { ai_assistant_skill: { icon: "bug" } }
+      expect(skill.reload.icon).to eq("bug")
+
+      patch admin_ai_assistant_skill_path(global_assistant, skill), params: { ai_assistant_skill: { icon: "default" } }
+      expect(skill.reload.icon).to eq("light-bulb")
+      expect(skill.chosen_icon).to be_nil
+    end
+
+    it "shows the icon menu left of the label" do
+      skill.update!(icon: "bug")
+
+      get edit_admin_ai_assistant_skill_path(global_assistant, skill)
+
+      expect(response.body).to include('data-test-selector="ai-assistance-icon-picker"', "octicon-bug",
+                                       'name="ai_assistant_skill[label]"')
+    end
+  end
+
   describe "the tools setting of a skill" do
     let(:skill) { create(:ai_assistant_skill, assistant: global_assistant) }
 

@@ -33,9 +33,7 @@ module AI
     form do |f|
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.menu"),
                        description: I18n.t("admin.ai_assistants.skills.sections.menu_description")) do |g|
-        g.text_field(name: :label, label: AI::AssistantSkill.human_attribute_name(:label), input_width: :large,
-                     caption: I18n.t("admin.ai_assistants.skills.label_caption"),
-                     placeholder: model.default_label)
+        g.html_content { render(AI::Assistance::SkillLabelFieldComponent.new(builder: @builder, skill: model)) }
 
         g.text_area(name: :description, label: AI::AssistantSkill.human_attribute_name(:description), rows: 2,
                     caption: I18n.t("admin.ai_assistants.skills.description_caption"),

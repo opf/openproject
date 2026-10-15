@@ -37,15 +37,21 @@ module AI
              inverse_of: :skill,
              dependent: :destroy
 
+    ICONS = %w[light-bulb comment-discussion sync checklist tasklist search pencil beaker bug
+               graph shield-check megaphone book rocket].freeze
+
     validates :skill_key, inclusion: { in: ->(_) { AI::AssistantSkills::Registry.keys } }
     validates :label, length: { maximum: 255 }
     validates :prompt, length: { maximum: 20_000 }
+    validates :icon, inclusion: { in: ICONS }, allow_blank: true
 
     # Opening the skill starts a new chat, and the skill answers its instructions at once.
     # Without it, the skill opens an empty chat for the user's own questions.
     store_attribute :settings, :answers_at_once, :boolean, default: true
     # Off: the model sees only the work package context, without the read-only MCP tools.
     store_attribute :settings, :use_tools, :boolean, default: true
+    # An Octicon for the menu and the history. Empty uses the icon of the variant.
+    store_attribute :settings, :icon, :string
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -92,6 +98,20 @@ module AI
     end
 
     def icon
+      chosen_icon || default_icon
+    end
+
+    # "default" (from the icon menu) or an empty value clears the choice.
+    def icon=(value)
+      super(value == "default" ? nil : value.presence)
+    end
+
+    # The admin's choice, nil for the default.
+    def chosen_icon
+      self[:settings].to_h["icon"].presence
+    end
+
+    def default_icon
       chat? ? "comment-discussion" : "light-bulb"
     end
 

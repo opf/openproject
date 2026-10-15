@@ -54,7 +54,6 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
       - reference: :ai_assistant_comms
         principal: :team__comms
         name: COMMS assistant
-        icon: megaphone
         position: 1
         skills:
           - skill_key: conversation

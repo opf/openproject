@@ -31,19 +31,12 @@
 module AI
   module Assistants
     class Form < ApplicationForm
-      ICONS = %w[checklist pulse sparkle beaker briefcase people rocket book tools megaphone].freeze
-
       form do |f|
         f.fieldset_group(title: I18n.t("admin.ai_assistants.form.sections.general")) do |g|
           g.text_field(name: :name, label: AI::Assistant.human_attribute_name(:name), required: true,
                        caption: I18n.t("admin.ai_assistants.form.name_caption"), input_width: :large)
 
           g.text_area(name: :description, label: AI::Assistant.human_attribute_name(:description), rows: 3)
-
-          g.select_list(name: :icon, label: AI::Assistant.human_attribute_name(:icon), input_width: :small,
-                        include_blank: false) do |select|
-            ICONS.each { |icon| select.option(value: icon, label: icon) }
-          end
 
           g.check_box(name: :active, label: AI::Assistant.human_attribute_name(:active))
         end

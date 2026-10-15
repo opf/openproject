@@ -65,7 +65,7 @@ module Admin
     end
 
     def assistant_params
-      params.expect(ai_assistant: %i[name description instructions icon model_id active])
+      params.expect(ai_assistant: %i[name description instructions model_id active])
     end
   end
 end

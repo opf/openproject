@@ -79,7 +79,8 @@
     <% @assistants.each do |assistant| %>
       <% box.with_row(data: { test_selector: "ai-assistant-row" }) do %>
         <%= flex_layout(align_items: :center) do |row| %>
-          <% row.with_column(mr: 2) { render(Primer::Beta::Octicon.new(icon: assistant.icon.presence || :sparkle)) } %>
+          <% owner_icon = if assistant.personal? then :person elsif assistant.group? then :people else :globe end %>
+          <% row.with_column(mr: 2) { render(Primer::Beta::Octicon.new(icon: owner_icon, color: :muted)) } %>
           <% row.with_column(flex: 1) do %>
             <%= render(Primer::Beta::Link.new(href: pages.edit_assistant_path(assistant), font_weight: :bold)) { assistant.name } %>
             <% unless assistant.active? %>

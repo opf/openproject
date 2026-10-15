@@ -42,11 +42,11 @@ RSpec.describe BasicData::AiAssistantSeeder do
       - reference: :ai_assistant_op
         name: OP assistant
         description: Keeps work packages consistent.
-        icon: checklist
         position: 1
         skills:
           - skill_key: conversation
             label: Refresh work package
+            icon: sync
             prompt: Check it.
           - skill_key: conversation
             answers_at_once: false
@@ -61,10 +61,10 @@ RSpec.describe BasicData::AiAssistantSeeder do
   it "creates the assistant with its skills" do
     assistant = AI::Assistant.find_by!(name: "OP assistant")
 
-    expect(assistant).to have_attributes(icon: "checklist", active: true, position: 1)
+    expect(assistant).to have_attributes(active: true, position: 1)
     refresh, chat = assistant.skills.order(:position).to_a
 
-    expect(refresh).to have_attributes(variant: "preset", prompt: "Check it.", label: "Refresh work package")
+    expect(refresh).to have_attributes(variant: "preset", prompt: "Check it.", label: "Refresh work package", icon: "sync")
     expect(chat).to have_attributes(variant: "chat", proposal_scope: "comment_only")
   end
 

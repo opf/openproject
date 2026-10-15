@@ -91,7 +91,6 @@ en:
       ai/assistant:
         active: "Active"
         description: "Description"
-        icon: "Icon"
         instructions: "Assistant prompt"
         model: "Model"
         model_id: "Model"
@@ -100,6 +99,7 @@ en:
         active: "Active"
         answers_at_once: "Answer at once when opened"
         description: "Description"
+        icon: "Icon"
         label: "Label"
         prompt: "Skill prompt"
         proposal_scope: "Proposals"
@@ -1591,6 +1591,7 @@ en:
         delete_confirm: "Delete this skill and every run of it?"
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
+        icon_default: "Default"
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         no_prompt_not_offered: "No skill prompt: not offered"
         prompt_caption: "What the model does in this skill. Without it, the skill is not offered."

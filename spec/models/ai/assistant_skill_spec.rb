@@ -122,4 +122,23 @@ RSpec.describe AI::AssistantSkill do
       expect(skill.system_prompt(locale: "en")).not_to include(AI::Assistance::OutputRules::TOOLS)
     end
   end
+
+  describe "#icon" do
+    let(:skill) { build(:ai_assistant_skill) }
+
+    it "uses the icon of the variant by default, and the chosen one when set" do
+      expect(skill.icon).to eq("light-bulb")
+      expect(build(:ai_assistant_skill, :chat).icon).to eq("comment-discussion")
+
+      skill.icon = "bug"
+      expect(skill.icon).to eq("bug")
+    end
+
+    it "accepts only the listed icons" do
+      skill.icon = "not-an-icon"
+
+      expect(skill).not_to be_valid
+      expect(skill.errors).to include(:icon)
+    end
+  end
 end
