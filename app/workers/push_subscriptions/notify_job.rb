@@ -62,7 +62,8 @@ class PushSubscriptions::NotifyJob < ApplicationJob
 
   DEBOUNCE = 1.minute
   MAX_ATTEMPTS = 4
-  TOPIC = "op-unread"
+  # Apple rejects a topic whose length is 4n+1, which is not a valid unpadded base64url length.
+  TOPIC = "openproject-unread"
 
   queue_with_priority :notification
 

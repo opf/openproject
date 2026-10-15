@@ -95,7 +95,7 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
         .to have_received(:post)
         .with(a_string_starting_with("https://fcm.googleapis.com/"),
               headers: hash_including("Urgency" => "low",
-                                      "Topic" => "op-unread",
+                                      "Topic" => "openproject-unread",
                                       "Authorization" => a_string_starting_with("vapid t=")),
               body: nil,
               http_options: { open_timeout: 5, read_timeout: 10 })
