@@ -148,7 +148,8 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     context "when the model calls a tool" do
       before do
         allow(llm).to receive(:ask) do
-          sent[:on_end_message].call(instance_double(RubyLLM::Message, tool_call?: true, content: "Let me count them."))
+          thinking = RubyLLM::Thinking.new(text: "Let me count them.")
+          sent[:on_end_message].call(instance_double(RubyLLM::Message, tool_call?: true, content: nil, thinking:))
           sent[:tools].find { it.name == "count_work_packages" }.call({ "project_id" => project.id })
           instance_double(RubyLLM::Message, content: { "answer" => "One.", "proposals" => [] })
         end

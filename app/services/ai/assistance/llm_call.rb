@@ -94,12 +94,13 @@ module AI
         chat
       end
 
-      # The model's text on a turn that calls tools: why it calls them.
+      # The model's text or reasoning on a turn that calls tools: why it calls them.
       def record_thought(reply)
         return unless reply&.tool_call?
 
-        text = reply.content.respond_to?(:text) ? reply.content.text : reply.content
-        record.log_event(:thought, text: text.to_s) if text.present?
+        content = reply.content.respond_to?(:text) ? reply.content.text : reply.content
+        text = content.presence || reply.thinking&.text
+        record.log_event(:thought, text: text.to_s.strip) if text.present?
       end
 
       # Llm::Errors.wrap raises with the original error as the cause.

@@ -38,7 +38,10 @@ module AI
       # A model that repeats a call after the note usually loops: the next one answers now.
       MAX_REPEATS = 1
       LIMIT_TEXT = "No more tool calls. Answer now with what you have."
-      REPEATED_TEXT = "You already called this tool with these arguments. Use this result:"
+      # A model repeats its last call in about half the runs before it answers. Only "answer now"
+      # ends that, so the first repeat says it.
+      REPEATED_TEXT = "You already called this tool with these arguments. No more tool calls: answer now with " \
+                      "what you have. The result:"
       ERROR_TEXT = { error: "The tool failed. Check the arguments against the tool's schema." }.to_json
 
       # Passes Llm::Errors.wrap unchanged, so the answer fails with this error.
