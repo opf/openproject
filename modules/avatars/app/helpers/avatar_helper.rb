@@ -67,7 +67,7 @@ module AvatarHelper
 
   def local_avatar?(user)
     return false unless avatar_manager.local_avatars_enabled?
-    return false unless user.is_a?(User)
+    return false unless user.respond_to?(:local_avatar_attachment)
 
     user.local_avatar_attachment
   end
