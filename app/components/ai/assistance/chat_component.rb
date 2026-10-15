@@ -36,11 +36,11 @@ module AI
       include OpTurbo::Streamable
       include Polling
 
-      attr_reader :work_package, :skill, :chat, :read_only
+      attr_reader :place, :skill, :chat, :read_only
 
-      def initialize(work_package:, skill:, chat:, read_only: false)
+      def initialize(place:, skill:, chat:, read_only: false)
         super
-        @work_package = work_package
+        @place = place
         @skill = skill
         @chat = chat
         @read_only = read_only
@@ -64,12 +64,27 @@ module AI
       def wrapper_data
         return {} unless pending?
 
-        poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id))
+        poll_data(url_helpers.poll_ai_assistance_chat_path(chat_id: chat.id))
           .merge(poll_for_changes_reference_value: self.class.progress_reference(chat))
       end
 
+      # Off a work package, a skill proposes nothing.
       def read_only?
-        skill.scope_read_only?
+        skill.scope_read_only? || !place.work_package?
+      end
+
+      def empty_title
+        place.work_package? ? I18n.t("ai_assistance.chat.empty_title") : I18n.t("ai_assistance.chat.empty_title_generic")
+      end
+
+      def empty_description
+        if place.work_package?
+          I18n.t("ai_assistance.chat.#{read_only? ? 'empty_description_read_only' : 'empty_description'}")
+        elsif place.project
+          I18n.t("ai_assistance.chat.empty_description_project", project: place.project.name)
+        else
+          I18n.t("ai_assistance.chat.empty_description_generic")
+        end
       end
 
       def start_text
@@ -86,8 +101,8 @@ module AI
       end
 
       def pending_text(previous)
-        key = previous&.from_start? ? "working_on" : "answering"
-        I18n.t("ai_assistance.chat.#{key}", assistant: skill.assistant.name, id: work_package.formatted_id)
+        key = previous&.from_start? && place.label ? "working_on" : "answering"
+        I18n.t("ai_assistance.chat.#{key}", assistant: skill.assistant.name, id: place.label)
       end
 
       private

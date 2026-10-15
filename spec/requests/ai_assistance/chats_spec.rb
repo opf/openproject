@@ -39,38 +39,39 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
   let(:permissions) { %i[view_work_packages edit_work_packages use_ai_assistance] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
   let(:work_package) { create(:work_package, project:, description: "Old text") }
-  let(:base) { "/work_packages/#{work_package.id}/ai_assistance/chat" }
+  let(:base) { "/ai_assistance/chat" }
+  let(:place) { { work_package_id: work_package.id } }
 
   current_user { user }
 
   describe "POST start" do
-    subject(:request) { post "#{base}/start", params: { skill_id: skill.id }, as: :turbo_stream }
+    subject(:request) { post "#{base}/start", params: { **place, skill_id: skill.id }, as: :turbo_stream }
 
     it "starts a conversation without a question and opens the chat dialog" do
       expect { request }.to have_enqueued_job(AI::AssistantChats::ReplyJob)
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_stream(action: "dialog")
-      chat = AI::AssistantChat.for(user, work_package).sole
+      chat = AI::AssistantChat.for(user, AI::Assistance::Place.new(work_package:)).sole
       expect(chat.messages.map(&:role)).to eq(%w[start assistant])
     end
 
     context "when the last start of the skill is still answering" do
       it "opens that chat and starts nothing new" do
-        post "#{base}/start", params: { skill_id: skill.id }, as: :turbo_stream
+        post "#{base}/start", params: { **place, skill_id: skill.id }, as: :turbo_stream
 
         expect { request }.not_to have_enqueued_job(AI::AssistantChats::ReplyJob)
 
         expect(response).to have_turbo_stream(action: "dialog")
-        expect(AI::AssistantChat.for(user, work_package).sole.messages.count).to eq(2)
+        expect(AI::AssistantChat.for(user, AI::Assistance::Place.new(work_package:)).sole.messages.count).to eq(2)
       end
 
       it "starts a new chat once the answer is done" do
-        post "#{base}/start", params: { skill_id: skill.id }, as: :turbo_stream
+        post "#{base}/start", params: { **place, skill_id: skill.id }, as: :turbo_stream
         AI::AssistantChatMessage.pending.update_all(status: "done")
 
         expect { request }.to have_enqueued_job(AI::AssistantChats::ReplyJob)
-        expect(AI::AssistantChat.for(user, work_package).count).to eq(2)
+        expect(AI::AssistantChat.for(user, AI::Assistance::Place.new(work_package:)).count).to eq(2)
       end
     end
 
@@ -90,7 +91,7 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
       let(:personal_skill) { create(:ai_assistant_skill, :preset, assistant: create(:ai_assistant, principal: owner)) }
 
       it "responds with not found and stores nothing" do
-        post "#{base}/start", params: { skill_id: personal_skill.id }, as: :turbo_stream
+        post "#{base}/start", params: { **place, skill_id: personal_skill.id }, as: :turbo_stream
 
         expect(response).to have_http_status(:not_found)
         expect(AI::AssistantChat.count).to eq(0)
@@ -226,7 +227,7 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
     end
 
     it "lists only the user's chats" do
-      get "#{base}/history", as: :turbo_stream
+      get "#{base}/history", params: place, as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("chat_id=#{own_chat.id}")
@@ -266,6 +267,60 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
         expect(response).to have_http_status(:not_found)
         expect(proposal.reload).to be_open
       end
+    end
+  end
+
+  describe "a chat off a work package" do
+    let(:chat_skill) { create(:ai_assistant_skill, :chat, assistant: skill.assistant, offered_on: "everywhere") }
+
+    it "opens an empty chat on a project page and stores the question with the project" do
+      get base, params: { project_id: project.identifier, skill_id: chat_skill.id }, as: :turbo_stream
+      expect(response).to have_turbo_stream(action: "dialog")
+      expect(response.body).to include(I18n.t("ai_assistance.chat.empty_title_generic"))
+
+      params = { project_id: project.identifier, skill_id: chat_skill.id, content: "Hi" }
+      expect { post "#{base}/messages", params:, as: :turbo_stream }.to have_enqueued_job(AI::AssistantChats::ReplyJob)
+
+      chat = AI::AssistantChat.where(user:).sole
+      expect(chat).to have_attributes(project:, work_package: nil)
+    end
+
+    it "keeps a chat without a project apart from the project's chats" do
+      create(:ai_assistant_chat, skill: chat_skill, user:, work_package: nil, project:)
+
+      post "#{base}/messages", params: { skill_id: chat_skill.id, content: "Hi" }, as: :turbo_stream
+
+      expect(AI::AssistantChat.where(user:, project: nil, work_package: nil).count).to eq(1)
+    end
+
+    it "does not offer a work package skill" do
+      post "#{base}/start", params: { project_id: project.identifier, skill_id: skill.id }, as: :turbo_stream
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe "History across places" do
+    let(:chat_skill) { create(:ai_assistant_skill, :chat, assistant: skill.assistant, offered_on: "everywhere") }
+    let!(:work_package_chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
+    let!(:project_chat) { create(:ai_assistant_chat, skill: chat_skill, user:, work_package: nil, project:) }
+
+    before do
+      create(:ai_assistant_chat_message, chat: work_package_chat)
+      create(:ai_assistant_chat_message, chat: project_chat, role: "user", content: "About the project")
+    end
+
+    it "lists all the user's chats with their place" do
+      get "#{base}/history", as: :turbo_stream
+
+      expect(response.body).to include(work_package.formatted_id, project.name, "About the project")
+    end
+
+    it "opens a work package chat from a page without a project" do
+      get base, params: { chat_id: work_package_chat.id }, as: :turbo_stream
+
+      expect(response).to have_turbo_stream(action: "dialog")
+      expect(response.body).to include('data-test-selector="ai-assistance-chat-form"')
     end
   end
 end

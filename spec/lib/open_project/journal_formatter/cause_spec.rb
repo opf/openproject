@@ -342,7 +342,7 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
       it "links to the chat" do
         expect(render(cause, html: true))
-          .to include("/work_packages/#{work_package.id}/ai_assistance/chat?chat_id=#{chat.id}",
+          .to include("/ai_assistance/chat?chat_id=#{chat.id}",
                       'data-controller="async-dialog"')
       end
 

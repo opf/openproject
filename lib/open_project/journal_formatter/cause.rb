@@ -129,7 +129,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     return unless chat
 
     link_to(I18n.t("journals.cause_descriptions.assistant_chat_link"),
-            work_package_ai_assistance_chat_path(chat.work_package_id, chat_id: chat.id),
+            ai_assistance_chat_path(chat_id: chat.id),
             data: { controller: "async-dialog", test_selector: "op-journal-ai-assistance-chat-link" })
   end
 

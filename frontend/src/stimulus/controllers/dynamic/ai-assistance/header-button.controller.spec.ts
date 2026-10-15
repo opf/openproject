@@ -26,7 +26,7 @@
 //++
 
 import { describe, expect, it } from 'vitest';
-import { workPackageIdFrom } from './header-button.controller';
+import { placeFrom, workPackageIdFrom } from './header-button.controller';
 
 describe('AI Assistance header button', () => {
   describe('workPackageIdFrom', () => {
@@ -48,6 +48,22 @@ describe('AI Assistance header button', () => {
       expect(workPackageIdFrom('/projects/demo/work_packages')).toBeNull();
       expect(workPackageIdFrom('/projects/demo/work_packages/new')).toBeNull();
       expect(workPackageIdFrom('/my/page')).toBeNull();
+    });
+  });
+
+  describe('placeFrom', () => {
+    it('takes the work package before the project', () => {
+      expect(placeFrom('/projects/demo/work_packages/2/activity')).toEqual({ work_package_id: '2' });
+    });
+
+    it('takes the project of other project pages', () => {
+      expect(placeFrom('/projects/demo/work_packages')).toEqual({ project_id: 'demo' });
+      expect(placeFrom('/projects/demo-project/meetings/3')).toEqual({ project_id: 'demo-project' });
+    });
+
+    it('has no place on pages without a project', () => {
+      expect(placeFrom('/my/page')).toEqual({});
+      expect(placeFrom('/admin/ai_assistants')).toEqual({});
     });
   });
 });

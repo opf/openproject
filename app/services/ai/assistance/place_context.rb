@@ -28,38 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::AIAssistance::MenusController < ApplicationController
-  include WorkPackages::AIAssistance::Scoped
+module AI
+  module Assistance
+    # What the model gets to know off a work package: the user, and the project of the page
+    # if there is one. The read-only MCP tools give the rest.
+    class PlaceContext
+      attr_reader :project, :user
 
-  # The toolbar loads the menu into a turbo frame on every work package. A user who may
-  # not use it gets an empty frame, not an error inside the toolbar.
-  skip_before_action :authorize
-  # The header asks for the id in the URL, which may be a work package the user cannot see.
-  skip_before_action :find_work_package
-  before_action :find_work_package_or_render_empty
-  before_action :authorize_or_render_empty
+      def initialize(project:, user:)
+        @project = project
+        @user = user
+      end
 
-  def show
-    render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, skills: available_skills),
-           layout: false
-  end
+      def to_h
+        { user: { name: user.name, locale: user.language.presence || I18n.locale.to_s },
+          project: project && project_data }.compact
+      end
 
-  private
+      private
 
-  def find_work_package_or_render_empty
-    @work_package = WorkPackage.visible.find_by_display_id(params[:work_package_id])
-    @project = @work_package&.project
-    render_empty if @work_package.nil?
-  end
-
-  def authorize_or_render_empty
-    return if current_user.allowed_in_work_package?(:use_ai_assistance, @work_package) &&
-              available_skills.any?
-
-    render_empty
-  end
-
-  def render_empty
-    render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, empty: true), layout: false
+      def project_data
+        { id: project.id, name: project.name, identifier: project.identifier,
+          status: project.status_code, description: project.description.to_s,
+          roles_of_user: user.roles_for_project(project).map(&:name) }
+      end
+    end
   end
 end

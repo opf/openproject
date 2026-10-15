@@ -518,7 +518,8 @@ ai_assistants:
           Report nothing rather than a guess.
       - skill_key: conversation
         answers_at_once: false
+        offered_on: everywhere
         proposal_scope: comment_only
         prompt: |-
-          Answer the user's questions about this work package: its subject, description, status, dates, comments, relations and descendants.
+          Answer the user's questions. On a work package, they are about that work package: its subject, description, status, dates, comments, relations and descendants. On other pages, they are about the project of the page, or about anything the user can see in OpenProject.
           Keep the answers short.

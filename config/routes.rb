@@ -1252,6 +1252,19 @@ Rails.application.routes.draw do
     end
   end
 
+  # AI Assistance in the app header. The place (work_package_id or project_id) is a query
+  # parameter, because the menu is the same on every page.
+  resource :ai_assistance_menu, path: "ai_assistance/menu", controller: "ai_assistance/menus", only: :show
+  resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "ai_assistance/chats", only: %i[show create] do
+    post :messages, action: :send_message
+    post :start
+    post :rerun
+    get :poll
+    get :history
+    post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal
+    post "proposals/:proposal_id/dismiss", action: :dismiss, as: :dismiss_proposal
+  end
+
   resources :work_packages, only: %i[index show new] do
     concerns :shareable
 
@@ -1289,19 +1302,6 @@ Rails.application.routes.draw do
         put :update_sorting # sorting is persisted
         post :sanitize_internal_mentions
       end
-    end
-
-    resource :ai_assistance_menu, path: "ai_assistance/menu", controller: "work_packages/ai_assistance/menus",
-                                  only: :show
-    resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "work_packages/ai_assistance/chats",
-                                  only: %i[show create] do
-      post :messages, action: :send_message
-      post :start
-      post :rerun
-      get :poll
-      get :history
-      post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal
-      post "proposals/:proposal_id/dismiss", action: :dismiss, as: :dismiss_proposal
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"

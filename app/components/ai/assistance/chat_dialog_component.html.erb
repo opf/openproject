@@ -33,9 +33,9 @@
                                      data: { test_selector: "ai-assistance-chat-dialog", "keep-open-on-submit": true })) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
-    <%= render(AI::Assistance::ChatComponent.new(work_package:, skill:, chat:, read_only:)) %>
+    <%= render(AI::Assistance::ChatComponent.new(place:, skill:, chat:, read_only:)) %>
   <% end %>
   <% dialog.with_footer(show_divider: true) do %>
-    <%= render(AI::Assistance::ChatFormComponent.new(work_package:, skill:, chat:, read_only:, dialog_id: DIALOG_ID)) %>
+    <%= render(AI::Assistance::ChatFormComponent.new(place:, skill:, chat:, read_only:, dialog_id: DIALOG_ID)) %>
   <% end %>
 <% end %>

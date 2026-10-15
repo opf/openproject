@@ -244,4 +244,24 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
       expect(message.events.pluck("kind")).to include("late")
     end
   end
+
+  context "without a work package" do
+    let(:skill) { create(:ai_assistant_skill, :chat, prompt: "Help.", offered_on: "everywhere") }
+    let(:chat) { create(:ai_assistant_chat, skill:, user:, work_package: nil, project:) }
+    let(:answer) do
+      { answer: "Drei offene Arbeitspakete.",
+        proposals: [{ severity: "none", area: "none", text: "Neuer Betreff", evidence: [],
+                      changes: [{ field: "subject", value: "New subject" }] }] }
+    end
+
+    it "sends the project as context, asks for no proposals and stores none" do
+      message = ask("Was ist offen?")
+
+      expect(message).to be_done
+      expect(message.content).to eq("Drei offene Arbeitspakete.")
+      expect(message.proposals).to be_empty
+      expect(sent[:system]).to include(AI::Assistance::OutputRules::NO_PROPOSALS, %("identifier":"#{project.identifier}"))
+      expect(sent[:system]).not_to include("change_options", "Secret note")
+    end
+  end
 end

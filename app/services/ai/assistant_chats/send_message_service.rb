@@ -74,7 +74,7 @@ module AI
         AI::AssistantChat.transaction(requires_new: true) do
           chat.messages.create!(role:, content:)
           chat.messages.create!(role: "assistant", status: "pending", locale: I18n.locale.to_s,
-                                base_lock_version: chat.work_package.reload.lock_version)
+                                base_lock_version: chat.work_package&.reload&.lock_version)
         end
       end
 

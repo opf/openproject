@@ -36,11 +36,11 @@ module AI
     class MenuButtonComponent < ApplicationComponent
       FRAME_ID = "wp-ai-assistance-menu"
 
-      attr_reader :work_package, :skills
+      attr_reader :place, :skills
 
-      def initialize(work_package:, skills: [], empty: false)
+      def initialize(place:, skills: [], empty: false)
         super
-        @work_package = work_package
+        @place = place
         @skills = skills
         @empty = empty
       end
@@ -55,10 +55,10 @@ module AI
       # A chat skill opens its chat; any other starts a new conversation that it answers at once.
       def item_arguments(skill)
         if skill.chat?
-          { href: url_helpers.work_package_ai_assistance_chat_path(work_package, skill_id: skill.id),
+          { href: url_helpers.ai_assistance_chat_path(**place.url_params, skill_id: skill.id),
             content_arguments: { data: { controller: "async-dialog", turbo_stream: true } } }
         else
-          { href: url_helpers.start_work_package_ai_assistance_chat_path(work_package),
+          { href: url_helpers.start_ai_assistance_chat_path(place.url_params),
             form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
         end
       end
@@ -73,7 +73,7 @@ module AI
       end
 
       def history_path
-        url_helpers.history_work_package_ai_assistance_chat_path(work_package)
+        url_helpers.history_ai_assistance_chat_path(place.url_params)
       end
     end
   end

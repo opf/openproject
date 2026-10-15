@@ -33,7 +33,8 @@ require "spec_helper"
 RSpec.describe "AI Assistance button in the app header", type: :rails_request do
   include_context "with an available LLM for AI Assistance"
 
-  shared_let(:user) { create(:user) }
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages use_ai_assistance] }) }
 
   current_user { user }
 
@@ -42,13 +43,22 @@ RSpec.describe "AI Assistance button in the app header", type: :rails_request do
   end
 
   context "with the feature flag", with_flag: { ai_assistance: true } do
-    it "renders the hidden button with the menu URL for any work package" do
+    it "renders the hidden button with the menu URL, also on a page without a project" do
       get "/my/account"
 
       expect(header_button).to be_present
       expect(header_button["hidden"]).to be_present
-      expect(header_button["data-ai-assistance--header-button-menu-url-value"])
-        .to eq("/work_packages/__ID__/ai_assistance/menu")
+      expect(header_button["data-ai-assistance--header-button-menu-url-value"]).to eq("/ai_assistance/menu")
+    end
+
+    context "without the permission in any project" do
+      let(:user) { create(:user) }
+
+      it "renders no button" do
+        get "/my/account"
+
+        expect(header_button).to be_nil
+      end
     end
   end
 

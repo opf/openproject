@@ -35,11 +35,11 @@ module AI
     class ChatFormComponent < ApplicationComponent
       include OpTurbo::Streamable
 
-      attr_reader :work_package, :skill, :chat, :dialog_id, :read_only
+      attr_reader :place, :skill, :chat, :dialog_id, :read_only
 
-      def initialize(work_package:, skill:, chat:, dialog_id:, read_only: false)
+      def initialize(place:, skill:, chat:, dialog_id:, read_only: false)
         super
-        @work_package = work_package
+        @place = place
         @skill = skill
         @chat = chat
         @dialog_id = dialog_id
@@ -53,11 +53,17 @@ module AI
       end
 
       def send_path
-        url_helpers.messages_work_package_ai_assistance_chat_path(work_package)
+        url_helpers.messages_ai_assistance_chat_path(place.url_params)
       end
 
       def new_chat_path
-        url_helpers.work_package_ai_assistance_chat_path(work_package)
+        url_helpers.ai_assistance_chat_path(place.url_params)
+      end
+
+      def placeholder
+        if place.work_package? then I18n.t("ai_assistance.chat.placeholder", id: place.label)
+        else I18n.t("ai_assistance.chat.placeholder_generic")
+        end
       end
 
       def rerun?
@@ -65,7 +71,7 @@ module AI
       end
 
       def rerun_path
-        url_helpers.rerun_work_package_ai_assistance_chat_path(work_package)
+        url_helpers.rerun_ai_assistance_chat_path(place.url_params)
       end
     end
   end

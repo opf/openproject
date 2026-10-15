@@ -62,7 +62,7 @@ FactoryBot.define do
     role { "assistant" }
     content { "An answer." }
     locale { "en" }
-    base_lock_version { chat.work_package.lock_version }
+    base_lock_version { chat.work_package&.lock_version }
   end
 
   factory :ai_assistant_proposal, class: "AI::AssistantProposal" do

@@ -141,4 +141,45 @@ RSpec.describe AI::AssistantSkill do
       expect(skill.errors).to include(:icon)
     end
   end
+
+  describe "#offered_at?" do
+    let(:project) { create(:project) }
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:skill) { create(:ai_assistant_skill) }
+    let(:everywhere) { create(:ai_assistant_skill, :chat, offered_on: "everywhere") }
+
+    def place(**) = AI::Assistance::Place.new(**)
+
+    it "offers every skill on a work package, and only Everywhere skills elsewhere" do
+      expect(skill.offered_at?(place(work_package:), user)).to be(true)
+      expect(skill.offered_at?(place(project:), user)).to be(false)
+      expect(everywhere.offered_at?(place(work_package:), user)).to be(true)
+      expect(everywhere.offered_at?(place(project:), user)).to be(true)
+      expect(everywhere.offered_at?(place, user)).to be(true)
+    end
+
+    it "offers a skill limited to projects only in those projects" do
+      everywhere.update!(conditions: { project_ids: [project.id] })
+
+      expect(everywhere.offered_at?(place(project:), user)).to be(true)
+      expect(everywhere.offered_at?(place(project: create(:project)), user)).to be(false)
+      expect(everywhere.offered_at?(place, user)).to be(false)
+    end
+
+    it "offers a skill limited to roles only in a project where the user has one" do
+      role = user.roles_for_project(project).first
+      everywhere.update!(conditions: { role_ids: [role.id] })
+
+      expect(everywhere.offered_at?(place(project:), user)).to be(true)
+      expect(everywhere.offered_at?(place, user)).to be(false)
+    end
+
+    it "drops type and status conditions from an Everywhere skill" do
+      everywhere.update!(conditions: { type_ids: [create(:type).id], status_ids: [create(:status).id],
+                                       project_ids: [project.id] })
+
+      expect(everywhere.reload.conditions.keys).to eq(%w[project_ids])
+    end
+  end
 end

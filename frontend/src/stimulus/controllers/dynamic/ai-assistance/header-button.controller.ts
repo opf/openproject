@@ -31,8 +31,9 @@ import type { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
 
-// The AI Assistance button in the app header. It shows the menu for the work package that is
-// open (full view, or the split view of a list, a board or a calendar), and hides elsewhere.
+// The AI Assistance button in the app header. It shows the menu for the place in the URL: the
+// work package that is open (full view, or the split view of a list, a board or a calendar),
+// else the project, else no place. It hides while the menu is empty.
 // The header is not rendered again on Turbo frame visits, so it follows the URL: through the
 // Navigation API where the browser has it (it also reports pushState), else through Turbo events.
 export default class extends Controller<HTMLElement> {
@@ -70,24 +71,19 @@ export default class extends Controller<HTMLElement> {
 
   // A split view loads in a frame. The menu's own frame loads too, and must not trigger a reload.
   private frameLoaded = (event:Event):void => {
-    if (event.target !== this.frameTarget) {
+    if (event.target === this.frameTarget) {
+      this.element.hidden = !this.frameTarget.querySelector('action-menu');
+    } else {
       this.update();
     }
   };
 
   private update = ():void => {
-    const id = workPackageIdFrom(window.location.pathname);
-    this.element.hidden = !id;
-    if (!id) {
-      this.frameTarget.removeAttribute('src');
-      this.frameTarget.innerHTML = '';
-      return;
-    }
-
     // Turbo stores the src as an absolute URL.
-    const src = new URL(this.menuUrlValue.replace('__ID__', encodeURIComponent(id)), window.location.origin).href;
-    if (this.frameTarget.getAttribute('src') !== src) {
-      this.frameTarget.setAttribute('src', src);
+    const url = new URL(this.menuUrlValue, window.location.origin);
+    Object.entries(placeFrom(window.location.pathname)).forEach(([key, value]) => url.searchParams.set(key, value));
+    if (this.frameTarget.getAttribute('src') !== url.href) {
+      this.frameTarget.setAttribute('src', url.href);
     }
   };
 
@@ -109,8 +105,20 @@ export default class extends Controller<HTMLElement> {
 const ID = '(\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+)';
 const SPLIT_VIEW = new RegExp(`/details/${ID}(?:/|$)`);
 const FULL_VIEW = new RegExp(`/work_packages/${ID}(?:/|$)`);
+const PROJECT = /\/projects\/([^/?#]+)/;
 
 // The id of the open work package: a split view first, then the full view.
 export function workPackageIdFrom(path:string):string|null {
   return SPLIT_VIEW.exec(path)?.[1] ?? FULL_VIEW.exec(path)?.[1] ?? null;
+}
+
+// The query parameters of the menu: the open work package, else the project of the page.
+export function placeFrom(path:string):Record<string, string> {
+  const workPackageId = workPackageIdFrom(path);
+  if (workPackageId) {
+    return { work_package_id: workPackageId };
+  }
+
+  const project = PROJECT.exec(path)?.[1];
+  return project ? { project_id: decodeURIComponent(project) } : {};
 }

@@ -45,7 +45,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
 
   describe "GET show" do
     it "renders the menu button in the frame" do
-      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('<turbo-frame id="wp-ai-assistance-menu">')
@@ -56,7 +56,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       let(:hidden_work_package) { create(:work_package) }
 
       it "renders an empty frame instead of an error, because the header asks for any id in the URL" do
-        get "/work_packages/#{hidden_work_package.id}/ai_assistance/menu"
+        get "/ai_assistance/menu", params: { work_package_id: hidden_work_package.id }
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('<turbo-frame id="wp-ai-assistance-menu">')
@@ -68,7 +68,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       let(:permissions) { %i[view_work_packages] }
 
       it "renders an empty frame" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu"
+        get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include('<turbo-frame id="wp-ai-assistance-menu">')
@@ -82,7 +82,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       after { assistant.update!(active: true) }
 
       it "renders an empty frame" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu"
+        get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
         expect(response.body).not_to include("AI Assistance")
       end
@@ -91,7 +91,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
 
   describe "the menu items" do
     it "lists each skill under a heading with its assistant's name, and the history" do
-      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include(skill.display_label)
@@ -108,7 +108,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     end
 
     it "is not listed on a work package that does not match" do
-      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response.body).not_to include("Reproduce the bug")
     end
@@ -116,7 +116,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     it "is listed on a work package that matches" do
       bug = create(:work_package, project:, type: Type.find(bug_skill.condition_ids(:type_ids).first))
 
-      get "/work_packages/#{bug.id}/ai_assistance/menu"
+      get "/ai_assistance/menu", params: { work_package_id: bug.id }
 
       expect(response.body).to include("Reproduce the bug")
     end
@@ -132,13 +132,13 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     it "is listed for the members of the group" do
       GroupUser.create!(group:, user:)
 
-      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response.body).to include("Team helper", %(value="#{group_skill.id}"))
     end
 
     it "is not listed for other users" do
-      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response.body).not_to include("Team helper")
     end
@@ -161,7 +161,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
         group = create(:group, members: [owner])
         create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "Team helper", principal: group), prompt: "Go.")
 
-        get "/work_packages/#{work_package.id}/ai_assistance/menu"
+        get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
         positions = ["My helper", "Team helper", "QA assistance"].map { |name| response.body.index(name) }
         expect(positions).to all(be_present)
@@ -171,7 +171,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
 
     context "for another user" do
       it "does not list it" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu"
+        get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
         expect(response.body).not_to include("My helper")
       end
@@ -182,9 +182,55 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       let(:user) { owner }
 
       it "does not list it" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu"
+        get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
         expect(response.body).not_to include("My helper")
+      end
+    end
+  end
+
+  describe "off a work package" do
+    let!(:everywhere) { create(:ai_assistant_skill, :chat, assistant:, label: "Ask anything", offered_on: "everywhere") }
+
+    it "lists only the Everywhere skills on a project page" do
+      get "/ai_assistance/menu", params: { project_id: project.identifier }
+
+      expect(response.body).to include("Ask anything", "History")
+      expect(response.body).not_to include(%(value="#{skill.id}"))
+    end
+
+    it "lists them on a page without a project" do
+      get "/ai_assistance/menu"
+
+      expect(response.body).to include("Ask anything")
+    end
+
+    it "lists both kinds on a work package" do
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id }
+
+      expect(response.body).to include("Ask anything", %(value="#{skill.id}"))
+    end
+
+    context "in a project without the permission" do
+      let(:other_project) { create(:project) }
+      let(:user) do
+        create(:user, member_with_permissions: { project => permissions, other_project => %i[view_work_packages] })
+      end
+
+      it "renders an empty frame" do
+        get "/ai_assistance/menu", params: { project_id: other_project.identifier }
+
+        expect(response.body).not_to include("Ask anything")
+      end
+    end
+
+    context "without the permission in any project" do
+      let(:permissions) { %i[view_work_packages] }
+
+      it "renders an empty frame on a page without a project" do
+        get "/ai_assistance/menu"
+
+        expect(response.body).not_to include("Ask anything")
       end
     end
   end

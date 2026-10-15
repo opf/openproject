@@ -32,16 +32,16 @@ module AI
   module Assistance
     # The AI Assistance button in the app header, rendered by the view_layouts_base_top_menu
     # hook. The ai-assistance--header-button controller loads MenuButtonComponent for the
-    # work package in the URL, and hides the button on other pages.
+    # work package or project in the URL, and hides the button while the menu is empty.
     class HeaderButtonComponent < ApplicationComponent
-      ID_PLACEHOLDER = "__ID__"
-
       def render?
-        User.current.logged? && OpenProject::FeatureDecisions.ai_assistance_active? && LlmConnection.available?
+        user = User.current
+        user.logged? && OpenProject::FeatureDecisions.ai_assistance_active? && LlmConnection.available? &&
+          user.allowed_in_any_project?(:use_ai_assistance)
       end
 
       def menu_url
-        url_helpers.work_package_ai_assistance_menu_path(ID_PLACEHOLDER)
+        url_helpers.ai_assistance_menu_path
       end
     end
   end

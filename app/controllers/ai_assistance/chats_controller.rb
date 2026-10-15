@@ -28,25 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::AIAssistance::ChatsController < ApplicationController
+class AIAssistance::ChatsController < ApplicationController
   include OpTurbo::ComponentStream
-  include WorkPackages::AIAssistance::Scoped
+  include AIAssistance::Scoped
 
   READABLE = %w[show poll].freeze
+
+  # By authorize_place: the permission at the place of the request or of its chat.
+  authorization_checked! :show, :create, :start, :rerun, :send_message, :poll, :history, :apply, :dismiss
 
   before_action :find_skill, only: %i[create start]
   before_action :find_chat, only: %i[show send_message poll rerun]
   before_action :find_proposal, only: %i[apply dismiss]
 
-  # The user's chats on this work package, newest first.
+  # All the user's chats, newest first. Each opens here, in its own place.
   def history
-    chats = AI::AssistantChat.for(current_user, @work_package).includes(:messages, skill: :assistant)
-    respond_with_wp_dialog AI::Assistance::HistoryDialogComponent.new(work_package: @work_package, chats:)
+    chats = AI::AssistantChat.where(user: current_user).includes(:messages, :work_package, :project, skill: :assistant)
+    respond_with_place_dialog AI::Assistance::HistoryDialogComponent.new(chats:)
   end
 
-  # Opens the user's latest chat of this skill about this work package, or an empty one.
+  # Opens the user's latest chat of this skill at this place, or an empty one.
   def show
-    respond_with_wp_dialog chat_dialog
+    respond_with_place_dialog chat_dialog
   end
 
   # Starts a new, empty chat.
@@ -56,9 +59,9 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   end
 
   # A new conversation that the skill answers at once. While the user's last start of this
-  # skill is still answering, it opens that chat instead (a double click, a second tab).
+  # skill here is still answering, it opens that chat instead (a double click, a second tab).
   def start
-    call = OpenProject::Mutex.with_advisory_lock_transaction(current_user, "ai_start_#{@work_package.id}_#{@skill.id}") do
+    call = OpenProject::Mutex.with_advisory_lock_transaction(current_user, start_lock_name) do
       @chat = running_chat
       next ServiceResult.success if @chat
 
@@ -67,10 +70,10 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     end
     return respond_with_failure(call) if call.failure?
 
-    respond_with_wp_dialog chat_dialog
+    respond_with_place_dialog chat_dialog
   end
 
-  # Starts the skill again in the same chat, on the current work package.
+  # Starts the skill again in the same chat, on the current state of its place.
   def rerun
     return render_404 if @chat.nil? || @skill.chat?
 
@@ -131,50 +134,54 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
       find_named_chat
     else
       @skill = offered_skill(params[:skill_id])
-      @chat = AI::AssistantChat.latest_for(current_user, @work_package, @skill) if @skill
+      @chat = AI::AssistantChat.latest_for(current_user, @place, @skill) if @skill
     end
     render_404 unless @skill
   end
 
   def find_named_chat
-    @chat = AI::AssistantChat.for(current_user, @work_package).find_by(id: params[:chat_id])
+    @chat = @named_chat
     @skill = offered_skill(@chat&.skill_id)
     @read_only = !@skill && @chat.present? && READABLE.include?(action_name)
     @skill = @chat.skill if @read_only
   end
 
+  def start_lock_name
+    "ai_start_#{@work_package&.id}_#{@project&.id}_#{@skill.id}"
+  end
+
   def running_chat
-    chat = AI::AssistantChat.for(current_user, @work_package).where(skill: @skill).with_pending_answer.order(id: :desc).first
+    chat = AI::AssistantChat.for(current_user, @place).where(skill: @skill).with_pending_answer.order(id: :desc).first
     chat&.fail_stale_answers!
     chat if chat&.pending?
   end
 
   def new_chat
-    AI::AssistantChat.create!(skill: @skill, user: current_user, work_package: @work_package)
+    AI::AssistantChat.create!(skill: @skill, user: current_user, work_package: @work_package, project: @project)
   end
 
   def find_proposal
-    @proposal = AI::AssistantProposal.joins(message: :chat)
-                                     .where(ai_assistant_chats: { user_id: current_user.id, work_package_id: @work_package.id })
-                                     .find(params.expect(:proposal_id))
-    @chat = @proposal.chat
-    @skill = offered_skill(@chat.skill_id)
-    render_404 unless @skill
-  rescue ActiveRecord::RecordNotFound
-    render_404
+    @chat = @named_chat
+    @proposal = @chat && AI::AssistantProposal.joins(:message).where(message: { chat_id: @chat.id })
+                                              .find_by(id: params[:proposal_id])
+    @skill = offered_skill(@chat&.skill_id)
+    render_404 unless @proposal && @skill
+  end
+
+  def component_arguments
+    { place: @place, skill: @skill, chat: @chat, read_only: @read_only }
   end
 
   def chat_dialog
-    AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat, read_only: @read_only)
+    AI::Assistance::ChatDialogComponent.new(**component_arguments)
   end
 
   def chat_component
-    AI::Assistance::ChatComponent.new(work_package: @work_package, skill: @skill, chat: @chat, read_only: @read_only)
+    AI::Assistance::ChatComponent.new(**component_arguments)
   end
 
   def form_component
-    AI::Assistance::ChatFormComponent.new(work_package: @work_package, skill: @skill, chat: @chat, read_only: @read_only,
-                                          dialog_id: AI::Assistance::ChatDialogComponent::DIALOG_ID)
+    AI::Assistance::ChatFormComponent.new(**component_arguments, dialog_id: AI::Assistance::ChatDialogComponent::DIALOG_ID)
   end
 
   # The conversation and the footer together: a new question clears the field, and a

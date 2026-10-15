@@ -29,11 +29,13 @@
 #++
 
 module AI
-  # One conversation of a user about a work package. Only that user sees it.
+  # One conversation of a user: about a work package, in a project, or on a page without
+  # either (see AI::Assistance::Place). Only that user sees it.
   class AssistantChat < ApplicationRecord
     belongs_to :skill, class_name: "AI::AssistantSkill", inverse_of: :chats
     belongs_to :user
-    belongs_to :work_package
+    belongs_to :work_package, optional: true
+    belongs_to :project, optional: true
     has_many :messages,
              -> { order(:id) },
              class_name: "AI::AssistantChatMessage",
@@ -41,10 +43,19 @@ module AI
              inverse_of: :chat,
              dependent: :delete_all
 
-    scope :for, ->(user, work_package) { where(user:, work_package:) }
+    before_validation { self.project = work_package.project if work_package }
 
-    def self.latest_for(user, work_package, skill)
-      self.for(user, work_package).where(skill:).order(created_at: :desc, id: :desc).first
+    scope :at, ->(place) do
+      place.work_package ? where(work_package: place.work_package) : where(work_package_id: nil, project: place.project)
+    end
+    scope :for, ->(user, place) { where(user:).at(place) }
+
+    def self.latest_for(user, place, skill)
+      self.for(user, place).where(skill:).order(created_at: :desc, id: :desc).first
+    end
+
+    def place
+      AI::Assistance::Place.new(work_package:, project:)
     end
 
     # An answer that is still pending after this time has failed, for example after a crash.

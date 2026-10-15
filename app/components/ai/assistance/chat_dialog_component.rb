@@ -35,11 +35,11 @@ module AI
 
       DIALOG_ID = "ai-assistance-chat-dialog"
 
-      attr_reader :work_package, :skill, :chat, :read_only
+      attr_reader :place, :skill, :chat, :read_only
 
-      def initialize(work_package:, skill:, chat:, read_only: false)
+      def initialize(place:, skill:, chat:, read_only: false)
         super
-        @work_package = work_package
+        @place = place
         @skill = skill
         @chat = chat
         @read_only = read_only

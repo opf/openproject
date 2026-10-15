@@ -35,8 +35,8 @@
   <% if messages.empty? %>
     <%= render(Primer::Beta::Blankslate.new(data: { test_selector: "ai-assistance-chat-empty" })) do |slate| %>
       <% slate.with_visual_icon(icon: :sparkle) %>
-      <% slate.with_heading(tag: :h3).with_content(t("ai_assistance.chat.empty_title")) %>
-      <% slate.with_description { read_only? ? t("ai_assistance.chat.empty_description_read_only") : t("ai_assistance.chat.empty_description") } %>
+      <% slate.with_heading(tag: :h3).with_content(empty_title) %>
+      <% slate.with_description { empty_description } %>
     <% end %>
   <% end %>
 

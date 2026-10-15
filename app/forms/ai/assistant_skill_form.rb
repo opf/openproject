@@ -39,6 +39,14 @@ module AI
                     caption: I18n.t("admin.ai_assistants.skills.description_caption"),
                     placeholder: model.display_description)
 
+        g.radio_button_group(name: :offered_on, label: AI::AssistantSkill.human_attribute_name(:offered_on)) do |group|
+          AI::AssistantSkill::OFFERED_ON.each do |value|
+            group.radio_button(value:, label: I18n.t("admin.ai_assistants.skills.offered_on.#{value}"),
+                               caption: I18n.t("admin.ai_assistants.skills.offered_on.#{value}_caption"),
+                               data: { show_when_value_selected_target: "cause", target_name: "offered_on" })
+          end
+        end
+
         g.check_box(name: :answers_at_once, label: AI::AssistantSkill.human_attribute_name(:answers_at_once),
                     caption: I18n.t("admin.ai_assistants.skills.answers_at_once_caption"))
 
@@ -72,7 +80,9 @@ module AI
 
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.conditions"),
                        description: I18n.t("admin.ai_assistants.skills.conditions.caption")) do |g|
-        g.group(layout: :horizontal) do |row|
+        # Types and statuses need a work package, so an Everywhere skill has none.
+        g.group(layout: :horizontal, hidden: model.everywhere?,
+                data: { show_when_value_selected_target: "effect", target_name: "offered_on", value: "work_packages" }) do |row|
           condition_input(row, :type_ids, Type.order(:position).pluck(:id, :name))
           condition_input(row, :status_ids, Status.order(:position).pluck(:id, :name))
         end

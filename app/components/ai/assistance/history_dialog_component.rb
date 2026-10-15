@@ -36,11 +36,8 @@ module AI
 
       DIALOG_ID = "ai-assistance-history-dialog"
 
-      attr_reader :work_package
-
-      def initialize(work_package:, chats:)
+      def initialize(chats:)
         super
-        @work_package = work_package
         @chats = chats.to_a.select { |chat| chat.messages.any? }
       end
 
@@ -49,7 +46,7 @@ module AI
       end
 
       def entry_path(chat)
-        url_helpers.work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)
+        url_helpers.ai_assistance_chat_path(chat_id: chat.id)
       end
 
       # A chat also shows its first question. A skill that answers at once shows the start
@@ -59,8 +56,11 @@ module AI
         [chat.skill.full_label, summary.to_s.truncate(60).presence].compact.join(" · ")
       end
 
+      # Where the chat took place, then the number of answers.
       def entry_detail(chat)
-        I18n.t("ai_assistance.history.answers", count: chat.messages.count { |message| message.from_assistant? && message.done? })
+        count = chat.messages.count { |message| message.from_assistant? && message.done? }
+        answers = I18n.t("ai_assistance.history.answers", count:)
+        [chat.place.label, answers].compact.join(" · ")
       end
 
       def first_answer_line(chat)

@@ -28,25 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared by the AI Assistance controllers: the feature flag, the work package and the
-# permission. Every chat is looked up through the current user, so nobody sees another
-# user's chats.
-module WorkPackages::AIAssistance::Scoped
+# Shared by the AI Assistance controllers: the feature flag, the place (a work package, a
+# project, or neither) and the permission there. A request about a chat or a proposal
+# takes the chat's own place. Every chat is looked up through the current user, so nobody
+# sees another user's chats.
+module AIAssistance::Scoped
   extend ActiveSupport::Concern
   include AIAssistance::RequireFeature
 
   included do
-    before_action :find_work_package
-    before_action :authorize
+    before_action :find_place
+    before_action :authorize_place
   end
 
   private
 
-  def find_work_package
-    @work_package = WorkPackage.visible.find(params[:work_package_id])
-    @project = @work_package.project
-  rescue ActiveRecord::RecordNotFound
-    render_404
+  def find_place
+    @named_chat = named_chat
+    @place = @named_chat&.place || AI::Assistance::Place.from_params(params, user: current_user)
+    return render_404 unless @place&.visible?(current_user)
+
+    @work_package = @place.work_package
+    @project = @place.project
+  end
+
+  # The user's chat named by chat_id, or the chat of the proposal named by proposal_id.
+  def named_chat
+    chats = AI::AssistantChat.where(user: current_user)
+    if params[:proposal_id].present?
+      chats.joins(messages: :proposals).find_by(ai_assistant_proposals: { id: params[:proposal_id] })
+    elsif params[:chat_id].present?
+      chats.find_by(id: params[:chat_id])
+    end
+  end
+
+  def authorize_place
+    render_403 unless @place.allowed?(current_user)
   end
 
   def available_skills
@@ -56,7 +73,7 @@ module WorkPackages::AIAssistance::Scoped
       .merge(AI::Assistant.active.visible_to(current_user).ordered)
       .includes(:assistant)
       .order(:position, :id)
-      .select { |skill| skill.ready? && skill.conditions_fulfilled?(@work_package, current_user) }
+      .select { |skill| skill.ready? && skill.offered_at?(@place, current_user) }
   end
 
   # The offered skill with this id.
@@ -64,10 +81,10 @@ module WorkPackages::AIAssistance::Scoped
     available_skills.find { |skill| skill.id.to_s == id.to_s }
   end
 
-  # A plain page request (a link opened in a new tab) goes back to the work package.
-  def respond_with_wp_dialog(component)
+  # A plain page request (a link opened in a new tab) goes back to the page of the place.
+  def respond_with_place_dialog(component)
     respond_with_dialog(component) do |format|
-      format.html { redirect_to work_package_path(@work_package) }
+      format.html { redirect_to @place.page_path }
     end
   end
 
@@ -76,7 +93,7 @@ module WorkPackages::AIAssistance::Scoped
     respond_with_turbo_streams(status: :unprocessable_entity)
   end
 
-  # Applies a proposal of an answer. On success, the toolbar reloads the work package.
+  # Applies a proposal of an answer. On success, the header button reloads the work package.
   def apply_proposal(proposal)
     AI::Assistance::ApplyProposalService.new(proposal:, user: current_user).call.tap do |call|
       next unless call.success?

@@ -66,15 +66,18 @@ module AI
       def ask
         raise Llm::Errors::NotReady, llm.status unless llm.ready?
 
-        system = skill.system_prompt(locale: message.locale, tools: tools.any?)
-        raise Llm::Errors::NotReady, "no system prompt" if system.blank?
+        raise Llm::Errors::NotReady, "no system prompt" if system_prompt.blank?
 
         history = earlier_turns
         question = history.pop
-        llm_call.ask(llm:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
+        llm_call.ask(llm:, system: "#{system_prompt}\n\nContext (JSON):\n#{context_json}",
                      message: question ? turn_text(question) : "", schema: answer_format.schema, temperature: TEMPERATURE,
                      tools:,
                      history: history.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] })
+      end
+
+      def system_prompt
+        @system_prompt ||= skill.system_prompt(locale: message.locale, tools: tools.any?, work_package: work_package.present?)
       end
 
       # The finished turns before this answer, oldest first, ending with the question.
@@ -94,10 +97,13 @@ module AI
         [turn.content.presence, "Proposals:\n#{lines.join("\n")}"].compact.join("\n\n")
       end
 
+      # Off a work package, the user and the project of the page, and nothing to change.
       def context_json
+        return AI::Assistance::PlaceContext.new(project: chat.project, user:).to_h.to_json unless work_package
+
         AI::Assistance::WorkPackageContext.new(work_package:, user:).to_h
-                                             .merge(change_options: change_options.for_prompt)
-                                             .to_json
+                                          .merge(change_options: change_options.for_prompt)
+                                          .to_json
       end
 
       # Stores the result only while the answer is still pending. A result after the timeout
@@ -112,7 +118,7 @@ module AI
       end
 
       def store_answer(answer)
-        store_proposals(Array(answer[:proposals]))
+        store_proposals(work_package ? Array(answer[:proposals]) : [])
         message.update!(content: answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"),
                         status: "done")
         llm_call.log(:info, "answered with #{message.proposals.count} proposals")

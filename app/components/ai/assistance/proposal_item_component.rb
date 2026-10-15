@@ -55,11 +55,11 @@ module AI
       end
 
       def apply_path
-        url_helpers.apply_proposal_work_package_ai_assistance_chat_path(work_package, proposal_id: proposal.id)
+        url_helpers.apply_proposal_ai_assistance_chat_path(proposal_id: proposal.id)
       end
 
       def dismiss_path(reason = nil)
-        url_helpers.dismiss_proposal_work_package_ai_assistance_chat_path(work_package, proposal_id: proposal.id, reason:)
+        url_helpers.dismiss_proposal_ai_assistance_chat_path(proposal_id: proposal.id, reason:)
       end
 
       def dismiss_reasons

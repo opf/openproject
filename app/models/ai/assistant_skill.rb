@@ -37,6 +37,12 @@ module AI
              inverse_of: :skill,
              dependent: :destroy
 
+    # Work packages: only on a work package. Everywhere: also on every other page, without
+    # proposals there (see #offered_at?).
+    OFFERED_ON = %w[work_packages everywhere].freeze
+    # Conditions that need a work package, so an Everywhere skill has none.
+    WORK_PACKAGE_CONDITIONS = %w[type_ids status_ids].freeze
+
     ICONS = %w[light-bulb comment-discussion sync checklist tasklist search pencil beaker bug
                graph shield-check megaphone book rocket].freeze
 
@@ -44,6 +50,7 @@ module AI
     validates :label, length: { maximum: 255 }
     validates :prompt, length: { maximum: 20_000 }
     validates :icon, inclusion: { in: ICONS }, allow_blank: true
+    validates :offered_on, inclusion: { in: OFFERED_ON }
 
     # Opening the skill starts a new chat, and the skill answers its instructions at once.
     # Without it, the skill opens an empty chat for the user's own questions.
@@ -52,6 +59,7 @@ module AI
     store_attribute :settings, :use_tools, :boolean, default: true
     # An Octicon for the menu and the history. Empty uses the icon of the variant.
     store_attribute :settings, :icon, :string
+    store_attribute :settings, :offered_on, :string, default: "work_packages"
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -64,6 +72,7 @@ module AI
     scope :active, -> { where(active: true) }
 
     before_save :drop_deleted_condition_ids
+    before_save :drop_work_package_conditions, if: :everywhere?
 
     def conditions=(value)
       ids = value.to_h.stringify_keys.slice(*CONDITION_KEYS)
@@ -75,12 +84,26 @@ module AI
       Array(conditions[key.to_s])
     end
 
+    def everywhere? = offered_on == "everywhere"
+
+    # Whether the skill is offered at the place. On a work package, every skill whose
+    # conditions match. Elsewhere, only an Everywhere skill, and one limited to projects or
+    # roles only in a matching project.
+    def offered_at?(place, user)
+      return conditions_fulfilled?(place.work_package, user) if place.work_package
+      return false unless everywhere?
+
+      project = place.project
+      condition_matches?(:project_ids) { [project&.id] } &&
+        (condition_ids(:role_ids).empty? || (project.present? && (user.admin? || role_matches?(project, user))))
+    end
+
     # Whether the work package and the user's roles in its project match every condition.
     def conditions_fulfilled?(work_package, user)
       condition_matches?(:type_ids) { [work_package.type_id] } &&
         condition_matches?(:status_ids) { [work_package.status_id] } &&
         condition_matches?(:project_ids) { [work_package.project_id] } &&
-        (user.admin? || condition_matches?(:role_ids) { user.roles_for_project(work_package.project).map(&:id) })
+        (user.admin? || role_matches?(work_package.project, user))
     end
 
     def skill_type
@@ -152,13 +175,13 @@ module AI
 
     # The system prompt for a run, or nil when the skill has no prompt: the assistant's
     # instructions, the skill's prompt, and the output rules that the code owns.
-    def system_prompt(locale:, tools: use_tools)
-      full_system_prompt(locale:, tools:) if prompt.present?
+    def system_prompt(locale:, tools: use_tools, work_package: true)
+      full_system_prompt(locale:, tools:, work_package:) if prompt.present?
     end
 
     # Also without a prompt, to show on the skill page.
-    def full_system_prompt(locale:, tools: use_tools)
-      [assistant&.instructions, prompt, AI::Assistance::OutputRules.new(self, locale:, tools:).to_s]
+    def full_system_prompt(locale:, tools: use_tools, work_package: true)
+      [assistant&.instructions, prompt, AI::Assistance::OutputRules.new(self, locale:, tools:, work_package:).to_s]
         .compact_blank.join("\n\n")
     end
 
@@ -171,6 +194,14 @@ module AI
     end
 
     # The block gives the work package's ids for the key; it runs only for a set condition.
+    def role_matches?(project, user)
+      condition_matches?(:role_ids) { user.roles_for_project(project).map(&:id) }
+    end
+
+    def drop_work_package_conditions
+      self.conditions = conditions.to_h.except(*WORK_PACKAGE_CONDITIONS)
+    end
+
     def condition_matches?(key)
       condition_ids(key).empty? || condition_ids(key).intersect?(yield)
     end
