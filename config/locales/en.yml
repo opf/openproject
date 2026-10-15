@@ -2414,6 +2414,21 @@ en:
         not_available: "The AI assistant is not available."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
+      pane:
+        cancel: "Cancel"
+        close: "Close"
+        copied: "Copied"
+        copy: "Copy"
+        discard: "Discard"
+        editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
+        failed_title: "Generation failed"
+        generating: "Generating…"
+        replace: "Replace"
+        selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
+        stopped_description: "The response was blocked before it finished, so the partial text was discarded."
+        stopped_title: "Generation stopped"
+        title: "AI result"
+        try_again: "Try again"
   announcements:
     content: "Content"
     is_active: currently displayed
