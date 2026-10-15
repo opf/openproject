@@ -49,7 +49,9 @@ module AI
 
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.instructions")) do |g|
         g.text_area(name: :prompt, label: AI::AssistantSkill.human_attribute_name(:prompt), rows: 8,
-                    caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
+                    caption: I18n.t("admin.ai_assistants.skills.prompt_caption"),
+                    data: { ai_assistance__prompt_preview_target: "source",
+                            action: "input->ai-assistance--prompt-preview#update" })
 
         g.check_box(name: :use_tools, label: AI::AssistantSkill.human_attribute_name(:use_tools),
                     caption: I18n.t("admin.ai_assistants.skills.use_tools_caption"),
@@ -88,7 +90,8 @@ module AI
 
     private
 
-    # The full system prompt as it is sent, for the saved skill, in the current locale.
+    # The full system prompt as it is sent, in the current locale. The skill prompt and the tool rule
+    # follow the form fields before the skill is saved.
     def prompt_preview
       render(Primer::Beta::Details.new) do |details|
         details.with_summary(button: false) do
@@ -111,8 +114,30 @@ module AI
                                     data: { test_selector: "ai-skill-prompt-preview#{'-without-tools' unless tools}",
                                             target_name: "use_tools", show_when_checked_target: "effect",
                                             show_when: tools ? "checked" : "unchecked" })) do
-        model.full_system_prompt(locale: I18n.locale, tools:)
+        prompt_parts(tools:)
       end
+    end
+
+    # The parts of AI::AssistantSkill#full_system_prompt, with the skill prompt as its own element,
+    # so ai-assistance--prompt-preview can replace it while the admin types.
+    def prompt_parts(tools:)
+      instructions = model.assistant&.instructions
+      prompt = model.prompt.to_s
+
+      helpers.safe_join([
+        ("#{instructions}\n\n" if instructions.present?),
+        preview_target("output", prompt),
+        preview_target("separator", "\n\n", hidden: prompt.blank?),
+        output_rules(tools:)
+      ].compact)
+    end
+
+    def output_rules(tools:)
+      AI::Assistance::OutputRules.new(model, locale: I18n.locale, tools:).to_s
+    end
+
+    def preview_target(name, text, **)
+      helpers.content_tag(:span, text, data: { ai_assistance__prompt_preview_target: name }, **)
     end
 
     # A multi-select of ids. The hidden blank makes a cleared input clear the condition.

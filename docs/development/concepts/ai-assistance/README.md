@@ -64,13 +64,13 @@ flowchart LR
 
 The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`):
 
-1. **The assistant's instructions** (`ai_assistants.instructions`, optional): what every skill of the assistant shares, for example who it helps and the domain. Edited on the assistant page.
-2. **The skill's system prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, the skill is not offered.
+1. **The assistant prompt** (`ai_assistants.instructions`, optional): what every skill of the assistant shares, for example who it helps and the domain. Edited on the assistant page.
+2. **The skill prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, the skill is not offered.
 3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, findings and plain proposals, the changes that the proposal scope allows, how to use the tools (`TOOLS`, only when tools are sent), and the guard against instructions in the context and the tool results. Admins and users do not edit them, so a skill cannot break the contract with the code.
 
 The work package context (JSON) follows the system prompt. The message is the user's question, with the last 20 turns before it. An earlier answer is sent with a short list of its proposals and their state, so the model knows what it proposed.
 
-The skill page shows the full system prompt, as saved, under the prompt field. The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
+The skill page shows the full system prompt under the skill prompt field. It changes while the admin types (`ai-assistance--prompt-preview`), and its tool rule follows "Use OpenProject MCP tools". The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
 
 ## Skills
 

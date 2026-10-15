@@ -92,7 +92,7 @@ en:
         active: "Active"
         description: "Description"
         icon: "Icon"
-        instructions: "Instructions"
+        instructions: "Assistant prompt"
         model: "Model"
         model_id: "Model"
         name: "Name"
@@ -101,7 +101,7 @@ en:
         answers_at_once: "Answer at once when opened"
         description: "Description"
         label: "Label"
-        prompt: "System prompt"
+        prompt: "Skill prompt"
         proposal_scope: "Proposals"
         skill_key: "Type"
         use_tools: "Use OpenProject MCP tools"
@@ -1543,7 +1543,7 @@ en:
         group_banner: "This assistant belongs to the group %{group}. It shows only in the AI Assistance menu of the group's members."
         personal_banner: "This is a personal assistant of %{user}. It shows only in their AI Assistance menu."
       form:
-        instructions_caption: "Shared by every skill of this assistant, before the skill's own system prompt: for example who the assistant helps and what their work is about."
+        instructions_caption: "Shared by every skill of this assistant, before the skill prompt: for example who the assistant helps and what their work is about."
         model_caption: "Empty uses the default chat model of the LLM connection."
         model_default: "Default of the LLM connection"
         name_caption: "Shown as a label next to each action of this assistant in the AI Assistance menu."
@@ -1551,7 +1551,7 @@ en:
         owner_caption: "Global shows the assistant to everyone with AI Assistance. A group shows it only to the group's members. The owner cannot be changed later."
         sections:
           general: "General"
-          instructions: "Instructions"
+          instructions: "Prompt"
       inactive: "Inactive"
       index:
         add: "Assistant"
@@ -1592,10 +1592,10 @@ en:
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
-        no_prompt_not_offered: "No system prompt: not offered"
+        no_prompt_not_offered: "No skill prompt: not offered"
         prompt_caption: "What the model does in this skill. Without it, the skill is not offered."
         prompt_preview: "Show the full system prompt"
-        prompt_preview_caption: "The assistant's instructions, this system prompt, and the output rules that OpenProject adds for the skill type, its proposals and the MCP tools. Shown as saved, with the tool rule as the checkbox above says."
+        prompt_preview_caption: "The assistant prompt, this skill prompt, and the output rules that OpenProject adds for the skill type, its proposals and the MCP tools. It changes while you type, and the tool rule follows the checkbox above."
         proposal_scopes:
           changes: "Changes"
           changes_caption: "Proposes changes to attributes and comments. The model also gets the names of the users who can be assigned."
@@ -1605,7 +1605,7 @@ en:
           read_only_caption: "Proposes nothing."
         sections:
           conditions: "Where it is offered"
-          instructions: "Instructions"
+          instructions: "Prompt"
           menu: "Menu entry"
           menu_description: "How the skill shows in the AI Assistance menu on work packages."
         title: "Skills"
