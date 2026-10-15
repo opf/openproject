@@ -283,6 +283,14 @@ RSpec.describe ResourceAllocations::Availability do
       expect(availability.overbooking_with(existing)).not_to be_overbooked
     end
 
+    it "lists the overtime of an already overbooked allocation that is edited without changing it" do
+      existing = create(:resource_allocation, principal: user, allocated_time: 600, start_date: monday, end_date: monday)
+
+      expect(availability.overbooking_with(existing).days.sole).to have_attributes(
+        date: monday, working_minutes: 480, planned_minutes: 0, added_minutes: 600, overtime_minutes: 120
+      )
+    end
+
     it "is overbooked without any days when the window contains no working day" do
       prospective = build(:resource_allocation, principal: user, allocated_time: 240,
                                                 start_date: friday + 1, end_date: friday + 2)
