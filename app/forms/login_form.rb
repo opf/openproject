@@ -79,9 +79,7 @@ class LoginForm < ApplicationForm
       end
     end
 
-    f.html_content do
-      render(Primer::Beta::Button.new(type: :submit, scheme: :primary, block: true)) { I18n.t(:button_login) }
-    end
+    f.submit(name: "login", label: I18n.t(:button_login), scheme: :primary, block: true)
   end
 
   def initialize(back_url: nil, username: nil, id_suffix: nil)
