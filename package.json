@@ -5,7 +5,6 @@
     "herb:lint": "herb-lint",
     "postinstall": "npm -C frontend install",
     "test": "npm -C frontend test",
-    "tslint_typechecks": "npm -C frontend run tslint_typechecks",
     "serve": "npm -C frontend run serve",
     "serve:public": "npm -C frontend exec -- ng serve --host 0.0.0.0"
   },
