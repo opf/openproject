@@ -290,11 +290,34 @@ ps -ef | grep -F "/usr/bin/memcached" | grep -v grep >/dev/null 2>&1 || {
   echo "Expected memcached process to be running."
   exit 1
 }
+
+command -v -- anycable-go >/dev/null 2>&1
+anycable_secret="$(tr "\0" "\n" < /proc/1/environ | sed -n "s/^ANYCABLE_SECRET=//p" | head -n 1)"
+[ -n "$anycable_secret" ]
+case "$anycable_secret" in
+  (*[!A-Za-z0-9]*)
+    echo "Expected auto-generated AnyCable secret to use YAML-safe alphanumeric characters only."
+    exit 1
+    ;;
+esac
+ps -ef | grep -F "anycable-go" | grep -v grep >/dev/null 2>&1 || {
+  echo "Expected bundled AnyCable process to be running."
+  exit 1
+}
+curl --silent --fail http://127.0.0.1:8090/health >/dev/null || {
+  echo "Expected bundled AnyCable server to respond on port 8090."
+  exit 1
+}
 '
 
   if docker logs "${VALIDATION_CONTAINER_NAME}" 2>&1 | grep -q "gave up: hocuspocus entered FATAL state"; then
     docker logs "${VALIDATION_CONTAINER_NAME}" --tail 200 || true
     die "Bundled hocuspocus failed to start in all-in-one image."
+  fi
+
+  if docker logs "${VALIDATION_CONTAINER_NAME}" 2>&1 | grep -q "gave up: anycable entered FATAL state"; then
+    docker logs "${VALIDATION_CONTAINER_NAME}" --tail 200 || true
+    die "Bundled AnyCable failed to start in all-in-one image."
   fi
 
   if docker logs "${VALIDATION_CONTAINER_NAME}" 2>&1 | grep -q "gave up: memcached entered FATAL state"; then

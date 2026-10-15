@@ -146,7 +146,13 @@ ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
 
+# set the following to an empty string if you don't want live updates through the bundled AnyCable server
+# (or configure an external AnyCable server through the ANYCABLE_* variables)
+ENV ANYCABLE_WEBSOCKET_URL=auto
+
 COPY --from=openproject/hocuspocus:17.9.1 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
+# 1.6.16 to 1.6.18 close only one connection per remote disconnect (anycable/anycable a0d532fa)
+COPY --from=anycable/anycable-go:1.6.15 /usr/local/bin/anycable-go /usr/local/bin/anycable-go
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules

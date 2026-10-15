@@ -101,6 +101,16 @@ if [ "$(id -u)" = '0' ]; then
 			export OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET="$(tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 32)"
 		fi
 
+		if [ "$ANYCABLE_WEBSOCKET_URL" = "auto" ]; then
+			# Use the bundled AnyCable server (docker/prod/anycable), which apache serves on /cable and /events.
+			# Puma listens on 8080, so AnyCable takes 8090 and broadcasts are sent there instead of its default port.
+			export BUNDLED_ANYCABLE=true
+			export ANYCABLE_WEBSOCKET_URL="${OPENPROJECT_RAILS__RELATIVE__URL__ROOT%/}/cable"
+			export ANYCABLE_SECRET="${ANYCABLE_SECRET:-$(tr -dc 'A-Za-z0-9' < /dev/urandom | head -c 32)}"
+			export ANYCABLE_HTTP_RPC=true
+			export ANYCABLE_HTTP_BROADCAST_URL="http://127.0.0.1:8090/_broadcast"
+		fi
+
 		exec "$@"
 	elif [ "$1" = "./docker/prod/proxy" ]; then
 		exec "$@"
