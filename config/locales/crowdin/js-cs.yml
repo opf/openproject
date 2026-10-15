@@ -857,9 +857,7 @@ cs:
     text_user_wrote: "%{value} napsal:"
     text_work_packages_destroy_confirmation: Jste si jisti, že chcete odstranit vybrané pracovní balíčky?
     time_entry:
-      stop: Zastavit
       title: Vykázat čas
-      tracking: Sledování času
       work_package_required: Vyžaduje nejprve výběr pracovního balíčku.
     timer:
       button_stop: Zastavit aktuální časovač

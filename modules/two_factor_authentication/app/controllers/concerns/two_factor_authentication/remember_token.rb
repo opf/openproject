@@ -30,6 +30,7 @@ module ::TwoFactorAuthentication
       cookies.encrypted[remember_cookie_name] = {
         value: new_token!(@authenticated_user),
         httponly: true,
+        same_site: :lax,
         expires: remember_2fa_days.days.from_now,
         secure: OpenProject::Configuration.https?
       }

@@ -24,6 +24,7 @@ ru:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Длительность
         end_time: Время завершения
         location: Расположение
@@ -92,6 +93,7 @@ ru:
         meeting_agenda_item:
           section_not_belong_to_meeting: Раздел не принадлежит к одному и тому же совещанию.
           user_invalid: не является действительным участником.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: не является действительным участником.
         recurring_meeting:
@@ -340,6 +342,21 @@ ru:
   label_view_meeting_series: Посмотреть серию совещаний
   label_write_outcome: Зафиксировать итог
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: Эти прикрепленные файлы будут включены во все последующие совещания, проводимые по этому шаблону.
       series_template: Эти прикрепленные файлы будут включены во все последующие совещания этой серии.

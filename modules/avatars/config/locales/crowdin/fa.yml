@@ -4,12 +4,15 @@ fa:
   avatar_deleted: چهرک با کامیابی زدوده شد.
   avatars:
     label_avatar: آواتار
+    label_avatar_color: Fallback color
     label_gravatar: چهرکنماد (شناسایی چهرک جهانی)
     label_local_avatar: جهرک سفارشی
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید
       enable_local_avatars: کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)
       gravatar_default: تصویر گراواتار پیش‌فرض
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: اگر در %{gravatar_url} یک Gravatar ثبت کرده باشید، OpenProject از آن استفاده می‌کند؛ در غیر این صورت، در صورت وجود از تصویر یا آیکون پیش‌فرض استفاده می‌شود.
     text_avatar_local: همچنین می‌توانید با کلیک روی تصویر، یک آواتار سفارشی بارگذاری کنید که جایگزین Gravatar می‌شود. تصویر 128 در 128 پیکسل توصیه می‌شود.
     text_avatar_local_only: می‌توانید با کلیک روی تصویر، آواتار سفارشی خود را بارگذاری کنید. ما تصویری به ابعاد ۱۲۸ در ۱۲۸ پیکسل را توصیه می‌کنیم.

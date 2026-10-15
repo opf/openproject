@@ -4,12 +4,15 @@ nl:
   avatar_deleted: Avatar succesvol verwijderd.
   avatars:
     label_avatar: Avatar
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Aangepaste avatar
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Aangepaste avatars inschakelen
       enable_local_avatars: Aangepaste avatars inschakelen
       gravatar_default: Standaard Gravatarafbeelding
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject gebruikt je Gravatar als je er een bij %{gravatar_url} hebt geregistreerd, of een standaard afbeelding of pictogram als deze bestaat.
     text_avatar_local: Je kunt ook een eigen avatar uploaden die de Gravatar overschrijft door op de afbeelding te klikken. We raden een afbeelding van 128 bij 128 pixels aan.
     text_avatar_local_only: Je kunt ook een eigen avatar uploaden die de Gravatar overschrijft door op de afbeelding te klikken. We raden een afbeelding van 128 bij 128 pixels aan.

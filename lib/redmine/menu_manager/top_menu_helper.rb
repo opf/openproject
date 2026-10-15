@@ -107,6 +107,7 @@ module Redmine::MenuManager::TopMenuHelper
     capture do
       concat render_top_menu_teaser
       concat render_quick_add_menu
+      concat render(Header::WhatsNewMenuComponent.new)
       concat render_notification_top_menu_node
       concat render_help_top_menu_node
       concat render_user_top_menu_node

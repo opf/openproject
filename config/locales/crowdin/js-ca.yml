@@ -847,9 +847,7 @@ ca:
     text_user_wrote: "%{value} va escriure:"
     text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
     time_entry:
-      stop: Aturar
       title: Registrar temps
-      tracking: Seguiment de temps
       work_package_required: Requereix seleccionar un paquet de treball primer.
     timer:
       button_stop: Aturar el temporitzador actual

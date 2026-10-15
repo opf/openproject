@@ -499,6 +499,11 @@ Rails.application.routes.draw do
         get :children
       end
     end
+    resource :whats_new, only: :show, controller: "whats_new" do
+      get :dialog
+      post :seen
+      post :read
+    end
   end
 
   %w[portfolio project program].each do |workspace_type|
@@ -868,18 +873,27 @@ Rails.application.routes.draw do
         get :disconnect_dialog
         post :disconnect
       end
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
     end
 
     resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
       collection do
         get :search, defaults: { format: :turbo_stream }
         post :refresh
+        patch :defaults, action: :update_defaults
       end
 
       member do
         get :delete_dialog
       end
     end
+
+    # Keyed by feature key rather than by record id: the binding is an attribute
+    # of a registered feature, and a feature may not have a row yet.
+    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do

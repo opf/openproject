@@ -24,6 +24,7 @@ el:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Διάρκεια
         end_time: End time
         location: Τοποθεσία
@@ -90,6 +91,7 @@ el:
         meeting_agenda_item:
           section_not_belong_to_meeting: Το τμήμα δεν ανήκει στην ίδια συνάντηση.
           user_invalid: δεν είναι έγκυρος συμμετέχων.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: δεν είναι έγκυρος συμμετέχων.
         recurring_meeting:
@@ -316,6 +318,21 @@ el:
   label_view_meeting_series: View meeting series
   label_write_outcome: Write outcome
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.

@@ -36,7 +36,7 @@ class JournalsController < ApplicationController
                 only: [:diff]
   authorization_checked! :diff
 
-  accept_key_auth :index
+  accept_rss_key_auth :index
   menu_item :issues
 
   include QueriesHelper
