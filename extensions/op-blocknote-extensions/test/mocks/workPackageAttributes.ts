@@ -72,3 +72,17 @@ export const mockMilestoneSchema = {
   status: field('Status', 'Status', '_links'),
   _links: { self: { href: MILESTONE_SCHEMA_HREF } },
 };
+
+export const mockMilestoneWorkPackage = {
+  _type: 'WorkPackage',
+  id: 654,
+  displayId: 'PROJ-654',
+  subject: 'Public beta',
+  date: '2026-10-30',
+  _links: {
+    self: { href: '/api/v3/work_packages/654' },
+    schema: { href: MILESTONE_SCHEMA_HREF },
+    type: { title: 'Milestone', href: '/api/v3/types/3' },
+    status: { title: 'Scheduled', href: '/api/v3/statuses/3' },
+  },
+};

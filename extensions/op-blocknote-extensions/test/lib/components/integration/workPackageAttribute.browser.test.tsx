@@ -54,6 +54,26 @@ describe('Work package attribute chip', () => {
 
     await vi.waitFor(() => expect(chip().textContent).toBe('Jean Cérien, Hugo Martins'));
     expect(chip().getAttribute('title')).toBe('PROJ-321 · Redesign onboarding flow');
+    expect(getComputedStyle(chip()).backgroundColor).toBe('rgb(255, 255, 255)');
+    expect(getComputedStyle(chip()).boxShadow).toBe('rgb(209, 217, 224) 0px 0px 0px 1px inset');
+  });
+
+  it('is as tall as an inline work package beside it', async () => {
+    renderEditor({
+      initialContent: [{
+        type: 'paragraph',
+        content: [
+          { type: 'openProjectWorkPackageInline', props: { wpid: '123', size: 's', displayId: '123' } },
+          ' ',
+          { type: 'openProjectWorkPackageAttribute', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'subject', display: 'both' } },
+        ],
+      }],
+    });
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Subject: Redesign onboarding flow'));
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    const height = (selector:string) => document.querySelector(selector)!.getBoundingClientRect().height;
+    expect(height('.op-bn-wp-attribute')).toBeCloseTo(height('.op-bn-inline-wp-base'), 0);
   });
 
   it('shows the label of the attribute', async () => {
