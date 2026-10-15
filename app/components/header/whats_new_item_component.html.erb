@@ -27,44 +27,39 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::BaseComponent.new(
-        tag: :li,
-        classes: "op-whats-new--item",
-        display: :flex,
-        align_items: :flex_start,
-        px: 3,
-        py: 2,
-        test_selector: "op-header-whats-new-item"
-      )
-    ) do %>
-  <%= render(Primer::Box.new(flex: 1)) do %>
-    <%= render(
-          Primer::Beta::Link.new(
-            href: @item.url,
-            target: "_blank",
-            rel: "noopener",
-            font_weight: :semibold,
-            data: {
-              allow_external_link: true,
-              action: "header--whats-new#markRead",
-              "header--whats-new-key-param": @item.key
-            }
-          )
-        ) { @item.title } %>
-    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) { @item.description } %>
+<%= render(Primer::BaseComponent.new(tag: :li, test_selector: "op-header-whats-new-item")) do %>
+  <% if divider? %>
+    <%= render(OpenProject::Common::DividerComponent.new(mt: 0, mb: 0)) %>
   <% end %>
-  <% if unread? %>
-    <%= render(
-          Primer::Beta::Octicon.new(
-            :"dot-fill",
-            size: :small,
-            ml: 2,
-            mt: 1,
-            classes: "op-whats-new--dot",
-            aria: { label: t("header.whats_new.unread") },
-            data: { whats_new_dot: @item.key }
-          )
-        ) %>
+  <%= render(Primer::Box.new(display: :flex, align_items: :flex_start, px: 3, py: 2)) do %>
+    <%= render(Primer::Box.new(flex: 1)) do %>
+      <%= render(
+            Primer::Beta::Link.new(
+              href: @item.url,
+              target: "_blank",
+              rel: "noopener",
+              font_weight: :semibold,
+              data: {
+                allow_external_link: true,
+                action: "header--whats-new#markRead",
+                "header--whats-new-key-param": @item.key
+              }
+            )
+          ) { @item.title } %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) { @item.description } %>
+    <% end %>
+    <% if unread? %>
+      <%= render(
+            Primer::Beta::Octicon.new(
+              :"dot-fill",
+              size: :small,
+              ml: 2,
+              mt: 1,
+              classes: "op-whats-new--dot",
+              aria: { label: t("header.whats_new.unread") },
+              data: { whats_new_dot: @item.key }
+            )
+          ) %>
+    <% end %>
   <% end %>
 <% end %>

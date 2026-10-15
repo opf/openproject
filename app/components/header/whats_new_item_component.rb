@@ -32,10 +32,15 @@ module Header
   class WhatsNewItemComponent < ApplicationComponent
     with_collection_parameter :item
 
-    def initialize(item:, unread_keys:)
+    def initialize(item:, item_iteration:, unread_keys:)
       super()
       @item = item
+      @first = item_iteration.first?
       @unread = unread_keys.include?(item.key)
+    end
+
+    def divider?
+      !@first
     end
 
     def unread?
