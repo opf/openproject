@@ -69,6 +69,7 @@ RSpec.describe "What's new menu", :js do
 
       expect(page).to have_test_selector("op-header-whats-new-badge")
       expect(page).to have_no_test_selector("op-header-whats-new-content", visible: :all)
+      expect(page).to have_test_selector("op-header-whats-new-skeleton", visible: :all)
 
       find_test_selector("op-header-whats-new-button").click
 
@@ -77,6 +78,7 @@ RSpec.describe "What's new menu", :js do
         expect(page).to have_no_css("img")
         expect(page).to have_css("[data-whats-new-dot]", count: 2)
       end
+      expect(page).to have_no_test_selector("op-header-whats-new-skeleton", visible: :all)
       expect(page).to have_no_test_selector("op-header-whats-new-badge")
 
       visit home_path

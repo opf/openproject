@@ -35,6 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
           anchor_side: :outside_bottom,
           anchor_align: :end,
           anchor_offset: :spacious,
+          "alignment-offset": -16,
           size: :medium_portrait,
           padding: :none,
           role: :dialog,
@@ -53,7 +54,9 @@ See COPYRIGHT and LICENSE files for more details.
       <%= helpers.turbo_frame_tag Header::WhatsNewComponent.wrapper_key,
                                   src: header_whats_new_path,
                                   loading: :lazy,
-                                  target: "_top" %>
+                                  target: "_top" do %>
+        <%= render(Header::WhatsNewSkeletonComponent.new(item_count:)) %>
+      <% end %>
     <% end %>
   <% end %>
 

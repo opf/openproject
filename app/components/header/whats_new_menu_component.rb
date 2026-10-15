@@ -44,6 +44,10 @@ module Header
       t("header.whats_new.title", version: @release.version)
     end
 
+    def item_count
+      @release.items.size
+    end
+
     def seen?
       @release.seen?(@user)
     end
