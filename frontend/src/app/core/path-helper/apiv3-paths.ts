@@ -124,10 +124,16 @@ export class ApiV3Paths {
           [resource.id!],
         ];
       case 'Post':
-        return isNew ? this.projectMembersFilter(resource) : ['mentionable_on_message', '=', [resource.id!]];
+        return this.postMentionableFilter(resource);
       default:
         return null;
     }
+  }
+
+  private postMentionableFilter(post:HalResource):PrincipalsFilter {
+    const messageId = post.id ?? (post.topic as HalResource|undefined)?.id;
+
+    return messageId ? ['mentionable_on_message', '=', [messageId]] : this.projectMembersFilter(post);
   }
 
   private projectMembersFilter(resource:HalResource):PrincipalsFilter {
