@@ -68,7 +68,7 @@ module WhatsNew
     end
 
     def video_url
-      I18n.t("#{i18n_scope}.whats_new.video_url", default: nil).presence
+      OpenProject::Static::Links.url_for(:release_videos, url_templates: { MAJOR: major, MINOR: minor })
     end
 
     def unread_keys(user)

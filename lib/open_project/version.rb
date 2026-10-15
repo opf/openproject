@@ -82,8 +82,14 @@ module OpenProject
 
       def to_s; STRING end
 
-      def to_semver(separator: ".")
-        [MAJOR, MINOR, PATCH].join(separator)
+      def to_semver(include_patch: true, separator: ".")
+        parts =
+          if include_patch
+            [MAJOR, MINOR, PATCH]
+          else
+            [MAJOR, MINOR]
+          end
+        parts.join(separator)
       end
 
       private

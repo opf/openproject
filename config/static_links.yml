@@ -146,6 +146,8 @@ release_notes:
 release_notes_14_0_1:
   href: https://www.openproject.org/docs/release-notes/14/14-0-1/
   label: Release notes for OpenProject 14.0.1
+release_videos:
+  href: https://www.openproject.org/release-videos/{MAJOR}-{MINOR}
 report_bug:
   href: https://www.openproject.org/docs/development/report-a-bug/
   label: :label_report_bug
