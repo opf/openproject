@@ -22,6 +22,24 @@ describe('InlineWp callbacks registry', () => {
     clearInlineWpCallbacks(wpid);
   });
 
+  it('links by default', () => {
+    const wpid = makePendingWpid();
+
+    registerInlineWpCallbacks(wpid, vi.fn(), vi.fn());
+
+    expect(getPendingCallbacks(wpid)?.mode).toBe('link');
+    clearInlineWpCallbacks(wpid);
+  });
+
+  it('keeps the subject a creation opens with', () => {
+    const wpid = makePendingWpid();
+
+    registerInlineWpCallbacks(wpid, vi.fn(), vi.fn(), { mode: 'create', initialSubject: 'Redesign' });
+
+    expect(getPendingCallbacks(wpid)).toMatchObject({ mode: 'create', initialSubject: 'Redesign' });
+    clearInlineWpCallbacks(wpid);
+  });
+
   it('generates a unique pending wpid each time', () => {
     const wpid1 = makePendingWpid();
     const wpid2 = makePendingWpid();

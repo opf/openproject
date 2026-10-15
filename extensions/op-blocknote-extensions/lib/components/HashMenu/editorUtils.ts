@@ -1,7 +1,13 @@
 import type { AnyEditor } from '../../editorTypes';
 import type { WorkPackage } from '../../openProjectTypes';
-import { chipContentOf, promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
+import {
+  chipContentOf,
+  promoteInlineChipToBlockAt,
+  removePendingInlineChip,
+} from '../../utils/inlineChipActions';
 import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
+import { subjectOf } from '../../utils/subject';
+import { makePendingWpid, registerInlineWpCallbacks } from '../InlineWorkPackage/callbacks';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
 import type { HashTarget } from './hashTrigger';
 
@@ -15,6 +21,34 @@ export function insertWpForTarget(
 ):void {
   if (target.kind === 'inline') insertWpChip(editor, workPackage, target.size);
   else if (target.kind === 'block') insertWpBlockCard(editor, workPackage, target.size);
+}
+
+export function createWpForTarget(
+  editor:AnyEditor,
+  query:string,
+  target:HashTarget
+):void {
+  const pendingWpid = makePendingWpid();
+
+  registerInlineWpCallbacks(
+    pendingWpid,
+    (workPackage) => replacePendingChip(editor, pendingWpid, () => insertWpForTarget(editor, workPackage, target)),
+    () => replacePendingChip(editor, pendingWpid, () => restoreHashQuery(editor, query)),
+    { mode: 'create', initialSubject: subjectOf(query) }
+  );
+
+  (editor.insertInlineContent as (content:unknown[]) => void)([
+    { type: INLINE_WP_TYPE, props: { wpid: pendingWpid } },
+  ]);
+}
+
+// The cursor stays right behind the pending chip while the form is open, so
+// removing the chip leaves it where the replacement belongs.
+function replacePendingChip(editor:AnyEditor, pendingWpid:string, insertReplacement:() => void):void {
+  editor.focus();
+  editor.transact(() => {
+    if (removePendingInlineChip(editor, pendingWpid)) insertReplacement();
+  });
 }
 
 /**

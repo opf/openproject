@@ -3,6 +3,7 @@ import type { WorkPackage } from '../../openProjectTypes';
 export interface HashMenuItem {
   title:string;
   onItemClick:() => void;
+  createsWorkPackage?:boolean;
 }
 
 export interface HashSearchState {
