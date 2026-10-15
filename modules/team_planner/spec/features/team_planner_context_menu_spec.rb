@@ -5,7 +5,6 @@ require_relative "shared_context"
 
 RSpec.describe "Work package table context menu",
                :js,
-               :selenium,
                with_ee: %i[team_planner_view],
                with_settings: { start_of_week: 1 } do
   include_context "with team planner full access"

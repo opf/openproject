@@ -87,7 +87,7 @@ RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/pr
 
 ## System tests
 
-System tests are also called _rspec feature specs_ and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) and [Selenium](https://www.selenium.dev/documentation/webdriver/) to run. They are automatically executed with an actual browser when `js: true` is set.
+System tests are also called _rspec feature specs_ and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) to run. They are automatically executed with an actual browser when `js: true` is set. The default browser driver is [Cuprite](https://github.com/rubycdp/cuprite). Some specs use [Selenium](https://www.selenium.dev/documentation/webdriver/). See [Browser drivers](../browser-drivers/) for when to use which driver.
 
 To run feature specs, it is important that the frontend assets are being served. This is done by running `npm run serve`
 in a separate terminal tab. This will start the Angular CLI and serve the frontend assets on `http://localhost:4200`.
@@ -107,7 +107,7 @@ variable `SKIP_CAPYBARA_BROWSER_LOGS` to `true` in your `.env` file or export it
 
 For the javascript dependent integration tests, you have to install Chrome and Firefox, to run them locally.
 
-Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. We have tests that mostly depend on Chrome and Chromedriver, but some also require specific behavior that works better in automated Firefox browsers.
+Capybara uses Cuprite to drive Chrome and perform the actions we describe in each spec. Specs that need a Selenium driver use Chrome and Chromedriver, and some of them need Firefox. See [Browser drivers](../browser-drivers/) for the details.
 
 ### Running system tests
 
@@ -189,7 +189,7 @@ There is no need to prefix this with the `RAILS_ENV` here since we've exported i
 
 ### Headless testing
 
-Firefox tests through Selenium are run with Chrome as `--headless` by default. This means that you do not see the browser that is being tested. Sometimes you will want to see what the test is doing to debug. To override this behavior and watch the Chrome or Firefox instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
+Browser tests run headless by default, with Cuprite and with Selenium. This means that you do not see the browser that is being tested. Sometimes you will want to see what the test is doing to debug. To override this behavior and watch the Chrome or Firefox instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
 
 #### Troubleshooting
 

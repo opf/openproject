@@ -10,7 +10,7 @@ RSpec.shared_examples "as an accessible inplace editor" do
 
   it "triggers edit mode on RETURN key" do
     page.document.synchronize(20) { scroll_to_element(field.display_element) }
-    field.display_element.send_keys(:return)
+    send_keys_without_click(field.display_element, :return)
     field.expect_active!
     field.cancel_by_escape
   end

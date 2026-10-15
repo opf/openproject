@@ -21,24 +21,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<% OpenProject::Plugins::AuthPlugin.providers.each do |provider| %>
-  <% if provider[:icon] %>
-    <style>
-      #content .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
-        background-image: url('<%= asset_path(provider[:icon]) %>');
-      }
-      .op-app-header #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
-        background-image:  url('<%= asset_path(provider[:icon]) %>') ;
-      }
-      .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
-        background-image: url('<%= asset_path(provider[:icon]) %>') ;
-      }
-    </style>
-  <% end -%>
+<%= render(Primer::Box.new(classes: "account-prompt", border: :top, mt: 4, pt: 4, text_align: :center)) do %>
+  <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 3)) do %>
+    <%= I18n.t("account.already_have_an_account") %>
+  <% end %>
+  <%= render(Primer::Beta::Link.new(href: signin_path, font_weight: :semibold)) do %>
+    <%= I18n.t(:button_login) %>
+  <% end %>
 <% end %>
