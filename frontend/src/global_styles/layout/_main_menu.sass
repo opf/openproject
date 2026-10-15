@@ -61,7 +61,7 @@ $arrow-left-width: 36px
     display: flex
     flex-direction: column
     +allow-vertical-scrolling
-    height: calc(100dvh - var(--header-height))
+    height: calc(100dvh - var(--header-height) - var(--warning-bar-height, 0px))
     position: relative
     @include styled-scroll-bar
     padding: 0 var(--main-menu-x-spacing) var(--main-menu-x-spacing) var(--main-menu-x-spacing)
