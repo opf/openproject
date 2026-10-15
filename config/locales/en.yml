@@ -2414,6 +2414,21 @@ en:
         not_available: "The AI assistant is not available."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
+      pane:
+        cancel: "Cancel"
+        close: "Close"
+        copied: "Copied"
+        copy: "Copy"
+        discard: "Discard"
+        editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
+        failed_title: "Generation failed"
+        generating: "Generating…"
+        replace: "Replace"
+        selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
+        stopped_description: "The response was blocked before it finished, so the partial text was discarded."
+        stopped_title: "Generation stopped"
+        title: "AI result"
+        try_again: "Try again"
   announcements:
     content: "Content"
     is_active: currently displayed
@@ -3781,6 +3796,10 @@ en:
       leave_project: "Leave project"
       no_favorite_projects: "You have no favorite projects."
       title: "Projects"
+    whats_new:
+      title: "What's new in %{version}"
+      unread: "Unread"
+      view_release_video: "View release video"
 
   health_reports:
     common:
@@ -3834,6 +3853,32 @@ en:
             line_6: "Use Date alerts in the Community Edition."
           new_features_title: >
             The release contains various new features and improvements, such as:
+        "18_0":
+          new_features_list:
+            line_0:
+              description: "Use with shared and project-specific workflows and forms"
+              title: "Type variants"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+            line_1:
+              description: "Sprint reports, including many new charts"
+              title: "Agile Reporting"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+            line_2:
+              description: "Summarize text, change formats, base it on templates"
+              title: "AI Text Actions"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+            line_3:
+              description: "Create and reuse tags"
+              title: "Labels"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+            line_4:
+              description: "Configure or delegate custom fields per project"
+              title: "Project-specific values"
+              url: "https://www.openproject.org/docs/release-notes/18-0-0/"
+          new_features_title: >
+            The release contains various new features and improvements, such as:
+          whats_new:
+            video_url: "https://www.youtube.com/c/OpenProjectCommunity"
         header: "Read about new features and product updates."
         learn_about: "Learn more about all new features"
         missing: "There are no highlighted features yet."

@@ -8,8 +8,8 @@
         <div>
           <p><%= new_features_title %></p>
           <ul class="widget-box--arrow-links">
-            <% new_features.each do |line| %>
-              <li><%= line %></li>
+            <% new_features.each do |feature| %>
+              <li><%= feature.title %>: <%= feature.description %></li>
             <% end %>
           </ul>
         </div>
