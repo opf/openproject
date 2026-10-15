@@ -5,4 +5,11 @@
     <%= render partial: "warning_bar/unsupported_browser" if unsupported_browser? %>
     <%= render partial: "warning_bar/missing_wp_edit_role_workflows" if render_workflow_missing_warning? %>
   <% end %>
+  <%= render(
+        AdminElevationSessions::BannerComponent.new(
+          project: @project,
+          user: current_user,
+          elevation_sessions: current_admin_elevation_sessions
+        )
+      ) %>
 </div>
