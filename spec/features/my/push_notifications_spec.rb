@@ -97,12 +97,13 @@ RSpec.describe "My account browser notifications",
       Sessions::UserSession.find_by!(session_id: page.driver.request.session.id.private_id)
     end
     let(:other_session_row) do
-      Sessions::UserSession.find_by!(
-        session_id: create(:user_session, user:, data: { browser: "Safari", browser_version: "17", platform: "iOS" }).session_id
-      )
+      Sessions::UserSession.find_by!(session_id: create(:user_session, user:).session_id)
     end
     let!(:current_subscription) { create(:push_subscription, user:, session: current_session_row) }
-    let!(:other_subscription) { create(:push_subscription, user:, session: other_session_row) }
+    let!(:other_subscription) do
+      create(:push_subscription, user:, session: other_session_row,
+                                 browser_name: "Safari", browser_version: "17", platform: "iOS")
+    end
 
     before { visit my_notifications_path(tab: "push") }
 
@@ -128,6 +129,28 @@ RSpec.describe "My account browser notifications",
       expect(page).to have_test_selector("push-subscription-row", count: 1)
       expect(PushSubscription.where(id: other_subscription.id)).not_to exist
       expect(PushSubscription.where(id: current_subscription.id)).to exist
+    end
+  end
+
+  context "with a device that is signed out" do
+    let!(:dormant_subscription) do
+      create(:push_subscription, user:, session: nil, browser_name: "Firefox", browser_version: "133", platform: "Linux")
+    end
+
+    before { visit my_notifications_path(tab: "push") }
+
+    it "shows the device as signed out and lets the user revoke it" do
+      within_test_selector("push-subscription-row") do
+        expect(page).to have_text("Firefox (Version 133)")
+        expect(page).to have_text("Linux")
+        expect(page).to have_text(I18n.t("my_account.push_notifications.signed_out"))
+
+        find_test_selector("push-subscription-revoke-button").click
+      end
+
+      expect(page).to have_text(I18n.t("my_account.push_notifications.revoked"))
+      expect(page).to have_no_test_selector("push-subscription-row")
+      expect(PushSubscription.where(id: dormant_subscription.id)).not_to exist
     end
   end
 end
