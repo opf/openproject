@@ -120,7 +120,7 @@ module ResourceAllocations
       capacity = capacity_minutes_within(range)
       return if capacity.zero?
 
-      ((booked_minutes_within(range).to_f / capacity) * 100).round
+      ((scheduled_minutes_within(range).to_f / capacity) * 100).round
     end
 
     # The minutes the user works within the given range, before anything booked
@@ -132,11 +132,8 @@ module ResourceAllocations
         WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
     end
 
-    # Minutes already booked against the user within the given range. Allocations
-    # overlapping it only partially are counted proportionally to capacity.
-    # Zero when the user has nothing booked there.
     def scheduled_minutes_within(range)
-      booked_minutes_within(range)
+      optimal_schedule.by_date.sum { |date, entries| range.cover?(date) ? entries.sum(&:minutes) : 0 }
     end
 
     private
@@ -220,29 +217,6 @@ module ResourceAllocations
           overtime_minutes:
         )
       end
-    end
-
-    def booked_minutes_within(range)
-      return 0 if allocations.empty?
-
-      allocations.sum { |allocation| allocation_minutes_within(allocation, range) }
-    end
-
-    def allocation_minutes_within(allocation, range)
-      overlap_start = [allocation.start_date, range.begin].max
-      overlap_end = [allocation.end_date, range.end].min
-      return 0 if overlap_start > overlap_end
-
-      total = capacity_between(allocation.start_date, allocation.end_date)
-      return 0 if total.zero?
-
-      overlap = capacity_between(overlap_start, overlap_end)
-
-      (allocation.allocated_time * overlap.to_f / total).round
-    end
-
-    def capacity_between(first, last)
-      base_calendar.prefix_total(last) - base_calendar.prefix_total(first - 1)
     end
   end
 end

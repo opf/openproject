@@ -400,27 +400,37 @@ RSpec.describe ResourceAllocations::Availability do
       expect(availability.utilization_ratio(monday..friday)).to eq(75)
     end
 
-    it "counts only the portion of an allocation that overlaps the window" do
-      # 2000 min booked across Mon-Fri, only 2/5 (800 min) fall in the Mon-Tue window,
-      # measured against that window's 960 min capacity
+    it "counts the time the schedule places within the window" do
       create(:resource_allocation, principal: user, allocated_time: 2000, start_date: monday, end_date: friday)
 
-      expect(availability.utilization_ratio(monday..tuesday)).to eq(83) # 800 / 960
+      expect(availability.utilization_ratio(monday..tuesday)).to eq(100)
+      expect(availability.utilization_ratio(friday..friday)).to eq(17)
     end
 
-    it "prorates by working time capacity across user-specific daily hours" do
+    it "follows the schedule instead of spreading an allocation evenly over its window" do
+      create(:resource_allocation, principal: user, allocated_time: 2400, start_date: monday, end_date: friday + 7)
+
+      expect(availability.utilization_ratio(monday..friday)).to eq(100)
+      expect(availability.utilization_ratio((monday + 7)..(friday + 7))).to eq(0)
+    end
+
+    it "counts the overtime placed within the window" do
+      create(:resource_allocation, principal: user, allocated_time: 600, start_date: monday, end_date: monday)
+
+      expect(availability.utilization_ratio(monday..monday)).to eq(125)
+    end
+
+    it "measures each day against the user's working hours on that day" do
       part_timer = create(:user)
       create(:user_working_hours, user: part_timer, valid_from: Date.new(2025, 1, 1), monday: 240)
       part_availability = described_class.new(user: part_timer)
       next_monday = Date.new(2026, 1, 12)
 
-      # 720 min booked Fri-Mon is distributed by capacity:
-      # 480 to Friday for 8h and 240 to Monday for 4h, filling each day to 100%.
       create(:resource_allocation, principal: part_timer, entity: create(:work_package),
                                    allocated_time: 720, start_date: friday, end_date: next_monday)
 
-      expect(part_availability.utilization_ratio(friday..friday)).to eq(100)            # 480 / 480
-      expect(part_availability.utilization_ratio(next_monday..next_monday)).to eq(100)  # 240 / 240
+      expect(part_availability.utilization_ratio(friday..friday)).to eq(100)
+      expect(part_availability.utilization_ratio(next_monday..next_monday)).to eq(100)
     end
 
     it "ignores allocations that fall entirely outside the window" do
