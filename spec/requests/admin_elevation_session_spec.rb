@@ -65,10 +65,17 @@ RSpec.describe "Admin privilege elevation for Rails requests",
         expect(get_project_settings).to have_http_status(:forbidden)
       end
 
-      it "shows the elevation banner on the project overview", :aggregate_failures do
+      it "shows the elevation banner in the bottom bar of the project overview", :aggregate_failures do
         browser.get "/projects/#{project.identifier}"
 
         expect(browser.response).to have_http_status(:ok)
+        expect(Capybara.string(browser.response.body))
+          .to have_css('.warning-bar--wrapper [data-test-selector="admin-elevation-banner"]')
+      end
+
+      it "shows the elevation banner with the warning bars disabled", with_config: { show_warning_bars: false } do
+        browser.get "/projects/#{project.identifier}"
+
         expect(browser.response.body).to include('data-test-selector="admin-elevation-banner"')
       end
     end
@@ -76,11 +83,12 @@ RSpec.describe "Admin privilege elevation for Rails requests",
     context "with an active elevation for the project in the session for the overview" do
       before { create(:admin_elevation_session, user: admin, project:, session_id:) }
 
-      it "shows the elevated banner on the project overview", :aggregate_failures do
+      it "shows the elevated banner in the bottom bar of the project overview", :aggregate_failures do
         browser.get "/projects/#{project.identifier}"
 
         expect(browser.response).to have_http_status(:ok)
-        expect(browser.response.body).to include('data-test-selector="admin-elevation-banner-elevated"')
+        expect(Capybara.string(browser.response.body))
+          .to have_css('.warning-bar--wrapper [data-test-selector="admin-elevation-banner-elevated"]')
         expect(browser.response.body).not_to include('data-test-selector="admin-elevation-banner"')
       end
     end
