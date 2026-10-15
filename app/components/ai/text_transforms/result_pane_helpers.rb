@@ -40,6 +40,14 @@ module AI
       def label(key)
         I18n.t("ai.text_transform.pane.#{key}")
       end
+
+      def target(name)
+        { ai_text_transform_pane_target: name }
+      end
+
+      def action(name, event: "click")
+        { action: "#{event}->ai-text-transform-pane##{name}" }
+      end
     end
   end
 end
