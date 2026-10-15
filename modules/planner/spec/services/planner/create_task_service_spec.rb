@@ -48,12 +48,14 @@ RSpec.describe Planner::CreateTaskService do
   let(:subject_text) { "Reply to Lena about the demo slot" }
   let(:task) { subject.result }
   let(:day_part_field) { Planner::DayPartField.find }
+  let(:planner_project) { Planner::ProjectService.new(user).call.result }
+  let(:service) { described_class.new(user:, project: planner_project) }
 
-  subject { described_class.new(user:).call(subject: subject_text, day_part: "afternoon") }
+  subject { service.call(subject: subject_text, day_part: "afternoon") }
 
   it "creates a task in My work, due today, in the given day part" do
     expect(subject).to be_success, -> { subject.message }
-    expect(task.project).to eq(Planner::ProjectService.new(user).call.result)
+    expect(task.project).to eq(planner_project)
     expect(task.type).to eq(task_type)
     expect(task.subject).to eq(subject_text)
     expect(task.due_date).to eq(user.today)
@@ -61,7 +63,7 @@ RSpec.describe Planner::CreateTaskService do
   end
 
   context "with a date" do
-    subject { described_class.new(user:).call(subject: subject_text, date: user.today + 3) }
+    subject { service.call(subject: subject_text, date: user.today + 3) }
 
     it "creates the task due that day, in the morning" do
       expect(subject).to be_success, -> { subject.message }
@@ -71,7 +73,7 @@ RSpec.describe Planner::CreateTaskService do
   end
 
   context "with notes" do
-    subject { described_class.new(user:).call(subject: subject_text, description: "Ask about **slot 2**") }
+    subject { service.call(subject: subject_text, description: "Ask about **slot 2**") }
 
     it "keeps them as the task's description" do
       expect(subject).to be_success, -> { subject.message }
@@ -80,7 +82,7 @@ RSpec.describe Planner::CreateTaskService do
   end
 
   context "without a date" do
-    subject { described_class.new(user:).call(subject: subject_text, date: nil) }
+    subject { service.call(subject: subject_text, date: nil) }
 
     it "creates an undated task" do
       expect(subject).to be_success, -> { subject.message }
@@ -103,7 +105,7 @@ RSpec.describe Planner::CreateTaskService do
 
   context "when the Day part field was deleted" do
     before do
-      Planner::ProjectService.new(user).call
+      planner_project
       WorkPackageCustomField.for_semantic_key(:day_part).destroy
     end
 

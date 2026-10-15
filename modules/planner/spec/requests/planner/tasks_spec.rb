@@ -43,6 +43,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
   end
   let!(:workflow) { create(:status_transition, type: task_type, role:, old_status: status, new_status: closed_status) }
   let(:user) { create(:user) }
+  let(:planner_project) { Planner::ProjectService.new(user).call.result }
   let(:params) { { task: { subject: "Book train to the offsite", day_part: "evening" } } }
 
   current_user { user }
@@ -182,7 +183,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
   end
 
   describe "ticking a task off", with_flag: { planner: true } do
-    let(:task) { Planner::CreateTaskService.new(user:).call(subject: "Book train", day_part: :evening).result }
+    let(:task) { Planner::CreateTaskService.new(user:, project: planner_project).call(subject: "Book train", day_part: :evening).result }
     let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
     subject { patch planner_task_path(task), params: { done: true }, headers: }
@@ -217,7 +218,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
   end
 
   describe "moving tasks", with_flag: { planner: true } do
-    let(:task) { Planner::CreateTaskService.new(user:).call(subject: "Book train", day_part: :morning).result }
+    let(:task) { Planner::CreateTaskService.new(user:, project: planner_project).call(subject: "Book train", day_part: :morning).result }
     let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
     it "moves a task to another day part" do
@@ -253,7 +254,9 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
 
     context "when planning from Overdue" do
       let!(:left_over) do
-        Planner::CreateTaskService.new(user:).call(subject: "Left over", day_part: :afternoon).result.tap do |task|
+        Planner::CreateTaskService
+          .new(user:, project: planner_project)
+          .call(subject: "Left over", day_part: :afternoon).result.tap do |task|
           task.update_columns(start_date: user.today - 3, due_date: user.today - 3)
         end
       end
@@ -276,7 +279,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
   end
 
   describe "deleting a task", with_flag: { planner: true } do
-    let!(:task) { Planner::CreateTaskService.new(user:).call(subject: "Book train", day_part: :morning).result }
+    let!(:task) { Planner::CreateTaskService.new(user:, project: planner_project).call(subject: "Book train", day_part: :morning).result }
     let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
     it "offers it in the task menu, after a confirmation" do
@@ -293,7 +296,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       let(:work_package) { create(:work_package, project: team_project) }
       let!(:task) do
         create(:member, project: team_project, principal: user, roles: [role])
-        Planner::AddWorkPackageService.new(user:).call(work_package:).result
+        Planner::AddWorkPackageService.new(user:, project: planner_project).call(work_package:).result
       end
 
       it "offers to remove it from My planner, keeping the work package" do
@@ -344,12 +347,14 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         expect(response.body).to match(/name="task\[day_part\]"[^>]*value="evening"|value="evening"[^>]*name="task\[day_part\]"/)
         expect(response.body).to include('name="task[subject]"').and include("augmented-text-area-description")
         expect(response.body).not_to include("planner-work-package-autocompleter")
+        expect(response.body).to include('name="from_work_package"')
       end
 
-      it "adds a to-do about it and confirms with a flash" do
+      it "adds a to-do about it and confirms with a flash, without a view to refresh" do
         post(planner_tasks_path,
              params: { task: { work_package_id: work_package.id, subject: "Write Maya about the docs",
-                               date: user.today.iso8601, day_part: "afternoon", description: "Docs for the API" } },
+                               date: user.today.iso8601, day_part: "afternoon", description: "Docs for the API" },
+                       from_work_package: true },
              headers:)
 
         task = WorkPackage.last
@@ -358,6 +363,8 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         expect(Relation.where(from: task, to: work_package)).to exist
         expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
         expect(response.body).to include("Added to Afternoon in My planner.")
+        expect(response.body).not_to include("planner_sidemenu")
+        expect(response.body).not_to include("planner-today")
       end
     end
 

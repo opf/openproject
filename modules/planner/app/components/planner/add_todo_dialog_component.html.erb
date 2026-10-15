@@ -44,6 +44,9 @@ See COPYRIGHT and LICENSE files for more details.
       <% if view.param %>
         <%= hidden_field_tag :view, view.param, id: nil %>
       <% end %>
+      <% if work_package %>
+        <%= hidden_field_tag :from_work_package, true, id: nil %>
+      <% end %>
       <%= render(Planner::TaskForm.new(f, date:, day_part:, planner_project:, work_package:)) %>
     <% end %>
   <% end %>

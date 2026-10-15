@@ -107,7 +107,7 @@ module Planner
 
     def create_todo
       Planner::CreateTaskService
-        .new(user: current_user)
+        .new(user: current_user, project: planner_project)
         .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date,
               description: task_params[:description])
     end
@@ -118,7 +118,7 @@ module Planner
       return ServiceResult.failure(message: t("planner.errors.work_package_not_found")) unless work_package
 
       Planner::AddWorkPackageService
-        .new(user: current_user)
+        .new(user: current_user, project: planner_project)
         .call(work_package:, date: task_date || current_user.today, day_part: attributes[:day_part],
               note: attributes[:subject], description: attributes[:description])
     end
@@ -138,7 +138,7 @@ module Planner
 
     def respond_with_view(call)
       if call.success?
-        refresh_view_via_turbo_stream
+        refresh_view_via_turbo_stream unless params[:from_work_package]
       else
         render_error_flash_message_via_turbo_stream(message: call.message)
       end
