@@ -28,33 +28,35 @@
 #++
 
 module ResourceAllocations
-  # Places divisible work items onto a user's daily capacity using
+  # Places divisible allocations onto a user's daily capacity using
   # Earliest-Deadline-First water-filling: walking days chronologically, each
-  # day is filled from the active items (window contains the day, work left)
-  # in order of nearest end date. For single-resource divisible scheduling with
-  # release dates and deadlines this is optimal for feasibility, so any minutes
-  # left over could not have fit under any placement.
+  # day is filled from the active allocations (window contains the day, work
+  # left) in order of nearest end date. For single-resource divisible
+  # scheduling with release dates and deadlines this is optimal for
+  # feasibility, so any minutes left over could not have fit under any
+  # placement.
   #
   # Those leftover minutes are spread as `overtime` over the working days of
-  # the item's own window, in proportion to each day's capacity. Items whose
-  # window has no working day report them as `unplannable` instead.
+  # the allocation's own window, in proportion to each day's capacity.
+  # Allocations whose window has no working day report them as `unplannable`
+  # instead.
   #
-  # The `calendar` must span the items' combined window.
+  # The `calendar` must span the allocations' combined window.
   class FitCalculator
     Result = Data.define(:placements, :overtime, :unplannable) do
       def feasible? = overtime.empty? && unplannable.empty?
     end
 
-    def initialize(calendar:, items:)
+    def initialize(calendar:, allocations:)
       @calendar = calendar
-      @items = items
+      @allocations = allocations
     end
 
     def call
-      remaining = @items.to_h { |item| [item.id, item.minutes] }
-      placements = Hash.new { |hash, id| hash[id] = {} }
+      remaining = @allocations.index_with(&:allocated_time)
+      placements = Hash.new { |hash, allocation| hash[allocation] = {} }
 
-      each_day_with_active_items(remaining) do |date, active|
+      each_day_with_active_allocations(remaining) do |date, active|
         fill_day(date, active, remaining, placements)
       end
 
@@ -66,26 +68,25 @@ module ResourceAllocations
     private
 
     def distribute_leftover(remaining)
-      items_by_id = @items.index_by(&:id)
       overtime = {}
       unplannable = {}
 
-      remaining.each do |id, minutes|
+      remaining.each do |allocation, minutes|
         next unless minutes.positive?
 
-        shares = overtime_shares(items_by_id.fetch(id), minutes)
+        shares = overtime_shares(allocation, minutes)
         if shares.empty?
-          unplannable[id] = minutes
+          unplannable[allocation] = minutes
         else
-          overtime[id] = shares
+          overtime[allocation] = shares
         end
       end
 
       [overtime, unplannable]
     end
 
-    def overtime_shares(item, minutes)
-      capacities = working_day_capacities(item)
+    def overtime_shares(allocation, minutes)
+      capacities = working_day_capacities(allocation)
       total = capacities.values.sum
       return {} if total.zero?
 
@@ -108,31 +109,27 @@ module ResourceAllocations
       shares
     end
 
-    def working_day_capacities(item)
-      (item.start_date..item.end_date).filter_map do |date|
+    def working_day_capacities(allocation)
+      (allocation.start_date..allocation.end_date).filter_map do |date|
         capacity = @calendar.capacity_on(date)
         [date, capacity] if capacity.positive?
       end.to_h
     end
 
-    # Fills the day from the active items in earliest-deadline order.
     def fill_day(date, active, remaining, placements)
       free = @calendar.capacity_on(date)
-      active.each do |item|
+      active.each do |allocation|
         break if free.zero?
 
-        take = [remaining[item.id], free].min
-        placements[item.id][date] = take
-        remaining[item.id] -= take
+        take = [remaining[allocation], free].min
+        placements[allocation][date] = take
+        remaining[allocation] -= take
         free -= take
       end
     end
 
-    # Yields each day on which items with work left are within their window,
-    # together with those items in earliest-deadline order. Days without any
-    # such item are skipped.
-    def each_day_with_active_items(remaining)
-      pending = items_with_work_by_start_date
+    def each_day_with_active_allocations(remaining)
+      pending = allocations_with_work_by_start_date
       active = []
       date = pending.first&.start_date
 
@@ -142,20 +139,20 @@ module ResourceAllocations
 
         yield date, active
 
-        active.reject! { |item| remaining[item.id].zero? }
+        active.reject! { |allocation| remaining[allocation].zero? }
         date = active.empty? ? pending.first&.start_date : date + 1
       end
     end
 
-    def items_with_work_by_start_date
-      @items.select { |item| item.minutes.positive? }.sort_by(&:start_date)
+    def allocations_with_work_by_start_date
+      @allocations.select { |allocation| allocation.allocated_time.positive? }.sort_by(&:start_date)
     end
 
     def activate_starting_on(date, pending, active)
       while pending.first&.start_date == date
-        item = pending.shift
-        index = active.bsearch_index { |other| (priority(other) <=> priority(item)).positive? } || active.size
-        active.insert(index, item)
+        allocation = pending.shift
+        index = active.bsearch_index { |other| (priority(other) <=> priority(allocation)).positive? } || active.size
+        active.insert(index, allocation)
       end
     end
 
@@ -163,8 +160,10 @@ module ResourceAllocations
       active.shift while active.any? && active.first.end_date < date
     end
 
-    def priority(item)
-      [item.end_date, item.start_date, item.id]
+    # An allocation that is not persisted yet loses ties against every
+    # persisted one.
+    def priority(allocation)
+      [allocation.end_date, allocation.start_date, allocation.id || Float::INFINITY]
     end
   end
 end

@@ -38,8 +38,10 @@ module ResourceAllocations
       StaticCalendar.new(capacities:)
     end
 
-    def work_item(id, start_date, end_date, minutes)
-      WorkItem.new(id:, start_date:, end_date:, minutes:)
+    StubAllocation = Data.define(:id, :start_date, :end_date, :allocated_time)
+
+    def allocation(id, start_date, end_date, minutes)
+      StubAllocation.new(id:, start_date:, end_date:, allocated_time: minutes)
     end
   end
 end
