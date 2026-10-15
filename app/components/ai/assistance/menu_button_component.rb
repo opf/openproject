@@ -31,8 +31,8 @@
 module AI
   module Assistance
     # The AI Assistance menu in the app header (see HeaderButtonComponent): an icon button with
-    # one flat item per skill, the assistant's name as an inline label, and the user's history
-    # at the end. Empty renders only the frame.
+    # one section per assistant, headed by its name, and the user's history at the end. Empty
+    # renders only the frame.
     class MenuButtonComponent < ApplicationComponent
       FRAME_ID = "wp-ai-assistance-menu"
 
@@ -47,8 +47,9 @@ module AI
 
       def empty? = @empty
 
-      def history_path
-        url_helpers.history_work_package_ai_assistance_chat_path(work_package)
+      # Personal assistants first, then group, then global ones. The order inside each kind is kept.
+      def skills_by_assistant
+        skills.group_by(&:assistant).sort_by.with_index { |(assistant, _), index| [owner_rank(assistant), index] }
       end
 
       # A chat skill opens its chat; any other starts a new conversation that it answers at once.
@@ -60,6 +61,19 @@ module AI
           { href: url_helpers.start_work_package_ai_assistance_chat_path(work_package),
             form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
         end
+      end
+
+      private
+
+      def owner_rank(assistant)
+        if assistant.personal? then 0
+        elsif assistant.group? then 1
+        else 2
+        end
+      end
+
+      def history_path
+        url_helpers.history_work_package_ai_assistance_chat_path(work_package)
       end
     end
   end

@@ -90,7 +90,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
   end
 
   describe "the menu items" do
-    it "lists each skill with its assistant as a label, and the history" do
+    it "lists each skill under a heading with its assistant's name, and the history" do
       get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
       expect(response).to have_http_status(:ok)
@@ -157,11 +157,15 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     context "for its owner" do
       let(:user) { owner }
 
-      it "lists its skill after the global ones" do
+      it "lists personal, then group, then global assistants" do
+        group = create(:group, members: [owner])
+        create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "Team helper", principal: group), prompt: "Go.")
+
         get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
-        expect(response.body).to include("My helper")
-        expect(response.body.index(%(value="#{skill.id}"))).to be < response.body.index(%(value="#{personal_skill.id}"))
+        positions = ["My helper", "Team helper", "QA assistance"].map { |name| response.body.index(name) }
+        expect(positions).to all(be_present)
+        expect(positions).to eq(positions.sort)
       end
     end
 

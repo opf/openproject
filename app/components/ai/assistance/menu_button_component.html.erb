@@ -31,7 +31,7 @@
 
 <%= content_tag("turbo-frame", id: FRAME_ID) do %>
   <% unless empty? %>
-    <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end, data: { test_selector: "wp-ai-assistance-menu" })) do |menu| %>
+    <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end, size: :medium_portrait, data: { test_selector: "wp-ai-assistance-menu" })) do |menu| %>
       <% menu.with_show_button(
            icon: :sparkle,
            scheme: :invisible,
@@ -40,26 +40,31 @@
            tooltip_direction: :s,
            data: { test_selector: "wp-ai-assistance-button" }
          ) %>
-      <% skills.each do |skill| %>
-        <% menu.with_item(
-             label: skill.display_label,
-             **item_arguments(skill),
-             data: { test_selector: "wp-ai-assistance-skill-#{skill.variant}" }
-           ) do |item| %>
-          <% item.with_leading_visual_icon(icon: skill.icon) %>
-          <% item.with_trailing_visual_label(scheme: :secondary) { skill.assistant.name } %>
-          <% if skill.display_description.present? %>
-            <% item.with_description { skill.display_description } %>
+      <% skills_by_assistant.each do |assistant, assistant_skills| %>
+        <% menu.with_group(data: { test_selector: "wp-ai-assistance-group" }) do |group| %>
+          <% group.with_heading(title: assistant.name) %>
+          <% assistant_skills.each do |skill| %>
+            <% group.with_item(
+                 label: skill.display_label,
+                 **item_arguments(skill),
+                 data: { test_selector: "wp-ai-assistance-skill-#{skill.variant}" }
+               ) do |item| %>
+              <% item.with_leading_visual_icon(icon: skill.icon) %>
+              <% if skill.display_description.present? %>
+                <% item.with_description { skill.display_description } %>
+              <% end %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>
-      <% menu.with_divider %>
-      <% menu.with_item(
-           label: t("ai_assistance.history.title"),
-           href: history_path,
-           content_arguments: { data: { controller: "async-dialog", turbo_stream: true } }
-         ) do |item| %>
-        <% item.with_leading_visual_icon(icon: :history) %>
+      <% menu.with_group do |group| %>
+        <% group.with_item(
+             label: t("ai_assistance.history.title"),
+             href: history_path,
+             content_arguments: { data: { controller: "async-dialog", turbo_stream: true } }
+           ) do |item| %>
+          <% item.with_leading_visual_icon(icon: :history) %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
