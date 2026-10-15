@@ -37,7 +37,9 @@ class ApplicationForm < Primer::Forms::Base
     end
   end
 
-  delegate :helpers, to: :ApplicationController
+  def helpers
+    @view_context || ApplicationController.helpers
+  end
 
   def url_helpers
     Rails.application.routes.url_helpers
