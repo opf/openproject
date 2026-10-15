@@ -57,7 +57,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Create subprojects** – Allows users to create subprojects.
 
-- **Copy projects** – Allows users to create a new project by copying an existing project.
+- **Duplicate projects** – Allows users to create a new project by duplicating an existing project.
 
   For project templates, this permission also allows users to create new projects based on the template.
 
@@ -232,7 +232,7 @@ Some permissions depend on additional permissions or have behavior that is not i
 |------------|------------------------|
 | Manage members | Allows assigning any project role, including to oneself. Effectively grants full administrative access to the project. |
 | Invite members by email | Requires **Manage members**. |
-| Copy projects | Users are assigned the configured **New role for users that create projects** in the copied project. <br>Accessing **Duplicate** from **Project settings** typically also requires **Edit project**. |
+| Duplicate projects | Users are assigned the configured **New role for users that create projects** in the duplicated project. <br>Accessing **Duplicate** from **Project settings** typically also requires **Edit project**. |
 | Add attachments | Can be granted independently of **Edit work packages**. |
 | Change work package status | Can be granted independently of **Edit work packages**. |
 | Become assignee/responsible | Controls whether a user or group can be selected as assignee or responsible for work packages. |
