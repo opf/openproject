@@ -13,6 +13,7 @@ en:
         icon: "Custom icon"
         identifier: Identifier
         idp_cert: Public certificate of identity provider
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: Identity provider entity ID
         idp_slo_service_url: Identity provider logout endpoint
         idp_sso_service_url: Identity provider login endpoint
@@ -147,6 +148,16 @@ en:
       label_uid: Internal user id
       metadata:
         dialog: "This is the URL where the OpenProject SAML metadata is available. Optionally use it to configure your identity provider:"
+      metadata_refresh:
+        apply: "Apply changes"
+        button: "Refresh metadata"
+        current_value: "Current value"
+        description: "Review the configuration fetched from your identity provider. Changes are saved only when you apply them."
+        expired: "This metadata preview has expired or the provider has changed. Refresh the metadata again to review the latest configuration."
+        new_value: "New value"
+        no_changes: "The metadata matches the current configuration."
+        side_panel_description: "You can check if the configuration fetched from your identity provider has changed."
+        title: "Review metadata changes"
 
       no_results_table: No SAML identity providers have been defined yet.
       notice_created: A new SAML identity provider was successfully created.
