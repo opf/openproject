@@ -1,5 +1,8 @@
 {$PULLPREVIEW_PUBLIC_DNS} {
 	# Websocket proxy for hocuspocus
 	reverse_proxy /hocuspocus hocuspocus:1234
+	# Live updates over WebSocket (/cable) and its server-sent events fallback (/events)
+	@anycable path /cable /events
+	reverse_proxy @anycable anycable:8080
 	reverse_proxy web:8080
 }

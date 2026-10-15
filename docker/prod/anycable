@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# anycable-go reads anycable.toml from its working directory; the one in the app directory is for development.
+cd /tmp
+
+export ANYCABLE_HOST=127.0.0.1
+export ANYCABLE_PORT=8090
+export ANYCABLE_RPC_HOST="http://127.0.0.1:8080${OPENPROJECT_RAILS__RELATIVE__URL__ROOT%/}/_anycable"
+export ANYCABLE_BROADCAST_ADAPTER=http
+export ANYCABLE_SSE=true
+
+exec anycable-go

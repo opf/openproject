@@ -452,3 +452,15 @@ For reference, here is an overview of the latest stable version's environment va
 ##### PostgreSQL statement_timeout
 
 In docker installations, there is a default `statement_timeout` of 90s set for the docker image. To override this value in case you're getting statement timeout errors such as "ERROR:  canceling statement due to statement timeout", use the environment variable `POSTGRES_STATEMENT_TIMEOUT`
+
+#### Live updates
+
+These variables connect OpenProject to an AnyCable server. See [Live updates](../#live-updates) for the setup.
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `ANYCABLE_SECRET` | `nil` | Secret shared with the AnyCable server. Live updates stay disabled without it. |
+| `ANYCABLE_WEBSOCKET_URL` | `nil` (`auto` in the all-in-one container) | URL browsers connect to, usually `/cable`. Live updates stay disabled without it. |
+| `ANYCABLE_HTTP_RPC` | `false` | Enables the `/_anycable` endpoint the AnyCable server calls to authenticate and authorize users. |
+| `ANYCABLE_HTTP_RPC_SECRET` | derived from `ANYCABLE_SECRET` | Token the AnyCable server sends to the `/_anycable` endpoint. |
+| `ANYCABLE_HTTP_BROADCAST_URL` | `http://localhost:8080/_broadcast` | Where OpenProject sends live updates to the AnyCable server. |

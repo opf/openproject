@@ -183,6 +183,26 @@ You can unset it, for example, by adding the following option to the run command
 -e OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=
 ```
 
+#### Live updates in the all-in-one container
+
+The AIO container also comes bundled with an [AnyCable](https://docs.anycable.io) server for [live updates](#live-updates).
+This is controlled via the following environment variable, shown with its default value.
+
+```shell
+ANYCABLE_WEBSOCKET_URL=auto
+```
+
+This will automatically generate a secret, start AnyCable and serve it on `/cable` and `/events` of the container.
+
+To turn live updates off, unset the variable, for example by adding the following option to the run command.
+
+```shell
+-e ANYCABLE_WEBSOCKET_URL=
+```
+
+To use an external AnyCable server instead, set the variables described in [Live updates](#live-updates). The bundled
+server is then not started.
+
 ## Live updates
 
 Some pages, such as the meeting agenda, are notified about changes made by other users in real time through an

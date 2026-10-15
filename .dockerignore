@@ -43,6 +43,8 @@ node_modules
 vendor/bundle
 # Local checkout; all-in-one copies hocuspocus from its dedicated image.
 vendor/hocuspocus
+# Development download of bin/anycable-go; all-in-one copies anycable-go from its dedicated image.
+bin/dist
 /public/assets
 /config/frontend_assets.manifest.json
 .oss-scanner

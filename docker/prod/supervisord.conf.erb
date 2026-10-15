@@ -56,6 +56,20 @@ stdout_logfile = /dev/stdout
 stdout_logfile_maxbytes = 0
 stderr_logfile_maxbytes = 0
 
+<% if ENV["BUNDLED_ANYCABLE"] == "true" %>
+[program:anycable]
+priority=6
+user=app
+environment=HOME="/home/%(ENV_APP_USER)s",USER="%(ENV_APP_USER)s"
+directory=%(ENV_APP_PATH)s
+command=./docker/prod/anycable
+autorestart=true
+stderr_logfile = /dev/stderr
+stdout_logfile = /dev/stdout
+stdout_logfile_maxbytes = 0
+stderr_logfile_maxbytes = 0
+<% end %>
+
 [program:cron]
 priority=100
 user=app

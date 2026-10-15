@@ -53,6 +53,11 @@ x-op-backend: &backend
     OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: 0.0.0.0/0,::0/0 # disabling SSRF in dev to not interfere with local integrations (Nextcloud etc.)
     OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL:-wss://hocuspocus.local}
     OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET:-secret12345}
+    # OpenProject::Dev::CableTunnel forwards /cable and /events to the anycable service
+    ANYCABLE_DEV_URL: http://anycable:8080
+    ANYCABLE_HTTP_BROADCAST_URL: http://anycable:8080/_broadcast
+    # The anycable service calls the RPC endpoint on http://backend:3000
+    OPENPROJECT_DEV_EXTRA_HOSTS: "backend,${OPENPROJECT_DEV_EXTRA_HOSTS:-}"
     OPENPROJECT_WEB_MAX__THREADS: 1
     OPENPROJECT_WEB_MIN__THREADS: 1
     OPENPROJECT_WEB_WORKERS: 0
@@ -88,6 +93,7 @@ services:
       - cache
       - frontend
       - hocuspocus
+      - anycable
     ports:
       - "${PORT:-3000}:3000"
 
@@ -135,6 +141,19 @@ services:
       - "traefik.http.routers.hocuspocus.rule=Host(`hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
       - "traefik.http.routers.hocuspocus.entrypoints=websecure"
       - "traefik.http.services.hocuspocus.loadbalancer.server.port=1234"
+
+  anycable:
+    # 1.6.16 to 1.6.18 close only one connection per remote disconnect (anycable/anycable a0d532fa)
+    image: anycable/anycable-go:1.6.15
+    <<: *restart_policy
+    environment:
+      ANYCABLE_HOST: 0.0.0.0
+      ANYCABLE_SECRET: anycable-local-secret
+      ANYCABLE_RPC_HOST: http://backend:3000/_anycable
+      ANYCABLE_BROADCAST_ADAPTER: http
+      ANYCABLE_SSE: "true"
+    networks:
+      - network
 
   cache:
     image: memcached

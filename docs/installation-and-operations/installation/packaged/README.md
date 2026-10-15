@@ -302,6 +302,12 @@ Then finish the installation by reading the [_Initial configuration_](#initial-c
 
 For some distributions we do not provide the required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
 
+## Live updates not bundled
+
+The packages do not include an AnyCable server, so pages such as the meeting agenda check for changes made by others
+periodically instead of being notified right away. To enable live updates, run an AnyCable server yourself and
+configure OpenProject as described in [Live updates](../../configuration/#live-updates).
+
 ## Initial Configuration
 
 After you have successfully installed the OpenProject package, you can now perform the initial configuration of OpenProject, using the wizard that ships with the OpenProject package.
