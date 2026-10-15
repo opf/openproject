@@ -569,8 +569,11 @@ You can run the image just like the normal OpenProject image (as shown [here](#q
 
 ## Offline/air-gapped installation
 
-It's possible to run the docker image on an a system with no internet access using `docker save` and `docker load`.
-The installation works the same as described above. The only difference is that you don't download the image the usual way.
+It is possible to run the Docker image on a system with no internet access using `docker save` and `docker load`. 
+The installation works the same as described above. The only difference is that you do not download the image the usual way.
+
+> [!IMPORTANT]
+> This procedure assumes that Docker Engine is already installed and operational on the target system. If Docker Engine must also be installed in a fully air-gapped environment, download and transfer Docker and all required operating-system package dependencies separately before following these steps.
 
 **1) Save the image**
 
@@ -593,7 +596,7 @@ This could be sftp, scp or even via a USB stick in case of a truly air-gapped sy
 Once the file is on the system you can load it like this:
 
 ```shell
-gunzip openproject-12.tar.gz && docker load -i openproject-12.tar
+gunzip openproject-stable.tar.gz && docker load -i openproject-stable.tar
 ```
 
 This extracts the archive and loads the contained image layers into docker.
