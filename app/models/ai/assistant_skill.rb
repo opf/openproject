@@ -183,7 +183,7 @@ module AI
       label.presence || default_label
     end
 
-    # "OP assistant · Refresh work package": the title of its dialogs and history entries.
+    # "OPAssistant · Chat": the title of its dialogs and history entries.
     def full_label
       "#{assistant.name} · #{display_label}"
     end

@@ -223,7 +223,7 @@ development_teams:
       - :user__ihor_developer
 
 # Sample AI assistants of the development data, for the owners that the basic data does
-# not cover: a team and the admin user. The global one is the basic data's OP assistant.
+# not cover: a team and the admin user. The global one is the basic data's OPAssistant.
 development_ai_assistants:
   - reference: :ai_assistant_comms
     principal: :team__comms

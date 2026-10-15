@@ -15,7 +15,7 @@ This document describes the design. It also shows how the first pull request is 
 
 | Term | Meaning |
 |---|---|
-| **Assistant** | A record (`AI::Assistant`): a name, an icon, instructions and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "OP assistant". |
+| **Assistant** | A record (`AI::Assistant`): a name, an icon, instructions and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "OPAssistant". |
 | **Skill** | A record (`AI::AssistantSkill`) on an assistant: a label, a system prompt, a proposal scope, conditions, and the setting "Answer at once when opened". What it does is in its prompt. |
 | **Skill type** | Where a skill runs (`AI::AssistantSkills::Registry`). Core has one, `conversation`. An external agent can be a second one later (see "Core skills and agent skills"). |
 | **Chat** | One conversation of a user with a skill about one work package (`AI::AssistantChat`), with its messages (`AI::AssistantChatMessage`). Only that user sees it. |
@@ -70,7 +70,7 @@ The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`
 
 The work package context (JSON) follows the system prompt. The message is the user's question, with the last 20 turns before it. An earlier answer is sent with a short list of its proposals and their state, so the model knows what it proposed.
 
-The skill page shows the full system prompt under the skill prompt field. It changes while the admin types (`ai-assistance--prompt-preview`), and its tool rule follows "Use OpenProject MCP tools". The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
+The skill page shows the full system prompt under the skill prompt field. It changes while the admin types (`ai-assistance--prompt-preview`), and its tool rule follows "Use OpenProject MCP tools". The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OPAssistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
 
 ## Skills
 
@@ -89,7 +89,7 @@ An assistant has an optional owner, `ai_assistants.principal_id`:
 - **A group:** only the group's direct members see it. An admin chooses the group when creating the assistant (Administration → AI → Assistants).
 - **A user:** a personal assistant (see below).
 
-The development data seeds a sample for each owned kind (`DevelopmentData::AiAssistantsSeeder`, data in `app/seeders/standard.yml`). The global one is the basic data's OP assistant.
+The development data seeds a sample for each owned kind (`DevelopmentData::AiAssistantsSeeder`, data in `app/seeders/standard.yml`). The global one is the basic data's OPAssistant.
 
 - **COMMS assistant** (the COMMS team, which builds the communication features; `DevelopmentData::TeamSeeder` seeds the team with the admin user as its member): "Write a test plan".
 - **Tom's assistant** (personal, of the admin user): "My next steps".
@@ -173,7 +173,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 | `ai_assistant_chat_messages` | chat, role, content, status, locale, `base_lock_version`, `events` |
 | `ai_assistant_proposals` | message, position, source, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 
-Chats, messages and proposals are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "OP assistant" with its two skills when there is no global assistant, also on an upgrade.
+Chats, messages and proposals are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "OPAssistant" with its two skills when there is no global assistant, also on an upgrade.
 
 ## How to try it
 
