@@ -62,7 +62,8 @@ module AI
         The context already holds this work package with its comments, relations, descendants,
         meetings and pull requests: do not read them again with the tools. For other data, for
         example other work packages, counts, projects, users or versions, use the tools, and only
-        when the context is not enough. Use the numeric ids in tool arguments. To count work packages, use count_work_packages, with group_by for a count per field.
+        when the context is not enough. Use the numeric ids in tool arguments. Do not call a tool
+        again to check a result that you already have. To count work packages, use count_work_packages, with group_by for a count per field.
         Use open true or false for open or closed work packages. Use level_of_detail "reduced" unless
         you need more fields. Put answers to questions, such as counts and lists, in "answer", not in
         proposals.
