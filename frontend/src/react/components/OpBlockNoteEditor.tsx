@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BlockNoteEditorOptions, BlockNoteSchema, User } from '@blocknote/core';
+import { BlockNoteEditorOptions, BlockNoteSchema, combineByGroup, User } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
@@ -33,6 +33,7 @@ import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
+import { createReactInlineMathSpec, createReactMathBlockSpec, getMathSlashMenuItems } from '@blocknote/math-block';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import {
@@ -64,9 +65,11 @@ export interface OpBlockNoteEditorProps {
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+    mathBlock: createReactMathBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    math: createReactInlineMathSpec(),
   },
 });
 
@@ -149,7 +152,7 @@ export function OpBlockNoteEditor({
   }, [editor, hocuspocusProvider]);
 
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
-    ...getDefaultReactSlashMenuItems(editorInstance),
+    ...combineByGroup(getDefaultReactSlashMenuItems(editorInstance), getMathSlashMenuItems(editorInstance)),
     ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
