@@ -56,6 +56,14 @@ module FormFields
         send_keys(:enter)
       end
 
+      def insert_block_equation(latex)
+        insert_equation("/block equation", latex)
+      end
+
+      def insert_inline_equation(latex)
+        insert_equation("/inline equation", latex)
+      end
+
       def click_formatting_toolbar_button(label)
         shadow_root.find("button[aria-label='#{label}']").click
       end
@@ -197,6 +205,13 @@ module FormFields
         JS
       end
 
+      # Without KaTeX's stylesheet the MathML copy of each formula shows next to the HTML one.
+      def katex_stylesheet_applied?
+        page.evaluate_script(<<~JS)
+          getComputedStyle(#{shadow_root_query}.querySelector('.katex-mathml')).position === 'absolute'
+        JS
+      end
+
       def heading_to_paragraph_font_size_ratio
         heading_font_size, paragraph_font_size = page.evaluate_script(<<~JS)
           [
@@ -235,6 +250,12 @@ module FormFields
       # as cuprite does not support shadow dom (yet).
       def send_keys_to_editor(keys)
         element.send_keys(keys)
+      end
+
+      def insert_equation(slash_command, latex)
+        send_keys_to_editor(slash_command)
+        send_keys(:enter)
+        send_keys(latex)
       end
 
       def shadow_root_observe_js

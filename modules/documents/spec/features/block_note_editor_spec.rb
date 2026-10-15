@@ -110,6 +110,30 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
+  context "when inserting math formulas" do
+    it "renders a block equation and stores its LaTeX as a $$ block" do
+      visit document_path(document)
+      expect(page).to have_test_selector("blocknote-document-description")
+
+      editor.insert_block_equation("a^2 + b^2 = c^2")
+
+      expect(editor.element).to have_css("[data-content-type='mathBlock'] .katex-html")
+      expect(editor).to be_katex_stylesheet_applied
+      editor.wait_for_autosave { document.reload.description&.include?("$$\na^2 + b^2 = c^2\n$$") }
+    end
+
+    it "renders an inline equation and stores its LaTeX as a $ span" do
+      visit document_path(document)
+      expect(page).to have_test_selector("blocknote-document-description")
+
+      editor.fill_in("Euler ")
+      editor.insert_inline_equation("e^{i\\pi} + 1 = 0")
+
+      expect(editor.element).to have_css("[data-content-type='paragraph'] .katex-html")
+      editor.wait_for_autosave { document.reload.description&.include?("Euler $e^{i\\pi} + 1 = 0$") }
+    end
+  end
+
   context "when running with a relative_url_root and non-proxied frontend assets",
           js: false,
           with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "1" } do
