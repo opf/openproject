@@ -42,6 +42,11 @@ RSpec.describe AI::Assistance::OutputRules do
     expect(rules).to end_with(described_class::GUARD)
   end
 
+  it "asks for names instead of pronouns, also off a work package" do
+    expect(rules).to include(described_class::PEOPLE)
+    expect(described_class.new(skill, locale: "de", work_package: false).to_s).to include(described_class::PEOPLE)
+  end
+
   it "explains the change fields for a skill that may propose changes" do
     expect(rules).to include(described_class::CHANGES, described_class::FIELDS, described_class::FORMATTING)
   end
