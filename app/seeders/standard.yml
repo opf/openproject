@@ -222,6 +222,46 @@ development_teams:
       - :user__judith_developer
       - :user__ihor_developer
 
+# The Refresh work package demo, copied from a hand-made test case: the comments and the
+# weekly meeting moved on, while the subject, the description and the fields did not.
+ai_refresh_case:
+  work_package: :organize_open_source_conference
+  subject: OpenProject Community Days 2023
+  priority: :default_priority_high
+  responsible: :user__adam_admin
+  description: |-
+    this is gonna happen in November
+
+    This is a hybrid conference with an on-site meetup in Berlin next to the virtual stream.
+
+    refer to a child package that lays out the schedule
+
+    **Update**: The planning call confirmed the addition of a small on-site meetup in Berlin.
+
+    **New Date**: The Berlin venue can only host us on 2026-11-06, so the conference moves to November.
+
+    **Accountability Change**: Wanda Web is now accountable for the conference.
+  comments:
+    - author: :openproject_admin
+      notes: move this to October
+    - author: :user__olga_ops
+      notes: "Weekly meeting outcome: the budget is approved. Priority goes up to High."
+    - author: :user__olga_ops
+      notes: "Planning call result: we add a small on-site meetup in Berlin next to the virtual stream. This is a hybrid conference now."
+    - author: :user__olga_ops
+      notes: Evan takes over as event lead from the Events & Operations team. I stay accountable for the conference.
+    - author: :user__evan_events
+      notes: The Berlin venue can only host us on 2026-11-06, so the conference moves to November.
+    - author: :user__olga_ops
+      notes: "Small change: Wanda Web is accountable for the conference from now on, not me."
+    - author: :user__evan_events
+      notes: Everything is blocked until the venue contract is signed. Let's put this on hold until then.
+    - author: :user__olga_ops
+      notes: "Weekly meeting outcome: the conference gets a new name: \"OpenProject Community Days 2026\"."
+  children:
+    - subject: unrelated bug blabla
+      type: :default_type_bug
+
 # Open work of the COMMS developers in the demo project, so that "Assign to the least busy
 # developer" has one answer: Judith has none.
 development_workloads:
