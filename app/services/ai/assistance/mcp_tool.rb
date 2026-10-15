@@ -69,7 +69,7 @@ module AI
       delegate :name, to: :@mcp_class
 
       def execute(**args)
-        args = without_disallowed_nulls(args)
+        args = without_disallowed_nulls(args).transform_values { |value| without_hash_prefix(value) }
         @calls.run(name, args) do
           text_of(@mcp_class.new(server_context: { current_user: @user }, tool_context: nil).handle_request(**args))
         end
@@ -84,6 +84,11 @@ module AI
         args.reject do |key, value|
           value.nil? && Array(properties.dig(key, :type)).map(&:to_s).exclude?("null")
         end
+      end
+
+      # The context writes ids as "#2", which the tools do not accept.
+      def without_hash_prefix(value)
+        value.is_a?(String) && value.match?(/\A#\d+\z/) ? value.delete_prefix("#") : value
       end
 
       # Text items as they are, embedded resources by their text, and the structured content when

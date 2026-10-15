@@ -47,6 +47,11 @@ module AI
 
       def self.wrapper_key = "ai-assistance-chat"
 
+      # Changes with each event of a pending answer, so a poll can show the tool calls so far.
+      def self.progress_reference(chat)
+        chat.messages.select(&:pending?).sum { |message| message.events.size }.to_s
+      end
+
       def messages
         chat ? chat.messages.includes(:proposals).to_a : []
       end
@@ -56,7 +61,10 @@ module AI
       end
 
       def wrapper_data
-        pending? ? poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)) : {}
+        return {} unless pending?
+
+        poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id))
+          .merge(poll_for_changes_reference_value: self.class.progress_reference(chat))
       end
 
       def read_only?
@@ -67,9 +75,24 @@ module AI
         I18n.t("ai_assistance.chat.started", user: chat.user.name, skill: skill.display_label)
       end
 
+      # The tool calls of a pending answer, for example "Count work packages (project_id: 1, open: true)".
+      def tool_steps(message)
+        message.events.select { |event| event["kind"] == "tool_call" }.map do |event|
+          data = event["data"]
+          arguments = (data["arguments"] || {}).map { |key, value| "#{key}: #{value}" }.join(", ")
+          I18n.t("ai_assistance.chat.tool_step", tool: tool_title(data["name"]), arguments:)
+        end
+      end
+
       def pending_text(previous)
         key = previous&.from_start? ? "working_on" : "answering"
         I18n.t("ai_assistance.chat.#{key}", assistant: skill.assistant.name, id: work_package.formatted_id)
+      end
+
+      private
+
+      def tool_title(name)
+        McpTools.all.find { |tool| tool.name == name }&.default_title || name
       end
     end
   end

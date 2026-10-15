@@ -35,6 +35,8 @@ module AI
     class ToolCalls
       SOFT_LIMIT = 20
       HARD_LIMIT = 25
+      # A model that repeats calls after the note usually loops: stop it early.
+      MAX_REPEATS = 3
       LIMIT_TEXT = "No more tool calls. Answer now with what you have."
       REPEATED_TEXT = "You already called this tool with these arguments. Use this result:"
       ERROR_TEXT = { error: "The tool failed. Check the arguments against the tool's schema." }.to_json
@@ -47,13 +49,14 @@ module AI
       def initialize(llm_call)
         @llm_call = llm_call
         @count = 0
+        @repeats = 0
         @results = {}
       end
 
       def run(name, args, &)
         @count += 1
         raise Exceeded, "more than #{HARD_LIMIT} tool calls" if @count > HARD_LIMIT
-        return refuse(name, args) if @count > SOFT_LIMIT
+        return refuse(name, args) if @count > SOFT_LIMIT || @repeats >= MAX_REPEATS
 
         key = [name, args.sort.to_h].to_json
         return repeat(name, args, @results[key]) if @results.key?(key)
@@ -82,6 +85,7 @@ module AI
       end
 
       def repeat(name, args, text)
+        @repeats += 1
         record(name, args, repeated: true)
         "#{REPEATED_TEXT}\n#{text}"
       end

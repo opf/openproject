@@ -2534,6 +2534,7 @@ en:
     button: "AI Assistance"
     chat:
       answering: "%{assistant} is writing an answer…"
+      tool_step: "%{tool} (%{arguments})"
       copy: "Copy the answer"
       empty_answer: "(The model gave no answer.)"
       empty_description: "Ask about this work package. The answer can propose changes, and you decide whether to apply them."

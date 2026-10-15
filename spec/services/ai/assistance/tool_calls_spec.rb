@@ -53,6 +53,13 @@ RSpec.describe AI::Assistance::ToolCalls do
     expect(events.pluck("repeated")).to eq([nil, true, true])
   end
 
+  it "refuses every call after three repeated calls" do
+    4.times { calls.run("search", { a: 1 }) { "result" } }
+
+    expect(calls.run("search", { a: 2 }) { "new" }).to eq(described_class::LIMIT_TEXT)
+    expect(events.last).to include("refused" => true)
+  end
+
   it "refuses calls over the soft limit" do
     described_class::SOFT_LIMIT.times { |i| calls.run("search", { page: i }) { "result" } }
 

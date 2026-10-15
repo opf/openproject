@@ -126,6 +126,31 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "GET poll" do
+    let(:chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
+    let!(:answer) { create(:ai_assistant_chat_message, chat:, status: "pending", content: "") }
+
+    before do
+      answer.log_event(:tool_call, name: "count_work_packages", arguments: { project_id: project.id, open: true },
+                                   seconds: 0.1, size: 12)
+    end
+
+    it "shows the tool calls of a pending answer, without the form" do
+      get "#{base}/poll", params: { chat_id: chat.id, reference: "0" }, as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Count work packages (open: true, project_id: #{project.id})")
+      expect(response.body).to include(%(data-poll-for-changes-reference-value="1"))
+      expect(response.body).not_to include(AI::Assistance::ChatFormComponent.wrapper_key)
+    end
+
+    it "answers with no content while nothing new happened" do
+      get "#{base}/poll", params: { chat_id: chat.id, reference: "1" }, as: :turbo_stream
+
+      expect(response).to have_http_status(:no_content)
+    end
+  end
+
   describe "GET history" do
     let!(:own_chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
     let!(:other_chat) { create(:ai_assistant_chat, skill:, work_package:) }

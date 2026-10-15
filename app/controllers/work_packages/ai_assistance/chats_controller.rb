@@ -81,7 +81,8 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   # Polled while an answer is pending. No content until it is done or failed.
   def poll
     @chat&.fail_stale_answers!
-    return head(:no_content) if @chat.nil? || @chat.pending?
+    return head(:no_content) if @chat.nil?
+    return poll_progress if @chat.pending?
 
     render turbo_stream: [chat_component, form_component].map { |c| c.render_as_turbo_stream(view_context:, action: :replace) }
   end
@@ -100,6 +101,14 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   end
 
   private
+
+  # While an answer is pending, only the conversation is replaced, and only when it has new
+  # events (the tool calls so far). The form keeps what the user types.
+  def poll_progress
+    return head(:no_content) if params[:reference] == AI::Assistance::ChatComponent.progress_reference(@chat)
+
+    render turbo_stream: chat_component.render_as_turbo_stream(view_context:, action: :replace)
+  end
 
   def find_skill
     @skill = offered_skill(params[:skill_id])

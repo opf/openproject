@@ -71,6 +71,10 @@ RSpec.describe AI::Assistance::McpTool do
     expect(call({}).fetch("items").pluck("subject")).to eq(["Visible"])
   end
 
+  it "accepts an id written as in the context" do
+    expect(call({ "id" => "##{visible_wp.id}" }).fetch("total")).to eq(1)
+  end
+
   it "drops null for an argument that does not allow it" do
     expect(call({ "project_id" => nil }).fetch("total")).to eq(1)
   end

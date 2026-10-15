@@ -77,6 +77,14 @@
           <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2)) do %>
             <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= pending_text(index.positive? ? messages[index - 1] : nil) %>
           <% end %>
+          <% steps = tool_steps(message) %>
+          <% if steps.any? %>
+            <ul class="list-style-none pl-4 mt-1" data-test-selector="ai-assistance-tool-steps">
+              <% steps.each do |step| %>
+                <li><%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { step } %></li>
+              <% end %>
+            </ul>
+          <% end %>
         <% end %>
         <%= render(AI::Assistance::RunEventsComponent.new(events: message.events)) %>
       <% end %>
