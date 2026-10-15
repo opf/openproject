@@ -53,8 +53,8 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
       expect(response.body.index("Team helper")).to be < response.body.index("My helper")
       owners = page.css("[data-test-selector='ai-assistant-owner']")
       expect(owners.map { it.text.squish }).to eq(["Global", "Release team", "Ada Owner"])
-      expect(owners[1].at_css("a")["href"]).to eq(edit_group_path(group))
-      expect(owners[2].at_css("a")["href"]).to eq(edit_user_path(owner))
+      expect(owners[1].at_css("a")["href"]).to eq(show_group_path(group))
+      expect(owners[2].at_css("a")["href"]).to eq(user_path(owner))
       expect(page.at_css("a[href='#{edit_admin_ai_assistant_skill_path(global_assistant, skill)}']").text).to include("Check it")
     end
 
