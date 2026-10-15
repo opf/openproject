@@ -46,6 +46,10 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
     run.events.build(kind: "text_delta", payload: { "delta" => "Login **works** again" }, seq: 1)
   end
 
+  it "lets the grip drag the pane" do
+    expect(subject).to have_css(".op-ai-result-pane--grip[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
+  end
+
   context "when generating" do
     it "offers only Cancel" do
       expect(subject).to have_text("Generating…")
@@ -62,6 +66,11 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
       expect(subject).to have_button("Discard")
       expect(subject).to have_css(".Button--primary", text: "Replace")
       expect(subject).to have_no_button("Cancel")
+    end
+
+    it "copies through the pane controller" do
+      expect(subject).to have_css("button[data-action='click->ai-text-transform-pane#copy'] " \
+                                  "span[data-ai-text-transform-pane-target='copyLabel']", text: "Copy")
     end
   end
 

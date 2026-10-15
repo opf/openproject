@@ -50,6 +50,17 @@ module AI
       private
 
       attr_reader :pane
+
+      def wrapper_data
+        {
+          test_selector: "ai-text-transform-result",
+          controller: "ai-text-transform-pane",
+          ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
+          ai_text_transform_pane_copy_value: label(:copy),
+          ai_text_transform_pane_copied_value: label(:copied),
+          **action(:close, event: "keydown.esc")
+        }
+      end
     end
   end
 end
