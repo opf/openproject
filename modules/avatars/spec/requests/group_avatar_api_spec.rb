@@ -57,9 +57,9 @@ RSpec.describe "API v3 Group avatar resource", content_type: :json do
         expect(response.body).to include("<svg")
       end
 
-      it "has the cache headers set to 24 hours" do
-        expect(response.headers["Cache-Control"]).to eq "public, max-age=86400"
-        expect(response.headers["Expires"]).to be_present
+      it "always revalidates instead of caching blindly, since group avatars are always edited by someone else" do
+        expect(response.headers["Cache-Control"]).to eq "public, max-age=0, must-revalidate"
+        expect(response.headers["ETag"]).to be_present
       end
     end
 
@@ -72,6 +72,54 @@ RSpec.describe "API v3 Group avatar resource", content_type: :json do
 
       it "serves the attachment file" do
         expect(response).to have_http_status :ok
+      end
+
+      it "sets an ETag" do
+        expect(response.headers["ETag"]).to be_present
+      end
+    end
+
+    context "when the client already has the current version cached" do
+      it "responds with 304 Not Modified instead of re-sending the image" do
+        etag = response.headers["ETag"]
+
+        get "#{api_v3_paths.group(group.id)}/avatar", nil, { "HTTP_IF_NONE_MATCH" => etag }
+
+        expect(last_response).to have_http_status 304
+      end
+    end
+
+    context "when the avatar color changes after the client cached it" do
+      it "no longer matches the old ETag, so the client fetches the new image" do
+        stale_etag = response.headers["ETag"]
+
+        Groups::UpdateService.new(model: group, user: current_user).call(avatar_color: "#123456")
+
+        get "#{api_v3_paths.group(group.id)}/avatar", nil, { "HTTP_IF_NONE_MATCH" => stale_etag }
+
+        expect(last_response).to have_http_status :ok
+        expect(last_response.headers["ETag"]).not_to eq stale_etag
+      end
+    end
+
+    context "when the local avatar is deleted after the client cached it" do
+      let(:group) do
+        g = create(:group)
+        g.attachments = [build(:avatar_attachment, author: current_user)]
+        g
+      end
+
+      it "no longer matches the old ETag, so the client fetches the generated fallback" do
+        stale_etag = response.headers["ETag"]
+
+        result = Avatars::UpdateService.new(group).destroy
+        expect(result).to be_success
+
+        get "#{api_v3_paths.group(group.id)}/avatar", nil, { "HTTP_IF_NONE_MATCH" => stale_etag }
+
+        expect(last_response).to have_http_status :ok
+        expect(last_response.headers["ETag"]).not_to eq stale_etag
+        expect(last_response.content_type).to eq "image/svg+xml"
       end
     end
   end

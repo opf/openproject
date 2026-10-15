@@ -34,21 +34,26 @@ module API
       class GroupAvatarAPI < ::API::OpenProjectAPI
         helpers ::AvatarHelper
         helpers ::API::Helpers::AttachmentRenderer
-
-        finally do
-          set_cache_headers
-        end
+        helpers ::API::Caching::Helpers
 
         # Groups have no email address, so there is no Gravatar fallback here,
         # unlike the equivalent user endpoint.
+        #
+        # Unlike a user's own avatar, there is no "it's me, don't cache"
+        # exception here (see UserAvatarAPI's cache_seconds = nil check) --
+        # whoever just changed a group's avatar is always someone else from
+        # the browser cache's perspective, on every page that shows it. A
+        # long-lived Cache-Control would mean that change stays invisible
+        # everywhere for up to a day. ETag + must-revalidate keeps the browser
+        # cache (a cheap 304 when nothing changed) while guaranteeing every
+        # view reflects the current avatar on the next load.
         get "/avatar" do
-          cache_seconds = avatar_link_expires_in
+          header "Cache-Control", "public, max-age=0, must-revalidate"
+          with_etag! [@group.id, @group.detail&.updated_at, @group.local_avatar_attachment&.updated_at]
 
           if (local_avatar = local_avatar?(@group))
-            respond_with_attachment(local_avatar, cache_seconds:)
+            respond_with_attachment(local_avatar)
           else
-            set_cache_headers!(cache_seconds) if cache_seconds
-
             content_type "image/svg+xml"
             env["api.format"] = :binary
             body ::OpenProject::Avatars::InitialsSvg.render(@group)
