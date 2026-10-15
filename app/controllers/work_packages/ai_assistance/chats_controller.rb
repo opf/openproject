@@ -32,6 +32,8 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   include OpTurbo::ComponentStream
   include WorkPackages::AIAssistance::Scoped
 
+  READABLE = %w[show poll].freeze
+
   before_action :find_skill, only: %i[create start]
   before_action :find_chat, only: %i[show send_message poll rerun]
   before_action :find_proposal, only: %i[apply dismiss]
@@ -115,17 +117,24 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     render_404 unless @skill
   end
 
-  # The chat named by chat_id (from History or the open dialog), else the latest chat of
-  # the skill named by skill_id. Either way, the skill must still be offered.
+  # The chat named by chat_id (from History, the activity or the open dialog), else the
+  # latest chat of the skill named by skill_id. A skill that is no longer offered can
+  # only be read.
   def find_chat
     if params[:chat_id].present?
-      @chat = AI::AssistantChat.for(current_user, @work_package).find_by(id: params[:chat_id])
-      @skill = offered_skill(@chat&.skill_id)
+      find_named_chat
     else
       @skill = offered_skill(params[:skill_id])
       @chat = AI::AssistantChat.latest_for(current_user, @work_package, @skill) if @skill
     end
     render_404 unless @skill
+  end
+
+  def find_named_chat
+    @chat = AI::AssistantChat.for(current_user, @work_package).find_by(id: params[:chat_id])
+    @skill = offered_skill(@chat&.skill_id)
+    @read_only = !@skill && @chat.present? && READABLE.include?(action_name)
+    @skill = @chat.skill if @read_only
   end
 
   def new_chat
@@ -144,15 +153,15 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   end
 
   def chat_dialog
-    AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat)
+    AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat, read_only: @read_only)
   end
 
   def chat_component
-    AI::Assistance::ChatComponent.new(work_package: @work_package, skill: @skill, chat: @chat)
+    AI::Assistance::ChatComponent.new(work_package: @work_package, skill: @skill, chat: @chat, read_only: @read_only)
   end
 
   def form_component
-    AI::Assistance::ChatFormComponent.new(work_package: @work_package, skill: @skill, chat: @chat,
+    AI::Assistance::ChatFormComponent.new(work_package: @work_package, skill: @skill, chat: @chat, read_only: @read_only,
                                           dialog_id: AI::Assistance::ChatDialogComponent::DIALOG_ID)
   end
 

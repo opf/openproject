@@ -38,11 +38,12 @@ module AI
 
       SEVERITY_SCHEMES = { "high" => :danger, "medium" => :attention, "low" => :secondary }.freeze
 
-      attr_reader :proposal
+      attr_reader :proposal, :read_only
 
-      def initialize(proposal:)
+      def initialize(proposal:, read_only: false)
         super
         @proposal = proposal
+        @read_only = read_only
       end
 
       def wrapper_key

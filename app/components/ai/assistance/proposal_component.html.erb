@@ -46,9 +46,11 @@
     <% if lost_references.any? %>
       <%= render(Primer::Beta::Text.new(tag: :p, color: :attention, font_size: :small)) { t("ai_assistance.apply.lost_content") } %>
     <% end %>
-    <%= primer_form_with(url: apply_path, method: :post) do %>
-      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, size: :small, disabled: !can_apply?, data: { test_selector: "ai-assistance-apply" })) do %>
-        <%= t("ai_assistance.apply.button") %>
+    <% if apply_path %>
+      <%= primer_form_with(url: apply_path, method: :post) do %>
+        <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, size: :small, disabled: !can_apply?, data: { test_selector: "ai-assistance-apply" })) do %>
+          <%= t("ai_assistance.apply.button") %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

@@ -36,13 +36,14 @@ module AI
       include OpTurbo::Streamable
       include Polling
 
-      attr_reader :work_package, :skill, :chat
+      attr_reader :work_package, :skill, :chat, :read_only
 
-      def initialize(work_package:, skill:, chat:)
+      def initialize(work_package:, skill:, chat:, read_only: false)
         super
         @work_package = work_package
         @skill = skill
         @chat = chat
+        @read_only = read_only
       end
 
       def self.wrapper_key = "ai-assistance-chat"

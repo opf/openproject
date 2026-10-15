@@ -35,14 +35,15 @@ module AI
     class ChatFormComponent < ApplicationComponent
       include OpTurbo::Streamable
 
-      attr_reader :work_package, :skill, :chat, :dialog_id
+      attr_reader :work_package, :skill, :chat, :dialog_id, :read_only
 
-      def initialize(work_package:, skill:, chat:, dialog_id:)
+      def initialize(work_package:, skill:, chat:, dialog_id:, read_only: false)
         super
         @work_package = work_package
         @skill = skill
         @chat = chat
         @dialog_id = dialog_id
+        @read_only = read_only
       end
 
       def self.wrapper_key = "ai-assistance-chat-form"

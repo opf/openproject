@@ -304,27 +304,70 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
   end
 
   context "when the change was applied from an AI assistant proposal" do
+    let(:applier) { build_stubbed(:user, firstname: "Jane", lastname: "<Doe>") }
+    let(:instance) { described_class.new(build(:work_package_journal, user: applier, journable: work_package)) }
+
     subject(:cause) do
       {
-        "type" => "assistant_skill",
-        "run_id" => 1,
-        "skill_key" => "health_check",
+        "type" => "assistant_chat",
+        "chat_id" => 0,
+        "skill_key" => "conversation",
         "assistant_name" => "QA <assistant>"
       }
     end
 
-    it do
+    it "names the assistant and the user who applied it" do
       expect(cause).to render_html_variant(
-        "<strong>#{I18n.t('journals.caused_changes.assistant_skill')}</strong> " \
-        "#{I18n.t('journals.cause_descriptions.assistant_skill', assistant_name: 'QA &lt;assistant&gt;')}"
+        "<strong>#{I18n.t('journals.caused_changes.assistant_chat')}</strong> " \
+        "#{I18n.t('journals.cause_descriptions.assistant_skill', assistant_name: 'QA &lt;assistant&gt;',
+                                                                 user_name: 'Jane &lt;Doe&gt;')}"
       )
     end
 
     it do
       expect(cause).to render_raw_variant(
-        "#{I18n.t('journals.caused_changes.assistant_skill')} " \
-        "#{I18n.t('journals.cause_descriptions.assistant_skill', assistant_name: 'QA <assistant>')}"
+        "#{I18n.t('journals.caused_changes.assistant_chat')} " \
+        "#{I18n.t('journals.cause_descriptions.assistant_skill', assistant_name: 'QA <assistant>', user_name: 'Jane <Doe>')}"
       )
+    end
+
+    context "when the viewer owns the chat", with_flag: { ai_assistance: true } do
+      let(:viewer) { create(:user) }
+      let(:chat) { create(:ai_assistant_chat, user: viewer, work_package:) }
+
+      before do
+        cause["chat_id"] = chat.id
+        allow(User).to receive(:current).and_return(viewer)
+      end
+
+      it "links to the chat" do
+        expect(render(cause, html: true))
+          .to include("/work_packages/#{work_package.id}/ai_assistance/chat?chat_id=#{chat.id}",
+                      'data-controller="async-dialog"')
+      end
+
+      it "has no link in plain text" do
+        expect(render(cause, html: false)).not_to include("chat_id")
+      end
+
+      context "with the feature flag off", with_flag: { ai_assistance: false } do
+        it "has no link" do
+          expect(render(cause, html: true)).not_to include("chat_id")
+        end
+      end
+    end
+
+    context "when another user owns the chat", with_flag: { ai_assistance: true } do
+      let(:chat) { create(:ai_assistant_chat, work_package:) }
+
+      before do
+        cause["chat_id"] = chat.id
+        allow(User).to receive(:current).and_return(create(:user))
+      end
+
+      it "has no link" do
+        expect(render(cause, html: true)).not_to include("chat_id")
+      end
     end
   end
 

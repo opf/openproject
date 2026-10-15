@@ -151,6 +151,52 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "GET show with a chat_id" do
+    let(:chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
+    let!(:answer) { create(:ai_assistant_chat_message, chat:) }
+
+    before { create(:ai_assistant_proposal, message: answer) }
+
+    it "opens the chat with the form and the Apply button" do
+      get base, params: { chat_id: chat.id }, as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('data-test-selector="ai-assistance-chat-form"', 'data-test-selector="ai-assistance-apply"')
+    end
+
+    context "when the skill is not offered any more" do
+      before { skill.update!(active: false) }
+
+      after { skill.update!(active: true) }
+
+      it "opens the chat read-only" do
+        get base, params: { chat_id: chat.id }, as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("ai-assistance-chat-read-only", answer.content)
+        %w[ai-assistance-chat-form ai-assistance-apply ai-assistance-dismiss].each do |selector|
+          expect(response.body).not_to include(%(data-test-selector="#{selector}"))
+        end
+      end
+
+      it "does not accept a new question" do
+        post "#{base}/messages", params: { chat_id: chat.id, content: "More?" }, as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "with another user's chat" do
+      let(:chat) { create(:ai_assistant_chat, skill:, work_package:) }
+
+      it "responds with not found" do
+        get base, params: { chat_id: chat.id }, as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe "GET history" do
     let!(:own_chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
     let!(:other_chat) { create(:ai_assistant_chat, skill:, work_package:) }

@@ -2547,6 +2547,7 @@ en:
         pending: "Wait for the answer to the last question."
       failed: "The answer failed. Open Details for more, or ask again."
       new: "New chat"
+      not_offered: "This skill is not offered for this work package any more. You can read the chat, but not continue it."
       placeholder: "Ask something about %{id}…"
       question: "Question"
       rerun: "Run again"
@@ -4055,8 +4056,9 @@ en:
 
   journals:
     cause_descriptions:
-      assistant_chat: proposed in the chat and applied by the user
-      assistant_skill: proposed by %{assistant_name} and applied by the user
+      assistant_chat: proposed in the chat and applied by %{user_name}
+      assistant_skill: proposed by %{assistant_name} and applied by %{user_name}
+      assistant_chat_link: "Open the chat"
       budget_deleted: Budget has been deleted
       import:
         changed_with_diff: "%{field} changed (%{link})"
