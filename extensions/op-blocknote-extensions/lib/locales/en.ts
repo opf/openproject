@@ -100,5 +100,12 @@ export const en = {
     'spinner': {
       'ariaLabel': 'Loading'
     },
+    'workPackageAttribute': {
+      'missing': '{{attribute}} unavailable',
+      'yes': 'Yes',
+      'no': 'No',
+      'days_one': '{{count}} day',
+      'days_other': '{{count}} days'
+    },
   }
 };
