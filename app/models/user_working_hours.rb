@@ -51,6 +51,27 @@ class UserWorkingHours < ApplicationRecord
 
   scope :history_for, ->(current_record) { where(valid_from: ..current_record.valid_from).order(valid_from: :desc) }
 
+  scope :visible, ->(user = User.current) do
+    if user.allowed_globally?(:manage_working_times)
+      all
+    else
+      where(user:)
+    end
+  end
+
+  scope :effective_within, ->(range) do
+    where(valid_from: ..range.end)
+      .where(<<~SQL.squish, range.begin)
+        NOT EXISTS (
+          SELECT 1 FROM user_working_hours later
+          WHERE later.user_id = user_working_hours.user_id
+            AND later.valid_from > user_working_hours.valid_from
+            AND later.valid_from <= ?
+        )
+      SQL
+      .order(:valid_from)
+  end
+
   def self.valid_for_date(date)
     where(valid_from: ..date).order(valid_from: :desc).first
   end
@@ -59,12 +80,12 @@ class UserWorkingHours < ApplicationRecord
     valid_for_date(Date.current)
   end
 
-  scope :visible, ->(user = User.current) do
-    if user.allowed_globally?(:manage_working_times)
-      all
-    else
-      where(user:)
-    end
+  def self.unscheduled_within(range)
+    earliest = minimum(:valid_from)
+    return range if earliest.nil?
+    return if earliest <= range.begin
+
+    range.begin..[earliest - 1, range.end].min
   end
 
   DAYS.each do |day|
