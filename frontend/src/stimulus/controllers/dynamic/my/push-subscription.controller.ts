@@ -34,9 +34,10 @@ interface KnownSubscription {
   current?:boolean;
 }
 
-type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error';
+type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error'|'prompting'|'subscribing'|'timeout';
 
 const REGISTRATION_TIMEOUT_MS = 5000;
+const SUBSCRIBE_TIMEOUT_MS = 30000;
 
 function decodeBase64Url(value:string):Uint8Array<ArrayBuffer> {
   // The key is base64url without padding; atob only accepts standard base64.
@@ -63,9 +64,9 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
  *
  * - connect: reconcile the browser's subscription with the server list and
  *   render enabled, disabled, blocked (permission denied), unsupported or error.
- * - enable: subscribe through the browser's push service with the VAPID public
- *   key, then register the endpoint with the server. If either step fails the
- *   browser subscription is dropped again, so the two sides never disagree.
+ * - enable: ensure permission is granted, subscribe through the browser's push
+ *   service within a deadline, then register the endpoint with the server. A
+ *   failed or late subscription is dropped, so the two sides never disagree.
  * - disable: revoke on the server first, then in the browser.
  *
  * A run counter stops a reconcile that is still in flight from overwriting the
@@ -97,18 +98,31 @@ export default class PushSubscriptionController extends Controller {
   }
 
   async enable():Promise<void> {
-    this.beginRun();
+    this.startRun();
+    const generation = this.generation;
     this.setBusy(true);
     let subscription:PushSubscription|undefined;
 
     try {
+      const permission = await this.requestPermission();
+      if (permission !== 'granted') {
+        this.render(permission === 'denied' ? 'blocked' : 'disabled');
+        return;
+      }
+
       const registration = await this.registration();
       if (!registration) {
         this.render('unsupported');
         return;
       }
 
-      subscription = await this.subscribeInBrowser(registration);
+      this.render('subscribing');
+      subscription = await this.subscribeWithDeadline(registration, () => generation !== this.generation);
+      if (!subscription) {
+        this.render('timeout');
+        return;
+      }
+
       await this.registerWithServer(subscription);
       this.render('enabled', true);
     } catch {
@@ -142,7 +156,7 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private async sync():Promise<void> {
-    const isCurrent = this.beginRun();
+    const isLatestRun = this.startRun();
 
     try {
       if (!this.supported()) {
@@ -150,50 +164,50 @@ export default class PushSubscriptionController extends Controller {
         return;
       }
       if (this.permissionBlocked()) {
-        await this.revokeStaleRow(isCurrent);
-        if (isCurrent()) this.render('blocked');
+        await this.revokeStaleRow(isLatestRun);
+        if (isLatestRun()) this.render('blocked');
         return;
       }
 
-      await this.reconcileWithServer(isCurrent);
+      await this.reconcileWithServer(isLatestRun);
     } catch {
-      if (isCurrent()) this.render('error');
+      if (isLatestRun()) this.render('error');
     } finally {
-      if (isCurrent()) this.setBusy(false);
+      if (isLatestRun()) this.setBusy(false);
     }
   }
 
-  private async reconcileWithServer(isCurrent:() => boolean):Promise<void> {
+  private async reconcileWithServer(isLatestRun:() => boolean):Promise<void> {
     const registration = await this.registration();
-    if (!isCurrent()) return;
+    if (!isLatestRun()) return;
     if (!registration) {
       this.render('unsupported');
       return;
     }
 
     const subscription = await registration.pushManager.getSubscription();
-    if (!isCurrent()) return;
+    if (!isLatestRun()) return;
 
     if (subscription && this.knownToServer(subscription) && this.boundToCurrentKey(subscription)) {
       this.render('enabled', true);
       return;
     }
 
-    await this.revokeStaleRow(isCurrent);
-    if (!isCurrent()) return;
+    await this.revokeStaleRow(isLatestRun);
+    if (!isLatestRun()) return;
 
     await this.forget(subscription);
-    if (isCurrent()) this.render('disabled');
+    if (isLatestRun()) this.render('disabled');
   }
 
-  private async revokeStaleRow(isCurrent:() => boolean):Promise<void> {
+  private async revokeStaleRow(isLatestRun:() => boolean):Promise<void> {
     const staleRow = this.subscriptionsValue.find((entry) => entry.current);
-    if (!staleRow || !isCurrent()) return;
+    if (!staleRow || !isLatestRun()) return;
 
     await this.revokeOnServer(staleRow, { silent: true }).catch(() => undefined);
   }
 
-  private beginRun():() => boolean {
+  private startRun():() => boolean {
     this.generation += 1;
     const generation = this.generation;
     return () => generation === this.generation && this.element.isConnected;
@@ -210,6 +224,35 @@ export default class PushSubscriptionController extends Controller {
 
     try {
       return await Promise.race([navigator.serviceWorker.ready, timeout]);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  private async requestPermission():Promise<NotificationPermission> {
+    if (Notification.permission !== 'default') return Notification.permission;
+
+    const pending = Notification.requestPermission();
+    this.render('prompting');
+
+    return (await pending) ?? Notification.permission;
+  }
+
+  private async subscribeWithDeadline(
+    registration:ServiceWorkerRegistration,
+    superseded:() => boolean,
+  ):Promise<PushSubscription|undefined> {
+    const pending = this.subscribeInBrowser(registration);
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    const deadline = new Promise<undefined>((resolve) => {
+      timer = setTimeout(resolve, SUBSCRIBE_TIMEOUT_MS);
+    });
+
+    try {
+      const subscription = await Promise.race([pending, deadline]);
+      // A newer run may have claimed the same subscription; only an unclaimed late one is dropped.
+      if (!subscription) void pending.then((late) => (superseded() ? undefined : this.forget(late)), () => undefined);
+      return subscription;
     } finally {
       clearTimeout(timer);
     }

@@ -71,7 +71,7 @@ module My
       end
 
       def messages_json
-        %i[unsupported blocked enabled disabled error]
+        %i[unsupported blocked enabled disabled error prompting subscribing timeout]
           .index_with { t("my_account.push_notifications.status.#{it}") }
           .to_json
       end

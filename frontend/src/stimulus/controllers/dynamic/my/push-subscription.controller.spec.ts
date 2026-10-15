@@ -38,6 +38,7 @@ describe('PushSubscriptionController', () => {
   let subscribe:AsyncSpy;
   let getSubscription:ReturnType<typeof vi.fn>;
   let getRegistration:ReturnType<typeof vi.fn>;
+  let requestPermission:AsyncSpy;
   let serviceWorker:{ getRegistration:ReturnType<typeof vi.fn>; ready:Promise<unknown> };
   let registration:{ active?:object; pushManager:{ getSubscription:ReturnType<typeof vi.fn>; subscribe:AsyncSpy } };
 
@@ -47,6 +48,9 @@ describe('PushSubscriptionController', () => {
     enabled: 'Enabled message',
     disabled: 'Disabled message',
     error: 'Error message',
+    prompting: 'Prompting message',
+    subscribing: 'Subscribing message',
+    timeout: 'Timeout message',
   };
   const currentKey = { applicationServerKey: new Uint8Array([0xfb, 0xff]) };
   const known = { endpoint: 'https://push.example/known', revokeUrl: '/my/push_subscriptions/1' };
@@ -85,6 +89,7 @@ describe('PushSubscriptionController', () => {
   beforeEach(() => {
     unsubscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue(true);
     subscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue({ endpoint: 'https://push.example/new', unsubscribe });
+    requestPermission = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue('granted');
     getSubscription = vi.fn().mockResolvedValue(null);
     registration = { active: {}, pushManager: { getSubscription, subscribe } };
     getRegistration = vi.fn().mockResolvedValue(registration);
@@ -93,7 +98,7 @@ describe('PushSubscriptionController', () => {
 
     vi.stubGlobal('isSecureContext', true);
     vi.stubGlobal('PushManager', class {});
-    vi.stubGlobal('Notification', { permission: 'default' });
+    vi.stubGlobal('Notification', { permission: 'default', requestPermission });
     vi.stubGlobal('fetch', fetchMock);
     Object.defineProperty(navigator, 'serviceWorker', {
       value: serviceWorker,
@@ -360,6 +365,84 @@ describe('PushSubscriptionController', () => {
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
     expect(unsubscribe).toHaveBeenCalled();
+  });
+
+  it('asks for permission before subscribing when it has not been decided', async () => {
+    const answer = deferred<string>();
+    requestPermission.mockReturnValue(answer.promise);
+    await mount();
+    enableButton().click();
+
+    expect(requestPermission).toHaveBeenCalledTimes(1);
+    expect(status()).toBe(MESSAGES.prompting);
+    expect(enableButton().disabled).toBe(true);
+    expect(subscribe).not.toHaveBeenCalled();
+
+    answer.resolve('granted');
+    await vi.waitFor(() => expect(subscribe).toHaveBeenCalledTimes(1));
+  });
+
+  it('shows the blocked state and does not subscribe when the permission prompt is denied', async () => {
+    requestPermission.mockResolvedValue('denied');
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.blocked));
+    expect(subscribe).not.toHaveBeenCalled();
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('skips the permission prompt when permission is already granted', async () => {
+    vi.stubGlobal('Notification', { permission: 'granted', requestPermission });
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+    expect(requestPermission).not.toHaveBeenCalled();
+  });
+
+  it('shows a timeout and unsubscribes a late subscription when the browser takes too long to subscribe', async () => {
+    const pending = deferred<{ endpoint:string; unsubscribe:typeof unsubscribe }>();
+    subscribe.mockReturnValue(pending.promise);
+    await mount();
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    enableButton().click();
+    await vi.advanceTimersByTimeAsync(0);
+
+    expect(status()).toBe(MESSAGES.subscribing);
+
+    await vi.advanceTimersByTimeAsync(30001);
+    await settled();
+
+    expect(status()).toBe(MESSAGES.timeout);
+    expect(enableButton().hidden).toBe(false);
+    expect(disableButton().hidden).toBe(true);
+    expect(fetchMock).not.toHaveBeenCalled();
+
+    pending.resolve({ endpoint: 'https://push.example/late', unsubscribe });
+    await vi.waitFor(() => expect(unsubscribe).toHaveBeenCalled());
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps a late subscription that a second enable has registered in the meantime', async () => {
+    const lateUnsubscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue(true);
+    const pending = deferred<{ endpoint:string; unsubscribe:typeof unsubscribe }>();
+    subscribe.mockReturnValueOnce(pending.promise);
+    await mount();
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    enableButton().click();
+    await vi.advanceTimersByTimeAsync(30001);
+    await settled();
+    expect(status()).toBe(MESSAGES.timeout);
+
+    enableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+
+    pending.resolve({ endpoint: 'https://push.example/new', unsubscribe: lateUnsubscribe });
+    await vi.advanceTimersByTimeAsync(0);
+    expect(lateUnsubscribe).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('sends a DELETE to the revoke url of the current subscription on disable', async () => {
