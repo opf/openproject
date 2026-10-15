@@ -69,4 +69,31 @@ RSpec.describe FogFileUploader,
       expect(io.string).to eq(content)
     end
   end
+
+  describe "#local_file" do
+    it "removes the downloaded copy when the executor completes" do
+      path = Rails.application.executor.wrap do
+        file = uploader.local_file
+        expect(file.read).to eq(content)
+        file.path
+      end
+
+      expect(File).not_to exist(File.dirname(path))
+    end
+
+    it "downloads the file again after the cleanup" do
+      2.times do
+        expect(Rails.application.executor.wrap { uploader.local_file.read }).to eq(content)
+      end
+    end
+
+    it "keeps a file that was cached and not downloaded" do
+      cached_uploader = described_class.new(model, :file)
+      cached_uploader.cache!(CarrierWave::SanitizedFile.new(tempfile: StringIO.new(content), filename: "cached.bin"))
+
+      path = Rails.application.executor.wrap { cached_uploader.local_file.path }
+
+      expect(File).to exist(path)
+    end
+  end
 end

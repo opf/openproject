@@ -161,6 +161,19 @@ RSpec.describe Attachments::FinishDirectUploadJob, "integration", :with_direct_u
       expect(staged_direct_upload(pending_attachment)).to be_nil
     end
 
+    context "with an isolated upload cache" do
+      let(:cache_dir) { Dir.mktmpdir }
+
+      before { allow(FogFileUploader).to receive(:cache_dir).and_return(cache_dir) }
+      after { FileUtils.rm_rf(cache_dir) }
+
+      it "leaves no copy of the upload in the cache" do
+        Rails.application.executor.wrap { job.perform(pending_attachment.id) }
+
+        expect(Dir.children(cache_dir)).to be_empty
+      end
+    end
+
     context "without a staged upload" do
       before do
         staged_direct_upload(pending_attachment).destroy
