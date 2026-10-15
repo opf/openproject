@@ -33,7 +33,14 @@ module Admin
     class ProjectSettingsForm < ApplicationForm
       settings_form do |sf|
         sf.html_content do
-          render(Admin::Settings::ProjectSettings::DefaultColumnsComponent.new)
+          render(
+            Admin::Settings::ColumnSelectionComponent.new(
+              name: :enabled_projects_columns,
+              columns: helpers.projects_columns_options,
+              selected: helpers.selected_projects_columns_options,
+              protected: helpers.protected_projects_columns_options
+            )
+          )
         end
         sf.fieldset_group(title: I18n.t(:setting_project_gantt_query),
                           description: I18n.t(:setting_project_gantt_query_text)) do |fg|

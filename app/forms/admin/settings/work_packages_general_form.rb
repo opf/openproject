@@ -63,7 +63,14 @@ module Admin
         end
         sf.fieldset_group(title: I18n.t(:setting_column_options)) do |fg|
           fg.html_content do
-            render(Admin::Settings::WorkPackagesGeneral::DefaultColumnsComponent.new)
+            render(
+              Admin::Settings::ColumnSelectionComponent.new(
+                name: :work_package_list_default_columns,
+                columns: helpers.work_packages_columns_options,
+                selected: helpers.selected_work_packages_columns_options,
+                protected: helpers.protected_work_packages_columns_options
+              )
+            )
           end
         end
       end
