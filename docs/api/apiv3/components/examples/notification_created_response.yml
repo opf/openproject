@@ -1,0 +1,12 @@
+# Example: Notification created response
+---
+value:
+  _type: Notification
+  id: 42
+  _links:
+    resource:
+      href: '/api/v3/documents/5'
+      title: Meeting minutes
+    recipient:
+      href: '/api/v3/users/13'
+      title: Darth Nihilus
