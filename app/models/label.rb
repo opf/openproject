@@ -43,6 +43,8 @@ class Label < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
 
+  def to_s = name
+
   def self.page_of(label, per_page:)
     (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
   end
