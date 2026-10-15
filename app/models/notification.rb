@@ -43,7 +43,10 @@ class Notification < ApplicationRecord
     date_alert_start_date: 10,
     date_alert_due_date: 11,
     shared: 12,
-    reminder: 13
+    reminder: 13,
+    meeting_invited: 14,
+    meeting_updated: 15,
+    meeting_cancelled: 16
   }.freeze
 
   enum :reason, REASONS, prefix: true

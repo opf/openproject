@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -67,6 +68,8 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 
+  meeting$:Observable<MeetingResource>|null = null;
+
   // Latest streamed work package, cached for synchronous reads from click
   // handlers (which need displayId to build the URL).
   private latestWorkPackage:WorkPackageResource|null = null;
@@ -91,15 +94,19 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
 
   workPackageId:string|null;
 
+  meetingId:string|null;
+
   ngOnInit():void {
     const href = this.notification._links.resource?.href;
     this.workPackageId = href && HalResource.matchFromLink(href, 'work_packages');
+    this.meetingId = href && HalResource.matchFromLink(href, 'meetings');
 
     this.hasReminderAlert = this.hasNotificationReason('reminder');
     this.showDateAlert = this.hasNotificationReason('dateAlert');
     this.buildTranslatedReason();
     this.buildProject();
     this.loadWorkPackage();
+    this.loadMeeting();
   }
 
   private hasNotificationReason(reason:string):boolean {
@@ -123,6 +130,19 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
       );
   }
 
+  private loadMeeting() {
+    if (!this.meetingId) {
+      return;
+    }
+
+    this.meeting$ = this
+      .apiV3Service
+      .meetings
+      .id(this.meetingId)
+      .get()
+      .pipe(this.untilDestroyed()) as Observable<MeetingResource>;
+  }
+
   onClick():void {
     clearTimeout(this.clickTimer); // Clear timer from the any previous single click events.
     this.clickTimer = setTimeout(() => {
@@ -133,6 +153,11 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
   }
 
   showDetails():void {
+    if (this.meetingId) {
+      Turbo.visit(this.pathHelper.meetingPath(this.meetingId), { action: 'advance' });
+      return;
+    }
+
     if (!this.workPackageId) {
       return;
     }
@@ -148,6 +173,11 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
   }
 
   showFullView():void {
+    if (this.meetingId) {
+      Turbo.visit(this.pathHelper.meetingPath(this.meetingId), { action: 'advance' });
+      return;
+    }
+
     if (!this.workPackageId) {
       return;
     }

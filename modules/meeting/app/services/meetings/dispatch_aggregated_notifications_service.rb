@@ -144,6 +144,7 @@ module Meetings
         MeetingSeriesMailer.invited(meeting.recurring_meeting, recipient, actor).deliver_later
       else
         MeetingMailer.invited(meeting, recipient, actor).deliver_later
+        create_meeting_notification(recipient, actor, :meeting_invited)
       end
     end
 
@@ -154,7 +155,19 @@ module Meetings
         MeetingMailer.cancelled_series(meeting.recurring_meeting, recipient, actor).deliver_later
       else
         MeetingMailer.cancelled(meeting, recipient, actor).deliver_later
+        create_meeting_notification(recipient, actor, :meeting_cancelled)
       end
+    end
+
+    # In-app notifications are only created for one-time meetings; series updates
+    # link to a recurring meeting which does not surface in the notification center.
+    def create_meeting_notification(recipient, actor, reason)
+      return if recipient == actor
+      return if Notification.exists?(resource: meeting, recipient_id: recipient.id, reason:, read_ian: false)
+
+      Notifications::CreateService
+        .new(user: actor)
+        .call(recipient_id: recipient.id, resource: meeting, reason:, actor:, read_ian: false)
     end
 
     def send_updated(recipient, actor, attribute_changes, added_names: [], removed_names: [])
@@ -180,6 +193,7 @@ module Meetings
                             changes: meeting_changes(attribute_changes),
                             added_participants: added_names,
                             removed_participants: removed_names).deliver_later
+      create_meeting_notification(recipient, actor, :meeting_updated)
     end
 
     def meeting_changes(attribute_changes) # rubocop:disable Metrics/AbcSize
