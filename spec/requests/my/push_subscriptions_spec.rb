@@ -78,6 +78,16 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.sole).to have_attributes(user:, endpoint:, session: current_session_row)
       end
 
+      it "snapshots the browser and platform of the current session" do
+        subscribe(endpoint)
+
+        expect(PushSubscription.sole)
+          .to have_attributes(browser_name: request.session[:browser],
+                              browser_version: request.session[:browser_version],
+                              platform: request.session[:platform])
+        expect(PushSubscription.sole.browser_name).to be_present
+      end
+
       it "refuses an endpoint held by another user" do
         existing = create(:push_subscription, endpoint:)
 

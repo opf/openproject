@@ -35,6 +35,8 @@ module Sessions
       def call!(days_ago: 30)
         # sessions expire after 30 days of inactivity by default
         ActiveRecord::SessionStore::Session.where("updated_at < ?", days_ago.days.ago).delete_all
+        PushSubscription.dormant.where(suspended_at: nil).update_all(suspended_at: Time.current)
+        PushSubscription.dormant.where(suspended_at: ...days_ago.days.ago).delete_all
       end
     end
   end

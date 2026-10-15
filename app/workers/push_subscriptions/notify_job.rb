@@ -58,6 +58,8 @@
 #
 # Deactivated and deleted users lose their subscriptions here as well as through
 # the model callbacks, so a job that outlives the account cleans up after it.
+# A signed-out device keeps a dormant subscription without a session; it receives
+# nothing until the next sign-in on that device binds it again.
 class PushSubscriptions::NotifyJob < ApplicationJob
   include GoodJob::ActiveJobExtensions::Concurrency
 
@@ -83,7 +85,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   ].freeze
 
   def self.schedule_for(user_id)
-    return unless OpenProject::WebPush.enabled? && PushSubscription.exists?(user_id:)
+    return unless OpenProject::WebPush.enabled? && PushSubscription.active.exists?(user_id:)
 
     set(wait: DEBOUNCE).perform_later(user_id)
   end
@@ -106,7 +108,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   private
 
   def deliver_all(user, subscription_ids, attempt)
-    subscriptions = user.push_subscriptions.order(:id)
+    subscriptions = user.push_subscriptions.active.order(:id)
     subscriptions = subscriptions.where(id: subscription_ids) if subscription_ids
     retries = subscriptions.map { [it.id, deliver(it)] }.select { |_, outcome| outcome.is_a?(Retry) }
     return if retries.empty?
