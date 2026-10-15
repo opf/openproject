@@ -40,10 +40,12 @@ module My
     def create
       result = subscribe(params[:push_endpoint].to_s)
 
-      if result.success?
-        render_devices
-      else
+      if result.failure?
         render json: { errors: result.errors.full_messages }, status: :unprocessable_entity
+      elsif resume?
+        head :no_content
+      else
+        render_devices
       end
     end
 
@@ -67,7 +69,8 @@ module My
 
       begin
         attempts += 1
-        subscription = PushSubscription.find_or_initialize_by(endpoint:)
+        subscription = find_subscription(endpoint)
+        return ServiceResult.success if subscription.nil?
         return takeover_refused_result(subscription) if held_by_another_user?(subscription)
 
         replace_session_subscription(subscription)
@@ -77,27 +80,52 @@ module My
       end
     end
 
+    def resume?
+      ActiveModel::Type::Boolean.new.cast(params[:resume])
+    end
+
+    def find_subscription(endpoint)
+      if resume?
+        PushSubscription.find_by(user: current_user, endpoint:)
+      else
+        PushSubscription.find_or_initialize_by(endpoint:)
+      end
+    end
+
     def replace_session_subscription(subscription)
       session_id = current_session_row_id
       result = nil
 
       PushSubscription.transaction do
-        PushSubscription.where(session_id:).where.not(endpoint: subscription.endpoint).delete_all
-        result = ::PushSubscriptions::CreateService
-          .new(user: current_user, model: subscription)
-          .call(user: current_user, session_id:, **browser_attributes)
+        target = take_over_dormant(subscription)
+        result = target ? bind_to_session(target, session_id) : takeover_refused_result(subscription)
         raise ActiveRecord::Rollback if result.failure?
       end
 
       result
     end
 
+    def bind_to_session(subscription, session_id)
+      PushSubscription.for_session(session_id).except_endpoint(subscription.endpoint).delete_all
+      ::PushSubscriptions::CreateService
+        .new(user: current_user, model: subscription)
+        .call(user: current_user, session_id:, suspended_at: nil, **browser_attributes)
+    end
+
     def browser_attributes
       { browser_name: session[:browser], browser_version: session[:browser_version], platform: session[:platform] }
     end
 
+    def take_over_dormant(subscription)
+      return subscription if subscription.new_record? || subscription.user_id == current_user.id
+
+      return unless PushSubscription.dormant.where(id: subscription.id).delete_all == 1
+
+      PushSubscription.new(endpoint: subscription.endpoint)
+    end
+
     def held_by_another_user?(subscription)
-      subscription.persisted? && subscription.user_id != current_user.id
+      subscription.persisted? && subscription.user_id != current_user.id && subscription.session_id.present?
     end
 
     def takeover_refused_result(subscription)
