@@ -49,9 +49,9 @@ class Queries::Principals::Filters::MentionableOnMessageFilter <
   def apply_to(query_scope)
     case operator
     when "="
-      query_scope.where(id: project_members)
+      query_scope.where(id: mentionable_principals)
     when "!"
-      query_scope.where(id: visible_scope.where.not(id: project_members.select(:id)))
+      query_scope.where(id: visible_scope.where.not(id: mentionable_principals.select(:id)))
     end
   end
 
@@ -61,9 +61,25 @@ class Queries::Principals::Filters::MentionableOnMessageFilter <
     @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
   end
 
+  def mentionable_principals
+    visible_scope.where(id: project_members).or(visible_scope.where(id: public_topic_participants))
+  end
+
   # view_messages is a public permission: every member of the project can read its forums.
   def project_members
-    visible_scope.where(id: Member.of_project(projects).where(entity: nil).select(:user_id))
+    Member.of_project(projects).select(:user_id)
+  end
+
+  # Participants of a private project's topic who are no longer members can no longer read it.
+  def public_topic_participants
+    Message
+      .where(id: topic_ids).or(Message.where(parent_id: topic_ids))
+      .joins(forum: :project).where(projects: { public: true })
+      .select(:author_id)
+  end
+
+  def topic_ids
+    Message.where(id: values).select(Arel.sql("COALESCE(#{Message.table_name}.parent_id, #{Message.table_name}.id)"))
   end
 
   def visible_scope

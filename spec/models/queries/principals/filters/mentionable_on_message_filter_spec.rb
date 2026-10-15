@@ -81,6 +81,42 @@ RSpec.describe Queries::Principals::Filters::MentionableOnMessageFilter do
         end
       end
 
+      context "with participants of the topic who are not members" do
+        let(:operator) { "=" }
+        let(:topic_author) { create(:user) }
+        let(:topic) { create(:message, forum: create(:forum, project: topic_project), author: topic_author) }
+        let(:reply) { create(:message, forum: topic.forum, parent: topic, author: replier) }
+        let(:replier) { create(:user) }
+        let(:values) { [reply.id.to_s] }
+
+        current_user { create(:user, global_permissions: %i[view_all_principals], member_with_roles: { topic_project => role }) }
+
+        context "in a public project" do
+          let(:topic_project) { create(:project, public: true) }
+
+          it "adds every participant of the topic to its members" do
+            expect(subject).to include(topic_author, replier)
+          end
+
+          context "when the current user cannot see them" do
+            current_user { create(:user, member_with_roles: { topic_project => role }) }
+
+            it "leaves them out" do
+              expect(subject).not_to include(topic_author, replier)
+            end
+          end
+        end
+
+        context "in a private project" do
+          let(:topic_project) { create(:project, public: false) }
+
+          # They left the project, so they can no longer read the topic.
+          it "leaves them out" do
+            expect(subject).not_to include(topic_author, replier)
+          end
+        end
+      end
+
       context "with a message the current user cannot see" do
         let(:operator) { "=" }
         let(:values) { [create(:message, forum: create(:forum, project: create(:project))).id.to_s] }
