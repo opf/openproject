@@ -488,6 +488,34 @@ RSpec.describe User do
     end
   end
 
+  describe "#password_checkable?" do
+    it "is true for a user with a password" do
+      expect(create(:user)).to be_password_checkable
+    end
+
+    it "is false for a user without a password" do
+      expect(create(:user, :passwordless)).not_to be_password_checkable
+    end
+
+    it "is true for an LDAP user without a password" do
+      expect(create(:user, :passwordless, ldap_auth_source: create(:ldap_auth_source))).to be_password_checkable
+    end
+
+    context "for an SSO user with a leftover password" do
+      let(:user) { create(:user, authentication_provider: create(:oidc_provider)) }
+
+      it "is true" do
+        expect(user).to be_password_checkable
+      end
+
+      context "with password login disabled for SSO users", with_config: { password_login: "except_sso" } do
+        it "is false" do
+          expect(user).not_to be_password_checkable
+        end
+      end
+    end
+  end
+
   describe "#watches" do
     before do
       user.save!

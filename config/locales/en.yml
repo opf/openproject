@@ -683,6 +683,8 @@ en:
       models:
         admin_elevation_session:
           attributes:
+            base:
+              password_required: "Elevating your privileges has to be confirmed with your password."
             project:
               archived: "is archived."
         ai/text_transform_run:
@@ -2426,10 +2428,10 @@ en:
       end_confirmation: "Do you want to end your elevated administrator privileges in this project?"
       not_elevated: "You are an administrator, but you are seeing this project only with the permissions of your memberships. Elevate your privileges to act on it as an administrator."
     dialog:
-      confirmation_placeholder: "Confirming your identity with two-factor authentication or your password will be required here."
       description: "You will have full administrator privileges in this project for this browser session. They end after %{minutes} minutes of inactivity in the project."
       include_subprojects: "Include subprojects"
       include_subprojects_caption: "Also elevate your privileges in all subprojects of this project."
+      password_caption: "Enter your password to confirm your identity."
       submit: "Elevate privileges"
       title: "Elevate privileges in %{project}"
     notice_elevated: "You now have elevated privileges in %{project}."

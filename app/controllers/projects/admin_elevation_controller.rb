@@ -35,10 +35,15 @@ class Projects::AdminElevationController < ApplicationController
   before_action :find_project_by_project_id
 
   def new
-    respond_with_dialog AdminElevationSessions::ElevateDialogComponent.new(project: @project, back_url: params[:back_url])
+    respond_with_dialog elevate_dialog
   end
 
   def create
+    if current_user.password_checkable? && !current_user.check_password?(params.dig(:admin_elevation, :password))
+      return respond_with_dialog(elevate_dialog(password_error: I18n.t(:notice_password_confirmation_failed)),
+                                 status: :unprocessable_entity)
+    end
+
     call = elevate
 
     if call.success?
@@ -61,12 +66,20 @@ class Projects::AdminElevationController < ApplicationController
 
   private
 
+  def elevate_dialog(password_error: nil)
+    AdminElevationSessions::ElevateDialogComponent.new(project: @project,
+                                                       user: current_user,
+                                                       back_url: params[:back_url],
+                                                       include_subprojects:,
+                                                       password_error:)
+  end
+
   def elevate
     AdminElevationSessions::CreateService
       .new(user: current_user)
       .call(project: @project,
             session_id: session.id.private_id,
-            confirmed_with: "confirmation",
+            confirmed_with: current_user.password_checkable? ? "password" : "confirmation",
             include_subprojects:)
   end
 

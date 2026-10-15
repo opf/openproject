@@ -384,6 +384,10 @@ class User < Principal
   deprecated_alias :invite!, :invited!
   deprecated_alias :lock!, :locked!
 
+  def password_checkable?
+    password_login_allowed? && (ldap_auth_source.present? || current_password.present?)
+  end
+
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.

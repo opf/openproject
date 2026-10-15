@@ -30,10 +30,13 @@
 
 module AdminElevationSessions
   class Form < ApplicationForm
-    def initialize(back_url:)
+    def initialize(back_url:, password_required:, include_subprojects: false, password_error: nil)
       super()
 
       @back_url = back_url
+      @password_required = password_required
+      @include_subprojects = include_subprojects
+      @password_error = password_error
     end
 
     form do |f|
@@ -42,8 +45,21 @@ module AdminElevationSessions
       f.check_box(
         name: :include_subprojects,
         label: I18n.t("admin_elevation.dialog.include_subprojects"),
-        caption: I18n.t("admin_elevation.dialog.include_subprojects_caption")
+        caption: I18n.t("admin_elevation.dialog.include_subprojects_caption"),
+        checked: @include_subprojects
       )
+
+      if @password_required
+        f.text_field(
+          name: :password,
+          type: :password,
+          label: User.human_attribute_name(:password),
+          caption: I18n.t("admin_elevation.dialog.password_caption"),
+          autocomplete: "current-password",
+          required: true,
+          validation_message: @password_error
+        )
+      end
     end
   end
 end
