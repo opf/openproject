@@ -4,12 +4,15 @@ de:
   avatar_deleted: Profilbild erfolgreich gelöscht.
   avatars:
     label_avatar: Profilfoto
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Selbsterstelltes Profilbild
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Aktiviere Gravatare
       enable_local_avatars: Selbsterstellte Profilbilder aktivieren
       gravatar_default: Standard-Gravatar-Bild
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject verwendet Ihr Gravatar-Bild, sofern eines unter %{gravatar_url} registriert ist, andernfalls ein Standardbild oder -symbol, sofern vorhanden.
     text_avatar_local: Sie können ein eigenes Profilbild hochladen, welches Gravatar überschreibt, indem Sie auf das Bild klicken. Wir empfehlen ein Bild mit einer Größe von 128 × 128 Pixel.
     text_avatar_local_only: Sie können ein eigenes Profilbild hochladen, indem Sie auf das Bild klicken. Wir empfehlen ein Bild mit einer Größe von 128 × 128 Pixel.

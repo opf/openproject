@@ -883,9 +883,7 @@ hu:
     text_user_wrote: "%{value} írta:"
     text_work_packages_destroy_confirmation: Biztosan törli a kijelölt feladatcsoportot?
     time_entry:
-      stop: Stop
       title: Eltöltött idő rögzítése
-      tracking: Munkaidő követése
       work_package_required: Először ki kell választania egy munkacsomagot.
     timer:
       button_stop: Stop current timer

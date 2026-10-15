@@ -847,9 +847,7 @@ sv:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda arbetspaket(paketen)?
     time_entry:
-      stop: Stoppa
       title: Logga tid
-      tracking: Tidredovisning
       work_package_required: Kräver att man först väljer ett arbetspaket.
     timer:
       button_stop: Stoppa aktuell timer

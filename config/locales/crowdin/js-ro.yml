@@ -850,9 +850,7 @@ ro:
     text_user_wrote: "%{value} a scris:"
     text_work_packages_destroy_confirmation: Ești sigur că vrei să ștergi pachetele de lucru selectate?
     time_entry:
-      stop: Oprire
       title: Registru timp
-      tracking: Monitorizare efort
       work_package_required: Necesită să se selecteze mai întâi un pachet de lucru.
     timer:
       button_stop: Oprește cronometrul curent

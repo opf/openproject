@@ -4,12 +4,15 @@ fr:
   avatar_deleted: L'avatar a bien été supprimé.
   avatars:
     label_avatar: Avatar
+    label_avatar_color: Fallback color
     label_gravatar: Gravatar
     label_local_avatar: Avatar personnalisé
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Activer les gravatars de l'utilisateur
       enable_local_avatars: Activer les avatars personnalisés de l'utilisateur
       gravatar_default: Image Gravatar par défaut
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject utilise votre Gravatar si vous en avez créé un sur %{gravatar_url}, ou une image ou une icône par défaut si celle-ci existe.
     text_avatar_local: En cliquant sur l'image, vous pouvez également importer un avatar personnalisé qui remplacera celui de Gravatar. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
     text_avatar_local_only: Vous pouvez importer un avatar personnalisé en cliquant sur l'image. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
