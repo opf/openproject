@@ -51,6 +51,12 @@ module OpenProject::Llm
 
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders")
 
+    initializer "openproject_llm.inflections" do
+      ActiveSupport::Inflector.inflections(:en) do |inflect|
+        inflect.irregular "semantic_index", "semantic_indexes"
+      end
+    end
+
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.
     # OpenProject uses the plain client rather than either ActiveRecord API.

@@ -25,6 +25,14 @@ en:
         display_name: "Display name"
         # human_attribute_name strips the _id suffix, so the key omits it.
         external: "Model name"
+      semantic_index:
+        context_token_length: "Context length"
+        description: "Description"
+        embedding_vector_dimensions: "Dimensions"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
+        model: "Model"
+        state: "Status"
+        title: "Display name"
     errors:
       models:
         llm_connection:
@@ -66,6 +74,10 @@ en:
           attributes:
             external_id:
               conflicting_capabilities: "has capability assertions stored under it that conflict with those of this model."
+        semantic_index:
+          attributes:
+            model_id:
+              not_offered: "is not an embedding model offered by the configured LLM server."
   admin:
     llm_connections:
       delete_api_key:
