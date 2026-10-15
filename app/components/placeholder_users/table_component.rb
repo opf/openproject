@@ -29,9 +29,13 @@
 #++
 
 module PlaceholderUsers
-  class TableComponent < ::TableComponent
+  class TableComponent < ::OpPrimer::BorderBoxTableComponent
     columns :name, :criteria, :created_at
     sortable_columns :name, :created_at
+
+    def mobile_title
+      PlaceholderUser.model_name.human
+    end
 
     def initial_sort
       %i[id asc]

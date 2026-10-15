@@ -47,6 +47,7 @@ class PlaceholderUsersController < ApplicationController
 
   def index
     @query = index_query
+    @placeholder_users = index_query.results
 
     respond_to do |format|
       format.html do
