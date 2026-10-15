@@ -225,6 +225,18 @@ describe('PushSubscriptionController', () => {
     expect(unsubscribe).not.toHaveBeenCalled();
   });
 
+  it('registers a dormant subscription again instead of dropping it', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    await mount({ subscriptions: [{ ...known, dormant: true }] });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe('/my/push_subscriptions');
+    expect(JSON.parse(init.body as string)).toEqual({ push_endpoint: known.endpoint });
+    expect(unsubscribe).not.toHaveBeenCalled();
+    expect(status()).toBe(MESSAGES.enabled);
+  });
+
   it('drops a browser subscription the server does not know and shows the disabled state', async () => {
     getSubscription.mockResolvedValue({ endpoint: 'https://push.example/stale', unsubscribe });
     await mount();
