@@ -2174,6 +2174,28 @@ en:
           error: "The section could not be reordered."
         move:
           error: "The section could not be reordered."
+      push_notifications:
+        check_reachability: "Check reachability"
+        checking: "Checking…"
+        hosts_intro: "This instance must reach these hosts over HTTPS. They come from the web_push_service_hosts setting, and subdomains are included:"
+        http_status: "HTTP %{code}"
+        key_managed_by_environment: "The VAPID key is managed through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To rotate it, change the variable."
+        key_regenerated: "The VAPID key was regenerated. Every device needs to enable push again."
+        key_section: "Key"
+        key_unreadable: "The VAPID key could not be read. Regenerate it to restore browser push; every device will need to enable push again."
+        reachable: "Reachable"
+        reasons:
+          connection: "The connection failed"
+          filtered: "The request was blocked by SSRF protection"
+          private_address: "The host resolved to a private address"
+          sample_unresolved: "Sample host could not be resolved; result inconclusive"
+          timeout: "No response within %{seconds} seconds"
+          tls: "The TLS handshake failed"
+          unresolved: "The host name could not be resolved"
+        regenerate_key: "Regenerate key"
+        regenerate_key_confirm: "Regenerate the VAPID key? Every device will need to enable push again."
+        unreachable: "Unreachable"
+        what_is_sent: "What is sent: a content-free wake-up push. The installed application fetches the unread count from this instance over the user's session. Push services see the subscription endpoint, this instance's address and public key, and the time of each push."
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
@@ -5053,6 +5075,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
+      push_notifications: "Browser push notifications"
       text_transform_actions: "Text transform actions"
     quick_add:
       label: "Add…"
