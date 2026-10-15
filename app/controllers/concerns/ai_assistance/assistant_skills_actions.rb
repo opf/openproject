@@ -72,10 +72,11 @@ module AIAssistance::AssistantSkillsActions
     end
   end
 
+  # Back to the assistant list when the delete started there.
   def destroy
     @skill.destroy!
     flash[:notice] = t(:notice_successful_delete)
-    redirect_to pages.edit_assistant_path(@assistant)
+    redirect_to params[:back] == "list" ? pages.assistants_path : pages.edit_assistant_path(@assistant)
   end
 
   private

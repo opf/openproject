@@ -39,23 +39,32 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
   current_user { admin }
 
   describe "GET /admin/ai_assistants" do
-    it "lists global and personal assistants with their owner" do
+    it "lists one section per assistant, global first, with its owner linked and its skills" do
+      skill = create(:ai_assistant_skill, assistant: global_assistant, label: "Check it", offered_on: "everywhere")
+      group = create(:group, lastname: "Release team")
+      create(:ai_assistant, name: "Team helper", principal: group)
+
       get admin_ai_assistants_path
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("QA assistance", "My helper", "Ada Owner")
+      page = response.parsed_body
+      expect(page.css("[data-test-selector='ai-assistant-section']").size).to eq(3)
+      expect(response.body.index("QA assistance")).to be < response.body.index("Team helper")
+      expect(response.body.index("Team helper")).to be < response.body.index("My helper")
+      owners = page.css("[data-test-selector='ai-assistant-owner']")
+      expect(owners.map { it.text.squish }).to eq(["Global", "Release team", "Ada Owner"])
+      expect(owners[1].at_css("a")["href"]).to eq(edit_group_path(group))
+      expect(owners[2].at_css("a")["href"]).to eq(edit_user_path(owner))
+      expect(page.at_css("a[href='#{edit_admin_ai_assistant_skill_path(global_assistant, skill)}']").text).to include("Check it")
     end
 
-    it "filters by owner" do
-      get admin_ai_assistants_path(owner: "personal")
+    it "deletes a skill from the list and returns to the list" do
+      skill = create(:ai_assistant_skill, assistant: global_assistant)
 
-      expect(response.body).to include("My helper")
-      expect(response.body).not_to include("QA assistance")
+      delete admin_ai_assistant_skill_path(global_assistant, skill), params: { back: "list" }
 
-      get admin_ai_assistants_path(owner: "global")
-
-      expect(response.body).to include("QA assistance")
-      expect(response.body).not_to include("My helper")
+      expect(response).to redirect_to(admin_ai_assistants_path)
+      expect(AI::AssistantSkill.exists?(skill.id)).to be(false)
     end
   end
 
@@ -156,13 +165,9 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
   end
 
   describe "a group assistant" do
-    it "is filtered as a group assistant and keeps its group on update" do
+    it "keeps its group on update" do
       group = create(:group, lastname: "Release team")
       assistant = create(:ai_assistant, name: "Team helper", principal: group)
-
-      get admin_ai_assistants_path(owner: "groups")
-      expect(response.body).to include("Team helper", "Release team")
-      expect(response.body).not_to include("My helper")
 
       patch admin_ai_assistant_path(assistant), params: { ai_assistant: { name: "Renamed", principal_id: "" } }
       expect(assistant.reload).to have_attributes(name: "Renamed", principal: group)

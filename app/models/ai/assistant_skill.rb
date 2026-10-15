@@ -84,6 +84,11 @@ module AI
       Array(conditions[key.to_s])
     end
 
+    # Skills saved before the setting existed have none.
+    def offered_on
+      super.presence || "work_packages"
+    end
+
     def everywhere? = offered_on == "everywhere"
 
     # Whether the skill is offered at the place. On a work package, every skill whose

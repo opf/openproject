@@ -1556,11 +1556,12 @@ en:
       inactive: "Inactive"
       index:
         add: "Assistant"
-        description: "Assistants group the skills of the AI Assistance menu on work packages. Each run uses the permissions of the user who starts it."
+        description: "Assistants group the skills of the AI Assistance menu. Each run uses the permissions of the user who starts it."
         empty: "There are no assistants yet."
-        owner_filter: "Owner"
+        owner_kinds:
+          group: "Group"
+          user: "User"
         owners:
-          all: "All"
           global: "Global"
           groups: "Groups"
           personal: "Personal"
@@ -1568,6 +1569,7 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
+        actions: "Actions for %{skill}"
         answers_at_once_caption: "Opening the skill starts a new chat, and the skill answers its instructions at once. Off opens an empty chat for the user's own questions."
         conditions:
           all: "All"

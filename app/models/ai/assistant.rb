@@ -69,6 +69,16 @@ module AI
       principal.is_a?(Group)
     end
 
+    # The owner kinds, in the order of the admin list.
+    OWNER_SCOPES = %w[global groups personal].freeze
+
+    def owner_scope
+      if personal? then "personal"
+      elsif group? then "groups"
+      else "global"
+      end
+    end
+
     # The assistant's own model while the connection still offers it. Otherwise the
     # feature binding, then the connection default.
     def llm_resolution

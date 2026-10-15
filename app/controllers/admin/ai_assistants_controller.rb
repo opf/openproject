@@ -30,8 +30,6 @@
 
 module Admin
   class AIAssistantsController < ::ApplicationController
-    OWNER_FILTERS = { "global" => :global, "groups" => :for_groups, "personal" => :personal }.freeze
-
     before_action :require_admin
 
     # After the access checks: the shared actions look up records.
@@ -43,16 +41,10 @@ module Admin
 
     private
 
-    # All assistants, global and owned; ?owner= narrows the list.
+    # All assistants, global and owned.
     def assistant_scope
-      scope = AI::Assistant.includes(:principal)
-      owner_filter ? scope.public_send(OWNER_FILTERS[owner_filter]) : scope
+      AI::Assistant.includes(:principal)
     end
-
-    def owner_filter
-      params[:owner] if action_name == "index" && OWNER_FILTERS.key?(params[:owner])
-    end
-    helper_method :owner_filter
 
     # An admin creates a global assistant, or one for a group. The owner never changes.
     def new_assistant(attributes = {})
