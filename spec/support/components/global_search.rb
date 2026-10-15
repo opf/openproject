@@ -30,9 +30,8 @@ module Components
 
     def search(query, submit: false)
       SeleniumHubWaiter.wait
-      input.set ""
       click_input
-      input.set query
+      ng_enter_query(container, query)
 
       if submit
         submit_with_enter

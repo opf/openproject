@@ -31,8 +31,7 @@ require "spec_helper"
 require_relative "../../support/pages/my/page"
 
 RSpec.describe "Accountable widget on my page",
-               :js,
-               :selenium do
+               :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }

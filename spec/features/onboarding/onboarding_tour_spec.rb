@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "onboarding tour for new users",
-               :js, :selenium do
+RSpec.describe "onboarding tour for new users", :js do
   let(:user) { create(:admin) }
   let(:project) do
     create(:project, :with_internal_wiki, name: "Demo project", identifier: "demo-project", public: true,
