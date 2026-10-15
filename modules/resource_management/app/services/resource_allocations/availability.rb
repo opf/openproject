@@ -78,36 +78,6 @@ module ResourceAllocations
       )
     end
 
-    # The user's working schedules effective within the given date range, in
-    # chronological order: the schedule active at the range start (if any)
-    # followed by any schedules taking effect within the range. Empty when no
-    # schedule is in effect at any point of the range.
-    #
-    # @return [Array<UserWorkingHours>]
-    def working_schedules(range)
-      records = UserWorkingHours
-                  .for_user(@user)
-                  .where(valid_from: ..range.end)
-                  .order(:valid_from)
-                  .to_a
-      active_index = records.rindex { |record| record.valid_from <= range.begin }
-
-      active_index.nil? ? records : records[active_index..]
-    end
-
-    # The leading part of the range before the user's earliest working schedule
-    # takes effect, which WorkingTimeCalendar counts as zero capacity. Nil when
-    # a schedule covers the whole range.
-    #
-    # @return [Range<Date>, nil]
-    def unscheduled_range(range)
-      earliest = UserWorkingHours.for_user(@user).minimum(:valid_from)
-      return range if earliest.nil?
-      return if earliest <= range.begin
-
-      range.begin..[earliest - 1, range.end].min
-    end
-
     def utilization_ratio(range)
       capacity = capacity_minutes_within(range)
       return if capacity.zero?

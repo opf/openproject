@@ -208,7 +208,7 @@ module ::ResourceManagement
     def working_schedules(allocation)
       days = overbooking(allocation).days
       span = days.any? ? days.first.date..days.last.date : allocation.start_date..allocation.end_date
-      availability(allocation).working_schedules(span)
+      UserWorkingHours.for_user(allocation.principal).effective_within(span)
     end
 
     def availability(allocation)

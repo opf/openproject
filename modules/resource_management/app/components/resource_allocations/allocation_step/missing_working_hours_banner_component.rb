@@ -65,7 +65,7 @@ module ResourceAllocations
 
         @unscheduled_range =
           if user.present? && allocation_range
-            ResourceAllocations::Availability.new(user:).unscheduled_range(allocation_range)
+            UserWorkingHours.for_user(user).unscheduled_within(allocation_range)
           end
       end
 
