@@ -1,0 +1,35 @@
+# Schema: NotificationCreatedModel
+---
+type: object
+description: |-
+  Reduced representation of a notification returned to the user creating it. As the notification belongs to its
+  recipient, it neither links to itself nor to the read/unread actions, and nothing is embedded.
+properties:
+  _type:
+    type: string
+    enum:
+      - Notification
+  id:
+    type: integer
+    description: Notification id
+    minimum: 1
+  _links:
+    type: object
+    required:
+      - resource
+      - recipient
+    properties:
+      resource:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The resource the recipient is mentioned in
+
+              **Resource**: Polymorphic (currently only Document)
+      recipient:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user being notified
+
+              **Resource**: User

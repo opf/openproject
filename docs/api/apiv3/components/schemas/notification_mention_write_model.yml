@@ -1,0 +1,40 @@
+# Schema: NotificationMentionWriteModel
+---
+type: object
+required:
+  - reason
+  - _links
+properties:
+  reason:
+    type: string
+    description: The reason for the notification. Only mentions can be created.
+    enum:
+      - mentioned
+  _links:
+    type: object
+    required:
+      - resource
+      - recipient
+    properties:
+      resource:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The resource the recipient is mentioned in. Currently, only documents support mentioning users.
+
+              **Resource**: Document
+
+              # Conditions
+
+              **Permission**: manage documents in the document's project
+      recipient:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The user being mentioned. Needs to be an active user.
+
+              **Resource**: User
+
+              # Conditions
+
+              **Permission** (of the recipient): view documents in the document's project
