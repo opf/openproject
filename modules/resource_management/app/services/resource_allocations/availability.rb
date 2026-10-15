@@ -158,18 +158,18 @@ module ResourceAllocations
     end
 
     def base_calendar
-      @base_calendar ||= calendar_for(items)
+      @base_calendar ||= calendar_for(allocations)
     end
 
-    def calendar_for(work_items)
-      range = work_items.map(&:start_date).min..work_items.map(&:end_date).max
+    def calendar_for(windows)
+      range = windows.map(&:start_date).min..windows.map(&:end_date).max
       WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days)
     end
 
     def build_optimal_schedule
-      return OptimalSchedule.new(by_date: {}, capacity_by_date: {}) if items.empty?
+      return OptimalSchedule.new(by_date: {}, capacity_by_date: {}) if allocations.empty?
 
-      result = FitCalculator.new(calendar: base_calendar, items:).call
+      result = FitCalculator.new(calendar: base_calendar, allocations:).call
 
       OptimalSchedule.new(
         by_date: entries_by_date(result),
@@ -185,8 +185,8 @@ module ResourceAllocations
     end
 
     def scheduled_entries(allocation, result)
-      placed = result.placements.fetch(allocation.id, {})
-      overtime = result.overtime.fetch(allocation.id, {})
+      placed = result.placements.fetch(allocation, {})
+      overtime = result.overtime.fetch(allocation, {})
 
       (placed.keys | overtime.keys).map do |date|
         overtime_minutes = overtime.fetch(date, 0)
