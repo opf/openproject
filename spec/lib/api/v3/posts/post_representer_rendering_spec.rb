@@ -66,6 +66,53 @@ RSpec.describe API::V3::Posts::PostRepresenter, "rendering" do
       it_behaves_like "has workspace linked"
     end
 
+    describe "topic" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { :topic }
+        let(:href) { api_v3_paths.post message.id }
+      end
+
+      context "for a reply" do
+        let(:topic) { build_stubbed(:message) }
+        let(:message) do
+          build_stubbed(:message, parent: topic) do |message|
+            allow(message).to receive(:project).and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:link) { :topic }
+          let(:href) { api_v3_paths.post topic.id }
+        end
+      end
+
+      context "for a reply not saved yet" do
+        let(:topic) { build_stubbed(:message) }
+        let(:message) do
+          build(:message, parent: topic).tap do |message|
+            allow(message).to receive(:project).and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:link) { :topic }
+          let(:href) { api_v3_paths.post topic.id }
+        end
+      end
+
+      context "for a topic not saved yet" do
+        let(:message) do
+          build(:message).tap do |message|
+            allow(message).to receive(:project).and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has no link" do
+          let(:link) { :topic }
+        end
+      end
+    end
+
     it_behaves_like "has an untitled action link" do
       let(:link) { :addAttachment }
       let(:href) { api_v3_paths.attachments_by_post message.id }

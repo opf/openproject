@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -35,6 +37,13 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
         self_link title_getter: ->(*) {}
+
+        link :topic do
+          topic_id = represented.parent_id || represented.id
+          next unless topic_id
+
+          { href: api_v3_paths.post(topic_id) }
+        end
 
         property :id
 
