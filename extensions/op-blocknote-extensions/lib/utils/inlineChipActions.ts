@@ -80,13 +80,16 @@ export function findPendingInlineChip(
   return found;
 }
 
-export function removePendingInlineChip(editor:AnyEditor, found:FoundInlineChip):void {
+export function pendingInlineChipRange(doc:ProsemirrorNode, found:FoundInlineChip):[number, number] {
   const end = found.position + found.node.nodeSize;
-  const doc = editor.prosemirrorState.doc;
   const spacerEnd = end < doc.content.size && doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
+  return [found.position, spacerEnd];
+}
 
+export function removePendingInlineChip(editor:AnyEditor, found:FoundInlineChip):void {
+  const [from, to] = pendingInlineChipRange(editor.prosemirrorState.doc, found);
   editor.transact((tr) => {
-    tr.delete(found.position, spacerEnd);
+    tr.delete(from, to);
   });
 }
 

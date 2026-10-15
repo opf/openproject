@@ -8,7 +8,7 @@ interface SelectedBlock {
   children?:unknown[];
 }
 
-function currentBlock(editor:AnyEditor):{ type:string; content?:unknown } | undefined {
+function currentBlock(editor:AnyEditor):{ type:string; content?:unknown; children?:unknown[] } | undefined {
   return editor.getTextCursorPosition()?.block;
 }
 
@@ -27,7 +27,7 @@ export function isCurrentBlockEmpty(editor:AnyEditor):boolean {
 
 export function canBlockWorkPackageReplaceCurrentBlock(editor:AnyEditor):boolean {
   const block = currentBlock(editor);
-  return block?.type === PARAGRAPH_BLOCK_TYPE && isEmpty(block);
+  return block?.type === PARAGRAPH_BLOCK_TYPE && isEmpty(block) && (block.children?.length ?? 0) === 0;
 }
 
 export function fullySelectedParagraphIds(editor:AnyEditor):string[] {

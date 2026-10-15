@@ -1,14 +1,20 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse } from 'msw';
+import { cleanup } from 'vitest-browser-react';
+import { BlockNoteSchema } from '@blocknote/core';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { openWorkPackageAttributeDialog, SEARCH_PLACEHOLDER } from '../../../helpers/editorHelpers';
+import { openProjectWorkPackageAttributeSpec } from '../../../../lib';
+import { openEditorAndType, openWorkPackageAttributeDialog, SEARCH_PLACEHOLDER } from '../../../helpers/editorHelpers';
 import { worker } from '../../../mocks/browser';
 import { ATTRIBUTE_SCHEMA_HREF, mockAttributeWorkPackage, mockMilestoneWorkPackage } from '../../../mocks/workPackageAttributes';
 
 interface InlineNode { type:string, props?:Record<string, unknown> }
 
-let editor:{ document:{ content?:InlineNode[] }[] };
+let editor:{
+  document:{ content?:InlineNode[] }[],
+  insertBlocks:(blocks:unknown[], reference:unknown, placement:'before' | 'after') => void,
+};
 
 function attributeProps() {
   return editor.document
@@ -273,5 +279,137 @@ describe('Insert work package attribute', () => {
     await vi.waitFor(() => expect(document.activeElement).toBe(workPackageField().element()));
     await expect.element(page.getByRole('radio', { name: 'Value', exact: true })).toHaveAttribute('aria-checked', 'true');
     await expect.element(preview()).toHaveTextContent('Choose a work package and an attribute');
+  });
+
+  describe('long text', () => {
+    function blocks() {
+      return editor.document.map((block) => ({ type: (block as { type:string }).type, props: (block as { props?:unknown }).props }));
+    }
+
+    it('previews the long text as a block', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(page.getByRole('radio', { name: 'Label + value' }));
+
+      await expect.element(preview().getByText('Description')).toBeVisible();
+      await expect.element(preview().getByText('notes')).toHaveProperty('tagName', 'STRONG');
+    });
+
+    it('takes the place of an empty line', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await expect.element(dialog()).not.toBeInTheDocument();
+      expect(blocks()[0]).toEqual({
+        type: 'openProjectWorkPackageAttributeBlock',
+        props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' },
+      });
+      await expect.element(page.getByText('Kick-off')).toBeVisible();
+    });
+
+    it('follows a line that holds more', async () => {
+      await openEditorAndType('Before /attribute');
+      await userEvent.click(page.getByText('Work package attribute').first());
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await expect.element(dialog()).not.toBeInTheDocument();
+      expect(editor.document[0].content).toEqual([{ type: 'text', text: 'Before ', styles: {} }]);
+      expect(blocks()[1].type).toBe('openProjectWorkPackageAttributeBlock');
+    });
+
+    function selectionMarks() {
+      const frame = document.querySelector('.op-bn-wp-attribute-block')!;
+      const marked = Array.from(document.querySelectorAll('.ProseMirror-selectednode'))
+        .filter((node) => node.contains(frame))
+        .map((node) => getComputedStyle(node))
+        .filter((style) => style.outlineStyle !== 'none' || style.backgroundColor !== 'rgba(0, 0, 0, 0)');
+      return { ring: getComputedStyle(frame).boxShadow !== 'none', other: marked.length };
+    }
+
+    it('marks itself once when selected with the keys or the pointer', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+      await expect.element(page.getByText('Kick-off')).toBeVisible();
+
+      editor.insertBlocks([{ type: 'paragraph', content: 'Above' }], editor.document[0], 'before');
+      await userEvent.click(page.getByText('Above'));
+      await userEvent.keyboard('{End}{ArrowDown}');
+      await vi.waitFor(() => expect(selectionMarks()).toEqual({ ring: true, other: 0 }));
+
+      await userEvent.click(page.getByText('Kick-off'));
+      await expect.element(page.getByTestId('attribute-display-menu')).toBeVisible();
+      expect(selectionMarks()).toEqual({ ring: true, other: 0 });
+    });
+
+    it('selects no text when clicked', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await userEvent.click(page.getByText('Kick-off'));
+
+      await expect.element(page.getByTestId('attribute-display-menu')).toBeVisible();
+      const selected = document.getSelection()?.toString() ?? '';
+      expect(selected).not.toContain('Kick-off');
+      expect(getComputedStyle(page.getByText('Kick-off').element()).userSelect).toBe('none');
+    });
+
+    it('keeps the blocks nested in an empty line', async () => {
+      editor.insertBlocks(
+        [{ type: 'paragraph', content: [], children: [{ type: 'paragraph', content: 'Nested' }] }],
+        editor.document[0],
+        'before',
+      );
+      await expect.element(page.getByText('Nested')).toBeVisible();
+      const parent = page.getByText('Nested').element().closest('[data-node-type="blockOuter"]')!
+        .parentElement!.closest('[data-node-type="blockOuter"]')!.querySelector('[data-content-type="paragraph"]')!;
+      await userEvent.click(parent);
+      await userEvent.keyboard('/attribute');
+      await userEvent.click(page.getByText('Work package attribute').first());
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await expect.element(page.getByText('Kick-off')).toBeVisible();
+      await expect.element(page.getByText('Nested')).toBeVisible();
+    });
+
+    it('switches what it shows from its menu', async () => {
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await pickAttribute('Description');
+      await userEvent.click(insertButton());
+
+      await userEvent.click(page.getByText('Kick-off'));
+      await userEvent.click(page.getByRole('menuitemradio', { name: 'Label + value' }));
+
+      await expect.element(page.getByText('Description', { exact: true })).toBeVisible();
+      expect(blocks()[0].props).toMatchObject({ display: 'both' });
+    });
+  });
+
+  describe('in an editor without the long text block', () => {
+    it('offers no long text attributes', async () => {
+      await cleanup();
+      renderEditor({
+        schema: BlockNoteSchema.create().extend({
+          inlineContentSpecs: { openProjectWorkPackageAttribute: openProjectWorkPackageAttributeSpec },
+        }),
+      });
+      await openWorkPackageAttributeDialog();
+      await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+      await userEvent.click(page.getByRole('combobox', { name: 'Attribute' }));
+
+      await expect.element(page.getByRole('option', { name: 'Status' })).toBeVisible();
+      expect(page.getByRole('option', { name: 'Description' }).elements()).toHaveLength(0);
+    });
   });
 });

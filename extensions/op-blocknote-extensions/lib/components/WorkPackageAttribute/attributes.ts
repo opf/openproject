@@ -7,6 +7,8 @@ export interface WorkPackageAttribute {
   label:string;
   type:string;
   customField:boolean;
+  // Long text renders as a block, which an inline element cannot hold.
+  block:boolean;
 }
 
 interface FieldSchema {
@@ -33,19 +35,23 @@ const HIDDEN_KEYS = new Set([
   'version',
 ]);
 
-// Long text renders as a block, which an inline chip cannot hold.
-const HIDDEN_TYPES = new Set(['Formattable']);
-
 export function listAttributes(schema:WorkPackageSchema):WorkPackageAttribute[] {
   const attributes:WorkPackageAttribute[] = [];
   for (const [key, field] of Object.entries(schema)) {
     if (key.startsWith('_') || HIDDEN_KEYS.has(key)) continue;
     if (!field || typeof field !== 'object') continue;
     const { type, name } = field as FieldSchema;
-    if (typeof type !== 'string' || typeof name !== 'string' || HIDDEN_TYPES.has(type)) continue;
+    if (typeof type !== 'string' || typeof name !== 'string') continue;
 
     const customField = CUSTOM_FIELD_KEY.test(key);
-    attributes.push({ key, reference: customField ? name : key, label: name, type, customField });
+    attributes.push({
+      key,
+      reference: customField ? name : key,
+      label: name,
+      type,
+      customField,
+      block: type === 'Formattable',
+    });
   }
   return attributes;
 }
@@ -130,4 +136,12 @@ export function formatAttributeValue(
     return parts.length > 0 ? parts.join(', ') : EMPTY_VALUE;
   }
   return formatScalar(attribute, value, options);
+}
+
+/** The long text of a block attribute, as OpenProject rendered it. */
+export function formattedHtmlOf(workPackage:WorkPackage, attribute:WorkPackageAttribute):string {
+  const value = (workPackage as unknown as Record<string, unknown>)[attribute.key];
+  if (!value || typeof value !== 'object') return '';
+  const { html } = value as { html?:unknown };
+  return typeof html === 'string' ? html : '';
 }

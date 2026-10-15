@@ -1,5 +1,7 @@
+import { INLINE_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+
 export const attributeInlineConfig = {
-  type: 'openProjectWorkPackageAttribute' as const,
+  type: INLINE_ATTRIBUTE_TYPE,
   propSchema: {
     wpid: { default: '' },
     displayId: { default: '', type: 'string' },
