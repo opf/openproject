@@ -33,6 +33,25 @@
 <% owner = assistant.principal %>
 <%= render(Primer::Beta::BorderBox.new(mb: 3, data: { test_selector: "ai-assistant-section" })) do |box| %>
   <% box.with_header(data: { test_selector: "ai-assistant-row" }) do %>
+    <%= render(Primer::Alpha::ActionMenu.new(float: :right, data: { test_selector: "ai-assistant-menu" })) do |menu| %>
+      <% menu.with_show_button(
+           icon: "kebab-horizontal",
+           scheme: :invisible,
+           size: :small,
+           "aria-label": t("admin.ai_assistants.index.actions", assistant: assistant.name)
+         ) %>
+      <% menu.with_item(label: t(:button_edit), href: pages.edit_assistant_path(assistant)) do |item| %>
+        <% item.with_leading_visual_icon(icon: :pencil) %>
+      <% end %>
+      <% menu.with_item(
+           label: t(:button_copy),
+           href: pages.copy_assistant_path(assistant),
+           form_arguments: { method: :post },
+           data: { test_selector: "ai-assistant-copy" }
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :copy) %>
+      <% end %>
+    <% end %>
     <%= render(Primer::Beta::Link.new(href: pages.edit_assistant_path(assistant), font_weight: :bold, mr: 2)) { assistant.name } %>
     <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, data: { test_selector: "ai-assistant-owner" })) do %>
       <% if assistant.group? %>
@@ -82,6 +101,14 @@
                ) %>
             <% menu.with_item(label: t(:button_edit), href: pages.edit_skill_path(assistant, skill)) do |item| %>
               <% item.with_leading_visual_icon(icon: :pencil) %>
+            <% end %>
+            <% menu.with_item(
+                 label: t(:button_copy),
+                 href: pages.copy_skill_path(assistant, skill),
+                 form_arguments: { method: :post },
+                 data: { test_selector: "ai-assistant-skill-copy" }
+               ) do |item| %>
+              <% item.with_leading_visual_icon(icon: :copy) %>
             <% end %>
             <% menu.with_item(
                  label: t(:button_delete),

@@ -69,8 +69,35 @@ module AI
       principal.is_a?(Group)
     end
 
+    # A copy with all its skills, for the same owner, inactive until someone switches it on.
+    def copy!
+      transaction do
+        copy = dup
+        copy.assign_attributes(name: copy_name, active: false, position: next_position)
+        copy.save!
+        skills.each { |skill| skill.copy!(assistant: copy, rename: false) }
+        copy
+      end
+    end
+
     # The owner kinds, in the order of the admin list.
     OWNER_SCOPES = %w[global groups personal].freeze
+
+    # "Name (copy)", then "Name (copy 2)", so that the name stays unique for the owner.
+    def copy_name
+      names = self.class.where(principal_id:).pluck(:name)
+      candidate = I18n.t("admin.ai_assistants.copy_name", name:)
+      number = 1
+      while names.include?(candidate)
+        number += 1
+        candidate = I18n.t("admin.ai_assistants.copy_name_numbered", name:, number:)
+      end
+      candidate.truncate(255)
+    end
+
+    def next_position
+      (self.class.where(principal_id:).maximum(:position) || 0) + 1
+    end
 
     def owner_scope
       if personal? then "personal"

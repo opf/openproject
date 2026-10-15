@@ -38,6 +38,17 @@
     header.with_breadcrumbs(pages.breadcrumbs(title))
 
     header.with_action_button(
+      mobile_icon: :copy,
+      mobile_label: t(:button_copy),
+      tag: :a,
+      href: pages.copy_assistant_path(@assistant),
+      data: { turbo_method: :post, test_selector: "ai-assistant-copy" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :copy)
+      t(:button_copy)
+    end
+
+    header.with_action_button(
       scheme: :danger,
       mobile_icon: :trash,
       mobile_label: t("button_delete"),
@@ -101,11 +112,16 @@
           <% end %>
         <% end %>
         <% row.with_column do %>
+          <%= button_to t(:button_copy),
+                        pages.copy_skill_path(@assistant, skill),
+                        method: :post,
+                        class: "Button Button--invisibleVariant Button--small",
+                        form_class: "d-inline-block" %>
           <%= button_to t(:button_delete),
                         pages.skill_path(@assistant, skill),
                         method: :delete,
                         class: "Button Button--invisibleVariant Button--small",
-                        form: { data: { turbo_confirm: t("admin.ai_assistants.skills.delete_confirm") } } %>
+                        form: { class: "d-inline-block", data: { turbo_confirm: t("admin.ai_assistants.skills.delete_confirm") } } %>
         <% end %>
       <% end %>
     <% end %>

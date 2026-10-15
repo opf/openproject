@@ -1173,7 +1173,10 @@ Rails.application.routes.draw do
     end
 
     resources :ai_assistants, except: :show do
-      resources :skills, controller: "ai_assistant_skills", except: %i[index show]
+      post :copy, on: :member
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show] do
+        post :copy, on: :member
+      end
     end
 
     resources :text_transform_actions, except: :show do
@@ -1481,7 +1484,10 @@ Rails.application.routes.draw do
 
   namespace :my do
     resources :ai_assistants, except: :show do
-      resources :skills, controller: "ai_assistant_skills", except: %i[index show]
+      post :copy, on: :member
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show] do
+        post :copy, on: :member
+      end
     end
 
     resources :access_tokens, only: %i[index] do

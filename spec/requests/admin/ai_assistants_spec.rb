@@ -68,6 +68,42 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "copying" do
+    let!(:skill) do
+      create(:ai_assistant_skill, assistant: global_assistant, label: "Check it", icon: "bug",
+                                  conditions: { project_ids: [create(:project).id] })
+    end
+
+    it "copies an assistant with its skills, inactive and for the same owner, and opens the copy" do
+      post copy_admin_ai_assistant_path(global_assistant)
+
+      copy = AI::Assistant.find_by!(name: "QA assistance (copy)")
+      expect(response).to redirect_to(edit_admin_ai_assistant_path(copy))
+      expect(copy).to have_attributes(active: false, principal: nil, instructions: global_assistant.instructions)
+      expect(copy.skills.map { [it.label, it.icon, it.active, it.conditions] })
+        .to eq([["Check it", "bug", true, skill.conditions]])
+      expect(global_assistant.skills.reload.size).to eq(1)
+
+      post copy_admin_ai_assistant_path(global_assistant)
+      expect(AI::Assistant.where(name: "QA assistance (copy 2)")).to exist
+    end
+
+    it "copies a skill into the same assistant, renamed and inactive, and opens the copy" do
+      post copy_admin_ai_assistant_skill_path(global_assistant, skill)
+
+      copy = global_assistant.skills.reload.last
+      expect(response).to redirect_to(edit_admin_ai_assistant_skill_path(global_assistant, copy))
+      expect(copy).to have_attributes(label: "Check it (copy)", icon: "bug", active: false, prompt: skill.prompt)
+      expect(copy.position).to be > skill.position
+    end
+
+    it "keeps the owner of a personal assistant" do
+      post copy_admin_ai_assistant_path(personal_assistant)
+
+      expect(AI::Assistant.find_by!(name: "My helper (copy)").principal).to eq(owner)
+    end
+  end
+
   describe "a personal assistant" do
     it "can be edited with a model, and keeps its owner" do
       get edit_admin_ai_assistant_path(personal_assistant)

@@ -50,6 +50,8 @@ class AIAssistance::Pages
   def new_skill_path(assistant) = route("new_#{prefix}_ai_assistant_skill_path", assistant)
   def skill_path(assistant, skill) = route("#{prefix}_ai_assistant_skill_path", assistant, skill)
   def edit_skill_path(assistant, skill) = route("edit_#{prefix}_ai_assistant_skill_path", assistant, skill)
+  def copy_assistant_path(assistant) = route("copy_#{prefix}_ai_assistant_path", assistant)
+  def copy_skill_path(assistant, skill) = route("copy_#{prefix}_ai_assistant_skill_path", assistant, skill)
 
   def title
     admin? ? I18n.t("menus.admin.ai_assistants") : I18n.t("my_account.ai_assistants.title")

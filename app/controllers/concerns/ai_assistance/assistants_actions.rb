@@ -36,7 +36,7 @@ module AIAssistance::AssistantsActions
   included do
     include AIAssistance::RequireFeature
 
-    before_action :find_assistant, only: %i[edit update destroy]
+    before_action :find_assistant, only: %i[edit update destroy copy]
 
     helper_method :pages
   end
@@ -80,6 +80,12 @@ module AIAssistance::AssistantsActions
     @assistant.destroy!
     flash[:notice] = t(:notice_successful_delete)
     redirect_to pages.assistants_path
+  end
+
+  def copy
+    copy = @assistant.copy!
+    flash[:notice] = t("admin.ai_assistants.copied")
+    redirect_to pages.edit_assistant_path(copy)
   end
 
   private

@@ -122,4 +122,21 @@ RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: 
       expect(response).to redirect_to(edit_my_ai_assistant_path(own_assistant))
     end
   end
+
+  describe "POST /my/ai_assistants/:id/copy" do
+    it "copies the user's own assistant for the user" do
+      post copy_my_ai_assistant_path(own_assistant)
+
+      copy = AI::Assistant.find_by!(name: "My helper (copy)")
+      expect(copy.principal).to eq(user)
+      expect(response).to redirect_to(edit_my_ai_assistant_path(copy))
+    end
+
+    it "does not copy the assistant of another user" do
+      post copy_my_ai_assistant_path(other_assistant)
+
+      expect(response).to have_http_status(:not_found)
+      expect(AI::Assistant.where(name: "Their helper (copy)")).not_to exist
+    end
+  end
 end

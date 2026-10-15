@@ -37,7 +37,7 @@ module AIAssistance::AssistantSkillsActions
     include AIAssistance::RequireFeature
 
     before_action :find_assistant
-    before_action :find_skill, only: %i[edit update destroy]
+    before_action :find_skill, only: %i[edit update destroy copy]
 
     helper_method :pages
   end
@@ -70,6 +70,12 @@ module AIAssistance::AssistantSkillsActions
     else
       render "ai_assistant_skills/edit", status: :unprocessable_entity
     end
+  end
+
+  def copy
+    copy = @skill.copy!
+    flash[:notice] = t("admin.ai_assistants.skills.copied")
+    redirect_to pages.edit_skill_path(@assistant, copy)
   end
 
   # Back to the assistant list when the delete started there.

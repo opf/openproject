@@ -52,8 +52,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_own_ai_assistants,
                      {
-                       "my/ai_assistants": %i[index new create edit update destroy],
-                       "my/ai_assistant_skills": %i[new create edit update destroy]
+                       "my/ai_assistants": %i[index new create edit update destroy copy],
+                       "my/ai_assistant_skills": %i[new create edit update destroy copy]
                      },
                      permissible_on: :global,
                      require: :loggedin,

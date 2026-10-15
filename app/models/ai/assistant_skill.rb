@@ -84,6 +84,20 @@ module AI
       Array(conditions[key.to_s])
     end
 
+    # A copy at the end of the assistant's skills. A single copy is renamed and inactive; the
+    # skills of a copied assistant stay as they are.
+    def copy!(assistant: self.assistant, rename: true)
+      copy = dup
+      copy.assign_attributes(assistant:, settings: settings.deep_dup, conditions: conditions.deep_dup,
+                             position: (assistant.skills.maximum(:position) || 0) + 1)
+      if rename
+        copy.assign_attributes(label: I18n.t("admin.ai_assistants.copy_name", name: display_label).truncate(255),
+                               active: false)
+      end
+      copy.save!
+      copy
+    end
+
     # Skills saved before the setting existed have none.
     def offered_on
       super.presence || "work_packages"

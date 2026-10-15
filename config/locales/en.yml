@@ -1538,6 +1538,9 @@ en:
 
   admin:
     ai_assistants:
+      copied: "The copy is inactive. Switch it on when it is ready."
+      copy_name: "%{name} (copy)"
+      copy_name_numbered: "%{name} (copy %{number})"
       delete:
         confirm: "Delete this assistant, its skills and every run of them?"
       edit:
@@ -1547,7 +1550,7 @@ en:
         instructions_caption: "Shared by every skill of this assistant, before the skill prompt: for example who the assistant helps and what their work is about."
         model_caption: "Empty uses the default chat model of the LLM connection."
         model_default: "Default of the LLM connection"
-        name_caption: "Shown as a label next to each action of this assistant in the AI Assistance menu."
+        name_caption: "Shown as the heading of its skills in the AI Assistance menu."
         owner: "Owner"
         owner_caption: "Global shows the assistant to everyone with AI Assistance. A group shows it only to the group's members. The owner cannot be changed later."
         sections:
@@ -1558,6 +1561,7 @@ en:
         add: "Assistant"
         description: "Assistants group the skills of the AI Assistance menu. Each run uses the permissions of the user who starts it."
         empty: "There are no assistants yet."
+        actions: "Actions for %{assistant}"
         owner_kinds:
           group: "Group"
           user: "User"
@@ -1570,6 +1574,7 @@ en:
       skills:
         add: "Add skill"
         actions: "Actions for %{skill}"
+        copied: "The copy is inactive. Switch it on when it is ready."
         answers_at_once_caption: "Opening the skill starts a new chat, and the skill answers its instructions at once. Off opens an empty chat for the user's own questions."
         conditions:
           all: "All"
