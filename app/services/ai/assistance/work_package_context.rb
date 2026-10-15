@@ -50,7 +50,8 @@ module AI
 
       def to_h
         {
-          project: { name: work_package.project.name, identifier: work_package.project.identifier },
+          project: { id: work_package.project.id, name: work_package.project.name,
+                     identifier: work_package.project.identifier },
           work_package: work_package_data,
           descendants: descendants_data,
           relations: relations_data,

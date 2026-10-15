@@ -33,6 +33,7 @@ RSpec.shared_context "with an available LLM for AI Assistance" do
   before do
     connection = instance_double(LlmConnection, available_model_ids: ["test-model"], chat_model_ids: ["test-model"],
                                                 feature_bindings: LlmFeatureBinding.none,
+                                                capability_verdicts: LlmCapabilityVerdict.none,
                                                 default_model_for: instance_double(LlmModel, external_id: "test-model"))
     allow(LlmConnection).to receive_messages(available?: true, active_connection: connection)
   end

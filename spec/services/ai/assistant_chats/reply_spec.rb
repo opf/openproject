@@ -50,6 +50,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     allow(llm).to receive(:with_instructions) { |text| (sent[:system] = text) && llm }
     allow(llm).to receive(:with_temperature) { |value| (sent[:temperature] = value) && llm }
     allow(llm).to receive(:with_schema) { |schema| (sent[:schema] = schema) && llm }
+    allow(llm).to receive(:with_tools) { |*tools| (sent[:tools] = tools) && llm }
     allow(llm).to receive(:add_message) { |role:, content:| (sent[:history] ||= []) << [role, content] }
     allow(llm).to receive(:ask) do |text|
       sent[:user] = text
@@ -131,6 +132,67 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
       ask("And now?")
 
       expect(sent[:history].last.last).to include("Proposals:", "- Der Kommentar ändert den Umfang. (open)")
+    end
+  end
+
+  describe "the MCP tools" do
+    it "offers the read-only MCP tools and explains them" do
+      ask("How many?")
+
+      expect(sent[:tools].map(&:name)).to include("search_work_packages", "count_work_packages")
+      expect(sent[:tools].map(&:name)).not_to include("update_work_package")
+      expect(sent[:system]).to include(AI::Assistance::OutputRules::TOOLS, %("id":#{project.id}))
+    end
+
+    context "when the model calls a tool" do
+      before do
+        allow(llm).to receive(:ask) do
+          sent[:tools].find { it.name == "count_work_packages" }.call({ "project_id" => project.id })
+          instance_double(RubyLLM::Message, content: { "answer" => "One.", "proposals" => [] })
+        end
+      end
+
+      it "runs it as the user and records it" do
+        message = ask("How many?")
+
+        expect(message.content).to eq("One.")
+        tool_call = message.events.find { it["kind"] == "tool_call" }
+        expect(tool_call["data"]).to include("name" => "count_work_packages", "arguments" => { "project_id" => project.id })
+        expect(message.events.find { it["kind"] == "answer" }["data"]).to include("tool_calls" => 1)
+      end
+    end
+
+    context "when the model calls tools without end" do
+      before do
+        allow(llm).to receive(:ask) do
+          tool = sent[:tools].find { it.name == "count_work_packages" }
+          (AI::Assistance::ToolCalls::HARD_LIMIT + 1).times { |page| tool.call({ "project_id" => page }) }
+        end
+      end
+
+      it "fails the answer" do
+        message = ask("How many?")
+
+        expect(message).to be_failed
+        expect(message.events.last["data"]).to include("error" => "AI::Assistance::ToolCalls::Exceeded")
+      end
+    end
+
+    context "when the model cannot call functions" do
+      before do
+        connection = create(:llm_connection)
+        LlmCapabilityVerdict.create!(llm_connection: connection, model_id: "test-model", capability: "function_calling",
+                                     state: "unsupported", source: "admin", checked_at: Time.current)
+        allow(LlmConnection.active_connection).to receive(:capability_verdicts)
+          .and_return(LlmCapabilityVerdict.where(llm_connection: connection))
+      end
+
+      it "offers no tools and does not mention them" do
+        ask("How many?")
+
+        expect(sent).not_to have_key(:tools)
+        expect(sent[:system]).not_to include(AI::Assistance::OutputRules::TOOLS)
+      end
     end
   end
 

@@ -34,7 +34,8 @@ module AI
     # to and received from the model. Only the user it belongs to sees it. Error
     # messages can name servers, so only admins see them.
     class RunEventsComponent < ApplicationComponent
-      ICONS = { "request" => :"arrow-up", "answer" => :"arrow-down", "stored" => :check, "failure" => :alert }.freeze
+      ICONS = { "request" => :"arrow-up", "answer" => :"arrow-down", "tool_call" => :tools, "stored" => :check,
+                "failure" => :alert }.freeze
 
       attr_reader :events
 
@@ -65,7 +66,9 @@ module AI
           I18n.t("ai_assistance.events.request", model: data["model"],
                                                  system: data["system"].to_s.size, message: data["message"].to_s.size)
         when "answer"
-          I18n.t("ai_assistance.events.answer", seconds: data["seconds"])
+          answer_summary(data)
+        when "tool_call"
+          tool_call_summary(data)
         when "stored"
           I18n.t("ai_assistance.events.stored", stored: data["stored"], findings: data["findings"],
                                                 dropped: Array(data["dropped"]).size)
@@ -85,6 +88,8 @@ module AI
             I18n.t("ai_assistance.events.message") => pretty_json(data["message"]) }
         when "answer"
           { I18n.t("ai_assistance.events.raw_answer") => data["content"] }
+        when "tool_call"
+          { I18n.t("ai_assistance.events.arguments") => JSON.pretty_generate(data["arguments"] || {}) }
         when "stored"
           dropped = Array(data["dropped"])
           dropped.any? ? { I18n.t("ai_assistance.events.dropped") => JSON.pretty_generate(dropped) } : {}
@@ -96,6 +101,22 @@ module AI
       end
 
       private
+
+      def answer_summary(data)
+        count = data["tool_calls"].to_i
+        return I18n.t("ai_assistance.events.answer", seconds: data["seconds"]) if count.zero?
+
+        I18n.t("ai_assistance.events.answer_with_tools", seconds: data["seconds"], count:)
+      end
+
+      def tool_call_summary(data)
+        name = data["name"]
+        if data["error"] then I18n.t("ai_assistance.events.tool_call_failed", name:, error: data["error"].to_s.demodulize)
+        elsif data["refused"] then I18n.t("ai_assistance.events.tool_call_refused", name:)
+        elsif data["repeated"] then I18n.t("ai_assistance.events.tool_call_repeated", name:)
+        else I18n.t("ai_assistance.events.tool_call", name:, seconds: data["seconds"], size: data["size"])
+        end
+      end
 
       def pretty_json(text)
         JSON.pretty_generate(JSON.parse(text.to_s))

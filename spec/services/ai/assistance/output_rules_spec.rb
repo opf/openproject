@@ -46,6 +46,18 @@ RSpec.describe AI::Assistance::OutputRules do
     expect(rules).to include(described_class::CHANGES, described_class::FIELDS, described_class::FORMATTING)
   end
 
+  it "explains the tools" do
+    expect(rules).to include(described_class::TOOLS)
+  end
+
+  context "without tools" do
+    subject(:rules) { described_class.new(skill, locale: "de", tools: false).to_s }
+
+    it "does not mention them" do
+      expect(rules).not_to include(described_class::TOOLS)
+    end
+  end
+
   context "with the comment-only scope" do
     let(:proposal_scope) { "comment_only" }
 

@@ -130,13 +130,14 @@ module AI
 
     # The system prompt for a run, or nil when the skill has no prompt: the assistant's
     # instructions, the skill's prompt, and the output rules that the code owns.
-    def system_prompt(locale:)
-      full_system_prompt(locale:) if prompt.present?
+    def system_prompt(locale:, tools: true)
+      full_system_prompt(locale:, tools:) if prompt.present?
     end
 
     # Also without a prompt, to show on the skill page.
-    def full_system_prompt(locale:)
-      [assistant&.instructions, prompt, AI::Assistance::OutputRules.new(self, locale:).to_s].compact_blank.join("\n\n")
+    def full_system_prompt(locale:, tools: true)
+      [assistant&.instructions, prompt, AI::Assistance::OutputRules.new(self, locale:, tools:).to_s]
+        .compact_blank.join("\n\n")
     end
 
     private

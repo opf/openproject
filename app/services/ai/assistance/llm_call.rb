@@ -45,19 +45,22 @@ module AI
       # history: earlier turns as [role, content] pairs, oldest first.
       # temperature: nil keeps the provider default.
       # llm: a ready Llm::Runtime::Resolution.
-      def ask(llm:, system:, message:, schema:, history: [], temperature: nil)
-        log(:info, "asking model=#{llm.model_id} system=#{system.size}c message=#{message.size}c turns=#{history.size}")
+      # tools: RubyLLM tools, built with #tool_calls.
+      def ask(llm:, system:, message:, schema:, history: [], temperature: nil, tools: [])
+        log(:info, "asking model=#{llm.model_id} system=#{system.size}c message=#{message.size}c " \
+                   "turns=#{history.size} tools=#{tools.size}")
         log(:debug, "system prompt:\n#{system}\nmessage:\n#{message}")
-        record.log_event(:request, model: llm.model_id, temperature:, system:, message:)
+        record.log_event(:request, model: llm.model_id, temperature:, system:, message:, tools: tools.size)
 
         started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        answer = build_chat(llm:, system:, history:, temperature:).with_schema(schema).ask(message)
+        answer = build_chat(llm:, system:, history:, temperature:, tools:).with_schema(schema).ask(message)
         seconds = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1)
 
         content = answer.respond_to?(:content) ? answer.content : answer
-        log(:info, "answered in #{seconds}s")
+        log(:info, "answered in #{seconds}s after #{tool_calls.count} tool calls")
         log(:debug, "answer:\n#{content.inspect}")
-        record.log_event(:answer, seconds:, content: content.is_a?(String) ? content : JSON.pretty_generate(content))
+        record.log_event(:answer, seconds:, tool_calls: tool_calls.count,
+                                  content: content.is_a?(String) ? content : JSON.pretty_generate(content))
 
         Llm::StructuredOutput.parse!(answer)
       end
@@ -65,9 +68,13 @@ module AI
       # An error outside the LLM (a bug) is logged as an error, with its backtrace.
       def record_failure(error)
         level = error.is_a?(Llm::Errors::Error) ? :warn : :error
-        log(level, "failed: #{error.class}: #{error.message}")
+        log(level, "failed: #{error.class}: #{failure_text(error)}")
         log(:debug, Array(error.backtrace).first(15).join("\n")) if level == :error
-        record.log_event(:failure, error: error.class.name, message: error.message.to_s.truncate(2_000))
+        record.log_event(:failure, error: error.class.name, message: failure_text(error))
+      end
+
+      def tool_calls
+        @tool_calls ||= AI::Assistance::ToolCalls.new(self)
       end
 
       def log(level, text)
@@ -76,11 +83,18 @@ module AI
 
       private
 
-      def build_chat(llm:, system:, history:, temperature:)
+      def build_chat(llm:, system:, history:, temperature:, tools:)
         chat = llm.chat.with_instructions(system)
         chat.with_temperature(temperature) unless temperature.nil?
+        chat.with_tools(*tools) if tools.any?
         history.each { |role, content| chat.add_message(role:, content:) }
         chat
+      end
+
+      # Llm::Errors.wrap raises with the original error as the cause.
+      def failure_text(error)
+        cause = error.cause && "\nCaused by #{error.cause.class}: #{error.cause.message}"
+        "#{error.message}#{cause}".truncate(2_000)
       end
     end
   end

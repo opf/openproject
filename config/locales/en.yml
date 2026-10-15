@@ -2553,6 +2553,8 @@ en:
       working_on: "%{assistant} is working on %{id}…"
     events:
       answer: "The model answered in %{seconds} s."
+      answer_with_tools: "The model answered in %{seconds} s, after %{count} tool calls."
+      arguments: "arguments"
       dropped: "dropped proposals"
       error: "error message"
       failure: "The model call failed (%{error})."
@@ -2563,6 +2565,10 @@ en:
       stored: "Stored %{stored} of %{findings} proposals; %{dropped} dropped because they had no evidence or no valid change."
       system_prompt: "prompt"
       title: "Details"
+      tool_call: "Called the tool %{name}: %{seconds} s, %{size} characters."
+      tool_call_failed: "The tool %{name} failed (%{error})."
+      tool_call_refused: "Refused the tool %{name}: the limit of tool calls is reached."
+      tool_call_repeated: "Called the tool %{name} again with the same arguments. Sent the earlier result."
     history:
       empty: "You did not use AI Assistance on this work package yet."
       answers:

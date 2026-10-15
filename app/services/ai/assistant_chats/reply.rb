@@ -67,14 +67,16 @@ module AI
       def skill = chat.skill
 
       def ask
-        system = skill.system_prompt(locale: message.locale)
-        raise Llm::Errors::NotReady, "no system prompt" if system.blank?
         raise Llm::Errors::NotReady, llm.status unless llm.ready?
+
+        system = skill.system_prompt(locale: message.locale, tools: tools.any?)
+        raise Llm::Errors::NotReady, "no system prompt" if system.blank?
 
         history = earlier_turns
         question = history.pop
         llm_call.ask(llm:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
                      message: question ? turn_text(question) : "", schema: answer_format.schema, temperature: TEMPERATURE,
+                     tools:,
                      history: history.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] })
       end
 
@@ -114,6 +116,20 @@ module AI
 
       def llm
         @llm ||= skill.assistant.llm_resolution
+      end
+
+      # The read-only MCP tools, unless the model is known not to call functions.
+      def tools
+        @tools ||= if function_calling_unsupported?
+                     []
+                   else
+                     AI::Assistance::McpTool.read_only_classes
+                                            .map { |tool| AI::Assistance::McpTool.for(tool, user:, calls: llm_call.tool_calls) }
+                   end
+      end
+
+      def function_calling_unsupported?
+        llm.connection.capability_verdicts.for_model(llm.model_id).for_capability(:function_calling).unsupported.exists?
       end
 
       def change_options
