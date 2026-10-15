@@ -87,8 +87,9 @@ RSpec.describe "Work package sharing invited users",
     expect(page).to have_test_selector("registration-form")
     password = SecureRandom.hex(16)
 
-    fill_in "Password", with: password
-    fill_in "Confirmation", with: password
+    # Addressed by id: the "Password" label is a prefix of "Password confirmation"
+    fill_in "user_password", with: password
+    fill_in "Password confirmation", with: password
 
     click_button "Create"
 

@@ -206,7 +206,7 @@ RSpec.describe "Login" do
 
         fill_in "Current password", with: user_password
         fill_in "New password", with: new_user_password
-        fill_in "Confirmation", with: new_user_password
+        fill_in "Password confirmation", with: new_user_password
 
         click_button "Change password"
 
