@@ -100,8 +100,8 @@ module OpenProject
               href: help_link,
               label: "top_menu.help_and_support"
             },
-            current_release_notes: {
-              href: current_release_notes_link,
+            current_minor_release_notes: {
+              href: current_minor_release_notes_link,
               label: :label_release_notes
             }
           }
@@ -116,8 +116,9 @@ module OpenProject
           dynamic
         end
 
-        def current_release_notes_link
-          version = OpenProject::VERSION.to_semver(separator: "-")
+        def current_minor_release_notes_link
+          version = [OpenProject::VERSION::MAJOR, OpenProject::VERSION::MINOR, 0].join("-")
+
           "https://www.openproject.org/docs/release-notes/#{version}"
         end
 
