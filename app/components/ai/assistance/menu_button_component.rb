@@ -30,24 +30,22 @@
 
 module AI
   module Assistance
-    # The AI Assistance menu: one flat item per skill, with the assistant's name as an
-    # inline label, and the user's history at the end. Empty renders only the frame.
+    # The AI Assistance menu in the app header (see HeaderButtonComponent): an icon button with
+    # one flat item per skill, the assistant's name as an inline label, and the user's history
+    # at the end. Empty renders only the frame.
     class MenuButtonComponent < ApplicationComponent
       FRAME_ID = "wp-ai-assistance-menu"
 
       attr_reader :work_package, :skills
 
-      def initialize(work_package:, skills: [], compact: false, empty: false)
+      def initialize(work_package:, skills: [], empty: false)
         super
         @work_package = work_package
         @skills = skills
-        @compact = compact
         @empty = empty
       end
 
       def empty? = @empty
-
-      def compact? = @compact
 
       def history_path
         url_helpers.history_work_package_ai_assistance_chat_path(work_package)

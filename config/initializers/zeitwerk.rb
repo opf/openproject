@@ -91,6 +91,7 @@ OpenProject::Inflector.inflection(
   "ai_assistance" => "AIAssistance",
   "ai_assistants_controller" => "AIAssistantsController",
   "ai_assistant_skills_controller" => "AIAssistantSkillsController",
+  "ai_assistance_header_button" => "AIAssistanceHeaderButton",
   "rss" => "RSS",
   "sha1" => "SHA1",
   "sso" => "SSO",

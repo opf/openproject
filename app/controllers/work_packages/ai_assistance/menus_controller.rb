@@ -34,20 +34,32 @@ class WorkPackages::AIAssistance::MenusController < ApplicationController
   # The toolbar loads the menu into a turbo frame on every work package. A user who may
   # not use it gets an empty frame, not an error inside the toolbar.
   skip_before_action :authorize
+  # The header asks for the id in the URL, which may be a work package the user cannot see.
+  skip_before_action :find_work_package
+  before_action :find_work_package_or_render_empty
   before_action :authorize_or_render_empty
 
   def show
-    render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, skills: available_skills,
-                                                   compact: params[:compact] == "true"),
+    render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, skills: available_skills),
            layout: false
   end
 
   private
 
+  def find_work_package_or_render_empty
+    @work_package = WorkPackage.visible.find_by_display_id(params[:work_package_id])
+    @project = @work_package&.project
+    render_empty if @work_package.nil?
+  end
+
   def authorize_or_render_empty
     return if current_user.allowed_in_work_package?(:use_ai_assistance, @work_package) &&
               available_skills.any?
 
+    render_empty
+  end
+
+  def render_empty
     render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, empty: true), layout: false
   end
 end

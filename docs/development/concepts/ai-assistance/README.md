@@ -38,7 +38,7 @@ flowchart LR
   AU --> WP["Work package<br/>+ journal cause"]
 ```
 
-1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame, and so does every user while no LLM connection with a model is available.
+1. The app header has an AI Assistance icon button (`AI::Assistance::HeaderButtonComponent`, rendered by the `view_layouts_base_top_menu` hook). Its Stimulus controller (`ai-assistance--header-button`) reads the work package id from the URL: a split view (`…/details/:id`, also on boards and calendars) first, then the full view (`…/work_packages/:id`). It loads `WorkPackages::AIAssistance::MenusController#show` for that id into a turbo frame, and hides the button on other pages. A user without the permission gets an empty frame, and so does a work package that the user cannot see.
 2. The menu frame renders one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
 3. A skill that answers at once posts to `ChatsController#start`: a new chat that starts with a start message (role `start`). `#rerun` adds another start to the same chat. Any other skill opens `ChatsController#show`, an empty chat for the user's own question.
 4. `AI::AssistantChats::SendMessageService` stores the question or the start and a pending answer, and `ReplyJob` answers as the user. The dialog polls `#poll` until the answer is done or failed.
@@ -223,6 +223,17 @@ This change comes as one pull request so that it can be tried end to end. Each c
 Steps 21–26 replace runs with conversations. For review, they are best folded into the steps they change (7, 9, 10, 12 and 13), so that runs, rules and the three skill types never appear. This table is updated when that is done.
 
 Steps 1 and 2 are useful on their own and can merge first.
+
+## Split into a plugin
+
+The code is built so that it can move into a module (`modules/ai_assistance`) without a rewrite. The header button already uses the plugin extension points: a view hook, a dynamic Stimulus controller (module controllers stay in the core `dynamic/` tree), and Angular services through the plugin context. The core files that a split must move or replace:
+
+- `config/initializers/ai_assistance.rb` (loads the hook listener): goes into the engine's `config.to_prepare`.
+- `config/initializers/feature_decisions.rb`, `llm_features.rb`, `permissions.rb`, `menus.rb`, `zeitwerk.rb`, `config/routes.rb`, `config/locales/en.yml`: the AI Assistance entries go into the engine's `register` block, initializers, routes and locale file.
+- `app/models/principal.rb`, `app/models/user.rb` (associations): engine patches.
+- `app/models/journal.rb`, `lib/open_project/journal_formatter/cause.rb` (the `assistant_chat` cause): stay in core, as the meeting cause types do.
+- The Automations actions (Subject, Description, Comment, strict mode) and the MCP tool changes: stay in core as their own pull requests.
+- The seeders (`basic_data_seeder.rb`, `development_people_seeder.rb`, `common.yml`, `standard.yml`): module seeders or patches.
 
 ## Follow-ups
 

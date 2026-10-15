@@ -52,6 +52,18 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       expect(response.body).to include("AI Assistance")
     end
 
+    context "with a work package that the user cannot see" do
+      let(:hidden_work_package) { create(:work_package) }
+
+      it "renders an empty frame instead of an error, because the header asks for any id in the URL" do
+        get "/work_packages/#{hidden_work_package.id}/ai_assistance/menu"
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('<turbo-frame id="wp-ai-assistance-menu">')
+        expect(response.body).not_to include("AI Assistance")
+      end
+    end
+
     context "without the permission" do
       let(:permissions) { %i[view_work_packages] }
 
