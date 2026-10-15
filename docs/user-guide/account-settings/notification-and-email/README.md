@@ -60,4 +60,6 @@ If pushes stop arriving on a device (browsers rotate push endpoints from time to
 
 When you have unread notifications, the application shows a notification for the latest one. The operating system notification shows who triggered it and the work package subject.
 
-Pausing your email reminders also pauses browser push. Signing out removes the device from the list.
+Pausing your email reminders also pauses browser push.
+
+Signing out pauses browser push on that device, and the list shows it as **Signed out**. When you sign in again on that device, browser push turns back on without asking again. Select **Revoke** to stop it for good.
