@@ -59,6 +59,22 @@ RSpec.describe AdminElevationSessions::CreateContract, with_flag: { admin_privil
     include_examples "contract is invalid", project: :archived
   end
 
+  context "when confirmed by clicking" do
+    before { model.confirmed_with = "confirmation" }
+
+    context "for a user with a password", :check_errors_i18n do
+      before { allow(current_user).to receive(:password_checkable?).and_return(true) }
+
+      include_examples "contract is invalid", base: :password_required
+    end
+
+    context "for a user without a password" do
+      before { allow(current_user).to receive(:password_checkable?).and_return(false) }
+
+      include_examples "contract is valid"
+    end
+  end
+
   context "with the user being set by the caller" do
     let(:model) do
       AdminElevationSession.new(user: current_user, project:, session_id: "session", confirmed_with: "password")

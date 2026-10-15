@@ -38,8 +38,15 @@ module AdminElevationSessions
     validate :feature_active
     validate :user_is_active_admin
     validate :project_is_active
+    validate :password_confirmed_if_checkable
 
     private
+
+    def password_confirmed_if_checkable
+      return unless model.confirmed_with_confirmation? && user.password_checkable?
+
+      errors.add(:base, :password_required)
+    end
 
     def feature_active
       return if OpenProject::FeatureDecisions.admin_privilege_elevation_active?
