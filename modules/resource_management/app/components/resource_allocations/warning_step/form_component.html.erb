@@ -20,63 +20,50 @@
           end
         end
 
-        @overbooked_ranges.each do |range|
-          body.with_row(w: :full, mb: 2) do
-            render(Primer::Box.new(border: true, border_radius: 2, p: 3, text_align: :left, bg: :subtle)) do
-              flex_layout do |box|
-                box.with_row do
-                  render(Primer::Beta::Text.new(font_weight: :bold)) { "#{date_range(range.start_date, range.end_date)}:" }
-                end
-
-                box.with_row(mb: 2) do
-                  render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { capacity_summary(range) }
-                end
-
-                visible_items(range).each do |item|
-                  box.with_row(mt: 1) do
-                    flex_layout(align_items: :center) do |row|
-                      row.with_column(flex: 1, mr: 2) do
-                        render(
-                          WorkPackages::InfoLineComponent.new(
-                            work_package: work_package_for(item),
-                            show_subject: true,
-                            show_status: true,
-                            wrap: false
-                          )
-                        )
-                      end
-
-                      row.with_column do
-                        render(Primer::Beta::Text.new(font_weight: :bold, color: candidate?(item) ? :danger : :default)) do
-                          format_hours(item.minutes)
-                        end
-                      end
-
-                      if candidate?(item)
-                        row.with_column(ml: 1) do
-                          render(Primer::Beta::Octicon.new(:alert, color: :danger))
-                        end
-                      end
-                    end
-                  end
-                end
-
-                if hidden_minutes(range).positive?
-                  box.with_row(mt: 1) do
-                    flex_layout(align_items: :center) do |row|
-                      row.with_column(flex: 1, mr: 2) do
-                        render(Primer::Beta::Text.new(color: :muted)) do
-                          t("resource_management.allocate_resource_dialog.overbooking.hidden_work")
-                        end
-                      end
-
-                      row.with_column do
-                        render(Primer::Beta::Text.new(font_weight: :bold, color: :muted)) { format_hours(hidden_minutes(range)) }
-                      end
-                    end
-                  end
+        body.with_row(w: :full, mb: 2, text_align: :left) do
+          if unplannable?
+            render(Primer::Beta::Text.new(tag: :p, m: 0)) { unplannable_note }
+          else
+            content_tag(:table, class: "generic-table") do
+              thead = content_tag(:thead) do
+                content_tag(:tr) do
+                  safe_join(%i[date working_hours planned added overtime].map { |column| content_tag(:th, column_caption(column)) })
                 end
               end
+
+              tbody = content_tag(:tbody) do
+                safe_join(
+                  overbooked_days.map do |day|
+                    content_tag(:tr) do
+                      safe_join(
+                        [
+                          content_tag(:td, helpers.format_date(day.date)),
+                          content_tag(:td, format_hours(day.working_minutes)),
+                          content_tag(:td, format_hours(day.planned_minutes)),
+                          content_tag(:td, format_hours(day.added_minutes)),
+                          content_tag(:td, format_hours(day.overtime_minutes))
+                        ]
+                      )
+                    end
+                  end
+                )
+              end
+
+              tfoot = content_tag(:tfoot) do
+                content_tag(:tr) do
+                  safe_join(
+                    [
+                      content_tag(:td, t("resource_management.allocate_resource_dialog.overbooking.total")),
+                      content_tag(:td, format_hours(overbooked_days.sum(&:working_minutes))),
+                      content_tag(:td, format_hours(overbooked_days.sum(&:planned_minutes))),
+                      content_tag(:td, format_hours(overbooked_days.sum(&:added_minutes))),
+                      content_tag(:td, format_hours(overbooked_days.sum(&:overtime_minutes)))
+                    ]
+                  )
+                end
+              end
+
+              thead + tbody + tfoot
             end
           end
         end

@@ -484,7 +484,19 @@ RSpec.describe "ResourceAllocations requests",
         end.to change(ResourceAllocation, :count).by(1)
       end
 
-      it "collapses allocations of work packages the requester cannot see into a lump sum" do
+      it "lists each day with its working hours, the planned and added time and the overtime",
+         with_settings: { date_format: "%Y-%m-%d" } do
+        post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+
+        page = Nokogiri::HTML4.fragment(response.body)
+        expect(page.css("th").map { |cell| cell.text.strip })
+          .to eq(["Date", "Working hours", "Already planned", "Added", "Overtime"])
+        expect(page.css("tbody tr").map { |row| row.css("td").map { |cell| cell.text.strip } })
+          .to eq([%w[2026-03-02 8h 0h 20h 12h], %w[2026-03-03 8h 0h 20h 12h]])
+        expect(page.css("tfoot td").map { |cell| cell.text.strip }).to eq(%w[Total 16h 0h 40h 24h])
+      end
+
+      it "counts other allocations as already planned without naming their work packages" do
         hidden_work_package = create(:work_package, project: create(:project), subject: "Confidential rocket plans")
         create(:resource_allocation,
                principal: working_assignee,
@@ -495,9 +507,31 @@ RSpec.describe "ResourceAllocations requests",
 
         post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
 
-        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.hidden_work"))
-        expect(response.body).to include("10h")
+        rows = Nokogiri::HTML4.fragment(response.body).css("tbody tr").map do |row|
+          row.css("td").drop(1).map { |cell| cell.text.strip }
+        end
+        expect(rows).to eq([%w[8h 8h 17h 17h], %w[8h 2h 23h 17h]])
         expect(response.body).not_to include("Confidential rocket plans")
+      end
+
+      it "warns with its own text when the period contains no working day of the user" do
+        params = base_params.deep_merge(resource_allocation: { date_range: "2026-03-07 - 2026-03-08", allocated_hours: "4h" })
+        post project_resource_allocations_path(project), params:, as: :turbo_stream
+
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include(working_assignee.name)
+        expect(response.body).to include("has no working day")
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "creates directly when only an existing overbooking it does not add to is present" do
+        create(:resource_allocation, principal: working_assignee, entity: work_package, allocated_time: 600,
+                                     start_date: Date.new(2026, 3, 9), end_date: Date.new(2026, 3, 9))
+        params = base_params.deep_merge(resource_allocation: { allocated_hours: "8h" })
+
+        expect do
+          post project_resource_allocations_path(project), params:, as: :turbo_stream
+        end.to change(ResourceAllocation, :count).by(1)
       end
     end
 
@@ -662,6 +696,15 @@ RSpec.describe "ResourceAllocations requests",
 
         expect(response).to have_http_status(:ok)
         expect(allocation.reload.allocated_time).to eq(600)
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "renders the overbooking confirmation when an already overbooked allocation is saved unchanged" do
+        allocation.update!(allocated_time: 40 * 60)
+
+        perform
+
         expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
         expect(response.body).to include('name="confirmed"')
       end

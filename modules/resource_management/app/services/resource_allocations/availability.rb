@@ -32,10 +32,6 @@ module ResourceAllocations
   # projects (capacity is a user-level property). Filter-based allocations have no
   # principal and are excluded.
   class Availability
-    # Identifies the prospective allocation amongst the existing work items when
-    # checking a not-yet-persisted allocation.
-    CANDIDATE_ID = :candidate
-
     # `allocations` takes the user's `allocated` allocations when the caller
     # already loaded them (e.g. in bulk for several users); they are queried
     # lazily otherwise.
@@ -78,21 +74,15 @@ module ResourceAllocations
     end
 
     def overbooking_with(allocation)
-      prospective = allocations.reject { |other| other.id == allocation.id } << allocation
+      others = allocations.reject { |other| other.id == allocation.id }
+      prospective = others + [allocation]
       calendar = calendar_for(prospective)
       result = FitCalculator.new(calendar:, allocations: prospective).call
 
       ProspectiveOverbooking.new(
-        days: overbooked_days(entries_by_date(result), allocation, calendar),
+        days: overbooked_days(entries_by_date(result), overtime_by_date_of(others), allocation, calendar),
         unplannable: result.unplannable.key?(allocation)
       )
-    end
-
-    def overbooking_ranges_with(allocation)
-      candidate = WorkItem.from_allocation(allocation, id: CANDIDATE_ID)
-      work_items = items.reject { |item| item.id == allocation.id } << candidate
-
-      OverbookingAnalysis.new(calendar: calendar_for(work_items), items: work_items).call
     end
 
     # The user's working schedules effective within the given date range, in
@@ -158,10 +148,6 @@ module ResourceAllocations
                          .to_a
     end
 
-    def items
-      @items ||= allocations.map { |allocation| WorkItem.from_allocation(allocation) }
-    end
-
     def base_calendar
       @base_calendar ||= calendar_for(allocations)
     end
@@ -188,10 +174,23 @@ module ResourceAllocations
       )
     end
 
-    def overbooked_days(by_date, allocation, calendar)
+    def overtime_by_date_of(others)
+      by_date =
+        if others.size == allocations.size
+          optimal_schedule.by_date
+        elsif others.empty?
+          {}
+        else
+          entries_by_date(FitCalculator.new(calendar: calendar_for(others), allocations: others).call)
+        end
+
+      by_date.transform_values { |entries| entries.sum(&:overtime_minutes) }
+    end
+
+    def overbooked_days(by_date, overtime_without, allocation, calendar)
       by_date.sort.filter_map do |date, entries|
         overtime = entries.sum(&:overtime_minutes)
-        next if overtime <= optimal_schedule.entries_on(date).sum(&:overtime_minutes)
+        next if overtime <= overtime_without.fetch(date, 0)
 
         added = entries.select { |entry| entry.allocation == allocation }.sum(&:minutes)
         OverbookedDay.new(date:, working_minutes: calendar.capacity_on(date), planned_minutes: entries.sum(&:minutes) - added,
@@ -223,7 +222,7 @@ module ResourceAllocations
     end
 
     def booked_minutes_within(range)
-      return 0 if items.empty?
+      return 0 if allocations.empty?
 
       allocations.sum { |allocation| allocation_minutes_within(allocation, range) }
     end

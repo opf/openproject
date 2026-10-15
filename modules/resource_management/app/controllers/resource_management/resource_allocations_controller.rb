@@ -147,8 +147,6 @@ module ::ResourceManagement
     end
 
     def render_warning_step(allocation, dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID)
-      ranges = overbooked_ranges(allocation)
-
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
@@ -156,8 +154,8 @@ module ::ResourceManagement
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
-          overbooked_ranges: ranges,
-          working_schedules: working_schedules(allocation, ranges)
+          overbooking: overbooking(allocation),
+          working_schedules: working_schedules(allocation)
         )
       )
       replace_via_turbo_stream(
@@ -188,20 +186,16 @@ module ::ResourceManagement
     def needs_confirmation?(allocation)
       return false if params[:confirmed].present?
 
-      overbooked_ranges(allocation).any?
-    end
-
-    def overbooked_ranges(allocation)
-      @overbooked_ranges ||= compute_overbooked_ranges(allocation)
+      overbooking(allocation)&.overbooked?
     end
 
     # Overbooking is a user-level concern, so it is only checked for allocations
     # assigned to a specific user, and only when that user has working time
     # configured (otherwise their capacity is unknown, not zero).
-    def compute_overbooked_ranges(allocation)
-      return [] unless overbooking_checkable?(allocation)
+    def overbooking(allocation)
+      return unless overbooking_checkable?(allocation)
 
-      availability(allocation).overbooking_ranges_with(allocation)
+      @overbooking ||= availability(allocation).overbooking_with(allocation)
     end
 
     def overbooking_checkable?(allocation)
@@ -211,12 +205,9 @@ module ::ResourceManagement
         UserWorkingHours.for_user(allocation.principal).exists?
     end
 
-    # The schedule note covers the span of the displayed overbooked ranges so
-    # it explains the capacity figures the user actually sees.
-    def working_schedules(allocation, ranges)
-      return [] if ranges.empty?
-
-      span = ranges.map(&:start_date).min..ranges.map(&:end_date).max
+    def working_schedules(allocation)
+      days = overbooking(allocation).days
+      span = days.any? ? days.first.date..days.last.date : allocation.start_date..allocation.end_date
       availability(allocation).working_schedules(span)
     end
 
