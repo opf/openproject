@@ -30,16 +30,21 @@
 
 module ResourceAllocations
   # A user's working time optimally allocated to their work packages: the
-  # scheduled entries and the available capacity, both keyed by date (minutes).
+  # scheduled entries keyed by date, and the allocations whose window contains
+  # no working day of the user.
   class OptimalSchedule
     include ActiveModel::Model
     include ActiveModel::Attributes
 
     attribute :by_date, default: -> { {} }
-    attribute :capacity_by_date, default: -> { {} }
+    attribute :unplannable, default: -> { [] }
+    attribute :calendar
+
+    delegate :capacity_on, to: :calendar
 
     def entries_on(date) = by_date.fetch(date, [])
-    def capacity_on(date) = capacity_by_date.fetch(date, 0)
-    def dates = capacity_by_date.keys
+    def allocations_on(date) = entries_on(date).map(&:allocation)
+    def overtime_on(date) = entries_on(date).sum(&:overtime_minutes)
+    def overbooked_dates = by_date.keys.select { |date| overtime_on(date).positive? }.sort
   end
 end

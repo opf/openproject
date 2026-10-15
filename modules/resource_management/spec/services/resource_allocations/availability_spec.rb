@@ -60,7 +60,7 @@ RSpec.describe ResourceAllocations::Availability do
       second = create(:resource_allocation, principal: user, allocated_time: 1500)
 
       expect(availability).to be_overbooked
-      expect(availability.overbooked_dates).to eq((monday..friday).to_set)
+      expect(availability.overbooked_dates).to eq((monday..friday).to_a)
       expect(availability.overbooked_allocation_ids).to contain_exactly(first.id, second.id)
     end
 

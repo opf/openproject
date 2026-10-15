@@ -43,5 +43,9 @@ module ResourceAllocations
     def allocation(id, start_date, end_date, minutes)
       StubAllocation.new(id:, start_date:, end_date:, allocated_time: minutes)
     end
+
+    def scheduled_entry(allocation, date, minutes, overtime_minutes: 0)
+      ScheduledEntry.new(allocation:, allocated_on: date, minutes:, overtime_minutes:)
+    end
   end
 end
