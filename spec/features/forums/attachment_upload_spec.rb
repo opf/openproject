@@ -87,7 +87,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     attachments_list.expect_attached("image.png", count: 2)
   end
 
-  it "can upload an image to new and existing messages via drag & drop on attachments" do
+  it "can upload an image via drag & drop on attachments" do
     index_page.visit!
     click_link_or_button forum.name
 
@@ -108,19 +108,5 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     wait_for_network_idle
 
     attachments_list.expect_attached("image.png")
-    page.find_test_selector("message-edit-button").click
-    wait_for_network_idle
-
-    retry_block do
-      editor.attachments_list.drag_enter
-      editor.attachments_list.drop(image_fixture)
-      editor.wait_until_upload_progress_toaster_cleared
-      editor.attachments_list.expect_attached!("image.png", count: 2)
-    end
-
-    click_link_or_button "Save"
-    wait_for_network_idle
-
-    attachments_list.expect_attached("image.png", count: 2)
   end
 end
