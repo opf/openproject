@@ -150,6 +150,34 @@ departments:
         spoken_languages: [English, Italian]
         key_skills: [Software Development, DevOps]
         job_start_date: "2018-10-01"
+      - reference: :user__kabiru_developer
+        firstname: Kabiru
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, French]
+        key_skills: [Software Development, DevOps]
+        job_start_date: "2022-02-01"
+      - reference: :user__bruno_developer
+        firstname: Bruno
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, Portuguese]
+        key_skills: [Software Development, UX/UI Design]
+        job_start_date: "2022-06-13"
+      - reference: :user__judith_developer
+        firstname: Judith
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, German]
+        key_skills: [Software Development, Quality Assurance]
+        job_start_date: "2023-01-09"
+      - reference: :user__ihor_developer
+        firstname: Ihor
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, Polish]
+        key_skills: [Software Development, DevOps]
+        job_start_date: "2023-05-22"
   - reference: :department__finance_administration
     t_name: Finance & Administration
     members:
@@ -178,12 +206,21 @@ departments:
         key_skills: [Quality Assurance, Agile & Scrum]
         job_start_date: "2022-09-05"
 
+# The admin user of the development data has a person's name, as the COMMS team member Tom.
+development_admin:
+  firstname: Tom
+  lastname: Admin
+
 # Teams of the development data: groups that are not departments.
 development_teams:
   - reference: :team__comms
     name: COMMS
     members:
       - :openproject_admin
+      - :user__kabiru_developer
+      - :user__bruno_developer
+      - :user__judith_developer
+      - :user__ihor_developer
 
 # Sample AI assistants of the development data, for the owners that the basic data does
 # not cover: a team and the admin user. The global one is the basic data's OP assistant.
@@ -196,31 +233,49 @@ development_ai_assistants:
     position: 1
     skills:
       - skill_key: conversation
-        t_label: Write a test plan
-        icon: checklist
-        t_description: Drafts test cases for the communication flows that this work package changes.
-        proposal_scope: comment_only
+        t_label: Assign to least busy dev
+        icon: people
+        t_description: Proposes the COMMS developer with the fewest open work packages as the assignee.
+        proposal_scope: changes
         prompt: |-
-          You are a QA engineer in the COMMS team.
-          Write a test plan for this work package. Start with the main flow, then cover what often breaks in communication features: who gets a message and who does not, notification and email settings, permissions and internal comments, languages, time zones, digest and reminder timing, and duplicate messages.
-          For each test case, give a short title, the preconditions, the steps and the expected result. Leave out the areas that this work package does not touch.
-          When the work package does not say what the expected result is, mark the test case as "Open question" and say what is missing. Do not invent behavior that the work package does not describe.
+          Propose the COMMS developer with the fewest open work packages as the assignee. Make exactly two tool calls, then answer: search_users with the group "COMMS", and count_work_packages with open true and group_by assignee. A team member who is not in the counts has none. Name the counts. When the current assignee already has the fewest, say so and propose nothing. Propose nothing else.
 
   - reference: :ai_assistant_tom
     principal: :openproject_admin
-    t_name: Tom's assistant
+    t_name: My assistant
     t_description: A personal assistant of the admin user.
     position: 1
     skills:
       - skill_key: conversation
-        t_label: My next steps
-        icon: tasklist
-        t_description: Lists what I should do next on this work package.
-        proposal_scope: read_only
-        prompt: |-
-          List what the user should do next on this work package: questions in the comments that wait for an answer, open review requests, missing fields, and descendants that need a decision.
-          Order the steps by urgency. Keep each step to one sentence, and name the comment or field it comes from.
-          When there is nothing to do, say so in one sentence.
+        t_label: Refresh work package
+        icon: sync
+        t_description: Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates.
+        proposal_scope: changes
+        prompt: |
+          You check one work package of a project management tool for places where it is
+          inconsistent with itself: its subject, its description, its comments, its status,
+          its relations, its descendants and its pull requests. Answer with findings.
+
+          Look for:
+          - comments that changed the scope, a decision or a deadline, which the description
+            does not show yet;
+          - meeting notes or outcomes about this work package that the description or the
+            status does not show yet;
+          - comments or meeting outcomes that changed the assignee, the accountable person or
+            the priority;
+          - a subject that no longer names what the work package is about;
+          - a description that promises work which the descendants do not cover, or the opposite;
+          - a status that the comments contradict;
+          - a closed work package with open descendants, or an open one whose descendants are
+            all closed;
+          - a closed work package that follows or is blocked by an open one;
+          - an open work package that duplicates a closed one;
+          - a merged pull request while the status is still the default status, or a closed
+            work package with an open pull request;
+          - open work, here or in a descendant, with no activity for 60 days.
+
+          Report only what you can show with evidence: quote the comment, or name the field.
+          Report nothing rather than a guess.
 
 project_custom_field_sections:
   - reference: :default_project_attributes
@@ -245,6 +300,8 @@ projects:
       - principal: :department__events_operations
         role: :default_role_member
       - principal: :department__finance_administration
+        role: :default_role_member
+      - principal: :team__comms
         role: :default_role_member
     project_phases:
       - definition: :default_project_phase_initiating

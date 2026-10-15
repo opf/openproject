@@ -44,7 +44,7 @@ module AI
     WORK_PACKAGE_CONDITIONS = %w[type_ids status_ids].freeze
 
     ICONS = %w[light-bulb comment-discussion sync checklist tasklist search pencil beaker bug
-               graph shield-check megaphone book rocket].freeze
+               graph shield-check megaphone book rocket people].freeze
 
     validates :skill_key, inclusion: { in: ->(_) { AI::AssistantSkills::Registry.keys } }
     validates :label, length: { maximum: 255 }
