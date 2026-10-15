@@ -34,9 +34,14 @@ class PushSubscription < ApplicationRecord
   self.filter_attributes += [:endpoint]
 
   belongs_to :user
-  belongs_to :session, class_name: "Sessions::UserSession"
+  belongs_to :session, class_name: "Sessions::UserSession", optional: true
 
   validates :endpoint, presence: true, uniqueness: true
+
+  scope :active, -> { where.not(session_id: nil) }
+  scope :dormant, -> { where(session_id: nil) }
+  scope :for_session, ->(session_id) { where(session_id:) }
+  scope :except_endpoint, ->(endpoint) { where.not(endpoint:) }
 
   def self.endpoint_hosts
     distinct.pluck(Arel.sql("lower(substring(endpoint from '^https://([^/]+)/'))")).compact.sort

@@ -85,11 +85,15 @@ module My
         PushSubscription.where(session_id:).where.not(endpoint: subscription.endpoint).delete_all
         result = ::PushSubscriptions::CreateService
           .new(user: current_user, model: subscription)
-          .call(user: current_user, session_id:)
+          .call(user: current_user, session_id:, **browser_attributes)
         raise ActiveRecord::Rollback if result.failure?
       end
 
       result
+    end
+
+    def browser_attributes
+      { browser_name: session[:browser], browser_version: session[:browser_version], platform: session[:platform] }
     end
 
     def held_by_another_user?(subscription)
