@@ -57,6 +57,10 @@ RSpec.describe "My::PushSubscriptionsController",
     post "/my/push_subscriptions", params: { push_endpoint: value }.to_json, headers: json_headers
   end
 
+  def resume(value)
+    post "/my/push_subscriptions", params: { push_endpoint: value, resume: true }.to_json, headers: json_headers
+  end
+
   describe "POST /my/push_subscriptions" do
     context "when not signed in" do
       it "is unauthorized and stores nothing" do
@@ -88,7 +92,7 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.sole.browser_name).to be_present
       end
 
-      it "refuses an endpoint held by another user" do
+      it "refuses an endpoint held by another user's active subscription" do
         existing = create(:push_subscription, endpoint:)
 
         subscribe(endpoint)
@@ -98,6 +102,26 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(existing.reload.user).not_to eq(user)
       end
 
+      it "takes over another user's dormant row on a shared browser" do
+        previous = create(:push_subscription, endpoint:, session: nil)
+
+        subscribe(endpoint)
+
+        expect(response).to have_http_status(:ok)
+        expect(PushSubscription.exists?(previous.id)).to be(false)
+        expect(PushSubscription.sole).to have_attributes(user:, endpoint:, session: current_session_row)
+      end
+
+      it "refuses the takeover when the other user resumed the row in the meantime" do
+        previous = create(:push_subscription, endpoint:, session: nil)
+        allow(PushSubscription).to receive(:dormant).and_return(PushSubscription.none)
+
+        subscribe(endpoint)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(PushSubscription.sole).to eq(previous)
+      end
+
       it "moves an endpoint stored for an older session of the same user to the current session" do
         older = Sessions::UserSession.find_by!(session_id: create(:user_session, user:).session_id)
         existing = create(:push_subscription, user:, session: older, endpoint:)
@@ -105,6 +129,43 @@ RSpec.describe "My::PushSubscriptionsController",
         expect { subscribe(endpoint) }.not_to change(PushSubscription, :count)
 
         expect(existing.reload.session).to eq(current_session_row)
+      end
+
+      context "when resuming" do
+        it "rebinds a dormant subscription of the user to the current session and ends its suspension" do
+          dormant = create(:push_subscription, user:, endpoint:, session: nil, suspended_at: 2.days.ago)
+
+          resume(endpoint)
+
+          expect(response).to have_http_status(:no_content)
+          expect(dormant.reload).to have_attributes(session: current_session_row, suspended_at: nil)
+        end
+
+        it "rebinds a subscription of an older session of the user" do
+          older = Sessions::UserSession.find_by!(session_id: create(:user_session, user:).session_id)
+          existing = create(:push_subscription, user:, session: older, endpoint:)
+
+          resume(endpoint)
+
+          expect(response).to have_http_status(:no_content)
+          expect(existing.reload.session).to eq(current_session_row)
+        end
+
+        it "creates nothing when the user has no subscription for the endpoint" do
+          resume(endpoint)
+
+          expect(response).to have_http_status(:no_content)
+          expect(PushSubscription.count).to eq(0)
+        end
+
+        it "does not claim a dormant subscription of another user" do
+          other = create(:push_subscription, endpoint:, session: nil)
+
+          resume(endpoint)
+
+          expect(response).to have_http_status(:no_content)
+          expect(other.reload).to have_attributes(session_id: nil)
+        end
       end
 
       it "replaces this session's subscription when the browser posts a new endpoint" do
