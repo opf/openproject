@@ -193,6 +193,11 @@ system's resources.
 docker compose up -d worker
 ```
 
+The backend also starts the `anycable` service, which pushes live updates to open pages, such as changes to a meeting
+made by someone else. The backend forwards `/cable` and `/events` to it, so it needs no port or host name of its own.
+Live updates are sent by the backend and the worker, so start the worker too when testing changes made in background
+jobs.
+
 This process can take quite a long time on the first run where all gems are installed for the first time. However, these
 are cached in a docker volume. Meaning that from the 2nd run onwards it will start a lot quicker.
 
