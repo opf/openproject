@@ -31,6 +31,7 @@
 module Attachments
   class ExtractFulltextJob < ApplicationJob
     queue_with_priority :low
+    queue_as :long_running
 
     def perform(attachment_id)
       @attachment_id = attachment_id

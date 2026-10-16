@@ -34,6 +34,7 @@ module Storages
     extend ::DebounceableJob
 
     queue_with_priority :above_normal
+    queue_as :long_running
 
     good_job_control_concurrency_with(
       total_limit: 2,
