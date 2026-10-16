@@ -3,6 +3,7 @@ be:
   are_you_sure_delete_avatar: Вы ўпэўнены што хочаце выдаліць аватар?
   avatar_deleted: Аватар выдалены паспяхова.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Аватар
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

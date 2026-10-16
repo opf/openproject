@@ -3,6 +3,7 @@ eu:
   are_you_sure_delete_avatar: Ziur zure abatarra ezabatu nahi duzula?
   avatar_deleted: Abatarra ongi ezabatu da.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Abatarra
     label_avatar_color: Fallback color
     label_gravatar: Grabatarra

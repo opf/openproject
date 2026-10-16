@@ -3,6 +3,7 @@ tr:
   are_you_sure_delete_avatar: Avatarını silmek istediğinden emin misin?
   avatar_deleted: Avatar başarıyla silindi.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

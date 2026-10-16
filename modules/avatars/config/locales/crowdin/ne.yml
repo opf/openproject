@@ -3,6 +3,7 @@ ne:
   are_you_sure_delete_avatar: 'के तँपाई अवतार हटाउन निश्चित हुनुहुन्छ ? '
   avatar_deleted: 'अवतार सफलतापुर्वक हटाइयो। '
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: 'अवतार '
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

@@ -40,7 +40,9 @@ tr:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Hesabınızı aktifleştirmek için lütfen <em>%{login}</em> olarak giriş yapın.
+    continue_with_provider: Continue with %{name}
     delete: Hesabı sil
     delete_confirmation: Hesabını silmek istediğinden emin misin?
     deletion_info:
@@ -65,7 +67,9 @@ tr:
     error_self_registration_limited_provider: 'Tek noktadan oturum açma sağlayıcısı ''%{name}'' için kullanıcı kaydı sınırlıdır. Lütfen yöneticiden hesabınızı sizin için etkinleştirmesini veya bu sağlayıcı için kendi kendine kayıt sınırını değiştirmesini isteyin.
 
       '
-    login_with_auth_provider: veya varolan hesabınızı kullanarak oturum açın
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
@@ -201,11 +205,13 @@ tr:
         row_count: Satır sayısı
         widgets: Araçlar
       group:
+        avatar_color: Fallback color
         group_users: Grup kullanıcıları
         identity_url: Kimlik URL'si
         organizational_unit: Organizasyonel birim
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Organizasyonel birim
         parent: Parent group
       import/jira:
@@ -448,7 +454,7 @@ tr:
         last_name: Soy isim
         ldap_auth_source: LDAP bağlantısı
         new_password: Yeni parola
-        password_confirmation: Onay
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -459,11 +465,11 @@ tr:
         auto_hide_popups_caption: Etkinleştirildiğinde, yeşil başarı uyarıları 5 saniye sonra otomatik olarak kaybolacaktır.
         avatar_color: Fallback color
         button_update_alerts: Uyarıları güncelle
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Görünümü ve hissi güncelle
         button_update_user_information: Profili güncelle
         comments_sorting: İş paketi faaliyetini aşağıdakilere göre sıralanmış olarak görüntüle
         daily_reminders: Günlük hatırlatmalar
+        date_format: Date format
         disable_keyboard_shortcuts: Klavye kısayollarını devre dışı bırak
         dismissed_enterprise_banners: Gizli kurumsal afişler
         force_dark_theme_contrast: Karanlık moddayken yüksek kontrastı zorla
@@ -480,6 +486,7 @@ tr:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Renk modu
+        time_format: Time format
         time_zone: Zaman dilimi
         warn_on_leaving_unsaved: İş paketlerinden ayrılırken kaydedilmemiş değişiklik olduğunda beni uyar
         workdays: İş Günleri
@@ -2384,6 +2391,21 @@ tr:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: şu an görüntüleniyor
@@ -3673,6 +3695,8 @@ tr:
   groups:
     edit:
       synchronized_groups: Senkronize gruplar
+    form:
+      group_attributes: Group attributes
     index:
       description: Kullanıcıları birlikte gruplandırarak, onları aynı projelere üye olarak ekleyebilir veya onlara aynı genel rolleri atayabilirsiniz.
     memberships:
@@ -3698,6 +3722,10 @@ tr:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3743,6 +3771,31 @@ tr:
             line_4: Enter planned labor in hours, days, weeks, or months.
             line_5: See the import progress when using the Jira Migrator.
             line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -4020,7 +4073,7 @@ tr:
   label_database_version: PostgreSQL sürümü
   label_date: Tarih
   label_date_and_time: Tarih ve zaman
-  label_date_format: Tarih formatı
+  label_date_and_time_formats: Date and time formats
   label_date_from: Başlangıç
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
   label_date_to: Bitiş
@@ -4179,7 +4232,6 @@ tr:
   label_keyword_plural: Anahtar kelimeler
   label_label_plural: Labels
   label_language: Dil
-  label_language_based: Kullanıcının dili tabanlı
   label_languages: Diller
   label_last_activity: Son Aktivite
   label_last_change_on: Son değişiklik
@@ -4201,6 +4253,7 @@ tr:
   label_list: Liste
   label_loading: Yükleniyor...
   label_locale: Dil ve bölge
+  label_locale_based: Use default for user locale
   label_lock_user: Kullanıcıyı kilitle
   label_locked: kilitli
   label_logged_as: Giriş yapılan kullanıcı
@@ -4491,6 +4544,7 @@ tr:
   label_subtask_plural: Alt görevler
   label_summary: Özet
   label_system: Sistem
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Sistem ayarları
   label_system_storage: Depolama bilgisi
   label_table_of_contents: İçindekiler

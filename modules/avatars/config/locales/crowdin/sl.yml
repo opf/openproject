@@ -3,6 +3,7 @@ sl:
   are_you_sure_delete_avatar: Ali ste prepričani, da želite izbrisati svojega avatarja?
   avatar_deleted: Avatar uspešno izbrisan.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

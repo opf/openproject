@@ -3,6 +3,7 @@ hr:
   are_you_sure_delete_avatar: Jeste li sigurni da želite obrisati svoj avatar?
   avatar_deleted: Avatar je uspješno obrisan.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

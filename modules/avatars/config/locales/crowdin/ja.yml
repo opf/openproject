@@ -3,6 +3,7 @@ ja:
   are_you_sure_delete_avatar: アバターを削除してもよろしいですか?
   avatar_deleted: アバターの削除が完了しました。
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: アバター
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

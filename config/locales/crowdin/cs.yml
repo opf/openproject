@@ -40,7 +40,9 @@ cs:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Přihlaste se prosím jako <em>%{login}</em> pro aktivaci vašeho účtu.
+    continue_with_provider: Continue with %{name}
     delete: Odstranit účet
     delete_confirmation: Jste si jisti, že chcete odstranit tento účet?
     deletion_info:
@@ -65,7 +67,9 @@ cs:
     error_self_registration_limited_provider: 'Registrace uživatele je omezena pro jediného poskytovatele přihlášení ''%{name}''. Požádejte správce, aby vám účet aktivoval, nebo změňte limit registrace pro tohoto poskytovatele.
 
       '
-    login_with_auth_provider: nebo se přihlaste pomocí stávajícího účtu
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Prosím přihlaste se pro aktivaci účtu.
@@ -203,11 +207,13 @@ cs:
         row_count: Počet řádků
         widgets: Widgety
       group:
+        avatar_color: Fallback color
         group_users: Group users
         identity_url: Adresa URL identity
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -450,7 +456,7 @@ cs:
         last_name: Příjmení
         ldap_auth_source: Připojení LDAP
         new_password: Nové heslo
-        password_confirmation: Potvrzení
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -461,11 +467,11 @@ cs:
         auto_hide_popups_caption: Pokud je tato funkce povolena, zelená oznámení úspěchu po 5 sekundách automaticky zmizí.
         avatar_color: Fallback color
         button_update_alerts: Upravit upozornění
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Aktualizovat vzhled a chování
         button_update_user_information: Aktualizovat profil
         comments_sorting: Řazení Aktivit pracovního balíčku
         daily_reminders: Denní připomenutí
+        date_format: Date format
         disable_keyboard_shortcuts: Zakázat klávesové zkratky
         dismissed_enterprise_banners: Hidden enterprise banners
         force_dark_theme_contrast: Vynutit vysoký kontrast v tmavém režimu
@@ -482,6 +488,7 @@ cs:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Barevný režim
+        time_format: Time format
         time_zone: Časové pásmo
         warn_on_leaving_unsaved: Upozornit mě při opuštění pracovního balíčku s neuloženými změnami
         workdays: Pracovní dny
@@ -2628,6 +2635,21 @@ cs:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: aktuálně zobrazené
@@ -3971,6 +3993,8 @@ cs:
   groups:
     edit:
       synchronized_groups: Synchronizované skupiny
+    form:
+      group_attributes: Group attributes
     index:
       description: Seskupováním uživatelů je můžete přidat jako členy do stejných projektů nebo jim přiřadit stejné globální role.
     memberships:
@@ -3996,6 +4020,10 @@ cs:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -4045,6 +4073,31 @@ cs:
             line_4: Enter planned labor in hours, days, weeks, or months.
             line_5: See the import progress when using the Jira Migrator.
             line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -4322,7 +4375,7 @@ cs:
   label_database_version: Verze PostgreSQL
   label_date: Datum
   label_date_and_time: Datum a čas
-  label_date_format: Formát data
+  label_date_and_time_formats: Date and time formats
   label_date_from: Od
   label_date_from_to: Od %{start} do %{end}
   label_date_to: Do
@@ -4481,7 +4534,6 @@ cs:
   label_keyword_plural: Klíčová slova
   label_label_plural: Labels
   label_language: Jazyk
-  label_language_based: Na základě jazyka uživatele
   label_languages: Jazyky
   label_last_activity: Poslední aktivita
   label_last_change_on: Poslední změna
@@ -4503,6 +4555,7 @@ cs:
   label_list: Seznam
   label_loading: Načítání...
   label_locale: Jazyk a region
+  label_locale_based: Use default for user locale
   label_lock_user: Uzamknout uživatele
   label_locked: uzamčeno
   label_logged_as: Přihlášen jako
@@ -4793,6 +4846,7 @@ cs:
   label_subtask_plural: Podúkoly
   label_summary: Souhrn
   label_system: Systém
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Nastavení systému
   label_system_storage: Informace o úložišti
   label_table_of_contents: Obsah

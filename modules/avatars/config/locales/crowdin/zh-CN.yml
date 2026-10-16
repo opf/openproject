@@ -3,6 +3,7 @@ zh-CN:
   are_you_sure_delete_avatar: 确定要删除头像吗？
   avatar_deleted: 成功删除头像。
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: 头像
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

@@ -3,6 +3,7 @@ th:
   are_you_sure_delete_avatar: คุณแน่ใจหรือไม่ว่าคุณต้องการลบรูปนี้?
   avatar_deleted: ลบรูปโปรไฟล์สำเร็จ
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: รูปโปรไฟล์
     label_avatar_color: Fallback color
     label_gravatar: รูปโปรไฟล์

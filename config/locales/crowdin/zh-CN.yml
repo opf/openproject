@@ -40,7 +40,9 @@ zh-CN:
         view: 通过宏放置的指向某个视图的动态链接。
         work_package: 通过宏放置的指向某个工作包的动态链接。
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: 请以 <em>%{login}</em> 身份登录，以激活您的帐户。
+    continue_with_provider: Continue with %{name}
     delete: 删除帐户
     delete_confirmation: 您确认想要删除您的账户？
     deletion_info:
@@ -65,7 +67,9 @@ zh-CN:
     error_self_registration_limited_provider: '用户注册在''%{name}''单点登录提供商上受限。请向管理员请求激活您的账户，或者更改该提供商的自主注册限制。
 
       '
-    login_with_auth_provider: 或使用您的现有帐户登录
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: 继续登录
     omniauth_direct_login_redirecting: 正在将您重定向到您的身份提供商…
     omniauth_login: 请登录以激活您的帐户。
@@ -201,11 +205,13 @@ zh-CN:
         row_count: 行数
         widgets: 小部件
       group:
+        avatar_color: Fallback color
         group_users: 用户组
         identity_url: 身份 URL
         organizational_unit: 组织单元
         parent: 父群组
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: 组织单元
         parent: 父群组
       import/jira:
@@ -448,7 +454,7 @@ zh-CN:
         last_name: 姓氏
         ldap_auth_source: LDAP 连接
         new_password: 新密码
-        password_confirmation: 确认
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: 分区
       user_non_working_time:
@@ -459,11 +465,11 @@ zh-CN:
         auto_hide_popups_caption: 启用后，绿色成功横幅将在 5 秒后自动消失。
         avatar_color: Fallback color
         button_update_alerts: 更新提醒
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: 更新外观和风格
         button_update_user_information: 更新配置文件
         comments_sorting: 显示工作包活动排序方式
         daily_reminders: 每日提醒
+        date_format: Date format
         disable_keyboard_shortcuts: 禁用键盘快捷键
         dismissed_enterprise_banners: 隐藏企业横幅
         force_dark_theme_contrast: 在深色模式下强制使用高对比度
@@ -480,6 +486,7 @@ zh-CN:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 颜色模式
+        time_format: Time format
         time_zone: 时区
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
         workdays: 工作日
@@ -2259,6 +2266,21 @@ zh-CN:
         not_available: AI 助手不可用。
         timeout: AI 服务未及时响应。
         upstream_error: AI 服务返回错误。
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: 当前已显示
@@ -3516,6 +3538,8 @@ zh-CN:
   groups:
     edit:
       synchronized_groups: 同步的群组
+    form:
+      group_attributes: Group attributes
     index:
       description: 通过将用户分组到一起，您可以将他们添加为同一项目的成员，也可以将相同的全局角色分配给他们。
     memberships:
@@ -3541,6 +3565,10 @@ zh-CN:
       leave_project: 离开项目
       no_favorite_projects: 您没有收藏的项目。
       title: 项目
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3585,6 +3613,31 @@ zh-CN:
             line_5: 使用 Jira Migrator 时查看导入进度。
             line_6: 在社区版本中使用日期提醒。
           new_features_title: '此版本包含各种新功能和改进，例如：
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 了解新功能和产品更新。
@@ -3861,7 +3914,7 @@ zh-CN:
   label_database_version: PostgreSQL 版本
   label_date: 日期
   label_date_and_time: 日期和时间
-  label_date_format: 日期格式
+  label_date_and_time_formats: Date and time formats
   label_date_from: 从
   label_date_from_to: 从 %{start} 到 %{end}
   label_date_to: 到
@@ -4020,7 +4073,6 @@ zh-CN:
   label_keyword_plural: 关键词
   label_label_plural: 标签
   label_language: 语言
-  label_language_based: 基于用户的语言
   label_languages: 语言
   label_last_activity: 最近一次活动
   label_last_change_on: 最后一次修改时间
@@ -4042,6 +4094,7 @@ zh-CN:
   label_list: 列表
   label_loading: 正在加载...
   label_locale: 语言和地区
+  label_locale_based: Use default for user locale
   label_lock_user: 锁定用户
   label_locked: 已锁定
   label_logged_as: 登录用户名
@@ -4332,6 +4385,7 @@ zh-CN:
   label_subtask_plural: 子任务
   label_summary: 摘要
   label_system: 系统
+  label_system_or_language_default: Use system or language based default
   label_system_settings: 系统设置
   label_system_storage: 存储信息
   label_table_of_contents: 目录

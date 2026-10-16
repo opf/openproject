@@ -3,6 +3,7 @@ id:
   are_you_sure_delete_avatar: Apakah anda yakin ingin menghapus avatar anda?
   avatar_deleted: Avatar berhasil dihapus
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

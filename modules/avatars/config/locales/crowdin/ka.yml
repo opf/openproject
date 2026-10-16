@@ -3,6 +3,7 @@ ka:
   are_you_sure_delete_avatar: Are you sure you want to delete your avatar?
   avatar_deleted: Avatar deleted successfully.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: ავატარი
     label_avatar_color: Fallback color
     label_gravatar: გრავატარი

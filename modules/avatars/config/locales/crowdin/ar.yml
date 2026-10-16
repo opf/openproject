@@ -3,6 +3,7 @@ ar:
   are_you_sure_delete_avatar: هل أنت متأكد من أنك تريد حذف صورتك الرمزية؟
   avatar_deleted: الصورة الرمزية حذفت بنجاح.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: الصورة الرمزية
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

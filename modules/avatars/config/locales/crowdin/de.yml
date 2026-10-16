@@ -3,6 +3,7 @@ de:
   are_you_sure_delete_avatar: Sind Sie sicher, dass Sie das Profilbild löschen möchten?
   avatar_deleted: Profilbild erfolgreich gelöscht.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Profilfoto
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

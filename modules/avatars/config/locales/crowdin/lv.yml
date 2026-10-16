@@ -3,6 +3,7 @@ lv:
   are_you_sure_delete_avatar: Vai tiešām vēlies dzēst savu avatāru?
   avatar_deleted: Avatārs veiksmīgi izdzēsts.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatārs
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

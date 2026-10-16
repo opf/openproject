@@ -3,6 +3,7 @@ ko:
   are_you_sure_delete_avatar: 아바타를 삭제하시겠습니까?
   avatar_deleted: 아바타가 삭제되었습니다.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: 아바타
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

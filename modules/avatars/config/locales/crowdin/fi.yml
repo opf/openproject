@@ -3,6 +3,7 @@ fi:
   are_you_sure_delete_avatar: Haluatko varmasti poistaa kuvan?
   avatar_deleted: Kuva poistettu.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Kuva
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

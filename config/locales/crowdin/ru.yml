@@ -40,7 +40,9 @@ ru:
         view: Динамическая ссылка на представление, размещённая с помощью макроса.
         work_package: Динамическая ссылка на пакет работ, размещенная с помощью макроса.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Пожалуйста, войдите в систему как <em>%{login}</em> чтобы активировать свою учетную запись.
+    continue_with_provider: Continue with %{name}
     delete: Удалить учётную запись
     delete_confirmation: Вы уверены, что хотите удалить учетную запись?
     deletion_info:
@@ -65,7 +67,9 @@ ru:
     error_self_registration_limited_provider: 'Регистрация пользователей ограничена для поставщика системы единого входа «%{name}».  Попросите администратора активировать для вас учетную запись или изменить лимит самостоятельной регистрации для этого провайдера.
 
       '
-    login_with_auth_provider: или войдите своей учетной записью
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Продолжить вход
     omniauth_direct_login_redirecting: Перенаправление к вашему поставщику идентификационных данных…
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
@@ -201,11 +205,13 @@ ru:
         row_count: Количество строк
         widgets: Виджеты
       group:
+        avatar_color: Fallback color
         group_users: Пользователи группы
         identity_url: URL идентификации
         organizational_unit: Подразделение организации
         parent: Родительская группа
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Подразделение организации
         parent: Родительская группа
       import/jira:
@@ -448,7 +454,7 @@ ru:
         last_name: Фамилия
         ldap_auth_source: Подключение к LDAP
         new_password: Новый пароль
-        password_confirmation: Подтверждение
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Раздел
       user_non_working_time:
@@ -459,11 +465,11 @@ ru:
         auto_hide_popups_caption: Когда эта функция включена, зеленые успешные баннеры автоматически исчезают через 5 секунд.
         avatar_color: Fallback color
         button_update_alerts: Обновить оповещения
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Обновить оформление
         button_update_user_information: Обновить профиль
         comments_sorting: Отображение активности пакета работ, отсортированной по
         daily_reminders: Ежедневные напоминания
+        date_format: Date format
         disable_keyboard_shortcuts: Отключить горячие клавиши
         dismissed_enterprise_banners: Скрытые корпоративные баннеры
         force_dark_theme_contrast: Принудительная высокая контрастность в темном режиме
@@ -480,6 +486,7 @@ ru:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Цветовой режим
+        time_format: Time format
         time_zone: Часовой пояс
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не сохраненных изменениях
         workdays: Рабочие дни
@@ -2626,6 +2633,21 @@ ru:
         not_available: ИИ-ассистент недоступен.
         timeout: Сервис ИИ не ответил вовремя.
         upstream_error: Сервис ИИ выдал ошибку.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: теперь отображается
@@ -3969,6 +3991,8 @@ ru:
   groups:
     edit:
       synchronized_groups: Синхронизированные группы
+    form:
+      group_attributes: Group attributes
     index:
       description: Объединяя пользователей в группы, Вы можете добавлять их в качестве участников в одни и те же проекты или назначать им одинаковые глобальные роли.
     memberships:
@@ -3994,6 +4018,10 @@ ru:
       leave_project: Покинуть проект
       no_favorite_projects: У вас нет избранных проектов.
       title: Проекты
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -4044,6 +4072,31 @@ ru:
             line_5: Отслеживайте прогресс импорта при использовании Jira Migrator.
             line_6: Используйте оповещения о дедлайне в версии Community Edition.
           new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -4320,7 +4373,7 @@ ru:
   label_database_version: Версия PostgreSQL
   label_date: Дата
   label_date_and_time: Дата и время
-  label_date_format: Формат даты
+  label_date_and_time_formats: Date and time formats
   label_date_from: От
   label_date_from_to: C %{start} по %{end}
   label_date_to: Кому
@@ -4479,7 +4532,6 @@ ru:
   label_keyword_plural: Ключевые слова
   label_label_plural: Метки
   label_language: Язык
-  label_language_based: Основанный на языке пользователя
   label_languages: Языки
   label_last_activity: Последняя активность
   label_last_change_on: Последнее изменение
@@ -4501,6 +4553,7 @@ ru:
   label_list: Список
   label_loading: Загрузка...
   label_locale: Язык и регион
+  label_locale_based: Use default for user locale
   label_lock_user: Заблокировать пользователя
   label_locked: заблокировано
   label_logged_as: Войти в систему как
@@ -4791,6 +4844,7 @@ ru:
   label_subtask_plural: Подзадачи
   label_summary: Сводка
   label_system: Система
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Настройки системы
   label_system_storage: Информация хранилища
   label_table_of_contents: Содержание

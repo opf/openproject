@@ -3,6 +3,7 @@ sv:
   are_you_sure_delete_avatar: Är du säker på att du vill ta bort din avatar?
   avatar_deleted: Avatar har tagits bort.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

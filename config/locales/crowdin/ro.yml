@@ -40,7 +40,9 @@ ro:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: Ştergere cont
     delete_confirmation: Sunteţi sigur că doriţi să ştergeţi contul?
     deletion_info:
@@ -65,7 +67,9 @@ ro:
     error_self_registration_limited_provider: 'User registration is limited for the Single sign-on provider ''%{name}''. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
 
       '
-    login_with_auth_provider: sau conectaţi-vă cu contul existent
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Autentifică-te pentru activarea contului tău.
@@ -201,11 +205,13 @@ ro:
         row_count: Număr de rânduri
         widgets: Widget-uri
       group:
+        avatar_color: Fallback color
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
         parent: Grup părinte
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Organizational unit
         parent: Grup părinte
       import/jira:
@@ -448,7 +454,7 @@ ro:
         last_name: Nume
         ldap_auth_source: Conexiune LDAP
         new_password: Parolă nouă
-        password_confirmation: Confirmare
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -459,11 +465,11 @@ ro:
         auto_hide_popups_caption: Când este activată, bannerele de succes verzi vor dispărea automat după 5 secunde.
         avatar_color: Fallback color
         button_update_alerts: Actualizează alerte
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Actualizează aspectul și simțul
         button_update_user_information: Update profile
         comments_sorting: Afișează activitatea pachetelor de lucru sortate după
         daily_reminders: Daily reminders
+        date_format: Date format
         disable_keyboard_shortcuts: Dezactivează comenzile rapide pentru tastatură
         dismissed_enterprise_banners: Hidden enterprise banners
         force_dark_theme_contrast: Force high-contrast when in Dark mode
@@ -480,6 +486,7 @@ ro:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Color mode
+        time_format: Time format
         time_zone: Fus orar
         warn_on_leaving_unsaved: Avertizează când părăsesc un pachet de lucru cu modificări nesalvate
         workdays: Zile lucrătoare
@@ -2503,6 +2510,21 @@ ro:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: afișat acum
@@ -3818,6 +3840,8 @@ ro:
   groups:
     edit:
       synchronized_groups: Synchronized groups
+    form:
+      group_attributes: Group attributes
     index:
       description: Prin gruparea utilizatorilor împreună, îi poți adăuga ca membri la aceleași proiecte sau le poți atribui aceleași roluri globale.
     memberships:
@@ -3843,6 +3867,10 @@ ro:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3890,6 +3918,31 @@ ro:
             line_4: Enter planned labor in hours, days, weeks, or months.
             line_5: See the import progress when using the Jira Migrator.
             line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -4167,7 +4220,7 @@ ro:
   label_database_version: Versiunea PostgreSQL
   label_date: Data
   label_date_and_time: Data
-  label_date_format: Format dată
+  label_date_and_time_formats: Date and time formats
   label_date_from: Din
   label_date_from_to: Din %{start} la %{end}
   label_date_to: La
@@ -4326,7 +4379,6 @@ ro:
   label_keyword_plural: Cuvinte cheie
   label_label_plural: Labels
   label_language: Limbă
-  label_language_based: Bazat pe limba utilizatorului
   label_languages: Languages
   label_last_activity: Ultima activitate
   label_last_change_on: Ultima modificare
@@ -4348,6 +4400,7 @@ ro:
   label_list: Listă
   label_loading: Se încarcă...
   label_locale: Language and region
+  label_locale_based: Use default for user locale
   label_lock_user: Blocați utilizatorul
   label_locked: blocat
   label_logged_as: Autentificat ca
@@ -4638,6 +4691,7 @@ ro:
   label_subtask_plural: Sub-activități
   label_summary: Rezumat
   label_system: Sistem
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Setări sistem
   label_system_storage: Informații privind stocarea
   label_table_of_contents: Cuprins

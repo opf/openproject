@@ -3,6 +3,7 @@ hi:
   are_you_sure_delete_avatar: क्या आप निश्चित रूप से अपना अवतार मिटाना चाहते हैं?
   avatar_deleted: अवतार सफ़लतापूर्वक मिटा दिया गया।
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: अवतार
     label_avatar_color: Fallback color
     label_gravatar: गृवतार

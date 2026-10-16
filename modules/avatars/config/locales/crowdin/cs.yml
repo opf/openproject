@@ -3,6 +3,7 @@ cs:
   are_you_sure_delete_avatar: Jste si jisti, že chcete odstranit váš avatar?
   avatar_deleted: Avatar byl úspěšně odstraněn.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

@@ -40,7 +40,9 @@ es:
         view: Un enlace dinámico a una vista insertado mediante una macro.
         work_package: Un enlace dinámico a un paquete de trabajo insertado mediante una macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Inicia sesión como <em>%{login}</em> para activar tu cuenta.
+    continue_with_provider: Continue with %{name}
     delete: Borrar cuenta
     delete_confirmation: "¿Está seguro que desea eliminar la cuenta?"
     deletion_info:
@@ -65,7 +67,9 @@ es:
     error_self_registration_limited_provider: 'El registro de usuarios está limitado para el proveedor de inicio de sesión único ''%{name}''. Por favor, pida a un administrador que active la cuenta para usted o cambie el límite de auto-registro para este proveedor.
 
       '
-    login_with_auth_provider: o inicie sesión con su cuenta existente
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continuar al inicio de sesión
     omniauth_direct_login_redirecting: Le estamos redirigiendo a su proveedor de identidad...
     omniauth_login: Por favor inicie sesión para activar su cuenta.
@@ -201,11 +205,13 @@ es:
         row_count: Número de filas
         widgets: Widgets
       group:
+        avatar_color: Fallback color
         group_users: Usuarios de grupo
         identity_url: URL de identidad
         organizational_unit: Unidad organizativa
         parent: Grupo principal
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Unidad organizativa
         parent: Grupo principal
       import/jira:
@@ -448,7 +454,7 @@ es:
         last_name: Apellidos
         ldap_auth_source: Conexión LDAP
         new_password: Nueva contraseña
-        password_confirmation: Confirmación
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Sección
       user_non_working_time:
@@ -459,11 +465,11 @@ es:
         auto_hide_popups_caption: Si se habilitan, los banners verdes de éxito desaparecerán automáticamente al cabo de 5 segundos.
         avatar_color: Fallback color
         button_update_alerts: Actualizar alertas
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Actualizar apariencia
         button_update_user_information: Actualizar perfil
         comments_sorting: Mostrar la actividad del paquete de trabajo ordenada por
         daily_reminders: Recordatorios diarios
+        date_format: Date format
         disable_keyboard_shortcuts: Deshabilitar atajos de teclado
         dismissed_enterprise_banners: Banners empresariales ocultos
         force_dark_theme_contrast: Forzar alto contraste en modo oscuro
@@ -480,6 +486,7 @@ es:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Modo de color
+        time_format: Time format
         time_zone: Zona horaria
         warn_on_leaving_unsaved: Avisarme cuando salga de un paquete de trabajo con cambios sin guardar
         workdays: Días laborables
@@ -2380,6 +2387,21 @@ es:
         not_available: El asistente de IA no está disponible.
         timeout: El servicio de IA no ha respondido a tiempo.
         upstream_error: El servicio de IA ha devuelto un error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: mostrado actualmente
@@ -3659,6 +3681,8 @@ es:
   groups:
     edit:
       synchronized_groups: Grupos sincronizados
+    form:
+      group_attributes: Group attributes
     index:
       description: Al agrupar a los usuarios, puede añadirlos como miembros a los mismos proyectos o asignarles los mismos roles globales.
     memberships:
@@ -3684,6 +3708,10 @@ es:
       leave_project: Abandonar el proyecto
       no_favorite_projects: No tienes proyectos favoritos.
       title: Proyectos
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3730,6 +3758,31 @@ es:
             line_5: Consulte el progreso de la importación al utilizar Jira Migrator.
             line_6: Utilice las alertas de fecha en la edición Community.
           new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, como las siguientes:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
@@ -4006,7 +4059,7 @@ es:
   label_database_version: Versión de PostgreSQL
   label_date: Fecha
   label_date_and_time: Fecha y hora
-  label_date_format: Formato de fecha
+  label_date_and_time_formats: Date and time formats
   label_date_from: De
   label_date_from_to: De %{start} al %{end}
   label_date_to: Para
@@ -4165,7 +4218,6 @@ es:
   label_keyword_plural: Palabras clave
   label_label_plural: Labels
   label_language: Idioma
-  label_language_based: Basado en el idioma del usuario
   label_languages: Idiomas
   label_last_activity: Última actividad
   label_last_change_on: Último cambio en
@@ -4187,6 +4239,7 @@ es:
   label_list: Lista
   label_loading: Cargando...
   label_locale: Idioma y región
+  label_locale_based: Use default for user locale
   label_lock_user: Bloquear usuario
   label_locked: bloqueado
   label_logged_as: Sesión iniciada como
@@ -4477,6 +4530,7 @@ es:
   label_subtask_plural: Subtareas
   label_summary: Resumen
   label_system: Sistema
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Ajustes de sistema
   label_system_storage: Información de almacenamiento
   label_table_of_contents: Índice
