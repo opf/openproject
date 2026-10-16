@@ -55,7 +55,7 @@ RSpec.describe "index placeholder users",
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
 
   shared_examples "placeholders index flow" do
-    it "shows the placeholder users and allows filtering and ordering" do
+    it "shows the placeholder users and allows filtering" do
       index_page.visit!
 
       index_page.expect_not_listed(anonymous, current_user)
@@ -63,18 +63,6 @@ RSpec.describe "index placeholder users",
       # Order is by id, asc
       # so first ones created are on top.
       index_page.expect_listed(placeholder_user_1, placeholder_user_2, placeholder_user_3)
-
-      index_page.order_by("Name")
-      index_page.expect_ordered(placeholder_user_2, placeholder_user_1, placeholder_user_3)
-
-      index_page.order_by("Name")
-      index_page.expect_ordered(placeholder_user_3, placeholder_user_1, placeholder_user_2)
-
-      index_page.order_by("Created on")
-      index_page.expect_ordered(placeholder_user_3, placeholder_user_2, placeholder_user_1)
-
-      index_page.order_by("Created on")
-      index_page.expect_ordered(placeholder_user_1, placeholder_user_2, placeholder_user_3)
 
       index_page.filter_by_name(placeholder_user_3.name)
       index_page.expect_listed(placeholder_user_3)

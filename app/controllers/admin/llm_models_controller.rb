@@ -56,7 +56,7 @@ module Admin
       index
 
       replace_via_turbo_stream(
-        component: LlmConnections::Models::IndexComponent.new(@models, connection: @connection)
+        component: LlmConnections::ModelsTableComponent.new(rows: @models, connection: @connection)
       )
       turbo_streams << turbo_stream.push_state(llm_models_path(params.permit(:filters, :page, :per_page)))
 
