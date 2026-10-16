@@ -23,24 +23,30 @@ const fetchUnread = async () => {
       headers: { Accept: "application/json" },
       signal: AbortSignal.timeout(PUSH_FETCH_TIMEOUT_MS),
     });
+    if (response.status === 401) return { signedOut: true };
     return response.ok ? await response.json() : null;
   } catch {
     return null;
   }
 };
 
+const showFallback = () =>
+  self.registration.showNotification(PUSH_FALLBACK_TITLE, {
+    tag: PUSH_TAG,
+    icon: PUSH_ICON,
+    silent: true,
+    renotify: false,
+    data: { url: HOME_URL },
+  });
+
 const showUnread = async () => {
   const data = await fetchUnread();
 
-  if (!data) {
-    return self.registration.showNotification(PUSH_FALLBACK_TITLE, {
-      tag: PUSH_TAG,
-      icon: PUSH_ICON,
-      silent: true,
-      renotify: false,
-      data: { url: HOME_URL },
-    });
+  if (data?.signedOut) {
+    await navigator.clearAppBadge?.().catch(() => undefined);
+    return showFallback();
   }
+  if (!data) return showFallback();
 
   if (data.count === 0) {
     await self.registration.showNotification(PUSH_ALL_READ_TITLE, {
