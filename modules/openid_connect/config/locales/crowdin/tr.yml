@@ -50,7 +50,7 @@ tr:
       openid_connect/user_token:
         one: OpenID Connect token
         other: OpenID Connect tokens
-  logout_warning: 'Çıkış yaptınız. Gönderdiğiniz herhangi bir formun içeriği kaybolabilir. Lütfen giriş yapın].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -79,7 +79,7 @@ tr:
       display_name: Sağlayıcının adı. Bu, oturum açma düğmesi olarak ve sağlayıcılar listesinde görüntülenecektir.
       endpoint_url: OpenID Connect sağlayıcısı tarafından size verilen uç nokta URL'si
       group_regexes: Satır başına bir düzenli ifade kalıbı. Bunun nasıl yapılacağı hakkında daha fazla bilgi için lütfen [belgeleri](docs_url) okuyun.
-      group_regexes_detail: İsteğe bağlı olarak, gruplar talebinden grup adlarını eşleştirmek için düzenli ifadeler kullanarak kalıplar tanımlayın. Örneğin, <code>^Level1/Level2/([\w/]+)$</code> gibi bir kalıp girilmesi, "Level1/Level2/GroupName/SubGroup" içeren bir yanıttan "Groupname/SubGroup" grubunu çıkaracaktır. Hiçbir kalıp eşleşmezse, grup yok sayılır. Tüm grupları tam grup adlarını kullanarak senkronize etmek için boş bırakın.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Düzenli ifade kalıbınızı örnek OIDC kullanıcı bilgilerine karşı test etmek için 'Kalıbı test et' seçeneğine tıklayın.
       group_sync: Grup üyeliği bilgilerini kimlik sağlayıcısından otomatik olarak alın ve senkronize edin.
       groups_claim: Kullanıcının üyesi olduğu grup adlarını belirtmesi beklenen talebin adını belirtin.
@@ -104,7 +104,7 @@ tr:
       oidc_information: Bu değerler OpenID Connect sağlayıcısını yapılandırmak için gereklidir.
       post_logout_redirect_uri: OpenID Connect sağlayıcısının bir oturum kapatma isteğinden sonra yeniden yönlendirmesi gereken URL.
       scope: Özel kapsamlar talep etmek istiyorsanız, buraya boşluklarla ayrılmış bir veya birden fazla kapsam değeri ekleyebilirsiniz. Daha fazla bilgi için [OpenID Connect belgelerine](docs_url) bakın.
-      tenant: Lütfen öntanımlı müşteriyi kendinizinkiyle değiştirin, mümkünse. Bu <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri"> belgeye bakın</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID sağlayıcıları
     providers:
       client_details_description: OpenProject'in bir OIDC istemcisi olarak yapılandırma ayrıntıları

@@ -202,6 +202,7 @@ ar:
     description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
@@ -724,6 +725,7 @@ ar:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: انقر لإضافة وصف لهذه العلاقة
       selection: من فضلك اختر
       subject: Enter subject here
@@ -810,12 +812,40 @@ ar:
       sorting_disabled: sorting is disabled
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Item
         fallback_list_name: another list
         move_failed_check_position: Move failed. Check the item's current position.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} moved to position %{position} of %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          zero: Could not extend the range. %{count} items selected.
+          one: Could not extend the range. 1 item selected.
+          two: Could not extend the range. %{count} items selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          zero: "%{count} items selected."
+          one: 1 item selected.
+          two: "%{count} items selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Close modal
@@ -829,9 +859,7 @@ ar:
     text_user_wrote: "%{value} كتب:"
     text_work_packages_destroy_confirmation: هل أنت متأكد من أنك تريد حذف العناصر المحددة؟
     time_entry:
-      stop: Stop
       title: وقت السجل
-      tracking: تعقب الوقت
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

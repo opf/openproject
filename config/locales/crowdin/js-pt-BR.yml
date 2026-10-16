@@ -202,6 +202,7 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       ckeditor_error: 'Ocorreu um erro no CKEditor '
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
       macro:
         attribute_reference:
@@ -720,6 +721,7 @@ pt-BR:
     placeholders:
       default: "-"
       description: 'Descrição: Clique em editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clique para adicionar a descrição para esta relação
       selection: Por favor selecione
       subject: Informe o assunto aqui
@@ -806,12 +808,32 @@ pt-BR:
       sorting_disabled: ordenação está desativada
     sortable_lists:
       announcements:
+        batch_too_large: Não é possível mover %{count} itens de uma vez. Selecione no máximo %{max}.
         fallback_item_label: Item
         fallback_list_name: outra lista
         move_failed_check_position: Falha ao mover. Verifique a posição atual do item.
+        move_failed_check_positions_batch:
+          other: Falha ao mover. Verifique as posições atuais dos itens.
         move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
+        move_failed_rolled_back_batch:
+          other: Falha ao mover. %{count} pacotes de trabalho retornaram às suas posições anteriores.
         moved: "%{label} foi movido para a posição %{position} de %{total}"
+        moved_batch:
+          other: "%{count} itens movidos para as posições %{first} a %{last} de %{total}"
+        moved_batch_to_list:
+          other: "%{count} itens movidos para %{list}, posições %{first} a %{last} de %{total}"
         moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
+      selection:
+        cleared: Seleção removida.
+        not_selectable: Seleção inalterada. Este item não faz parte da ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um item que não faz parte da ordenação desta lista.
+        range_restarted:
+          one: Não foi possível ampliar o intervalo. 1 item selecionado.
+          other: Não foi possível ampliar o intervalo. %{count} itens selecionados.
+        range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
+        selected:
+          one: 1 item selecionado.
+          other: "%{count} itens selecionados."
     spot:
       drop_modal:
         close: Fechar o modal
@@ -825,9 +847,7 @@ pt-BR:
     text_user_wrote: "%{value} escreveu:"
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?
     time_entry:
-      stop: Parar
       title: Registro de tempo
-      tracking: Controle de tempo
       work_package_required: É necessário selecionar primeiro um pacote de trabalho.
     timer:
       button_stop: Interromper temporizador atual

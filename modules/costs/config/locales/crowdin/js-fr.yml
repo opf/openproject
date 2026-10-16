@@ -25,8 +25,6 @@ fr:
     button_log_costs: Consigner des coûts unitaires
     label_hour: heure
     label_hours: heures
-    myTimeTracking:
-      noSpecificTime: Aucune heure spécifique
     text_are_you_sure: Confirmez-vous ?
     work_packages:
       properties:

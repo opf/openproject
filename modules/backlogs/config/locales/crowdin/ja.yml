@@ -26,6 +26,7 @@ ja:
       project:
         allow_multiple_active_sprints: 複数のスプリントを同時に実行できるようにする
         backlog_excluded_types: 除外されるワークパッケージの種類
+        estimation_unit: Unit
         sprint_sharing: スプリントの共有
         statuses_considered_closed: "「完了」とみなされるステータス"
       sprint:
@@ -85,7 +86,7 @@ ja:
               can_only_contain_work_packages_of_current_sprint: 現在のスプリント内のワークパッケージIDのみを含めることができます。
               must_block_at_least_one_work_package: は少なくとも 1つのチケットIDを含める必要があります。
             sprint:
-              not_assignable: is not assignable since it is either not shared with the project or already finished.
+              not_assignable: プロジェクトと共有されていないか、すでに完了しているため、割り当てることができません。
               not_eligible_for_moving: そのワークパッケージが移動元のプロジェクトにおいて、現在アクティブなスプリントではない。
             version_id:
               task_version_must_be_the_same_as_story_version: 親ストーリーのバージョンと同じでなければなりません。
@@ -99,7 +100,7 @@ ja:
         other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: 既存のワークパッケージを追加する
     administration_blankslate:
       text: 現在、「バックログ」モジュールの再設計を進めています。スプリントおよびバックログに関する管理設定は、近いうちにこちらで表示されるようになります。プロジェクトレベルの設定については、引き続きご利用いただけます。
       title: バックログの管理設定は進化を続けています
@@ -133,6 +134,7 @@ ja:
       show:
         blankslate_description: スプリントの開始日と終了日を設定して、バーンダウンチャートを生成します。
         blankslate_title: バーンダウンデータはありません
+    estimation_unit: Units
     excluded_work_package_types_caption: 'バックログから非表示にするワークパッケージの種類を選択してください。選択した種類のアイテムはバックログに自動的に表示されなくなるため、チームにとって重要な作業に焦点を絞ることができます。たとえば、より上位のレベルで管理される「エピック」や「マイルストーン」といった種類を非表示にすることで、バックログを実行可能なアイテムに集中させることができます。
 
       '
@@ -178,6 +180,7 @@ ja:
     remaining_hours: 残時間
     sharing: スプリントの共有
     show_burndown_chart: バーンダウンチャート
+    show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
         add_existing_work_package: 既存のワークパッケージを追加する
@@ -203,6 +206,30 @@ ja:
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
+      widgets:
+        work_package_graph:
+          title: Work packages graph
+        work_package_overview:
+          blankslate:
+            description: Set start and end date for the sprint to generate the work package overview.
+            heading: No sprint data available
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Scope change
+              story_points_change: "+%{added} / -%{removed} story points"
+            completed:
+              heading: Completed
+            initially_planned:
+              heading: Initially planned
+            unfinished:
+              heading: Unfinished
+          breakdown_block:
+            blocks:
+              show_all: View all
+          closed_work_packages: Closed work packages
+          resolved_summary:
+            other: "%{percentage}% (%{resolved} of %{total} work packages)"
     sprints:
       row_component:
         action_menu:
@@ -242,8 +269,19 @@ ja:
       add_existing_dialog:
         invalid_target: The target you are trying to add to is invalid.
         target_not_found: The sprint or backlog you are trying to add to was not found.
+      batch_update_service:
+        mixed_projects: All work packages of a batch must belong to the same project.
+        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
+        stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
+        unavailable_target: The destination list is no longer available. Please reload the page and try again.
+        unexpected_failure: The work packages could not be moved. Please try again.
       move:
         moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+      move_collection:
+        invalid_ids: The list of work packages to move is invalid.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: No more than %{max} work packages can be moved at once.
+        work_packages_not_found: At least one work package could not be found in this project.
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
@@ -252,16 +290,16 @@ ja:
     story_points_ideal: Story points (ideal)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: 複数のアクティブなスプリント
       sprint_sharing: Sprint sharing
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: プロジェクト内の異なるチームで複数のスプリントを並行して実行することで、管理性と柔軟性を高めることができます。
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints
   label_backlog: Backlog
-  label_backlog_and_sprints: Backlog and sprints
+  label_backlog_and_sprints: バックログとスプリント
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
   label_backlogs: バックログ
@@ -279,9 +317,8 @@ ja:
   notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
   notice_unsuccessful_start: The sprint could not be started.
   notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
-  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
-
-    '
+  notice_work_package_invisible_after_move:
+    other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
   permission_create_sprints: Create sprints
   permission_manage_sprint_items: Manage sprint items
   permission_select_backlog_types_and_statuses: バックログの種類とステータスを選択する
@@ -300,6 +337,18 @@ ja:
       backlog_buckets: バックログ・バケット
       sprints: スプリント
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -320,6 +369,9 @@ ja:
             label: サブプロジェクト
         sprint_sharing: スプリントを共有する
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
           heading: 進行中のスプリントの数

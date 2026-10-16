@@ -61,9 +61,9 @@ ko:
           invalid_scheme: WebSocket 프로토콜(ws:// 또는 wss://)을 사용해야 합니다.
           label: Hocuspocus 서버 URL
         page_header:
-          description: |-
+          description_html: |-
             활성화하면 실시간 공동 작업을 통해 여러 사용자가 동시에 문서를 편집할 수 있습니다.
-            이 기능을 사용하려면 %{hocuspocus_server_link}이(가) 작동해야 합니다.
+            이 기능을 사용하려면 [Hocuspocus 서버](hocuspocus_server_link)가 작동해야 합니다.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: 데이터가 영구적으로 손실될 수 있음을 이해합니다
         confirmation_message: "기존의 모든 문서에 액세스할 수 없게 될 수 있습니다. 이러한 경우 실시간 공동 작업과 BlockNote 편집기를 \n비활성화하려는 경우에만 이 작업을 수행하세요."
@@ -114,7 +114,7 @@ ko:
       currently_offline: 현재 오프라인 상태입니다.
     label_attachment_author: 첨부 파일 작성자
     label_categories: 카테고리
-    last_updated_at: '마지막으로 저장: %{time}.'
+    last_updated_at_html: '마지막으로 저장: %{time}.'
     menu:
       all: 모든 문서
       collaboration_settings: 실시간 공동 작업

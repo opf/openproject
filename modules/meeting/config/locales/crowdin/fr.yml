@@ -24,6 +24,7 @@ fr:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Durée
         end_time: Heure de fin
         location: Lieu
@@ -90,6 +91,7 @@ fr:
         meeting_agenda_item:
           section_not_belong_to_meeting: La section n'appartient pas à la même réunion.
           user_invalid: n'est pas un participant valide.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: n'est pas un participant valide.
         recurring_meeting:
@@ -152,6 +154,10 @@ fr:
     meeting_agenda_opened: Ordre du jour de la réunion ouvert
     meeting_minutes: Compte rendu de la réunion modifié
     meeting_minutes_created: Compte rendu de la réunion créé
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Ajouter à la réunion
   label_add_work_package_to_meeting_dialog_title: Sélectionner la réunion
   label_add_work_package_to_meeting_section_label: Section
@@ -160,6 +166,8 @@ fr:
   label_agenda_backlog_clear_title: Effacer le backlog de l'ordre du jour ?
   label_agenda_item_actions: Actions des points de l'ordre du jour
   label_agenda_item_add: Ajouter un point à l'ordre du jour
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Ajouter des notes
   label_agenda_item_add_outcome: Ajouter un résultat
   label_agenda_item_convert_to_work_package: Convertir en lot de travaux
@@ -310,6 +318,21 @@ fr:
   label_view_meeting_series: Voir la série de réunions
   label_write_outcome: Rédiger un résultat
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: Ces fichiers joints seront inclus dans toutes les futures réunions créées à l'aide de ce modèle.
       series_template: Ces fichiers joints seront inclus dans toutes les réunions futures de la série.
@@ -484,6 +507,7 @@ fr:
       no_items: Aucun point à l'ordre du jour
       no_items_flash: Il n'y a aucun point à l'ordre du jour à présenter.
       previous: Précédent
+      slide_progress: Slide %{current}/%{total}
       title: Mode de présentation
       total_items: "%{current} sur %{total}"
     types:
@@ -696,6 +720,7 @@ fr:
   text_agenda_item_duplicate_in_next_meeting: Voulez-vous vraiment ajouter une copie de ce point de l'ordre du jour à la prochaine réunion, le %{date} à %{time} ? Les résultats ne seront pas dupliqués.
   text_agenda_item_duplicated_in_next_meeting: Le point de l'ordre du jour a été dupliqué dans la prochaine réunion, le %{date}
   text_agenda_item_move_next_meeting: Ce point sera reporté à la prochaine réunion le %{date} à %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: L'ordre du jour a été déplacé vers la prochaine réunion, le %{date}
   text_agenda_item_no_available_occurrence: Aucune occurrence à venir n'est disponible.
   text_agenda_item_no_notes: Aucune note fournie
