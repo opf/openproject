@@ -24,6 +24,7 @@ In the forums in OpenProject you can discuss topics in a project with the team: 
 | [Create a new topic](#create-a-new-topic-in-a-forum)                    | How to start a new topic in a forum.                                       |
 | [Read a topic](#read-a-topic)                                           | How to read a topic and load its older replies.                            |
 | [Reply to a topic](#reply-to-a-topic)                                   | How to reply to a topic or quote a post.                                   |
+| [Mark a topic as solved](#mark-a-topic-as-solved)                       | How to accept a reply as the solution of a topic.                          |
 | [Create a work package](#create-a-work-package-from-a-topic-or-a-reply) | How to turn a topic or a reply into a work package.                        |
 | [Watch a forum](#watch-a-forum)                                         | How to keep informed about changes in a forum, e.g. new topics or replies. |
 | [Edit a topic or a reply](#edit-a-topic-or-a-reply)                     | How to edit a post in a forum.                                             |
@@ -58,7 +59,7 @@ Click on the name of a forum to open it.
 
 ![A forum and its topics in OpenProject](openproject_user_guide_forums_single_forum.png)
 
-Each topic shows its subject, its author, the date it was started and a preview of its opening post, as well as the number of replies and the last reply. A pin marks a sticky topic, which always stays on top of the list. A lock marks a locked topic, which no longer accepts replies.
+Each topic shows its subject, its author, the date it was started and a preview of its opening post, as well as the number of replies and the last reply. A pin marks a sticky topic, which always stays on top of the list. A lock marks a locked topic, which no longer accepts replies. A green check mark marks a topic with an [accepted solution](#mark-a-topic-as-solved).
 
 To change the order of the topics, open the **Sort** menu and choose between **Recent activity**, **Oldest activity**, **Newest**, **Oldest**, **Most replies** and **Fewest replies**.
 
@@ -116,6 +117,20 @@ To quote a post in your reply, click the **More** (three dots) icon of that post
 From the same menu, **Copy link to clipboard** copies a link that opens the topic at that post.
 
 ![Actions on a forum reply in OpenProject](openproject_user_guide_forums_post_actions.png)
+
+## Mark a topic as solved
+
+When a reply answers the question of a topic, the author of the topic can **accept it as a solution**. Members allowed to edit messages in the project can do so too. A topic can have several accepted solutions, but the opening post cannot be one.
+
+Click the **More** (three dots) icon of the reply and select **Accept as solution**.
+
+![Accept a forum reply as solution in OpenProject](openproject_user_guide_forums_accept_as_solution.png)
+
+The reply is marked with a green check mark, and a green banner under the opening post links to all the accepted solutions of the topic. The check mark also leads the header of the topic and follows its subject in the forum, so that solved topics stand out.
+
+![A forum topic with an accepted solution in OpenProject](openproject_user_guide_forums_accepted_solution.png)
+
+To withdraw a reply as solution, select **Remove as solution** in the same menu.
 
 ## Create a work package from a topic or a reply
 
