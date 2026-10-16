@@ -3,7 +3,7 @@ en:
   are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
   avatar_deleted: "Avatar deleted successfully."
   avatars:
-    background_color_hint: "Used for initials. Leave blank for an automatic color."
+    background_color_hint: "Leave blank for an automatic color."
     delete_image: "Delete image"
     edit_avatar: "Edit avatar"
     image_hint: "Choose a JPG, PNG, or GIF. Your image is saved when you select Save."

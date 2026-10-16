@@ -46,26 +46,22 @@
       <%= render(Avatars::SettingsForm.new(f, principal: @principal, target_avatar_path: @target_avatar_path)) %>
     <% end %>
     <%= render(Primer::BaseComponent.new(tag: :aside, classes: "avatars--preview", mt: 4, aria: { label: t("avatars.preview") })) do %>
-      <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
-        <% panel.with_section do |section| %>
-          <% section.with_title { t("avatars.preview") } %>
-          <% %i[default medium mini].each do |size| %>
-            <div class="avatars--preview-row" data-avatars--settings-target="preview">
-              <%= render(
-                    Users::AvatarComponent.new(
-                      user: @principal,
-                      size:,
-                      link: false,
-                      hover_card: { active: false },
-                      avatar_image_url: preview_image_url,
-                      avatar_fallback_image_url: preview_fallback_image_url
-                    )
-                  ) %>
-            </div>
-          <% end %>
+      <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) { t("avatars.preview") } %>
+        <% %i[default medium mini].each do |size| %>
+          <div class="avatars--preview-row" data-avatars--settings-target="preview">
+            <%= render(
+                  Users::AvatarComponent.new(
+                    user: @principal,
+                    size:,
+                    link: false,
+                    hover_card: { active: false },
+                    avatar_image_url: preview_image_url,
+                    avatar_fallback_image_url: preview_fallback_image_url
+                  )
+                ) %>
+          </div>
         <% end %>
       <% end %>
-    <% end %>
   <% end %>
   <% dialog.with_footer do %>
     <%= render(Primer::Beta::Button.new(data: { close_dialog_id: DIALOG_ID })) { t(:button_cancel) } %>
