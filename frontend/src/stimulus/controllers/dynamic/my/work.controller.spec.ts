@@ -83,9 +83,12 @@ describe('My work controller', () => {
 
   // The calendar itself needs FullCalendar, which only starts with a target; without one the
   // view mode still picks the branch that brings the view back after logging time.
+  // The frame is `disabled` so Turbo never fetches its `src`: the controller imports Turbo, so
+  // the frame is live, and loading the tester's own URL misses the frame and navigates the
+  // tester iframe away, which drops the Vitest browser connection now and then in CI WebKit.
   async function renderCalendarViewInFrame(frameAttributes = '') {
     await ctx.mount(`
-      <turbo-frame id="my-work-view" ${frameAttributes}>
+      <turbo-frame id="my-work-view" disabled ${frameAttributes}>
         <div data-controller="my--work"
              data-my--work-view-mode-value="calendar"
              data-my--work-mode-value="week"></div>
@@ -153,7 +156,7 @@ describe('My work controller', () => {
 
   it('reloads a frame that already knows its own source, as the my page widget does', async () => {
     const frame = await renderCalendarViewInFrame('src="/widgets/time_entries_current_user"');
-    // Turbo is not registered here, so the element never upgraded and has no reload of its own.
+    // Stubbed to observe the reload without fetching.
     const reload = vi.fn();
     (frame as unknown as { reload:() => void }).reload = reload;
 
