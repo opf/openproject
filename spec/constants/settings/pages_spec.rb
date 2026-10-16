@@ -59,6 +59,17 @@ RSpec.describe Settings::Pages do
       end
     end
 
+    describe "#highlight" do
+      it "is the setting's name by default" do
+        expect(described_class.new(:app_title).highlight).to eq "app_title"
+      end
+
+      it "is the field when given" do
+        expect(described_class.new(:plugin_openproject_github_integration, field: "webhook_secret").highlight)
+          .to eq "webhook_secret"
+      end
+    end
+
     describe "#caption" do
       it "defaults to the setting's caption translation" do
         expect(described_class.new(:login_required).caption(view_context)).to eq I18n.t(:setting_login_required_caption)
@@ -102,6 +113,14 @@ RSpec.describe Settings::Pages do
       tab_page = described_class.new(:spec, menu_item: :settings_general, tab: "spec")
 
       expect(tab_page.url).to eq settings_page.menu_node.url.merge(tab: "spec")
+    end
+
+    it "lists visible links" do
+      settings_page.link(:shown, label: :label_user_new, url: -> { new_user_path })
+      settings_page.link(:hidden, label: :label_group_new, url: -> { new_group_path }, if: -> { false })
+
+      expect(settings_page.visible_links.map(&:key)).to eq [:shown]
+      expect(settings_page.links.first.label(view_context)).to eq I18n.t(:label_user_new)
     end
 
     it "prefers a given url" do

@@ -42,7 +42,8 @@ module Admin
           )
         end
         sf.fieldset_group(title: I18n.t(:setting_project_gantt_query),
-                          description: I18n.t(:setting_project_gantt_query_text)) do |fg|
+                          description: I18n.t(:setting_project_gantt_query_text),
+                          data: { setting_name: "project_gantt_query" }) do |fg|
           fg.html_content do
             helpers.angular_component_tag(
               "opce-editable-query-props",

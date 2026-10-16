@@ -43,6 +43,7 @@ module Admin
       def call
         helpers.angular_component_tag(
           "opce-draggable-autocompleter",
+          data: { setting_name: name },
           inputs: {
             autofocus: false,
             options: columns,

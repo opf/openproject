@@ -78,12 +78,20 @@ RSpec.describe Settings::SearchTree do
       expect(node.description).to eq "Example: test.host"
     end
 
-    it "omits menu items without registered settings" do
-      expect(tree.nodes.map(&:label)).not_to include("Overview", "Information")
+    it "lists menu items without registered settings" do
+      node = find_node(tree.nodes, "Information")
+
+      expect(node.href).to eq "/admin/info"
+      expect(node.children).to be_empty
+    end
+
+    it "links menu items given as route helpers and of engines", with_flag: { wiki_enhancements: true } do
+      expect(find_node(tree.nodes, "Authentication", "OpenID providers").href).to eq "/admin/openid_connect/providers"
+      expect(find_node(tree.nodes, "Wikis", "Project wikis").href).to eq "/admin/settings/internal_wiki_provider"
     end
 
     it "omits the multiple versions conversion once it is done" do
-      expect(find_node(tree.nodes, "Work packages").children.map(&:label)).not_to include("Versions and categories")
+      expect(find_node(tree.nodes, "Work packages", "Versions and categories").children).to be_empty
     end
 
     it "describes real-time collaboration independently of its state" do
@@ -91,6 +99,34 @@ RSpec.describe Settings::SearchTree do
 
       expect(node.description)
         .to eq "Allows multiple users to edit a document at the same time. Requires a working Hocuspocus server."
+    end
+
+    it "lists actions of a page" do
+      node = find_node(tree.nodes, "Authentication", "LDAP connections", "New LDAP connection")
+
+      expect(node.href).to eq url_helpers.new_ldap_auth_source_path
+    end
+
+    it "highlights settings shown in other fields than their own" do
+      node = find_node(tree.nodes, "Integrations", "GitHub", "Webhook secret")
+
+      expect(node.href).to eq "/github_integration/admin/settings?highlight=webhook_secret"
+    end
+
+    it "leads to the page creating a backup token" do
+      node = find_node(tree.nodes, "Backup", I18n.t("backup.label_create_token"))
+
+      expect(node.href).to eq url_helpers.admin_backups_path
+    end
+
+    context "with backups disabled", with_config: { backup_enabled: false } do
+      it "omits the backup page" do
+        expect(tree.nodes.map(&:label)).not_to include("Backup")
+      end
+    end
+
+    it "omits actions requiring an enterprise feature that is not available" do
+      expect(find_node(tree.nodes, "Authentication", "OpenID providers").children).to be_empty
     end
 
     context "with the multiple versions conversion pending", with_settings: { work_package_multiple_versions: false } do

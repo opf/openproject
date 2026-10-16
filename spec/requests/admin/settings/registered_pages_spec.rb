@@ -32,7 +32,7 @@ require "spec_helper"
 RSpec.describe "Registered settings pages",
                :settings_reset,
                type: :rails_request,
-               with_ee: %i[sso_auth_providers],
+               with_ee: %i[sso_auth_providers mcp_server],
                with_flag: { llm_connection: true, ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
 
@@ -47,21 +47,27 @@ RSpec.describe "Registered settings pages",
       .uniq
   end
 
+  def rendered_field_names
+    response.parsed_body.css("[name]").map { it["name"] }.uniq
+  end
+
   def marked_setting_names
-    response.parsed_body.css("[data-setting-name]").map { it["data-setting-name"].to_sym }.uniq
+    response.parsed_body.css("[data-setting-name]").map { it["data-setting-name"] }.uniq
   end
 
   shared_examples "registered settings pages" do
-    Settings::Pages.all.each do |settings_page|
+    Settings::Pages.all.select { it.entries.any? }.each do |settings_page|
       it "lists exactly the settings rendered on the #{settings_page.key} page", :aggregate_failures do
         get url_for(**settings_page.url, only_path: true)
 
         entries = settings_page.sections.flat_map(&:visible_entries)
         form_fields, other = entries.partition(&:form_field?)
+        named_fields, setting_fields = form_fields.partition(&:field)
 
         expect(response).to have_http_status(:ok)
-        expect(rendered_setting_names).to match_array(form_fields.map(&:name))
-        expect(other.map(&:name) - marked_setting_names).to be_empty
+        expect(rendered_setting_names).to match_array(setting_fields.map(&:name))
+        expect(named_fields.map(&:field) - rendered_field_names).to be_empty
+        expect(other.map(&:highlight) - marked_setting_names).to be_empty
       end
     end
   end

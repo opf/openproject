@@ -33,6 +33,17 @@ module OpenProject::LdapDepartments
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "ldap_departments.settings_search" do
+      ::Settings::Pages.draw do
+        page :ldap_departments, menu_item: :plugin_ldap_departments do
+          link :new,
+               label: :"ldap_departments.synchronized_trees.add_new",
+               url: -> { new_ldap_departments_synchronized_tree_path },
+               if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
+        end
+      end
+    end
+
     register "openproject-ldap_departments",
              author_url: "https://github.com/opf/openproject",
              bundled: true,
