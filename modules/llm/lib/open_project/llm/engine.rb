@@ -114,6 +114,10 @@ module OpenProject::Llm
       OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
     end
 
+    initializer "openproject_llm.pgvector_types" do
+      OpenProject::Llm::Pgvector.register_active_record_type
+    end
+
     config.to_prepare do
       OpenProject::Llm::Hooks
     end
