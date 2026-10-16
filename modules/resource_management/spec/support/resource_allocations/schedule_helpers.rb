@@ -28,28 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-
-RSpec.describe ResourceAllocations::OverbookedRange do
-  subject(:range) do
-    described_class.new(start_date: Date.new(2026, 1, 5), end_date: Date.new(2026, 1, 9),
-                        work_package_ids: [1, 2], over_by_minutes: 90)
-  end
-
-  it "defaults work_package_ids to an empty array" do
-    expect(described_class.new.work_package_ids).to eq([])
-  end
-
-  describe "#covers?" do
-    it "is true for the boundaries and days inside the range" do
-      expect(range.covers?(Date.new(2026, 1, 5))).to be true
-      expect(range.covers?(Date.new(2026, 1, 7))).to be true
-      expect(range.covers?(Date.new(2026, 1, 9))).to be true
+module ResourceAllocations
+  module ScheduleHelpers
+    StaticCalendar = Data.define(:capacities) do
+      def capacity_on(date) = capacities.fetch(date, 0)
     end
 
-    it "is false for days outside the range" do
-      expect(range.covers?(Date.new(2026, 1, 4))).to be false
-      expect(range.covers?(Date.new(2026, 1, 10))).to be false
+    def static_calendar(capacities)
+      StaticCalendar.new(capacities:)
+    end
+
+    StubAllocation = Data.define(:id, :start_date, :end_date, :allocated_time)
+
+    def allocation(id, start_date, end_date, minutes)
+      StubAllocation.new(id:, start_date:, end_date:, allocated_time: minutes)
+    end
+
+    def scheduled_entry(allocation, date, minutes, overtime_minutes: 0)
+      ScheduledEntry.new(allocation:, allocated_on: date, minutes:, overtime_minutes:)
     end
   end
 end

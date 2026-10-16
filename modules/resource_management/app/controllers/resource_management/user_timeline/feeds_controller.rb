@@ -61,27 +61,15 @@ module ResourceManagement
         @scheduled_principal_ids ||= UserWorkingHours.for_user(users).distinct.pluck(:user_id).to_set
       end
 
-      # The overbooked ranges per user, keyed by user id, for users who are
-      # over-allocated (skipping those without a schedule, whose capacity is
-      # unknown). Computed once per request from the already-loaded allocations
-      # and reused by both the row warnings/feeds and the red background spans.
-      def overbooked_ranges_by_principal
-        @overbooked_ranges_by_principal ||=
-          users.each_with_object({}) do |user, ranges_by_id|
-            ranges = overbooked_ranges_for(user)
-            ranges_by_id[user.id] = ranges if ranges.any?
+      # Users without a schedule are skipped, as their capacity is unknown.
+      def availabilities_by_principal
+        @availabilities_by_principal ||=
+          users.each_with_object({}) do |user, by_id|
+            booked = allocations_by_principal.fetch(user.id, [])
+            next if booked.empty? || scheduled_principal_ids.exclude?(user.id)
+
+            by_id[user.id] = ResourceAllocations::Availability.new(user:, allocations: booked, global_non_working_days:)
           end
-      end
-
-      def overbooked_ranges_for(user)
-        return [] unless scheduled_principal_ids.include?(user.id)
-
-        booked = allocations_by_principal.fetch(user.id, [])
-        return [] if booked.empty?
-
-        ResourceAllocations::Availability
-          .new(user:, allocations: booked, global_non_working_days:)
-          .overbooked_ranges
       end
 
       # The global non-working days, fetched once and shared across every

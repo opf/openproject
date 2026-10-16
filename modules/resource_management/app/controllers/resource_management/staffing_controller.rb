@@ -101,15 +101,13 @@ module ::ResourceManagement
     end
 
     def render_warning_step(principal)
-      ranges = overbooked_ranges(principal)
-
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation: @allocation,
           project: @project,
           form_values: {},
-          overbooked_ranges: ranges,
-          working_schedules: working_schedules(principal, ranges),
+          overbooking: overbooking(principal),
+          working_schedules: working_schedules(principal),
           body_id: ResourceAllocations::AssignmentDialogComponent::BODY_ID,
           form_id: ResourceAllocations::AssignmentDialogComponent::FORM_ID,
           form_url: staffing_assign_path(@project, @allocation),
@@ -133,31 +131,23 @@ module ::ResourceManagement
     def needs_confirmation?(principal)
       return false if params[:confirmed].present?
 
-      overbooked_ranges(principal).any?
+      overbooking(principal)&.overbooked?
     end
 
-    def overbooked_ranges(principal)
-      @overbooked_ranges ||= compute_overbooked_ranges(principal)
+    def overbooking(principal)
+      return unless UserWorkingHours.for_user(principal).exists?
+      return if @allocation.allocated_time.to_i <= 0
+
+      @overbooking ||= availability(principal).overbooking_with(@allocation)
     end
 
-    def compute_overbooked_ranges(principal)
-      return [] unless UserWorkingHours.for_user(principal).exists?
-      return [] if @allocation.allocated_time.to_i <= 0
-
-      ResourceAllocations::Availability.new(user: principal).overbooking_with(
-        start_date: @allocation.start_date,
-        end_date: @allocation.end_date,
-        minutes: @allocation.allocated_time,
-        work_package_id: @allocation.entity_id,
-        exclude_id: @allocation.id
-      )
+    def working_schedules(principal)
+      span = overbooking(principal).period || (@allocation.start_date..@allocation.end_date)
+      UserWorkingHours.for_user(principal).effective_within(span)
     end
 
-    def working_schedules(principal, ranges)
-      return [] if ranges.empty?
-
-      span = ranges.map(&:start_date).min..ranges.map(&:end_date).max
-      ResourceAllocations::Availability.new(user: principal).working_schedules(span)
+    def availability(principal)
+      @availability ||= ResourceAllocations::Availability.new(user: principal)
     end
 
     def list_component
