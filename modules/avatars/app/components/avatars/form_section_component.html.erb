@@ -23,7 +23,8 @@
       Primer::Alpha::Dialog.new(
         id: DIALOG_ID,
         title: t("avatars.edit_avatar"),
-        size: :xlarge,
+        size: :large,
+        position: :right,
         classes: "avatars--settings",
         data: {
           controller: "avatars--settings",
@@ -40,125 +41,119 @@
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
-    <%= render(Primer::Alpha::Layout.new) do |layout| %>
-      <% layout.with_main do %>
-        <%= primer_form_with(url: @avatar_settings_path, method: :patch, id: FORM_ID, html: { multipart: true }, data: { turbo: false }) do |f| %>
-          <%= render(Primer::Alpha::RadioButtonGroup.new(name: "avatar_type", label: t("avatars.label_option"))) do |group| %>
-            <% types.each do |type| %>
-            <% group.radio_button(
-                 label: t("avatars.types.#{type}.label"),
-                 caption: type_caption(type),
-                 value: type,
-                 checked: avatar_type == type,
-                 data: {
-                   "avatars--settings-target": "type",
-                   action: "change->avatars--settings#update"
-                 }
-               )
-               end %>
-          <% end %>
+    <%= primer_form_with(url: @avatar_settings_path, method: :patch, id: FORM_ID, html: { multipart: true }, data: { turbo: false }) do |f| %>
+      <%= render(Primer::Alpha::RadioButtonGroup.new(name: "avatar_type", label: t("avatars.label_option"))) do |group| %>
+        <% types.each do |type| %>
+        <% group.radio_button(
+             label: t("avatars.types.#{type}.label"),
+             caption: type_caption(type),
+             value: type,
+             checked: avatar_type == type,
+             data: {
+               "avatars--settings-target": "type",
+               action: "change->avatars--settings#update"
+             }
+           )
+           end %>
+      <% end %>
 
-          <% if types.include?("image") %>
-            <div class="mt-3" data-avatars--settings-target="panel" data-type="image" <%= "hidden" unless avatar_type == "image" %>>
-              <%= file_field_tag :file,
-                                 id: "avatar_file_input",
-                                 accept: "image/jpeg,image/png,image/gif",
-                                 class: "sr-only",
-                                 aria: { label: t(:label_choose_avatar) },
-                                 data: { "avatars--settings-target": "file", action: "change->avatars--settings#upload" } %>
-              <%= render(Primer::Beta::Button.new(type: :button, data: { action: "avatars--settings#chooseImage" })) { t(:label_choose_avatar) } %>
-              <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2, font_size: :small)) { t("avatars.image_hint") } %>
-              <p class="avatars--error-pane" role="alert" data-avatars--settings-target="uploadError" hidden><%= t(:wrong_file_format) %></p>
-              <% if helpers.local_avatar?(@principal) %>
-                <%= render(
-                      Primer::Beta::Button.new(
-                        tag: :a,
-                        href: @target_avatar_path,
-                        scheme: :danger,
-                        test_selector: "avatar-delete-link",
-                        data: { turbo: true, turbo_method: :delete, turbo_confirm: t(:are_you_sure_delete_avatar) }
-                      )
-                    ) { t("avatars.delete_image") } %>
-              <% end %>
-            </div>
+      <% if types.include?("image") %>
+        <div class="mt-3" data-avatars--settings-target="panel" data-type="image" <%= "hidden" unless avatar_type == "image" %>>
+          <%= file_field_tag :file,
+                             id: "avatar_file_input",
+                             accept: "image/jpeg,image/png,image/gif",
+                             class: "sr-only",
+                             aria: { label: t(:label_choose_avatar) },
+                             data: { "avatars--settings-target": "file", action: "change->avatars--settings#upload" } %>
+          <%= render(Primer::Beta::Button.new(type: :button, data: { action: "avatars--settings#chooseImage" })) { t(:label_choose_avatar) } %>
+          <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2, font_size: :small)) { t("avatars.image_hint") } %>
+          <p class="avatars--error-pane" role="alert" data-avatars--settings-target="uploadError" hidden><%= t(:wrong_file_format) %></p>
+          <% if helpers.local_avatar?(@principal) %>
+            <%= render(
+                  Primer::Beta::Button.new(
+                    tag: :a,
+                    href: @target_avatar_path,
+                    scheme: :danger,
+                    test_selector: "avatar-delete-link",
+                    data: { turbo: true, turbo_method: :delete, turbo_confirm: t(:are_you_sure_delete_avatar) }
+                  )
+                ) { t("avatars.delete_image") } %>
           <% end %>
+        </div>
+      <% end %>
 
-          <div class="mt-3" data-avatars--settings-target="panel" data-type="initials" <%= "hidden" unless avatar_type == "initials" %>>
-            <% text_value = avatar_text %>
-            <% text_placeholder = initials %>
-            <%=
-              render_inline_form(f) do |form|
-                form.text_field(
-                  name: :avatar_text,
-                  id: "avatar_text",
-                  label: I18n.t("avatars.label_avatar_text"),
-                  caption: I18n.t("avatars.text_avatar_text"),
-                  value: text_value,
-                  placeholder: text_placeholder,
-                  input_width: :small,
-                  data: {
-                    "avatars--settings-target": "text",
-                    action: "input->avatars--settings#update compositionend->avatars--settings#update"
-                  }
+      <div class="mt-3" data-avatars--settings-target="panel" data-type="initials" <%= "hidden" unless avatar_type == "initials" %>>
+        <% text_value = avatar_text %>
+        <% text_placeholder = initials %>
+        <%=
+          render_inline_form(f) do |form|
+            form.text_field(
+              name: :avatar_text,
+              id: "avatar_text",
+              label: I18n.t("avatars.label_avatar_text"),
+              caption: I18n.t("avatars.text_avatar_text"),
+              value: text_value,
+              placeholder: text_placeholder,
+              input_width: :small,
+              data: {
+                "avatars--settings-target": "text",
+                action: "input->avatars--settings#update compositionend->avatars--settings#update"
+              }
+            )
+          end
+        %>
+      </div>
+
+      <div class="mt-4" data-avatars--settings-target="panel" data-type="initials">
+        <% color_value = avatar_color %>
+        <%=
+          render_inline_form(f) do |form|
+            form.group(layout: :horizontal, classes: "avatars--color-input-group") do |row|
+              row.color_field(
+                name: :avatar_color,
+                label: I18n.t("avatars.label_background_color"),
+                value: color_value,
+                placeholder: "#AABBCC",
+                input_width: :small,
+                full_width: false,
+                aria: { describedby: "avatar_color_hint" },
+                data: { "avatars--settings-target": "color", action: "input->avatars--settings#update change->avatars--settings#update" }
+              )
+              row.html_content do
+                render(
+                  Primer::Beta::IconButton.new(
+                    icon: :sync,
+                    type: :button,
+                    mt: 4,
+                    aria: { label: I18n.t("avatars.randomize_color") },
+                    test_selector: "avatar-randomize-color",
+                    data: { action: "avatars--settings#randomizeColor" }
+                  )
                 )
               end
-            %>
-          </div>
-
-          <div class="mt-4" data-avatars--settings-target="panel" data-type="initials">
-            <% color_value = avatar_color %>
-            <%=
-              render_inline_form(f) do |form|
-                form.group(layout: :horizontal, classes: "avatars--color-input-group") do |row|
-                  row.color_field(
-                    name: :avatar_color,
-                    label: I18n.t("avatars.label_background_color"),
-                    value: color_value,
-                    placeholder: "#AABBCC",
-                    input_width: :small,
-                    full_width: false,
-                    aria: { describedby: "avatar_color_hint" },
-                    data: { "avatars--settings-target": "color", action: "input->avatars--settings#update change->avatars--settings#update" }
-                  )
-                  row.html_content do
-                    render(
-                      Primer::Beta::IconButton.new(
-                        icon: :sync,
-                        type: :button,
-                        mt: 4,
-                        aria: { label: I18n.t("avatars.randomize_color") },
-                        test_selector: "avatar-randomize-color",
-                        data: { action: "avatars--settings#randomizeColor" }
-                      )
+            end
+          end
+        %>
+        <%= render(Primer::Beta::Text.new(tag: :p, id: "avatar_color_hint", classes: "FormControl-caption", mt: 1)) { t("avatars.background_color_hint") } %>
+      </div>
+    <% end %>
+    <%= render(Primer::BaseComponent.new(tag: :aside, classes: "avatars--preview", mt: 4, aria: { label: t("avatars.preview") })) do %>
+      <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
+        <% panel.with_section do |section| %>
+          <% section.with_title { t("avatars.preview") } %>
+          <% %i[default medium mini].each do |size| %>
+            <div class="avatars--preview-row" data-avatars--settings-target="preview">
+              <%= render(
+                    Users::AvatarComponent.new(
+                      user: @principal,
+                      size:,
+                      link: false,
+                      hover_card: { active: false },
+                      avatar_image_url: preview_image_url,
+                      avatar_fallback_image_url: preview_fallback_image_url
                     )
-                  end
-                end
-              end
-            %>
-            <%= render(Primer::Beta::Text.new(tag: :p, id: "avatar_color_hint", classes: "FormControl-caption", mt: 1)) { t("avatars.background_color_hint") } %>
-          </div>
-        <% end %>
-      <% end %>
-      <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
-        <%= render(Primer::BaseComponent.new(tag: :aside, classes: "avatars--preview", aria: { label: t("avatars.preview") })) do %>
-          <%= render(Primer::OpenProject::SidePanel.new) do |panel| %>
-            <% panel.with_section do |section| %>
-              <% section.with_title { t("avatars.preview") } %>
-              <% %i[default medium mini].each do |size| %>
-                <div class="avatars--preview-row" data-avatars--settings-target="preview">
-                  <%= render(
-                        Users::AvatarComponent.new(
-                          user: @principal,
-                          size:,
-                          link: false,
-                          hover_card: { active: false },
-                          avatar_image_url: preview_image_url,
-                          avatar_fallback_image_url: preview_fallback_image_url
-                        )
-                      ) %>
-                </div>
-              <% end %>
-            <% end %>
+                  ) %>
+            </div>
           <% end %>
         <% end %>
       <% end %>

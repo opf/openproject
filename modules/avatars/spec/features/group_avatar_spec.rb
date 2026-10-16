@@ -13,6 +13,10 @@ RSpec.describe "Group avatar management", :js do
     expect(page).to have_css("dialog#avatar-settings-dialog[open]")
   end
 
+  def save_avatar
+    within("dialog#avatar-settings-dialog") { click_button "Save" }
+  end
+
   before do
     login_as user
     allow(Setting).to receive(:plugin_openproject_avatars)
@@ -29,7 +33,7 @@ RSpec.describe "Group avatar management", :js do
     expect(page).to have_no_field("Gravatar", type: "radio")
     choose "Initials"
     fill_in "avatar_text", with: "🇯🇵"
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_current_path(edit_group_path(group))
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
@@ -40,7 +44,7 @@ RSpec.describe "Group avatar management", :js do
     expect(group.avatar_type).to eq "initials"
 
     fill_in "avatar_text", with: ""
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     expect(group.reload.avatar_text).to be_nil
@@ -65,7 +69,7 @@ RSpec.describe "Group avatar management", :js do
       choose "Initials"
       fill_in "avatar_text", with: "OP"
       fill_in "avatar_color", with: "#123456"
-      click_button "Save"
+      save_avatar
 
       expect(page).to have_current_path(edit_group_path(group))
       expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))

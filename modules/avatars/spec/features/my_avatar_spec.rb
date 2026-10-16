@@ -26,6 +26,10 @@ RSpec.describe "My avatar management", :js do
     expect(page).to have_css("dialog#avatar-settings-dialog[open]")
   end
 
+  def save_avatar
+    within("dialog#avatar-settings-dialog") { click_button "Save" }
+  end
+
   def visit_avatar_settings
     visit my_account_path
     open_avatar_dialog
@@ -87,7 +91,7 @@ RSpec.describe "My avatar management", :js do
       choose "Initials"
       fill_in "avatar_text", with: "🚀"
       fill_in "avatar_color", with: "#123456"
-      click_button "Save"
+      save_avatar
 
       expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
 
@@ -109,7 +113,7 @@ RSpec.describe "My avatar management", :js do
     expect(user.reload.avatar_text).to be_nil
     fill_in "avatar_color", with: "#D1F0FF"
     expect(page).to avatar_preview("本田", color: "#D1F0FF", text_color: "#1f2328")
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
 
@@ -125,7 +129,7 @@ RSpec.describe "My avatar management", :js do
     expect(random_color).to match(/\A#[0-9A-F]{6}\z/)
     text_color = Color.new(hexcode: random_color).contrasting_font_color(light: "#ffffff", dark: "#1f2328")
     expect(page).to avatar_preview("本田", color: random_color, text_color:)
-    click_button "Save"
+    save_avatar
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     open_avatar_dialog
     expect(user.reload.avatar_color).to eq random_color
@@ -133,7 +137,7 @@ RSpec.describe "My avatar management", :js do
 
     fill_in "avatar_text", with: "ABC"
     expect(page).to have_css("#avatar_text:invalid")
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_field("avatar_text", with: "ABC")
     expect(user.reload.avatar_text).to eq "本田"
@@ -141,7 +145,7 @@ RSpec.describe "My avatar management", :js do
     find_field("avatar_text").send_keys(:end, :backspace, :backspace, :backspace)
     expect(page).to avatar_preview(OpenProject::Avatars::InitialsSvg.initials_for(user.name))
     fill_in "avatar_color", with: ""
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
 
@@ -178,7 +182,7 @@ RSpec.describe "My avatar management", :js do
       expect(page).to avatar_preview(text, font_size: 28)
     end
 
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
 
@@ -189,7 +193,7 @@ RSpec.describe "My avatar management", :js do
     ["本田技", "🚀🚀🚀"].each do |text|
       fill_in "avatar_text", with: text
       expect(page).to have_css("#avatar_text:invalid")
-      click_button "Save"
+      save_avatar
 
       expect(page).to have_field("avatar_text", with: text)
       expect(user.reload.avatar_text).to eq "👩🏽‍💻🇯🇵"
@@ -208,7 +212,7 @@ RSpec.describe "My avatar management", :js do
     expect(page).to have_button("Save", disabled: false)
     expect(page).to have_css(".avatars--preview img[src^='blob:']", count: 3)
     expect(user.local_avatar_attachment).to be_nil
-    click_button "Save"
+    save_avatar
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"), wait: 20)
     open_avatar_dialog
@@ -220,7 +224,7 @@ RSpec.describe "My avatar management", :js do
     expect(image.dimensions).to eq [128, 128]
 
     choose "Initials"
-    click_button "Save"
+    save_avatar
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     open_avatar_dialog
     expect(page).to have_checked_field("Initials")

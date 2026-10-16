@@ -14,6 +14,10 @@ RSpec.describe "User avatar management", :js do
     expect(page).to have_css("dialog#avatar-settings-dialog[open]")
   end
 
+  def save_avatar
+    within("dialog#avatar-settings-dialog") { click_button "Save" }
+  end
+
   before do
     login_as user
     allow(Setting)
@@ -34,7 +38,7 @@ RSpec.describe "User avatar management", :js do
       open_avatar_dialog
       choose "Initials"
       fill_in "avatar_text", with: "🚀"
-      click_button "Save"
+      save_avatar
 
       expect(page).to have_current_path(avatar_management_path)
       expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
@@ -56,7 +60,7 @@ RSpec.describe "User avatar management", :js do
         choose "Initials"
         fill_in "avatar_text", with: "OP"
         fill_in "avatar_color", with: "#123456"
-        click_button "Save"
+        save_avatar
 
         expect(page).to have_current_path(avatar_management_path)
         expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
