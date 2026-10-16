@@ -55,26 +55,43 @@ describe('PushSubscriptionController', () => {
   const currentKey = { applicationServerKey: new Uint8Array([0xfb, 0xff]) };
   const known = { endpoint: 'https://push.example/known', revokeUrl: '/my/push_subscriptions/1' };
 
-  const status = () => document.querySelector('[data-my--push-subscription-target="status"]')!.textContent;
+  const visibleBanners = () => Array.from(
+    document.querySelectorAll<HTMLElement>('[data-my--push-subscription-target="banner"]:not([hidden])'),
+  );
+  const status = () => document
+    .querySelector('[data-my--push-subscription-target="banner"]:not([hidden]) [data-my--push-subscription-target="message"]')!
+    .textContent;
+  const liveRegion = () => document.querySelector('[data-my--push-subscription-target="liveRegion"]')!;
+  const expectOnlyBanner = (scheme:string) => {
+    expect(visibleBanners().map((banner) => banner.dataset.scheme)).toEqual([scheme]);
+  };
   const enableButton = () => document.getElementById('enable') as HTMLButtonElement;
   const disableButton = () => document.getElementById('disable') as HTMLButtonElement;
+  const retryButton = () => document.getElementById('retry') as HTMLButtonElement;
   const settled = () => vi.waitFor(() => {
-    expect(enableButton().disabled).toBe(false);
-    expect(disableButton().disabled).toBe(false);
+    [enableButton(), disableButton(), retryButton()].forEach((action) => expect(action.disabled).toBe(false));
   });
   async function mount({ settle = true, subscriptions = [known] }:{ settle?:boolean; subscriptions?:object[] } = {}) {
     ctx = await setupStimulusTest({ controllers: { 'my--push-subscription': PushSubscriptionController } });
+    const initialScheme = subscriptions.some((entry) => (entry as { current?:boolean }).current) ? 'success' : 'warning';
+    const initialMessage = MESSAGES[initialScheme === 'success' ? 'enabled' : 'disabled'];
+    const banner = (scheme:string, action?:{ id:string; handler:string }) => `
+        <div data-my--push-subscription-target="banner" data-scheme="${scheme}"${scheme === initialScheme ? '' : ' hidden'}>
+          <span data-my--push-subscription-target="message" data-scheme="${scheme}">${scheme === initialScheme ? initialMessage : ''}</span>
+          ${action ? `<button id="${action.id}" disabled data-my--push-subscription-target="action" data-scheme="${scheme}"
+                  data-action="my--push-subscription#${action.handler}">${action.id}</button>` : ''}
+        </div>`;
     await ctx.mount(`
       <div data-controller="my--push-subscription"
            data-my--push-subscription-vapid-public-key-value="-_8"
            data-my--push-subscription-create-url-value="/my/push_subscriptions"
            data-my--push-subscription-subscriptions-value='${JSON.stringify(subscriptions)}'
            data-my--push-subscription-messages-value='${JSON.stringify(MESSAGES)}'>
-        <span data-my--push-subscription-target="status"></span>
-        <button id="enable" data-my--push-subscription-target="enable"
-                data-action="my--push-subscription#enable">enable</button>
-        <button id="disable" data-my--push-subscription-target="disable"
-                data-action="my--push-subscription#disable">disable</button>
+        <div data-my--push-subscription-target="liveRegion" role="status">${initialMessage}</div>
+        ${banner('default')}
+        ${banner('warning', { id: 'enable', handler: 'enable' })}
+        ${banner('success', { id: 'disable', handler: 'disable' })}
+        ${banner('danger', { id: 'retry', handler: 'retry' })}
       </div>
     `);
     if (settle) await settled();
@@ -113,14 +130,13 @@ describe('PushSubscriptionController', () => {
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
   });
 
-  it('reports an unsupported environment and hides both buttons', async () => {
+  it('reports an unsupported environment and hides all actions', async () => {
     vi.stubGlobal('PushManager', undefined);
     delete (window as { PushManager?:unknown }).PushManager;
     await mount();
 
     expect(status()).toBe(MESSAGES.unsupported);
-    expect(enableButton().hidden).toBe(true);
-    expect(disableButton().hidden).toBe(true);
+    expectOnlyBanner('default');
   });
 
   it('reports unsupported when no service worker becomes ready in time', async () => {
@@ -132,8 +148,7 @@ describe('PushSubscriptionController', () => {
     await settled();
 
     expect(status()).toBe(MESSAGES.unsupported);
-    expect(enableButton().hidden).toBe(true);
-    expect(disableButton().hidden).toBe(true);
+    expectOnlyBanner('default');
   });
 
   it('waits for a registration that is still installing and shows its subscription', async () => {
@@ -142,6 +157,7 @@ describe('PushSubscriptionController', () => {
     await mount();
 
     expect(status()).toBe(MESSAGES.enabled);
+    expectOnlyBanner('success');
     expect(disableButton().hidden).toBe(false);
   });
 
@@ -164,18 +180,29 @@ describe('PushSubscriptionController', () => {
     await mount();
 
     expect(status()).toBe(MESSAGES.blocked);
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(true);
-    expect(disableButton().hidden).toBe(true);
   });
 
-  it('shows an error when reading the current subscription fails', async () => {
+  it('shows an error when reading the current subscription fails and recovers on try again', async () => {
     getSubscription.mockRejectedValue(new Error('boom'));
     await mount();
 
     expect(status()).toBe(MESSAGES.error);
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
+
+    getSubscription.mockResolvedValue(null);
+    retryButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    await settled();
+
+    expectOnlyBanner('warning');
+    expect(subscribe).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('keeps both buttons disabled until the initial sync finishes', async () => {
+  it('keeps all actions disabled until the initial sync finishes', async () => {
     const pending = deferred<null>();
     getSubscription.mockReturnValue(pending.promise);
     await mount({ settle: false });
@@ -193,7 +220,7 @@ describe('PushSubscriptionController', () => {
     await mount();
 
     expect(status()).toBe(MESSAGES.enabled);
-    expect(enableButton().hidden).toBe(true);
+    expectOnlyBanner('success');
     expect(disableButton().hidden).toBe(false);
     expect(unsubscribe).not.toHaveBeenCalled();
   });
@@ -204,8 +231,8 @@ describe('PushSubscriptionController', () => {
 
     expect(unsubscribe).toHaveBeenCalled();
     expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(false);
-    expect(disableButton().hidden).toBe(true);
   });
 
   it('drops a subscription bound to a previous VAPID key and shows the disabled state', async () => {
@@ -216,8 +243,8 @@ describe('PushSubscriptionController', () => {
     expect(unsubscribe).toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
     expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(false);
-    expect(disableButton().hidden).toBe(true);
   });
 
   it('keeps a subscription whose key is unavailable', async () => {
@@ -238,6 +265,7 @@ describe('PushSubscriptionController', () => {
     expect(url).toBe(`${mine.revokeUrl}?silent=true`);
     expect(init.method?.toLowerCase()).toBe('delete');
     expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(false);
   });
 
@@ -265,8 +293,8 @@ describe('PushSubscriptionController', () => {
     await mount();
 
     expect(status()).toBe(MESSAGES.disabled);
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(false);
-    expect(disableButton().hidden).toBe(true);
   });
 
   it('subscribes with the decoded key and posts the endpoint to the server on enable', async () => {
@@ -291,7 +319,7 @@ describe('PushSubscriptionController', () => {
     enableButton().click();
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
-    expect(enableButton().hidden).toBe(true);
+    expectOnlyBanner('success');
     expect(disableButton().hidden).toBe(false);
   });
 
@@ -313,6 +341,7 @@ describe('PushSubscriptionController', () => {
 
     expect(enableButton().disabled).toBe(true);
     expect(disableButton().disabled).toBe(true);
+    expect(retryButton().disabled).toBe(true);
 
     pending.resolve({ endpoint: 'https://push.example/new', unsubscribe });
     await settled();
@@ -332,7 +361,7 @@ describe('PushSubscriptionController', () => {
 
     expect(unsubscribe).not.toHaveBeenCalled();
     expect(status()).toBe(MESSAGES.enabled);
-    expect(enableButton().hidden).toBe(true);
+    expectOnlyBanner('success');
     expect(disableButton().hidden).toBe(false);
   });
 
@@ -355,6 +384,7 @@ describe('PushSubscriptionController', () => {
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.blocked));
     expect(fetchMock).not.toHaveBeenCalled();
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(true);
   });
 
@@ -389,8 +419,8 @@ describe('PushSubscriptionController', () => {
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.blocked));
     expect(subscribe).not.toHaveBeenCalled();
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(true);
-    expect(disableButton().hidden).toBe(true);
   });
 
   it('skips the permission prompt when permission is already granted', async () => {
@@ -416,8 +446,8 @@ describe('PushSubscriptionController', () => {
     await settled();
 
     expect(status()).toBe(MESSAGES.timeout);
-    expect(enableButton().hidden).toBe(false);
-    expect(disableButton().hidden).toBe(true);
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
     expect(fetchMock).not.toHaveBeenCalled();
 
     pending.resolve({ endpoint: 'https://push.example/late', unsubscribe });
@@ -464,19 +494,19 @@ describe('PushSubscriptionController', () => {
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
     expect(unsubscribe).toHaveBeenCalled();
+    expectOnlyBanner('warning');
     expect(enableButton().hidden).toBe(false);
-    expect(disableButton().hidden).toBe(true);
   });
 
-  it('keeps the disable button visible with an error when the DELETE fails', async () => {
+  it('shows the error banner when the DELETE fails', async () => {
     getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
     fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
     await mount();
     disableButton().click();
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
-    expect(disableButton().hidden).toBe(false);
-    expect(enableButton().hidden).toBe(true);
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
     expect(unsubscribe).not.toHaveBeenCalled();
   });
 
@@ -488,6 +518,52 @@ describe('PushSubscriptionController', () => {
 
     await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(disableButton().hidden).toBe(false);
+    expectOnlyBanner('danger');
+    expect(retryButton().hidden).toBe(false);
+  });
+
+  it('mirrors the message into the live region and clears the message of hidden banners', async () => {
+    await mount();
+
+    expect(liveRegion().textContent).toBe(MESSAGES.disabled);
+    enableButton().click();
+    await vi.waitFor(() => expect(liveRegion().textContent).toBe(MESSAGES.enabled));
+
+    const warningMessage = document.querySelector('[data-my--push-subscription-target="message"][data-scheme="warning"]')!;
+    expect(warningMessage.textContent).toBe('');
+  });
+
+  it('retries the disable when a disable failed', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe, options: currentKey });
+    fetchMock
+      .mockResolvedValueOnce(new Response('', { status: 500 }))
+      .mockResolvedValueOnce(new Response('', { status: 200 }));
+    await mount();
+    disableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+
+    retryButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.disabled));
+    await settled();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    const [, init] = fetchMock.mock.calls[1] as [string, RequestInit];
+    expect(init.method?.toLowerCase()).toBe('delete');
+    expect(subscribe).not.toHaveBeenCalled();
+    expect(unsubscribe).toHaveBeenCalledTimes(1);
+    expectOnlyBanner('warning');
+  });
+
+  it('runs the enable flow from the try again action of the error banner', async () => {
+    subscribe.mockRejectedValueOnce(new Error('failed'));
+    await mount();
+    enableButton().click();
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.error));
+
+    retryButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe(MESSAGES.enabled));
+    expect(subscribe).toHaveBeenCalledTimes(2);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

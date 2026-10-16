@@ -54,7 +54,9 @@ The **Browser notifications** tab is shown when your administrator allows browse
 
 If the tab shows **Browser notifications are temporarily unavailable on this instance**, they cannot be used right now. Please contact your administrator.
 
-Click **Enable on this device** and accept the browser prompt asking for permission to show notifications. The list on this tab shows each device on which you have enabled browser notifications, each with a **Revoke** button.
+A banner at the top of the tab tells you whether this browser receives notifications in the current session, which means the subscription belongs to the sign in this browser is using right now. It offers the one action that applies: enable, disable or try again. Browsers that block notifications or do not support them see the state without an action. Click **Enable for this browser** and accept the browser prompt asking for permission to show notifications.
+
+The list below the banner shows each device on which you have enabled browser notifications. The row for the browser you are using is labeled **This session**, and every other row has a **Revoke** button.
 
 If notifications stop arriving on a device (browsers rotate push endpoints from time to time), turn browser notifications off and on again on that device.
 

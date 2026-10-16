@@ -33,6 +33,17 @@ module My
     class ShowPageComponent < ApplicationComponent
       include OpTurbo::Streamable
 
+      BANNERS = {
+        default: nil,
+        warning: { action: :enable, label: "my_account.push_notifications.enable" },
+        success: { action: :disable, label: "my_account.push_notifications.disable" },
+        danger: {
+          action: :retry,
+          label: "my_account.push_notifications.try_again",
+          aria_label: "my_account.push_notifications.try_again_label"
+        }
+      }.freeze
+
       def self.wrapper_key(_object = nil) = "my-push-subscriptions"
 
       def initialize(user:, current_session:)
@@ -51,6 +62,24 @@ module My
       end
 
       def available? = OpenProject::WebPush.key_readable?
+
+      def initial_state
+        @initial_state ||= subscriptions.any? { bound_to_current_session?(it) } ? :enabled : :disabled
+      end
+
+      def initial_scheme = initial_state == :enabled ? :success : :warning
+
+      def banner_visible?(scheme) = scheme == initial_scheme
+
+      def banner_message(scheme)
+        return "" unless banner_visible?(scheme)
+
+        if initial_state == :enabled
+          t("my_account.push_notifications.status.enabled")
+        else
+          t("my_account.push_notifications.status.disabled")
+        end
+      end
 
       def stimulus_data
         return {} unless available?

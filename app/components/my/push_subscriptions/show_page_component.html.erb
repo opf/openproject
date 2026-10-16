@@ -30,38 +30,45 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper(data: stimulus_data) do %>
   <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3)) { t("my_account.push_notifications.description") } %>
 
-  <%= render(Primer::Beta::BorderBox.new(mb: 4)) do |box| %>
-    <% box.with_body do %>
-      <%= render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center, justify: :space_between)) do %>
-        <% if available? %>
-          <%= render(
-                Primer::Beta::Text.new(
-                  role: "status",
-                  aria: { live: "polite" },
-                  data: { "my--push-subscription-target": "status" }
-                )
-              ) { t("my_account.push_notifications.status_checking") } %>
-          <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed)) do %>
-            <%= render(
-                  Primer::Beta::Button.new(
-                    scheme: :primary,
-                    hidden: true,
-                    disabled: true,
-                    data: { "my--push-subscription-target": "enable", action: "my--push-subscription#enable" }
-                  )
-                ) { t("my_account.push_notifications.enable") } %>
-            <%= render(
-                  Primer::Beta::Button.new(
-                    hidden: true,
-                    disabled: true,
-                    data: { "my--push-subscription-target": "disable", action: "my--push-subscription#disable" }
-                  )
-                ) { t("my_account.push_notifications.disable") } %>
-          <% end %>
-        <% else %>
-          <%= render(Primer::Beta::Text.new(role: "status")) { t("my_account.push_notifications.unavailable") } %>
+  <% if available? %>
+    <%= render(
+          Primer::BaseComponent.new(
+            tag: :div,
+            classes: "sr-only",
+            role: "status",
+            data: { "my--push-subscription-target": "liveRegion" }
+          )
+        ) { banner_message(initial_scheme) } %>
+    <% %i[default warning success danger].each do |scheme| %>
+      <% action = BANNERS.fetch(scheme) %>
+      <%= render(
+            Primer::Alpha::Banner.new(
+              scheme:,
+              dismiss_scheme: :none,
+              mb: 3,
+              hidden: !banner_visible?(scheme),
+              data: { "my--push-subscription-target": "banner", scheme: }
+            )
+          ) do |banner| %>
+        <%= render(
+              Primer::Beta::Text.new(data: { "my--push-subscription-target": "message", scheme: })
+            ) { banner_message(scheme) } %>
+        <% if action %>
+          <% banner.with_action_button(
+               disabled: true,
+               aria: action[:aria_label] ? { label: t(action[:aria_label]) } : {},
+               data: {
+                 "my--push-subscription-target": "action",
+                 scheme:,
+                 action: "my--push-subscription##{action[:action]}"
+               }
+             ) { t(action[:label]) } %>
         <% end %>
       <% end %>
+    <% end %>
+  <% else %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, dismiss_scheme: :none, mb: 3)) do %>
+      <%= t("my_account.push_notifications.unavailable") %>
     <% end %>
   <% end %>
 

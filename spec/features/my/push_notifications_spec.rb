@@ -41,12 +41,12 @@ RSpec.describe "My account browser notifications",
     login_with(user.login, password)
   end
 
-  it "shows the tab, the device explanation and the empty state" do
+  it "shows the tab, the device explanation, the disabled banner and the empty state" do
     visit my_notifications_path(tab: "push")
 
     expect(page).to have_link(I18n.t("my_account.notifications_and_email.tabs.browser_push"))
     expect(page).to have_text(I18n.t("my_account.push_notifications.description"))
-    expect(page).to have_text(I18n.t("my_account.push_notifications.status_checking"))
+    expect(page).to have_text(I18n.t("my_account.push_notifications.status.disabled"))
     expect(page).to have_text(I18n.t("my_account.push_notifications.no_devices"))
     expect(page).to have_text(I18n.t("my_account.push_notifications.no_devices_description"))
     expect(page).to have_no_test_selector("push-subscription-row")
@@ -106,13 +106,15 @@ RSpec.describe "My account browser notifications",
 
     before { visit my_notifications_path(tab: "push") }
 
-    it "lists both devices and marks this one without offering to revoke it" do
+    it "lists both devices, marks this one without offering to revoke it and shows the enabled banner" do
+      expect(page).to have_text(I18n.t("my_account.push_notifications.status.enabled"))
+      expect(page).to have_no_text(I18n.t("my_account.push_notifications.status.disabled"))
       expect(page).to have_test_selector("push-subscription-row", count: 2)
       expect(page).to have_text("Safari (Version 17)")
       expect(page).to have_text("iOS")
-      expect(page).to have_text(I18n.t("my_account.push_notifications.this_device"), count: 1)
+      expect(page).to have_text(I18n.t("my_account.push_notifications.this_session"), count: 1)
 
-      within_test_selector("push-subscription-row", text: I18n.t("my_account.push_notifications.this_device")) do
+      within_test_selector("push-subscription-row", text: I18n.t("my_account.push_notifications.this_session")) do
         expect(page).to have_no_test_selector("push-subscription-revoke-button")
       end
     end
