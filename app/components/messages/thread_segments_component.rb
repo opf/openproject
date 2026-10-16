@@ -30,10 +30,11 @@
 
 module Messages
   class ThreadSegmentsComponent < ApplicationComponent
-    def initialize(topic:, segments:, focus_first: false)
+    def initialize(topic:, segments:, created_work_packages: {}, focus_first: false)
       super
       @topic = topic
       @segments = segments
+      @created_work_packages = created_work_packages
       @focus_first = focus_first
     end
 
@@ -47,7 +48,11 @@ module Messages
       focus = @focus_first && segment == @segments.first
       case segment
       in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map { render(Messages::PostComponent.new(message: it, focus: focus && it == messages.first)) })
+        safe_join(messages.map do |message|
+          render(Messages::PostComponent.new(message:,
+                                             work_packages: @created_work_packages.fetch(message.id, []),
+                                             focus: focus && message == messages.first))
+        end)
       in Messages::ThreadLayout::Gap
         render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
       end

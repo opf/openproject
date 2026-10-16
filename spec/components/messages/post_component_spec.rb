@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe Messages::PostComponent, type: :component do
   subject(:rendered_component) do
-    render_inline(described_class.new(message:))
+    render_inline(described_class.new(message:, work_packages:))
   end
 
   shared_let(:project) { create(:project) }
@@ -41,6 +41,7 @@ RSpec.describe Messages::PostComponent, type: :component do
   shared_let(:topic) { create(:message, forum:, author:, subject: "Release planning", content: "Opening post") }
 
   let(:message) { topic }
+  let(:work_packages) { [] }
   let(:permissions) { %i[view_messages add_messages] }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
@@ -62,14 +63,74 @@ RSpec.describe Messages::PostComponent, type: :component do
   it "offers copying a link and quoting the opening post", :aggregate_failures do
     expect(rendered_component).to have_test_selector("message-actions-#{topic.id}")
     expect(rendered_component).to have_css("clipboard-copy", text: "Copy link to clipboard", visible: :all)
-    expect(rendered_component).to have_link("Quote", visible: :all)
+    expect(rendered_component).to have_link("Quote message", visible: :all)
+  end
+
+  it "hangs no work package on the lifeline when none was created from the message" do
+    expect(rendered_component).to have_no_css(".op-forum-post-branch")
+  end
+
+  context "with work packages created from the message" do
+    let(:work_package) { create(:work_package, project:, subject: "Freeze on Friday") }
+    let(:work_packages) { [work_package] }
+
+    before { rendered_component }
+
+    it "hangs each one on the lifeline after the card, linked", :aggregate_failures do
+      expect(page).to have_css("#message-#{topic.id} ~ #{test_selector("message-created-work-package-#{work_package.id}")}")
+      expect(find_test_selector("message-created-work-package-#{work_package.id}"))
+        .to have_link(work_package.formatted_id).and have_text("Freeze on Friday")
+    end
+  end
+
+  it "offers no work package creation without the permission" do
+    expect(rendered_component).to have_no_link("Add new work package", visible: :all)
+  end
+
+  context "with permission to add work packages" do
+    let(:permissions) { %i[view_messages add_messages view_work_packages add_work_packages] }
+
+    context "with permission to edit the message too" do
+      let(:permissions) { %i[view_messages add_messages edit_messages view_work_packages add_work_packages] }
+
+      it "lists the message's own actions first, then the work package one" do
+        labels = rendered_component.css("[role=menuitem]").map { it.text.strip }
+
+        expect(labels).to eq(["Copy link to clipboard", "Quote message", "Edit message", "Add new work package"])
+      end
+    end
+
+    it "offers creating a work package from the message, through a dialog" do
+      dialog_path = "/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}/work_package/new"
+
+      expect(rendered_component).to have_link("Add new work package", href: dialog_path, visible: :all)
+    end
+
+    it "also offers it as a button next to the message's menu, through the same dialog", :aggregate_failures do
+      rendered_component
+      dialog_path = "/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}/work_package/new"
+
+      button = find_test_selector("message-create-work-package-button-#{topic.id}")
+
+      expect(button).to have_text("Add new work package")
+      expect(button[:href]).to eq(dialog_path)
+    end
+
+    context "in a project without work package tracking" do
+      before { project.update!(enabled_module_names: project.enabled_module_names - %w[work_package_tracking]) }
+
+      it "offers no work package creation", :aggregate_failures do
+        expect(rendered_component).to have_no_link("Add new work package", visible: :all)
+        expect(rendered_component).to have_no_test_selector("message-create-work-package-button-#{topic.id}")
+      end
+    end
   end
 
   context "with permission to edit and delete messages on the opening post" do
     let(:permissions) { %i[view_messages add_messages edit_messages delete_messages] }
 
     it "offers editing it but leaves deleting the topic to the page header", :aggregate_failures do
-      expect(rendered_component).to have_link("Edit", visible: :all)
+      expect(rendered_component).to have_link("Edit message", visible: :all)
       expect(rendered_component).to have_no_button("Delete", visible: :all)
     end
   end
@@ -97,11 +158,11 @@ RSpec.describe Messages::PostComponent, type: :component do
     it "offers copying a link and quoting", :aggregate_failures do
       expect(rendered_component).to have_test_selector("message-actions-#{message.id}")
       expect(rendered_component).to have_css("clipboard-copy", text: "Copy link to clipboard", visible: :all)
-      expect(rendered_component).to have_link("Quote", visible: :all)
+      expect(rendered_component).to have_link("Quote message", visible: :all)
     end
 
     it "hides edit and delete from users who may not change it", :aggregate_failures do
-      expect(rendered_component).to have_no_link("Edit", visible: :all)
+      expect(rendered_component).to have_no_link("Edit message", visible: :all)
       expect(rendered_component).to have_no_button("Delete", visible: :all)
     end
 
@@ -109,7 +170,7 @@ RSpec.describe Messages::PostComponent, type: :component do
       let(:permissions) { %i[view_messages add_messages edit_messages delete_messages] }
 
       it "offers edit and delete", :aggregate_failures do
-        expect(rendered_component).to have_link("Edit", visible: :all)
+        expect(rendered_component).to have_link("Edit message", visible: :all)
         expect(rendered_component).to have_button("Delete", visible: :all)
       end
     end
@@ -121,7 +182,7 @@ RSpec.describe Messages::PostComponent, type: :component do
       end
 
       it "offers no quote" do
-        expect(rendered_component).to have_no_link("Quote", visible: :all)
+        expect(rendered_component).to have_no_link("Quote message", visible: :all)
       end
     end
   end
