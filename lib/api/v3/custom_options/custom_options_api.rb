@@ -59,10 +59,11 @@ module API
               end
 
               def authorized_work_package_option(custom_option)
-                allowed = Project
-                  .with_visible_work_packages(current_user)
-                  .joins(:work_package_custom_fields)
-                  .exists?(custom_fields: { id: custom_option.custom_field_id })
+                allowed = WorkPackageCustomField
+                  .on_visible_type_and_project(
+                    current_user, projects: Project.with_visible_work_packages(current_user)
+                  )
+                  .exists?(id: custom_option.custom_field_id)
 
                 unless allowed
                   raise API::Errors::NotFound

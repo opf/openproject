@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -28,8 +30,8 @@
 
 FactoryBot.define do
   factory :default_hourly_rate do
-    association :user
-    valid_from { Date.today }
+    principal factory: %i[user]
+    valid_from { Time.zone.today }
     rate { 50.0 }
   end
 end

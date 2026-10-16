@@ -77,7 +77,7 @@ RSpec.describe Projects::Types::RemoveService do
     end
   end
 
-  context "when the project applies a named variant", with_flag: { type_variants: true } do
+  context "when the project applies a named variant" do
     let(:variant) { create(:type_variant, type:) }
     let(:project) { create(:project, types: [variant, other_type]) }
 

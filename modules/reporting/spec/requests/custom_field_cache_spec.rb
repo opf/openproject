@@ -69,7 +69,7 @@ RSpec.describe "Custom field filter and group by caching" do
 
   def visit_cost_reports_index
     header "Content-Type", "text/html"
-    get "/projects/#{project.id}/cost_reports"
+    get "/projects/#{project.id}/reporting/cost_reports"
   end
 
   it "removes the filter/group_by if the custom field is removed" do

@@ -35,168 +35,29 @@ RSpec.describe "API v3 Render resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { create(:project, public: false) }
-  let(:work_package) { create(:work_package, project:) }
-  let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] }) }
-  let(:content_type) { "text/plain, charset=UTF-8" }
-  let(:path) { api_v3_paths.render_markup plain:, link: context }
-  let(:context) { nil }
+  describe "render" do
+    subject(:response) { last_response }
 
-  before do
-    login_as(user)
-    post path, params, "CONTENT_TYPE" => content_type
-  end
+    let(:path) { api_v3_paths.render_markup }
 
-  shared_examples_for "valid response" do
-    it { expect(subject.status).to eq(200) }
-
-    it { expect(subject.content_type).to eq("text/html") }
-
-    it { expect(subject.body).to be_html_eql(text) }
-  end
-
-  describe "markdown" do
-    let(:plain) { false }
-
-    describe "#post" do
-      subject(:response) { last_response }
-
-      describe "response" do
-        describe "valid" do
-          context "w/o context" do
-            let(:params) do
-              "Hello World! This *is* markdown with a " +
-                "[link](http://community.openproject.org) and ümläutß."
-            end
-
-            it_behaves_like "valid response" do
-              let(:text) do
-                <<~HTML
-                  <p class="op-uc-p">
-                    Hello World! This <em>is</em> markdown with a
-                    <a href="http://community.openproject.org"
-                       target="_top"
-                       rel="noopener noreferrer nofollow"
-                       class="op-uc-link">link</a>
-                    and ümläutß.</p>
-                HTML
-              end
-            end
-          end
-
-          context "with context" do
-            let(:params) { "Hello World! Have a look at ##{work_package.id}" }
-            let(:id) { work_package.id }
-            let(:href) { "/work_packages/#{id}" }
-            let(:text) do
-              <<~HTML
-                <p class="op-uc-p">
-                  Hello World! Have a look at
-                  <a class="issue work_package op-uc-link"
-                     data-hover-card-trigger-target="trigger"
-                     data-hover-card-url="/work_packages/#{id}/hover_card"
-                     aria-label="##{id}: A dynamic link to a work package placed using a macro."
-                     target="_top"
-                     href="#{href}">##{id}</a>
-                </p>
-              HTML
-            end
-
-            context "with work package context" do
-              let(:context) { api_v3_paths.work_package work_package.id }
-
-              it_behaves_like "valid response"
-            end
-
-            context "with project context" do
-              let(:context) { "/api/v3/projects/#{work_package.project_id}" }
-
-              it_behaves_like "valid response"
-            end
-          end
-        end
-
-        describe "invalid" do
-          context "content type" do
-            let(:content_type) { "application/json" }
-            let(:params) do
-              { "text" => "Hello World! Have a look at ##{work_package.id}" }.to_json
-            end
-
-            it_behaves_like "unsupported content type",
-                            I18n.t("api_v3.errors.invalid_content_type",
-                                   content_type: "text/plain",
-                                   actual: "application/json")
-          end
-
-          context "with context" do
-            let(:params) { "" }
-
-            describe "work package does not exist" do
-              let(:context) { api_v3_paths.work_package -1 }
-
-              it_behaves_like "invalid render context",
-                              I18n.t("api_v3.errors.render.context_object_not_found")
-            end
-
-            describe "work package not visible" do
-              let(:invisible_work_package) { create(:work_package) }
-              let(:context) { api_v3_paths.work_package invisible_work_package.id }
-
-              it_behaves_like "invalid render context",
-                              I18n.t("api_v3.errors.render.context_object_not_found")
-            end
-
-            describe "context does not exist" do
-              let(:context) { api_v3_paths.root }
-
-              it_behaves_like "invalid render context",
-                              I18n.t("api_v3.errors.render.context_not_parsable")
-            end
-
-            describe "unsupported context resource found" do
-              let(:context) { api_v3_paths.activity 2 }
-
-              it_behaves_like "invalid render context",
-                              I18n.t("api_v3.errors.render.unsupported_context")
-            end
-
-            describe "unsupported context version found" do
-              let(:context) { "/api/v4/work_packages/2" }
-
-              it_behaves_like "invalid render context",
-                              I18n.t("api_v3.errors.render.unsupported_context")
-            end
-          end
-        end
-      end
+    before do
+      post path, "Hello World", "CONTENT_TYPE" => "text/plain"
     end
-  end
 
-  describe "plain" do
-    describe "#post" do
-      let(:plain) { true }
+    context "when login_required", with_settings: { login_required: true } do
+      it_behaves_like "unauthenticated access"
+    end
 
-      subject(:response) { last_response }
+    context "when not login_required", with_settings: { login_required: false } do
+      it "return 410 GONE" do
+        expect(subject.status).to be(410)
+      end
 
-      describe "response" do
-        describe "valid" do
-          let(:params) { "Hello *World*! Have a look at #1\n\nwith two lines." }
+      context "with plain format" do
+        let(:path) { api_v3_paths.render_markup(plain: true) }
 
-          it_behaves_like "valid response" do
-            let(:text) do
-              <<~HTML
-                <p>
-                  Hello *World*! Have a look at
-                  <a class="issue work_package"
-                     data-hover-card-trigger-target="trigger"
-                     data-hover-card-url="/work_packages/1/hover_card"
-                     aria-label="#1: A dynamic link to a work package placed using a macro."
-                     href="/work_packages/1">#1</a>
-                </p>\n\n<p>with two lines.</p>
-              HTML
-            end
-          end
+        it "return 410 GONE" do
+          expect(subject.status).to be(410)
         end
       end
     end

@@ -38,8 +38,7 @@ module ResourcePlanners
 
     def user_allowed_to_set_public
       return unless model.public_changed?
-      return if model.project.nil?
-      return if user.allowed_in_project?(:manage_public_resource_planners, model.project)
+      return if model.public_manageable_by?(user)
 
       errors.add :public, :error_unauthorized
     end

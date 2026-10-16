@@ -31,6 +31,7 @@
 module APITokens
   class CreateContract < BaseContract
     attribute :token_name
+    attribute :expires_on
 
     validates :token_name, presence: true
     validate :token_name_is_unique, unless: :token_name_is_blank?

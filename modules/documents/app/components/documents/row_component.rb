@@ -30,15 +30,54 @@
 #
 
 module Documents
-  class RowComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+  class RowComponent < OpPrimer::BorderBoxRowComponent
     include Redmine::I18n
 
     alias_method :document, :model
 
+    def row_css_id
+      ActionView::RecordIdentifier.dom_id(document)
+    end
+
+    def name
+      safe_join(
+        [
+          render(
+            Primer::Beta::Link.new(
+              href: document_path(document),
+              font_weight: :bold,
+              mr: 1,
+              data: { test_selector: "document-name" }
+            )
+          ) { document.title },
+          classic_label
+        ].compact
+      )
+    end
+
+    def type
+      return if document.type.blank?
+
+      render(
+        Primer::Beta::Truncate.new(font_weight: :normal, color: :subtle, data: { test_selector: "document-type" })
+      ) { document.type.name }
+    end
+
+    def updated_at
+      render(Primer::Beta::Text.new(font_weight: :light, color: :subtle)) { updated_at_time }
+    end
+
     private
 
-    def updated_at_time(document)
+    def classic_label
+      return unless document.classic?
+
+      render(Primer::Beta::Label.new(scheme: :default, test_selector: "label-legacy")) do
+        I18n.t("documents.index_page.label_legacy")
+      end
+    end
+
+    def updated_at_time
       OpPrimer::RelativeTimeComponent.new(
         datetime: in_user_zone(document.updated_at),
         month: :long

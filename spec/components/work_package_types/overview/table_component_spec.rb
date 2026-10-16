@@ -31,8 +31,7 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Overview::TableComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { type.default_variant }
 
@@ -40,7 +39,7 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
     [
       { name: TypesHelper::SETTINGS_TAB, path: "/overview", label: "Overview", aspect: nil },
       { name: "details", path: "/details", label: "Details", aspect: nil },
-      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::WORKFLOWS }
+      { name: "workflow", path: "/workflow", label: "Workflows", aspect: TypeVariant::DEFAULTS }
     ]
   end
 
@@ -48,10 +47,9 @@ RSpec.describe WorkPackageTypes::Overview::TableComponent,
 
   before { render_inline(component) }
 
-  it "heads the three columns" do
+  it "heads the two columns" do
     expect(page).to have_role(:columnheader, text: "Settings")
     expect(page).to have_role(:columnheader, text: "Configuration mode")
-    expect(page).to have_role(:columnheader, text: "Dependent types and variants")
   end
 
   it "gives every tab a row of its own" do

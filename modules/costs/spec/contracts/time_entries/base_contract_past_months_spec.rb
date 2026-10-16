@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,6 +74,16 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
 
     it "rejects logging for an earlier past month" do
       expect_rejected(log_time(first_day_of_last_month))
+    end
+
+    it "formats the earliest allowed date according to user preference" do
+      user.pref[:date_format] = "%d.%m.%Y"
+
+      call = log_time(first_day_of_last_month)
+
+      expect_rejected(call)
+      expect(call.errors.full_messages.join)
+        .to include(first_of_this_month.strftime("%d.%m.%Y"))
     end
 
     it "allows editing an entry within the current month" do

@@ -80,7 +80,8 @@ class Meeting::AddToSection < ApplicationForm
     items.push(MeetingSection.new) if items.empty?
     items.push(meeting.backlog) if meeting.present? && !meeting.template? && meeting.backlog.present?
 
-    items.reject! { |i| i == @selected_section } if @selected_section.present?
+    # hide the current section when moving to another section of the same meeting
+    items.reject! { |i| i == @selected_section } if @move_to_section && @selected_section.present?
 
     items
   end
@@ -96,16 +97,17 @@ class Meeting::AddToSection < ApplicationForm
 
     if meeting.recurring?
       without_backlog = items.reject(&:backlog?)
-      item = without_backlog.last
-    else
-      item = meeting.backlog
-    end
 
-    item
+      find_matching_section(without_backlog) || without_backlog.last
+    else
+      meeting.backlog
+    end
   end
 
-  def any_non_backlog_sections?
-    meeting.sections.none? || (meeting.sections.many? && meeting.sections.first.title.blank?)
+  def find_matching_section(sections)
+    return if @move_to_section || @selected_section.nil? || @selected_section.backlog? || @selected_section.untitled?
+
+    sections.find { |section| section.title == @selected_section.title }
   end
 
   def placeholder_text

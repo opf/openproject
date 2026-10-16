@@ -50,18 +50,11 @@ module Storages::Admin::ManagedProjectFolders
     private
 
     def application_password_caption
-      I18n.t(:"storages.instructions.managed_project_folders_application_password_caption",
-             provider_type_link:).html_safe
-    end
-
-    def provider_type_link
-      render(
-        Primer::Beta::Link.new(
-          href: Storages::UrlBuilder.url(@storage.uri, "settings/admin/openproject"),
-          underline: true,
-          target: "_blank"
-        )
-      ) { I18n.t("storages.instructions.#{@storage}.integration") }
+      helpers.link_translate(
+        "storages.instructions.managed_project_folders_application_password_caption_html",
+        i18n_args: { integration: I18n.t("storages.instructions.#{@storage}.integration") },
+        links: { provider_settings: Storages::UrlBuilder.url(@storage.uri, "settings/admin/openproject") }
+      )
     end
   end
 end

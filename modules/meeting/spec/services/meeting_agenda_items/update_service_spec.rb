@@ -69,6 +69,16 @@ RSpec.describe MeetingAgendaItems::UpdateService do
         expect(agenda_item.notes).not_to include("/api/v3/attachments/#{attachment.id}/content")
         expect(agenda_item.notes).to include("/api/v3/attachments/#{new_attachment.id}/content")
       end
+
+      it "journals the new meeting with the copied attachment and the rewritten notes" do
+        service_call
+        new_attachment = meeting_b.attachments.sole
+        journal = meeting_b.journals.last
+
+        expect(journal.attachable_journals.pluck(:attachment_id)).to contain_exactly(new_attachment.id)
+        expect(journal.agenda_item_journals.find_by(agenda_item_id: agenda_item.id).notes)
+          .to include("/api/v3/attachments/#{new_attachment.id}/content")
+      end
     end
 
     context "when agenda item has no attachments" do
@@ -80,6 +90,18 @@ RSpec.describe MeetingAgendaItems::UpdateService do
 
       it "does not create any attachments" do
         expect { service_call }.not_to change(Attachment, :count)
+      end
+
+      it "journals both meetings", with_settings: { journal_aggregation_time_minutes: 0 } do
+        meeting_b
+        meeting_a.save_journals
+
+        expect { service_call }
+          .to change { meeting_a.journals.count }.by(1)
+          .and change { meeting_b.journals.count }.by(1)
+
+        expect(meeting_a.journals.last.agenda_item_journals).to be_empty
+        expect(meeting_b.journals.last.agenda_item_journals.pluck(:agenda_item_id)).to contain_exactly(agenda_item.id)
       end
     end
 

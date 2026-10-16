@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -74,6 +73,7 @@ export interface IAutocompleterTemplateComponent {
   headerTemplate?:TemplateRef<Element>;
   labelTemplate?:TemplateRef<Element>;
   footerTemplate?:TemplateRef<Element>;
+  notFoundTemplate?:TemplateRef<Element>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
@@ -294,6 +294,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
 
+  // Exposed so other autocompleter consumers (e.g. global search) can render
+  // work package results with the exact same markup/styling.
+  @ViewChild('workPackageOption') public workPackageOption:TemplateRef<Element>;
+
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;
 
@@ -313,6 +317,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   projectedFooterTemplate:TemplateRef<Element>;
 
   footerTemplate:TemplateRef<Element>;
+
+  notFoundTemplate:TemplateRef<Element>;
 
   readonly opAutocompleterService = inject(OpAutocompleterService);
 
@@ -551,7 +557,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     componentRef.changeDetectorRef.detectChanges();
 
-    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate', 'notFoundTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
       const template = componentRef.instance[name];
       if (template) {
         this[name] = template;

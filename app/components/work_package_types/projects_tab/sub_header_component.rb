@@ -33,6 +33,7 @@ module WorkPackageTypes
     class SubHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(type:, variant:, query:)
         super()
@@ -70,7 +71,7 @@ module WorkPackageTypes
 
       def clear_button_id = "type-projects-filters-clear-button"
 
-      def variant_filter_available? = variant.default? && OpenProject::FeatureDecisions.type_variants_active?
+      def variant_filter_available? = variant.default?
 
       def variant_filter_component
         VariantFilterComponent.new(type:, variant:, query:)
@@ -80,10 +81,10 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = url_helpers.new_link_type_projects_path(**variant.path_args)
+      def add_path = new_link_variant_projects_path(variant)
 
       def toggle_all_path
-        url_helpers.enable_all_type_projects_path(**variant.path_args, value: enabled_everywhere? ? "0" : "1")
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
       end
 
       def toggle_all_label

@@ -45,7 +45,10 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<% if table.has_actions? %>
+<% if table.has_actions? && button_links.empty? %>
+  <%# A flex layout without any columns renders nothing, which would leave the row a cell short of the grid. %>
+  <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-border-box-grid__row-action", role: :cell, aria: { colindex: columns.size + 1 })) %>
+<% elsif table.has_actions? %>
   <%=
     flex_layout(
       classes: "op-border-box-grid__row-action gap-1",

@@ -20,16 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import eslint from '@eslint/js';
-import { readFileSync } from 'node:fs';
 import globals from 'globals';
-import { fileURLToPath } from 'node:url';
 import tseslint from 'typescript-eslint';
 import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
@@ -37,32 +34,14 @@ import stylistic from '@stylistic/eslint-plugin';
 import headers from 'eslint-plugin-headers';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
-
-const copyrightPath = fileURLToPath(new URL('../COPYRIGHT_short', import.meta.url));
-const copyrightHeader = [
-  '-- copyright',
-  ...readFileSync(copyrightPath, 'utf8')
-    .trimEnd()
-    .split(/\r?\n/)
-    .map((line) => line ? ` ${line}` : ''),
-  '++',
-].join('\n');
+import { copyrightHeaderOptions } from './copyright.mjs';
 
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,tsx,mts,cts}'],
     plugins: { headers },
     rules: {
-      'headers/header-format': [
-        'error',
-        {
-          source: 'string',
-          content: copyrightHeader,
-          style: 'line',
-          linePrefix: '',
-          trailingNewlines: 2,
-        },
-      ],
+      'headers/header-format': ['error', copyrightHeaderOptions],
     },
   },
   {
@@ -218,12 +197,33 @@ export default defineConfig([
     rules: {
       ...vitest.configs.recommended.rules,
 
-      // vitest expect(...) is always any
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+    },
+  },
+  {
+    files: ['**/*.spec.ts', '**/testing/**/*.ts', 'src/stimulus/test-helpers.ts', 'src/test-*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+    },
+  },
+  {
+    // esbuild follows imports past the tsconfig exclude, so the import site
+    // is the boundary keeping test helpers out of the production bundle.
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['**/*.spec.ts', '**/testing/**', 'src/stimulus/test-helpers.ts', 'src/test-*.ts'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          regex: '(^|/)testing/|(^|/)test-helpers$',
+          message: 'Test helpers may only be imported from specs and other test helpers.',
+        }],
+      }],
     },
   },
   {

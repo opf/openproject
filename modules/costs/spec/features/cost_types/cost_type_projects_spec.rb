@@ -69,6 +69,15 @@ RSpec.describe "Cost type projects activation", :js do
     expect(CostTypesProject.where(cost_type:, project:)).not_to exist
   end
 
+  it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+    let(:target_project) { create(:project, name: "Searched Cost Project", identifier: "searched-cost-project") }
+    let(:control_project) { create(:project, name: "Unrelated Cost Project", identifier: "unrelated-cost-project") }
+
+    before do
+      click_on "Add projects"
+    end
+  end
+
   it "shows an error in the dialog when no project is selected" do
     click_on "Add projects"
 

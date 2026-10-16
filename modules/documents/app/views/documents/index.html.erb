@@ -41,6 +41,6 @@
 
 <%= render(Documents::SubHeaderComponent.new(query: @query, project: @project)) %>
 
-<%= render(Documents::ListComponent.new(@documents, project: @project)) %>
+<%= render(Documents::TableComponent.new(rows: @documents, project: @project)) %>
 
 <% html_title(t(:label_document_plural)) %>

@@ -61,18 +61,21 @@ example:
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   timelineZoomLevel:
     type: String
     name: Timeline zoom level
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   showHierarchies:
     type: Boolean
     name: Show hierarchies
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
   starred:
     type: Boolean
     name: Starred
@@ -85,6 +88,7 @@ example:
     required: false
     hasDefault: true
     writable: true
+    deprecated: true
     _links: {}
   filters:
     type: "[]QueryFilterInstance"

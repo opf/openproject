@@ -65,4 +65,98 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent, type: :comp
       end
     end
   end
+
+  describe "journal state" do
+    shared_let(:user) { create(:user) }
+    shared_let(:other_user) { create(:user) }
+    shared_let(:work_package) { create(:work_package, author: user) }
+
+    let(:journal) do
+      create(:work_package_journal, journable: work_package, user:, notes: "A comment", version: 2)
+    end
+
+    current_user { user }
+
+    subject(:rendered_component) do
+      notification
+      render_inline(
+        described_class.new(
+          journal:,
+          filter: WorkPackages::ActivitiesTab::Filters::ALL,
+          grouped_emoji_reactions: {}
+        )
+      )
+    end
+
+    context "with an unread notification for the current user" do
+      let(:notification) do
+        create(:notification, recipient: user, resource: work_package, journal:, reason: :mentioned)
+      end
+
+      it "renders the notification marker" do
+        rendered_component
+
+        expect(page).to have_test_selector("op-journal-unread-notification")
+      end
+    end
+
+    context "with a read notification for the current user" do
+      let(:notification) do
+        create(:notification, recipient: user, resource: work_package, journal:, reason: :mentioned, read_ian: true)
+      end
+
+      it "does not render the notification marker" do
+        rendered_component
+
+        expect(page).to have_no_test_selector("op-journal-unread-notification")
+      end
+    end
+
+    context "with an unread notification for another user" do
+      let(:notification) do
+        create(:notification, recipient: other_user, resource: work_package, journal:, reason: :mentioned)
+      end
+
+      it "does not render the notification marker" do
+        rendered_component
+
+        expect(page).to have_no_test_selector("op-journal-unread-notification")
+      end
+    end
+
+    context "with an internal comment" do
+      let(:journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "Internal comment", internal: true, version: 2)
+      end
+
+      let(:notification) { nil }
+
+      it "renders the internal-comment state" do
+        rendered_component
+
+        expect(page).to have_test_selector("op-journal-internal-icon")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--container__internal-comment")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--header__internal-comment")
+        expect(page).to have_css(".work-packages-activities-tab-journals-item-component--journal-notes-body__internal-comment")
+      end
+    end
+
+    context "with a retracted journal" do
+      let!(:previous_journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "A comment", version: 2)
+      end
+
+      let(:journal) do
+        create(:work_package_journal, journable: work_package, user:, notes: "", version: 3)
+      end
+
+      let(:notification) { nil }
+
+      it "renders the retracted state" do
+        rendered_component
+
+        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
+      end
+    end
+  end
 end

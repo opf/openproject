@@ -29,6 +29,8 @@
 #++
 
 class Enumeration < ApplicationRecord
+  include Lists::MoveAfterAnchor
+
   default_scope { order("#{Enumeration.table_name}.position ASC") }
 
   belongs_to :project, optional: true

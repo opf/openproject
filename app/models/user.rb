@@ -49,6 +49,7 @@ class User < Principal
   include ::Associations::Groupable
   include ::Users::Avatars
   include ::Users::PermissionChecks
+  include ::Users::SemanticCustomFields
   extend DeprecatedAlias
 
   # Join association backing #departments. The group_users lifecycle is already
@@ -131,18 +132,6 @@ class User < Principal
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
   has_many :ai_text_transform_runs, class_name: "AI::TextTransformRun", dependent: :delete_all
-
-  # Resource allocations assigned to this user. Normal user-deletion goes
-  # through Principals::DeleteJob, which rewrites principal_id to a
-  # DeletedUser placeholder before destroy fires (registered in the
-  # resource_management engine). The `dependent: :nullify` here is a
-  # defensive fallback if a user is destroyed outside that flow — the column
-  # is already nullable for the unassigned/filter-only state.
-  has_many :resource_allocations,
-           class_name: "ResourceAllocation",
-           foreign_key: :principal_id,
-           dependent: :nullify,
-           inverse_of: :principal
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -466,12 +455,26 @@ class User < Principal
     preference || build_preference
   end
 
+  # Allows avatar rendering to treat User and Group uniformly (Group stores its
+  # own avatar_color directly, see Group#avatar_color).
+  delegate :avatar_color, to: :pref
+
   def time_zone
     @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
   end
 
+  def date_format
+    @date_format ||= pref.date_format.presence || Setting.date_format.to_s
+  end
+
+  def time_format
+    @time_format ||= pref.time_format.presence || Setting.time_format.to_s
+  end
+
   def reload(*)
     @time_zone = nil
+    @date_format = nil
+    @time_format = nil
 
     super
   end

@@ -59,7 +59,7 @@ module WarningBarHelper
     workflow_exists = OpenProject::Cache.read("no_wp_share_editor_workflow")
 
     if workflow_exists.nil?
-      workflow_exists = Workflow.exists?(role_id: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR).select(:id))
+      workflow_exists = Workflows::StatusTransition.exists?(role_id: Role.where(builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR).select(:id))
       OpenProject::Cache.write("no_wp_share_editor_workflow", workflow_exists) if workflow_exists
     end
 

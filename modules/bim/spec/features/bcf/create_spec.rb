@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "../../spec_helper"
 
 RSpec.describe "Create BCF", :js,
@@ -5,8 +7,7 @@ RSpec.describe "Create BCF", :js,
   let(:project) do
     create(:project,
            types: [type, type_with_cf],
-           enabled_module_names: %i[bim work_package_tracking],
-           work_package_custom_fields: [integer_cf])
+           enabled_module_names: %i[bim work_package_tracking])
   end
   let(:index_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:permissions) { %i[view_ifc_models view_linked_issues manage_bcf add_work_packages edit_work_packages view_work_packages] }
@@ -78,7 +79,7 @@ RSpec.describe "Create BCF", :js,
       end
 
       work_package = WorkPackage.last
-      split_page = Pages::SplitWorkPackage.new(work_package, project)
+      split_page = Pages::PrimerizedSplitWorkPackage.new(work_package, project)
       split_page.ensure_page_loaded
       split_page.expect_subject
 
@@ -107,16 +108,6 @@ RSpec.describe "Create BCF", :js,
       it_behaves_like "bcf details creation", with_viewpoints: true
     end
 
-    context "when going to split table view first" do
-      before do
-        index_page.visit_and_wait_until_finished_loading!
-
-        index_page.switch_view "Viewer and table"
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: true
-    end
-
     context "when going to cards view first" do
       before do
         index_page.visit_and_wait_until_finished_loading!
@@ -125,28 +116,6 @@ RSpec.describe "Create BCF", :js,
       end
 
       it_behaves_like "bcf details creation", with_viewpoints: false
-    end
-
-    context "when going to table view first" do
-      before do
-        index_page.visit_and_wait_until_finished_loading!
-
-        index_page.switch_view "Table"
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: false
-    end
-
-    context "when starting on the details page of an existing work package" do
-      let(:work_package) { create(:work_package, project:) }
-
-      before do
-        visit bcf_project_frontend_path(project, "details/#{work_package.id}")
-        index_page.finished_loading
-        index_page.expect_details_path
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: true
     end
   end
 

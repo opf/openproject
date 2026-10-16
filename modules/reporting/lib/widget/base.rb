@@ -47,16 +47,20 @@ module ::Widget
       @dont_cache or (self != Widget::Base && Widget::Base.dont_cache?)
     end
 
-    def initialize(query)
+    # ActionView::Base#initialize requires a lookup context, assigns and a
+    # controller. Widgets are handed those later by render_widget, so the parent
+    # initializer is deliberately skipped.
+    def initialize(query) # rubocop:disable Lint/MissingSuper
       @subject = query
-      @engine = query.class
+      @engine = query.respond_to?(:engine) ? query.engine : query.class
       @options = {}
     end
 
     ##
     # Write a string to the canvas.
+    # OG: html_safe canvas; markup passed to write must be safe or it is escaped.
     def write(str)
-      @output ||= (+"").html_safe
+      @output ||= ActiveSupport::SafeBuffer.new
       @output << str
       str
     end

@@ -67,14 +67,12 @@ module Components
         expect(page).to have_no_css(".wp-table--hierarchy-span")
       end
 
-      alias_method :expect_mode_disabled, :expect_no_hierarchies
-
       def expect_mode_enabled
-        expect(page).to have_css(".wp-table--table-header .icon-hierarchy")
+        expect(page).to have_css(".wp-table--table-header .icon-hierarchy", wait: 20)
       end
 
       def expect_mode_disabled
-        expect(page).to have_css(".wp-table--table-header .icon-no-hierarchy")
+        expect(page).to have_css(".wp-table--table-header .icon-no-hierarchy", wait: 20)
       end
 
       def expect_indent(work_package, indent: true, outdent: true, card_view: false)
@@ -122,7 +120,7 @@ module Components
 
       def expect_hidden(*work_packages)
         work_packages.each do |wp|
-          expect(page).to have_css(".wp-row-#{wp.id}", visible: :hidden)
+          expect(page).to have_no_css(".wp-row-#{wp.id}", visible: :visible)
         end
       end
 

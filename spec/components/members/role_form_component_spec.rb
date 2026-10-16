@@ -35,7 +35,7 @@ RSpec.describe Members::RoleFormComponent, type: :component do
 
   let(:principal) { build_stubbed(:principal, id: 42) }
   let(:project) { build_stubbed(:project) }
-  let(:roles) { build_list(:project_role, 3) }
+  let(:roles) { build_stubbed_list(:project_role, 3) }
 
   let(:row) do
     instance_double(Members::RowComponent,
@@ -80,6 +80,37 @@ RSpec.describe Members::RoleFormComponent, type: :component do
       expect(form).to have_css "input[name='member[user_ids][]']", visible: :hidden # rubocop:disable Capybara/RSpec/SpecificMatcher
 
       expect(form.first("input[name='member[user_ids][]']", visible: :hidden).value).to eq "42"
+    end
+  end
+
+  describe "the permissions preview" do
+    include Rails.application.routes.url_helpers
+
+    current_user { build_stubbed(:admin) }
+
+    let(:member) { build_stubbed(:member, principal:, project:) }
+
+    before { render_inline(subject) }
+
+    it "offers every role a preview opening its permissions dialog" do
+      triggers = form.all("[data-test-selector='op-roles--permissions-preview']", visible: :all)
+
+      expect(triggers.pluck("href")).to eq(roles.map { role_permissions_dialog_path(it) })
+      expect(triggers.pluck("data-controller")).to all(eq("async-dialog"))
+    end
+
+    it "labels each preview with its role, pointing the tooltip to the right" do
+      expect(form).to have_css "tool-tip[data-direction='e']",
+                               text: "View the permissions of #{roles.first.name}",
+                               visible: :all
+    end
+
+    context "when the current user may not inspect role permissions" do
+      current_user { build_stubbed(:user) }
+
+      it "omits the preview" do
+        expect(form).to have_no_css "[data-test-selector='op-roles--permissions-preview']", visible: :all
+      end
     end
   end
 end

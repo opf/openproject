@@ -33,15 +33,23 @@ module WorkPackageTypes
     # The steps of the variant creation wizard, in order. Every step submits its form
     # through the wizard controller, which persists it and advances.
     module Steps
-      ALL = %i[details defaults form_configuration project_attributes workflows projects pdf].freeze
+      ALL = %i[start details defaults form_configuration project_attributes workflows projects pdf].freeze
+
+      FIRST_EDITABLE = :details
 
       # Keyed off the variant, not off where it is configured from: a variant a project owns may
       # only ever be used there, for an administrator too.
       OWNED_EXCLUDED = %i[projects].freeze
 
+      DESCRIBED = %i[defaults form_configuration project_attributes projects pdf].freeze
+
       module_function
 
       def title(step) = I18n.t("types.creation_wizard.steps.#{step}")
+
+      def description(step)
+        I18n.t("types.creation_wizard.descriptions.#{step}") if DESCRIBED.include?(step)
+      end
 
       def all = ALL
 

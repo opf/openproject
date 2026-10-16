@@ -34,6 +34,7 @@ module ResourcePlannerViews
     # drive it from outside via the shared Stimulus controller.
     module SubHeader
       extend ActiveSupport::Concern
+      include ResourceManagement::PlannerRoutes
 
       def render_timeline_actions(subheader)
         render_navigation_actions(subheader)
@@ -74,7 +75,7 @@ module ResourcePlannerViews
           leading_icon: :gear,
           label: t("resource_management.timeline.subheader.settings"),
           tag: :a,
-          href: edit_project_resource_planner_view_path(@project, @resource_planner, @view),
+          href: edit_planner_view_path(@resource_planner, @view),
           data: { controller: "async-dialog" }
         )
       end
@@ -102,7 +103,7 @@ module ResourcePlannerViews
 
       def render_allocate_item(menu)
         menu.with_item(label: t("resource_management.timeline.subheader.allocate"), tag: :a,
-                       href: new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id),
+                       href: new_allocation_path(@project, resource_planner_view_id: @view.id),
                        content_arguments: { data: { controller: "async-dialog" } }) do |item|
           item.with_leading_visual_icon(icon: :people)
         end
@@ -111,7 +112,7 @@ module ResourcePlannerViews
       def render_allocate_button(subheader)
         label = t("resource_management.timeline.subheader.allocate")
         subheader.with_action_button(leading_icon: :plus, scheme: :primary, tag: :a, label:,
-                                     href: new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id),
+                                     href: new_allocation_path(@project, resource_planner_view_id: @view.id),
                                      data: { controller: "async-dialog" }) { label }
       end
 
@@ -148,7 +149,7 @@ module ResourcePlannerViews
       end
 
       def allowed_to_allocate?
-        User.current.allowed_in_project?(:allocate_user_resources, @project)
+        ResourcePlanner.allocatable_by?(User.current, @project)
       end
     end
   end

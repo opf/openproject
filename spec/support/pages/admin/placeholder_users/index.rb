@@ -64,12 +64,16 @@ module Pages
         end
 
         def filter_by_name(value)
-          fill_in "Name", with: value
-          click_button "Apply"
+          within("#content") do
+            click_button accessible_name: "Search"
+          end
+          fill_in "Search", with: value
+
+          wait_for_network_idle
         end
 
         def clear_filters
-          click_link "Clear"
+          visit!
         end
 
         def order_by(key)

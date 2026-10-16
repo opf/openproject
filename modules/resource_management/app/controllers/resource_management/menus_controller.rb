@@ -29,16 +29,23 @@
 #++
 
 module ::ResourceManagement
-  class MenusController < ApplicationController
-    guard_enterprise_feature(:resource_management)
-
-    before_action :find_project_by_project_id,
-                  :authorize
+  class MenusController < BaseController
+    load_and_authorize_in_planner_section
 
     def show
-      @submenu_menu_items = ::ResourceManagement::Menu.new(project: @project, params:).menu_items
+      @submenu_menu_items = menu.menu_items
 
       render layout: nil
+    end
+
+    private
+
+    def menu
+      if @project
+        ::ResourceManagement::Menu.new(project: @project, params:)
+      else
+        ::ResourceManagement::GlobalMenu.new(params:)
+      end
     end
   end
 end

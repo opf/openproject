@@ -8,10 +8,16 @@ RSpec.describe OpTurbo::ComponentStream do
   controller(ApplicationController) do
     include described_module
 
-    no_authorization_required! :update
+    no_authorization_required! :update, :set_page_title
 
     def update
       dispatch_event_via_turbo_stream(params[:event_name], detail: { work_package_id: 42 })
+      respond_to_with_turbo_streams
+    end
+
+    def set_page_title
+      project = Project.new(name: params[:project_name]) if params[:project_name].present?
+      set_page_title_via_turbo_stream(*params[:parts], project:)
       respond_to_with_turbo_streams
     end
   end
@@ -19,7 +25,10 @@ RSpec.describe OpTurbo::ComponentStream do
   current_user { build_stubbed(:user) }
 
   before do
-    routes.draw { get "update" => "anonymous#update" }
+    routes.draw do
+      get "update" => "anonymous#update"
+      get "set_page_title" => "anonymous#set_page_title"
+    end
   end
 
   describe "#dispatch_event_via_turbo_stream" do
@@ -47,6 +56,32 @@ RSpec.describe OpTurbo::ComponentStream do
         expect { get :update, params: { event_name: "op:theme-changed" }, as: :turbo_stream }
           .to raise_error(ArgumentError)
       end
+    end
+  end
+
+  describe "#set_page_title_via_turbo_stream" do
+    subject(:rendered_title) do
+      Nokogiri::HTML5.fragment(response.body).at_css('turbo-stream[action="set_title"]')&.[]("title")
+    end
+
+    it "renders the title a full page load of the same parts would produce" do
+      get :set_page_title, params: { parts: ["Documents", "Renamed document"], project_name: "Demo project" },
+                           as: :turbo_stream
+
+      expect(response.body).to have_turbo_stream(action: "set_title")
+      expect(rendered_title).to eq("Renamed document | Documents | Demo project | #{Setting.app_title}")
+    end
+
+    it "omits the project segment outside of a project context" do
+      get :set_page_title, params: { parts: ["My account"] }, as: :turbo_stream
+
+      expect(rendered_title).to eq("My account | #{Setting.app_title}")
+    end
+
+    it "does not emit empty segments" do
+      get :set_page_title, params: { parts: ["Documents", ""] }, as: :turbo_stream
+
+      expect(rendered_title).to eq("Documents | #{Setting.app_title}")
     end
   end
 end

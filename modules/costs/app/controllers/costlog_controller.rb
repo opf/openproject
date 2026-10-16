@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -94,7 +94,7 @@ class CostlogController < ApplicationController
       flash[:notice] = t(:notice_successful_delete)
 
       if request.referer.include?("cost_reports")
-        redirect_to controller: "/cost_reports", action: :index, status: :see_other
+        redirect_to controller: "/reporting/cost_reports", action: :index, status: :see_other
       else
         redirect_back_or_to(polymorphic_path(@cost_entry.entity), status: :see_other)
       end

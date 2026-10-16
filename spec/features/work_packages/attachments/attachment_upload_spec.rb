@@ -114,7 +114,7 @@ RSpec.describe "Upload attachment to work package", :js, :selenium do
           message: "Successful creation."
         )
 
-        split_view = Pages::SplitWorkPackage.new(WorkPackage.last)
+        split_view = Pages::PrimerizedSplitWorkPackage.new(WorkPackage.last)
 
         field = split_view.edit_field :description
         expect(field.display_element).to have_css("img")

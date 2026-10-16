@@ -136,7 +136,7 @@ class Widget::Table::EntryTable < Widget::Table
 
   def body
     content_tag :tbody do
-      rows = "".html_safe
+      rows = ActiveSupport::SafeBuffer.new
       @subject.each_direct_result do |result|
         rows << (content_tag(:tr) do
           concat body_column_field(:spent_on, result)

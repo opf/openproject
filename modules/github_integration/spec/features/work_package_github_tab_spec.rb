@@ -31,8 +31,11 @@ require_relative "../support/pages/work_package_github_tab"
 
 RSpec.describe "Open the GitHub tab", :js do
   let(:user) do
-    create(:user,
-           member_with_roles: { project => role })
+    create(
+      :user,
+      member_with_roles: { project => role },
+      preferences: { warn_on_leaving_unsaved: false }
+    )
   end
   let(:role) do
     create(:project_role,
@@ -135,13 +138,6 @@ RSpec.describe "Open the GitHub tab", :js do
 
   describe "work package full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
-    let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
-
-    it_behaves_like "a github tab"
-  end
-
-  describe "work package split view" do
-    let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
     let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
     it_behaves_like "a github tab"

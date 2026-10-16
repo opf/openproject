@@ -26,7 +26,7 @@ RSpec.describe "activating an invited account",
 
     expect(page).to have_current_path account_register_path
 
-    fill_in I18n.t("attributes.password"), with: "Password1234"
+    fill_in "user_password", with: "Password1234"
     fill_in I18n.t("activerecord.attributes.user.password_confirmation"), with: "Password1234"
 
     click_button I18n.t(:button_create)

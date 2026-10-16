@@ -4,6 +4,7 @@ updates:
     directories:
       - "/"
       - "/frontend"
+      - "/extensions/op-blocknote-extensions"
       - "/extensions/op-blocknote-hocuspocus"
     schedule:
       interval: "daily"
@@ -121,3 +122,7 @@ updates:
     target-branch: "dev"
     cooldown:
       default-days: 7
+    groups:
+      codeql-action:
+        patterns:
+          - "github/codeql-action*"

@@ -48,10 +48,7 @@ RSpec.describe "Cost and Reports Main Menu Item", :js do
         click_link I18n.t(:cost_reports_title)
       end
 
-      expect(page).to have_current_path(url_for(controller: "/cost_reports",
-                                                action: "index",
-                                                project_id: nil,
-                                                only_path: true))
+      expect(page).to have_current_path(reporting_cost_reports_path)
     end
   end
 

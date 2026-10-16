@@ -38,13 +38,18 @@ module OpenProject::Gantt
              settings: {} do
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.map do |ac_map|
-          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95)
+          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95, &:enabled_by_default!)
         end
 
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
           add.controller_actions << "gantt/gantt/index"
           add.controller_actions << "gantt/gantt/menu"
+          add.controller_actions << "gantt/gantt/split_view"
           add.controller_actions << "gantt/menus/show"
+        end
+
+        OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
+          add.controller_actions << "gantt/gantt/split_create"
         end
       end
 

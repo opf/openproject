@@ -55,14 +55,12 @@ module Projects::CustomFields
 
       return scope.where(project_custom_field_type_mappings: { type_variant_id: nil }) if variant_id.nil?
 
+      variant = TypeVariant.find(variant_id)
       aspect = TypeVariant::PROJECT_ATTRIBUTES
-      resolved_variant_id = TypeVariant.effective_source_id_subquery(variant_id, aspect)
-      # The attributes the chain drops are subtracted in the same query. The subquery yields one
-      # element per row, so `<> ALL` is TRUE when nothing is excluded.
-      excluded = TypeVariant.effective_excluded_elements_subquery(variant_id, aspect)
 
-      scope.where("project_custom_field_type_mappings.type_variant_id = (#{resolved_variant_id})")
-           .where(TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded))
+      scope = scope.where(project_custom_field_type_mappings: { type_variant_id: variant.owner_of(aspect).id })
+      excluded_ids = variant.excluded_custom_field_ids(aspect)
+      excluded_ids.empty? ? scope : scope.where.not(id: excluded_ids)
     end
 
     # Note:

@@ -34,6 +34,7 @@ module Queries::PlaceholderUsers
     filter Filters::AnyNameAttributeFilter
     filter Filters::GroupFilter
     filter Filters::StatusFilter
+    filter Filters::HasUserFilterFilter
 
     order Orders::DefaultOrder
     order Orders::NameOrder

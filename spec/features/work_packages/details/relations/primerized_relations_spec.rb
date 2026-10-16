@@ -361,15 +361,13 @@ RSpec.describe "Primerized work package relations tab",
 
       wait_for_network_idle
 
-      click_link_or_button "Add"
-
-      wait_for_network_idle
+      wait_for_turbo_stream { click_link_or_button "Add" }
 
       expect(page).to have_text "The selected work package could not be found."
 
       relations_tab.search_in_autocompleter(wp_blocks)
 
-      click_link_or_button "Add"
+      wait_for_turbo_stream { click_link_or_button "Add" }
 
       relations_tab.expect_relation(wp_blocks)
 
@@ -398,6 +396,28 @@ RSpec.describe "Primerized work package relations tab",
                             wp_predecessor1.subject,
                             results_selector: "body")
       end
+    end
+  end
+
+  describe "creating a child" do
+    shared_let(:default_status) { create(:default_status) }
+    shared_let(:default_priority) { create(:default_priority) }
+
+    it "shows the new child among the relations" do
+      scroll_to_element relations_panel
+
+      wait_for_network_idle
+
+      tabs.expect_counter("relations", 8)
+
+      relations_tab.create_new_child("brand_new_child")
+
+      new_child = WorkPackage.find_by(subject: "brand_new_child")
+      relations_tab.expect_child(new_child)
+      expect(new_child.parent).to eq work_package
+
+      # Bumped by one
+      tabs.expect_counter("relations", 9)
     end
   end
 

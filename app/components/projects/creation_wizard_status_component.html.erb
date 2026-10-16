@@ -4,15 +4,19 @@
 <% end %>
 
 <% if artifact_work_package %>
-  <%= render(Primer::Beta::Button.new(
-    mt: 2,
-    tag: :a,
-    href: project_work_packages_path(project, artifact_work_package),
-  )) { t("settings.project_initiation_request.status.submitted_button")} %>
+  <%= render(
+        Primer::Beta::Button.new(
+          mt: 2,
+          tag: :a,
+          href: project_work_package_path(project, artifact_work_package)
+        )
+      ) { t("settings.project_initiation_request.status.submitted_button") } %>
 <% elsif artifact_id.blank? %>
-  <%= render(Primer::Beta::Button.new(
-    mt: 2,
-    tag: :a,
-    href: project_creation_wizard_path(project)
-  )) { t("settings.project_initiation_request.wizard_status_button.#{project.project_creation_wizard_artifact_name}")} %>
+  <%= render(
+        Primer::Beta::Button.new(
+          mt: 2,
+          tag: :a,
+          href: project_creation_wizard_path(project)
+        )
+      ) { t("settings.project_initiation_request.wizard_status_button.#{project.project_creation_wizard_artifact_name}") } %>
 <% end %>

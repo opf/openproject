@@ -31,7 +31,7 @@ require "json"
 module Webhooks
   module Incoming
     class HooksController < ApplicationController
-      accept_key_auth :handle_hook
+      accept_api_key_auth :handle_hook
 
       # Disable CSRF detection since we openly welcome POSTs here!
       skip_before_action :verify_authenticity_token

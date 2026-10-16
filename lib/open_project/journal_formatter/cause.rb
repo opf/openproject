@@ -144,7 +144,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def working_date_change_message(date, working)
     I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
-           date: I18n.l(Date.parse(date)))
+           date: format_date(Date.parse(date)))
   end
 
   def status_changed_message
@@ -179,6 +179,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def import_message
     return I18n.t("journals.cause_descriptions.import.migrated") if cause["migrated"]
+    return I18n.t("journals.cause_descriptions.import.csv") if cause["csv"]
 
     entries = cause["import_history"]
     return "" if entries.blank?

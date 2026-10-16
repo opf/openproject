@@ -30,8 +30,6 @@
 
 module WorkPackageTypes
   module CopyConfiguration
-    # One-time copy of a source variant's form configuration onto another variant
-    # ("Copy from variant" on the form configuration tab).
     #
     # Embedded query groups are rebuilt as fresh Query records so the two types
     # never share queries. Saving replaces the previous configuration: the
@@ -45,15 +43,13 @@ module WorkPackageTypes
         groups_result = duplicated_groups(source)
         return groups_result if groups_result.failure?
 
-        persist(groups_result.result)
+        persist(groups_result.result, required: source.required_attributes.map(&:to_s))
       end
 
       private
 
-      def aspect = TypeVariant::FORM_CONFIGURATION
-
       def duplicated_groups(source)
-        groups = presenting_type(source).attribute_groups.map do |group|
+        groups = source.attribute_groups.map do |group|
           case group
           when Type::QueryGroup
             query_result = FormConfiguration::EmbeddedQueryBuilder.rebuild(query: group.query, user:)
@@ -68,49 +64,22 @@ module WorkPackageTypes
         ServiceResult.success(result: groups)
       end
 
-      # The variant whose *presented* configuration is copied. Reading a presentation rather than
-      # the owner's raw groups is what makes exclusions survive the copy: a link in between may
-      # exclude elements, and going Independent has to freeze what the variant was showing instead
-      # of restoring what it was hiding. Excluded query groups are dropped before this runs, so
-      # they are never rebuilt as fresh queries either.
-      #
-      # When the variant inherits from `source`, its own link's exclusions apply on top of the
-      # chain's, so the variant is the one presenting. When copying from an unrelated variant on the
-      # form configuration tab, that variant's presentation is what the user picked — and it
-      # resolves through its own links already.
-      def presenting_type(source)
-        variant.source_for(aspect) == source ? variant : source
-      end
-
       def group_entry(group, members)
         entry = [group.key, members]
         entry << group.display_name if group.display_name.present?
         entry
       end
 
-      def persist(groups)
+      def persist(groups, required:)
         Type.transaction do
           variant.attribute_groups = groups
-          sync_active_custom_fields
+          variant.required_attributes = required
           variant.save!
         end
 
         ServiceResult.success(result: variant)
       rescue ActiveRecord::RecordInvalid
         ServiceResult.failure(result: variant, errors: variant.errors)
-      end
-
-      # Same syncing as WorkPackageTypes::UpdateService: the active custom
-      # fields follow from the custom fields placed in the groups.
-      def sync_active_custom_fields
-        # The groups just copied onto this variant, not whatever a project would resolve it to.
-        variant.custom_field_ids = variant.attribute_groups
-                                    .flat_map(&:members)
-                                    .filter_map do |attribute|
-                                      if CustomField.custom_field_attribute?(attribute)
-                                        attribute.delete_prefix("custom_field_").to_i
-                                      end
-                                    end.uniq
       end
     end
   end

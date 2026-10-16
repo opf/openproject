@@ -354,7 +354,9 @@ RSpec.describe Capabilities::Scopes::Default do
           let(:expected) do
             # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
             item = ->(namespace, action, global, module_name) {
-              return if module_name.present?
+              # A global permission is granted without a project, so the modules a project
+              # has enabled never gate it, even when it is declared inside a project module.
+              return if module_name.present? && !global
 
               ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
                user.id,

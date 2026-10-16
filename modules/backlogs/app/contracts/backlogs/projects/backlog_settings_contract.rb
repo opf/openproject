@@ -32,6 +32,7 @@ module Backlogs::Projects
   class BacklogSettingsContract < ::ModelContract
     stored_attribute :sprint_sharing, store: :settings
     stored_attribute :allow_multiple_active_sprints, store: :settings
+    stored_attribute :estimation_unit, store: :settings
 
     validate :validate_permissions
     validate :validate_global_sprint_sharer_uniqueness
@@ -54,6 +55,9 @@ module Backlogs::Projects
       validate :validate_no_active_or_borrowed_sprint_when_receiving_shared_sprints
       validate :validate_no_work_packages_in_shared_sprints_when_leaving_receiving
     end
+
+    validates :estimation_unit, presence: true
+    validates :estimation_unit, inclusion: { in: Project::ESTIMATION_UNITS }, allow_blank: true
 
     def validate_model? = false
 

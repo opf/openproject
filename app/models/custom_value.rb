@@ -103,7 +103,20 @@ class CustomValue < ApplicationRecord
   end
 
   def validate_presence_of_required_value
-    errors.add(:value, :blank) if custom_field.required? && !strategy.value_present?
+    errors.add(:value, :blank) if value_required? && !strategy.value_present?
+  end
+
+  ##
+  # Custom fields can be required for two reasons:
+  # 1. They are globablly required by an admin in the custom field itself
+  # 2. The customized object allows defining required state somewhere else
+  #    (e.g., work packages use required attributes in the type/variant form configuration)
+  def value_required?
+    if customized
+      customized.custom_field_required?(custom_field)
+    else
+      custom_field.required?
+    end
   end
 
   def validate_format_of_value

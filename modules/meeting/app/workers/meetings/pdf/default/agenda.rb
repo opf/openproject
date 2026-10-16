@@ -73,7 +73,7 @@ module Meetings::PDF::Default::Agenda
   end
 
   def write_agenda_items(section)
-    section.agenda_items.each_with_index do |item, index|
+    section.ordered_agenda_items.each_with_index do |item, index|
       write_agenda_item_hr if index > 0
       write_optional_page_break
       write_agenda_item(item)

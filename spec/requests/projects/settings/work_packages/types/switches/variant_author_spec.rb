@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Switching to a variant a project owns",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:base) { type.default_variant }
   shared_let(:global) { create(:type_variant, type:, variant_name: "Mobile") }

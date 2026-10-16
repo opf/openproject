@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "onboarding tour for new users",
-               :js, :selenium do
+RSpec.describe "onboarding tour for new users", :js do
   let(:user) { create(:admin) }
   let(:project) do
     create(:project, :with_internal_wiki, name: "Demo project", identifier: "demo-project", public: true,
@@ -125,7 +124,7 @@ RSpec.describe "onboarding tour for new users",
         expect(page).to have_no_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
         expect(page).to have_no_css ".enjoyhint_next_btn"
 
-        page.driver.browser.navigate.refresh
+        page.refresh
 
         # The tutorial did not start again
         expect(page).to have_no_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
@@ -133,6 +132,8 @@ RSpec.describe "onboarding tour for new users",
       end
 
       it "and I continue the tutorial" do
+        expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.welcome")), normalize_ws: true
+        expect(page).to have_css ".enjoyhint_next_btn:not(.enjoyhint_hide)"
         next_button.click
         # Continue on WP page
         expect(page).to have_current_path "/projects/#{project.identifier}/work_packages?start_onboarding_tour=true"

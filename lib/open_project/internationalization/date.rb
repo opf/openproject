@@ -35,6 +35,7 @@ module OpenProject
   module Internationalization
     module Date
       module_function
+
       WEEKDAY_NAMES = ::Date::DAYNAMES.map(&:downcase).freeze
 
       def self.beginning_of_week
@@ -48,6 +49,11 @@ module OpenProject
         else
           ::Date.beginning_of_week
         end
+      end
+
+      # The day the week starts on counted from Sunday, as the JavaScript calendars and Date#wday number the weekdays.
+      def self.first_day_of_week_index
+        WEEKDAY_NAMES.index(beginning_of_week.to_s)
       end
 
       def time_at_beginning_of_week

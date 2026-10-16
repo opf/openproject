@@ -56,9 +56,13 @@ module ResourcePlannerViews
       private
 
       # `id` is a list filter, so the `!` operator excludes the given ids
-      # (work packages already on the list).
+      # (work packages already on the list). A global planner has no project to
+      # narrow by and offers every resource managed work package the user may
+      # see, which is what `ResourcePlannerViewsController#addable_work_packages`
+      # accepts in turn.
       def autocomplete_filters
-        filters = [{ name: "project_id", operator: "=", values: [@project.id] }]
+        filters = [::ResourceManagement::WorkPackageSelection::RESOURCE_MANAGEMENT_ENABLED_FILTER]
+        filters << { name: "project_id", operator: "=", values: [@project.id] } if @project
 
         if @excluded_ids.present?
           filters << { name: "id", operator: "!", values: @excluded_ids.map(&:to_s) }

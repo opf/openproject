@@ -20,18 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageIdDisplayField } from './wp-id-display-field.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -40,19 +39,21 @@ describe('WorkPackageIdDisplayField', () => {
   let field:WorkPackageIdDisplayField;
 
   const mockI18n = { t: (key:string) => key };
-  const mockState = {};
   const mockKeepTab = { currentShowTab: 'activity' };
   const mockCurrentProject = { identifier: 'my-project' };
   const mockPathHelper = {
     genericWorkPackagePath: (_proj:string | null, wpId:string, _tab:string) => `/work_packages/${wpId}`,
   };
+  const mockUrlParams = {
+    basePathWithoutDetails: () => '/work_packages',
+  };
 
   const serviceMap = new Map<unknown, unknown>([
     [I18nService, mockI18n],
-    [StateService, mockState],
     [KeepTabService, mockKeepTab],
     [CurrentProjectService, mockCurrentProject],
     [PathHelperService, mockPathHelper],
+    [UrlParamsService, mockUrlParams],
   ]);
 
   function buildField(resourceAttrs:Record<string, unknown> = {}) {

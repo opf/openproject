@@ -50,7 +50,7 @@ module Documents
         expected_document_titles = documents.map(&:title)
 
         within "#content-wrapper" do
-          expected_document_titles.each { expect(page).to have_list_item(it) }
+          expected_document_titles.each { expect(page).to have_css(".Box-row", text: it) }
         end
       end
 

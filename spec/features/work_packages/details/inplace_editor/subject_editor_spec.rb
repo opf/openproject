@@ -7,13 +7,13 @@ require "features/work_packages/shared_contexts"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "subject inplace editor", :js, :selenium do
+RSpec.describe "subject inplace editor", :js do
   let(:project) { create(:project_with_types, public: true) }
   let(:property_name) { :subject }
   let(:property_title) { "Subject" }
   let(:work_package) { create(:work_package, project:) }
   let(:user) { create(:admin) }
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:field) { work_packages_page.edit_field(property_name) }
   let(:notification) { PageObjects::Notifications.new(page) }
 

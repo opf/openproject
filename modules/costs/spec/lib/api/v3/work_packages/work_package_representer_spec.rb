@@ -289,20 +289,45 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "logTime" do
+      it_behaves_like "has a titled action link" do
+        let(:link) { "logTime" }
+        let(:permission) { %i(log_time log_own_time) }
+        let(:href) { api_v3_paths.time_entries }
+        let(:title) { "Log time on work package '#{work_package.subject}'" }
+      end
+    end
+
     describe "timeEntries" do
       context "with the :view_time_entries permission" do
         let(:additional_permissions) { %i[view_time_entries] }
 
-        it "has timeEntries link" do
-          expect(subject).to have_json_path("_links/timeEntries/href")
+        it_behaves_like "has a titled link" do
+          let(:link) { "timeEntries" }
+          let(:href) do
+            api_v3_paths.path_for(:time_entries,
+                                  filters: [
+                                    { entity_type: { operator: "=", values: ["WorkPackage"] } },
+                                    { entity_id: { operator: "=", values: [work_package.id.to_s] } }
+                                  ])
+          end
+          let(:title) { "Time entries" }
         end
       end
 
       context "with the :view_own_time_entries permission" do
         let(:additional_permissions) { %i[view_own_time_entries] }
 
-        it "has timeEnries link" do
+        it "has timeEntries link" do
           expect(subject).to have_json_path("_links/timeEntries/href")
+        end
+      end
+
+      context "without any view time entries permission" do
+        let(:additional_permissions) { [] }
+
+        it "does not have a link to timeEntries" do
+          expect(subject).not_to have_json_path("_links/timeEntries/href")
         end
       end
     end

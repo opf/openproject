@@ -94,7 +94,7 @@ class Widget::Filters < Widget::Base
   # rubocop:disable Metrics/PerceivedComplexity
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
-    html = "".html_safe
+    html = ActiveSupport::SafeBuffer.new
     render_widget Label, f, to: html
     render_widget Operators, f, to: html
 

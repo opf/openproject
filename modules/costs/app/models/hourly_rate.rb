@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,6 +33,17 @@ class HourlyRate < Rate
   validates :user_id, :project_id, :valid_from, presence: true
   validate :change_of_user_only_on_first_creation
 
+  # A project's `lft` is always greater than its ancestors', so ordering by it
+  # descending puts the project's own rate first and then the closest rated
+  # ancestor — the rate applying to a project, in one query.
+  scope :in_project_hierarchy, ->(project) {
+    project = Project.find(project) unless project.is_a?(Project)
+
+    in_project([project, *project.ancestors])
+      .includes(:project)
+      .order(Arel.sql("projects.lft DESC, valid_from DESC"))
+  }
+
   def previous(reference_date = valid_from)
     # This might return a default rate
     user.rate_at(reference_date - 1, project)
@@ -44,60 +57,46 @@ class HourlyRate < Rate
       .first
   end
 
-  def self.history_for_user(usr) # rubocop:disable Metrics/AbcSize
-    projects_with_costs = Project.has_module(:costs)
-                                        .active
-                                        .visible
-                                        .order(:name)
+  def self.history_for_user(usr)
+    permitted_projects = projects_with_visible_rates(usr)
 
-    permitted_projects = Project.has_module(:costs)
-                                .active
-                                .allowed_to(User.current, :view_hourly_rates)
-
-    rates_by_project = HourlyRate.where(user_id: usr, project_id: permitted_projects)
-                                 .includes(:project)
-                                 .order("#{HourlyRate.table_name}.valid_from desc")
-                                 .group_by(&:project)
-
-    rates = {}
+    rates_by_project = rates_grouped_by_project(usr, permitted_projects)
 
     # pre-cache projects on the user
     usr.projects.load_target
 
-    projects_with_costs.each do |project|
+    rates = permitted_projects.order(:name).each_with_object({}) do |project, acc|
       project_rates = rates_by_project.fetch(project, [])
       next if project_rates.empty? && usr.projects.exclude?(project)
 
-      rates[project] = project_rates
+      acc[project] = project_rates
     end
 
-    # FIXME: What permissions to apply here?
-    rates[nil] = DefaultHourlyRate
-                   .where(user_id: usr)
-                   .order("#{DefaultHourlyRate.table_name}.valid_from desc")
+    rates[nil] = DefaultHourlyRate.for_principal(usr).newest_first
 
     rates
   end
 
-  def self.at_date_for_user_in_project(date, user_id, project = nil, include_default = true)
-    user_id = user_id.id if user_id.is_a?(User)
+  def self.rates_grouped_by_project(usr, projects)
+    for_principal(usr)
+      .in_project(projects)
+      .includes(:project)
+      .newest_first
+      .group_by(&:project)
+  end
 
-    unless project.nil?
-      rate = where(["user_id = ? and project_id = ? and valid_from <= ?", user_id, project, date])
-             .order(Arel.sql("valid_from DESC"))
-             .first
-      if rate.nil?
-        project = Project.find(project) unless project.is_a?(Project)
-        rate = where(["user_id = ? and project_id in (?) and valid_from <= ?",
-                      user_id,
-                      project.ancestors.to_a,
-                      date])
-               .includes(:project)
-               .order(Arel.sql("projects.lft DESC, valid_from DESC"))
-               .first
-      end
-    end
-    rate ||= DefaultHourlyRate.at_for_user(date, user_id) if include_default
+  def self.projects_with_visible_rates(usr)
+    scope = Project.has_module(:costs).active.visible
+
+    return scope.allowed_to(User.current, :view_hourly_rates) unless usr == User.current
+
+    scope.where(id: scope.allowed_to(User.current, :view_hourly_rates))
+         .or(scope.where(id: scope.allowed_to(User.current, :view_own_hourly_rate)))
+  end
+
+  def self.at_date_for_user_in_project(date, principal, project = nil, include_default: true)
+    rate = for_principal(principal).in_effect_at(date).in_project_hierarchy(project).first if project.present?
+    rate ||= DefaultHourlyRate.at_for_user(date, principal) if include_default
     rate
   end
 

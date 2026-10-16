@@ -35,7 +35,7 @@ module BasicData
       BasicData::StatusSeeder,
       BasicData::TypeSeeder
     ]
-    self.model_class = Workflow
+    self.model_class = Workflows::StatusTransition
     self.seed_data_model_key = "workflows"
     self.attribute_names_for_required_references = %w[statuses type]
 
@@ -50,12 +50,11 @@ module BasicData
       project_admin = seed_data.find_reference(:default_role_project_admin)
       work_package_editor = seed_data.find_reference(:default_role_work_package_editor)
 
-      # Workflows belong to a type's base variant (the configuration in force by default).
-      workflows.each do |type_variant, statuses|
+      workflows.each do |workflow, statuses|
         statuses.each do |old_status|
           statuses.each do |new_status|
             [member, project_admin, work_package_editor].each do |role|
-              model_class.create type_variant:,
+              model_class.create workflow:,
                                  role:,
                                  old_status:,
                                  new_status:
@@ -69,7 +68,7 @@ module BasicData
       seed_data.lookup(seed_data_model_key).map do |workflow_data|
         type = seed_data.find_reference(workflow_data["type"])
         statuses = seed_data.find_references(workflow_data["statuses"])
-        [type.default_variant, statuses]
+        [type.default_variant.workflow, statuses]
       end
     end
   end

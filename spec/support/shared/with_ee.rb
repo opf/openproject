@@ -28,45 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def ee_actions(example)
-  return [] unless example.respond_to?(:metadata) && example.metadata[:with_ee]
-
-  Array(example.metadata[:with_ee])
-end
-
-def aggregate_parent_array(example, acc)
-  # We have to manually check parent groups for with_ee:,
-  # since they are being ignored otherwise
-  example.example_group.module_parents.each do |parent|
-    acc.merge(ee_actions(parent))
+RSpec.configure do |config|
+  config.define_derived_metadata :without_ee do
+    fail ArgumentError, "without_ee metadata does nothing"
   end
 
-  acc
-end
-
-RSpec.configure do |config|
   config.before do |example|
-    allowed = ee_actions(example)
-    if allowed.present? || example.metadata[:with_ee_trial]
-      allowed = aggregate_parent_array(example, allowed.to_set)
+    available_features = Array(example.metadata[:with_ee])
+    trial = !!example.metadata[:with_ee_trial]
+    next if available_features.empty? && !trial
 
-      # partial double of OpenProject::Token with available features
-      token_object = OpenProject::Token.new
-      allow(token_object).to receive_messages(available_features: allowed.to_a,
-                                              trial?: !!example.metadata[:with_ee_trial])
+    # partial double of OpenProject::Token with available features
+    token_object = OpenProject::Token.new
+    allow(token_object).to receive_messages(available_features:, trial?: trial)
 
-      # partial double of EnterpriseToken returning the partial double of token object
-      enterprise_token = EnterpriseToken.new
-      allow(enterprise_token).to receive_messages(token_object:)
+    # partial double of EnterpriseToken returning the partial double of token object
+    enterprise_token = EnterpriseToken.new
+    allow(enterprise_token).to receive_messages(token_object:)
 
-      # To ensure tests don't trip up on the trial teaser banner
-      if example.metadata[:with_ee_trial]
-        allow(enterprise_token).to receive(:days_left).and_return(42)
-      end
-
-      # EnterpriseToken is mocked to return the partial double of enterprise
-      # token as active token
-      allow(EnterpriseToken).to receive(:active_tokens).and_return([enterprise_token])
+    # To ensure tests don't trip up on the trial teaser banner
+    if trial
+      allow(enterprise_token).to receive(:days_left).and_return(42)
     end
+
+    # EnterpriseToken is mocked to return the partial double of enterprise
+    # token as active token
+    allow(EnterpriseToken).to receive(:active_tokens).and_return([enterprise_token])
   end
 end

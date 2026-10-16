@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -34,33 +36,21 @@ module OpenProject::GitlabIntegration
     class MergeRequestHook
       include OpenProject::GitlabIntegration::NotificationHandler::Helper
 
-      def process(payload_params) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-        update_status_on_new_mr = false # true if you only reference one merge by work_package, else false.
-        update_status_on_merged = false # true if you only reference one merge by work_package, else false.
-        wp_status_id_on_new_mr = 7 # the id of the status.
-        wp_status_id_on_merged = 8 # the id of the status.
+      ACCEPTED_ACTIONS = %w[open update reopen].freeze
+      ACCEPTED_ACTIONS_FOR_COMMENTS = %w[open reopen].freeze
+      ACCEPTED_STATES = %w[closed merged].freeze
 
-        accepted_actions = %w[open update reopen]
-        accepted_actions_for_comments = %w[open reopen]
-        accepted_states = %w[closed merged]
-
+      def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
-        return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
+        return unless ACCEPTED_ACTIONS.include?(mr_attributes.action) || ACCEPTED_STATES.include?(mr_attributes.state)
 
         user = User.find_by(id: payload.open_project_user_id)
-        text = [payload.object_attributes.title, payload.object_attributes.description]
-          .compact_blank
-          .join(" - ")
+        text = [mr_attributes.title, mr_attributes.description].compact_blank.join(" - ")
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
 
-        if (accepted_actions_for_comments.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
+        if ACCEPTED_ACTIONS_FOR_COMMENTS.include?(mr_attributes.action) || ACCEPTED_STATES.include?(mr_attributes.state)
           comment_on_referenced_work_packages(work_packages, user, notes)
-          if payload.object_attributes.state == "opened" && update_status_on_new_mr
-            status_on_referenced_work_packages(work_packages, user, wp_status_id_on_new_mr)
-          elsif payload.object_attributes.state == "merged" && update_status_on_merged
-            status_on_referenced_work_packages(work_packages, user, wp_status_id_on_merged)
-          end
         end
         upsert_merge_request(work_packages)
       end
@@ -69,7 +59,9 @@ module OpenProject::GitlabIntegration
 
       attr_reader :payload
 
-      def generate_notes(payload)
+      def mr_attributes = payload.object_attributes
+
+      def generate_notes(payload) # rubocop:disable Metrics/AbcSize
         key = {
           "opened" => "opened",
           "reopened" => "reopened",
@@ -77,18 +69,18 @@ module OpenProject::GitlabIntegration
           "merged" => "merged",
           "edited" => "referenced",
           "referenced" => "referenced"
-        }[payload.object_attributes.state]
+        }[mr_attributes.state]
 
         key_action = {
           "reopen" => "reopened"
-        }[payload.object_attributes.action]
+        }[mr_attributes.action]
 
         return nil unless key
 
         I18n.t("gitlab_integration.merge_request_#{key_action || key}_comment",
-               mr_number: payload.object_attributes.iid,
-               mr_title: payload.object_attributes.title,
-               mr_url: payload.object_attributes.url,
+               mr_number: mr_attributes.iid,
+               mr_title: mr_attributes.title,
+               mr_url: mr_attributes.url,
                repository: payload.repository.name,
                repository_url: payload.repository.url,
                gitlab_user: payload.user.name,
@@ -98,14 +90,13 @@ module OpenProject::GitlabIntegration
       def merge_request
         return @merge_request if defined?(@merge_request)
 
-        @merge_request = GitlabMergeRequest.find_by(gitlab_html_url: payload.object_attributes.url)
+        @merge_request = GitlabMergeRequest.find_by(gitlab_html_url: mr_attributes.url)
       end
 
       def upsert_merge_request(work_packages)
         return if work_packages.empty? && merge_request.nil?
 
-        OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new.call(payload,
-                                                                              work_packages:)
+        OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new.call(payload, work_packages:)
       end
     end
   end

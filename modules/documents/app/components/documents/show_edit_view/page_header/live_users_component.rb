@@ -47,7 +47,7 @@ module Documents
         end
 
         def active_editors
-          I18n.t("documents.active_editors_count", count: users.count).html_safe
+          I18n.t("documents.active_editors_count", count: users.count)
         end
 
         def avatar_options_for(user)

@@ -9,8 +9,7 @@ RSpec.describe "custom field inplace editor", :js do
   let(:type) { create(:type_task, custom_fields:) }
   let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: custom_fields)
+           types: [type])
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
@@ -19,7 +18,7 @@ RSpec.describe "custom field inplace editor", :js do
            project:,
            custom_values: initial_custom_values)
   end
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
   let(:property_name) { custom_field.attribute_name(:camel_case) }
   let(:field) { wp_page.edit_field(property_name) }

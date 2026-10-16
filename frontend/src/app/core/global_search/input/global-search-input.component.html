@@ -83,27 +83,9 @@
           (click)="redirectToWp(item.displayId, $event)"
           style="line-height: 1"
           >
-          <div class="global-search--option-meta">
-            <div class="global-search--wp-line">
-              <span [ngClass]="highlighting('type', item.type.id)">
-                {{ item.type.name }}
-              </span>
-              <span>{{ item.formattedId }}</span>
-              <span [ngClass]="statusHighlighting(item.status.id)">
-                {{ item.status.name }}
-              </span>
-              <span>-</span>
-              <span
-                class="global-search--wp-project"
-                [attr.title]="item.project.name"
-                >
-                {{ item.project.name }}
-              </span>
-            </div>
-            <span class="global-search--wp-subject">
-              {{ item.subject }}
-            </span>
-          </div>
+          <ng-container [ngTemplateOutlet]="ngSelectComponent.workPackageOption"
+            [ngTemplateOutletContext]="{$implicit: item, search: search}"
+           />
         </a>
       }
     </ng-template>

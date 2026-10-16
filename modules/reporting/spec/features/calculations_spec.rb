@@ -26,7 +26,7 @@ RSpec.describe "Cost Report", "calculations", :js do
     create_hourly_rates
     create_time_entries_on(6.months.ago, 18.months.ago, 30.months.ago)
     login_as user
-    visit "/cost_reports?set_filter=1"
+    visit reporting_cost_reports_path(filters: "")
   end
 
   it "shows the correct calculations" do

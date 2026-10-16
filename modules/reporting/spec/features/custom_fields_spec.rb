@@ -69,7 +69,6 @@ RSpec.describe "Custom fields reporting", :js do
              name: "List CF",
              multi_value: true,
              types: [type],
-             projects: [project],
              possible_values: ["First option", "Second option"])
     end
 
@@ -85,7 +84,7 @@ RSpec.describe "Custom fields reporting", :js do
     end
 
     before do
-      visit "/cost_reports"
+      visit reporting_cost_reports_path
       sleep(0.1)
     end
 
@@ -154,7 +153,6 @@ RSpec.describe "Custom fields reporting", :js do
                name: "Invalid List CF",
                multi_value: true,
                types: [type],
-               projects: [project],
                possible_values: %w[A B])
       end
 
@@ -176,7 +174,7 @@ RSpec.describe "Custom fields reporting", :js do
         CustomValue.find_by(customized_id: work_package2.id).update_columns(value: "invalid")
         work_package2.reload
 
-        visit "/cost_reports"
+        visit reporting_cost_reports_path
         sleep(0.1)
       end
 
@@ -206,13 +204,12 @@ RSpec.describe "Custom fields reporting", :js do
     let(:custom_field) do
       create(:text_wp_custom_field,
              name: "Text CF",
-             types: [type],
-             projects: [project])
+             types: [type])
     end
     let(:initial_custom_values) { { custom_field.id => "foo" } }
 
     before do
-      visit "/cost_reports"
+      visit reporting_cost_reports_path
       sleep(0.1)
     end
 

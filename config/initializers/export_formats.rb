@@ -41,16 +41,13 @@ Rails.application.configure do |application|
       formatter WorkPackage, Exports::Formatters::CustomComment
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundDoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundHours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Costs
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Hours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Currency
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Date
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Days
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::DoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Hours
       formatter WorkPackage, WorkPackage::Exports::Formatters::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::ProjectPhase
-      formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
       formatter WorkPackage, WorkPackage::Exports::Formatters::TargetVersions
       formatter WorkPackage, WorkPackage::Exports::Formatters::ObservedInVersions
 
@@ -66,6 +63,11 @@ Rails.application.configure do |application|
       formatter Project, Projects::Exports::Formatters::PDF::Favorited
       formatter Project, Projects::Exports::Formatters::PDF::RequiredDiskSpace
       formatter Project, Projects::Exports::Formatters::ProjectPhase
+    end
+
+    WorkPackage::Exports::Attributes.add_attribute_visibility_check(:project_phase) do |work_package|
+      User.current.allowed_in_project?(:view_project_phases, work_package.project) &&
+        work_package.project.phases.active.any?
     end
   end
 end

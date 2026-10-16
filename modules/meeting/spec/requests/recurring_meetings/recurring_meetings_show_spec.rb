@@ -451,5 +451,23 @@ RSpec.describe "Recurring meetings show",
         end
       end
     end
+
+    describe "past direction default" do
+      before do
+        (1..16).each do |i|
+          create(:meeting,
+                 recurring_meeting:,
+                 start_time: i.days.ago + 10.hours,
+                 recurrence_start_time: i.days.ago + 10.hours)
+        end
+      end
+
+      it "defaults to 15 past meetings when no limit parameter is provided" do
+        get project_recurring_meeting_path(project, recurring_meeting, direction: "past")
+
+        expect(page).to have_css(".op-border-box-table--rows [role='row']", count: 15)
+        expect(page).to have_css("#recurring-meetings-footer-component")
+      end
+    end
   end
 end

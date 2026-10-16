@@ -1,0 +1,19 @@
+---
+description: |-
+  Labels can be attached to other resources, e.g. work packages.
+
+  ## Linked Properties
+
+  |  Link     | Description                                 | Type          | Constraints           | Supported operations |
+  |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
+  | self      | This label                                  | Label         | not null              | READ                 |
+
+  ## Local Properties
+
+  | Property    | Description                                 | Type       | Constraints | Supported operations |
+  | :---------: | ------------------------------------------- | ---------- | ----------- | -------------------- |
+  | id          | Label id                                    | Integer    | x > 0       | READ                 |
+  | name        | Label name                                  | String     | not empty   | READ                 |
+  | createdAt   | The time the label was created              | DateTime   |             | READ                 |
+  | updatedAt   | The time the label was last updated         | DateTime   |             | READ                 |
+name: Labels

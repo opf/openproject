@@ -36,14 +36,21 @@ module OpenProject
       def project_module(name, options = {})
         options[:dependencies] = Array(options[:dependencies]) if options[:dependencies]
         mapped_modules << { name:, order: 0 }.merge(options)
+        permission_count = mapped_permissions.size
 
         if block_given?
           @project_module = name
           yield self
           @project_module = nil
-        else
-          project_modules_without_permissions << name
         end
+
+        project_modules_without_permissions << name if mapped_permissions.size == permission_count
+      end
+
+      def enabled_by_default!(if: true)
+        raise ArgumentError, "enabled_by_default! must be called within a project_module block" unless @project_module
+
+        mapped_modules.last[:enabled_by_default] = binding.local_variable_get(:if)
       end
 
       def mapped_modules

@@ -28,8 +28,7 @@ module WorkPackageTypes
   # Removes a named variant.
   #
   # What refuses it is on the model, where the database constraints it mirrors also are: a
-  # project applying the variant, or another variant borrowing configuration from it. Both
-  # arrive here as errors on the record.
+  # project applying the variant arrives here as an error on the record.
   class DeleteVariantService < ::BaseServices::Delete
     protected
 

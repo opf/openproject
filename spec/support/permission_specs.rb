@@ -70,6 +70,26 @@ module PermissionSpecs
         end
       end
 
+      def self.check_global_permission_required_for(controller_action, permission)
+        controller_name, action_name = controller_action.split("#")
+
+        it "allows calling #{controller_action} when having the global permission #{permission}" do
+          allow(controller).to receive_messages(controller_path: controller_name, action_name:)
+
+          grant_global_permissions(current_user, permission)
+
+          expect(controller.send(:authorize)).to be_truthy
+        end
+
+        it "prevents calling #{controller_action} when not having the global permission #{permission}" do
+          allow(controller).to receive_messages(controller_path: controller_name, action_name:)
+
+          become_member_with_permissions(project, current_user, permission)
+
+          expect(controller.send(:authorize)).to be_falsey
+        end
+      end
+
       before do
         # As failures generate a response we need to prevent calls to nil
         controller.set_response!(ActionDispatch::TestResponse.new)

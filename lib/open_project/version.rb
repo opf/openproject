@@ -31,9 +31,9 @@ require "open3"
 
 module OpenProject
   module VERSION # :nodoc:
-    MAJOR = 17
-    MINOR = 9
-    PATCH = 3
+    MAJOR = 18
+    MINOR = 0
+    PATCH = 0
 
     class << self
       def revision
@@ -82,8 +82,14 @@ module OpenProject
 
       def to_s; STRING end
 
-      def to_semver(separator: ".")
-        [MAJOR, MINOR, PATCH].join(separator)
+      def to_semver(include_patch: true, separator: ".")
+        parts =
+          if include_patch
+            [MAJOR, MINOR, PATCH]
+          else
+            [MAJOR, MINOR]
+          end
+        parts.join(separator)
       end
 
       private

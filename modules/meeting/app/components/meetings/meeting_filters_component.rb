@@ -47,6 +47,7 @@ module Meetings
         Queries::Meetings::Filters::AuthorFilter,
         Queries::Meetings::Filters::InvitedUserFilter,
         Queries::Meetings::Filters::RecurringFilter,
+        Queries::Meetings::Filters::StateFilter,
         Queries::Meetings::Filters::TimeFilter,
         Queries::Meetings::Filters::TitleFilter
       ]

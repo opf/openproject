@@ -94,4 +94,34 @@ RSpec.describe Migration::Utils do # rubocop:disable RSpec/SpecFilePathFormat
       expect(index_names).not_to include("idx_4408199_old_index")
     end
   end
+
+  describe "#ensuring_single_schema" do
+    it "yields when the table lives in a single schema" do
+      expect { |block| migration.ensuring_single_schema(table, &block) }.to yield_control
+    end
+
+    context "when the table is visible in a second schema on the search path" do
+      let(:connection) { ActiveRecord::Base.connection }
+      let(:shadow_schema) { "shadow_migration_utils" }
+
+      around do |example|
+        original_search_path = connection.schema_search_path
+        connection.execute("CREATE SCHEMA #{shadow_schema}")
+        connection.execute("CREATE TABLE #{shadow_schema}.#{table} (LIKE #{table})")
+        connection.schema_search_path = "#{shadow_schema}, public"
+        example.run
+      ensure
+        connection.schema_search_path = original_search_path
+        connection.execute("DROP SCHEMA IF EXISTS #{shadow_schema} CASCADE")
+      end
+
+      it "raises naming the schemas, live one first, without yielding" do
+        yielded = false
+
+        expect { migration.ensuring_single_schema(table) { yielded = true } }
+          .to raise_error(StandardError, /search path: #{shadow_schema}, public\./)
+        expect(yielded).to be(false)
+      end
+    end
+  end
 end

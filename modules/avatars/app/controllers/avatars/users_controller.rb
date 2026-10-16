@@ -12,11 +12,17 @@ module ::Avatars
     private
 
     def redirect_path
-      edit_user_path(@user)
+      edit_user_path(@principal)
     end
 
     def find_user
-      @user = User.visible.find(params[:id])
+      @principal = User.visible.find(params.expect(:id))
+    end
+
+    def update_color_request
+      ::Users::UpdateService
+        .new(model: @principal, user: current_user)
+        .call(pref: { avatar_color: params[:avatar_color] })
     end
   end
 end

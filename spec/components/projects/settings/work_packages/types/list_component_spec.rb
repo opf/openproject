@@ -31,8 +31,7 @@
 require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   # acts_as_list overrides positions passed at creation, so pin them afterwards.

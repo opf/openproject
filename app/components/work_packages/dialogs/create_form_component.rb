@@ -36,11 +36,21 @@ module WorkPackages::Dialogs
 
     attr_reader :work_package, :project
 
-    def initialize(work_package:, project:)
+    def initialize(work_package:, project:, submit_url: nil, refresh_url: nil)
       super
 
       @work_package = work_package
       @project = project
+      @submit_url = submit_url
+      @refresh_url = refresh_url
+    end
+
+    def submit_url
+      @submit_url || project_work_packages_dialog_path(project)
+    end
+
+    def refresh_url
+      @refresh_url || refresh_form_project_work_packages_dialog_path(project)
     end
   end
 end

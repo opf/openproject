@@ -39,27 +39,28 @@ module Components
       include Toasts::Expectations
 
       def open_for(work_package, check_if_open: true, card_view: nil)
-        # Close
-        find("body").send_keys :escape
+        close_if_open
         sleep 0.5 unless using_cuprite?
 
-        retry_block do
-          if card_view
-            page.find(".op-wp-single-card-#{work_package.id}").right_click
-          else
-            page.find(".wp-row-#{work_package.id}-table").right_click
-          end
-
-          if check_if_open && !page.find(:menu, work_package_context_menu_label)
-            raise "Menu not open"
-          end
+        if card_view
+          page.find(".op-wp-single-card-#{work_package.id}", wait: 20).right_click
+        else
+          page.find(".wp-row-#{work_package.id}-table", wait: 20).right_click
         end
-      rescue StandardError
+
         expect_open if check_if_open
       end
 
       def expect_open
         expect(page).to have_selector(:menu, work_package_context_menu_label)
+      end
+
+      # Escape would also clear the selection when no menu owns it.
+      def close_if_open
+        return unless page.has_selector?(:menu, work_package_context_menu_label, wait: 0)
+
+        find("body").send_keys :escape
+        expect_closed
       end
 
       def expect_closed

@@ -70,7 +70,7 @@ RSpec.describe "Lost password" do
     visit mail_document.find("a")["href"]
 
     fill_in "New password", with: new_password
-    fill_in "Confirmation", with: new_password
+    fill_in "Password confirmation", with: new_password
 
     click_button "Save"
 

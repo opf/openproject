@@ -30,4 +30,33 @@
 
 class Queries::Members::Filters::ProjectFilter < Queries::Members::Filters::MemberFilter
   include Queries::Filters::Shared::ProjectFilter::Optional
+
+  # Global memberships have no project to be identified by, so they are selected
+  # alongside project ids through this sentinel.
+  GLOBAL_VALUE = "global"
+
+  def where
+    return super unless global?
+
+    clauses = ["#{Member.table_name}.project_id IS NULL"]
+    clauses << operator_strategy.sql_for_field(project_ids, Member.table_name, self.class.key) if project_ids.any?
+
+    clauses.join(" OR ")
+  end
+
+  def validate_values
+    return super unless global?
+
+    errors.add(:values, :invalid) unless project_ids.all? { /\A\d+\z/.match?(it.to_s) }
+  end
+
+  private
+
+  def global?
+    values.include?(GLOBAL_VALUE)
+  end
+
+  def project_ids
+    values - [GLOBAL_VALUE]
+  end
 end

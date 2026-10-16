@@ -46,6 +46,20 @@ RSpec.shared_examples "principal membership management flows" do
     principal_page.expect_project(project.name)
     principal_page.expect_roles(project.name, %w(Manager Developer))
   end
+
+  it_behaves_like "a project picker searchable by identifier" do
+    let(:target_project) { project }
+    let(:control_project) { project2 }
+
+    before do
+      principal_page.visit!
+      principal_page.open_projects_tab!
+    end
+
+    def search_project(query)
+      principal_page.search_for_project(query)
+    end
+  end
 end
 
 RSpec.shared_examples "global user principal membership management flows" do |permissions|

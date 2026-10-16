@@ -125,6 +125,35 @@ RSpec.describe "my", :js do
         expect(page).to have_heading "iCalendar para reuniões"
       end
     end
+
+    describe "Date and time format" do
+      before do
+        visit my_locale_path
+      end
+
+      it "updates the date and time format" do
+        expect(page).to have_select "Date", selected: "Use system or language based default"
+        expect(page).to have_select "Time", selected: "Use system or language based default"
+
+        select "28.02.2026", from: "Date"
+        select "15:30", from: "Time"
+        click_on "Save"
+
+        expect_and_dismiss_flash type: :success, message: "Account was successfully updated."
+
+        expect(page).to have_select "Date", selected: "28.02.2026"
+        expect(page).to have_select "Time", selected: "15:30"
+
+        expect(user.reload).to have_attributes(date_format: "%d.%m.%Y", time_format: "%H:%M")
+      end
+
+      context "with instance setting override", with_settings: { date_format: "%Y-%m-%d", time_format: "%H:%M" } do
+        it "keeps the default entry selected" do
+          expect(page).to have_select "Date", selected: "Use system or language based default"
+          expect(page).to have_select "Time", selected: "Use system or language based default"
+        end
+      end
+    end
   end
 
   describe "non-editable custom fields" do

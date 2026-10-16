@@ -41,6 +41,7 @@ module OpenProject
 
       # Highlights +text+ using +language+ syntax
       def highlight_by_language(text, language, formatter = Rouge::Formatters::HTML.new)
+        # OG: html_safe after Rouge HTML formatter; it escapes source and emits span markup.
         Rouge.highlight(text, language, formatter).html_safe
       end
 

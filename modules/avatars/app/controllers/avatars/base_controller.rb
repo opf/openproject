@@ -38,7 +38,28 @@ module ::Avatars
       end
     end
 
+    def update_color
+      result = update_color_request
+
+      if result.success?
+        flash[:notice] = t("avatars.message_avatar_color_updated") # rubocop:disable Rails/ActionControllerFlashBeforeRender
+      else
+        flash[:error] = result.errors.full_messages.join(", ") # rubocop:disable Rails/ActionControllerFlashBeforeRender
+      end
+
+      # A full reload is needed so every already-rendered avatar on the page
+      # (not just the one in the avatar section) picks up the new color.
+      render turbo_stream: turbo_stream.reload
+    end
+
     private
+
+    # Users and groups store/update avatar_color through different services and
+    # param shapes (UserPreference vs. a plain Group attribute), so subclasses
+    # provide their own.
+    def update_color_request
+      raise SubclassResponsibilityError
+    end
 
     def redirect_path
       raise SubclassResponsibilityError
@@ -51,7 +72,7 @@ module ::Avatars
     end
 
     def service_request(type:)
-      service = ::Avatars::UpdateService.new @user
+      service = ::Avatars::UpdateService.new @principal
 
       if type == :update
         service.replace params[:file]

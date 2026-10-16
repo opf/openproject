@@ -98,6 +98,34 @@ RSpec.describe "Recurring meetings move to next meeting", :js do
 
         meeting_page.expect_no_agenda_item(title: "Test notes")
       end
+
+      context "when the next meeting has a matching section" do
+        let(:intro_section) { create(:meeting_section, meeting:, title: "Intro") }
+
+        let!(:template_sections) do
+          %w[Intro Outro].map { |title| create(:meeting_section, meeting: series.template, title:) }
+        end
+
+        let!(:agenda_item) do
+          create(:meeting_agenda_item, meeting:, meeting_section: intro_section, title: "Test notes")
+        end
+
+        it "preselects the matching section and moves the item" do
+          meeting_page.visit!
+          meeting_page.select_action(agenda_item, "Move to next meeting")
+
+          page.within_modal "Move to next meeting?" do
+            expect_current_autocompleter_value(page.find("opce-autocompleter"), "Intro")
+            click_on "Move"
+          end
+
+          expect_and_dismiss_flash(message: "Agenda item moved to the next meeting")
+
+          next_meeting_page = Pages::Meetings::Show.new(agenda_item.reload.meeting)
+          next_meeting_page.visit!
+          next_meeting_page.expect_agenda_item_in_section(title: "Test notes", section: agenda_item.meeting_section)
+        end
+      end
     end
 
     context "with manage_agendas permission, but next occurrence is cancelled" do

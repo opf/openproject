@@ -29,12 +29,21 @@
 #++
 
 module ConfigurationLinkHelpers
-  def link_configuration(variant, source:, aspect:, excluded: [])
-    variant_of(variant).update!({ "#{aspect}_source": variant_of(source) }.merge(exclusions(aspect, excluded)))
+  def link_configuration(variant, aspect:, excluded: [])
+    v = variant_of(variant)
+    if aspect == TypeVariant::FORM_CONFIGURATION
+      v.update!(form_configuration: v.type.default_variant.form_configuration)
+    else
+      v.link!(aspect)
+    end
+    v.update!("#{aspect}_excluded_elements" => excluded) if excluded.any? && TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
   end
 
   def unlink_configuration(variant, aspect:)
-    variant_of(variant).update!({ "#{aspect}_source": nil }.merge(exclusions(aspect, [])))
+    v = variant_of(variant)
+    return v.unlink!(aspect) unless aspect == TypeVariant::FORM_CONFIGURATION
+
+    v.update!(form_configuration: create(:form_configuration), form_configuration_excluded_elements: [])
   end
 
   def exclude_configuration_elements(variant, aspect:, elements:)
@@ -45,17 +54,6 @@ module ConfigurationLinkHelpers
     return [] unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
 
     variant_of(variant).reload.public_send(:"#{aspect}_excluded_elements")
-  end
-
-  def link_configuration_without_validation(variant, source:, aspect:, excluded: [])
-    variant_of(variant).update_columns({ "#{aspect}_source_id": variant_of(source).id }
-                                         .merge(exclusions(aspect, excluded)))
-  end
-
-  def exclusions(aspect, elements)
-    return {} unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
-
-    { "#{aspect}_excluded_elements": elements }
   end
 
   def variant_of(record)

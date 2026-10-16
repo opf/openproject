@@ -92,12 +92,12 @@ class PermittedParams
     params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
   end
 
-  def custom_action
+  def automation
     whitelisted = params
-      .require(:custom_action)
-      .permit(*self.class.permitted_attributes[:custom_action])
+      .require(:automation)
+      .permit(*self.class.permitted_attributes[:automation])
 
-    whitelisted.merge(params[:custom_action].slice(:actions, :conditions).permit!)
+    whitelisted.merge(params[:automation].slice(:actions, :conditions).permit!)
   end
 
   def custom_field_type
@@ -154,10 +154,6 @@ class PermittedParams
 
       app_params
     end
-  end
-
-  def projects_type_ids
-    params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
   end
 
   def query
@@ -245,10 +241,6 @@ class PermittedParams
     whitelisted
   end
 
-  def type_move
-    params.require(:type).permit(*self.class.permitted_attributes[:move_to])
-  end
-
   def enumerations_move
     params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -275,6 +267,7 @@ class PermittedParams
                                    :force_dark_theme_contrast,
                                    :comments_sorting,
                                    :disable_keyboard_shortcuts,
+                                   :require_double_click_for_inline_edit,
                                    :warn_on_leaving_unsaved,
                                    :auto_hide_popups,
                                    immediate_reminders: %i[mentioned personal_reminder],
@@ -314,7 +307,6 @@ class PermittedParams
                                                 :templated,
                                                 :status_code,
                                                 :status_explanation,
-                                                work_package_custom_field_ids: [],
                                                 enabled_module_names: [],
                                                 custom_comments: {})
 
@@ -507,11 +499,12 @@ class PermittedParams
           hexcode
           move_to
         ),
-        custom_action: %i(
-          name
-          description
-          move_to
-        ),
+        automation: [
+          :name,
+          :description,
+          :move_to,
+          { triggers_attributes: [:id, :type, :position, { options: {} }, :_destroy] }
+        ],
         custom_field: [
           :editable,
           :field_format,
@@ -615,6 +608,7 @@ class PermittedParams
         ],
         placeholder_user: %i(
           name
+          description
         ),
         project_type: [
           :name,

@@ -31,6 +31,7 @@
 module ResourcePlanners
   class IndexSubHeaderComponent < ApplicationComponent
     include ApplicationHelper
+    include ResourceManagement::PlannerRoutes
 
     def initialize(project:)
       super
@@ -38,7 +39,7 @@ module ResourcePlanners
     end
 
     def render_create_button?
-      User.current.allowed_in_project?(:view_resource_planners, @project)
+      ResourcePlanner.viewable_by?(User.current, @project)
     end
 
     def create_label
@@ -46,7 +47,7 @@ module ResourcePlanners
     end
 
     def create_path
-      new_project_resource_planner_path(@project)
+      new_planner_path(@project)
     end
   end
 end

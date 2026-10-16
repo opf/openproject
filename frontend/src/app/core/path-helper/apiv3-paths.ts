@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ApiV3Paths {
   readonly apiV3Base:string;
@@ -58,6 +56,30 @@ export class ApiV3Paths {
     return base;
   }
 
+  public aiTextTransformActions() {
+    return `${this.apiV3Base}/ai_text_transform_actions`;
+  }
+
+  public aiTextTransformActionsByWorkPackage(workPackageId:string|number) {
+    return `${this.apiV3Base}/work_packages/${workPackageId}/ai_text_transform_actions`;
+  }
+
+  public aiTextTransformActionsByProject(projectId:string|number, typeId:string|number) {
+    return `${this.apiV3Base}/projects/${projectId}/ai_text_transform_actions?typeId=${typeId}`;
+  }
+
+  public aiTextTransformRuns() {
+    return `${this.apiV3Base}/ai_text_transform_runs`;
+  }
+
+  public aiTextTransformRun(uuid:string) {
+    return `${this.aiTextTransformRuns()}/${uuid}`;
+  }
+
+  public aiTextTransformRunCancel(uuid:string) {
+    return `${this.aiTextTransformRun(uuid)}/cancel`;
+  }
+
   /**
    * Principals autocompleter path
    *
@@ -72,7 +94,7 @@ export class ApiV3Paths {
 
     if (!workPackage.id || workPackage.id === 'new') {
       // that are members of that project:
-      filters.add('member', '=', [(workPackage.project as HalResource).id!]);
+      filters.add('member', '=', [workPackage.project.id!]);
     } else {
       // that are mentionable on the work package
       filters.add(

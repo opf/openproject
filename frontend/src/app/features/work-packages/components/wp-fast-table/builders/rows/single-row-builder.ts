@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,7 +40,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { checkedClassName, pressedClassName } from '../ui-state-link-builder';
+import { paintRowSelection } from './row-selection-painter';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import {
@@ -242,7 +241,7 @@ export class SingleRowBuilder {
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id!];
 
-    return form && form.activeFields[column.id];
+    return form?.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
@@ -251,7 +250,10 @@ export class SingleRowBuilder {
 
     if (change && !change.isEmpty()) {
       // Try to find an old instance of this row
-      const oldRow = locateTableRowByIdentifier(this.classIdentifier(workPackage));
+      const oldRow = locateTableRowByIdentifier(
+        this.classIdentifier(workPackage),
+        this.workPackageTable.tableAndTimelineContainer,
+      );
 
       change.changedAttributes.forEach((attribute:string) => {
         const oldCell = oldRow?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${attribute}`);
@@ -277,15 +279,10 @@ export class SingleRowBuilder {
       }
     });
 
-    // Set the row selection state
-    if (this.wpTableSelection.isSelected(workPackage.id!)) {
-      row.classList.add(checkedClassName);
-    }
-
-    // Mark the currently focused (details-panel) row as pressed
-    if (this.wpTableFocus.isFocused(workPackage.id!)) {
-      row.classList.add(pressedClassName);
-    }
+    paintRowSelection(row, {
+      selected: this.wpTableSelection.isSelected(workPackage.id!),
+      pressed: this.wpTableFocus.isFocused(workPackage.id!),
+    });
 
     return [row, false];
   }

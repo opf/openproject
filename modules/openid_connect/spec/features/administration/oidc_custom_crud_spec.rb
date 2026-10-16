@@ -132,8 +132,16 @@ RSpec.describe "OIDC administration CRUD",
 
       click_link_or_button "Delete"
 
-      check "I understand that this deletion cannot be reversed."
-      click_on "Delete permanently"
+      expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
+
+      within_dialog "Delete OpenID Connect provider" do
+        confirmation = find_field("I understand that this deletion cannot be reversed.")
+        confirmation.click
+
+        expect(confirmation).to be_checked
+        expect(page).to have_button("Delete permanently", disabled: false)
+        click_on "Delete permanently"
+      end
 
       expect(page).to have_text "No OpenID providers configured yet."
       expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -179,7 +187,7 @@ RSpec.describe "OIDC administration CRUD",
     end
   end
 
-  context "without EE", without_ee: %i[sso_auth_providers] do
+  context "without EE" do
     it "renders the upsell page" do
       visit "/admin/openid_connect/providers"
       expect(page).to have_enterprise_banner(:professional)

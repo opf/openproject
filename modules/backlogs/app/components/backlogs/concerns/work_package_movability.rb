@@ -75,5 +75,18 @@ module Backlogs::Concerns
     def movable?
       sortable? && !work_package.readonly_status?
     end
+
+    # What ordering this card takes part in.
+    #
+    # `fixed` is no part at all: no drag, no positional move, no selection.
+    # `confined` reorders within its own list but is refused by every other
+    # container. `free` may move to any list that accepts it.
+    #
+    # @return [String] one of "fixed", "confined", "free".
+    def mobility
+      return "fixed" unless sortable?
+
+      movable? ? "free" : "confined"
+    end
   end
 end

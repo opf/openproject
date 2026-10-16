@@ -32,16 +32,19 @@ module Admin::Settings
   class UserCustomFieldsController < ::Admin::SettingsController
     include CustomFields::SharedActions
     include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::UserCustomFields::ComponentStreams
+
+    helper_method :delete_option_path
 
     menu_item :user_custom_fields_settings
 
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit update destroy delete_option reorder_alphabetical
+                  only: %i(show edit update destroy delete_option deletion_dialog reorder_alphabetical
                            move drop attribute_help_text update_attribute_help_text list_items)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
@@ -116,6 +119,10 @@ module Admin::Settings
       end
 
       respond_with_turbo_streams
+    end
+
+    def deletion_dialog
+      respond_with_dialog Admin::CustomFields::DeleteDialogComponent.new(custom_field: @custom_field)
     end
 
     def destroy

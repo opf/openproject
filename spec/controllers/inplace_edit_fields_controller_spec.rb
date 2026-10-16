@@ -181,6 +181,38 @@ RSpec.describe InplaceEditFieldsController do
       end
     end
 
+    context "when updating a custom field with calculated dependents" do
+      let(:handler) { double(call: true) }
+      let(:custom_field) { create(:integer_project_custom_field, projects: [model]) }
+      let(:attribute) { custom_field.attribute_name.to_sym }
+      let!(:calculated_field) do
+        create(
+          :calculated_value_project_custom_field,
+          :skip_validations,
+          formula: "{{cf_#{custom_field.id}}} * 2",
+          projects: [model]
+        )
+      end
+
+      before do
+        allow(ProjectCustomField).to receive(:visible).and_return(ProjectCustomField.all)
+      end
+
+      it "refreshes dependent fields when stable-key arguments are omitted" do
+        patch :update, params: {
+          model: model_param,
+          id: model.id,
+          attribute:,
+          project: { custom_field_values: { custom_field.id.to_s => "42" } }
+        }, format: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        stream_targets = Nokogiri::HTML.fragment(response.body).css("turbo-stream").pluck("targets")
+        expect(stream_targets)
+          .to include("[data-inplace-edit-stable-key='project_#{model.id}_#{calculated_field.attribute_name}']")
+      end
+    end
+
     context "when no update handler is registered" do
       let(:handler) { nil }
 

@@ -34,7 +34,7 @@ module Pages
   module CustomFields
     class ProjectMappings < ::Pages::Projects::Index
       def path(project_custom_field)
-        "/custom_fields/#{project_custom_field.id}/projects"
+        "/admin/settings/work_package_custom_fields/#{project_custom_field.id}/projects"
       end
 
       def within_row(project)
@@ -43,6 +43,12 @@ module Pages
         within row do
           yield row
         end
+      end
+
+      def project_in_first_actionable_row
+        menu = page.first("[data-test-selector='project-list-row--action-menu']")
+        row = menu.ancestor("tr")
+        Project.find(row["id"].delete_prefix("#{row_id_prefix[1..]}-"))
       end
 
       def row_id_prefix = "#admin-custom-fields-custom-field-projects-row-component-project"

@@ -40,6 +40,20 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
+  describe "date and time format" do
+    let(:request_body) do
+      {
+        "dateFormat" => "%d.%m.%Y",
+        "timeFormat" => "%I:%M %p"
+      }
+    end
+
+    it "parses both formats" do
+      expect(parsed.date_format).to eql "%d.%m.%Y"
+      expect(parsed.time_format).to eql "%I:%M %p"
+    end
+  end
+
   describe "immediate_reminders" do
     let(:request_body) do
       {

@@ -128,6 +128,12 @@ module OpenProject
               label: :label_general
             },
             {
+              name: "criteria",
+              partial: "placeholder_users/criteria",
+              path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :criteria) },
+              label: :label_criteria
+            },
+            {
               name: "memberships",
               partial: "individual_principals/memberships",
               path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :memberships) },

@@ -85,7 +85,7 @@ RSpec.describe "User card view", :js, with_ee: %i[resource_management] do
       find_test_selector("op-user-card", text: user.name).click
 
       within("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}") do
-        expect(page).to have_text(I18n.t("resource_management.user_allocations_dialog.blank"))
+        expect(page).to have_text(I18n.t("resource_management.user_allocations_dialog.blank_in_timeframe"))
       end
     end
 

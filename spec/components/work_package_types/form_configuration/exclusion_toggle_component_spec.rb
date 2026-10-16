@@ -3,11 +3,13 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfiguration::ExclusionToggleComponent, type: :component do
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
-  let(:variant) { type.default_variant }
+  let(:variant) { create(:type_variant, type:) }
 
   def exclusion_state(effective: [])
-    WorkPackageTypes::ExclusionState.new(variant:, own: effective, effective:)
+    WorkPackageTypes::ExclusionState.new(variant:, excluded: effective)
   end
 
   def component(exclusions: exclusion_state, element_key: "assignee", label: "Inherit Assignee")

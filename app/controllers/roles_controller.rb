@@ -35,7 +35,7 @@ class RolesController < ApplicationController
   layout "admin"
 
   before_action :require_admin
-  before_action :find_role, only: %i[edit update destroy drop]
+  before_action :find_role, only: %i[edit update deletion_dialog destroy drop]
 
   menu_item :roles, except: :report
   menu_item :permissions_report, only: :report
@@ -84,6 +84,10 @@ class RolesController < ApplicationController
     end
   end
 
+  def deletion_dialog
+    respond_with_dialog Roles::DeleteDialogComponent.new(@role)
+  end
+
   def destroy
     service_result = Roles::DeleteService.new(model: @role, user: current_user).call
 
@@ -127,7 +131,7 @@ class RolesController < ApplicationController
   private
 
   def find_role
-    @role = Role.find(params.expect(:id))
+    @role = Role.visible.find(params.expect(:id))
   end
 
   def set_role_attributes(role, create_or_update)

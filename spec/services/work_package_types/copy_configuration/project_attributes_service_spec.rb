@@ -62,16 +62,16 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
-    context "when the variant's link excludes some of the source's attributes",
-            with_flag: { type_variants: true } do
-      let(:source) { create(:type).default_variant }
+    context "when the variant's link excludes some of the source's attributes" do
+      let(:variant) { create(:type_variant) }
+      let(:source) { variant.type.default_variant }
       let(:kept_field) { create(:project_custom_field) }
       let(:excluded_field) { create(:project_custom_field) }
 
       before do
         ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: kept_field)
         ProjectCustomFieldTypeMapping.create!(type_variant: source, project_custom_field: excluded_field)
-        link_configuration(variant, source: source, aspect: TypeVariant::PROJECT_ATTRIBUTES,
+        link_configuration(variant, aspect: TypeVariant::PROJECT_ATTRIBUTES,
                                     excluded: [excluded_field.attribute_name])
       end
 
@@ -117,14 +117,14 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
-    context "when the source resolves through a link", with_flag: { type_variants: true } do
-      let(:owner) { create(:type).default_variant }
-      let(:source) { create(:type).default_variant }
+    context "when the source resolves through a link" do
+      let(:source) { create(:type_variant) }
+      let(:owner) { source.type.default_variant }
       let(:owner_field) { create(:project_custom_field) }
 
       before do
         ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: owner_field)
-        link_configuration(source, source: owner, aspect: TypeVariant::PROJECT_ATTRIBUTES)
+        link_configuration(source, aspect: TypeVariant::PROJECT_ATTRIBUTES)
       end
 
       it "adopts the resolved owner's enabled attributes" do

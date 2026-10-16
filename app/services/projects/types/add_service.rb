@@ -41,8 +41,6 @@ module Projects
 
         if current_project_type&.variant_id == variant.id
           service_call
-        elsif named_variant_without_feature?(variant)
-          failure(:cannot_assign_variants_yet)
         elsif current_project_type
           failure(conflict_with(current_project_type, variant))
         else
@@ -59,13 +57,8 @@ module Projects
         end
       end
 
-      def named_variant_without_feature?(variant)
-        !variant.is_default_variant? && !OpenProject::FeatureDecisions.type_variants_active?
-      end
-
       def add_variant(variant)
         model.project_types.create!(type_id: variant.type_id, variant:)
-        enable_work_package_custom_fields(variant)
       end
     end
   end

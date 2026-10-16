@@ -93,6 +93,12 @@ class Principal < ApplicationRecord
          :visible,
          :status
 
+  # Groups can be budgeted and assigned, but only users and placeholder
+  # users can carry an hourly rate.
+  scope :with_rates, ->(user = User.current) {
+    visible(user).where(type: %w[User PlaceholderUser])
+  }
+
   scope :in_project, ->(project) {
     where(id: Member.of_project(project).select(:user_id))
   }

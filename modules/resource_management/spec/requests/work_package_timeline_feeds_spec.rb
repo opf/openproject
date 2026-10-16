@@ -130,6 +130,22 @@ RSpec.describe "Work package timeline feeds", type: :rails_request, with_ee: %i[
       expect(block_events).to all(satisfy { |e| e.dig("extendedProps", "editUrl").nil? })
     end
 
+    it "names the assignee's job title on the bar when the field is mapped" do
+      job_title = create(:user_custom_field, :string, name: "Position", semantic_key: :job_title)
+      assignee.custom_values.create!(custom_field: job_title, value: "Frontend Developer")
+
+      get_events
+
+      expect(block_events.map { |e| e.dig("extendedProps", "html") })
+        .to all(include(assignee.name, "Frontend Developer"))
+    end
+
+    it "leaves the bar to the name when no job title field is mapped" do
+      get_events
+
+      expect(block_events.map { |e| e.dig("extendedProps", "html") }).to all(include(assignee.name))
+    end
+
     it "never carries an edit url on the background span events" do
       login_as create(:user, member_with_permissions: {
                         project => %i[view_resource_planners view_work_packages allocate_user_resources]

@@ -34,13 +34,7 @@ module Admin
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
-
-      MOVE_ITEMS = [
-        { label: :label_sort_highest, direction: "top", icon: :"move-to-top" },
-        { label: :label_sort_higher, direction: "up", icon: :"chevron-up" },
-        { label: :label_sort_lower, direction: "down", icon: :"chevron-down" },
-        { label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom" }
-      ].freeze
+      include SortableLists::MoveMenu
 
       options toggles_enabled: true
 
@@ -62,23 +56,6 @@ module Admin
 
       def toggle_label
         t(".label_toggle", label: text_transform_action.label)
-      end
-
-      # The `data:` hash must live on the item level so Primer renders it on
-      # the ActionList `<li>`, which is what the sortable-lists item controller
-      # targets to compute availability and to handle the bubbled click.
-      def build_move_item(menu, label:, direction:, icon:)
-        menu.with_item(
-          label: I18n.t(label),
-          tag: :button,
-          data: {
-            sortable_lists__item_target: "moveItem",
-            sortable_lists__item_direction_param: direction,
-            action: "click->sortable-lists--item#move"
-          }
-        ) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
       end
     end
   end

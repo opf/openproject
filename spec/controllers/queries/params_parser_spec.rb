@@ -125,6 +125,47 @@ RSpec.describe Queries::ParamsParser, type: :model do
       end
     end
 
+    context "with a single filter with a value containing an escaped backslash" do
+      let(:params) do
+        {
+          filters: 'subject ~ "C:\\\\some\\\\path"'
+        }
+      end
+
+      it "unescapes the backslashes" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "subject", operator: "~", values: ['C:\some\path'] })
+      end
+    end
+
+    context "with a single filter whose value ends on an escaped backslash" do
+      let(:params) do
+        {
+          filters: 'subject ~ "trailing\\\\" & project_id = "5"'
+        }
+      end
+
+      it "ends the value at the closing quote and keeps the filters that follow" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "subject", operator: "~", values: ["trailing\\"] },
+                              { attribute: "project_id", operator: "=", values: ["5"] })
+      end
+    end
+
+    context "with multiple values containing escaped quotes and a closing bracket" do
+      let(:params) do
+        {
+          filters: 'subject ~ ["a\\"b","x]y"] & project_id = "5"'
+        }
+      end
+
+      it "keeps the values intact and does not end the array early" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "subject", operator: "~", values: ['a"b', "x]y"] },
+                              { attribute: "project_id", operator: "=", values: ["5"] })
+      end
+    end
+
     context "with a single filter with no value" do
       let(:params) do
         {

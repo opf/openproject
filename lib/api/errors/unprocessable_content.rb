@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,6 +33,12 @@ module API
     class UnprocessableContent < ErrorBase
       identifier "UnprocessableContent"
       code 422
+
+      def initialize(message, details: nil)
+        super(message)
+
+        @details = details
+      end
     end
   end
 end

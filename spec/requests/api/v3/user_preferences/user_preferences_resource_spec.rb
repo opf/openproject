@@ -178,6 +178,52 @@ RSpec.describe "API v3 UserPreferences resource", content_type: :json do
         end
       end
     end
+
+    context "when updating the date format" do
+      context "with an unallowed date format" do
+        let(:params) do
+          { dateFormat: "%Y very %m much %d format" }
+        end
+
+        it_behaves_like "constraint violation" do
+          let(:message) { "Date format is not set to one of the allowed values." }
+        end
+      end
+
+      context "with an allowed date format" do
+        let(:params) do
+          { dateFormat: "%d.%m.%Y" }
+        end
+
+        it "responds with a UserPreferences representer" do
+          expect(subject.body).to be_json_eql("%d.%m.%Y".to_json).at_path("dateFormat")
+          expect(preference.date_format).to eq("%d.%m.%Y")
+        end
+      end
+    end
+
+    context "when updating the time format" do
+      context "with an unallowed time format" do
+        let(:params) do
+          { timeFormat: "%H wow %M" }
+        end
+
+        it_behaves_like "constraint violation" do
+          let(:message) { "Time format is not set to one of the allowed values." }
+        end
+      end
+
+      context "with an allowed time format" do
+        let(:params) do
+          { timeFormat: "%I:%M %p" }
+        end
+
+        it "responds with a UserPreferences representer" do
+          expect(subject.body).to be_json_eql("%I:%M %p".to_json).at_path("timeFormat")
+          expect(preference.time_format).to eq("%I:%M %p")
+        end
+      end
+    end
   end
 
   describe "/api/v3/my_preferences endpoint" do

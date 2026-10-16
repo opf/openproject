@@ -61,6 +61,18 @@ RSpec.describe "Boards",
       expect(page).not_to have_enterprise_banner
     end
 
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               enabled_module_names: %i[work_package_tracking board_view])
+      end
+
+      delegate :search_project, to: :new_board_page
+    end
+
     context "with all fields set" do
       before do
         wait_for_reload # Halt until the project autocompleter is ready
