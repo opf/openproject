@@ -5,6 +5,7 @@ en:
   avatars:
     background_color_hint: "Used for initials. Leave blank for an automatic color."
     delete_image: "Delete image"
+    edit_avatar: "Edit avatar"
     image_hint: "Choose a JPG, PNG, or GIF. Your image is saved when you select Save."
     image_required: "Choose an image, or select a different avatar option."
     label_avatar_text: "Avatar text"

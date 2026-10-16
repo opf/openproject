@@ -22,8 +22,8 @@ RSpec.describe Avatars::UsersController do
         get :show, params: { id: target_user.id }
       end
 
-      it "redirects to the avatar tab" do
-        expect(response).to redirect_to edit_user_path(target_user, tab: :avatar)
+      it "redirects to the user edit page" do
+        expect(response).to redirect_to edit_user_path(target_user)
       end
     end
 
@@ -43,10 +43,10 @@ RSpec.describe Avatars::UsersController do
   describe "#update_settings" do
     let(:target_user) { user_without_avatar }
 
-    it "saves settings and returns to the avatar tab" do
+    it "saves settings and returns to the user edit page" do
       patch :update_settings, params: { id: target_user.id, avatar_type: "initials", avatar_text: "OP" }
 
-      expect(response).to redirect_to edit_user_path(target_user, tab: :avatar)
+      expect(response).to redirect_to edit_user_path(target_user)
       expect(flash[:notice]).to eq I18n.t("avatars.message_avatar_updated")
       expect(target_user.reload.avatar_text).to eq "OP"
     end

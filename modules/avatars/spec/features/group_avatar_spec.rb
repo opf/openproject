@@ -8,25 +8,32 @@ RSpec.describe "Group avatar management", :js do
   let(:enable_gravatars) { true }
   let(:enable_local_avatars) { true }
 
+  def open_avatar_dialog
+    find_test_selector("avatar-edit-button").click
+    expect(page).to have_css("dialog#avatar-settings-dialog[open]")
+  end
+
   before do
     login_as user
     allow(Setting).to receive(:plugin_openproject_avatars)
       .and_return("enable_gravatars" => enable_gravatars, "enable_local_avatars" => enable_local_avatars)
   end
 
-  it "manages avatars in their own group tab" do
+  it "manages avatars in a dialog above the group details" do
     visit edit_group_path(group)
-    expect(page).to have_current_path(edit_group_path(group))
+    expect(page).to have_test_selector("avatar-edit-button")
+    expect(page).to have_no_link("Avatar")
     expect(page).to have_no_field("Initials", type: "radio")
 
-    click_link "Avatar"
+    open_avatar_dialog
     expect(page).to have_no_field("Gravatar", type: "radio")
     choose "Initials"
     fill_in "avatar_text", with: "🇯🇵"
     click_button "Save"
 
-    expect(page).to have_current_path(edit_group_path(group, tab: :avatar))
+    expect(page).to have_current_path(edit_group_path(group))
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+    open_avatar_dialog
     expect(page).to have_checked_field("Initials")
     expect(page).to have_field("avatar_text", with: "🇯🇵")
     expect(group.reload.avatar_text).to eq "🇯🇵"
@@ -37,6 +44,7 @@ RSpec.describe "Group avatar management", :js do
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
     expect(group.reload.avatar_text).to be_nil
+    open_avatar_dialog
     expect(page).to have_css(".avatars--preview img[src^='data:image/svg+xml']", count: 3) do |image|
       svg = Nokogiri::XML(CGI.unescape(image[:src].split(",", 2).last), &:strict)
       svg.at_css("text").text == OpenProject::Avatars::InitialsSvg.initials_for(group.name)
@@ -47,9 +55,9 @@ RSpec.describe "Group avatar management", :js do
     let(:enable_gravatars) { false }
     let(:enable_local_avatars) { false }
 
-    it "keeps the avatar tab and generated avatars available" do
+    it "keeps the avatar dialog and generated avatars available" do
       visit edit_group_path(group)
-      click_link "Avatar"
+      open_avatar_dialog
 
       expect(page).to have_checked_field("Initials")
       expect(page).to have_no_field("Gravatar", type: "radio")
@@ -59,7 +67,7 @@ RSpec.describe "Group avatar management", :js do
       fill_in "avatar_color", with: "#123456"
       click_button "Save"
 
-      expect(page).to have_current_path(edit_group_path(group, tab: :avatar))
+      expect(page).to have_current_path(edit_group_path(group))
       expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
       expect(group.reload.avatar_text).to eq "OP"
       expect(group.avatar_color).to eq "#123456"

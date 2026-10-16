@@ -10,7 +10,7 @@ module ::Avatars
     private
 
     def redirect_path
-      edit_group_path(@principal, tab: :avatar)
+      edit_group_path(@principal)
     end
 
     def find_group

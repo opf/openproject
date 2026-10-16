@@ -32,6 +32,9 @@ module Avatars
   class FormSectionComponent < ApplicationComponent
     include OpPrimer::FormHelpers
 
+    DIALOG_ID = "avatar-settings-dialog"
+    FORM_ID = "avatar-settings-form"
+
     delegate :avatar_color, :avatar_text, to: :@principal
 
     def initialize(principal:, target_avatar_path:, avatar_settings_path:)

@@ -33,14 +33,7 @@ module OpenProject::Avatars
                breadcrumb_elements: -> { [{ href: admin_settings_users_path, text: I18n.t(:label_user_and_permission) }] },
                menu_item: :user_avatars
              },
-             bundled: true do
-      menu :my_menu,
-           :avatar,
-           { controller: "/avatars/my_avatar", action: "show" },
-           after: :account,
-           caption: :label_avatar,
-           icon: "person"
-    end
+             bundled: true
 
     add_api_endpoint "API::V3::Users::UsersAPI", :id do
       mount ::API::V3::Users::UserAvatarAPI
@@ -50,17 +43,8 @@ module OpenProject::Avatars
       mount ::API::V3::Groups::GroupAvatarAPI
     end
 
-    add_tab_entry :user,
-                  name: "avatar",
-                  partial: "avatars/users/avatar_section",
-                  path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
-                  label: :label_avatar,
-                  only_if: ->(*) { User.current.admin? }
-
-    add_tab_entry :group,
-                  name: "avatar",
-                  partial: "avatars/groups/avatar_section",
-                  path: ->(params) { edit_group_path(params[:group], tab: :avatar) },
-                  label: :label_avatar
+    config.to_prepare do
+      OpenProject::Avatars::Hooks
+    end
   end
 end

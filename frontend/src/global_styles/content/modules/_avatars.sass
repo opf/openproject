@@ -1,10 +1,3 @@
-.avatars--media
-  display: inline-flex
-  flex-direction: column
-  align-items: center
-  gap: 0.25rem
-  margin-bottom: var(--stack-gap-normal)
-
 .avatars--current-avatar
   display: inline-block
 
@@ -14,31 +7,26 @@
     line-height: 3.75rem
     font-size: 1.75rem
 
-.avatars--upload-trigger
-  cursor: pointer
-  &:hover
-    opacity: 0.8
-
 .avatars--error-pane
   color: var(--content-form-error-color)
   font-weight: var(--base-text-weight-bold)
 
-.avatars--settings
-  display: grid
-  grid-template-columns: minmax(0, 2fr) minmax(17rem, 1fr)
-  align-items: start
-  gap: 1.5rem
-  max-width: 72rem
+.avatars--edit
+  display: inline-block
+  position: relative
+  margin-bottom: var(--stack-gap-normal)
 
-  .FormControl-radio-group
-    gap: var(--stack-gap-normal)
+.avatars--edit-trigger
+  height: auto
+  padding: var(--base-size-4)
+  border-radius: 50%
 
-  @media (max-width: 767px)
-    grid-template-columns: minmax(0, 1fr)
+.avatars--settings .FormControl-radio-group
+  gap: var(--stack-gap-normal)
 
 .avatars--preview
   position: sticky
-  top: var(--stack-gap-normal)
+  top: 0
 
 .avatars--preview-row
   display: flex

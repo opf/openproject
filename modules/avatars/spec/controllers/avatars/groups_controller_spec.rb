@@ -13,10 +13,10 @@ RSpec.describe Avatars::GroupsController do
   end
 
   describe "#update_settings" do
-    it "updates the group's avatar and returns to the avatar tab" do
+    it "updates the group's avatar and returns to the group edit page" do
       patch :update_settings, params: { id: group.id, avatar_type: "initials", avatar_text: "🚀", avatar_color: "#123456" }
 
-      expect(response).to redirect_to edit_group_path(group, tab: :avatar)
+      expect(response).to redirect_to edit_group_path(group)
       expect(group.reload.avatar_type).to eq "initials"
       expect(group.avatar_text).to eq "🚀"
       expect(group.avatar_color).to eq "#123456"

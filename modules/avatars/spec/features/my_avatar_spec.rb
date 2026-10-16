@@ -8,7 +8,6 @@ RSpec.describe "My avatar management", :js do
 
   let(:image_base_path) { File.expand_path("../fixtures", __dir__) }
   let(:user) { create(:user) }
-  let(:avatar_management_path) { edit_my_avatar_path }
   let(:enable_gravatars) { false }
   let(:enable_local_avatars) { true }
 
@@ -22,6 +21,16 @@ RSpec.describe "My avatar management", :js do
     end
   end
 
+  def open_avatar_dialog
+    find_test_selector("avatar-edit-button").click
+    expect(page).to have_css("dialog#avatar-settings-dialog[open]")
+  end
+
+  def visit_avatar_settings
+    visit my_account_path
+    open_avatar_dialog
+  end
+
   before do
     login_as user
     allow(Setting)
@@ -29,25 +38,31 @@ RSpec.describe "My avatar management", :js do
       .and_return("enable_gravatars" => enable_gravatars, "enable_local_avatars" => enable_local_avatars)
   end
 
-  it "opens avatar settings from a separate account menu entry" do
+  it "opens avatar settings in a dialog from the avatar on the account page" do
     visit my_account_path
 
-    expect(page).to have_current_path(my_account_path)
+    expect(page).to have_test_selector("avatar-edit-button")
+    expect(page).to have_no_link("Avatar")
     expect(page).to have_no_field("Initials", type: "radio")
-    click_link "Avatar"
+    find_test_selector("avatar-edit-button").hover
+    expect(page).to have_css("tool-tip[for='avatar-edit-button']", text: I18n.t("avatars.edit_avatar"), visible: :visible)
+    open_avatar_dialog
 
-    expect(page).to have_current_path(avatar_management_path)
+    expect(page).to have_current_path(my_account_path)
     expect(page).to have_checked_field("Initials")
     expect(page).to have_no_field("Custom text", type: "radio")
     expect(page).to have_field("avatar_text", with: "", placeholder: OpenProject::Avatars::InitialsSvg.initials_for(user.name))
     expect(page).to have_css(".avatars--preview .op-avatar", count: 3)
+
+    click_button I18n.t(:button_cancel)
+    expect(page).to have_no_css("dialog#avatar-settings-dialog[open]")
   end
 
   context "when Gravatar is enabled" do
     let(:enable_gravatars) { true }
 
     it "keeps the management link visible for every avatar option" do
-      visit avatar_management_path
+      visit_avatar_settings
 
       expect(page).to have_checked_field("Gravatar")
       expect(page).to have_link(I18n.t("avatars.manage_gravatar"))
@@ -63,9 +78,8 @@ RSpec.describe "My avatar management", :js do
   context "when Gravatar and local avatars are disabled" do
     let(:enable_local_avatars) { false }
 
-    it "keeps the account menu and text customization available" do
-      visit my_account_path
-      click_link "Avatar"
+    it "keeps the avatar dialog and text customization available" do
+      visit_avatar_settings
 
       expect(page).to have_checked_field("Initials")
       expect(page).to have_no_field("Gravatar", type: "radio")
@@ -76,6 +90,8 @@ RSpec.describe "My avatar management", :js do
       click_button "Save"
 
       expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+
+      open_avatar_dialog
       expect(page).to have_field("avatar_text", with: "🚀")
       expect(user.reload.avatar_type).to eq "initials"
       expect(user.avatar_color).to eq "#123456"
@@ -83,7 +99,7 @@ RSpec.describe "My avatar management", :js do
   end
 
   it "previews and saves custom text and color, validates text, and switches back to initials" do
-    visit avatar_management_path
+    visit_avatar_settings
     choose "Initials"
     fill_in "avatar_text", with: "本田"
     fill_in "avatar_color", with: "#123456"
@@ -96,6 +112,8 @@ RSpec.describe "My avatar management", :js do
     click_button "Save"
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+
+    open_avatar_dialog
     expect(page).to have_field("avatar_text", with: "本田")
     expect(user.reload.avatar_type).to eq "initials"
     expect(user.avatar_color).to eq "#D1F0FF"
@@ -109,6 +127,7 @@ RSpec.describe "My avatar management", :js do
     expect(page).to avatar_preview("本田", color: random_color, text_color:)
     click_button "Save"
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+    open_avatar_dialog
     expect(user.reload.avatar_color).to eq random_color
     expect(page).to avatar_preview("本田", color: random_color, text_color:)
 
@@ -125,6 +144,8 @@ RSpec.describe "My avatar management", :js do
     click_button "Save"
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+
+    open_avatar_dialog
     expect(user.reload.avatar_type).to eq "initials"
     expect(user.avatar_text).to be_nil
     expect(user.avatar_color).to be_nil
@@ -134,7 +155,7 @@ RSpec.describe "My avatar management", :js do
   end
 
   it "accepts up to two visible characters without splitting combined characters" do
-    visit avatar_management_path
+    visit_avatar_settings
     choose "Initials"
 
     ["🇯🇵", "1️⃣", "👨‍👩‍👧‍👦", "e\u0301Ж"].each do |text|
@@ -160,6 +181,8 @@ RSpec.describe "My avatar management", :js do
     click_button "Save"
 
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+
+    open_avatar_dialog
     expect(user.reload.avatar_type).to eq "initials"
     expect(user.avatar_text).to eq "👩🏽‍💻🇯🇵"
 
@@ -174,7 +197,7 @@ RSpec.describe "My avatar management", :js do
   end
 
   it "validates, previews, saves, resizes, and deletes an image" do
-    visit avatar_management_path
+    visit_avatar_settings
     choose "Image"
     attach_file("avatar_file_input", File.join(image_base_path, "invalid.txt"), make_visible: true)
 
@@ -187,7 +210,9 @@ RSpec.describe "My avatar management", :js do
     expect(user.local_avatar_attachment).to be_nil
     click_button "Save"
 
-    expect(page).to have_test_selector("avatar-delete-link", wait: 20)
+    expect(page).to have_text(I18n.t("avatars.message_avatar_updated"), wait: 20)
+    open_avatar_dialog
+    expect(page).to have_test_selector("avatar-delete-link")
     expect(page).to have_css(".avatars--preview img[src$='/avatar?source=image']", count: 3)
     wait_for { page.evaluate_script("document.querySelector('.avatars--preview img').naturalWidth") }.to eq 128
     expect(user.reload.avatar_type).to eq "image"
@@ -197,13 +222,17 @@ RSpec.describe "My avatar management", :js do
     choose "Initials"
     click_button "Save"
     expect(page).to have_text(I18n.t("avatars.message_avatar_updated"))
+    open_avatar_dialog
     expect(page).to have_checked_field("Initials")
     expect(user.reload.local_avatar_attachment).to be_present
 
     choose "Image"
     accept_alert { find_test_selector("avatar-delete-link").click }
 
-    expect(page).to have_no_test_selector("avatar-delete-link", wait: 20)
+    expect(page).to have_text(I18n.t(:avatar_deleted), wait: 20)
     expect(user.reload.local_avatar_attachment).to be_nil
+    open_avatar_dialog
+    choose "Image"
+    expect(page).to have_no_test_selector("avatar-delete-link")
   end
 end
