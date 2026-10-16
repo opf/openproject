@@ -142,8 +142,7 @@ module ::ResourceManagement
     end
 
     def working_schedules(principal)
-      days = overbooking(principal).days
-      span = days.any? ? days.first.date..days.last.date : @allocation.start_date..@allocation.end_date
+      span = overbooking(principal).period || (@allocation.start_date..@allocation.end_date)
       UserWorkingHours.for_user(principal).effective_within(span)
     end
 

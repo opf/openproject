@@ -484,19 +484,33 @@ RSpec.describe "ResourceAllocations requests",
         end.to change(ResourceAllocation, :count).by(1)
       end
 
-      it "lists each day with its working hours, the planned and added time and the overtime",
+      it "states its hours and period and, emphasized, the overtime it causes",
          with_settings: { date_format: "%Y-%m-%d" } do
         post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
 
         page = Nokogiri::HTML4.fragment(response.body)
-        expect(page.css("th").map { |cell| cell.text.strip })
-          .to eq(["Date", "Working hours", "Already planned", "Added", "Overtime"])
-        expect(page.css("tbody tr").map { |row| row.css("td").map { |cell| cell.text.strip } })
-          .to eq([%w[2026-03-02 8h 0h 20h 12h], %w[2026-03-03 8h 0h 20h 12h]])
-        expect(page.css("tfoot td").map { |cell| cell.text.strip }).to eq(%w[Total 16h 0h 40h 24h])
+        expect(page.text).to include(
+          "This allocation adds 40h between 2026-03-02 and 2026-03-03, " \
+          "causing 24h of overtime between 2026-03-02 and 2026-03-03."
+        )
+        expect(page.css("strong").map(&:text)).to include("causing 24h of overtime between 2026-03-02 and 2026-03-03")
       end
 
-      it "counts other allocations as already planned without naming their work packages" do
+      it "includes the overtime of other allocations it pushes back in that period",
+         with_settings: { date_format: "%Y-%m-%d" } do
+        create(:resource_allocation, principal: working_assignee, entity: work_package, allocated_time: 960,
+                                     start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 4))
+        params = base_params.deep_merge(resource_allocation: { allocated_hours: "16h" })
+
+        post project_resource_allocations_path(project), params:, as: :turbo_stream
+
+        expect(Nokogiri::HTML4.fragment(response.body).text).to include(
+          "This allocation adds 16h between 2026-03-02 and 2026-03-03, " \
+          "causing 8h of overtime between 2026-03-02 and 2026-03-04."
+        )
+      end
+
+      it "does not name the work packages of other allocations" do
         hidden_work_package = create(:work_package, project: create(:project), subject: "Confidential rocket plans")
         create(:resource_allocation,
                principal: working_assignee,
@@ -507,10 +521,6 @@ RSpec.describe "ResourceAllocations requests",
 
         post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
 
-        rows = Nokogiri::HTML4.fragment(response.body).css("tbody tr").map do |row|
-          row.css("td").drop(1).map { |cell| cell.text.strip }
-        end
-        expect(rows).to eq([%w[8h 8h 17h 17h], %w[8h 2h 23h 17h]])
         expect(response.body).not_to include("Confidential rocket plans")
       end
 

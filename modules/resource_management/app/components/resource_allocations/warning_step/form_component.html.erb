@@ -10,61 +10,21 @@
           render(Primer::Beta::Heading.new(tag: :h2, font_size: 4)) { overbooking_heading }
         end
 
-        body.with_row(mb: working_schedule? ? 1 : 3) do
+        body.with_row(mb: 3) do
           render(Primer::Beta::Text.new(tag: :p, color: :muted, m: 0)) { overbooking_description }
         end
 
         if working_schedule?
-          body.with_row(mb: 3) do
+          body.with_row(mb: 1) do
             render(Primer::Beta::Text.new(tag: :p, color: :muted, m: 0)) { schedule_note }
           end
         end
 
-        body.with_row(w: :full, mb: 2, text_align: :left) do
+        body.with_row(mb: 3) do
           if unplannable?
-            render(Primer::Beta::Text.new(tag: :p, m: 0)) { unplannable_note }
+            render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, m: 0)) { unplannable_note }
           else
-            content_tag(:table, class: "generic-table") do
-              thead = content_tag(:thead) do
-                content_tag(:tr) do
-                  safe_join(%i[date working_hours planned added overtime].map { |column| content_tag(:th, column_caption(column)) })
-                end
-              end
-
-              tbody = content_tag(:tbody) do
-                safe_join(
-                  overbooked_days.map do |day|
-                    content_tag(:tr) do
-                      safe_join(
-                        [
-                          content_tag(:td, helpers.format_date(day.date)),
-                          content_tag(:td, format_hours(day.working_minutes)),
-                          content_tag(:td, format_hours(day.planned_minutes)),
-                          content_tag(:td, format_hours(day.added_minutes)),
-                          content_tag(:td, format_hours(day.overtime_minutes))
-                        ]
-                      )
-                    end
-                  end
-                )
-              end
-
-              tfoot = content_tag(:tfoot) do
-                content_tag(:tr) do
-                  safe_join(
-                    [
-                      content_tag(:td, t("resource_management.allocate_resource_dialog.overbooking.total")),
-                      content_tag(:td, format_hours(overbooked_days.sum(&:working_minutes))),
-                      content_tag(:td, format_hours(overbooked_days.sum(&:planned_minutes))),
-                      content_tag(:td, format_hours(overbooked_days.sum(&:added_minutes))),
-                      content_tag(:td, format_hours(overbooked_days.sum(&:overtime_minutes)))
-                    ]
-                  )
-                end
-              end
-
-              thead + tbody + tfoot
-            end
+            render(Primer::Beta::Text.new(tag: :p, m: 0)) { overtime_summary }
           end
         end
       end

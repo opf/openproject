@@ -37,9 +37,6 @@ module ResourceAllocations
 
     attribute :by_date, default: -> { {} }
     attribute :unplannable, default: -> { [] }
-    attribute :calendar
-
-    delegate :capacity_on, to: :calendar
 
     def entries_on(date) = by_date.fetch(date, [])
     def allocations_on(date) = entries_on(date).map(&:allocation)
