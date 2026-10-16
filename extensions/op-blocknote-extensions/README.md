@@ -182,8 +182,12 @@ This should make sure that the package is available for OpenProject even if runn
 
 ### Releases
 
-Bump `version` in _package.json_ and merge to `dev`. The
+Bump `version` in _package.json_ and merge to `release-op-blocknote-extensions`. The
 [publish workflow](../../.github/workflows/op-blocknote-extensions-publish.yml)
 publishes every version that is not yet on npm.
+
+> The branch is not merged back automatically. After every release, resync
+`release-op-blocknote-extensions` with `dev` manually, so that `dev` gets the version bump and the
+next release starts from the current `dev`.
 
 Versions up to 0.3.1 were released as tarballs from https://github.com/opf/op-blocknote-extensions/releases/.
