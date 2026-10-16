@@ -50,7 +50,7 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
 }
 
 /**
- * Owns the "this device" box on the Browser push tab of My account.
+ * Owns the "this device" box on the Browser notifications tab of My account.
  *
  * The server is the source of truth, and both directions are reconciled. A
  * browser push subscription only counts when its endpoint is in the list the
