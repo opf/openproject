@@ -132,7 +132,7 @@ Semantic identifiers are now considered production-ready and are no longer marke
 
 Calculated custom fields now support additional calculation options, including comparison, logical, and numeric operators such as IF, SUM, MAX, and CASE. This allows you to create more advanced formulas and model a wider range of business logic directly in OpenProject.
 
-Read more about [calculation logic](../../system-admin-guide/projects/project-attributes/#formula-syntax-reference).
+Read more about [calculation logic](../../system-admin-guide/projects/project-attributes/#understanding-formulas-for-calculated-value-attributes).
 
 ### Wiki improvements
 
