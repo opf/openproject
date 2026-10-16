@@ -56,5 +56,11 @@ module OpenProject::Avatars
                   path: ->(params) { edit_user_path(params[:user], tab: :avatar) },
                   label: :label_avatar,
                   only_if: ->(*) { User.current.admin? }
+
+    add_tab_entry :group,
+                  name: "avatar",
+                  partial: "avatars/groups/avatar_section",
+                  path: ->(params) { edit_group_path(params[:group], tab: :avatar) },
+                  label: :label_avatar
   end
 end

@@ -7,12 +7,8 @@ module ::Avatars
     menu_item :avatar
 
     no_authorization_required! :show,
-                               :image,
                                :update_settings,
-                               :update,
-                               :destroy,
-                               :update_color,
-                               :update_text
+                               :destroy
 
     def show; end
 
@@ -24,18 +20,6 @@ module ::Avatars
 
     def set_user
       @principal = current_user
-    end
-
-    def update_color_request
-      ::Users::UpdateService
-        .new(model: @principal, user: current_user)
-        .call(pref: { avatar_color: params[:avatar_color] })
-    end
-
-    def update_text_request
-      ::Users::UpdateService
-        .new(model: @principal, user: current_user)
-        .call(pref: params.permit(:avatar_text).to_h)
     end
   end
 end

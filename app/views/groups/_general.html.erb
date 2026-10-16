@@ -27,8 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= call_hook(:view_groups_general_top, group: @group) %>
-
 <%=
   settings_primer_form_with(model: @group, url: group_path(@group), method: :put) do |f|
     render Groups::Form.new(f)

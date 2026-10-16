@@ -96,7 +96,7 @@ RSpec.describe Groups::UpdateContract do
     let(:contract) { described_class.new(group, current_user) }
 
     [nil, "", "x", "OP", "山田", "本田", "Жя", "𐐀𐐁", "👩🏽‍💻", "👨‍👩‍👧‍👦", "🇯🇵", "🏳️‍🌈", "❤️", "👍🏽", "1️⃣",
-     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵"].each do |text|
+     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "👩🏽‍❤️‍💋‍👨🏿", "क्षि"].each do |text|
       it "accepts #{text.inspect}" do
         group.avatar_text = text
 
@@ -113,7 +113,8 @@ RSpec.describe Groups::UpdateContract do
       end
     end
 
-    ["x\u0000y", "\u0001", "x\ny", "\uFFFE", "\uFFFF"].each do |text|
+    ["x\u0000y", "\u0001", "x\ny", "\uFFFE", "\uFFFF", "\u200B\u200B", "A\u202E", "x\u007F", "x\u0085y",
+     "a#{"\u0301" * 5}", "a#{"\u200D" * 20}"].each do |text|
       it "rejects invalid SVG text #{text.inspect}" do
         group.avatar_text = text
 

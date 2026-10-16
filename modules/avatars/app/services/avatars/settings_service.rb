@@ -36,14 +36,16 @@ module Avatars
     end
 
     def call(attributes:, file: nil)
-      unless available_type?(attributes[:avatar_type])
-        return ServiceResult.failure(result: @principal).tap { |result| result.errors.add(:avatar_type, :inclusion) }
-      end
+      type = attributes[:avatar_type]
+      return failure(:avatar_type, :inclusion) unless available_type?(type)
+      return failure(:base, I18n.t("avatars.image_required")) if type == "image" && file.blank? && !local_avatar?
 
       result = nil
       @principal.class.transaction do
         result = update_with_image(attributes, file)
         raise ActiveRecord::Rollback unless result.success?
+
+        @principal.touch
       end
 
       result
@@ -51,8 +53,16 @@ module Avatars
 
     private
 
+    def failure(attribute, error)
+      ServiceResult.failure(result: @principal).tap { |result| result.errors.add(attribute, error) }
+    end
+
     def available_type?(type)
       OpenProject::Avatars::AvatarManager.available_types(@principal).include?(type)
+    end
+
+    def local_avatar?
+      @principal.local_avatar_attachment.present?
     end
 
     def update_with_image(attributes, file)

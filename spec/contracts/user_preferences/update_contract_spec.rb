@@ -320,7 +320,7 @@ RSpec.describe UserPreferences::UpdateContract do
     end
 
     [nil, "", "x", "OP", "山田", "本田", "Жя", "𐐀𐐁", "👩🏽‍💻", "👨‍👩‍👧‍👦", "🇯🇵", "🏳️‍🌈", "❤️", "👍🏽", "1️⃣",
-     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵"].each do |text|
+     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "👩🏽‍❤️‍💋‍👨🏿", "क्षि"].each do |text|
       context "with avatar_text #{text.inspect}" do
         let(:settings) { { avatar_text: text } }
 
@@ -336,7 +336,7 @@ RSpec.describe UserPreferences::UpdateContract do
       end
     end
 
-    ["\u0000", "\u0001", "\n", "\uFFFE", "\uFFFF", 123, ["x"]].each do |text|
+    ["\u0000", "\u0001", "\n", "\uFFFE", "\uFFFF", "\u200B\u200B", "A\u202E", "a#{"\u0301" * 5}", 123, ["x"]].each do |text|
       context "with invalid avatar_text #{text.inspect}" do
         let(:settings) { { avatar_text: text } }
 

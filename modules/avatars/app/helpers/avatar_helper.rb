@@ -59,7 +59,7 @@ module AvatarHelper
     elsif avatar_type == "image" && local_avatar?(user)
       user_avatar_url(user.id)
     elsif user.is_a?(User)
-      "#{API::V3::Utilities::PathHelper::ApiV3Path.user(user.id)}/avatar"
+      "#{API::V3::Utilities::PathHelper::ApiV3Path.url_for(:user, user.id)}/avatar"
     end
   rescue StandardError => e
     Rails.logger.error "Failed to create avatar url for #{user}: #{e}"

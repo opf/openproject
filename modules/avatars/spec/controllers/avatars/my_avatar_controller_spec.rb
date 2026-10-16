@@ -62,6 +62,20 @@ RSpec.describe Avatars::MyAvatarController do
       expect(current_user.avatar_text).to be_nil
     end
 
+    it "trims Unicode spaces around the characters" do
+      patch :update_settings, params: { avatar_type: "initials", avatar_text: " 山田　" }
+
+      expect(flash[:notice]).to be_present
+      expect(current_user.reload.avatar_text).to eq "山田"
+    end
+
+    it "rejects the image source without an image" do
+      patch :update_settings, params: { avatar_type: "image" }
+
+      expect(flash[:error]).to eq I18n.t("avatars.image_required")
+      expect(current_user.reload.avatar_type).to be_nil
+    end
+
     it "rejects a source disabled by the administrator" do
       allow(OpenProject::Avatars::AvatarManager).to receive(:gravatar_enabled?).and_return false
 
@@ -102,67 +116,6 @@ RSpec.describe Avatars::MyAvatarController do
         patch :update_settings, params: { avatar_type: "initials" }
 
         expect(response).to have_http_status :redirect
-      end
-    end
-  end
-
-  describe "#update_text" do
-    it "updates and trims custom text while preserving other preferences" do
-      current_user.pref.update!(settings: { avatar_color: "#AABBCC", comments_sorting: "asc" })
-
-      patch :update_text, params: { avatar_text: " 👩🏽‍💻 " }
-
-      expect(flash[:notice]).to eq I18n.t("avatars.message_avatar_text_updated")
-      expect(current_user.reload.avatar_text).to eq "👩🏽‍💻"
-      expect(current_user.avatar_color).to eq "#AABBCC"
-      expect(current_user.pref.comments_sorting).to eq "asc"
-      expect(response.body).to include 'action="reload"'
-    end
-
-    it "clears custom text" do
-      current_user.pref.update!(settings: { avatar_text: "OP" })
-
-      patch :update_text, params: { avatar_text: " " }
-
-      expect(flash[:notice]).to be_present
-      expect(current_user.reload.avatar_text).to be_nil
-    end
-
-    it "preserves stored text when rejecting more than two characters" do
-      current_user.pref.update!(settings: { avatar_text: "OP" })
-
-      patch :update_text, params: { avatar_text: "ABC" }
-
-      expect(flash[:error]).to be_present
-      expect(current_user.reload.avatar_text).to eq "OP"
-    end
-
-    it "ignores attributes other than avatar text" do
-      patch :update_text, params: { avatar_text: "🚀", avatar_color: "#AABBCC", admin: true }
-
-      expect(current_user.reload.avatar_text).to eq "🚀"
-      expect(current_user.avatar_color).to be_nil
-      expect(current_user).not_to be_admin
-    end
-
-    context "when local avatars are disabled" do
-      let(:enabled) { false }
-
-      it "still updates the text" do
-        patch :update_text, params: { avatar_text: "OP" }
-
-        expect(response).to have_http_status :ok
-        expect(current_user.reload.avatar_text).to eq "OP"
-      end
-    end
-
-    context "when not logged in" do
-      let(:current_user) { User.anonymous }
-
-      it "redirects to login" do
-        patch :update_text, params: { avatar_text: "OP" }
-
-        expect(response).to redirect_to signin_path(back_url: update_text_edit_my_avatar_url)
       end
     end
   end

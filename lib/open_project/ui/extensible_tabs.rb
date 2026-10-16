@@ -35,7 +35,8 @@ module OpenProject
         def tabs
           @tabs ||= {
             user: core_user_tabs,
-            placeholder_user: core_placeholder_user_tabs
+            placeholder_user: core_placeholder_user_tabs,
+            group: core_group_tabs
           }
         end
 
@@ -118,6 +119,41 @@ module OpenProject
           ]
         end
         # rubocop:enable Metrics/AbcSize
+
+        def core_group_tabs
+          [
+            {
+              name: "general",
+              partial: "groups/general",
+              path: ->(params) { edit_group_path(params[:group]) },
+              label: :label_general
+            },
+            {
+              name: "users",
+              partial: "groups/users",
+              path: ->(params) { edit_group_path(params[:group], tab: :users) },
+              label: :label_user_plural
+            },
+            {
+              name: "memberships",
+              partial: "groups/memberships",
+              path: ->(params) { edit_group_path(params[:group], tab: :memberships) },
+              label: :label_project_plural
+            },
+            {
+              name: "global_roles",
+              partial: "principals/global_roles",
+              path: ->(params) { edit_group_path(params[:group], tab: :global_roles) },
+              label: :label_global_roles
+            },
+            {
+              name: "synchronized_groups",
+              partial: "groups/synchronized_groups",
+              path: ->(params) { edit_group_path(params[:group], tab: :synchronized_groups) },
+              label: :"groups.edit.synchronized_groups"
+            }
+          ]
+        end
 
         def core_placeholder_user_tabs
           [

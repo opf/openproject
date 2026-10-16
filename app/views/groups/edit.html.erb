@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{t(:label_edit)} #{Group.model_name.human} #{h @group.name}" %>
 
-<% tabs = group_settings_tabs(@group) %>
+<% tabs = tabs_for_key(:group, group: @group) %>
 
 <%= render Groups::EditPageHeaderComponent.new(group: @group, current_user:, tabs: tabs) %>
 
