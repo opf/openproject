@@ -42,7 +42,6 @@ import {
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   InAppNotificationsResourceService,
@@ -54,7 +53,6 @@ import {
   InAppNotificationFacet,
 } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { ApiV3ListFilter, ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { FrameElement } from '@hotwired/turbo';
@@ -62,6 +60,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
+import { notificationWorkPackageId } from 'core-app/features/in-app-notifications/notification-resource-id';
 
 const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
@@ -235,23 +234,28 @@ export class IanCenterService extends UntilDestroyedMixin {
       .notifications$
       .pipe(take(1))
       .subscribe((notifications:INotification[][]) => {
-        if (notifications.length <= 0) {
-          window.location.href = this.pathHelper.notificationsPath();
-          return;
+        let index:number;
+        if (this.selectedNotificationIndex === notifications.length) {
+          // If the last notification is marked as read, we do not jump to the top, but rather show the new last notification
+          index = notifications.length - 1;
+        } else {
+          index = this.selectedNotificationIndex > notifications.length ? 0 : this.selectedNotificationIndex;
         }
-        if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
-          let index:number;
-          if (this.selectedNotificationIndex === notifications.length) {
-            // If the last notification is marked as read, we do not jump to the top, but rather show the new last notification
-            index = notifications.length - 1;
-          } else {
-            index = this.selectedNotificationIndex > notifications.length ? 0 : this.selectedNotificationIndex;
-          }
 
-          const wpId = idFromLink(notifications[index][0]._links.resource.href);
-          this.openSplitScreen(wpId);
+        const workPackageIds = notifications.map((group) => notificationWorkPackageId(group[0]));
+        const nextWorkPackageId = workPackageIds.slice(index).find(Boolean)
+          ?? workPackageIds.slice(0, index).reverse().find(Boolean);
+
+        if (nextWorkPackageId) {
+          this.openSplitScreen(nextWorkPackageId);
+        } else {
+          this.closeSplitScreen();
         }
       });
+  }
+
+  closeSplitScreen():void {
+    window.location.href = this.pathHelper.notificationsPath();
   }
 
   /**
@@ -310,10 +314,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
     const { cache } = this.apiV3Service.work_packages;
     const wpIds = elements
-      .map((element) => {
-        const href = element._links.resource?.href;
-        return href && HalResource.matchFromLink(href, 'work_packages');
-      })
+      .map((element) => notificationWorkPackageId(element))
       .filter((id) => id && cache.stale(id)) as string[];
 
     const promise = this
@@ -340,7 +341,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .subscribe(
         (notifications:INotification[][]) => {
           for (let i = 0; i < notifications.length; ++i) {
-            if (notifications[i][0]._links.resource && idFromLink(notifications[i][0]._links.resource.href) === selected) {
+            if (notificationWorkPackageId(notifications[i][0]) === selected) {
               this.selectedNotificationIndex = i;
               [this.selectedNotification] = notifications[i];
               return;
