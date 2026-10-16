@@ -49,7 +49,7 @@ RSpec.describe "Work packages general admin settings", :js do
     visit admin_settings_work_packages_general_path
 
     expect(page).to have_checked_field "Allow cross-project work package relations"
-    expect(page).to have_checked_field "Display subprojects work packages on main projects by default"
+    expect(page).to have_checked_field "Display subprojects work packages in main projects by default"
     expect(page).to have_unchecked_field "Use current date as start date for new work packages"
     expect(page).to have_select "Default highlighting mode", selected: "Highlight attribute(s) inline"
     expect(page).to have_element("fieldset", text: "Default inline highlighted attributes")
@@ -60,7 +60,7 @@ RSpec.describe "Work packages general admin settings", :js do
     end
 
     uncheck "Allow cross-project work package relations"
-    uncheck "Display subprojects work packages on main projects by default"
+    uncheck "Display subprojects work packages in main projects by default"
     check "Use current date as start date for new work packages"
     within_fieldset "Default inline highlighted attributes" do
       uncheck "Priority"
@@ -74,7 +74,7 @@ RSpec.describe "Work packages general admin settings", :js do
     expect(Setting.work_package_list_default_highlighted_attributes).to eq(["status"])
 
     expect(page).to have_unchecked_field "Allow cross-project work package relations"
-    expect(page).to have_unchecked_field "Display subprojects work packages on main projects by default"
+    expect(page).to have_unchecked_field "Display subprojects work packages in main projects by default"
     expect(page).to have_checked_field "Use current date as start date for new work packages"
     expect(page).to have_select "Default highlighting mode", selected: "Highlight attribute(s) inline"
     expect(page).to have_element("fieldset", text: "Default inline highlighted attributes")

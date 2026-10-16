@@ -15,7 +15,7 @@ You can adjust the following:
 
 1. **Allow cross-project work package relations**, i.e. that work packages created in one project can have relations to work packages in another project, for example parent-children work packages.
 
-2. **Display subprojects work packages on main projects** by default. This way the work packages of subprojects will always be visible in the main project if a user has the corresponding role in the subproject to see work packages.
+2. **Display subprojects work packages in main projects** by default. This way the work packages of subprojects will always be visible in the main project if a user has the corresponding role in the subproject to see work packages.
 
 3. **Use current date as start date for new work packages**. This way the current date will always be set as a start date if you create new work packages. Also, if you copy projects, the new work packages will get the current date as start date.
 
