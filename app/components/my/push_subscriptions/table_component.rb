@@ -31,9 +31,9 @@
 module My
   module PushSubscriptions
     class TableComponent < ::OpPrimer::BorderBoxTableComponent
-      columns :browser, :device, :created_at
+      columns :browser, :device
       options :current_session
-      mobile_columns :browser, :device, :created_at
+      mobile_columns :browser, :device
 
       def mobile_title
         t("my_account.push_notifications.title")
@@ -58,8 +58,7 @@ module My
       def headers
         [
           [:browser, { caption: I18n.t("users.sessions.browser") }],
-          [:device, { caption: I18n.t("users.sessions.device") }],
-          [:created_at, { caption: ::PushSubscription.human_attribute_name(:created_at) }]
+          [:device, { caption: I18n.t("users.sessions.device") }]
         ]
       end
     end
