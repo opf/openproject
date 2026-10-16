@@ -352,7 +352,6 @@ en:
       project_type:
         variant: "Variant"
       push_subscription:
-        created_at: "Added"
         endpoint: "Endpoint"
         session_id: "Session"
       query:
@@ -5279,9 +5278,9 @@ en:
         notifications: "Notification settings"
       title: "Notification and email"
     push_notifications:
-      description: "Get notified on this device when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is only loaded when the notification is shown."
-      disable: "Disable on this device"
-      enable: "Enable on this device"
+      description: "Get notified with native push notifications via this browser when you have unread notifications, even when OpenProject is not open. Your notification content stays in OpenProject and is not shared with the notification provider."
+      disable: "Disable for this browser"
+      enable: "Enable for this browser"
       no_devices: "No device receives browser notifications yet."
       no_devices_description: "Enable browser notifications on a device and it appears here."
       revoke: "Revoke"
@@ -5290,16 +5289,17 @@ en:
       revoked: "Browser notifications were disabled for that device."
       status:
         blocked: "Notifications are blocked for this site in your browser settings."
-        disabled: "Browser notifications are off on this device."
-        enabled: "Browser notifications are enabled on this device."
+        disabled: "Browser notifications are not enabled for this browser in the current session."
+        enabled: "Browser notifications are enabled for this browser in the current session."
         error: "Browser notifications could not be changed. Please try again."
         prompting: "Waiting for you to allow notifications in the browser prompt…"
-        subscribing: "Registering this device with your browser's push service…"
+        subscribing: "Registering this browser with its push service…"
         timeout: "Your browser did not finish registering for push in time. Check your network connection and try again."
         unsupported: "Browser notifications are not available in this browser."
-      status_checking: "Checking this device…"
-      this_device: "This device"
+      this_session: "This session"
       title: "Browser notifications"
+      try_again: "Try again"
+      try_again_label: "Try again to change browser notifications for this browser"
       unavailable: "Browser notifications are temporarily unavailable on this instance."
 
   news:

@@ -36,6 +36,21 @@ interface KnownSubscription {
 
 type State = 'unsupported'|'blocked'|'enabled'|'disabled'|'error'|'prompting'|'subscribing'|'timeout';
 
+type Attempt = 'enable'|'disable'|'sync';
+
+type Scheme = 'default'|'warning'|'success'|'danger';
+
+const SCHEME_BY_STATE:Record<State, Scheme> = {
+  unsupported: 'default',
+  blocked: 'warning',
+  disabled: 'warning',
+  prompting: 'warning',
+  subscribing: 'warning',
+  enabled: 'success',
+  error: 'danger',
+  timeout: 'danger',
+};
+
 const REGISTRATION_TIMEOUT_MS = 5000;
 const SUBSCRIBE_TIMEOUT_MS = 30000;
 
@@ -50,7 +65,7 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
 }
 
 /**
- * Owns the "this device" box on the Browser notifications tab of My account.
+ * Owns the status banner on the Browser notifications tab of My account.
  *
  * The server is the source of truth, and both directions are reconciled. A
  * browser push subscription only counts when its endpoint is in the list the
@@ -80,25 +95,46 @@ export default class PushSubscriptionController extends Controller {
     messages: Object,
   };
 
-  static targets = ['status', 'enable', 'disable'];
+  static targets = ['banner', 'message', 'action', 'liveRegion'];
 
   declare readonly vapidPublicKeyValue:string;
   declare readonly createUrlValue:string;
   declare readonly subscriptionsValue:KnownSubscription[];
   declare readonly messagesValue:Record<State, string>;
-  declare readonly statusTarget:HTMLElement;
-  declare readonly enableTarget:HTMLButtonElement;
-  declare readonly disableTarget:HTMLButtonElement;
+  declare readonly bannerTargets:HTMLElement[];
+  declare readonly messageTargets:HTMLElement[];
+  declare readonly actionTargets:HTMLButtonElement[];
+  declare readonly liveRegionTarget:HTMLElement;
 
   private generation = 0;
+  private lastAttempt:Attempt = 'sync';
 
   connect():void {
     this.setBusy(true);
     void this.sync();
   }
 
+  disconnect():void {
+    this.generation += 1;
+  }
+
+  retry():Promise<void> {
+    this.liveRegionTarget.textContent = '';
+
+    switch (this.lastAttempt) {
+      case 'enable':
+        return this.enable();
+      case 'disable':
+        return this.disable();
+      default:
+        this.setBusy(true);
+        return this.sync();
+    }
+  }
+
   async enable():Promise<void> {
-    this.startRun();
+    this.lastAttempt = 'enable';
+    const isLatestRun = this.startRun();
     const generation = this.generation;
     this.setBusy(true);
     let subscription:PushSubscription|undefined;
@@ -106,52 +142,57 @@ export default class PushSubscriptionController extends Controller {
     try {
       const permission = await this.requestPermission();
       if (permission !== 'granted') {
-        this.render(permission === 'denied' ? 'blocked' : 'disabled');
+        if (isLatestRun()) this.render(permission === 'denied' ? 'blocked' : 'disabled');
         return;
       }
 
       const registration = await this.registration();
       if (!registration) {
-        this.render('unsupported');
+        if (isLatestRun()) this.render('unsupported');
         return;
       }
 
-      this.render('subscribing');
+      if (isLatestRun()) this.render('subscribing');
       subscription = await this.subscribeWithDeadline(registration, () => generation !== this.generation);
       if (!subscription) {
-        this.render('timeout');
+        if (isLatestRun()) this.render('timeout');
         return;
       }
 
       await this.registerWithServer(subscription);
-      this.render('enabled', true);
+      if (isLatestRun()) this.render('enabled');
     } catch {
       await this.forget(subscription);
-      this.render(this.permissionBlocked() ? 'blocked' : 'error');
+      if (isLatestRun()) this.render(this.permissionBlocked() ? 'blocked' : 'error');
     } finally {
-      this.setBusy(false);
+      if (isLatestRun()) this.setBusy(false);
     }
   }
 
   async disable():Promise<void> {
+    this.lastAttempt = 'disable';
+    const isLatestRun = this.startRun();
     this.setBusy(true);
 
     try {
       const registration = await navigator.serviceWorker.getRegistration();
       const subscription = await registration?.pushManager.getSubscription();
+      if (!isLatestRun()) return;
+
       const known = this.knownToServer(subscription);
       if (!subscription || !known) {
-        this.render('error', true);
+        this.lastAttempt = 'sync';
+        this.render('error');
         return;
       }
 
       await this.revokeOnServer(known);
       await this.forget(subscription);
-      this.render('disabled');
+      if (isLatestRun()) this.render('disabled');
     } catch {
-      this.render('error', true);
+      if (isLatestRun()) this.render('error');
     } finally {
-      this.setBusy(false);
+      if (isLatestRun()) this.setBusy(false);
     }
   }
 
@@ -189,7 +230,7 @@ export default class PushSubscriptionController extends Controller {
     if (!isLatestRun()) return;
 
     if (subscription && this.knownToServer(subscription) && this.boundToCurrentKey(subscription)) {
-      this.render('enabled', true);
+      this.render('enabled');
       return;
     }
 
@@ -308,14 +349,22 @@ export default class PushSubscriptionController extends Controller {
   }
 
   private setBusy(busy:boolean):void {
-    this.enableTarget.disabled = busy;
-    this.disableTarget.disabled = busy;
+    this.actionTargets.forEach((action) => { action.disabled = busy; });
   }
 
-  private render(state:State, subscribed = false):void {
-    this.statusTarget.textContent = this.messagesValue[state];
-    const actionable = state !== 'unsupported' && state !== 'blocked';
-    this.enableTarget.hidden = !actionable || subscribed;
-    this.disableTarget.hidden = !actionable || !subscribed;
+  private render(state:State):void {
+    if (!this.element.isConnected) return;
+
+    const scheme = SCHEME_BY_STATE[state];
+    const message = this.messagesValue[state];
+
+    this.bannerTargets.forEach((banner) => { banner.hidden = banner.dataset.scheme !== scheme; });
+    this.messageTargets.forEach((target) => {
+      target.textContent = target.dataset.scheme === scheme ? message : '';
+    });
+    this.liveRegionTarget.textContent = message;
+    this.actionTargets.forEach((action) => {
+      if (action.dataset.scheme === 'warning') action.hidden = state === 'blocked';
+    });
   }
 }
