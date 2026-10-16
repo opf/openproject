@@ -31,25 +31,32 @@
 module Import
   class JiraCreateProjectJob < ApplicationJob
     include Import::JiraOpenProjectReferenceCreation
+    include Import::JiraJobUtils
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id, jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
-          @jira_import = Import::JiraImport.find(jira_import_id)
-          @jira_id = @jira_import.jira.id
-          @system_user = User.system
-          jira_project = Import::JiraProject.find(jira_project_id)
+          jira_project = jira_project(jira_project_id)
+          Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                              "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
+            Rails.logger.debug "Creating project started"
+            @jira_import = Import::JiraImport.find(jira_import_id)
+            @jira_id = @jira_import.jira.id
+            @system_user = User.system
 
-          # Needed to avoid project.lft and project.rgt corruption due to race condition
-          # when multiple projects are created at the same time.
-          lock_key = "jira_import_#{jira_import_id}_create_project"
-          OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
-            create_project(jira_project)
+            # Needed to avoid project.lft and project.rgt corruption due to race condition
+            # when multiple projects are created at the same time.
+            lock_key = "jira_import_#{jira_import_id}_create_project"
+            OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
+              create_project(jira_project)
+            end
+            Rails.logger.debug "Creating project finished"
           end
         end
       end
@@ -60,6 +67,9 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_project(jira_project)
       project_key = jira_project.payload.fetch("key")
+      Rails.logger.tagged("jira_object_id_or_name:#{project_key}") do
+        Rails.logger.debug "Creating project"
+      end
       project_keys = jira_project.payload.fetch("projectKeys")
       service_call = Projects::CreateService
                        .new(user: @system_user, contract_class: EmptyContract)
@@ -90,9 +100,12 @@ module Import
 
       if (error = service_call.errors.find { |e| e.attribute == :identifier && e.type == :taken }) && error.present?
         taken_identifier = error.options[:value]
-        raise I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
+        message = I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
+        Rails.logger.error message
+        raise message
       end
 
+      Rails.logger.error service_call.message
       raise service_call.message
     end
   end

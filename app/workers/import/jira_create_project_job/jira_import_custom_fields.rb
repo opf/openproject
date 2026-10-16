@@ -347,6 +347,9 @@ module Import
       end
 
       def reuse_custom_field(custom_field, jira_field)
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
+          Rails.logger.debug "Reusing custom field"
+        end
         unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
                                                         op_entity_class: custom_field.class.to_s,
                                                         jira_import_id: @jira_import.id)
@@ -355,8 +358,12 @@ module Import
         custom_field
       end
 
+      # rubocop:disable-next Metrics/AbcSize
       def create_custom_field(jira_field, builder)
         name, field_format = builder.custom_field_settings
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{name}") do
+          Rails.logger.debug "Creating custom field"
+        end
         params = {
           type: "WorkPackageCustomField",
           name:,
@@ -367,11 +374,15 @@ module Import
         }
         service_call = CustomFields::CreateService.new(user: @system_user).call(**params)
         unless service_call.success?
-          raise I18n.t(
+          message = I18n.t(
             "admin.jira.errors.custom_field_creation_failed",
             name: jira_field.payload["name"],
             message: service_call.message
           )
+          Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{name}") do
+            Rails.logger.error message
+          end
+          raise message
         end
 
         custom_field = service_call.result

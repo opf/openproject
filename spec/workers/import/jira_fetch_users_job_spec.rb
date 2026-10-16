@@ -147,10 +147,10 @@ RSpec.describe Import::JiraFetchUsersJob do
         expect(user_keys).to contain_exactly("JIRAUSER100")
       end
 
-      it "logs the error" do
-        allow(Rails.logger).to receive(:info)
+      it "logs a warning" do
+        allow(Rails.logger).to receive(:warn)
         job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
-        expect(Rails.logger).to have_received(:info).with(a_string_including("ghost"))
+        expect(Rails.logger).to have_received(:warn).with(a_string_including("ghost"))
       end
     end
 

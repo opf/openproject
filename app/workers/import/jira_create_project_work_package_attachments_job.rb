@@ -30,6 +30,15 @@
 
 module Import
   class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
+    include Import::JiraJobUtils
+
+    on_complete do
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
+                          "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
+        Rails.logger.debug "Downloading work package attachments finished"
+      end
+    end
+
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -51,32 +60,36 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @system_user = User.system
-      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      jira_project = Import::JiraProject.find(jira_project_id)
+      jira_project = jira_project(jira_project_id)
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
+        Rails.logger.debug "Downloading work package attachments started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        jira = @jira_import.jira
+        @jira_id = jira.id
+        @system_user = User.system
+        @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
 
-      @project_role = Role.find_by!(name: "JiraMember")
+        @project_role = Role.find_by!(name: "JiraMember")
 
-      @project = JiraOpenProjectReference.find_by!(
-        jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s
-      ).op_leg
+        @project = JiraOpenProjectReference.find_by!(
+          jira_entity_id: jira_project.id,
+          jira_entity_class: jira_project.class.to_s
+        ).op_leg
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-        cursor: cursor
-      )
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+          cursor: cursor
+        )
+      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, jira_import_id, jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("jira_import_id:#{jira_import_id}",
-                          "jira_project_id:#{jira_project_id}",
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project_key(jira_project_id)}",
                           "jira_issue_key:#{jira_issue_key}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
@@ -87,7 +100,9 @@ module Import
             ).op_leg
             attachments = jira_issue.payload.dig("fields", "attachment") || []
             attachments.each do |attachment|
-              Rails.logger.tagged("attachment_filename:#{attachment['filename']}") do
+              Rails.logger.tagged("jira_object_type:attachment",
+                                  "jira_object_id_or_name:#{attachment['filename']}") do
+                Rails.logger.debug "Downloading attachment"
                 key = attachment.dig("author", "key")
                 Rails.logger.tagged("author:#{key}") do
                   author = find_user(key)
@@ -125,6 +140,7 @@ module Import
                  .call(container: work_package, filename:, file: tempfile)
 
         call.on_failure do
+          Rails.logger.error "Attachment creation failed: #{call.message}"
           raise call.message
         end
 
@@ -136,8 +152,8 @@ module Import
       jira_project_for_log = project.slice(:identifier)
       jira_issue_for_log = work_package.slice(:identifier)
       attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
-      Rails.logger.error(
-        "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
+      Rails.logger.warn(
+        "Could not create jira import attachment, skipping it. Error: #{e}. Jira Project: #{jira_project_for_log} " \
         "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
       )
     end
@@ -163,6 +179,7 @@ module Import
       return if service_call.success?
 
       if service_call.errors.find { |error| error.type == :taken }.blank?
+        Rails.logger.error service_call.message
         raise service_call.message
       end
     end
@@ -170,23 +187,25 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-      if jira_user
-        ref = JiraOpenProjectReference.find_by(
-          jira_entity_class: "Import::JiraUser",
-          jira_entity_id: jira_user.id
-        )
-        if ref.present?
-          ref.op_leg
+      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
+        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
+        if jira_user
+          ref = JiraOpenProjectReference.find_by(
+            jira_entity_class: "Import::JiraUser",
+            jira_entity_id: jira_user.id
+          )
+          if ref.present?
+            ref.op_leg
+          else
+            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+            Rails.logger.error log_message
+            raise log_message
+          end
         else
-          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
           Rails.logger.error log_message
           raise log_message
         end
-      else
-        log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
-        Rails.logger.error log_message
-        raise log_message
       end
     end
   end

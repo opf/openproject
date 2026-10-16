@@ -31,6 +31,7 @@
 module Import
   class JiraProjectsMetaDataJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency
+    include JiraJobUtils
 
     good_job_control_concurrency_with(
       total_limit: 2,
@@ -43,23 +44,33 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
-      jira_import = Import::JiraImport.find(jira_import_id)
-      client = jira_import.jira.client
-      selected = collect_metadata(client, jira_import.project_ids)
-      jira_import.update!(selected:)
-      jira_import.transition_to!(:projects_meta_done, selected:)
+      jira_import = nil
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+        Rails.logger.info "Fetching meta data for selected projects started"
+        jira_import = Import::JiraImport.find(jira_import_id)
+        client = jira_import.jira.client
+        selected = collect_metadata(client, jira_import.projects)
+        jira_import.update!(selected:)
+        jira_import.transition_to!(:projects_meta_done, selected:)
+        Rails.logger.info "Fetching meta data for selected projects finished"
+      end
     rescue StandardError => e
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+        Rails.logger.error "Fetching meta data for selected projects failed: #{e.message}"
+      end
       jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
-    def collect_metadata(client, project_ids)
+    def collect_metadata(client, projects)
       issues_count = 0
       status_ids = []
       issue_type_ids = []
 
-      project_ids.map do |project_id|
-        project_issues_count, project_status_ids, project_issue_type_ids = collect_project_metadata(client, project_id)
+      projects.each do |project|
+        project_issues_count, project_status_ids, project_issue_type_ids =
+          collect_project_metadata(client, project["id"], project["key"])
 
         issue_type_ids = issue_type_ids.concat(project_issue_type_ids).uniq
         status_ids = status_ids.concat(project_status_ids).uniq
@@ -73,15 +84,18 @@ module Import
       }
     end
 
-    def collect_project_metadata(client, project_id)
-      project_statuses = client.project_statuses(project_id)
-      project_issue_type_ids = project_statuses.pluck("id")
-      project_status_ids = project_statuses.flat_map { |type| type["statuses"].map { |status| status["id"] } }
+    def collect_project_metadata(client, project_id, project_key)
+      Rails.logger.tagged("jira_object_type:project", "jira_object_id_or_name:#{project_key}") do
+        Rails.logger.debug "Fetching meta data for project"
+        project_statuses = client.project_statuses(project_id)
+        project_issue_type_ids = project_statuses.pluck("id")
+        project_status_ids = project_statuses.flat_map { |type| type["statuses"].map { |status| status["id"] } }
 
-      result = client.issues(jql: "project = '#{project_id}'", max_results: 0)
-      project_issues_count = result["total"]
+        result = client.issues(jql: "project = '#{project_id}'", max_results: 0)
+        project_issues_count = result["total"]
 
-      [project_issues_count, project_status_ids, project_issue_type_ids]
+        [project_issues_count, project_status_ids, project_issue_type_ids]
+      end
     end
   end
 end

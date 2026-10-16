@@ -38,5 +38,22 @@ module Import
       @created_at = @updated_at
       @jira_client = jira.client
     end
+
+    def jira_project(jira_project_id)
+      @jira_project ||= Import::JiraProject.find(jira_project_id)
+    end
+
+    # The GoodJob batch this job belongs to, if any (jobs enqueued outside of
+    # Import::JiraStagedImportJob's batch, e.g. instance/projects meta data fetching, revert and
+    # finalize, have no batch and this is nil).
+    def batch_id
+      @batch_id ||= GoodJob::Job.where(id: job_id).pick(:batch_id)
+    end
+
+    # The Jira project key (e.g. "DPPP") is what users recognize, unlike the internal
+    # Import::JiraProject id these jobs are otherwise passed around and tag their logs with.
+    def jira_project_key(jira_project_id)
+      jira_project(jira_project_id).payload["key"]
+    end
   end
 end
