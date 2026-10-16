@@ -34,6 +34,22 @@ module OpenProject::OpenIDConnect
     engine_name :openproject_openid_connect
 
     include OpenProject::Plugins::ActsAsOpEngine
+
+    # Provider types can only be autoloaded once the application is initialized.
+    config.after_initialize do
+      ::Settings::Pages.draw do
+        page :openid_connect_providers, menu_item: :plugin_openid_connect do
+          OpenIDConnect::Provider::OIDC_PROVIDERS.each do |type|
+            link :"new_#{type}",
+                 label: -> {
+                   "#{t('openid_connect.providers.label_add_new')}: #{t("openid_connect.providers.#{type}.name")}"
+                 },
+                 url: -> { new_openid_connect_provider_path(oidc_provider: type) },
+                 if: -> { EnterpriseToken.allows_to?(:sso_auth_providers) }
+          end
+        end
+      end
+    end
     extend OpenProject::Plugins::AuthPlugin
 
     register "openproject-openid_connect",

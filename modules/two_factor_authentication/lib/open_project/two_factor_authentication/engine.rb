@@ -36,6 +36,23 @@ module OpenProject::TwoFactorAuthentication
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "two_factor_authentication.settings_search" do
+      ::Settings::Pages.draw do
+        page :two_factor_authentication,
+             menu_item: :two_factor_authentication,
+             if: -> { Setting.plugin_openproject_two_factor_authentication_writable? } do
+          setting :plugin_openproject_two_factor_authentication,
+                  field: "settings[enforced]",
+                  label: :"two_factor_authentication.settings.label_enforced",
+                  caption: :"two_factor_authentication.settings.text_enforced"
+          setting :plugin_openproject_two_factor_authentication,
+                  field: "settings[allow_remember_for_days]",
+                  label: :"two_factor_authentication.settings.label_remember",
+                  caption: :"two_factor_authentication.settings.text_remember"
+        end
+      end
+    end
+
     register "openproject-two_factor_authentication",
              author_url: "https://www.openproject.org",
              settings: {

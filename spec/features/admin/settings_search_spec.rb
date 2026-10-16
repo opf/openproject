@@ -56,6 +56,22 @@ RSpec.describe "Searching settings in the administration", :js do
     expect(page).to have_css(".op-setting--highlighted", text: "Host name")
   end
 
+  it "highlights settings submitted in fields named otherwise" do
+    search_for "github webhook secret"
+
+    within_test_selector("op-admin-settings-search") { click_on "Webhook secret" }
+
+    expect(page).to have_css(".op-setting--highlighted", text: "Webhook secret", wait: 20)
+  end
+
+  it "lists actions such as adding an LDAP connection" do
+    search_for "ldap new"
+
+    within_test_selector("op-admin-settings-search") { click_on "New LDAP connection" }
+
+    expect(page).to have_current_path new_ldap_auth_source_path, wait: 20
+  end
+
   it "ignores punctuation and word order" do
     search_for "registration self"
 

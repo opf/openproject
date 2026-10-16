@@ -213,6 +213,16 @@ module Costs
           setting :costs_currency
           setting :costs_currency_format
         end
+
+        page :cost_types, menu_item: :cost_types do
+          link :new, label: :button_add_cost_type, url: -> { new_admin_cost_type_path }
+        end
+
+        page :time_entry_activities, menu_item: :time_entry_activities do
+          link :new,
+               label: -> { "#{t(:button_add)}: #{TimeEntryActivity.model_name.human}" },
+               url: -> { new_admin_settings_time_entry_activity_path }
+        end
       end
     end
 

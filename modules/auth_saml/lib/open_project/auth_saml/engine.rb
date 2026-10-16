@@ -44,6 +44,17 @@ module OpenProject
       engine_name :openproject_auth_saml
 
       include OpenProject::Plugins::ActsAsOpEngine
+
+      initializer "auth_saml.settings_search" do
+        ::Settings::Pages.draw do
+          page :saml_providers, menu_item: :plugin_saml do
+            link :new,
+                 label: :"saml.providers.label_add_new",
+                 url: -> { new_saml_provider_path },
+                 if: -> { EnterpriseToken.allows_to?(:sso_auth_providers) }
+          end
+        end
+      end
       extend OpenProject::Plugins::AuthPlugin
 
       register "openproject-auth_saml",

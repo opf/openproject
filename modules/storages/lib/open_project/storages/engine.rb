@@ -48,6 +48,22 @@ module OpenProject::Storages
     # please see comments inside ActsAsOpEngine class
     include OpenProject::Plugins::ActsAsOpEngine
 
+    # Provider types can only be autoloaded once the application is initialized.
+    config.after_initialize do
+      ::Settings::Pages.draw do
+        page :storages, menu_item: :external_file_storages do
+          ::Storages::Storage.provider_types.each_key do |provider|
+            link :"new_#{provider}",
+                 label: -> { "#{t('storages.label_add_new_storage')}: #{t("storages.provider_types.#{provider}.name")}" },
+                 url: -> { new_admin_settings_storage_path(provider:) },
+                 if: -> {
+                   provider == "nextcloud" || EnterpriseToken.allows_to?(:one_drive_sharepoint_file_storage)
+                 }
+          end
+        end
+      end
+    end
+
     patches %i[WorkPackage]
 
     initializer "openproject_storages.feature_decisions" do

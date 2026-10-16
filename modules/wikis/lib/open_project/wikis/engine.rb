@@ -37,6 +37,17 @@ module OpenProject::Wikis
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "wikis.settings_search" do
+      ::Settings::Pages.draw do
+        page :wiki_providers, menu_item: :external_wiki_providers do
+          link :new,
+               label: :"wikis.admin.wiki_providers.label_add_new",
+               url: -> { new_admin_settings_wiki_provider_path },
+               if: -> { EnterpriseToken.allows_to?(:xwiki_integration) }
+        end
+      end
+    end
+
     initializer "openproject_wikis.inflections" do
       ActiveSupport::Inflector.inflections(:en) do |inflect|
         inflect.acronym "XWiki"
