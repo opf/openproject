@@ -64,7 +64,31 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOr',
     'manualSort',
     'typeahead',
+    'semanticSearch',
   ];
+
+  /** The filter the text input edits */
+  public textFilterId:'search'|'semanticSearch' = 'search';
+
+  /** Whether the semantic search toggle is rendered */
+  public semanticSearchAvailable = false;
+
+  public semanticSearchEnabled = false;
+
+  /**
+   * The search mode is resolved by the server on page load,
+   * so switching the mode links to the same page with the
+   * search_mode parameter set accordingly.
+   */
+  public searchModeUrl(mode:'text'|'semantic'):string {
+    const url = new URL(window.location.href);
+    if (mode === 'semantic') {
+      url.searchParams.set('search_mode', 'semantic');
+    } else {
+      url.searchParams.delete('search_mode');
+    }
+    return url.toString();
+  }
 
   /** Flag state to determine whether the filters are incomplete */
   private incomplete = input<boolean>(false);
@@ -77,8 +101,17 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
     const filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
+    this.updateTextFilterId(filters);
     this.availableState.putValue(schema.filtersSchemas.elements);
     this.pristineState.putValue(filters);
+  }
+
+  private updateTextFilterId(filters:QueryFilterInstanceResource[]):void {
+    if (filters.some((filter) => filter.id === 'semanticSearch')) {
+      this.textFilterId = 'semanticSearch';
+    } else if (filters.some((filter) => filter.id === 'search')) {
+      this.textFilterId = 'search';
+    }
   }
 
   /**
