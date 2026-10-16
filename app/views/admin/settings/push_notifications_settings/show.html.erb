@@ -62,8 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <%= render(
-        Primer::Box.new(
-          border_radius: 2, p: 3, mt: 4, bg: :subtle,
+        OpPrimer::InsetBoxComponent.new(
+          border: false,
+          mt: 4,
           hidden: !Setting.web_push_enabled?,
           data: {
             show_when_value_selected_target: "effect",
@@ -72,14 +73,26 @@ See COPYRIGHT and LICENSE files for more details.
             test_selector: "push-reachability-panel"
           }
         )
-      ) do %>
-    <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center, mb: 2)) do %>
-      <%= render(Primer::Beta::Octicon.new(icon: :globe)) %>
-      <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 5)) { t("admin.settings.push_notifications.verify_reachability") } %>
+      ) do |box| %>
+    <% box.with_title_icon(icon: :globe) %>
+    <% box.with_title(tag: :h2) { t("admin.settings.push_notifications.verify_reachability") } %>
+    <% box.with_action_button(
+         type: :submit,
+         form: "check-reachability-form",
+         data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
+       ) { t("admin.settings.push_notifications.verify_reachability") } %>
+    <% unless OpenProject::WebPush.key_managed_by_environment? %>
+      <% box.with_action_button(
+           tag: :a,
+           scheme: :danger,
+           href: renew_key_dialog_admin_settings_push_notifications_path,
+           data: { controller: "async-dialog" }
+         ) { t("admin.settings.push_notifications.renew_key") } %>
     <% end %>
+
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.verify_reachability_description") } %>
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
-    <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4, mb: 3)) do %>
+    <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4, mb: 0)) do %>
       <% OpenProject::WebPush.push_service_hosts.each do |host| %>
         <% result = @reachability&.find { |candidate| candidate.host == host } %>
         <li>
@@ -96,27 +109,8 @@ See COPYRIGHT and LICENSE files for more details.
         </li>
       <% end %>
     <% end %>
-    <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
-      <%= primer_form_with(url: check_admin_settings_push_notifications_path, method: :post) do %>
-        <%= render(
-              Primer::Beta::Button.new(
-                type: :submit,
-                data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
-              )
-            ) { t("admin.settings.push_notifications.verify_reachability") } %>
-      <% end %>
-      <% if OpenProject::WebPush.key_managed_by_environment? %>
-        <%= render(Primer::Beta::Text.new(color: :muted)) { t("admin.settings.push_notifications.key_managed_by_environment") } %>
-      <% else %>
-        <%= render(
-              Primer::Beta::Button.new(
-                tag: :a,
-                scheme: :danger,
-                href: renew_key_dialog_admin_settings_push_notifications_path,
-                data: { controller: "async-dialog" }
-              )
-            ) { t("admin.settings.push_notifications.renew_key") } %>
-      <% end %>
+    <% if OpenProject::WebPush.key_managed_by_environment? %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 3, mb: 0)) { t("admin.settings.push_notifications.key_managed_by_environment") } %>
     <% end %>
   <% end %>
 
@@ -124,3 +118,9 @@ See COPYRIGHT and LICENSE files for more details.
         Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 4, form: "browser-notifications-form")
       ) { t(:button_save) } %>
 </div>
+
+<%= primer_form_with(
+      url: check_admin_settings_push_notifications_path,
+      method: :post,
+      id: "check-reachability-form"
+    ) { nil } %>
