@@ -72,5 +72,9 @@ Rails.application.configure do |application|
       User.current.allowed_in_project?(:view_project_phases, work_package.project) &&
         work_package.project.phases.active.any?
     end
+
+    WorkPackage::Exports::Attributes.add_attribute_visibility_check(:parent) do |work_package|
+      work_package.parent.nil? || work_package.parent.visible?(User.current)
+    end
   end
 end

@@ -177,6 +177,28 @@ RSpec.describe WorkPackage::Exports::Markdown, with_settings: { work_packages_id
     end
   end
 
+  context "with a related work package whose parent is in a hidden project" do
+    let(:hidden_parent) { create(:work_package, project: hidden_project, type:, subject: "CONFIDENTIAL parent") }
+    let!(:related) { create(:work_package, project:, type:, parent: hidden_parent, subject: "Related row") }
+    let(:query) do
+      query = create(:query, project: nil)
+      query.add_filter("subject", "~", [related.subject])
+      query.column_names = %i[id subject parent]
+      query.save!
+      query
+    end
+
+    it "blanks the parent in a description macro" do
+      related.update!(description: "Parent: workPackageValue:parent")
+      expect(described_class.new(related.reload).export!.content).to end_with("## Description\n\nParent:\n")
+    end
+
+    it "blanks the parent cell" do
+      expect(content).to include("| #{related.reload.display_id} | Related row |  |\n")
+      expect(content).not_to include("CONFIDENTIAL parent")
+    end
+  end
+
   it "returns a text/markdown result" do
     expect(described_class.new(work_package.reload).export!)
       .to have_attributes(format: :md, mime_type: "text/markdown", title: "#{work_package.reload.display_id}.md")

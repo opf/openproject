@@ -89,7 +89,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     create(:user,
            member_with_permissions: {
              project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
-                           view_budgets]
+                           view_budgets],
+             parent_work_package.project => %w[view_work_packages]
            })
   end
   let(:another_user) do
