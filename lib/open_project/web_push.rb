@@ -52,7 +52,7 @@ module OpenProject::WebPush
 
   class UnreadableKey < StandardError
     MESSAGE = "The stored web_push_vapid_private_key setting could not be read. " \
-              "Regenerate it from the browser push administration page."
+              "Renew it from the browser notifications administration page."
 
     def initialize(message = MESSAGE)
       super
