@@ -42,14 +42,6 @@ import { isOpenProjectCustomElement } from './openproject-custom-element';
 
 export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
-    // Add to content if warnings displayed
-    if (target.querySelector('.warning-bar--item')) {
-      const content = target.querySelector<HTMLElement>('#content');
-      if (content) {
-        content.style.marginBottom = '100px';
-      }
-    }
-
     const deviceService:DeviceService = new DeviceService();
     // Register scroll handler on mobile header
     if (deviceService.isMobile) {
