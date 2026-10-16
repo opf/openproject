@@ -64,8 +64,7 @@ module OAuth
     def application_native_redirect_uris
       registered_redirect_uris
         .reject { |url| url.start_with?("http", "urn") }
-        .map { |url| parse_native_redirect_uri(url) }
-        .compact
+        .filter_map { |url| parse_native_redirect_uri(url) }
     end
 
     def parse_native_redirect_uri(value)
