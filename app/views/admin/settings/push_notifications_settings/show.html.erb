@@ -50,17 +50,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("admin.settings.push_notifications.description") } %>
 
-<%= settings_primer_form_with(
-      url: admin_settings_push_notifications_path,
-      scope: :settings,
-      method: :patch,
-      data: { turbo: false, controller: "show-when-value-selected" }
-    ) do |form| %>
-  <%= render Admin::Settings::PushNotificationsSettingForm.new(form) %>
+<div data-controller="show-when-value-selected">
+  <%= settings_primer_form_with(
+        url: admin_settings_push_notifications_path,
+        scope: :settings,
+        method: :patch,
+        id: "browser-notifications-form",
+        data: { turbo: false }
+      ) do |form| %>
+    <%= render Admin::Settings::PushNotificationsSettingForm.new(form) %>
+  <% end %>
 
   <%= render(
         Primer::Box.new(
-          border: true, border_radius: 2, p: 3, mt: 4, bg: :subtle,
+          border_radius: 2, p: 3, mt: 4, bg: :subtle,
           hidden: !Setting.web_push_enabled?,
           data: {
             show_when_value_selected_target: "effect",
@@ -76,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.verify_reachability_description") } %>
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
-    <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4)) do %>
+    <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4, mb: 3)) do %>
       <% OpenProject::WebPush.push_service_hosts.each do |host| %>
         <% result = @reachability&.find { |candidate| candidate.host == host } %>
         <li>
@@ -94,13 +97,14 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
     <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
-      <%= render(
-            Primer::Beta::Button.new(
-              type: :submit,
-              form: "check-reachability-form",
-              data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
-            )
-          ) { t("admin.settings.push_notifications.verify_reachability") } %>
+      <%= primer_form_with(url: check_admin_settings_push_notifications_path, method: :post) do %>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit,
+                data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
+              )
+            ) { t("admin.settings.push_notifications.verify_reachability") } %>
+      <% end %>
       <% if OpenProject::WebPush.key_managed_by_environment? %>
         <%= render(Primer::Beta::Text.new(color: :muted)) { t("admin.settings.push_notifications.key_managed_by_environment") } %>
       <% else %>
@@ -116,11 +120,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 4)) { t(:button_save) } %>
-<% end %>
-
-<%= primer_form_with(
-      url: check_admin_settings_push_notifications_path,
-      method: :post,
-      id: "check-reachability-form"
-    ) { "" } %>
+  <%= render(
+        Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 4, form: "browser-notifications-form")
+      ) { t(:button_save) } %>
+</div>
