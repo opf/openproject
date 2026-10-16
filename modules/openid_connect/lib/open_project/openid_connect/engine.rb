@@ -49,6 +49,47 @@ module OpenProject::OpenIDConnect
           end
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :openid_connect_providers,
+             menu_item: :plugin_openid_connect,
+             scope: -> { OpenIDConnect::Provider.order(:display_name) },
+             name: :display_name,
+             url: ->(provider) { edit_openid_connect_provider_path(provider, edit_state: :name) },
+             if: -> { EnterpriseToken.allows_to?(:sso_auth_providers) } do
+          section_url = ->(edit_state) { ->(provider) { edit_openid_connect_provider_path(provider, edit_state:) } }
+          custom = ->(provider) { provider.oidc_provider == "custom" }
+
+          attribute :display_name,
+                    label: -> { OpenIDConnect::Provider.human_attribute_name(:display_name) },
+                    field: "openid_connect_provider[display_name]"
+          attribute :tenant,
+                    label: -> { OpenIDConnect::Provider.human_attribute_name(:tenant) },
+                    field: "openid_connect_provider[tenant]",
+                    if: ->(provider) { provider.oidc_provider == "microsoft_entra" }
+          attribute :metadata_url,
+                    label: :"openid_connect.settings.endpoint_url",
+                    url: section_url.(:metadata),
+                    field: "openid_connect_provider[metadata_url]",
+                    if: custom
+          %i[client_id client_secret post_logout_redirect_uri scope limit_self_registration].each do |name|
+            attribute name,
+                      label: :"activerecord.attributes.openid_connect/provider.#{name}",
+                      url: section_url.(:client_details),
+                      field: "openid_connect_provider[#{name}]"
+          end
+          attribute :sync_groups,
+                    label: -> { OpenIDConnect::Provider.human_attribute_name(:sync_groups) },
+                    url: section_url.(:group_mapping),
+                    field: "openid_connect_provider[sync_groups]",
+                    if: custom
+          attribute :claims,
+                    label: -> { OpenIDConnect::Provider.human_attribute_name(:claims) },
+                    url: section_url.(:claims),
+                    field: "openid_connect_provider[claims]",
+                    if: custom
+        end
+      end
     end
     extend OpenProject::Plugins::AuthPlugin
 

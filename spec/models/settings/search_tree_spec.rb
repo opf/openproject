@@ -129,6 +129,20 @@ RSpec.describe Settings::SearchTree do
       expect(find_node(tree.nodes, "Authentication", "OpenID providers").children).to be_empty
     end
 
+    context "with the enterprise feature of OpenID providers", with_ee: %i[sso_auth_providers] do
+      shared_let(:provider) { create(:oidc_provider_google, display_name: "Corporate Google") }
+
+      let(:query) { "corporate client id" }
+
+      it "finds providers by name and their attributes" do
+        node = find_node(tree.nodes, "Authentication", "OpenID providers", "Corporate Google", "Client ID")
+
+        expect(node.href)
+          .to eq "#{url_helpers.edit_openid_connect_provider_path(provider, edit_state: :client_details)}" \
+                 "&highlight=openid_connect_provider%5Bclient_id%5D"
+      end
+    end
+
     context "with the multiple versions conversion pending", with_settings: { work_package_multiple_versions: false } do
       it "lists the conversion below its menu item" do
         node = find_node(tree.nodes, "Work packages", "Versions and categories", "Multiple target versions")

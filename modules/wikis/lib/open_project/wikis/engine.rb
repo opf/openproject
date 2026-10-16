@@ -46,6 +46,27 @@ module OpenProject::Wikis
                if: -> { EnterpriseToken.allows_to?(:xwiki_integration) }
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :internal_wiki_provider,
+             menu_item: :internal_wiki_provider,
+             scope: -> { Wikis::InternalProvider.order(:id) },
+             url: ->(_provider) { admin_settings_internal_wiki_provider_path } do
+          attribute :enabled,
+                    label: :"wikis.admin.internal_provider_form.checkbox_label",
+                    field: "wikis_internal_provider[enabled]"
+        end
+
+        kind :wiki_providers,
+             menu_item: :external_wiki_providers,
+             scope: -> { Wikis::Provider.where.not(type: Wikis::InternalProvider.sti_name).order(:name) },
+             url: ->(provider) { edit_admin_settings_wiki_provider_path(provider) },
+             if: -> { EnterpriseToken.allows_to?(:xwiki_integration) } do
+          attribute :name, label: -> { Wikis::Provider.human_attribute_name(:name) }
+          attribute :url, label: -> { Wikis::XWikiProvider.human_attribute_name(:url) }
+          attribute :authentication_method, label: -> { Wikis::XWikiProvider.human_attribute_name(:authentication_method) }
+        end
+      end
     end
 
     initializer "openproject_wikis.inflections" do

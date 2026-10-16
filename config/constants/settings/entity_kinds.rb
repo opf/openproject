@@ -42,6 +42,8 @@ module Settings
   # Labels and URLs are lambdas evaluated in the view context, URLs receiving
   # the entity. An `if` lambda receiving the entity limits the entities an
   # attribute applies to and a `group` label nests attributes below a common node.
+  # An `if` lambda on the kind hides it altogether, e.g. without the enterprise
+  # feature required to edit its entities.
   #
   # @example
   #   Settings::EntityKinds.draw do
@@ -100,14 +102,19 @@ module Settings
     class Kind
       attr_reader :key, :menu_item, :url
 
-      def initialize(key, menu_item:, scope:, url:, name: :name)
+      def initialize(key, menu_item:, scope:, url:, name: :name, **options)
         @key = key
         @menu_item = menu_item
         @scope = scope
         @url = url
         @name = name
+        @condition = options[:if]
         @attributes = []
         @attribute_sources = []
+      end
+
+      def visible?
+        @condition.nil? || @condition.call
       end
 
       def attribute(key, **)

@@ -46,6 +46,21 @@ module OpenProject::LdapGroups
                if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :ldap_synchronized_filters,
+             menu_item: :plugin_ldap_groups,
+             scope: -> { LdapGroups::SynchronizedFilter.order(:name) },
+             url: ->(filter) { edit_ldap_groups_synchronized_filter_path(filter) },
+             if: -> { EnterpriseToken.allows_to?(:ldap_groups) } do
+          %i[name group_name_attribute sync_users ldap_auth_source_id base_dn member_lookup_attribute
+             filter_string].each do |name|
+            attribute name,
+                      label: -> { LdapGroups::SynchronizedFilter.human_attribute_name(name) },
+                      field: "synchronized_filter[#{name}]"
+          end
+        end
+      end
     end
 
     register "openproject-ldap_groups",

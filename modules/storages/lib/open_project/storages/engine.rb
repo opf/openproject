@@ -62,6 +62,15 @@ module OpenProject::Storages
           end
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :storages,
+             menu_item: :external_file_storages,
+             scope: -> { ::Storages::Storage.order(:name) },
+             url: ->(storage) { edit_admin_settings_storage_path(storage) } do
+          attribute :name, label: -> { ::Storages::Storage.human_attribute_name(:name) }
+        end
+      end
     end
 
     patches %i[WorkPackage]

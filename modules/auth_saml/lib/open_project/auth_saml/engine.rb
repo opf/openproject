@@ -54,6 +54,43 @@ module OpenProject
                  if: -> { EnterpriseToken.allows_to?(:sso_auth_providers) }
           end
         end
+
+        ::Settings::EntityKinds.draw do
+          kind :saml_providers,
+               menu_item: :plugin_saml,
+               scope: -> { Saml::Provider.order(:display_name) },
+               name: :display_name,
+               url: ->(provider) { edit_saml_provider_path(provider, edit_state: :name) },
+               if: -> { EnterpriseToken.allows_to?(:sso_auth_providers) } do
+            {
+              name: %i[display_name],
+              metadata: %i[metadata_url],
+              configuration: %i[sp_entity_id idp_sso_service_url idp_slo_service_url idp_cert name_identifier_format
+                                limit_self_registration],
+              encryption: %i[authn_requests_signed want_assertions_signed want_assertions_encrypted certificate]
+            }.each do |edit_state, names|
+              names.each do |name|
+                attribute name,
+                          label: :"activerecord.attributes.saml/provider.#{name}",
+                          url: ->(provider) { edit_saml_provider_path(provider, edit_state:) },
+                          field: "saml_provider[#{name}]"
+              end
+            end
+
+            {
+              login: -> { User.human_attribute_name(:login) },
+              mail: -> { User.human_attribute_name(:mail) },
+              firstname: -> { User.human_attribute_name(:first_name) },
+              lastname: -> { User.human_attribute_name(:last_name) },
+              uid: -> { I18n.t("saml.providers.label_uid") }
+            }.each do |name, user_attribute|
+              attribute :"mapping_#{name}",
+                        label: -> { t("label_mapping_for", attribute: user_attribute.call) },
+                        url: ->(provider) { edit_saml_provider_path(provider, edit_state: :mapping) },
+                        field: "saml_provider[mapping_#{name}]"
+            end
+          end
+        end
       end
       extend OpenProject::Plugins::AuthPlugin
 
