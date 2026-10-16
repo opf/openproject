@@ -58,8 +58,7 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     expect(subject).to have_css(
       "[data-test-selector='ai-text-transform-result'][data-controller='ai-text-transform-pane']" \
       "[data-ai-text-transform-pane-close-form-value='#{AI::TextTransforms::ResultPaneHelpers::CLOSE_FORM_ID}']" \
-      "[data-ai-text-transform-pane-copy-value='Copy'][data-ai-text-transform-pane-copied-value='Copied']" \
-      "[data-action='keydown.esc->ai-text-transform-pane#close']"
+      "[data-action='keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport']"
     )
   end
 
@@ -69,7 +68,7 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
   end
 
   it "has a close button in the header" do
-    expect(subject).to have_css(".Box-header button[aria-label='Close']")
+    expect(subject).to have_css(".Box-header button[aria-label='Close'][data-action='click->ai-text-transform-pane#close']")
   end
 
   it "renders each section in its own streamable wrapper" do

@@ -37,18 +37,15 @@ describe('AiTextTransformPaneController', () => {
   const HTML = `
 <div data-controller="ai-text-transform-pane"
      data-ai-text-transform-pane-close-form-value="${CLOSE_FORM_ID}"
-     data-ai-text-transform-pane-copy-value="Copy"
-     data-ai-text-transform-pane-copied-value="Copied"
-     data-action="keydown.esc->ai-text-transform-pane#close">
+     data-action="keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport">
   <div data-ai-text-transform-pane-target="pane" tabindex="-1"
-       style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px;">
+       style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; max-width: calc(100vw - 32px);">
     <div data-testid="header" ${action('pointerdown', 'beginDrag')}>
-      <button type="button" data-testid="close">×</button>
+      <a href="#" data-testid="link">Link</a>
+      <button type="button" data-testid="close" ${action('click', 'close')}>×</button>
     </div>
-    <template data-ai-text-transform-pane-target="raw">Login **works** &lt;again&gt;</template>
     <div>
       <span data-testid="grip" ${action('pointerdown', 'beginDrag')}></span>
-      <button type="button" ${action('click', 'copy')}><span data-ai-text-transform-pane-target="copyLabel">Copy</span></button>
     </div>
     <span data-testid="resize-left" data-edge="left" ${action('pointerdown', 'beginResize')}></span>
     <span data-testid="resize-bottom-right" data-edge="bottom-right" ${action('pointerdown', 'beginResize')}></span>
@@ -60,13 +57,13 @@ describe('AiTextTransformPaneController', () => {
   const rect = () => pane().getBoundingClientRect().toJSON() as DOMRect;
   const byTestId = (id:string) => ctx.screen.getByTestId(id);
 
-  function pointer(type:string, target:EventTarget, clientX:number, clientY:number):void {
-    target.dispatchEvent(new PointerEvent(type, { bubbles: true, cancelable: true, clientX, clientY }));
+  function pointer(type:string, target:EventTarget, clientX:number, clientY:number, button = 0):void {
+    target.dispatchEvent(new PointerEvent(type, { bubbles: true, cancelable: true, clientX, clientY, button }));
   }
 
-  function dragBy(handle:HTMLElement, dx:number, dy:number):void {
+  function dragBy(handle:HTMLElement, dx:number, dy:number, button = 0):void {
     const start = handle.getBoundingClientRect();
-    pointer('pointerdown', handle, start.left, start.top);
+    pointer('pointerdown', handle, start.left, start.top, button);
     pointer('pointermove', window, start.left + dx, start.top + dy);
     pointer('pointerup', window, start.left + dx, start.top + dy);
   }
@@ -82,6 +79,7 @@ describe('AiTextTransformPaneController', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    // Unpinning before the controller disconnects keeps the remembered geometry from leaking into the next test.
     ctx.container.querySelector('[data-ai-text-transform-pane-target="pane"]')?.removeAttribute('style');
     ctx.dispose();
   });
@@ -109,8 +107,15 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().top).toBe(before.top + 10);
     });
 
-    it('does not start a drag on a button in the header', () => {
+    it('does not start a drag on interactive elements in the header', () => {
       dragBy(byTestId('close'), -20, 30);
+      dragBy(byTestId('link'), -20, 30);
+
+      expect(pane().style.left).toBe('');
+    });
+
+    it('does not start a drag with a secondary button', () => {
+      dragBy(byTestId('header'), -20, 30, 2);
 
       expect(pane().style.left).toBe('');
     });
@@ -131,6 +136,16 @@ describe('AiTextTransformPaneController', () => {
       pointer('pointermove', window, 0, 0);
 
       expect(rect()).toEqual(after);
+    });
+
+    it('stops following the pointer after pointercancel', () => {
+      const header = byTestId('header');
+      const start = header.getBoundingClientRect();
+      pointer('pointerdown', header, start.left, start.top);
+      pointer('pointercancel', window, start.left, start.top);
+      pointer('pointermove', window, start.left - 20, start.top + 30);
+
+      expect(pane().style.left).toBe('');
     });
   });
 
@@ -155,21 +170,50 @@ describe('AiTextTransformPaneController', () => {
       expect(rect().right).toBe(before.right);
       expect(rect().height).toBe(before.height);
     });
+
+    it('keeps the right edge when the left handle grows past the stylesheet max-width', () => {
+      const before = rect();
+      dragBy(byTestId('resize-left'), -5000, 0);
+
+      expect(rect().left).toBe(8);
+      expect(rect().right).toBe(before.right);
+    });
   });
 
-  it('restores the pinned geometry when the pane is replaced', async () => {
-    dragBy(byTestId('header'), -20, 30);
-    dragBy(byTestId('resize-bottom-right'), -10, 10);
-    const geometry = rect();
+  describe('geometry', () => {
+    it('is restored when the pane is replaced', async () => {
+      dragBy(byTestId('header'), -20, 30);
+      dragBy(byTestId('resize-bottom-right'), -10, 10);
+      const geometry = rect();
 
-    wrapper()!.remove();
-    await ctx.mount(HTML);
+      wrapper()!.remove();
+      await ctx.mount(HTML);
 
-    expect(rect()).toEqual(geometry);
+      expect(rect()).toEqual(geometry);
+    });
+
+    it('is brought back into the viewport when restored', async () => {
+      dragBy(byTestId('header'), -20, 30);
+      pane().style.left = '5000px';
+
+      wrapper()!.remove();
+      await ctx.mount(HTML);
+
+      expect(rect().right).toBe(window.innerWidth - 8);
+    });
+
+    it('is brought back into the viewport when the window resizes', () => {
+      dragBy(byTestId('header'), -20, 30);
+      pane().style.left = '5000px';
+
+      window.dispatchEvent(new Event('resize'));
+
+      expect(rect().right).toBe(window.innerWidth - 8);
+    });
   });
 
-  describe('Escape', () => {
-    it('submits the close form when it exists', () => {
+  describe('closing', () => {
+    it('submits the close form on Escape when it exists', () => {
       ctx.appendHTML(`<form id="${CLOSE_FORM_ID}"></form>`);
       const form = document.getElementById(CLOSE_FORM_ID) as HTMLFormElement;
       const submit = vi.spyOn(form, 'requestSubmit').mockImplementation(() => undefined);
@@ -180,24 +224,16 @@ describe('AiTextTransformPaneController', () => {
       expect(wrapper()).not.toBeNull();
     });
 
-    it('removes the pane without a close form', () => {
+    it('removes the pane on Escape without a close form', () => {
       pressEscape();
 
       expect(wrapper()).toBeNull();
     });
-  });
 
-  it('copies the raw text and shows the copied label for a moment', async () => {
-    const writeText = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue(undefined);
-    const label = ctx.container.querySelector('[data-ai-text-transform-pane-target="copyLabel"]')!;
-    vi.useFakeTimers();
+    it('removes the pane with the header close button', () => {
+      byTestId('close').click();
 
-    await ctx.getController<AiTextTransformPaneController>('ai-text-transform-pane').copy();
-
-    expect(writeText).toHaveBeenCalledWith('Login **works** <again>');
-    expect(label).toHaveTextContent('Copied');
-
-    vi.advanceTimersByTime(1500);
-    expect(label).toHaveTextContent('Copy');
+      expect(wrapper()).toBeNull();
+    });
   });
 });

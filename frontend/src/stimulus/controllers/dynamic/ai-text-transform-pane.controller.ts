@@ -26,12 +26,12 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 
-const COPIED_FEEDBACK = 1500;
 const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
-const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxHeight'] as const;
+const GEOMETRY_PROPERTIES = ['left', 'top', 'right', 'bottom', 'width', 'height', 'maxWidth', 'maxHeight'] as const;
 
 type Geometry = Partial<Record<typeof GEOMETRY_PROPERTIES[number], string>>;
 
@@ -51,56 +51,50 @@ let rememberedGeometry:Geometry|null = null;
 const clamp = (value:number, min:number, max:number) => Math.min(Math.max(min, value), max);
 
 export default class AiTextTransformPaneController extends Controller<HTMLElement> {
-  static targets = ['pane', 'raw', 'copyLabel', 'applyFailed', 'applyFailedMessage'];
+  static targets = ['pane'];
 
   static values = {
     closeForm: String,
-    copy: String,
-    copied: String,
   };
 
   declare readonly paneTarget:HTMLElement;
-  declare readonly rawTarget:HTMLTemplateElement;
-  declare readonly copyLabelTarget:HTMLElement;
   declare readonly closeFormValue:string;
-  declare readonly copyValue:string;
-  declare readonly copiedValue:string;
 
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:ResizeStart|null = null;
-  private copyTimer:ReturnType<typeof setTimeout>|null = null;
-
-  private readonly onDragMove = (event:PointerEvent) => this.drag(event);
-  private readonly onResizeMove = (event:PointerEvent) => this.resize(event);
-  private readonly onPointerUp = () => this.endPointerAction();
+  private pointerListeners:AbortController|null = null;
 
   connect():void {
     if (rememberedGeometry) {
       Object.assign(this.paneTarget.style, rememberedGeometry);
+      this.keepInViewport();
     }
     this.paneTarget.focus({ preventScroll: true });
   }
 
   disconnect():void {
     this.endPointerAction();
-    this.clearCopyTimer();
-    rememberedGeometry = this.paneTarget.style.left ? this.geometry() : null;
+    rememberedGeometry = this.pinned ? this.geometry() : null;
   }
 
   beginDrag(event:PointerEvent):void {
-    if ((event.target as Element).closest('button')) {
+    if (event.button !== 0 || closestDragBlockingElement(event.target as Element, event.currentTarget as Element)) {
       return;
     }
 
     const rect = this.paneTarget.getBoundingClientRect();
     this.dragOffset = { x: event.clientX - rect.left, y: event.clientY - rect.top };
-    this.listen(this.onDragMove);
+    this.listen((move) => this.drag(move));
     event.preventDefault();
   }
 
   // Resizing pins the pane to explicit coordinates first, so a right or bottom handle
   // grows it in place and a left handle moves the left edge only.
   beginResize(event:PointerEvent):void {
+    if (event.button !== 0) {
+      return;
+    }
+
     const rect = this.paneTarget.getBoundingClientRect();
     this.resizeStart = {
       x: event.clientX,
@@ -112,8 +106,15 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
       edge: (event.currentTarget as HTMLElement).dataset.edge ?? 'bottom-right',
     };
     this.pin(rect.left, rect.top);
-    this.listen(this.onResizeMove);
+    this.listen((move) => this.resize(move));
     event.preventDefault();
+  }
+
+  keepInViewport():void {
+    if (this.pinned) {
+      const rect = this.paneTarget.getBoundingClientRect();
+      this.pinInViewport(rect.left, rect.top);
+    }
   }
 
   close():void {
@@ -125,29 +126,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
-  async copy():Promise<void> {
-    await navigator.clipboard.writeText(this.rawTarget.content.textContent ?? '');
-    this.copyLabelTarget.textContent = this.copiedValue;
-    this.clearCopyTimer();
-    this.copyTimer = setTimeout(() => {
-      this.copyLabelTarget.textContent = this.copyValue;
-      this.copyTimer = null;
-    }, COPIED_FEEDBACK);
+  private get pinned():boolean {
+    return this.paneTarget.style.left !== '';
   }
 
   private drag(event:PointerEvent):void {
-    if (!this.dragOffset) {
-      return;
+    if (this.dragOffset) {
+      this.pinInViewport(event.clientX - this.dragOffset.x, event.clientY - this.dragOffset.y);
     }
-
-    const rect = this.paneTarget.getBoundingClientRect();
-    const maxLeft = Math.max(EDGE_MARGIN, window.innerWidth - rect.width - EDGE_MARGIN);
-    const maxTop = Math.max(EDGE_MARGIN, window.innerHeight - rect.height - EDGE_MARGIN);
-
-    this.pin(
-      clamp(event.clientX - this.dragOffset.x, EDGE_MARGIN, maxLeft),
-      clamp(event.clientY - this.dragOffset.y, EDGE_MARGIN, maxTop),
-    );
   }
 
   private resize(event:PointerEvent):void {
@@ -157,6 +143,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
     const { x, y, left, top, width, height, edge } = this.resizeStart;
     const { style } = this.paneTarget;
+    style.maxWidth = 'none';
 
     if (edge.endsWith('left')) {
       const newWidth = clamp(width - (event.clientX - x), MIN_WIDTH, left + width - EDGE_MARGIN);
@@ -172,6 +159,14 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
+  private pinInViewport(left:number, top:number):void {
+    const { width, height } = this.paneTarget.getBoundingClientRect();
+    const maxLeft = Math.max(EDGE_MARGIN, window.innerWidth - width - EDGE_MARGIN);
+    const maxTop = Math.max(EDGE_MARGIN, window.innerHeight - height - EDGE_MARGIN);
+
+    this.pin(clamp(left, EDGE_MARGIN, maxLeft), clamp(top, EDGE_MARGIN, maxTop));
+  }
+
   private pin(left:number, top:number):void {
     Object.assign(this.paneTarget.style, { left: `${left}px`, top: `${top}px`, right: 'auto', bottom: 'auto' });
   }
@@ -182,22 +177,19 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   }
 
   private listen(onMove:(event:PointerEvent) => void):void {
-    window.addEventListener('pointermove', onMove);
-    window.addEventListener('pointerup', this.onPointerUp);
+    this.pointerListeners = new AbortController();
+    const { signal } = this.pointerListeners;
+    const end = () => this.endPointerAction();
+
+    window.addEventListener('pointermove', onMove, { signal });
+    window.addEventListener('pointerup', end, { signal });
+    window.addEventListener('pointercancel', end, { signal });
   }
 
   private endPointerAction():void {
+    this.pointerListeners?.abort();
+    this.pointerListeners = null;
     this.dragOffset = null;
     this.resizeStart = null;
-    window.removeEventListener('pointermove', this.onDragMove);
-    window.removeEventListener('pointermove', this.onResizeMove);
-    window.removeEventListener('pointerup', this.onPointerUp);
-  }
-
-  private clearCopyTimer():void {
-    if (this.copyTimer) {
-      clearTimeout(this.copyTimer);
-      this.copyTimer = null;
-    }
   }
 }

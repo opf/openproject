@@ -45,8 +45,8 @@ module AI
         { ai_text_transform_pane_target: name }
       end
 
-      def action(name, event: "click")
-        { action: "#{event}->ai-text-transform-pane##{name}" }
+      def action(**events_by_name)
+        { action: events_by_name.map { |name, event| "#{event}->ai-text-transform-pane##{name}" }.join(" ") }
       end
     end
   end

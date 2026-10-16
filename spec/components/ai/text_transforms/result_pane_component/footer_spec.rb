@@ -61,16 +61,14 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
   context "when done" do
     let(:status) { "succeeded" }
 
-    it "offers Copy, Discard and Replace" do
-      expect(subject).to have_button("Copy")
+    it "offers Discard and Replace" do
       expect(subject).to have_button("Discard")
       expect(subject).to have_css(".Button--primary", text: "Replace")
       expect(subject).to have_no_button("Cancel")
     end
 
-    it "copies through the pane controller" do
-      expect(subject).to have_css("button[data-action='click->ai-text-transform-pane#copy'] " \
-                                  "span[data-ai-text-transform-pane-target='copyLabel']", text: "Copy")
+    it "copies the raw text with a clipboard button" do
+      expect(subject).to have_element(:"clipboard-copy", "aria-label": "Copy", value: "Login **works** again")
     end
   end
 
