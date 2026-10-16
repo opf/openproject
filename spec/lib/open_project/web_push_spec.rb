@@ -108,7 +108,7 @@ RSpec.describe OpenProject::WebPush do
 
       it "raises an unreadable key error naming the setting" do
         expect { described_class.public_key }
-          .to raise_error(described_class::UnreadableKey, /web_push_vapid_private_key.*regenerate/i)
+          .to raise_error(described_class::UnreadableKey, /web_push_vapid_private_key.*renew/i)
       end
 
       it "keeps the stored value and the subscriptions" do
