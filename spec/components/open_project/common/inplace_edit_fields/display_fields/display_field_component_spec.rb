@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -120,5 +119,14 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::DisplayFie
         expect(rendered_content).not_to include("\"click-&gt;inplace-edit#openDialog")
       end
     end
+  end
+
+  it "does not open a dialog for a read-only field without comments" do
+    render_inline(described_class.new(model: project, attribute: :name, writable: false, truncated: false,
+                                      dialog_controller_name: "inplace-edit", dialog_url: "/unused"))
+
+    expect(rendered_content).to have_text(project.name)
+    expect(rendered_content).to have_no_css("[data-controller~='async-dialog']")
+    expect(rendered_content).to have_no_css("[data-action*='openDialog']")
   end
 end

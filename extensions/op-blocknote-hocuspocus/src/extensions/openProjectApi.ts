@@ -32,7 +32,7 @@ import { Extension } from "@hocuspocus/server";
 import {
   openProjectWorkPackageStaticBlockSpec,
   openProjectWorkPackageStaticInlineSpec,
-} from "op-blocknote-extensions/server";
+} from "@openproject/op-blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";

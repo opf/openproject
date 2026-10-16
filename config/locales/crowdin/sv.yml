@@ -40,7 +40,9 @@ sv:
         view: En dynamisk länk till en vy som infogats med ett makro.
         work_package: En dynamisk länk till ett arbetspaket som infogats med ett makro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Logga in som <em>%{login}</em> för att aktivera ditt konto.
+    continue_with_provider: Continue with %{name}
     delete: Ta bort konto
     delete_confirmation: Är du säker du vill ta bort kontot?
     deletion_info:
@@ -65,7 +67,9 @@ sv:
     error_self_registration_limited_provider: 'Användarregistreringen är begränsad för leverantören för enkel inloggning ”%{name}”. Be en administratör att aktivera kontot åt dig eller ändra begränsningen för självregistrering för den här leverantören.
 
       '
-    login_with_auth_provider: eller logga in med ditt befintliga konto
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Fortsätt till inloggningen
     omniauth_direct_login_redirecting: Omdirigerar dig till din identitetsleverantör…
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
@@ -201,11 +205,13 @@ sv:
         row_count: Antal rader
         widgets: Widgets
       group:
+        avatar_color: Fallback color
         group_users: Gruppera användare
         identity_url: Identitets-URL
         organizational_unit: Organisationsenhet
         parent: Överordnad grupp
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Organisationsenhet
         parent: Överordnad grupp
       import/jira:
@@ -448,7 +454,7 @@ sv:
         last_name: Efternamn
         ldap_auth_source: LDAP-anslutning
         new_password: Nytt lösenord
-        password_confirmation: Bekräftelse
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Sektion
       user_non_working_time:
@@ -459,11 +465,11 @@ sv:
         auto_hide_popups_caption: När detta är aktiverat försvinner de gröna framgångsbanderollerna automatiskt efter 5 sekunder.
         avatar_color: Fallback color
         button_update_alerts: Uppdatera varningar
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Uppdatera utseende
         button_update_user_information: Uppdatera profil
         comments_sorting: Visa arbetspaketsaktivitet sorterad efter
         daily_reminders: Dagliga påminnelser
+        date_format: Date format
         disable_keyboard_shortcuts: Inaktivera kortkommandon
         dismissed_enterprise_banners: Dolda Enterprise-banderoller
         force_dark_theme_contrast: Tvinga hög kontrast i mörkt läge
@@ -480,6 +486,7 @@ sv:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Färgläge
+        time_format: Time format
         time_zone: Tidszon
         warn_on_leaving_unsaved: Varna mig när jag lämnar ett arbetspaket med osparade ändringar
         workdays: Arbetsdagar
@@ -2380,6 +2387,21 @@ sv:
         not_available: AI-assistenten är inte tillgänglig.
         timeout: AI-tjänsten svarade inte i tid.
         upstream_error: AI-tjänsten returnerade ett fel.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: visas för tillfället
@@ -3665,6 +3687,8 @@ sv:
   groups:
     edit:
       synchronized_groups: Synkroniserade grupper
+    form:
+      group_attributes: Group attributes
     index:
       description: Genom att gruppera användare kan du lägga till dem som medlemmar i samma projekt eller tilldela dem samma globala roller.
     memberships:
@@ -3690,6 +3714,10 @@ sv:
       leave_project: Lämna projektet
       no_favorite_projects: Du har inga favoritprojekt.
       title: Projekt
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3736,6 +3764,31 @@ sv:
             line_5: Följ importförloppet när du använder Jira-migreringsverktyget.
             line_6: Använd datumaviseringar i Community Edition.
           new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, bland annat:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Läs om nya funktioner och produktuppdateringar.
@@ -4012,7 +4065,7 @@ sv:
   label_database_version: PostgreSQL-version
   label_date: Datum
   label_date_and_time: Datum och tid
-  label_date_format: Datumformat
+  label_date_and_time_formats: Date and time formats
   label_date_from: Från
   label_date_from_to: Från %{start} till %{end}
   label_date_to: Till
@@ -4171,7 +4224,6 @@ sv:
   label_keyword_plural: Nyckelord
   label_label_plural: Etiketter
   label_language: Språk
-  label_language_based: Baserat på användarens språk
   label_languages: Språk
   label_last_activity: Senaste aktivitet
   label_last_change_on: Senast ändrad
@@ -4193,6 +4245,7 @@ sv:
   label_list: Lista
   label_loading: Laddar...
   label_locale: Språk och region
+  label_locale_based: Use default for user locale
   label_lock_user: Lås användare
   label_locked: låst
   label_logged_as: Inloggad som
@@ -4483,6 +4536,7 @@ sv:
   label_subtask_plural: Underaktiviteter
   label_summary: Sammanfattning
   label_system: System
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Systeminställningar
   label_system_storage: Lagringsinformation
   label_table_of_contents: Innehållsförteckning

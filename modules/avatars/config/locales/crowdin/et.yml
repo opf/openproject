@@ -3,6 +3,7 @@ et:
   are_you_sure_delete_avatar: Olete kindel, et soovite oma profiilipilti kustutada?
   avatar_deleted: Profiilipilt kustutatud.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Profiilipilt
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

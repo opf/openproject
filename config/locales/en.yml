@@ -47,7 +47,9 @@ en:
         view: "A dynamic link to a view placed using a macro."
         work_package: "A dynamic link to a work package placed using a macro."
   account:
+    already_have_an_account: "You already have an account?"
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: "Continue with %{name}"
     delete: "Delete account"
     delete_confirmation: "Are you sure you want to delete the account?"
     deletion_info:
@@ -72,7 +74,9 @@ en:
     error_self_registration_limited_provider: >
       User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
       account for you or change the self registration limit for this provider.
-    login_with_auth_provider: "or sign in with your existing account"
+    login_title: "Sign in to %{app_title}"
+    login_with_external_account: "Sign in with an external account"
+    no_account_yet: "You don't have an account yet?"
     omniauth_direct_login_continue: "Continue to sign in"
     omniauth_direct_login_redirecting: "Redirecting you to your identity provider…"
     omniauth_login: Please login to activate your account.
@@ -211,11 +215,17 @@ en:
         row_count: "Number of rows"
         widgets: "Widgets"
       group:
+        avatar_color: "Fallback color"
+        avatar_text: "Avatar text"
+        avatar_type: "Avatar type"
         group_users: "Group users"
         identity_url: "Identity URL"
         organizational_unit: "Organizational unit"
         parent: "Parent group"
       group_detail:
+        avatar_color: "Fallback color"
+        avatar_text: "Avatar text"
+        avatar_type: "Avatar type"
         organizational_unit: "Organizational unit"
         parent: "Parent group"
       "import/jira":
@@ -451,6 +461,7 @@ en:
       user:
         admin: "Administrator"
         auth_source: "Authentication source"
+        avatar_type: "Avatar type"
         consented_at: "Consented at"
         current_password: "Current password"
         department: "Department"
@@ -464,7 +475,7 @@ en:
         last_name: "Last name"
         ldap_auth_source: "LDAP connection"
         new_password: "New password"
-        password_confirmation: "Confirmation"
+        password_confirmation: "Password confirmation"
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -474,12 +485,14 @@ en:
         auto_hide_popups: "Automatically hide success banners"
         auto_hide_popups_caption: "When enabled, the green success banners will automatically disappear after 5 seconds."
         avatar_color: "Fallback color"
+        avatar_text: "Avatar text"
+        avatar_type: "Avatar type"
         button_update_alerts: "Update alerts"
-        button_update_fallback_color: "Update fallback color"
         button_update_look_and_feel: "Update look and feel"
         button_update_user_information: "Update profile"
         comments_sorting: "Display work package activity sorted by"
         daily_reminders: "Daily reminders"
+        date_format: "Date format"
         disable_keyboard_shortcuts: "Disable keyboard shortcuts"
         dismissed_enterprise_banners: "Hidden enterprise banners"
         force_dark_theme_contrast: "Force high-contrast when in Dark mode"
@@ -496,6 +509,7 @@ en:
         require_double_click_for_inline_edit: "Require double click to edit fields"
         require_double_click_for_inline_edit_caption: "When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description."
         theme: "Color mode"
+        time_format: "Time format"
         time_zone: "Time zone"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
         workdays: "Working days"
@@ -2164,6 +2178,10 @@ en:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: "Memberships"
+    placeholder_users:
+      index:
+        blank_description: "No placeholder user matches the current filter."
+        blank_title: "No placeholder users"
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2443,6 +2461,21 @@ en:
         not_available: "The AI assistant is not available."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
+      pane:
+        cancel: "Cancel"
+        close: "Close"
+        copied: "Copied"
+        copy: "Copy"
+        discard: "Discard"
+        editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
+        failed_title: "Generation failed"
+        generating: "Generating…"
+        replace: "Replace"
+        selection_gone: "The selected text is no longer there, so it cannot be replaced. You can still copy it."
+        stopped_description: "The response was blocked before it finished, so the partial text was discarded."
+        stopped_title: "Generation stopped"
+        title: "AI result"
+        try_again: "Try again"
   announcements:
     content: "Content"
     is_active: currently displayed
@@ -2883,7 +2916,7 @@ en:
     text:
       failed: 'Could not copy project "%{source_project_name}" to project "%{target_project_name}".'
       succeeded: 'Copied project "%{source_project_name}" to "%{target_project_name}".'
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Duplicate project "%{source_project_name}"'
     x_objects_of_this_type:
       one: "One object of this type"
       other: "%{count} objects of this type"
@@ -3783,6 +3816,8 @@ en:
   groups:
     edit:
       synchronized_groups: "Synchronized groups"
+    form:
+      group_attributes: "Group attributes"
     index:
       description: By grouping users together, you can add them as members to the same projects or assign the same global roles to them.
     memberships:
@@ -3891,8 +3926,6 @@ en:
               url: "https://www.openproject.org/docs/release-notes/18-0-0/"
           new_features_title: >
             The release contains various new features and improvements, such as:
-          whats_new:
-            video_url: "https://www.youtube.com/c/OpenProjectCommunity"
         header: "Read about new features and product updates."
         learn_about: "Learn more about all new features"
         missing: "There are no highlighted features yet."
@@ -4182,7 +4215,7 @@ en:
   label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
-  label_date_format: "Date format"
+  label_date_and_time_formats: "Date and time formats"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
@@ -4343,7 +4376,6 @@ en:
   label_keyword_plural: "Keywords"
   label_label_plural: "Labels"
   label_language: "Language"
-  label_language_based: "Based on user's language"
   label_languages: "Languages"
   label_last_activity: "Last activity"
   label_last_change_on: "Last change on"
@@ -4365,6 +4397,7 @@ en:
   label_list: "List"
   label_loading: "Loading..."
   label_locale: "Language and region"
+  label_locale_based: "Use default for user locale"
   label_lock_user: "Lock user"
   label_locked: "locked"
   label_logged_as: "Logged in as"
@@ -4655,6 +4688,7 @@ en:
   label_subtask_plural: "Subtasks"
   label_summary: "Summary"
   label_system: "System"
+  label_system_or_language_default: "Use system or language based default"
   label_system_settings: "System settings"
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
@@ -5860,7 +5894,7 @@ en:
   permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
-  permission_copy_projects: "Copy projects"
+  permission_copy_projects: "Duplicate projects"
   permission_copy_projects_explanation: "In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template."
   permission_copy_work_packages: "Duplicate work packages"
   permission_create_backup: "Create backups"
@@ -6491,7 +6525,6 @@ en:
       section_uncheck_all_label: "Unassign all %{module} permissions"
     permissions_dialog:
       edit_permissions: "Edit role permissions"
-      implicit_permission: "Always granted"
       no_permissions: "This role does not grant any permissions."
       permission_count:
         one: "1 permission"

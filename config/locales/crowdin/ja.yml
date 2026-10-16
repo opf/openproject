@@ -40,7 +40,9 @@ ja:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: アカウントを削除
     delete_confirmation: アカウントを削除してもよろしいですか？
     deletion_info:
@@ -65,7 +67,9 @@ ja:
     error_self_registration_limited_provider: 'シングルサインオンプロバイダー ''%{name}'' のユーザー登録は制限されています。 管理者にアカウントを有効にするか、このプロバイダーの自己登録制限を変更してください。
 
       '
-    login_with_auth_provider: または、既存のアカウントでログインしてください。
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: アカウントをアクティブにするのにログインしてください。
@@ -201,11 +205,13 @@ ja:
         row_count: 行数
         widgets: ウィジェット
       group:
+        avatar_color: Fallback color
         group_users: Group users
         identity_url: アイデンティティ URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -448,7 +454,7 @@ ja:
         last_name: 苗字
         ldap_auth_source: LDAP 接続
         new_password: 新しいパスワード
-        password_confirmation: 確認のため再入力
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -459,11 +465,11 @@ ja:
         auto_hide_popups_caption: 有効にすると、緑色のサクセスバナーは5秒後に自動的に消えます。
         avatar_color: Fallback color
         button_update_alerts: アラートの更新
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: ルック＆フィールを更新
         button_update_user_information: Update profile
         comments_sorting: ワークパッケージのアクティビティを並べ替えて表示する
         daily_reminders: 毎日の通知
+        date_format: Date format
         disable_keyboard_shortcuts: キーボードショートカットを無効にする
         dismissed_enterprise_banners: 非表示の企業バナー
         force_dark_theme_contrast: Force high-contrast when in Dark mode
@@ -482,6 +488,7 @@ ja:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: カラーモード
+        time_format: Time format
         time_zone: タイムゾーン
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告
         workdays: 営業時間
@@ -2259,6 +2266,21 @@ ja:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: 現在表示されています
@@ -3518,6 +3540,8 @@ ja:
   groups:
     edit:
       synchronized_groups: 同期したグループ
+    form:
+      group_attributes: Group attributes
     index:
       description: ユーザーをグループ化することで、メンバーを同じプロジェクトに追加したり、同じグローバルロールを割り当てたりできます。
     memberships:
@@ -3543,6 +3567,10 @@ ja:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3586,6 +3614,31 @@ ja:
             line_4: Enter planned labor in hours, days, weeks, or months.
             line_5: See the import progress when using the Jira Migrator.
             line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -3863,7 +3916,7 @@ ja:
   label_database_version: PostgreSQL バージョン
   label_date: 日付
   label_date_and_time: 日付と時刻
-  label_date_format: 日付の形式
+  label_date_and_time_formats: Date and time formats
   label_date_from: '日付指定: '
   label_date_from_to: "%{start} ～%{end}"
   label_date_to: から
@@ -4022,7 +4075,6 @@ ja:
   label_keyword_plural: キーワード
   label_label_plural: Labels
   label_language: 言語
-  label_language_based: ユーザの言語設定に基づく
   label_languages: 言語
   label_last_activity: 最新の活動
   label_last_change_on: 最終更新
@@ -4044,6 +4096,7 @@ ja:
   label_list: リスト
   label_loading: 読み込み中...
   label_locale: 言語と地域
+  label_locale_based: Use default for user locale
   label_lock_user: ユーザーをロック
   label_locked: ロック済み
   label_logged_as: ログイン中
@@ -4334,6 +4387,7 @@ ja:
   label_subtask_plural: 子タスク
   label_summary: サマリー(概要)
   label_system: システム
+  label_system_or_language_default: Use system or language based default
   label_system_settings: システム設定
   label_system_storage: ストレージ情報
   label_table_of_contents: 目次

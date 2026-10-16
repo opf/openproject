@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -460,12 +459,24 @@ class User < Principal
     preference || build_preference
   end
 
+  delegate :avatar_color, :avatar_text, :avatar_type, to: :pref
+
   def time_zone
     @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
   end
 
+  def date_format
+    @date_format ||= pref.date_format.presence || Setting.date_format.to_s
+  end
+
+  def time_format
+    @time_format ||= pref.time_format.presence || Setting.time_format.to_s
+  end
+
   def reload(*)
     @time_zone = nil
+    @date_format = nil
+    @time_format = nil
 
     super
   end

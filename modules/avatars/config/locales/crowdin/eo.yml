@@ -3,6 +3,7 @@ eo:
   are_you_sure_delete_avatar: Ĉu vi certas, ke vi volas forigi vian avataron?
   avatar_deleted: Avatar deleted successfully.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avataro
     label_avatar_color: Fallback color
     label_gravatar: Gravataro

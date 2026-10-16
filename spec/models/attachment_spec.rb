@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -531,6 +530,31 @@ RSpec.describe Attachment do
 
       context "on update" do
         it_behaves_like "does not run extraction"
+      end
+    end
+  end
+
+  describe ".clean_cached_files!" do
+    let(:storage) { instance_double(CarrierWave::Storage::File, clean_cache!: nil) }
+
+    before do
+      allow(CarrierWave::Storage::File).to receive(:new).and_return(storage)
+    end
+
+    it "removes CarrierWave workfiles older than the given age and keeps newer ones" do
+      Dir.mktmpdir do |dir|
+        allow(CarrierWave).to receive(:tmp_path).and_return(dir)
+
+        old_dir = File.join(dir, "#{10.days.ago.utc.to_i}-1-0001-0002")
+        fresh_dir = File.join(dir, "#{Time.zone.now.to_i}-1-0001-0003")
+        FileUtils.mkdir_p(old_dir)
+        FileUtils.mkdir_p(fresh_dir)
+
+        described_class.clean_cached_files!(age_in_seconds: 1.day.to_i)
+
+        expect(File).not_to exist(old_dir)
+        expect(File).to exist(fresh_dir)
+        expect(storage).to have_received(:clean_cache!).with(1.day.to_i)
       end
     end
   end

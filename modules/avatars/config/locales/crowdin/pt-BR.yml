@@ -3,6 +3,7 @@ pt-BR:
   are_you_sure_delete_avatar: Tem certeza que deseja excluir sua Imagem do perfil?
   avatar_deleted: Imagem do perfil excluída com sucesso.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Imagem do perfil
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

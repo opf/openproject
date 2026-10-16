@@ -3,6 +3,7 @@ el:
   are_you_sure_delete_avatar: Είστε βέβαιοι ότι θέλετε να διαγράψετε το άβαταρ σας;
   avatar_deleted: Το άβαταρ διαγράφηκε με επιτυχία.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Άβαταρ
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

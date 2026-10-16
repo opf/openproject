@@ -1,4 +1,4 @@
-<% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_calendar)} #{I18n.l(date)}" -%>
+<% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_calendar)} #{helpers.format_date(date)}" -%>
 <%= render(My::Work::ViewFrameComponent.new) do %>
   <%= flex_layout(data: wrapper_data, classes: "my-work-calendar-view") do |calendar_page| %>
     <% calendar_page.with_row { render(My::Work::HeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>

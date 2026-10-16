@@ -594,6 +594,14 @@ export const SuggestionList = styled.div<{ $closing?:boolean }>`
   pointer-events: ${({ $closing }) => ($closing ? 'none' : 'auto')};
   padding: 0 ${listPadding} ${listPadding};
 
+  &:popover-open {
+    inset: auto;
+    margin: 0;
+    width: auto;
+    height: auto;
+    color: inherit;
+  }
+
   &[data-growing] {
     overflow-y: hidden;
   }

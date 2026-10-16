@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -159,6 +158,15 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
                                                         current_user:)
 
           expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).not_to be_nil
+        end
+
+        it "returns HTTP 304 without a body when the cached ETag matches" do
+          header "If-None-Match", last_response.headers.fetch("ETag")
+
+          get schema_path
+
+          expect(last_response).to have_http_status(:not_modified)
+          expect(last_response.body).to be_empty
         end
       end
 

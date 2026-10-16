@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,12 +47,12 @@ RSpec.describe API::V3::Users::UserRepresenter do
         expect(parse_json(subject, "avatar")).to start_with("http://gravatar.com/avatar")
       end
 
-      it "is blank if gravatar is disabled" do
+      it "links to the generated initials avatar if gravatar is disabled" do
         allow(Setting)
           .to receive(:plugin_openproject_avatars)
           .and_return(enable_gravatars: false)
 
-        expect(parse_json(subject, "avatar")).to be_blank
+        expect(parse_json(subject, "avatar")).to eq "http://#{Setting.host_name}/api/v3/users/#{user.id}/avatar"
       end
 
       it "is blank if email is missing (e.g. anonymous)" do

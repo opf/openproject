@@ -3,6 +3,7 @@ zh-TW:
   are_you_sure_delete_avatar: 您確定要刪除您的大頭貼？
   avatar_deleted: 大頭貼刪除成功
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: 大頭貼
     label_avatar_color: Fallback color
     label_gravatar: 大頭貼
