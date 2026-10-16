@@ -31,18 +31,29 @@
 class Projects::Settings::TimeEntryActivitiesController < Projects::SettingsController
   menu_item :settings_time_and_costs
 
-  def update
-    TimeEntryActivitiesProject.upsert_all(update_params, unique_by: %i[project_id activity_id])
-    flash[:notice] = t(:notice_successful_update)
+  before_action :find_activity, only: :toggle
 
-    redirect_to project_settings_time_entry_activities_path(@project)
+  def show
+    @activities = TimeEntryActivity.active.order(:name)
+  end
+
+  def toggle
+    mapping = TimeEntryActivitiesProject.find_or_initialize_by(project_id: @project.id, activity_id: @activity.id)
+    mapping.active = !@activity.active_in_project?(@project)
+    mapping.save!
+
+    respond_to do |format|
+      format.json { render json: {}, status: :ok }
+      format.html do
+        flash[:notice] = I18n.t(:notice_successful_update)
+        redirect_to project_settings_time_entry_activities_path(@project)
+      end
+    end
   end
 
   private
 
-  def update_params
-    permitted_params.time_entry_activities_project.map do |attributes|
-      { project_id: @project.id, active: false }.with_indifferent_access.merge(attributes.to_h)
-    end
+  def find_activity
+    @activity = TimeEntryActivity.active.find(params.expect(:activity_id))
   end
 end
