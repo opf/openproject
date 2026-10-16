@@ -30,7 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: true } do
+RSpec.describe PushSubscriptions::NotifyJob,
+               with_flag: { progressive_web_app: true },
+               with_settings: { web_push_enabled: true } do
   let(:project) { create(:project) }
   let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
   let(:work_package) { create(:work_package, project:) }
