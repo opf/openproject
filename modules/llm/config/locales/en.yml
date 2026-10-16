@@ -37,6 +37,8 @@ en:
         state: "Status"
         title: "Display name"
     errors:
+      messages:
+        semantic_search_unavailable: "is currently unavailable."
       models:
         llm_connection:
           attributes:
