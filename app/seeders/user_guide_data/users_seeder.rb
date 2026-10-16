@@ -55,6 +55,7 @@ module UserGuideData
                language: I18n.locale.to_s,
                force_password_change: false)
         .tap { it.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true) }
+        .tap { it.pref.avatar_color = data["avatar_color"] }
         .save!(validate: false)
     end
   end
