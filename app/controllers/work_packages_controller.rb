@@ -243,7 +243,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def render_markdown_export
-    export = Exports::Register.single_exporter(WorkPackage, :md).new(work_package, params).export!
+    export = Exports::Register.single_exporter(WorkPackage, :md).new(work_package).export!
     response.headers["Content-Disposition"] = %(inline; filename="#{export.title}")
     render markdown: export.content
   end

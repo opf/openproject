@@ -60,6 +60,15 @@ RSpec.describe "GET work package as Markdown", type: :rails_request do
       expect(response).to have_http_status(:ok)
     end
 
+    it "ignores a current_user query parameter" do
+      work_package.update!(description: "Hello workPackageValue:subject")
+
+      get "/work_packages/#{work_package.id}.md?current_user=bogus"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to end_with("Hello #{work_package.subject}\n")
+    end
+
     it "returns 404 for a work package the user cannot see" do
       get "/work_packages/#{create(:work_package).id}.md"
 
