@@ -62,11 +62,11 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(Primer::Box.new(border: true, border_radius: 2, p: 3, mt: 4, bg: :subtle)) do %>
       <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center, mb: 2)) do %>
         <%= render(Primer::Beta::Octicon.new(icon: :globe)) %>
-        <%= render(Primer::Beta::Text.new(font_weight: :bold)) { t("admin.settings.push_notifications.verify_reachability") } %>
+        <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 5)) { t("admin.settings.push_notifications.verify_reachability") } %>
       <% end %>
       <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.verify_reachability_description") } %>
       <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
-      <ul class="color-fg-muted pl-4">
+      <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4)) do %>
         <% OpenProject::WebPush.push_service_hosts.each do |host| %>
           <% result = @reachability&.find { |candidate| candidate.host == host } %>
           <li>
@@ -82,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
           </li>
         <% end %>
-      </ul>
+      <% end %>
       <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
         <%= render(
               Primer::Beta::Button.new(
