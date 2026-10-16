@@ -124,7 +124,7 @@ To supply your own key, set the environment variable `OPENPROJECT_WEB__PUSH__VAP
 openssl ecparam -name prime256v1 -genkey -noout | openssl pkcs8 -topk8 -nocrypt -outform DER | base64 -w0
 ```
 
-Each push is signed with a subject, the contact the instance presents to the push services. It is an https URL or a mailto: address and defaults to the root URL of your instance. Apple's push service only accepts a subject on a publicly registered domain, so Safari users on an instance with an intranet hostname receive no pushes. In that case set the environment variable `OPENPROJECT_WEB__PUSH__VAPID__SUBJECT` to a public https URL or a mailto: address on your public domain. Chrome, Edge and Firefox accept any subject.
+Each push is signed with the root URL of your instance as its subject, the contact the instance presents to the push services. Apple's push service only accepts a subject on a publicly registered domain, so Safari users on an instance with an intranet hostname receive no pushes. Chrome, Edge and Firefox accept any subject.
 
 Changing or rotating the key invalidates every subscription. Users then enable push again on each device.
 
@@ -136,4 +136,4 @@ Subscriptions are stored in an unlogged database table, like sessions. They do n
 
 ### Troubleshooting
 
-**Pushes reach Chrome but not Safari on macOS.** If the log shows a warning such as `Push service web.push.apple.com answered 403 for subscription 12`, Apple rejected the signed push because the subject's domain is not publicly registered, which is the case for intranet hostnames. Set `OPENPROJECT_WEB__PUSH__VAPID__SUBJECT` to a public https URL or a mailto: address on a public domain, as described under [VAPID key](#vapid-key).
+**Pushes reach Chrome but not Safari on macOS.** If the log shows a warning such as `Push service web.push.apple.com answered 403 for subscription 12`, Apple rejected the signed push because the instance root URL is not on a publicly registered domain, which is the case for intranet hostnames. Browser push for Safari needs an instance reachable under a public domain.
