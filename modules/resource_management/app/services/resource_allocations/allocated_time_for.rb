@@ -29,9 +29,6 @@
 #++
 
 module ResourceAllocations
-  # The schedule is computed across all of the user's allocations and only then cut
-  # down to the displayed dates, so that each day matches the placement the
-  # allocation fit check works with.
   class AllocatedTimeFor
     def initialize(user:, dates:)
       @user = user
@@ -54,14 +51,11 @@ module ResourceAllocations
     private
 
     def scheduled_entries
-      schedule = Availability.new(user: @user).optimal_schedule
-      entries = @dates.flat_map { |date| schedule.entries_on(date) }
-
-      ActiveRecord::Associations::Preloader
-        .new(records: work_packages_in(entries), associations: %i[project type])
-        .call
-
-      entries
+      ScheduledEntry
+        .where(user: @user, allocated_on: @dates)
+        .includes(allocation: { entity: %i[project type] })
+        .order(:allocated_on, :minutes)
+        .to_a
     end
 
     def work_packages_in(entries)

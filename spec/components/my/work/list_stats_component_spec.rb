@@ -49,7 +49,7 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
   def allocated_on(day, minutes:)
     work_package = build_stubbed(:work_package)
     allocation = build_stubbed(:resource_allocation, entity: work_package)
-    entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: day, minutes:)
+    entry = ResourceAllocations::ScheduledEntry.new(allocation:, allocated_on: day, minutes:)
 
     instance_double(ResourceAllocations::AllocatedTimeFor, items: [entry], visible?: true)
   end

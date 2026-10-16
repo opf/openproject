@@ -56,7 +56,7 @@ module ResourcePlannerViews::UserCardList
     end
 
     def availability
-      @availability ||= ResourceAllocations::Availability.new(user:, allocations:)
+      @availability ||= ResourceAllocations::Availability.new(user:)
     end
 
     def utilization

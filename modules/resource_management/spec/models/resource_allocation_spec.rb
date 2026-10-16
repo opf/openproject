@@ -854,6 +854,24 @@ RSpec.describe ResourceAllocation do
 
         expect(described_class.overbooked_ids([fitting])).to be_empty
       end
+
+      it "includes an allocation whose window has no working day" do
+        weekend = allocation(start_date: Date.new(2026, 1, 10), end_date: Date.new(2026, 1, 11), allocated_time: 60)
+
+        expect(described_class.overbooked_ids([weekend])).to eq(Set[weekend.id])
+      end
+
+      it "checks the allocations of several users in a single query" do
+        other = create(:user)
+        create(:user_working_hours, user: other, valid_from: Date.new(2025, 1, 1))
+        full_week = allocation
+        one_hour = allocation(start_date: Date.new(2026, 1, 7), end_date: Date.new(2026, 1, 7), allocated_time: 60)
+        full_week_of_other = allocation(principal: other)
+        allocations = [full_week, one_hour, full_week_of_other]
+
+        expect { described_class.overbooked_ids(allocations) }.to have_a_query_limit(1)
+        expect(described_class.overbooked_ids(allocations)).to eq(Set[full_week.id, one_hour.id])
+      end
     end
 
     context "when the assigned user has no working hours configured" do

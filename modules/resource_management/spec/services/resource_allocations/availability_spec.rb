@@ -121,95 +121,6 @@ RSpec.describe ResourceAllocations::Availability do
     end
   end
 
-  describe "#optimal_schedule" do
-    it "distributes a feasible allocation across the days, summing back to its time" do
-      create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
-
-      schedule = availability.optimal_schedule
-      scheduled_minutes = schedule.by_date.values.flatten.sum(&:minutes)
-
-      expect(scheduled_minutes).to eq(960)
-    end
-
-    it "dates each entry with the day it is placed on" do
-      create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
-
-      schedule = availability.optimal_schedule
-
-      expect(schedule.entries_on(monday).map(&:allocated_on)).to eq([monday])
-      expect(schedule.entries_on(tuesday).map(&:allocated_on)).to eq([tuesday])
-    end
-
-    context "when an allocation exceeds its window's capacity" do
-      let(:wednesday) { Date.new(2026, 1, 7) }
-
-      it "has no overtime when the allocation fits" do
-        create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
-
-        expect(availability.optimal_schedule.entries_on(monday).sole.overtime_minutes).to eq(0)
-      end
-
-      it "merges the overtime into the allocation's single entry per day" do
-        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: tuesday)
-
-        schedule = availability.optimal_schedule
-
-        expect(schedule.entries_on(monday).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-        expect(schedule.entries_on(tuesday).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-      end
-
-      it "schedules the full allocated time" do
-        create(:resource_allocation, principal: user, allocated_time: 2400 + 300)
-
-        expect(availability.optimal_schedule.by_date.values.flatten.sum(&:minutes)).to eq(2700)
-      end
-
-      it "adds an entry on days where the allocation has only overtime" do
-        fitting = create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: tuesday)
-        exceeding = create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: wednesday)
-
-        schedule = availability.optimal_schedule
-
-        expect(schedule.entries_on(monday).map { |entry| [entry.allocation, entry.minutes, entry.overtime_minutes] })
-          .to contain_exactly([fitting, 480, 0], [exceeding, 160, 160])
-        expect(schedule.entries_on(wednesday).sole)
-          .to have_attributes(allocation: exceeding, minutes: 640, overtime_minutes: 160)
-      end
-
-      it "puts no time on a global non-working day" do
-        create(:non_working_day, date: tuesday)
-        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: wednesday)
-
-        schedule = availability.optimal_schedule
-
-        expect(schedule.entries_on(tuesday)).to be_empty
-        expect(schedule.entries_on(monday).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-        expect(schedule.entries_on(wednesday).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-      end
-
-      it "puts no time on the user's non-working time" do
-        create(:user_non_working_time, user:, start_date: tuesday, end_date: tuesday)
-        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: monday, end_date: wednesday)
-
-        schedule = availability.optimal_schedule
-
-        expect(schedule.entries_on(tuesday)).to be_empty
-        expect(schedule.entries_on(monday).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-      end
-
-      it "puts no time on weekends" do
-        create(:resource_allocation, principal: user, allocated_time: 960 + 120, start_date: friday, end_date: friday + 3)
-
-        schedule = availability.optimal_schedule
-
-        expect(schedule.entries_on(friday + 1)).to be_empty
-        expect(schedule.entries_on(friday + 2)).to be_empty
-        expect(schedule.entries_on(friday).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-        expect(schedule.entries_on(friday + 3).sole).to have_attributes(minutes: 540, overtime_minutes: 60)
-      end
-    end
-  end
-
   describe "#overbooking_with" do
     let(:wednesday) { Date.new(2026, 1, 7) }
 
@@ -284,6 +195,109 @@ RSpec.describe ResourceAllocations::Availability do
 
       expect(overbooking).to be_overbooked
       expect(overbooking).to have_attributes(overtime_minutes: 0, period: nil, unplannable: true)
+    end
+
+    context "with a schedule to resume" do
+      let(:thursday) { Date.new(2026, 1, 8) }
+      let(:next_monday) { Date.new(2026, 1, 12) }
+      let(:next_wednesday) { Date.new(2026, 1, 14) }
+      let(:next_friday) { Date.new(2026, 1, 16) }
+
+      let!(:early) do
+        create(:resource_allocation, principal: user, allocated_time: 1200, start_date: monday, end_date: wednesday)
+      end
+      let!(:long) do
+        create(:resource_allocation, principal: user, allocated_time: 3000, start_date: monday, end_date: next_friday)
+      end
+      let!(:late) do
+        create(:resource_allocation, principal: user, allocated_time: 1000, start_date: next_monday, end_date: next_wednesday)
+      end
+
+      # Runs over every allocation of the user from their first day on,
+      # without the stored schedule.
+      def full_overbooking_with(allocation, user: allocation.principal)
+        others = ResourceAllocation.allocated.for_principal(user).where.not(id: allocation.id).to_a
+        all = others + [allocation]
+        range = all.map(&:start_date).min..all.map(&:end_date).max
+        calendar = ResourceAllocations::WorkingTimeCalendar.new(user:, range:)
+        baseline = overtime_by_date(ResourceAllocations::FitCalculator.new(calendar:, allocations: others).call)
+        prospective = ResourceAllocations::FitCalculator.new(calendar:, allocations: all).call
+        added = overtime_by_date(prospective)
+                  .to_h { |date, minutes| [date, minutes - baseline[date]] }
+                  .select { |_date, minutes| minutes.positive? }
+
+        ResourceAllocations::ProspectiveOverbooking.new(
+          overtime_minutes: added.values.sum,
+          period: (added.keys.min..added.keys.max if added.any?),
+          unplannable: prospective.unplannable.key?(allocation)
+        )
+      end
+
+      def overtime_by_date(result)
+        result.overtime.values.flat_map(&:to_a).each_with_object(Hash.new(0)) do |(date, minutes), sums|
+          sums[date] += minutes
+        end
+      end
+
+      it "matches a full computation for a new allocation" do
+        prospective = build(:resource_allocation, principal: user, allocated_time: 2400,
+                                                  start_date: thursday, end_date: next_monday + 1)
+
+        expect(availability.overbooking_with(prospective)).to eq(full_overbooking_with(prospective))
+      end
+
+      it "matches a full computation including overtime spread back before the allocation starts" do
+        prospective = build(:resource_allocation, principal: user, allocated_time: 960,
+                                                  start_date: thursday, end_date: friday)
+        overbooking = availability.overbooking_with(prospective)
+
+        expect(overbooking).to eq(full_overbooking_with(prospective))
+        expect(overbooking.period.begin).to be < thursday
+      end
+
+      it "matches a full computation for an edit moving the start earlier" do
+        late.start_date = wednesday
+
+        expect(availability.overbooking_with(late)).to eq(full_overbooking_with(late))
+      end
+
+      it "matches a full computation for an edit moving the start later" do
+        early.assign_attributes(start_date: tuesday, end_date: thursday)
+
+        expect(availability.overbooking_with(early)).to eq(full_overbooking_with(early))
+      end
+
+      it "matches a full computation for an edit changing the allocated time" do
+        long.allocated_time = 4000
+
+        expect(availability.overbooking_with(long)).to eq(full_overbooking_with(long))
+      end
+
+      it "matches a full computation for an edit changing the principal" do
+        other = create(:user)
+        create(:user_working_hours, user: other, valid_from: Date.new(2025, 1, 1))
+        create(:resource_allocation, principal: other, allocated_time: 2000, start_date: monday, end_date: thursday)
+        late.assign_attributes(principal: other, start_date: tuesday)
+
+        expect(described_class.new(user: other).overbooking_with(late)).to eq(full_overbooking_with(late))
+      end
+
+      it "matches a full computation for staffing a filter-based allocation" do
+        filter_based = create(:resource_allocation, :with_user_filter, allocated_time: 1500,
+                                                                       start_date: wednesday, end_date: next_monday)
+        filter_based.principal = user
+
+        expect(availability.overbooking_with(filter_based)).to eq(full_overbooking_with(filter_based))
+      end
+
+      it "matches a full computation for an unplannable allocation" do
+        prospective = build(:resource_allocation, principal: user, allocated_time: 240,
+                                                  start_date: friday + 1, end_date: friday + 2)
+        overbooking = availability.overbooking_with(prospective)
+
+        expect(overbooking).to eq(full_overbooking_with(prospective))
+        expect(overbooking).to have_attributes(unplannable: true)
+      end
     end
   end
 

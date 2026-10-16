@@ -71,7 +71,7 @@ RSpec.describe My::Work::ListWrapperComponent, type: :component do
     let(:allocation) { build_stubbed(:resource_allocation, entity: work_package) }
     let(:visible) { true }
     let(:allocations) do
-      entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: 360)
+      entry = ResourceAllocations::ScheduledEntry.new(allocation:, allocated_on: date, minutes: 360)
       instance_double(ResourceAllocations::AllocatedTimeFor, items: [entry], visible?: visible)
     end
     let(:time_entries) { [] }

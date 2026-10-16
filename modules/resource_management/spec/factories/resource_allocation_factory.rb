@@ -41,6 +41,12 @@ FactoryBot.define do
 
     traits_for_enum :state
 
+    after(:create) do |allocation|
+      if allocation.principal
+        ResourceAllocations::UpdateScheduleService.new.call(users: [allocation.principal], from: nil)
+      end
+    end
+
     trait :with_user_filter do
       principal { nil }
       transient do

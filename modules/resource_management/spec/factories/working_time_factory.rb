@@ -28,20 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  # A user's working time optimally allocated to their work packages: the
-  # scheduled entries keyed by date, and the allocations whose window contains
-  # no working day of the user.
-  class OptimalSchedule
-    include ActiveModel::Model
-    include ActiveModel::Attributes
+# Factories bypass the services that keep the stored resource allocation
+# schedules current, so the affected schedules are rebuilt here.
+FactoryBot.modify do
+  factory :user_working_hours do
+    after(:create) do |working_hours|
+      ResourceAllocations::UpdateScheduleService.new.call(users: [working_hours.user], from: nil)
+    end
+  end
 
-    attribute :by_date, default: -> { {} }
-    attribute :unplannable, default: -> { [] }
+  factory :user_non_working_time do
+    after(:create) do |non_working_time|
+      ResourceAllocations::UpdateScheduleService.new.call(users: [non_working_time.user], from: nil)
+    end
+  end
 
-    def entries_on(date) = by_date.fetch(date, [])
-    def allocations_on(date) = entries_on(date).map(&:allocation)
-    def overtime_on(date) = entries_on(date).sum(&:overtime_minutes)
-    def overbooked_dates = by_date.keys.select { |date| overtime_on(date).positive? }.sort
+  factory :non_working_day do
+    after(:create) do |non_working_day|
+      covering = ResourceAllocation.allocated.where(start_date: ..non_working_day.date, end_date: non_working_day.date..)
+      users = User.where(id: covering.select(:principal_id)).to_a
+
+      ResourceAllocations::UpdateScheduleService.new.call(users:, from: nil)
+    end
   end
 end
