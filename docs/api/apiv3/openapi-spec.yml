@@ -822,6 +822,8 @@ components:
       $ref: "./components/examples/work_package_create_valid.yml"
     WorkPackageEditSubject:
       $ref: "./components/examples/work_package_edit_subject.yml"
+    WorkPackageSimpleResponse:
+      $ref: "./components/examples/work_package_simple_response.yml"
     WorkPackageWithMetaValidation:
       $ref: "./components/examples/work_package_with_meta_validation.yml"
     WorkspaceArchiveRequest:
