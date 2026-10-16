@@ -40,6 +40,7 @@ class WorkPackagesController < ApplicationController
   UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
 
   accept_rss_key_auth :index, :show
+  accept_api_key_auth :show
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]
@@ -201,6 +202,8 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
+
+  def api_key_auth_format? = request.format == Mime[:md]
 
   def load_and_validate_query_for_export
     if params[:query_id].present?

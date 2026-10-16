@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,38 +33,58 @@ RSpec.describe "GET work package as Markdown", type: :rails_request do
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
 
-  current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+  let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
-  it "renders the markdown export inline for the .md suffix" do
-    get "/work_packages/#{work_package.id}.md"
+  context "when logged in" do
+    before { login_as user }
 
-    expect(response).to have_http_status(:ok)
-    expect(response.media_type).to eq("text/markdown")
-    expect(response.headers["Content-Disposition"]).to eq(%(inline; filename="#{work_package.display_id}.md"))
-    expect(response.body).to start_with("# #{work_package.type.name} #{work_package.formatted_id} - #{work_package.subject}\n")
+    it "renders the markdown export inline for the .md suffix" do
+      get "/work_packages/#{work_package.id}.md"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/markdown")
+      expect(response.headers["Content-Type"]).to eq("text/markdown; charset=utf-8")
+      expect(response.headers["Content-Disposition"]).to eq(%(inline; filename="#{work_package.display_id}.md"))
+      expect(response.body).to start_with("# #{work_package.type.name} #{work_package.formatted_id} - #{work_package.subject}\n")
+    end
+
+    it "renders the markdown export for Accept: text/markdown" do
+      get "/work_packages/#{work_package.id}", headers: { "Accept" => "text/markdown" }
+
+      expect(response.media_type).to eq("text/markdown")
+    end
+
+    it "answers project-scoped URLs directly without the html redirect" do
+      get "/projects/#{project.identifier}/work_packages/#{work_package.id}.md"
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "returns 404 for a work package the user cannot see" do
+      get "/work_packages/#{create(:work_package).id}.md"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "keeps the pdf export as an attachment" do
+      get "/work_packages/#{work_package.id}.pdf"
+
+      expect(response.headers["Content-Disposition"]).to start_with("attachment")
+    end
   end
 
-  it "renders the markdown export for Accept: text/markdown" do
-    get "/work_packages/#{work_package.id}", headers: { "Accept" => "text/markdown" }
+  context "with an expired browser session",
+          :skip_csrf,
+          with_settings: { session_ttl_enabled?: true, session_ttl: "120" } do
+    it "logs the user out and redirects to the login page" do
+      post "/login", params: { username: user.login, password: "adminADMIN!" }
+      follow_redirect! while response.redirect?
+      expect(session[:user_id]).to eq(user.id)
 
-    expect(response.media_type).to eq("text/markdown")
-  end
+      travel 3.hours
+      get "/work_packages/#{work_package.id}.md"
 
-  it "answers project-scoped URLs directly without the html redirect" do
-    get "/projects/#{project.identifier}/work_packages/#{work_package.id}.md"
-
-    expect(response).to have_http_status(:ok)
-  end
-
-  it "returns 404 for a work package the user cannot see" do
-    get "/work_packages/#{create(:work_package).id}.md"
-
-    expect(response).to have_http_status(:not_found)
-  end
-
-  it "keeps the pdf export as an attachment" do
-    get "/work_packages/#{work_package.id}.pdf"
-
-    expect(response.headers["Content-Disposition"]).to start_with("attachment")
+      expect(response).to redirect_to(%r{/login})
+    end
   end
 end

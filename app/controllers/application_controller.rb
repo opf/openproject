@@ -349,6 +349,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def api_key_auth_format?
+    api_request?
+  end
+
+  def api_key_authenticated?
+    @api_key_authenticated == true
+  end
+
   # Returns the API key present in the request
   def api_key_from_request
     if params[:key].present?
@@ -425,10 +433,6 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
-  end
-
-  def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params
