@@ -60,7 +60,7 @@ RSpec.describe "Meetings edit agenda", :js do
   context "as an accessible page", :selenium do
     it "is AXe clean" do
       expect(page).to have_text(meeting.title)
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
   end
 
