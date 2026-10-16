@@ -49,7 +49,7 @@ module Planner
     delegate :project, :principal, to: :member, private: true
 
     def orphaned_planner_project?
-      principal.is_a?(User) && principal.pref.planner_project_id == project.id && project.members.none?
+      principal.is_a?(User) && project && principal.pref.planner_project_id == project.id && project.members.none?
     end
   end
 end
