@@ -113,7 +113,7 @@ services:
       - "${FE_PORT:-4200}:4200"
 
   db:
-    image: postgres:17
+    image: pgvector/pgvector:pg17
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
@@ -145,7 +145,7 @@ services:
   ######### Testing stuff below ############
 
   db-test:
-    image: postgres:17
+    image: pgvector/pgvector:pg17
     stop_grace_period: "3s"
     volumes:
       - "pgdata-test:/var/lib/postgresql/data"
