@@ -30,15 +30,30 @@
 
 class AvatarTextValidator < ActiveModel::EachValidator
   MAX_LENGTH = 2
+  MAX_CODEPOINTS_PER_CHARACTER = 16
+  MAX_MARKS_PER_CHARACTER = 4
+  INVISIBLE_CODEPOINT = /[\p{Cc}\p{Cs}\p{Noncharacter_Code_Point}]|(?![\u200D\u{E0020}-\u{E007F}])\p{Cf}/
+  SURROUNDING_SPACE = /\A[[:space:]\uFEFF]+|[[:space:]\uFEFF]+\z/
+
+  def self.normalize(value)
+    value.is_a?(String) ? value.gsub(SURROUNDING_SPACE, "").presence : value
+  end
 
   def validate_each(record, attribute, value)
-    unless value.is_a?(String) && value.match?(/\A[\u0020-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]*\z/)
-      record.errors.add(attribute, :invalid)
-      return
-    end
+    characters = value.grapheme_clusters if value.is_a?(String) && value.valid_encoding?
 
-    if value.grapheme_clusters.length > MAX_LENGTH
+    if characters.nil? || !characters.all? { |character| visible?(character) }
+      record.errors.add(attribute, :invalid)
+    elsif characters.length > MAX_LENGTH
       record.errors.add(attribute, :too_long, count: MAX_LENGTH)
     end
+  end
+
+  private
+
+  def visible?(character)
+    !character.match?(INVISIBLE_CODEPOINT) &&
+      character.codepoints.length <= MAX_CODEPOINTS_PER_CHARACTER &&
+      character.scan(/\p{M}/).length <= MAX_MARKS_PER_CHARACTER
   end
 end

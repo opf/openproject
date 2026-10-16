@@ -45,7 +45,7 @@ class Group < Principal
     end
 
     def avatar_text=(value)
-      super(value.is_a?(String) ? value.strip.presence : value)
+      super(AvatarTextValidator.normalize(value))
     end
   end
 

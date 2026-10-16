@@ -183,7 +183,7 @@ class UserPreference < ApplicationRecord
   end
 
   def avatar_text=(value)
-    settings["avatar_text"] = value.is_a?(String) ? value.strip.presence : value
+    settings["avatar_text"] = AvatarTextValidator.normalize(value)
   end
 
   def daily_reminders

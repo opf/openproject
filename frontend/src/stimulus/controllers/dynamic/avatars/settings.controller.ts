@@ -28,6 +28,12 @@
 import { Controller } from '@hotwired/stimulus';
 import { resizeImage } from 'core-app/shared/helpers/images/resizer';
 
+const SURROUNDING_SPACE = /^[\s\u0085]+|[\s\u0085]+$/gu;
+const INVISIBLE_CODEPOINT = /[\p{Cc}\p{Cs}\p{Noncharacter_Code_Point}]|(?![\u200D\u{E0020}-\u{E007F}])\p{Cf}/u;
+const MARK = /\p{M}/gu;
+const MAX_CODEPOINTS_PER_CHARACTER = 16;
+const MAX_MARKS_PER_CHARACTER = 4;
+
 interface AvatarPreviewElement extends HTMLElement {
   avatarImageUrl:string;
   avatarFallbackImageUrl:string;
@@ -47,6 +53,7 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
     maxLength: Number,
     gravatar: String,
     textLengthError: String,
+    textInvalidError: String,
   };
 
   declare readonly typeTargets:HTMLInputElement[];
@@ -64,6 +71,7 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
   declare readonly maxLengthValue:number;
   declare readonly gravatarValue:string;
   declare readonly textLengthErrorValue:string;
+  declare readonly textInvalidErrorValue:string;
 
   private imagePreview?:string;
   private resizing = false;
@@ -92,7 +100,8 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
       panel.hidden = hidden;
       panel.querySelectorAll('input').forEach((input) => { input.disabled = hidden; });
     });
-    this.submitTarget.disabled = this.resizing || (type === 'image' && this.invalidImage);
+    const imageMissing = this.invalidImage || !(this.imagePreview ?? this.imageValue);
+    this.submitTarget.disabled = this.resizing || (type === 'image' && imageMissing);
 
     const color = /^#(?:[\da-f]{3}|[\da-f]{6})$/i.test(this.colorTarget.value)
       ? this.colorTarget.value : this.colorValue;
@@ -100,11 +109,11 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
     let text = this.initialsValue;
     this.textTarget.setCustomValidity('');
     if (type === 'initials') {
-      const value = this.textTarget.value.trim();
+      const value = this.textTarget.value.replace(SURROUNDING_SPACE, '');
       const segments = Array.from(new Intl.Segmenter().segment(value), (segment) => segment.segment);
       const composing = event instanceof InputEvent && event.isComposing;
-      this.textTarget.setCustomValidity(!composing && segments.length > this.maxLengthValue ? this.textLengthErrorValue : '');
-      text = segments.slice(0, this.maxLengthValue).join('') || this.initialsValue;
+      this.textTarget.setCustomValidity(composing ? '' : this.textError(segments));
+      text = segments.filter((segment) => this.visible(segment)).slice(0, this.maxLengthValue).join('') || this.initialsValue;
     }
     const source = type === 'image' ? this.imagePreview ?? this.imageValue
       : type === 'gravatar' ? this.gravatarValue : '';
@@ -118,6 +127,18 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
       component.avatarFallbackImageUrl = fallbackImageUrl;
       component.avatarImageUrl = source || fallbackImageUrl;
     });
+  }
+
+  private textError(segments:string[]):string {
+    if (!segments.every((segment) => this.visible(segment))) return this.textInvalidErrorValue;
+    if (segments.length > this.maxLengthValue) return this.textLengthErrorValue;
+    return '';
+  }
+
+  private visible(segment:string):boolean {
+    return !INVISIBLE_CODEPOINT.test(segment)
+      && Array.from(segment).length <= MAX_CODEPOINTS_PER_CHARACTER
+      && (segment.match(MARK)?.length ?? 0) <= MAX_MARKS_PER_CHARACTER;
   }
 
   private fallbackImageUrl(text:string, color:string):string {
