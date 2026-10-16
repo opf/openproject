@@ -76,7 +76,7 @@ RSpec.describe Notification do
     end
   end
 
-  describe "push scheduling", with_flag: { progressive_web_app: true } do
+  describe "push scheduling", with_flag: { progressive_web_app: true }, with_settings: { web_push_enabled: true } do
     let(:recipient) { create(:user) }
     let(:work_package) { create(:work_package) }
 
