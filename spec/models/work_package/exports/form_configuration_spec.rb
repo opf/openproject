@@ -87,4 +87,35 @@ RSpec.describe WorkPackage::Exports::FormConfiguration do
     allow(checks).to receive(:[]).with(:priority).and_return(->(_wp) { false })
     expect(groups.first.parts[2].entries.map(&:name)).to eq([:"cf_#{cf_bool.id}"])
   end
+
+  it "keeps a group configured without attributes" do
+    variant = type.default_variant
+    variant.attribute_groups = [["Empty", []]]
+    variant.save!
+
+    expect(groups.map(&:key)).to eq(["Empty"])
+    expect(groups.first.parts).to be_empty
+  end
+
+  context "with project-level constraints" do
+    let(:project) { create(:project, types: [type], enabled_module_names: %w[work_package_tracking]) }
+
+    before do
+      variant = type.default_variant
+      variant.attribute_groups = [["Planning", %i[story_points assignee]]]
+      variant.save!
+    end
+
+    it "hides attributes whose module is disabled in the project" do
+      expect(groups.first.parts.first.entries.map(&:name)).to eq([:assigned_to])
+    end
+
+    it "drops a group whose attributes are all constrained away" do
+      variant = type.default_variant
+      variant.attribute_groups = [["Backlogs only", [:story_points]]]
+      variant.save!
+
+      expect(groups).to be_empty
+    end
+  end
 end

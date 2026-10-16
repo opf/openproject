@@ -67,7 +67,7 @@ class WorkPackage::Exports::FormConfiguration
   end
 
   def group_parts(group)
-    group.attributes
+    group.active_members(work_package.project)
          .select { |form_key| show_attribute?(form_key) }
          .chunk_while { |a, b| !allowed_long_text_custom_field?(a) && !allowed_long_text_custom_field?(b) }
          .filter_map { |form_keys| build_part(form_keys) }
@@ -100,7 +100,8 @@ class WorkPackage::Exports::FormConfiguration
   end
 
   def form_key_to_custom_field(form_key)
-    CustomField.find_by(id: form_key.to_s.sub("custom_field_", "").to_i)
+    id = form_key.to_s.sub("custom_field_", "").to_i
+    work_package.available_custom_fields.find { it.id == id }
   end
 
   def form_key_custom_field_to_column_entries(form_key)
