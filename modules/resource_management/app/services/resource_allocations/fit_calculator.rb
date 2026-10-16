@@ -43,18 +43,24 @@ module ResourceAllocations
   # instead.
   #
   # The `calendar` must span the allocations' combined window.
+  #
+  # A sweep can resume `from` a date, given the minutes each allocation still
+  # had `remaining` at its start. Placements before that date are then not part
+  # of the result, while overtime still covers each allocation's whole window.
   class FitCalculator
     Result = Data.define(:placements, :overtime, :unplannable) do
       def feasible? = overtime.empty? && unplannable.empty?
     end
 
-    def initialize(calendar:, allocations:)
+    def initialize(calendar:, allocations:, from: nil, remaining: nil)
       @calendar = calendar
       @allocations = allocations
+      @from = from
+      @remaining = remaining || allocations.index_with(&:allocated_time)
     end
 
     def call
-      remaining = @allocations.index_with(&:allocated_time)
+      remaining = @remaining.dup
       placements = Hash.new { |hash, allocation| hash[allocation] = {} }
 
       each_day_with_active_allocations(remaining) do |date, active|
@@ -130,9 +136,9 @@ module ResourceAllocations
     end
 
     def each_day_with_active_allocations(remaining)
-      pending = allocations_with_work_by_start_date
+      pending = allocations_with_work_by_start_date(remaining)
       active = []
-      date = pending.first&.start_date
+      date = first_day(pending)
 
       while date
         activate_starting_on(date, pending, active)
@@ -145,12 +151,18 @@ module ResourceAllocations
       end
     end
 
-    def allocations_with_work_by_start_date
-      @allocations.select { |allocation| allocation.allocated_time.positive? }.sort_by(&:start_date)
+    def first_day(pending)
+      return if pending.empty?
+
+      [pending.first.start_date, @from].compact.max
+    end
+
+    def allocations_with_work_by_start_date(remaining)
+      @allocations.select { |allocation| remaining[allocation].positive? }.sort_by(&:start_date)
     end
 
     def activate_starting_on(date, pending, active)
-      while pending.first&.start_date == date
+      while pending.any? && pending.first.start_date <= date
         allocation = pending.shift
         index = active.bsearch_index { |other| (priority(other) <=> priority(allocation)).positive? } || active.size
         active.insert(index, allocation)
