@@ -1,0 +1,49 @@
+---
+forums:
+- name: Customer feedback
+  description: Please post your feedback here.
+  topics:
+  - subject: How we handle your feedback
+    author: mia.bayer
+    days_ago: 30
+    sticky: true
+    locked: true
+    content: |-
+      Thank you for sharing your feedback with us!
+
+      We read every topic in this forum and pass the ideas on to the product team. Please open one topic per idea, so that the discussion stays focused.
+    replies: []
+  - subject: Agile Boards feedback
+    author: mia.bayer
+    days_ago: 6
+    content: What is your feedback on Agile Boards in OpenProject?
+    replies:
+    - author: jonas.weber
+      content: |-
+        I have created a Basic board and put the assignees in the list on top. This way you have a visualization of the task distribution.
+
+        However, you have to add work packages to the lists separately. Would be great to have this feature coming shortly!
+    - author: amara.okafor
+      content: We use an Action board with the status lists. Moving a card changes the status, which our team loves.
+    - author: mia.bayer
+      content: Thank you both, I passed it on to the product team.
+  - subject: Multi-language custom fields
+    author: jonas.weber
+    days_ago: 2
+    content: Our team works in English and German. Is it possible to translate the names of custom fields?
+    replies:
+    - author: mia.bayer
+      content: Not yet, but it is a good idea. I added it to our list of feature requests.
+- name: Usability topics
+  description: Please discuss usability topics here.
+  topics:
+  - subject: Your favorite keyboard shortcuts
+    author: amara.okafor
+    days_ago: 9
+    content: Which keyboard shortcuts do you use the most? I could not live without the search on `s`.
+    replies:
+    - author: jonas.weber
+      content: "`?` to show all the others, of course."
+- name: Download and installation
+  description: How to download and install the software.
+  topics: []
