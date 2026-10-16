@@ -46,7 +46,7 @@ module PlaceholderUsers
       %i[id asc]
     end
 
-    def paginated?
+    def sortable?
       true
     end
 
@@ -73,11 +73,11 @@ module PlaceholderUsers
     end
 
     def blank_title
-      I18n.t("admin.members.index.blank_title")
+      I18n.t("admin.placeholder_users.index.blank_title")
     end
 
     def blank_description
-      I18n.t("admin.members.index.blank_description")
+      I18n.t("admin.placeholder_users.index.blank_description")
     end
   end
 end

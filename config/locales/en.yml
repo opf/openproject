@@ -2158,6 +2158,10 @@ en:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: "Memberships"
+    placeholder_users:
+      index:
+        blank_description: "No placeholder user matches the current filter."
+        blank_title: "No placeholder users"
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
