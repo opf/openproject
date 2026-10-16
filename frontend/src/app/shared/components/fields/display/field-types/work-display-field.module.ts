@@ -135,7 +135,6 @@ export class WorkDisplayField extends DisplayField {
   }
 
   public isEmpty():boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { value } = this;
     const derived = this.derivedValue;
 

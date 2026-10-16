@@ -36,7 +36,7 @@ export class FormattableDisplayField extends DisplayField {
 
   @LazyInject() readonly configurationService:ConfigurationService;
 
-  public render(element:HTMLElement, displayText:string, options:any = {}):void {
+  public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
     const div = document.createElement('div');
 
     div.classList.add(
