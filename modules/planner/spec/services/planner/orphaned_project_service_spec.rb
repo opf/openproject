@@ -54,6 +54,15 @@ RSpec.describe Planner::OrphanedProjectService do
     end
   end
 
+  context "when a global role membership is removed" do
+    let(:member) { create(:global_member, principal: user, roles: [create(:global_role)]) }
+
+    it "keeps the project" do
+      expect { subject }.not_to have_enqueued_job(Projects::DeleteProjectJob)
+      expect(planner_project.reload).not_to be_archived
+    end
+  end
+
   context "when the member leaves another project" do
     let(:other_project) { create(:project) }
     let(:member) { create(:member, project: other_project, principal: user, roles: [role]) }
