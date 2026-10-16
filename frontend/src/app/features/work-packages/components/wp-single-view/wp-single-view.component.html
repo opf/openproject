@@ -40,6 +40,15 @@
           <span>.</span>
         </div>
       }
+      @if (!isNewResource && workPackage.$links.recurrence) {
+        <a class="Label Label--accent work-packages--recurrence-label"
+          data-test-selector="op-wp-recurrence"
+          [href]="workPackage.$links.recurrence.href"
+          [title]="workPackage.$links.recurrence.title">
+          <span class="icon-reload icon-small" aria-hidden="true"></span>
+          <span [textContent]="workPackage.$links.recurrence.title"></span>
+        </a>
+      }
       <wp-custom-actions [workPackage]="workPackage" class="custom-actions" />
     </div>
     @if (projectContext && projectContext.field) {

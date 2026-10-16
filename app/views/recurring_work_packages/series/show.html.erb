@@ -1,0 +1,162 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title @series.title, t("recurring_work_packages.series.plural"), @project.name %>
+<% can_manage = User.current.allowed_in_project?(:manage_recurring_work_packages, @project) %>
+<% latest = @occurrences.last %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @series.title }
+    header.with_description { @series.schedule_in_words }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       { href: project_work_packages_path(@project), text: t(:label_work_package_plural) },
+       { href: project_recurring_work_packages_path(@project), text: t("recurring_work_packages.series.plural") },
+       @series.title]
+    )
+
+    if can_manage && !@series.ended?
+      header.with_action_button(
+        tag: :a,
+        scheme: :primary,
+        href: create_next_project_recurring_work_package_path(@project, @series),
+        mobile_icon: :plus,
+        mobile_label: t("recurring_work_packages.series.create_next"),
+        data: { turbo_method: :post }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("recurring_work_packages.series.create_next")
+      end
+
+      header.with_action_button(
+        tag: :a,
+        scheme: :danger,
+        href: end_series_project_recurring_work_package_path(@project, @series),
+        mobile_icon: :stop,
+        mobile_label: t("recurring_work_packages.series.end"),
+        data: { turbo_method: :post, turbo_confirm: t("recurring_work_packages.series.end_confirm") }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :stop)
+        t("recurring_work_packages.series.end")
+      end
+    end
+  end
+%>
+
+<% if @series.ended? %>
+  <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :check)) { t("recurring_work_packages.series.has_ended") } %>
+<% end %>
+
+<%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+  <% layout.with_main do %>
+    <%= render(Primer::Beta::BorderBox.new(test_selector: "recurring-occurrences")) do |box| %>
+      <% box.with_header do %>
+        <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 5, display: :inline)) do %>
+          <%= t("recurring_work_packages.series.occurrences") %>
+        <% end %>
+        <%= render(Primer::Beta::Counter.new(count: @occurrences.size, ml: 1)) %>
+      <% end %>
+
+      <% @occurrences.each do |occurrence| %>
+        <% work_package = occurrence.work_package %>
+        <% box.with_row(test_selector: "recurring-occurrence-#{occurrence.position}") do %>
+          <%= flex_layout(align_items: :center) do |row| %>
+            <% row.with_column(classes: "recurring-work-packages--position") do %>
+              <%= render(Primer::Beta::Text.new(color: :muted, font_weight: :bold)) { "##{occurrence.position}" } %>
+            <% end %>
+            <% row.with_column(flex: 1, mr: 2) do %>
+              <%= render(Primer::Beta::Link.new(href: work_package_path(work_package), font_weight: :bold)) do %>
+                <%= "#{work_package.display_id} #{work_package.subject}" %>
+              <% end %>
+              <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+                <%= t("recurring_work_packages.series.planned_for", date: format_date(occurrence.scheduled_date)) %>
+                <% if work_package.assigned_to %>
+                  · <%= work_package.assigned_to.name %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <% row.with_column(mr: 2) do %>
+              <% if occurrence == latest && !@series.ended? %>
+                <%= render(Primer::Beta::Label.new(scheme: :accent)) { t("recurring_work_packages.series.current") } %>
+              <% end %>
+              <% if work_package.due_date&.past? && !work_package.closed? %>
+                <%= render(Primer::Beta::Label.new(scheme: :danger)) { t("recurring_work_packages.series.overdue") } %>
+              <% end %>
+            <% end %>
+            <% row.with_column do %>
+              <%= render(WorkPackages::StatusBadgeComponent.new(status: work_package.status)) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% @upcoming.each_with_index do |date, index| %>
+        <% box.with_row(test_selector: "recurring-planned", classes: "recurring-work-packages--planned") do %>
+          <%= flex_layout(align_items: :center) do |row| %>
+            <% row.with_column(classes: "recurring-work-packages--position") do %>
+              <%= render(Primer::Beta::Text.new(color: :muted)) { "##{latest.position + index + 1}" } %>
+            <% end %>
+            <% row.with_column(flex: 1, mr: 2) do %>
+              <%= render(Primer::Beta::Text.new(tag: :div, color: :muted)) do %>
+                <%= t("recurring_work_packages.series.planned_for", date: format_date(date)) %>
+              <% end %>
+              <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) do %>
+                <%= t("recurring_work_packages.series.created_when", position: latest.position + index) %>
+              <% end %>
+            <% end %>
+            <% row.with_column do %>
+              <%= render(Primer::Beta::Label.new(scheme: :secondary)) { t("recurring_work_packages.series.not_created") } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% layout.with_sidebar(col_placement: :end, row_placement: :start) do %>
+    <%= render(Primer::Beta::BorderBox.new) do |box| %>
+      <% box.with_header do %>
+        <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 5)) { t("recurring_work_packages.series.details") } %>
+      <% end %>
+      <% [
+           [t("recurring_work_packages.fields.frequency"), @series.frequency_in_words],
+           [t("recurring_work_packages.fields.start_date"), format_date(@series.start_date)],
+           [t("recurring_work_packages.fields.end_after"), @series.end_in_words],
+           [t("recurring_work_packages.trigger.label"), t("recurring_work_packages.trigger.on_close")],
+           [t("recurring_work_packages.series.created_by"), "#{@series.author.name}, #{format_date(@series.created_at)}"]
+         ].each do |label, value| %>
+        <% box.with_row do %>
+          <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) { label } %>
+          <%= render(Primer::Beta::Text.new(tag: :div)) { value } %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

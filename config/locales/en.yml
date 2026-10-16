@@ -369,6 +369,13 @@ en:
         timeline_visible: "Show Gantt chart"
         timeline_zoom_level: "Gantt chart zoom level"
         timestamps: "Baseline timestamps"
+      recurring_work_packages/series:
+        end_after: "Ends"
+        end_date: "End date"
+        frequency: "Frequency"
+        interval: "Interval"
+        iterations: "Occurrences"
+        start_date: "Start date"
       relation:
         from: "Related work package"
         lag: "Lag"
@@ -880,6 +887,9 @@ en:
               inexistent: "There is no custom field for the filter."
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           need_permission_to_modify_public_query: "You cannot modify a public query."
+        recurring_work_packages/series:
+          already_recurring: "This work package is already part of a recurring series."
+          ended: "The series has ended. No further occurrence is scheduled."
         relation:
           attributes:
             base:
@@ -5624,6 +5634,7 @@ en:
   permission_export_work_packages: "Export work packages"
   permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   permission_import_work_packages: "Import work packages"
+  permission_manage_recurring_work_packages: "Manage recurring work packages"
   permission_invite_members_by_email: "Invite members by email"
   permission_invite_members_by_email_explanation: >
     Allows users to invite new members by email.
@@ -5684,6 +5695,7 @@ en:
   permission_view_project_attributes: "View project attributes"
   permission_view_project_phases: "View project phases"
   permission_view_project_query: "View project query"
+  permission_view_recurring_work_packages: "View recurring work packages"
   permission_view_reportings: "View reportings"
   permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "View spent time"
@@ -6072,6 +6084,106 @@ en:
     and_user: "and %{user}"
     react_with: "React with %{reaction}"
     reaction_by: "%{reaction} by"
+
+  recurring_work_packages:
+    frequency:
+      daily: "Daily"
+      working_days: "Every working day"
+      weekly: "Weekly"
+      monthly: "Monthly"
+      yearly: "Yearly"
+    end_after:
+      never: "Never"
+      specific_date: "On a date"
+      iterations: "After a number of occurrences"
+    ends:
+      never: "Never"
+      on_date: "On %{date}"
+      after:
+        one: "After 1 occurrence"
+        other: "After %{count} occurrences"
+    fields:
+      frequency: "Repeats"
+      interval: "Every"
+      interval_caption: "For example, 2 with Weekly repeats every second week."
+      start_date: "First occurrence"
+      start_date_caption: "The weekday or day of the month comes from this date."
+      end_after: "Ends"
+      end_date: "End date"
+      iterations: "Occurrences"
+    trigger:
+      label: "Create the next work package"
+      on_close: "When the current one is closed"
+      on_close_caption: "Only one occurrence is open at a time. The dates follow the schedule, even when it was closed late."
+      on_schedule: "On a fixed schedule"
+      on_schedule_caption: "Create each occurrence on its date, even when the previous one is still open. Not available yet."
+    in_words:
+      daily:
+        one: "Every day"
+        other: "Every %{count} days"
+      working_days:
+        one: "Every working day"
+        other: "Every working day"
+      weekly:
+        one: "Every week on %{weekday}"
+        other: "Every %{count} weeks on %{weekday}"
+      monthly:
+        one: "Every month on the %{day}"
+        other: "Every %{count} months on the %{day}"
+      yearly:
+        one: "Every year on %{date}"
+        other: "Every %{count} years on %{date}"
+      until: "%{base}, until %{date}"
+      times:
+        one: "%{base}, once"
+        other: "%{base}, %{count} times"
+    label:
+      nth: "%{schedule} · #%{position}"
+      of_total: "%{schedule} · %{position} of %{total}"
+    preview:
+      upcoming: "Upcoming occurrences"
+      this_work_package: "This work package"
+      trigger: "The next work package is created when the current one is closed."
+      incomplete: "Complete the schedule to see the upcoming occurrences."
+    dialog:
+      title: "Make recurring"
+      submit: "Make recurring"
+      intro: "Each occurrence is a new work package, copied from the previous one. This work package becomes the first occurrence."
+      copied: "Copied to each occurrence: subject, description, assignee, custom fields, attachments and watchers. Not copied: children, relations and comments."
+      already_recurring: "This work package already recurs"
+      open_series: "Open series"
+      created: "This work package now recurs: %{schedule}."
+    notes:
+      made_recurring: "This work package now recurs: %{schedule}. [Open the series](%{path})"
+      copy_failed: "The next occurrence could not be created: %{errors}"
+    series:
+      menu: "Recurring"
+      title: "Recurring work package"
+      plural: "Recurring work packages"
+      index_description: "Work packages that repeat on a schedule. The next occurrence is created when the current one is closed."
+      none: "No recurring work packages yet"
+      none_description: "Open a work package and select More > Make recurring."
+      column_series: "Series"
+      column_current: "Current"
+      column_next: "Next"
+      occurrence_count:
+        one: "1 occurrence"
+        other: "%{count} occurrences"
+      occurrences: "Occurrences"
+      details: "Details"
+      created_by: "Created by"
+      planned_for: "Planned for %{date}"
+      created_when: "Created when #%{position} is closed"
+      not_created: "Not created yet"
+      current: "Current"
+      overdue: "Overdue"
+      ended_label: "Ended"
+      create_next: "Create next now"
+      next_created: "Created %{id}."
+      end: "End recurrence"
+      end_confirm: "No further occurrences are created. Existing work packages stay. Continue?"
+      ended: "The recurrence has ended."
+      has_ended: "This recurrence has ended. No further occurrence is created."
 
   reportings:
     index:

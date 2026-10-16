@@ -471,6 +471,21 @@ Rails.application.reloader.to_prepare do
                      require: :member,
                      dependencies: :add_work_packages
 
+      wpt.permission :view_recurring_work_packages,
+                     {
+                       "recurring_work_packages/series": %i[index show]
+                     },
+                     permissible_on: :project,
+                     dependencies: :view_work_packages
+
+      wpt.permission :manage_recurring_work_packages,
+                     {
+                       "recurring_work_packages/series": %i[new preview create create_next end_series]
+                     },
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: %i[view_recurring_work_packages add_work_packages]
+
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,

@@ -165,6 +165,7 @@ en:
     button_export-atom: "Download Atom"
     button_filter: "Filter"
     button_generate_pdf: "Generate PDF"
+    button_make_recurring: "Make recurring"
     button_list_view: "List view"
     button_log_time: "Log time"
     button_more: "More"

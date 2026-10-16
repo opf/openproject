@@ -689,6 +689,13 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :recurring_work_packages, controller: "recurring_work_packages/series", only: %i[index show create] do
+      member do
+        post :create_next
+        post :end_series
+      end
+    end
+
     resources :activity, :activities, only: :index, controller: "activities" do
       collection do
         get :menu
@@ -1238,6 +1245,8 @@ Rails.application.routes.draw do
 
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member
+    get "new_recurrence" => "recurring_work_packages/series#new", on: :member
+    get "recurrence_preview" => "recurring_work_packages/series#preview", on: :member
 
     post "assign_to_me" => "work_packages#assign_to_me", on: :member
 

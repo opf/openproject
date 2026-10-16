@@ -39,7 +39,7 @@ module WorkPackages
 
     def default_queries
       query_generator = WorkPackages::DefaultQueryGeneratorService.new(with_project: project)
-      WorkPackages::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
+      queries = WorkPackages::DefaultQueryGeneratorService::QUERY_OPTIONS.filter_map do |query_key|
         params = query_generator.call(query_key:)
         next if params.nil?
 
@@ -49,6 +49,18 @@ module WorkPackages
           show_enterprise_icon: params[:show_enterprise_icon].present?
         )
       end
+
+      [*queries, recurring_work_packages_item].compact
+    end
+
+    def recurring_work_packages_item
+      return unless project && User.current.allowed_in_project?(:view_recurring_work_packages, project)
+
+      OpenProject::Menu::MenuItem.new(
+        title: I18n.t("recurring_work_packages.series.menu"),
+        href: project_recurring_work_packages_path(project),
+        selected: params[:name] == RecurringWorkPackages::SeriesController::SIDEBAR_ENTRY
+      )
     end
 
     def query_path(query_params)

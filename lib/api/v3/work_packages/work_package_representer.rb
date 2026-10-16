@@ -141,6 +141,29 @@ module API
           }
         end
 
+        link :makeRecurring,
+             cache_if: -> { manage_recurring_work_packages_allowed? } do
+          next if represented.new_record?
+
+          {
+            href: new_recurrence_work_package_path(represented),
+            type: "text/vnd.turbo-stream.html",
+            title: "Make recurring"
+          }
+        end
+
+        link :recurrence,
+             cache_if: -> { view_recurring_work_packages_allowed? } do
+          occurrence = represented.recurring_occurrence
+          next if occurrence.nil?
+
+          series = occurrence.series
+          {
+            href: project_recurring_work_package_path(series.project, series),
+            title: series.occurrence_label(occurrence)
+          }
+        end
+
         link :atom,
              cache_if: -> { export_work_packages_allowed? } do
           next if represented.new_record? || !Setting.feeds_enabled?
@@ -761,6 +784,14 @@ module API
           return @add_work_packages_allowed if defined?(@add_work_packages_allowed)
 
           @add_work_packages_allowed = current_user.allowed_in_project?(:add_work_packages, represented.project)
+        end
+
+        def view_recurring_work_packages_allowed?
+          current_user.allowed_in_project?(:view_recurring_work_packages, represented.project)
+        end
+
+        def manage_recurring_work_packages_allowed?
+          current_user.allowed_in_project?(:manage_recurring_work_packages, represented.project)
         end
 
         def configure_form_allowed?

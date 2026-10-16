@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <%= render(Primer::Box.new(bg: :subtle, border: true, border_radius: 2, p: 3)) do %>
+    <% if previewable? %>
+      <%= flex_layout(align_items: :center, mb: 2) do |title| %>
+        <% title.with_column(mr: 2) { render(Primer::Beta::Octicon.new(icon: :sync, color: :accent)) } %>
+        <% title.with_column do %>
+          <%= render(Primer::Beta::Text.new(font_weight: :bold, test_selector: "recurrence-preview-schedule")) do %>
+            <%= series.schedule_in_words %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mb: 1)) do %>
+        <%= t("recurring_work_packages.preview.upcoming") %>
+      <% end %>
+      <ul class="recurring-work-packages--preview-dates">
+        <% upcoming_dates.each_with_index do |date, index| %>
+          <li>
+            <%= render(Primer::Beta::Text.new(font_size: :small)) { format_date(date) } %>
+            <% if index.zero? %>
+              <%= render(Primer::Beta::Label.new(scheme: :secondary, size: :medium, ml: 1)) do %>
+                <%= t("recurring_work_packages.preview.this_work_package") %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mt: 2, mb: 0)) do %>
+        <%= t("recurring_work_packages.preview.trigger") %>
+      <% end %>
+    <% else %>
+      <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
+        <%= t("recurring_work_packages.preview.incomplete") %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

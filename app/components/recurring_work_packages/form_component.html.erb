@@ -1,0 +1,171 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <%= primer_form_with(
+        url: project_recurring_work_packages_path(work_package.project, work_package_id: work_package.id),
+        id: FORM_ID,
+        data: {
+          controller: "show-when-value-selected recurring-work-packages--form",
+          "recurring-work-packages--form-preview-url-value": recurrence_preview_work_package_path(work_package),
+          action: "change->recurring-work-packages--form#updatePreview input->recurring-work-packages--form#updatePreview"
+        }
+      ) do %>
+    <%= flex_layout do |body| %>
+      <% body.with_row(mb: 3) do %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 0)) do %>
+          <%= t("recurring_work_packages.dialog.intro") %>
+        <% end %>
+      <% end %>
+
+      <% if series.errors.any? %>
+        <% body.with_row(mb: 3) do %>
+          <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { series.errors.full_messages.join(", ") } %>
+        <% end %>
+      <% end %>
+
+      <% body.with_row(mb: 3) do %>
+        <%= flex_layout(classes: "FormControl-horizontalGroup") do |row| %>
+          <% row.with_column(flex: 1) do %>
+            <%= render(
+                  Primer::Alpha::Select.new(
+                    name: "series[frequency]",
+                    label: t("recurring_work_packages.fields.frequency"),
+                    full_width: true
+                  )
+                ) do |select| %>
+              <% frequency_options.each do |label, value| %>
+                <% select.option(label:, value:, selected: series.frequency == value) %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% row.with_column(flex: 1) do %>
+            <%= render(
+                  Primer::Alpha::TextField.new(
+                    name: "series[interval]",
+                    type: :number,
+                    min: 1,
+                    max: RecurringWorkPackages::Series::MAX_INTERVAL,
+                    value: series.interval,
+                    label: t("recurring_work_packages.fields.interval"),
+                    caption: t("recurring_work_packages.fields.interval_caption"),
+                    full_width: true
+                  )
+                ) %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% body.with_row(mb: 3) do %>
+        <%= render(
+              Primer::Alpha::TextField.new(
+                name: "series[start_date]",
+                type: :date,
+                value: series.start_date&.iso8601,
+                label: t("recurring_work_packages.fields.start_date"),
+                caption: t("recurring_work_packages.fields.start_date_caption"),
+                input_width: :small
+              )
+            ) %>
+      <% end %>
+
+      <% body.with_row(mb: 3) do %>
+        <%= flex_layout(classes: "FormControl-horizontalGroup") do |row| %>
+          <% row.with_column(flex: 1) do %>
+            <%= render(
+                  Primer::Alpha::Select.new(
+                    name: "series[end_after]",
+                    label: t("recurring_work_packages.fields.end_after"),
+                    full_width: true,
+                    data: { target_name: "end_after", "show-when-value-selected-target": "cause" }
+                  )
+                ) do |select| %>
+              <% end_after_options.each do |label, value| %>
+                <% select.option(label:, value:, selected: series.end_after == value) %>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% row.with_column(flex: 1) do %>
+            <%= render(Primer::Box.new(hidden: !series.end_after_specific_date?, data: end_after_effect_data("specific_date"))) do %>
+              <%= render(
+                    Primer::Alpha::TextField.new(
+                      name: "series[end_date]",
+                      type: :date,
+                      value: series.end_date&.iso8601,
+                      label: t("recurring_work_packages.fields.end_date"),
+                      full_width: true
+                    )
+                  ) %>
+            <% end %>
+            <%= render(Primer::Box.new(hidden: !series.end_after_iterations?, data: end_after_effect_data("iterations"))) do %>
+              <%= render(
+                    Primer::Alpha::TextField.new(
+                      name: "series[iterations]",
+                      type: :number,
+                      min: 1,
+                      max: RecurringWorkPackages::Series::MAX_ITERATIONS,
+                      value: series.iterations,
+                      label: t("recurring_work_packages.fields.iterations"),
+                      full_width: true
+                    )
+                  ) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% body.with_row(mb: 3) do %>
+        <%= render(Primer::Alpha::RadioButtonGroup.new(name: "trigger", label: t("recurring_work_packages.trigger.label"))) do |group| %>
+          <% group.radio_button(
+               value: "on_close",
+               checked: true,
+               label: t("recurring_work_packages.trigger.on_close"),
+               caption: t("recurring_work_packages.trigger.on_close_caption")
+             ) %>
+          <% group.radio_button(
+               value: "on_schedule",
+               disabled: true,
+               label: t("recurring_work_packages.trigger.on_schedule"),
+               caption: t("recurring_work_packages.trigger.on_schedule_caption")
+             ) %>
+        <% end %>
+      <% end %>
+
+      <% body.with_row(mb: 3) do %>
+        <%= render(RecurringWorkPackages::PreviewComponent.new(series:)) %>
+      <% end %>
+
+      <% body.with_row do %>
+        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mb: 0)) do %>
+          <%= t("recurring_work_packages.dialog.copied") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

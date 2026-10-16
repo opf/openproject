@@ -76,6 +76,12 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     icon: 'icon-file-text',
   },
   {
+    key: 'make_recurring',
+    link: 'makeRecurring',
+    icon: 'icon-reload',
+    turboRequest: true,
+  },
+  {
     key: 'export-atom',
     link: 'atom',
   },

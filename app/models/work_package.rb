@@ -78,6 +78,8 @@ class WorkPackage < ApplicationRecord
   # that retrieves the meetings, hence we need to remove the order.
   has_many :meetings, -> { unscope(:order).distinct }, through: :meeting_agenda_items, source: :meeting
 
+  has_one :recurring_occurrence, class_name: "RecurringWorkPackages::Occurrence", dependent: :destroy
+
   scope :recently_updated, -> {
     order(updated_at: :desc)
   }
