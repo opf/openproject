@@ -46,6 +46,7 @@ RSpec.describe "My avatar management", :js do
     visit my_account_path
 
     expect(page).to have_test_selector("avatar-edit-button")
+    expect(find_test_selector("avatar-edit-button")).to have_css(".avatars--edit-badge .octicon-pencil", visible: :visible)
     expect(page).to have_no_link("Avatar", exact: true)
     expect(page).to have_no_field("Initials", type: "radio")
     find_test_selector("avatar-edit-button").hover

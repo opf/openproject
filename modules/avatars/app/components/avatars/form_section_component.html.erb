@@ -14,6 +14,7 @@
       ) do %>
     <span class="avatars--current-avatar">
       <%= helpers.avatar(@principal, hover_card: { active: false }, title: "") %>
+      <span class="avatars--edit-badge" aria-hidden="true"><%= render(Primer::Beta::Octicon.new(icon: :pencil, size: :xsmall)) %></span>
     </span>
   <% end %>
   <%= render(Primer::Alpha::Tooltip.new(for_id: "avatar-edit-button", type: :label, text: t("avatars.edit_avatar"), direction: :e)) %>

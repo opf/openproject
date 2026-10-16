@@ -1,4 +1,5 @@
 .avatars--current-avatar
+  position: relative
   display: inline-block
 
   .op-avatar
@@ -20,6 +21,26 @@
   height: auto
   padding: var(--base-size-4)
   border-radius: 50%
+
+  &:hover,
+  &:focus-visible
+    .op-avatar
+      filter: brightness(0.85)
+
+.avatars--edit-badge
+  position: absolute
+  right: 0
+  bottom: 0
+  display: flex
+  align-items: center
+  justify-content: center
+  width: var(--base-size-24)
+  height: var(--base-size-24)
+  border: var(--borderWidth-thin) solid var(--borderColor-default)
+  border-radius: 50%
+  background-color: var(--bgColor-default)
+  color: var(--fgColor-muted)
+  box-shadow: var(--shadow-resting-small)
 
 .avatars--settings .FormControl-radio-group
   gap: var(--stack-gap-normal)
