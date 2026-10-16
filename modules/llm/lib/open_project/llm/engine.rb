@@ -104,6 +104,10 @@ module OpenProject::Llm
                                           available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
     end
 
+    initializer "openproject_llm.pgvector_migrations", after: "openproject_llm.append_migrations" do
+      OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
+    end
+
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
 
