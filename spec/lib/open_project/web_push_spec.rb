@@ -70,6 +70,14 @@ RSpec.describe OpenProject::WebPush do
        with_settings: { web_push_service_hosts: ["Push.Example.com.", ".bad", "a|b", " "] } do
       expect(described_class.push_service_hosts).to eq(%w[push.example.com])
     end
+
+    it "splits a comma separated environment value",
+       :settings_reset,
+       with_env: { "OPENPROJECT_WEB__PUSH__SERVICE__HOSTS" => "push.example.com,fcm.googleapis.com, push.apple.com" } do
+      reset(:web_push_service_hosts)
+
+      expect(described_class.push_service_hosts).to eq(%w[push.example.com fcm.googleapis.com push.apple.com])
+    end
   end
 
   describe ".vapid_key" do
