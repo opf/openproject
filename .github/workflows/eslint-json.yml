@@ -1,0 +1,45 @@
+name: ESLint JSON
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+    paths:
+      - '**.json'
+      - 'eslint.config.mjs'
+      - 'frontend/eslint.config.mjs'
+      - 'frontend/eslint-json.mjs'
+
+jobs:
+  eslint-json:
+    name: ESLint JSON
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24.18.0'
+          package-manager-cache: false
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
+      - name: Install packages
+        run: |
+          npm ci --ignore-scripts
+          npm ci --ignore-scripts --prefix frontend
+      - name: Run ESLint
+        uses: reviewdog/action-eslint@b6303df522851d0e9abaea654da0222037d97e75 # v1
+        with:
+          reporter: github-pr-annotations
+          fail_level: any
+          eslint_flags: "'**/*.json' --ignore-pattern 'extensions/**'"
