@@ -30,8 +30,6 @@
 
 module Avatars
   class FormSectionComponent < ApplicationComponent
-    include OpPrimer::FormHelpers
-
     DIALOG_ID = "avatar-settings-dialog"
     FORM_ID = "avatar-settings-form"
 
@@ -50,14 +48,6 @@ module Avatars
 
     def types
       manager.available_types(@principal)
-    end
-
-    def type_caption(type)
-      description = t("avatars.types.#{type}.description")
-      return description unless type == "gravatar"
-
-      link = helpers.static_link_to(:gravatar, label: t("avatars.manage_gravatar"))
-      helpers.safe_join([description, link], helpers.tag.br)
     end
 
     def initials

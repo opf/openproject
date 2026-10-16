@@ -26,7 +26,7 @@ RSpec.describe "Group avatar management", :js do
   it "manages avatars in a dialog above the group details" do
     visit edit_group_path(group)
     expect(page).to have_test_selector("avatar-edit-button")
-    expect(page).to have_no_link("Avatar")
+    expect(page).to have_no_link("Avatar", exact: true)
     expect(page).to have_no_field("Initials", type: "radio")
 
     open_avatar_dialog

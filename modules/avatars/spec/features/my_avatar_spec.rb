@@ -46,7 +46,7 @@ RSpec.describe "My avatar management", :js do
     visit my_account_path
 
     expect(page).to have_test_selector("avatar-edit-button")
-    expect(page).to have_no_link("Avatar")
+    expect(page).to have_no_link("Avatar", exact: true)
     expect(page).to have_no_field("Initials", type: "radio")
     find_test_selector("avatar-edit-button").hover
     expect(page).to have_css("tool-tip[for='avatar-edit-button']", text: I18n.t("avatars.edit_avatar"), visible: :visible)
@@ -57,6 +57,17 @@ RSpec.describe "My avatar management", :js do
     expect(page).to have_no_field("Custom text", type: "radio")
     expect(page).to have_field("avatar_text", with: "", placeholder: OpenProject::Avatars::InitialsSvg.initials_for(user.name))
     expect(page).to have_css(".avatars--preview .op-avatar", count: 3)
+    expect(page).to have_field("avatar_color")
+    expect(page).to have_no_button(I18n.t(:label_choose_avatar))
+
+    choose "Image"
+    expect(page).to have_button(I18n.t(:label_choose_avatar))
+    expect(page).to have_no_field("avatar_text")
+    expect(page).to have_no_field("avatar_color")
+
+    choose "Initials"
+    expect(page).to have_field("avatar_text")
+    expect(page).to have_no_button(I18n.t(:label_choose_avatar))
 
     click_button I18n.t(:button_cancel)
     expect(page).to have_no_css("dialog#avatar-settings-dialog[open]")
