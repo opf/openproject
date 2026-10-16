@@ -69,6 +69,10 @@ RSpec.describe "Work packages general admin settings", :js do
     click_on "Save"
 
     expect_and_dismiss_flash(message: "Successful update")
+
+    # Check that we persist the right key
+    expect(Setting.work_package_list_default_highlighted_attributes).to eq(["status"])
+
     expect(page).to have_unchecked_field "Allow cross-project work package relations"
     expect(page).to have_unchecked_field "Display subprojects work packages on main projects by default"
     expect(page).to have_checked_field "Use current date as start date for new work packages"
@@ -110,9 +114,20 @@ RSpec.describe "Work packages general admin settings", :js do
       expect(page).to have_unchecked_field "Priority"
       expect(page).to have_unchecked_field "Finish date"
     end
+
+    # Check that the settings are persisted
+    RequestStore.clear!
+    expect(Setting.cross_project_work_package_relations).to be(false)
+    expect(Setting.display_subprojects_work_packages).to be(false)
+    expect(Setting.work_package_startdate_is_adddate).to be(true)
+    expect(Setting.work_package_list_default_highlighting_mode).to eq("inline")
+    expect(Setting.work_package_list_default_highlighted_attributes).to eq([])
   end
 
   it "allows to change work package list columns" do
+    project = create(:project)
+    work_package = create(:work_package, project:)
+
     visit admin_settings_work_packages_general_path
 
     within_fieldset "Default work package lists columns" do
@@ -139,5 +154,11 @@ RSpec.describe "Work packages general admin settings", :js do
       items = page.all(".op-draggable-autocomplete--item")
       expect(items.map(&:text)).to eq %w[ID Subject Priority Author]
     end
+
+    # Check the effect of the settings change on the work packages table
+    wp_table_page = Pages::WorkPackagesTable.new
+    wp_table_page.visit!
+    wp_table_page.expect_work_package_listed(work_package)
+    expect(page.all("th.wp-table--table-header").pluck("aria-label")).to eq %w[ID Subject Priority Author Project]
   end
 end

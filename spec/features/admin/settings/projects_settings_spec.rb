@@ -44,7 +44,7 @@ RSpec.describe "Projects admin settings", :js do
 
     within "opce-draggable-autocompleter" do
       items = page.all(".op-draggable-autocomplete--item")
-      expect(items.map(&:text)).to eq ["Name", "Status", "Public"]
+      expect(items.map(&:text)).to eq %w[Name Status Public]
 
       public_item = page.find(".op-draggable-autocomplete--item", text: "Public", exact_text: true)
       public_item.find(".op-draggable-autocomplete--remove-item").click
@@ -57,14 +57,14 @@ RSpec.describe "Projects admin settings", :js do
       select_autocomplete add_columns.ancestor("ng-select"), query: "Identifier", results_selector: "body"
 
       items = page.all(".op-draggable-autocomplete--item")
-      expect(items.map(&:text)).to eq ["Name", "Status", "Identifier"]
+      expect(items.map(&:text)).to eq %w[Name Status Identifier]
     end
     click_on "Save"
 
     expect_and_dismiss_flash(message: "Successful update")
     within "opce-draggable-autocompleter" do
       items = page.all(".op-draggable-autocomplete--item")
-      expect(items.map(&:text)).to eq ["Name", "Status", "Identifier"]
+      expect(items.map(&:text)).to eq %w[Name Status Identifier]
     end
 
     # NOTE: The gantt query settings are tested thoroughly in the projects/lists/gantt_spec.rb
@@ -73,5 +73,10 @@ RSpec.describe "Projects admin settings", :js do
       expect(page).to have_field "settings[project_gantt_query]", type: :hidden
       expect(page).to have_button "Edit query"
     end
+
+    # Check the effect of the settings change on the projects list page
+    projects_page = Pages::Projects::Index.new
+    projects_page.visit!
+    projects_page.expect_columns_in_order("Name", "Status", "Identifier")
   end
 end
