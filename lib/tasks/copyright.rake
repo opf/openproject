@@ -124,12 +124,13 @@ namespace :copyright do
         (?:\n\#(?!\s*\+\+|\s*See\ COPYRIGHT\ and\ LICENSE)[^\n]*)*
         (?:
           (?:\n\#\s*See\ COPYRIGHT\ and\ LICENSE[^\n]*)?
-          \n\#\s*\+\+(?:\n\#(?=\n\n|\n?\z))?               # the closer and a bare `#` trailing it
+          \n\#\s*\+\+[^\n]*(?:\n\#(?=\n\n|\n?\z))?         # the closer and a bare `#` trailing it
           |
           \n\#\s*See\ COPYRIGHT\ and\ LICENSE[^\n]*
           |
           (?=\n[^\S\n]*\n|\n?\z)
         )
+        (?<separator>\s*?(?=\n[^\S\n]*\S)|\s*\z)           # the gap up to the line break before the code
       }mx
     when :js, :ts
       # Headers in the wild are not uniform: the `-- copyright` opener, the `++` closer or
@@ -198,6 +199,7 @@ namespace :copyright do
       if file_content.match(regexp)
         replacement = "\\k<shebang>\\k<additional>#{copyright}"
         replacement += "\n\n" if options[:ensure_blank_line]
+        replacement += "\n" if regexp.names.include?("separator")
         file_content.gsub!(regexp, replacement)
       elsif options[:create]
         if file_content.match?(/OpenProject is a fork of ChiliProject|^#\s*OpenProject is an open source/)
