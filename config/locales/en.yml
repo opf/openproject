@@ -2175,14 +2175,13 @@ en:
         move:
           error: "The section could not be reordered."
       push_notifications:
-        check_reachability: "Check reachability"
         checking: "Checking…"
+        description: "Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject."
         hosts_intro: "This instance must reach these hosts over HTTPS. They come from the web_push_service_hosts setting, and subdomains are included:"
         http_status: "HTTP %{code}"
-        key_managed_by_environment: "The VAPID key is managed through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To rotate it, change the variable."
-        key_regenerated: "The VAPID key was regenerated. Every device needs to enable push again."
-        key_section: "Key"
-        key_unreadable: "The VAPID key could not be read. Regenerate it to restore browser push; every device will need to enable push again."
+        key_managed_by_environment: "The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable."
+        key_renewed: "The push signing key was renewed. Every device has to turn browser notifications on again."
+        key_unreadable: "The push signing key could not be read. Renew it to restore browser notifications; every device then has to turn browser notifications on again."
         reachable: "Reachable"
         reasons:
           connection: "The connection failed"
@@ -2192,10 +2191,19 @@ en:
           timeout: "No response within %{seconds} seconds"
           tls: "The TLS handshake failed"
           unresolved: "The host name could not be resolved"
-        regenerate_key: "Regenerate key"
-        regenerate_key_confirm: "Regenerate the VAPID key? Every device will need to enable push again."
+        renew_key: "Renew keys"
+        renew_key_dialog:
+          confirm_button: "Renew key"
+          confirmation: "I understand that every device has to turn browser notifications on again."
+          description:
+            zero: "OpenProject signs every browser notification with this key (VAPID) so the push services of Google, Mozilla, Microsoft and Apple can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device."
+            one: "OpenProject signs every browser notification with this key (VAPID) so the push services of Google, Mozilla, Microsoft and Apple can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device."
+            other: "OpenProject signs every browser notification with this key (VAPID) so the push services of Google, Mozilla, Microsoft and Apple can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device."
+          heading: "Renew the push signing key?"
+          title: "Renew keys"
         unreachable: "Unreachable"
-        what_is_sent: "What is sent: a content-free wake-up push. The installed application fetches the unread count from this instance over the user's session. Push services see the subscription endpoint, this instance's address and public key, and the time of each push."
+        verify_reachability: "Verify reachability"
+        verify_reachability_description: "To check for notifications, OpenProject sends a content-free wake-up push. The installed PWA then fetches the unread count over the user's session. The following push services see the subscription endpoint, this instance's address and public key and the time of each push."
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
@@ -5075,7 +5083,7 @@ en:
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
-      push_notifications: "Browser push notifications"
+      push_notifications: "Browser notifications"
       text_transform_actions: "Text transform actions"
     quick_add:
       label: "Add…"
@@ -6561,6 +6569,10 @@ en:
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
   setting_web_push_enabled: "Browser notifications"
+  setting_web_push_enabled_false: "Do not allow browser notifications"
+  setting_web_push_enabled_false_caption: "Users cannot enable browser notifications in their account settings, even if they have installed OpenProject as a progressive web app."
+  setting_web_push_enabled_true: "Allow browser notifications"
+  setting_web_push_enabled_true_caption: "Users can enable browser notifications in their account settings once they have installed OpenProject as a progressive web app."
   setting_web_push_enabled_caption: "Lets users who installed OpenProject as a progressive web app receive operating system notifications when they have unread notifications in OpenProject."
   setting_welcome_on_homescreen: "Display welcome block on homescreen"
   setting_welcome_text: "Welcome block text"

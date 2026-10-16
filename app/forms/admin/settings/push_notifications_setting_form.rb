@@ -34,8 +34,7 @@ module Admin
       include ::Settings::FormHelper
 
       settings_form do |f|
-        f.check_box name: :web_push_enabled
-        f.submit
+        f.radio_button_group name: :web_push_enabled, values: [false, true], visually_hide_label: true
       end
     end
   end

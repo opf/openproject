@@ -924,7 +924,8 @@ Rails.application.routes.draw do
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
       resource :push_notifications, controller: "/admin/settings/push_notifications_settings", only: %i[show update] do
         post :check
-        post :regenerate_key
+        get :renew_key_dialog
+        post :renew_key
       end
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
