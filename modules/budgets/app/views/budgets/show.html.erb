@@ -34,55 +34,35 @@ See COPYRIGHT and LICENSE files for more details.
   <h3><%= h @budget.subject %></h3>
   <p class="author">
     <%= authoring @budget.created_at, @budget.author %>.
-    <%= "#{t(:label_updated_time, value: distance_of_time_in_words(Time.zone.now, @budget.updated_at))}." if @budget.created_at != @budget.updated_at %>
+    <%= "#{t(:label_updated_time) { distance_of_time_in_words(Time.zone.now, @budget.updated_at) }}." if @budget.created_at != @budget.updated_at %>
   </p>
 
   <div class="grid-block">
     <div class="grid-content medium-6">
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_header(title: I18n.t(:label_budget_details))
-        component.with_attribute(key: Budget.human_attribute_name(:type), value: @budget.type_label)
-        component.with_attribute(key: Budget.human_attribute_name(:fixed_date), value: format_date(@budget.fixed_date))
-        component.with_attribute(
-          key: Budget.human_attribute_name(:budget_ratio),
-          value: extended_progress_bar(@budget.budget_ratio, width: "80px", legend: @budget.budget_ratio)
-        )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:description),
-          value: content_tag(:div, class: "op-uc-container") do
+        component.with_attribute(key: Budget.human_attribute_name(:type)) { @budget.type_label }
+        component.with_attribute(key: Budget.human_attribute_name(:fixed_date)) { format_date(@budget.fixed_date) }
+        component.with_attribute(key: Budget.human_attribute_name(:budget_ratio)) do
+          extended_progress_bar(@budget.budget_ratio, width: "80px", legend: @budget.budget_ratio)
+        end
+        component.with_attribute(key: Budget.human_attribute_name(:description)) do
+          content_tag(:div, class: "op-uc-container") do
             format_text @budget, :description, attachments: @budget.attachments
           end
-        )
+        end
       end %>
     </div>
     <div class="grid-content medium-6">
 
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_header(title: I18n.t(:label_budget_totals))
-        component.with_attribute(
-          key: Budget.human_attribute_name(:base_amount),
-          value: number_to_currency(@budget.base_amount)
-        )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:material_budget),
-          value: number_to_currency(@budget.material_budget)
-        )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:labor_budget),
-          value: number_to_currency(@budget.labor_budget)
-        )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:budget),
-          value: content_tag(:strong, number_to_currency(@budget.budget))
-        )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:spent),
-          value: number_to_currency(@budget.spent * -1)
-        )
-        component.with_attribute(
-          key: Budget.human_attribute_name(:available),
-          value: content_tag(:strong, number_to_currency(@budget.available))
-        )
+        component.with_attribute(key: Budget.human_attribute_name(:base_amount)) { number_to_currency(@budget.base_amount) }
+        component.with_attribute(key: Budget.human_attribute_name(:material_budget)) { number_to_currency(@budget.material_budget) }
+        component.with_attribute(key: Budget.human_attribute_name(:labor_budget)) { number_to_currency(@budget.labor_budget) }
+        component.with_attribute(key: Budget.human_attribute_name(:budget)) { content_tag(:strong, number_to_currency(@budget.budget)) }
+        component.with_attribute(key: Budget.human_attribute_name(:spent)) { number_to_currency(@budget.spent * -1) }
+        component.with_attribute(key: Budget.human_attribute_name(:available)) { content_tag(:strong, number_to_currency(@budget.available)) }
       end %>
     </div>
   </div>

@@ -29,10 +29,27 @@
 #++
 
 module OpenProject
-  module Deprecated
-    # @logical_path OpenProject/deprecated
-    class AttributeGroupComponentPreview < Lookbook::Preview
-      def default; end
+  module Common
+    class AttributesGroupComponent
+      # Structured header for {AttributesGroupComponent}.
+      #
+      # This component is part of {AttributesGroupComponent} and should not be
+      # used as a standalone component.
+      class Header < ::Primer::Component
+        DEFAULT_TAG = :h3
+        TAG_OPTIONS = %i[h2 h3 h4 h5 h6].freeze
+
+        attr_reader :title, :tag, :size, :description, :system_arguments
+
+        def initialize(title:, description: nil, tag: DEFAULT_TAG, size: :medium, **system_arguments)
+          super()
+          @title = title
+          @description = description
+          @tag = fetch_or_fallback(TAG_OPTIONS, tag, DEFAULT_TAG)
+          @size = size
+          @system_arguments = system_arguments
+        end
+      end
     end
   end
 end

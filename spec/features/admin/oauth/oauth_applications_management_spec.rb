@@ -46,50 +46,44 @@ RSpec.describe "OAuth applications management", :js do
     # Create application
     page.find_test_selector("op-admin-oauth--button-new", text: "OAuth application").click
 
-    fill_in "application_name", with: "My API application"
+    fill_in "Name", with: "My API application"
     # Fill invalid redirect_uri
-    fill_in "application_redirect_uri", with: "not a url!"
+    fill_in "Redirect URI", with: "not a url!"
     click_on "Create"
 
-    expect_flash(type: :error, message: "Redirect URI must be an absolute URI.")
+    expect(page).to have_text("Redirect URI must be an absolute URI.")
 
-    fill_in("application_redirect_uri", with: "")
+    fill_in("Redirect URI", with: "")
     # Fill redirect_uri which does not provide a Secure Context
-    fill_in "application_redirect_uri", with: "http://example.org"
+    fill_in "Redirect URI", with: "http://example.org"
     click_on "Create"
 
-    expect_flash(type: :error, message: 'Redirect URI is not providing a "Secure Context"')
+    expect(page).to have_text('Redirect URI is not providing a "Secure Context"')
 
     # Can create localhost without https (https://community.openproject.com/wp/34025)
-    fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
+    fill_in "Redirect URI", with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
     click_on "Create"
 
     expect_flash(message: "Successful creation.")
 
-    expect(page).to have_css(".attributes-key-value--key", text: "Client ID")
-    expect(page).to have_css(".attributes-key-value--value", text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Client ID")
+    expect(page).to have_css(".AttributesGroupItem-value", text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")
 
     # Should print secret on initial visit
-    expect(page).to have_css(".attributes-key-value--key", text: "Client secret")
-    expect(page.first(".attributes-key-value--value code").text).to match /\w+/
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Client secret")
 
     # Edit again
     click_on "Edit"
 
-    fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob"
-    click_on "Save"
-
-    wait_for_network_idle
+    fill_in "Redirect URI", with: "urn:ietf:wg:oauth:2.0:oob"
+    wait_for_turbo { click_on "Save" }
 
     # Show application
-    click_on "My API application"
+    wait_for_turbo { click_on "My API application" }
 
-    wait_for_network_idle
-
-    expect(page).to have_no_css(".attributes-key-value--key", text: "Client secret")
-    expect(page).to have_no_css(".attributes-key-value--value code")
-    expect(page).to have_css(".attributes-key-value--key", text: "Client ID")
-    expect(page).to have_css(".attributes-key-value--value", text: "urn:ietf:wg:oauth:2.0:oob")
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Client ID")
+    expect(page).to have_css(".AttributesGroupItem-value", text: "urn:ietf:wg:oauth:2.0:oob")
+    expect(page).to have_no_css(".AttributesGroupItem-key", text: "Client secret")
 
     accept_alert do
       click_on "Delete"

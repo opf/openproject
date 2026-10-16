@@ -28,8 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AttributeGroups
-  class AttributeKeyValueComponent < ::ApplicationComponent
-    options :key, :value
+require "rails_helper"
+
+RSpec.describe OpenProject::Common::AttributesGroupComponent::AttributeKeyValue, type: :component do
+  it "renders the attribute key and content" do
+    render_inline(described_class.new(key: "Attribute Key")) { "Attribute Value" }
+
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Attribute Key") &
+      have_css(".AttributesGroupItem-value", text: "Attribute Value")
+  end
+
+  it "preserve html in the content if it's a safe string" do
+    render_inline(described_class.new(key: "Attribute Key")) { "<div>Some value</div>".html_safe }
+
+    expect(page).to have_no_css(".AttributesGroupItem-value", text: "<div>Some value</div>")
+    expect(page).to have_css(".AttributesGroupItem-value", text: "Some value")
   end
 end

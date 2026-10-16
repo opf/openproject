@@ -54,7 +54,7 @@ module OAuth
 
     def create
       call = ::OAuth::Applications::CreateService.new(user: current_user)
-                                                 .call(permitted_params.oauth_application)
+                                                 .call(oauth_application_params)
       result = call.result
 
       if call.success?
@@ -74,13 +74,12 @@ module OAuth
 
     def update
       call = ::OAuth::Applications::UpdateService.new(model: @application, user: current_user)
-                                                 .call(permitted_params.oauth_application)
+                                                 .call(oauth_application_params)
 
       if call.success?
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: :index
       else
-        flash[:error] = call.errors.full_messages.join('\n')
         render action: :edit, status: :unprocessable_entity
       end
     end
@@ -108,7 +107,19 @@ module OAuth
     end
 
     def find_app
-      @application = ::Doorkeeper::Application.find(params[:id])
+      @application = ::Doorkeeper::Application.find(params.expect(:id))
+    end
+
+    def oauth_application_params
+      app_params = params.expect(doorkeeper_application: [:name, :redirect_uri, :confidential, :enabled,
+                                                          :client_credentials_user_id, { scopes: [] }])
+
+      scopes = app_params[:scopes]
+      if scopes.present?
+        app_params[:scopes] = scopes.compact_blank.join(" ")
+      end
+
+      app_params
     end
   end
 end
