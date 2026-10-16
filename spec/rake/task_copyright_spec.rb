@@ -384,6 +384,21 @@ RSpec.describe Rake::Task, :copyright do
       expect(File.read("abutting.rb")).to eq("#{magic_comment}#{canonical_header}\n#{documented}")
     end
 
+    it "leaves a notice without closing marker or COPYRIGHT reference alone when a comment run abuts it" do
+      ambiguous = <<~RUBY
+        # frozen_string_literal: true
+
+        #-- copyright
+        # OpenProject is an open source project management software.
+        # Documents the class.
+        #{source.chomp}
+      RUBY
+      write_source("ambiguous.rb", ambiguous)
+
+      expect { subject.invoke(".") }.to output(/ambiguous\.rb .*seems to have a copyright header/).to_stdout
+      expect(File.read("ambiguous.rb")).to eq(ambiguous)
+    end
+
     it "normalizes a notice split off its opening marker by a blank line" do
       write_source("split.rb", <<~RUBY)
         # frozen_string_literal: true
