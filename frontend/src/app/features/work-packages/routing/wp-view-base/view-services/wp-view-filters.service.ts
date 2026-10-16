@@ -64,7 +64,11 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOr',
     'manualSort',
     'typeahead',
+    'semanticSearch',
   ];
+
+  /** The filter the "Filter by text" input edits */
+  public textFilterId:'search'|'semanticSearch' = 'search';
 
   /** Flag state to determine whether the filters are incomplete */
   private incomplete = input<boolean>(false);
@@ -77,8 +81,17 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
     const filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
+    this.updateTextFilterId(filters);
     this.availableState.putValue(schema.filtersSchemas.elements);
     this.pristineState.putValue(filters);
+  }
+
+  private updateTextFilterId(filters:QueryFilterInstanceResource[]):void {
+    if (filters.some((filter) => filter.id === 'semanticSearch')) {
+      this.textFilterId = 'semanticSearch';
+    } else if (filters.some((filter) => filter.id === 'search')) {
+      this.textFilterId = 'search';
+    }
   }
 
   /**
