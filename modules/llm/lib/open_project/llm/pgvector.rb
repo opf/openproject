@@ -41,7 +41,24 @@ module OpenProject
 
       Failure = Data.define(:reason, :detail)
 
+      module TypeRegistration
+        TYPES = %w[halfvec].freeze
+
+        def initialize_type_map(type_map)
+          super
+
+          specialized_string = ActiveRecord::ConnectionAdapters::PostgreSQLAdapter::OID::SpecializedString
+          TYPES.each { |type_name| type_map.register_type type_name, specialized_string.new(type_name.to_sym) }
+        end
+      end
+
       class << self
+        def register_active_record_type
+          ActiveSupport.on_load(:active_record_postgresqladapter) do
+            singleton_class.prepend(TypeRegistration)
+          end
+        end
+
         def available?
           return @available if defined?(@available)
 
