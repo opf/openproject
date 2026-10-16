@@ -84,7 +84,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
 
     if User.current.logged?
       if avatar.present?
-        dialog.with_show_button(px: 0, **options) do |button|
+        dialog.with_show_button(px: 0, aria: { label: I18n.t("label_user_menu") }, **options) do |button|
           button.with_tooltip(text: I18n.t("label_user_menu"))
           avatar
         end
