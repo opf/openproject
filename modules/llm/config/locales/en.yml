@@ -132,6 +132,11 @@ en:
       update:
         model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
         success: "The model for %{feature} has been saved."
+    work_package_embeddings:
+      reindex:
+        already_running: "An index operation is already running. Wait for it to finish before starting another one."
+        button: "Index work packages"
+        enqueued: "Work package indexing has been enqueued. Embeddings will be updated in the background."
     llm_health_status:
       create:
         success: "The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed."
