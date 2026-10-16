@@ -159,6 +159,10 @@ module OpenProject::Llm
       end
     end
 
+    initializer "openproject_llm.pgvector_types" do
+      OpenProject::Llm::Pgvector.register_active_record_type
+    end
+
     config.to_prepare do
       OpenProject::Llm::Hooks
     end
