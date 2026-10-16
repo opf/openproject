@@ -185,6 +185,12 @@ sudo chown -R 102 /volume1/openproject/*
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
 as described in the [installation section](../../installation/docker/).
 
+## Upgrade notes from 17.x
+
+OpenProject 18.0 adds features which need the PostgreSQL extension [`pgvector`](../../system-requirements/#pgvector).
+If `pgvector` is not available during the upgrade, features which depend on it will be disabled.
+
+
 ## Upgrade notes from 16.x
 
 Starting from 16.x OpenProject only supports migrating from one major version (and its minor and patch levels) to the next major version (and its minor and patch levels). So all installations need to migrate to any 16.x version before continuing.
