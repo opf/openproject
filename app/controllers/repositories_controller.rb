@@ -101,7 +101,7 @@ class RepositoriesController < ApplicationController
   def committers
     @committers = @repository.committers
     @users = @project.users.to_a
-    additional_user_ids = @committers.map(&:last).map(&:to_i) - @users.map(&:id)
+    additional_user_ids = @committers.map { |c| c.last.to_i } - @users.map(&:id)
     @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!

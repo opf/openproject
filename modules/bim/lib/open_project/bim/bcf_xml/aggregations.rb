@@ -51,7 +51,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def unknown_mails
-      @instance_cache[:unknown_mails] ||= all_mails.map(&:downcase) - known_users.map(&:mail).map(&:downcase)
+      @instance_cache[:unknown_mails] ||= all_mails.map(&:downcase) - known_users.map { |user| user.mail.downcase }
     end
 
     def members
