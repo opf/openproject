@@ -34,7 +34,12 @@ module Admin
       include ::Settings::FormHelper
 
       settings_form do |f|
-        f.radio_button_group name: :web_push_enabled, values: [false, true], visually_hide_label: true
+        f.radio_button_group name: :web_push_enabled,
+                             values: [false, true],
+                             visually_hide_label: true,
+                             button_options: {
+                               data: { show_when_value_selected_target: "cause", target_name: "web_push_enabled" }
+                             }
       end
     end
   end

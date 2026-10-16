@@ -63,7 +63,7 @@ To configure **Incoming emails** in OpenProject, navigate to **Administration �
 
 ## Browser notifications
 
-Navigate to **Administration → Emails and notifications → Browser notifications**. The page offers two options, **Do not allow browser notifications** and **Allow browser notifications**. Browser notifications are not allowed by default. Once you allow them and save, the page also shows a reachability check and a way to renew the signing key, both described below.
+Navigate to **Administration → Emails and notifications → Browser notifications**. The page offers two options, **Do not allow browser notifications** and **Allow browser notifications**. Browser notifications are not allowed by default. As soon as you choose **Allow browser notifications**, the page also shows a reachability check and a way to renew the signing key, both described below.
 
 The page is only available while the **Progressive web app** feature flag is active under **Administration → Experimental features**.
 

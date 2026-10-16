@@ -41,7 +41,7 @@ RSpec.describe "Push Notifications Settings",
 
   describe "GET /admin/settings/push_notifications" do
     context "with the feature flag on", with_flag: { progressive_web_app: true } do
-      it "shows the intro and the two options, without the reachability panel, by default" do
+      it "shows the intro and the two options and keeps the reachability panel hidden by default" do
         get "/admin/settings/push_notifications"
 
         expect(response).to have_http_status(:ok)
@@ -49,8 +49,8 @@ RSpec.describe "Push Notifications Settings",
         expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_true))
         expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_false))
         expect(page).to have_button(I18n.t(:button_save))
-        expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.verify_reachability"))
-        expect(page).to have_no_text("fcm.googleapis.com")
+        expect(page).to have_test_selector("push-reachability-panel", visible: :hidden)
+        expect(page).to have_no_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
         expect(page).to have_no_link(I18n.t("admin.settings.push_notifications.renew_key"))
       end
 
@@ -59,6 +59,7 @@ RSpec.describe "Push Notifications Settings",
           get "/admin/settings/push_notifications"
 
           expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_true))
+          expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
           expect(page).to have_text(I18n.t("admin.settings.push_notifications.hosts_intro"))
           expect(page).to have_text("fcm.googleapis.com")
           expect(page).to have_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
