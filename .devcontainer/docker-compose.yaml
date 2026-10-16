@@ -23,15 +23,16 @@ services:
         condition: service_healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.openproject.rule=Host(`openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
-      - "traefik.http.routers.openproject.entrypoints=websecure"
-      - "traefik.http.routers.openproject.service=openproject"
-      - "traefik.http.services.openproject.loadbalancer.server.port=3000"
 
-      - "traefik.http.routers.openproject-assets.rule=Host(`openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.openproject-assets.rule=Host(`openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`) && PathPrefix(`/assets/frontend`)"
       - "traefik.http.routers.openproject-assets.entrypoints=websecure"
       - "traefik.http.routers.openproject-assets.service=openproject-assets"
       - "traefik.http.services.openproject-assets.loadbalancer.server.port=4200"
+
+      - "traefik.http.routers.openproject.rule=Host(`openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`)"
+      - "traefik.http.routers.openproject.entrypoints=websecure"
+      - "traefik.http.routers.openproject.service=openproject"
+      - "traefik.http.services.openproject.loadbalancer.server.port=3000"
     build:
       context: ../
       dockerfile: .devcontainer/Dockerfile
@@ -40,15 +41,15 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix
     environment:
       DISPLAY: ${DISPLAY}
-      OPENPROJECT_DEV_EXTRA_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-      OPENPROJECT_FE_DOMAIN: openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      OPENPROJECT_DEV_EXTRA_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_FE_DOMAIN: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
       FE_HOST: 0.0.0.0
-      NG_SERVE_EXTRA_ARGS: --allowed-hosts=openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-      NG_ALLOWED_HOSTS: openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-      OPENPROJECT_HOST__NAME: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      NG_SERVE_EXTRA_ARGS: --allowed-hosts=openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      NG_ALLOWED_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      OPENPROJECT_HOST__NAME: openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
       OPENPROJECT_HTTPS: true
-      OPENPROJECT_CLI_PROXY: "https://openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
+      OPENPROJECT_CLI_PROXY: "https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}"
       OPENPROJECT_DB_URL: postgres://openproject:openproject@postgresql:5432/openproject
   postgresql:
     image: postgres:17.11
@@ -112,12 +113,11 @@ services:
     networks:
       default:
         aliases:
-          - traefik.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-          - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-          - openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
-          - hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - traefik.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+          - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+          - hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
     labels:
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}`)"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
 
