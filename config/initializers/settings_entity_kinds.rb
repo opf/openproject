@@ -144,4 +144,92 @@ Settings::EntityKinds.draw do
       instance_exec(&custom_field_attributes)
     end
   end
+
+  kind :oauth_applications,
+       menu_item: :oauth_applications,
+       scope: -> { Doorkeeper::Application.without_integration.where(builtin: false).order(:name) },
+       url: ->(application) { edit_oauth_application_path(application) } do
+    %i[name enabled redirect_uri confidential client_credentials_user_id].each do |name|
+      attribute name, label: :"activerecord.attributes.doorkeeper/application.#{name}", field: "application[#{name}]"
+    end
+  end
+
+  kind :ldap_connections,
+       menu_item: :ldap_authentication,
+       scope: -> { LdapAuthSource.order(:name) },
+       url: ->(connection) { edit_ldap_auth_source_path(connection) } do
+    %i[name host port account base_dn filter_string attr_login attr_mail].each do |name|
+      attribute name, label: -> { LdapAuthSource.human_attribute_name(name) }, field: "ldap_auth_source[#{name}]"
+    end
+    attribute :tls_mode, label: :"ldap_auth_sources.connection_encryption", field: "ldap_auth_source[tls_mode]"
+    attribute :verify_peer, label: :"ldap_auth_sources.tls_options.verify_peer", field: "ldap_auth_source[verify_peer]"
+    attribute :attr_admin, label: -> { LdapAuthSource.human_attribute_name(:admin) }, field: "ldap_auth_source[attr_admin]"
+    attribute :onthefly_register,
+              label: -> { LdapAuthSource.human_attribute_name(:onthefly) },
+              field: "ldap_auth_source[onthefly_register]"
+  end
+
+  kind :scim_clients,
+       menu_item: :scim_clients,
+       scope: -> { ScimClient.order(:name) },
+       url: ->(client) { edit_admin_scim_client_path(client) },
+       if: -> { EnterpriseToken.allows_to?(:scim_api) } do
+    %i[name auth_provider_id authentication_method].each do |name|
+      attribute name, label: -> { ScimClient.human_attribute_name(name) }, field: "scim_client[#{name}]"
+    end
+  end
+
+  kind :groups, menu_item: :groups, scope: -> { Group.order(:lastname) }, name: :lastname,
+                url: ->(group) { edit_group_path(group) } do
+    attribute :name, label: -> { Group.human_attribute_name(:name) }, field: "group[lastname]"
+    attribute :parent, label: -> { Group.human_attribute_name(:parent) }, field: "group[parent_id]"
+  end
+
+  kind :project_phase_definitions,
+       menu_item: :project_phase_definitions_settings,
+       scope: -> { Project::PhaseDefinition.order(:position) },
+       url: ->(definition) { edit_admin_settings_project_phase_definition_path(definition) },
+       if: -> { EnterpriseToken.allows_to?(:customize_life_cycle) } do
+    %i[name color_id start_gate start_gate_name finish_gate finish_gate_name].each do |name|
+      attribute name,
+                label: -> { Project::PhaseDefinition.human_attribute_name(name) },
+                field: "project_phase_definition[#{name}]"
+    end
+  end
+
+  kind :jira_imports,
+       menu_item: :jira_import,
+       scope: -> { Import::Jira.order(created_at: :desc) },
+       url: ->(import) { edit_admin_import_jira_path(import) } do
+    %i[name url personal_access_token].each do |name|
+      attribute name, label: :"admin.jira.form.fields.#{name}", field: "import_jira[#{name}]"
+    end
+  end
+
+  kind :announcement,
+       menu_item: :announcements,
+       scope: -> { Announcement.order(:id) },
+       name: :text,
+       url: ->(_announcement) { edit_announcements_path } do
+    attribute :text, label: :"announcements.content", field: "announcement[text]"
+    attribute :show_until, label: :"announcements.show_until"
+    attribute :active, label: :label_active, field: "announcement[active]"
+  end
+
+  kind :mcp_server,
+       menu_item: :mcp_configurations,
+       scope: -> { McpConfiguration.where(identifier: "mcp_server") },
+       name: :title,
+       url: ->(_configuration) { mcp_configurations_path },
+       if: -> { EnterpriseToken.allows_to?(:mcp_server) } do
+    attribute :enabled, label: -> { McpConfiguration.human_attribute_name(:enabled) }, field: "mcp_configuration[enabled]"
+    attribute :title,
+              label: -> { McpConfiguration.human_attribute_name(:title) },
+              field: "mcp_configuration[title]",
+              if: :enabled?.to_proc
+    attribute :description,
+              label: -> { McpConfiguration.human_attribute_name(:description) },
+              field: "mcp_configuration[description]",
+              if: :enabled?.to_proc
+  end
 end

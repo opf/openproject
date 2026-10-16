@@ -39,6 +39,18 @@ module OpenProject::Webhooks
           link :new, label: :"webhooks.outgoing.label_add_new", url: -> { new_admin_outgoing_webhook_path }
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :webhooks,
+             menu_item: :plugin_webhooks,
+             scope: -> { ::Webhooks::Webhook.order(:name) },
+             url: ->(webhook) { edit_admin_outgoing_webhook_path(webhook_id: webhook.id) } do
+          %i[name url description secret enabled].each do |name|
+            attribute name, label: -> { ::Webhooks::Webhook.human_attribute_name(name) }, field: "webhook[#{name}]"
+          end
+          attribute :events, label: -> { ::Webhooks::Webhook.human_attribute_name(:events) }, field: "webhook[events][]"
+        end
+      end
     end
 
     register "openproject-webhooks",

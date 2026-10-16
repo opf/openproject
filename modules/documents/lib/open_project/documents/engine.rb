@@ -126,6 +126,18 @@ module OpenProject::Documents
                url: -> { new_admin_settings_document_type_path }
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :document_types,
+             menu_item: :document_types,
+             scope: -> { DocumentType.all },
+             url: ->(type) { edit_admin_settings_document_type_path(type) } do
+          %i[name active].each do |name|
+            attribute name, label: -> { DocumentType.human_attribute_name(name) }, field: "enumeration[#{name}]"
+          end
+          attribute :is_default, label: :label_default, field: "enumeration[is_default]"
+        end
+      end
     end
 
     activity_provider :documents, class_name: "Activities::DocumentActivityProvider", default: false

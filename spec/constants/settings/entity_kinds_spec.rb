@@ -55,6 +55,14 @@ RSpec.describe Settings::EntityKinds do
 
       expect(kind.attributes.map(&:key)).to eq %i[name color]
     end
+
+    it "is hidden when its condition fails" do
+      hidden = described_class.new(:statuses, menu_item: :statuses, scope: -> { Status.all }, url: ->(_) { "" },
+                                              if: -> { false })
+
+      expect(kind).to be_visible
+      expect(hidden).not_to be_visible
+    end
   end
 
   describe Settings::EntityKinds::Attribute do

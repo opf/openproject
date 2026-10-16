@@ -133,7 +133,7 @@ module Settings
     end
 
     def entity_kind_nodes(item)
-      @entity_kinds_by_menu_item.fetch(item.name, []).flat_map do |kind|
+      @entity_kinds_by_menu_item.fetch(item.name, []).select(&:visible?).flat_map do |kind|
         attributes = kind.attributes
         [*attribute_nodes(kind, attributes), *matching_entity_nodes(kind, attributes)]
       end
