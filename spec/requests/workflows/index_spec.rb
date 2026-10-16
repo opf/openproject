@@ -132,7 +132,7 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
       get workflows_path(filters: %(name ~ "standard")), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("workflows-index-results-component")
+      expect(response.body).to include("workflows-index-table-component")
       expect(response.body).to include("Standard flow")
       expect(response.body).not_to include("Spare flow")
     end

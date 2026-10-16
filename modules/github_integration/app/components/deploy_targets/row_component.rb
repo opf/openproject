@@ -48,6 +48,7 @@ module DeployTargets
                icon: :trash,
                scheme: :danger,
                tag: :a,
+               size: :small,
                href: deploy_target_path(deploy_target),
                "aria-label": t(:button_delete),
                tooltip_direction: :w,

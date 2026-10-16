@@ -73,7 +73,7 @@ RSpec.describe "Workflows index", :js do
 
   def all_workflows = ["Bug flow", "Hardware flow", "Phase flow"]
 
-  def results = "#workflows-index-results-component"
+  def results = "#workflows-index-table-component"
 
   def row_for(name)
     page.find(".Box-row") { |row| row.has_css?(".name a", text: name, exact_text: true) }

@@ -42,5 +42,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= with_enterprise_banner_guard(:placeholder_users, variant: :large, video: "enterprise/placeholder_users.mp4") do %>
   <%= render PlaceholderUsers::IndexSubHeaderComponent.new(query: @query) %>
-  <%= render PlaceholderUsers::TableComponent.new(rows: @query) %>
+  <%= render PlaceholderUsers::TableComponent.new(rows: @placeholder_users) %>
 <% end %>

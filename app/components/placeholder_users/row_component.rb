@@ -28,13 +28,13 @@
 #++
 
 module PlaceholderUsers
-  class RowComponent < ::RowComponent
+  class RowComponent < ::OpPrimer::BorderBoxRowComponent
     def placeholder_user
       model
     end
 
     def name
-      link_to h(placeholder_user.name), edit_placeholder_user_path(placeholder_user)
+      render(Primer::Beta::Link.new(href: edit_placeholder_user_path(placeholder_user), font_weight: :bold)) { h(placeholder_user.name) }
     end
 
     def criteria
@@ -51,10 +51,16 @@ module PlaceholderUsers
 
     def delete_link
       if helpers.can_delete_placeholder_user?(placeholder_user, User.current)
-        link_to deletion_info_placeholder_user_path(placeholder_user),
-                data: { controller: "async-dialog" } do
-          helpers.tooltip_tag I18n.t("placeholder_users.delete_tooltip"), icon: "icon-delete"
-        end
+        render(Primer::Beta::IconButton.new(
+                 icon: :trash,
+                 scheme: :danger,
+                 size: :small,
+                 tag: :a,
+                 href: deletion_info_placeholder_user_path(placeholder_user),
+                 "aria-label": I18n.t("placeholder_users.delete_tooltip"),
+                 tooltip_direction: :w,
+                 data: { controller: "async-dialog" }
+               ))
       else
         helpers.tooltip_tag I18n.t("placeholder_users.right_to_manage_members_missing"), icon: "icon-help2"
       end
