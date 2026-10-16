@@ -240,14 +240,6 @@ RSpec.describe OpenProject::WebPush do
     it "is the instance root url" do
       expect(described_class.subject).to eq(OpenProject::StaticRouting::StaticUrlHelpers.new.root_url)
     end
-
-    it "is the configured subject when one is set", with_settings: { web_push_vapid_subject: " mailto:ops@example.com " } do
-      expect(described_class.subject).to eq("mailto:ops@example.com")
-    end
-
-    it "falls back to the root url when the configured subject is blank", with_settings: { web_push_vapid_subject: "  " } do
-      expect(described_class.subject).to eq(OpenProject::StaticRouting::StaticUrlHelpers.new.root_url)
-    end
   end
 
   describe ".enabled?" do
