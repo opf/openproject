@@ -37,7 +37,7 @@ RSpec.describe FullCalendar::ResourceAllocationEvent do
   let(:allocation) { build_stubbed(:resource_allocation, entity: work_package) }
   let(:date) { Date.new(2026, 10, 5) }
   let(:scheduled_entry) do
-    ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: 150)
+    ResourceAllocations::ScheduledEntry.new(allocation:, allocated_on: date, minutes: 150)
   end
   let(:visible) { true }
 

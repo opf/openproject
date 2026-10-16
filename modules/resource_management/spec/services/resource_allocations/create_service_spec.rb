@@ -96,6 +96,38 @@ RSpec.describe ResourceAllocations::CreateService, type: :model do
     expect(result.result.state).to eq("requested")
   end
 
+  describe "updating the schedule" do
+    let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+    before { allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service) }
+
+    it "recomputes the principal's schedule from the start date" do
+      service_call
+
+      expect(schedule_service).to have_received(:call).once.with(users: [assignee], from: Date.new(2026, 1, 1))
+    end
+
+    it "does not recompute for an allocation that is not allocated" do
+      described_class.new(user: owner).call(params.merge(state: "requested"))
+
+      expect(schedule_service).not_to have_received(:call)
+    end
+
+    it "does not recompute for a generic allocation" do
+      described_class.new(user: owner).call(
+        params.merge(principal: nil, placeholder_user: create(:placeholder_user, name: "Ruby Developer"))
+      )
+
+      expect(schedule_service).not_to have_received(:call)
+    end
+
+    it "does not recompute when the allocation is invalid" do
+      described_class.new(user: owner).call(params.merge(allocated_time: 0))
+
+      expect(schedule_service).not_to have_received(:call)
+    end
+  end
+
   context "when allocated_time is zero" do
     it "fails with a numericality error" do
       result = described_class.new(user: owner).call(params.merge(allocated_time: 0))

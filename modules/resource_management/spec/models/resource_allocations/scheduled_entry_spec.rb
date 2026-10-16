@@ -29,48 +29,37 @@
 #++
 
 require "spec_helper"
-require_relative "../../support/resource_allocations/schedule_helpers"
 
-RSpec.describe ResourceAllocations::OptimalSchedule do
-  include ResourceAllocations::ScheduleHelpers
-
+RSpec.describe ResourceAllocations::ScheduledEntry do
+  let(:user) { create(:user) }
   let(:monday) { Date.new(2026, 1, 5) }
   let(:tuesday) { Date.new(2026, 1, 6) }
   let(:wednesday) { Date.new(2026, 1, 7) }
-  let(:fitting) { allocation(1, monday, tuesday, 960) }
-  let(:exceeding) { allocation(2, monday, monday, 640) }
+  let!(:started) { create(:resource_allocation, principal: user, allocated_time: 2400) }
+  let!(:unscheduled) { create(:resource_allocation, principal: user, allocated_time: 600) }
 
-  subject(:schedule) do
-    described_class.new(
-      by_date: {
-        monday => [scheduled_entry(fitting, monday, 480), scheduled_entry(exceeding, monday, 640, overtime_minutes: 640)],
-        tuesday => [scheduled_entry(fitting, tuesday, 480)]
-      },
-      unplannable: []
-    )
+  before do
+    described_class.create!(user:, allocation: started, allocated_on: monday, minutes: 480)
+    described_class.create!(user:, allocation: started, allocated_on: tuesday, minutes: 560, overtime_minutes: 80)
+    described_class.create!(user:, allocation: started, allocated_on: wednesday, minutes: 480)
   end
 
-  it "defaults to an empty schedule" do
-    expect(described_class.new).to have_attributes(by_date: {}, unplannable: [])
+  describe ".placed_minutes_by_allocation_id" do
+    it "sums the minutes placed before the date, without their overtime" do
+      expect(described_class.placed_minutes_by_allocation_id([started, unscheduled], before: wednesday))
+        .to eq(started.id => 480 + 480)
+    end
   end
 
-  it "returns the entries scheduled on a day, or none" do
-    expect(schedule.entries_on(tuesday).map(&:allocation)).to eq([fitting])
-    expect(schedule.entries_on(wednesday)).to eq([])
-  end
+  describe ".remaining_minutes_by_allocation" do
+    it "subtracts the minutes placed before the date from the allocated time" do
+      expect(described_class.remaining_minutes_by_allocation([started, unscheduled], on: wednesday))
+        .to eq(started => 2400 - 480 - 480, unscheduled => 600)
+    end
 
-  it "returns the allocations with time on a day" do
-    expect(schedule.allocations_on(monday)).to contain_exactly(fitting, exceeding)
-    expect(schedule.allocations_on(wednesday)).to eq([])
-  end
-
-  it "sums the overtime on a day" do
-    expect(schedule.overtime_on(monday)).to eq(640)
-    expect(schedule.overtime_on(tuesday)).to eq(0)
-    expect(schedule.overtime_on(wednesday)).to eq(0)
-  end
-
-  it "lists the days with overtime in order" do
-    expect(schedule.overbooked_dates).to eq([monday])
+    it "is the allocated time without a date" do
+      expect(described_class.remaining_minutes_by_allocation([started, unscheduled], on: nil))
+        .to eq(started => 2400, unscheduled => 600)
+    end
   end
 end

@@ -28,20 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  # A user's working time optimally allocated to their work packages: the
-  # scheduled entries keyed by date, and the allocations whose window contains
-  # no working day of the user.
-  class OptimalSchedule
-    include ActiveModel::Model
-    include ActiveModel::Attributes
+require "spec_helper"
 
-    attribute :by_date, default: -> { {} }
-    attribute :unplannable, default: -> { [] }
+RSpec.describe Settings::UpdateAllocationSchedules do
+  shared_let(:admin) { create(:admin) }
 
-    def entries_on(date) = by_date.fetch(date, [])
-    def allocations_on(date) = entries_on(date).map(&:allocation)
-    def overtime_on(date) = entries_on(date).sum(&:overtime_minutes)
-    def overbooked_dates = by_date.keys.select { |date| overtime_on(date).positive? }.sort
+  let!(:kept) { create(:non_working_day, date: Date.new(2026, 1, 1)) }
+  let!(:removed) { create(:non_working_day, date: Date.new(2026, 1, 6)) }
+
+  def update_non_working_days(non_working_days)
+    Settings::WorkingDaysAndHoursUpdateService
+      .new(user: admin)
+      .call(working_days: [1, 2, 3, 4, 5], hours_per_day: "8", non_working_days:)
+  end
+
+  it "enqueues one reschedule with the added and removed dates" do
+    expect do
+      update_non_working_days([{ "name" => "Added", "date" => "2026-01-08" },
+                               { "id" => kept.id },
+                               { "id" => removed.id, "_destroy" => true }])
+    end.to have_enqueued_job(ResourceAllocations::RescheduleForNonWorkingDaysJob)
+      .exactly(:once)
+      .with(dates: contain_exactly(Date.new(2026, 1, 6), Date.new(2026, 1, 8)))
+  end
+
+  it "enqueues nothing when the non-working days stay the same" do
+    expect { update_non_working_days([{ "id" => kept.id }, { "id" => removed.id }]) }
+      .not_to have_enqueued_job(ResourceAllocations::RescheduleForNonWorkingDaysJob)
   end
 end
