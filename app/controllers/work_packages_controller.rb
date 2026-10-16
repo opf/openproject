@@ -113,6 +113,8 @@ class WorkPackagesController < ApplicationController
                locals: { work_package:, menu_name: project_or_global_menu }
       end
 
+      format.md { render_markdown_export }
+
       handle_standard_show_formats(format)
     end
   end
@@ -235,6 +237,12 @@ class WorkPackagesController < ApplicationController
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
     redirect_back(fallback_location: work_package_path(work_package))
+  end
+
+  def render_markdown_export
+    export = Exports::Register.single_exporter(WorkPackage, :md).new(work_package, params).export!
+    response.headers["Content-Disposition"] = %(inline; filename="#{export.title}")
+    render markdown: export.content
   end
 
   def atom_journals
