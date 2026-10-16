@@ -96,7 +96,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
 
     deliver_all(user, subscription_ids, attempt) if wakeable?(user)
   rescue OpenProject::WebPush::UnreadableKey => e
-    OpenProject.logger.error("Browser push is paused: #{e.message}")
+    OpenProject.logger.error("Browser notifications are paused: #{e.message}")
   end
 
   private
