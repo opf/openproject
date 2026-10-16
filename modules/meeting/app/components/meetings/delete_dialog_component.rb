@@ -47,6 +47,8 @@ module Meetings
 
     def id = "delete-meeting-dialog"
 
+    def size = @meeting.onetime_template? ? :medium : :medium_portrait
+
     def title
       if recurring_meeting.present?
         I18n.t("meeting.delete_dialog.#{occurrence_key}.title")

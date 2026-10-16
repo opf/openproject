@@ -63,10 +63,11 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def cancelled(meeting, user, actor)
+  def cancelled(meeting, user, actor, reason: nil)
     @actor = actor
     @user = user
     @meeting = meeting
+    @cancellation_reason = reason
 
     open_project_headers "Project" => @meeting.project.identifier,
                          "Meeting-Id" => @meeting.id
@@ -78,10 +79,11 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def cancelled_series(series, user, actor)
+  def cancelled_series(series, user, actor, reason: nil)
     @actor = actor
     @user = user
     @series = series
+    @cancellation_reason = reason
 
     open_project_headers "Project" => @series.project.identifier,
                          "Meeting-Id" => @series.id
