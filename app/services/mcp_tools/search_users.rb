@@ -40,6 +40,12 @@ module McpTools
     enable_pagination
 
     filter :search_term, filter_class: "Queries::Users::Filters::AnyNameAttributeFilter", operator: "~"
+    # The members of a group that the user can see, by its id or its name.
+    filter :group, filter_proc: ->(users, value) {
+      groups = Group.visible
+      groups = value.to_s.match?(/\A\d+\z/) ? groups.where(id: value) : groups.where(lastname: value.to_s)
+      users.where(id: GroupUser.where(group_id: groups.select(:id)).select(:user_id))
+    }
 
     input_schema(
       additionalProperties: false,
@@ -48,6 +54,10 @@ module McpTools
           type: "string",
           description: "A search term to find the user by. Accepts first name and last name. Also accepts email address, " \
                        "if instance settings allow it."
+        },
+        group: {
+          type: %w[string number],
+          description: "The id or the name of a group. Only the members of that group."
         }
       }
     )

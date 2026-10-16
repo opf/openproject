@@ -569,6 +569,25 @@ RSpec.describe Principals::DeleteJob, type: :model do
           expect(AI::TextTransformRunEvent.where(run_id: run.id)).not_to exist
         end
       end
+
+      describe "AI assistance" do
+        let!(:global_skill) { create(:ai_assistant_skill) }
+        let!(:personal_skill) { create(:ai_assistant_skill, assistant: create(:ai_assistant, principal:)) }
+        let!(:chat) { create(:ai_assistant_chat, skill: global_skill, user: principal) }
+        let!(:message) { create(:ai_assistant_chat_message, chat:) }
+        let!(:proposal) { create(:ai_assistant_proposal, message:) }
+
+        before { job }
+
+        it "removes the chats and personal assistants of the user" do
+          expect(AI::AssistantChat.exists?(chat.id)).to be(false)
+          expect(AI::AssistantChatMessage.exists?(message.id)).to be(false)
+          expect(AI::AssistantProposal.exists?(proposal.id)).to be(false)
+          expect(AI::Assistant.exists?(personal_skill.assistant_id)).to be(false)
+          expect(AI::AssistantSkill.exists?(personal_skill.id)).to be(false)
+          expect(AI::AssistantSkill.exists?(global_skill.id)).to be(true)
+        end
+      end
     end
 
     context "with a group" do
@@ -576,6 +595,18 @@ RSpec.describe Principals::DeleteJob, type: :model do
       let(:group_members) { [] }
 
       it_behaves_like "removes the principal"
+
+      describe "AI assistants of the group" do
+        let!(:skill) { create(:ai_assistant_skill, assistant: create(:ai_assistant, principal:)) }
+
+        before { job }
+
+        it "removes them with their skills" do
+          expect(AI::Assistant.exists?(skill.assistant_id)).to be(false)
+          expect(AI::AssistantSkill.exists?(skill.id)).to be(false)
+        end
+      end
+
       it_behaves_like "work_package handling"
       it_behaves_like "member handling"
       it_behaves_like "mention rewriting"

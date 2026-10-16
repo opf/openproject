@@ -135,6 +135,20 @@ RSpec.describe McpTools::SearchUsers do
       end
     end
 
+    context "when filtering by group" do
+      let!(:group) { create(:group, lastname: "COMMS", members: [other_user_klara]) }
+
+      it "finds the members of the group, by id or by name" do
+        [group.id, "COMMS"].each do |value|
+          header "Authorization", "Bearer #{access_token.plaintext_token}"
+          header "Content-Type", "application/json"
+          post "/mcp", request_body.deep_merge(params: { arguments: { group: value } }).to_json
+
+          expect(parsed_results.dig("structuredContent", "items").pluck("id")).to eq([other_user_klara.id])
+        end
+      end
+    end
+
     context "when not allowed to see users" do
       let(:global_permissions) { %i[] }
 

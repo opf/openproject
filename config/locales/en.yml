@@ -92,6 +92,24 @@ en:
 
   activerecord:
     attributes:
+      ai/assistant:
+        active: "Active"
+        description: "Description"
+        instructions: "Assistant prompt"
+        model: "Model"
+        model_id: "Model"
+        name: "Name"
+      ai/assistant_skill:
+        active: "Active"
+        answers_at_once: "Answer at once when opened"
+        description: "Description"
+        icon: "Icon"
+        label: "Label"
+        offered_on: "Offered on"
+        prompt: "Skill prompt"
+        proposal_scope: "Proposals"
+        skill_key: "Type"
+        use_tools: "Use OpenProject MCP tools"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1526,6 +1544,93 @@ en:
       removed_date: "date deleted %{date}"
 
   admin:
+    ai_assistants:
+      copied: "The copy is inactive. Switch it on when it is ready."
+      copy_name: "%{name} (copy)"
+      copy_name_numbered: "%{name} (copy %{number})"
+      delete:
+        confirm: "Delete this assistant, its skills and every run of them?"
+      edit:
+        group_banner: "This assistant belongs to the group %{group}. It shows only in the AI Assistance menu of the group's members."
+        personal_banner: "This is a personal assistant of %{user}. It shows only in their AI Assistance menu."
+      form:
+        instructions_caption: "Shared by every skill of this assistant, before the skill prompt: for example who the assistant helps and what their work is about."
+        model_caption: "Empty uses the default chat model of the LLM connection."
+        model_default: "Default of the LLM connection"
+        name_caption: "Shown as the heading of its skills in the AI Assistance menu."
+        owner: "Owner"
+        owner_caption: "Global shows the assistant to everyone with AI Assistance. A group shows it only to the group's members. The owner cannot be changed later."
+        sections:
+          general: "General"
+          instructions: "Prompt"
+      inactive: "Inactive"
+      index:
+        add: "Assistant"
+        description: "Assistants group the skills of the AI Assistance menu. Each run uses the permissions of the user who starts it."
+        empty: "There are no assistants yet."
+        actions: "Actions for %{assistant}"
+        owner_kinds:
+          group: "Group"
+          user: "User"
+        owners:
+          global: "Global"
+          groups: "Groups"
+          personal: "Personal"
+      new:
+        title: "New assistant"
+      skills:
+        add: "Add skill"
+        actions: "Actions for %{skill}"
+        copied: "The copy is inactive. Switch it on when it is ready."
+        answers_at_once_caption: "Opening the skill starts a new chat, and the skill answers its instructions at once. Off opens an empty chat for the user's own questions."
+        conditions:
+          all: "All"
+          caption: "The skill is offered only on work packages that match every list. An empty list matches all."
+          count:
+            project_ids:
+              one: "1 project"
+              other: "%{count} projects"
+            role_ids:
+              one: "1 role"
+              other: "%{count} roles"
+            status_ids:
+              one: "1 status"
+              other: "%{count} statuses"
+            type_ids:
+              one: "1 type"
+              other: "%{count} types"
+          project_ids: "Projects"
+          role_ids: "Roles of the user in the project"
+          status_ids: "Statuses"
+          type_ids: "Types"
+        delete_confirm: "Delete this skill and every run of it?"
+        description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
+        empty: "This assistant has no skills."
+        icon_default: "Default"
+        offered_on:
+          everywhere: "Everywhere"
+          everywhere_caption: "On a work package as above. On other pages without proposals, with the project of the page as context. It cannot be limited to types or statuses."
+          work_packages: "Work packages"
+          work_packages_caption: "Only on work packages."
+        label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
+        no_prompt_not_offered: "No skill prompt: not offered"
+        prompt_caption: "What the model does in this skill. Without it, the skill is not offered."
+        prompt_preview: "Show the full system prompt"
+        prompt_preview_caption: "The assistant prompt, this skill prompt, and the output rules that OpenProject adds for the skill type, its proposals and the MCP tools. It changes while you type, and the tool rule follows the checkbox above."
+        proposal_scopes:
+          changes: "Changes"
+          changes_caption: "Proposes changes to attributes and comments. The model also gets the names of the users who can be assigned."
+          comment_only: "Comment only"
+          comment_only_caption: "Proposes comments only."
+          read_only: "Read-only"
+          read_only_caption: "Proposes nothing."
+        sections:
+          conditions: "Where it is offered"
+          instructions: "Prompt"
+          menu: "Menu entry"
+          menu_description: "How the skill shows in the AI Assistance menu, and where."
+        title: "Skills"
+        use_tools_caption: "The AI can search OpenProject for more data than the work package, for example other work packages, counts, users or versions. It sees only what the user can see, and the tools cannot change anything. Off: the AI sees only the work package."
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_fields:
@@ -2436,6 +2541,107 @@ en:
         stopped_title: "Generation stopped"
         title: "AI result"
         try_again: "Try again"
+  ai_assistance:
+    apply:
+      button: "Apply changes"
+      empty: "(empty)"
+      errors:
+        conflict: "The work package changed after this proposal was made. Ask again to get a current proposal."
+        invalid: "The changes could not be applied."
+        lost_content: "This proposal removes images, mentions or macros, so it cannot be applied."
+        not_allowed: "You cannot apply these changes."
+        not_open: "This proposal was already applied or dismissed."
+      label:
+        assigned_to: "Proposed assignee"
+        comment: "Proposed comment"
+        description: "Proposed description"
+        due_date: "Proposed finish date"
+        priority: "Proposed priority"
+        responsible: "Proposed accountable"
+        start_date: "Proposed start date"
+        status: "Proposed status"
+        subject: "Proposed subject"
+      lost_content: "This proposal removes images, mentions or macros from the description. Edit the description yourself."
+      success: "The changes were applied."
+    areas:
+      content: "Content"
+      pull_requests: "Pull requests"
+      relations: "Relations"
+      status: "Status"
+      tree: "Hierarchy"
+    button: "AI Assistance"
+    chat:
+      answering: "%{assistant} is writing an answer…"
+      tool_step: "%{tool} (%{arguments})"
+      copy: "Copy the answer"
+      empty_answer: "(The model gave no answer.)"
+      empty_description: "Ask about this work package. The answer can propose changes, and you decide whether to apply them."
+      empty_description_read_only: "Ask about this work package."
+      empty_description_generic: "Ask about anything you can see in OpenProject, for example work packages, projects or people."
+      empty_description_project: "Ask about the project %{project}, or about anything else you can see in OpenProject."
+      empty_title: "Chat about this work package"
+      empty_title_generic: "Ask OpenProject"
+      errors:
+        empty: "Write a question first."
+        pending: "Wait for the answer to the last question."
+      failed: "The answer failed. Open Details for more, or ask again."
+      new: "New chat"
+      not_offered: "This skill is not offered for this work package any more. You can read the chat, but not continue it."
+      placeholder: "Ask something about %{id}…"
+      placeholder_generic: "Ask something…"
+      question: "Question"
+      rerun: "Run again"
+      send: "Send"
+      start_request: "Apply your instructions to this work package, as it is now."
+      started: "%{user} started %{skill}"
+      working_on: "%{assistant} is working on %{id}…"
+    events:
+      answer: "The model answered in %{seconds} s."
+      answer_with_tools: "The model answered in %{seconds} s, after %{count} tool calls."
+      arguments: "arguments"
+      dropped: "dropped proposals"
+      error: "error message"
+      failure: "The model call failed (%{error})."
+      late: "The model answered after the time limit. The answer was not kept."
+      message: "message"
+      raw_answer: "answer"
+      result: "result"
+      request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."
+      show: "Show %{what}"
+      stored: "Stored %{stored} of %{findings} proposals; %{dropped} dropped because they had no evidence or no valid change."
+      system_prompt: "prompt"
+      thought: "The model explained its next tool calls."
+      thought_text: "text"
+      title: "Details"
+      tool_call: "Called the tool %{name}: %{seconds} s, %{size} characters."
+      tool_call_failed: "The tool %{name} failed (%{error})."
+      tool_call_refused: "Refused the tool %{name}: the limit of tool calls is reached."
+      tool_call_repeated: "Called the tool %{name} again with the same arguments. Sent the earlier result."
+    history:
+      empty: "You did not use AI Assistance on this work package yet."
+      answers:
+        one: "1 answer"
+        other: "%{count} answers"
+      title: "History"
+    proposal:
+      applied: "Applied"
+      dismiss: "Dismiss"
+      dismiss_reasons:
+        already_known: "Dismiss: already known"
+        not_relevant: "Dismiss: not relevant"
+        wrong: "Dismiss: wrong"
+      dismissed: "Dismissed"
+    severities:
+      high: "High"
+      low: "Low"
+      medium: "Medium"
+    skills:
+      chat:
+        description: "Ask questions. Only you see the chat."
+        label: "Chat"
+      preset:
+        description: "Runs its instructions on this work package. You can ask follow-up questions."
+        label: "Custom prompt"
   announcements:
     content: "Content"
     is_active: currently displayed
@@ -3924,6 +4130,9 @@ en:
 
   journals:
     cause_descriptions:
+      assistant_chat: proposed in the chat and applied by %{user_name}
+      assistant_skill: proposed by %{assistant_name} and applied by %{user_name}
+      assistant_chat_link: "Open the chat"
       budget_deleted: Budget has been deleted
       import:
         changed_with_diff: "%{field} changed (%{link})"
@@ -3984,6 +4193,8 @@ en:
           non_working: "%{day} is now non-working"
           working: "%{day} is now working"
     caused_changes:
+      assistant_chat: "AI Assistance:"
+      assistant_skill: "AI Assistance:"
       budget_deleted: "Budget has been deleted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
@@ -4917,6 +5128,9 @@ en:
       registry: "the figure published for this model"
       server: "reported by the server"
     features:
+      ai_assistance:
+        caption: "Answers the skills of AI assistants on work packages, unless an assistant sets its own model."
+        label: "AI Assistance"
       description_assistant:
         caption: "Rewrites and restructures work package text on request."
         label: "Description assistant"
@@ -5242,6 +5456,7 @@ en:
     admin:
       aggregation: "Aggregation"
       ai: "Artificial Intelligence (AI)"
+      ai_assistants: "Assistants"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
       mail_notification: "Email notifications"
@@ -5367,6 +5582,10 @@ en:
         table_title: "RSS tokens"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         title: "RSS"
+    ai_assistants:
+      description: "Your own assistants. They show only in your AI Assistance menu on work packages, and they use the default model of the LLM connection."
+      empty_description: "Add an assistant, then add skills with your own instructions."
+      title: "AI assistants"
     email_reminders:
       daily_reminders:
         add_time: "Add time"
@@ -5890,6 +6109,8 @@ en:
     Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don't have.
     This includes changing their own roles, allowing users to give themselves more permissions on the project.
   permission_manage_news: "Manage news"
+  permission_manage_own_ai_assistants: "Manage own AI assistants"
+  permission_manage_own_ai_assistants_explanation: "Create personal AI assistants in My account. They show only in the user's AI Assistance menu, and they use the default model of the LLM connection."
   permission_manage_own_reminders: "Create own reminders"
   permission_manage_own_working_times: "Manage own working times"
   permission_manage_own_working_times_explanation: >
@@ -5920,6 +6141,7 @@ en:
   permission_select_project_phases: "Select project phases"
   permission_select_project_phases_explanation: "Activate/Deactivate the phases in a project. Enables the user to select the life cycle appropriate for the project as inactive phases will not be visible in the project overview page nor the project list."
   permission_share_work_packages: "Share work packages"
+  permission_use_ai_assistance: "Use AI assistance"
   permission_view_all_principals: "View all users and groups"
   permission_view_all_principals_explanation: >
     Allows users to see all users and groups in the system, even if they are not members of any joined projects or groups.
