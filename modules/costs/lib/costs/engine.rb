@@ -74,7 +74,7 @@ module Costs
 
         permission :manage_project_activities,
                    {
-                     "projects/settings/time_entry_activities": %i[show update],
+                     "projects/settings/time_entry_activities": %i[show toggle],
                      "projects/settings/cost_types": %i[index toggle]
                    },
                    permissible_on: :project,

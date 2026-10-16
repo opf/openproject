@@ -413,10 +413,6 @@ class PermittedParams
     whitelist.permit!
   end
 
-  def time_entry_activities_project
-    params.permit(time_entry_activities_project: %i[activity_id active]).require(:time_entry_activities_project)
-  end
-
   def watcher
     params.require(:watcher).permit(:watchable, :user, :user_id)
   end

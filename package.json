@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "scripts": {
     "herb:lint": "herb-lint",
-    "postinstall": "cd frontend && npm install",
-    "test": "cd frontend && npm test && cd ..",
-    "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
-    "serve": "cd frontend && npm run serve",
-    "serve:public": "cd frontend && ./node_modules/.bin/ng serve --host 0.0.0.0"
+    "postinstall": "npm -C frontend install",
+    "test": "npm -C frontend test",
+    "serve": "npm -C frontend run serve",
+    "serve:public": "npm -C frontend exec -- ng serve --host 0.0.0.0"
   },
   "private": true,
   "engines": {
