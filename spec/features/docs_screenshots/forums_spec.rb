@@ -51,6 +51,10 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
     end
   end
 
+  def move_mouse_aside
+    page.driver.browser.mouse.move(x: 100, y: 790)
+  end
+
   def open_post_actions(message)
     within_test_selector("forum-post-#{message.id}") { click_on accessible_name: "Message actions" }
   end
@@ -141,6 +145,22 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
     docs_screenshot "forums/openproject_user_guide_forums_work_package_activity"
   end
 
+  it "captures mentioning a member in a reply" do
+    editor = Components::WysiwygEditor.new("#reply")
+    visit project_forum_topic_path(project, customer_feedback, topic)
+    scroll_to find_by_id("reply"), align: :center
+    editor.click_and_type_slowly("@Ama")
+    expect(page).to have_css(".mention-list-item", text: "Amara Okafor")
+    docs_screenshot "forums/openproject_user_guide_forums_mention_member"
+
+    editor.click_autocomplete("Amara Okafor")
+    editor.type_slowly("thanks for the tip! I will try a status board too.")
+    click_button "Reply"
+    expect(page).to have_css("[data-test-selector^='forum-post-']", text: "I will try a status board too.")
+    move_mouse_aside
+    docs_screenshot "forums/openproject_user_guide_forums_mention_posted"
+  end
+
   it "captures accepting a reply as solution" do
     reply = topic.children.find_by!(author: User.find_by!(login: "amara.okafor"))
     visit project_forum_topic_path(project, customer_feedback, topic)
@@ -151,7 +171,7 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
     click_on "Accept as solution"
     expect(page).to have_test_selector("accepted-solutions-banner")
     visit project_forum_topic_path(project, customer_feedback, topic)
-    page.driver.browser.mouse.move(x: 100, y: 790)
+    move_mouse_aside
     docs_screenshot "forums/openproject_user_guide_forums_accepted_solution"
   end
 
