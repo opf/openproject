@@ -24,16 +24,11 @@ cat <<EOF
                       OpenProject Dev Container
 ==========================================================================
 
-Please add the following entries to your /etc/hosts file:
-
-    127.0.0.1 openproject.local openproject-assets.local
-
 You can then open OpenProject in your browser:
 
-    https://openproject.local
+    https://openproject.localhost
 
-You will get a certificate warning, and you may also have to open
-https://openproject-assets.local in your browser for everything to work.
+You will get a certificate warning on this host, that is normal.
 
 If you need to see the backend or frontend logs, enter:
 

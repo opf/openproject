@@ -22,7 +22,7 @@ RUN gpasswd -a "${USER}" sudo
 WORKDIR "/home/${USER}"
 
 RUN apt update -qq
-RUN apt upgrade
+RUN apt upgrade -y
 RUN apt install -y wget gnupg lsb-release curl sudo screen
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
