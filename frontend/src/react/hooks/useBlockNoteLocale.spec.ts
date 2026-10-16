@@ -26,6 +26,7 @@
 //++
 
 import { renderHook } from '@testing-library/react';
+import { locales as mathLocales } from '@blocknote/math-block';
 import {
   useBlockNoteLocale,
 } from './useBlockNoteLocale';
@@ -43,5 +44,11 @@ describe('useBlockNoteLocale', () => {
 
     expect(result.current.localeString).toBe('en');
     expect(result.current.localeDictionary).toBeDefined();
+  });
+
+  it('includes the math strings of the same locale', () => {
+    const { result } = renderHook(() => useBlockNoteLocale('de'));
+
+    expect(result.current.localeDictionary.math).toBe(mathLocales.de);
   });
 });

@@ -26,11 +26,14 @@
 //++
 
 import * as blockNoteLocales from '@blocknote/core/locales';
+import { locales as mathLocales, MathDictionary } from '@blocknote/math-block';
 import { useMemo } from 'react';
+
+type BlockNoteLocale = keyof typeof blockNoteLocales;
 
 export interface BlockNoteLocaleResult {
   localeString:string; // e.g. 'en', 'de'
-  localeDictionary:typeof blockNoteLocales[keyof typeof blockNoteLocales];
+  localeDictionary:typeof blockNoteLocales[BlockNoteLocale] & { math:MathDictionary };
 }
 
 /*
@@ -38,8 +41,8 @@ export interface BlockNoteLocaleResult {
  */
 export function useBlockNoteLocale(userLocale:string):BlockNoteLocaleResult {
   return useMemo(() => {
-    const localeString = Object.keys(blockNoteLocales).includes(userLocale) ? userLocale : 'en';
-    const localeDictionary = blockNoteLocales[localeString as keyof typeof blockNoteLocales];
+    const localeString = (Object.keys(blockNoteLocales).includes(userLocale) ? userLocale : 'en') as BlockNoteLocale;
+    const localeDictionary = { ...blockNoteLocales[localeString], math: mathLocales[localeString] };
     return { localeString, localeDictionary };
   }, [userLocale]);
 }
