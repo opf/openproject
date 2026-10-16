@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-Dir[Rails.root.join("db/migrate/tables/*.rb").to_s].each { |file| require file }
-Dir[Rails.root.join("db/migrate/extensions/*.rb").to_s].each { |file| require file }
+Rails.root.glob("db/migrate/tables/*.rb") { require it }
+Rails.root.glob("db/migrate/extensions/*.rb") { require it }
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
 
 # This migration aggregates a set of former migrations

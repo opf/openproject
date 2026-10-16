@@ -36,7 +36,7 @@ class SharingMailerPreview < ActionMailer::Preview
     SharingMailer.shared_work_package(sharer, work_package_membership)
   end
 
-  def shared_work_package_via_group
+  def shared_work_package__via_group
     sharer = User.first
     group = Group.first
     user_membership = Member.find_by(entity_type: "WorkPackage", principal: group.users.first)
@@ -44,7 +44,7 @@ class SharingMailerPreview < ActionMailer::Preview
     SharingMailer.shared_work_package(sharer, user_membership, group)
   end
 
-  def shared_work_package_via_invitation
+  def shared_work_package__via_invitation
     sharer = User.first
     work_package_membership = Member.includes(:principal)
                                     .where(entity_type: "WorkPackage")

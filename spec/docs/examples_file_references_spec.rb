@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "References to examples" do # rubocop:disable RSpec/DescribeClass
-  let(:existing_files) { Dir[Rails.root.join("docs/api/apiv3/components/examples/*.yml").to_s].map { |p| p.split("/").last } }
+  let(:existing_files) { Rails.root.glob("docs/api/apiv3/components/examples/*.yml").map { it.basename.to_s } }
   let(:referenced_files) do
     YAML.load_file(Rails.root.join("docs/api/apiv3/openapi-spec.yml"))
         .fetch("components")
