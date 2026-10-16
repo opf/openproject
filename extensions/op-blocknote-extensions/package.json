@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.1.1",
     "@mantine/core": "^9.6.2",
     "@mantine/hooks": "^9.4.1",
     "@mantine/utils": "^6.0.22",
