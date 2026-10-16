@@ -41,7 +41,7 @@ RSpec.describe Automations::UpdateWorkPackageService do
     action
   end
   let(:alter_action1) do
-    action = instance_double(Automations::Actions::Base, key: "abc", priority: 100)
+    action = instance_double(Automations::Actions::Base, key: "abc", priority: 100, after_success: nil)
 
     allow(action)
       .to receive(:apply)
@@ -52,7 +52,7 @@ RSpec.describe Automations::UpdateWorkPackageService do
     action
   end
   let(:alter_action2) do
-    action = instance_double(Automations::Actions::Base, key: "def", priority: 10)
+    action = instance_double(Automations::Actions::Base, key: "def", priority: 10, after_success: nil)
 
     allow(action)
       .to receive(:apply)
@@ -135,6 +135,12 @@ RSpec.describe Automations::UpdateWorkPackageService do
       expect([alter_action1, alter_action2]).to all(have_received(:apply).with(work_package))
     end
 
+    it "tells each action that the work package was saved" do
+      call
+
+      expect([alter_action1, alter_action2]).to all(have_received(:after_success).with(work_package, user))
+    end
+
     it "calls the registered actions based on their priority" do
       call_order = []
 
@@ -190,6 +196,51 @@ RSpec.describe Automations::UpdateWorkPackageService do
       it "is successful" do
         expect(subject)
           .to be_success
+      end
+    end
+
+    context "on validation error in strict mode" do
+      let(:instance) { described_class.new(action: automation, user:, strict: true) }
+      let(:result) do
+        ServiceResult.failure(result: work_package)
+      end
+      # The lambda runs as the update service stub, so it must assert at call time
+      # rubocop:disable-next RSpec/ExpectInLet
+      let(:update_service_call_implementation) do
+        -> do
+          # check that the invalid change is not dropped, so the update fails as a whole
+          expect(work_package.subject)
+            .to eql ""
+
+          expect(work_package.status_id)
+            .to be 100
+
+          result
+        end
+      end
+
+      before do
+        allow(contract)
+          .to receive(:validate) do
+          work_package.subject.present?
+        end
+
+        allow(contract)
+          .to receive(:errors)
+          .and_return(instance_double(ActiveModel::Errors, attribute_names: [alter_action1.key]))
+
+        subject
+      end
+
+      it "is failure" do
+        expect(subject)
+          .to be_failure
+      end
+
+      it "applies each action only once" do
+        expect(alter_action1)
+          .to have_received(:apply)
+          .once
       end
     end
 

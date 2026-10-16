@@ -42,6 +42,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   def render(_key, values, options = { html: true })
     @cause = values.last
     @html = options[:html]
+    @only_path = options.fetch(:only_path, true)
 
     return "" if hidden_meeting_cause?
     return combined_meeting_message if meeting_cause?
@@ -101,9 +102,35 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       import_message
     when "work_package_parent_deleted"
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
+    when "assistant_skill", "assistant_chat"
+      assistant_message
     else
       related_work_package_changed_message
     end
+  end
+
+  def assistant_message
+    key = cause["assistant_name"].present? ? "assistant_skill" : "assistant_chat"
+    message = I18n.t("journals.cause_descriptions.#{key}",
+                     assistant_name: escape(cause["assistant_name"]),
+                     user_name: escape(@journal.user&.name))
+    [message, assistant_chat_link].compact.join(" · ")
+  end
+
+  def escape(text)
+    html? ? ERB::Util.html_escape(text.to_s) : text.to_s
+  end
+
+  # Chats are private: only their owner gets the link.
+  def assistant_chat_link
+    return unless html? && @only_path && cause["chat_id"] && OpenProject::FeatureDecisions.ai_assistance_active?
+
+    chat = AI::AssistantChat.find_by(id: cause["chat_id"], user: User.current, work_package_id: @journal.journable_id)
+    return unless chat
+
+    link_to(I18n.t("journals.cause_descriptions.assistant_chat_link"),
+            ai_assistance_chat_path(chat_id: chat.id),
+            data: { controller: "async-dialog", test_selector: "op-journal-ai-assistance-chat-link" })
   end
 
   def system_update_message

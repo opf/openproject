@@ -166,9 +166,13 @@ See COPYRIGHT and LICENSE files for more details.
               <%= angular_component_tag "opce-custom-date-action-admin",
                                         data: { "field-value": date.try(:iso8601) || date, "field-name": input_name } %>
             </div>
-          <% elsif %i(string_property text_property).include?(action.type) %>
+          <% elsif action.type == :string_property %>
             <div class="form--field-container">
               <%= styled_text_field_tag input_name, action.values, container_class: "-slim" %>
+            </div>
+          <% elsif action.type == :text_property %>
+            <div class="form--field-container">
+              <%= styled_text_area_tag input_name, action.values.first, rows: 5 %>
             </div>
           <% elsif action.type == :link_property %>
             <div class="form--field-container">

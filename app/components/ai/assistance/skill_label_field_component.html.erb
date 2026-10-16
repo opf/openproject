@@ -1,0 +1,69 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<div class="FormControl" data-controller="ai-assistance--icon-picker">
+  <%= builder.label(:label, label, class: "FormControl-label") %>
+  <div class="d-flex flex-items-center">
+    <%= render(
+          Primer::Alpha::ActionMenu.new(
+            select_variant: :single,
+            dynamic_label: false,
+            form_arguments: { builder:, name: :icon },
+            data: { action: "itemActivated->ai-assistance--icon-picker#pick", test_selector: "ai-assistance-icon-picker" }
+          )
+        ) do |menu| %>
+      <% menu.with_show_button(
+           icon: skill.icon,
+           classes: "rounded-right-0 border-right-0",
+           "aria-label": icon_label,
+           tooltip_direction: :s,
+           data: { ai_assistance__icon_picker_target: "button" }
+         ) %>
+      <% icon_items.each do |value, icon, item_label| %>
+        <% menu.with_item(label: item_label, active: selected?(value), data: { value: }) do |item| %>
+          <% item.with_leading_visual_icon(icon:) %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <div class="FormControl-input-wrap FormControl-input-width--large flex-auto">
+      <%= builder.text_field(
+            :label,
+            class: "FormControl-input FormControl-medium rounded-left-0",
+            placeholder: skill.default_label,
+            "aria-describedby": "ai-assistance-skill-label-caption"
+          ) %>
+    </div>
+  </div>
+  <% errors.each do |error| %>
+    <span class="FormControl-inlineValidation"><span><%= error %></span></span>
+  <% end %>
+  <span class="FormControl-caption" id="ai-assistance-skill-label-caption"><%= t("admin.ai_assistants.skills.label_caption") %></span>
+</div>
