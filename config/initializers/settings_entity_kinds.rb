@@ -28,6 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+##
+# Defines all settings for entities as structured in their respective menus.
+#
+# Future work: Use a generic controller, and automatically generate the UI for this based on this structure,
+# so that the controllers and views, and this structure don't have to be kept in sync.
+#
+# Please refer to the [Settings search](docs/development/concepts/settings-search/README.md)
+# for more details.
+#
+# See also: [settings pages](config/initializers/settings_pages.rb)
 Settings::EntityKinds.draw do
   kind :types, menu_item: :types, scope: -> { Type.order(:position) }, url: ->(type) { edit_type_details_path(type) } do
     attribute :name, label: -> { Type.human_attribute_name(:name) }, field: "type[name]"
