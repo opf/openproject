@@ -66,8 +66,26 @@ RSpec.describe Query::Results, "Project filter integration" do
   shared_let(:second_parent_wp) { create(:work_package, project: second_parent_project) }
   shared_let(:second_child_wp) { create(:work_package, project: second_child_project) }
 
+  shared_let(:invisible_project) { create(:project) }
+  shared_let(:invisible_wp) { create(:work_package, project: invisible_project) }
+
   before do
     login_as user
+  end
+
+  describe "any project (wildcard operator)" do
+    before do
+      query.add_filter "project_id", "*", []
+    end
+
+    it "shows work packages from all visible projects, ignoring the query's project scope" do
+      expect(query_results.work_packages)
+        .to contain_exactly(parent_wp, child_wp, second_parent_wp, second_child_wp)
+    end
+
+    it "does not show work packages from projects the user cannot see" do
+      expect(query_results.work_packages).not_to include(invisible_wp)
+    end
   end
 
   describe "both parent projects selected" do
