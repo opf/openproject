@@ -120,6 +120,24 @@ module Pages
         end
       end
 
+      def expect_document_item(notification, reasons: "Mentioned")
+        document = notification.resource
+        raise(ArgumentError, "Expected document") unless document.is_a?(Document)
+
+        within_item(notification) do
+          expect(page).to have_text("Document\n- #{document.project.name} -\n#{reasons}")
+          expect(page).to have_css("a[href='/documents/#{document.id}'][target='_blank'][rel='noopener']",
+                                   exact_text: document.title)
+          expect(page).to have_no_link("Document")
+        end
+      end
+
+      def click_document_label(notification)
+        within_item(notification) do
+          page.find(".op-ian-item--resource-label", text: "Document").click
+        end
+      end
+
       def expect_closed
         expect(page).to have_no_css("opce-notification-center")
       end

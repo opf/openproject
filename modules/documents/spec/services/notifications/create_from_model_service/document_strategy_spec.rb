@@ -36,7 +36,8 @@ RSpec.describe Notifications::CreateFromModelService::DocumentStrategy do
   end
 
   describe ".supports_ian?" do
-    it { expect(described_class.supports_ian?(:mentioned)).to be(false) }
+    it { expect(described_class.supports_ian?(:mentioned)).to be(true) }
+    it { expect(described_class.supports_ian?("mentioned")).to be(true) }
     it { expect(described_class.supports_ian?(:subscribed)).to be(false) }
   end
 
