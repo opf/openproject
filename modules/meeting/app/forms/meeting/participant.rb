@@ -35,7 +35,7 @@ class Meeting::Participant < ApplicationForm
       label: MeetingParticipant.model_name.human,
       visually_hide_label: true,
       autocomplete_options: {
-        appendTo: "##{Meetings::Participants::ManageParticipantsDialog::DIALOG_ID}",
+        appendTo: "##{Meetings::Participants::ManageParticipantsDialogComponent::DIALOG_ID}",
         defaultData: true,
         component: "opce-user-autocompleter",
         url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,

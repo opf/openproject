@@ -45,7 +45,7 @@ RSpec.describe My::Work::AllocationActionMenuComponent, type: :component do
     entry = ResourceAllocations::ScheduledEntry.new(allocation: resource_allocation, work_package:,
                                                     allocated_on: date, minutes: 360)
 
-    My::Work::AllocationRow::Entry.new(scheduled_entry: entry, visible:, hours: 4.5)
+    My::Work::AllocationRowComponent::Entry.new(scheduled_entry: entry, visible:, hours: 4.5)
   end
 
   current_user { user }

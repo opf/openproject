@@ -45,7 +45,7 @@ module My
         @dates = dates
       end
 
-      # @return [Array<My::Work::AllocationRow::Entry>]
+      # @return [Array<My::Work::AllocationRowComponent::Entry>]
       def call
         return [] unless @allocations
 
@@ -55,7 +55,7 @@ module My
           visible = @allocations.visible?(entry)
           hours = ((entry.minutes / 60.0) - logged_hours_on(entry, visible:)).round(2)
 
-          AllocationRow::Entry.new(scheduled_entry: entry, visible:, hours:) if hours.positive?
+          AllocationRowComponent::Entry.new(scheduled_entry: entry, visible:, hours:) if hours.positive?
         end
       end
 

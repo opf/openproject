@@ -29,7 +29,7 @@
 #++
 
 module Meetings
-  class Participants::ManageParticipantsDialog < ApplicationComponent
+  class Participants::ManageParticipantsDialogComponent < ApplicationComponent
     DIALOG_ID = "manage-participants-dialog"
 
     include ApplicationHelper

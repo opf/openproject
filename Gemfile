@@ -379,6 +379,7 @@ group :development, :test do
   gem "rubocop-rails", "~> 2.38"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
+  gem "rubocop-view_component", require: false
 
   # erb linting
   gem "erb_lint", require: false

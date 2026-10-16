@@ -30,7 +30,7 @@
 
 module My
   module Work
-    class AllocationRow < OpPrimer::BorderBoxRowComponent
+    class AllocationRowComponent < OpPrimer::BorderBoxRowComponent
       include Redmine::I18n
 
       Entry = Data.define(:scheduled_entry, :visible, :hours) do

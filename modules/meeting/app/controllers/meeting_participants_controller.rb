@@ -90,7 +90,7 @@ class MeetingParticipantsController < ApplicationController
   end
 
   def manage_participants_dialog
-    respond_with_dialog Meetings::Participants::ManageParticipantsDialog.new(meeting: @meeting)
+    respond_with_dialog Meetings::Participants::ManageParticipantsDialogComponent.new(meeting: @meeting)
   end
 
   private

@@ -9,6 +9,7 @@ plugins:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-rspec_rails
+  - rubocop-view_component
 
 # A rubocop-local.yml file can be added to customized the styles
 inherit_from:
@@ -23,6 +24,8 @@ AllCops:
   TargetRubyVersion: 3.4
   # Enable any new cops in new versions by default
   NewCops: enable
+  UseProjectIndex: true
+  ProjectIndexIncludesGems: true
   Exclude:
     - "**/node_modules/**/*"
 
@@ -556,3 +559,27 @@ Style/WordArray:
 # Obsolete since type configuration moved to TypeVariant. We can remove this cop from rubocop-openproject again.
 OpenProject/UseEffectiveTypeForConfiguration:
   Enabled: false
+
+ViewComponent/ComponentSuffix:
+  Include:
+    - app/components/**/*.rb
+    - modules/*/app/components/**/*.rb
+  Exclude:
+    - app/components/**/*_component/**/*.rb
+    - modules/*/app/components/**/*_component/**/*.rb
+    - app/components/homescreen/blocks/*.rb
+    - modules/*/app/components/**/widgets/**/*.rb
+    - modules/grids/app/components/grids/project_attribute_widgets.rb
+
+ViewComponent/MissingPreview:
+  Enabled: false
+
+ViewComponent/PreferComposition:
+  Include:
+    - app/components/**/*.rb
+    - modules/*/app/components/**/*.rb
+
+ViewComponent/TestRenderedOutput:
+  Include:
+    - spec/components/**/*_spec.rb
+    - modules/*/spec/components/**/*_spec.rb

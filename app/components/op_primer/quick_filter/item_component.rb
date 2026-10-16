@@ -30,7 +30,7 @@
 
 module OpPrimer
   module QuickFilter
-    class Item < ApplicationComponent
+    class ItemComponent < ApplicationComponent
       attr_reader :label, :value
 
       def initialize(label:, value:)

@@ -37,11 +37,11 @@ module My
       main_column :time, :subject, :project
 
       def row_class
-        TimeEntryRow
+        TimeEntryRowComponent
       end
 
       def row_class_for(row)
-        row.is_a?(AllocationRow::Entry) ? AllocationRow : row_class
+        row.is_a?(AllocationRowComponent::Entry) ? AllocationRowComponent : row_class
       end
 
       def mobile_title
