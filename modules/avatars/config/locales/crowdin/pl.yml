@@ -3,6 +3,7 @@ pl:
   are_you_sure_delete_avatar: Czy na pewno chcesz usunąć ten awatar?
   avatar_deleted: Awatar został usunięty.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Awatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

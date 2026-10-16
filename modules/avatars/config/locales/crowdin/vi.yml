@@ -3,6 +3,7 @@ vi:
   are_you_sure_delete_avatar: Bạn có chắc muốn xóa hình đại diện của bạn ?
   avatar_deleted: Hình đại diện đã xóa thành công
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: hình đại diện
     label_avatar_color: Fallback color
     label_gravatar: Nhóm ảnh đại diện

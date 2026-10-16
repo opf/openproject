@@ -3,6 +3,7 @@ hy:
   are_you_sure_delete_avatar: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել Ձեր ավատարը
   avatar_deleted: Ավատարը հաջողությամբ ջնջվել է։
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Ավատար
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

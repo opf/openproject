@@ -3,6 +3,7 @@ nl:
   are_you_sure_delete_avatar: Weet je zeker dat je je avatar wilt verwijderen?
   avatar_deleted: Avatar succesvol verwijderd.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

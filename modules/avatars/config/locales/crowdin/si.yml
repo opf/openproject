@@ -3,6 +3,7 @@ si:
   are_you_sure_delete_avatar: ඔබට ඔබේ අවතාරය මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
   avatar_deleted: අවතාර් සාර්ථකව මකා දැමීය.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: අවතාර්
     label_avatar_color: Fallback color
     label_gravatar: කැටයම්

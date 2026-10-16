@@ -3,6 +3,7 @@ es:
   are_you_sure_delete_avatar: "¿Está seguro de que quiere eliminar su avatar?"
   avatar_deleted: El avatar se ha eliminado correctamente.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

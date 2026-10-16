@@ -40,7 +40,9 @@ fa:
         view: پیوند پویای یک نما که با Macro درج شده است.
         work_package: پیوند پویای یک بسته کاری که با Macro درج شده است.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: برای فعال‌سازی حساب خود لطفاً با <em>%{login}</em> وارد شوید.
+    continue_with_provider: Continue with %{name}
     delete: حذف حساب کاربری
     delete_confirmation: مطمئن هستید که می خواهید حساب کاربری را حذف کنید؟
     deletion_info:
@@ -65,7 +67,9 @@ fa:
     error_self_registration_limited_provider: 'ثبت‌نام کاربر برای ارائه‌دهنده ورود یکپارچه ''%{name}'' محدود شده است. لطفاً از مدیر بخواهید حساب شما را فعال کند یا محدودیت ثبت‌نام شخصی این ارائه‌دهنده را تغییر دهد.
 
       '
-    login_with_auth_provider: یا با حساب موجود خود وارد سیستم شوید
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: ادامه برای ورود
     omniauth_direct_login_redirecting: در حال هدایت شما به ارائه‌دهنده هویت…
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
@@ -201,11 +205,13 @@ fa:
         row_count: تعداد ردیف‌ها
         widgets: ویجت‌ها
       group:
+        avatar_color: Fallback color
         group_users: کاربران گروه
         identity_url: نشانی هویت
         organizational_unit: واحد سازمانی
         parent: گروه والد
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: واحد سازمانی
         parent: گروه والد
       import/jira:
@@ -448,7 +454,7 @@ fa:
         last_name: نام خانوادگی
         ldap_auth_source: اتصال LDAP
         new_password: رمز عبور جديد
-        password_confirmation: تاییدیه
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: بخش
       user_non_working_time:
@@ -459,11 +465,11 @@ fa:
         auto_hide_popups_caption: در صورت فعال‌بودن، بنرهای سبز موفقیت پس از ۵ ثانیه به‌طور خودکار ناپدید می‌شوند.
         avatar_color: Fallback color
         button_update_alerts: هشدارهای به‌روزرسانی
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: به‌روزرسانی ظاهر
         button_update_user_information: به‌روزرسانی پروفایل
         comments_sorting: نمایش فعالیت بسته کاری مرتب‌شده بر اساس
         daily_reminders: یادآوری‌های روزانه
+        date_format: Date format
         disable_keyboard_shortcuts: غیرفعال‌کردن میانبرهای صفحه‌کلید
         dismissed_enterprise_banners: بنرهای Enterprise پنهان‌شده
         force_dark_theme_contrast: اجبار کنتراست بالا در حالت تیره
@@ -480,6 +486,7 @@ fa:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: حالت رنگ
+        time_format: Time format
         time_zone: منطقه زمانی
         warn_on_leaving_unsaved: هنگام ترک بسته کاری با تغییرات ذخیره‌نشده به من هشدار بده
         workdays: روزهای کاری
@@ -2378,6 +2385,21 @@ fa:
         not_available: دستیار هوش مصنوعی در دسترس نیست.
         timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
         upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: محتوا
     is_active: در حال حاضر نمایش داده می‌شود
@@ -3663,6 +3685,8 @@ fa:
   groups:
     edit:
       synchronized_groups: گروه‌های همگام‌شده
+    form:
+      group_attributes: Group attributes
     index:
       description: با گروه‌بندی کاربران می‌توانید آن‌ها را به‌صورت عضو به پروژه‌های یکسان اضافه کنید یا نقش‌های سراسری یکسان به آن‌ها تخصیص دهید.
     memberships:
@@ -3688,6 +3712,10 @@ fa:
       leave_project: ترک پروژه
       no_favorite_projects: هیچ پروژه موردعلاقه‌ای ندارید.
       title: پروژه‌ها
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3734,6 +3762,31 @@ fa:
             line_5: هنگام استفاده از Jira Migrator پیشرفت واردسازی را مشاهده کنید.
             line_6: از هشدارهای تاریخ در نسخه Community استفاده کنید.
           new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید متنوعی است، از جمله:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -4010,7 +4063,7 @@ fa:
   label_database_version: نسخه PostgreSQL
   label_date: تاریخ
   label_date_and_time: تاریخ و زمان
-  label_date_format: قالب تاریخ
+  label_date_and_time_formats: Date and time formats
   label_date_from: از
   label_date_from_to: از %{start} تا %{end}
   label_date_to: تا
@@ -4169,7 +4222,6 @@ fa:
   label_keyword_plural: کلیدواژه‌ها
   label_label_plural: برچسب‌ها
   label_language: زبان
-  label_language_based: براساس زبان کاربر
   label_languages: زبان‌ها
   label_last_activity: آخرین فعالیت
   label_last_change_on: آخرین تغییر در
@@ -4191,6 +4243,7 @@ fa:
   label_list: فهرست
   label_loading: در حال بارگذاری...
   label_locale: زبان و منطقه
+  label_locale_based: Use default for user locale
   label_lock_user: کاربر قفل شده
   label_locked: قفل‌شده
   label_logged_as: واردشده به‌عنوان
@@ -4481,6 +4534,7 @@ fa:
   label_subtask_plural: زیرکارها
   label_summary: خلاصه
   label_system: سیستم
+  label_system_or_language_default: Use system or language based default
   label_system_settings: تنظیمات سیستم
   label_system_storage: اطلاعات ذخیره‌سازی
   label_table_of_contents: فهرست مطالب

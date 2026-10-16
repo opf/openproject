@@ -3,6 +3,7 @@ da:
   are_you_sure_delete_avatar: Sikker på, at den personlige avatar skal slettes?
   avatar_deleted: Avatar slettet.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

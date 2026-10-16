@@ -3,6 +3,7 @@ bg:
   are_you_sure_delete_avatar: Сигурни ли сте, че искате да изтриете аватара си?
   avatar_deleted: Аватара е изтрит успешно.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Аватар
     label_avatar_color: Fallback color
     label_gravatar: Граватар

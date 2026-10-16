@@ -3,6 +3,7 @@ it:
   are_you_sure_delete_avatar: Sei sicuro di voler eliminare il tuo avatar?
   avatar_deleted: Avatar eliminato con successo.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Avatar
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

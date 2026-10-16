@@ -3,6 +3,7 @@
   are_you_sure_delete_avatar: Er du sikker på at du vil slette profilbildet din?
   avatar_deleted: Profilbildet har blitt endret.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Profilbilde
     label_avatar_color: Fallback color
     label_gravatar: Gravatar

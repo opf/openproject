@@ -3,6 +3,7 @@ hu:
   are_you_sure_delete_avatar: Biztosan törölni szeretné a profilképét?
   avatar_deleted: A profilkép sikeresen törölve.
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: Profilkép
     label_avatar_color: Fallback color
     label_gravatar: Gravatar
