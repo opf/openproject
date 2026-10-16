@@ -285,9 +285,10 @@ module OpenProject
         Manager.scope_config(scope).realm || default_realm
       end
 
-      def response_header(env:, scope: nil, error: nil, error_description: nil)
+      def response_header(env:, scope: nil, oauth_scopes: nil, error: nil, error_description: nil)
+        oauth_scope = oauth_scopes ? oauth_scopes.join(" ") : scope
         header = %{Bearer realm="#{scope_realm(scope)}", resource_metadata="#{resource_metadata(env)}"}
-        header << %{, scope="#{escape_string scope}"} if scope
+        header << %{, scope="#{escape_string oauth_scope}"} if oauth_scope
 
         if error
           header << %{, error="#{escape_string error}"}
