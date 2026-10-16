@@ -57,5 +57,11 @@ Rails.application.routes.draw do
     # Keyed by feature key rather than by record id: the binding is an attribute
     # of a registered feature, and a feature may not have a row yet.
     resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
+
+    resources :work_package_embeddings, only: [], controller: "admin/work_package_embeddings" do
+      collection do
+        post :reindex
+      end
+    end
   end
 end

@@ -255,7 +255,7 @@ RSpec.describe "LLM connection administration",
   end
 
   describe "the Feature configuration tab", with_flag: { llm_connection: true, semantic_search: true } do
-    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, default_embedding_model_identifier: "bge-m3", base_url:) }
 
     before do
       Setting.llm_features_enabled = true
@@ -269,6 +269,28 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_test_selector("llm-feature-binding--dimensions-semantic_search")
       expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
       expect(page).to be_axe_clean.within("#content")
+    end
+
+    describe "the index button" do
+      it "enqueues the indexing of all work packages",
+         with_good_job_batches: [Llm::IndexWorkPackagesJob] do
+        visit llm_feature_bindings_path
+
+        click_on I18n.t("admin.work_package_embeddings.reindex.button")
+
+        expect(page).to have_text(I18n.t("admin.work_package_embeddings.reindex.enqueued"))
+        expect(Llm::IndexWorkPackagesJob.latest_batch).to be_present
+      end
+
+      it "warns instead while an indexing is already running" do
+        GoodJob::BatchRecord.create!(description: Llm::IndexWorkPackagesJob::BATCH_DESCRIPTION)
+
+        visit llm_feature_bindings_path
+
+        click_on I18n.t("admin.work_package_embeddings.reindex.button")
+
+        expect(page).to have_text(I18n.t("admin.work_package_embeddings.reindex.already_running"))
+      end
     end
   end
 end
