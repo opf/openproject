@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 Rails.application.config.middleware.insert_after Rails::Rack::Logger, Rack::Cors do
   allow do
     origins { |source, _env| API::V3::CORS.allowed?(source) }

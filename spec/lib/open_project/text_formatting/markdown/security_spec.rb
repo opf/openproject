@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 # These specs exist because cmark-gfm's :tagfilter extension is intentionally

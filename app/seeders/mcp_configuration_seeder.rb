@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class McpConfigurationSeeder < Seeder
   def seed_data!
     seed_server_config if server_missing?

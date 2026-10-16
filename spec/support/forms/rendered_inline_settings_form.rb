@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 RSpec.shared_context "with rendered inline settings form" do
   include ViewComponent::TestHelpers
 

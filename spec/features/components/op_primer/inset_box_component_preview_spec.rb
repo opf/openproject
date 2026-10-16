@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "rails_helper"
 require Rails.root.join("lookbook/previews/op_primer/inset_box_component_preview").to_s
 

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module BasicData
   class GlobalRoleSeeder < BaseRoleSeeder
     self.model_class = GlobalRole

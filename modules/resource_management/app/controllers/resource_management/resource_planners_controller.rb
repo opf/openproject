@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream

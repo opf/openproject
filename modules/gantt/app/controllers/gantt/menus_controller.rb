@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Gantt
   class MenusController < ApplicationController
     before_action :load_and_authorize_in_optional_project

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 class Journal::CausedByStatusChanged < CauseOfChange::Base
   def initialize(status_name:, status_id:, status_changes:)

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackages
   class HoverCardController < ApplicationController
     before_action :load_and_authorize_in_optional_project

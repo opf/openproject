@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 class Journal::CausedByImport < CauseOfChange::Base
   def initialize(author_name: nil, history: [], migrated: false, csv: false)

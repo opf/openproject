@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class AddPrincipalAssignedByToResourceAllocations < ActiveRecord::Migration[8.1]
   def change
     add_reference :resource_allocations, :principal_assigned_by,

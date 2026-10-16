@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require Rails.root.join("db/migrate/migration_utils/permission_adder")
 
 class AddViewAllPrincipalsPermissionToExistingRoles < ActiveRecord::Migration[8.0]

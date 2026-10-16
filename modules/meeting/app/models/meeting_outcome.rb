@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class MeetingOutcome < ApplicationRecord
   belongs_to :meeting_agenda_item, touch: true
   has_one :meeting, through: :meeting_agenda_item

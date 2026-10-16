@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "support/finders/test_selector_finders"
 
 module Components

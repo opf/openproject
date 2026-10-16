@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Portfolios
   class MenusController < ApplicationController
     authorization_checked! :show

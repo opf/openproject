@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects
   class RowComponent < ::RowComponent
     include CalculatedValues::ErrorsHelper

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class CreateResourceAllocationJournals < ActiveRecord::Migration[8.1]
   def change
     create_table :resource_allocation_journals do |t|

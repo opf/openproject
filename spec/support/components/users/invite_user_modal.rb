@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require_relative "../common/modal"
 require_relative "../autocompleter/ng_select_autocomplete_helpers"
 

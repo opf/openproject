@@ -23,7 +23,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++project_module
+#++
 
 module OpenProject::Plugins
   module ModuleHandler

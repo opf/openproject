@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpPrimer
   class FlashComponent < Primer::Alpha::Banner
     include ApplicationHelper

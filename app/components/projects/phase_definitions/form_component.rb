@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects::PhaseDefinitions
   class FormComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers

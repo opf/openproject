@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Meetings
   class Menu < Submenu
     CROSS_FILTER_KEYS = %w[time project_id].freeze

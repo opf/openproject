@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module JobStatus
   module ApplicationJobWithStatus
     # Background jobs can have a status JobStatus::Status

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Standard
   class BasicDataSeeder < ::BasicDataSeeder; end
 end

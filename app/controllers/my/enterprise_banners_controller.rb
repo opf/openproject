@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class My::EnterpriseBannersController < ApplicationController
   include OpTurbo::ComponentStream
 

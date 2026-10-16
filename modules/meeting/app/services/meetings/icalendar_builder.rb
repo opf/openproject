@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "icalendar"
 require "icalendar/tzinfo"
 

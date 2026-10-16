@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require_relative "../spec_helper"
 
 RSpec.describe DocumentsMailer do

@@ -27,6 +27,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require Rails.root.join("db/migrate/migration_utils/permission_renamer")
 
 class RenameCommentPermissions < ActiveRecord::Migration[8.0]

@@ -107,8 +107,9 @@ namespace :copyright do
     case format
     when :ruby, :rb
       # As with `:js, :ts` below, the markers may carry a space (`# -- copyright`) or be
-      # missing altogether. A notice without its closer ends with its last line, or with
-      # the comment run it sits in.
+      # missing altogether. A notice without its closer ends with its last line. Without
+      # that line either, it must end its comment run, as a comment abutting it cannot be
+      # told apart from the notice.
       %r{
         \A
         (?<shebang>\#![^\n]+\n)?
@@ -121,8 +122,15 @@ namespace :copyright do
           \s*OpenProject\ is\ an\ open\ source\ project\ management\ software\.
         )
         (?:\n\#(?!\s*\+\+|\s*See\ COPYRIGHT\ and\ LICENSE)[^\n]*)*
-        (?:\n\#\s*See\ COPYRIGHT\ and\ LICENSE[^\n]*)?
-        (?:\n\#\s*\+\+(?:\n\#(?=\n\n|\n?\z))?)?            # the closer and a bare `#` trailing it
+        (?:
+          (?:\n\#\s*See\ COPYRIGHT\ and\ LICENSE[^\n]*)?
+          \n\#\s*\+\+[^\n]*(?:\n\#(?=\n\n|\n?\z))?         # the closer and a bare `#` trailing it
+          |
+          \n\#\s*See\ COPYRIGHT\ and\ LICENSE[^\n]*
+          |
+          (?=\n[^\S\n]*\n|\n?\z)
+        )
+        (?<separator>\s*?(?=\n[^\S\n]*\S)|\s*\z)           # the gap up to the line break before the code
       }mx
     when :js, :ts
       # Headers in the wild are not uniform: the `-- copyright` opener, the `++` closer or
@@ -191,9 +199,10 @@ namespace :copyright do
       if file_content.match(regexp)
         replacement = "\\k<shebang>\\k<additional>#{copyright}"
         replacement += "\n\n" if options[:ensure_blank_line]
+        replacement += "\n" if regexp.names.include?("separator")
         file_content.gsub!(regexp, replacement)
       elsif options[:create]
-        if file_content.include?("OpenProject is a fork of ChiliProject")
+        if file_content.match?(/OpenProject is a fork of ChiliProject|^#\s*OpenProject is an open source/)
           puts "#{file_name} does not match regexp, but seems to have a copyright header!"
           next
         end

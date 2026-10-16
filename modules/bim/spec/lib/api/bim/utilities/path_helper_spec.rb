@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe API::Bim::Utilities::PathHelper::BCF2_1Path do # rubocop:disable RSpec/SpecFilePathFormat

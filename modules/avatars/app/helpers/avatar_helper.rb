@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "gravatar_image_tag"
 
 module AvatarHelper

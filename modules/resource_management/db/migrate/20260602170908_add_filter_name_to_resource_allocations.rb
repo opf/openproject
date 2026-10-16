@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class AddFilterNameToResourceAllocations < ActiveRecord::Migration[8.1]
   def change
     add_column :resource_allocations, :filter_name, :string, null: true

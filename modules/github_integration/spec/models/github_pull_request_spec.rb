@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "#{File.dirname(__FILE__)}/../spec_helper"
 
 RSpec.describe GithubPullRequest do

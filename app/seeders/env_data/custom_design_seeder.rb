@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module EnvData
   class CustomDesignSeeder < Seeder
     def seed_data!

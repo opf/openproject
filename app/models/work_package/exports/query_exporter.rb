@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackage::Exports
   class QueryExporter < Exports::Exporter
     self.model = WorkPackage

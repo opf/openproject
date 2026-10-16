@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module BasicData
   class ModelSeeder < Seeder
     # The class of the model for creating records.

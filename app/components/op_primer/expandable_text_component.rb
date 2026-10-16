@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 module OpPrimer
   # Truncates block content and exposes an expander to reveal the full text.

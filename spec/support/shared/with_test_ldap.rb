@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "ladle"
 
 RSpec.shared_context "with temporary LDAP" do
