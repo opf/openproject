@@ -69,6 +69,7 @@ import AutoSubmit from '@stimulus-components/auto-submit';
 import RevealController from '@stimulus-components/reveal';
 import AutoThemeSwitcher from './controllers/auto-theme-switcher.controller';
 import PwaServiceWorkerController from './controllers/pwa-service-worker.controller';
+import PwaPushResumeController from './controllers/pwa-push-resume.controller';
 import ThemeSelectorController from './controllers/theme-selector.controller';
 import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimulus-application';
 import { Application } from '@hotwired/stimulus';
@@ -124,6 +125,7 @@ OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
 OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitcher);
 OpenProjectStimulusApplication.preregister('pwa-service-worker', PwaServiceWorkerController);
+OpenProjectStimulusApplication.preregister('pwa-push-resume', PwaPushResumeController);
 OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
 OpenProjectStimulusApplication.preregister('highlight-target-element', HighlightTargetElementController);
