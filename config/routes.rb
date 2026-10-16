@@ -1451,6 +1451,8 @@ Rails.application.routes.draw do
 
     resources :sessions, controller: "my/sessions", as: "my_sessions", only: %i[index destroy]
     resources :auto_login_tokens, controller: "my/auto_login_tokens", as: "my_auto_login_tokens", only: %i[destroy]
+    resources :push_subscriptions, controller: "my/push_subscriptions", as: "my_push_subscriptions",
+                                   only: %i[create destroy]
 
     get "/banner" => "my/enterprise_banners#show", as: "show_enterprise_banner"
     post "/dismiss_banner" => "my/enterprise_banners#dismiss", as: "dismiss_enterprise_banner"
