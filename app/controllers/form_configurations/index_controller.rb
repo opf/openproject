@@ -102,12 +102,10 @@ module FormConfigurations
     def filtered? = requested_filters.any?
 
     def results_component
-      table = WorkPackageTypes::NamedReferences::Index::TableComponent.new(records: forms,
-                                                                           variants: form_variants,
-                                                                           model_class:,
-                                                                           filtered: filtered?)
-
-      WorkPackageTypes::NamedReferences::Index::ResultsComponent.new(table:)
+      WorkPackageTypes::NamedReferences::Index::TableComponent.new(records: forms,
+                                                                   variants: form_variants,
+                                                                   model_class:,
+                                                                   filtered: filtered?)
     end
 
     def sub_header_component

@@ -58,6 +58,7 @@ class AttributeHelpTexts::RowComponent < OpPrimer::BorderBoxRowComponent
       Primer::Beta::IconButton.new(
         icon: :trash,
         scheme: :danger,
+        size: :small,
         tag: :a,
         href: attribute_help_text_path(attribute_help_text),
         "aria-label": t(:button_delete),

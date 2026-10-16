@@ -100,12 +100,10 @@ module Workflows
     def filtered? = requested_filters.any?
 
     def results_component
-      table = Index::TableComponent.new(records: workflows,
-                                        variants: workflow_variants,
-                                        role_counts: workflow_role_counts,
-                                        filtered: filtered?)
-
-      WorkPackageTypes::NamedReferences::Index::ResultsComponent.new(table:)
+      Index::TableComponent.new(records: workflows,
+                                variants: workflow_variants,
+                                role_counts: workflow_role_counts,
+                                filtered: filtered?)
     end
 
     def sub_header_component
