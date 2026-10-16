@@ -46,7 +46,7 @@ module Planner
 
     def create_task(subject:, day_part:, date:, description:)
       WorkPackages::CreateService
-        .new(user:)
+        .new(user:, contract_class: CreateTaskContract)
         .call(project:,
               type: project.project_types.first.type,
               subject: subject.to_s.strip,

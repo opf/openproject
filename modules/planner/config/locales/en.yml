@@ -109,6 +109,7 @@ en:
     project_name: "My work"
     variant_name: "My work"
     form_name: "My work"
+    role_name: "My planner owner"
     day_part:
       name: "Day part"
       morning: "Morning"
