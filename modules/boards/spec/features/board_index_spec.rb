@@ -171,7 +171,7 @@ RSpec.describe "Work Package Project Boards Index Page" do
 
     context "as an accessible page", :js, :selenium do
       it "is AXe clean" do
-        expect(page).to be_axe_clean.within("#content")
+        expect(page).to be_axe_clean
       end
     end
   end

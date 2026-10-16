@@ -91,7 +91,7 @@ RSpec.describe "Work package show page" do
       wp_page = Pages::FullWorkPackage.new(work_package)
       wp_page.visit!
       wp_page.expect_attributes type: work_package.type.name.upcase
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
   end
 end

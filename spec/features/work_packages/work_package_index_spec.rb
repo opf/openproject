@@ -54,7 +54,7 @@ RSpec.describe "Work Packages", "index view", :js, :selenium do
         expect(page).to have_text("No work packages to display")
       end
 
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe "Work Packages", "index view", :js, :selenium do
         expect(page).to have_text("No work packages to display")
       end
 
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
   end
 end
