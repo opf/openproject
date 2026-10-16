@@ -34,6 +34,7 @@ forums:
     replies:
     - author: mia.bayer
       content: Not yet, but it is a good idea. I added it to our list of feature requests.
+      accepted_solution: true
 - name: Usability topics
   description: Please discuss usability topics here.
   topics:

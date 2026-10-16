@@ -141,6 +141,20 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
     docs_screenshot "forums/openproject_user_guide_forums_work_package_activity"
   end
 
+  it "captures accepting a reply as solution" do
+    reply = topic.children.find_by!(author: User.find_by!(login: "amara.okafor"))
+    visit project_forum_topic_path(project, customer_feedback, topic)
+    scroll_to find_test_selector("forum-post-#{reply.id}"), align: :center
+    open_post_actions(reply)
+    docs_screenshot "forums/openproject_user_guide_forums_accept_as_solution"
+
+    click_on "Accept as solution"
+    expect(page).to have_test_selector("accepted-solutions-banner")
+    visit project_forum_topic_path(project, customer_feedback, topic)
+    page.driver.browser.mouse.move(x: 100, y: 790)
+    docs_screenshot "forums/openproject_user_guide_forums_accepted_solution"
+  end
+
   it "captures watching a forum and a topic" do
     visit project_forum_path(project, customer_feedback)
     docs_screenshot "forums/openproject_user_guide_forums_watch", crop: "#content"
