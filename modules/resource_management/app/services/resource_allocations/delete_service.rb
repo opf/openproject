@@ -29,5 +29,15 @@
 
 module ResourceAllocations
   class DeleteService < ::BaseServices::Delete
+    private
+
+    def after_perform(call)
+      allocation = call.result
+      if allocation.allocated? && allocation.principal
+        UpdateScheduleService.new.call(users: [allocation.principal], from: allocation.start_date)
+      end
+
+      super
+    end
   end
 end
