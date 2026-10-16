@@ -643,15 +643,6 @@ module Settings
         writable: false,
         default: %w[fcm.googleapis.com updates.push.services.mozilla.com push.apple.com notify.windows.com]
       },
-      web_push_vapid_subject: {
-        description: "The contact the instance presents to the browser push services when it signs a push, " \
-                     "given as an https URL or a mailto: address. By default OpenProject uses its own root URL. " \
-                     "Apple's push service rejects a subject whose domain is not public, for example an intranet " \
-                     "hostname; set this to a public https URL or a mailto: address on your public domain in that case.",
-        format: :string,
-        writable: false,
-        default: nil
-      },
       web_push_vapid_private_key: {
         description: "The VAPID private key used to sign browser push requests, given as the plaintext " \
                      "base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject " \
