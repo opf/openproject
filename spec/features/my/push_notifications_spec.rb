@@ -52,6 +52,22 @@ RSpec.describe "My account browser push",
     expect(page).to have_no_test_selector("push-subscription-row")
   end
 
+  it "renders the device list fresh after returning through browser history", :js do
+    visit my_notifications_path(tab: "push")
+    expect(page).to have_text(I18n.t("my_account.push_notifications.no_devices"))
+
+    other_session = create(:user_session, user:, data: { browser: "Safari", browser_version: "17", platform: "iOS" })
+    create(:push_subscription, user:, session: Sessions::UserSession.find_by!(session_id: other_session.session_id))
+
+    click_on I18n.t(:label_account)
+    expect(page).to have_current_path(my_account_path, wait: 10)
+
+    page.go_back
+
+    expect(page).to have_test_selector("push-subscription-row", count: 1)
+    expect(page).to have_text("Safari (Version 17)")
+  end
+
   context "when the VAPID key is unreadable" do
     before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
 
