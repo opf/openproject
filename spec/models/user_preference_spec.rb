@@ -159,6 +159,56 @@ RSpec.describe UserPreference do
     end
   end
 
+  describe "#reminders_paused_on?" do
+    let(:date) { Date.new(2026, 10, 15) }
+
+    it "is false when pausing is disabled" do
+      preference.pause_reminders = { enabled: false, first_day: "2026-10-10", last_day: "2026-10-20" }
+
+      expect(preference.reminders_paused_on?(date)).to be false
+    end
+
+    it "is true when pausing is enabled without dates" do
+      preference.pause_reminders = { enabled: true }
+
+      expect(preference.reminders_paused_on?(date)).to be true
+    end
+
+    context "with pausing enabled for a date range" do
+      before { preference.pause_reminders = { enabled: true, first_day: "2026-10-10", last_day: "2026-10-20" } }
+
+      it "is true for a date inside the range" do
+        expect(preference.reminders_paused_on?(date)).to be true
+      end
+
+      it "is false for a date before the range" do
+        expect(preference.reminders_paused_on?(Date.new(2026, 10, 9))).to be false
+      end
+
+      it "is false for a date after the range" do
+        expect(preference.reminders_paused_on?(Date.new(2026, 10, 21))).to be false
+      end
+
+      it "is true on the first and last day" do
+        expect(preference.reminders_paused_on?(Date.new(2026, 10, 10))).to be true
+        expect(preference.reminders_paused_on?(Date.new(2026, 10, 20))).to be true
+      end
+
+      it "accepts a Time" do
+        expect(preference.reminders_paused_on?(Time.zone.local(2026, 10, 20, 23, 59))).to be true
+        expect(preference.reminders_paused_on?(Time.zone.local(2026, 10, 21, 0, 1))).to be false
+      end
+    end
+
+    context "with a malformed date" do
+      before { preference.pause_reminders = { enabled: true, first_day: "garbage", last_day: "2026-10-20" } }
+
+      it "is not paused" do
+        expect(preference.reminders_paused_on?(date)).to be false
+      end
+    end
+  end
+
   describe "#workdays" do
     context "without work days being stored" do
       it "uses the defaults" do

@@ -629,6 +629,30 @@ module Settings
         persist_on_first_read: true,
         secret: true
       },
+      web_push_enabled: {
+        format: :boolean,
+        default: false
+      },
+      web_push_service_hosts: {
+        description: "Push services a browser may subscribe through. Subdomains are included. " \
+                     "Every host must be reachable over HTTPS from the instance.",
+        format: :array,
+        writable: false,
+        default: %w[fcm.googleapis.com updates.push.services.mozilla.com push.apple.com notify.windows.com]
+      },
+      web_push_vapid_private_key: {
+        description: "The VAPID private key used to sign browser notification pushes, given as the plaintext " \
+                     "base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject " \
+                     "generates a key the first time it is needed, stores it encrypted in the database and " \
+                     "lets administrators renew it from the administration page. If you set it through " \
+                     "this environment variable, the key is managed by you: the administration page can no " \
+                     "longer renew it, and you rotate it by changing the variable. Whichever way the key " \
+                     "changes, every existing browser notification subscription becomes invalid.",
+        format: :string,
+        default: -> { OpenProject::WebPush.generate_encrypted_private_key },
+        persist_on_first_read: true,
+        secret: true
+      },
       host_name: {
         format: :string,
         default: -> { "#{ENV.fetch('HOST', 'localhost')}:#{ENV.fetch('PORT', 3000)}" },

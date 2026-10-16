@@ -72,6 +72,8 @@ class Settings::UpdateService < BaseServices::BaseContracted
       trigger_update_job_for_progress_mode_change(old_value, new_value)
     elsif name == :total_percent_complete_mode
       trigger_update_job_for_total_percent_complete_mode_change(old_value, new_value)
+    elsif name == :web_push_enabled && ActiveModel::Type::Boolean.new.cast(new_value) == false
+      PushSubscription.delete_all
     end
   end
 

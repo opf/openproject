@@ -31,6 +31,21 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::SsrfProtection do
+  describe ".head", :webmock do
+    include_context "with ssrf stubs"
+
+    before do
+      stub_request(:head, "https://example.com/").to_return(status: 204)
+    end
+
+    it "issues a HEAD request" do
+      response = described_class.head("https://example.com/")
+
+      expect(response.code).to eq("204")
+      expect(a_request(:head, "https://example.com/")).to have_been_made
+    end
+  end
+
   describe ".safe_ip?" do
     subject { described_class.safe_ip?(input) }
 
