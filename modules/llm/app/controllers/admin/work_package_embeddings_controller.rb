@@ -30,6 +30,8 @@
 
 module Admin
   class WorkPackageEmbeddingsController < ApplicationController
+    include OpTurbo::ComponentStream
+
     layout "admin"
 
     before_action :require_admin
@@ -44,6 +46,11 @@ module Admin
       end
 
       redirect_to llm_feature_bindings_path, status: :see_other
+    end
+
+    def status
+      replace_via_turbo_stream(component: LlmConnections::IndexingStatusComponent.new)
+      respond_with_turbo_streams
     end
 
     private

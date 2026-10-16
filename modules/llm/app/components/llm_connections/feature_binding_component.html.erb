@@ -79,5 +79,6 @@ See COPYRIGHT and LICENSE files for more details.
                   reindex_work_package_embeddings_path,
                   method: :post,
                   class: "Button Button--secondary Button--small mt-3" %>
+    <%= render(LlmConnections::IndexingStatusComponent.new) %>
   <% end %>
 <% end %>
