@@ -149,10 +149,10 @@ services:
     volumes:
       - step:/step:ro
       - cacert:/cacert
-    command: >
-      apk add --no-cache ca-certificates >/dev/null &&
-      cat /etc/ssl/certs/ca-certificates.crt /step/certs/root_ca.crt > /cacert/ca-certificates.crt &&
-      cp /cacert/ca-certificates.crt /cacert/ca-bundle.crt
+      - ./create-ca-bundle.sh:/create-ca-bundle.sh
+    command:
+      - /create-ca-bundle.sh
+
 volumes:
   step:
   acme:
