@@ -37,7 +37,7 @@ RSpec::Matchers.define :include_route_definition do |expected|
   end
 
   def split_into_elements(path)
-    path.split("/").map { |element| is_id?(element) ? id_placeholder : element.downcase }
+    path.split("/").map { |element| is_id?(element) ? id_placeholder : element }
   end
 
   def is_id?(element)

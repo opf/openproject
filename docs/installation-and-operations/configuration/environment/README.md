@@ -147,6 +147,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_ATTACHMENT__DEFAULT__CHARSET` | `"utf-8"` | Fallback charset used when serving text attachments whose encoding was not detected on upload |
 | `OPENPROJECT_ATTACHMENT__MAX__SIZE` | `5120` | Attachment max. size |
 | `OPENPROJECT_ATTACHMENT__WHITELIST` | `[]` | Attachment upload whitelist |
+| `OPENPROJECT_ATTACHMENTS__CLEANUP__PERIOD__HOURS` | `2` | Time in hours to wait before deleting up uploaded files that were not cleaned up before |
 | `OPENPROJECT_ATTACHMENTS__GRACE__PERIOD` | `180` | Time in minutes to wait before uploaded files not attached to any container are removed |
 | `OPENPROJECT_ATTACHMENTS__STORAGE` | `:file` | File storage configuration |
 | `OPENPROJECT_ATTACHMENTS__STORAGE__PATH` | `nil` | File storage disk location (only applicable for local file storage) |
@@ -283,6 +284,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_LDAP__GROUPS__DISABLE__SYNC__JOB` | `false` | Deactivate regular synchronization job for groups in case scheduled as a separate cronjob |
 | `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB` | `false` | Deactivate user attributes synchronization from LDAP |
 | `OPENPROJECT_LDAP__USERS__SYNC__STATUS` | `false` | Enable user status (locked/unlocked) synchronization from LDAP |
+| `OPENPROJECT_LLM__CONNECTION` | `{}` | Configure the connection to an OpenAI-API-compatible LLM server through environment variables |
 | `OPENPROJECT_LLM__FEATURES__ENABLED` | `false` | Enable the AI features backed by the configured LLM connection |
 | `OPENPROJECT_LOG__LEVEL` | `"info"` | Set the OpenProject logger level |
 | `OPENPROJECT_LOG__REQUESTING__USER` | `false` | Log user login, name, and mail address for all requests |

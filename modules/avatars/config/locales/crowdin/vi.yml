@@ -3,13 +3,17 @@ vi:
   are_you_sure_delete_avatar: Bạn có chắc muốn xóa hình đại diện của bạn ?
   avatar_deleted: Hình đại diện đã xóa thành công
   avatars:
+    button_update_fallback_color: Update fallback color
     label_avatar: hình đại diện
+    label_avatar_color: Fallback color
     label_gravatar: Nhóm ảnh đại diện
     label_local_avatar: Tùy chỉnh hình đại diện
+    message_avatar_color_updated: Fallback color changed successfully.
     settings:
       enable_gravatars: Bật gravatars của người dùng
       enable_local_avatars: Cho phép người dùng tùy chỉnh hình đại diện
       gravatar_default: Hình ảnh Gravatar mặc định
+    text_avatar_color: Used as the background color of your avatar when you have no uploaded avatar.
     text_avatar_gravatar_html: OpenProject sẽ sử dụng ảnh Gravatar của bạn nếu bạn đã đăng ký tại %{gravatar_url}, hoặc sử dụng ảnh hoặc biểu tượng mặc định nếu có.
     text_avatar_local: Bạn cũng có thể tải lên một ảnh đại diện tùy chỉnh để thay thế ảnh Gravatar bằng cách nhấp vào hình ảnh. Chúng tôi khuyên bạn nên sử dụng hình ảnh có kích thước 128 × 128 pixels.
     text_avatar_local_only: Bạn có thể tải lên ảnh đại diện tùy chỉnh bằng cách nhấp vào hình ảnh. Chúng tôi khuyên bạn nên sử dụng hình ảnh có kích thước 128 × 128 pixels.

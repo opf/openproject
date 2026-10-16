@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,11 @@ module LlmServerHelpers
   DEFAULT_MODELS = [
     { id: "qwen3.6-27b", object: "model", owned_by: "vllm", max_model_len: 262_144 },
     { id: "bge-m3", object: "model", owned_by: "vllm", max_model_len: 8_192 }
+  ].freeze
+
+  DEFAULT_EMBEDDING_MODELS = [
+    { id: "voyageai/voyage-4", name: "Voyage 4", context_length: 32_000,
+      architecture: { input_modalities: ["text"], output_modalities: ["embeddings"] } }
   ].freeze
 
   # Stubs GET <base_url>/models. Returns the stub so specs can assert on how
@@ -52,6 +56,20 @@ module LlmServerHelpers
       headers: { "Content-Type" => "application/json" },
       body: body || { object: "list", data: models }.to_json
     )
+  end
+
+  # Stubs the filtered catalogue request, which is how OpenRouter serves the
+  # embedding models that GET /models leaves out.
+  def mock_llm_embedding_models_response(base_url,
+                                         models: DEFAULT_EMBEDDING_MODELS,
+                                         response_code: 200)
+    stub_request(:get, "#{base_url.chomp('/')}/models")
+      .with(query: { "output_modalities" => "embeddings" })
+      .to_return(
+        status: response_code,
+        headers: { "Content-Type" => "application/json" },
+        body: { object: "list", data: models }.to_json
+      )
   end
 
   DEFAULT_CHAT_BODY = {

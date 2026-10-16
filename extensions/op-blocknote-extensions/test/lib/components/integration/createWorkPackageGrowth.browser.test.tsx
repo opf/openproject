@@ -3,6 +3,7 @@ import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { recordFrames, untilStill } from '../../../helpers/animationHelpers';
 import {
+  DESKTOP,
   holdBackFormLoads,
   modalBody,
   modalPanel,
@@ -11,6 +12,8 @@ import {
   selectOptionNamed,
 } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
+
+const TALL_SCREEN_HEIGHT = 900;
 
 afterEach(() => { worker.resetHandlers(); });
 
@@ -73,6 +76,8 @@ describe('Create work package - growing to fit its fields', () => {
   });
 
   it('holds the scrollbar of the body back only for as long as the panel moves', async () => {
+    // A form taller than the screen scrolls anyway, so there would be no scrollbar to hold back.
+    await page.viewport(DESKTOP.width, TALL_SCREEN_HEIGHT);
     renderEditor();
     await openCreateModal();
     await untilStill(modalPanel());

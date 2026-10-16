@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -499,6 +498,11 @@ Rails.application.routes.draw do
         get :children
       end
     end
+    resource :whats_new, only: :show, controller: "whats_new" do
+      get :dialog
+      post :seen
+      post :read
+    end
   end
 
   %w[portfolio project program].each do |workspace_type|
@@ -868,18 +872,27 @@ Rails.application.routes.draw do
         get :disconnect_dialog
         post :disconnect
       end
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
     end
 
     resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
       collection do
         get :search, defaults: { format: :turbo_stream }
         post :refresh
+        patch :defaults, action: :update_defaults
       end
 
       member do
         get :delete_dialog
       end
     end
+
+    # Keyed by feature key rather than by record id: the binding is an attribute
+    # of a registered feature, and a feature may not have a row yet.
+    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
@@ -967,6 +980,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/project_custom_fields/hierarchy/items" do
@@ -1008,6 +1023,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/user_custom_fields/hierarchy/items" do
@@ -1052,6 +1069,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
       end
 
@@ -1064,6 +1083,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
       end
 
@@ -1076,6 +1097,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
       end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,8 +35,8 @@ module Llm
   # Gemini uses /v1beta/models with richer metadata, Bedrock needs AWS signing
   # rather than a bearer token, and Azure indirects through deployment names.
   #
-  # Only the OpenAI adapter is implemented. The seam exists so that adding one is
-  # a new class rather than a migration.
+  # Only the OpenAI adapter and its OpenRouter variant are implemented. The seam
+  # exists so that adding one is a new class rather than a migration.
   module Adapters
     # Inside the taxonomy, so a caller rescuing Llm::Errors::Error around
     # Adapters.for(connection).models catches this too.
@@ -78,7 +77,14 @@ module Llm
       format = connection.api_format.to_s
       raise UnsupportedFormat, format unless FORMATS.include?(format)
 
-      live_discovery?(format) ? Openai.new(connection) : RegistryBacked.new(connection)
+      adapter_class(format).new(connection)
     end
+
+    def self.adapter_class(format)
+      return RegistryBacked unless live_discovery?(format)
+
+      format == "openrouter" ? Openrouter : Openai
+    end
+    private_class_method :adapter_class
   end
 end

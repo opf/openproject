@@ -24,6 +24,7 @@ zh-TW:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: 時長
         end_time: 結束時間
         location: 地點
@@ -89,6 +90,7 @@ zh-TW:
         meeting_agenda_item:
           section_not_belong_to_meeting: 區段不屬於同一會議。
           user_invalid: 不是有效的參與者。
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: 不是有效的參與者。
         recurring_meeting:
@@ -306,6 +308,21 @@ zh-TW:
   label_view_meeting_series: 檢視會議
   label_write_outcome: 編輯結果
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.

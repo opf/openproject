@@ -847,9 +847,7 @@ fa:
     text_user_wrote: "%{value} نوشت:"
     text_work_packages_destroy_confirmation: مطمئنید می‌خواهید بسته(های) کاری انتخاب‌شده را حذف کنید؟
     time_entry:
-      stop: توقف
       title: ثبت زمان
-      tracking: ثبت زمان
       work_package_required: ابتدا باید یک بسته کاری انتخاب شود.
     timer:
       button_stop: توقف تایمر فعلی

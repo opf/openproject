@@ -847,9 +847,7 @@ da:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Er du sikker på, du vil slette de/den valgte arbejdspakke(r)?
     time_entry:
-      stop: Stop
       title: Tidsregistrering
-      tracking: Tidsregistrering
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

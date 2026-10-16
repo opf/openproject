@@ -853,9 +853,7 @@ pl:
     text_user_wrote: "%{value} napisał(a):"
     text_work_packages_destroy_confirmation: Czy na pewno chcesz usunąć wybrane pakiety robocze?
     time_entry:
-      stop: Zatrzymaj
       title: Rejestruj czas pracy
-      tracking: Zarządzanie czasem
       work_package_required: Wymaga wybrania najpierw pakietu roboczego.
     timer:
       button_stop: Zatrzymaj bieżące odliczanie

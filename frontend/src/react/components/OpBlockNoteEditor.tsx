@@ -29,6 +29,7 @@ import { BlockNoteEditorOptions, BlockNoteSchema, User } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
+import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
@@ -41,7 +42,7 @@ import {
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useHashWpMenu,
-} from 'op-blocknote-extensions';
+} from '@openproject/op-blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
@@ -98,6 +99,7 @@ export function OpBlockNoteEditor({
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
         ExternalLinkA11yExtension,
+        HeadingLinkExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],

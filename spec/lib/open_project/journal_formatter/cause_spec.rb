@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -325,8 +324,8 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       changes = [
         I18n.t("journals.cause_descriptions.working_days_changed.days.non_working", day: WeekDay.find_by!(day: 2).name),
         I18n.t("journals.cause_descriptions.working_days_changed.days.working", day: WeekDay.find_by!(day: 6).name),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: I18n.l(Date.new(2023, 1, 1))),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: I18n.l(Date.new(2023, 12, 24)))
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: format_date(Date.new(2023, 1, 1))),
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: format_date(Date.new(2023, 12, 24)))
       ].join(", ")
       expect(cause).to render_html_variant(
         "<strong>#{I18n.t('journals.caused_changes.dates_changed')}</strong> " \
@@ -338,13 +337,22 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       changes = [
         I18n.t("journals.cause_descriptions.working_days_changed.days.non_working", day: WeekDay.find_by!(day: 2).name),
         I18n.t("journals.cause_descriptions.working_days_changed.days.working", day: WeekDay.find_by!(day: 6).name),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: I18n.l(Date.new(2023, 1, 1))),
-        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: I18n.l(Date.new(2023, 12, 24)))
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.working", date: format_date(Date.new(2023, 1, 1))),
+        I18n.t("journals.cause_descriptions.working_days_changed.dates.non_working", date: format_date(Date.new(2023, 12, 24)))
       ].join(", ")
       expect(cause).to render_raw_variant(
         "#{I18n.t('journals.caused_changes.dates_changed')} " \
         "#{I18n.t('journals.cause_descriptions.working_days_changed.changed', changes:)}"
       )
+    end
+
+    context "with a date format preference" do
+      current_user { build_stubbed(:user, preferences: { date_format: "%d.%m.%Y" }) }
+
+      it "formats the dates according to the preference" do
+        expect(render(cause, html: false))
+          .to include("01.01.2023", "24.12.2023")
+      end
     end
   end
 
