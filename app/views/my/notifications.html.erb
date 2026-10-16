@@ -29,6 +29,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_my_account), t("my_account.notifications_and_email.title")) -%>
 
+<% content_for :header_tags do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
 <%= render(My::Notifications::ShowPageHeaderComponent.new) %>
 
 <% if params[:tab] == "reminders" %>
