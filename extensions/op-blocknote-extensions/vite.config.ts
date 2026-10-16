@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { readFileSync } from 'node:fs';
-import { yaml } from './vite-plugin-yaml';
 
 const __dirname = path.resolve();
 
@@ -12,7 +11,7 @@ const { buildExternals } = JSON.parse(
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), yaml()],
+  plugins: [react()],
   build: {
     lib: {
       entry: {

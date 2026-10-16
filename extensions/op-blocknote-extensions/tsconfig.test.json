@@ -11,7 +11,6 @@
     "global.d.ts",
     "vite.config.ts",
     "vitest.config.ts",
-    "vitest.browser.config.ts",
-    "vite-plugin-yaml.ts"
+    "vitest.browser.config.ts"
   ]
 }

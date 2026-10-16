@@ -38,7 +38,6 @@ export default defineConfig([
             'vite.config.ts',
             'vitest.config.ts',
             'vitest.browser.config.ts',
-            'vite-plugin-yaml.ts',
             'global.d.ts',
           ],
           defaultProject: './tsconfig.test.json',
