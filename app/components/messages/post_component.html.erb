@@ -55,3 +55,6 @@
     end
   end
 %>
+<% @work_packages.each do |work_package| %>
+  <%= created_work_package_branch(work_package) %>
+<% end %>
