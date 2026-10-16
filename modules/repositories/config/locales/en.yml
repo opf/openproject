@@ -1,0 +1,14 @@
+---
+en:
+  activerecord:
+    attributes: {}
+    errors:
+      models: {}
+    models:
+      repositories/gitlab_provider:
+        one: Gitlab provider
+        other: Gitlab providers
+      repositories/provider:
+        one: Repository provider
+        other: Repository providers
+  repositories: {}
