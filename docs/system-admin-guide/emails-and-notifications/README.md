@@ -16,7 +16,7 @@ Navigate to **Administration → Emails and notifications**.
 | [Aggregation](#aggregation)                          | Configure how individual actions are aggregated into a single action. |
 | [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications.               |
 | [Incoming emails](#incoming-emails-settings)         | How to configure settings for inbound emails.                |
-| [Browser push notifications](#browser-push-notifications) | How to let users receive push notifications in the installed desktop application. |
+| [Browser notifications](#browser-notifications) | How to let users receive operating system notifications from the installed desktop application. |
 
 ## Aggregation
 
@@ -61,19 +61,19 @@ To configure **Incoming emails** in OpenProject, navigate to **Administration �
 
 **To configure individual email reminders**, please visit our [User guide](../../user-guide/account-settings/notification-and-email/#email-reminders).
 
-## Browser push notifications
+## Browser notifications
 
-Navigate to **Administration → Emails and notifications → Browser push notifications**. The page has a checkbox, **Browser push notifications**, which is enabled by default. It also has a reachability check and a VAPID key section, both described below.
+Navigate to **Administration → Emails and notifications → Browser notifications**. The page offers two options, **Do not allow browser notifications** and **Allow browser notifications**. Browser notifications are not allowed by default. Once you allow them and save, the page also shows a reachability check and a way to renew the signing key, both described below.
 
 The page is only available while the **Progressive web app** feature flag is active under **Administration → Experimental features**.
 
-When the setting is enabled, users who have installed OpenProject as a desktop application can turn on browser push for each of their devices under **My account → Notifications → Browser push**. This works in Chrome, Edge and Safari on macOS. Firefox on desktop does not install web applications, but it supports browser push from a normal browser tab while Firefox is running. When a subscribed user has unread notifications, the instance sends a push that wakes the application. The application then shows a notification and updates the badge on its icon.
+When browser notifications are allowed, users who have installed OpenProject as a desktop application can turn them on for each of their devices under **My account → Notifications → Browser notifications**. This works in Chrome, Edge and Safari on macOS. Firefox on desktop does not install web applications, but it supports browser notifications from a normal browser tab while Firefox is running. When a subscribed user has unread notifications, the instance sends a push that wakes the application. The application then shows a notification and updates the badge on its icon.
 
-The operating system notification shows the actor and the work package subject of the latest unread notification. Projects with sensitive work package subjects may prefer to keep the setting off.
+The operating system notification shows the actor and the work package subject of the latest unread notification. Projects with sensitive work package subjects may prefer to keep browser notifications off.
 
 The instance sends at most one push per user per minute. Each push is sent with low urgency and a time to live of one hour.
 
-**To enable browser push on a device**, please visit our [User guide](../../user-guide/account-settings/notification-and-email/#browser-push).
+**To turn on browser notifications on a device**, please visit our [User guide](../../user-guide/account-settings/notification-and-email/#browser-notifications).
 
 ### Data protection
 
@@ -83,7 +83,7 @@ The vendor push services (Google, Mozilla, Microsoft, Apple) do see the followin
 
 - The subscription endpoint, a per-device identifier the browser created.
 - The outgoing IP address of the instance.
-- The VAPID public key of the instance.
+- The public key of the instance.
 - The time of each push.
 
 ### Network requirements
@@ -97,13 +97,13 @@ The instance must be able to reach the following hosts over HTTPS:
 
 Subdomains of these hosts are included. Operators can extend the list with the `OPENPROJECT_WEB__PUSH__SERVICE__HOSTS` environment variable, as a comma separated list of hosts.
 
-Click **Check reachability** to test this from the instance. The results show **Reachable** or **Unreachable** for each host, with a reason for every host that cannot be reached.
+Click **Verify reachability** to test this from the instance. The results show **Reachable** or **Unreachable** for each host, with a reason for every host that cannot be reached.
 
-Air-gapped instances cannot use browser push. The checkbox can stay enabled without harm; nothing is sent until a user subscribes a device.
+Air-gapped instances cannot use browser notifications. Allowing them does no harm there; nothing is sent until a user turns them on for a device.
 
 ### Subscription lifecycle
 
-Switching the setting off deletes every stored subscription immediately.
+Choosing **Do not allow browser notifications** deletes every stored subscription immediately.
 
 A subscription is also removed when:
 
@@ -112,11 +112,11 @@ A subscription is also removed when:
 - the user is locked or deleted,
 - the push service reports that the endpoint is gone.
 
-Pausing reminders in **My account** also pauses browser push.
+Pausing reminders in **My account** also pauses browser notifications.
 
-### VAPID key
+### Signing key
 
-The instance signs each push with a VAPID key. The key is generated on first use and stored encrypted in the database.
+The instance signs each push with a key the push services trust, a so-called VAPID key. The key is generated on first use and stored encrypted in the database.
 
 To supply your own key, set the environment variable `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` to the base64 encoding of a PKCS#8 DER P-256 private key. The following command generates a suitable value:
 
@@ -126,14 +126,14 @@ openssl ecparam -name prime256v1 -genkey -noout | openssl pkcs8 -topk8 -nocrypt 
 
 Each push is signed with the root URL of your instance as its subject, the contact the instance presents to the push services. Apple's push service only accepts a subject on a publicly registered domain, so Safari users on an instance with an intranet hostname receive no pushes. Chrome, Edge and Firefox accept any subject.
 
-Changing or rotating the key invalidates every subscription. Users then enable push again on each device.
+Changing or rotating the key invalidates every subscription. Users then turn browser notifications on again on each device.
 
-If the stored key can no longer be read, for example after the instance secret key base changed, the page shows a banner and browser push stays unavailable to users. Click **Regenerate key** to create a new key. You can also use this button to rotate the key on purpose. Regenerating the key deletes every subscription, so users need to enable push again on each of their devices.
+Click **Renew keys** to rotate the key on purpose. A dialog explains the consequences, shows how many subscriptions will be deleted and asks you to confirm. If the stored key can no longer be read, for example after the instance secret key base changed, the page shows a banner and browser notifications stay unavailable to users until you renew the key the same way. When the key comes from the environment variable, the page says so instead of offering to renew it.
 
 ### Storage
 
-Subscriptions are stored in an unlogged database table, like sessions. They do not survive an unclean database restart. Users then enable push again on each device.
+Subscriptions are stored in an unlogged database table, like sessions. They do not survive an unclean database restart. Users then turn browser notifications on again on each device.
 
 ### Troubleshooting
 
-**Pushes reach Chrome but not Safari on macOS.** If the log shows a warning such as `Push service web.push.apple.com answered 403 for subscription 12`, Apple rejected the signed push because the instance root URL is not on a publicly registered domain, which is the case for intranet hostnames. Browser push for Safari needs an instance reachable under a public domain.
+**Pushes reach Chrome but not Safari on macOS.** If the log shows a warning such as `Push service web.push.apple.com answered 403 for subscription 12`, Apple rejected the signed push because the instance root URL is not on a publicly registered domain, which is the case for intranet hostnames. Browser notifications for Safari need an instance reachable under a public domain.
