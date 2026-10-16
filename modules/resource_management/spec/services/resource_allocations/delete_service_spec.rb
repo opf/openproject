@@ -50,6 +50,31 @@ RSpec.describe ResourceAllocations::DeleteService, type: :model do
       expect { service_call }.to change(ResourceAllocation, :count).by(-1)
       expect(service_call).to be_success
     end
+
+    describe "updating the schedule" do
+      let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+      before { allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service) }
+
+      it "recomputes the principal's schedule from the start date" do
+        service_call
+
+        expect(schedule_service).to have_received(:call)
+          .once.with(users: [owner], from: resource_allocation.start_date)
+      end
+
+      context "when the allocation is not allocated" do
+        let!(:resource_allocation) do
+          create(:resource_allocation, entity: work_package, principal: owner, state: "canceled")
+        end
+
+        it "does not recompute" do
+          service_call
+
+          expect(schedule_service).not_to have_received(:call)
+        end
+      end
+    end
   end
 
   context "when user lacks allocate_user_resources" do
