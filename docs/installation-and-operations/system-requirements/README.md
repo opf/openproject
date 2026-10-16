@@ -34,6 +34,8 @@ OpenProject currently requires some bundled extensions, that should be available
 - [btree_gist: GiST operator classes with B-tree behavior](https://www.postgresql.org/docs/current/btree-gist.html)
 - [unaccent: a text search dictionary which removes diacritics](https://www.postgresql.org/docs/current/unaccent.html)
 
+OpenProject requires `pgvector`.
+
 Additionally, OpenProject will try to create a [custom collation](https://www.postgresql.org/docs/current/collation.html) for version sorting that depends on `und-u-kn-true` ICU collation.
 
 ## Scaling requirements
