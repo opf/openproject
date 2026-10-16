@@ -534,4 +534,29 @@ RSpec.describe Attachment do
       end
     end
   end
+
+  describe ".clean_cached_files!" do
+    let(:storage) { instance_double(CarrierWave::Storage::File, clean_cache!: nil) }
+
+    before do
+      allow(CarrierWave::Storage::File).to receive(:new).and_return(storage)
+    end
+
+    it "removes CarrierWave workfiles older than the given age and keeps newer ones" do
+      Dir.mktmpdir do |dir|
+        allow(CarrierWave).to receive(:tmp_path).and_return(dir)
+
+        old_dir = File.join(dir, "#{10.days.ago.utc.to_i}-1-0001-0002")
+        fresh_dir = File.join(dir, "#{Time.zone.now.to_i}-1-0001-0003")
+        FileUtils.mkdir_p(old_dir)
+        FileUtils.mkdir_p(fresh_dir)
+
+        described_class.clean_cached_files!(age_in_seconds: 1.day.to_i)
+
+        expect(File).not_to exist(old_dir)
+        expect(File).to exist(fresh_dir)
+        expect(storage).to have_received(:clean_cache!).with(1.day.to_i)
+      end
+    end
+  end
 end
