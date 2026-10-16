@@ -6,7 +6,7 @@
   "private": true,
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^22.0.0",
-    "@angular/build": "22.2.1",
+    "@angular/build": "22.1.9",
     "@angular/language-service": "22.2.1",
     "@eslint/js": "^10.0.1",
     "@html-eslint/eslint-plugin": "^0.66.1",
