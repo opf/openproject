@@ -30,6 +30,22 @@
 
 require "resolv"
 
+# Server side of the Web Push protocol with VAPID signing.
+#
+#   browser        --subscribe-------------> push service
+#   push service   --endpoint URL + keys---> browser --------> OpenProject
+#   OpenProject    --signed POST, no body--> push service ---> device wakes
+#   service worker --GET /push-notification, session cookie--> OpenProject
+#
+# The POST is signed with the instance's VAPID key so the push service can
+# tell which application server is calling. The push carries no content;
+# the (service) worker fetches it over the user's own session once awake.
+#
+# Every subscription is pinned to the public key it was created with, so
+# rotating the key invalidates all of them at once.
+#
+# @see https://datatracker.ietf.org/doc/html/rfc8030 Web Push
+# @see https://datatracker.ietf.org/doc/html/rfc8292 VAPID
 module OpenProject::WebPush
   VAPID_CURVE = "prime256v1"
   HOST_PATTERN = /\A[a-z0-9-]+(\.[a-z0-9-]+)*\z/
@@ -67,6 +83,8 @@ module OpenProject::WebPush
     OpenProject::FeatureDecisions.progressive_web_app_active? && Setting.web_push_enabled?
   end
 
+  # The contact the push services see in every signed push. Apple only
+  # accepts a subject on a publicly registered domain.
   def subject
     OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
   end
@@ -75,6 +93,12 @@ module OpenProject::WebPush
     vapid_key.public_key
   end
 
+  # The signing key as the web-push gem expects it.
+  #
+  # @raise [UnreadableKey] when the stored value does not yield a private
+  #   P-256 key, whether missing, garbled or encrypted under a previous
+  #   secret key base. One error for all causes, since the only remedy is
+  #   regenerating the key.
   def vapid_key
     key = OpenSSL::PKey::EC.new(Base64.strict_decode64(private_key_der_b64))
     raise UnreadableKey unless key.private? && key.group.curve_name == VAPID_CURVE
