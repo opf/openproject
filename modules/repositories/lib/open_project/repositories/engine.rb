@@ -39,6 +39,33 @@ module OpenProject::Repositories
     include OpenProject::Plugins::ActsAsOpEngine
 
     register "openproject-repositories", author_url: "https://openproject.org", bundled: true do
+      menu :work_package_split_view,
+           :repositories,
+           { tab: :repositories },
+           if: ->(_project) {
+             # TODO: Do we need a separate permissions check to see repositories?
+             Repositories::Provider.exists?
+           },
+           skip_permissions_check: true,
+           badge: ->(work_package:, **) {
+             work_package.repository_merge_requests.count +
+             work_package.repository_issues.count +
+             work_package.repository_branches.count +
+             work_package.repository_commits.count
+           },
+           before: :watchers
+    end
+
+    # TODO: rename to repositories
+    initializer "gitlab.resource_colors" do
+      Rails.application.reloader.to_prepare do
+        ::Highlighting::Registry.register_static(key: "gitlab_issue_status",
+                                                 values: ::Repositories::IssueStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_merge_request_status",
+                                                 values: ::Repositories::MergeRequestStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_pipeline_status",
+                                                 values: ::Repositories::PipelineStatuses::AVAILABLE)
+      end
     end
 
     include_module "WorkPackages::Repositories", into: "WorkPackage"

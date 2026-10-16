@@ -29,5 +29,14 @@
 #++
 
 Rails.application.routes.draw do
-  # TODO
+  resources :projects, only: %i[] do
+    resources :work_packages, only: %i[] do
+      resources :repositories, controller: "work_package_repositories_tab", only: %i[] do
+        collection do
+          get :tab
+          get :git_snippets_dialog
+        end
+      end
+    end
+  end
 end

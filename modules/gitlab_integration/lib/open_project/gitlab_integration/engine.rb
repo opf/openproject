@@ -71,22 +71,6 @@ module OpenProject::GitlabIntegration
                    {},
                    permissible_on: %i[work_package project])
       end
-
-      menu :work_package_split_view,
-           :gitlab,
-           { tab: :gitlab },
-           if: ->(project) {
-             User.current.allowed_in_project?(:show_gitlab_content, project)
-           },
-           skip_permissions_check: true,
-           badge: ->(work_package:, **) {
-             work_package.gitlab_merge_requests.count +
-               work_package.gitlab_issues.count +
-               work_package.gitlab_branches.count +
-               work_package.gitlab_commits.count
-           },
-           before: :watchers,
-           caption: :project_module_github
     end
 
     patches %w[WorkPackage]
@@ -94,17 +78,6 @@ module OpenProject::GitlabIntegration
     initializer "gitlab.register_hook" do
       ::OpenProject::Webhooks.register_hook "gitlab" do |hook, environment, params, user|
         HookHandler.new.process(hook, environment, params, user)
-      end
-    end
-
-    initializer "gitlab.resource_colors" do
-      Rails.application.reloader.to_prepare do
-        ::Highlighting::Registry.register_static(key: "gitlab_issue_status",
-                                                 values: ::GitlabIntegration::IssueStatuses::AVAILABLE)
-        ::Highlighting::Registry.register_static(key: "gitlab_merge_request_status",
-                                                 values: ::GitlabIntegration::MergeRequestStatuses::AVAILABLE)
-        ::Highlighting::Registry.register_static(key: "gitlab_pipeline_status",
-                                                 values: ::GitlabIntegration::PipelineStatuses::AVAILABLE)
       end
     end
 
