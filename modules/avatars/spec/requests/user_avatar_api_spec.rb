@@ -209,4 +209,47 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       end
     end
   end
+
+  describe "/avatar?source=image" do
+    let(:other_user) do
+      create(:user).tap do |user|
+        user.attachments = [build(:avatar_attachment, author: user)]
+        user.pref.update!(settings: { avatar_type: "initials" })
+      end
+    end
+
+    before do
+      allow(Setting)
+        .to receive(:plugin_openproject_avatars)
+        .and_return(enable_gravatars: true, enable_local_avatars: true)
+
+      get "#{api_v3_paths.user(other_user.id)}/avatar?source=image"
+    end
+
+    it "serves the stored image to an administrator while initials are selected" do
+      expect(response).to have_http_status :ok
+      expect(response.content_type).not_to eq "image/svg+xml"
+      expect(response.headers["Cache-Control"]).not_to include "public"
+    end
+
+    context "as the user" do
+      let(:current_user) { other_user }
+
+      it "serves the stored image" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).not_to eq "image/svg+xml"
+      end
+    end
+
+    context "as another user who can see the user" do
+      let(:current_user) { create(:user, global_permissions: %i[view_all_principals]) }
+
+      it "does not serve the stored image" do
+        expect(response).to have_http_status :not_found
+
+        get "#{api_v3_paths.user(other_user.id)}/avatar"
+        expect(last_response).to have_http_status :ok
+      end
+    end
+  end
 end

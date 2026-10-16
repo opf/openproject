@@ -36,6 +36,19 @@ RSpec.describe Avatars::SettingsService do
 
   it_behaves_like "avatar settings with an image"
 
+  it "rejects the image source when no image exists" do
+    result = service.call(attributes: { avatar_type: "image" })
+
+    expect(result).not_to be_success
+    expect(result.errors[:base]).to include I18n.t("avatars.image_required")
+    expect(principal.reload.avatar_type).to be_nil
+  end
+
+  it "changes the cache key of the user when only the source changes" do
+    expect { service.call(attributes: { avatar_type: "initials" }) }
+      .to change { principal.reload.updated_at }
+  end
+
   context "for a group" do
     let(:user) { create(:admin) }
     let(:principal) { create(:group) }

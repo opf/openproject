@@ -36,6 +36,14 @@ module API
         helpers ::API::Helpers::AttachmentRenderer
         helpers ::API::Caching::Helpers
 
+        helpers do
+          def render_uploaded_image
+            raise ::API::Errors::NotFound unless current_user.admin?
+
+            respond_with_attachment(local_avatar?(@group) || raise(::API::Errors::NotFound))
+          end
+        end
+
         # Groups have no email address, so there is no Gravatar fallback here,
         # unlike the equivalent user endpoint.
         #
@@ -48,10 +56,13 @@ module API
         # cache (a cheap 304 when nothing changed) while guaranteeing every
         # view reflects the current avatar on the next load.
         get "/avatar" do
-          header "Cache-Control", "public, max-age=0, must-revalidate"
-          with_etag! [@group.id, @group.detail&.updated_at, @group.local_avatar_attachment&.updated_at]
+          next render_uploaded_image if params[:source] == "image"
 
-          if avatar_manager.avatar_type_for(@group) == "image" && (local_avatar = local_avatar?(@group))
+          avatar_type = avatar_manager.avatar_type_for(@group)
+          header "Cache-Control", "public, max-age=0, must-revalidate"
+          with_etag! [@group.id, @group.detail&.updated_at, @group.local_avatar_attachment&.updated_at, avatar_type]
+
+          if avatar_type == "image" && (local_avatar = local_avatar?(@group))
             respond_with_attachment(local_avatar)
           else
             content_type "image/svg+xml"
