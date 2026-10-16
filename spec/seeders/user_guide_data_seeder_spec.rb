@@ -56,6 +56,10 @@ RSpec.describe UserGuideDataSeeder do
     expect(mia.roles_for_project(project).map(&:name)).to contain_exactly("Project admin")
   end
 
+  it "gives each user a fixed avatar color" do
+    expect(User.where(login: %w[mia.bayer jonas.weber amara.okafor]).map { it.pref.avatar_color }).to all(be_present)
+  end
+
   it "seeds the forums in order, the last one empty", :aggregate_failures do
     expect(project.forums.order(:position).map(&:name))
       .to eq(["Customer feedback", "Usability topics", "Download and installation"])
