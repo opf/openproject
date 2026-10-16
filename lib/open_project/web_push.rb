@@ -46,11 +46,8 @@ module OpenProject::WebPush
   module_function
 
   def push_service_hosts
-    list = Setting.web_push_service_hosts
-    list = list.split(/[\s,]+/) if list.is_a?(String)
-
-    Array(list).filter_map do |entry|
-      host = entry.to_s.strip.downcase.delete_suffix(".")
+    Array(Setting.web_push_service_hosts).flat_map { it.to_s.split(/[\s,]+/) }.filter_map do |entry|
+      host = entry.downcase.delete_suffix(".")
       host if host.match?(HOST_PATTERN)
     end
   end
