@@ -56,8 +56,9 @@ RSpec.describe "My account browser notifications",
     visit my_notifications_path(tab: "push")
     expect(page).to have_text(I18n.t("my_account.push_notifications.no_devices"))
 
-    other_session = create(:user_session, user:, data: { browser: "Safari", browser_version: "17", platform: "iOS" })
-    create(:push_subscription, user:, session: Sessions::UserSession.find_by!(session_id: other_session.session_id))
+    other_session = create(:user_session, user:)
+    create(:push_subscription, user:, session: Sessions::UserSession.find_by!(session_id: other_session.session_id),
+                               browser_name: "Safari", browser_version: "17", platform: "iOS")
 
     click_on I18n.t(:label_account)
     expect(page).to have_current_path(my_account_path, wait: 10)
