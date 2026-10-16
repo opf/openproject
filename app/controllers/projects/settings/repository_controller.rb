@@ -43,7 +43,7 @@ class Projects::Settings::RepositoryController < Projects::SettingsController
     if service.build_temporary
       @repository = service.repository
     else
-      logger.error("Cannot create repository for #{params[:scm_vendor]}")
+      logger.error("Cannot create repository for #{params[:scm_vendor].inspect}")
       flash[:error] = service.build_error
       nil
     end
