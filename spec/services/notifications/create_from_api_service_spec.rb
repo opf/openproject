@@ -49,7 +49,7 @@ RSpec.describe Notifications::CreateFromApiService do
     instance.call(reason:, resource_type:, resource_id: document.id, recipient_id:)
   end
 
-  it "creates a mention notification without journal, only to be sent out by mail" do
+  it "creates an unread in-app mention notification without journal" do
     expect(service_call).to be_success
     expect(service_call.result)
       .to be_persisted
@@ -58,7 +58,7 @@ RSpec.describe Notifications::CreateFromApiService do
                            actor: user,
                            reason: "mentioned",
                            journal: nil,
-                           read_ian: nil,
+                           read_ian: false,
                            mail_reminder_sent: nil)
   end
 
@@ -83,7 +83,7 @@ RSpec.describe Notifications::CreateFromApiService do
 
       expect(service_call.result)
         .to be_persisted
-        .and have_attributes(recipient: recipient_without_mention_mails, read_ian: nil)
+        .and have_attributes(recipient: recipient_without_mention_mails, read_ian: false)
       expect(service_call.result.reload.mail_alert_sent).to be_nil
     end
   end
