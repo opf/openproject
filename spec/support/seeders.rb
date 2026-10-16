@@ -56,3 +56,11 @@ RSpec.shared_context "with basic seed data" do |edition: "standard"|
     needed_seeders.each { |seeder| seeder.new(basic_seed_data).seed! }
   end
 end
+
+RSpec.shared_context "with user guide seed data" do
+  shared_let(:user_guide_seeding) do
+    RootSeeder.new(seed_development_data: false).seed_data! do |root_seeder|
+      UserGuideDataSeeder.new(root_seeder.seed_data).seed!
+    end
+  end
+end
