@@ -62,12 +62,38 @@ module DocsScreenshots
     })();
   JS
 
+  # The headless browser has no pointer and ignores emulating one, so it styles the page as a touch
+  # screen. The rules meant for a mouse are appended unconditionally instead, reading stylesheets
+  # served from another origin, like the frontend dev server's, from their source.
+  UNREADABLE_SHEETS_JS = <<~JS
+    [...document.styleSheets]
+      .filter((sheet) => { try { sheet.cssRules; return false; } catch { return true; } })
+      .map((sheet) => sheet.href)
+  JS
+  MOUSE_RULES_JS = <<~'JS'
+    const mouse = /\((any-)?(hover: *hover|pointer: *fine)\)/;
+    const collect = (container) => [...container.cssRules].flatMap((rule) => {
+      if (rule instanceof CSSMediaRule && mouse.test(rule.conditionText)) return [...rule.cssRules].map((inner) => inner.cssText);
+      return rule.cssRules ? collect(rule) : [];
+    });
+    const readable = [...document.styleSheets].filter((sheet) => { try { return sheet.cssRules; } catch { return false; } });
+    const parsed = arguments[0].map((text) => { const sheet = new CSSStyleSheet(); sheet.replaceSync(text); return sheet; });
+    const style = document.createElement("style");
+    style.textContent = [...readable, ...parsed].flatMap(collect).join("\n");
+    document.head.append(style);
+  JS
+
+  def self.stylesheet_source(href)
+    (@stylesheet_sources ||= {})[href] ||= Net::HTTP.get(URI(href))
+  end
+
   def docs_screenshot(name, crop: nil)
     expect(page).to have_css(".top-menu-search")
     page.driver.wait_for_network_idle
     page.execute_script(<<~JS, STILL_PAGE_CSS)
       document.head.insertAdjacentHTML("beforeend", `<style>${arguments[0]}</style>`)
     JS
+    page.execute_script(MOUSE_RULES_JS, page.evaluate_script(UNREADABLE_SHEETS_JS).map { DocsScreenshots.stylesheet_source(it) })
 
     area = page.evaluate_script("(function() { #{CONTENT_AREA_JS} }).apply(null, arguments)", crop) if crop
     page.driver.browser.screenshot(path: Rails.root.join("docs/user-guide/#{name}.png").to_s, area:, scale: SCALE)
