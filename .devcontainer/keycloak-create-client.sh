@@ -2,9 +2,12 @@
 
 set -euo pipefail
 
+set -x
+
+rm -f /tmp/kcadm-truststore.p12
 keytool -importcert -noprompt \
-  -alias ca-certificates \
-  -file /tls/ca-certificates.crt \
+  -alias local \
+  -file /tls/root_ca.crt \
   -keystore /tmp/kcadm-truststore.p12 -storetype PKCS12 \
   -storepass changeme
 
