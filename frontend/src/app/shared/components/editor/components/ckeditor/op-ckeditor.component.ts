@@ -52,6 +52,13 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   @Input() context:ICKEditorContext;
 
+  /**
+   * Return the current content. This may be outdated a tiny bit.
+   */
+  public get content():string {
+    return this._content;
+  }
+
   @Input()
   public set content(newVal:string) {
     this._content = newVal || '';
@@ -189,13 +196,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
       return this._content;
     }
-  }
-
-  /**
-   * Return the current content. This may be outdated a tiny bit.
-   */
-  public get content() {
-    return this._content;
   }
 
   public get initialized():boolean {
