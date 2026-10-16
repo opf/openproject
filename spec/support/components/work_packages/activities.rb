@@ -183,12 +183,6 @@ module Components
         end.to eq(0)
       end
 
-      def expect_journal_container_at_position(position)
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-
-        expect(scroll_position).to be_within(50).of(scroll_position - position)
-      end
-
       def expect_journal_in_view(journal)
         entry = page.find("[data-anchor-comment-id='#{journal.id}']")
         wait_for do

@@ -264,7 +264,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         end
       end
 
-      context "when a work package is closed" do
+      context "when a work package is closed", driver: :rack_test, js: false do
         let(:params) { [{ q: query, scope: "all" }] }
         let(:run_visit) { false }
         let(:work_package) { work_packages.last }
@@ -447,7 +447,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
   end
 
   describe "when semantic work package IDs are active",
-           with_settings: { work_packages_identifier: "semantic" } do
+           driver: :rack_test, js: false, with_settings: { work_packages_identifier: "semantic" } do
     let(:run_visit) { false }
     let(:semantic_project) { create(:project, :semantic) }
     let(:semantic_wp) do
@@ -469,7 +469,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     end
   end
 
-  describe "search for notes" do
+  describe "search for notes", driver: :rack_test, js: false do
     let(:work_package) { work_packages[0] }
     let!(:note_one) do
       create(:work_package_journal,
@@ -485,9 +485,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     end
 
     it "highlights last note" do
-      global_search.search "note"
-      global_search.submit_in_global_scope
-      global_search.open_tab "All"
+      visit search_path(q: "note", scope: "all")
 
       within("dt.work_package-note + dd") do
         expect(page).to have_css(".description", text: note_two.notes)
@@ -541,7 +539,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
       it_behaves_like "finds the project"
 
-      describe "searching for list project custom field" do
+      describe "searching for list project custom field", driver: :rack_test, js: false do
         let(:possible_values) { %w[Value1 Value2 Value3] }
         let!(:project_list_cf) do
           create(:list_project_custom_field,
@@ -555,6 +553,10 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
           end
         end
         let(:query) { project_list_cf.possible_values.pick(:value) }
+
+        subject do
+          visit search_path(q: query, scope: "all", filter: "projects")
+        end
 
         it_behaves_like "finds the project"
 
@@ -587,7 +589,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     end
   end
 
-  describe "pagination" do
+  describe "pagination", driver: :rack_test, js: false do
     context "for project wide search" do
       it "works" do
         expect_range 13, 22

@@ -179,6 +179,21 @@ RSpec.describe Project, "customizable" do
         end
       end
     end
+
+    describe "#custom_field_changes" do
+      let(:multi_list_custom_field) do
+        create(:list_project_custom_field, multi_value: true, possible_values: ["First", "Second"])
+      end
+
+      it "reports sorted changes for a multi-value field" do
+        project.project_custom_fields << multi_list_custom_field
+        values = multi_list_custom_field.custom_options.reverse.map { it.id.to_s }
+        project.custom_field_values = { multi_list_custom_field.id => values }
+
+        expect(project.custom_field_changes)
+          .to eq(multi_list_custom_field.attribute_name => [[], values.sort])
+      end
+    end
   end
 
   context "when creating with custom field values" do
