@@ -264,7 +264,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     TypeVariant
       .pluck(:default_work_package_description)
       .compact
-      .map(&method(:normalize_whitespace))
+      .map { |desc| normalize_whitespace(desc) }
       .include?(normalize_whitespace(work_package.description))
   end
 

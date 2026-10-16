@@ -87,7 +87,7 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            properties = changed_properties_as_api_name.select(&method(:property_supported?)) + STATIC_NON_LINK_PROPERTIES
+            properties = changed_properties_as_api_name.select { |prop| property_supported?(prop) } + STATIC_NON_LINK_PROPERTIES
 
             if represented.exists_at_timestamp?
               properties + STATIC_LINK_PROPERTIES

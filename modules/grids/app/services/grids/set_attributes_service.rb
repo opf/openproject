@@ -119,7 +119,7 @@ class Grids::SetAttributesService < BaseServices::SetAttributes
     return if widgets&.any? || model.persisted?
 
     # As it is a new record, we can do direct assignments without risking saving.
-    model.widgets = model.widgets.select(&method(:allowed_widget?))
+    model.widgets = model.widgets.select { |widget| allowed_widget?(widget) }
   end
 
   def allowed_widget?(widget)

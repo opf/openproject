@@ -109,16 +109,13 @@ module OpenProject::GitlabIntegration
     end
 
     initializer "gitlab.subscribe_to_notifications" do
-      ::OpenProject::Notifications.subscribe("gitlab.merge_request_hook",
-                                             &NotificationHandlers.method(:merge_request_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.note_hook",
-                                             &NotificationHandlers.method(:note_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.issue_hook",
-                                             &NotificationHandlers.method(:issue_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.push_hook",
-                                             &NotificationHandlers.method(:push_hook))
-      ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook",
-                                             &NotificationHandlers.method(:pipeline_hook))
+      ::OpenProject::Notifications.subscribe("gitlab.merge_request_hook") do |payload|
+        NotificationHandlers.merge_request_hook(payload)
+      end
+      ::OpenProject::Notifications.subscribe("gitlab.note_hook") { |payload| NotificationHandlers.note_hook(payload) }
+      ::OpenProject::Notifications.subscribe("gitlab.issue_hook") { |payload| NotificationHandlers.issue_hook(payload) }
+      ::OpenProject::Notifications.subscribe("gitlab.push_hook") { |payload| NotificationHandlers.push_hook(payload) }
+      ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook") { |payload| NotificationHandlers.pipeline_hook(payload) }
     end
 
     extend_api_response(:v3, :work_packages, :work_package,
