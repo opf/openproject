@@ -84,10 +84,27 @@ class FogFileUploader < CarrierWave::Uploader::Base
     @remote_file || file
   end
 
+  DOWNLOADS_KEY = :fog_file_uploader_downloads
+
+  def self.discard_downloads
+    ActiveSupport::IsolatedExecutionState.delete(DOWNLOADS_KEY)&.each(&:discard_download)
+  end
+
   def local_file
     @remote_file ||= file
+    downloading = !cached?
     cache_stored_file!
+    remember_download if downloading
     super
+  end
+
+  def discard_download
+    return unless cached? && cache_id == @download_cache_id
+
+    FileUtils.rm_rf(cache_path(nil))
+    @file = @remote_file
+    @cache_id = @download_cache_id = nil
+    self.staged = false
   end
 
   ##
@@ -144,6 +161,13 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def remember_download
+    @download_cache_id = cache_id
+    return unless Rails.application.executor.active?
+
+    (ActiveSupport::IsolatedExecutionState[DOWNLOADS_KEY] ||= []) << self
+  end
 
   def fog_directory_files
     storage.connection.directories.new(key: fog_directory, public: fog_public).files
