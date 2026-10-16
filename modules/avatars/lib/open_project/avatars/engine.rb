@@ -33,6 +33,16 @@ module OpenProject::Avatars
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "avatars.settings_search" do
+      ::Settings::Pages.draw do
+        page :avatars, menu_item: :user_avatars do
+          %i[enable_gravatars enable_local_avatars].each do |name|
+            setting :plugin_openproject_avatars, field: "settings[#{name}]", label: :"avatars.settings.#{name}"
+          end
+        end
+      end
+    end
+
     register "openproject-avatars",
              author_url: "https://www.openproject.org",
              settings: {

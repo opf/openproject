@@ -129,6 +129,7 @@ Settings::Pages.draw do
     setting :work_package_startdate_is_adddate
     setting :work_package_list_default_highlighting_mode
     setting :work_package_list_default_highlighted_attributes
+    setting :work_package_list_default_columns, form_field: false, label: :setting_column_options
   end
 
   page :work_packages_identifier, menu_item: :work_packages_identifier do
@@ -320,5 +321,97 @@ Settings::Pages.draw do
     setting :antivirus_scan_mode
     setting :antivirus_scan_target, if: -> { Setting.antivirus_scan_mode != :disabled }
     setting :antivirus_scan_action, if: -> { Setting.antivirus_scan_mode != :disabled }
+  end
+
+  page :user_list, menu_item: :users do
+    link :new, label: :label_user_new, url: -> { new_user_path }
+  end
+
+  page :placeholder_users, menu_item: :placeholder_users do
+    link :new,
+         label: :label_placeholder_user_new,
+         url: -> { new_placeholder_user_path },
+         if: -> { EnterpriseToken.allows_to?(:placeholder_users) }
+  end
+
+  page :groups, menu_item: :groups do
+    link :new, label: :label_group_new, url: -> { new_group_path }
+  end
+
+  page :departments, menu_item: :departments do
+    setting :organization_name, form_field: false
+    link :new, label: :"departments.add_department", url: -> { new_department_admin_departments_path }
+  end
+
+  page :workflows, menu_item: :workflows do
+    link :summary, label: :label_workflow_summary, url: -> { workflow_summary_types_path }
+  end
+
+  page :automations, menu_item: :automations do
+    link :new,
+         label: :"automations.new",
+         url: -> { new_automation_path },
+         if: -> { EnterpriseToken.allows_to?(:custom_actions) }
+  end
+
+  page :project_phase_definitions, menu_item: :project_phase_definitions_settings do
+    link :new,
+         label: :"settings.project_phase_definitions.label_add_description",
+         url: -> { new_admin_settings_project_phase_definition_path },
+         if: -> { EnterpriseToken.allows_to?(:customize_life_cycle) }
+  end
+
+  page :project_lists, menu_item: :project_lists_settings do
+    setting :enabled_projects_columns, form_field: false, label: :label_columns
+    setting :project_gantt_query, form_field: false, caption: :setting_project_gantt_query_text
+  end
+
+  page :attribute_help_texts, menu_item: :attribute_help_texts do
+    link :new, label: :"attribute_help_texts.add_new", url: -> { new_attribute_help_text_path(name: "WorkPackage") }
+  end
+
+  page :oauth_applications, menu_item: :oauth_applications do
+    link :new, label: :"oauth.application.new", url: -> { new_oauth_application_path }
+  end
+
+  page :ldap_connections, menu_item: :ldap_authentication do
+    link :new, label: :label_ldap_auth_source_new, url: -> { new_ldap_auth_source_path }
+  end
+
+  page :scim_clients, menu_item: :scim_clients do
+    link :new,
+         label: :"admin.scim_clients.index.label_create_button",
+         url: -> { new_admin_scim_client_path },
+         if: -> { EnterpriseToken.allows_to?(:scim_api) }
+  end
+
+  page :mcp_configurations, menu_item: :mcp_configurations, if: -> { EnterpriseToken.allows_to?(:mcp_server) } do
+    setting :mcp_tool_response_format,
+            field: "mcp_configuration[tool_response_format]",
+            label: :"admin.mcp_configurations.server_form.tool_response_format",
+            if: -> { McpConfiguration.find_by(identifier: "mcp_server")&.enabled? }
+  end
+
+  page :custom_style, menu_item: :custom_style do
+    %w[interface branding default_colors pdf_export_styles pdf_export_font].each do |tab|
+      link tab, label: :"admin.custom_styles.tab_#{tab}", url: -> { custom_style_path(tab:) }
+    end
+    link :new_color, label: :"colors.index.label_new_color", url: -> { new_color_path }
+  end
+
+  page :enterprise_tokens, menu_item: :enterprise do
+    link :new,
+         label: :"admin.enterprise.create_dialog.title",
+         url: -> { enterprise_tokens_path }
+  end
+
+  page :backups, menu_item: :backups do
+    link :token,
+         label: -> { t(Token::Backup.exists?(user: User.current) ? "backup.label_reset_token" : "backup.label_create_token") },
+         url: -> { admin_backups_path }
+  end
+
+  page :jira_import, menu_item: :jira_import do
+    link :new, label: :"admin.jira.configuration.title", url: -> { new_admin_import_jira_path }
   end
 end

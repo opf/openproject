@@ -34,6 +34,7 @@ module GitlabIntegration
       form do |f|
         f.autocompleter(
           name: :gitlab_user_id,
+          wrapper_data_attributes: { setting_name: "gitlab_user_id" },
           label: I18n.t(:label_gitlab_actor),
           caption: I18n.t(:text_gitlab_actor_info),
           autocomplete_options: {

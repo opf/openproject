@@ -71,12 +71,20 @@ export default class HighlightSettingController extends ApplicationController {
       ? [`[name="${name}"]`]
       : [`[name="settings[${name}]"]`, `[name^="settings[${name}]["]`];
 
-    const fields = Array.from(document.querySelectorAll<HTMLElement>(
-      selectors.map((selector) => `${selector}${valueSelector}`).join(', '),
-    ));
+    let fields = this.queryFields(selectors, valueSelector);
+    // Some settings pages submit unscoped fields, e.g. the plugin settings of reCAPTCHA.
+    if (fields.length === 0 && !name.includes('[')) {
+      fields = this.queryFields([`[name="${name}"]`], valueSelector);
+    }
     const visibleFields = fields.filter((field) => field.getAttribute('type') !== 'hidden');
 
     // Custom inputs like the color select keep their value in a hidden field.
     return visibleFields.length > 0 ? visibleFields : fields;
+  }
+
+  private queryFields(selectors:string[], valueSelector:string):HTMLElement[] {
+    return Array.from(document.querySelectorAll<HTMLElement>(
+      selectors.map((selector) => `${selector}${valueSelector}`).join(', '),
+    ));
   }
 }

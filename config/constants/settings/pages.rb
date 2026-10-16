@@ -42,6 +42,13 @@ module Settings
   # translation. Both accept a translation key, a string or a lambda evaluated
   # in the view context.
   #
+  # Actions on a page, such as creating a provider, are registered as `link`s
+  # with a label and a `url` lambda evaluated in the view context.
+  #
+  # Settings shown in a form field named other than "settings[<name>]", e.g.
+  # the keys of a plugin's settings hash, name that `field`. A setting may be
+  # listed several times with different fields.
+  #
   # Settings changed through something other than a "settings[<name>]" form
   # field on their page (e.g. a toggle or a dialog) are registered with
   # `form_field: false`. The element representing them needs a
@@ -56,6 +63,10 @@ module Settings
   #         setting :welcome_title
   #       end
   #     end
+  #
+  #     page :ldap_connections, menu_item: :ldap_authentication do
+  #       link :new, label: :label_ldap_auth_source_new, url: -> { new_ldap_auth_source_path }
+  #     end
   #   end
   #
   #   Settings::Pages.extend_page(:general) do
@@ -63,14 +74,19 @@ module Settings
   #   end
   module Pages
     class Entry
-      attr_reader :name, :condition
+      attr_reader :name, :field, :condition
 
-      def initialize(name, label: nil, caption: nil, form_field: true, **options)
+      def initialize(name, label: nil, caption: nil, field: nil, form_field: true, **options)
         @name = name.to_sym
         @label = label
         @caption = caption
+        @field = field
         @form_field = form_field
         @condition = options[:if]
+      end
+
+      def highlight
+        field || name.to_s
       end
 
       def form_field?
@@ -106,6 +122,25 @@ module Settings
       end
     end
 
+    class Link
+      attr_reader :key, :url
+
+      def initialize(key, label:, url:, **options)
+        @key = key
+        @label = label
+        @url = url
+        @condition = options[:if]
+      end
+
+      def label(view_context)
+        @label.is_a?(Proc) ? view_context.instance_exec(&@label) : view_context.t(@label)
+      end
+
+      def visible?
+        @condition.nil? || @condition.call
+      end
+    end
+
     class Section
       attr_reader :key, :entries, :condition
 
@@ -129,7 +164,7 @@ module Settings
     end
 
     class Page
-      attr_reader :key, :menu_item, :tab, :label, :sections
+      attr_reader :key, :menu_item, :tab, :label, :sections, :links
 
       def initialize(key, menu_item:, tab: nil, label: nil, url: nil, **options)
         @key = key
@@ -139,6 +174,7 @@ module Settings
         @url = url
         @condition = options[:if]
         @sections = []
+        @links = []
       end
 
       def visible?
@@ -153,6 +189,14 @@ module Settings
       def section(key, **, &)
         section = @sections.find { it.key == key } || Section.new(key, **).tap { @sections << it }
         section.instance_exec(&)
+      end
+
+      def link(key, **)
+        @links << Link.new(key, **)
+      end
+
+      def visible_links
+        links.select(&:visible?)
       end
 
       def entries

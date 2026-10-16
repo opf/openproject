@@ -75,21 +75,20 @@ module Settings
         next unless visible_menu_item?(item)
 
         children = [*page_nodes(item), *entity_kind_nodes(item), *build(item)]
-        next if children.empty?
 
-        Node.new(key: item.name.to_s, label: item.caption, description: nil, href: view_context.url_for(item.url), children:)
+        Node.new(key: item.name.to_s, label: item.caption, description: nil, href: menu_item_url(item), children:)
       end
     end
 
     def page_nodes(item)
       @pages_by_menu_item.fetch(item.name, []).select(&:visible?).flat_map do |page|
-        leaves = setting_nodes(page)
+        leaves = [*setting_nodes(page), *link_nodes(page)]
 
         if page.label && leaves.any?
           [Node.new(key: page.key.to_s,
                     label: view_context.t(page.label),
                     description: nil,
-                    href: view_context.url_for(page.url(@menu)),
+                    href: page_url(page),
                     children: leaves)]
         else
           leaves
@@ -99,11 +98,37 @@ module Settings
 
     def setting_nodes(page)
       page.sections.flat_map(&:visible_entries).map do |entry|
-        Node.new(key: "#{page.key}-#{entry.name}",
+        Node.new(key: "#{page.key}-#{entry.highlight}",
                  label: entry.label(view_context),
                  description: plain_text(entry.caption(view_context)),
-                 href: view_context.url_for(page.url(@menu).merge(highlight: entry.name)),
+                 href: page_url(page, highlight: entry.highlight),
                  children: [])
+      end
+    end
+
+    def link_nodes(page)
+      page.visible_links.map do |link|
+        Node.new(key: "#{page.key}-#{link.key}",
+                 label: link.label(view_context),
+                 description: nil,
+                 href: view_context.instance_exec(&link.url),
+                 children: [])
+      end
+    end
+
+    def page_url(page, **params)
+      url = page.url(@menu)
+      url.is_a?(Hash) ? view_context.url_for(url.merge(params)) : menu_item_url(page.menu_node(@menu), **params)
+    end
+
+    # Mirrors Redmine::MenuManager::MenuHelper#node_url, which is private.
+    def menu_item_url(item, **params)
+      engine = item.engine ? view_context.public_send(item.engine) : view_context.main_app
+
+      case item.url
+      when Hash then engine.url_for(item.url.merge(params, only_path: true))
+      when Symbol then engine.public_send(item.url, **params)
+      else engine.url_for(item.url)
       end
     end
 

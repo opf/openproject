@@ -119,6 +119,12 @@ module OpenProject::Documents
                     caption: :"documents.admin.collaboration_settings.hocuspocus_server_secret.caption"
           end
         end
+
+        page :document_types, menu_item: :document_types do
+          link :new,
+               label: -> { "#{t(:button_add)}: #{DocumentType.model_name.human}" },
+               url: -> { new_admin_settings_document_type_path }
+        end
       end
     end
 

@@ -33,6 +33,21 @@ module OpenProject::LdapGroups
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "ldap_groups.settings_search" do
+      ::Settings::Pages.draw do
+        page :ldap_groups, menu_item: :plugin_ldap_groups do
+          link :new_filter,
+               label: :"ldap_groups.synchronized_filters.add_new",
+               url: -> { new_ldap_groups_synchronized_filter_path },
+               if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
+          link :new_group,
+               label: :"ldap_groups.synchronized_groups.add_new",
+               url: -> { new_ldap_groups_synchronized_group_path },
+               if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
+        end
+      end
+    end
+
     register "openproject-ldap_groups",
              author_url: "https://github.com/opf/openproject-ldap_groups",
              bundled: true,

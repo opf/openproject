@@ -33,6 +33,14 @@ module OpenProject::Webhooks
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "webhooks.settings_search" do
+      ::Settings::Pages.draw do
+        page :webhooks, menu_item: :plugin_webhooks do
+          link :new, label: :"webhooks.outgoing.label_add_new", url: -> { new_admin_outgoing_webhook_path }
+        end
+      end
+    end
+
     register "openproject-webhooks",
              bundled: true,
              author_url: "https://www.openproject.org" do

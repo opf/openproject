@@ -33,6 +33,7 @@ module GithubIntegration
       form do |f|
         f.autocompleter(
           name: :github_user_id,
+          wrapper_data_attributes: { setting_name: "github_user_id" },
           label: I18n.t(:label_github_comment_user),
           caption: I18n.t(:text_github_comment_user_info),
           autocomplete_options: {
