@@ -24,18 +24,13 @@ cat <<EOF
                OpenProject Dev Container with KeyCloak
 ==========================================================================
 
-Please add the following entries to your /etc/hosts file:
-
-    127.0.0.1 openproject.local openproject-assets.local keycloak.local
-
 You can then open OpenProject in your browser:
 
-    https://openproject.local
+    https://openproject.localhost
 
-You will get a certificate warning, and you may also have to open
-https://openproject-assets.local in your browser for everything to work.
+You will get a certificate warning, that is to be expected.
 
-If you need to access KeyCloak, you can do so at https://keycloak.local
+If you need to access KeyCloak, you can do so at https://keycloak.localhost
 
 Please note that OIDC login is an enterprise feature in OpenProject and
 you will need to use an enterprise token for it to work properly.
