@@ -51,6 +51,8 @@ Additional environment, either generated from the wizard or entered by you throu
 
 On your new host or cluster, ensure you have created a database user and database, ideally using the same names as the old environment (You may want to choose a different random password, however).
 
+If the old database uses [pgvector](../../system-requirements/#pgvector), install it on the new server before restoring the dump.
+
 In the following, the values `<dbuser>`, `<dbhost>` and `<dbname>` variables have to be replaced with your database user and database above.
 To read the values from the old installation, you can execute the following command:
 
