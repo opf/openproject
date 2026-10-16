@@ -224,6 +224,26 @@ module Costs
                url: -> { new_admin_settings_time_entry_activity_path }
         end
       end
+
+      ::Settings::EntityKinds.draw do
+        kind :cost_types,
+             menu_item: :cost_types,
+             scope: -> { CostType.order(:name) },
+             url: ->(cost_type) { edit_admin_cost_type_path(cost_type) } do
+          %i[name unit unit_plural default for_all_projects].each do |name|
+            attribute name, label: -> { CostType.human_attribute_name(name) }, field: "cost_type[#{name}]"
+          end
+        end
+
+        kind :time_entry_activities,
+             menu_item: :time_entry_activities,
+             scope: -> { TimeEntryActivity.shared.order(:position) },
+             url: ->(activity) { edit_admin_settings_time_entry_activity_path(activity) } do
+          %i[name active].each do |name|
+            attribute name, label: -> { TimeEntryActivity.human_attribute_name(name) }, field: "enumeration[#{name}]"
+          end
+        end
+      end
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
