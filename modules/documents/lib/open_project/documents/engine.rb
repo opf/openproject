@@ -105,6 +105,41 @@ module OpenProject::Documents
       Redmine::Search.register :documents
     end
 
+    initializer "documents.settings_pages" do
+      ::Settings::Pages.draw do
+        page :document_collaboration, menu_item: :document_collaboration_settings do
+          setting :real_time_text_collaboration_enabled, form_field: false
+
+          section :server, if: -> { Setting.real_time_text_collaboration_enabled? } do
+            setting :collaborative_editing_hocuspocus_url,
+                    label: :"documents.admin.collaboration_settings.hocuspocus_server_url.label",
+                    caption: :"documents.admin.collaboration_settings.hocuspocus_server_url.caption"
+            setting :collaborative_editing_hocuspocus_secret,
+                    label: :"documents.admin.collaboration_settings.hocuspocus_server_secret.label",
+                    caption: :"documents.admin.collaboration_settings.hocuspocus_server_secret.caption"
+          end
+        end
+
+        page :document_types, menu_item: :document_types do
+          link :new,
+               label: -> { "#{t(:button_add)}: #{DocumentType.model_name.human}" },
+               url: -> { new_admin_settings_document_type_path }
+        end
+      end
+
+      ::Settings::EntityKinds.draw do
+        kind :document_types,
+             menu_item: :document_types,
+             scope: -> { DocumentType.all },
+             url: ->(type) { edit_admin_settings_document_type_path(type) } do
+          %i[name active].each do |name|
+            attribute name, label: -> { DocumentType.human_attribute_name(name) }, field: "enumeration[#{name}]"
+          end
+          attribute :is_default, label: :label_default, field: "enumeration[is_default]"
+        end
+      end
+    end
+
     activity_provider :documents, class_name: "Activities::DocumentActivityProvider", default: false
 
     patches %i[Project]

@@ -36,6 +36,21 @@ module OpenProject::Recaptcha
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "recaptcha.settings_search" do
+      ::Settings::Pages.draw do
+        page :recaptcha, menu_item: :plugin_recaptcha do
+          {
+            recaptcha_type: %i[recaptcha.settings.type recaptcha.settings.captcha_description_html],
+            website_key: %i[recaptcha.settings.website_key recaptcha.settings.website_key_text],
+            secret_key: %i[recaptcha.settings.secret_key recaptcha.settings.secret_key_text],
+            response_limit: %i[recaptcha.settings.response_limit recaptcha.settings.response_limit_text]
+          }.each do |field, (label, caption)|
+            setting :plugin_openproject_recaptcha, field: "settings[#{field}]", label:, caption:
+          end
+        end
+      end
+    end
+
     register "openproject-recaptcha",
              author_url: "https://www.openproject.org",
              # TODO: secret_key should be marked as `secret: true`, but that is only supported

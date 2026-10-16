@@ -32,6 +32,8 @@ require_relative "../../../config/constants/api_patch_registry"
 require_relative "../../../config/constants/open_project/activity"
 require_relative "../../../config/constants/views"
 require_relative "../../../config/constants/settings/definition"
+require_relative "../../../config/constants/settings/pages"
+require_relative "../../../config/constants/settings/entity_kinds"
 
 module OpenProject::Plugins
   module ActsAsOpEngine

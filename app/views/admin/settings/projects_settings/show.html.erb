@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= styled_form_tag(admin_settings_projects_path, method: :patch) do %>
   <fieldset class="form--fieldset">
-    <div class="form--field -full-width">
+    <div class="form--field -full-width" data-setting-name="enabled_projects_columns">
       <div class="form--text-field-container -xwide">
         <%= angular_component_tag "opce-draggable-autocompleter",
                                   inputs: {
@@ -56,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
 
-    <div class="form--field -vertical">
+    <div class="form--field -vertical" data-setting-name="project_gantt_query">
       <div class="form--label -bold">
         <%= I18n.t(:setting_project_gantt_query) %>
       </div>

@@ -42,6 +42,22 @@ module OpenProject::GitlabIntegration
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "gitlab_integration.settings_search" do
+      ::Settings::Pages.draw do
+        page :gitlab_integration, menu_item: :admin_gitlab_integration do
+          setting :plugin_openproject_gitlab_integration,
+                  field: "gitlab_user_id",
+                  form_field: false,
+                  label: :label_gitlab_actor,
+                  caption: :text_gitlab_actor_info
+          setting :plugin_openproject_gitlab_integration,
+                  field: "webhook_secret",
+                  label: :label_gitlab_webhook_secret,
+                  caption: :text_gitlab_webhook_secret_info
+        end
+      end
+    end
+
     # TODO: webhook_secret should be marked as `secret: true`, but that is only supported
     # for string settings, not for keys inside this plugin settings hash.
     def self.settings
