@@ -54,7 +54,7 @@ module Projects
 
         milestone_ids = Type.milestone.pluck(:id).map(&:to_s)
         if milestone_ids.any?
-          default_with_filter.merge!("f" => [{ "n" => "type", "o" => "=", "v" => milestone_ids }])
+          default_with_filter["f"] = [{ "n" => "type", "o" => "=", "v" => milestone_ids }]
         end
 
         JSON.dump(default_with_filter)
