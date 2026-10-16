@@ -29,7 +29,7 @@
 #++
 
 module Wikis
-  class CreateNewWikiPageDialog < ApplicationComponent
+  class CreateNewWikiPageDialog < ApplicationComponent # rubocop:disable ViewComponent/ComponentSuffix -- renaming moves the lazy I18n scope
     include OpTurbo::Streamable
 
     def id = "create-new-wiki-page-dialog"

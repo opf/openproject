@@ -29,7 +29,7 @@
 #++
 
 module Wikis
-  class InlineWikiPageDialog < ApplicationComponent
+  class InlineWikiPageDialog < ApplicationComponent # rubocop:disable ViewComponent/ComponentSuffix -- renaming moves the lazy I18n scope
     include OpTurbo::Streamable
 
     DIALOG_ID = "inline-wiki-page-dialog"

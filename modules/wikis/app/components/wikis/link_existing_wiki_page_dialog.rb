@@ -29,7 +29,7 @@
 #++
 
 module Wikis
-  class LinkExistingWikiPageDialog < ApplicationComponent
+  class LinkExistingWikiPageDialog < ApplicationComponent # rubocop:disable ViewComponent/ComponentSuffix -- renaming moves the lazy I18n scope
     include OpTurbo::Streamable
 
     attr_reader :linkable, :provider

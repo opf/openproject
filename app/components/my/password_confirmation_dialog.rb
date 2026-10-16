@@ -29,7 +29,7 @@
 #++
 
 module My
-  class PasswordConfirmationDialog < ApplicationComponent
+  class PasswordConfirmationDialog < ApplicationComponent # rubocop:disable ViewComponent/ComponentSuffix -- renaming moves the lazy I18n scope
     include OpTurbo::Streamable
   end
 end
