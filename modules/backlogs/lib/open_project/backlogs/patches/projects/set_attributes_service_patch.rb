@@ -42,7 +42,7 @@ module OpenProject::Backlogs::Patches::Projects::SetAttributesServicePatch
 
       # Statuses marked as globally closed are mandatory and must always be
       # included regardless of what the user submitted.
-      mandatory_ids = Status.where(is_closed: true).ids
+      mandatory_ids = Status.closed.ids
       model.done_status_ids = (model.done_status_ids | mandatory_ids) if mandatory_ids.any?
     end
   end

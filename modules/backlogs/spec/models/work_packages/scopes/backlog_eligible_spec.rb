@@ -33,8 +33,8 @@ RSpec.describe WorkPackages::Scopes::BacklogEligible do
   let(:user) { create(:admin) }
   let(:included_type) { create(:type, name: "Story") }
   let(:excluded_type) { create(:type, name: "Task") }
-  let(:open_status) { create(:status, is_closed: false) }
-  let(:done_status) { create(:status, is_closed: true) }
+  let(:to_do_status) { create(:status, category: "to_do") }
+  let(:done_status) { create(:status, category: "closed") }
   let(:project) do
     create(:project,
            enabled_module_names: %w[backlogs],
@@ -50,8 +50,8 @@ RSpec.describe WorkPackages::Scopes::BacklogEligible do
 
   describe ".backlog_eligible" do
     it "returns only work packages excluded by neither their type nor their status" do
-      eligible_work_package = create(:work_package, project:, type: included_type, status: open_status)
-      create(:work_package, project:, type: excluded_type, status: open_status)
+      eligible_work_package = create(:work_package, project:, type: included_type, status: to_do_status)
+      create(:work_package, project:, type: excluded_type, status: to_do_status)
       create(:work_package, project:, type: included_type, status: done_status)
       create(:work_package, project:, type: excluded_type, status: done_status)
 
@@ -59,8 +59,8 @@ RSpec.describe WorkPackages::Scopes::BacklogEligible do
     end
 
     it "keeps the conditions of the scope it is chained onto" do
-      create(:work_package, project:, type: included_type, status: open_status)
-      other_project_work_package = create(:work_package, type: included_type, status: open_status)
+      create(:work_package, project:, type: included_type, status: to_do_status)
+      other_project_work_package = create(:work_package, type: included_type, status: to_do_status)
 
       expect(WorkPackage.where(project: other_project_work_package.project).backlog_eligible)
         .to contain_exactly(other_project_work_package)
