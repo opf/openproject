@@ -208,7 +208,7 @@ Filters are essential for task and project management in OpenProject. You have s
 
 ### Forum
 
-A forum in OpenProject is defined as a module used to display forums and forum messages. The module has to be activated in the [project settings](#project-settings) by a project admin and a forum has to be created in the forums tab in the project settings to be displayed in the side navigation. [Read more about forums in OpenProject](../user-guide/forums/).
+A forum in OpenProject is defined as a module used to display forums and their topics. The module has to be activated in the [project settings](#project-settings) by a project admin to be displayed in the side navigation. [Read more about forums in OpenProject](../user-guide/forums/).
 
 ## G
 

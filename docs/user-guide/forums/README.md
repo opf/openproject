@@ -3,145 +3,161 @@ sidebar_navigation:
   title: Forums
   priority: 820
 description: Create and manage a forum in OpenProject
-keywords: forum, forums
+keywords: forum, forums, topic, reply
 ---
 
 # Forums
 
-In the forum in OpenProject you can discuss topics in a project with the team: post questions, comment on it and document answers.
+In the forums in OpenProject you can discuss topics in a project with the team: ask questions, reply to them and document the answers.
 
 <div class="glossary">
 
-**Forum** is defined as a module used to display forums and forum entries. The module has to be activated in the project settings and a forum has to be created in the Forums tab in the project settings to be displayed in the side navigation.
+**Forum** is defined as a module used to display forums and their topics. The module has to be [activated in the project settings](../projects/project-settings/modules/) to be displayed in the side navigation.
 
 </div>
 
-| Topic                                                    | Content                                                                      |
-|----------------------------------------------------------|------------------------------------------------------------------------------|
-| [Open a forum](#open-a-forum)                            | How to open an existing forum.                                               |
-| [Create a new message](#create-a-new-message-in-a-forum) | How to create a new message in a forum.                                      |
-| [Reply to a message](#reply-to-a-forum-message)          | How to add a reply to an existing forum message.                             |
-| [Watch a forum](#watch-a-forum)                          | How to keep informed about changes in a forum, e.g. new messages or replies. |
-| [Edit a forum message](#edit-a-forum-message)            | How to edit a message in a forum.                                            |
-| [Delete a forum message](#delete-a-forum-message)        | How to delete a message within a forum.                                      |
-| [Create a new forum](#create-a-new-forum)                | How to create a new forum.                                                   |
-| [Manage forums](#manage-forums)                          | How to sort, edit or delete a forum.                                         |
-
-## Open a forum
-
-To work in the forum in OpenProject, select the menu item **Forums** in the project navigation.
-
-![Forums module in OpenProject](openproject_user_guide_forums_module.png)
-
-You will get a list of all existing forums within a project as well as a short description for it, the number of topics, messages as well as the last message within one forum.
-
-Click on the Forum title to open an existing forum.
+| Topic                                                   | Content                                                                    |
+|---------------------------------------------------------|----------------------------------------------------------------------------|
+| [Create a new forum](#create-a-new-forum)               | How to create a new forum.                                                 |
+| [Manage forums](#manage-forums)                         | How to sort, edit or delete a forum.                                       |
+| [Open a forum](#open-a-forum)                           | How to open an existing forum and sort its topics.                         |
+| [Create a new topic](#create-a-new-topic-in-a-forum)    | How to start a new topic in a forum.                                       |
+| [Read a topic](#read-a-topic)                           | How to read a topic and load its older replies.                            |
+| [Reply to a topic](#reply-to-a-topic)                   | How to reply to a topic or quote a post.                                   |
+| [Watch a forum](#watch-a-forum)                         | How to keep informed about changes in a forum, e.g. new topics or replies. |
+| [Edit a topic or a reply](#edit-a-topic-or-a-reply)     | How to edit a post in a forum.                                             |
+| [Delete a topic or a reply](#delete-a-topic-or-a-reply) | How to delete a topic or a single reply.                                   |
 
 ## Create a new forum
 
-To create a new forum in your project, navigate to the **Forums** module in the left side menu and click the **+ Forum** button.
+To create a new forum in your project, navigate to the **Forums** module in the project navigation and click the **+ Forum** button.
 
-![A button to create a new forum in OpenProject](openproject_user_guide_forums_module_new_forum.png)
-
-Enter a name and description for the new forum. Press the **Create** button so save the new forum.
+Enter a name and description for the new forum. Click the **Create** button to save the new forum.
 
 ![Create new forum in OpenProject](openproject_user_guide_forums_new_forum_create_form.png)
 
 ## Manage forums
 
-If you want to change the order of the forums in your project, want to edit a forum, or delete a forum, go to the Forums overview list in your project.
+To change the order of the forums in your project, edit a forum, or delete a forum, go to the list of forums in your project.
 
-1. Click the **arrows (up or down) to change the order** of the forums and sort them differently in the forum list in your project.
-2. Click the **edit icon to change the name or description** of your forum.
-3. Click the delete icon to **delete a forum** from your project.
+- **Drag and drop** a forum by its handle on the left to change its position in the list.
+- Click the **More** (three dots) icon of a forum to **edit** its name or description, to **move** it up or down, or to **delete** it.
 
 ![Manage forums in OpenProject](openproject_user_guide_forums_manage.png)
 
-## Create a new message in a forum
+## Open a forum
 
-To **add a new message** within an existing forum, click the green **+ Message** button on the top right of the selected forum.
+To work in the forums in OpenProject, select the menu item **Forums** in the project navigation.
 
-![Add a forum message in OpenProject ](openproject_user_guide_forums_single_forum.png)
+![Forums module in OpenProject](openproject_user_guide_forums_module.png)
 
-Enter the **subject of the message**.
+You will get a list of all forums within the project with their description, the number of topics and messages, as well as the last message posted in each forum.
 
-You can choose whether the message should be **Sticky**. A sticky message always appears on top of the selected forum.
+Click on the name of a forum to open it.
 
-Select if a message should be **Locked**. Then it can no longer be edited or commented by the project team.
+![A forum and its topics in OpenProject](openproject_user_guide_forums_single_forum.png)
 
-Enter a description which will then appears next to the message title in the forum. You can add a file if needed.
+Each topic shows its subject, its author, the date it was started and a preview of its opening post, as well as the number of replies and the last reply. A pin marks a sticky topic, which always stays on top of the list. A lock marks a locked topic, which no longer accepts replies.
 
-Click the **Create** button to create the new message for this forum.
+To change the order of the topics, open the **Sort** menu and choose between **Recent activity**, **Oldest activity**, **Newest**, **Oldest**, **Most replies** and **Fewest replies**.
 
-![New forum message forum in OpenProject](openproject_user_guide_forums_new_message.png)
+![Sort the topics of a forum in OpenProject](openproject_user_guide_forums_sort_topics.png)
 
-The **new forum message has been created**.
+## Create a new topic in a forum
 
-![New forum message in OpenProject](openproject_user_guide_forums_new_message_created.png)
+To **start a new topic** in a forum, click the green **+ Topic** button on the top right of the forum.
+
+Enter the **subject** of the topic.
+
+You can choose whether the topic should be **Sticky**. A sticky topic always appears on top of the forum.
+
+Select whether the topic should be **Locked**. Then nobody can reply to it anymore.
+
+Enter the **message content**. Its beginning is shown as a preview under the subject in the forum. You can attach files if needed.
+
+Click the **Create** button to create the new topic in this forum.
+
+![Create a new forum topic in OpenProject](openproject_user_guide_forums_new_topic.png)
+
+The **new topic has been created**.
+
+![New forum topic in OpenProject](openproject_user_guide_forums_new_topic_created.png)
 
 > [!TIP]
-> Changes you made are saved locally. If you navigated away from page or  could not save your changes due to a technical difficulty, you can  access latest changes via the editor toolbar.
+> Changes you make in the editor are saved locally. If you navigated away from the page or could not save your changes due to a technical difficulty, you can restore them with the **Show local modifications** button in the editor toolbar.
 
-![Locally saved draft in OpenProject forum message](openproject_user_guide_forums_draft_saved_locally.png)
+![Locally saved draft in an OpenProject forum topic](openproject_user_guide_forums_draft_saved_locally.png)
 
-## Reply to a forum message
+## Read a topic
 
-To add a **reply to an existing message** in a forum, click on the Subject in order to open the message.
+Click on the subject of a topic to open it. Underneath the subject you see when the topic was started, how many replies it has and how many people take part in it.
 
-Underneath the forum message you want to reply to, you will directly see subject and message fields. Enter your **Message content** what you want to add as a reply to the existing message. You can choose to also **add a file** if needed.
+The opening post is followed by its replies, from the oldest to the newest. In a long topic, only the latest 20 replies are shown. To show the older ones, click the button above them, e.g. **Load previous 5 replies**.
 
-Click the **Submit** button in order to save your reply message.
+![Load the previous replies of a forum topic in OpenProject](openproject_user_guide_forums_load_previous_replies.png)
 
-![Reply to a forum message](openproject_user_guide_forums_reply_form.png)
+## Reply to a topic
 
-The reply has been added under the existing forum message.
+To **reply to a topic**, open it. Underneath the last reply, enter your message in the editor. You can also **attach files** if needed.
 
-![reply to existing forum message](openproject_user_guide_forums_reply_saved.png)
+Click the **Reply** button to save your reply.
+
+![Reply to a forum topic in OpenProject](openproject_user_guide_forums_reply_form.png)
+
+Your reply has been added at the end of the topic.
+
+![Reply added to a forum topic in OpenProject](openproject_user_guide_forums_reply_saved.png)
+
+### Quote a post
+
+To quote a post in your reply, click the **More** (three dots) icon of that post and select **Quote**. The quoted text is added to the editor, where you can complete your reply.
+
+From the same menu, **Copy link to clipboard** copies a link that opens the topic at that post.
+
+![Actions on a forum reply in OpenProject](openproject_user_guide_forums_post_actions.png)
 
 ## Watch a forum
 
-To keep informed about changes in a forum, e.g. new messages or new replies, you can add yourself as a **Watcher** of a forum.
+To keep informed about changes in a forum, e.g. new topics or new replies, you can add yourself as a **Watcher** of a forum.
 
-[Open an existing forum](#open-a-forum) from the list.
+[Open an existing forum](#open-a-forum) from the list and click the **Watch** button in the top right corner of the forum.
 
-You will get a list of all messages within this forum.
-
-Click the **Watch** icon in the top right corner of the forum.
-
-You will then be notified via e-mail according to your [e-mail notifications](../../user-guide/notifications/notification-settings) about new messages and replies in a forum.
+You will then be notified via e-mail according to your [e-mail notifications](../../user-guide/notifications/notification-settings) about new topics and replies in this forum.
 
 ![Watch a forum in OpenProject](openproject_user_guide_forums_watch.png)
 
-The icon will then change to Unwatch.
+The button will then change to **Unwatch**.
 
-### Watch a message
+### Watch a topic
 
-If you watch a forum you will automatically watch all messages within this forum. Alternatively, you can also **watch only certain messages** within a forum where you want to be informed about changes.
+If you watch a forum, you automatically watch all of its topics. Alternatively, you can also **watch only certain topics** within a forum. You also automatically watch the topics you start or reply to.
 
-This way, you select the message first by clicking on the subject, and then click the Watch button on the top right corner in the message details.
+To do so, open the topic and click the **Watch** button in its top right corner.
 
-![Watch a forum message in OpenProject](openproject_user_guide_forums_watch_message.png)
+![Watch a forum topic in OpenProject](openproject_user_guide_forums_watch_topic.png)
 
 ## Unwatch a forum
 
-To unwatch a forum in order to not be informed via e-mail about new messages and replies in a forum, click the **Unwatch button** on the top right of the forum.
+To stop being informed via e-mail about new topics and replies in a forum, click the **Unwatch** button on the top right of the forum.
 
 ![Unwatch a forum in OpenProject](openproject_user_guide_forums_unwatch.png)
 
-### Unwatch a message
+### Unwatch a topic
 
-The same applies to **unwatch a message**. Just select the message first which you do not want to watch any longer and click the **Unwatch** button.
+The same applies to **unwatch a topic**. Open the topic which you do not want to watch any longer and click the **Unwatch** button.
 
-## Edit a forum message
+## Edit a topic or a reply
 
-To **edit a message in a forum** select the message from the forum and in the message details click the **Edit** button in the top right corner of the message.
+To **edit a post in a forum**, click the **More** (three dots) icon of the post and select **Edit**. This works for the opening post of a topic and for each reply.
 
-![Edit a forum message in OpenProject](openproject_user_guide_forums_edit_message_button.png)
+![Edit a forum topic in OpenProject](openproject_user_guide_forums_edit_topic.png)
 
-The message details will then be opened. You can make your changes  and click the **Save** button.
+Make your changes and click the **Save** button.
 
-## Delete a forum message
+## Delete a topic or a reply
 
-To **delete a message in a forum**, select the message which you want to delete and press the **Delete** button in the top right corner of the message details.
+To **delete a topic** with all its replies, open it and click the **Delete** button in its top right corner.
 
-![Delete a forum message in OpenProject](openproject_user_guide_forums_delete_message.png)
+![Delete a forum topic in OpenProject](openproject_user_guide_forums_delete_topic.png)
+
+To **delete a single reply**, click the **More** (three dots) icon of the reply and select **Delete**.
