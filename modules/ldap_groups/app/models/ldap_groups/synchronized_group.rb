@@ -76,7 +76,7 @@ module LdapGroups
     def remove_members!(users_to_remove)
       return if users_to_remove.empty?
 
-      user_ids = users_to_remove.map(&method(:user_id))
+      user_ids = users_to_remove.map { |user| user_id(user) }
 
       self.class.transaction do
         # 1) Delete synchronized group MEMBERSHIPS from collection.
