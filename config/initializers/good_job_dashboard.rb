@@ -28,9 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# On development, the GoodJob dashboard is fully accessible.
-if OpenProject::Configuration.good_job_engine_basic_auth.present?
-  GoodJob::Engine.middleware.use(Rack::Auth::Basic) do |_, password|
-    ActiveSupport::SecurityUtils.secure_compare(OpenProject::Configuration.good_job_engine_basic_auth, password)
-  end
+ActiveSupport.on_load(:good_job_application_controller) do
+  include GoodJobDashboardAuthentication
+end
+
+Rails.application.config.to_prepare do
+  GoodJob::FrontendsController.include GoodJobDashboardAuthentication
 end
