@@ -40,6 +40,12 @@ module API
             env["api.format"] = :binary
             body ::OpenProject::Avatars::InitialsSvg.render(@user)
           end
+
+          def render_uploaded_image
+            raise ::API::Errors::NotFound unless @user == current_user || current_user.admin?
+
+            respond_with_attachment(local_avatar?(@user) || raise(::API::Errors::NotFound))
+          end
         end
 
         finally do
@@ -48,15 +54,18 @@ module API
 
         get "/avatar" do
           cache_seconds = @user == current_user ? nil : avatar_link_expires_in
+          avatar_type = avatar_manager.avatar_type_for(@user)
 
           # Requested by the frontend's <img onerror> handler after a local avatar
           # or Gravatar request failed (e.g. no Gravatar registered for the user's
           # email). Rendering the generated avatar directly, without attempting
           # local/Gravatar again, avoids a server-side round trip to Gravatar and
           # the redirect loop that would otherwise occur.
-          if params[:fallback].blank? && (local_avatar = local_avatar?(@user))
+          if params[:source] == "image"
+            render_uploaded_image
+          elsif params[:fallback].blank? && avatar_type == "image" && (local_avatar = local_avatar?(@user))
             respond_with_attachment(local_avatar, cache_seconds:)
-          elsif params[:fallback].blank? && avatar_manager.gravatar_enabled?
+          elsif params[:fallback].blank? && avatar_type == "gravatar"
             set_cache_headers!(cache_seconds) if cache_seconds
 
             redirect build_gravatar_image_url(@user)

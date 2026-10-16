@@ -37,53 +37,7 @@ RSpec.describe Avatars::MyAvatarController do
 
   before do
     login_as user
-    allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
-  end
-
-  describe "#update" do
-    context "when not logged in" do
-      let(:user) { User.anonymous }
-
-      it "renders 403" do
-        post :update
-        expect(response).to redirect_to signin_path(back_url: edit_my_avatar_url)
-      end
-    end
-
-    context "when not enabled" do
-      let(:enabled) { false }
-
-      it "renders 404" do
-        post :update
-        expect(response).to have_http_status :not_found
-      end
-    end
-
-    it "returns invalid method for post request" do
-      post :update
-      expect(response).not_to be_successful
-      expect(response).to have_http_status :method_not_allowed
-    end
-
-    it "calls the service for put" do
-      expect_any_instance_of(Avatars::UpdateService)
-        .to receive(:replace)
-        .and_return(ServiceResult.success)
-
-      put :update
-      expect(response).to be_successful
-      expect(response).to have_http_status :ok
-    end
-
-    it "calls the service for put" do
-      expect_any_instance_of(Avatars::UpdateService)
-        .to receive(:replace)
-        .and_return(ServiceResult.failure)
-
-      put :update
-      expect(response).not_to be_successful
-      expect(response).to have_http_status :bad_request
-    end
+    allow(OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
   end
 
   describe "#delete" do

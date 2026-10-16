@@ -32,20 +32,17 @@ module ::Avatars
     before_action :require_login
     before_action :set_user
 
-    no_authorization_required! :update,
-                               :destroy,
-                               :update_color
+    no_authorization_required! :update_settings,
+                               :destroy
 
     private
 
-    def set_user
-      @principal = current_user
+    def redirect_path
+      my_account_path
     end
 
-    def update_color_request
-      ::Users::UpdateService
-        .new(model: @principal, user: current_user)
-        .call(pref: { avatar_color: params[:avatar_color] })
+    def set_user
+      @principal = current_user
     end
   end
 end

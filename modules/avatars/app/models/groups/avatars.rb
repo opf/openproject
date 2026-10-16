@@ -77,7 +77,7 @@ module Groups
     end
 
     def reset_avatar_attachment_cache!
-      @local_avatar_attachment = nil
+      remove_instance_variable(:@local_avatar_attachment) if instance_variable_defined?(:@local_avatar_attachment)
     end
   end
 end

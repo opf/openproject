@@ -47,11 +47,5 @@ module ::Avatars
     def find_user
       @principal = User.visible.find(params.expect(:id))
     end
-
-    def update_color_request
-      ::Users::UpdateService
-        .new(model: @principal, user: current_user)
-        .call(pref: { avatar_color: params[:avatar_color] })
-    end
   end
 end

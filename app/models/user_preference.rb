@@ -181,6 +181,10 @@ class UserPreference < ApplicationRecord
     settings["avatar_color"] = value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil
   end
 
+  def avatar_text=(value)
+    settings["avatar_text"] = AvatarTextValidator.normalize(value)
+  end
+
   def daily_reminders
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end

@@ -89,6 +89,40 @@ RSpec.describe Groups::UpdateContract do
     end
   end
 
+  describe "avatar_text validation" do
+    let(:current_user) { build_stubbed(:admin) }
+    let(:group) { build_stubbed(:group) }
+    let(:contract) { described_class.new(group, current_user) }
+
+    [nil, "", "x", "OP", "山田", "本田", "Жя", "𐐀𐐁", "👩🏽‍💻", "👨‍👩‍👧‍👦", "🇯🇵", "🏳️‍🌈", "❤️", "👍🏽", "1️⃣",
+     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "👩🏽‍❤️‍💋‍👨🏿", "क्षि"].each do |text|
+      it "accepts #{text.inspect}" do
+        group.avatar_text = text
+
+        expect(contract.validate).to be true
+      end
+    end
+
+    ["ABC", "本田技", "🚀🚀🚀", "👨‍👩‍👧‍👦🇯🇵a"].each do |text|
+      it "rejects too much avatar text #{text.inspect}" do
+        group.avatar_text = text
+
+        expect(contract.validate).to be false
+        expect(contract.errors.of_kind?(:avatar_text, :too_long)).to be true
+      end
+    end
+
+    ["x\u0000y", "\u0001", "x\ny", "\uFFFE", "\uFFFF", "\u200B\u200B", "A\u202E", "x\u007F", "x\u0085y",
+     "a#{"\u0301" * 5}", "a#{"\u200D" * 20}"].each do |text|
+      it "rejects invalid SVG text #{text.inspect}" do
+        group.avatar_text = text
+
+        expect(contract.validate).to be false
+        expect(contract.errors.of_kind?(:avatar_text, :invalid)).to be true
+      end
+    end
+  end
+
   describe "department user uniqueness validation" do
     let(:current_user) { create(:admin) }
     let(:user) { create(:user) }
