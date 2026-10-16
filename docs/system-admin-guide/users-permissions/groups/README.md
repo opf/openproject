@@ -48,6 +48,17 @@ You will then see the detailed view of the group, including following tabs:
 
 ![Various tabs shown when editing an existing group in OpenProject administration](openproject_system_guide_edit_group_tabs.png)
 
+### Change the group avatar
+
+The group avatar is shown wherever the group appears, for example as an assignee or in the list of project members. The current avatar is shown at the top of the **General** tab. Click the avatar to open the **Edit avatar** dialog.
+
+Groups can use these options:
+
+- **Image**: Upload a custom image. This option is available only if custom avatars are enabled in the [avatar settings](../avatars).
+- **Initials**: Use the initials of the group name, or enter up to two characters of your own. You can also set a background color.
+
+Groups cannot use a Gravatar. The dialog works the same way as for users. For details, see [Set an avatar](../../../user-guide/account-settings/account/#set-an-avatar).
+
 ### Add users to a group
 
 Select the **Users** tab. Select the users you want to add to this group from the **New user** drop-down list. Click the green **Add** button. Users already in the group are not shown in the list. Click the **X** next to a user to remove that user from the group.
