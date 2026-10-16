@@ -43,6 +43,8 @@ The document starts with a title line `# <Type> <ID> - <Subject>` followed by `P
 
 The document follows the same visibility rules as the work package page, so a viewer only sees what they may see, based on project permissions, module-dependent attributes and per-attribute permissions in embedded tables. Requests are authenticated by a browser session or, for bots, by the `X-OpenProject-API-Key: <key>` header, which requires API tokens to be enabled in the administration. OAuth bearer tokens are not accepted on this endpoint. Prefer the header over the `?key=` query parameter, because query strings end up in logs.
 
+The API v3 work package resource links the document as `_links.markdown`.
+
 The example uses the canonical path. `/wp/SE-642.md` redirects there, so `curl` needs `-L` to follow it.
 
 ```shell
