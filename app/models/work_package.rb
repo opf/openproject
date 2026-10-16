@@ -33,7 +33,6 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
   include WorkPackage::AskBeforeDestruction
-  include WorkPackage::TimeEntriesCleaner
   include WorkPackage::Ancestors
   include WorkPackage::Automatable
   include WorkPackage::Hooks
@@ -62,7 +61,6 @@ class WorkPackage < ApplicationRecord
   belongs_to :priority, class_name: "IssuePriority"
   belongs_to :category, class_name: "Category", optional: true
 
-  has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
   has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
   has_many :storages, through: :project
 
@@ -192,12 +190,6 @@ class WorkPackage < ApplicationRecord
                      add_on_persisted_permission: %i[edit_work_packages add_work_package_attachments],
                      modification_blocked: ->(*) { readonly_status? },
                      extract_tsv: true
-
-  associated_to_ask_before_destruction TimeEntry,
-                                       ->(work_packages) {
-                                         TimeEntry.on_work_packages(work_packages).any?
-                                       },
-                                       method(:cleanup_time_entries_before_destruction_of)
 
   include WorkPackage::Journalized
   prepend Journable::Timestamps

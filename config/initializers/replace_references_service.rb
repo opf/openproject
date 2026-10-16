@@ -43,7 +43,6 @@ Rails.application.reloader.to_prepare do
       "News" => :author_id,
       "::Notification" => :actor_id,
       "::Query" => :user_id,
-      "TimeEntry" => %i[logged_by_id user_id],
       "WikiPage" => :author_id,
       "WorkPackage" => %i[author_id assigned_to_id responsible_id]
     }

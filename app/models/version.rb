@@ -100,15 +100,6 @@ class Version < ApplicationRecord
     @estimated_hours ||= targeted_work_packages.leaves.sum(:estimated_hours).to_f
   end
 
-  # Returns the total reported time for this version
-  def spent_hours
-    @spent_hours ||= TimeEntry
-      .not_ongoing
-      .where(entity_type: "WorkPackage", entity_id: targeted_work_packages.select(:id))
-      .sum(:hours)
-      .to_f
-  end
-
   def closed?
     status == "closed"
   end
