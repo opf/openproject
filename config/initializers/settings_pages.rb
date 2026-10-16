@@ -28,6 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+##
+# Defines all settings as structured in their respective menus, sub menus, and tabs.
+#
+# Future work: Use a generic controller, and automatically generate the UI for this based on this structure,
+# so that the controllers and views, and this structure don't have to be kept in sync.
+#
+# Please refer to the [Settings search](docs/development/concepts/settings-search/README.md)
+# for more details.
+#
+# See also: [settings entity kinds initializer](settings_entity_kinds.rb)
 Settings::Pages.draw do
   page :general, menu_item: :settings_general do
     setting :app_title
