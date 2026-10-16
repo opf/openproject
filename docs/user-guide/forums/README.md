@@ -16,17 +16,18 @@ In the forums in OpenProject you can discuss topics in a project with the team: 
 
 </div>
 
-| Topic                                                   | Content                                                                    |
-|---------------------------------------------------------|----------------------------------------------------------------------------|
-| [Create a new forum](#create-a-new-forum)               | How to create a new forum.                                                 |
-| [Manage forums](#manage-forums)                         | How to sort, edit or delete a forum.                                       |
-| [Open a forum](#open-a-forum)                           | How to open an existing forum and sort its topics.                         |
-| [Create a new topic](#create-a-new-topic-in-a-forum)    | How to start a new topic in a forum.                                       |
-| [Read a topic](#read-a-topic)                           | How to read a topic and load its older replies.                            |
-| [Reply to a topic](#reply-to-a-topic)                   | How to reply to a topic or quote a post.                                   |
-| [Watch a forum](#watch-a-forum)                         | How to keep informed about changes in a forum, e.g. new topics or replies. |
-| [Edit a topic or a reply](#edit-a-topic-or-a-reply)     | How to edit a post in a forum.                                             |
-| [Delete a topic or a reply](#delete-a-topic-or-a-reply) | How to delete a topic or a single reply.                                   |
+| Topic                                                                   | Content                                                                    |
+|-------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| [Create a new forum](#create-a-new-forum)                               | How to create a new forum.                                                 |
+| [Manage forums](#manage-forums)                                         | How to sort, edit or delete a forum.                                       |
+| [Open a forum](#open-a-forum)                                           | How to open an existing forum and sort its topics.                         |
+| [Create a new topic](#create-a-new-topic-in-a-forum)                    | How to start a new topic in a forum.                                       |
+| [Read a topic](#read-a-topic)                                           | How to read a topic and load its older replies.                            |
+| [Reply to a topic](#reply-to-a-topic)                                   | How to reply to a topic or quote a post.                                   |
+| [Create a work package](#create-a-work-package-from-a-topic-or-a-reply) | How to turn a topic or a reply into a work package.                        |
+| [Watch a forum](#watch-a-forum)                                         | How to keep informed about changes in a forum, e.g. new topics or replies. |
+| [Edit a topic or a reply](#edit-a-topic-or-a-reply)                     | How to edit a post in a forum.                                             |
+| [Delete a topic or a reply](#delete-a-topic-or-a-reply)                 | How to delete a topic or a single reply.                                   |
 
 ## Create a new forum
 
@@ -110,11 +111,31 @@ Your reply has been added at the end of the topic.
 
 ### Quote a post
 
-To quote a post in your reply, click the **More** (three dots) icon of that post and select **Quote**. The quoted text is added to the editor, where you can complete your reply.
+To quote a post in your reply, click the **More** (three dots) icon of that post and select **Quote message**. The quoted text is added to the editor, where you can complete your reply.
 
 From the same menu, **Copy link to clipboard** copies a link that opens the topic at that post.
 
 ![Actions on a forum reply in OpenProject](openproject_user_guide_forums_post_actions.png)
+
+## Create a work package from a topic or a reply
+
+When a discussion leads to something to do, you can **create a work package** from the post that started it. You need the permission to add work packages in the project.
+
+Hover the post and click the **+ Add new work package** button next to its **More** (three dots) icon. You can also select **Add new work package** in the **More** menu.
+
+![Add a work package from a forum reply in OpenProject](openproject_user_guide_forums_add_work_package_button.png)
+
+A dialog opens with the subject of the topic as the subject of the work package and the content of the post as its description. Adjust them, choose the type and the other attributes, and click **Create**.
+
+![Create a work package from a forum post in OpenProject](openproject_user_guide_forums_add_work_package_dialog.png)
+
+The work package appears in the topic, right under the post it was created from, and the header of the topic lists all the work packages created from it. The success message offers a button to view the new work package.
+
+![Work package created from a forum post in OpenProject](openproject_user_guide_forums_work_package_created.png)
+
+In the **Activity** tab of the work package, the first entry links back to the forum post it was created from.
+
+![Activity of a work package created from a forum post in OpenProject](openproject_user_guide_forums_work_package_activity.png)
 
 ## Watch a forum
 
@@ -148,7 +169,7 @@ The same applies to **unwatch a topic**. Open the topic which you do not want to
 
 ## Edit a topic or a reply
 
-To **edit a post in a forum**, click the **More** (three dots) icon of the post and select **Edit**. This works for the opening post of a topic and for each reply.
+To **edit a post in a forum**, click the **More** (three dots) icon of the post and select **Edit message**. This works for the opening post of a topic and for each reply.
 
 ![Edit a forum topic in OpenProject](openproject_user_guide_forums_edit_topic.png)
 
