@@ -48,7 +48,7 @@ module My
           [
             browser_label,
             render(Primer::Beta::Text.new(classes: "sr-only")) { ", " },
-            render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { I18n.t("my_account.push_notifications.this_device") }
+            render(Primer::Beta::Label.new(scheme: :accent, ml: 2)) { I18n.t("my_account.push_notifications.this_session") }
           ]
         )
       end
@@ -57,12 +57,8 @@ module My
         session_data[:platform] || I18n.t("users.sessions.unknown_os")
       end
 
-      def created_at
-        helpers.format_time(model.created_at)
-      end
-
       def button_links
-        [revoke_button]
+        [revoke_button].compact
       end
 
       private
