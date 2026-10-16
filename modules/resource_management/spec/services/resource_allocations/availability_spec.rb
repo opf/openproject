@@ -129,7 +129,6 @@ RSpec.describe ResourceAllocations::Availability do
       scheduled_minutes = schedule.by_date.values.flatten.sum(&:minutes)
 
       expect(scheduled_minutes).to eq(960)
-      expect(schedule.capacity_on(monday)).to eq(480)
     end
 
     it "dates each entry with the day it is placed on" do
@@ -222,22 +221,16 @@ RSpec.describe ResourceAllocations::Availability do
       overbooking = availability.overbooking_with(prospective)
 
       expect(overbooking).not_to be_overbooked
-      expect(overbooking).to have_attributes(days: [], unplannable: false)
+      expect(overbooking).to have_attributes(overtime_minutes: 0, period: nil, unplannable: false)
     end
 
-    it "lists the days on which the prospective allocation generates overtime" do
+    it "sums the overtime the prospective allocation generates over the period it falls into" do
       create(:resource_allocation, principal: user, allocated_time: 1920)
 
       overbooking = availability.overbooking_with(build(:resource_allocation, principal: user, allocated_time: 960))
 
       expect(overbooking).to be_overbooked
-      expect(overbooking.days.map(&:date)).to eq((monday..friday).to_a)
-      expect(overbooking.days.first).to have_attributes(
-        date: monday, working_minutes: 480, planned_minutes: 480, added_minutes: 96, overtime_minutes: 96
-      )
-      expect(overbooking.days.last).to have_attributes(
-        date: friday, working_minutes: 480, planned_minutes: 0, added_minutes: 576, overtime_minutes: 96
-      )
+      expect(overbooking).to have_attributes(overtime_minutes: 480, period: monday..friday)
     end
 
     it "ignores an existing overbooking the prospective allocation does not add to" do
@@ -251,29 +244,24 @@ RSpec.describe ResourceAllocations::Availability do
       expect(overbooking).not_to be_overbooked
     end
 
-    it "includes an already overbooked day when it adds to the overtime there" do
+    it "counts only the overtime it adds on an already overbooked day" do
       create(:resource_allocation, principal: user, allocated_time: 600, start_date: monday, end_date: monday)
 
       prospective = build(:resource_allocation, principal: user, allocated_time: 240,
                                                 start_date: monday, end_date: monday)
       overbooking = availability.overbooking_with(prospective)
 
-      expect(overbooking.days.sole).to have_attributes(
-        date: monday, working_minutes: 480, planned_minutes: 600, added_minutes: 240, overtime_minutes: 360
-      )
+      expect(overbooking).to have_attributes(overtime_minutes: 240, period: monday..monday)
     end
 
-    it "includes days on which it pushes existing work into overtime" do
+    it "includes the overtime of existing work it pushes back, beyond its own period" do
       create(:resource_allocation, principal: user, allocated_time: 960, start_date: monday, end_date: wednesday)
 
       prospective = build(:resource_allocation, principal: user, allocated_time: 960,
                                                 start_date: monday, end_date: tuesday)
       overbooking = availability.overbooking_with(prospective)
 
-      expect(overbooking.days.map(&:date)).to eq([monday, tuesday, wednesday])
-      expect(overbooking.days.last).to have_attributes(
-        date: wednesday, working_minutes: 480, planned_minutes: 640, added_minutes: 0, overtime_minutes: 160
-      )
+      expect(overbooking).to have_attributes(overtime_minutes: 480, period: monday..wednesday)
     end
 
     it "replaces the persisted version of an allocation being edited" do
@@ -283,21 +271,19 @@ RSpec.describe ResourceAllocations::Availability do
       expect(availability.overbooking_with(existing)).not_to be_overbooked
     end
 
-    it "lists the overtime of an already overbooked allocation that is edited without changing it" do
+    it "reports the overtime of an already overbooked allocation that is edited without changing it" do
       existing = create(:resource_allocation, principal: user, allocated_time: 600, start_date: monday, end_date: monday)
 
-      expect(availability.overbooking_with(existing).days.sole).to have_attributes(
-        date: monday, working_minutes: 480, planned_minutes: 0, added_minutes: 600, overtime_minutes: 120
-      )
+      expect(availability.overbooking_with(existing)).to have_attributes(overtime_minutes: 120, period: monday..monday)
     end
 
-    it "is overbooked without any days when the window contains no working day" do
+    it "is overbooked without any overtime when the window contains no working day" do
       prospective = build(:resource_allocation, principal: user, allocated_time: 240,
                                                 start_date: friday + 1, end_date: friday + 2)
       overbooking = availability.overbooking_with(prospective)
 
       expect(overbooking).to be_overbooked
-      expect(overbooking).to have_attributes(days: [], unplannable: true)
+      expect(overbooking).to have_attributes(overtime_minutes: 0, period: nil, unplannable: true)
     end
   end
 

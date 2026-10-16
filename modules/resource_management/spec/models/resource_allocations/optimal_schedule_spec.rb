@@ -46,8 +46,7 @@ RSpec.describe ResourceAllocations::OptimalSchedule do
         monday => [scheduled_entry(fitting, monday, 480), scheduled_entry(exceeding, monday, 640, overtime_minutes: 640)],
         tuesday => [scheduled_entry(fitting, tuesday, 480)]
       },
-      unplannable: [],
-      calendar: static_calendar(monday => 480, tuesday => 480)
+      unplannable: []
     )
   end
 
@@ -63,11 +62,6 @@ RSpec.describe ResourceAllocations::OptimalSchedule do
   it "returns the allocations with time on a day" do
     expect(schedule.allocations_on(monday)).to contain_exactly(fitting, exceeding)
     expect(schedule.allocations_on(wednesday)).to eq([])
-  end
-
-  it "returns the capacity on a day from its calendar" do
-    expect(schedule.capacity_on(monday)).to eq(480)
-    expect(schedule.capacity_on(wednesday)).to eq(0)
   end
 
   it "sums the overtime on a day" do

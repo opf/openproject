@@ -110,8 +110,16 @@ module ResourceAllocations
         schedule_sentence(@working_schedules)
       end
 
-      def overbooked_days
-        @overbooking.days
+      def overtime_summary
+        t(
+          "resource_management.allocate_resource_dialog.overbooking.overtime_summary_html",
+          hours: format_hours(@allocation.allocated_time),
+          start_date: format_date(@allocation.start_date),
+          end_date: format_date(@allocation.end_date),
+          overtime: format_hours(@overbooking.overtime_minutes),
+          overtime_start_date: format_date(@overbooking.period.begin),
+          overtime_end_date: format_date(@overbooking.period.end)
+        )
       end
 
       def unplannable?
@@ -122,13 +130,9 @@ module ResourceAllocations
         t(
           "resource_management.allocate_resource_dialog.overbooking.unplannable",
           user: @allocation.principal.name,
-          start_date: helpers.format_date(@allocation.start_date),
-          end_date: helpers.format_date(@allocation.end_date)
+          start_date: format_date(@allocation.start_date),
+          end_date: format_date(@allocation.end_date)
         )
-      end
-
-      def column_caption(column)
-        t("resource_management.allocate_resource_dialog.overbooking.columns.#{column}")
       end
 
       def format_hours(minutes)

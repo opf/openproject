@@ -29,7 +29,7 @@
 #++
 
 module ResourceAllocations
-  ProspectiveOverbooking = Data.define(:days, :unplannable) do
-    def overbooked? = unplannable || days.any?
+  ProspectiveOverbooking = Data.define(:overtime_minutes, :period, :unplannable) do
+    def overbooked? = unplannable || overtime_minutes.positive?
   end
 end
