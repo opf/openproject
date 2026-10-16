@@ -63,6 +63,22 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
     end
   end
 
+  it "carries no accepted-solution mark for an unsolved topic" do
+    expect(rendered_component).to have_no_role(:img, accessible_name: "With accepted solution")
+  end
+
+  context "with an accepted solution" do
+    before do
+      create(:message, forum:, parent: topic, accepted_solution: true)
+      topic.reload
+      rendered_component
+    end
+
+    it "marks the subject with a titled checkmark" do
+      expect(page.find(".subject")).to have_role(:img, accessible_name: "With accepted solution")
+    end
+  end
+
   context "when sticky and locked" do
     let(:topic) { create(:message, forum:, sticky: true, locked: true) }
 

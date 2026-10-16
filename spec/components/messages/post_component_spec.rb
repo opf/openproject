@@ -147,6 +147,21 @@ RSpec.describe Messages::PostComponent, type: :component do
       expect(rendered_component).to have_css(".op-forum-post-stem + #message-#{message.id}")
     end
 
+    it "carries no accepted-solution mark by default" do
+      expect(rendered_component).to have_no_role(:img, accessible_name: "Accepted solution")
+    end
+
+    context "when accepted as solution" do
+      before do
+        message.update_column(:accepted_solution, true)
+        rendered_component
+      end
+
+      it "marks its header with a titled checkmark" do
+        expect(find_test_selector("message-header")).to have_role(:img, accessible_name: "Accepted solution")
+      end
+    end
+
     it "leaves out its subject, which only repeats the topic's" do
       expect(rendered_component).to have_no_text("RE: Release planning")
     end
@@ -159,6 +174,28 @@ RSpec.describe Messages::PostComponent, type: :component do
       expect(rendered_component).to have_test_selector("message-actions-#{message.id}")
       expect(rendered_component).to have_css("clipboard-copy", text: "Copy link to clipboard", visible: :all)
       expect(rendered_component).to have_link("Quote message", visible: :all)
+    end
+
+    it "offers no accepting to a member who neither started the topic nor moderates" do
+      expect(rendered_component).to have_no_button("Accept as solution", visible: :all)
+    end
+
+    context "for the topic's author" do
+      current_user { author }
+
+      it "offers accepting it", :aggregate_failures do
+        expect(rendered_component).to have_button("Accept as solution", visible: :all)
+        expect(rendered_component).to have_no_button("Remove as solution", visible: :all)
+      end
+
+      context "when already accepted" do
+        before { message.update_column(:accepted_solution, true) }
+
+        it "offers removing it instead", :aggregate_failures do
+          expect(rendered_component).to have_button("Remove as solution", visible: :all)
+          expect(rendered_component).to have_no_button("Accept as solution", visible: :all)
+        end
+      end
     end
 
     it "hides edit and delete from users who may not change it", :aggregate_failures do
@@ -184,6 +221,23 @@ RSpec.describe Messages::PostComponent, type: :component do
       it "offers no quote" do
         expect(rendered_component).to have_no_link("Quote message", visible: :all)
       end
+    end
+  end
+
+  context "for a moderator on the opening post" do
+    let(:permissions) { %i[view_messages edit_messages] }
+
+    it "offers no accepting it" do
+      expect(rendered_component).to have_no_button("Accept as solution", visible: :all)
+    end
+  end
+
+  context "when a reply is accepted as the topic's solution" do
+    before { create(:message, forum:, parent: topic, accepted_solution: true) }
+
+    it "links to it from a banner in the post's body, not its signature", :aggregate_failures do
+      expect(rendered_component).to have_test_selector("accepted-solutions-banner", text: "Accepted solution:")
+      expect(find_test_selector("message-signature")).to have_no_test_selector("accepted-solutions-banner")
     end
   end
 

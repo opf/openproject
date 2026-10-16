@@ -10,6 +10,7 @@ forums:
     replies:
     - author: member
       content: Loud and clear!
+      accepted_solution: true
   - subject: Welcome to the dev forums
     author: admin
     days_ago: 20
