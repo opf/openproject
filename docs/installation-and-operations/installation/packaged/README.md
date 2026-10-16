@@ -358,6 +358,8 @@ The dialog allows you to choose from three options:
 
 Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with administering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
 
+The wizard also installs [pgvector](../../system-requirements/#pgvector). If that doesn't work, the installation continues without it and features that require `pgvector` will be unavailable.
+
 > [!NOTE]
 > If you would like to use the database that was automatically installed by OpenProject at time of installation just choose `install` again
 
@@ -366,6 +368,8 @@ Choose this option if you want OpenProject to set up and configure a local datab
 Choose this option if you have a PostgreSQL database server installed either on the same host as the OpenProject package is being installed on, or on another server you can connect to from this machine.
 
 The wizard will show you multiple additional steps in this case to enter the hostname, username & password as well as the database name for the PostgreSQL database.
+
+The wizard doesn't install [pgvector](../../system-requirements/#pgvector) on that server, you have to do that yourself.
 
 ### Skip (not recommended)
 
