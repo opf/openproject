@@ -45,6 +45,7 @@ RSpec.describe "account/register" do
 
   context "without external account providers" do
     before do
+      allow(view).to receive(:call_hook).and_call_original
       allow(view).to receive(:call_hook)
         .with(:view_account_login_auth_provider)
         .and_return("")
