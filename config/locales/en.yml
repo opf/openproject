@@ -875,7 +875,7 @@ en:
         push_subscription:
           attributes:
             base:
-              too_many_push_subscriptions: "Only %{count} devices can receive browser push notifications at the same time."
+              too_many_push_subscriptions: "Only %{count} devices can receive browser notifications at the same time."
         queries/filters/base:
           attributes:
             values:
