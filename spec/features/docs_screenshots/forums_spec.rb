@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee: %i[team_planner_view] do
+RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee: %i[team_planner_view work_package_sharing] do
   include_context "with user guide seed data", seeded_at: DocsScreenshots::FROZEN_AT
 
   let(:project) { Project.find_by!(identifier: "user-guide") }
@@ -112,6 +112,33 @@ RSpec.describe "Forums user guide screenshots", :docs_screenshots, :js, with_ee:
     scroll_to find_test_selector("forum-post-#{reply.id}"), align: :center
     open_post_actions(reply)
     docs_screenshot "forums/openproject_user_guide_forums_post_actions"
+  end
+
+  it "captures creating a work package from a reply" do
+    reply = topic.children.find_by!(author: User.find_by!(login: "jonas.weber"))
+    visit project_forum_topic_path(project, customer_feedback, topic)
+    scroll_to find_test_selector("forum-post-#{reply.id}"), align: :center
+    find_test_selector("forum-post-#{reply.id}").hover
+    docs_screenshot "forums/openproject_user_guide_forums_add_work_package_button"
+
+    # Rolled-back examples keep advancing the id sequence, which the work package number shows.
+    WorkPackage.connection.set_pk_sequence!(WorkPackage.table_name, 41)
+    find_test_selector("message-create-work-package-button-#{reply.id}").click
+    within("#create-work-package-dialog") do
+      expect(page).to have_field("Subject", with: "Agile Boards feedback")
+      fill_in "Subject", with: "Add work packages to a Basic board list from the board"
+    end
+    docs_screenshot "forums/openproject_user_guide_forums_add_work_package_dialog"
+
+    within("#create-work-package-dialog") { click_on "Create" }
+    expect(page).to have_text("Successful creation.")
+    docs_screenshot "forums/openproject_user_guide_forums_work_package_created"
+
+    # Journaling stamps updated_at with the database clock, which the frozen time does not reach.
+    WorkPackage.last.update_columns(updated_at: Time.current)
+    visit project_work_package_path(project, WorkPackage.last.id, "activity")
+    expect(page).to have_text("Created from forum message")
+    docs_screenshot "forums/openproject_user_guide_forums_work_package_activity"
   end
 
   it "captures watching a forum and a topic" do
