@@ -99,7 +99,6 @@ class WorkPackages::UpdateService < BaseServices::Update
     if work_package.saved_change_to_project_id?
       moved_work_packages = [work_package] + work_package.descendants
       delete_relations(moved_work_packages)
-      move_time_entries(moved_work_packages, work_package.project_id)
       move_work_package_memberships(moved_work_packages, work_package.project_id)
       update_semantic_ids(moved_work_packages) if Setting::WorkPackageIdentifier.semantic?
     end
@@ -131,18 +130,6 @@ class WorkPackages::UpdateService < BaseServices::Update
         .of_work_package(work_packages)
         .destroy_all
     end
-  end
-
-  # Saved individually so that +TimeEntry#update_costs+ re-rates each entry against the target
-  # project. Validations are skipped because entries logged under earlier settings (enforced
-  # start times, required custom fields) may no longer validate and must not block the move.
-  def move_time_entries(work_packages, project_id)
-    TimeEntry
-      .on_work_packages(work_packages)
-      .find_each do |entry|
-        entry.project_id = project_id
-        entry.save(validate: false)
-      end
   end
 
   def move_work_package_memberships(work_packages, project_id)

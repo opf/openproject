@@ -72,7 +72,6 @@ RSpec.describe WorkPackage do
     it { is_expected.to belong_to(:project_phase_definition).class_name("Project::PhaseDefinition").optional }
     it { is_expected.to belong_to(:priority).class_name("IssuePriority") }
     it { is_expected.to belong_to(:category).optional }
-    it { is_expected.to have_many(:time_entries).dependent(:delete_all) }
     it { is_expected.to have_many(:file_links).dependent(:delete_all).class_name("Storages::FileLink") }
     it { is_expected.to have_many(:storages).through(:project) }
     it { is_expected.to have_and_belong_to_many(:changesets) }

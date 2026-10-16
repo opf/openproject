@@ -171,6 +171,13 @@ module Costs
            parent: :admin_costs,
            caption: :label_time_entry_custom_field_plural
 
+      menu :project_menu,
+           :settings_time_and_costs,
+           { controller: "/projects/settings/time_entry_activities", action: :show },
+           parent: :settings,
+           after: :settings_repository,
+           caption: :"cost_types.settings.time_and_costs"
+
       menu :my_menu,
            :hourly_rates,
            { controller: "/my/hourly_rates", action: "show" },
@@ -195,14 +202,19 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    replace_principal_references "CostEntry" => %i[logged_by_id user_id]
+    replace_principal_references "CostEntry" => %i[logged_by_id user_id],
+                                 "TimeEntry" => %i[logged_by_id user_id]
 
+    include_module "Costs::Events", into: "OpenProject::Events"
     include_module "Costs::HasRates", into: %w[User PlaceholderUser]
     include_module "Projects::Costs", into: "Project"
     include_module "PermittedParams::Costs", into: "PermittedParams"
+    include_module "Versions::SpentTime", into: "Version"
+    include_module "WorkPackages::TimeEntries", into: "WorkPackage"
     include_module "WorkPackages::Costs", into: "WorkPackage"
     include_module "WorkPackages::SpentTime", into: "WorkPackage"
 
+    prepend_module "WorkPackages::UpdateService::MoveTimeEntries", into: "WorkPackages::UpdateService"
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
     prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"

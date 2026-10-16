@@ -87,8 +87,6 @@ class Project < ApplicationRecord
   has_many :versions, -> {
     order("#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC")
   }, dependent: :destroy
-  has_many :time_entries, dependent: :delete_all
-  has_many :time_entry_activities_projects, dependent: :delete_all
   has_many :queries, dependent: :destroy
   has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
