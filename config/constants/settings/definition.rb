@@ -631,7 +631,7 @@ module Settings
       },
       web_push_enabled: {
         format: :boolean,
-        default: true
+        default: false
       },
       web_push_service_hosts: {
         description: "Push services a browser may subscribe through. Subdomains are included. " \
