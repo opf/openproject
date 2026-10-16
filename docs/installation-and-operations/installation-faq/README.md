@@ -148,6 +148,10 @@ For packaged installations, the openproject package behaves just like every othe
 2. You have enough inodes on your partitions left. Verify with `df -i` . As OpenProject packages contains a high number of files, these might cause problems with low free inode counts.
 3. Make sure you do not have a virus scanner such as Sophos or other pieces of software blocking the installation of packages.
 
+### During the upgrade I see a "PGVECTOR NOT AVAILABLE" warning. What does that mean?
+
+OpenProject couldn't set up the PostgreSQL extension pgvector. The upgrade still went through and OpenProject works as usual, but features which require `pgvector` are disabled. See [pgvector](../system-requirements/#pgvector).
+
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
 For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure` as part of the update process.
