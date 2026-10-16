@@ -44,6 +44,61 @@ forums:
     replies:
     - author: jonas.weber
       content: "`?` to show all the others, of course."
+  - subject: "Dark mode: first impressions"
+    author: jonas.weber
+    days_ago: 4
+    content: The dark mode is here. What do you think of it so far?
+    replies:
+    - author: amara.okafor
+      content: Finally! I switched this morning and my eyes thank you.
+    - author: mia.bayer
+      content: Same here. The Gantt chart looks great in the dark.
+    - author: jonas.weber
+      content: Does it follow the setting of the operating system?
+    - author: amara.okafor
+      content: Yes, there is an automatic mode that follows your operating system.
+    - author: jonas.weber
+      content: Perfect, that is what I wanted.
+    - author: mia.bayer
+      content: Has anyone tried the high contrast variant?
+    - author: amara.okafor
+      content: I did. Very readable, but a bit too bright for me in the evening.
+    - author: jonas.weber
+      content: The screenshots in our wiki still show the light mode. Should we take them again?
+    - author: mia.bayer
+      content: Not for now, most readers still use the light mode.
+    - author: amara.okafor
+      content: Code blocks are easier to read in the dark mode, I find.
+    - author: jonas.weber
+      content: Agreed. Tables too, the row borders stand out more.
+    - author: mia.bayer
+      content: Let's collect anything that looks off in this topic.
+    - author: amara.okafor
+      content: Two of our status colors are hard to tell apart.
+    - author: jonas.weber
+      content: Which ones?
+    - author: amara.okafor
+      content: Our two shades of orange for the review statuses.
+    - author: mia.bayer
+      content: Good catch. An administrator can change the status colors.
+    - author: jonas.weber
+      content: I will ask ours.
+    - author: amara.okafor
+      content: Images with a transparent background look odd on the dark background.
+    - author: mia.bayer
+      content: Could you share an example in a new topic?
+    - author: amara.okafor
+      content: Will do.
+    - author: jonas.weber
+      content: I have been using the dark mode for a week now. No going back.
+    - author: mia.bayer
+      content: Great to hear.
+    - author: amara.okafor
+      content: Same, I forget that it is even on.
+    - author: jonas.weber
+      content: Thanks everyone for the feedback!
+    - author: mia.bayer
+      content: I will summarize the findings for the product team on Friday.
 - name: Download and installation
   description: How to download and install the software.
   topics: []
