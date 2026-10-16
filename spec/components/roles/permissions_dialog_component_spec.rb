@@ -60,9 +60,8 @@ RSpec.describe Roles::PermissionsDialogComponent, type: :component do
       expect(subject).to have_no_text I18n.t(:permission_delete_work_packages)
     end
 
-    it "lists the public permissions as implicitly granted" do
+    it "lists the public permissions as granted" do
       expect(subject).to have_text I18n.t(:permission_view_project)
-      expect(subject).to have_text I18n.t("roles.permissions_dialog.implicit_permission")
     end
 
     it "renders a collapsible, expanded list per module" do

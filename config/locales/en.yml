@@ -6483,7 +6483,6 @@ en:
       section_uncheck_all_label: "Unassign all %{module} permissions"
     permissions_dialog:
       edit_permissions: "Edit role permissions"
-      implicit_permission: "Always granted"
       no_permissions: "This role does not grant any permissions."
       permission_count:
         one: "1 permission"

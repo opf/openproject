@@ -69,8 +69,6 @@ module Roles
       t(:"permission_#{permission.name}_explanation", default: nil)
     end
 
-    def implicit?(permission) = permission.public?
-
     def editable? = User.current.admin?
 
     private
