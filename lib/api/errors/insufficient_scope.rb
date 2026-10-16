@@ -34,12 +34,23 @@ module API
       identifier "InsufficientScope"
       code 403
 
-      def initialize(granted_scopes:, required_scope:)
-        super(
-          I18n.t("api_v3.errors.insufficient_scope",
-                 granted: granted_scopes.map { |scope| "'#{scope}'" }.join(", "),
-                 required: required_scope)
-        )
+      def initialize(granted_scopes:, accepted_scopes:)
+        granted = format_scopes(granted_scopes)
+
+        message =
+          if accepted_scopes.one?
+            I18n.t("api_v3.errors.insufficient_scope", granted:, required: accepted_scopes.first)
+          else
+            I18n.t("api_v3.errors.insufficient_scope_any", granted:, accepted: format_scopes(accepted_scopes))
+          end
+
+        super(message)
+      end
+
+      private
+
+      def format_scopes(scopes)
+        scopes.map { |scope| "'#{scope}'" }.join(", ")
       end
     end
   end

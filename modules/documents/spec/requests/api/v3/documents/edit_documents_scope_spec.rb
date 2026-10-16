@@ -134,6 +134,30 @@ RSpec.describe "API v3 access with the edit documents scope" do
     end
   end
 
+  context "with an access token granting another restricted scope" do
+    let(:access_token) { create(:oauth_access_token, resource_owner: current_user, scopes: "other_scope") }
+
+    before do
+      allow(OpenProject::Authentication).to receive(:restricted_oauth_scopes).and_call_original
+      allow(OpenProject::Authentication)
+        .to receive(:restricted_oauth_scopes)
+        .with(:api_v3)
+        .and_return([Documents::OAuth::EDIT_DOCUMENTS_SCOPE, "other_scope"])
+    end
+
+    it "responds with 403 InsufficientScope naming all scopes accepted by the endpoint" do
+      get api_v3_paths.document(document.id)
+
+      expect(last_response).to have_http_status(:forbidden)
+      expect(last_response.headers["WWW-Authenticate"]).to include('scope="api_v3 edit_documents"')
+      expect(last_response.body)
+        .to be_json_eql(I18n.t("api_v3.errors.insufficient_scope_any",
+                               granted: "'other_scope'",
+                               accepted: "'api_v3', 'edit_documents'").to_json)
+        .at_path("message")
+    end
+  end
+
   context "with an api_v3 access token" do
     let(:access_token) { create(:oauth_access_token, resource_owner: current_user) }
 

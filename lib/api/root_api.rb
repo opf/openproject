@@ -86,13 +86,15 @@ module API
       # scope and only grant access to endpoints opting into it via `route_setting :oauth_scopes`.
       def enforce_oauth_scope
         access_token = env[OpenProject::Authentication::Strategies::Warden::DoorkeeperOAuth::ACCESS_TOKEN_ENV_KEY]
-        return if access_token.nil? || access_token.includes_scope?(authentication_scope)
-
-        endpoint_scopes = Array(route.settings[:oauth_scopes])
-        return if endpoint_scopes.any? { |scope| access_token.includes_scope?(scope) }
+        return if access_token.nil?
+        return if access_token.includes_scope?(*accepted_oauth_scopes)
 
         raise ::API::Errors::InsufficientScope.new(granted_scopes: access_token.scopes.to_a,
-                                                   required_scope: authentication_scope)
+                                                   accepted_scopes: accepted_oauth_scopes)
+      end
+
+      def accepted_oauth_scopes
+        [authentication_scope.to_s, *Array(route.settings[:oauth_scopes]).map(&:to_s)]
       end
 
       def set_localization
@@ -303,6 +305,7 @@ module API
       lambda do
         header = OpenProject::Authentication::WWWAuthenticate.response_header(env:,
                                                                               scope: authentication_scope,
+                                                                              oauth_scopes: accepted_oauth_scopes,
                                                                               error: "insufficient_scope")
 
         { "WWW-Authenticate" => header }
