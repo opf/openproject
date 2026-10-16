@@ -218,13 +218,14 @@ OpenProject:
 ANYCABLE_SECRET=<shared secret>
 ANYCABLE_WEBSOCKET_URL=/cable
 ANYCABLE_HTTP_RPC=true
-# Only needed when the AnyCable server does not run on localhost:8080
-ANYCABLE_HTTP_BROADCAST_URL=http://<anycable host>:8080/_broadcast
+# Only needed when the AnyCable server does not run on localhost:2345
+ANYCABLE_HTTP_BROADCAST_URL=http://<anycable host>:2345/_broadcast
 ```
 
 AnyCable server:
 
 ```shell
+ANYCABLE_PORT=2345
 ANYCABLE_SECRET=<shared secret>
 ANYCABLE_RPC_HOST=http://<openproject host>:<openproject port>/_anycable
 ANYCABLE_BROADCAST_ADAPTER=http

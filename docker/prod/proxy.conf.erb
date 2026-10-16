@@ -25,12 +25,12 @@
   </Location>
 
   <Location <%= location %>/cable>
-    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8090/cable upgrade=websocket
-    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8090/cable
+    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:2345/cable upgrade=websocket
+    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:2345/cable
   </Location>
 
   <Location <%= location %>/events>
-    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8090/events flushpackets=on
-    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:8090/events
+    ProxyPass http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:2345/events flushpackets=on
+    ProxyPassReverse http://<%= ENV.fetch("APP_HOST", "127.0.0.1") %>:2345/events
   </Location>
 </VirtualHost>

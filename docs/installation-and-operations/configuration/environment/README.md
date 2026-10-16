@@ -463,4 +463,4 @@ These variables connect OpenProject to an AnyCable server. See [Live updates](..
 | `ANYCABLE_WEBSOCKET_URL` | `nil` (`auto` in the all-in-one container) | URL browsers connect to, usually `/cable`. Live updates stay disabled without it. |
 | `ANYCABLE_HTTP_RPC` | `false` | Enables the `/_anycable` endpoint the AnyCable server calls to authenticate and authorize users. |
 | `ANYCABLE_HTTP_RPC_SECRET` | derived from `ANYCABLE_SECRET` | Token the AnyCable server sends to the `/_anycable` endpoint. |
-| `ANYCABLE_HTTP_BROADCAST_URL` | `http://localhost:8080/_broadcast` | Where OpenProject sends live updates to the AnyCable server. |
+| `ANYCABLE_HTTP_BROADCAST_URL` | `http://localhost:2345/_broadcast` | Where OpenProject sends live updates to the AnyCable server. |

@@ -11,15 +11,15 @@ default: &default
   log_grpc: false
   # Use HTTP broadcaster by default
   broadcast_adapter: http
-  # anycable-go serves broadcasts on its main port unless [http_broadcast_url] port is set
-  # http_broadcast_url: "http://localhost:8080/_broadcast"
+  # anycable-go serves broadcasts on its main port, which OpenProject sets to 2345
+  http_broadcast_url: "http://localhost:2345/_broadcast"
   # This values MUST be the same as in your AnyCable server configuration
   secret: "anycable-local-secret"
   # WebSocket endpoint of your AnyCable server for clients to connect to
   # IMPORTANT: Make sure you have the `action_cable_meta_tag` in your HTML layout
   # to propogate this value to the client app.
   # Same-origin path: in development OpenProject::Dev::CableTunnel forwards it to
-  # anycable-go on port 8080, in production the reverse proxy does.
+  # anycable-go on port 2345, in production the reverse proxy does.
   websocket_url: "/cable"
 
 development:

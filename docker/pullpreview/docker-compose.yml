@@ -26,7 +26,7 @@ x-defaults: &defaults
     - "ANYCABLE_WEBSOCKET_URL=/cable"
     - "ANYCABLE_SECRET=secret12345"
     - "ANYCABLE_HTTP_RPC=true"
-    - "ANYCABLE_HTTP_BROADCAST_URL=http://anycable:8080/_broadcast"
+    - "ANYCABLE_HTTP_BROADCAST_URL=http://anycable:2345/_broadcast"
     - "OPENPROJECT_ADDITIONAL__HOSTS=web"
     - "RAILS_ENV=production"
     - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
@@ -106,9 +106,10 @@ services:
       - backend
     environment:
       - ANYCABLE_HOST=0.0.0.0
+      - ANYCABLE_PORT=2345
       - ANYCABLE_SECRET=secret12345
       - ANYCABLE_RPC_HOST=http://web:8080/_anycable
       - ANYCABLE_BROADCAST_ADAPTER=http
       - ANYCABLE_SSE=true
     expose:
-      - "8080"
+      - "2345"

@@ -38,7 +38,7 @@ module OpenProject
     class CableTunnel
       PATHS = %w[/cable /events].freeze
 
-      def initialize(app, target: URI(ENV.fetch("ANYCABLE_DEV_URL", "http://localhost:8080")))
+      def initialize(app, target: URI(ENV.fetch("ANYCABLE_DEV_URL", "http://localhost:2345")))
         @app = app
         @target = target
       end

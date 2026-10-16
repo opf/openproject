@@ -54,8 +54,8 @@ x-op-backend: &backend
     OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL:-wss://hocuspocus.local}
     OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET:-secret12345}
     # OpenProject::Dev::CableTunnel forwards /cable and /events to the anycable service
-    ANYCABLE_DEV_URL: http://anycable:8080
-    ANYCABLE_HTTP_BROADCAST_URL: http://anycable:8080/_broadcast
+    ANYCABLE_DEV_URL: http://anycable:2345
+    ANYCABLE_HTTP_BROADCAST_URL: http://anycable:2345/_broadcast
     # The anycable service calls the RPC endpoint on http://backend:3000
     OPENPROJECT_DEV_EXTRA_HOSTS: "backend,${OPENPROJECT_DEV_EXTRA_HOSTS:-}"
     OPENPROJECT_WEB_MAX__THREADS: 1
@@ -148,6 +148,7 @@ services:
     <<: *restart_policy
     environment:
       ANYCABLE_HOST: 0.0.0.0
+      ANYCABLE_PORT: 2345
       ANYCABLE_SECRET: anycable-local-secret
       ANYCABLE_RPC_HOST: http://backend:3000/_anycable
       ANYCABLE_BROADCAST_ADAPTER: http

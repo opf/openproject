@@ -304,8 +304,8 @@ ps -ef | grep -F "anycable-go" | grep -v grep >/dev/null 2>&1 || {
   echo "Expected bundled AnyCable process to be running."
   exit 1
 }
-curl --silent --fail http://127.0.0.1:8090/health >/dev/null || {
-  echo "Expected bundled AnyCable server to respond on port 8090."
+curl --silent --fail http://127.0.0.1:2345/health >/dev/null || {
+  echo "Expected bundled AnyCable server to respond on port 2345."
   exit 1
 }
 '
