@@ -1,0 +1,11 @@
+---
+users:
+- login: mia.bayer
+  firstname: Mia
+  lastname: Bayer
+- login: jonas.weber
+  firstname: Jonas
+  lastname: Weber
+- login: amara.okafor
+  firstname: Amara
+  lastname: Okafor
