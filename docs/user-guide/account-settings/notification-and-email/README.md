@@ -48,16 +48,16 @@ You can also opt-in to receive **email alerts for other items (that are not work
 - **Membership added** - ...adds you to a new [Work package](../../../getting-started/work-packages-introduction/)
 - **Membership updated** - ...updates your membership associations
 
-## Browser push
+## Browser notifications
 
-The **Browser push** tab is shown when your administrator has enabled browser push notifications and you have installed OpenProject as a desktop application. This works in Chrome, Edge and Safari on macOS. Firefox on desktop does not install web applications, but it supports browser push from a normal browser tab while Firefox is running.
+The **Browser notifications** tab is shown when your administrator allows browser notifications and you have installed OpenProject as a desktop application. This works in Chrome, Edge and Safari on macOS. Firefox on desktop does not install web applications, but it supports browser notifications from a normal browser tab while Firefox is running.
 
-If the tab shows **Browser push is temporarily unavailable on this instance**, browser push cannot be used right now. Please contact your administrator.
+If the tab shows **Browser notifications are temporarily unavailable on this instance**, they cannot be used right now. Please contact your administrator.
 
-Click **Enable on this device** and accept the browser prompt asking for permission to show notifications. The list on this tab shows each device on which you have enabled browser push, each with a **Revoke** button.
+Click **Enable on this device** and accept the browser prompt asking for permission to show notifications. The list on this tab shows each device on which you have enabled browser notifications, each with a **Revoke** button.
 
-If pushes stop arriving on a device (browsers rotate push endpoints from time to time), turn browser push off and on again on that device.
+If notifications stop arriving on a device (browsers rotate push endpoints from time to time), turn browser notifications off and on again on that device.
 
 When you have unread notifications, the application shows a notification for the latest one. The operating system notification shows who triggered it and the work package subject.
 
-Pausing your email reminders also pauses browser push. Signing out removes the device from the list.
+Pausing your email reminders also pauses browser notifications. Signing out removes the device from the list.
