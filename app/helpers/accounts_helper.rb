@@ -43,6 +43,12 @@ module AccountsHelper
     end
   end
 
+  # Mirrors AccountController#allow_registration?: self registration goes through
+  # the password form, so it stays unavailable while password login is off.
+  def self_registration_possible?
+    Setting::SelfRegistration.enabled? && Users::PasswordLogin.enabled?
+  end
+
   def login_field(form)
     form.text_field :login, size: 25, required: true
   end

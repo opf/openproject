@@ -202,6 +202,7 @@ pt-BR:
     description_subwork_package: 'Filho do pacote de trabalho #%{id}'
     editor:
       ckeditor_error: 'Ocorreu um erro no CKEditor '
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
       macro:
         attribute_reference:
@@ -720,6 +721,7 @@ pt-BR:
     placeholders:
       default: "-"
       description: 'Descrição: Clique em editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clique para adicionar a descrição para esta relação
       selection: Por favor selecione
       subject: Informe o assunto aqui
@@ -845,9 +847,7 @@ pt-BR:
     text_user_wrote: "%{value} escreveu:"
     text_work_packages_destroy_confirmation: Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?
     time_entry:
-      stop: Parar
       title: Registro de tempo
-      tracking: Controle de tempo
       work_package_required: É necessário selecionar primeiro um pacote de trabalho.
     timer:
       button_stop: Interromper temporizador atual

@@ -45,9 +45,9 @@ end
 
 # Takes the above `wait_for_network_idle` a step further by waiting
 # for the page to be reloaded after some triggering action.
-def wait_for_reload
+def wait_for_reload(...)
   if using_cuprite?
-    page.driver.wait_for_reload
+    page.driver.wait_for_reload(...)
   else
     warn_about_cuprite_helper_misuse(:wait_for_reload)
   end
@@ -75,6 +75,29 @@ def clear_input_field_contents(input_element)
   backspaces = Array.new(input_element.value.length, :backspace)
   input_element.native.node.type(*rights)
   input_element.native.node.type(*backspaces)
+end
+
+def send_keys_without_click(element, *keys)
+  return element.send_keys(*keys) unless using_cuprite?
+
+  element.native.node.focus
+  page.driver.browser.keyboard.type(*keys)
+end
+
+def wait_for_request(url_pattern, method: "GET", wait: Capybara.default_max_wait_time)
+  return yield unless using_cuprite?
+
+  page.driver.clear_network_traffic
+  result = yield
+
+  page.document.synchronize(wait) do
+    requested = page.driver.network_traffic.any? do |exchange|
+      exchange.finished? && exchange.request&.method == method && exchange.request.url.match?(url_pattern)
+    end
+    raise Capybara::ExpectationNotMet, "Expected a finished #{method} request to #{url_pattern.inspect}" unless requested
+  end
+
+  result
 end
 
 # Waits for CKEditor to be fully initialized.

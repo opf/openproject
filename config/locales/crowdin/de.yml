@@ -40,7 +40,9 @@ de:
         view: Ein dynamischer Link zu einer Ansicht, der mithilfe eines Makros eingefügt wurde.
         work_package: Ein dynamischer Link auf ein Arbeitspaket, der mithilfe eines Makros eingefügt wurde.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Bitte melden Sie sich als <em>%{login}</em> an um Ihr Konto zu aktivieren.
+    continue_with_provider: Continue with %{name}
     delete: Konto löschen
     delete_confirmation: Sind Sie sicher, dass Sie das Konto löschen wollen?
     deletion_info:
@@ -65,7 +67,9 @@ de:
     error_self_registration_limited_provider: 'Die Benutzerregistrierung ist für den Single Sign-On Provider ''%{name}'' eingeschränkt. Bitten Sie einen Administrator, das Konto für Sie zu aktivieren oder die Konfiguration der Selbstregistrierung für diesen Anbieter zu ändern.
 
       '
-    login_with_auth_provider: oder melden Sie sich mit einem bestehenden Konto an
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Weiter zur Anmeldung
     omniauth_direct_login_redirecting: Sie werden zu Ihrem SSO-Anbieter weitergeleitet…
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
@@ -168,6 +172,7 @@ de:
         uid: Client-ID
       emoji_reaction:
         reactable: Reagiert am
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: Aktive Nutzer
         encoded_token: Enterprise edition Support Token
@@ -200,11 +205,13 @@ de:
         row_count: Anzahl der Zeilen
         widgets: Widgets
       group:
+        avatar_color: Fallback color
         group_users: Benutzer der Gruppe
         identity_url: Identity URL
         organizational_unit: Organisationseinheit
         parent: Übergeordnete Gruppe
       group_detail:
+        avatar_color: Fallback color
         organizational_unit: Organisationseinheit
         parent: Übergeordnete Gruppe
       import/jira:
@@ -242,7 +249,13 @@ de:
         base_url: Host-URL
         default_chat_model: Standardmäßiges Chat-Modell
         default_embedding_model: Default embedding model
+        env_fingerprint: Applied environment configuration
+        env_provisioned_at: Applied from the environment
         llm_features_enabled: LLMs für diese Instanz aktivieren
+      llm_feature_binding:
+        dimensions: Dimensions
+        feature_key: Feature
+        model: Model
       llm_model:
         admin_context_window: Kontextfenster
         display_name: Anzeigename
@@ -399,6 +412,8 @@ de:
         ongoing: Fortlaufend
         spent_on: Datum
         type: Art
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalender
         ical_token_query_assignment: Zuordnung der Abfrage
@@ -439,7 +454,7 @@ de:
         last_name: Nachname
         ldap_auth_source: LDAP-Verbindung
         new_password: Neues Kennwort
-        password_confirmation: Bestätigung
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Abschnitt
       user_non_working_time:
@@ -448,11 +463,13 @@ de:
       user_preference:
         auto_hide_popups: Erfolgsbannern automatisch ausblenden
         auto_hide_popups_caption: Wenn diese Funktion aktiviert ist, verschwinden die grünen Erfolgsbanner automatisch nach 5 Sekunden.
+        avatar_color: Fallback color
         button_update_alerts: Warnmeldungen aktualisieren
         button_update_look_and_feel: Erscheinungsbild und Bedienverhalten aktualisieren
         button_update_user_information: Profil aktualisieren
         comments_sorting: Arbeits­paket­aktivität anzeigen, sortiert nach
         daily_reminders: Tägliche Erinnerungen
+        date_format: Date format
         disable_keyboard_shortcuts: Tastaturkürzel deaktivieren
         dismissed_enterprise_banners: Ausgeblendete Unternehmensbanner
         force_dark_theme_contrast: Hohen Kontrast im Dunkel-Modus erzwingen
@@ -466,7 +483,10 @@ de:
         increase_contrast_caption: Aktiviere hohen Kontrast für den gewählten Farbmodus.
         increase_theme_contrast: Kontrast erhöhen
         mode_guideline: Einige Modi überschreiben benutzerdefinierte Theme-Farben zur Verbesserung von Barrierefreiheit und Lesbarkeit. Bitte wählen Sie den Hellmodus für die vollständige Unterstützung Ihres benutzerdefinierten Themes.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Farbmodus
+        time_format: Time format
         time_zone: Zeitzone
         warn_on_leaving_unsaved: Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen
         workdays: Arbeitstage
@@ -773,8 +793,24 @@ de:
               ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
             custom_headers:
               invalid: must map header names to plain text values.
+            default_chat_model_id:
+              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
+              not_available: is not offered by the configured LLM server.
+            default_embedding_model_id:
+              cannot_embed: is known not to create embeddings, according to the LLM server.
+              not_available: is not offered by the configured LLM server.
             llm_features_enabled:
               requires_connection: cannot be turned on before a connection has been configured.
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
+              not_for_chat_feature: only applies to features that create embeddings.
+            feature_key:
+              not_registered: does not belong to a known AI feature.
+            model_id:
+              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
+              not_available: is not offered by the configured LLM server.
         llm_model:
           attributes:
             external_id:
@@ -1472,6 +1508,10 @@ de:
   admin:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1915,6 +1955,7 @@ de:
           title: No labels match your search
     llm_connections:
       delete_api_key:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
         heading: Gespeicherten API-Schlüssel löschen?
         menu_label: API-Schlüssel entfernen
@@ -1922,8 +1963,10 @@ de:
         title: API-Schlüssel entfernen
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
         heading: Disconnect from the LLM server?
+        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
         menu_label: Trennen
@@ -1933,11 +1976,14 @@ de:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_env: The key comes from the environment.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
         api_key_placeholder_stored: API-Schlüssel gespeichert
         api_key_remove: Schlüssel entfernen
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Verbinden
+        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
+        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
+        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
         label_connecting: Contacting the LLM server…
         llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
         server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
@@ -1947,28 +1993,69 @@ de:
         description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
       tabs:
         connection: Verbindung
+        features: Feature configuration
         models: Modelle
       update:
-        disabled: Saved. LLM features are switched off for this instance.
+        disabled: Gespeichert. Die LLM-Funktionen sind für diese Instanz deaktiviert.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
         success: Successfully connected to the LLM server.
-    llm_models:
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      form:
+        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
+        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
+        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
+      index:
+        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
+      inherit_with_default: Use the default (%{model})
+      inherit_without_default: Use the default (none set)
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: Values fixed by the existing index
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
+        success: The model for %{feature} has been saved.
+    llm_health_status:
       create:
-        success: "%{model} has been added."
+        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
+      create_health_status_report:
+        success: The checks have run.
+      show:
+        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
+        blankslate_heading: This connection has not been checked yet
+        download: Download report
+        last_check: Last checked %{datetime}.
+        run_checks: Run checks
+        running: Running checks...
+        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
+        title: Health status
+    llm_models:
+      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
+      create:
+        success: "%{model} wurde hinzugefügt."
+      defaults:
+        chat_caption: Embedding models are not offered.
+        description: Used by AI features that do not choose a model themselves.
+        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
+        heading: Default models
+        success: The default models have been saved.
       destroy:
-        description: The model will no longer be offered to AI features.
-        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        description: Das Modell wird nicht mehr für KI-Funktionen angeboten.
+        description_bound: Dieses Modell wird derzeit von %{features} verwendet. Diese Funktionen stehen nicht mehr zur Verfügung, bis ein anderes Modell ausgewählt wird.
         heading: "%{model} entfernen?"
         success: "%{model} wurde entfernt."
         title: Modell entfernen
       edit:
-        description: Edit how OpenProject uses this model.
+        description: Bearbeiten, wie OpenProject dieses Modell verwendet.
       form:
         context_window: Kontextfenster
-        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
-        context_window_known: Leave blank to use %{value}, %{source}.
+        context_window_caption: Wie viele Token dieses Modell akzeptiert. Leer lassen, wenn Sie es nicht wissen.
+        context_window_known: Leer lassen, um %{value}, %{source} zu verwenden.
         display_name_caption: An optional friendly name shown instead of the model id.
-        external_id_caption: The model name exactly as the server expects it.
+        external_id_caption: Der Modellname genau so, wie er vom Server erwartet wird.
         model_type: Modelltyp
         model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
         model_type_chat: Chat-Modell
@@ -1982,7 +2069,7 @@ de:
         blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
         blank_title: Keine Modelle verfügbar
         context_window: Kontextfenster
-        description: Reported by the server on %{fetched_at}.
+        description: Vom Server am %{fetched_at} gemeldet.
         description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
         filter_label: Modelle filtern
         identifier: Modell
@@ -1997,7 +2084,7 @@ de:
         source_withdrawn_description: Wird vom Server nicht mehr gemeldet
         stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
       new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
+        description: Nennen Sie ein Modell, das dieser Server verwenden kann, das er jedoch nicht bekannt gibt, und beschreiben Sie, wozu es in der Lage ist.
         title: Modell hinzufügen
       refresh:
         failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
@@ -2300,6 +2387,21 @@ de:
         not_available: Der KI-Assistent ist nicht verfügbar.
         timeout: Der KI-Dienst hat nicht rechtzeitig geantwortet.
         upstream_error: Der KI-Dienst hat eine Fehlermeldung zurückgegeben.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Inhalt
     is_active: derzeit angezeigt
@@ -3504,7 +3606,7 @@ de:
       projects_count:
         one: 1 Projekt
         other: "%{count} Projekte"
-      types_and_variants_count: "%{types} (including %{variants})"
+      types_and_variants_count: "%{types} (einschließlich %{variants})"
       types_count:
         one: 1 Typ
         other: "%{count} Typen"
@@ -3585,6 +3687,8 @@ de:
   groups:
     edit:
       synchronized_groups: Synchronisierte Gruppen
+    form:
+      group_attributes: Group attributes
     index:
       description: Durch die Gruppierung von Benutzern können Sie diese den gleichen globalen Rollen oder den gleichen Projekten als Mitglieder zuweisen.
     memberships:
@@ -3610,6 +3714,10 @@ de:
       leave_project: Projekt verlassen
       no_favorite_projects: Sie haben keine favorisierten Projekte.
       title: Projekte
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3656,6 +3764,31 @@ de:
             line_5: Verfolgen Sie den Importfortschritt bei der Verwendung des Jira Migrators.
             line_6: Datumsbenachrichtigungen in der Community Edition verwenden.
           new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Lesen Sie über neue Funktionen und Updates.
@@ -3932,7 +4065,7 @@ de:
   label_database_version: PostgreSQL-Version
   label_date: Datum
   label_date_and_time: Datum und Zeit
-  label_date_format: Datumsformat
+  label_date_and_time_formats: Date and time formats
   label_date_from: Von
   label_date_from_to: von %{start} bis %{end}
   label_date_to: Bis
@@ -4091,7 +4224,6 @@ de:
   label_keyword_plural: Schlüsselwörter
   label_label_plural: Bezeichnungen
   label_language: Sprache
-  label_language_based: Sprachabhängig
   label_languages: Sprachen
   label_last_activity: Letzte Aktivität
   label_last_change_on: Letzte Änderung am
@@ -4113,6 +4245,7 @@ de:
   label_list: Liste
   label_loading: Lade...
   label_locale: Sprache und Region
+  label_locale_based: Use default for user locale
   label_lock_user: Benutzer sperren
   label_locked: gesperrt
   label_logged_as: Angemeldet als
@@ -4168,7 +4301,7 @@ de:
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
   label_my_security: Sicherheit
-  label_my_work: My work
+  label_my_work: Meine Arbeit
   label_name: Name
   label_never: Nie
   label_new: Neu
@@ -4403,6 +4536,7 @@ de:
   label_subtask_plural: Unteraufgaben
   label_summary: Zusammenfassung
   label_system: System
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Systemkonfiguration
   label_system_storage: Speicherinformation
   label_table_of_contents: Inhaltsverzeichnis
@@ -4665,6 +4799,69 @@ de:
     context_window_sources:
       registry: the figure published for this model
       server: vom Server gemeldet
+    features:
+      description_assistant:
+        caption: Rewrites and restructures work package text on request.
+        label: Description assistant
+      semantic_search:
+        caption: Indexes work packages so they can be found by meaning rather than by keyword.
+        label: Semantic search
+    health_checks:
+      configuration:
+        api_format_supported: Endpoint format is usable
+        base_url_present: Endpoint is configured
+        credentials_present: API key is stored
+        enabled: Connection is switched on
+        feature_flag: AI features are switched on
+        header: Configuration
+      errors:
+        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
+        catalogue_never_fetched: The model list has never been retrieved from the server.
+        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
+        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
+        chat_failed: The server refused a request for %{model} with status %{status}.
+        connection_disabled: The connection is configured but switched off, so no feature will use it.
+        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: The server rejected the stored API key.
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
+        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
+        no_model_to_test: No model is available to test with. Add a model or choose a default first.
+        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
+        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
+        not_configured: No endpoint has been configured.
+        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
+        request_timed_out: The server did not respond in time.
+        server_error: The server responded with status %{status}.
+        ssrf_filtered: The endpoint resolves to a blocked address.
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: Every feature has a usable model
+        header: AI features
+        locked_bindings_intact: Indexed data still has its model
+      inference:
+        chat_round_trip: The server answers a request
+        header: Inference
+      models:
+        catalogue_fresh: Model list is up to date
+        catalogue_present: Models are available
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        header: Models
+      server:
+        credentials_accepted: The server accepts the API key
+        header: Server
+        reachable: The server can be reached
+    health_report_kinds:
+      full: Full check, including an inference request.
+      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
     model_kinds:
       chat: Chat
       embedding: Einbettung
@@ -4672,6 +4869,15 @@ de:
       supported: unterstützt
       unknown: nicht verifiziert
       unsupported: nicht unterstützt
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: Last checked %{datetime}.
+        never_checked: This connection has not been checked yet.
+        open_report: Open full health report
+        run_checks: Run checks now
+        running: Running checks...
+        title: Health status
   macro_execution_error: Fehler beim Ausführen des Makros %{macro_name}
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
   macro_unknown: Unbekanntes oder nicht unterstütztes Makro.
@@ -4937,6 +5143,13 @@ de:
           create_button: Anlegen
           dialog_body: Dieses Token ermöglicht es Anwendungen von Drittanbietern, mit Ihrer Instanz zu kommunizieren. Um das neue API-Token zu unterscheiden, geben Sie ihm bitte einen Namen.
           dialog_title: Einen API-Token erstellen
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Token-Name
       failed_to_create_token: 'Zugriffstoken konnte nicht erstellt werden: %{error}'
       failed_to_reset_token: 'Zusatztoken konnte nicht zurückgesetzt werden: %{error}'
@@ -4950,22 +5163,26 @@ de:
     password_confirmation_dialog:
       confirmation_required: Sie müssen Ihr Passwort eingeben, um diese Änderung zu bestätigen.
       title: Bestätigen Sie Ihr Passwort um fortzufahren
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
-        assign_to_me: Assign work package to me
-        delete_time_entry: Delete time entry
-        edit_time_entry: Edit time entry
+        assign_to_me: Arbeitspaket mir zuweisen
+        delete_time_entry: Zeiteintrag löschen
+        edit_time_entry: Zeiteintrag bearbeiten
         log_time_from_allocation: Log time from allocation
-        open_project: Open project
-        open_work_package: Open work package
+        open_project: Projekt öffnen
+        open_work_package: Arbeitspaket öffnen
       entries_filter:
-        all: All entries
+        all: Alle Einträge
         allocated: Allocations only
-        logged: Logged time only
+        logged: Nur erfasste Zeit
   my_account:
     access_tokens:
       access_tokens: Zugriffstokens
       description: Provider-Tokens werden von OpenProject ausgestellt und ermöglichen anderen Anwendungen den Zugriff darauf. Client-Tokens werden von anderen Anwendungen ausgestellt und ermöglichen OpenProject den Zugriff auf sie.
+      expired_on: Expired on %{date}
       headers:
         action: Aktion
         expiration: Läuft aus
@@ -6539,7 +6756,7 @@ de:
         heading: Neue Phase
       no_gate: Kein Gate
       non_defined: Derzeit sind keine Phasen definiert.
-      order_changed: Order successfully changed.
+      order_changed: Reihenfolge erfolgreich geändert.
       phase_gates: Phasen Gates
       section_header: Phasen
       start_gate: Gate zum Beginn
@@ -6955,7 +7172,7 @@ de:
         inherit_title: Use the same settings as the type
         manual_description: You can configure this page freely as you wish or copy over configuration from another type.
         manual_title: Manuelle Konfiguration
-        reuse_heading: Reuse existing type configuration
+        reuse_heading: Vorhandene Typkonfiguration wiederverwenden
         reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
         reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
         reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
@@ -7258,10 +7475,10 @@ de:
       type_label: Typ
       variant_label: Variante
     migration:
-      variant_name: "%{type} without %{fields}"
+      variant_name: "%{type} ohne %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
-        other: "%{type} without %{fields} and %{count} more fields"
+        one: "%{type} ohne %{fields} und 1 weiteres Feld"
+        other: "%{type} ohne %{fields} und %{count} weitere Felder"
     milestone_indicator: Meilenstein
     patterns:
       formats:
@@ -7748,7 +7965,7 @@ de:
       csv:
         file:
           empty: Diese Datei ist leer.
-          expired: This file is no longer available. Upload it again.
+          expired: Diese Datei ist nicht mehr verfügbar. Laden Sie sie erneut hoch.
           expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
           invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
           malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
@@ -7789,7 +8006,7 @@ de:
             two:
               description: The error appears after a failed password reset.
               subject: Fix the login error
-        view_name: CSV import on %{datetime}
+        view_name: CSV-Import um %{datetime}
       download_template: Vorlage herunterladen
       drop_or_click: Drop a CSV file here or click to select one.
       dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
@@ -7800,16 +8017,16 @@ de:
         columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
         limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
         names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
-        title: Before you start
+        title: Bevor Sie beginnen
       import_file: Datei importieren
       importing_file: Importing %{filename}
       intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
       menu_title: Work packages importer
       report:
         announcement:
-          checked: The file has been checked. The report is below.
+          checked: Die Datei wurde überprüft. Der Bericht ist unten aufgeführt.
           file_rejected: The file was not imported. The report says what is wrong with its column headers.
-          imported: The import has finished. The report is below.
+          imported: Der Import ist abgeschlossen. Der Bericht ist unten aufgeführt.
           rows_rejected: Nothing was imported. The report lists the problems.
         checked:
           heading: Bereit zum Importieren
@@ -7825,7 +8042,7 @@ de:
           line: Zeile 1 von %{filename}
           nothing: Nothing was imported. Correct the file and upload it again.
           text: Correct the headers in the file and upload it again.
-          title: The column headers could not be read
+          title: Die Spaltenüberschriften konnten nicht gelesen werden
         headline:
           accounts:
             label: Konten
@@ -7857,7 +8074,7 @@ de:
           heading: Probleme
         rows_rejected:
           text: Everything was rolled back. Correct the lines below and upload the file again.
-          title: 'Nothing was imported: %{problems} in %{lines}'
+          title: 'Es wurde nichts importiert: %{problems} in %{lines}'
         table:
           attribute: Spalte
           available: Verfügbare Werte
@@ -7959,7 +8176,7 @@ de:
         create: Workflow
         edit: Übergänge bearbeiten
         menu: Aktionen für %{name}
-        rename: Edit name and description
+        rename: Name und Beschreibung bearbeiten
       blank_slate:
         description: Create a workflow to define the status transitions a type or variant may use.
         filtered_description: No workflow matches the current filters.
@@ -8009,11 +8226,11 @@ de:
       label: Startpunkt
       scratch:
         caption: Start with a blank workflow and build it manually.
-        label: Start from scratch
+        label: Von Grund auf neu beginnen
       title: Configure a new workflow
     usage:
       dialog:
-        button: View dependent types
+        button: Abhängige Typen ansehen
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variante von %{type}

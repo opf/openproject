@@ -85,6 +85,29 @@ RSpec.describe "Homescreen", "index" do
     end
   end
 
+  describe "New features teaser", :js do
+    let(:release) { WhatsNew::Release.new(major: 18, minor: 0) }
+    let(:feature) do
+      WhatsNew::Release::Item.new(key: "line_0", title: "Type variants",
+                                  description: "Use with shared workflows", url: "https://example.com/type-variants")
+    end
+
+    before do
+      allow(WhatsNew::Release).to receive(:current).and_return(release)
+      allow(release).to receive(:features).and_return([feature])
+    end
+
+    it "lists the features without links" do
+      login_as user
+      visit home_path
+
+      within(".op-new-features") do
+        expect(page).to have_css("li", text: "Type variants: Use with shared workflows")
+        expect(page).to have_no_link("Type variants")
+      end
+    end
+  end
+
   describe "Enterprise Support Link" do
     include_context "support links"
 

@@ -202,6 +202,7 @@ fil:
     description_subwork_package: 'Bata ng work package #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:
@@ -720,6 +721,7 @@ fil:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Pindutin upang magdagdag ng deskripsyon sa kaugnay na ito
       selection: Pakiusap pumili
       subject: Ipasok ang paksa dito
@@ -845,9 +847,7 @@ fil:
     text_user_wrote: "%{value} isinulat:"
     text_work_packages_destroy_confirmation: Sigurado ka ba na gusto mong burahin ang napiling work package?
     time_entry:
-      stop: Stop
       title: Ang oras ng tala
-      tracking: Time tracking
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

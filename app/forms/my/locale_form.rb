@@ -48,6 +48,10 @@ class My::LocaleForm < ApplicationForm
       ::My::TimeZoneForm.new(builder)
     end
 
+    f.fields_for(:pref, model.pref, nested: false) do |builder|
+      ::My::DateTimeFormatForm.new(builder)
+    end
+
     f.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
   end
 

@@ -202,6 +202,7 @@ cs:
     description_subwork_package: 'Podřazený pracovního balíčku #%{id}'
     editor:
       ckeditor_error: Došlo k chybě v CKEditoru
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uložení dokumentu se nezdařilo s následující chybou: %{error}'
       macro:
         attribute_reference:
@@ -726,6 +727,7 @@ cs:
     placeholders:
       default: "-"
       description: 'Popis: Klikněte pro úpravu...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknutím přidáte popis pro tento vztah
       selection: Zvolte prosím
       subject: Zde zadejte předmět
@@ -855,9 +857,7 @@ cs:
     text_user_wrote: "%{value} napsal:"
     text_work_packages_destroy_confirmation: Jste si jisti, že chcete odstranit vybrané pracovní balíčky?
     time_entry:
-      stop: Zastavit
       title: Vykázat čas
-      tracking: Sledování času
       work_package_required: Vyžaduje nejprve výběr pracovního balíčku.
     timer:
       button_stop: Zastavit aktuální časovač

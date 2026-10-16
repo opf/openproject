@@ -157,6 +157,11 @@ class Meeting < ApplicationRecord
     system: "system"
   }, prefix: :sharing, validate: { allow_nil: true }
 
+  enum :agenda_sorting_mode, {
+    manual: "manual",
+    vote_based: "vote_based"
+  }, prefix: :agenda_sorting, validate: true
+
   # Debounce meeting emails by one minute
   # this is currently hard coded
   def self.journal_aggregation_time_minutes
@@ -194,17 +199,24 @@ class Meeting < ApplicationRecord
     parts = Meeting
               .unscoped
               .where(id:)
-              .joins("LEFT JOIN meeting_sections ON meeting_sections.meeting_id = meetings.id")
-              .left_joins(:agenda_items, agenda_items: %i[outcomes meeting_section])
-              .pick(
-                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.updated_at END)"),
-                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.updated_at END)"),
-                Arel.sql("MAX(meeting_outcomes.updated_at)")
-              )
+              .left_joins(sections: { agenda_items: :outcomes })
+              .pick(*changed_hash_aggregates)
 
+    parts.map! { |part| part.is_a?(Time) ? part.utc.iso8601(6) : part }
     parts << lock_version
 
     OpenProject::Cache::CacheKey.expand(parts)
+  end
+
+  def ordered_agenda_items
+    items = agenda_items.joins(:meeting_section).where(meeting_sections: { backlog: false })
+    items = items.with_vote_score if agenda_sorting_vote_based?
+
+    ordering = ["meeting_sections.position ASC"]
+    ordering << "vote_score DESC" if agenda_sorting_vote_based?
+    ordering.push("meeting_agenda_items.position ASC", "meeting_agenda_items.id ASC")
+
+    items.reorder(Arel.sql(ordering.join(", ")))
   end
 
   def start_month
@@ -352,6 +364,14 @@ class Meeting < ApplicationRecord
   end
 
   private
+
+  def changed_hash_aggregates
+    tables = [MeetingAgendaItem, MeetingSection, MeetingOutcome].map(&:arel_table)
+
+    tables.map { it[:updated_at].maximum } +
+      tables.map { it[:id].count(true) } +
+      [MeetingAgendaItem.arel_table[:reactions_changed_at].maximum]
+  end
 
   def add_new_participants_as_watcher
     participants.select(&:new_record?).each do |p|

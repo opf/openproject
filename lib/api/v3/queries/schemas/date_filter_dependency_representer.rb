@@ -35,7 +35,9 @@ module API
           private
 
           def type
-            if operator == ::Queries::Operators::OnDate
+            if [::Queries::Operators::OnDate,
+                ::Queries::Operators::GreaterOrEqualDate,
+                ::Queries::Operators::LessOrEqualDate].include?(operator)
               "[1]Date"
             elsif operator == ::Queries::Operators::BetweenDate
               "[2]Date"

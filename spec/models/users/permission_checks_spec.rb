@@ -197,17 +197,8 @@ RSpec.describe User, "permission check methods" do
                                                                              manage_members] + public_permissions)
       end
 
-      it "returns all global permissions" do
-        skip "Current implementation of the Authorization.roles query returns ALL permissions the user has, " \
-             "not only global ones. We should change this in the future, that's why this test is already in here."
-
+      it "returns only the global permissions" do
         expect(subject.all_permissions_for(nil)).to match_array(%i[create_user])
-      end
-
-      it "returns all permissions the user has (with project and global permissions)" do
-        expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
-                                                                   view_work_packages edit_work_packages
-                                                                   manage_members] + public_permissions)
       end
     end
 

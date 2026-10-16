@@ -36,7 +36,8 @@ module Grids
       DEFAULT_PADDING = :default
       PADDING_MAPPINGS = {
         DEFAULT_PADDING => "",
-        :none => "-no-padding"
+        :none => "-no-padding",
+        :condensed => "-condensed"
       }.freeze
 
       def initialize(padding: DEFAULT_PADDING, **system_arguments)

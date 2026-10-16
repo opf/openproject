@@ -7,7 +7,7 @@ module ::Gantt
     include WorkPackagesControllerHelper
     include WorkPackages::WithSplitView
 
-    accept_key_auth :index
+    accept_rss_key_auth :index
 
     before_action :load_and_authorize_in_optional_project, :protect_from_unauthorized_export,
                   only: %i[index split_view split_create]

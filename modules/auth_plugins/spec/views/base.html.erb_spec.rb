@@ -51,8 +51,8 @@ RSpec.describe "layouts/base" do
         render
       end
 
-      it "adds the CSS to render the icon" do
-        expect(rendered).to have_text(/background-image:(?:.*)auth_provider-custom.png/)
+      it "renders the icon inside the provider button" do
+        expect(rendered).to have_css("a.auth-provider-foob_auth img.auth-provider-icon")
       end
     end
   end

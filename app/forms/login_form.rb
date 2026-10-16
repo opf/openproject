@@ -55,37 +55,31 @@ class LoginForm < ApplicationForm
       autocomplete: "current-password"
     )
 
-    if Setting::Autologin.enabled?
-      f.check_box name: "autologin",
-                  id: "autologin#{@id_suffix}",
-                  checked: false,
-                  value: 1,
-                  label: I18n.t("users.autologins.prompt",
-                                num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
-    end
+    autologin = Setting::Autologin.enabled?
+    lost_password = Setting.lost_password?
 
-    f.html_content do
-      flex_layout(justify_content: :space_between, align_items: :center) do |flex|
-        flex.with_column do
-          render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { I18n.t(:button_login) }
+    if autologin || lost_password
+      f.group(layout: :horizontal,
+              justify_content: autologin ? :space_between : :flex_end,
+              align_items: :center) do |g|
+        if autologin
+          g.check_box name: "autologin",
+                      id: "autologin#{@id_suffix}",
+                      checked: false,
+                      value: 1,
+                      label: I18n.t("users.autologins.prompt",
+                                    num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
         end
 
-        flex.with_column do
-          flex_layout do |links|
-            if Setting::SelfRegistration.enabled?
-              links.with_row do
-                render(Primer::Beta::Link.new(href: url_helpers.account_register_path)) { I18n.t(:label_register) }
-              end
-            end
-            if Setting.lost_password?
-              links.with_row do
-                render(Primer::Beta::Link.new(href: url_helpers.account_lost_password_path)) { I18n.t(:label_password_lost) }
-              end
-            end
+        if lost_password
+          g.html_content do
+            render(Primer::Beta::Link.new(href: url_helpers.account_lost_password_path)) { I18n.t(:label_password_lost) }
           end
         end
       end
     end
+
+    f.submit(name: "login", label: I18n.t(:button_login), scheme: :primary, block: true)
   end
 
   def initialize(back_url: nil, username: nil, id_suffix: nil)

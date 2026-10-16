@@ -142,9 +142,6 @@ class WorkPackage < ApplicationRecord
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
-  # By using prepend: true, the callback will be performed before the meeting_agenda_items are nullified,
-  # thus the associated agenda items will be available at the time the callback method is performed.
-  around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable validate_on: :saving_custom_fields
 
@@ -401,6 +398,10 @@ class WorkPackage < ApplicationRecord
   # the user is allowed to move a work package to
   def self.allowed_target_projects_on_move(user)
     Project.allowed_to(user, :move_work_packages)
+  end
+
+  def self.allowed_target_projects_on_copy(user)
+    Project.allowed_to(user, :copy_work_packages)
   end
 
   # Returns a scope for the projects
@@ -711,15 +712,5 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def save_agenda_item_journals
-    ##
-    # Meetings are stored before they become dissociated from the work package,
-    # but the meeting journals are saved only after the agenda items are dissociated (nullified).
-    # By saving the meeting journals, the agenda item journals are also saved.
-    stored_meetings = meetings.to_a
-    yield
-    stored_meetings.each(&:touch_and_save_journals)
   end
 end

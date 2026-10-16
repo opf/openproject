@@ -30,29 +30,40 @@
 
 module Avatars
   class FormSectionComponent < ApplicationComponent
-    def initialize(user:, target_avatar_path:)
+    include OpPrimer::FormHelpers
+
+    def initialize(principal:, target_avatar_path:, avatar_color_path:)
       super()
-      @user = user
+      @principal = principal
       @target_avatar_path = target_avatar_path
+      @avatar_color_path = avatar_color_path
     end
 
     def render?
       manager.avatars_enabled?
     end
 
+    def avatar_color
+      @principal.avatar_color
+    end
+
     def description
       parts = []
-      if manager.gravatar_enabled?
+      if gravatar_applicable?
         gravatar_link = link_to("gravatar.com", "https://gravatar.com")
         parts << t("avatars.text_avatar_gravatar_html", gravatar_url: gravatar_link)
       end
       if manager.local_avatars_enabled?
-        parts << (manager.gravatar_enabled? ? t("avatars.text_avatar_local") : t("avatars.text_avatar_local_only"))
+        parts << (gravatar_applicable? ? t("avatars.text_avatar_local") : t("avatars.text_avatar_local_only"))
       end
       helpers.safe_join(parts, " ")
     end
 
     private
+
+    def gravatar_applicable?
+      manager.gravatar_enabled? && @principal.is_a?(User)
+    end
 
     def manager
       ::OpenProject::Avatars::AvatarManager

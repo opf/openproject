@@ -202,6 +202,7 @@ th:
     description_subwork_package: 'แพ็คเกจงานย่อย #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'การบันทึกเอกสารล้มเหลวด้วยข้อผิดพลาดต่อไปนี้: %{error}'
       macro:
         attribute_reference:
@@ -719,6 +720,7 @@ th:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Click to add description for this relation
       selection: โปรดเลือก
       subject: Enter subject here
@@ -842,9 +844,7 @@ th:
     text_user_wrote: "%{value} เขียนว่า:"
     text_work_packages_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?
     time_entry:
-      stop: Stop
       title: เวลาที่ถูกบันทึก
-      tracking: ติดตามเวลาที่ใช้
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

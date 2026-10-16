@@ -214,6 +214,7 @@ hu:
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       macro:
         attribute_reference:
@@ -756,6 +757,7 @@ hu:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kapcsolat leírásának hozzáadása ide kattintva
       selection: Kérem válasszon
       subject: Itt adja meg a témát
@@ -881,9 +883,7 @@ hu:
     text_user_wrote: "%{value} írta:"
     text_work_packages_destroy_confirmation: Biztosan törli a kijelölt feladatcsoportot?
     time_entry:
-      stop: Stop
       title: Eltöltött idő rögzítése
-      tracking: Munkaidő követése
       work_package_required: Először ki kell választania egy munkacsomagot.
     timer:
       button_stop: Stop current timer

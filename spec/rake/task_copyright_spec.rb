@@ -36,7 +36,7 @@ RSpec.describe Rake::Task, :copyright do
   end
 
   let(:copyright_text) do
-    <<~COPYRIGHT.chomp
+    <<~COPYRIGHT
       OpenProject copyright.
 
       Released under the GPL.
@@ -44,7 +44,7 @@ RSpec.describe Rake::Task, :copyright do
   end
 
   let(:canonical_header) do
-    <<~HEADER.chomp
+    <<~HEADER
       //-- copyright
       // OpenProject copyright.
       //
@@ -68,11 +68,24 @@ RSpec.describe Rake::Task, :copyright do
   end
 
   def expect_canonical_header(path, source)
-    expect(File.read(path)).to eq("#{canonical_header}\n\n#{source}")
+    expect(File.read(path)).to eq("#{canonical_header}\n#{source}")
   end
 
   describe "copyright:update_typescript" do
     let(:task_name) { "copyright:update_typescript" }
+
+    context "when COPYRIGHT_short has no final newline" do
+      let(:copyright_text) { super().chomp }
+
+      it "adds the canonical header" do
+        source = "export const value = true;\n"
+        write_source("no_final_newline.ts", source)
+
+        subject.invoke(".")
+
+        expect_canonical_header("no_final_newline.ts", source)
+      end
+    end
 
     it "adds the canonical header to TypeScript and TSX files" do
       write_source("source.ts", "export const source = true;\n")
@@ -185,13 +198,13 @@ RSpec.describe Rake::Task, :copyright do
       expect_canonical_header("unrelated.ts", source)
     end
 
-    it "leaves an existing canonical header unchanged" do
-      content = "#{canonical_header}\n\nexport const canonical = true;\n"
-      write_source("canonical.ts", content)
+    it "keeps a block comment following the copyright header" do
+      source = "/* Keep this source comment. */\nexport const value = true;\n"
+      write_source("following.ts", "/* -- copyright\n * Old copyright.\n * ++\n */\n\n#{source}")
 
       subject.invoke(".")
 
-      expect(File.read("canonical.ts")).to eq(content)
+      expect_canonical_header("following.ts", source)
     end
 
     it "only updates files below the provided path" do
@@ -220,15 +233,17 @@ RSpec.describe Rake::Task, :copyright do
       excluded_paths.each { |path| expect(File.read(path)).to eq(source) }
     end
 
-    it "is idempotent" do
-      write_source("source.ts", "export const source = true;\n")
+    it "writes canonical bytes and leaves them unchanged on a second run" do
+      source = "export const source = true;\n"
+      write_source("source.ts", source)
 
       subject.invoke(".")
-      first_result = File.read("source.ts")
+      expect_canonical_header("source.ts", source)
+
       subject.reenable
       subject.invoke(".")
 
-      expect(File.read("source.ts")).to eq(first_result)
+      expect_canonical_header("source.ts", source)
     end
   end
 
@@ -270,7 +285,7 @@ RSpec.describe Rake::Task, :copyright do
   describe "copyright:update_sass" do
     let(:task_name) { "copyright:update_sass" }
 
-    it "still reports on first-party sources below a vendor directory" do
+    it "does not exclude first-party Sass under a vendor directory" do
       source = "body\n  color: red\n"
       write_source("frontend/src/global_styles/vendor/_index.sass", source)
 

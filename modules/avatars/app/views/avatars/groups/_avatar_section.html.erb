@@ -1,0 +1,7 @@
+<%= render(
+      Avatars::FormSectionComponent.new(
+        principal: group,
+        target_avatar_path: edit_group_avatar_path(group),
+        avatar_color_path: update_color_edit_group_avatar_path(group)
+      )
+    ) %>

@@ -71,6 +71,19 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       expect(response.body).to include("secret note")
     end
 
+    context "when copying with the copy_work_packages but not the move_work_packages permission" do
+      let(:copy_role) { create(:project_role, permissions: %i[view_work_packages copy_work_packages add_work_packages]) }
+      let(:user) { create(:user, member_with_roles: { source => copy_role, target => copy_role }) }
+      let(:params) { { "ids[]" => work_package.id, copy: "", new_project_id: target.id } }
+
+      it "keeps the selected target project" do
+        request
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(%(data-model="{&quot;id&quot;:#{target.id},))
+      end
+    end
+
     context "with malformed custom field values" do
       let(:params) do
         {

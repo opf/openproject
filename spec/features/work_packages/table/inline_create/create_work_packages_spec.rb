@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "inline create work package", :js, :selenium do
+RSpec.describe "inline create work package", :js do
   let(:type) { create(:type) }
   let(:types) { [type] }
 
@@ -44,14 +44,17 @@ RSpec.describe "inline create work package", :js, :selenium do
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
         subject_field.set_value "Some subject"
-        subject_field.save!
 
-        # Callback for adjustments
-        callback.call
+        wait_for_request(%r{/queries/default\?}) do
+          subject_field.save!
 
-        wp_table.expect_toast(
-          message: "Successful creation."
-        )
+          # Callback for adjustments
+          callback.call
+
+          wp_table.expect_toast(
+            message: "Successful creation."
+          )
+        end
 
         # Expect new create row to exist
         expect(page).to have_css(".wp--row", count: 2)
@@ -62,10 +65,13 @@ RSpec.describe "inline create work package", :js, :selenium do
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
         subject_field.set_value "Another subject"
-        subject_field.save!
 
-        # Callback for adjustments
-        callback.call
+        wait_for_request(%r{/queries/default\?}) do
+          subject_field.save!
+
+          # Callback for adjustments
+          callback.call
+        end
 
         expect(page).to have_css(".wp--row .subject", text: "Some subject")
         expect(page).to have_css(".wp--row .subject", text: "Another subject")
@@ -105,14 +111,13 @@ RSpec.describe "inline create work package", :js, :selenium do
         filters.open
         filters.add_filter_by cf_list.name, "is (OR)", cf_list.custom_options.second.name, cf_accessor_frontend
 
-        sleep(0.3)
-
         columns.open_modal
         columns.add(cf_list.name, save_changes: true)
 
         wp_table.click_inline_create
 
         callback.call
+        wp_table.expect_toast(type: :error, message: "Subject can't be blank.") unless wp_table.project
 
         type_field = wp_table.edit_field(nil, :type)
         type_field.activate!

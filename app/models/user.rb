@@ -455,12 +455,26 @@ class User < Principal
     preference || build_preference
   end
 
+  # Allows avatar rendering to treat User and Group uniformly (Group stores its
+  # own avatar_color directly, see Group#avatar_color).
+  delegate :avatar_color, to: :pref
+
   def time_zone
     @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
   end
 
+  def date_format
+    @date_format ||= pref.date_format.presence || Setting.date_format.to_s
+  end
+
+  def time_format
+    @time_format ||= pref.time_format.presence || Setting.time_format.to_s
+  end
+
   def reload(*)
     @time_zone = nil
+    @date_format = nil
+    @time_format = nil
 
     super
   end

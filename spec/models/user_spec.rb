@@ -989,6 +989,78 @@ RSpec.describe User do
     end
   end
 
+  describe "#date_format" do
+    context "when the prefs change" do
+      let(:user) { create(:user) }
+
+      it "returns the new format after a reload" do
+        expect(user.date_format).to eql ""
+
+        user.pref.update!(settings: { "date_format" => "%d-%m-%Y" })
+
+        expect(user.date_format).to eql ""
+
+        expect(user.reload.date_format).to eql "%d-%m-%Y"
+      end
+    end
+
+    context "with global setting", with_settings: { date_format: "%Y-%m-%d" } do
+      let(:user) { build(:user, preferences:) }
+
+      context "without a preference" do
+        let(:preferences) { {} }
+
+        it "returns the setting value" do
+          expect(user.date_format).to eql "%Y-%m-%d"
+        end
+      end
+
+      context "with a preference set" do
+        let(:preferences) { { "date_format" => "%d.%m.%Y" } }
+
+        it "returns the preference value" do
+          expect(user.date_format).to eql "%d.%m.%Y"
+        end
+      end
+    end
+  end
+
+  describe "#time_format" do
+    context "when the prefs change" do
+      let(:user) { create(:user) }
+
+      it "returns the new format after a reload" do
+        expect(user.time_format).to eql ""
+
+        user.pref.update!(settings: { "time_format" => "%H×%M" })
+
+        expect(user.time_format).to eql ""
+
+        expect(user.reload.time_format).to eql "%H×%M"
+      end
+    end
+
+    context "with global setting", with_settings: { time_format: "%Hh%M" } do
+      let(:user) { build(:user, preferences:) }
+
+      context "without a preference" do
+        let(:preferences) { {} }
+
+        it "returns the setting value" do
+          expect(user.time_format).to eql "%Hh%M"
+        end
+      end
+
+      context "with a preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(user.time_format).to eql "%H:%M"
+        end
+      end
+    end
+  end
+
   describe "#find_by_mail" do
     let!(:user1) { create(:user, mail: "foo+test@example.org") }
     let!(:user2) { create(:user, mail: "foo@example.org") }

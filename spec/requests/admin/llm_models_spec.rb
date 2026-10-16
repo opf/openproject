@@ -36,6 +36,16 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
+  # The picker is an autocompleter, so its options are serialised into the
+  # element rather than rendered as markup.
+  def offered_default_models(field = :default_chat_model_id)
+    element = page.all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
+                  .find { |node| node["data-input-name"].include?(field.to_s) }
+    ids = JSON.parse(element["data-items"]).pluck("id").compact_blank
+
+    LlmModel.where(id: ids).pluck(:external_id)
+  end
+
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
 
@@ -150,6 +160,84 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(cell.find(".Label")[:title]).to eq("Reported by the server")
       end
 
+      it "offers the default chat model next to the models it may be chosen from" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(response.body).to include(I18n.t("admin.llm_models.defaults.heading"))
+        # An embedding model is a different kind of model, not a chat choice.
+        expect(offered_default_models).to contain_exactly("qwen3.6-27b")
+      end
+
+      it "keeps offering a stored default the server has since withdrawn" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "retired-model")
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+
+        get llm_models_path
+
+        expect(offered_default_models).to contain_exactly("qwen3.6-27b", "bge-m3", "retired-model")
+      end
+
+      it "asks for no default while the connection has no model to offer" do
+        create(:llm_connection, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include(I18n.t("admin.llm_models.index.blank_title"))
+        expect(page).to have_no_test_selector("llm-connection--defaults-form")
+      end
+
+      it "shows the default read-only when the environment owns the connection" do
+        connection = create(:llm_connection, :with_models, :provisioned_from_env, base_url:)
+        connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
+        allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+        get llm_models_path
+
+        expect(response.body).to include("configured via environment variables")
+        expect(page).to have_css("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter[data-disabled='true']")
+        expect(page).to have_no_button("Save")
+      end
+
+      it "offers only models known to embed as the default embedding model",
+         with_flag: { llm_connection: true, semantic_search: true } do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to contain_exactly("bge-m3")
+        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
+      end
+
+      # An unconfirmed capability is not a capability: offering such a model
+      # invites a choice that fails much later, at index time.
+      it "says how to make a model eligible while none is known to embed",
+         with_flag: { llm_connection: true, semantic_search: true } do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include("set its type to Embedding model")
+      end
+
+      # Otherwise a save would silently blank a working configuration.
+      it "keeps the stored embedding default listed, flagged, once it is ruled out",
+         with_flag: { llm_connection: true, semantic_search: true } do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.update_column(:default_embedding_model_id, connection.models.find_by(external_id: "qwen3.6-27b").id)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to include("qwen3.6-27b")
+        expect(response.body).to include("not known to create embeddings")
+      end
+
       it "sends the administrator to the settings while the features are off",
          with_settings: { llm_features_enabled: false } do
         create(:llm_connection, :with_models, base_url:)
@@ -180,7 +268,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response).to redirect_to(llm_models_path)
       expect(connection.reload.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
-      expect(flash[:notice]).to eq("The model list has been refreshed.")
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.refresh.success"))
     end
 
     it "says so when the server cannot be reached" do
@@ -202,7 +290,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
     end
 
-    def rendered_rows(body) = body.scan(/model-\d{3}/).uniq.size
+    def rendered_rows(body) = body.scan("llm-model--edit-").size
 
     it "shows one page of rows at a time rather than every model" do
       get llm_models_path, params: { per_page: 20 }
@@ -229,7 +317,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
     end
 
-    def rendered_rows(body) = ["qwen3.6-27b", "bge-m3", "BGE compatible"].count { |name| body.include?(name) }
+    def rendered_rows(body) = body.scan("llm-model--edit-").size
 
     it "narrows the table to matching models" do
       get search_llm_models_path, params: { filters: }
@@ -313,6 +401,16 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(connection.models.where(external_id: "already-there").count).to eq(1)
       end
+
+      it "makes the model bindable straight away" do
+        post llm_models_path, params: { llm_model: { external_id: "qwen3.6-35b-a3b" } }
+
+        patch llm_feature_binding_path("description_assistant"),
+              params: { llm_feature_binding: { model_id: "qwen3.6-35b-a3b" } }
+
+        expect(connection.feature_bindings.find_by(feature_key: "description_assistant").model_id)
+          .to eq("qwen3.6-35b-a3b")
+      end
     end
 
     describe "a refresh that cannot see the manual model" do
@@ -380,6 +478,16 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(llm_model.reload.context_window).to eq(8192)
         expect(llm_model.context_window_source).to eq(:server)
+      end
+
+      it "makes an asserted type satisfy a feature that requires it",
+         with_flag: { llm_connection: true, semantic_search: true } do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        patch llm_feature_binding_path("semantic_search"),
+              params: { llm_feature_binding: { model_id: "hand-typed" } }
+
+        expect(connection.feature_bindings.find_by(feature_key: "semantic_search").model_id).to eq("hand-typed")
       end
 
       # Clearing an assertion records nothing rather than recording ignorance as
@@ -634,6 +742,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("no longer be offered to AI features")
         expect(response.body).not_to include("stop working until another model is selected")
       end
+
+      it "offers a confirmation naming the features that would break" do
+        connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "hand-typed")
+
+        get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Description assistant")
+      end
     end
 
     describe "renaming a manually added model" do
@@ -643,6 +760,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       before do
         connection.update!(default_chat_model: llm_model)
+        connection.feature_bindings.create!(feature_key: "description_assistant",
+                                            model_id: "qwen/qwen3.6-35b-a3b")
         connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
                                                state: "unsupported", source: "probe", checked_at: Time.current)
       end
@@ -670,7 +789,23 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(llm_model.reload.external_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
         expect(connection.reload.default_chat_model).to eq(llm_model)
+        expect(connection.feature_bindings.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
         expect(connection.capability_verdicts.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      end
+
+      it "keeps the feature resolving afterwards", with_flag: { llm_connection: true } do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+        expect(Llm::Runtime.for(:description_assistant).model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      end
+
+      it "follows a model a locked binding depends on" do
+        binding = connection.feature_bindings.first
+        binding.update!(locked_at: Time.current)
+
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+        expect(binding.reload.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
       end
 
       # The server names its own models; renaming one here would only be undone by
@@ -681,6 +816,144 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         patch llm_model_path(discovered), params: { llm_model: { external_id: "renamed" } }
 
         expect(discovered.reload.external_id).to eq("server-named")
+      end
+    end
+
+    # The seed creates the models the environment names as manual rows, and the
+    # connection's defaults point at them.
+    describe "a model the environment names as a default" do
+      let!(:env_default) { create(:llm_model, :manual, llm_connection: connection, external_id: "env-chat") }
+      let!(:hand_typed) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+      let(:refusal) { I18n.t("admin.llm_models.configured_from_env") }
+
+      before do
+        connection.update_columns(default_chat_model_id: env_default.id, env_provisioned_at: Time.current)
+        allow(Setting).to receive(:llm_connection)
+                            .and_return({ "base_url" => base_url, "default_chat_model" => "env-chat" })
+      end
+
+      it "offers no delete action for it, unlike other models entered by hand" do
+        get llm_models_path
+
+        expect(page).to have_css("[data-test-selector='llm-model--edit-#{env_default.id}']", visible: :all)
+        expect(page).to have_no_css("[data-test-selector='llm-model--delete-#{env_default.id}']", visible: :all)
+        expect(page).to have_css("[data-test-selector='llm-model--delete-#{hand_typed.id}']", visible: :all)
+      end
+
+      it "refuses to open the delete dialog" do
+        get delete_dialog_llm_model_path(env_default), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+      end
+
+      it "refuses to delete it and keeps the default" do
+        delete llm_model_path(env_default)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+        expect(LlmModel.where(id: env_default.id)).to exist
+        expect(connection.reload.default_chat_model_id).to eq(env_default.id)
+      end
+
+      it "does not offer to rename it" do
+        get edit_llm_model_path(env_default)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("llm_model[external_id]")
+      end
+
+      it "refuses to rename it" do
+        patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("env-chat")
+      end
+
+      it "refuses a rename whose identifier is not sent as a string" do
+        patch llm_model_path(env_default), params: { llm_model: { external_id: false } }, as: :json
+
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("env-chat")
+      end
+
+      it "refuses a rename whose identifier only reads like the current one" do
+        env_default.update_columns(external_id: "true")
+
+        patch llm_model_path(env_default), params: { llm_model: { external_id: true } }, as: :json
+
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("true")
+      end
+
+      context "when a seed applies the environment's values after the request loaded the connection" do
+        before do
+          connection.update_columns(env_provisioned_at: nil)
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_wrap_original do |original, *args, &block|
+            LlmConnection.where(id: connection.id).update_all(env_provisioned_at: Time.current)
+            original.call(*args, &block)
+          end
+        end
+
+        it "refuses to delete it" do
+          delete llm_model_path(env_default)
+
+          expect(flash[:error]).to eq(refusal)
+          expect(connection.reload.default_chat_model_id).to eq(env_default.id)
+        end
+
+        it "refuses to rename it" do
+          patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+          expect(flash[:error]).to eq(refusal)
+          expect(env_default.reload.external_id).to eq("env-chat")
+        end
+      end
+
+      context "when the environment no longer configures the connection" do
+        before { allow(Setting).to receive(:llm_connection).and_return({}) }
+
+        it "ends the environment's hold on the connection when the former default is deleted" do
+          delete llm_model_path(env_default)
+
+          expect(connection.reload.env_provisioned_at).to be_nil
+        end
+
+        it "ends the environment's hold on the connection when the former default is renamed" do
+          patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+          expect(env_default.reload.external_id).to eq("renamed")
+          expect(connection.reload.env_provisioned_at).to be_nil
+        end
+      end
+
+      it "still takes a context window and capability assertions" do
+        patch llm_model_path(env_default),
+              params: { llm_model: { admin_context_window: "32768", capability_vision: "unsupported" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(env_default.reload.context_window).to eq(32_768)
+        expect(connection.capability_verdicts.for_model("env-chat").pluck(:capability, :state))
+          .to include(%w[vision unsupported])
+      end
+
+      it "still deletes another model entered by hand" do
+        delete llm_model_path(hand_typed)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(LlmModel.where(id: hand_typed.id)).to be_empty
+      end
+
+      context "when the environment has not applied its values yet" do
+        before { connection.update_columns(env_provisioned_at: nil) }
+
+        it "deletes it like any other model entered by hand" do
+          delete llm_model_path(env_default)
+
+          expect(LlmModel.where(id: env_default.id)).to be_empty
+          expect(connection.reload.default_chat_model_id).to be_nil
+        end
       end
     end
 
@@ -770,6 +1043,95 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("Inherit from server (not verified)")
         expect(response.body).not_to include("Inherit from server (supported)")
       end
+    end
+  end
+
+  describe "PATCH /admin/llm_models/defaults" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let(:chat_model) { connection.models.find_by(external_id: "qwen3.6-27b") }
+
+    before { login_as admin }
+
+    it "stores the default chat model without contacting the server" do
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(response).to redirect_to(llm_models_path)
+      expect(connection.reload.default_chat_model).to eq(chat_model)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.defaults.success"))
+      expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
+    end
+
+    it "refuses a model the server does not offer" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: LlmModel.maximum(:id).to_i + 1 } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+      expect(flash[:error]).to be_present
+    end
+
+    it "stores the default embedding model" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "bge-m3").id } }
+
+      expect(connection.reload.default_embedding_model.external_id).to eq("bge-m3")
+    end
+
+    it "refuses a model the server has ruled out" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                             state: "unsupported", source: "probe", checked_at: Time.current)
+
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
+
+      expect(connection.reload.default_embedding_model_id).to be_nil
+      expect(flash[:error]).to be_present
+    end
+
+    # Nothing has probed the row: refusing here would break provisioning from the
+    # environment, where the same configuration passes on an empty catalogue.
+    it "accepts a model nothing has ruled out" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
+
+      expect(connection.reload.default_embedding_model.external_id).to eq("qwen3.6-27b")
+    end
+
+    it "leaves the server settings alone" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: chat_model.id, base_url: "https://elsewhere.test/v1" } }
+
+      expect(connection.reload.base_url).to eq(base_url)
+    end
+
+    it "refuses a default the environment owns" do
+      connection.update_columns(env_provisioned_at: Time.current)
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+      expect(flash[:error]).to include(I18n.t("activerecord.errors.messages.configured_via_env"))
+    end
+
+    it "stores a default while the environment's values have not been applied yet" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(connection.reload.default_chat_model).to eq(chat_model)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.defaults.success"))
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(response).to have_http_status(:forbidden)
+      expect(connection.reload.default_chat_model_id).to be_nil
     end
   end
 end

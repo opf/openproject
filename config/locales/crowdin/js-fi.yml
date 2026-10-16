@@ -202,6 +202,7 @@ fi:
     description_subwork_package: 'Tehtävän #%{id} alitehtävä'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Tallennus epäonnistui: %{error}'
       macro:
         attribute_reference:
@@ -720,6 +721,7 @@ fi:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Painamalla tästä voit lisätä kuvauksen tälle suhteelle
       selection: Valitse
       subject: Lisää aihe
@@ -845,9 +847,7 @@ fi:
     text_user_wrote: "%{value} kirjoitti:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: Stop
       title: Kirjaa työaika
-      tracking: Työajanseuranta
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

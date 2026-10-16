@@ -152,7 +152,27 @@ export class PrincipalRendererService {
     hoverCard:HoverCardOptions,
     type:PrincipalType,
     ariaHidden:boolean,
-  ) {
+  ):HTMLElement {
+    // The backend always returns a displayable image for users and groups (an
+    // uploaded photo, a Gravatar, or a generated initials avatar), so there is
+    // nothing to compute or swap in locally here, unlike for placeholder users.
+    if (type === 'user' || type === 'group') {
+      const url = this.principalAvatarUrl(principal, type);
+      if (url) {
+        return this.renderPrincipalAvatarImage(principal, options, hoverCard, type, ariaHidden, url);
+      }
+    }
+
+    return this.renderFallbackAvatar(principal, options, hoverCard, type, ariaHidden);
+  }
+
+  private renderFallbackAvatar(
+    principal:PrincipalLike|IPrincipal,
+    options:AvatarOptions,
+    hoverCard:HoverCardOptions,
+    type:PrincipalType,
+    ariaHidden:boolean,
+  ):HTMLElement {
     const userInitials = this.getInitials(principal.name);
     const colorMode = this.colors.colorMode();
     const text = `${principal.id}${principal.name}`;
@@ -183,48 +203,58 @@ export class PrincipalRendererService {
       fallback.style.background = colorCode;
     }
 
-    // Image avatars are only supported for users
-    if (type === 'user') {
-      this.renderUserAvatar(principal, fallback, options, hoverCard);
-    }
-
     return fallback;
   }
 
-  private renderUserAvatar(
+  private renderPrincipalAvatarImage(
     principal:PrincipalLike|IPrincipal,
-    fallback:HTMLElement,
     options:AvatarOptions,
     hoverCard:HoverCardOptions,
-  ):void {
-    const url = this.userAvatarUrl(principal);
-
-    if (!url) {
-      return;
-    }
-
+    type:PrincipalType,
+    ariaHidden:boolean,
+    url:string,
+  ):HTMLImageElement {
     const image = new Image();
     image.classList.add('op-principal--avatar');
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
+    image.classList.add(`op-avatar_${type.replace('_', '-')}`);
 
-    this.setHoverCardAttributes(image, hoverCard, principal, 'user');
+    this.setHoverCardAttributes(image, hoverCard, principal, type);
 
     image.src = url;
     image.title = principal.name;
-    image.alt = options.imageAltText ?? principal.name;
+    if (ariaHidden) {
+      image.alt = '';
+      image.setAttribute('aria-hidden', 'true');
+    } else {
+      image.alt = options.imageAltText ?? principal.name;
+    }
     // Avatars are never meaningfully draggable; suppressing the browser's native
     // image drag stops it from pre-empting Pragmatic DnD card reordering.
     image.draggable = false;
-    image.onload = () => {
-      fallback.replaceWith(image);
-      (fallback as unknown) = undefined;
+    // For users, the backend tries the uploaded photo or a redirect to Gravatar
+    // first; either can fail (e.g. no Gravatar registered for the user's
+    // email). Retrying once with `fallback=true` asks the backend to skip
+    // straight to the generated initials avatar, which always succeeds,
+    // without us having to check upfront. Groups have no Gravatar to fail
+    // against, so this retry is a harmless no-op for them.
+    image.onerror = () => {
+      image.onerror = null;
+      image.src = `${url}${url.includes('?') ? '&' : '?'}fallback=true`;
     };
+
+    return image;
   }
 
-  private userAvatarUrl(principal:PrincipalLike|IPrincipal):string|null {
+  private principalAvatarUrl(principal:PrincipalLike|IPrincipal, type:'user'|'group'):string|null {
     const id = principal.id ?? idFromLink(hrefFromPrincipal(principal));
-    return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
+    if (!id) {
+      return null;
+    }
+
+    const endpoint = type === 'user' ? this.apiV3Service.users : this.apiV3Service.groups;
+    return endpoint.id(id).avatar.toString();
   }
 
   private userHoverCardUrl(principal:PrincipalLike|IPrincipal):string|null {

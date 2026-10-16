@@ -180,6 +180,28 @@ module FormFields
         heading_font_size.to_f / paragraph_font_size.to_i
       end
 
+      def heading_block_id(text)
+        page.evaluate_script(<<~JS, text)
+          Array.from(#{shadow_root_query}.querySelectorAll('[data-content-type="heading"]'))
+            .find((heading) => heading.textContent.trim() === arguments[0])
+            .parentElement.dataset.id
+        JS
+      end
+
+      # IntersectionObserver also accounts for the scrolling panel clipping the heading.
+      def heading_in_viewport?(block_id)
+        page.evaluate_async_script(<<~JS, block_id)
+          const [blockId, done] = arguments;
+          const heading = #{shadow_root_query}.querySelector(`[data-id="${blockId}"] > [data-content-type="heading"]`);
+          if (!heading) return done(null);
+
+          new IntersectionObserver((entries, observer) => {
+            observer.disconnect();
+            done(entries[0].intersectionRatio > 0.99);
+          }).observe(heading);
+        JS
+      end
+
       private
 
       # Attention: This only works with selenium, not with cuprite,

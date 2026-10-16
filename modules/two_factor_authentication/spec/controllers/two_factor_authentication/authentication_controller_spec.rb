@@ -117,6 +117,32 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
     end
   end
 
+  describe "remember cookie",
+           with_config: { https: true },
+           with_settings: {
+             "plugin_openproject_two_factor_authentication" => {
+               active_strategies: [:totp],
+               allow_remember_for_days: 30
+             }
+           } do
+    let!(:device) { create(:two_factor_authentication_device_totp, user:, channel: :totp) }
+
+    before do
+      session[:authenticated_user_id] = user.id
+      request.env["HTTPS"] = "on"
+      allow(request).to receive(:cookies_same_site_protection).and_return(nil)
+
+      post :confirm_otp, params: { otp: device.totp.now, remember_me: "1" }
+    end
+
+    it "explicitly sets SameSite=Lax on the secure, HTTP-only cookie" do
+      cookie = Array(response.headers["Set-Cookie"]).find { |header| header.start_with?("op2fa_remember_token=") }
+
+      expect(cookie).to be_present
+      expect(cookie).to include("SameSite=Lax", "secure", "HttpOnly")
+    end
+  end
+
   describe "brute force protection",
            with_settings: {
              "plugin_openproject_two_factor_authentication" => { active_strategies: %i[developer totp] },

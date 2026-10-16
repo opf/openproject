@@ -202,6 +202,7 @@ pl:
     description_subwork_package: 'Otwórz zadanie-dziecko #%{id}'
     editor:
       ckeditor_error: Wystąpił błąd w CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Zapisywanie dokumentu nie powiodło się, błąd: %{error}'
       macro:
         attribute_reference:
@@ -722,6 +723,7 @@ pl:
     placeholders:
       default: "-"
       description: 'Opis: Kliknij, aby edytować...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknij, aby dodać opis do tej relacji
       selection: Proszę wybrać
       subject: Wpisz tutaj temat
@@ -851,9 +853,7 @@ pl:
     text_user_wrote: "%{value} napisał(a):"
     text_work_packages_destroy_confirmation: Czy na pewno chcesz usunąć wybrane pakiety robocze?
     time_entry:
-      stop: Zatrzymaj
       title: Rejestruj czas pracy
-      tracking: Zarządzanie czasem
       work_package_required: Wymaga wybrania najpierw pakietu roboczego.
     timer:
       button_stop: Zatrzymaj bieżące odliczanie

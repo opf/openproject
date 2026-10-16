@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="grid-block">
   <div class="grid-block medium-4" id="principal_results">
     <fieldset class="form--fieldset principals medium-11">
-      <legend class="form--fieldset-legend"><%= "#{t(:label_user_plural)}/#{t(:label_group_plural)}" %></legend>
+      <legend class="form--fieldset-legend"><%= t(:label_user_plural) %>/<%= t(:label_group_plural) %></legend>
       <% if principals.empty? %>
         <%= t("notice_no_principals_found") %>
       <% else %>
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
     <div class="sr-only" aria-live="polite">
       <% if principals.empty? %>
-        <label aria-role="alert"><%= t("notice_no_principals_found") %></label>
+        <label><%= t("notice_no_principals_found") %></label>
       <% else %>
         <% if principals.size > 20 %>
           <label><%= t("notice_to_many_principals_to_display") %></label>

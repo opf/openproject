@@ -41,12 +41,6 @@ class WorkPackages::HighlightedDateComponent < ApplicationComponent
     @text_arguments = text_arguments
   end
 
-  def parsed_date(date)
-    return if date.nil?
-
-    date.strftime(I18n.t("date.formats.default"))
-  end
-
   def date_classes(date)
     return if date.nil?
 

@@ -9,10 +9,10 @@
         upload form below; the upload then fires as soon as a file is selected. %>
     <label for="avatar_file_input"
            class="avatars--current-avatar avatars--upload-trigger">
-      <%= helpers.avatar(@user, hover_card: { active: false }) %>
+      <%= helpers.avatar(@principal, hover_card: { active: false }) %>
     </label>
     <opce-avatar-upload-form target="<%= @target_avatar_path %>" method="PUT"></opce-avatar-upload-form>
-    <% if helpers.local_avatar?(@user) %>
+    <% if helpers.local_avatar?(@principal) %>
       <%= form_with(
             url: @target_avatar_path,
             method: :delete,
@@ -29,7 +29,25 @@
     <% end %>
   <% else %>
     <div class="avatars--current-avatar">
-      <%= helpers.avatar(@user, hover_card: { active: false }) %>
+      <%= helpers.avatar(@principal, hover_card: { active: false }) %>
     </div>
   <% end %>
 </div>
+
+<%=
+  color_value = avatar_color
+  settings_primer_form_with(url: @avatar_color_path, method: :patch) do |f|
+    render_inline_form(f) do |form|
+      form.color_field(
+        name: :avatar_color,
+        label: I18n.t("avatars.label_avatar_color"),
+        caption: I18n.t("avatars.text_avatar_color"),
+        value: color_value,
+        placeholder: "#AABBCC",
+        input_width: :xsmall,
+        data: { "test-selector": "avatar-color-input" }
+      )
+      form.submit(name: :submit, scheme: :default, label: I18n.t("avatars.button_update_fallback_color"))
+    end
+  end
+%>
