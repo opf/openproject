@@ -50,7 +50,7 @@ describe('PwaPushResumeController', () => {
   beforeEach(() => {
     getSubscription = vi.fn().mockResolvedValue({ endpoint });
     fetchMock = vi.fn<(...args:unknown[]) => Promise<unknown>>()
-      .mockImplementation(() => Promise.resolve(new Response('', { status: 204 })));
+      .mockImplementation(() => Promise.resolve(new Response(null, { status: 204 })));
     const registration = { pushManager: { getSubscription } };
 
     document.body.dataset.renderedAt = new Date().toISOString();
@@ -147,6 +147,26 @@ describe('PwaPushResumeController', () => {
 
     expect(getSubscription).toHaveBeenCalled();
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('tries again on the next page when the request was rejected', async () => {
+    fetchMock.mockRejectedValueOnce(new Error('offline'));
+    await mount();
+    await vi.waitFor(() => expect(localStorage.getItem('push-resume-attempted')).toBe('[]'));
+    ctx.dispose();
+
+    await mount();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+  });
+
+  it('tries again on the next page when the server answered with an error', async () => {
+    fetchMock.mockResolvedValueOnce(new Response('', { status: 503 }));
+    await mount();
+    await vi.waitFor(() => expect(localStorage.getItem('push-resume-attempted')).toBe('[]'));
+    ctx.dispose();
+
+    await mount();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
   });
 
   it('swallows a rejected request', async () => {
