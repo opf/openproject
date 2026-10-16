@@ -137,6 +137,14 @@ en:
         already_running: "An index operation is already running. Wait for it to finish before starting another one."
         button: "Index work packages"
         enqueued: "Work package indexing has been enqueued. Embeddings will be updated in the background."
+      status:
+        failed:
+          one: "1 request failed."
+          other: "%{count} requests failed."
+        state:
+          failed: "Indexing failed"
+          running: "Indexing running"
+          succeeded: "Indexing finished"
     llm_health_status:
       create:
         success: "The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed."
