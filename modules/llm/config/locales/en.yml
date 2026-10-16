@@ -139,6 +139,14 @@ en:
         button: "Index work packages"
         enqueued: "Work package indexing has been enqueued. Embeddings will be updated in the background."
         not_ready: "Work package indexing could not start: semantic search has no usable embedding model yet."
+      status:
+        failed:
+          one: "1 request failed."
+          other: "%{count} requests failed."
+        state:
+          failed: "Indexing failed"
+          running: "Indexing running"
+          succeeded: "Indexing finished"
     llm_health_status:
       create:
         success: "The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed."

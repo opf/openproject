@@ -50,7 +50,7 @@ RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request
 
       before { login_as create(:admin) }
 
-      it "enqueues IndexWorkPackagesJob in a index batch", with_good_job_batches: [Llm::IndexWorkPackagesJob] do
+      it "enqueues IndexWorkPackagesJob in a indexing batch", with_good_job_batches: [Llm::IndexWorkPackagesJob] do
         post reindex_work_package_embeddings_path
 
         batch = Llm::IndexWorkPackagesJob.latest_batch
@@ -122,6 +122,74 @@ RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request
         post reindex_work_package_embeddings_path
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "GET /admin/work_package_embeddings/status" do
+    before { login_as create(:admin) }
+
+    def poll
+      get status_work_package_embeddings_path, headers: { "Accept" => "*/*" }
+    end
+
+    context "when the indexing is running" do
+      let(:batch) { GoodJob::BatchRecord.create!(description: batch_description, enqueued_at: Time.current) }
+
+      before do
+        create_embed_job(batch, finished_at: Time.current)
+        create_embed_job(batch)
+      end
+
+      it "reports the share of finished requests and keeps polling" do
+        poll
+
+        expect(response.body).to include("width: 50%")
+        expect(response.body).to include('data-test-selector="reindex-state-running"')
+        expect(response.body).to include('data-controller="poll-for-changes"')
+      end
+    end
+
+    context "when the indexing has succeeded" do
+      before do
+        batch = GoodJob::BatchRecord.create!(description: batch_description, finished_at: Time.current)
+        create_embed_job(batch, finished_at: Time.current)
+      end
+
+      it "shows a success icon and stops polling" do
+        poll
+
+        expect(response.body).to include('data-test-selector="reindex-state-succeeded"')
+        expect(response.body).not_to include('data-controller="poll-for-changes"')
+      end
+    end
+
+    context "when the indexing has failed" do
+      before do
+        batch = GoodJob::BatchRecord.create!(description: batch_description, finished_at: Time.current,
+                                             discarded_at: Time.current)
+        create_embed_job(batch, finished_at: Time.current, error: "Llm::Errors::ConnectionError: timeout")
+      end
+
+      it "shows an error icon and the number of failed requests and colors the progress bar" do
+        poll
+
+        expect(response.body).to include("1 request failed.")
+
+        expect(response.body).to include('data-test-selector="reindex-state-failed"')
+        expect(response.body).not_to include('data-controller="poll-for-changes"')
+
+        expect(response.body).to include("color-bg-danger-emphasis")
+      end
+    end
+
+    context "as a non-admin" do
+      before { login_as create(:user) }
+
+      it "is forbidden" do
+        poll
+
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
