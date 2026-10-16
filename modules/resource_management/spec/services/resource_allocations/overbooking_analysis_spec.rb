@@ -112,4 +112,50 @@ RSpec.describe ResourceAllocations::OverbookingAnalysis do
       expect(ranges.map { |range| [range.start_date, range.end_date] }).to contain_exactly([mon, mon], [thu, thu])
     end
   end
+
+  context "with overbooked days separated by a single day" do
+    let(:capacities) { week }
+    let(:items) { [item(1, mon, mon, 600), item(2, wed, wed, 600)] }
+
+    it "keeps them as separate ranges" do
+      expect(ranges.map { |range| [range.start_date, range.end_date] }).to contain_exactly([mon, mon], [wed, wed])
+    end
+  end
+
+  context "with overbooked days next to each other" do
+    let(:capacities) { week }
+    let(:items) { [item(1, mon, mon, 600), item(2, tue, tue, 600)] }
+
+    it "merges them into one range with the largest overflow within it" do
+      expect(ranges.size).to eq(1)
+      expect(ranges.first).to have_attributes(
+        start_date: mon,
+        end_date: tue,
+        over_by_minutes: 1200 - 960,
+        available_minutes: 960
+      )
+      expect(ranges.first.work_package_ids).to contain_exactly(1, 2)
+    end
+  end
+
+  context "with allocations that only overbook their combined span" do
+    let(:capacities) { week }
+    # Mon-Tue and Tue-Wed each fit on their own (900 <= 960), but Mon-Wed does not (1800 > 1440).
+    let(:items) { [item(1, mon, tue, 900), item(2, tue, wed, 900)] }
+
+    it "flags the combined span" do
+      expect(ranges.size).to eq(1)
+      expect(ranges.first).to have_attributes(start_date: mon, end_date: wed, over_by_minutes: 1800 - 1440)
+      expect(ranges.first.work_package_ids).to contain_exactly(1, 2)
+    end
+  end
+
+  context "without items" do
+    let(:capacities) { week }
+    let(:items) { [] }
+
+    it "reports no overbooking" do
+      expect(ranges).to be_empty
+    end
+  end
 end
