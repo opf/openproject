@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Members
   class Menu < Submenu
     attr_reader :project, :params

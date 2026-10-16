@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class CreateResourceAllocations < ActiveRecord::Migration[8.1]
   def change
     create_table :resource_allocations do |t|

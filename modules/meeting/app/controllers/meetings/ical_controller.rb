@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Meetings
   class ICalController < ApplicationController
     skip_before_action :check_if_login_required

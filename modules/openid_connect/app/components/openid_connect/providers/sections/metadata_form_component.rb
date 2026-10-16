@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 module OpenIDConnect::Providers::Sections
   class MetadataFormComponent < FormComponent

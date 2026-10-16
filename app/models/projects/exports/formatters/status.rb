@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects::Exports
   module Formatters
     class Status < ::Exports::Formatters::Default

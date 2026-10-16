@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DemoData
   class GroupSeeder < Seeder
     include ::DemoData::References

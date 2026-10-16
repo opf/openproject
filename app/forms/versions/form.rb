@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Versions
   class Form < ApplicationForm
     include CustomFields::CustomFieldRendering

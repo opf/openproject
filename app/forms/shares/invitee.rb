@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Shares
   class Invitee < ApplicationForm
     form do |user_invite_form|

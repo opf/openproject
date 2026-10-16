@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe Webhooks::Outgoing::Deliveries::TableComponent, type: :component do

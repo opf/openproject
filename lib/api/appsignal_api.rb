@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module API
   module AppsignalAPI
     def self.included(base)

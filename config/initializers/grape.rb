@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 Rails.application.reloader.to_prepare do
   # rubocop:disable Lint/ConstantDefinitionInBlock
   module Grape

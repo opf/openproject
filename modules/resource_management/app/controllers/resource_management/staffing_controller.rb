@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module ::ResourceManagement
   class StaffingController < BaseController
     include OpTurbo::ComponentStream

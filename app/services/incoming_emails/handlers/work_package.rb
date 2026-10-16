@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails::Handlers
   class WorkPackage < Base
     # Contract classes for handlers to use

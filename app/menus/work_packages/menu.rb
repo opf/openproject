@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackages
   class Menu < Submenu
     attr_reader :view_type, :project, :params

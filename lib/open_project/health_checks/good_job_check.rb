@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpenProject
   module HealthChecks
     class GoodJobCheck < OkComputer::Check

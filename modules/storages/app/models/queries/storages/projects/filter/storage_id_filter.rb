@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Queries::Storages::Projects::Filter
   class StorageIdFilter < ::Queries::Projects::Filters::Base
     include StorageFilterMixin

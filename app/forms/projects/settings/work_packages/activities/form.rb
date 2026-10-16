@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects::Settings::WorkPackages::Activities
   class Form < ApplicationForm
     form do |f|

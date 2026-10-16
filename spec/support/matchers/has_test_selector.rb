@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 RSpec::Matchers.define :have_test_selector do |expected, **args|
   include TestSelectorFinders
 

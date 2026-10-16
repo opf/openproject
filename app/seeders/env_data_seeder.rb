@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class EnvDataSeeder < CompositeSeeder
   def data_seeder_classes
     [

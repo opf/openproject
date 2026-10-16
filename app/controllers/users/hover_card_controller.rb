@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class Users::HoverCardController < ApplicationController
   no_authorization_required! :show
 

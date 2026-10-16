@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module EnvData
   class LdapSeeder < Seeder
     KNOWN_CONNECTION_KEYS = %w[

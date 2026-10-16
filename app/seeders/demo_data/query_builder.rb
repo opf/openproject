@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DemoData
   class QueryBuilder < ::Seeder
     attr_reader :config, :project, :user, :seed_data

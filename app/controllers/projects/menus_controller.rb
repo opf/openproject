@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects
   class MenusController < ApplicationController
     # No authorize as every user (or logged in user)

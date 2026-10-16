@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require_relative "../../lib_static/open_project/opentelemetry"
 
 Rails.application.configure do

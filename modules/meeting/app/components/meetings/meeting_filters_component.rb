@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Meetings
   class MeetingFiltersComponent < Filter::FilterComponent
     options :project

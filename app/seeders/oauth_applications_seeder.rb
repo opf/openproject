@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class OAuthApplicationsSeeder < Seeder
   OPENPROJECT_MOBILE_APP_UID = "DgJZ7Rat23xHZbcq_nxPg5RUuxljonLCN7V7N7GoBAA"
 

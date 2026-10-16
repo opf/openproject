@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DevelopmentData
   class ProjectsSeeder < Seeder
     def seed_data!

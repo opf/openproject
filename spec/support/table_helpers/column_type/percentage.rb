@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module TableHelpers
   module ColumnType
     # Column type used for values that represent a percentage like % complete.

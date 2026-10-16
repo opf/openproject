@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DemoData
   class ProjectsSeeder < Seeder
     # Careful: The seeding recreates the seeded project before it runs, so any changes

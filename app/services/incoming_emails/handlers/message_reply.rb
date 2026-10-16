@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails::Handlers
   class MessageReply < Base
     # Override in subclasses to determine if this handler can process the email
