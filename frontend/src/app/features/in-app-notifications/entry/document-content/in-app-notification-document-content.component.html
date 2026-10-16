@@ -1,0 +1,31 @@
+<div
+  class="op-ian-item--top-line op-ian-item--top-line_without-status"
+  >
+  <span
+    class="op-ian-item--resource-label"
+    [textContent]="text.document"
+    >
+  </span>
+  <ng-content />
+</div>
+<div
+  class="op-ian-item--middle-line"
+  >
+  <a
+    class="op-ian-item--work-package-subject op-ian-item--document-title"
+    [class.-read]="notification.readIAN"
+    [href]="documentPath"
+    [textContent]="notification._links.resource.title"
+    target="_blank"
+    rel="noopener"
+    (click)="onLinkClick($event)"
+    >
+  </a>
+</div>
+<div
+  class="op-ian-item--bottom-line"
+  >
+  <op-in-app-notification-actors-line [notification]="notification"
+    [aggregatedNotifications]="aggregatedNotifications"
+   />
+</div>
