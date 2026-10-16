@@ -70,7 +70,7 @@ RSpec.describe RecurringMeetings::DeleteDialogComponent, type: :component do
   context "with a meeting series that has an occurrence" do
     it "shows a confirmation message mentioning one remaining meeting" do
       allow(recurring_meeting).to receive(:instantiated_meetings).and_return([meeting])
-      expect(subject).to have_text "will also delete one occurrence in this series"
+      expect(subject).to have_text "will also delete 1 occurrence in this series"
     end
   end
 end

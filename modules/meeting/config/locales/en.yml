@@ -105,7 +105,7 @@ en:
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: "There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings."
+            one: "There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings."
             other: "There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings."
         recurring_meeting_interim_response:
           not_an_occurrence: "is not a valid occurrence time for this recurring meeting"
@@ -261,7 +261,7 @@ en:
   label_meeting_last_updated: "Last updated"
   label_meeting_minutes: "Minutes"
   label_meeting_more:
-    one: "There is one more meeting."
+    one: "There is %{count} more meeting."
     other: "There are %{count} more meetings."
   label_meeting_new: "New Meeting"
   label_meeting_new_dynamic: "New one-time meeting"
@@ -309,10 +309,10 @@ en:
   label_recurring_meeting_delete: "Delete occurrence"
   label_recurring_meeting_duplicate: "Duplicate as a one-time meeting"
   label_recurring_meeting_more:
-    one: "There is one more scheduled meeting (%{schedule})."
+    one: "There is %{count} more scheduled meeting (%{schedule})."
     other: "There are %{count} more scheduled meetings (%{schedule})."
   label_recurring_meeting_more_past:
-    one: "There is one more past meeting."
+    one: "There is %{count} more past meeting."
     other: "There are %{count} more past meetings."
   label_recurring_meeting_new: "New recurring meeting"
   label_recurring_meeting_next_occurrence: "Next occurrence"
@@ -628,7 +628,7 @@ en:
     delete_dialog:
       confirmation_message_html:
         one: >
-          Deleting <strong>%{title}</strong> will also delete one occurrence in this series.
+          Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series.
           This action is not reversible. Please proceed with caution.
         other: >
           Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series.

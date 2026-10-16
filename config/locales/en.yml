@@ -1023,7 +1023,7 @@ en:
               numeric: "numeric (e.g. '1')"
               requirements_not_met: "Must include characters of the following types: %{rules}"
               reused:
-                one: "has been used before. Please choose one that is different from your last one."
+                one: "has been used before. Please choose one that is different from your last %{count} password."
                 other: "has been used before. Please choose one that is different from your last %{count}."
               special: "special (e.g. '%')"
               uppercase: "uppercase (e.g. 'A')"
@@ -2388,7 +2388,7 @@ en:
         label: "Role: %{role}"
         no_role: "Select role"
         roles:
-          one: "One role selected"
+          one: "%{count} role selected"
           other: "%{count} roles selected"
         title: "Select roles"
       status_button: "Status"
@@ -2878,7 +2878,7 @@ en:
       succeeded: 'Copied project "%{source_project_name}" to "%{target_project_name}".'
     title: 'Copy project "%{source_project_name}"'
     x_objects_of_this_type:
-      one: "One object of this type"
+      one: "%{count} object of this type"
       other: "%{count} objects of this type"
       zero: "No objects of this type"
   create_portfolio:
@@ -3299,7 +3299,7 @@ en:
     teaser:
       description_html: "You have access to all %{trial_plan} features."
       title:
-        one: "One day left of %{trial_plan} trial token"
+        one: "%{count} day left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: >
@@ -4782,7 +4782,7 @@ en:
     other: "%{count} items"
     zero: "no items"
   label_x_items_selected:
-    one: "One item selected"
+    one: "%{count} item selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
     one: "%{count} open"
@@ -5627,7 +5627,7 @@ en:
       This is the only time we can print the client secret, please note it down and keep it secure.
       It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     confirm_revoke_my_application:
-      one: "Do you really want to remove this application? This will revoke one token active for it."
+      one: "Do you really want to remove this application? This will revoke %{count} token active for it."
       other: "Do you really want to remove this application? This will revoke %{count} tokens active for it."
     empty_application_lists: No OAuth applications have been registered.
     flows:
@@ -7734,7 +7734,7 @@ en:
     authorization_rejected: "You are not allowed to sign in."
     blocked: "locked temporarily"
     blocked_num_failed_logins:
-      one: "locked temporarily (one failed login attempt)"
+      one: "locked temporarily (%{count} failed login attempt)"
       other: "locked temporarily (%{count} failed login attempts)"
     confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
     deleted: "Deleted user"
@@ -8131,13 +8131,13 @@ en:
       heading: "Permanently delete these %{count} work packages?"
       hidden_descendants_only_warning:
         one: >-
-          There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+          There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: >-
           There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will
           be removed.
       hidden_descendants_warning:
         one: >-
-          All visible descendants will be removed. However, there is one descendant that you cannot see.
+          All visible descendants will be removed. However, there is %{count} descendant that you cannot see.
           It will not be deleted but the relation will be removed.
         other: >-
           All visible descendants will be removed. However, there are %{count} descendants that you cannot see.
@@ -8145,14 +8145,14 @@ en:
       title: "Delete %{count} work packages"
       undeletable_descendants_warning:
         one: >-
-          You are not able to delete one descendant because you lack the necessary permissions. It will be
+          You are not able to delete %{count} descendant because you lack the necessary permissions. It will be
           preserved but the hierarchical relation will be removed.
         other: >-
           You are not able to delete %{count} descendants because you lack the necessary permissions. These
           will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         one: >-
-          You are not able to delete one descendant because you lack the necessary permissions in %{projects}.
+          You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}.
           It will be preserved but the hierarchical relation will be removed.
         other: >-
           You are not able to delete %{count} descendants because you lack the necessary permissions in
@@ -8214,14 +8214,14 @@ en:
       heading: "Permanently delete this work package?"
       hidden_descendants_only_warning:
         one: >-
-          This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation
+          This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation
           will be removed.
         other: >-
           This work package has %{count} descendants that you cannot see. They will not be deleted but the
           hierarchical relation will be removed.
       hidden_descendants_warning:
         one: >-
-          All visible descendants will be deleted. However, this work package has one descendant that you
+          All visible descendants will be deleted. However, this work package has %{count} descendant that you
           cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: >-
           All visible descendants will be deleted. However, this work package has %{count} descendants that you
@@ -8229,14 +8229,14 @@ en:
       title: "Delete work package"
       undeletable_descendants_warning:
         one: >-
-          You are not able to delete one descendant because you lack the necessary permissions. It will be
+          You are not able to delete %{count} descendant because you lack the necessary permissions. It will be
           preserved but the hierarchical relation will be removed.
         other: >-
           You are not able to delete %{count} descendants because you lack the necessary permissions. These
           will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         one: >-
-          You are not able to delete one descendant because you lack the necessary permissions in %{projects}.
+          You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}.
           It will be preserved but the hierarchical relation will be removed.
         other: >-
           You are not able to delete %{count} descendants because you lack the necessary permissions in
@@ -8413,7 +8413,7 @@ en:
           no_results_title_text: There are currently no versions available.
 
     x_descendants:
-      one: "One descendant work package"
+      one: "%{count} descendant work package"
       other: "%{count} work package descendants"
 
   workflows:

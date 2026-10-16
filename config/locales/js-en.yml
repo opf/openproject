@@ -946,7 +946,7 @@ en:
 
     units:
       child_work_packages:
-        one: "one child work package"
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
         one: "%{count} day"

@@ -81,7 +81,7 @@ en:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: "There is one work package that was not completed in this sprint."
+                one: "There is %{count} work package that was not completed in this sprint."
                 other: "There are %{count} work packages that were not completed in this sprint."
             status:
               not_active: "is not active so it cannot be closed."
