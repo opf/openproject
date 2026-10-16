@@ -23,7 +23,7 @@ In the forums in OpenProject you can discuss topics in a project with the team: 
 | [Open a forum](#open-a-forum)                                           | How to open an existing forum and sort its topics.                         |
 | [Create a new topic](#create-a-new-topic-in-a-forum)                    | How to start a new topic in a forum.                                       |
 | [Read a topic](#read-a-topic)                                           | How to read a topic and load its older replies.                            |
-| [Reply to a topic](#reply-to-a-topic)                                   | How to reply to a topic or quote a post.                                   |
+| [Reply to a topic](#reply-to-a-topic)                                   | How to reply to a topic, quote a post or mention a member.                 |
 | [Mark a topic as solved](#mark-a-topic-as-solved)                       | How to accept a reply as the solution of a topic.                          |
 | [Create a work package](#create-a-work-package-from-a-topic-or-a-reply) | How to turn a topic or a reply into a work package.                        |
 | [Watch a forum](#watch-a-forum)                                         | How to keep informed about changes in a forum, e.g. new topics or replies. |
@@ -117,6 +117,16 @@ To quote a post in your reply, click the **More** (three dots) icon of that post
 From the same menu, **Copy link to clipboard** copies a link that opens the topic at that post.
 
 ![Actions on a forum reply in OpenProject](openproject_user_guide_forums_post_actions.png)
+
+### Mention a member
+
+To draw someone's attention to a topic, mention them: in the editor of a new topic or a reply, type **@** followed by the beginning of their name and select them from the suggestions. The suggestions list the members of the project and, in a public forum, the people taking part in the topic.
+
+![Mention a member in a forum reply in OpenProject](openproject_user_guide_forums_mention_member.png)
+
+Once you save the topic or the reply, the mentioned members receive an e-mail with a link to it. When you edit a post, only the members you newly mention are notified, and mentions within a quote notify nobody.
+
+![A forum reply mentioning a member in OpenProject](openproject_user_guide_forums_mention_posted.png)
 
 ## Mark a topic as solved
 
