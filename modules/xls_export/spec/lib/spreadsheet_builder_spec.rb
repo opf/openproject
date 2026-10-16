@@ -74,6 +74,33 @@ RSpec.describe "SpreadsheetBuilder" do
     expect(@sheet.last_row.format(0)).to eq(@sheet.last_row.format(1))
   end
 
+  describe "column width of a date column" do
+    def width_for(number_format)
+      builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+      builder.add_headers([""], 0) # as every exporter does, #add_row skips row 0
+      builder.add_row([Date.new(2026, 8, 24)])
+      builder.add_format_option_to_column(0, number_format:)
+      builder.xls
+
+      builder.send(:raw_sheet).column(0).width
+    end
+
+    it "widens the column so that a long date format still fits" do
+      expect(width_for("MMMM DD, YYYY")).to be > width_for("YYYY-MM-DD")
+    end
+
+    it "leaves number formats to the plain value width" do
+      expect(width_for("0.00")).to eq(width_for("YYYY-MM-DD"))
+    end
+  end
+
+  it "keeps booleans as booleans" do
+    builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+    builder.add_row([true, false])
+
+    expect(builder.send(:raw_sheet).last_row.to_a).to eq([true, false])
+  end
+
   it "alwayses use unix newlines" do
     @spreadsheet.add_row(["Some text including a windows newline (\r\n)", "And an old-style mac os newline (\r)"])
     2.times do |i|

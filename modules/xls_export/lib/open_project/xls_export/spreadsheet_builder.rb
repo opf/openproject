@@ -53,34 +53,9 @@ module OpenProject::XlsExport
 
     # Get the approximate width of a value as seen in the excel sheet
     def get_value_width(value)
-      if ["Time", "Date"].include?(value.class.name) && !(value.to_s.length < 18)
-        return 18
-      end
+      return 18 if (value.is_a?(Time) || value.is_a?(Date)) && value.to_s.length >= 18
 
-      tot_w = [0.0]
-      idx = 0
-      value.to_s.each_char do |c|
-        case c
-        when "0".."9"
-          tot_w[idx] += 1.2
-        when ".", ";", ":", ",", " ", "i", "I", "j", "J", "(", ")", "[", "]", "!", "-", "t", "l"
-          tot_w[idx] += 0.7
-        when "W", "M", "D"
-          tot_w[idx] += 1.2
-        when "\n"
-          idx = idx + 1
-          tot_w << 0.0
-        else
-          tot_w[idx] += 1.05
-        end
-      end
-
-      wdth = 0
-      tot_w.each do |w|
-        wdth = w unless w < wdth
-      end
-
-      wdth + 1.5
+      value.to_s.split("\n").map { |line| line_width(line) }.max.to_f + 1.5
     end
 
     # Add a "Title". This basically just set the first column to
@@ -131,25 +106,15 @@ module OpenProject::XlsExport
     end
 
     # Add a simple row. This will default to the next row in the sequence.
-    # Integer, Float, Date, and Time instances are preserved, all other types
-    # are converted to String as the spreadsheet gem cannot do more formats
+    # Numeric, Date, Time and boolean instances are preserved so that they are
+    # written as native cells and the cell formats set on the columns apply,
+    # all other types are converted to String as the spreadsheet gem cannot do
+    # more formats
     def add_row(arr, idx = nil)
       idx ||= [@sheet.last_row_index + 1, 1].max
-      column_array = []
-      arr.each_with_index do |c, i|
-        value = if %w(Time Date Float Integer).include?(c.class.name)
-                  c
-                elsif c.instance_of?(BigDecimal)
-                  c.to_f
-                else
-                  c.to_s.gsub("\r\n", "\n").tr("\r", "\n")
-                end
-        column_array << value
-        @column_widths[i] = 0 if @column_widths[i].nil?
-        value_width = get_value_width(value)
-        @column_widths[i] = value_width if @column_widths[i] < value_width
-      end
-      @sheet.row(idx).concat column_array
+      values = arr.map { |cell| cell_value(cell) }
+      values.each_with_index { |value, i| track_column_width(i, value) }
+      @sheet.row(idx).concat values
     end
 
     # Add a default format to the column at index
@@ -160,6 +125,7 @@ module OpenProject::XlsExport
           fmt.send(:"#{k.to_sym}=", v) if fmt.respond_to? :"#{k.to_sym}="
         end
         @sheet.column(index).default_format = fmt
+        widen_for_date_format(index, opt[:number_format])
       end
     end
 
@@ -181,6 +147,43 @@ module OpenProject::XlsExport
     end
 
     private
+
+    def line_width(line)
+      line.each_char.sum { |char| char_width(char) }
+    end
+
+    def char_width(char)
+      case char
+      when "0".."9", "W", "M", "D" then 1.2
+      when ".", ";", ":", ",", " ", "i", "I", "j", "J", "(", ")", "[", "]", "!", "-", "t", "l" then 0.7
+      else 1.05
+      end
+    end
+
+    def cell_value(cell)
+      case cell
+      when BigDecimal then cell.to_f
+      when Date, Time, Numeric, true, false then cell
+      else cell.to_s.gsub("\r\n", "\n").tr("\r", "\n")
+      end
+    end
+
+    def track_column_width(index, value)
+      @column_widths[index] ||= 0
+      width = get_value_width(value)
+      @column_widths[index] = width if @column_widths[index] < width
+    end
+
+    # The values of a date column are written as Date or Time and their width is
+    # measured as such, but excel renders them through the column's number format,
+    # which may well be wider - a column too narrow for its own format renders as
+    # "########".
+    def widen_for_date_format(index, number_format)
+      return unless Spreadsheet::Format.new(number_format:).date_or_time?
+
+      width = get_value_width(number_format.delete('"'))
+      @column_widths[index] = width if width > @column_widths[index].to_f
+    end
 
     def column_width_including_affix(index)
       contains_currency = @sheet.rows.any? do |row|

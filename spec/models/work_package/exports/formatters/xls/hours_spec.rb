@@ -34,32 +34,36 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::Hours do
   let(:formatter_instance) { described_class.new(:estimated_hours) }
 
   describe ".apply?" do
-    it "returns true for estimated_hours and csv format" do
-      expect(described_class.apply?(:estimated_hours, :csv)).to be true
+    it "returns true for estimated_hours and xls format" do
+      expect(described_class.apply?(:estimated_hours, :xls)).to be true
     end
 
-    it "returns true for derived_estimated_hours and csv format" do
-      expect(described_class.apply?(:derived_estimated_hours, :csv)).to be true
+    it "returns true for derived_estimated_hours and xls format" do
+      expect(described_class.apply?(:derived_estimated_hours, :xls)).to be true
     end
 
-    it "returns true for remaining_hours and csv format" do
-      expect(described_class.apply?(:remaining_hours, :csv)).to be true
+    it "returns true for remaining_hours and xls format" do
+      expect(described_class.apply?(:remaining_hours, :xls)).to be true
     end
 
-    it "returns true for derived_remaining_hours and csv format" do
-      expect(described_class.apply?(:derived_remaining_hours, :csv)).to be true
+    it "returns true for derived_remaining_hours and xls format" do
+      expect(described_class.apply?(:derived_remaining_hours, :xls)).to be true
     end
 
-    it "returns true for spent_hours and csv format" do
-      expect(described_class.apply?(:spent_hours, :csv)).to be true
+    it "returns true for spent_hours and xls format" do
+      expect(described_class.apply?(:spent_hours, :xls)).to be true
     end
 
     it "returns false for estimated_hours and pdf format" do
       expect(described_class.apply?(:estimated_hours, :pdf)).to be false
     end
 
+    it "returns false for estimated_hours and csv format" do
+      expect(described_class.apply?(:estimated_hours, :csv)).to be false
+    end
+
     it "returns false for other attributes" do
-      expect(described_class.apply?(:other_attribute, :csv)).to be false
+      expect(described_class.apply?(:other_attribute, :xls)).to be false
     end
   end
 
