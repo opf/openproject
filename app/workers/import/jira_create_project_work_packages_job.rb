@@ -86,7 +86,6 @@ module Import
           jira_entity_class: jira_project.class.to_s
         ).op_leg
 
-
         cursor ||= @jira_import.get_job_cursor(self)
         enumerator_builder.active_record_on_records(
           Import::JiraIssue.where(jira_import_id:, jira_project_id:),
