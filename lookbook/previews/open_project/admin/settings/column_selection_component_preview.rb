@@ -31,6 +31,7 @@
 module OpenProject
   module Admin
     module Settings
+      # @logical_path OpenProject/Admin/Settings
       class ColumnSelectionComponentPreview < ViewComponent::Preview
         COLUMNS = [
           { id: "id", name: "ID" },
