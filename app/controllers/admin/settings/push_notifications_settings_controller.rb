@@ -30,9 +30,11 @@
 
 module Admin::Settings
   class PushNotificationsSettingsController < ::Admin::SettingsController
+    include OpTurbo::ComponentStream
+
     guard_feature_flag :progressive_web_app
 
-    current_menu_item [:show, :check] do
+    current_menu_item [:show, :check, :renew_key_dialog] do
       :push_notifications
     end
 
@@ -48,12 +50,16 @@ module Admin::Settings
       redirect_to admin_settings_push_notifications_path, status: :see_other
     end
 
-    def regenerate_key
+    def renew_key_dialog
+      respond_with_dialog Admin::Settings::PushNotifications::RenewKeyDialogComponent.new
+    end
+
+    def renew_key
       if OpenProject::WebPush.key_managed_by_environment?
         flash[:error] = t("admin.settings.push_notifications.key_managed_by_environment")
       else
         OpenProject::WebPush.regenerate_key!
-        flash[:notice] = t("admin.settings.push_notifications.key_regenerated")
+        flash[:notice] = t("admin.settings.push_notifications.key_renewed")
       end
 
       redirect_to admin_settings_push_notifications_path, status: :see_other
