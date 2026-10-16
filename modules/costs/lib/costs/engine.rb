@@ -256,10 +256,54 @@ module Costs
       "#{hourly_rates_by_principal(principal_id)}/#{id}"
     end
 
+    add_api_path :time_entries do
+      "#{root}/time_entries"
+    end
+
+    add_api_path :time_entry do |id|
+      "#{time_entries}/#{id}"
+    end
+
+    add_api_path :create_time_entry_form do
+      "#{time_entries}/form"
+    end
+
+    add_api_path :time_entry_form do |id|
+      "#{time_entry(id)}/form"
+    end
+
+    add_api_path :time_entry_schema do
+      "#{time_entries}/schema"
+    end
+
+    add_api_path :time_entries_activity do |activity_id|
+      "#{time_entries}/activities/#{activity_id}"
+    end
+
+    add_api_path :time_entries_available_projects do
+      "#{time_entries}/available_projects"
+    end
+
+    add_api_path :time_entries_available_work_packages_on_create do
+      "#{time_entries}/available_work_packages"
+    end
+
+    add_api_path :time_entries_available_work_packages_on_edit do |time_entry_id|
+      "#{time_entry(time_entry_id)}/available_work_packages"
+    end
+
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
       mount ::API::V3::TimeEntries::TimeEntriesAPI
+    end
+
+    extend_api_response(:v3, :root) do
+      link :time_entries do
+        {
+          href: api_v3_paths.time_entries
+        }
+      end
     end
 
     add_api_endpoint "API::V3::Principals::PrincipalsAPI", :id do

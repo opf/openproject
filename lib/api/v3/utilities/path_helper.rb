@@ -577,24 +577,6 @@ module API
             "#{root}/string_objects?value=#{val}"
           end
 
-          resources :time_entry
-
-          def self.time_entries_activity(activity_id)
-            "#{root}/time_entries/activities/#{activity_id}"
-          end
-
-          def self.time_entries_available_projects
-            "#{time_entries}/available_projects"
-          end
-
-          def self.time_entries_available_work_packages_on_create
-            "#{time_entries}/available_work_packages"
-          end
-
-          def self.time_entries_available_work_packages_on_edit(time_entry_id)
-            "#{time_entry(time_entry_id)}/available_work_packages"
-          end
-
           index :type
           show :type
 

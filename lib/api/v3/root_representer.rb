@@ -69,12 +69,6 @@ module API
         }
       end
 
-      link :time_entries do
-        {
-          href: api_v3_paths.time_entries
-        }
-      end
-
       link :types do
         {
           href: api_v3_paths.types
