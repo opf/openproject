@@ -30,7 +30,7 @@
 
 module My
   module Work
-    class TimeEntryRow < OpPrimer::BorderBoxRowComponent
+    class TimeEntryRowComponent < OpPrimer::BorderBoxRowComponent
       include Redmine::I18n
 
       def button_links

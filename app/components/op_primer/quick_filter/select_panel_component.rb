@@ -33,7 +33,7 @@ module OpPrimer
     class SelectPanelComponent < ApplicationComponent
       include ApplicationHelper
 
-      renders_many :items, OpPrimer::QuickFilter::Item
+      renders_many :items, OpPrimer::QuickFilter::ItemComponent
 
       def initialize(name:, query:, filter_key:, path_args:, operator: "=", src: nil, label_method: :name,
                      select_variant: :multiple)

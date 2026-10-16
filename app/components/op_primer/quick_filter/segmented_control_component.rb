@@ -34,7 +34,7 @@ module OpPrimer
       include ApplicationHelper
       include OpTurbo::Streamable
 
-      renders_many :items, OpPrimer::QuickFilter::Item
+      renders_many :items, OpPrimer::QuickFilter::ItemComponent
 
       def initialize(name:, query:, filter_key:, path_args:, orders: nil)
         super
