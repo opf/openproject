@@ -60,8 +60,8 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       expect(page).to have_test_selector("planner-task-evening", text: "Book train to the offsite")
     end
 
-    context "when the user's role in My work cannot add work packages" do
-      before { role.remove_permission!(:add_work_packages) }
+    context "when the user's role in My work cannot edit work packages" do
+      before { Member.find_by(project: planner_project, principal: user).roles.first.remove_permission!(:edit_work_packages) }
 
       it "is forbidden" do
         expect { subject }.not_to change(WorkPackage, :count)

@@ -38,7 +38,8 @@ module Planner
 
     register "planner",
              author_url: "https://www.openproject.org",
-             bundled: true do
+             bundled: true,
+             settings: { default: { "role_id" => nil } } do
       visible = ->(*) { User.current.logged? && OpenProject::FeatureDecisions.planner_active? }
 
       menu :global_menu,
@@ -80,16 +81,11 @@ module Planner
             "planner/menus/show"
           )
 
-        OpenProject::AccessControl.permission(:add_work_packages)
-          .controller_actions
-          .push(
-            "planner/tasks/new_dialog",
-            "planner/tasks/create"
-          )
-
         OpenProject::AccessControl.permission(:edit_work_packages)
           .controller_actions
           .push(
+            "planner/tasks/new_dialog",
+            "planner/tasks/create",
             "planner/tasks/update",
             "planner/tasks/plan",
             "planner/tasks/drop"

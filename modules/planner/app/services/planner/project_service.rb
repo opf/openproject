@@ -61,8 +61,7 @@ module Planner
 
     def create_project
       SetupService.new.call
-        .bind { |variant| create_private_project(variant) }
-        .bind { |project| add_member(project) }
+        .bind { |setup| create_private_project(setup.variant).bind { add_member(it, setup.role) } }
         .on_success { |call| user.pref.update!(planner_project_id: call.result.id) }
     end
 
@@ -76,10 +75,10 @@ module Planner
         end
     end
 
-    def add_member(project)
+    def add_member(project, role)
       Members::CreateService
         .new(user: User.system, contract_class: EmptyContract)
-        .call(project:, principal: user, roles: [ProjectRole.in_new_project], send_notifications: false)
+        .call(project:, principal: user, roles: [role], send_notifications: false)
         .map { project }
     end
   end

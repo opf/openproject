@@ -46,7 +46,23 @@ RSpec.describe Planner::ProjectService do
     expect(subject).to be_success, -> { subject.errors.full_messages.to_sentence }
     expect(project).not_to be_public
     expect(project.users).to contain_exactly(user)
-    expect(Member.find_by(project:, principal: user).roles).to contain_exactly(role)
+    expect(Member.find_by(project:, principal: user).roles.map(&:name)).to eq(["My planner owner"])
+  end
+
+  it "lets the user work with their to-dos but not add work packages outside My planner" do
+    expect(subject).to be_success
+    expect(user.allowed_in_project?(:edit_work_packages, project)).to be(true)
+    expect(user.allowed_in_project?(:delete_work_packages, project)).to be(true)
+    expect(Project.allowed_to(user, :add_work_packages)).not_to include(project)
+    expect(WorkPackages::CreateService.new(user:).call(project:, type: task, subject: "Sneaked in")).to be_failure
+  end
+
+  it "lets the owners move their to-dos between the statuses project creators may" do
+    create(:status_transition, type: task, role:, old_status: create(:default_status), new_status: create(:closed_status))
+
+    expect(subject).to be_success
+    owner_role = Member.find_by(project:, principal: user).roles.first
+    expect(project.project_types.first.variant.workflows.where(role: owner_role)).to exist
   end
 
   it "enables only work packages and the My work variant of the first non-milestone type" do
@@ -116,7 +132,7 @@ RSpec.describe Planner::ProjectService do
 
     it "shares the field and variant but not the project" do
       expect { subject }
-        .not_to change { [WorkPackageCustomField.count, TypeVariant.count, FormConfiguration.count] }
+        .not_to change { [WorkPackageCustomField.count, TypeVariant.count, FormConfiguration.count, Role.count] }
       expect(project).not_to eq(other_project)
       expect(project.project_types.first.variant).to eq(other_project.project_types.first.variant)
     end
