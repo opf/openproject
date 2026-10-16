@@ -144,7 +144,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   private orderedRows:RenderedWorkPackage[] = [];
 
   get commonPipes() {
-    return (source:Observable<any>) => source.pipe(
+    return <T>(source:Observable<T>) => source.pipe(
       this.untilDestroyed(),
       takeUntil(this.querySpace.stopAllSubscriptions),
       filter(() => this.initialized && this.wpTableTimeline.isVisible),
@@ -299,7 +299,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'follows',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -314,7 +314,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'precedes',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -365,7 +365,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.refreshView();
   }
 
-  private activateSelectionMode(start:string, callback:(wp:WorkPackageResource) => any) {
+  private activateSelectionMode(start:string, callback:(wp:WorkPackageResource) => void) {
     start = start.toString(); // old system bug: ID can be a 'number'
 
     this._viewParameters.activeSelectionMode = (wp:WorkPackageResource) => {
