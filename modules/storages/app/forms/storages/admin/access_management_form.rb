@@ -63,7 +63,7 @@ module Storages::Admin
 
     def access_management_translation(key)
       if @storage.provider_type_one_drive?
-        I18n.t("storages.file_storage_view.one_drive.access_management.#{key}")
+        I18n.t("storages.file_storage_view.onedrive.access_management.#{key}")
       else
         I18n.t("storages.file_storage_view.access_management.#{key}")
       end

@@ -81,8 +81,8 @@ module Storages::Admin::Forms
 
     def provider_configuration_instructions
       helpers.link_translate(
-        "storages.instructions.#{storage.short_provider_type}.provider_configuration_html",
-        links: { application_link: [:storage_docs, :"#{storage.short_provider_type}_oauth_application"] }
+        "storages.instructions.#{storage}.provider_configuration_html",
+        links: { application_link: [:storage_docs, :"#{storage}_oauth_application"] }
       )
     end
   end

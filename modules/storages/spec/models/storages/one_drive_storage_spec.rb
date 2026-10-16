@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "shared_base_storage_spec"
 
 RSpec.describe Storages::OneDriveStorage do
-  let(:storage) { build(:one_drive_storage) }
+  let(:storage) { build(:onedrive_storage) }
 
   it_behaves_like "base storage"
 
@@ -43,7 +43,7 @@ RSpec.describe Storages::OneDriveStorage do
 
   describe "#configured?" do
     context "with a complete configuration" do
-      let(:storage) { create(:one_drive_storage, :as_not_automatically_managed, oauth_client: build(:oauth_client)) }
+      let(:storage) { create(:onedrive_storage, :as_not_automatically_managed, oauth_client: build(:oauth_client)) }
 
       it "returns true" do
         expect(storage).to be_configured
@@ -60,7 +60,7 @@ RSpec.describe Storages::OneDriveStorage do
     end
 
     context "without oauth client" do
-      let(:storage) { build(:one_drive_storage) }
+      let(:storage) { build(:onedrive_storage) }
 
       it "returns false" do
         expect(storage).not_to be_configured
@@ -76,7 +76,7 @@ RSpec.describe Storages::OneDriveStorage do
   describe "#non_confidential_configuration" do
     subject { storage.non_confidential_configuration }
 
-    let(:storage) { create(:one_drive_storage_configured) }
+    let(:storage) { create(:onedrive_storage_configured) }
 
     it "returns the expected hash" do
       expect(subject).to eq(

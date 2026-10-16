@@ -31,7 +31,7 @@
 class Storages::Admin::AccessManagementController < ApplicationController
   include OpTurbo::ComponentStream
 
-  ALLOWED_STORAGES = %i[storages_one_drive_storage storages_sharepoint_storage].freeze
+  ALLOWED_STORAGES = %i[storages_onedrive_storage storages_sharepoint_storage].freeze
 
   layout "admin"
 

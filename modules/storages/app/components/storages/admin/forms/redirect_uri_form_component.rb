@@ -51,7 +51,7 @@ module Storages::Admin::Forms
       if oauth_client_configured?
         oauth_client.redirect_uri
       else
-        I18n.t("storages.instructions.one_drive.missing_client_id_for_redirect_uri")
+        I18n.t("storages.instructions.onedrive.missing_client_id_for_redirect_uri")
       end
     end
 

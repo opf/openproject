@@ -37,10 +37,10 @@ module Storages::Admin
         visually_hide_label: false,
         required: true,
         caption: helpers.link_translate(
-          "storages.instructions.one_drive.tenant_id_html",
-          links: { application_link: %i[storage_docs one_drive_oauth_application] }
+          "storages.instructions.onedrive.tenant_id_html",
+          links: { application_link: %i[storage_docs onedrive_oauth_application] }
         ),
-        placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder"),
+        placeholder: I18n.t("storages.instructions.onedrive.tenant_id_placeholder"),
         input_width: :large
       )
     end

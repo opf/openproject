@@ -35,7 +35,7 @@ require "contracts/shared/model_contract_shared_context"
 RSpec.describe Storages::Storages::DeleteContract do
   include_context "ModelContract shared context"
 
-  let(:storage) { create(:one_drive_storage) }
+  let(:storage) { create(:onedrive_storage) }
   let(:contract) { described_class.new(storage, current_user) }
 
   # Generic checks that the contract is valid for valid admin, but invalid otherwise

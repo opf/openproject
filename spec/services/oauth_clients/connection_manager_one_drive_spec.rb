@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe OAuthClients::ConnectionManager, :oauth_connection_helpers, :webmock, type: :model do
   let(:user) { create(:user) }
-  let(:storage) { create(:one_drive_storage, :with_oauth_client, tenant_id: "consumers") }
+  let(:storage) { create(:onedrive_storage, :with_oauth_client, tenant_id: "consumers") }
   let(:token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
 
   subject(:connection_manager) do

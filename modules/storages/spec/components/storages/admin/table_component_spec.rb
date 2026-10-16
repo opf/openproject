@@ -33,9 +33,9 @@ require_module_spec_helper
 
 RSpec.describe Storages::Admin::TableComponent, type: :component do
   shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
-  shared_let(:one_drive_storage) { create(:one_drive_storage) }
+  shared_let(:onedrive_storage) { create(:onedrive_storage) }
 
-  let(:storages) { [nextcloud_storage, one_drive_storage] }
+  let(:storages) { [nextcloud_storage, onedrive_storage] }
 
   subject(:storage_table_component) { described_class.new(rows: storages) }
 
@@ -47,7 +47,7 @@ RSpec.describe Storages::Admin::TableComponent, type: :component do
     it "lists all storages" do
       expect(page).to have_css(".Box-row", count: 2)
       expect(page).to have_css(".Box-row", text: nextcloud_storage.name)
-      expect(page).to have_css(".Box-row", text: one_drive_storage.name)
+      expect(page).to have_css(".Box-row", text: onedrive_storage.name)
     end
   end
 

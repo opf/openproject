@@ -82,7 +82,7 @@ module Storages
 
       context "when the storage is automatically managed" do
         context "when the storage is a one drive storage" do
-          let(:storage) { build_stubbed(:one_drive_storage, :as_automatically_managed) }
+          let(:storage) { build_stubbed(:onedrive_storage, :as_automatically_managed) }
 
           it "returns true for project_folder_mode inactive" do
             expect(project_storage.project_folder_mode_possible?("inactive")).to be true
@@ -116,7 +116,7 @@ module Storages
 
       context "when the storage is not automatically managed" do
         context "when the storage is a one drive storage" do
-          let(:storage) { build_stubbed(:one_drive_storage, :as_not_automatically_managed) }
+          let(:storage) { build_stubbed(:onedrive_storage, :as_not_automatically_managed) }
 
           it "returns true for project_folder_mode inactive" do
             expect(project_storage.project_folder_mode_possible?("inactive")).to be true

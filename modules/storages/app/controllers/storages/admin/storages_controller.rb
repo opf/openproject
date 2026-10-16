@@ -78,7 +78,7 @@ module Storages
       end
 
       def upsell
-        @provider_type = Storage.provider_types[params.fetch(:provider, "one_drive")]
+        @provider_type = Storage.provider_types[params.fetch(:provider, "onedrive")]
       end
 
       def edit
@@ -275,8 +275,8 @@ module Storages
       def storage_provider_parameter_name
         if params.key?(:storages_nextcloud_storage)
           :storages_nextcloud_storage
-        elsif params.key?(:storages_one_drive_storage)
-          :storages_one_drive_storage
+        elsif params.key?(:storages_onedrive_storage)
+          :storages_onedrive_storage
         elsif params.key?(:storages_sharepoint_storage)
           :storages_sharepoint_storage
         else
@@ -300,7 +300,7 @@ module Storages
       end
 
       def current_step_contract(storage)
-        storage_name = storage.is_a?(String) ? Storage.shorten_provider_type(storage) : storage.to_s
+        storage_name = storage.is_a?(String) ? Storage.provider_type_for(storage) : storage.to_s
         origin_component = params[:origin_component].presence || "general_information"
 
         Adapters::Registry.resolve("#{storage_name}.contracts.#{origin_component}")

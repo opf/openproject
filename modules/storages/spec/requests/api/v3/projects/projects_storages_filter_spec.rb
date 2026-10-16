@@ -53,8 +53,8 @@ RSpec.describe "API v3 projects resource with filters for the linked storages",
   shared_let(:project3) { create(:project, members: { user => role }) }
   shared_let(:project4) { create(:project, members: { user => role }) }
   shared_let(:storage1) { create(:nextcloud_storage) }
-  shared_let(:storage2) { create(:one_drive_storage) }
-  shared_let(:storage3) { create(:one_drive_storage) }
+  shared_let(:storage2) { create(:onedrive_storage) }
+  shared_let(:storage3) { create(:onedrive_storage) }
   shared_let(:project_storage11) { create(:project_storage, project: project1, storage: storage1) }
   shared_let(:project_storage12) { create(:project_storage, project: project1, storage: storage2) }
   shared_let(:project_storage13) { create(:project_storage, project: project1, storage: storage3) }

@@ -48,7 +48,7 @@ RSpec.describe Storages::Admin::AccessManagementComponent, type: :component do
   end
 
   context "on a form with access management set to automatic management enabled" do
-    let(:storage) { create(:one_drive_storage, :as_automatically_managed) }
+    let(:storage) { create(:onedrive_storage, :as_automatically_managed) }
 
     it "renders the access management description" do
       expect(page).to have_text("Enable automatically-managed access and folders")
@@ -57,7 +57,7 @@ RSpec.describe Storages::Admin::AccessManagementComponent, type: :component do
   end
 
   context "on a form with access management set to manual management enabled" do
-    let(:storage) { create(:one_drive_storage, :as_not_automatically_managed) }
+    let(:storage) { create(:onedrive_storage, :as_not_automatically_managed) }
 
     it "renders the access management description" do
       expect(page).to have_text("Only allow manually-managed access and folders")

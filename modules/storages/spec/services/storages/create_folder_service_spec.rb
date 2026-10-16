@@ -83,8 +83,8 @@ module Storages
       end
     end
 
-    context "when storage is one_drive" do
-      let(:storage) { create(:one_drive_storage) }
+    context "when storage is onedrive" do
+      let(:storage) { create(:onedrive_storage) }
       let(:parent_id) { parent_file_info.id }
       let(:create_folder_command) { class_double(Adapters::Providers::OneDrive::Commands::CreateFolderCommand) }
 

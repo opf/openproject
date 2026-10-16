@@ -36,12 +36,12 @@ module Storages
     module AuthenticationStrategies
       RSpec.describe OAuthClientCredentials, :disable_ssrf_filter, :webmock do
         let(:user) { create(:user) }
-        let(:storage) { create(:one_drive_sandbox_storage, oauth_client_token_user: user) }
+        let(:storage) { create(:onedrive_sandbox_storage, oauth_client_token_user: user) }
 
         let(:strategy_data) { Input::Strategy.build(key: :oauth_client_credentials, use_cache: false) }
         let(:request_url) { "#{storage.uri}v1.0/drives" }
 
-        context "with valid oauth credentials", vcr: "auth/one_drive/client_credentials" do
+        context "with valid oauth credentials", vcr: "auth/onedrive/client_credentials" do
           it "return success" do
             result = Authentication[strategy_data].call(storage:) { make_request(it) }
 
@@ -58,7 +58,7 @@ module Storages
           end
         end
 
-        context "with invalid client secret", vcr: "auth/one_drive/client_credentials_invalid_client_secret" do
+        context "with invalid client secret", vcr: "auth/onedrive/client_credentials_invalid_client_secret" do
           it "must return unauthorized" do
             result = Authentication[strategy_data].call(storage:) { make_request(it) }
             expect(result).to be_failure
@@ -69,7 +69,7 @@ module Storages
           end
         end
 
-        context "with invalid client id", vcr: "auth/one_drive/client_credentials_invalid_client_id" do
+        context "with invalid client id", vcr: "auth/onedrive/client_credentials_invalid_client_id" do
           it "must return unauthorized" do
             result = Authentication[strategy_data].call(storage:) { make_request(it) }
             expect(result).to be_failure

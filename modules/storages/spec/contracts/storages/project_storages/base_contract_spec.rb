@@ -130,7 +130,7 @@ RSpec.describe Storages::ProjectStorages::BaseContract do
 
   describe "For a one drive storage" do
     let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
-    let(:storage) { create(:one_drive_storage) }
+    let(:storage) { create(:onedrive_storage) }
     let(:project_storage) { build(:project_storage, storage:) }
 
     it_behaves_like "a ProjectStorage BaseContract"
