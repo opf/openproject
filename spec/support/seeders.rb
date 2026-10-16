@@ -57,10 +57,9 @@ RSpec.shared_context "with basic seed data" do |edition: "standard"|
   end
 end
 
-RSpec.shared_context "with user guide seed data" do
+RSpec.shared_context "with user guide seed data" do |seeded_at: nil|
   shared_let(:user_guide_seeding) do
-    RootSeeder.new(seed_development_data: false).seed_data! do |root_seeder|
-      UserGuideDataSeeder.new(root_seeder.seed_data).seed!
-    end
+    seed = -> { RootSeeder.new(seed_development_data: false).seed_data! { UserGuideDataSeeder.new(it.seed_data).seed! } }
+    seeded_at ? travel_to(seeded_at, &seed) : seed.call
   end
 end
