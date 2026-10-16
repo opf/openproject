@@ -655,6 +655,8 @@ paths:
     "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/workspaces":
     "$ref": "./paths/workspaces.yml"
+  "/api/v3/workspaces/{id}":
+    "$ref": "./paths/workspace.yml"
   "/api/v3/workspaces/{id}/available_assignees":
     "$ref": "./paths/workspace_available_assignees.yml"
   "/api/v3/workspaces/{id}/categories":
@@ -820,8 +822,14 @@ components:
       $ref: "./components/examples/work_package_create_valid.yml"
     WorkPackageEditSubject:
       $ref: "./components/examples/work_package_edit_subject.yml"
+    WorkPackageSimpleResponse:
+      $ref: "./components/examples/work_package_simple_response.yml"
     WorkPackageWithMetaValidation:
       $ref: "./components/examples/work_package_with_meta_validation.yml"
+    WorkspaceArchiveRequest:
+      $ref: "./components/examples/workspace_archive_request.yml"
+    WorkspaceUpdateInformationRequest:
+      $ref: "./components/examples/workspace_update_information_request.yml"
 
   responses:
     InvalidQuery:
@@ -1242,7 +1250,9 @@ components:
       "$ref": "./components/schemas/work_packages_model.yml"
     WorkspaceCollectionModel:
       "$ref": "./components/schemas/workspace_collection_model.yml"
-    Workspaces_schemaModel:
+    WorkspacePatchModel:
+      "$ref": "./components/schemas/workspace_patch_model.yml"
+    WorkspacesSchemaModel:
       "$ref": "./components/schemas/workspaces_schema_model.yml"
   securitySchemes:
     BasicAuth:

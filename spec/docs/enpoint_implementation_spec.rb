@@ -55,7 +55,9 @@ RSpec.describe "Endpoints" do
   describe "specification of implemented routes" do
     implementation_routes.each do |route|
       it "must specify #{route[:method].upcase} #{route[:path]}" do
-        skip("specification missing") if skipped_routes.include?([route[:method], route[:path]])
+        if skipped_routes.include?([route[:method], route[:path]])
+          skip("specification missing from before test introduction")
+        end
 
         expect(specification_routes).to include_route_definition(route)
       end
@@ -70,6 +72,7 @@ RSpec.describe "Endpoints" do
       %w[POST /api/v3/workspaces/:id/form],
       %w[GET /api/v3/users/:id/avatar],
       %w[GET /api/v3/grids/schema],
+      %w[GET /api/v3/groups/:id/avatar],
       %w[GET /api/v3/allocatable_principals],
       %w[GET /api/v3/queries/:id/order],
       %w[GET /api/v3/work_packages/:id/meeting_agenda_items],
@@ -81,7 +84,6 @@ RSpec.describe "Endpoints" do
       %w[POST /api/v3/users/form],
       %w[GET /api/v3/work_packages/:id/wiki_page_links],
       %w[GET /api/v3/time_entries/:id/available_work_packages],
-      %w[DELETE /api/v3/workspaces/:id],
       %w[GET /api/v3/job_statuses/:job_id],
       %w[POST /api/v3/help_texts/:id/attachments],
       %w[GET /api/v3/work_packages/:id/gitlab_issues],
@@ -101,7 +103,6 @@ RSpec.describe "Endpoints" do
       %w[POST /api/v3/help_texts/:id/attachments/prepare],
       %w[GET /api/v3/work_packages/:id/relations],
       %w[GET /api/v3/github_pull_requests/:id],
-      %w[PATCH /api/v3/workspaces/:id],
       %w[GET /api/v3/queries/group_bys/:id],
       %w[PATCH /api/v3/users/:id/preferences],
       %w[DELETE /api/v3/wiki_page_links/:wiki_page_link_id],
@@ -109,7 +110,6 @@ RSpec.describe "Endpoints" do
       %w[GET /api/v3/users/:id/preferences],
       %w[GET /api/v3/documents/:id/attachments],
       %w[GET /api/v3/time_entries/available_work_packages],
-      %w[GET /api/v3/workspaces/:id],
       %w[GET /api/v3/backlog_buckets],
       %w[POST /api/v3/grids/:id/attachments/prepare],
       %w[POST /api/v3/wiki_page_links],
