@@ -41,6 +41,8 @@ export interface GroupFixture {
   value:string;
   href:string;
   count:number;
+  /** Sums per attribute; the group ends with a sums row when given. */
+  sums?:Record<string, number|null>;
 }
 
 export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource {
@@ -67,7 +69,7 @@ export function buildGroup(fixture:GroupFixture, groupBy:string, index:number):G
     collapsed: false,
     index,
     identifier: '',
-    sums: null as unknown as GroupObject['sums'],
+    sums: fixture.sums ?? null as unknown as GroupObject['sums'],
     href: [{ href: fixture.href }],
     _links: {
       valueLink: [{ href: fixture.href }],
