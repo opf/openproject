@@ -2887,7 +2887,7 @@ en:
     text:
       failed: 'Could not copy project "%{source_project_name}" to project "%{target_project_name}".'
       succeeded: 'Copied project "%{source_project_name}" to "%{target_project_name}".'
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Duplicate project "%{source_project_name}"'
     x_objects_of_this_type:
       one: "One object of this type"
       other: "%{count} objects of this type"
@@ -5852,7 +5852,7 @@ en:
   permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
-  permission_copy_projects: "Copy projects"
+  permission_copy_projects: "Duplicate projects"
   permission_copy_projects_explanation: "In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template."
   permission_copy_work_packages: "Duplicate work packages"
   permission_create_backup: "Create backups"

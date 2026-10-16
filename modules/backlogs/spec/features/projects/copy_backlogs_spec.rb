@@ -63,7 +63,7 @@ RSpec.describe "Project copy with sprints and buckets", :js,
     general_settings_page.visit!
     general_settings_page.click_copy_action
 
-    expect(page).to have_heading "Copy project \"#{project.name}\""
+    expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
     fill_in "Name", with: "Copied project"
     click_on "Copy"

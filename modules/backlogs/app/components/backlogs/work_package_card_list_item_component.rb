@@ -110,7 +110,7 @@ module Backlogs
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_mobility_value: mobility,
         # Native drag payload for external consumers; the same absolute URL
-        # as the card menu's "Copy URL to clipboard" item. The label above
+        # as the card menu's "Copy link to clipboard" item. The label above
         # doubles as the link text of the text/html flavour.
         sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
       }

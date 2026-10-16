@@ -114,15 +114,15 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       )
     end
 
-    it "shows Copy URL to clipboard action" do
+    it "shows Copy link to clipboard action" do
       render_component
 
-      expect(page).to have_octicon(:copy)
+      expect(page).to have_octicon(:paste)
       expect(page).to have_element(
         :"clipboard-copy",
         id: "work_package_#{work_package.id}_menu_copy_url_to_clipboard",
         value: /\/work_packages\/#{work_package.id}\z/,
-        text: "Copy URL to clipboard"
+        text: "Copy link to clipboard"
       )
     end
 
