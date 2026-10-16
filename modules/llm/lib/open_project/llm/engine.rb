@@ -115,6 +115,13 @@ module OpenProject::Llm
       OpenProject::Llm::Hooks
     end
 
+    config.to_prepare do
+      ::Queries::Register.register(::Query) do
+        filter Queries::WorkPackages::Filter::SemanticSearchFilter
+        select Queries::WorkPackages::Selects::SemanticSimilaritySelect
+      end
+    end
+
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
 
