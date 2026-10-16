@@ -181,7 +181,7 @@ en:
       drop_zone_label: "Drop here to add this item"
       label_actions: "Inbox actions"
       show_more:
-        one: "Show 1 more item"
+        one: "Show %{count} more item"
         other: "Show %{count} more items"
       title: "Inbox"
 

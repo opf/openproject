@@ -38,7 +38,7 @@ en:
         notes: "Notes"
         notify: "Send notifications"
         participant:
-          one: "1 Participant"
+          one: "%{count} Participant"
           other: "%{count} Participants"
         participants: "Participants"
         participants_added: "Participants added:"
@@ -621,7 +621,7 @@ en:
     caption:
       ends_on: "This results in a series ending on %{date}"
       occurrences:
-        one: "This results in 1 upcoming occurrence"
+        one: "This results in %{count} upcoming occurrence"
         other: "This results in %{count} upcoming occurrences"
       occurrences_capped: "This results in more than %{count} upcoming occurrences"
     day_of_month_skipping_info: "Months with fewer than %{monthly_day} days will be skipped"
