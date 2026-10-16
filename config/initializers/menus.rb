@@ -666,6 +666,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :"menus.admin.mail_notification",
             parent: :mail_and_notifications
 
+  menu.push :push_notifications,
+            { controller: "/admin/settings/push_notifications_settings", action: :show },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.progressive_web_app_active? },
+            caption: :"menus.admin.push_notifications",
+            parent: :mail_and_notifications
+
   menu.push :incoming_mails,
             { controller: "/admin/settings/incoming_mails_settings", action: :show },
             if: ->(_) { User.current.admin? },
