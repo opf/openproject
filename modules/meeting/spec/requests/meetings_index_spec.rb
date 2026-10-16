@@ -372,7 +372,7 @@ RSpec.describe "Meeting index",
         expect(subject).to have_http_status(:ok)
 
         expect(page).to have_css("#meetings-table-footer-component")
-        expect(page).to have_text "There is one more meeting"
+        expect(page).to have_text "There is 1 more meeting"
         expect(page).to have_text "meeting on next monday"
         expect(page).to have_no_text "meeting on next friday"
       end
