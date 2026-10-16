@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "My account browser push",
+RSpec.describe "My account browser notifications",
                :skip_csrf,
                with_flag: { progressive_web_app: true },
                with_settings: { web_push_enabled: true } do
