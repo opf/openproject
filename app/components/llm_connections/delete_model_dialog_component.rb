@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,11 +40,17 @@ module LlmConnections
       { action: url_helpers.llm_model_path(llm_model), method: :delete }
     end
 
-    # Named so the message says what is actually at stake. The connection
-    # defaults count as bindings here -- deleting their model breaks every
-    # feature that inherits them.
+    # Named so the message says what is actually at stake: features bound to this
+    # model stop resolving, rather than silently falling back to another one.
+    # The connection defaults count as bindings here -- deleting their model
+    # breaks every feature that inherits them.
     def bound_features
-      affected_defaults
+      bindings = llm_model.llm_connection
+                          .feature_bindings
+                          .where(model_id: llm_model.external_id)
+                          .filter_map { |binding| binding.feature&.label }
+
+      bindings + affected_defaults
     end
 
     def affected_defaults

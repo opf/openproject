@@ -853,9 +853,7 @@ uk:
     text_user_wrote: "%{value} написав(-ла):"
     text_work_packages_destroy_confirmation: Ви впевнені у тому, що хочете видалити вибрані робочі пакети?
     time_entry:
-      stop: Зупинити
       title: Записування часу
-      tracking: Відстеження часу
       work_package_required: Спочатку потрібно вибрати пакет робіт.
     timer:
       button_stop: Зупинити поточний таймер

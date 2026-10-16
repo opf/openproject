@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -729,26 +728,6 @@ RSpec.describe PermittedParams do
                                 "type_id" => nil,
                                 "project_id" => nil)
       end
-    end
-  end
-
-  describe "#time_entry_activities_project" do
-    let(:attribute) { :time_entry_activities_project }
-    let(:hash) do
-      [
-        { "activity_id" => "5", "active" => "0" },
-        { "activity_id" => "6", "active" => "1" }
-      ]
-    end
-    let(:expected_permitted) do
-      [
-        ActionController::Parameters.new("activity_id" => "5", "active" => "0").permit!,
-        ActionController::Parameters.new("activity_id" => "6", "active" => "1").permit!
-      ]
-    end
-
-    it_behaves_like "allows params" do
-      subject { described_class.new(params, user).send(attribute) }
     end
   end
 

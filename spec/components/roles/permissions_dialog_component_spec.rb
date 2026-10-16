@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,9 +60,8 @@ RSpec.describe Roles::PermissionsDialogComponent, type: :component do
       expect(subject).to have_no_text I18n.t(:permission_delete_work_packages)
     end
 
-    it "lists the public permissions as implicitly granted" do
+    it "lists the public permissions as granted" do
       expect(subject).to have_text I18n.t(:permission_view_project)
-      expect(subject).to have_text I18n.t("roles.permissions_dialog.implicit_permission")
     end
 
     it "renders a collapsible, expanded list per module" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,7 +64,7 @@ module Highlighting
       # responding to `id` and returning a `Color` on `color`.
       def register_static(key:, values:)
         if entries.has_key?(key)
-          Rails.logger.warn "Key already exists. Registration attempt rejected for key '#{key}'."
+          warn "Key already exists. Registration attempt rejected for key '#{key}'."
           return
         end
 
@@ -73,7 +72,7 @@ module Highlighting
           static_data << values
           entries[key.to_s] = -> { values }
         else
-          Rails.logger.warn(
+          warn(
             "Values registered for key '#{key}' do not respond to necessary properties. Registration attempt rejected."
           )
         end

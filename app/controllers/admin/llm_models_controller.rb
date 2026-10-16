@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,7 @@ module Admin
       index
 
       replace_via_turbo_stream(
-        component: LlmConnections::Models::IndexComponent.new(@models, connection: @connection)
+        component: LlmConnections::ModelsTableComponent.new(rows: @models, connection: @connection)
       )
       turbo_streams << turbo_stream.push_state(llm_models_path(params.permit(:filters, :page, :per_page)))
 
@@ -100,37 +99,80 @@ module Admin
 
     def update
       @llm_model = @connection.models.find(params.expect(:id))
+      updated = unless_env_named_default(@llm_model, applies: renames?(@llm_model)) do
+        update_with_capabilities(@llm_model)
+      end
+      return refuse_env_named_default if updated == :refused
 
-      if update_with_capabilities(@llm_model)
+      if updated
         flash[:notice] = t(".success", model: @llm_model.external_id)
         redirect_to llm_models_path, status: :see_other
       else
-        # Re-rendered rather than redirected so the Primer form shows the error
-        # inline against the field that caused it, e.g. a rename that collides
-        # with an existing model id.
-        @verdicts = @connection.capability_verdicts.for_model(@llm_model.external_id_was).index_by(&:capability)
-        render :edit, status: :unprocessable_entity
+        render_edit_with_errors
       end
     end
 
     def delete_dialog
       llm_model = @connection.models.manual.find(params.expect(:id))
+      return refuse_env_named_default if @connection.env_named_default?(llm_model)
 
       respond_with_dialog LlmConnections::DeleteModelDialogComponent.new(llm_model)
     end
 
     def destroy
       llm_model = @connection.models.manual.find(params.expect(:id))
-      destroy_with_references(llm_model)
+      destroyed = unless_env_named_default(llm_model) { destroy_with_references(llm_model) }
+      return refuse_env_named_default if destroyed == :refused
 
       flash[:notice] = t(".success", model: llm_model.external_id)
       redirect_to llm_models_path, status: :see_other
     end
 
+    def update_defaults
+      result = ::LlmConnections::UpdateService
+                 .new(user: current_user, model: @connection)
+                 .call(**default_model_params)
+
+      result.on_success { flash[:notice] = t("admin.llm_models.defaults.success") }
+      result.on_failure { flash[:error] = result.errors.full_messages.join(", ") }
+
+      redirect_to llm_models_path, status: :see_other
+    end
+
     private
+
+    def default_model_params
+      params.expect(llm_connection: %i[default_chat_model_id default_embedding_model_id]).to_h.symbolize_keys
+    end
 
     def set_connection
       @connection = LlmConnection.active_connection
+    end
+
+    def render_edit_with_errors
+      @verdicts = @connection.capability_verdicts.for_model(@llm_model.external_id_was).index_by(&:capability)
+      render :edit, status: :unprocessable_entity
+    end
+
+    def renames?(llm_model)
+      submitted = params.dig(:llm_model, :external_id)
+
+      !submitted.nil? && submitted != llm_model.external_id
+    end
+
+    # Judged on the committed row under the connection's advisory lock: a seed
+    # applying the environment's values holds that lock until it commits.
+    def unless_env_named_default(llm_model, applies: true)
+      OpenProject::Mutex.with_advisory_lock_transaction(@connection) do
+        next :refused if applies && @connection.reload.env_named_default?(llm_model)
+
+        yield
+      end
+    end
+
+    def refuse_env_named_default
+      flash[:error] = t("admin.llm_models.configured_from_env")
+      redirect_to llm_models_path, status: :see_other
     end
 
     def destroy_with_references(llm_model)
@@ -159,7 +201,7 @@ module Admin
       submitted = llm_model_params
       pin_type = type_chosen?(llm_model, submitted)
 
-      ActiveRecord::Base.transaction do
+      ActiveRecord::Base.transaction(requires_new: true) do
         previous_external_id = llm_model.external_id
         llm_model.assign_attributes(updatable_attributes(llm_model, submitted))
         llm_model.save!

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -351,6 +350,19 @@ RSpec.describe "API v3 Principals resource" do
         pending "This is just a fix to note that we have the bug, the fix will be done in the frontend at first, then we can come back here"
         expect(last_response.body).to be_json_eql(expected.to_json)
       end
+    end
+  end
+
+  describe "#GET /api/v3/principals/:id" do
+    let(:principal) { create(:user) }
+
+    current_user { create(:admin) }
+
+    before { get "/api/v3/principals/#{principal.id}" }
+
+    it "returns the visible principal" do
+      expect(last_response).to have_http_status(200)
+      expect(last_response.body).to be_json_eql(principal.id.to_json).at_path("id")
     end
   end
 end

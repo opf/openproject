@@ -6,6 +6,7 @@ import {
   fillRequiredFields,
   modalBody,
   modalPanel,
+  onAPhone,
   openCreateModal,
   pickProject,
   selectOptionNamed,
@@ -99,43 +100,39 @@ describe('Create work package - form and editor boundaries', () => {
   });
 
   it('keeps the suggestions on their field while the form scrolls beneath them', async () => {
-    await page.viewport(390, 420);
+    await onAPhone(420);
 
-    try {
-      renderEditor();
-      await openCreateModal();
+    renderEditor();
+    await openCreateModal();
 
-      // A filled form is what brings in enough fields to make the body scroll.
-      await fillRequiredFields('Fix the header alignment');
-      const body = modalBody();
+    // A filled form is what brings in enough fields to make the body scroll.
+    await fillRequiredFields('Fix the header alignment');
+    const body = modalBody();
 
-      await userEvent.click(page.getByLabelText('Supervisor *'));
-      await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
+    await userEvent.click(page.getByLabelText('Supervisor *'));
+    await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
 
-      const input = page.getByLabelText('Supervisor *').element();
-      // The options sit in a popover of their own, which is what is positioned.
-      const list = page.getByRole('listbox', { name: 'Supervisor' })
-        .element().closest('[data-testid$="-popover"]')!;
-      // Distance to whichever side of the field the list sits on.
-      const gapToField = () => {
-        const field = input.getBoundingClientRect();
-        const suggestions = list.getBoundingClientRect();
-        return Math.round(Math.min(
-          Math.abs(suggestions.top - field.bottom),
-          Math.abs(field.top - suggestions.bottom),
-        ));
-      };
+    const input = page.getByLabelText('Supervisor *').element();
+    // The options sit in a popover of their own, which is what is positioned.
+    const list = page.getByRole('listbox', { name: 'Supervisor' })
+      .element().closest('[data-testid$="-popover"]')!;
+    // Distance to whichever side of the field the list sits on.
+    const gapToField = () => {
+      const field = input.getBoundingClientRect();
+      const suggestions = list.getBoundingClientRect();
+      return Math.round(Math.min(
+        Math.abs(suggestions.top - field.bottom),
+        Math.abs(field.top - suggestions.bottom),
+      ));
+    };
 
-      expect(getComputedStyle(list).position).toBe('fixed');
-      expect(gapToField()).toBeLessThanOrEqual(MAX_LIST_GAP);
+    expect(getComputedStyle(list).position).toBe('fixed');
+    expect(gapToField()).toBeLessThanOrEqual(MAX_LIST_GAP);
 
-      expect(body.scrollHeight).toBeGreaterThan(body.clientHeight + SCROLL_STEP);
-      body.scrollTop += body.scrollTop >= SCROLL_STEP ? -SCROLL_STEP : SCROLL_STEP;
+    expect(body.scrollHeight).toBeGreaterThan(body.clientHeight + SCROLL_STEP);
+    body.scrollTop += body.scrollTop >= SCROLL_STEP ? -SCROLL_STEP : SCROLL_STEP;
 
-      await expect.poll(gapToField).toBeLessThanOrEqual(MAX_LIST_GAP);
-    } finally {
-      await page.viewport(800, 600);
-    }
+    await expect.poll(gapToField).toBeLessThanOrEqual(MAX_LIST_GAP);
   });
 
   it('keeps a filled form when the overlay is clicked, and drops an untouched one', async () => {
@@ -367,26 +364,22 @@ describe('Create work package - form and editor boundaries', () => {
   });
 
   it('keeps the panel within the screen and scrolls the form inside it', async () => {
-    await page.viewport(390, 420);
+    await onAPhone(420);
 
-    try {
-      renderEditor();
-      await openCreateModal();
-      await fillRequiredFields('Fix the header alignment');
+    renderEditor();
+    await openCreateModal();
+    await fillRequiredFields('Fix the header alignment');
 
-      const overlayBox = page.getByTestId('create-wp-overlay').element().getBoundingClientRect();
-      const panelBox = modalPanel().getBoundingClientRect();
+    const overlayBox = page.getByTestId('create-wp-overlay').element().getBoundingClientRect();
+    const panelBox = modalPanel().getBoundingClientRect();
 
-      expect(panelBox.top).toBeGreaterThanOrEqual(overlayBox.top);
-      expect(panelBox.bottom).toBeLessThanOrEqual(overlayBox.bottom);
+    expect(panelBox.top).toBeGreaterThanOrEqual(overlayBox.top);
+    expect(panelBox.bottom).toBeLessThanOrEqual(overlayBox.bottom);
 
-      const body = modalBody();
-      expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
-      await expect.element(page.getByText('Create new work package').first()).toBeVisible();
-      await expect.element(page.getByTestId('create-wp-submit')).toBeVisible();
-    } finally {
-      await page.viewport(800, 600);
-    }
+    const body = modalBody();
+    expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
+    await expect.element(page.getByText('Create new work package').first()).toBeVisible();
+    await expect.element(page.getByTestId('create-wp-submit')).toBeVisible();
   });
 
   it('stands in front of the whole page, not of the editor alone', async () => {

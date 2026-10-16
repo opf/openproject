@@ -10,7 +10,9 @@ on:
       - '**/frontend/**/*.ts'
       - '**/frontend/**/*.tsx'
       - '**/frontend/**/*.js'
+      - '**/frontend/**/*.mjs'
       - '**/frontend/**/*.json'
+      - 'COPYRIGHT_short'
       - '.github/workflows/test-frontend-unit.yml'
 
   pull_request:
@@ -19,7 +21,9 @@ on:
       - '**/frontend/**/*.ts'
       - '**/frontend/**/*.tsx'
       - '**/frontend/**/*.js'
+      - '**/frontend/**/*.mjs'
       - '**/frontend/**/*.json'
+      - 'COPYRIGHT_short'
       - '.github/workflows/test-frontend-unit.yml'
 
 permissions:

@@ -859,9 +859,7 @@ ar:
     text_user_wrote: "%{value} كتب:"
     text_work_packages_destroy_confirmation: هل أنت متأكد من أنك تريد حذف العناصر المحددة؟
     time_entry:
-      stop: Stop
       title: وقت السجل
-      tracking: تعقب الوقت
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer

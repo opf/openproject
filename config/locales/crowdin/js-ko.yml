@@ -844,9 +844,7 @@ ko:
     text_user_wrote: "%{value}이(가) 작성함:"
     text_work_packages_destroy_confirmation: 선택한 작업 패키지를 삭제하시겠습니까?
     time_entry:
-      stop: 중지
       title: 작업시간 기록
-      tracking: 시간 추적
       work_package_required: 먼저 작업 패키지를 선택해야 합니다.
     timer:
       button_stop: 현재 타이머 중지

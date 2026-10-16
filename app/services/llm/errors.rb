@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,8 @@ module Llm
     class TimeoutError < ConnectionError; end
     # The TLS handshake failed, so nothing was exchanged with the server.
     class SslError < ConnectionError; end
+    # The base URL does not parse, so no request was ever sent.
+    class InvalidUrlError < ConnectionError; end
     # The server answered, but rejected our credentials.
     class AuthenticationError < Error; end
 
@@ -142,6 +143,21 @@ module Llm
       else
         Error.new(error.class.name)
       end
+    end
+
+    # Whether the same request can succeed later without anyone changing the
+    # connection.
+    def transient?(error)
+      case error
+      when ApiError then transient_status?(error.status)
+      when SsrfError, InvalidUrlError then false
+      else error.is_a?(ConnectionError)
+      end
+    end
+
+    # A 501 is the server saying it does not implement the endpoint at all.
+    def transient_status?(status)
+      status.nil? || status.in?([408, 429]) || (status.in?(500..599) && status != 501)
     end
 
     # Runs the block, re-raising any RubyLLM or Faraday failure as an Llm::Errors.

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -115,7 +114,7 @@ class LlmServerValidator < ActiveModel::EachValidator
   def probe(contract, attribute, value)
     client(contract, value).models
   rescue Llm::Client::Error => e
-    log(value, e)
+    log(contract.model, e)
     add_error(contract, attribute, e)
   end
 
@@ -164,7 +163,9 @@ class LlmServerValidator < ActiveModel::EachValidator
 
   # The upstream message is logged but never surfaced: an OpenAI-compatible
   # gateway routinely echoes credentials and internal hostnames in error bodies.
-  def log(base_url, error)
-    Rails.logger.info { "LLM connection probe to #{base_url} failed: #{error.class} #{error.message}" }
+  def log(connection, error)
+    subject = connection.persisted? ? "connection #{connection.id}" : "a new connection"
+
+    Rails.logger.info { "LLM probe of #{subject} failed: #{error.class} #{error.message}" }
   end
 end

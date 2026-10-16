@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,6 +112,48 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       it_behaves_like "cache headers set to 24 hours"
     end
 
+    context "with an initials override" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:setup) do
+        other_user.attachments = [build(:avatar_attachment, author: other_user)]
+        other_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "🚀" })
+      end
+
+      it "renders the override instead of the uploaded image or Gravatar" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">🚀<")
+      end
+    end
+
+    context "with an emoji override and a stored image" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:setup) do
+        other_user.attachments = [build(:avatar_attachment, author: other_user)]
+        other_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "🚀" })
+      end
+
+      it "renders the selected emoji" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">🚀<")
+      end
+    end
+
+    context "with custom avatar text" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:setup) { other_user.pref.update!(settings: { avatar_text: "👩🏽‍💻", avatar_color: "#AABBCC" }) }
+
+      it "renders the chosen text and color instead of redirecting to Gravatar" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include(">👩🏽‍💻<", 'fill="#AABBCC"')
+      end
+    end
+
     context "with local avatar" do
       let(:gravatars) { true }
       let(:local_avatars) { true }
@@ -128,6 +169,24 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       end
 
       it_behaves_like "cache headers set to 24 hours"
+
+      context "with an explicit choice of image" do
+        let(:setup) { other_user.pref.update!(settings: { avatar_type: "image" }) }
+
+        it "serves the uploaded image" do
+          expect(response).to have_http_status :ok
+          expect(response.content_type).not_to eq "image/svg+xml"
+        end
+      end
+
+      context "with custom avatar text" do
+        let(:setup) { other_user.pref.update!(settings: { avatar_text: "🚀" }) }
+
+        it "keeps the uploaded image as the avatar" do
+          expect(response).to have_http_status :ok
+          expect(response.content_type).not_to eq "image/svg+xml"
+        end
+      end
 
       context "with external file storage (S3)" do
         let(:setup) do
@@ -146,6 +205,49 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
           expect(response).to have_http_status :found
           expect(response.location).to eq "external URL"
         end
+      end
+    end
+  end
+
+  describe "/avatar?source=image" do
+    let(:other_user) do
+      create(:user).tap do |user|
+        user.attachments = [build(:avatar_attachment, author: user)]
+        user.pref.update!(settings: { avatar_type: "initials" })
+      end
+    end
+
+    before do
+      allow(Setting)
+        .to receive(:plugin_openproject_avatars)
+        .and_return(enable_gravatars: true, enable_local_avatars: true)
+
+      get "#{api_v3_paths.user(other_user.id)}/avatar?source=image"
+    end
+
+    it "serves the stored image to an administrator while initials are selected" do
+      expect(response).to have_http_status :ok
+      expect(response.content_type).not_to eq "image/svg+xml"
+      expect(response.headers["Cache-Control"]).not_to include "public"
+    end
+
+    context "as the user" do
+      let(:current_user) { other_user }
+
+      it "serves the stored image" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).not_to eq "image/svg+xml"
+      end
+    end
+
+    context "as another user who can see the user" do
+      let(:current_user) { create(:user, global_permissions: %i[view_all_principals]) }
+
+      it "does not serve the stored image" do
+        expect(response).to have_http_status :not_found
+
+        get "#{api_v3_paths.user(other_user.id)}/avatar"
+        expect(last_response).to have_http_status :ok
       end
     end
   end

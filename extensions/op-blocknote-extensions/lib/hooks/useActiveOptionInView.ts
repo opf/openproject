@@ -8,10 +8,18 @@ export const useActiveOptionInView = (
   options:readonly unknown[],
 ) => {
   useEffect(() => {
-    if (activeIndex < 0) return;
+    const list = listRef.current;
+    if (activeIndex < 0 || !list) return undefined;
 
-    listRef.current
-      ?.querySelectorAll(OPTION_SELECTOR)[activeIndex]
-      ?.scrollIntoView({ block: 'nearest' });
+    const reveal = () => {
+      list.querySelectorAll(OPTION_SELECTOR)[activeIndex]?.scrollIntoView({ block: 'nearest' });
+    };
+    reveal();
+
+    // A list placed against its anchor keeps resizing after the option was revealed, which can push it out again.
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(reveal);
+    observer.observe(list);
+    return () => observer.disconnect();
   }, [listRef, activeIndex, options]);
 };

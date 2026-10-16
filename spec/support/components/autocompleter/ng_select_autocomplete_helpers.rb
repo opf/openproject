@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Components::Autocompleter
   module NgSelectAutocompleteHelpers
     def search_autocomplete(element,
@@ -8,6 +35,23 @@ module Components::Autocompleter
                             wait_dropdown_open: true,
                             wait_for_fetched_options: true,
                             wait: Capybara.default_max_wait_time)
+      enter_autocomplete_query(element, query:, results_selector:, wait_dropdown_open:, wait_for_fetched_options:, wait:)
+
+      # Wait for options to be refreshed after having entered some text.
+      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
+
+      # probably not necessary anymore
+      sleep(0.5) unless using_cuprite?
+
+      # Find the open dropdown
+      page.document.synchronize do
+        dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+        scroll_to_element(dropdown_list)
+        dropdown_list
+      end
+    end
+
+    def enter_autocomplete_query(element, query:, results_selector:, wait_dropdown_open:, wait_for_fetched_options:, wait:)
       SeleniumHubWaiter.wait unless using_cuprite?
 
       # Wait for dropdown to open
@@ -25,19 +69,6 @@ module Components::Autocompleter
         within(current_element) do
           ng_enter_query(current_element, query, wait_for_fetched_options:)
         end
-      end
-
-      # Wait for options to be refreshed after having entered some text.
-      expect(resolve_autocomplete(element)).to have_no_css(".ng-spinner-loader", wait:)
-
-      # probably not necessary anymore
-      sleep(0.5) unless using_cuprite?
-
-      # Find the open dropdown
-      page.document.synchronize do
-        dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
-        scroll_to_element(dropdown_list)
-        dropdown_list
       end
     end
 
@@ -174,12 +205,12 @@ module Components::Autocompleter
                             wait_dropdown_open: true,
                             wait_for_fetched_options: true,
                             wait: Capybara.default_max_wait_time)
-      search_autocomplete(element,
-                          query:,
-                          results_selector:,
-                          wait_dropdown_open:,
-                          wait_for_fetched_options:,
-                          wait:)
+      enter_autocomplete_query(element,
+                               query:,
+                               results_selector:,
+                               wait_dropdown_open:,
+                               wait_for_fetched_options:,
+                               wait:)
 
       ##
       # If a specific select_text is given, use that to locate the match,

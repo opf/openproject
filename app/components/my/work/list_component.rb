@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module My
   module Work
@@ -87,7 +86,6 @@ module My
       end
 
       def collapsed?(date) # rubocop:disable Metrics/AbcSize
-        return false if mode == :day
         return false if mode.in?(%i[week workweek]) && range.exclude?(Date.current)
         return false if mode == :month && range.exclude?(Date.current.beginning_of_week)
 
@@ -110,6 +108,12 @@ module My
         elsif date.yesterday?
           t(:label_yesterday)
         end
+      end
+
+      def collapsed_state(date)
+        return :locked if mode == :day
+
+        collapsed?(date)
       end
     end
   end

@@ -844,9 +844,7 @@ zh-TW:
     text_user_wrote: "%{value} 寫道："
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作套件嗎？
     time_entry:
-      stop: 停止
       title: 工時紀錄
-      tracking: 工時紀錄
       work_package_required: 需要先選擇一個工作套件。
     timer:
       button_stop: 停止當前計時器

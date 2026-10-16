@@ -847,9 +847,7 @@ fr:
     text_user_wrote: "%{value} a écrit :"
     text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s) lot(s) de travaux sélectionné(s) ?
     time_entry:
-      stop: Arrêter
       title: Consigner du temps
-      tracking: Suivi du temps
       work_package_required: Nécessite d'abord la sélection d'un lot de travaux.
     timer:
       button_stop: Arrêter le suivi du temps actuel

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,18 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
 
     it "heads the change with its author and time" do
       expect(page).to have_css("[data-test-selector='op-journal-details-header']")
+    end
+  end
+
+  context "for the initial journal" do
+    let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 1) }
+    let(:details) { { "subject" => [nil, "Initial subject"] } }
+    let(:rendered) { { ["subject", [nil, "Initial subject"]] => "Subject set to Initial subject" } }
+
+    it "renders the creation header without listing creation attributes" do
+      expect(page).to have_css("[data-test-selector='op-journal-details-header']", text: user.name)
+      expect(page).to have_text(I18n.t("activities.work_packages.activity_tab.created_on"))
+      expect(page).to have_no_css("[data-test-selector='op-journal-detail-description']")
     end
   end
 

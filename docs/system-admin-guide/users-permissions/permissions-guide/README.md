@@ -57,14 +57,14 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Create subprojects** – Allows users to create subprojects.
 
-- **Copy projects** – Allows users to create a new project by copying an existing project.
+- **Duplicate projects** – Allows users to create a new project by duplicating an existing project.
 
   For project templates, this permission also allows users to create new projects based on the template.
 
   > [!NOTE]
   > When a user copies a project, they are assigned the configured **New role for users that create projects** in the new project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
   >
-  > To access the **Copy** action from **Project settings**, users must also be able to open the project settings, which typically requires the **Edit project** permission. Alternatively, users can create a new project from a project template.
+  > To access the **Duplicate** action from **Project settings**, users must also be able to open the project settings, which typically requires the **Edit project** permission. Alternatively, users can create a new project from a project template.
 
 - **Manage dashboards** – Allows users to create and edit project dashboards.
 
@@ -232,7 +232,7 @@ Some permissions depend on additional permissions or have behavior that is not i
 |------------|------------------------|
 | Manage members | Allows assigning any project role, including to oneself. Effectively grants full administrative access to the project. |
 | Invite members by email | Requires **Manage members**. |
-| Copy projects | Users are assigned the configured **New role for users that create projects** in the copied project. <br>Accessing **Copy** from **Project settings** typically also requires **Edit project**. |
+| Duplicate projects | Users are assigned the configured **New role for users that create projects** in the duplicated project. <br>Accessing **Duplicate** from **Project settings** typically also requires **Edit project**. |
 | Add attachments | Can be granted independently of **Edit work packages**. |
 | Change work package status | Can be granted independently of **Edit work packages**. |
 | Become assignee/responsible | Controls whether a user or group can be selected as assignee or responsible for work packages. |
