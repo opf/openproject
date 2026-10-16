@@ -385,6 +385,7 @@ en:
           sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
           sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the configuration.
           sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
+          ssrf_rejected: The request to the remote server was rejected by protection against Server-Side Request Forgery (SSRF).
           unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: Error
       label_healthy: Healthy
