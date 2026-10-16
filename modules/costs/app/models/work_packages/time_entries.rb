@@ -27,28 +27,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::TimeEntriesCleaner
+module WorkPackages::TimeEntries
   extend ActiveSupport::Concern
 
-  def self.included(base)
-    base.extend(ClassMethods)
+  included do
+    has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
+
+    associated_to_ask_before_destruction TimeEntry,
+                                         ->(work_packages) { TimeEntry.on_work_packages(work_packages).any? },
+                                         method(:cleanup_time_entries_before_destruction_of)
   end
 
-  module ClassMethods
+  class_methods do
     protected
 
     def cleanup_time_entries_before_destruction_of(work_packages,
                                                    user,
                                                    to_do = { action: "destroy" })
-      return false unless to_do.present?
+      return false if to_do.blank?
 
       case to_do[:action]
       when "destroy"
         true
-        # nothing to do
       when "nullify"
-        work_packages = Array(work_packages)
-        WorkPackage.update_time_entries(work_packages, "entity_type = NULL, entity_id = NULL")
+        update_time_entries(Array(work_packages), "entity_type = NULL, entity_id = NULL")
       when "reassign"
         reassign_time_entries_before_destruction_of(work_packages, user, to_do[:reassign_to_id])
       else
@@ -75,7 +77,7 @@ module WorkPackage::TimeEntriesCleaner
         false
       else
         condition = "entity_type = 'WorkPackage', entity_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}"
-        WorkPackage.update_time_entries(work_packages, condition)
+        update_time_entries(work_packages, condition)
       end
     end
   end

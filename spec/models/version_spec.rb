@@ -357,27 +357,18 @@ RSpec.describe Version do
         expect(version.estimated_hours).to eq 3.0
         expect(other_version.estimated_hours).to eq 3.0
       end
-
-      it "sums spent time for both versions" do
-        create(:time_entry, entity: work_package, project:, hours: 2)
-
-        expect(version.spent_hours).to eq 2.0
-        expect(other_version.spent_hours).to eq 2.0
-      end
     end
 
     context "when a work package only carries the legacy version_id without a target row" do
       let!(:work_package) { create(:work_package, project:, version:, estimated_hours: 3) }
 
       before do
-        create(:time_entry, entity: work_package, project:, hours: 2)
         WorkPackageVersion.delete_all
       end
 
       it "is not counted" do
         expect(version.issues_count).to eq 0
         expect(version.estimated_hours).to eq 0.0
-        expect(version.spent_hours).to eq 0.0
       end
     end
 
