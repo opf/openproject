@@ -222,6 +222,9 @@ module OpenProject::Meeting
 
     initializer "meeting.event_subscriptions" do
       Rails.application.config.after_initialize do
+        # Live updates are triggered by meeting journals only, so changes that are not journaled, such as
+        # agenda_sorting_mode, do not trigger a broadcast. They are only noticed by polling, which compares
+        # Meeting#changed_hash.
         [OpenProject::Events::JOURNAL_CREATED, OpenProject::Events::JOURNAL_UPDATED].each do |event|
           OpenProject::Notifications.subscribe(event) do |payload|
             journal = payload[:journal]
