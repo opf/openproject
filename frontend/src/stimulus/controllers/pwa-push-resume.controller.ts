@@ -35,7 +35,8 @@ const RENDERED_AT_MAX_AGE_MS = 120000;
 
 /**
  * Re-registers this browser's push subscription with the server after a new
- * sign-in, once per session.
+ * sign-in, once per session. A failed attempt is forgotten so the next page
+ * load tries again.
  *
  * It does not run on Turbo previews or on pages rendered more than two minutes
  * ago, because a restored snapshot can carry a stale CSRF token and a CSRF
@@ -65,13 +66,14 @@ export default class PwaPushResumeController extends Controller {
       const subscription = await currentPushSubscription();
       if (!subscription) return;
 
-      await post(this.urlValue, {
+      const response = await post(this.urlValue, {
         body: JSON.stringify({ push_endpoint: subscription.endpoint, resume: true }),
         contentType: 'application/json',
         responseKind: 'turbo-stream',
       });
+      if (!response.ok) this.unmarkAttempted();
     } catch {
-      return;
+      this.unmarkAttempted();
     }
   }
 
@@ -88,7 +90,14 @@ export default class PwaPushResumeController extends Controller {
   }
 
   private markAttempted():void {
-    const sessions = [this.sessionValue, ...this.attemptedSessions()].slice(0, ATTEMPTED_SESSIONS_LIMIT);
+    this.storeAttemptedSessions([this.sessionValue, ...this.attemptedSessions()].slice(0, ATTEMPTED_SESSIONS_LIMIT));
+  }
+
+  private unmarkAttempted():void {
+    this.storeAttemptedSessions(this.attemptedSessions().filter((entry) => entry !== this.sessionValue));
+  }
+
+  private storeAttemptedSessions(sessions:string[]):void {
     try {
       localStorage.setItem(ATTEMPTED_STORAGE_KEY, JSON.stringify(sessions));
     } catch {
