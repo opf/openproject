@@ -40,7 +40,7 @@ const RENDERED_AT_MAX_AGE_MS = 120000;
  *
  * It does not run on Turbo previews or on pages rendered more than two minutes
  * ago, because a restored snapshot can carry a stale CSRF token and a CSRF
- * failure resets the session. The Browser push tab handles its own page.
+ * failure resets the session. The Browser notifications tab handles its own page.
  */
 export default class PwaPushResumeController extends Controller {
   static values = {
