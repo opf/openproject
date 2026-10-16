@@ -55,6 +55,8 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
 
   @Input() filterButtonText:string = I18n.t('js.button_filter');
 
+  @Input() filtersExpanded = false;
+
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 
   public visible$:Observable<boolean>;
@@ -69,6 +71,10 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
   }
 
   ngOnInit():void {
+    if (this.filtersExpanded) {
+      this.wpFiltersService.visible = true;
+    }
+
     merge(
       this.wpTableFilters.pristine$(),
       from(this.wpListService.conditionallyLoadForm()),

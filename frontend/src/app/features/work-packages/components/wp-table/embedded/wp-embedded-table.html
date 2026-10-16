@@ -9,7 +9,8 @@
       <!-- Filter container (if requested) -->
       @if (configuration.withFilters) {
         <op-filter-container [showFilterButton]="configuration.showFilterButton"
-          [filterButtonText]="configuration.filterButtonText" />
+          [filterButtonText]="configuration.filterButtonText"
+          [filtersExpanded]="configuration.filtersExpanded" />
       }
       <!-- TABLE + TIMELINE horizontal split -->
       @if (!configuration.isCardView) {

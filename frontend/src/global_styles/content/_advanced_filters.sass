@@ -76,6 +76,20 @@ $advanced-filters--value-min-width: 256px
     @include text-shortener
     margin: auto 0
 
+  .advanced-filters--filter-name-container
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    row-gap: 2px
+    min-width: 0
+
+  .advanced-filters--semantic-search-toggle
+    display: inline-flex
+    align-items: center
+    gap: 0.25rem
+    white-space: nowrap
+    cursor: pointer
+
   .advanced-filters--filter-value,
   .advanced-filters--filter-operator
     .advanced-filters--select,

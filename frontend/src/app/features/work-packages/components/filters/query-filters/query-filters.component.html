@@ -13,13 +13,25 @@
     }
     <ul class="advanced-filters--filters">
       <li id="filter_search" class="advanced-filters--filter --without-operator">
-        <label
-          for="filter-by-text-input"
-          class="advanced-filters--filter-name"
-          [textContent]="text.filter_by_text"
-          [attr.title]="text.filter_by_text"
-        >
-        </label>
+        <div class="advanced-filters--filter-name-container">
+          <label
+            for="filter-by-text-input"
+            class="advanced-filters--filter-name"
+            [textContent]="text.filter_by_text"
+            [attr.title]="text.filter_by_text"
+          >
+          </label>
+          @if (wpTableFilters.semanticSearchAvailable) {
+            <label class="advanced-filters--semantic-search-toggle">
+              <input type="checkbox"
+                     id="semantic-search-toggle"
+                     class="form--check-box"
+                     [checked]="wpTableFilters.semanticSearchEnabled"
+                     (change)="wpTableFilters.toggleSemanticSearch()" />
+              {{ text.search_by_meaning }}
+            </label>
+          }
+        </div>
         <div class="advanced-filters--filter-value">
           <wp-filter-by-text-input (deactivateFilter)="deactivateFilter($event)" />
         </div>

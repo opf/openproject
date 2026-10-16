@@ -64,7 +64,30 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     'subjectOr',
     'manualSort',
     'typeahead',
+    'semanticSearch',
   ];
+
+  /** The filter the "Filter by text" input edits */
+  public textFilterId:'search'|'semanticSearch' = 'search';
+
+  /** Whether the semantic search toggle is rendered (global search results table) */
+  public semanticSearchAvailable = false;
+
+  public semanticSearchEnabled = false;
+
+  /**
+   * The semantic search mode is resolved by the server on page load,
+   * so toggling it reloads the page with the search_mode parameter flipped.
+   */
+  public toggleSemanticSearch():void {
+    const url = new URL(window.location.href);
+    if (this.semanticSearchEnabled) {
+      url.searchParams.delete('search_mode');
+    } else {
+      url.searchParams.set('search_mode', 'semantic');
+    }
+    window.location.href = url.toString();
+  }
 
   /** Flag state to determine whether the filters are incomplete */
   private incomplete = input<boolean>(false);
@@ -77,8 +100,17 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public initializeFilters(query:QueryResource, schema:QuerySchemaResource) {
     const filters = cloneHalResourceCollection<QueryFilterInstanceResource>(query.filters);
 
+    this.updateTextFilterId(filters);
     this.availableState.putValue(schema.filtersSchemas.elements);
     this.pristineState.putValue(filters);
+  }
+
+  private updateTextFilterId(filters:QueryFilterInstanceResource[]):void {
+    if (filters.some((filter) => filter.id === 'semanticSearch')) {
+      this.textFilterId = 'semanticSearch';
+    } else if (filters.some((filter) => filter.id === 'search')) {
+      this.textFilterId = 'search';
+    }
   }
 
   /**
@@ -273,7 +305,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * without modification.
    */
   protected get rawFilters():QueryFilterInstanceResource[] {
-    return this.lastUpdatedState.value || [];
+    return this.lastUpdatedState.value ?? [];
   }
 
   public get currentlyVisibleFilters():QueryFilterInstanceResource[] {
