@@ -39,5 +39,11 @@ module MeetingAgendaItems
       @datetime = datetime
       @next_occurrence = next_occurrence
     end
+
+    private
+
+    def include_outcomes_option?
+      @agenda_item.outcomes.any?
+    end
   end
 end

@@ -31,30 +31,17 @@ module MeetingAgendaItems
   class CreateService < ::BaseServices::Create
     include Meetings::JournalAfterPerform
     include JournalizeWorkPackageActivity
-    include Concerns::CopyAttachments
-
-    def call(params)
-      @source_meeting_id = params.delete(:source_meeting_id)
-      super
-    end
 
     def after_perform(call)
       # The reload is required because, the time slot calculations are changing the
       # `start_time`, `end_time` attributes and they should be available for rendering.
       call.result.reload
-      copy_attachments_from_source(call.result)
 
       super
 
       journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemAdded.new(call.result.meeting))
 
       call
-    end
-
-    private
-
-    def copy_attachments_from_source(agenda_item)
-      copy_attachments_from_meeting(agenda_item, @source_meeting_id) if @source_meeting_id.present?
     end
   end
 end
