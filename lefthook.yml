@@ -19,6 +19,12 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
+    eslint_json:
+      files: git diff --name-only --staged
+      glob: "*.json"
+      exclude:
+        - "extensions/**"
+      run: npx --no-install eslint --no-warn-ignored {staged_files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
@@ -64,6 +70,12 @@ fix:
       files: git diff --name-only --staged
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint --fix {files}
+    eslint_json:
+      files: git diff --name-only --staged
+      glob: "*.json"
+      exclude:
+        - "extensions/**"
+      run: npx --no-install eslint --no-warn-ignored --fix {files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"

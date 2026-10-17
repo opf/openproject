@@ -9,6 +9,7 @@
     "@angular/build": "22.1.9",
     "@angular/language-service": "22.2.2",
     "@eslint/js": "^10.0.1",
+    "@eslint/json": "^2.1.1",
     "@html-eslint/eslint-plugin": "^0.66.1",
     "@html-eslint/parser": "^0.66.0",
     "@stylistic/eslint-plugin": "^5.10.0",

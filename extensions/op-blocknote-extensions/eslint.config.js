@@ -5,8 +5,10 @@ import vitest from '@vitest/eslint-plugin';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import stylistic from '@stylistic/eslint-plugin';
+import json from '@eslint/json';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
+import { jsonConfig } from '../../frontend/eslint-json.mjs';
 
 export default defineConfig([
   {
@@ -140,6 +142,7 @@ export default defineConfig([
     },
   },
   {
+    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
     plugins: { '@stylistic': stylistic },
     rules: {
       '@stylistic/semi': ['error', 'always'],
@@ -162,6 +165,7 @@ export default defineConfig([
       '@stylistic/spaced-comment': 'off',
     },
   },
+  jsonConfig(json),
   globalIgnores([
     'dist/',
     'coverage/',
