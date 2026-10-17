@@ -186,7 +186,7 @@ module Projects
     end
 
     def template_item
-      return unless User.current.admin?
+      return unless User.current.admin_in_project?(project)
 
       template_key = project.templated ? "remove_from_templates" : "make_template"
       {

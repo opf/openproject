@@ -31,9 +31,9 @@ module My
   module AccessToken
     module API
       class TableComponent < OpPrimer::BorderBoxTableComponent
-        columns :token_name, :created_at, :expires_on
-        main_column :token_name
-        mobile_labels :created_at, :expires_on
+        columns :token_name, :scopes, :created_at, :expires_on
+        main_column :token_name, :scopes
+        mobile_labels :scopes, :created_at, :expires_on
 
         def initialize(title:, token_type:, **)
           super(**)
@@ -45,9 +45,14 @@ module My
         def headers
           [
             [:token_name, { caption: I18n.t("attributes.name") }],
+            ([:scopes, { caption: Token::API.human_attribute_name(:scopes) }] if show_scopes?),
             [:created_at, { caption: User.human_attribute_name(:created_at) }],
             [:expires_on, { caption: I18n.t("my_account.access_tokens.headers.expiration") }]
-          ]
+          ].compact
+        end
+
+        def skip_column?(column)
+          column == :scopes && !show_scopes?
         end
 
         def mobile_title
@@ -75,6 +80,10 @@ module My
         end
 
         private
+
+        def show_scopes?
+          @token_type == Token::API
+        end
 
         def i18n_token_scope
           [:my_account, :access_tokens, @token_type.model_name.i18n_key]

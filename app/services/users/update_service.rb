@@ -51,5 +51,13 @@ module Users
 
       service_result
     end
+
+    def after_persist(call)
+      if model.saved_change_to_admin?(from: true, to: false)
+        ::AdminElevationSessions::EndAllService.new(user: model).call
+      end
+
+      super
+    end
   end
 end

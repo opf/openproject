@@ -83,6 +83,42 @@ RSpec.describe Reporting::CostReportsController do
       end
     end
 
+    context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+      let!(:report) { create(:cost_report, principal: create(:user), project:, public: true) }
+      let(:elevation) { Users::AdminElevation.none }
+
+      before do
+        session[:user_id] = user.id
+        allow(Users::AdminElevation).to receive(:for_session).and_return(elevation)
+      end
+
+      context "when the admin is not elevated in the project" do
+        before do
+          delete :destroy, params: { id: report.id, project_id: project.identifier }
+        end
+
+        it "keeps the report" do
+          expect(CostReport.count).to eq(1)
+        end
+
+        it "returns 403 Forbidden" do
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+
+      context "when the admin is elevated in the project" do
+        let(:elevation) { Users::AdminElevation.in_projects([project.id]) }
+
+        before do
+          delete :destroy, params: { id: report.id, project_id: project.identifier }
+        end
+
+        it "destroys the report" do
+          expect(CostReport.count).to be_zero
+        end
+      end
+    end
+
     context "with a user lacking the permission" do
       let(:user) { create(:user) }
 

@@ -42,7 +42,7 @@ module WorkPackages::Scopes
         return none if permissions.empty?
 
         if user.admin? && permissions.all?(&:grant_to_admin?)
-          admin_allowed_to(permissions)
+          admin_allowed_to(user, permissions)
         elsif user.anonymous?
           anonymous_allowed_to(user, permissions)
         else
@@ -52,8 +52,10 @@ module WorkPackages::Scopes
 
       private
 
-      def admin_allowed_to(permissions)
-        where(id: allowed_to_admin_relation(permissions))
+      def admin_allowed_to(user, permissions)
+        user.admin_elevation.allowed_scope(admin_scope: where(id: allowed_to_admin_relation(permissions)),
+                                           member_scope: logged_in_non_admin_allowed_to(user, permissions),
+                                           project_id_column: :project_id)
       end
 
       def anonymous_allowed_to(user, permissions)

@@ -100,6 +100,19 @@ module Users::PermissionChecks
     admin? || members.exists?(project_id: project.id)
   end
 
+  def admin_elevation
+    @admin_elevation || Users::AdminElevation.default_for(self)
+  end
+
+  def admin_elevation=(elevation)
+    @admin_elevation = elevation
+    reset_permission_caches
+  end
+
+  def admin_in_project?(project)
+    active_admin? && admin_elevation.covers?(project)
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
@@ -120,7 +133,7 @@ module Users::PermissionChecks
   # "May" because this method does not check e.g. whether the module
   # the permission belongs to is active.
   def all_permissions_for(context)
-    if admin?
+    if admin_in_context?(context)
       OpenProject::AccessControl
         .permissions
         .select { |p| p.permissible_on?(context) && p.grant_to_admin? }
@@ -186,6 +199,19 @@ module Users::PermissionChecks
   end
 
   private
+
+  # Unlike admin_in_project?, this does not require an active admin: invited and registered
+  # admins get their permissions, only locked users are filtered out by the permission checks.
+  def admin_in_context?(context)
+    case context
+    when Project
+      admin? && admin_elevation.covers?(context)
+    when nil
+      admin?
+    else
+      context.respond_to?(:project) ? admin? && admin_elevation.covers?(context.project) : admin?
+    end
+  end
 
   def user_permissible_service
     @user_permissible_service ||= ::Authorization::UserPermissibleService.new(self)

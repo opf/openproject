@@ -320,6 +320,24 @@ RSpec.describe TypeVariant do
       expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(build_stubbed(:admin))
     end
 
+    context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+      let(:admin) { create(:admin) }
+
+      it "lets an administrator configure a variant no project owns without elevation" do
+        expect(create(:type_variant, type:)).to be_configurable_by(admin)
+      end
+
+      it "refuses an administrator not elevated in the owning project" do
+        expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(admin)
+      end
+
+      it "lets an administrator elevated in the owning project configure its variant" do
+        admin.admin_elevation = Users::AdminElevation.in_projects([project.id])
+
+        expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(admin)
+      end
+    end
+
     # Only the owning project's URL carries the project segment the controllers authorize against,
     # so a variant nobody owns is administration's alone.
     it "refuses a variant no project owns" do

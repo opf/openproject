@@ -32,6 +32,7 @@ require "active_job"
 class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
   include SharedJobSetup
+  include AdminElevationJobContext
   include JobPriority
   include GoodJob::ActiveJobExtensions::Labels
 

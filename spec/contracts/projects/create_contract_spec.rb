@@ -57,6 +57,14 @@ RSpec.describe Projects::CreateContract do
       it_behaves_like "contract is valid"
     end
 
+    context "when creating a template as an admin with admin privilege elevation required",
+            with_flag: { admin_privilege_elevation: true } do
+      let(:current_user) { build_stubbed(:admin) }
+      let(:project_templated) { true }
+
+      it_behaves_like "contract is valid"
+    end
+
     context "when having the 'project' workspace_type and lacking the add_project permission" do
       let(:global_permissions) { [] }
 

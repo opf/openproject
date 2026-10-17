@@ -39,7 +39,9 @@ RSpec.describe "layouts/no_menu" do
     without_partial_double_verification do
       allow(controller).to receive(:default_search_scope)
       allow(view).to receive(:render_to_string)
-      allow(view).to receive_messages(current_menu_item: nil, current_user: user)
+      allow(view).to receive_messages(current_menu_item: nil,
+                                      current_user: user,
+                                      current_admin_elevation_sessions: AdminElevationSession.none)
     end
 
     allow(User).to receive(:current).and_return user

@@ -33,6 +33,59 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
   let(:user) { build_stubbed(:user) }
   let(:pemissions) { [:view_work_package_watchers] }
 
+  describe "#where" do
+    shared_let(:member_project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:watching_user) do
+      create(:user, member_with_permissions: { member_project => [:view_work_packages],
+                                               other_project => [:view_work_packages] })
+    end
+    shared_let(:member_work_package) { create(:work_package, project: member_project) }
+    shared_let(:other_work_package) { create(:work_package, project: other_project) }
+
+    let(:instance) do
+      described_class.create!(context: build_stubbed(:query, project: nil)).tap do |filter|
+        filter.operator = "="
+        filter.values = [watching_user.id.to_s]
+      end
+    end
+
+    subject { WorkPackage.joins(:project).where(instance.where) }
+
+    before do
+      create(:watcher, watchable: member_work_package, user: watching_user)
+      create(:watcher, watchable: other_work_package, user: watching_user)
+    end
+
+    context "for an admin" do
+      current_user { create(:admin) }
+
+      it { is_expected.to contain_exactly(member_work_package, other_work_package) }
+    end
+
+    context "for an admin with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+      current_user { create(:admin, member_with_permissions: { member_project => [:view_work_package_watchers] }) }
+
+      context "when not elevated" do
+        it { is_expected.to contain_exactly(member_work_package) }
+      end
+
+      context "when elevated in the other project" do
+        before { current_user.admin_elevation = Users::AdminElevation.in_projects([other_project.id]) }
+
+        it { is_expected.to contain_exactly(member_work_package, other_work_package) }
+      end
+    end
+
+    context "for the watching user filtering for themselves" do
+      current_user { watching_user }
+
+      it "returns the own watched work packages without the permission to view watchers" do
+        expect(subject).to contain_exactly(member_work_package, other_work_package)
+      end
+    end
+  end
+
   describe "#autocomplete_options" do
     let(:project) { create(:project) }
     let(:instance) { described_class.create!(context: build_stubbed(:query, project:)) }

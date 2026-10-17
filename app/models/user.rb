@@ -85,6 +85,7 @@ class User < Principal
   has_many :non_working_times, class_name: "UserNonWorkingTime",
                                dependent: :destroy,
                                inverse_of: :user
+  has_many :admin_elevation_sessions, dependent: :delete_all
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy
@@ -382,6 +383,10 @@ class User < Principal
   deprecated_alias :invite!, :invited!
   deprecated_alias :lock!, :locked!
 
+  def password_checkable?
+    password_login_allowed? && (ldap_auth_source.present? || current_password.present?)
+  end
+
   # Returns true if +clear_password+ is the correct user's password, otherwise false
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
@@ -478,26 +483,6 @@ class User < Principal
 
   def wants_comments_in_reverse_order?
     pref.comments_in_reverse_order?
-  end
-
-  def self.find_by_rss_key(key)
-    return nil unless Setting.feeds_enabled?
-
-    token = Token::RSS.find_by(value: key)
-
-    if token&.user&.active?
-      token.user
-    end
-  end
-
-  def self.find_by_api_key(key)
-    return nil unless Setting.api_tokens_enabled?
-
-    token = Token::API.find_by_plaintext_value(key)
-
-    if token&.user&.active?
-      token.user
-    end
   end
 
   ##
@@ -614,13 +599,14 @@ class User < Principal
   def self.execute_as_admin(user)
     previous_user_admin_state = user.admin
     previous_user_readonly_state = user.readonly?
+    previous_user_admin_elevation = user.instance_variable_get(:@admin_elevation)
     user.admin = true
-    user.reset_permission_caches
+    user.admin_elevation = Users::AdminElevation.everywhere
     user.readonly!
     yield
   ensure
     user.admin = previous_user_admin_state
-    user.reset_permission_caches
+    user.admin_elevation = previous_user_admin_elevation
     user.instance_variable_set(:@readonly, previous_user_readonly_state)
   end
 

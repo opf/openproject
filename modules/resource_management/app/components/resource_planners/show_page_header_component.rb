@@ -87,7 +87,7 @@ module ResourcePlanners
     end
 
     def delete_allowed?
-      User.current.active_admin? || manage_planner?
+      @resource_planner.deletable_by?(User.current)
     end
 
     def manage_planner?

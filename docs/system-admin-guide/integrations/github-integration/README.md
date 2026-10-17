@@ -50,6 +50,7 @@ Once the user is created you need to generate an OpenProject API token for this 
 2. Go to [Account settings](../../../user-guide/account-settings/) (click on the Avatar in the top right corner and select _Account settings_)
 3. Go to [_Access Tokens_](../../../user-guide/account-settings/access-tokens)
 4. Click on **+ API token**
+5. Under **Scopes**, select **Webhooks**. The token is part of the webhook URL configured in GitHub, so it does not need any other scope.
 
 > [!IMPORTANT]
 > Make sure you copy the generated key and securely save it, as you will not be able to retrieve it later.

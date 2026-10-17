@@ -430,6 +430,8 @@ en:
         ongoing: "Ongoing"
         spent_on: "Date"
         type: "Type"
+      token/api:
+        scopes: "Scopes"
       token/base:
         expires_on: "Expiration date"
       token/ical:
@@ -693,6 +695,12 @@ en:
         user_in_ldap_managed_department: "This user belongs to a department managed by LDAP synchronization and cannot be moved."
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
+        admin_elevation_session:
+          attributes:
+            base:
+              password_required: "Elevating your privileges has to be confirmed with your password."
+            project:
+              archived: "is archived."
         ai/text_transform_run:
           attributes:
             base:
@@ -991,6 +999,11 @@ en:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        token/api:
+          attributes:
+            scopes:
+              admin_elevation_requires_admin: "can only include admin elevation for administrators."
+              blank: "Please select at least one scope"
         token/named:
           attributes:
             token_name:
@@ -2425,6 +2438,22 @@ en:
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
       workflow_button: "Workflow"
+  admin_elevation:
+    banner:
+      elevate: "Elevate privileges"
+      elevated_html: "You have elevated administrator privileges in this project. Without further activity in the project, they end %{time}."
+      end: "End elevation"
+      end_confirmation: "Do you want to end your elevated administrator privileges in this project?"
+      not_elevated: "You are an administrator, but you are seeing this project only with the permissions of your memberships. Elevate your privileges to act on it as an administrator."
+    dialog:
+      description: "You will have full administrator privileges in this project for this browser session. They end after %{minutes} minutes of inactivity in the project."
+      include_subprojects: "Include subprojects"
+      include_subprojects_caption: "Also elevate your privileges in all subprojects of this project."
+      password_caption: "Enter your password to confirm your identity."
+      submit: "Elevate privileges"
+      title: "Elevate privileges in %{project}"
+    notice_elevated: "You now have elevated privileges in %{project}."
+    notice_ended: "Your elevated privileges in %{project} have ended."
   ai:
     text_transform:
       errors:
@@ -5294,6 +5323,19 @@ en:
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      scopes:
+        admin_elevation:
+          caption: "Grants full administrator permissions in every project. Without it, the token only has the permissions of your project memberships."
+          label: "Admin elevation"
+        api_v3:
+          caption: "Access the REST API."
+          label: "API v3"
+        mcp:
+          caption: "Access the MCP server, e.g. from AI assistants."
+          label: "MCP"
+        webhooks:
+          caption: "Deliver incoming webhooks, e.g. from GitHub or GitLab."
+          label: "Webhooks"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
     password_confirmation_dialog:
       confirmation_required: "You need to enter your account password to confirm this change."

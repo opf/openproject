@@ -51,7 +51,7 @@ module My
 
       def build_token
         case token_type
-        when "api" then Token::API.new
+        when "api" then Token::API.new(scopes: Token::API::DEFAULT_SCOPES)
         when "ical_meeting" then Token::ICalMeeting.new
         end
       end

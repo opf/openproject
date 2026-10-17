@@ -38,6 +38,49 @@ RSpec.describe Users::UpdateService do
     end
   end
 
+  describe "admin elevations" do
+    shared_let(:project) { create(:project) }
+
+    let(:current_user) { create(:admin) }
+    let(:update_user) { create(:admin) }
+    let!(:elevation) { create(:admin_elevation_session, user: update_user, project:) }
+
+    subject { described_class.new(model: update_user, user: current_user).call(**attributes) }
+
+    context "when the user is demoted" do
+      let(:attributes) { { admin: false } }
+
+      it "ends the elevations of the user", :aggregate_failures do
+        freeze_time do
+          expect(subject).to be_success
+
+          expect(elevation.reload.ended_at).to eq(Time.current)
+        end
+      end
+    end
+
+    context "when the demotion fails" do
+      let(:current_user) { create(:user) }
+      let(:attributes) { { admin: false } }
+
+      it "does not end the elevations of the user", :aggregate_failures do
+        expect(subject).not_to be_success
+
+        expect(elevation.reload.ended_at).to be_nil
+      end
+    end
+
+    context "when another attribute of the admin changes" do
+      let(:attributes) { { mail: "new@example.org" } }
+
+      it "does not end the elevations of the user", :aggregate_failures do
+        expect(subject).to be_success
+
+        expect(elevation.reload.ended_at).to be_nil
+      end
+    end
+  end
+
   describe "updating attributes" do
     let(:instance) { described_class.new(model: update_user, user: current_user) }
     let(:current_user) { create(:admin) }

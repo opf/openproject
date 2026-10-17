@@ -32,7 +32,8 @@ require "spec_helper"
 RSpec.describe APITokens::CreateContract do
   let(:current_user) { create(:admin) }
   let(:token_name) { "my token name" }
-  let(:token) { build_stubbed(:api_token, token_name:, user: current_user) }
+  let(:scopes) { %w[api_v3] }
+  let(:token) { build_stubbed(:api_token, token_name:, scopes:, user: current_user) }
 
   subject(:contract) { described_class.new(token, current_user) }
 
@@ -67,6 +68,31 @@ RSpec.describe APITokens::CreateContract do
       it "is invalid" do
         expect_valid(false, token_name: %i(in_use))
       end
+    end
+
+    context "with the admin_elevation scope for an admin" do
+      let(:scopes) { %w[api_v3 admin_elevation] }
+
+      it "is valid" do
+        expect_valid(true)
+      end
+    end
+
+    context "with the admin_elevation scope for a non-admin" do
+      let(:current_user) { create(:user) }
+      let(:scopes) { %w[api_v3 admin_elevation] }
+
+      it "is invalid" do
+        expect_valid(false, scopes: %i(admin_elevation_requires_admin))
+      end
+    end
+  end
+
+  context "with an iCal meeting token" do
+    let(:token) { Token::ICalMeeting.new(token_name:, user: current_user) }
+
+    it "is valid without scopes" do
+      expect_valid(true)
     end
   end
 end
