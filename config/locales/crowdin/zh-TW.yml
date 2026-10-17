@@ -116,7 +116,7 @@ zh-TW:
         caption: 說明
         help_text: 說明文字
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: 其他允許的登入重定向網址
         scim_clients: SCIM 用戶端
       calculated_value_error:
         customized_id: 自訂 ID
@@ -193,9 +193,9 @@ zh-TW:
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
-        name: Jira instance name
-        personal_access_token: Personal access token
-        url: Jira instance URL
+        name: Jira 實例名稱
+        personal_access_token: 個人存取權杖
+        url: Jira 實例網址
       import/jira_open_project_reference:
         jira: Jira
         jira_import: Jira Migrator
@@ -384,16 +384,16 @@ zh-TW:
       type_variant:
         attribute_groups: Form
         default_work_package_description: Default text for description
-        defaults_source: Defaults source
+        defaults_source: 預設來源
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form source
+        form_configuration_source: 表單來源
         patterns: Patterns
-        pdf_export_source: PDF export source
-        project_attributes_source: Project attributes source
+        pdf_export_source: PDF 匯出來源
+        project_attributes_source: 專案屬性來源
         project_types: Projects using this variant
         variant: Variant
         variant_name: Name
-        workflows_source: Workflows source
+        workflows_source: 工作流程來源
       user:
         admin: 管理員
         auth_source: 驗證方式
@@ -604,7 +604,7 @@ zh-TW:
         unknown_property: 不是已知屬性
         unknown_property_nested: 具有未知路徑 '%{path}'
         unremovable: 無法移除
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: 以下這些行： %{invalid_lines} 並非有效的 HTTP 或 HTTPS URL。
         url_not_secure_context: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
 
           '
@@ -743,7 +743,7 @@ zh-TW:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
+              cannot_assign_variants_yet: 目前尚無法在專案中啟用變體。請啟用此功能標誌以試用變體
               in_use_by_work_packages: "%{types} 仍在被工作套件使用中"
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -859,25 +859,25 @@ zh-TW:
         type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              attribute_unknown: 使用了無效的工作項目屬性。
+              attribute_unknown_name: 使用了無效的工作項目屬性： %{attribute}
+              duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
+              group_without_name: 群組名稱不能為空。
+              query_invalid: 內嵌查詢「%{group}」無效： %{details}
             base:
-              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              borrowed_by_variants: 當其設定仍被 %{names} 重複使用時，無法刪除。
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: would link these configurations in a loop.
+              must_be_available_to_the_variant: 這必定是本專案可用的某種設定。
+              would_create_cycle: 會將這些設定以迴圈方式串聯起來。
             enabled_in_new_projects:
               not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
             form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: 這必定是本專案可用的某種設定。
               would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
@@ -2254,7 +2254,7 @@ zh-TW:
   button_manage_roles: 管理角色
   button_move: 移動
   button_move_and_follow: 移動並跟隨
-  button_next: Next
+  button_next: 下一個
   button_print: 列印
   button_publish: 設為公開
   button_quote: 引言

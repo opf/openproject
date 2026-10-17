@@ -24,7 +24,7 @@ zh-TW:
   activerecord:
     attributes:
       meeting:
-        duration: 時長
+        duration: 持續時間
         end_time: 結束時間
         location: 地點
         notes: 備註
@@ -677,7 +677,7 @@ zh-TW:
   text_agenda_item_dialog_skipping_cancelled_many: "%{count} 已取消的會議"
   text_agenda_item_dialog_skipping_cancelled_one: 已取消於 %{date} 的會議
   text_agenda_item_dialog_skipping_closed_many: "%{count} 已關閉的會議"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
+  text_agenda_item_dialog_skipping_closed_one: 會議關閉於 %{date}
   text_agenda_item_dialog_skipping_note: 註：跳過 %{details}。
   text_agenda_item_duplicate_in_next_meeting: 您確定要在下次會議中加入此議程項目的副本， %{date} ，網址為 %{time}? 結果不會重複。
   text_agenda_item_duplicated_in_next_meeting: 與下次會議重複的議程項目， %{date}

@@ -1548,31 +1548,31 @@ fr:
           JiraCreateProjectWorkPackageAttachmentsJob:
             title: Download work package attachments for '%{jira_project_name}'
           JiraCreateProjectWorkPackagesJob:
-            title: Create work packages for '%{jira_project_name}'
+            title: Créer des lots de travail pour «%{jira_project_name}»
           JiraCreateUsersJob:
-            title: Create users
+            title: Créer les utilisateurs
           JiraFetchCustomFieldJob:
-            title: Fetch custom fields
+            title: Récupérer les champs personnalisés
           JiraFetchIssueTypesJob:
-            title: Fetch issue types
+            title: Récupérer les types de tickets
           JiraFetchPrioritiesJob:
-            title: Fetch priorities
+            title: Récupérer les priorités
           JiraFetchProjectIssuesJob:
-            title: Fetch issues for project '%{jira_project_name}'
+            title: Récupérer les tickets du projet «%{jira_project_name}»
           JiraFetchProjectVersionsJob:
-            title: Fetch versions for project '%{jira_project_name}'
+            title: Récupérer les versions du projet '%{jira_project_name}'
           JiraFetchProjectsJob:
-            title: Fetch projects
+            title: Récupérer les projets
           JiraFetchStatusesJob:
-            title: Fetch statuses
+            title: Récupérer les statuts
           JiraFetchUsersJob:
-            title: Fetch users
+            title: Récupérer les utilisateurs
           JiraInstanceMetaDataJob:
-            title: Fetching instance meta data
+            title: Récupération des métadonnées d'une instance
           JiraProjectsMetaDataJob:
-            title: Fetching meta data about selected projects
+            title: Récupération des métadonnées relatives aux projets sélectionnés
           JiraRevertImportJob:
-            title: Reverting this Jira import run
+            title: Annulation de cette importation Jira
         project_identifier_taken: 'Vous essayez d''importer un projet avec un identifiant déjà utilisé : %{taken_identifier}. Veuillez mettre à jour l''identifiant du projet dans Jira, puis cliquez sur Réessayer.'
         remove_error: Un cycle d'importation Jira ne peut pas être supprimé pendant son exécution
         side_panel:
@@ -1601,17 +1601,17 @@ fr:
         step_not_available: Cette action n'est pas disponible dans l'état actuel de l'exécution de l'importation.
         title: Cycle d'importation
         wizard:
-          application_trace: Application trace
+          application_trace: Trace de l'application
           button_abort: Interrompre
           button_retry: Réessayer
-          copy_application_trace: Copy application trace
-          copy_full_trace: Copy full trace
+          copy_application_trace: Copier la trace de l'application
+          copy_full_trace: Copier la trace complète
           finalize_dialog:
             confirm: Je comprends que cette action ne peut pas être annulée
             confirm_button: Compris
             description: Une fois approuvée, cette importation ne pourra plus être annulée. Toutes les données importées deviendront permanentes.
             title: Approuver cette importation ?
-          full_trace: Full trace
+          full_trace: Trace complète
           groups:
             configuration:
               title: Configurer l'importation
@@ -1629,8 +1629,8 @@ fr:
               one: 1 ticket
               other: "%{count} tickets"
             jobs:
-              one: 1 job
-              other: "%{count} jobs"
+              one: 1 tâche
+              other: "%{count} tâches"
             projects:
               one: 1 projet
               other: "%{count} projets"
@@ -1720,7 +1720,7 @@ fr:
                 issues: Tickets
                 permissions: Permissions
                 project_ids: Identifiants de projet
-                project_versions: Project versions
+                project_versions: Versions du projet
                 projects: Projets
                 relations: Relations entre les tickets
                 schemes: Schémas
@@ -1745,7 +1745,7 @@ fr:
           stage_discarded_label: Erreur
           stage_in_progress_label: Progression
           stage_job_error: Erreur
-          stage_succeeded_label: Completed
+          stage_succeeded_label: Terminés
           stages:
             '1':
               rest_line_text: ''
@@ -1764,7 +1764,7 @@ fr:
               title: Créer les rôles et les champs personnalisés
             '6':
               rest_line_text: Créer %{projects_number} autres projets
-              title: Create projects
+              title: Créer des projets
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects
               title: Create project versions

@@ -20,9 +20,9 @@ sk:
   label_avatar_plural: Avatary
   label_choose_avatar: Výber avatara zo súboru
   label_current_avatar: Aktuálny avatar
-  message_avatar_uploaded: Avatar sa úspešne zmenil.
+  message_avatar_uploaded: Profilová fotka bola úspešne zmenená.
   plugin_openproject_avatars:
     description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
     name: Avatary
-  unable_to_delete_avatar: Avatara nebolo možné vymazať.
+  unable_to_delete_avatar: Profilovú fotku sa nepodarilo vymazať.
   wrong_file_format: Povolené formáty sú jpg, png, gif

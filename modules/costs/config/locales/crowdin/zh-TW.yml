@@ -34,8 +34,8 @@ zh-TW:
         work_package: 工作套件
       cost_type:
         default: 預設成本類型
-        for_all_projects: For all projects
-        rates: Rates
+        for_all_projects: 適用於所有專案
+        rates: 費率
         unit: 單位名稱
         unit_plural: 單位名稱(複數)
       rate:
@@ -71,22 +71,22 @@ zh-TW:
         cost_types_project:
           attributes:
             project_ids:
-              blank: Please select a project.
+              blank: 請選擇一個專案。
         time_entry:
           attributes:
             entity:
-              blank: Logged for can't be blank.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              blank: 因欄位不能為空而記錄在案。
+              cannot_log_for_this_work_package: 您沒有權限為此工作項目記錄工時。
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              exceeds_user_working_hours: 記錄的小時數不得超過使用者工作日可用的 %{limit} 小時上限。
               format: "%{message}"
-              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
-              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+              max_hours_per_day_exceeded: 記錄的小時數不得超過管理員所設定的單日上限，即 %{limit} 小時。
+              max_hours_per_entry_exceeded: 單一時間記錄所記錄的小時數，不得超過管理員所設定的 %{limit} 小時上限。
             spent_on:
               format: "%{message}"
-              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
-              not_a_working_day: The selected day is a non-working day for this user.
+              in_past_month: 您無法將時間記錄回溯至上個月。時間記錄僅能從 %{date} 之後的日期開始新增、修改或刪除。
+              not_a_working_day: 所選日期對此使用者而言為非工作日。
             start_time:
               format: "%{message}"
               invalid_time: 時間不正確。時間必須介於 00:00 至 23:59 之間。
@@ -235,11 +235,11 @@ zh-TW:
   label_show: 顯示
   label_specific_day: "%{day} 日"
   label_specific_month: "%{month} 月"
-  label_start_and_finished: Start and finish times
+  label_start_and_finished: 開始與結束時間
   label_status_finished: 已完成
   label_time: 時間
   label_time_entry_activity_form_description: 此時間記錄活動的變更會反映在啟用此功能的所有專案中。
-  label_time_entry_restrictions: Limits
+  label_time_entry_restrictions: 限制
   label_timer_since: 從 %{time}開始
   label_today_capitalized: 今天
   label_units: 單位成本
@@ -277,25 +277,25 @@ zh-TW:
   setting_allow_tracking_start_and_end_times: 允許起迄時間
   setting_allow_tracking_start_and_end_times_caption: 啟用記錄工時時輸入開始與結束時間的功能。
   setting_costs_currency: 貨幣
-  setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
-  setting_costs_currency_format: Currency format
-  setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
-  setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
+  setting_costs_currency_caption: 這是貨幣單位。它可以是三字母的 ISO 代碼，例如 EUR、USD 或 JPY，也可以是符號，例如 €、$ 或 ¥。
+  setting_costs_currency_format: 貨幣格式
+  setting_costs_currency_format_prefix: 數字之前（例如：100 歐元）
+  setting_costs_currency_format_suffix: 數字之後（例如 100 歐元）
   setting_enforce_tracking_start_and_end_times: 需要起迄時間
   setting_enforce_tracking_start_and_end_times_caption: 在記錄工時時，強制要求輸入開始與結束時間。
   setting_enforce_without_allow: 在不允許的情況下，要求開始和結束時間是不可能的
-  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
-  setting_time_entries_max_hours_per_day: Maximum number of hours per day
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
-  setting_time_entries_past_month_grace_days: Grace period for past months
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
-  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_time_entries_limit_to_user_working_hours: 限制在用戶的工作時間內
+  setting_time_entries_limit_to_user_working_hours_caption: 將該使用者每日可記錄的總時數限制為其實際工作時數。未設定工作時間的使用者則不受此限制。
+  setting_time_entries_max_hours_per_day: 每日時數上限
+  setting_time_entries_max_hours_per_day_caption: 限制使用者單日可登入的總時數。數值為 0 表示無限制。
+  setting_time_entries_max_hours_per_entry: 每筆工時記錄的最大小時數
+  setting_time_entries_max_hours_per_entry_caption: 限制單筆工時記錄的時數上限。數值為 0 表示無限制。
+  setting_time_entries_past_month_grace_days: 過去數月的寬限期
+  setting_time_entries_past_month_grace_days_caption: 設定當新月份開始時，使用者可為上個月記錄工時條目的天數。若設定為 5，則使用者可於當月 5 日前為上個月記錄工時；若設定為 0，則表示完全沒有寬限期。
+  setting_time_entries_prohibit_logging_for_past_months: 請勿允許記錄過去數月的資料
+  setting_time_entries_prohibit_logging_for_past_months_caption: 將時間記錄的新增、修改及刪除功能限制於當月。過去各月所記錄的時間將無法再進行修改。
+  setting_time_entries_prohibit_logging_on_non_working_days: 請勿在非工作日記錄工時
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: 若某天已被管理員定義為非工作日，或由個別使用者在帳戶設定中設定為非工作日，使用者將無法針對該天記錄工時。
   text_assign_time_and_cost_entries_to_project: 將已回報的小時數和成本提交到專案中
   text_destroy_cost_entries_question: 您即將刪除的工作套件中已有 %{cost_entries} 筆成本項目被回報。請問您希望如何處理？
   text_destroy_time_and_cost_entries: 刪除已回報的小時數和成本
