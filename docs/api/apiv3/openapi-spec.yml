@@ -726,6 +726,10 @@ components:
       $ref: "./components/examples/mentioned_notification.yml"
     NotificationCollection:
       $ref: "./components/examples/notification_collection.yml"
+    NotificationCreatedResponse:
+      $ref: "./components/examples/notification_created_response.yml"
+    NotificationMentionCreateRequest:
+      $ref: "./components/examples/notification_mention_create_request.yml"
     PlaceholderUserResponse:
       $ref: "./components/examples/placeholder-user-response.yml"
     Portfolio:
@@ -1014,6 +1018,10 @@ components:
       "$ref": "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:
       "$ref": "./components/schemas/notification_collection_model.yml"
+    NotificationCreatedModel:
+      "$ref": "./components/schemas/notification_created_model.yml"
+    NotificationMentionWriteModel:
+      "$ref": "./components/schemas/notification_mention_write_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
     OAuthApplicationReadModel:
