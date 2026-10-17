@@ -32,6 +32,7 @@ The following templates are available:
 - **Attributes and description** – Work package attributes present in the current form together with the description.
 - **Contract** – Work package details formatted according to the standard German contract form.
 - **PMflex Artefact** – Work package details rendered as a PMflex Artefact.
+- **ZenDiS Artefakt** – Custom fields and related work packages in the ZenDiS document layout, with an optional contact page.
 
 ### Configure a PDF export template
 
@@ -49,7 +50,7 @@ Click **Reset to default** to restore the default settings for this template, or
 
 ![Generate PDF tab under work package types settings in OpenProject administration, showing automatic artefact export options](openproject_system_guide_work_package_types_pdf_tab_options.png)
 
-In addition to exporting on demand, OpenProject can generate a PMflex Artefact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
+In addition to exporting on demand, OpenProject can generate an artefact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
 
 - **Off** - no PDF is generated automatically. This is the default.
 - **Save as work package file attachment** - the generated PDF is saved as a file attachment to the work package. The new attachment is also recorded in the work package Activity.
@@ -58,4 +59,4 @@ In addition to exporting on demand, OpenProject can generate a PMflex Artefact P
 The selection is saved immediately.
 
 > [!NOTE]
-> The automatic export always uses the PMflex Artefact template, regardless of which templates are enabled for manual exports above.
+> Select **PMflex Artefact** or **ZenDiS Artefakt** as the automatic export template. Existing configurations continue to use PMflex Artefact. Automatic exports use the selected template's saved settings, independently of the templates enabled for manual exports.

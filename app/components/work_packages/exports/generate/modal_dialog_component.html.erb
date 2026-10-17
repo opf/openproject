@@ -61,6 +61,31 @@
           end
           modal_body.with_row(
             mt: 3,
+            classes: templates_default&.id == "zendis_artefact" ? nil : "d-none",
+            data: {
+              template: "zendis_artefact",
+              "work-packages--export--generate-pdf-form-target": "inputGroups"
+            }
+          ) do
+            primer_form_with(
+              url: generate_pdf_work_package_path(work_package),
+              data: { turbo: false },
+              id: template_form_id("zendis_artefact")
+            ) do
+              safe_join(
+                [
+                  hidden_field_tag(:template, "zendis_artefact", id: nil),
+                  render(
+                    WorkPackages::Exports::Generate::Templates::ZendisArtefactSettingsComponent.new(
+                      settings: zendis_artefact_settings
+                    )
+                  )
+                ]
+              )
+            end
+          end
+          modal_body.with_row(
+            mt: 3,
             classes: templates_default&.id == "attributes" ? nil : "d-none",
             data: {
               template: "attributes",
