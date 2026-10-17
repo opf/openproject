@@ -42,6 +42,18 @@ module Meetings
           MeetingMailer
             .invited(meeting, participant.user, User.current)
             .deliver_later
+
+          next if participant.user_id == User.current.id
+
+          Notifications::CreateService
+            .new(user: User.current)
+            .call(
+              recipient_id: participant.user_id,
+              resource: meeting,
+              reason: :meeting_invited,
+              actor: User.current,
+              read_ian: false
+            )
         end
       end
 

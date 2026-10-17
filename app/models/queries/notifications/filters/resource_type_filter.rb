@@ -29,7 +29,7 @@
 
 class Queries::Notifications::Filters::ResourceTypeFilter < Queries::Notifications::Filters::NotificationFilter
   def allowed_values
-    [[WorkPackage.name, WorkPackage.name]]
+    Notifications::IanResources.resource_types.map { |type| [type, type] }
   end
 
   def type

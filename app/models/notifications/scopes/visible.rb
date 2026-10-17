@@ -36,10 +36,16 @@ module Notifications::Scopes
       # * the user is the recipient
       # * the user has the permission to see the associated resource
       #
-      # As currently only notifications for work packages exist, the implementation is work package specific.
+      # Supported resource types register themselves via Notifications::IanResources.
       def visible(user)
-        recipient(user)
-          .where(resource_type: "WorkPackage", resource_id: WorkPackage.visible(user).select(:id))
+        combined = Notifications::IanResources.all
+          .map do |registration|
+            where(resource_type: registration.resource_type,
+                  resource_id: registration.visible.call(user).select(:id))
+          end
+          .reduce(:or)
+
+        recipient(user).merge(combined)
       end
     end
   end

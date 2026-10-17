@@ -108,9 +108,80 @@
     }
   }
 </div>
+} @else if (meeting$ | async; as meeting) {
+  <div class="op-ian-item--top-line">
+    <a
+      class="op-ian-item--work-package-id-link spot-link"
+      [class.spot-link_inactive]="isMobile()"
+      [attr.title]="meeting.title"
+      [textContent]="meeting.title"
+      [attr.href]="pathHelper.meetingPath(meetingId)"
+      (click)="onLinkClick($event)"
+      >
+    </a>
+    @if (project) {
+      <div class="op-ian-item--project">
+        - <a
+        class="op-ian-item--project-link"
+        [class.spot-link_inactive]="isMobile()"
+        [href]="project.showUrl"
+        [textContent]="project.title"
+        (click)="projectClicked($event)"
+        target="_blank"
+      ></a> -
+    </div>
+  }
+  <div class="op-ian-item--reason-wrapper">
+    @for (item of translatedReasons | keyvalue; track item.key; let last = $last) {
+      <span class="op-ian-item--reason">
+        {{ item.key }}@if (!last) {, }
+      </span>
+    }
+  </div>
+  @if (!notification.readIAN) {
+    <span class="op-ian-item--reason-count">
+      <primer-counter
+        [count]="aggregatedNotifications.length"
+        scheme="secondary"
+      ></primer-counter>
+    </span>
+  }
+  <div class="op-ian-item--buttons">
+    @if (!notification.readIAN) {
+      <i
+        data-test-selector="mark-as-read-button"
+        class="op-ian-item--button icon-mark-read"
+        tabindex="0"
+        role="button"
+        [title]="text.mark_as_read"
+        (click)="markAsRead($event, aggregatedNotifications)"
+        (keydown.enter)="$event.preventDefault(); markAsRead($event, aggregatedNotifications)"
+        (keydown.space)="$event.preventDefault(); markAsRead($event, aggregatedNotifications)"
+        >
+      </i>
+    }
+    <i
+      class="op-ian-item--button op-ian-item--button_shown-on-focus icon-info1"
+      (keydown.enter)="showDetails()"
+      tabindex="0"
+      >
+    </i>
+  </div>
+</div>
+<div class="op-ian-item--middle-line">
+  <span class="op-ian-item--work-package-subject">
+    {{ timezoneService.formattedDatetime(meeting.startTime) }}
+  </span>
+</div>
+<div class="op-ian-item--bottom-line">
+  <op-in-app-notification-actors-line
+    [notification]="notification"
+    [aggregatedNotifications]="aggregatedNotifications"
+   />
+</div>
 } @else {
   <div class="op-ian-item--loading">
-    @if (workPackageId) {
+    @if (workPackageId || meetingId) {
       <op-content-loader
         class="op-ian-item--loading-indicator"
         viewBox="0 0 200 20"

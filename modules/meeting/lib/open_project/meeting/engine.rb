@@ -201,6 +201,8 @@ module OpenProject::Meeting
     config.to_prepare do
       OpenProject::ProjectLatestActivity.register on: "Meeting"
 
+      Notifications::IanResources.register(Meeting)
+
       PermittedParams.permit(:search, :meetings)
 
       ::Exports::Register.register do
