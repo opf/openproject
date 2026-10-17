@@ -45,16 +45,17 @@ RSpec.describe "POST /api/v3/activities/:id/mark_unread",
   end
 
   let(:permissions) { %i[view_work_packages] }
+  let(:activity) { comment }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
   subject(:response) do
-    post "#{api_v3_paths.activity(comment.id)}/mark_unread"
+    post "#{api_v3_paths.activity(activity.id)}/mark_unread"
     last_response
   end
 
   it "marks the given activity as unread" do
-    expect(response.status).to eq 204
+    expect(response).to have_http_status 204
     expect(Notification.where(recipient: current_user, read_ian: false).sole)
       .to have_attributes(journal: comment, resource: work_package, reason: "marked_as_unread")
   end
@@ -66,8 +67,17 @@ RSpec.describe "POST /api/v3/activities/:id/mark_unread",
     end
 
     it "marks it unread and keeps its reason" do
-      expect(response.status).to eq 204
+      expect(response).to have_http_status 204
       expect(notification.reload).to have_attributes(read_ian: false, reason: "assigned")
+    end
+  end
+
+  context "for an activity of a project" do
+    let(:activity) { project.journals.last }
+
+    it "is rejected" do
+      expect(response).to have_http_status 403
+      expect(Notification.count).to eq 0
     end
   end
 
@@ -75,7 +85,7 @@ RSpec.describe "POST /api/v3/activities/:id/mark_unread",
     let(:permissions) { [] }
 
     it "responds with not found" do
-      expect(response.status).to eq 404
+      expect(response).to have_http_status 404
       expect(Notification.count).to eq 0
     end
   end

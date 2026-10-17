@@ -35,7 +35,7 @@ RSpec.describe Notifications::MarkUnreadService, with_settings: { journal_aggreg
   shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
   shared_let(:work_package) { create(:work_package, project:, author:) }
 
-  let(:journal) { work_package.journals.last }
+  let(:journal) { create(:work_package_journal, user: author, notes: "A comment", journable: work_package, version: 2) }
 
   subject(:call) { described_class.new(user:).call(journal:) }
 

@@ -59,7 +59,7 @@ module API
             post :mark_unread do
               authorize_logged_in
 
-              call = Notifications::MarkUnreadService.new(user: current_user).call(journal: @activity)
+              call = ::Notifications::MarkUnreadService.new(user: current_user).call(journal: @activity)
 
               fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) if call.failure?
 

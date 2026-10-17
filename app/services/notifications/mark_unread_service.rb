@@ -36,7 +36,7 @@ module Notifications
     end
 
     def call(journal:)
-      return ServiceResult.failure(errors: { base: :error_unauthorized }) unless allowed?(journal)
+      return unauthorized_result unless allowed?(journal)
 
       existing = Notification.where(journal:, recipient: user)
 
@@ -52,6 +52,12 @@ module Notifications
 
     def allowed?(journal)
       user.logged? && journal.journable.is_a?(WorkPackage) && journal.journable.visible?(user)
+    end
+
+    def unauthorized_result
+      errors = ActiveModel::Errors.new(Notification.new)
+      errors.add(:base, :error_unauthorized)
+      ServiceResult.failure(errors:)
     end
 
     def create_notification(journal)

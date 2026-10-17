@@ -94,7 +94,7 @@ module API
               authorize_logged_in
 
               journal = @work_package.journals.internal_visible.without_meeting_causes.last
-              call = Notifications::MarkUnreadService.new(user: current_user).call(journal:)
+              call = ::Notifications::MarkUnreadService.new(user: current_user).call(journal:)
 
               fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) if call.failure?
 

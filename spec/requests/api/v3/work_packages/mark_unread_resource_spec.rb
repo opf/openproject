@@ -51,7 +51,7 @@ RSpec.describe "POST /api/v3/work_packages/:id/mark_unread",
   end
 
   it "marks the latest journal of the work package as unread" do
-    expect(response.status).to eq 204
+    expect(response).to have_http_status 204
     expect(Notification.where(recipient: current_user, read_ian: false).sole)
       .to have_attributes(journal: comment, resource: work_package, reason: "marked_as_unread")
   end
@@ -63,7 +63,7 @@ RSpec.describe "POST /api/v3/work_packages/:id/mark_unread",
     end
 
     it "marks the latest visible journal as unread" do
-      expect(response.status).to eq 204
+      expect(response).to have_http_status 204
       expect(Notification.where(recipient: current_user).sole.journal).to eq comment
     end
   end
@@ -72,7 +72,7 @@ RSpec.describe "POST /api/v3/work_packages/:id/mark_unread",
     let(:permissions) { [] }
 
     it "responds with not found" do
-      expect(response.status).to eq 404
+      expect(response).to have_http_status 404
       expect(Notification.count).to eq 0
     end
   end
@@ -80,10 +80,13 @@ RSpec.describe "POST /api/v3/work_packages/:id/mark_unread",
   context "as an anonymous user", with_settings: { login_required: false } do
     current_user { User.anonymous }
 
-    before { project.update!(public: true) }
+    before do
+      project.update!(public: true)
+      create(:anonymous_role, permissions: %i[view_work_packages])
+    end
 
     it "is rejected" do
-      expect(response.status).to eq 401
+      expect(response).to have_http_status 403
       expect(Notification.count).to eq 0
     end
   end
