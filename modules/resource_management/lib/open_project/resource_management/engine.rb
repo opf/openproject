@@ -196,13 +196,8 @@ module OpenProject::ResourceManagement
       ::TypeVariant.add_constraint :allocated_principals, resource_management_constraint
     end
 
-    add_api_path :allocatable_principals do
-      "#{root}/allocatable_principals"
-    end
-
-    add_api_path :allocatable_work_packages do
-      "#{root}/allocatable_work_packages"
-    end
+    add_api_resource_paths :allocatable_principal, only: :index
+    add_api_resource_paths :allocatable_work_package, only: :index
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI
