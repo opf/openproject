@@ -26,6 +26,7 @@
 //++
 
 import { Injector } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
 import { DragDropHandleBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/drag-and-drop/drag-drop-handle-builder';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
@@ -33,9 +34,11 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
-import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { PrimaryRenderPass } from '../primary-render-pass';
 
 export class DragDropHandleRenderPass {
+  @LazyInject() public states:States;
+
   @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
   @LazyInject() public wpTableOrder:WorkPackageViewOrderService;
@@ -59,18 +62,20 @@ public readonly injector:Injector,
 
     const notification = this.notification;
     const query = this.table.querySpace.query.value!;
+    const { occurrences } = this.tablePass.draft;
     void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
       if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
-      this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
+      occurrences.forEach(({ workPackage, renderType, element }) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
-        if (!row.workPackage || row.renderType === 'relations') {
+        if (!workPackage || renderType !== 'primary') {
           return;
         }
 
-        const handle = this.dragDropHandleBuilder.build(row.workPackage, positions[row.workPackage.id!]);
+        const latestWorkPackage = this.states.workPackages.get(workPackage.id!).getValueOr(workPackage);
+        const handle = this.dragDropHandleBuilder.build(latestWorkPackage, positions[workPackage.id!]);
 
-        if (handle && row.element) {
-          row.element.replaceChild(handle, row.element.firstElementChild!);
+        if (handle && element) {
+          element.replaceChild(handle, element.firstElementChild!);
         }
       });
     }).catch((error:unknown) => notification.handleRawError(error));

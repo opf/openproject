@@ -27,10 +27,10 @@
 
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
+import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
+import type { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
 import {
   ancestorClassIdentifier,
   hierarchyGroupClass,
@@ -40,6 +40,12 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import {
+  ancestorOccurrenceKey,
+  type DraftOccurrence,
+  type OccurrenceKey,
+  wpOccurrenceKey,
+} from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
@@ -106,8 +112,6 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       } else {
         // Render a work package root with no parents
         const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
-        row.element = tr;
-        this.tableBody.appendChild(tr);
         this.markRendered(tr, workPackage, hidden);
       }
 
@@ -185,21 +189,15 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // If the work package has deferred children to render,
     // run them through the callback
     deferredChildren.forEach((child:WorkPackageResource) => {
-      this.insertUnderParent(this.getOrBuildRow(child), child.parent || workPackage);
+      this.insertUnderParent(this.indexedOrGiven(child), child.parent ?? workPackage);
 
       // Descend into any children the child WP might have and callback
       this.renderAllDeferredChildren(child);
     });
   }
 
-  private getOrBuildRow(workPackage:WorkPackageResource) {
-    let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id!];
-
-    if (!row) {
-      row = { object: workPackage } as WorkPackageTableRow;
-    }
-
-    return row;
+  private indexedOrGiven(workPackage:WorkPackageResource):WorkPackageResource {
+    return this.workPackageTable.originalRowIndex[workPackage.id!]?.object ?? workPackage;
   }
 
   private buildWithHierarchy(row:WorkPackageTableRow) {
@@ -220,7 +218,6 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
         if (index === 0) {
           // Special case, first ancestor => root without parent
-          this.tableBody.appendChild(ancestorRow);
           this.markRendered(ancestorRow, ancestor, hidden, true);
         } else {
           // This ancestor must be inserted in the last position of its root
@@ -241,18 +238,17 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Insert this row to parent
     const parent = ancestors.at(-1);
-    this.insertUnderParent(row, parent!);
+    this.insertUnderParent(row.object, parent!);
   }
 
   /**
    * Insert the given node as a child of the parent
-   * @param row
+   * @param workPackage
    * @param parent
    */
-  private insertUnderParent(row:WorkPackageTableRow, parent:WorkPackageResource) {
-    const [tr, hidden] = this.rowBuilder.buildEmpty(row.object);
-    row.element = tr;
-    this.insertAtExistingHierarchy(row.object, tr, parent, hidden, false);
+  private insertUnderParent(workPackage:WorkPackageResource, parent:WorkPackageResource) {
+    const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
+    this.insertAtExistingHierarchy(workPackage, tr, parent, hidden, false);
   }
 
   /**
@@ -263,7 +259,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    */
   private markRendered(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden = false, isAncestor = false) {
     this.rendered[workPackage.id!] = true;
-    this.renderedOrder.push(this.buildRenderInfo(row, workPackage, hidden, isAncestor));
+    this.registerAppended(row, this.buildOccurrence(workPackage, hidden, isAncestor));
   }
 
   /**
@@ -280,35 +276,26 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     const hierarchyGroup = `.__hierarchy-group-${parent.id}`;
 
     // Insert into table
-    this.spliceRow(
-      el,
-      `${hierarchyRoot},${hierarchyGroup}`,
-      this.buildRenderInfo(el, workPackage, hidden, isAncestor),
-    );
+    this.spliceRow(el, `${hierarchyRoot},${hierarchyGroup}`, this.buildOccurrence(workPackage, hidden, isAncestor));
 
     this.rendered[workPackage.id!] = true;
   }
 
-  private buildRenderInfo(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
-    const info:RowRenderInfo = {
-      element: row,
-      classIdentifier: '',
-      additionalClasses: [],
+  private occurrenceKey(workPackage:WorkPackageResource, isAncestor:boolean):OccurrenceKey {
+    return isAncestor ? ancestorOccurrenceKey(workPackage.id!) : wpOccurrenceKey(workPackage.id!);
+  }
+
+  private buildOccurrence(workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):Omit<DraftOccurrence, 'element'> {
+    const [ancestorClasses] = this.rowBuilder.ancestorRowData(workPackage);
+
+    return {
+      key: this.occurrenceKey(workPackage, isAncestor),
+      classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id!) : this.rowBuilder.classIdentifier(workPackage),
+      additionalClasses: isAncestor ? [additionalHierarchyRowClassName].concat(ancestorClasses) : ancestorClasses,
       workPackage,
+      workPackageId: workPackage.id!,
       renderType: 'primary',
       hidden,
     };
-
-    const [ancestorClasses, _] = this.rowBuilder.ancestorRowData(workPackage);
-
-    if (isAncestor) {
-      info.additionalClasses = [additionalHierarchyRowClassName].concat(ancestorClasses);
-      info.classIdentifier = ancestorClassIdentifier(workPackage.id!);
-    } else {
-      info.additionalClasses = ancestorClasses;
-      info.classIdentifier = this.rowBuilder.classIdentifier(workPackage);
-    }
-
-    return info;
   }
 }

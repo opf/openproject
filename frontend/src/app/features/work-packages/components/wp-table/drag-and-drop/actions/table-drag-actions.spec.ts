@@ -35,7 +35,6 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { buildTable, TableHarness } from '../../../wp-fast-table/testing/table-harness';
 import { hierarchyGroupClass } from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
-import { relationRowClass } from '../../../wp-fast-table/helpers/wp-table-row-helpers';
 import { TableDragActionService } from './table-drag-action.service';
 import { GroupByDragActionService } from './group-by-drag-action.service';
 import { HierarchyDragActionService } from './hierarchy-drag-action.service';
@@ -94,6 +93,8 @@ describe('prepared table drag actions', () => {
       states,
       showHierarchies: true,
       workPackages: [{ id: '1' }, { id: '2', ancestors: [{ id: '3' }] }, { id: '3' }],
+      relations: [{ from: '2', to: '3', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
       providers: [
         { provide: WorkPackageRelationsHierarchyService, useValue: hierarchy },
         { provide: ApiV3Service, useValue: { work_packages: {
@@ -103,11 +104,10 @@ describe('prepared table drag actions', () => {
         } } },
       ],
     });
+    harness.expand('2', 'relationsOfTypeFollows');
     await harness.render();
     const row = harness.row('1');
-    const relation = harness.addRelationRow('2', '2');
-    relation.classList.add(relationRowClass());
-    relation.after(row);
+    harness.relationRow('2', '3').after(row);
     row.classList.add(hierarchyGroupClass('3'));
     const wp = states.workPackages.get('1').value!;
     const action = new HierarchyDragActionService(harness.querySpace, harness.injector);

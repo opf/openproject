@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { RowRenderInfo } from '../primary-render-pass';
+import type { RenderedOccurrence } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import {
   RelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/relations-render-pass';
@@ -33,13 +33,11 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class ChildRelationsRenderPass extends RelationsRenderPass {
-  renderType = 'child_relations';
+  renderType:RenderedOccurrence['renderType'] = 'child_relations';
 
   label = this.I18n.t('js.relation_labels.child');
 
   @LazyInject() apiV3Service:ApiV3Service;
-
-  private loadingMissingTargets = false;
 
   public render() {
     // If no relation column active, skip this pass
@@ -48,12 +46,12 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = [...this.tablePass.renderedOrder];
+    const rendered = [...this.tablePass.draft.occurrences];
     const missingChildIds:string[] = [];
 
-    rendered.forEach((row:RowRenderInfo) => {
+    rendered.forEach((row) => {
       // We only care for rows that are natural work packages
-      if (!row.workPackage) {
+      if (row.renderType !== 'primary' || !row.workPackage) {
         return;
       }
 
@@ -99,23 +97,21 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
   }
 
   private loadMissingTargets(ids:string[]) {
-    if (this.tablePass.workPackageTable.destroyed) return;
-    const uniqueIds = Array.from(new Set(ids));
+    const table = this.tablePass.workPackageTable;
+    if (table.destroyed) return;
+    const pending = table.requestRelationTargets(ids);
 
-    if (uniqueIds.length === 0 || this.loadingMissingTargets) {
+    if (pending.length === 0) {
       return;
     }
 
-    this.loadingMissingTargets = true;
-
-    void this.apiV3Service.work_packages.requireAll(uniqueIds)
+    void this.apiV3Service.work_packages.requireAll(pending)
       .then(() => {
-        this.loadingMissingTargets = false;
-        if (this.tablePass.workPackageTable.destroyed) return;
-        this.tablePass.workPackageTable.redrawTable();
+        if (table.destroyed) return;
+        table.redrawTableAndTimeline();
       })
       .catch(() => {
-        this.loadingMissingTargets = false;
+        table.releaseRelationTargets(pending);
       });
   }
 }
