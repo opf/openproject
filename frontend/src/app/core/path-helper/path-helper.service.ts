@@ -331,8 +331,9 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/${tab}`;
   }
 
-  public workPackageShortPath(id:string|number) {
-    return `${this.staticBase}/wp/${id.toString()}`;
+  public workPackageShortPath(id:string|number, { format }:{ format?:string } = {}) {
+    const path = `${this.staticBase}/wp/${id.toString()}`;
+    return format ? `${path}.${format}` : path;
   }
 
   public workPackageCopyPath(projectIdentifier:string|null, workPackageId:string|number) {

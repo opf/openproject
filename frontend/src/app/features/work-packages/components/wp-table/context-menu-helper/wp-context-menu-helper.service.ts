@@ -118,6 +118,9 @@ export class WorkPackageContextMenuHelperService {
       case 'copy_link_to_clipboard':
         link = this.PathHelper.workPackageShortPath(workPackage.displayId);
         break;
+      case 'view_markdown':
+        link = this.PathHelper.workPackageShortPath(workPackage.displayId, { format: 'md' });
+        break;
       case 'log_time':
         link = this.PathHelper.timeEntryWorkPackageDialog(workPackage.id!);
         break;
