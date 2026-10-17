@@ -19,6 +19,10 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
+    eslint_json:
+      files: git diff --name-only --staged
+      glob: "*.json"
+      run: npx eslint {staged_files}
     rubocop:
       files: git diff --name-only --staged
       glob: "*.rb"
@@ -63,6 +67,10 @@ fix:
       root: "frontend/"
       files: git diff --name-only --staged
       glob: "*.{js,ts,jsx,tsx}"
+      run: npx eslint --fix {files}
+    eslint_json:
+      files: git diff --name-only --staged
+      glob: "*.json"
       run: npx eslint --fix {files}
     rubocop:
       files: git diff --name-only --staged
