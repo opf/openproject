@@ -51,7 +51,7 @@ module Notifications
     private
 
     def allowed?(journal)
-      user.logged? && journal.journable.visible?(user)
+      user.logged? && journal.journable.is_a?(WorkPackage) && journal.journable.visible?(user)
     end
 
     def create_notification(journal)
