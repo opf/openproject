@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injector } from '@angular/core';
+import { DestroyRef, Injector } from '@angular/core';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { TableUiWork } from './table-ui-work';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -61,6 +63,12 @@ export class WorkPackageTable {
 
   public originalRowIndex:Record<string, WorkPackageTableRow> = {};
 
+  private readonly lifetimeInjector = Injector.create({ providers: [], parent: this.injector });
+
+  public readonly destroyRef = this.lifetimeInjector.get(DestroyRef);
+
+  public readonly uiWork = new TableUiWork(this.destroyRef);
+
   private hierarchyRowsBuilder = new HierarchyRowsBuilder(this.injector, this);
 
   private groupedRowsBuilder = new GroupedRowsBuilder(this.injector, this);
@@ -87,6 +95,19 @@ export class WorkPackageTable {
     public timelineController:WorkPackageTimelineTableController,
     public configuration:WorkPackageTableConfiguration,
   ) {
+  }
+
+  public get destroyed():boolean {
+    return this.destroyRef.destroyed;
+  }
+
+  public destroy():void {
+    if (this.destroyed) return;
+    try {
+      this.lifetimeInjector.destroy();
+    } finally {
+      runCleanup(() => this.editing.reset());
+    }
   }
 
   public get renderedRows():RenderedWorkPackage[] {
@@ -125,6 +146,7 @@ export class WorkPackageTable {
    * @param rows
    */
   public initialSetup(rows:WorkPackageResource[]) {
+    if (this.destroyed) return;
     // Build the row representation
     this.buildIndex(rows);
 
@@ -137,17 +159,18 @@ export class WorkPackageTable {
    * all elements.
    */
   public redrawTableAndTimeline() {
+    if (this.destroyed) return;
     const renderPass = this.performRenderPass(false);
 
     // Insert timeline body
-    requestAnimationFrame(() => {
+    this.uiWork.frame(() => {
       this.tbody.replaceChildren();
       this.timelineBody.replaceChildren();
       this.tbody.appendChild(renderPass.tableBody);
       this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
       // Mark rendering event in a timeout to let DOM process
-      setTimeout(() => this.querySpace.tableRendered.putValue(renderPass.result));
+      this.uiWork.task(() => this.querySpace.tableRendered.putValue(renderPass.result));
     });
   }
 
@@ -155,6 +178,7 @@ export class WorkPackageTable {
    * Redraw all elements in the table section only
    */
   public redrawTable() {
+    if (this.destroyed) return;
     const renderPass = this.performRenderPass();
     this.querySpace.tableRendered.putValue(renderPass.result);
   }
@@ -163,6 +187,7 @@ export class WorkPackageTable {
    * Redraw single rows for a given work package being updated.
    */
   public refreshRows(workPackage:WorkPackageResource) {
+    if (this.destroyed) return;
     const pass = this.lastRenderPass;
     if (!pass) {
       debugLog('Trying to refresh a singular row without a previous render pass.');
@@ -197,7 +222,7 @@ export class WorkPackageTable {
 
     // Insert table body
     if (insert) {
-      requestAnimationFrame(() => {
+      this.uiWork.frame(() => {
         this.tbody.innerHTML = '';
         this.tbody.appendChild(renderPass.tableBody);
       });
@@ -207,6 +232,7 @@ export class WorkPackageTable {
   }
 
   setGroupsCollapseState(newState:Record<string, boolean>) {
+    if (this.destroyed) return;
     this.querySpace.collapsedGroups.putValue(newState);
 
     const t0 = performance.now();
