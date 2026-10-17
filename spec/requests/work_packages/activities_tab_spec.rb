@@ -164,6 +164,41 @@ RSpec.describe "Work package activities tab",
     end
   end
 
+  describe "GET item_actions" do
+    let(:mark_unread_selector) { "op-wp-journal-#{comment.id}-mark-unread" }
+
+    it "offers to mark a journal without unread notifications as unread" do
+      get item_actions_work_package_activity_path(work_package, comment)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(mark_unread_selector)
+    end
+
+    it "does not offer to mark a journal with an unread notification as unread" do
+      create(:notification, recipient: user, resource: work_package, journal: comment, read_ian: false)
+
+      get item_actions_work_package_activity_path(work_package, comment)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(mark_unread_selector)
+    end
+  end
+
+  describe "POST mark_unread", :skip_csrf do
+    let(:unread_notifications) { Notification.where(recipient: user, journal: comment, read_ian: false) }
+
+    it "creates an unread notification and re-renders the journal" do
+      expect do
+        post mark_unread_work_package_activity_path(work_package, comment),
+             headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      end.to change(unread_notifications, :count).by(1)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("op-journal-unread-notification")
+      expect(response.body).to include("op-dispatched:notifications:updated")
+    end
+  end
+
   describe "comment errors", :skip_csrf do
     let(:turbo_stream_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 

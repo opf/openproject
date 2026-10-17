@@ -67,6 +67,7 @@ export class InAppNotificationBellComponent implements OnInit {
   // currently used by the new activities tab which does its own polling
   // and receives updates from the backend earlier than the polling in the bell component
   @HostListener('document:ian-update-immediate')
+  @HostListener('document:op-dispatched:notifications:updated')
   triggerImmediateUpdate() {
     this.storeService.fetchUnread().subscribe();
   }

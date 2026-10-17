@@ -39,7 +39,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   Filters = WorkPackages::ActivitiesTab::Filters
 
   before_action :find_work_package
-  before_action :find_journal, only: %i[emoji_actions item_actions edit cancel_edit update toggle_reaction]
+  before_action :find_journal, only: %i[emoji_actions item_actions edit cancel_edit update toggle_reaction mark_unread]
   before_action :set_filter
   before_action :authorize
   before_action :initialize_pagination, only: %i[index page_streams]
@@ -188,6 +188,20 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       render_error_flash_message_via_turbo_stream(
         message: join_flash_messages(emoji_reaction_service.errors.full_messages)
       )
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def mark_unread
+    call = Notifications::MarkUnreadService.new(user: User.current).call(journal: @journal)
+
+    if call.success?
+      update_item_show_component(journal: @journal, grouped_emoji_reactions: grouped_emoji_reactions_for_journal)
+      dispatch_event_via_turbo_stream("op-dispatched:notifications:updated")
+    else
+      @turbo_status = :forbidden
+      render_error_flash_message_via_turbo_stream(message: join_flash_messages(call.errors.full_messages))
     end
 
     respond_with_turbo_streams

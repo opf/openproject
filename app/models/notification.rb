@@ -42,7 +42,8 @@ class Notification < ApplicationRecord
     date_alert_start_date: 10,
     date_alert_due_date: 11,
     shared: 12,
-    reminder: 13
+    reminder: 13,
+    marked_as_unread: 14
   }.freeze
 
   enum :reason, REASONS, prefix: true

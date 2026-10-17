@@ -1280,6 +1280,7 @@ Rails.application.routes.draw do
         get :emoji_actions
         get :item_actions
         put :toggle_reaction
+        post :mark_unread
       end
 
       collection do

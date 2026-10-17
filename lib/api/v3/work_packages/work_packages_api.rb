@@ -90,6 +90,17 @@ module API
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: WorkPackage)
                                                            .mount
 
+            post :mark_unread do
+              authorize_logged_in
+
+              journal = @work_package.journals.internal_visible.without_meeting_causes.last
+              call = Notifications::MarkUnreadService.new(user: current_user).call(journal:)
+
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) if call.failure?
+
+              status 204
+            end
+
             mount ::API::V3::WorkPackages::WatchersAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
