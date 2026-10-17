@@ -1,54 +1,13 @@
-import type { MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 import {
   defaultColorStyles,
-  metaTextColor,
   typeTextColor,
 } from '../../services/colors';
 import { linkToWorkPackage } from '../../services/openProjectApi';
+import { newTabLinkProps } from '../../utils/links';
 
 /* lets a line break between two meta parts that are each kept unbroken  */
 export const WRAP_OPPORTUNITY = '\u200B';
-
-export const defaultWpVariables = css`
-  --spacer-s: 4px;
-  --spacer-m: 8px;
-  --spacer-l: 12px;
-  --spacer-xl: 16px;
-  --spacer-xxl: 20px;
-
-  /* BlockNote's node-selection outline color; not exposed by BlockNote as a variable, so defined here */
-  --blocknote-focus-color: rgb(100, 160, 255);
-
-  --lightness-threshold: 0.453;
-  --background-alpha: 0.18;
-
-  --op-chip-bg: var(--bgColor-muted, #f6f8fa);
-  --op-item-hover-bg: var(--bn-colors-highlights-gray-background, #f0f0f0);
-  --op-wp-meta-color: ${metaTextColor};
-
-  [data-color-scheme="dark"] & {
-    --lightness-threshold: 0.6;
-    --background-alpha: 0.10;
-    --op-chip-bg: var(--bgColor-muted, #151b23);
-    --op-item-hover-bg: rgba(255, 255, 255, 0.12);
-  }
-`;
-
-export const menuSurfaceStyles = css`
-  background-color: var(--bn-colors-menu-background, #fff);
-  color: var(--bn-colors-menu-text, #3f3f3f);
-`;
-
-// The -webkit- prefix is not redundant: Safari (including iOS) implements only the prefixed
-// property and styled-components v6 no longer auto-prefixes, so unprefixed alone leaves the
-// chip text selectable there. Belongs on the container only: `user-select` is not inherited,
-// but `auto` on a descendant resolves to `none` under a non-selectable parent.
-export const nonSelectableStyles = css`
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-`;
 
 export const WorkPackageId = styled.span.attrs({
   className: 'op-bn-work-package--id',
@@ -117,13 +76,7 @@ export const WorkPackageTitle = styled.span.attrs({
   overflow-wrap: anywhere;
 `;
 
-export const workPackageLinkProps = (displayId:string) => ({
-  href: linkToWorkPackage(displayId),
-  target: '_blank' as const,
-  rel: 'noopener noreferrer',
-  /*  keep link clicks from toggling the surrounding chip/card popover  */
-  onClick: (e:MouseEvent) => e.stopPropagation(),
-});
+export const workPackageLinkProps = (displayId:string) => newTabLinkProps(linkToWorkPackage(displayId));
 
 export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
   cursor: pointer;

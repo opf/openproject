@@ -11,13 +11,12 @@ import {
   blockContent,
   blockText,
   blockTypes,
-  chipContent,
   createHeadlessEditor,
   createHeadlessEditorWithText,
   nthChipPosition,
   placeCursorAfterText,
-  textContent,
 } from '../../../helpers/headlessEditor';
+import { chipContent, textContent } from '../../../helpers/content';
 
 const workPackage = { id: 1, displayId: '1', subject: 'Fix bug' } as unknown as WorkPackage;
 

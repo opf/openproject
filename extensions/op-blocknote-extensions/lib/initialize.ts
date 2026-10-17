@@ -7,9 +7,10 @@ export function initializeOpBlockNoteExtensions(config:{
   proxyUrl?:string,
   locale:string,
   projectId?:string | number,
+  documentId?:string | number,
 }) {
   initOpenProjectApi({ baseUrl: config.baseUrl, proxyUrl: config.proxyUrl });
   void probeCreateWorkPackagePermission();
   initLanguage(config.locale);
-  initEditorContext({ projectId: config.projectId });
+  initEditorContext({ projectId: config.projectId, documentId: config.documentId });
 }

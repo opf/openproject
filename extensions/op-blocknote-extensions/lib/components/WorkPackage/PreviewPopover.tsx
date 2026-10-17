@@ -1,14 +1,14 @@
 import { useRef, type ReactNode } from 'react';
 import styled from 'styled-components';
-import { defaultWpVariables, menuSurfaceStyles } from './atoms';
-import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
+import { editorThemeVariables, menuSurfaceStyles } from '../shared/theme';
+import { useAnchoredPopover, PopoverPortal } from '../shared/anchoredPopover';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
 const PreviewContainer = styled.div.attrs({
   className: 'op-bn-wp-preview',
   'data-testid': 'wp-preview',
 })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   position: absolute;
   z-index: ${FLOATING_Z_INDEX.preview};
   top: calc(100% + 6px);

@@ -1,30 +1,16 @@
 import type { InlineContentFromConfig } from '@blocknote/core';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
-import { NodeSelection } from 'prosemirror-state';
 import type { AnyEditor } from '../editorTypes';
 import type { WorkPackage } from '../openProjectTypes';
 import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types';
 import { moveCursorAfterBlock } from './cursor';
 import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from './nodeTypes';
-import { hideSafariPhantomSelection } from './selection';
+import { inlineNodeAt } from './inlineNodes';
+import type { FoundInlineNode } from './inlineNodes';
 import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
-
-// Direct, position-based operations on inline work package chips.
-//
-// The chip's React component locates its own ProseMirror node via its DOM
-// element (`findInlineChipAtDOM`) and mutates the document directly. This
-// replaces the former event bridge (`wpBridge`) that addressed chips by a
-// persisted `instanceId` prop — which leaked into clipboard HTML and required
-// paste-time deduplication. A position uniquely identifies one node instance,
-// so copies are independent by construction.
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInlineNode = InlineContentFromConfig<any, any>;
-
-export interface FoundInlineChip {
-  position:number;
-  node:ProsemirrorNode;
-}
 
 export interface ChipContent {
   type:typeof INLINE_WP_TYPE;
@@ -32,39 +18,13 @@ export interface ChipContent {
 }
 
 /**
- * Resolves the chip's own DOM element to its ProseMirror node and position.
- *
- * `posAtDOM` may return the position directly before the atom node or the
- * position inside its node-view wrapper (off by one), so both candidates are
- * checked and verified by node type.
- */
-export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):FoundInlineChip | null {
-  const view = editor.prosemirrorView;
-  if (!view) return null;
-
-  let basePosition:number;
-  try {
-    basePosition = view.posAtDOM(chipDom, 0);
-  } catch {
-    return null;
-  }
-
-  for (const position of [basePosition, basePosition - 1]) {
-    if (position < 0) continue;
-    const node = view.state.doc.nodeAt(position);
-    if (node?.type.name === INLINE_WP_TYPE) return { position, node };
-  }
-  return null;
-}
-
-/**
  * Finds a pending chip by its wpid. Only `pending:<uuid>` placeholder wpids
  * are unique in the document, so only those can be found reliably.
  */
-export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInlineChip | null {
+export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInlineNode | null {
   if (!wpid.startsWith(PENDING_PREFIX)) return null;
 
-  let found:FoundInlineChip | null = null;
+  let found:FoundInlineNode | null = null;
   doc.descendants((node, position) => {
     if (found) return false;
     if (node.type.name === INLINE_WP_TYPE && node.attrs.wpid === wpid) {
@@ -84,29 +44,6 @@ export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipCo
   };
 }
 
-function chipAt(editor:AnyEditor, position:number):ProsemirrorNode | null {
-  return editor.transact((tr) => {
-    const node = tr.doc.nodeAt(position);
-    return node?.type.name === INLINE_WP_TYPE ? node : null;
-  });
-}
-
-export function selectInlineChipAt(editor:AnyEditor, position:number):void {
-  if (!chipAt(editor, position)) return;
-  editor.transact((tr) => {
-    tr.setSelection(NodeSelection.create(tr.doc, position));
-  });
-  hideSafariPhantomSelection(editor);
-}
-
-export function removeInlineChipAt(editor:AnyEditor, position:number):void {
-  const node = chipAt(editor, position);
-  if (!node) return;
-  editor.transact((tr) => {
-    tr.delete(position, position + node.nodeSize);
-  });
-}
-
 /**
  * Replaces the inline chip at `position` with a block work package card,
  * splitting the surrounding paragraph content around it.
@@ -116,7 +53,7 @@ export function promoteInlineChipToBlockAt(
   position:number,
   size:BlockWpSize = 'm'
 ):void {
-  const node = chipAt(editor, position);
+  const node = inlineNodeAt(editor, position, INLINE_WP_TYPE);
   if (!node) return;
 
   // wpid must be a positive integer

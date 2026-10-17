@@ -1,10 +1,14 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse } from 'msw';
-import { renderEditor } from '../../../helpers/renderEditor';
+import { renderEditor, renderEditorWithHandle } from '../../../helpers/renderEditor';
+import { mentionContent, paragraphWith } from '../../../helpers/content';
+import { mentionsIn } from '../../../helpers/headlessEditor';
 import { insertInlineWorkPackageViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
 import { worker } from '../../../mocks/browser';
 import { mockWorkPackage } from '../../../mocks/handlers';
+import { editDocument } from '../../../helpers/documentContext';
+import { fenceMentionNotifications, recordMentionNotifications } from '../../../helpers/requestHelpers';
 
 describe('Drag and drop - inline chip', () => {
   afterEach(() => worker.resetHandlers());
@@ -132,5 +136,62 @@ describe('Drag and drop - block card', () => {
     await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
     expect(fetchCount).toBe(0);
+  });
+});
+
+describe('Drag and drop - user mention', () => {
+  const peter = mentionContent('8', 'Peter Lang');
+
+  async function renderMentionBetweenLines() {
+    const editor = await renderEditorWithHandle({
+      initialContent: [paragraphWith('First line'), paragraphWith(peter), paragraphWith('Last line')],
+    });
+    await expect.element(page.getByRole('link', { name: 'Peter Lang' })).toBeVisible();
+    return editor;
+  }
+
+  function blockTextOfMention() {
+    return document.querySelector('.op-bn-user-mention')!.closest('[data-node-type="blockOuter"]')?.textContent;
+  }
+
+  it('moves the mention node when dragged by the pill', async () => {
+    const editor = await renderMentionBetweenLines();
+
+    await userEvent.dragAndDrop(document.querySelector('.op-bn-user-mention')!, page.getByText('Last line'));
+
+    await expect.poll(blockTextOfMention).toContain('Last');
+    expect(mentionsIn(editor)).toEqual([peter.props]);
+  });
+
+  it('moves the mention node, not a copy of its link, when dragged by the name', async () => {
+    const editor = await renderMentionBetweenLines();
+
+    await userEvent.dragAndDrop(page.getByRole('link', { name: 'Peter Lang' }), page.getByText('Last line'));
+
+    await expect.poll(blockTextOfMention).toContain('Last');
+    expect(mentionsIn(editor)).toEqual([peter.props]);
+    expect(editor.document.flatMap((block) => block.content as { type:string }[]).map((node) => node.type))
+      .not.toContain('link');
+  });
+
+  it('can be dragged again after a drop', async () => {
+    const editor = await renderMentionBetweenLines();
+
+    await userEvent.dragAndDrop(document.querySelector('.op-bn-user-mention')!, page.getByText('Last line'));
+    await expect.poll(blockTextOfMention).toContain('Last');
+    await userEvent.dragAndDrop(document.querySelector('.op-bn-user-mention')!, page.getByText('First line'));
+
+    await expect.poll(blockTextOfMention).toContain('First');
+    expect(mentionsIn(editor)).toEqual([peter.props]);
+  });
+
+  it('does not notify the person of a dragged mention', async () => {
+    editDocument(3);
+    const notifications = recordMentionNotifications();
+    const editor = await renderMentionBetweenLines();
+
+    await userEvent.dragAndDrop(document.querySelector('.op-bn-user-mention')!, page.getByText('Last line'));
+    await expect.poll(blockTextOfMention).toContain('Last');
+    await expect.poll(notifications).toEqual(fenceMentionNotifications(editor, { documentId: 3, userIds: [] }));
   });
 });

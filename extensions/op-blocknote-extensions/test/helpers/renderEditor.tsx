@@ -9,11 +9,15 @@ import { render } from 'vitest-browser-react';
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectUserMentionSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
+  OpenProjectMentionMenu,
   ShadowDomWrapper,
+  UserMentionNotificationExtension,
 } from '../../lib';
+import type { AnyEditor } from '../../lib/editorTypes';
 
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
@@ -25,6 +29,7 @@ const defaultSchema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectUserMention: openProjectUserMentionSpec,
   },
 });
 
@@ -38,6 +43,7 @@ interface EditorOptions {
 function Editor({ onEditor, schema, editable = true, initialContent }:EditorOptions) {
   const editor = useCreateBlockNote({
     schema: schema ?? defaultSchema,
+    extensions: [UserMentionNotificationExtension],
     ...(initialContent ? { initialContent } : {}),
   });
   onEditor?.(editor);
@@ -60,6 +66,7 @@ function Editor({ onEditor, schema, editable = true, initialContent }:EditorOpti
       <OpenProjectFormattingToolbar />
       <SuggestionMenuController triggerCharacter="/" getItems={getSlashItems} />
       <OpenProjectHashMenu />
+      <OpenProjectMentionMenu />
     </BlockNoteView>
     </div>
   );
@@ -67,6 +74,13 @@ function Editor({ onEditor, schema, editable = true, initialContent }:EditorOpti
 
 export function renderEditor(opts?:EditorOptions) {
   return render(<Editor {...opts} />);
+}
+
+export async function renderEditorWithHandle(opts?:Omit<EditorOptions, 'onEditor'>):Promise<AnyEditor> {
+  let editor = undefined as AnyEditor | undefined;
+  await renderEditor({ ...opts, onEditor: (created) => { editor = created; } });
+  if (!editor) throw new Error('The editor was not created');
+  return editor;
 }
 
 export async function renderEditorInShadowDom(opts?:EditorOptions) {

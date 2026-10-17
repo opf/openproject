@@ -2,6 +2,7 @@ import './services/i18n.ts';
 export {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectUserMentionSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useCreateWorkPackageFromSelection,
@@ -9,8 +10,11 @@ export {
 } from './components';
 export type { CreateWorkPackageFromSelection } from './components';
 export { initializeOpBlockNoteExtensions } from './initialize';
+export { UserMentionNotificationExtension } from './plugins/userMentionNotificationExtension';
 export type { InlineWpSize, BlockWpSize, WpSize } from './components/WorkPackage/types';
-export { OpenProjectHashMenu, createHashWpMenuComponent, isHashWpQuery, useHashWpMenu } from './components/HashMenu';
+export { OpenProjectHashMenu, createHashWpMenuComponent, isHashWpQuery, useHashWpMenu, HASH_TRIGGER } from './components/HashMenu';
 export type { HashMenuItem } from './components/HashMenu';
 export { useWorkPackageSearch } from './hooks/useWorkPackageSearch';
 export type { WorkPackage } from './openProjectTypes';
+export { OpenProjectMentionMenu, MENTION_TRIGGER } from './components/MentionMenu';
+export type { SuggestionMenuItem, SuggestionSearchState } from './hooks/useSuggestionSearch';
