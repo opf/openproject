@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, inject } from '@angular/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -58,6 +59,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   public isWatched:boolean;
 
   public displayReminderButton$:Observable<boolean> = of(false);
+
+  public displayAddToPlannerButton = inject(ConfigurationService).activeFeatureFlags.includes('planner');
 
   public displayShareButton$:false|Observable<boolean> = false;
 
