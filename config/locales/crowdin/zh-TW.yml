@@ -120,7 +120,7 @@ zh-TW:
         caption: 說明
         help_text: 說明文字
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: 其他允許的登入重定向網址
         scim_clients: SCIM 用戶端
       calculated_value_error:
         customized_id: 自訂 ID
@@ -206,18 +206,22 @@ zh-TW:
         widgets: 小工具
       group:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: 身份識別 URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
-        name: Jira instance name
-        personal_access_token: Personal access token
-        url: Jira instance URL
+        name: Jira 實例名稱
+        personal_access_token: 個人存取權杖
+        url: Jira 實例網址
       import/jira_open_project_reference:
         jira: Jira
         jira_import: Jira Migrator
@@ -441,6 +445,7 @@ zh-TW:
       user:
         admin: 管理員
         auth_source: 驗證方式
+        avatar_type: Avatar type
         consented_at: 同意在
         current_password: 目前的密碼
         department: Department
@@ -464,6 +469,8 @@ zh-TW:
         auto_hide_popups: 自動關閉成功通知
         auto_hide_popups_caption: 啟用時，綠色的成功通知會在 5 秒內自動關閉。
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: 更新提醒設定
         button_update_look_and_feel: 更新介面與外觀
         button_update_user_information: 更新個人資料
@@ -665,7 +672,7 @@ zh-TW:
         unknown_property: 不是已知屬性
         unknown_property_nested: 具有未知路徑 '%{path}'
         unremovable: 無法移除
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: 以下這些行： %{invalid_lines} 並非有效的 HTTP 或 HTTPS URL。
         url_not_secure_context: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
 
           '
@@ -1009,7 +1016,7 @@ zh-TW:
               numeric: 數字（例如：「1」）
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                other: 先前%{count} 個已被使用，請改用別的
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: 特別（例如：「%」）
               uppercase: 大寫（例如：「Ａ」）
             password_confirmation:
@@ -1113,7 +1120,7 @@ zh-TW:
       template:
         body: 請檢查下列欄位：
         header:
-          other: 有 %{count} 個錯誤發生導致「%{model}」無法被保存。
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: Actions
@@ -2011,6 +2018,10 @@ zh-TW:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: 請參閱我們的整合和外掛頁面以獲取更多資訊。
       no_results_title_text: 目前沒有安裝任何外掛程式
@@ -2606,7 +2617,7 @@ zh-TW:
   button_manage_roles: 管理角色
   button_move: 移動
   button_move_and_follow: 移動並跟隨
-  button_next: Next
+  button_next: 下一個
   button_print: 列印
   button_publish: 設為公開
   button_quote: 引言
@@ -2699,9 +2710,9 @@ zh-TW:
     text:
       failed: 無法從 “%{source_project_name}” 複製專案到 "%{target_project_name}"
       succeeded: 複製 "%{source_project_name}" 到 "%{target_project_name}"。
-    title: 複製專案 %{source_project_name}
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: 一個此類型物件
+      one: "%{count} object of this type"
       other: 有%{count} 此類型物件
       zero: 無此類型物件
   create_portfolio:
@@ -2741,7 +2752,7 @@ zh-TW:
     admin:
       hierarchy:
         subitems:
-          one: 1 個子項目
+          one: "%{count} sub-item"
           other: "%{count} 子項目"
           zero: 無子項目
       items:
@@ -2901,40 +2912,40 @@ zh-TW:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: 大約 %{count} 小時
+        other: about %{count} hours
       about_x_months:
-        other: 大約 %{count} 個月
+        other: about %{count} months
       about_x_years:
-        other: 大約 %{count} 年
+        other: about %{count} years
       almost_x_years:
-        other: 差不多 %{count} 年
+        other: almost %{count} years
       half_a_minute: 半分鐘
       less_than_x_minutes:
         other: 少於 %{count} 分鐘
       less_than_x_seconds:
-        other: 少於 %{count} 秒
+        other: less than %{count} seconds
       over_x_years:
-        other: 超過 %{count} 年
+        other: over %{count} years
       x_days:
-        other: "%{count} 天"
+        other: "%{count} days"
       x_hours:
-        other: "%{count} 一個小時"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count} 小時"
+        other: "%{count} hrs"
       x_minutes:
-        other: "%{count} 分"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count} 分"
+        other: "%{count} mins"
       x_months:
-        other: "%{count} 個月"
+        other: "%{count} months"
       x_seconds:
-        other: "%{count} 秒"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        other: "%{count}  秒"
+        other: "%{count} s"
       x_weeks:
-        other: "%{count} 週"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count}  年"
+        other: "%{count} years"
     units:
       day:
         other: 天
@@ -3081,7 +3092,7 @@ zh-TW:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        other: "%{count} %{trial_plan} 試用令牌所剩天數"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: '您的試用 Enterprise 令牌已經被領取。請檢查您的電子郵件，令牌已隨信附上。如需新的，請聯絡我們的支援團隊。
 
@@ -4502,35 +4513,35 @@ zh-TW:
   label_working_hours: Work schedule
   label_workweek: 工作週
   label_x_closed_work_packages_abbr:
-    one: 1 已結束
+    one: "%{count} closed"
     other: "%{count} 個已結案"
     zero: 0 個已關閉
   label_x_comments:
-    one: 1 則留言
+    one: "%{count} comment"
     other: "%{count} 個留言"
     zero: 沒有留言
   label_x_days:
     other: "%{count} days"
   label_x_files:
-    one: 1 個檔案
+    one: "%{count} file"
     other: "%{count} 檔案"
     zero: 沒有檔案
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 開啟中
+    one: "%{count} open"
     other: "%{count} 個未完成"
     zero: 0 個已開啟
   label_x_projects:
-    one: 1 個專案
+    one: "%{count} project"
     other: "%{count} 個專案"
     zero: 沒有專案
   label_x_work_packages:
-    one: 1個工作套件
+    one: "%{count} work package"
     other: "%{count} 個工作套件"
     zero: 無工作套件
   label_x_working_days:
@@ -4811,10 +4822,7 @@ zh-TW:
       mentioned: 您在<b>討論中被cue到</b>
       mentioned_by: "%{user} 留言時提到您。"
       more_to_see:
-        other: |-
-          還有 1 個工作套件通知
-
-          還有 %{count} 個工作套件通知。
+        other: There are %{count} more work packages with notifications.
       open_in_browser: 在瀏覽器中開啟
       reason:
         assigned: 指派
@@ -5542,7 +5550,7 @@ zh-TW:
   permission_change_work_package_status_explanation: 允許在無編輯工作套件權限的情況下更改狀態
   permission_comment_news: 在「最新消息」留言
   permission_commit_access: 讀/寫 權限版本庫 (Commit)
-  permission_copy_projects: 複製專案
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: 在範本專案中，此權限具有次要功能，它允許建立源自範本的新專案。
   permission_copy_work_packages: 複製工作套件
   permission_create_backup: 建立備份
@@ -5681,7 +5689,7 @@ zh-TW:
     name: OmniAuth SAML / SSO單點登錄
   portfolio:
     count:
-      one: 1 個組合
+      one: "%{count} portfolio"
       other: "%{count} 組合"
       zero: 0 個組合
     filters:
@@ -5692,7 +5700,7 @@ zh-TW:
         label: 專案組合名稱篩選
         placeholder: 搜尋組合
       sub_items_html:
-        other: "<strong>%{count}</strong>分項"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: 封存組合
       archived: 已封存的專案組合
@@ -5706,7 +5714,7 @@ zh-TW:
         可用於在表格中突顯工作套件。
   program:
     count:
-      one: 1 個方案
+      one: "%{count} program"
       other: "%{count} 個方案"
       zero: 0 個方案
     filters:
@@ -5718,7 +5726,7 @@ zh-TW:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: 封存專案
     count:
-      one: 1 個專案
+      one: "%{count} project"
       other: "%{count} 個專案"
       zero: 0 個專案
     destroy:
@@ -5994,7 +6002,7 @@ zh-TW:
     action_title: 反應
     add_reaction: 加入反應
     and_others:
-      other: 與其他 %{count} 個
+      other: and %{count} others
     and_user: 和 %{user}
     react_with: 使用 %{reaction} 進行反應
     reaction_by: "%{reaction} 由"
@@ -6121,7 +6129,7 @@ zh-TW:
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
@@ -6144,7 +6152,6 @@ zh-TW:
       section_uncheck_all_label: 取消指定所有 %{module} 權限
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
         other: "%{count} permissions"
@@ -6639,7 +6646,7 @@ zh-TW:
       section_work_week: 工作週
   sharing:
     count:
-      one: 1 個用戶
+      one: "%{count} user"
       other: "%{count} 個使用者"
       zero: 0個用戶
     denied: 您沒有權限分享 %{entities}。
@@ -7328,7 +7335,7 @@ zh-TW:
     authorization_rejected: 你不被允許登入。
     blocked: 暫時停用
     blocked_num_failed_logins:
-      other: 暫時鎖定 (%{count} 登錄失敗)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: 您將更改 "%{name}" 的狀態。是否確實要繼續？
     deleted: 刪除使用者
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7931,7 +7938,7 @@ zh-TW:
         version:
           no_results_title_text: 目前沒有可用的版本
     x_descendants:
-      other: "%{count} 個子工作套件"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:

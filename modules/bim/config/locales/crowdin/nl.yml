@@ -106,7 +106,7 @@ nl:
     not_recommended: niet aanbevolen
     recommended: aanbevolen
     x_bcf_issues:
-      one: Één BCF-probleem
+      one: "%{count} BCF issue"
       other: "%{count} BCF problemen"
       zero: Geen BCF-kwesties
   bim:

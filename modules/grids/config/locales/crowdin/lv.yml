@@ -34,7 +34,7 @@ lv:
         view_all_members: Apskatīt visus
         x_more:
           zero: and %{count} more members.
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Nav jaunu ziņojumu.

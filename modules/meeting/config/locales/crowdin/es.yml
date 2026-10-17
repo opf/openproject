@@ -31,8 +31,8 @@ es:
         notes: Notas
         notify: Enviar notificaciones
         participant:
-          one: 1 Participante
-          other: "%{count} Participantes"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: Participantes
         participants_added: 'Participantes añadidos:'
         participants_attended: Asistentes
@@ -97,7 +97,7 @@ es:
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Hay una reunión abierta en la serie que no está cubierta por el nuevo calendario. Ajuste el calendario para incluir todas las reuniones existentes.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Hay %{count} reuniones abiertas en la serie que no están cubiertas por el nuevo calendario. Ajuste el calendario para incluir todas las reuniones existentes.
         recurring_meeting_interim_response:
           not_an_occurrence: no es una hora de repetición válida para esta reunión periódica
@@ -175,6 +175,7 @@ es:
   label_agenda_item_duplicate: Duplicar
   label_agenda_item_duplicate_in_next: Duplicar en la próxima reunión
   label_agenda_item_duplicate_in_next_title: "¿Duplicar en la próxima reunión?"
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Mover
   label_agenda_item_move_down: Mover hacia abajo
   label_agenda_item_move_to_backlog: Mover al backlog
@@ -238,8 +239,8 @@ es:
   label_meeting_last_updated: Última actualización
   label_meeting_minutes: Minutas
   label_meeting_more:
-    one: Hay una reunión más.
-    other: Hay %{count} reuniones más.
+    one: There is %{count} more meeting.
+    other: There are %{count} more meetings.
   label_meeting_new: Nueva reunión
   label_meeting_new_dynamic: Nueva reunión única
   label_meeting_new_recurring: Nueva reunión periódica
@@ -284,11 +285,11 @@ es:
   label_recurring_meeting_delete: Eliminar repetición
   label_recurring_meeting_duplicate: Duplicar como una reunión única
   label_recurring_meeting_more:
-    one: Hay una reunión más programada (%{schedule}).
-    other: Hay %{count} reuniones más programadas (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Hay una reunión más pasada.
-    other: Hay %{count} reuniones más pasadas.
+    one: There is %{count} more past meeting.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Nueva reunión periódica
   label_recurring_meeting_next_occurrence: Siguiente repetición
   label_recurring_meeting_no_end_date: Hay más reuniones programadas (%{schedule}).
@@ -584,13 +585,13 @@ es:
     caption:
       ends_on: Esto da lugar a una serie que finaliza el %{date}
       occurrences:
-        one: Esto da como resultado 1 repetición próxima
-        other: Esto da como resultado %{count} repeticiones próximas
+        one: This results in %{count} upcoming occurrence
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: Esto da como resultado más de %{count} repeticiones próximas
     day_of_month_skipping_info: Se omitirán los meses con menos de %{monthly_day} días
     delete_dialog:
       confirmation_message_html:
-        one: 'Al eliminar <strong>%{title}</strong> también se eliminará una repetición de esta serie. Esta acción no es reversible. Proceda con precaución.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Al eliminar <strong>%{title}</strong> se eliminarán todas las apariciones de %{count} en esta serie. Esta acción no es reversible. Proceda con precaución.
@@ -715,7 +716,7 @@ es:
   text_agenda_item_dialog_skipping_closed_many: "%{count} reuniones cerradas"
   text_agenda_item_dialog_skipping_closed_one: cerró la reunión el %{date}
   text_agenda_item_dialog_skipping_note: 'Nota: Se omite %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: "¿Seguro que deseas añadir una copia de este punto del orden del día a la próxima reunión, el %{date} a las %{time}? Los resultados no se duplicarán."
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Punto del orden del día duplicado a la próxima reunión, el %{date}
   text_agenda_item_move_next_meeting: Este punto se trasladará a la próxima reunión el %{date} a las %{time}.
   text_agenda_item_moved_to_backlog: Agenda item moved to the backlog

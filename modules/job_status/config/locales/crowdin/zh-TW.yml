@@ -3,9 +3,9 @@ zh-TW:
   activerecord:
     models:
       job_status/status:
-        other: Background job statuses
+        other: 背景工作狀態
   job_status_dialog:
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: 或者 [點擊此處](download_url) 進行下載。
     download_starts: 將自動開始下載
     errors: 出了點問題
     generic_messages:

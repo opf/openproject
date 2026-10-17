@@ -206,12 +206,16 @@ pl:
         widgets: Widżety
       group:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Grupy użytkowników
         identity_url: Adres URL tożsamości
         organizational_unit: Jednostka organizacyjna
         parent: Grupa nadrzędna
       group_detail:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Jednostka organizacyjna
         parent: Grupa nadrzędna
       import/jira:
@@ -441,6 +445,7 @@ pl:
       user:
         admin: Administrator
         auth_source: Źródło uwierzytelniania
+        avatar_type: Avatar type
         consented_at: Zgodę na
         current_password: Aktualne hasło
         department: Dział
@@ -464,6 +469,8 @@ pl:
         auto_hide_popups: Automatycznie ukrywaj banery sukcesu
         auto_hide_popups_caption: Po włączeniu tej funkcji zielone banery sukcesu będą automatycznie znikać po 5 sekundach.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Zaktualizuj alerty
         button_update_look_and_feel: Zaktualizuj wygląd i działanie
         button_update_user_information: Zaktualizuj profil
@@ -1012,10 +1019,10 @@ pl:
               numeric: liczbowe (np. 1)
               requirements_not_met: 'Musi zawierać znaki następujących typów: %{rules}'
               reused:
-                one: było użyte wcześniej. Proszę wybrać inne niż poprzednie.
-                few: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
-                many: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
-                other: było użyte wcześniej. Proszę wybrać inne niż %{count} poprzednie.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                few: has been used before. Please choose one that is different from your last %{count}.
+                many: has been used before. Please choose one that is different from your last %{count}.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: specjalne (np. '%')
               uppercase: wielkie litery (np. 'A')
             password_confirmation:
@@ -1119,10 +1126,10 @@ pl:
       template:
         body: 'Sprawdź następujące pola:'
         header:
-          one: 1 błąd uniemożliwia zapisanie %{model}
-          few: "%{count} błędy uniemożliwiają zapisanie %{model}"
-          many: "%{count} błędy uniemożliwiają zapisanie %{model}"
-          other: "%{count} błędy uniemożliwiają zapisanie %{model}"
+          one: "%{count} error prohibited this %{model} from being saved"
+          few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Działanie
@@ -1976,40 +1983,40 @@ pl:
             title: Upewnij się, że masz kopię zapasową!
           parts:
             issues:
-              one: 1 problem
-              few: "%{count} problemy"
-              many: "%{count} problemów"
-              other: "%{count} problemu"
+              one: "%{count} issue"
+              few: "%{count} issues"
+              many: "%{count} issues"
+              other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               few: "%{count} jobs"
               many: "%{count} jobs"
               other: "%{count} jobs"
             projects:
-              one: 1 projekt
-              few: "%{count} projekty"
-              many: "%{count} projektów"
-              other: "%{count} projektu"
+              one: "%{count} project"
+              few: "%{count} projects"
+              many: "%{count} projects"
+              other: "%{count} projects"
             statuses:
-              one: 1 status
-              few: "%{count} statusy"
-              many: "%{count} statusów"
-              other: "%{count} statusu"
+              one: "%{count} status"
+              few: "%{count} statuses"
+              many: "%{count} statuses"
+              other: "%{count} statuses"
             types:
-              one: 1 typ
-              few: "%{count} typy"
-              many: "%{count} typów"
-              other: "%{count} typu"
+              one: "%{count} type"
+              few: "%{count} types"
+              many: "%{count} types"
+              other: "%{count} types"
             users:
-              one: 1 użytkownik
-              few: "%{count} użytkowników"
-              many: "%{count} użytkowników"
-              other: "%{count} użytkownika"
+              one: "%{count} user"
+              few: "%{count} users"
+              many: "%{count} users"
+              other: "%{count} users"
             work_packages:
-              one: 1 pakiet roboczy
-              few: "%{count} pakiety robocze"
-              many: "%{count} pakietów roboczych"
-              other: "%{count} pakietu roboczego"
+              one: "%{count} work package"
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: Rozumiem, że to cofnięcie poskutkuje trwałym usunięciem danych
             description: Spowoduje to usunięcie wszystkich zaimportowanych obiektów (w tym całych projektów).
@@ -2074,10 +2081,10 @@ pl:
               caption: Wybierz co chcesz zaimportować do OpenProject
               caption_done: Ukończono
               caption_done_description:
-                one: Jako zakres wybrano 1 projekt
-                few: Jako zakres wybrano %{count} projekty
-                many: Jako zakres wybrano %{count} projektów
-                other: Jako zakres wybrano %{count} projektu
+                one: "%{count} project selected as scope"
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Wybierz dane, które chcesz zaimportować z dostępnych danych pobranych z hosta wystąpienia Jira.
               elements:
                 custom_fields: Podzestaw pól niestandardowych
@@ -2365,6 +2372,10 @@ pl:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(poprzez: %{source})"
         title: Członkostwa
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Więcej informacji znajdziesz na naszej stronie poświęconej integracjom i wtyczkom.
       no_results_title_text: Obecnie nie ma żadnych zainstalowanych wtyczek.
@@ -2378,10 +2389,10 @@ pl:
         confirm_button: Usuń zastrzeżenie identyfikatora
         description: Usunięcia zastrzeżenia tego identyfikatora projektu nie można cofnąć. Używające go zewnętrzne linki i integracje przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
         description_with_work_packages:
-          one: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego 1 pakietu roboczego) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
-          few: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
-          many: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
-          other: Usunięcia zastrzeżenia tego identyfikatora projektu (i identyfikatora jego %{count} pakietów roboczych) nie można cofnąć. Zewnętrzne linki i integracje korzystające z niego przestaną być rozpoznawane, a nazwa stanie się dostępna dla każdego nowego projektu.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Usunąć zastrzeżenie identyfikatora „%{identifier}”?
         title: Usuń zastrzeżenie identyfikatora
       empty_body: Gdy identyfikator projektu ulegnie zmianie, pojawi się tutaj poprzedni identyfikator, dzięki czemu można będzie usunąć jego zastrzeżenie, gdy będzie to bezpieczne.
@@ -2509,10 +2520,10 @@ pl:
           error_unknown: Wymaga ręcznego sprawdzenia
           error_used_in_past: Zarezerwowany przez historię dojść innego projektu
           remaining_projects:
-            one: "...jeszcze 1 projekt"
-            few: "...jeszcze %{count} projekty"
-            many: "...jeszcze %{count} projektów"
-            other: "...jeszcze %{count} projektu"
+            one: "... %{count} more project"
+            few: "... %{count} more projects"
+            many: "... %{count} more projects"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Istniejące identyfikatory %{project_count} projektów nie spełniają wymagań dotyczących identyfikatorów semantycznych opartych na projektach. OpenProject może automatycznie zaktualizować je tak, aby były prawidłowe, jak w poniższych przykładach. Kliknij przycisk „Przekonwertuj identyfikatory”, aby zaktualizować identyfikatory wszystkich projektów w ten sposób i włączyć identyfikatory semantyczne oparte na projektach.
 
@@ -2596,10 +2607,10 @@ pl:
         label: 'Rola: %{role}'
         no_role: Wybierz rolę
         roles:
-          one: Wybrano jedną rolę
-          few: Wybrano %{count} role
-          many: Wybrano %{count} ról
-          other: Wybrano %{count} roli
+          one: "%{count} role selected"
+          few: "%{count} roles selected"
+          many: "%{count} roles selected"
+          other: "%{count} roles selected"
         title: Wybierz role
       status_button: Status
       statuses_dialog:
@@ -2610,10 +2621,10 @@ pl:
         confirm: Usuń
         description: Usunięcie tych statusów spowoduje, że będą one niedostępne dla tego typu i usuną istniejące przepływy pracy. Czy na pewno chcesz kontynuować?
         heading:
-          one: Usunąć 1 status?
-          few: Usunąć %{count} statusy?
-          many: Usunąć %{count} statusów?
-          other: Usunąć %{count} statusu?
+          one: Remove %{count} status?
+          few: Remove %{count} statuses?
+          many: Remove %{count} statuses?
+          other: Remove %{count} statuses?
         title: Usuń statusy
       tabs:
         always: Przejścia domyślne
@@ -3062,9 +3073,9 @@ pl:
     text:
       failed: Nie można skopiować projektu "%{source_project_name}" do "%{target_project_name}".
       succeeded: Skopiowano projekt "%{source_project_name}" do "%{target_project_name}".
-    title: Skopiuj projekt „%{source_project_name}”
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Jeden obiekt tego typu
+      one: "%{count} object of this type"
       other: 'Liczba obiektów tego typu: %{count}'
       zero: Brak obiektów tego typu
   create_portfolio:
@@ -3104,7 +3115,7 @@ pl:
     admin:
       hierarchy:
         subitems:
-          one: 1 podelement
+          one: "%{count} sub-item"
           other: 'Liczba podelementów: %{count}'
           zero: brak podelementów
       items:
@@ -3264,25 +3275,25 @@ pl:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: około 1 godziny
-        few: około %{count} godziny
-        many: około %{count} godziny
-        other: około %{count} godziny
+        one: about %{count} hour
+        few: about %{count} hours
+        many: about %{count} hours
+        other: about %{count} hours
       about_x_months:
-        one: około 1 miesiąca
-        few: około %{count} miesięcy
-        many: około %{count} miesięcy
-        other: około %{count} miesięcy
+        one: about %{count} month
+        few: about %{count} months
+        many: about %{count} months
+        other: about %{count} months
       about_x_years:
-        one: około 1 roku
-        few: około %{count} lat
-        many: około %{count} lat
-        other: około %{count} lat
+        one: about %{count} year
+        few: about %{count} years
+        many: about %{count} years
+        other: about %{count} years
       almost_x_years:
-        one: prawie 1 rok
-        few: prawie %{count} lata
-        many: prawie %{count} lata
-        other: prawie %{count} lata
+        one: almost %{count} year
+        few: almost %{count} years
+        many: almost %{count} years
+        other: almost %{count} years
       half_a_minute: pół minuty
       less_than_x_minutes:
         one: mniej niż minutę
@@ -3290,65 +3301,65 @@ pl:
         many: mniej niż %{count} minuty
         other: mniej niż %{count} minuty
       less_than_x_seconds:
-        one: mniej niż 1 sekundę
-        few: mniej niż %{count} sekundy
-        many: mniej niż %{count} sekundy
-        other: mniej niż %{count} sekundy
+        one: less than %{count} second
+        few: less than %{count} seconds
+        many: less than %{count} seconds
+        other: less than %{count} seconds
       over_x_years:
-        one: ponad 1 rok
-        few: ponad %{count} lata
-        many: ponad %{count} lata
-        other: ponad %{count} lata
+        one: over %{count} year
+        few: over %{count} years
+        many: over %{count} years
+        other: over %{count} years
       x_days:
-        one: 1 dzień
-        few: "%{count} dni"
-        many: "%{count} dni"
-        other: "%{count} dnia"
+        one: "%{count} day"
+        few: "%{count} days"
+        many: "%{count} days"
+        other: "%{count} days"
       x_hours:
-        one: 1 godzina
-        few: "%{count} godziny"
-        many: "%{count} godzin"
-        other: "%{count} godziny"
+        one: "%{count} hour"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 godzina
-        few: "%{count} godziny"
-        many: "%{count} godzin"
-        other: "%{count} godziny"
+        one: "%{count} hr"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
       x_minutes:
-        one: 1 minuta
-        few: "%{count} minut"
-        many: "%{count} minut"
-        other: "%{count} minut"
+        one: "%{count} minute"
+        few: "%{count} minutes"
+        many: "%{count} minutes"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min
-        few: "%{count} min"
-        many: "%{count} min"
-        other: "%{count} min"
+        one: "%{count} min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_months:
-        one: 1 miesiąc
-        few: "%{count} miesiące"
-        many: "%{count} miesiące"
-        other: "%{count} miesiące"
+        one: "%{count} month"
+        few: "%{count} months"
+        many: "%{count} months"
+        other: "%{count} months"
       x_seconds:
-        one: 1 sekunda
-        few: "%{count} sekundy"
-        many: "%{count} sekundy"
-        other: "%{count} sekundy"
+        one: "%{count} second"
+        few: "%{count} seconds"
+        many: "%{count} seconds"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         few: "%{count} s"
         many: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 tydzień
-        few: "%{count} tygodnie"
-        many: "%{count} tygodni"
-        other: "%{count} tygodnia"
+        one: "%{count} week"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_years:
-        one: 1 rok
-        few: "%{count} lata"
-        many: "%{count} lat"
-        other: "%{count} roku"
+        one: "%{count} year"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
     units:
       day:
         one: dzień
@@ -3504,10 +3515,10 @@ pl:
     teaser:
       description_html: Masz dostęp do wszystkich funkcji %{trial_plan}.
       title:
-        one: Pozostał jeden dzień próbnego tokena %{trial_plan}
-        few: Pozostały %{count} dni próbnego tokena %{trial_plan}
-        many: Pozostało %{count} dni próbnego tokena %{trial_plan}
-        other: Pozostało %{count} dnia próbnego tokena %{trial_plan}
+        one: "%{count} day left of %{trial_plan} trial token"
+        few: "%{count} days left of %{trial_plan} trial token"
+        many: "%{count} days left of %{trial_plan} trial token"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Twój token próbny wersji Enterprise został już pobrany. Sprawdź, czy do wiadomości e-mail nie został dołączony token. Jeśli potrzebujesz nowego tokena, skontaktuj się z naszym zespołem pomocy technicznej.
 
@@ -3892,18 +3903,18 @@ pl:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         few: "%{count} projects"
         many: "%{count} projects"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         few: "%{count} types"
         many: "%{count} types"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
@@ -3941,12 +3952,12 @@ pl:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         few: This form is used by %{count} types. Changes apply to all of them.
         many: This form is used by %{count} types. Changes apply to all of them.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         few: This form is used by %{count} types and variants.
         many: This form is used by %{count} types and variants.
         other: This form is used by %{count} types and variants.
@@ -4953,53 +4964,53 @@ pl:
   label_working_hours: Harmonogram pracy
   label_workweek: Tydzień roboczy
   label_x_closed_work_packages_abbr:
-    one: 1 zamknięty
+    one: "%{count} closed"
     other: 'Liczba zamkniętych: %{count}'
     zero: 0 zamknięty
   label_x_comments:
-    one: 1 komentarz
+    one: "%{count} comment"
     other: 'Liczba komentarzy: %{count}'
     zero: brak komentarzy
   label_x_days:
-    one: 1 dzień
-    few: "%{count} dni"
-    many: "%{count} dni"
-    other: "%{count} dnia"
+    one: "%{count} day"
+    few: "%{count} days"
+    many: "%{count} days"
+    other: "%{count} days"
   label_x_files:
-    one: 1 plik
+    one: "%{count} file"
     other: "%{count} pliku"
     zero: brak plików
   label_x_items:
-    one: 1 element
+    one: "%{count} item"
     other: "%{count} elem."
     zero: brak elementów
   label_x_items_selected:
-    one: Wybrano jedną pozycję
-    few: Wybrano %{count} pozycje
-    many: Wybrano %{count} pozycji
-    other: Wybrano %{count} pozycji
+    one: "%{count} item selected"
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 otwarty
+    one: "%{count} open"
     other: 'Liczba otwartych: %{count}'
     zero: 0 otwarty
   label_x_projects:
-    one: 1 projekt
+    one: "%{count} project"
     other: 'Liczba projektów: %{count}'
     zero: brak projektów
   label_x_work_packages:
-    one: 1 pakiet roboczy
+    one: "%{count} work package"
     other: "%{count} pakiety robocze"
     zero: Brak pakietów roboczych
   label_x_working_days:
-    one: 1 dzień roboczy
-    few: "%{count} dni robocze"
-    many: "%{count} dni roboczych"
-    other: "%{count} dnia roboczego"
+    one: "%{count} working day"
+    few: "%{count} working days"
+    many: "%{count} working days"
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Czas wolny: 1 dzień roboczy'
-    few: 'Czas wolny: %{count} dni robocze'
-    many: 'Czas wolny: %{count} dni roboczych'
-    other: 'Czas wolny: %{count} dnia roboczego'
+    one: 'Time off: %{count} working day'
+    few: 'Time off: %{count} working days'
+    many: 'Time off: %{count} working days'
+    other: 'Time off: %{count} working days'
   label_yesterday: wczoraj
   label_zen_mode: Tryb Zen
   ldap_auth_sources:
@@ -5273,10 +5284,10 @@ pl:
       mentioned: "<b>Wspomniano o tobie w komentarzu</b>"
       mentioned_by: "%{user} wspomniał o tobie w komentarzu"
       more_to_see:
-        one: Istnieje jeszcze 1 pakiet roboczy z powiadomieniami.
-        few: Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.
-        many: Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.
-        other: Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.
+        one: There is %{count} more work package with notifications.
+        few: There are %{count} more work packages with notifications.
+        many: There are %{count} more work packages with notifications.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Otwórz w przeglądarce
       reason:
         assigned: Przypisane
@@ -5470,7 +5481,7 @@ pl:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             few: "%{count} days (%{date})"
             many: "%{count} days (%{date})"
             other: "%{count} days (%{date})"
@@ -5824,10 +5835,10 @@ pl:
 
       '
     confirm_revoke_my_application:
-      one: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej jeden aktywny token.
-      few: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej %{count} aktywne tokeny.
-      many: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej %{count} aktywnych tokenów.
-      other: Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej %{count} aktywnego tokenu.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
+      few: Do you really want to remove this application? This will revoke %{count} tokens active for it.
+      many: Do you really want to remove this application? This will revoke %{count} tokens active for it.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: Nie zarejestrowano żadnych aplikacji OAuth.
     flows:
       authorization_code: Przepływ Kod autoryzacji
@@ -6033,7 +6044,7 @@ pl:
   permission_change_work_package_status_explanation: Umożliwia zmianę statusu bez uprawnienia Edycja pakietów roboczych
   permission_comment_news: Komentowanie Nowości
   permission_commit_access: Dostęp odczytu i zapisu do repozytorium (wykonanie)
-  permission_copy_projects: Kopiowanie projektów
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: W projektach szablonowych to uprawnienie ma dodatkową funkcję, umożliwia tworzenie nowych projektów opartych na szablonie.
   permission_copy_work_packages: Zduplikuj pakiety robocze
   permission_create_backup: Utwórz kopie zapasowe
@@ -6172,7 +6183,7 @@ pl:
     name: SAML OmniAuth / pojedyncze logowanie
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: 'Liczba portfoliów: %{count}'
       zero: 0 portfoliów
     filters:
@@ -6183,10 +6194,10 @@ pl:
         label: Filtr nazwy portfolio
         placeholder: Wyszukaj portfolia
       sub_items_html:
-        one: "<strong>1</strong> podpozycja"
-        few: "<strong>%{count}</strong> podpozycje"
-        many: "<strong>%{count}</strong> podpozycji"
-        other: "<strong>%{count}</strong> podpozycji"
+        one: "<strong>%{count}</strong> sub-item"
+        few: "<strong>%{count}</strong> sub-items"
+        many: "<strong>%{count}</strong> sub-items"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Aktywne portfolia
       archived: Zarchiwizowane portfolia
@@ -6200,7 +6211,7 @@ pl:
         Można go używać do wyróżniania pakietów roboczych w tabeli.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: 'Liczba programów: %{count}'
       zero: 0 programów
     filters:
@@ -6212,7 +6223,7 @@ pl:
       confirmation_message: Archiwizacja tego projektu spowoduje, że zarówno on sam, jak i wszystkie jego elementy potomne staną się niedostępne dla wszystkich użytkowników tego wystąpienia. Zarchiwizowane projekty można przywrócić.
       title: Zarchiwizuj projekt
     count:
-      one: 1 projekt
+      one: "%{count} project"
       other: 'Liczba projektów: %{count}'
       zero: 0 projektów
     destroy:
@@ -6427,21 +6438,21 @@ pl:
             new_heading: Pola, które stają się dostępne
             nothing_affected: Nie ma to wpływu na żadne pola ani statusy.
             status_count:
-              one: 1 pakiet roboczy
-              few: "%{count} pakiety robocze"
-              many: "%{count} pakietów roboczych"
-              other: "%{count} pakietu roboczego"
+              one: "%{count} work package"
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
             table_suffix: "(tabela)"
             value_count:
-              one: 1 pakiet roboczy ma wartość
-              few: "%{count} pakiety robocze mają wartość"
-              many: "%{count} pakietów roboczych ma wartość"
-              other: "%{count} pakietu roboczego ma wartość"
+              one: "%{count} work package has a value"
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
             work_packages:
-              one: Nowej konfiguracji będzie używać 1 pakiet roboczy
-              few: Nowej konfiguracji będą używać %{count} pakiety robocze
-              many: Nowej konfiguracji będzie używać %{count} pakietów roboczych
-              other: Nowej konfiguracji będą używać %{count} pakietu roboczego
+              one: "%{count} work package will use the new configuration"
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: Projekt używa teraz %{type}.
           target_label: Wariant
           title: "%{type}: przełącz wariant"
@@ -6497,10 +6508,10 @@ pl:
     action_title: Zareaguj
     add_reaction: Dodaj reakcję
     and_others:
-      one: i 1 inny
-      few: i %{count} inne
-      many: i %{count} innych
-      other: i %{count} innej
+      one: and %{count} other
+      few: and %{count} others
+      many: and %{count} others
+      other: and %{count} others
     and_user: i %{user}
     react_with: 'Zareaguj: %{reaction}'
     reaction_by: "%{reaction} —"
@@ -6617,32 +6628,32 @@ pl:
         many: "(Projekty: %{projects})"
         other: "(Projekty: %{projects})"
       entry_projects_truncated:
-        one: "(Projekty: %{projects} i 1 inny)"
-        few: "(Projekty: %{projects} i jeszcze %{count})"
-        many: "(Projekty: %{projects} i jeszcze %{count})"
-        other: "(Projekty: %{projects} i jeszcze %{count})"
+        one: "(Projects: %{projects} and %{count} other)"
+        few: "(Projects: %{projects} and %{count} others)"
+        many: "(Projects: %{projects} and %{count} others)"
+        other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'Rola ta jest nadal przypisana do 1 członka:'
-        few: 'Ta rola jest nadal przypisana do %{count} członków:'
-        many: 'Ta rola jest nadal przypisana do %{count} członków:'
-        other: 'Ta rola jest nadal przypisana do %{count} członka:'
+        one: 'This role is still attributed to %{count} member:'
+        few: 'This role is still attributed to %{count} members:'
+        many: 'This role is still attributed to %{count} members:'
+        other: 'This role is still attributed to %{count} members:'
       heading_unused: Czy na pewno chcesz usunąć rolę „%{name}”?
       losing_project_access:
-        one: 1 z tych użytkowników straci dostęp do projektów, w których pełnił wyłącznie tę rolę. Czy na pewno chcesz usunąć tę rolę?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: "%{count} z tych użytkowników straci dostęp do projektów, w których pełnili wyłącznie tę rolę. Czy na pewno chcesz usunąć tę rolę?"
         zero: Żaden z tych użytkowników nie straci dostępu do żadnego ze swoich projektów. Czy na pewno chcesz usunąć tę rolę?
       show_memberships: Pokaż wszystkie członkostwa z tą rolą
       summary: "%{users} w %{projects}"
       summary_projects:
-        one: 1 projekt
-        few: "%{count} projekty"
-        many: "%{count} projektów"
-        other: "%{count} projektu"
+        one: "%{count} project"
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
       summary_users:
-        one: 1 użytkownik
-        few: "%{count} użytkowników"
-        many: "%{count} użytkowników"
-        other: "%{count} użytkownika"
+        one: "%{count} user"
+        few: "%{count} users"
+        many: "%{count} users"
+        other: "%{count} users"
       title: Usuń rolę
     edit:
       default_for_new_projects_warning: 'Ta rola jest skonfigurowana jako domyślna rola nadawana użytkownikom niebędącym administratorami, a którzy tworzą projekt. Nie usuwaj poniższych uprawnień, w przeciwnym razie twórcy projektów nie będą mogli ukończyć konfiguracji swoich nowo utworzonych projektów:'
@@ -6657,13 +6668,12 @@ pl:
       section_uncheck_all_label: Cofnij przypisanie wszystkich uprawnień do %{module}
     permissions_dialog:
       edit_permissions: Edytuj uprawnienia roli
-      implicit_permission: Zawsze przyznawane
       no_permissions: Ta rola nie przyznaje żadnych uprawnień.
       permission_count:
-        one: 1 uprawnienie
-        few: "%{count} uprawnienia"
-        many: "%{count} uprawnień"
-        other: "%{count} uprawnienia"
+        one: "%{count} permission"
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
       preview_action: Wyświetl uprawnienia
       preview_aria_label: Wyświetl uprawnienia roli %{role}
       title: Uprawnienia „%{name}”
@@ -7152,7 +7162,7 @@ pl:
       section_work_week: Tydzień roboczy
   sharing:
     count:
-      one: 1 użytkownik
+      one: "%{count} user"
       other: "%{count} użytkowników"
       zero: 0 użytkowników
     denied: Nie masz uprawnień do udostępniania %{entities}.
@@ -7464,7 +7474,7 @@ pl:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           few: "%{names} and %{count} more"
           many: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
@@ -7797,10 +7807,10 @@ pl:
         description_with_variants: Typ i jego wszystkie warianty zostaną trwale usunięte. Tego działania nie można cofnąć.
         heading: Usunąć typ „%{name}”?
         projects:
-          one: 'Typ zostanie usunięty z 1 projektu:'
-          few: 'Typ zostanie usunięty z %{count} projektów:'
-          many: 'Typ zostanie usunięty z %{count} projektów:'
-          other: 'Typ zostanie usunięty z %{count} projektu:'
+          one: 'The type will be removed from %{count} project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
         title: Usuń typ
       description: 'Każdy obszar konfiguracji wewnątrz typów i wariantów może być niezależnie skonfigurowany, ograniczony z innego typu lub w pełni powiązany ze źródłem.
 
@@ -7813,10 +7823,10 @@ pl:
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
       project_variants_count:
-        one: 1 wariant specyficzny dla projektu
-        few: "%{count} warianty specyficzne dla projektu"
-        many: "%{count} wariantów specyficznych dla projektu"
-        other: "%{count} wariantu specyficznego dla projektu"
+        one: "%{count} project-specific variant"
+        few: "%{count} project-specific variants"
+        many: "%{count} project-specific variants"
+        other: "%{count} project-specific variants"
       remove_default: Nie aktywuj w nowych projektach
       remove_default_notice: "%{name} nie jest już aktywowany w nowych projektach."
       type_label: Typ
@@ -7824,7 +7834,7 @@ pl:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         few: "%{type} without %{fields} and %{count} more fields"
         many: "%{type} without %{fields} and %{count} more fields"
         other: "%{type} without %{fields} and %{count} more fields"
@@ -7854,10 +7864,10 @@ pl:
     authorization_rejected: Nie możesz się zalogować.
     blocked: zablokowany tymczsowo
     blocked_num_failed_logins:
-      one: tymczasowo zablokowane (jedna nieudana próba zalogowania)
-      few: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
-      many: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
-      other: tymczasowo zablokowane (%{count} nieudanych prób zalogowania)
+      one: locked temporarily (%{count} failed login attempt)
+      few: locked temporarily (%{count} failed login attempts)
+      many: locked temporarily (%{count} failed login attempts)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Zamierzasz zmienić status „%{name}”. Na pewno chcesz kontynuować?
     deleted: Usunięty uźytkownik
     department_ldap_managed_caption: Ten dział jest zarządzany za pomocą synchronizacji LDAP i nie można go zmienić tutaj.
@@ -8017,10 +8027,10 @@ pl:
         start_date: Data rozpoczęcia
         work_days: Dni robocze
         work_days_count:
-          one: 1 dzień roboczy
-          few: "%{count} dni robocze"
-          many: "%{count} dni roboczych"
-          other: "%{count} dnia roboczego"
+          one: "%{count} working day"
+          few: "%{count} working days"
+          many: "%{count} working days"
+          other: "%{count} working days"
         work_hours: Godziny pracy
   version_status_closed: Zamknięte
   version_status_locked: zablokowane
@@ -8206,10 +8216,10 @@ pl:
       could_not_be_deleted: 'Nie można usunąć następujących pakietów roboczych:'
       could_not_be_saved: 'Nie można zapisać następujących pakietów roboczych:'
       deletion_successful:
-        one: Usunięto 1 pakiet roboczy.
-        few: Usunięto %{count} pakiety robocze.
-        many: Usunięto %{count} pakietów roboczych.
-        other: Usunięto %{count} pakietu roboczego.
+        one: Successfully deleted %{count} work package.
+        few: Successfully deleted %{count} work packages.
+        many: Successfully deleted %{count} work packages.
+        other: Successfully deleted %{count} work packages.
       descendant: elementy potomne wybranego
       move_failed: Nie można przenieść pakietów roboczych.
       none_could_be_saved: Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}.
@@ -8233,26 +8243,26 @@ pl:
       description_with_visible_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie widoczne elementy potomne?
       heading: Czy usunąć trwale te pakiety robocze (%{count})?
       hidden_descendants_only_warning:
-        one: Jest jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja zostanie usunięta.
-        few: Są %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        many: Jest %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        other: Jest %{count} elementu potomnego, którego nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja zostanie usunięta.
-        few: Wszystkie widoczne elementy potomne zostaną usunięte. Są jednak %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        many: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        other: Wszystkie widoczne elementy potomne zostaną usunięte. Jest jednak %{count} elementu potomnego, którego nie widać. Nie zostaną one usunięte, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Usuń pakiety robocze (%{count})
       undeletable_descendants_warning:
-        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
-        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
-        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -8309,26 +8319,26 @@ pl:
       description: Czy na pewno chcesz usunąć „%{name}”?
       heading: Czy trwale usunąć ten pakiet roboczy?
       hidden_descendants_only_warning:
-        one: Ten pakiet roboczy ma jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja hierarchiczna zostanie usunięta.
-        few: Ten pakiet roboczy ma %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
-        many: Ten pakiet roboczy ma %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
-        other: Ten pakiet roboczy ma %{count} elementu potomnego, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak jeden element potomny, którego nie widać. Nie zostanie on usunięty, ale relacja hierarchiczna zostanie usunięta.
-        few: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementy potomne, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
-        many: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementów potomnych, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
-        other: Wszystkie widoczne elementy potomne zostaną usunięte. Ten pakiet roboczy ma jednak %{count} elementu potomnego, których nie widać. Nie zostaną one usunięte, ale relacja hierarchiczna zostanie usunięta.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Usuwanie pakietu roboczego
       undeletable_descendants_warning:
-        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
-        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: Nie możesz usunąć jednego elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostanie on zachowany, ale relacja hierarchiczna zostanie usunięta.
-        few: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        many: Nie możesz usunąć %{count} elementów potomnych, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
-        other: Nie możesz usunąć %{count} elementu potomnego, ponieważ nie masz niezbędnych uprawnień w %{projects}. Zostaną one zachowane, ale wszelkie relacje hierarchiczne zostaną usunięte.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
       checking_file: Checking %{filename}
@@ -8405,7 +8415,7 @@ pl:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             few: "%{count} lines checked, no problems found"
             many: "%{count} lines checked, no problems found"
             other: "%{count} lines checked, no problems found"
@@ -8443,7 +8453,7 @@ pl:
           work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             few: "%{count} problems, all shown."
             many: "%{count} problems, all shown."
             other: "%{count} problems, all shown."
@@ -8462,12 +8472,12 @@ pl:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           few: "%{count} lines"
           many: "%{count} lines"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           few: "%{count} problems"
           many: "%{count} problems"
           other: "%{count} problems"
@@ -8505,10 +8515,10 @@ pl:
         version:
           no_results_title_text: Obecnie żadne wersje nie są dostępne.
     x_descendants:
-      one: Jeden potomny pakiet roboczy
-      few: Wiele potomnych pakietów roboczych (%{count})
-      many: Wiele potomnych pakietów roboczych (%{count})
-      other: Wiele potomnych pakietów roboczych (%{count})
+      one: "%{count} descendant work package"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -8578,12 +8588,12 @@ pl:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         few: "%{count} projects"
         many: "%{count} projects"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         few: "%{count} roles"
         many: "%{count} roles"
         other: "%{count} roles"
@@ -8591,12 +8601,12 @@ pl:
         label: Filtruj według nazwy typu…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         few: "%{count} types"
         many: "%{count} types"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
@@ -8630,12 +8640,12 @@ pl:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         few: This workflow is used by %{count} types. Changes apply to all of them.
         many: This workflow is used by %{count} types. Changes apply to all of them.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
+        one: This workflow is used by %{count} type or variant.
         few: This workflow is used by %{count} types and variants.
         many: This workflow is used by %{count} types and variants.
         other: This workflow is used by %{count} types and variants.

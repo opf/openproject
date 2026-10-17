@@ -73,8 +73,8 @@ hy:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Այս սպրինտում մեկ աշխատանքային փաթեթ չի ավարտվել։
-                other: Այս սպրինտում %{count} աշխատանքային փաթեթ չի ավարտվել։
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: ակտիվ չէ, ուստի չի կարող փակվել։
         sprint_goal:
@@ -161,8 +161,8 @@ hy:
       drop_zone_label: Այս տարրն ավելացնելու համար թողեք այստեղ
       label_actions: Մուտքային արկղի գործողություններ
       show_more:
-        one: Ցուցադրել ևս 1 տարր
-        other: Ցուցադրել ևս %{count} տարր
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Մուտքային արկղ
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -266,7 +266,6 @@ hy:
       header_backlogs: Բեքլոգների մոդուլ
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Պատճենել URL-ը փոխանակման բուֆերում
         copy_work_package_id: Պատճենել աշխատանքային փաթեթի ID-ն
         move_menu: Տեղափոխել դիրք
         move_to_backlog_bucket: Տեղափոխել բեքլոգի բաժին

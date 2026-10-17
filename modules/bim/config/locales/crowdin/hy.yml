@@ -106,7 +106,7 @@ hy:
     not_recommended: խորհուրդ չի տրվում
     recommended: խորհուրդ է տրվում
     x_bcf_issues:
-      one: Մեկ BCF խնդիր
+      one: "%{count} BCF issue"
       other: "%{count} BCF խնդիր"
       zero: BCF խնդիրներ չկան
   bim:

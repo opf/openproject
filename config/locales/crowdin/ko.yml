@@ -206,12 +206,16 @@ ko:
         widgets: 위젯
       group:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: 그룹 사용자
         identity_url: ID URL
         organizational_unit: 조직 단위
         parent: 부모 그룹
       group_detail:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: 조직 단위
         parent: 부모 그룹
       import/jira:
@@ -441,6 +445,7 @@ ko:
       user:
         admin: 관리자
         auth_source: 인증 소스
+        avatar_type: Avatar type
         consented_at: '동의함:'
         current_password: 기존 비밀번호
         department: 부서
@@ -464,6 +469,8 @@ ko:
         auto_hide_popups: 성공 배너 자동으로 숨기기
         auto_hide_popups_caption: 활성화하면 녹색 성공 배너가 5초 후에 자동으로 사라집니다.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: 업데이트 알림
         button_update_look_and_feel: 모양과 느낌 업데이트
         button_update_user_information: 프로필 업데이트
@@ -1009,7 +1016,7 @@ ko:
               numeric: '숫자 (예: '' 1'')'
               requirements_not_met: '다음 유형의 문자를 포함해야 합니다: %{rules}'
               reused:
-                other: 전에 사용 되었습니다. 마지막 %{count} 에서 다른 하나를 선택 하십시오.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: '특수기호 (예: '' %'')'
               uppercase: '대문자(예: ''A'')'
             password_confirmation:
@@ -1113,7 +1120,7 @@ ko:
       template:
         body: 다음 필드를 확인 하십시오.
         header:
-          other: "%{count} 오류 때문에 %{model} 을 저장할 수 없습니다."
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: 작업
@@ -1649,19 +1656,19 @@ ko:
             title: 백업이 있는지 확인하세요!
           parts:
             issues:
-              other: "%{count}개 이슈"
+              other: "%{count} issues"
             jobs:
               other: "%{count} jobs"
             projects:
-              other: "%{count}개 프로젝트"
+              other: "%{count} projects"
             statuses:
-              other: "%{count}개 상태"
+              other: "%{count} statuses"
             types:
-              other: "%{count}개 유형"
+              other: "%{count} types"
             users:
-              other: "%{count}명 사용자"
+              other: "%{count} users"
             work_packages:
-              other: "%{count}개 작업 패키지"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: 이 되돌리기를 통해 데이터가 영구적으로 삭제됨을 이해합니다
             description: 이렇게 하면 가져온 모든 개체(전체 프로젝트 포함)가 삭제됩니다.
@@ -1726,7 +1733,7 @@ ko:
               caption: OpenProject로 가져올 항목을 선택합니다
               caption_done: 완료됨
               caption_done_description:
-                other: 범위로 선택된 %{count}개 프로젝트
+                other: "%{count} projects selected as scope"
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               elements:
                 custom_fields: 사용자 지정 필드의 하위 집합
@@ -2011,6 +2018,10 @@ ko:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(출처: %{source})"
         title: 멤버십
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
       no_results_title_text: 현재 설치된 플러그인이 없습니다.
@@ -2024,7 +2035,7 @@ ko:
         confirm_button: 식별자 예약 취소
         description: 이 프로젝트 식별자를 예약 취소하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 더 이상 작동하지 않게 되며, 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
         description_with_work_packages:
-          other: 이 프로젝트 식별자(및 해당 %{count}개 작업 패키지 식별자)를 예약 취소하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 더 이상 작동하지 않게 되며, 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: '"%{identifier}"을(를) 예약 취소하시겠습니까?'
         title: 식별자 예약 취소
       empty_body: 프로젝트의 식별자가 변경되면, 이전 식별자가 여기에 표시되므로, 안전하다고 판단되면 예약 취소할 수 있습니다.
@@ -2152,7 +2163,7 @@ ko:
           error_unknown: 수동 검토가 필요합니다
           error_used_in_past: 다른 프로젝트의 핸들 기록에 의해 예약되었습니다
           remaining_projects:
-            other: "... %{count}개의 추가 프로젝트"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: "%{project_count}개 프로젝트의 기존 식별자가 프로젝트 기반 시맨틱 식별자에 대한 요구 사항을 충족하지 않습니다. OpenProject는 아래 예와 같이 해당 식별자가 유효하도록 자동으로 업데이트할 수 있습니다. '식별자 변환'을 클릭하여 이러한 방식으로 모든 프로젝트의 식별자를 업데이트하고 프로젝트 기반 시맨틱 식별자를 활성화하세요.\n"
         box_header:
@@ -2231,7 +2242,7 @@ ko:
         label: '역할: %{role}'
         no_role: 역할 선택
         roles:
-          other: "%{count}개 역할 선택됨"
+          other: "%{count} roles selected"
         title: 역할 선택
       status_button: 상태
       statuses_dialog:
@@ -2242,7 +2253,7 @@ ko:
         confirm: 제거
         description: 이러한 상태를 제거하면 이 유형에서 사용할 수 없게 되고 기존 워크플로가 삭제됩니다. 계속 진행하시겠습니까?
         heading:
-          other: "%{count}개 상태를 제거하시겠습니까?"
+          other: Remove %{count} statuses?
         title: 상태 제거
       tabs:
         always: 기본 전환
@@ -2693,9 +2704,9 @@ ko:
     text:
       failed: 프로젝트 "%{source_project_name}"을(를) 프로젝트 "%{target_project_name}"에 복사할 수 없습니다.
       succeeded: 프로젝트 "%{source_project_name}"을(를) 프로젝트 "%{target_project_name}"에 복사했습니다.
-    title: '"%{source_project_name}" 프로젝트 복사'
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: 이 유형의 객체가 하나 있습니다
+      one: "%{count} object of this type"
       other: 이 유형의 객체가 %{count}개 있습니다
       zero: 이 유형의 객체가 없습니다
   create_portfolio:
@@ -2735,7 +2746,7 @@ ko:
     admin:
       hierarchy:
         subitems:
-          one: 하위 항목 1개
+          one: "%{count} sub-item"
           other: 하위 항목 %{count}개
           zero: 하위 항목 없음
       items:
@@ -2895,60 +2906,42 @@ ko:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: 약 %{count} 시간
+        other: about %{count} hours
       about_x_months:
-        other: |-
-          약 1개월
-          약 %{count}개월
+        other: about %{count} months
       about_x_years:
-        other: |-
-          약 1년
-          약 %{count}년
+        other: about %{count} years
       almost_x_years:
-        other: |-
-          거의 1년
-          거의 %{count}년
+        other: almost %{count} years
       half_a_minute: 30초
       less_than_x_minutes:
         other: |-
           1분 미만
           %{count}분 미만
       less_than_x_seconds:
-        other: |-
-          1초 미만
-          %{count}초 미만
+        other: less than %{count} seconds
       over_x_years:
-        other: |-
-          1년 이상
-          %{count}년 이상
+        other: over %{count} years
       x_days:
-        other: |-
-          1일
-          %{count}일
+        other: "%{count} days"
       x_hours:
-        other: "%{count} 시간"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count}시간"
+        other: "%{count} hrs"
       x_minutes:
-        other: |-
-          1분
-          %{count}분
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count}분"
+        other: "%{count} mins"
       x_months:
-        other: |-
-          1개월
-          %{count}개월
+        other: "%{count} months"
       x_seconds:
-        other: |-
-          1초
-          %{count}초
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        other: "%{count}초"
+        other: "%{count} s"
       x_weeks:
-        other: "%{count}주"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count}년"
+        other: "%{count} years"
     units:
       day:
         other: 일
@@ -3095,7 +3088,7 @@ ko:
     teaser:
       description_html: 모든 %{trial_plan} 기능에 액세스할 수 있습니다.
       title:
-        other: "%{trial_plan} 평가판 토큰 %{count}일 남음"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: '평가판 Enterprise 토큰을 이미 가져왔습니다. 이메일에서 토큰이 첨부되어 있는지 확인하세요. 새 토큰이 필요한 경우 지원팀에 문의하세요.
 
@@ -4516,41 +4509,41 @@ ko:
   label_working_hours: 근무 스케줄
   label_workweek: 근무 주
   label_x_closed_work_packages_abbr:
-    one: 1개 닫힘
+    one: "%{count} closed"
     other: "%{count}개 닫힘"
     zero: 0개 닫힘
   label_x_comments:
-    one: 1개 코멘트
+    one: "%{count} comment"
     other: "%{count}개 코멘트"
     zero: 코멘트 없음
   label_x_days:
-    other: "%{count}일"
+    other: "%{count} days"
   label_x_files:
-    one: 파일 1개
+    one: "%{count} file"
     other: 파일 %{count}개
     zero: 파일 없음
   label_x_items:
-    one: 1개 항목
+    one: "%{count} item"
     other: "%{count}개 항목"
     zero: 항목 없음
   label_x_items_selected:
-    other: "%{count}개 항목 선택됨"
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1개 열림
+    one: "%{count} open"
     other: "%{count}개 열림"
     zero: 0개 열림
   label_x_projects:
-    one: 1개 프로젝트
+    one: "%{count} project"
     other: "%{count}개 프로젝트"
     zero: 프로젝트 없음
   label_x_work_packages:
-    one: 작업 패키지 1개
+    one: "%{count} work package"
     other: 작업 패키지 %{count}개
     zero: 작업 패키지 없음
   label_x_working_days:
-    other: 근무일 %{count}일
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    other: '휴가: 근무일 %{count}일'
+    other: 'Time off: %{count} working days'
   label_yesterday: 어제
   label_zen_mode: 젠 모드
   ldap_auth_sources:
@@ -4825,7 +4818,7 @@ ko:
       mentioned: 회원님이 <b>코멘트에서 멘션</b>되었습니다
       mentioned_by: "%{user} 님이 코멘트에서 회원님을 멘션했습니다."
       more_to_see:
-        other: 알림이 있는 작업 패키지가 %{count}개 더 있습니다.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: 브라우저에서 열기
       reason:
         assigned: 할당됨
@@ -5351,7 +5344,7 @@ ko:
 
       '
     confirm_revoke_my_application:
-      other: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된 토큰 %{count}개가 취소됩니다.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: 등록된 OAuth 애플리케이션이 없습니다.
     flows:
       authorization_code: 권한 부여 코드 흐름
@@ -5555,7 +5548,7 @@ ko:
   permission_change_work_package_status_explanation: 작업 패키지 편집 권한 없이 상태 변경을 허용합니다
   permission_comment_news: 뉴스에 코멘트 달기
   permission_commit_access: 리포지토리(커밋)에 대한 읽기/쓰기 액세스
-  permission_copy_projects: 프로젝트 복사
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: 템플릿 프로젝트의 이 권한에는 템플릿에서 파생된 새 프로젝트를 만들 수 있는 부차적인 기능이 있습니다.
   permission_copy_work_packages: 작업 패키지 복제
   permission_create_backup: 백업 만들기
@@ -5697,7 +5690,7 @@ ko:
     name: OmniAuth SAML/Single-Sign On
   portfolio:
     count:
-      one: 1개 포트폴리오
+      one: "%{count} portfolio"
       other: "%{count}개 포트폴리오"
       zero: 0개 포트폴리오
     filters:
@@ -5708,7 +5701,7 @@ ko:
         label: 포트폴리오 이름 필터
         placeholder: 포트폴리오 검색
       sub_items_html:
-        other: "<strong>%{count}</strong>개 하위 항목"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: 활성 포트폴리오
       archived: 보관된 포트폴리오
@@ -5722,7 +5715,7 @@ ko:
         테이블에서 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
   program:
     count:
-      one: 1개 프로그램
+      one: "%{count} program"
       other: "%{count}개 프로그램"
       zero: 0개 프로그램
     filters:
@@ -5734,7 +5727,7 @@ ko:
       confirmation_message: 이 프로젝트를 보관하면, 이 프로젝트와 모든 해당 하위 항목은 이 인스턴스의 모든 사용자가 사용할 수 없게 됩니다. 보관된 프로젝트는 복원할 수 있습니다.
       title: 프로젝트 보관
     count:
-      one: 1개 프로젝트
+      one: "%{count} project"
       other: "%{count}개 프로젝트"
       zero: 0개 프로젝트
     destroy:
@@ -5943,12 +5936,12 @@ ko:
             new_heading: 사용 가능하게 되는 필드
             nothing_affected: 영향을 받는 필드나 상태가 없습니다.
             status_count:
-              other: "%{count}개 작업 패키지"
+              other: "%{count} work packages"
             table_suffix: "(테이블)"
             value_count:
-              other: "%{count}개 작업 패키지에 값이 있습니다"
+              other: "%{count} work packages have a value"
             work_packages:
-              other: "%{count}개 작업 패키지가 새로운 구성을 사용할 것입니다"
+              other: "%{count} work packages will use the new configuration"
           success: 지금 이 프로젝트는 %{type}을(를) 사용합니다.
           target_label: 변형
           title: "%{type}: 변형 전환"
@@ -6004,7 +5997,7 @@ ko:
     action_title: 반응
     add_reaction: 반응 추가
     and_others:
-      other: 외 %{count}건
+      other: and %{count} others
     and_user: 및 %{user}
     react_with: "%{reaction}(으)로 반응"
     reaction_by: "%{reaction} -"
@@ -6126,20 +6119,20 @@ ko:
       entry_projects:
         other: "(프로젝트: %{projects})"
       entry_projects_truncated:
-        other: "(프로젝트: %{projects} 외 %{count}개)"
+        other: "(Projects: %{projects} and %{count} others)"
       heading:
-        other: '이 역할은 여전히 멤버 %{count}명에게 부여됩니다:'
+        other: 'This role is still attributed to %{count} members:'
       heading_unused: '"%{name}" 역할을 삭제하시겠습니까?'
       losing_project_access:
-        one: 이러한 사용자 중 1명은 해당 역할이 유일한 역할이었던 프로젝트에 대한 액세스 권한을 잃게 됩니다. 이 역할을 삭제하시겠습니까?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: 이러한 사용자 중 %{count}명은 해당 역할이 유일한 역할이었던 프로젝트에 대한 액세스 권한을 잃게 됩니다. 이 역할을 삭제하시겠습니까?
         zero: 이러한 사용자 중 어느 누구도 자신의 프로젝트에 대한 액세스 권한을 잃지 않습니다. 이 역할을 삭제하시겠습니까?
       show_memberships: 이 역할을 가진 모든 멤버십 표시
       summary: "%{projects}의 %{users}"
       summary_projects:
-        other: "%{count}개 프로젝트"
+        other: "%{count} projects"
       summary_users:
-        other: "%{count}명 사용자"
+        other: "%{count} users"
       title: 역할 삭제
     edit:
       default_for_new_projects_warning: '이 역할은 프로젝트를 만드는 비관리자 사용자에게 지정된 기본 역할로 구성됩니다. 다음 권한을 제거하지 마세요. 그렇지 않으면 프로젝트 생성자가 새로 생성된 프로젝트의 설정을 완료할 수 없게 됩니다:'
@@ -6154,10 +6147,9 @@ ko:
       section_uncheck_all_label: 모든 %{module} 권한 할당 취소
     permissions_dialog:
       edit_permissions: 역할 권한 편집
-      implicit_permission: 항상 부여됨
       no_permissions: 이 역할은 어떠한 권한도 부여하지 않습니다.
       permission_count:
-        other: "%{count}개 권한"
+        other: "%{count} permissions"
       preview_action: 권한 보기
       preview_aria_label: "%{role}의 권한 보기"
       title: '"%{name}"의 권한'
@@ -6643,7 +6635,7 @@ ko:
       section_work_week: 근무 주
   sharing:
     count:
-      one: 사용자 1명
+      one: "%{count} user"
       other: 사용자 %{count}명
       zero: 사용자 0명
     denied: "%{entities} 공유를 할 수 있는 권한이 없습니다."
@@ -6956,7 +6948,7 @@ ko:
         duplicate: 중복 가능성
         duplicate_of: "%{names}과(와) 동일하게 구성됨"
         duplicate_of_more:
-          other: "%{names} 외 %{count}개"
+          other: "%{names} and %{count} more"
         parent_type: 부모 유형
         same_as_type: 부모 유형과 동일
       rows:
@@ -7286,7 +7278,7 @@ ko:
         description_with_variants: 해당 유형과 모든 변형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
         heading: "'%{name}' 유형을 삭제하시겠습니까?"
         projects:
-          other: '다음 유형이 %{count}개 프로젝트에서 제거됩니다:'
+          other: 'The type will be removed from %{count} projects:'
         title: 유형 삭제
       description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
@@ -7299,7 +7291,7 @@ ko:
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
       project_variants_count:
-        other: "%{count}개 프로젝트별 변형"
+        other: "%{count} project-specific variants"
       remove_default: 새 프로젝트에서 활성화 안 함
       remove_default_notice: "%{name}이(가) 새 프로젝트에서 더 이상 활성화되지 않습니다."
       type_label: 유형
@@ -7334,7 +7326,7 @@ ko:
     authorization_rejected: 로그인할 수 없습니다.
     blocked: 일시적으로 잠김
     blocked_num_failed_logins:
-      other: 일시적으로 잠김 (%{count} 로그인 시도 실패)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: "%{name} 상태가 변경됩니다. 계속하시겠습니까?"
     deleted: 사용자 삭제됨
     department_ldap_managed_caption: 이 부서는 LDAP 동기화를 통해 관리되며 여기에서 변경할 수 없습니다.
@@ -7494,7 +7486,7 @@ ko:
         start_date: 시작 날짜
         work_days: 근무일
         work_days_count:
-          other: 근무일 %{count}일
+          other: "%{count} working days"
         work_hours: 근무 시간
   version_status_closed: 닫음
   version_status_locked: 잠김
@@ -7682,7 +7674,7 @@ ko:
       could_not_be_deleted: '다음 작업 패키지를 삭제할 수 없습니다:'
       could_not_be_saved: '다음 작업 패키지를 저장할 수 없습니다:'
       deletion_successful:
-        other: "%{count}개 작업 패키지를 삭제했습니다."
+        other: Successfully deleted %{count} work packages.
       descendant: 선택한 항목의 하위 작업 패키지
       move_failed: 작업 패키지를 이동할 수 없습니다.
       none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
@@ -7706,14 +7698,14 @@ ko:
       description_with_visible_descendants: 선택한 작업 패키지 및 표시된 모든 하위 항목을 삭제하시겠습니까?
       heading: 이러한 작업 패키지 %{count}개를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
-        other: 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 모두 제거됩니다.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        other: 표시되는 모든 하위 항목이 제거됩니다. 하지만 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 모두 제거됩니다.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: "%{count}개 작업 패키지 삭제"
       undeletable_descendants_warning:
-        other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -7770,14 +7762,14 @@ ko:
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
-        other: 이 작업 패키지에는 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 제거됩니다.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        other: 표시되는 모든 하위 항목이 제거됩니다. 하지만 이 작업 패키지에는 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 제거됩니다.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: 작업 패키지 삭제
       undeletable_descendants_warning:
-        other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
       checking_file: Checking %{filename}
@@ -7939,7 +7931,7 @@ ko:
         version:
           no_results_title_text: 현재 사용가능한 버전이 없습니다.
     x_descendants:
-      other: "%{count}개 작업 패키지 하위 항목"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:

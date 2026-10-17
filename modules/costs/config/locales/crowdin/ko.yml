@@ -168,9 +168,13 @@ ko:
       cost_types:
         for_all_projects_hint: 이 비용 유형은 모든 프로젝트에서 활성화되었습니다.
         heading: 비용 유형
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: "- 이 프로젝트에서 해당 비용 유형에 대한 비용이 이미 기록되었으므로 해당 유형을 비활성화할 수 없습니다."
         none_active: 이 프로젝트에는 현재 활성화된 비용 유형이 없습니다.
       time_and_costs: 시간 및 비용
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:

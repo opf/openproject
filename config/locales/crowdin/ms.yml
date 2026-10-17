@@ -206,12 +206,16 @@ ms:
         widgets: Widget
       group:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identiti URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -443,6 +447,7 @@ ms:
       user:
         admin: Pentadbir
         auth_source: Sumber pengesahan
+        avatar_type: Avatar type
         consented_at: Dipersetujui di
         current_password: Kata laluan semasa
         department: Department
@@ -466,6 +471,8 @@ ms:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
@@ -1011,7 +1018,7 @@ ms:
               numeric: angka (cth. '1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                other: telah digunakan sebelum ini. Sila pilih yang berbeza daripada %{count} terakhir anda.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: istimewa (cth. '%')
               uppercase: huruf besar (cth. 'A')
             password_confirmation:
@@ -1115,7 +1122,7 @@ ms:
       template:
         body: 'Sila semak ruang-ruang yang berikut:'
         header:
-          other: "%{count} ralat menghalang %{model} ini daripada disimpan"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: Actions
@@ -2015,6 +2022,10 @@ ms:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Lihat halaman integrasi dan plugin kami untuk maklumat lebih lanjut.
       no_results_title_text: Pada masa ini tiada sebarang plugin yang dipasang.
@@ -2703,9 +2714,9 @@ ms:
     text:
       failed: Tidak dapat menyalin projek "%{source_project_name}" ke projek "%{target_project_name}".
       succeeded: Menyalin projek "%{source_project_name}" ke "%{target_project_name}".
-    title: Salin projek "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Satu objek untuk jenis ini
+      one: "%{count} object of this type"
       other: "%{count} objek untuk jenis ini"
       zero: Tiada objek untuk jenis ini
   create_portfolio:
@@ -2745,7 +2756,7 @@ ms:
     admin:
       hierarchy:
         subitems:
-          one: 1 sub-item
+          one: "%{count} sub-item"
           other: "%{count} sub-item"
           zero: tiada sub-item
       items:
@@ -2905,40 +2916,40 @@ ms:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: sekitar %{count} jam
+        other: about %{count} hours
       about_x_months:
-        other: sekitar %{count} bulan
+        other: about %{count} months
       about_x_years:
-        other: sekitar %{count} tahun
+        other: about %{count} years
       almost_x_years:
-        other: hampir %{count} tahun
+        other: almost %{count} years
       half_a_minute: setengah minit
       less_than_x_minutes:
         other: kurang dari %{count} minit
       less_than_x_seconds:
-        other: kurang dari %{count} saat
+        other: less than %{count} seconds
       over_x_years:
-        other: sepanjang %{count} tahun
+        other: over %{count} years
       x_days:
-        other: "%{count} hari"
+        other: "%{count} days"
       x_hours:
-        other: "%{count} jam"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count} j"
+        other: "%{count} hrs"
       x_minutes:
-        other: "%{count} minit"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count} min"
+        other: "%{count} mins"
       x_months:
-        other: "%{count} bulan"
+        other: "%{count} months"
       x_seconds:
-        other: "%{count} saat"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
         other: "%{count} s"
       x_weeks:
-        other: "%{count} minggu"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count} tahun"
+        other: "%{count} years"
     units:
       day:
         other: hari-hari
@@ -4514,35 +4525,35 @@ ms:
   label_working_hours: Work schedule
   label_workweek: Minggu bekerja
   label_x_closed_work_packages_abbr:
-    one: 1 ditutup
+    one: "%{count} closed"
     other: "%{count} ditutup"
     zero: 0 ditutup
   label_x_comments:
-    one: 1 komen
+    one: "%{count} comment"
     other: "%{count} komen"
     zero: Tiada komen
   label_x_days:
     other: "%{count} days"
   label_x_files:
-    one: 1 fail
+    one: "%{count} file"
     other: "%{count} fail"
     zero: tiada fail
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 dibuka
+    one: "%{count} open"
     other: "%{count} dibuka"
     zero: 0 dibuka
   label_x_projects:
-    one: 1 projek
+    one: "%{count} project"
     other: "%{count} projek"
     zero: tiada projek
   label_x_work_packages:
-    one: 1 pakej kerja
+    one: "%{count} work package"
     other: "%{count} pakej kerja"
     zero: Tiada pakej kerja
   label_x_working_days:
@@ -4823,7 +4834,7 @@ ms:
       mentioned: Anda telah <b>disebut dalam komen</b>
       mentioned_by: "%{user} menyebut anda di komen"
       more_to_see:
-        other: Terdapat %{count} lagi pakej kerja dengan pemberitahuan.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Buka di pelayar
       reason:
         assigned: Ditugaskan
@@ -5551,7 +5562,7 @@ ms:
   permission_change_work_package_status_explanation: Benarkan penukaran status tanpa kebenaran Edit pakej kerja
   permission_comment_news: Komen berita
   permission_commit_access: Baca/tulis akses ke repositori (komit)
-  permission_copy_projects: Salin projek
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Cipta sandaran
@@ -5690,7 +5701,7 @@ ms:
     name: SAML OmniAuth / Daftar Masuk Tunggal
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5715,7 +5726,7 @@ ms:
         Ia boleh digunakan untuk menyoroti pakej kerja dalam jadual ini.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5727,7 +5738,7 @@ ms:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 projek
+      one: "%{count} project"
       other: "%{count} projek"
       zero: 0 projects
     destroy:
@@ -6003,7 +6014,7 @@ ms:
     action_title: Reaksi
     add_reaction: Tambah reaksi
     and_others:
-      other: dan %{count} yang lain
+      other: and %{count} others
     and_user: dan %{user}
     react_with: Bertindak balas dengan %{reaction}
     reaction_by: "%{reaction} oleh"
@@ -6132,7 +6143,7 @@ ms:
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
@@ -6155,7 +6166,6 @@ ms:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
         other: "%{count} permissions"
@@ -6650,7 +6660,7 @@ ms:
       section_work_week: Minggu kerja
   sharing:
     count:
-      one: 1 pengguna
+      one: "%{count} user"
       other: "%{count} pengguna"
       zero: 0 pengguna
     denied: Anda tidak mempunyai kebenaran untuk berkongsi %{entities}.
@@ -7335,7 +7345,7 @@ ms:
     authorization_rejected: Anda tidak dibenarkan untuk daftar masuk.
     blocked: dikunci sementara
     blocked_num_failed_logins:
-      other: dikunci sementara (%{count} percubaan log masuk gagal)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Anda akan mengubah status '%{name}'. Adakah anda pasti anda ingin teruskan?
     deleted: Pengguna yang dipadam
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7940,7 +7950,7 @@ ms:
         version:
           no_results_title_text: Tiada versi yang tersedia buat masa ini.
     x_descendants:
-      other: "%{count} keturunan pakej kerja"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:

@@ -31,8 +31,8 @@ sv:
         notes: Anteckningar
         notify: Skicka aviseringar
         participant:
-          one: 1 deltagare
-          other: "%{count} deltagare"
+          one: "%{count} Participant"
+          other: "%{count} Participants"
         participants: Deltagare
         participants_added: 'Deltagare tillagda:'
         participants_attended: Deltagare
@@ -97,7 +97,7 @@ sv:
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: Det finns ett öppet möte i serien som inte omfattas av det nya schemat. Justera schemat för att inkludera alla befintliga möten.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: Det finns %{count} öppna möten i serien som inte omfattas av det nya schemat. Justera schemat för att inkludera alla befintliga möten.
         recurring_meeting_interim_response:
           not_an_occurrence: är inte en giltig förekomsttid för det här återkommande mötet
@@ -175,6 +175,7 @@ sv:
   label_agenda_item_duplicate: Duplicera
   label_agenda_item_duplicate_in_next: Duplicera i nästa möte
   label_agenda_item_duplicate_in_next_title: Duplicera i nästa möte?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Flytta
   label_agenda_item_move_down: Flytta ned
   label_agenda_item_move_to_backlog: Flytta till backlog
@@ -238,8 +239,8 @@ sv:
   label_meeting_last_updated: Senast uppdaterad
   label_meeting_minutes: Protokoll
   label_meeting_more:
-    one: Det finns ytterligare ett möte.
-    other: Det finns %{count} fler möten.
+    one: There is %{count} more meeting.
+    other: There are %{count} more meetings.
   label_meeting_new: Nytt möte
   label_meeting_new_dynamic: Nytt engångsmöte
   label_meeting_new_recurring: Nytt återkommande möte
@@ -284,11 +285,11 @@ sv:
   label_recurring_meeting_delete: Ta bort förekomst
   label_recurring_meeting_duplicate: Duplicera som ett engångsmöte
   label_recurring_meeting_more:
-    one: Det finns ytterligare ett schemalagt möte (%{schedule}).
-    other: Det finns %{count} fler inplanerade möten (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: Det finns ytterligare ett tidigare möte.
-    other: Det finns %{count} fler tidigare möten.
+    one: There is %{count} more past meeting.
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: Nytt återkommande möte
   label_recurring_meeting_next_occurrence: Nästa förekomst
   label_recurring_meeting_no_end_date: Det finns fler schemalagda möten (%{schedule}).
@@ -584,13 +585,13 @@ sv:
     caption:
       ends_on: Detta resulterar i en serie som avslutas %{date}
       occurrences:
-        one: Detta resulterar i 1 kommande förekomst
-        other: Detta resulterar i %{count} kommande förekomster
+        one: This results in %{count} upcoming occurrence
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: Detta resulterar i fler än %{count} kommande förekomster
     day_of_month_skipping_info: Månader med färre än %{monthly_day} dagar hoppas över
     delete_dialog:
       confirmation_message_html:
-        one: 'Borttagning av <strong>%{title}</strong> kommer också att ta bort en förekomst i denna serie. Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Borttagning av <strong>%{title}</strong> kommer att ta bort alla %{count} förekomster i denna serie. Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
@@ -717,7 +718,7 @@ sv:
   text_agenda_item_dialog_skipping_closed_many: "%{count} stängda möten"
   text_agenda_item_dialog_skipping_closed_one: stängt möte den %{date}
   text_agenda_item_dialog_skipping_note: Obs! Hoppar över %{details}.
-  text_agenda_item_duplicate_in_next_meeting: Är du säker på att du vill lägga till en kopia av den här dagordningspunkten till nästa möte den %{date} kl. %{time}? Resultat dupliceras inte.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Dagordningspunkten duplicerades till nästa möte den %{date}
   text_agenda_item_move_next_meeting: Detta objekt kommer att flyttas till nästa möte på %{date} på %{time}.
   text_agenda_item_moved_to_backlog: Agenda item moved to the backlog

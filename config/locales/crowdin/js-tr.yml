@@ -624,8 +624,8 @@ tr:
     notifications:
       center:
         and_more_users:
-          one: ve 1 diğeri
-          other: ve %{count} tane daha
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Görünüşe göre yapacağınız bir şey kalmadı.
           no_notification_for_filter: Görünüşe göre bu filtre için her şey tamam.
@@ -828,11 +828,11 @@ tr:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -882,20 +882,20 @@ tr:
       label_two_factor_authentication: İki aşamalı kimlik doğrulama
     units:
       child_work_packages:
-        one: bir alt iş paketi
-        other: "%{count} alt iş paketi"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 gün
+        one: "%{count} day"
         other: "%{count} gün"
         zero: 0 gün
       hour:
-        one: 1 saat
+        one: "%{count} h"
         other: "%{count} saat"
         zero: 0 s
       hour_string: "%{hours} saat"
       word:
-        one: 1 kelime
-        other: "%{count} kelime"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: iş paketleri
         other: iş paketleri

@@ -624,10 +624,10 @@ uk:
     notifications:
       center:
         and_more_users:
-          one: і ще 1
-          few: і ще %{count}
-          many: і ще %{count}
-          other: і ще %{count}
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Схоже, ви все переглянули.
           no_notification_for_filter: Схоже, ви переглянули всі сповіщення за цим фільтром.
@@ -830,16 +830,16 @@ uk:
         not_selectable: Вибір залишився незмінним. Цей елемент не впливає на порядок у цьому списку.
         range_blocked: Вибір залишився незмінним. Діапазон містить елемент, що не впливає на порядок у цьому списку.
         range_restarted:
-          one: Не вдалося розширити діапазон. Вибрано 1 елемент.
-          few: Не вдалося розширити діапазон. Вибрано %{count} елементи.
-          many: Не вдалося розширити діапазон. Вибрано %{count} елементів.
-          other: Не вдалося розширити діапазон. Вибрано %{count} елемента.
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Вибір залишився незмінним. Щоб вибрати потрібний діапазон, розгорніть цей список.
         selected:
-          one: Вибрано 1 елемент.
-          few: Вибрано %{count} елементи.
-          many: Вибрано %{count} елементів.
-          other: Вибрано %{count} елемента.
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Закрити модальне вікно
@@ -888,24 +888,24 @@ uk:
       label_two_factor_authentication: Двофакторна аутентифікація
     units:
       child_work_packages:
-        one: один робочий пакет для дітей
-        few: "%{count} робочий пакет дітей"
-        many: "%{count} робочий пакет дітей"
-        other: "%{count} робочий пакет дітей"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 день
+        one: "%{count} day"
         other: "%{count} д."
         zero: 0 днів
       hour:
-        one: 1 год
+        one: "%{count} h"
         other: "%{count} год"
         zero: 0 год
       hour_string: "%{hours} год"
       word:
-        one: 1 слово
-        few: "%{count} слова"
-        many: "%{count} слів"
-        other: "%{count} слова"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: Робочий пакет
         few: робочі пакети.
