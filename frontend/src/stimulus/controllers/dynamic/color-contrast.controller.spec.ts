@@ -73,9 +73,11 @@ function card(mode:'light'|'dark', usage:'foreground'|'background'):string {
         <div><dt>Text</dt><dd data-contrast-value="foreground"></dd></div>
         <div><dt>Background</dt><dd data-contrast-value="background"></dd></div>
       </dl>
-      <span hidden data-contrast-verdict="pass">Pass</span>
-      <span hidden data-contrast-verdict="fail">Fail</span>
-      <span data-contrast-value="ratio"></span>
+      <output for="color_hexcode" aria-live="off">
+        <span hidden data-contrast-verdict="pass">Pass</span>
+        <span hidden data-contrast-verdict="fail">Fail</span>
+        <span data-contrast-value="ratio"></span>
+      </output>
     </li>
   `;
 }

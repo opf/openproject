@@ -31,7 +31,7 @@ require "rails_helper"
 
 RSpec.describe Colors::ContrastPreviewRowComponent, type: :component do
   subject(:rendered_component) do
-    render_inline(described_class.new(mode: "light", usage: "foreground"))
+    render_inline(described_class.new(mode: "light", usage: "foreground", hexcode_id: "color_hexcode"))
   end
 
   it "lists the colour values as a definition list", :aggregate_failures do
@@ -40,6 +40,14 @@ RSpec.describe Colors::ContrastPreviewRowComponent, type: :component do
       expect(list).to have_element :dd, "data-contrast-value": "foreground"
       expect(list).to have_element :dt, text: "Background"
       expect(list).to have_element :dd, "data-contrast-value": "background"
+    end
+  end
+
+  it "reports the verdict and ratio as a quiet output of the hex code" do
+    expect(rendered_component).to have_element :output, for: "color_hexcode", "aria-live": "off" do |output|
+      expect(output).to have_element :span, "data-contrast-verdict": "pass", visible: :all
+      expect(output).to have_element :span, "data-contrast-verdict": "fail", visible: :all
+      expect(output).to have_element :span, "data-contrast-value": "ratio"
     end
   end
 end
