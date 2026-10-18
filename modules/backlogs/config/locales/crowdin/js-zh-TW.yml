@@ -45,10 +45,10 @@ zh-TW:
         not_selectable: 選項維持不變。此工作包不參與此清單的排序。
         range_blocked: 選取範圍未變更。該範圍內包含一個工作包，該工作包不參與此清單的排序。
         range_restarted:
-          other: 無法擴展範圍。已選取的工作包： %{count}。
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: 選取範圍未變更。展開此清單以選取該範圍。
         selected:
-          other: "%{count} 已選定的工作項目。"
+          other: "%{count} work packages selected."
     burndown:
       day: 日
       points: 燃盡點

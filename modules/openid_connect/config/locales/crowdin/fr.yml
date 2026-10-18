@@ -164,7 +164,7 @@ fr:
       delete_result_1: Supprimez le fournisseur de la liste des fournisseurs disponibles.
       delete_result_direct: Ce fournisseur est marqué comme fournisseur de connexion directe. Le paramètre sera supprimé et les utilisateurs ne seront plus redirigés vers le fournisseur pour se connecter.
       delete_result_user_count:
-        one: Un utilisateur utilise encore ce fournisseur. Il devra être réinvité ou se connecter par le biais d'un autre fournisseur.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} utilisateurs utilisent encore ce fournisseur. Ils devront être réinvités ou se connecter par le biais d'un autre fournisseur."
         zero: Aucun utilisateur n'utilise actuellement ce fournisseur. Aucune action supplémentaire n'est requise.
       input_delete_confirmation_html: Saisissez le nom du fournisseur %{name} pour confirmer la suppression.

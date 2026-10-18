@@ -624,8 +624,8 @@ de:
     notifications:
       center:
         and_more_users:
-          one: und ein weiterer
-          other: und %{count} weitere
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Alle Benachrichtungen abgearbeitet.
           no_notification_for_filter: Keine Benachrichtigungen für diesen Filter vorhanden.
@@ -830,12 +830,12 @@ de:
         not_selectable: Auswahl unverändert. Dieses Element hat keinen Einfluss auf die Reihenfolge dieser Liste.
         range_blocked: Auswahl unverändert. Sie enthält ein Element ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
-          one: Die Auswahl konnte nicht erweitert werden. 1 Element ausgewählt.
-          other: Die Auswahl konnte nicht erweitert werden. %{count} Elemente ausgewählt.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
-          one: 1 Element ausgewählt.
-          other: "%{count} Elemente ausgewählt."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Modal schließen
@@ -884,20 +884,20 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: eine Unteraufgabe
-        other: "%{count} untergeordnete Arbeitspakete"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 Tag
+        one: "%{count} day"
         other: "%{count} Tage"
         zero: 0 Tage
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 Wort
-        other: "%{count} Wörter"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: Arbeitspaket
         other: Arbeitspakete

@@ -879,13 +879,13 @@ id:
       label_two_factor_authentication: Autentikasi dua faktor
     units:
       child_work_packages:
-        other: Paket kerja %{count} turunan
+        other: "%{count} work package children"
       day:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} hari"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

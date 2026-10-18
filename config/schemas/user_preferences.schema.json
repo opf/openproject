@@ -18,6 +18,13 @@
                 "avatar_color": {
                     "type": ["string", "null"]
                 },
+                "avatar_text": {
+                    "type": ["string", "null"]
+                },
+                "avatar_type": {
+                    "type": ["string", "null"],
+                    "enum": [null, "gravatar", "image", "initials"]
+                },
                 "theme": {
                   "type": "string",
                   "enum": ["light", "dark", "sync_with_os"]

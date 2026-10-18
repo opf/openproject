@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,7 +110,7 @@ module Backlogs
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_mobility_value: mobility,
         # Native drag payload for external consumers; the same absolute URL
-        # as the card menu's "Copy URL to clipboard" item. The label above
+        # as the card menu's "Copy link to clipboard" item. The label above
         # doubles as the link text of the text/html flavour.
         sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
       }

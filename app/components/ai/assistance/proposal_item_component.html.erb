@@ -32,7 +32,9 @@ See COPYRIGHT and LICENSE files for more details.
     <% row.with_column(flex: 1) do %>
       <% if proposal.finding? %>
         <%= render(Primer::Beta::Label.new(scheme: severity_scheme, mr: 2)) { severity_label } %>
-        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { area_label } %>
+        <% if proposal.area.present? %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { area_label } %>
+        <% end %>
       <% end %>
       <% if proposal.text.present? %>
         <%= render(Primer::Beta::Text.new(tag: :p, mt: proposal.finding? ? 1 : 0, mb: 1, color: text_color)) { proposal.text } %>

@@ -624,7 +624,7 @@ vi:
     notifications:
       center:
         and_more_users:
-          other: và %{count} người khác
+          other: and %{count} others
         empty_state:
           no_notification: Có vẻ như tất cả các bạn đã bị cuốn theo.
           no_notification_for_filter: Có vẻ như tất cả các bạn đều bị cuốn hút bởi bộ lọc này.
@@ -879,18 +879,18 @@ vi:
       label_two_factor_authentication: Xác thực hai yếu tố
     units:
       child_work_packages:
-        other: "%{count} gói công việc trẻ em"
+        other: "%{count} work package children"
       day:
-        one: 1 ngày
+        one: "%{count} day"
         other: "%{count} ngày"
         zero: 0 ngày
       hour:
-        one: 1 giờ
+        one: "%{count} h"
         other: "%{count} giờ"
         zero: 0 giờ
       hour_string: "%{hours} giờ"
       word:
-        other: "%{count} từ"
+        other: "%{count} words"
       workPackage:
         other: gói công việc
     upsell:

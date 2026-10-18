@@ -22,19 +22,31 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module PlaceholderUsers
-  class TableComponent < ::TableComponent
+  class TableComponent < ::OpPrimer::BorderBoxTableComponent
     columns :name, :criteria, :created_at
     sortable_columns :name, :created_at
+    mobile_labels :name, :criteria, :created_at
+
+    def mobile_title
+      PlaceholderUser.model_name.human(count: 2)
+    end
+
+    def has_actions?
+      true
+    end
 
     def initial_sort
       %i[id asc]
+    end
+
+    def sortable?
+      true
     end
 
     def headers
@@ -57,6 +69,14 @@ module PlaceholderUsers
 
     def desc_by_default
       [:created_at]
+    end
+
+    def blank_title
+      I18n.t("admin.placeholder_users.index.blank_title")
+    end
+
+    def blank_description
+      I18n.t("admin.placeholder_users.index.blank_description")
     end
   end
 end

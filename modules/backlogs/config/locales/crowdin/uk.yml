@@ -73,10 +73,10 @@ uk:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: У цьому спринті не завершено один пакет робіт.
-                few: У цьому спринті не завершено %{count} пакети робіт.
-                many: У цьому спринті не завершено %{count} пакетів робіт.
-                other: У цьому спринті не завершено %{count} пакета робіт.
+                one: There is %{count} work package that was not completed in this sprint.
+                few: There are %{count} work packages that were not completed in this sprint.
+                many: There are %{count} work packages that were not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: не є активним, тому його не можна закрити.
         sprint_goal:
@@ -169,10 +169,10 @@ uk:
       drop_zone_label: Щоб додати елемент, перетягніть його сюди
       label_actions: Дії з вхідними
       show_more:
-        one: Показати ще 1 елемент
-        few: Показати ще %{count} елементи
-        many: Показати ще %{count} елементів
-        other: Показати ще %{count} елемента
+        one: Show %{count} more item
+        few: Show %{count} more items
+        many: Show %{count} more items
+        other: Show %{count} more items
       title: Вхідні
     index_subheader_component:
       label_search_by_subject: Пошук пакетів робіт за темою
@@ -282,7 +282,6 @@ uk:
       header_backlogs: Модуль невиконаних завдань
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Скопіювати URL-адресу в буфер обміну
         copy_work_package_id: Скопіювати ідентифікатор пакета робіт
         move_menu: Перемістити в позицію
         move_to_backlog_bucket: Перемістити в сегмент беклогу

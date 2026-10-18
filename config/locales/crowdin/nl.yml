@@ -206,12 +206,16 @@ nl:
         widgets: Widgets
       group:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identiteit URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -441,6 +445,7 @@ nl:
       user:
         admin: Beheerder
         auth_source: Authentication source
+        avatar_type: Avatar type
         consented_at: Ingestemd op
         current_password: Huidig wachtwoord
         department: Department
@@ -464,6 +469,8 @@ nl:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
@@ -1010,8 +1017,8 @@ nl:
               numeric: numerieke (bijvoorbeeld ' 1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                one: is reeds eerder gebruikt. Kies er één die verschilt van uw vorige.
-                other: is reeds eerder gebruikt. Kies er één die verschilt van uw laatste %{count}.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: speciale (bijvoorbeeld ' %')
               uppercase: hoofdletters (bijvoorbeeld ' A')
             password_confirmation:
@@ -1115,8 +1122,8 @@ nl:
       template:
         body: 'Controleer de volgende velden:'
         header:
-          one: 1 fout voorkomt dat dit %{model} wordt opgeslagen
-          other: "%{count} fouten voorkomen dat dit %{model} wordt opgeslagen"
+          one: "%{count} error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Action
@@ -1758,25 +1765,25 @@ nl:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 probleem
-              other: "%{count} problemen"
+              one: "%{count} issue"
+              other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               other: "%{count} jobs"
             projects:
-              one: 1 project
+              one: "%{count} project"
               other: "%{count} projects"
             statuses:
-              one: 1 status
-              other: "%{count} statussen"
+              one: "%{count} status"
+              other: "%{count} statuses"
             types:
-              one: 1 type
+              one: "%{count} type"
               other: "%{count} types"
             users:
-              one: 1 user
+              one: "%{count} user"
               other: "%{count} users"
             work_packages:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
@@ -1842,7 +1849,7 @@ nl:
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
               caption_done_description:
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
@@ -2129,6 +2136,10 @@ nl:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Zie onze pagina met integraties en plugins voor meer informatie.
       no_results_title_text: Er zijn momenteel geen plugins geïnstalleerd.
@@ -2142,7 +2153,7 @@ nl:
         confirm_button: Unreserve identifier
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
         title: Unreserve identifier
@@ -2271,7 +2282,7 @@ nl:
           error_unknown: Needs manual review
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
-            one: "... 1 more project"
+            one: "... %{count} more project"
             other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
@@ -2354,7 +2365,7 @@ nl:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: One role selected
+          one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
       status_button: Status
@@ -2366,8 +2377,8 @@ nl:
         confirm: Verwijder
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
-          one: 1 status verwijderen?
-          other: "%{count} statussen verwijderen?"
+          one: Remove %{count} status?
+          other: Remove %{count} statuses?
         title: Statussen verwijderen
       tabs:
         always: Default transitions
@@ -2818,9 +2829,9 @@ nl:
     text:
       failed: Kan project "%{target_project_name}" project "%{source_project_name}" niet kopiëren.
       succeeded: Gekopieerde project "%{source_project_name}" naar "%{target_project_name}".
-    title: Kopieer project "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Één object van dit type
+      one: "%{count} object of this type"
       other: "%{count} objecten van dit type"
       zero: Geen objecten van dit type
   create_portfolio:
@@ -2860,7 +2871,7 @@ nl:
     admin:
       hierarchy:
         subitems:
-          one: 1 subitem
+          one: "%{count} sub-item"
           other: "%{count} subitems"
           zero: geen subitems
       items:
@@ -3020,56 +3031,56 @@ nl:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: ongeveer 1 uur
-        other: ongeveer %{count} uren
+        one: about %{count} hour
+        other: about %{count} hours
       about_x_months:
-        one: ongeveer 1 maand
-        other: ongeveer %{count} maanden
+        one: about %{count} month
+        other: about %{count} months
       about_x_years:
-        one: ongeveer 1 jaar
-        other: ongeveer %{count} jaren
+        one: about %{count} year
+        other: about %{count} years
       almost_x_years:
-        one: bijna 1 jaar
-        other: bijna %{count} jaren
+        one: almost %{count} year
+        other: almost %{count} years
       half_a_minute: een halve minuut
       less_than_x_minutes:
         one: minder dan 1 minuut
         other: minder dan %{count} minuten
       less_than_x_seconds:
-        one: minder dan 1 seconde
-        other: minder dan %{count} seconden
+        one: less than %{count} second
+        other: less than %{count} seconds
       over_x_years:
-        one: meer dan 1 jaar
-        other: meer dan %{count} jaren
+        one: over %{count} year
+        other: over %{count} years
       x_days:
-        one: 1 dag
-        other: "%{count} dagen"
+        one: "%{count} day"
+        other: "%{count} days"
       x_hours:
-        one: 1 uur
-        other: "%{count} uren"
+        one: "%{count} hour"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 uur
-        other: "%{count} uur"
+        one: "%{count} hr"
+        other: "%{count} hrs"
       x_minutes:
-        one: 1 minuut
-        other: "%{count} minuten"
+        one: "%{count} minute"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min.
-        other: "%{count} minuten"
+        one: "%{count} min"
+        other: "%{count} mins"
       x_months:
-        one: 1 maand
-        other: "%{count} maanden"
+        one: "%{count} month"
+        other: "%{count} months"
       x_seconds:
-        one: 1 seconde
-        other: "%{count} seconden"
+        one: "%{count} second"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 sec
-        other: "%{count} sec"
+        one: "%{count} s"
+        other: "%{count} s"
       x_weeks:
-        one: 1 week
-        other: "%{count} weken"
+        one: "%{count} week"
+        other: "%{count} weeks"
       x_years:
-        one: 1 jaar
+        one: "%{count} year"
         other: "%{count} years"
     units:
       day:
@@ -3220,7 +3231,7 @@ nl:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        one: One day left of %{trial_plan} trial token
+        one: "%{count} day left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
@@ -3604,14 +3615,14 @@ nl:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Form
@@ -3647,10 +3658,10 @@ nl:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         other: This form is used by %{count} types and variants.
     wizard:
       choice:
@@ -4651,44 +4662,44 @@ nl:
   label_working_hours: Work schedule
   label_workweek: Werkweek
   label_x_closed_work_packages_abbr:
-    one: 1 gesloten
+    one: "%{count} closed"
     other: "%{count} gesloten"
     zero: 0 gesloten
   label_x_comments:
-    one: 1 reactie
+    one: "%{count} comment"
     other: "%{count} reacties"
     zero: geen reacties
   label_x_days:
-    one: 1 day
+    one: "%{count} day"
     other: "%{count} days"
   label_x_files:
-    one: 1 bestand
+    one: "%{count} file"
     other: "%{count} files"
     zero: no files
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
-    one: One item selected
+    one: "%{count} item selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 open
+    one: "%{count} open"
     other: "%{count} open"
     zero: 0 open
   label_x_projects:
-    one: 1 project
+    one: "%{count} project"
     other: "%{count} projecten"
     zero: geen projecten
   label_x_work_packages:
-    one: 1 work package
+    one: "%{count} work package"
     other: "%{count} work packages"
     zero: Geen werkpakketten
   label_x_working_days:
-    one: 1 working day
+    one: "%{count} working day"
     other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
+    one: 'Time off: %{count} working day'
     other: 'Time off: %{count} working days'
   label_yesterday: gisteren
   label_zen_mode: Zen mode
@@ -4962,8 +4973,8 @@ nl:
       mentioned: U bent <b>genoemd in een opmerking</b>
       mentioned_by: "%{user} heeft u genoemd in een reactie"
       more_to_see:
-        one: Er is nog 1 werkpakket met meldingen.
-        other: Er zijn nog %{count} werkpakketten met meldingen.
+        one: There is %{count} more work package with notifications.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Openen in de browser
       reason:
         assigned: Toegewezen
@@ -5147,7 +5158,7 @@ nl:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             other: "%{count} days (%{date})"
           name_label: Tokennaam
       failed_to_create_token: 'Aanmaken van toegang sleutel is mislukt: %{error}'
@@ -5491,7 +5502,7 @@ nl:
 
       '
     confirm_revoke_my_application:
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: No OAuth applications have been registered.
     flows:
@@ -5698,7 +5709,7 @@ nl:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Opmerking nieuws
   permission_commit_access: Lees/schrijf toegang tot opslagplaats (bevestig)
-  permission_copy_projects: Kopiëren van projecten
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Back-ups maken
@@ -5837,7 +5848,7 @@ nl:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5848,7 +5859,7 @@ nl:
         label: Portfolio name filter
         placeholder: Search portfolios
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Active portfolios
@@ -5863,7 +5874,7 @@ nl:
         het kan worden gebruikt voor het benadrukken van de werkpakketten in de tabel.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5875,7 +5886,7 @@ nl:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 project
+      one: "%{count} project"
       other: "%{count} projecten"
       zero: 0 projects
     destroy:
@@ -6090,14 +6101,14 @@ nl:
             new_heading: Fields that become available
             nothing_affected: No fields or statuses are affected.
             status_count:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
             table_suffix: "(table)"
             value_count:
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               other: "%{count} work packages have a value"
             work_packages:
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
@@ -6154,8 +6165,8 @@ nl:
     action_title: Reageren
     add_reaction: Reactie toevoegen
     and_others:
-      one: en 1 ander
-      other: en %{count} anderen
+      one: and %{count} other
+      other: and %{count} others
     and_user: en %{user}
     react_with: Reageren met %{reaction}
     reaction_by: "%{reaction} door"
@@ -6274,23 +6285,23 @@ nl:
         one: "(Project: %{projects})"
         other: "(Projects: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       summary_users:
-        one: 1 user
+        one: "%{count} user"
         other: "%{count} users"
       title: Delete role
     edit:
@@ -6306,10 +6317,9 @@ nl:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
-        one: 1 permission
+        one: "%{count} permission"
         other: "%{count} permissions"
       preview_action: View permissions
       preview_aria_label: View the permissions of %{role}
@@ -6800,7 +6810,7 @@ nl:
       section_work_week: Werkweek
   sharing:
     count:
-      one: 1 gebruiker
+      one: "%{count} user"
       other: "%{count} users"
       zero: 0 users
     denied: You don't have permissions to share %{entities}.
@@ -7111,7 +7121,7 @@ nl:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
         parent_type: Parent type
         same_as_type: Same as parent type
@@ -7442,7 +7452,7 @@ nl:
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
         heading: Delete type '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
@@ -7456,7 +7466,7 @@ nl:
       no_results_content_text: Maak een nieuw type
       no_results_title_text: Er zijn momenteel geen types.
       project_variants_count:
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
@@ -7465,7 +7475,7 @@ nl:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
@@ -7493,8 +7503,8 @@ nl:
     authorization_rejected: U bent niet toegestaan aan te melden.
     blocked: tijdelijk geblokkeerd
     blocked_num_failed_logins:
-      one: tijdelijk geblokkeerd (een mislukte login poging)
-      other: tijdelijk geblokkeerd (%{count} mislukte login pogingen)
+      one: locked temporarily (%{count} failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: U bent bezig met het wijzigen van de status van '%{name}'. Weet u zeker dat u wilt doorgaan?
     deleted: Gebruiker verwijderen
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7654,7 +7664,7 @@ nl:
         start_date: Start date
         work_days: Work days
         work_days_count:
-          one: 1 working day
+          one: "%{count} working day"
           other: "%{count} working days"
         work_hours: Work hours
   version_status_closed: gesloten
@@ -7843,7 +7853,7 @@ nl:
       could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'De volgende werkpakketten konden niet worden opgeslagen:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         other: Successfully deleted %{count} work packages.
       descendant: afstammeling van geselecteerde
       move_failed: De werkpakketten konden niet worden verplaatst.
@@ -7868,17 +7878,17 @@ nl:
       description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
@@ -7936,17 +7946,17 @@ nl:
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
@@ -8024,7 +8034,7 @@ nl:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
         file_rejected:
@@ -8058,7 +8068,7 @@ nl:
           work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: Problems
@@ -8075,10 +8085,10 @@ nl:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -8114,8 +8124,8 @@ nl:
         version:
           no_results_title_text: Er zijn momenteel geen versies beschikbaar.
     x_descendants:
-      one: Een nakomend werkpakket
-      other: "%{count} werk pakket afstammelingen"
+      one: "%{count} descendant work package"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -8183,19 +8193,19 @@ nl:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         other: "%{count} roles"
       type_filter:
         label: Filter by type name…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Workflow
@@ -8227,10 +8237,10 @@ nl:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
+        one: This workflow is used by %{count} type or variant.
         other: This workflow is used by %{count} types and variants.
     wizard:
       choice:

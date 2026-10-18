@@ -45,10 +45,10 @@ zh-CN:
         not_selectable: 选择未更改。此工作包不参与此列表的排序。
         range_blocked: 选择未更改。该范围包含不参与此列表排序的工作包。
         range_restarted:
-          other: 无法扩展范围。已选择 %{count} 个工作包。
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: 选择未更改。扩展此列表，以选择该范围。
         selected:
-          other: 已选择 %{count} 个工作包。
+          other: "%{count} work packages selected."
     burndown:
       day: 天
       points: 点

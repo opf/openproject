@@ -881,11 +881,11 @@ th:
       child_work_packages:
         other: "%{count} work package children"
       day:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} วัน"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

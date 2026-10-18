@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -124,6 +123,10 @@ module Settings
       attachments_grace_period: {
         description: "Time in minutes to wait before uploaded files not attached to any container are removed",
         default: 180
+      },
+      attachments_cleanup_period_hours: {
+        description: "Time in hours to wait before deleting up uploaded files that were not cleaned up before",
+        default: 2
       },
       antivirus_scan_available: {
         description: "Virus scanning option selectable in the UI",

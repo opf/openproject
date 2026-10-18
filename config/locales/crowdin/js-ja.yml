@@ -624,7 +624,7 @@ ja:
     notifications:
       center:
         and_more_users:
-          other: と %{count} その他
+          other: and %{count} others
         empty_state:
           no_notification: もう追いついたようだね。
           no_notification_for_filter: どうやら、このフィルターにすべて引っかかったようだ。
@@ -879,13 +879,13 @@ ja:
       label_two_factor_authentication: 2要素認証
     units:
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} work package children"
       day:
-        one: 1日
+        one: "%{count} day"
         other: "%{count} 日間"
         zero: 0日
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

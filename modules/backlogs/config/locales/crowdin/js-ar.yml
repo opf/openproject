@@ -46,7 +46,7 @@ ar:
         range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
         range_restarted:
           zero: Could not extend the range. %{count} work packages selected.
-          one: Could not extend the range. 1 work package selected.
+          one: Could not extend the range. %{count} work package selected.
           two: Could not extend the range. %{count} work packages selected.
           few: Could not extend the range. %{count} work packages selected.
           many: Could not extend the range. %{count} work packages selected.
@@ -54,7 +54,7 @@ ar:
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
           zero: "%{count} work packages selected."
-          one: 1 work package selected.
+          one: "%{count} work package selected."
           two: "%{count} work packages selected."
           few: "%{count} work packages selected."
           many: "%{count} work packages selected."

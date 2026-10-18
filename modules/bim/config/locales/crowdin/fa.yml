@@ -108,7 +108,7 @@ fa:
     not_recommended: پیشنهاد نشده
     recommended: پیشنهادی
     x_bcf_issues:
-      one: یک مشکل BCF
+      one: "%{count} BCF issue"
       other: "%{count} مشکل BCF"
       zero: بدون مشکل BCF
   bim:

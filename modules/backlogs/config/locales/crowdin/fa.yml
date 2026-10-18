@@ -73,8 +73,8 @@ fa:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: یک بسته کاری در این اسپرینت تکمیل نشده است.
-                other: "%{count} بسته کاری در این اسپرینت تکمیل نشده‌اند."
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: فعال نیست بنابراین نمی تواند بسته شود
         sprint_goal:
@@ -161,8 +161,8 @@ fa:
       drop_zone_label: برای افزودن این مورد، آن را اینجا رها کنید
       label_actions: اقدامات صندوق
       show_more:
-        one: نمایش ۱ مورد دیگر
-        other: نمایش %{count} مورد دیگر
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: صندوق
     index_subheader_component:
       label_search_by_subject: جستجوی بسته‌های کاری بر اساس موضوع
@@ -266,7 +266,6 @@ fa:
       header_backlogs: ماژول backlogها
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: کپی URL در کلیپ‌بورد
         copy_work_package_id: کپی شناسه بسته کاری
         move_menu: انتقال به موقعیت
         move_to_backlog_bucket: انتقال به سطل بک‌لاگ
