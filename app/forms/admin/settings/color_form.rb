@@ -39,14 +39,13 @@ module Admin
         )
 
         color_form.group(layout: :horizontal, classes: "color-form--hexcode-row") do |hexcode_group|
-          hexcode_group.text_field(
+          hexcode_group.color_field(
             name: :hexcode,
             label: attribute_name(:hexcode),
             required: true,
-            autocomplete: "off",
             input_width: :small,
             aria: { errormessage: "color-contrast-error" },
-            data: { color_contrast_target: "hexcode", action: "input->color-contrast#outdate" }
+            data: { color_contrast_target: "hexcode", action: "input->color-contrast#outdate change->color-contrast#check" }
           )
 
           hexcode_group.button(
@@ -56,12 +55,6 @@ module Admin
             label: I18n.t("colors.contrast.check"),
             data: { action: "color-contrast#check" }
           )
-
-          if show_swatch?
-            hexcode_group.html_content do
-              render(Colors::SwatchComponent.new(hexcode: model.hexcode, classes: "color-form--hexcode-row-swatch"))
-            end
-          end
         end
 
         color_form.html_content do
@@ -89,10 +82,6 @@ module Admin
 
       def cancel_path
         url_helpers.custom_style_path(tab: :default_colors)
-      end
-
-      def show_swatch?
-        model.hexcode.present? && model.errors.messages_for(:hexcode).empty?
       end
     end
   end
