@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent } from '@testing-library/dom';
+import { fireEvent, within } from '@testing-library/dom';
 import { LiveRegionElement } from '@primer/live-region-element';
 import type { MockInstance } from 'vitest';
 import ColorContrastController from './color-contrast.controller';
@@ -57,6 +57,57 @@ function fixture({ serverInvalid = false } = {}):string {
       <section data-color-contrast-target="preview" hidden>
         <p data-color-contrast-target="outdated" hidden>Outdated</p>
         <span data-color-contrast-target="summary" data-template="{{count}} of 4 pass"></span>
+      </section>
+    </form>
+  `;
+}
+
+function card(mode:'light'|'dark', usage:'foreground'|'background'):string {
+  return `
+    <li data-color-contrast-target="card">
+      <h5>Used as ${usage}</h5>
+      <div class="color-contrast--surface" data-color-mode="${mode}" data-${mode}-theme="${mode}">
+        <span class="__hl_${usage}" data-color-contrast-target="sample">Sample text</span>
+      </div>
+      <dl>
+        <div><dt>Text</dt><dd data-contrast-value="foreground"></dd></div>
+        <div><dt>Background</dt><dd data-contrast-value="background"></dd></div>
+      </dl>
+      <span hidden data-contrast-verdict="pass">Pass</span>
+      <span hidden data-contrast-verdict="fail">Fail</span>
+      <span data-contrast-value="ratio"></span>
+    </li>
+  `;
+}
+
+function resultsFixture():string {
+  return `
+    <form data-controller="color-contrast">
+      <div class="FormControl">
+        <label for="color_hexcode">Hex code</label>
+        <input type="text"
+               id="color_hexcode"
+               name="color[hexcode]"
+               aria-describedby="validation-hexcode"
+               data-color-contrast-target="hexcode"
+               data-invalid-message="${INVALID_MESSAGE}"
+               data-action="input->color-contrast#markOutdated change->color-contrast#check">
+        <div class="FormControl-inlineValidation" id="validation-hexcode" hidden>
+          <span class="FormControl-inlineValidation--visual" hidden></span>
+          <span class="FormControl-inlineValidation--visual"></span>
+          <span></span>
+        </div>
+      </div>
+      <button type="button" data-action="color-contrast#check">Check contrast</button>
+      <section data-color-contrast-target="preview" hidden>
+        <p data-color-contrast-target="outdated" hidden>Outdated</p>
+        <span data-color-contrast-target="summary" data-template="{{count}} of 4 pass"></span>
+        <ul>
+          ${card('light', 'foreground')}
+          ${card('light', 'background')}
+          ${card('dark', 'foreground')}
+          ${card('dark', 'background')}
+        </ul>
       </section>
     </form>
   `;
@@ -180,6 +231,49 @@ describe('ColorContrastController', () => {
       checkButton().click();
       expect(preview()).toBeVisible();
       expect(outdated()).not.toBeVisible();
+    });
+  });
+
+  describe('contrast results', () => {
+    const cards = () => ctx.screen.getAllByRole('listitem');
+    const valuesOf = (item:HTMLElement) => ({
+      foreground: item.querySelector('[data-contrast-value="foreground"]')!.textContent,
+      background: item.querySelector('[data-contrast-value="background"]')!.textContent,
+      ratio: item.querySelector('[data-contrast-value="ratio"]')!.textContent,
+      verdict: within(item).getByText(/^(Pass|Fail)$/, { ignore: '[hidden]' }).textContent,
+    });
+
+    beforeEach(async () => {
+      await ctx.mount(resultsFixture());
+    });
+
+    it('reports foreground, background, ratio and verdict per theme and usage', () => {
+      hexcode().value = '#FF69B4';
+      checkButton().click();
+
+      expect(cards().map(valuesOf)).toEqual([
+        { foreground: '#FF1A8C', background: '#FFFFFF', ratio: '3.63:1', verdict: 'Fail' },
+        { foreground: '#000000', background: '#FF69B4', ratio: '7.93:1', verdict: 'Pass' },
+        { foreground: '#FF7EBF', background: '#0D1117', ratio: '8.11:1', verdict: 'Pass' },
+        { foreground: '#FF7EBF', background: '#392133', ratio: '6.27:1', verdict: 'Pass' },
+      ]);
+      expect(ctx.screen.getByText('3 of 4 pass')).toBeVisible();
+    });
+
+    it('replaces the previous results on recheck', () => {
+      hexcode().value = '#FF69B4';
+      checkButton().click();
+      hexcode().value = '#1F75D3';
+      checkButton().click();
+
+      expect(cards().map(valuesOf)).toEqual([
+        { foreground: '#185BA5', background: '#FFFFFF', ratio: '6.81:1', verdict: 'Pass' },
+        { foreground: '#000000', background: '#1F75D3', ratio: '4.54:1', verdict: 'Pass' },
+        { foreground: '#68A6E9', background: '#0D1117', ratio: '7.38:1', verdict: 'Pass' },
+        { foreground: '#68A6E9', background: '#102339', ratio: '6.20:1', verdict: 'Pass' },
+      ]);
+      expect(ctx.screen.getByText('4 of 4 pass')).toBeVisible();
+      expect(ctx.screen.queryByText('3 of 4 pass')).toBeNull();
     });
   });
 
