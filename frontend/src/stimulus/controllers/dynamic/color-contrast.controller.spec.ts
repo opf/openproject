@@ -46,7 +46,7 @@ function fixture({ serverInvalid = false } = {}):string {
                aria-describedby="validation-hexcode"
                data-color-contrast-target="hexcode"
                data-invalid-message="${INVALID_MESSAGE}"
-               data-action="input->color-contrast#outdate change->color-contrast#check">
+               data-action="input->color-contrast#markOutdated change->color-contrast#check">
         <div class="FormControl-inlineValidation" id="validation-hexcode" ${serverInvalid ? '' : 'hidden'}>
           <span class="FormControl-inlineValidation--visual" hidden></span>
           <span class="FormControl-inlineValidation--visual"></span>
