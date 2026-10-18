@@ -40,11 +40,11 @@ See COPYRIGHT and LICENSE files for more details.
         )
       ) { t("colors.contrast.sample") } %>
 <% end %>
-<%= render Primer::Box.new(mt: 3, display: :flex, direction: :column, classes: "gap-2") do %>
+<%= render OpPrimer::DefinitionListComponent.new(display: :flex, direction: :column, mt: 3, mb: 0, classes: "gap-2") do |list| %>
   <% { foreground: :text, background: :background }.each do |value, label_key| %>
-    <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center) do %>
-      <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { t("colors.contrast.#{label_key}") } %>
-      <%= render Primer::Beta::Text.new(font_family: :mono, font_size: :small, data: { contrast_value: value }) %>
+    <% list.with_item(display: :flex, justify_content: :space_between, align_items: :center) do |item| %>
+      <% item.with_term(font_size: :small, color: :muted) { t("colors.contrast.#{label_key}") } %>
+      <% item.with_description(font_family: :mono, font_size: :small, data: { contrast_value: value }) %>
     <% end %>
   <% end %>
 <% end %>
