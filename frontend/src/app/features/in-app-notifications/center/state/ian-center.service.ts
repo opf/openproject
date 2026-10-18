@@ -300,14 +300,28 @@ export class IanCenterService extends UntilDestroyedMixin {
       return;
     }
 
-    const { activeCollection } = this.query.getValue();
-    this.store.update({
-      activeCollection: {
-        ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
-      },
-    });
+    const { activeCollection, activeFacet } = this.query.getValue();
 
-    if (!this.deviceService.isMobile && window.location.href.includes('details')) {
+    if (activeFacet === 'unread') {
+      // The row no longer matches the current filter, drop it so it
+      // disappears without a visible gap.
+      this.store.update({
+        activeCollection: {
+          ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
+        },
+      });
+    } else {
+      // Keep the id in activeCollection so the row stays visible on the All
+      // facet. The store entity was already flipped to readIAN:true by
+      // markAsRead, so re-emitting activeCollection (same ids, new reference)
+      // is enough for selectNotifications$ to re-run its lookups and the row
+      // to re-render with the new icon in place — no flicker from a fetch.
+      this.store.update({
+        activeCollection: { ...activeCollection, ids: [...activeCollection.ids] },
+      });
+    }
+
+    if (activeFacet === 'unread' && !this.deviceService.isMobile && window.location.href.includes('details')) {
       this.showNextNotification();
     }
 
@@ -331,6 +345,22 @@ export class IanCenterService extends UntilDestroyedMixin {
 
     void this.menuFrame.reload();
     this.ianBellService.fetchUnread().subscribe();
+  }
+
+  /**
+   * Full refresh triggered by external notification changes (e.g. a user marked
+   * a journal unread from within the activity tab). The notification set may
+   * have grown or shrunk, so we re-fetch rather than re-emit in place.
+   */
+  refresh():void {
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      this.store.update({ activeCollection: collection });
+      this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+    });
+
+    this.reload.next(false);
+
+    void this.menuFrame.reload();
   }
 
   private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
