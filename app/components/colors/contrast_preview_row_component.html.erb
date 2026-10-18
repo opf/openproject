@@ -48,14 +48,17 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 <% end %>
-<%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center, mt: 3) do %>
+<%= render Primer::Beta::Text.new(
+      tag: :output, for: hexcode_id, aria: { live: :off },
+      display: :flex, justify_content: :space_between, align_items: :center, mt: 3
+    ) do %>
   <% %w[pass fail].each do |verdict| %>
     <%= render Primer::Beta::Text.new(hidden: true, color: verdict == "pass" ? :success : :danger, data: { contrast_verdict: verdict }) do %>
       <%= render Primer::Beta::Octicon.new(icon: verdict == "pass" ? :"check-circle" : :"x-circle", mr: 1) %>
       <%= t("colors.contrast.#{verdict}") %>
     <% end %>
   <% end %>
-  <%= render Primer::Box.new(tag: :span) do %>
+  <%= render Primer::Beta::Text.new do %>
     <span class="sr-only"><%= t("colors.contrast.ratio") %>: </span>
     <%= render Primer::Beta::Text.new(font_family: :mono, font_size: :small, data: { contrast_value: "ratio" }) %>
   <% end %>

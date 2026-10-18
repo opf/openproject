@@ -29,12 +29,13 @@
 
 module Colors
   class ContrastPreviewRowComponent < ApplicationComponent
-    attr_reader :mode, :usage
+    attr_reader :mode, :usage, :hexcode_id
 
-    def initialize(mode:, usage:)
+    def initialize(mode:, usage:, hexcode_id:)
       super()
       @mode = mode
       @usage = usage
+      @hexcode_id = hexcode_id
     end
   end
 end
