@@ -51,6 +51,51 @@ RSpec.describe "Work package activities tab",
   # The frontend converts the legacy #activity-N URL fragment into an ?anchor=
   # query param before requesting the tab, so the anchor arrives as a query param.
   describe "GET index" do
+    describe "auto-mark on tab open" do
+      let!(:unread_notification) do
+        create(:notification, recipient: user, resource: work_package, journal: comment, read_ian: false)
+      end
+
+      it "marks the user's unread notifications for the WP as read when the pref is on (default)" do
+        get work_package_activities_path(work_package)
+
+        expect(response).to have_http_status(:ok)
+        expect(unread_notification.reload.read_ian).to be true
+        # Hidden element wired to dispatch-event-on-connect fires
+        # op-dispatched:notifications:updated so the IAN center, bell, and WP
+        # split view refresh in place without a reload.
+        expect(response.body).to include(%(data-controller="dispatch-event-on-connect"))
+        expect(response.body).to include(%(data-dispatch-event-on-connect-name-value="op-dispatched:notifications:updated"))
+      end
+
+      it "does not emit a dispatch event when nothing was unread" do
+        unread_notification.update!(read_ian: true)
+
+        get work_package_activities_path(work_package)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("dispatch-event-on-connect")
+      end
+
+      it "leaves notifications unread when the pref is off" do
+        user.pref.auto_mark_wp_as_read = false
+        user.pref.save!
+
+        get work_package_activities_path(work_package)
+
+        expect(response).to have_http_status(:ok)
+        expect(unread_notification.reload.read_ian).to be false
+      end
+
+      it "does not auto-mark on background polls" do
+        get update_streams_work_package_activities_path(work_package),
+            params: { last_update_timestamp: 1.hour.ago.iso8601 },
+            headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(unread_notification.reload.read_ian).to be false
+      end
+    end
+
     it "exposes the resolved comment id for a legacy activity anchor" do
       # activity-2 is the journal with sequence_version 2, i.e. the comment
       get work_package_activities_path(work_package), params: { anchor: "activity-2" }

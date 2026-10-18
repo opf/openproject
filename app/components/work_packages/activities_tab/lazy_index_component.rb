@@ -36,7 +36,8 @@ module WorkPackages
       include WorkPackages::ActivitiesTab::SharedHelpers
       include WorkPackages::ActivitiesTab::StimulusControllers
 
-      def initialize(work_package:, journals:, paginator:, last_server_timestamp:, filter: Filters::ALL, resolved_anchor: nil)
+      def initialize(work_package:, journals:, paginator:, last_server_timestamp:,
+                     filter: Filters::ALL, resolved_anchor: nil, auto_marked_as_read: false)
         super
 
         @work_package = work_package
@@ -45,7 +46,10 @@ module WorkPackages
         @last_server_timestamp = last_server_timestamp
         @filter = filter
         @resolved_anchor = resolved_anchor
+        @auto_marked_as_read = auto_marked_as_read
       end
+
+      def auto_marked_as_read? = @auto_marked_as_read
 
       def self.wrapper_key = "work-package-activities-tab-content"
       def self.index_content_wrapper_key = WorkPackages::ActivitiesTab::StimulusControllers.index_stimulus_controller

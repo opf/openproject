@@ -1,6 +1,23 @@
 <%=
   component_wrapper(tag: "turbo-frame") do
     flex_layout(classes: "work-packages-activities-tab-index-component") do |activities_tab_wrapper_container|
+      # Auto-mark on tab open happened before pagination; notify the IAN bell
+      # and center so they refresh in place. A top-level <turbo-stream> would be
+      # stripped during frame navigation, hence the Stimulus controller on a
+      # hidden child inside the frame.
+      if auto_marked_as_read?
+        activities_tab_wrapper_container.with_row do
+          helpers.content_tag(
+            :span,
+            "",
+            hidden: true,
+            data: {
+              controller: "dispatch-event-on-connect",
+              dispatch_event_on_connect_name_value: "op-dispatched:notifications:updated"
+            }
+          )
+        end
+      end
       activities_tab_wrapper_container.with_row(classes: "work-packages-activities-tab-index-component--errors") do
         render(
           WorkPackages::ActivitiesTab::ErrorStreamComponent.new

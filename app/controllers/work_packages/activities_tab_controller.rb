@@ -43,6 +43,9 @@ class WorkPackages::ActivitiesTabController < ApplicationController
                 only: %i[emoji_actions item_actions edit cancel_edit update toggle_reaction mark_unread mark_read]
   before_action :set_filter
   before_action :authorize
+  # Runs before initialize_pagination so the eager-loaded @unread_notifications
+  # on each journal reflects the just-marked read state.
+  before_action :auto_mark_work_package_as_read, only: :index
   before_action :initialize_pagination, only: %i[index page_streams]
 
   def index
@@ -224,6 +227,24 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   private
+
+  # Preference-driven mark-read on initial tab open. Sets @auto_marked_as_read
+  # when it actually changed anything so the shell can emit a dispatchEvent
+  # turbo stream to refresh the IAN bell and center. Deliberately silent on
+  # failure (unauthenticated users, missing permission) since the surrounding
+  # authorize before_action has already filtered those cases.
+  def auto_mark_work_package_as_read
+    @auto_marked_as_read = false
+
+    return if User.current.anonymous?
+    return unless User.current.pref.auto_mark_wp_as_read?
+
+    call = Notifications::MarkReadService
+             .new(user: User.current)
+             .call_for_work_package(work_package: @work_package)
+
+    @auto_marked_as_read = call.success? && call.result.any?
+  end
 
   # Preference-driven mark-read after a successful comment or quoted comment.
   # Dispatches the notifications-updated event via turbo-stream so the IAN

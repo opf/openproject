@@ -56,7 +56,8 @@ module WorkPackages
           paginator: @paginator,
           filter: @filter,
           last_server_timestamp: get_current_server_timestamp,
-          resolved_anchor: @resolved_anchor
+          resolved_anchor: @resolved_anchor,
+          auto_marked_as_read: @auto_marked_as_read == true
         )
       end
 
