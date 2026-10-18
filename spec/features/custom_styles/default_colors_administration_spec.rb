@@ -68,7 +68,7 @@ RSpec.describe "default colors administration", :js do
       expect(page).to have_text(/^Background$/, count: 4)
       page.execute_script("document.body.dataset.colorMode = 'light'")
 
-      fill_in "Hex code", with: "invalid"
+      find_field("Hex code").send_keys(:backspace)
       expect(page).to have_text("These results are outdated")
       click_on "Check contrast"
       expect(page).to have_text("Enter a valid hexadecimal color code.")
@@ -88,6 +88,25 @@ RSpec.describe "default colors administration", :js do
       click_on "Check contrast"
       expect(page).to have_heading "Contrast preview"
       expect(page).to have_css("[data-color-contrast-target='sample']", count: 4)
+    end
+
+    it "checks contrast when a color is picked" do
+      click_link accessible_name: "New color"
+      fill_in "Name", with: "Picked color"
+      fill_in accessible_name: "Pick color for Hex code", with: "#ff0000"
+
+      expect(page).to have_field("Hex code", with: "#FF0000")
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_no_text("These results are outdated")
+    end
+
+    it "checks contrast when a typed color is committed" do
+      click_link accessible_name: "New color"
+      fill_in "Hex code", with: "#fff"
+      find_field("Name").click
+
+      expect(page).to have_field("Hex code", with: "#FFFFFF")
+      expect(page).to have_heading "Contrast preview"
     end
   end
 
