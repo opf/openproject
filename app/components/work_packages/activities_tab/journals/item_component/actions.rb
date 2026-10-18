@@ -60,6 +60,10 @@ module WorkPackages
           User.current.logged? && !journal.has_unread_notifications_for_user?(User.current)
         end
 
+        def markable_as_read?
+          User.current.logged? && journal.has_unread_notifications_for_user?(User.current)
+        end
+
         def quotable?
           journal.notes.present? && allowed_to_quote?
         end

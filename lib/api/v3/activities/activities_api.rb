@@ -66,6 +66,16 @@ module API
               status 204
             end
 
+            post :mark_read do
+              authorize_logged_in
+
+              call = ::Notifications::MarkReadService.new(user: current_user).call(journal: @activity)
+
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) if call.failure?
+
+              status 204
+            end
+
             mount ::API::V3::Attachments::AttachmentsByActivityCommentAPI
             mount ::API::V3::EmojiReactions::EmojiReactionsByActivityCommentAPI
           end

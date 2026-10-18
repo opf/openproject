@@ -24,6 +24,20 @@
       end
     end
 
+    if markable_as_read?
+      menu.with_item(
+        label: t("js.notifications.center.mark_as_read"),
+        tag: :button,
+        href: mark_read_work_package_activity_path(journal.journable, journal),
+        form_arguments: { method: :post },
+        content_arguments: {
+          data: { turbo_stream: true, test_selector: "op-wp-journal-#{journal.id}-mark-read" }
+        }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :read)
+      end
+    end
+
     if editable?
       menu.with_item(
         label: edit_action_label,
