@@ -38,8 +38,11 @@ export default class ColorContrastController extends Controller {
   declare readonly cardTargets:HTMLElement[];
   declare readonly summaryTarget:HTMLElement;
 
+  private lastChecked:string|null = null;
+
   markOutdated():void {
-    this.outdatedTarget.hidden = this.previewTarget.hidden;
+    const unchanged = normalizeHex(this.hexcodeTarget.value) === this.lastChecked;
+    this.outdatedTarget.hidden = this.previewTarget.hidden || unchanged;
     this.setInvalid(false);
   }
 
@@ -48,6 +51,7 @@ export default class ColorContrastController extends Controller {
     this.setInvalid(hex === null);
     if (!hex) return;
 
+    this.lastChecked = hex;
     this.previewTarget.hidden = false;
     this.outdatedTarget.hidden = true;
     const channels = hex.slice(1).match(/../g)!.map((channel) => parseInt(channel, 16));

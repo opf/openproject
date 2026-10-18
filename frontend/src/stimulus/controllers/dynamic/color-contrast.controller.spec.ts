@@ -70,6 +70,7 @@ describe('ColorContrastController', () => {
   const validation = () => ctx.container.querySelector<HTMLElement>('.FormControl-inlineValidation')!;
   const message = () => validation().querySelector<HTMLElement>('span:not(.FormControl-inlineValidation--visual)')!;
   const preview = () => ctx.container.querySelector<HTMLElement>('[data-color-contrast-target="preview"]')!;
+  const outdated = () => ctx.container.querySelector<HTMLElement>('[data-color-contrast-target="outdated"]')!;
 
   let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
 
@@ -142,6 +143,43 @@ describe('ColorContrastController', () => {
       checkButton().click();
 
       expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('keeps the results current when the same hex code is entered again', () => {
+      hexcode().value = '#fff';
+      checkButton().click();
+      hexcode().value = '#FFFFFF';
+      fireEvent.input(hexcode());
+
+      expect(outdated()).not.toBeVisible();
+    });
+
+    it('marks the results outdated when a different hex code is entered', () => {
+      hexcode().value = '#fff';
+      checkButton().click();
+      hexcode().value = '#ff0';
+      fireEvent.input(hexcode());
+
+      expect(outdated()).toBeVisible();
+    });
+
+    it('keeps the preview hidden after an invalid check until the next check', () => {
+      hexcode().value = '#fff';
+      checkButton().click();
+      hexcode().value = '#XXX';
+      checkButton().click();
+      expect(preview()).not.toBeVisible();
+      expect(validation()).toBeVisible();
+
+      hexcode().value = '#FFFFFF';
+      fireEvent.input(hexcode());
+      expect(validation()).not.toBeVisible();
+      expect(preview()).not.toBeVisible();
+      expect(outdated()).not.toBeVisible();
+
+      checkButton().click();
+      expect(preview()).toBeVisible();
+      expect(outdated()).not.toBeVisible();
     });
   });
 
