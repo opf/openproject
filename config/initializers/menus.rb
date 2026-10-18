@@ -356,6 +356,14 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my/sessions", action: :index },
             caption: :"users.sessions.title",
             icon: "devices"
+  menu.push :ai_assistants,
+            { controller: "/my/ai_assistants", action: "index" },
+            caption: :"my_account.ai_assistants.title",
+            icon: "sparkle",
+            if: ->(*) {
+              OpenProject::FeatureDecisions.ai_assistance_active? &&
+                User.current.allowed_globally?(:manage_own_ai_assistants)
+            }
   menu.push :notifications,
             { controller: "/my", action: "notifications" },
             caption: I18n.t("my_account.notifications_and_email.title"),
@@ -619,6 +627,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.mcp_configurations"),
             enterprise_feature: "mcp_server",
+            parent: :ai
+
+  menu.push :ai_assistants,
+            { controller: "/admin/ai_assistants", action: :index },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_assistance_active? },
+            caption: :"menus.admin.ai_assistants",
             parent: :ai
 
   menu.push :text_transform_actions,

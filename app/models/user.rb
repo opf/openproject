@@ -131,6 +131,8 @@ class User < Principal
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
   has_many :ai_text_transform_runs, class_name: "AI::TextTransformRun", dependent: :delete_all
+  # Chats are private to their user. The database removes their messages and proposals.
+  has_many :ai_assistant_chats, class_name: "AI::AssistantChat", dependent: :delete_all
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query

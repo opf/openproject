@@ -30,8 +30,8 @@
 module McpTools
   class SearchCustomFieldItems < Base
     default_title "Custom Field Items"
-    default_description "Access items available as values for the given custom field. Usable for hierarchy and " \
-                        "weighted item list custom fields."
+    default_description "Access items available as values for the given custom field. Usable for list, hierarchy " \
+                        "and weighted item list custom fields."
 
     name "search_custom_field_items"
     annotations read_only: true, idempotent: true, destructive: false
@@ -53,18 +53,33 @@ module McpTools
 
     def call(custom_field_id:, label: nil)
       custom_field = ::CustomField.visible(current_user).find_by(id: custom_field_id)
+      return list_items(custom_field, label) if custom_field&.list?
       return format_items([]) if custom_field&.hierarchy_root.nil?
 
-      items = flatten_hierarchy(custom_field)
-
-      if label.present?
-        items = items.select { |item| item.label.to_s.downcase.include?(label.downcase) }
-      end
-
-      format_items(items)
+      format_items(hierarchy_items(custom_field, label))
     end
 
     private
+
+    def hierarchy_items(custom_field, label)
+      items = flatten_hierarchy(custom_field)
+      return items if label.blank?
+
+      items.select { |item| item.label.to_s.downcase.include?(label.downcase) }
+    end
+
+    # A list field has its values as custom options, not as a hierarchy.
+    def list_items(custom_field, label)
+      options = custom_field.custom_options.sort_by(&:position)
+      options = options.select { |option| option.value.to_s.downcase.include?(label.downcase) } if label.present?
+
+      Success(
+        {
+          items: options.map { |option| { id: option.id, label: option.value, default: option.default_value? } },
+          total: options.size
+        }
+      )
+    end
 
     def format_items(items)
       Success(

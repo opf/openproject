@@ -54,7 +54,8 @@ module McpTools
     filter :author_id
     filter :id, filter_proc: ->(wps, v) { wps.where_display_id_in(v) }
     filter :project_id
-    filter :status_id
+    filter :status_id, filter_proc: ->(wps, v) { wps.where(status_id: Array(v)) }
+    filter :open, filter_proc: ->(wps, v) { v ? wps.with_status_open : wps.with_status_closed }
     filter :type_id
     filter :version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
     filter :target_version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
@@ -70,14 +71,23 @@ module McpTools
                        "is returned, but passing 'full' can return all information."
         },
         assigned_to_id: {
-          type: %w[number null],
-          description: "The ID of the user or group that is assigned to this work package. " \
+          type: %w[number array null],
+          items: { type: "number" },
+          description: "The ID of the user or group that is assigned to this work package, or a list of IDs. " \
                        "Pass null to search for work packages without an assignee."
         },
         author_id: { type: "number", description: "The ID of the user that created this work package." },
         id: { type: %w[string number], description: "The identifier of the work package." },
         project_id: { type: "number", description: "The ID of the project that this work package belongs to." },
-        status_id: { type: "number", description: "The ID of the work package's status." },
+        status_id: {
+          type: %w[number array],
+          items: { type: "number" },
+          description: "The ID of the work package's status, or a list of status IDs."
+        },
+        open: {
+          type: "boolean",
+          description: "true: only work packages with an open status. false: only work packages with a closed status."
+        },
         subject: {
           type: "string",
           description: "The subject of the work package. Accepts partial subjects, not case-sensitive."

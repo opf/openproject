@@ -191,6 +191,43 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
+    describe "filtering by a list of status ids" do
+      let(:other_status) { create(:status) }
+      let!(:other_status_wp) { create(:work_package, project:, status: other_status) }
+      let!(:third_status_wp) { create(:work_package, project:) }
+
+      let(:call_args) { { status_id: [status.id, other_status.id] } }
+
+      it "finds the work packages with any of the statuses" do
+        mcp_request
+        expect(result_items.pluck("id"))
+          .to contain_exactly(work_package_a.id, work_package_b.id, other_status_wp.id)
+      end
+    end
+
+    describe "filtering by open" do
+      let(:closed_status) { create(:closed_status) }
+      let!(:closed_wp) { create(:work_package, project:, status: closed_status) }
+
+      context "when searching for open work packages" do
+        let(:call_args) { { open: true } }
+
+        it "finds only work packages with an open status" do
+          mcp_request
+          expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
+        end
+      end
+
+      context "when searching for closed work packages" do
+        let(:call_args) { { open: false } }
+
+        it "finds only work packages with a closed status" do
+          mcp_request
+          expect(result_items.pluck("id")).to contain_exactly(closed_wp.id)
+        end
+      end
+    end
+
     describe "filtering by type_id" do
       let!(:other_type_wp) { create(:work_package, project:, subject: "Different Type WP") }
 
