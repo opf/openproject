@@ -61,7 +61,7 @@ module Admin
         end
 
         color_form.html_content do
-          render Colors::ContrastPreviewComponent.new
+          render Colors::ContrastPreviewComponent.new(hexcode_id: @builder.field_id(:hexcode))
         end
 
         color_form.group(layout: :horizontal) do |button_group|

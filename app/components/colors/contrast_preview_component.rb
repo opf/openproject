@@ -30,5 +30,12 @@
 module Colors
   class ContrastPreviewComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+
+    attr_reader :hexcode_id
+
+    def initialize(hexcode_id:)
+      super()
+      @hexcode_id = hexcode_id
+    end
   end
 end
