@@ -58,6 +58,7 @@ RSpec.describe "default colors administration", :js do
       click_on "Check contrast"
 
       expect(page).to have_heading "Contrast preview"
+      expect(page).to have_text("Default light and dark themes")
       expect(page).to have_css("[data-color-contrast-target='sample']", count: 4)
       expect(page).to have_text("Fail")
       expect(page).to have_text("Used as foreground", count: 2)
@@ -69,7 +70,7 @@ RSpec.describe "default colors administration", :js do
       page.execute_script("document.body.dataset.colorMode = 'light'")
 
       find_field("Hex code").send_keys(:backspace)
-      expect(page).to have_text("These results are outdated")
+      expect(page).to have_text("These results are outdated. Click Check contrast to update them.")
       click_on "Check contrast"
       expect(page).to have_field("Hex code", validation_error: "Hex code is not a valid 6-digit hexadecimal color code.")
       expect(page).to have_no_heading "Contrast preview"
