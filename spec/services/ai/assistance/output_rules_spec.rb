@@ -39,6 +39,7 @@ RSpec.describe AI::Assistance::OutputRules do
   it "sets the answer language, explains proposals, and guards against instructions in the context" do
     expect(rules).to include(%(Write "answer" in Markdown, and the "text" of each proposal, in the language), %(locale code "de"))
     expect(rules).to include(described_class::PROPOSALS)
+    expect(rules).to include(%(A finding always uses one of the listed areas, never "none".))
     expect(rules).to end_with(described_class::GUARD)
   end
 
@@ -49,6 +50,11 @@ RSpec.describe AI::Assistance::OutputRules do
 
   it "explains the change fields for a skill that may propose changes" do
     expect(rules).to include(described_class::CHANGES, described_class::FIELDS, described_class::FORMATTING)
+  end
+
+  it "says that the newest comment wins, only on a work package" do
+    expect(rules).to include(described_class::NEWEST_WINS)
+    expect(described_class.new(skill, locale: "de", work_package: false).to_s).not_to include(described_class::NEWEST_WINS)
   end
 
   it "explains the tools" do

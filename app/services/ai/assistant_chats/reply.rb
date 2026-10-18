@@ -39,6 +39,8 @@ module AI
       MAX_PROPOSALS = 15
       # Low, so that one work package gives the same answer from run to run.
       TEMPERATURE = 0.2
+      RETRY = "None of your proposals can be stored. The reason for each proposal: %s. Answer again in the " \
+              "same format, and fix this. A finding needs evidence and a text; a plain proposal needs a valid change."
 
       attr_reader :message
 
@@ -48,6 +50,8 @@ module AI
 
       def call
         answer = ask
+        reasons = lost_proposal_reasons(answer)
+        answer = ask_again(answer, reasons) if reasons
         finish { store_answer(answer) }
       rescue StandardError => e
         fail_reply(e)
@@ -63,17 +67,29 @@ module AI
 
       def skill = chat.skill
 
-      def ask
+      def ask(correction: [])
         raise Llm::Errors::NotReady, llm.status unless llm.ready?
 
         raise Llm::Errors::NotReady, "no system prompt" if system_prompt.blank?
 
-        history = earlier_turns
-        question = history.pop
+        turns = earlier_turns.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] }
+        *history, (_, question) = turns + correction
         llm_call.ask(llm:, system: "#{system_prompt}\n\nContext (JSON):\n#{context_json}",
-                     message: question ? turn_text(question) : "", schema: answer_format.schema, temperature: TEMPERATURE,
-                     tools:,
-                     history: history.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] })
+                     message: question.to_s, schema: answer_format.schema, temperature: TEMPERATURE, tools:, history:)
+      end
+
+      # The reason for each proposal, when the answer has proposals and none of them qualifies.
+      def lost_proposal_reasons(answer)
+        return unless work_package
+
+        results = Array(answer[:proposals]).first(MAX_PROPOSALS).map { |raw| answer_format.evaluate(raw) }
+        results.map(&:last) if results.any? && results.none?(&:first)
+      end
+
+      def ask_again(answer, reasons)
+        llm_call.log(:info, "asking again: all #{reasons.size} proposals were dropped")
+        list = reasons.each_with_index.map { |reason, index| "#{index + 1}: #{reason}" }.join(", ")
+        ask(correction: [[:assistant, answer.to_json], [:user, format(RETRY, list)]])
       end
 
       def system_prompt
@@ -125,14 +141,19 @@ module AI
       end
 
       def store_proposals(raw_proposals)
-        kept, dropped = raw_proposals.first(MAX_PROPOSALS).map { |raw| [raw, answer_format.proposal_attributes(raw)] }
-                                     .partition { |_raw, attributes| attributes }
-        kept.each_with_index do |(_raw, attributes), index|
-          message.proposals.create!(attributes.merge(position: index, base_lock_version: message.base_lock_version))
-        end
-        return if raw_proposals.empty?
+        kept, dropped = raw_proposals.first(MAX_PROPOSALS).map { |raw| [*answer_format.evaluate(raw), raw] }
+                                     .partition(&:first)
+        answer_format.sort(kept.map(&:first)).each_with_index { |attributes, position| store_proposal(attributes, position) }
+        log_stored(raw_proposals.size, kept.size, dropped) if raw_proposals.any?
+      end
 
-        message.log_event(:stored, findings: raw_proposals.size, stored: kept.size, dropped: dropped.map { |raw, _| raw.to_h })
+      def store_proposal(attributes, position)
+        message.proposals.create!(attributes.merge(position:, base_lock_version: message.base_lock_version))
+      end
+
+      def log_stored(findings, stored, dropped)
+        message.log_event(:stored, findings:, stored:,
+                                   dropped: dropped.map { |_, reason, raw| { reason:, proposal: raw.to_h } })
       end
 
       def llm

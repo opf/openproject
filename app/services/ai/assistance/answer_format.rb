@@ -39,6 +39,9 @@ module AI
       NONE = "none"
       MAX_TEXT = 1_000
       MAX_EVIDENCE = 5
+      CHANGE_AREAS = { "subject" => "content", "description" => "content", "comment" => "content",
+                       "status" => "status" }.freeze
+      FIELD_ORDER = (ChangeOptions::ATTRIBUTE_KEYS + ["comment"]).freeze
 
       def initialize(proposal_builder)
         @proposal_builder = proposal_builder
@@ -53,19 +56,32 @@ module AI
         }
       end
 
-      # The attributes of a proposal, or nil when it does not qualify: a finding needs a text,
-      # an area and evidence; a plain proposal needs a valid change.
-      def proposal_attributes(raw)
+      # The attributes of a proposal and nil, or nil and the reason why it does not qualify:
+      # a finding needs a text and evidence; a plain proposal needs a valid change.
+      def evaluate(raw)
         raw = raw.to_h.stringify_keys
         text = raw["text"].to_s.strip.truncate(MAX_TEXT).presence
         change_set = @proposal_builder.build(raw["changes"])
 
-        if SEVERITIES.include?(raw["severity"]) then finding_attributes(raw, text, change_set)
-        elsif change_set then { text:, change_set: }
+        if SEVERITIES.include?(raw["severity"]) then finding(raw, text, change_set)
+        elsif change_set then [{ text:, change_set: }, nil]
+        else [nil, "no valid change"]
         end
       end
 
+      # A fixed order within a severity, so that runs with the same proposals list them the same
+      # way: by the first changed field, then by area, then in the model's order.
+      def sort(proposals_attributes)
+        proposals_attributes.sort_by.with_index { |attributes, index| [*sort_key(attributes), index] }
+      end
+
       private
+
+      def sort_key(attributes)
+        keys = Array(attributes[:change_set]&.dig("actions")).pluck("key")
+        [keys.filter_map { |key| FIELD_ORDER.index(key) }.min || FIELD_ORDER.size,
+         AREAS.index(attributes[:area]) || AREAS.size]
+      end
 
       def proposal_schema
         {
@@ -82,12 +98,20 @@ module AI
         }
       end
 
-      def finding_attributes(raw, text, change_set)
+      def finding(raw, text, change_set)
         evidence = Array(raw["evidence"]).filter_map { |item| item.to_s.strip.presence }
-        return if evidence.empty? || text.nil? || AREAS.exclude?(raw["area"])
+        return [nil, "no evidence"] if evidence.empty?
+        return [nil, "no text"] if text.nil?
 
-        { severity: raw["severity"], area: raw["area"], text:, change_set:,
-          evidence: evidence.first(MAX_EVIDENCE).map { |item| { "text" => item.truncate(500) } } }
+        [{ severity: raw["severity"], area: area_for(raw["area"], change_set), text:, change_set:,
+           evidence: evidence.first(MAX_EVIDENCE).map { |item| { "text" => item.truncate(500) } } }, nil]
+      end
+
+      # The changed fields name the area. Models label it inconsistently: some use "none" for
+      # findings, or one area for all of them.
+      def area_for(area, change_set)
+        keys = Array(change_set&.dig("actions")).pluck("key")
+        CHANGE_AREAS.values_at(*keys).compact.first || (area if AREAS.include?(area))
       end
     end
   end

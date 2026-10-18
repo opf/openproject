@@ -136,6 +136,106 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     end
   end
 
+  describe "findings with the area none" do
+    let(:answer) do
+      { answer: "Zwei Befunde.", proposals: [
+        { severity: "medium", area: "none", text: "Der Betreff ist veraltet.",
+          evidence: ["Public note"], changes: [{ field: "subject", value: "New subject" }] },
+        { severity: "low", area: "none", text: "Unklar.", evidence: ["Public note"], changes: [] },
+        { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },
+        { severity: "high", area: "status", text: "Die Beschreibung fehlt.", evidence: ["Public note"],
+          changes: [{ field: "description", value: "New text" }] },
+        { severity: "low", area: "tree", text: "Kein Kind.", evidence: ["Public note"], changes: [] }
+      ] }
+    end
+
+    it "keeps them, with the area of the changed field, else the model's area, or none" do
+      message = ask("What is missing?")
+
+      expect(message.proposals.map { [it.severity, it.area] })
+        .to contain_exactly(%w[medium content], ["low", nil], %w[high content], %w[low tree])
+    end
+
+    it "logs each dropped proposal with its reason" do
+      message = ask("What is missing?")
+
+      stored = message.events.find { it["kind"] == "stored" }["data"]
+      expect(stored).to include("findings" => 5, "stored" => 4)
+      expect(stored["dropped"]).to contain_exactly(include("reason" => "no evidence",
+                                                           "proposal" => include("text" => "Ohne Beleg.")))
+    end
+  end
+
+  describe "the order of the proposals" do
+    let(:answer) do
+      { answer: "Vier Befunde.", proposals: [
+        { severity: "medium", area: "tree", text: "Kein Kind.", evidence: ["Public note"], changes: [] },
+        { severity: "medium", area: "content", text: "Termin.", evidence: ["Public note"],
+          changes: [{ field: "due_date", value: "2030-01-01" }] },
+        { severity: "medium", area: "content", text: "Beschreibung.", evidence: ["Public note"],
+          changes: [{ field: "description", value: "New text" }] },
+        { severity: "high", area: "content", text: "Betreff.", evidence: ["Public note"],
+          changes: [{ field: "subject", value: "New subject" }] },
+        { severity: "medium", area: "content", text: "Inhalt.", evidence: ["Public note"], changes: [] }
+      ] }
+    end
+
+    it "sorts by severity, then by the changed field, then by area" do
+      message = ask("What is missing?")
+
+      expect(message.proposals.map(&:text)).to eq(["Betreff.", "Beschreibung.", "Termin.", "Inhalt.", "Kein Kind."])
+    end
+  end
+
+  describe "an answer that loses all its proposals" do
+    let(:lost) do
+      { answer: "Ein Befund.", proposals: [{ severity: "high", area: "status", text: "Ohne Beleg.", evidence: [], changes: [] }] }
+    end
+    let(:fixed) do
+      { answer: "Ein Befund.", proposals: [{ severity: "high", area: "status", text: "Mit Beleg.",
+                                             evidence: ["Public note"], changes: [] }] }
+    end
+    let(:answers) { [lost, fixed] }
+
+    before do
+      allow(llm).to receive(:ask) do |text|
+        (sent[:asks] ||= []) << text
+        instance_double(RubyLLM::Message, content: answers.shift.deep_stringify_keys)
+      end
+    end
+
+    it "asks once more with the reason, after the dropped answer" do
+      message = ask("What is missing?")
+
+      expect(sent[:asks].size).to eq(2)
+      expect(sent[:asks].last).to include("None of your proposals can be stored", "1: no evidence")
+      expect(sent[:history].last).to eq([:assistant, lost.to_json])
+      expect(message.proposals.map(&:text)).to eq(["Mit Beleg."])
+    end
+
+    context "when the second answer loses them too" do
+      let(:answers) { [lost, lost] }
+
+      it "does not ask a third time" do
+        message = ask("What is missing?")
+
+        expect(sent[:asks].size).to eq(2)
+        expect(message).to be_done
+        expect(message.proposals).to be_empty
+      end
+    end
+
+    context "without proposals" do
+      let(:answers) { [{ answer: "Alles gut.", proposals: [] }] }
+
+      it "does not ask again" do
+        ask("What is missing?")
+
+        expect(sent[:asks].size).to eq(1)
+      end
+    end
+  end
+
   describe "the MCP tools" do
     it "offers the read-only MCP tools and explains them" do
       ask("How many?")

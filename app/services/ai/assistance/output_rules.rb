@@ -39,7 +39,8 @@ module AI
         user sees each proposal on its own. When there are proposals, keep "answer" to one or two
         sentences that sum them up. A finding names a problem in the work
         package: give it a "severity", an "area", and "evidence" that quotes the comment or names
-        the field. A finding without evidence is dropped. A plain proposal is a change without a
+        the field. A finding without evidence is dropped. A finding always uses one of the listed
+        areas, never "none". A plain proposal is a change without a
         problem behind it, for example one that the user asked for: use the severity "none" and
         the area "none".
       TEXT
@@ -61,6 +62,11 @@ module AI
       CONTEXT = <<~TEXT.squish
         The context already holds this work package with its comments, relations, descendants,
         meetings and pull requests: do not read them again with the tools.
+      TEXT
+      NEWEST_WINS = <<~TEXT.squish
+        The comments and meetings in the context are listed newest first, with their dates. When
+        two of them disagree, the newest one is valid: a later comment replaces an earlier
+        statement about the same thing.
       TEXT
       CONTEXT_ELSEWHERE = <<~TEXT.squish
         The context holds only the user and, when there is one, the project of the page the user
@@ -88,7 +94,7 @@ module AI
       end
 
       def to_s
-        rules = work_package ? [PROPOSALS, *changes, (CONTEXT if tools)] : [NO_PROPOSALS, CONTEXT_ELSEWHERE]
+        rules = work_package ? [PROPOSALS, *changes, NEWEST_WINS, (CONTEXT if tools)] : [NO_PROPOSALS, CONTEXT_ELSEWHERE]
         [language, PEOPLE, *rules, (TOOLS if tools), GUARD].compact.join("\n")
       end
 

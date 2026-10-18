@@ -59,6 +59,15 @@ RSpec.describe AI::Assistance::ProposalItemComponent, type: :component do
     expect(rendered).to have_test_selector("ai-assistance-dismiss")
   end
 
+  context "with a finding without an area" do
+    before { proposal.update!(area: nil) }
+
+    it "shows its severity and no area" do
+      expect(rendered).to have_text("Medium")
+      expect(rendered).to have_no_text("Content")
+    end
+  end
+
   context "with a plain proposal" do
     let(:proposal) { create(:ai_assistant_proposal, message:, text: "A clearer description") }
 
