@@ -189,17 +189,21 @@ module ::TypesHelper
     required_keys = variant.required_attributes.map(&:to_s)
 
     variant.attribute_groups.map do |group|
-      {
-        id: group.record_id,
-        key: group.key,
-        type: group.group_type,
-        name: group.translated_key,
-        element_key: exclusion_element_key(group),
-        attributes: active_group_attributes_map(group, available, inactive, required_keys:, record_ids:),
-        query_summary: query_summary_rows(group),
-        query: query_to_query_props(group)
-      }
+      group_form_map(group, attributes: active_group_attributes_map(group, available, inactive, required_keys:, record_ids:))
     end
+  end
+
+  def group_form_map(group, attributes: nil)
+    {
+      id: group.record_id,
+      key: group.key,
+      type: group.group_type,
+      name: group.translated_key,
+      element_key: exclusion_element_key(group),
+      attributes:,
+      query_summary: query_summary_rows(group),
+      query: query_to_query_props(group)
+    }
   end
 
   def query_summary_rows(group)
