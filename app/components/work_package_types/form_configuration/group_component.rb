@@ -83,6 +83,7 @@ module WorkPackageTypes
           group_type: @group[:type].to_s,
           group_key: @group[:key].to_s,
           group_query: @group[:query],
+          group_temporary: (true if temporary_group?),
           update_query_url: update_query_path,
           edit_mode: (true if edit_mode?)
         }.compact.merge(draggable_item_config)

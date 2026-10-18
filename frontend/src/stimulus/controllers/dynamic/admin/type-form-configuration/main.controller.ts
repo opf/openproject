@@ -25,11 +25,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ApplicationInitStatus } from '@angular/core';
+import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { Controller } from '@hotwired/stimulus';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class TypeFormConfigurationController extends Controller {
-  static services:ServiceKey[] = ['turboRequests', 'externalRelationQueryConfiguration'];
+  static services:ServiceKey[] = ['turboRequests'];
 
   static targets = ['groupsContainer', 'inactiveContainer'];
 
@@ -44,7 +46,9 @@ export default class TypeFormConfigurationController extends Controller {
   declare readonly addGroupUrlValue:string;
   declare readonly noFilterQueryValue:string;
 
-  declare services:Promise<PickedServices<'turboRequests'|'externalRelationQueryConfiguration'>>;
+  declare services:Promise<PickedServices<'turboRequests'>>;
+
+  declare pluginContext:Promise<OpenProjectPluginContext>;
 
   initialize() {
     useAngularServices(this);
@@ -54,7 +58,7 @@ export default class TypeFormConfigurationController extends Controller {
     event.preventDefault();
 
     void this.openQueryEditor(this.noFilterQueryValue, (queryProps:unknown) => {
-      void this.postNewGroup('query', queryProps);
+      void this.postNewGroup('query', queryProps).catch(() => undefined);
     });
   }
 
@@ -73,21 +77,23 @@ export default class TypeFormConfigurationController extends Controller {
     if (!group) return;
 
     void this.openQueryEditor(group.dataset.groupQuery ?? this.noFilterQueryValue, (queryProps:unknown) => {
+      if (group.dataset.groupTemporary === 'true') {
+        const name = group.querySelector<HTMLInputElement>('input[name="group[name]"]')?.value ?? '';
+        void this.postNewGroup('query', queryProps, name).catch(() => undefined);
+        return;
+      }
+
       const url = group.dataset.updateQueryUrl;
       if (!url) {
         console.warn('Type form configuration group is missing its data-update-query-url; the query cannot be saved.', group);
         return;
       }
 
-      void this.postQueryUpdate(url, queryProps).then((success) => {
-        if (success) {
-          group.dataset.groupQuery = JSON.stringify(queryProps);
-        }
-      });
+      void this.postQueryUpdate(url, queryProps).catch(() => undefined);
     });
   }
 
-  private async postNewGroup(groupType:'attribute'|'query', queryProps?:unknown):Promise<void> {
+  private async postNewGroup(groupType:'attribute'|'query', queryProps?:unknown, name?:string):Promise<void> {
     const { turboRequests } = await this.services;
 
     const body = new URLSearchParams({
@@ -96,6 +102,10 @@ export default class TypeFormConfigurationController extends Controller {
 
     if (queryProps) {
       body.set('query', JSON.stringify(queryProps));
+    }
+
+    if (name !== undefined) {
+      body.set('name', name);
     }
 
     await turboRequests.request(this.addGroupUrlValue, {
@@ -107,7 +117,7 @@ export default class TypeFormConfigurationController extends Controller {
     });
   }
 
-  private async postQueryUpdate(url:string, queryProps:unknown):Promise<boolean> {
+  private async postQueryUpdate(url:string, queryProps:unknown):Promise<void> {
     const { turboRequests } = await this.services;
 
     await turboRequests.request(url, {
@@ -119,23 +129,28 @@ export default class TypeFormConfigurationController extends Controller {
         query: JSON.stringify(queryProps),
       }),
     });
-
-    return true;
   }
 
   private async openQueryEditor(queryJson:string, callback:(queryProps:unknown) => void) {
-    const { externalRelationQueryConfiguration } = await this.services;
+    const { services, injector } = await this.pluginContext;
 
-    const currentQuery = JSON.parse(queryJson) as unknown;
-    const disabledTabs = {
-      'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-      timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
-    };
+    try {
+      await injector.get(ApplicationInitStatus).donePromise;
+      if (!this.element.isConnected) return;
 
-    externalRelationQueryConfiguration.show({
-      currentQuery,
-      callback,
-      disabledTabs,
-    });
+      const currentQuery = JSON.parse(queryJson) as unknown;
+      const disabledTabs = {
+        'display-settings': I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
+        timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
+      };
+
+      services.externalRelationQueryConfiguration.show({
+        currentQuery,
+        callback,
+        disabledTabs,
+      });
+    } catch (error) {
+      services.notifications.addError(error as string);
+    }
   }
 }

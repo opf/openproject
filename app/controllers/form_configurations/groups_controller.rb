@@ -136,14 +136,33 @@ module FormConfigurations
         .call(query_props: params[:query])
 
       if call.success?
-        head :ok
+        @form_configuration.reload
+        replace_query_group_via_turbo_stream(call.result.key)
       else
         render_form_configuration_error(call)
-        respond_with_turbo_streams(status: turbo_status_for(call))
       end
+
+      respond_with_turbo_streams(status: turbo_status_for(call))
     end
 
     private
+
+    def replace_query_group_via_turbo_stream(key)
+      groups = form_editor_context.attribute_groups.reject { |group| group.key.to_s == "__empty" }
+      index = groups.index { |group| group.key.to_s == key.to_s }
+
+      replace_via_turbo_stream(component: query_group_component(groups, index))
+    end
+
+    def query_group_component(groups, index)
+      WorkPackageTypes::FormConfiguration::GroupComponent.new(
+        group: group_form_map(groups[index]),
+        context: form_editor_context,
+        ee_available: EnterpriseToken.allows_to?(:edit_attribute_groups),
+        first: index.zero?,
+        last: index == groups.length - 1
+      )
+    end
 
     def group_params
       params.expect(group: %i[name group_type query])
@@ -174,8 +193,21 @@ module FormConfigurations
         name:,
         attributes: [],
         query:,
+        query_summary: temporary_query_summary(group_type:, query:, name:),
         temporary: true
       }
+    end
+
+    def temporary_query_summary(group_type:, query:, name:)
+      return unless group_type.to_s == "query"
+
+      call = WorkPackageTypes::FormConfiguration::EmbeddedQueryBuilder.build(
+        query_props: query,
+        name: "Embedded table: #{name}",
+        user: current_user
+      )
+
+      WorkPackageTypes::FormConfiguration::QuerySummary.new(call.result).rows if call.success?
     end
 
     def turbo_status_for(call)
@@ -214,12 +246,14 @@ module FormConfigurations
 
     def render_existing_group_update_error(call) # rubocop:disable Metrics/AbcSize
       @form_configuration.reload
-      group = active_groups_for_form.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
+      groups = active_groups_for_form
+      group = groups.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
 
       # A group deleted from another tab leaves no editor to re-render the rejected name into.
       return render_form_configuration_error(call) if group.nil?
 
       update_main_content_via_turbo_stream(
+        groups:,
         editing_group_key: group_key_param,
         form_model: group_form_model(
           group:,
@@ -229,8 +263,13 @@ module FormConfigurations
       )
     end
 
-    def render_temporary_group_editor(group: temporary_group(group_type: params[:group_type], query: params[:query]),
-                                      form_model: nil)
+    def render_temporary_group_editor(group: nil, form_model: nil)
+      group ||= temporary_group(
+        group_type: params[:group_type],
+        query: params[:query],
+        name: params[:name].to_s
+      )
+
       update_main_content_via_turbo_stream(
         groups: [group] + active_groups_for_form,
         editing_group_key: TEMPORARY_GROUP_KEY,
