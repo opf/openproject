@@ -84,3 +84,30 @@ body:has(.type-form-configuration-page)
     &--main-inner
       padding-left: 0
       padding-top: var(--base-size-24)
+
+.type-form-configuration-page--query-summary
+  margin: var(--base-size-16) 0 0
+
+  > div
+    display: grid
+    grid-template-columns: minmax(5.5rem, 7rem) minmax(0, 1fr)
+    column-gap: var(--base-size-16)
+    margin-top: var(--base-size-8)
+
+  dt,
+  dd
+    min-width: 0
+    overflow-wrap: anywhere
+
+  dt
+    grid-column: 1
+    grid-row: 1
+    font-weight: normal
+    color: var(--fgColor-muted)
+
+  dd
+    grid-column: 2
+    margin: 0
+
+  dd + dd
+    margin-top: var(--base-size-4)

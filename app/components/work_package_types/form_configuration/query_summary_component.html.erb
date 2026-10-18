@@ -1,0 +1,10 @@
+<%= render(OpPrimer::DefinitionListComponent.new(classes: "type-form-configuration-page--query-summary")) do |list| %>
+  <% @rows.each do |row| %>
+    <% list.with_item do |item| %>
+      <% item.with_term { row.fetch(:label) } %>
+      <% row.fetch(:values).each do |value| %>
+        <% item.with_description { value } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
