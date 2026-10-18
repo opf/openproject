@@ -36,8 +36,10 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
+  markNotificationsAsUnread,
   notificationCountChanged,
   notificationsMarkedRead,
+  notificationsMarkedUnread,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
@@ -225,6 +227,12 @@ export class IanCenterService extends UntilDestroyedMixin {
     );
   }
 
+  markAsUnread(notifications:ID[]):void {
+    this.actions$.dispatch(
+      markNotificationsAsUnread({ origin: this.id, notifications }),
+    );
+  }
+
   openSplitScreen(workPackageId:string, tabIdentifier = 'activity'):void {
     const link = this.pathHelper.notificationsDetailsPath(workPackageId, tabIdentifier) + window.location.search;
     Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
@@ -305,6 +313,24 @@ export class IanCenterService extends UntilDestroyedMixin {
 
     // Reload the sidemenu frame
     void this.menuFrame.reload();
+  }
+
+  /**
+   * React to a notification being marked unread. The store entity was already
+   * flipped to readIAN:false by `markAsUnread`, so we just need `activeCollection$`
+   * to re-emit — nothing is re-fetched. Skipping the fetch avoids a trackBy
+   * change (trackNotificationGroups includes `updatedAt`) that would otherwise
+   * unmount and remount the row, visible as a flicker.
+   */
+  @EffectCallback(notificationsMarkedUnread)
+  private reloadOnNotificationUnread() {
+    const { activeCollection } = this.query.getValue();
+    this.store.update({
+      activeCollection: { ...activeCollection, ids: [...activeCollection.ids] },
+    });
+
+    void this.menuFrame.reload();
+    this.ianBellService.fetchUnread().subscribe();
   }
 
   private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
