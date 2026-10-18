@@ -38,27 +38,30 @@ module Admin
           input_width: :medium
         )
 
-        color_form.color_field(
-          name: :hexcode,
-          label: attribute_name(:hexcode),
-          required: true,
-          autocomplete: "off",
-          input_width: :small
-        )
+        color_form.group(layout: :horizontal, classes: "color-form--hexcode-row") do |hexcode_group|
+          hexcode_group.color_field(
+            name: :hexcode,
+            label: attribute_name(:hexcode),
+            required: true,
+            input_width: :small,
+            aria: { errormessage: "color-contrast-error" },
+            data: { color_contrast_target: "hexcode", action: "input->color-contrast#outdate change->color-contrast#check" }
+          )
 
-        color_form.html_content do
-          render Colors::ContrastPreviewComponent.new
-        end
-
-        color_form.group(layout: :horizontal) do |button_group|
-          button_group.button(
+          hexcode_group.button(
             name: :check_contrast,
             classes: "color-form--check-contrast",
             type: :button,
             label: I18n.t("colors.contrast.check"),
             data: { action: "color-contrast#check" }
           )
+        end
 
+        color_form.html_content do
+          render Colors::ContrastPreviewComponent.new
+        end
+
+        color_form.group(layout: :horizontal) do |button_group|
           button_group.button(
             name: :cancel,
             scheme: :default,
