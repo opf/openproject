@@ -22,5 +22,4 @@ jobs:
       - name: Add the contribution label
         env:
           GH_TOKEN: ${{ github.token }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: gh pr edit "$PR_URL" --add-label contribution
+        run: gh pr edit "${{ github.event.pull_request.number }}" --repo "$GITHUB_REPOSITORY" --add-label contribution
