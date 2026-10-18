@@ -238,13 +238,11 @@ RSpec.describe "form query configuration", :js do
     shared_examples_for "query group" do
       it do
         form.add_query_group("Subtasks", frontend_relation_type) do |modal|
-          # Expect disabled tabs for timelines and display mode
-          modal.expect_disabled_tab "Gantt chart"
-          modal.expect_disabled_tab "Display settings"
-
           # Restrict filters to type_task
           modal.expect_open
           modal.switch_to "Filters"
+          modal.expect_no_tab "Gantt chart"
+          modal.expect_no_tab "Display settings"
           # the templated filter should be hidden in the Filters tab
           filters.expect_filter_count 1
           filters.add_filter_by("Type", "is (OR)", type_task.name)

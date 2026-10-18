@@ -36,7 +36,11 @@ export class RestrictedWpTableConfigurationService extends WpTableConfigurationS
   readonly locals = inject<QueryConfigurationLocals>(OpQueryConfigurationLocalsToken);
 
   public get tabs():TabInterface[] {
-    const disabledTabs = this.locals.disabledTabs || {};
+    const disabledTabs = this.locals.disabledTabs ?? {};
+
+    if (this.locals.hideDisabledTabs) {
+      return super.tabs.filter((el) => disabledTabs[el.id] == null);
+    }
 
     return super
       .tabs

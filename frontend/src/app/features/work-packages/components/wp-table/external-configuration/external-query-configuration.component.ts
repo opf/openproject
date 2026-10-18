@@ -43,6 +43,7 @@ export interface QueryConfigurationLocals {
   currentQuery:unknown;
   urlParams?:boolean;
   disabledTabs?:Record<string, string>;
+  hideDisabledTabs?:boolean;
   callback:(newQuery:unknown) => void;
 }
 
