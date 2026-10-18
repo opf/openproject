@@ -624,7 +624,7 @@ sr:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           few: and %{count} others
           other: and %{count} others
         empty_state:
@@ -829,12 +829,12 @@ sr:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           few: Could not extend the range. %{count} items selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           few: "%{count} items selected."
           other: "%{count} items selected."
     spot:
@@ -885,20 +885,20 @@ sr:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: one child work package
+        one: "%{count} child work package"
         few: "%{count} work package children"
         other: "%{count} work package children"
       day:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} days"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         few: "%{count} words"
         other: "%{count} words"
       workPackage:

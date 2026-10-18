@@ -48,8 +48,8 @@ sv:
   documents:
     active_editors: Aktiva redigerare
     active_editors_count:
-      one: 1 aktiv redigerare
-      other: "%{count} aktiva redigerare"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

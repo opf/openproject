@@ -48,8 +48,8 @@ tr:
   documents:
     active_editors: Etkin düzenleyici
     active_editors_count:
-      one: 1 aktif editör
-      other: "%{count} aktif editör"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

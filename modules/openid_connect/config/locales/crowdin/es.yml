@@ -164,7 +164,7 @@ es:
       delete_result_1: Elimine al proveedor de la lista de proveedores disponibles.
       delete_result_direct: Este proveedor está marcado como proveedor de inicio de sesión directo. La configuración se eliminará y ya no se redirigirá a los usuarios al proveedor para iniciar sesión.
       delete_result_user_count:
-        one: Actualmente, un usuario sigue utilizando este proveedor. Deberá ser invitado de nuevo o iniciar sesión con otro proveedor.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} usuarios siguen utilizando actualmente este proveedor. Deberán ser invitados de nuevo o iniciar sesión con otro proveedor."
         zero: Ningún usuario utiliza actualmente este proveedor. No se requiere ninguna acción adicional.
       input_delete_confirmation_html: Escribe el nombre del proveedor %{name} para confirmar la eliminación.

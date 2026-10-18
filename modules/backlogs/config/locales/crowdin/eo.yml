@@ -73,7 +73,7 @@ eo:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is one work package that was not completed in this sprint.
+                one: There is %{count} work package that was not completed in this sprint.
                 other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: ne estas aktiva, do ĝi ne povas esti fermita.
@@ -161,7 +161,7 @@ eo:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        one: Montru ankoraŭ 1 plian eron
+        one: Show %{count} more item
         other: Show %{count} more items
       title: Enirkesto
     index_subheader_component:
@@ -266,7 +266,6 @@ eo:
       header_backlogs: Tasklistaj moduloj
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Kopiu URL-on al la tondujo
         copy_work_package_id: Kopiu la ID de laborpako
         move_menu: Movu al pozicio
         move_to_backlog_bucket: Movu al la tasklista ujo

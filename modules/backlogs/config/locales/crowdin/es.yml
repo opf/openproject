@@ -73,8 +73,8 @@ es:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Hay un paquete de trabajo que no se completó en este sprint.
-                other: Hay %{count} paquetes de trabajo que no se completaron en este sprint.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: no está activo, por lo que no puede cerrarse.
         sprint_goal:
@@ -161,8 +161,8 @@ es:
       drop_zone_label: Suelta aquí para añadir este elemento
       label_actions: Acciones de bandeja de entrada
       show_more:
-        one: Mostrar 1 artículo más
-        other: Mostrar %{count} artículos más
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Bandeja de entrada
     index_subheader_component:
       label_search_by_subject: Buscar paquetes de trabajo por tema
@@ -266,7 +266,6 @@ es:
       header_backlogs: Módulo de trabajos pendientes
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copiar URL al portapapeles
         copy_work_package_id: Copiar el ID del paquete de trabajo
         move_menu: Mover a la posición
         move_to_backlog_bucket: Mover al bucket de backlog

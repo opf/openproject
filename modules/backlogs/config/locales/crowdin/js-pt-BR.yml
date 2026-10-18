@@ -45,12 +45,12 @@ pt-BR:
         not_selectable: Seleção inalterada. Este pacote de trabalho não faz parte da ordenação desta lista.
         range_blocked: Seleção inalterada. Esse intervalo contém um pacote de trabalho que não faz parte da ordenação desta lista.
         range_restarted:
-          one: Não foi possível ampliar o intervalo. 1 pacote de trabalho selecionado.
-          other: Não foi possível ampliar o intervalo. %{count} pacotes de trabalho selecionados.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
         selected:
-          one: 1 pacote de trabalho selecionado.
-          other: "%{count} pacotes de trabalho selecionados."
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
     burndown:
       day: Dia
       points: Pontos

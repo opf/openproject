@@ -162,7 +162,7 @@ ja:
       delete_result_1: 利用可能なプロバイダのリストからプロバイダを削除します。
       delete_result_direct: このプロバイダは直接ログインプロバイダとしてマークされています。この設定は削除され、ユーザはログインのためにプロバイダにリダイレクトされなくなります。
       delete_result_user_count:
-        one: 1人のユーザーが現在このプロバイダーを使用しています。再招待または別のプロバイダーでログインする必要があります。
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count}人のユーザーが現在このプロバイダーを使用しています。再招待または別のプロバイダーでログインする必要があります。"
         zero: 現在、このプロバイダを使用しているユーザーはいません。これ以上の操作は必要ありません。
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

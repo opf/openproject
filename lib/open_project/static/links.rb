@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,8 +101,8 @@ module OpenProject
               href: help_link,
               label: "top_menu.help_and_support"
             },
-            current_release_notes: {
-              href: current_release_notes_link,
+            current_minor_release_notes: {
+              href: current_minor_release_notes_link,
               label: :label_release_notes
             }
           }
@@ -118,8 +117,9 @@ module OpenProject
           dynamic
         end
 
-        def current_release_notes_link
-          version = OpenProject::VERSION.to_semver(separator: "-")
+        def current_minor_release_notes_link
+          version = [OpenProject::VERSION::MAJOR, OpenProject::VERSION::MINOR, 0].join("-")
+
           "https://www.openproject.org/docs/release-notes/#{version}"
         end
 

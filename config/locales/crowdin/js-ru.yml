@@ -626,10 +626,10 @@ ru:
     notifications:
       center:
         and_more_users:
-          one: и еще 1
-          few: и %{count} других
-          many: и %{count} других
-          other: и %{count} других
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Похоже, вы все сделали.
           no_notification_for_filter: Похоже, что для этого фильтра у Вас уже все готово.
@@ -832,16 +832,16 @@ ru:
         not_selectable: Выборка не изменилась. Этот элемент не принимает участия в сортировке этого списка.
         range_blocked: Выборка не изменилась. Этот диапазон содержит элемент, который не принимает участия в сортировке этого списка.
         range_restarted:
-          one: Не удалось расширить диапазон. Выбран 1 элемент.
+          one: Could not extend the range. %{count} item selected.
           few: Could not extend the range. %{count} items selected.
           many: Could not extend the range. %{count} items selected.
-          other: Не удалось расширить диапазон. Выбрано %{count} элементов.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
         selected:
-          one: 1 элемент выбран.
-          few: "%{count} элемента выбрано."
-          many: "%{count} элементов выбрано."
-          other: "%{count} элементов выбрано."
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Закрыть диалоговое окно
@@ -890,24 +890,24 @@ ru:
       label_two_factor_authentication: Двухфакторная аутентификация
     units:
       child_work_packages:
-        one: пакет работ с одним дочерним
-        few: пакетов работ с %{count} дочерними
-        many: пакет работ с %{count} дочерними
-        other: пакет работ с %{count} дочерними
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: День
+        one: "%{count} day"
         other: "%{count} дней"
         zero: 0 дней
       hour:
-        one: 1 ч
+        one: "%{count} h"
         other: "%{count} ч"
         zero: 0 ч
       hour_string: "%{hours} ч"
       word:
-        one: 1 слово
-        few: "%{count} слов"
-        many: "%{count} слов"
-        other: "%{count} слов"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: пакет работ
         few: пакетов работ

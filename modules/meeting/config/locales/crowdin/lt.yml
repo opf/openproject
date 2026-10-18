@@ -31,10 +31,10 @@ lt:
         notes: Pastabos
         notify: Send notifications
         participant:
-          one: 1 dalyvis
-          few: "%{count} dalyviai"
-          many: "%{count} dalyvių"
-          other: "%{count} dalyviai"
+          one: "%{count} Participant"
+          few: "%{count} Participants"
+          many: "%{count} Participants"
+          other: "%{count} Participants"
         participants: Dalyviai
         participants_added: 'Participants added:'
         participants_attended: Būtinas dalyvis
@@ -99,7 +99,7 @@ lt:
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -193,6 +193,7 @@ lt:
   label_agenda_item_duplicate: Duplicate
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Perkelti
   label_agenda_item_move_down: Žemyn
   label_agenda_item_move_to_backlog: Move to backlog
@@ -256,7 +257,7 @@ lt:
   label_meeting_last_updated: Atnaujinta
   label_meeting_minutes: Minutės
   label_meeting_more:
-    one: There is one more meeting.
+    one: There is %{count} more meeting.
     few: There are %{count} more meetings.
     many: There are %{count} more meetings.
     other: There are %{count} more meetings.
@@ -304,12 +305,12 @@ lt:
   label_recurring_meeting_delete: Delete occurrence
   label_recurring_meeting_duplicate: Duplicate as a one-time meeting
   label_recurring_meeting_more:
-    one: There is one more scheduled meeting (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
     few: There are %{count} more scheduled meetings (%{schedule}).
     many: There are %{count} more scheduled meetings (%{schedule}).
     other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is one more past meeting.
+    one: There is %{count} more past meeting.
     few: There are %{count} more past meetings.
     many: There are %{count} more past meetings.
     other: There are %{count} more past meetings.
@@ -608,7 +609,7 @@ lt:
     caption:
       ends_on: This results in a series ending on %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
+        one: This results in %{count} upcoming occurrence
         few: This results in %{count} upcoming occurrences
         many: This results in %{count} upcoming occurrences
         other: This results in %{count} upcoming occurrences
@@ -616,7 +617,7 @@ lt:
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
@@ -749,7 +750,7 @@ lt:
   text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
   text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
   text_agenda_item_moved_to_backlog: Agenda item moved to the backlog

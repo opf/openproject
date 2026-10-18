@@ -40,7 +40,9 @@ hr:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: Izbriši korisnički račun
     delete_confirmation: Jeste li sigurni da želite izbrisati korisnički račun?
     deletion_info:
@@ -65,7 +67,9 @@ hr:
     error_self_registration_limited_provider: 'User registration is limited for the Single sign-on provider ''%{name}''. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
 
       '
-    login_with_auth_provider: ili pristupite s vašim postojećim korinisičkim računom
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Molim vas prijavite se da bi ste aktivirali vaš korisnički račun.
@@ -201,11 +205,17 @@ hr:
         row_count: Number of rows
         widgets: Widgets
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -435,6 +445,7 @@ hr:
       user:
         admin: Administrator
         auth_source: Authentication source
+        avatar_type: Avatar type
         consented_at: Pristanak na
         current_password: Trenutna lozinka
         department: Department
@@ -448,7 +459,7 @@ hr:
         last_name: Prezime
         ldap_auth_source: LDAP connection
         new_password: Nova lozinka
-        password_confirmation: Potvrda
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -458,12 +469,14 @@ hr:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
         comments_sorting: Display work package activity sorted by
         daily_reminders: Daily reminders
+        date_format: Date format
         disable_keyboard_shortcuts: Disable keyboard shortcuts
         dismissed_enterprise_banners: Hidden enterprise banners
         force_dark_theme_contrast: Force high-contrast when in Dark mode
@@ -480,6 +493,7 @@ hr:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Color mode
+        time_format: Time format
         time_zone: Vremenska zona
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved changes
         workdays: Working days
@@ -1004,9 +1018,9 @@ hr:
               numeric: numerički (npr. ' 1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                one: koristila se prije. Molim vas odaberite lozinku različitu u odnosnu na prijašnju.
-                few: koristila se prije. Molim vas odaberite lozinku različitu u odnosnu na prijašnju %{count}.
-                other: koristila se prije. Molim vas odaberite lozinku različitu u odnosnu na prijašnju %{count}.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                few: has been used before. Please choose one that is different from your last %{count}.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: specijalni (npr ' %')
               uppercase: velika slova (npr. ' A')
             password_confirmation:
@@ -1110,9 +1124,9 @@ hr:
       template:
         body: 'Molim vas provjerite sljedeća polja:'
         header:
-          one: 1 pogreška ne dopušta predlošku %{model} trenutno spremanje
-          few: "%{count} pogreške ne dopuštaju predlošku %{model} trenutno spremanje"
-          other: "%{count} pogreške ne dopuštaju predlošku %{model} trenutno spremanje"
+          one: "%{count} error prohibited this %{model} from being saved"
+          few: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Action
@@ -1860,31 +1874,31 @@ hr:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
+              one: "%{count} issue"
               few: "%{count} issues"
               other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               few: "%{count} jobs"
               other: "%{count} jobs"
             projects:
-              one: 1 project
+              one: "%{count} project"
               few: "%{count} projects"
               other: "%{count} projects"
             statuses:
-              one: 1 status
+              one: "%{count} status"
               few: "%{count} statuses"
               other: "%{count} statuses"
             types:
-              one: 1 type
+              one: "%{count} type"
               few: "%{count} types"
               other: "%{count} types"
             users:
-              one: 1 user
+              one: "%{count} user"
               few: "%{count} users"
               other: "%{count} users"
             work_packages:
-              one: 1 work package
+              one: "%{count} work package"
               few: "%{count} work packages"
               other: "%{count} work packages"
           revert_dialog:
@@ -1951,7 +1965,7 @@ hr:
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
               caption_done_description:
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 few: "%{count} projects selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
@@ -2240,6 +2254,10 @@ hr:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2253,7 +2271,7 @@ hr:
         confirm_button: Unreserve identifier
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
@@ -2383,7 +2401,7 @@ hr:
           error_unknown: Needs manual review
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
-            one: "... 1 more project"
+            one: "... %{count} more project"
             few: "... %{count} more projects"
             other: "... %{count} more projects"
         banner:
@@ -2468,7 +2486,7 @@ hr:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: One role selected
+          one: "%{count} role selected"
           few: "%{count} roles selected"
           other: "%{count} roles selected"
         title: Select roles
@@ -2481,7 +2499,7 @@ hr:
         confirm: Remove
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
-          one: Remove 1 status?
+          one: Remove %{count} status?
           few: Remove %{count} statuses?
           other: Remove %{count} statuses?
         title: Remove statuses
@@ -2503,6 +2521,21 @@ hr:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: trenutno prikazani
@@ -2919,9 +2952,9 @@ hr:
     text:
       failed: Nije moguće kopirati projekt "%{source_project_name}" u projekt "%{target_project_name}".
       succeeded: Kopiran je projekt "%{source_project_name}" u "%{target_project_name}".
-    title: Copy project "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: One object of this type
+      one: "%{count} object of this type"
       other: "%{count} objects of this type"
       zero: No objects of this type
   create_portfolio:
@@ -2961,7 +2994,7 @@ hr:
     admin:
       hierarchy:
         subitems:
-          one: 1 sub-item
+          one: "%{count} sub-item"
           other: "%{count} sub-items"
           zero: no sub-items
       items:
@@ -3121,72 +3154,72 @@ hr:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: približno 1 sat
-        few: približno %{count} sata
-        other: približno %{count} sata
+        one: about %{count} hour
+        few: about %{count} hours
+        other: about %{count} hours
       about_x_months:
-        one: približno 1 mjesec
-        few: približno %{count} mjeseca
-        other: približno %{count} mjeseca
+        one: about %{count} month
+        few: about %{count} months
+        other: about %{count} months
       about_x_years:
-        one: približno 1 godinu
-        few: približno %{count} godine
-        other: približno %{count} godine
+        one: about %{count} year
+        few: about %{count} years
+        other: about %{count} years
       almost_x_years:
-        one: gotovo 1 godina
-        few: gotovo %{count} godine
-        other: gotovo %{count} godine
+        one: almost %{count} year
+        few: almost %{count} years
+        other: almost %{count} years
       half_a_minute: pola minute
       less_than_x_minutes:
         one: manje od 1 minute
         few: manje od %{count} minute
         other: manje od %{count} minute
       less_than_x_seconds:
-        one: manje od 1 sekunde
-        few: manje od %{count} sekundi
-        other: manje od %{count} sekundi
+        one: less than %{count} second
+        few: less than %{count} seconds
+        other: less than %{count} seconds
       over_x_years:
-        one: više od 1 godine
-        few: više od %{count} godine
-        other: više od %{count} godine
+        one: over %{count} year
+        few: over %{count} years
+        other: over %{count} years
       x_days:
-        one: 1 dan
-        few: "%{count} dana"
-        other: "%{count} dana"
+        one: "%{count} day"
+        few: "%{count} days"
+        other: "%{count} days"
       x_hours:
-        one: 1 sat
-        few: "%{count} sata"
-        other: "%{count} sata"
+        one: "%{count} hour"
+        few: "%{count} hours"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 hr
+        one: "%{count} hr"
         few: "%{count} hrs"
         other: "%{count} hrs"
       x_minutes:
-        one: 1 minuta
-        few: "%{count} minute"
-        other: "%{count} minute"
+        one: "%{count} minute"
+        few: "%{count} minutes"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min
+        one: "%{count} min"
         few: "%{count} mins"
         other: "%{count} mins"
       x_months:
-        one: 1 mjesec
-        few: "%{count} mjeseca"
-        other: "%{count} mjeseca"
+        one: "%{count} month"
+        few: "%{count} months"
+        other: "%{count} months"
       x_seconds:
-        one: 1 sekunda
-        few: "%{count} sekunde"
-        other: "%{count} sekunde"
+        one: "%{count} second"
+        few: "%{count} seconds"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         few: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 week
+        one: "%{count} week"
         few: "%{count} weeks"
         other: "%{count} weeks"
       x_years:
-        one: 1 year
+        one: "%{count} year"
         few: "%{count} years"
         other: "%{count} years"
     units:
@@ -3341,7 +3374,7 @@ hr:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        one: One day left of %{trial_plan} trial token
+        one: "%{count} day left of %{trial_plan} trial token"
         few: "%{count} days left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
@@ -3728,16 +3761,16 @@ hr:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         few: "%{count} projects"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         few: "%{count} types"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         few: "%{count} variants"
         other: "%{count} variants"
     name:
@@ -3774,11 +3807,11 @@ hr:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         few: This form is used by %{count} types. Changes apply to all of them.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         few: This form is used by %{count} types and variants.
         other: This form is used by %{count} types and variants.
     wizard:
@@ -3816,6 +3849,8 @@ hr:
   groups:
     edit:
       synchronized_groups: Synchronized groups
+    form:
+      group_attributes: Group attributes
     index:
       description: By grouping users together, you can add them as members to the same projects or assign the same global roles to them.
     memberships:
@@ -3841,6 +3876,10 @@ hr:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3888,6 +3927,31 @@ hr:
             line_4: Enter planned labor in hours, days, weeks, or months.
             line_5: See the import progress when using the Jira Migrator.
             line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -4165,7 +4229,7 @@ hr:
   label_database_version: PostgreSQL version
   label_date: Datum
   label_date_and_time: Datum i vrijeme
-  label_date_format: Format datuma
+  label_date_and_time_formats: Date and time formats
   label_date_from: Od
   label_date_from_to: Od %{start} do %{end}
   label_date_to: Prima
@@ -4324,7 +4388,6 @@ hr:
   label_keyword_plural: Keywords
   label_label_plural: Labels
   label_language: Jezik
-  label_language_based: Na osnovi jezika korisnika
   label_languages: Languages
   label_last_activity: Zadnja aktivnost
   label_last_change_on: Posljednja promjena
@@ -4346,6 +4409,7 @@ hr:
   label_list: Popis
   label_loading: Učitavanje...
   label_locale: Language and region
+  label_locale_based: Use default for user locale
   label_lock_user: Lock user
   label_locked: zaključano
   label_logged_as: Prijavljen kao
@@ -4636,6 +4700,7 @@ hr:
   label_subtask_plural: Podzadatci
   label_summary: Sažetak
   label_system: Sustav
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Postavke sustava
   label_system_storage: Informacije o podatkovnom sustavu
   label_table_of_contents: Table of contents
@@ -4750,47 +4815,47 @@ hr:
   label_working_hours: Work schedule
   label_workweek: Work week
   label_x_closed_work_packages_abbr:
-    one: 1 zaključen
+    one: "%{count} closed"
     other: "%{count} zatvorenih"
     zero: 0 closed
   label_x_comments:
-    one: 1 komentar
+    one: "%{count} comment"
     other: "%{count} komentara"
     zero: no comments
   label_x_days:
-    one: 1 day
+    one: "%{count} day"
     few: "%{count} days"
     other: "%{count} days"
   label_x_files:
-    one: 1 file
+    one: "%{count} file"
     other: "%{count} files"
     zero: no files
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
-    one: One item selected
+    one: "%{count} item selected"
     few: "%{count} items selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 započet
+    one: "%{count} open"
     other: "%{count} započeta"
     zero: 0 open
   label_x_projects:
-    one: 1 projekt
+    one: "%{count} project"
     other: "%{count} projekta"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: "%{count} work package"
     other: "%{count} work packages"
     zero: No work packages
   label_x_working_days:
-    one: 1 working day
+    one: "%{count} working day"
     few: "%{count} working days"
     other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
+    one: 'Time off: %{count} working day'
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
   label_yesterday: jučer
@@ -5067,7 +5132,7 @@ hr:
       mentioned: You have been <b>mentioned in a comment</b>
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: There is 1 more work package with notifications.
+        one: There is %{count} more work package with notifications.
         few: There are %{count} more work packages with notifications.
         other: There are %{count} more work packages with notifications.
       open_in_browser: Open in browser
@@ -5259,7 +5324,7 @@ hr:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             few: "%{count} days (%{date})"
             other: "%{count} days (%{date})"
           name_label: Token name
@@ -5607,7 +5672,7 @@ hr:
 
       '
     confirm_revoke_my_application:
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       few: Do you really want to remove this application? This will revoke %{count} tokens active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: No OAuth applications have been registered.
@@ -5815,7 +5880,7 @@ hr:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Komentirajte vijest
   permission_commit_access: Read/write pristup repozitoriju (commit)
-  permission_copy_projects: Kopiraj projekte
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
@@ -5954,7 +6019,7 @@ hr:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5965,7 +6030,7 @@ hr:
         label: Portfolio name filter
         placeholder: Search portfolios
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         few: "<strong>%{count}</strong> sub-items"
         other: "<strong>%{count}</strong> sub-items"
     lists:
@@ -5981,7 +6046,7 @@ hr:
         It can be used for highlighting work packages in the table.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5993,7 +6058,7 @@ hr:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 projekt
+      one: "%{count} project"
       other: "%{count} projekta"
       zero: 0 projects
     destroy:
@@ -6208,16 +6273,16 @@ hr:
             new_heading: Fields that become available
             nothing_affected: No fields or statuses are affected.
             status_count:
-              one: 1 work package
+              one: "%{count} work package"
               few: "%{count} work packages"
               other: "%{count} work packages"
             table_suffix: "(table)"
             value_count:
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               few: "%{count} work packages have a value"
               other: "%{count} work packages have a value"
             work_packages:
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               few: "%{count} work packages will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
@@ -6275,7 +6340,7 @@ hr:
     action_title: React
     add_reaction: Add reaction
     and_others:
-      one: and 1 other
+      one: and %{count} other
       few: and %{count} others
       other: and %{count} others
     and_user: and %{user}
@@ -6403,26 +6468,26 @@ hr:
         few: "(Projects: %{projects})"
         other: "(Projects: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         few: "(Projects: %{projects} and %{count} others)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         few: 'This role is still attributed to %{count} members:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
-        one: 1 project
+        one: "%{count} project"
         few: "%{count} projects"
         other: "%{count} projects"
       summary_users:
-        one: 1 user
+        one: "%{count} user"
         few: "%{count} users"
         other: "%{count} users"
       title: Delete role
@@ -6439,10 +6504,9 @@ hr:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
-        one: 1 permission
+        one: "%{count} permission"
         few: "%{count} permissions"
         other: "%{count} permissions"
       preview_action: View permissions
@@ -6934,7 +6998,7 @@ hr:
       section_work_week: Work week
   sharing:
     count:
-      one: 1 user
+      one: "%{count} user"
       other: "%{count} users"
       zero: 0 users
     denied: You don't have permissions to share %{entities}.
@@ -7245,7 +7309,7 @@ hr:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           few: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
         parent_type: Parent type
@@ -7577,7 +7641,7 @@ hr:
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
         heading: Delete type '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           few: 'The type will be removed from %{count} projects:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
@@ -7592,7 +7656,7 @@ hr:
       no_results_content_text: Novi tip
       no_results_title_text: Trenutno ne postoji niti jedan tip projekta.
       project_variants_count:
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         few: "%{count} project-specific variants"
         other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
@@ -7602,7 +7666,7 @@ hr:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         few: "%{type} without %{fields} and %{count} more fields"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
@@ -7631,9 +7695,9 @@ hr:
     authorization_rejected: Nije vam dopuštena prijava.
     blocked: privremeno zaključano
     blocked_num_failed_logins:
-      one: privremeno zaključano (jedan neuspjeli pokušaj spajanja)
-      few: privremeno zaključano (%{count} neuspjela pokušaja spajanja)
-      other: privremeno zaključano (%{count} neuspjela pokušaja spajanja)
+      one: locked temporarily (%{count} failed login attempt)
+      few: locked temporarily (%{count} failed login attempts)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: You are about to change the status of '%{name}'. Are you sure you want to continue?
     deleted: Izbrisani korisnik
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7793,7 +7857,7 @@ hr:
         start_date: Start date
         work_days: Work days
         work_days_count:
-          one: 1 working day
+          one: "%{count} working day"
           few: "%{count} working days"
           other: "%{count} working days"
         work_hours: Work hours
@@ -7983,7 +8047,7 @@ hr:
       could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'The following work packages could not be saved:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         few: Successfully deleted %{count} work packages.
         other: Successfully deleted %{count} work packages.
       descendant: descendant of selected
@@ -8009,20 +8073,20 @@ hr:
       description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
@@ -8081,20 +8145,20 @@ hr:
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
@@ -8173,7 +8237,7 @@ hr:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             few: "%{count} lines checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
@@ -8209,7 +8273,7 @@ hr:
           work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             few: "%{count} problems, all shown."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
@@ -8227,11 +8291,11 @@ hr:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           few: "%{count} lines"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           few: "%{count} problems"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
@@ -8268,7 +8332,7 @@ hr:
         version:
           no_results_title_text: Trenutno ne postoje dostupne verzije projekta.
     x_descendants:
-      one: One descendant work package
+      one: "%{count} descendant work package"
       few: "%{count} work package descendants"
       other: "%{count} work package descendants"
   workflows:
@@ -8339,22 +8403,22 @@ hr:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         few: "%{count} projects"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         few: "%{count} roles"
         other: "%{count} roles"
       type_filter:
         label: Filter by type name…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         few: "%{count} types"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         few: "%{count} variants"
         other: "%{count} variants"
     name:
@@ -8387,11 +8451,11 @@ hr:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         few: This workflow is used by %{count} types. Changes apply to all of them.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
+        one: This workflow is used by %{count} type or variant.
         few: This workflow is used by %{count} types and variants.
         other: This workflow is used by %{count} types and variants.
     wizard:

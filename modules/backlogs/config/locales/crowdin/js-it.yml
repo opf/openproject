@@ -45,12 +45,12 @@ it:
         not_selectable: Selezione invariata. Questa macro-attività non partecipa all'ordinamento di questo elenco.
         range_blocked: Selezione invariata. L'intervallo contiene una macro-attività che non partecipa all'ordinamento di questo elenco.
         range_restarted:
-          one: Non è stato possibile estendere l'intervallo. 1 macro-attività selezionata.
-          other: Non è stato possibile estendere l'intervallo. %{count} macro-attività selezionate.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
         selected:
-          one: 1 macro-attività selezionata.
-          other: "%{count} macro-attività selezionate."
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
     burndown:
       day: Giorno
       points: Punti

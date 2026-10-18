@@ -73,7 +73,7 @@ zh-CN:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: 此冲刺中有 %{count} 个未完成的工作包。
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: 未处于有效状态，因此无法关闭。
         sprint_goal:
@@ -157,7 +157,7 @@ zh-CN:
       drop_zone_label: 拖放到此处以添加此条目
       label_actions: 收件箱操作
       show_more:
-        other: 显示其他 %{count} 个条目
+        other: Show %{count} more items
       title: 收件箱
     index_subheader_component:
       label_search_by_subject: 按主题搜索工作包
@@ -258,7 +258,6 @@ zh-CN:
       header_backlogs: 积压工作模块
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: 将 URL 复制到剪贴板
         copy_work_package_id: 复制工作包 ID
         move_menu: 移至指定位置
         move_to_backlog_bucket: 移至积压工作存储桶

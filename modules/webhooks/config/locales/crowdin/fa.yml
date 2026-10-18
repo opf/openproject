@@ -64,7 +64,7 @@ fa:
       label_add_new: افزودن Webhook جدید
       label_edit: ویرایش Webhook
       label_x_events:
-        one: ۱ رویداد
+        one: "%{count} event"
         other: "%{count} رویداد"
         zero: بدون رویداد
       no_results_table: هنوز Webhookی تعریف نشده است.

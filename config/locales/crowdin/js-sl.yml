@@ -626,7 +626,7 @@ sl:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           two: and %{count} others
           few: and %{count} others
           other: and %{count} others
@@ -832,13 +832,13 @@ sl:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           two: Could not extend the range. %{count} items selected.
           few: Could not extend the range. %{count} items selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           two: "%{count} items selected."
           few: "%{count} items selected."
           other: "%{count} items selected."
@@ -890,21 +890,21 @@ sl:
       label_two_factor_authentication: Dvofaktorna avtentikacija
     units:
       child_work_packages:
-        one: en podrejeni delovni paket
-        two: "%{count} podrejeni delovni paketi"
-        few: "%{count} podrejeni delovni paketi"
-        other: "%{count} podrejeni delovni paketi"
+        one: "%{count} child work package"
+        two: "%{count} work package children"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 dan
+        one: "%{count} day"
         other: "%{count} dni"
         zero: 0 days
       hour:
-        one: 1 ura
+        one: "%{count} h"
         other: "%{count} ur"
         zero: 0 ur
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         two: "%{count} words"
         few: "%{count} words"
         other: "%{count} words"

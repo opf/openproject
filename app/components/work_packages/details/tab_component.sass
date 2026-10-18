@@ -1,19 +1,58 @@
+@property --tab-component-fade-left-size
+  syntax: "<length>"
+  inherits: false
+  initial-value: 0px
+
+@property --tab-component-fade-right-size
+  syntax: "<length>"
+  inherits: false
+  initial-value: 0px
+
+@keyframes tab-component-fade-left
+  from
+    --tab-component-fade-left-size: 0px
+  to
+    --tab-component-fade-left-size: var(--tab-component-fade-max-size)
+
+@keyframes tab-component-fade-right
+  from
+    --tab-component-fade-right-size: var(--tab-component-fade-max-size)
+  to
+    --tab-component-fade-right-size: 0px
+
 .op-work-package-details-tab-component
+  --tab-component-fade-max-size: 50px
+
   align-items: flex-start
 
   &--tabs
-    flex-grow: 1
-    overflow: auto
+    overflow: hidden
+
+    @supports (animation-timeline: scroll())
+      // This is breaking the encapsulation of the UnderlinedNav component
+      // Ideally, this CSS would be applied to a variant of that component
+      // that we render in the view. Then remove the CSS from here.
+      box-shadow: inset 0 -1px 0 var(--borderColor-muted)
+      margin-block-end: 12px
+
+      > .op-work-package-details-tab-component--tabs-nav
+        margin-block-end: 0
+        position: relative
+        box-shadow: none
+        mask-image: linear-gradient(to right, transparent,#000 var(--tab-component-fade-left-size),#000 calc(100% - var(--tab-component-fade-right-size)), transparent)
+        animation: tab-component-fade-left linear both, tab-component-fade-right linear both
+        animation-timeline: scroll(self inline), scroll(self inline)
+        animation-range: 0 var(var(--tab-component-fade-max-size)), calc(100% - var(var(--tab-component-fade-max-size))) 100%
 
   &--action
-    padding-top: 8px
+    padding-block-start: 8px
 
     // This is one of the ugliest hacks I ever had to write. Please remove that as soon as the actions are part of the Splitscreen header
-    padding-bottom: 7px
-    border-bottom: 1px solid var(--borderColor-muted)
-
-    &:last-of-type
-      padding-right: 10px
+    padding-block-end: 7px
+    border-block-end: 1px solid var(--borderColor-muted)
 
     &:first-of-type
-      padding-left: 5px
+      padding-inline-start: 5px
+
+    &:last-of-type
+      padding-inline-end: 10px

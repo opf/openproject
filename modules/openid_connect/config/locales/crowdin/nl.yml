@@ -164,7 +164,7 @@ nl:
       delete_result_1: Verwijder de provider uit de lijst met beschikbare providers.
       delete_result_direct: Deze provider is gemarkeerd als een directe aanmeldprovider. De instelling wordt verwijderd en gebruikers worden niet langer omgeleid naar deze provider om in te loggen.
       delete_result_user_count:
-        one: Eén gebruiker gebruikt momenteel nog deze provider. Zij moeten opnieuw worden uitgenodigd of zich aanmelden bij een andere provider.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} gebruikers maken momenteel nog gebruik van deze provider. Zij moeten opnieuw worden uitgenodigd of inloggen bij een andere provider."
         zero: Er zijn momenteel geen gebruikers die deze provider gebruiken. Er is geen verdere actie vereist.
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

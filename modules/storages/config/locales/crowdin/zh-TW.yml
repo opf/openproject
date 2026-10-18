@@ -31,15 +31,15 @@ zh-TW:
         authentication_method: 驗證方式
         creator: 建立者
         drive: Drive ID
-        file_link_origin: File link origin ID
+        file_link_origin: 檔案連結來源識別碼
         host: 主機
-        linkable_to_storage: Linkable to storage
-        linkable_to_storage_url: Linkable to storage URL
+        linkable_to_storage: 可連接至儲存裝置
+        linkable_to_storage_url: 可連結至儲存位置的網址
         name: 名稱
         password: 應用程式密碼
         provider_type: 提供商類型
-        storage: Storage
-        storage_url: Storage URL
+        storage: 儲存空間
+        storage_url: 儲存網址
         tenant: 目錄 (租戶) ID
       work_package:
         file_links: File links
@@ -66,7 +66,7 @@ zh-TW:
             host:
               authorization_header_missing: 未完全設置。Nextcloud 實例不會收到「Authorization」標頭，這是基於 Bearer 令牌(Token)API 請求授權所必需的。請仔細檢查您的 HTTP 服務器配置。
               cannot_be_connected_to: 無法連線。請確認主機可以連線，且已安裝 OpenProject 整合應用程式。
-              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
+              minimal_nextcloud_version_not_met: 未符合最低版本要求（必須為 Nextcloud %{minimal_version} 或更高版本，但偵測到的是 %{detected_version}）
               not_nextcloud_server: 不是一個 Nextcloud 的服務器
               op_application_not_installed: 似乎沒有安裝應用「OpenProject 整合套件」。請先安裝，然後重試。
             password:
@@ -74,17 +74,17 @@ zh-TW:
               unknown_error: 無法與檔案儲存提供者驗證。請確認連線運作正常。
     models:
       storages/file_link:
-        other: File links
+        other: 檔案連結
       storages/nextcloud_storage:
-        other: Nextcloud storages
+        other: Nextcloud 儲存空間
       storages/one_drive_storage:
-        other: OneDrive storages
+        other: OneDrive 儲存空間
       storages/project_storage:
-        other: Project storages
+        other: 專案儲存空間
       storages/sharepoint_storage:
-        other: SharePoint storages
+        other: SharePoint 儲存空間
       storages/storage:
-        other: Storages
+        other: 儲存空間
   api_v3:
     errors:
       too_many_elements_created_at_once: 一次創建的元素過多。最多應為 %{max} 個，實際為 %{actual} 個。
@@ -125,27 +125,27 @@ zh-TW:
         remote_folders: 閱讀團隊資料夾的內容：
         remove_user_from_group: 從群組移除使用者：
         rename_project_folder: 重新命名託管的專案資料夾：
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 設定受管理專案的資料夾權限：
       one_drive_sync_service:
         create_folder: 託管的專案資料夾建立：
         ensure_root_folder_permissions: 設定基本資料夾權限：
         hide_inactive_folders: 隱藏不活動的資料夾步驟：
         remote_folders: 讀取磁碟機根資料夾的內容：
         rename_project_folder: 重新命名託管的專案資料夾：
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 設定受管理專案的資料夾權限：
       sharepoint_sync_service:
         create_folder: 管理專案資料夾建立：
         ensure_root_folder_permissions: 設定基本資料夾權限：
         hide_inactive_folders: 隱藏不活動的資料夾步驟：
         remote_folders: 讀取磁碟機根資料夾的內容：
         rename_project_folder: 重新命名管理的專案資料夾：
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 設定受管理專案的資料夾權限：
     errors:
       messages:
         error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
-        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
+        folder_id_collision: 多個專案儲存空間正嘗試管理專案資料夾 %{folder}。其同步作業已被跳過。
         forbidden: OpenProject 無法存取所要求的資源。請檢查您在儲存服務提供者上的權限設定。
-        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
+        invalid_response: OpenProject 無法處理從儲存供應商接收到的回應。請查閱 OpenProject 日誌以取得更多資訊，或聯絡系統管理員。
         unauthorized: OpenProject 無法驗證儲存服務提供商。請確認您有存取權。
       models:
         copy_project_folders_service:
@@ -229,8 +229,8 @@ zh-TW:
     admin:
       side_panel:
         health_notifications_component:
-          sync_now: Sync now
-          sync_queued: Synchronization queued.
+          sync_now: 立即同步
+          sync_queued: 同步已排入佇列。
     buttons:
       done_continue: 完成，繼續
       open_storage: 開啟檔案儲存
@@ -251,7 +251,7 @@ zh-TW:
     delete_warning:
       project_storage_delete_result_1: 所有相應檔案和資料夾的連結將被移除
       project_storage_delete_result_2: 自動管理的專案資料夾及其中的所有檔案都會刪除
-      project_storage_html: Are you sure you want to remove %{file_storage} from this project?
+      project_storage_html: 您確定要從此專案中移除 %{file_storage}？
       storage_delete_result_1: 儲存空間將從目前使用的所有專案中移除
       storage_delete_result_2: 所有相應檔案和資料夾的連結將被移除
       storage_delete_result_3: 自動管理的專案資料夾及其中的所有檔案都會刪除
