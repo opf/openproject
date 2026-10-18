@@ -1,6 +1,10 @@
 .color-form--hexcode-row
-  align-items: flex-end
   width: fit-content
 
-.color-form--hexcode-row .color-form--check-contrast
-  align-self: flex-end !important
+  // Keeps a long validation message from widening the hex code input.
+  .FormControl-inlineValidation
+    width: 0
+    min-width: 100%
+
+    @include breakpoint(sm)
+      white-space: nowrap
