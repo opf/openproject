@@ -71,6 +71,7 @@ import ThemeSelectorController from './controllers/theme-selector.controller';
 import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimulus-application';
 import { Application } from '@hotwired/stimulus';
 import { BeforeunloadController } from './controllers/beforeunload.controller';
+import DispatchEventOnConnectController from './controllers/dispatch-event-on-connect.controller';
 import ExternalLinksController from './controllers/external-links.controller';
 import DisableWhenClickedController from 'core-stimulus/controllers/disable-when-clicked.controller';
 import HighlightTargetElementController from 'core-stimulus/controllers/highlight-target-element.controller';
@@ -120,6 +121,7 @@ OpenProjectStimulusApplication.preregister('work-packages--activities-tab--polli
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--editor', EditorController);
 OpenProjectStimulusApplication.preregister('work-packages--activities-tab--lazy-page', LazyPageController);
 OpenProjectStimulusApplication.preregister('beforeunload', BeforeunloadController);
+OpenProjectStimulusApplication.preregister('dispatch-event-on-connect', DispatchEventOnConnectController);
 OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitcher);
 OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
