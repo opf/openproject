@@ -42,6 +42,7 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
       has_default_columns?: true,
       include_subprojects: true,
       ordered?: false,
+      read_attribute: "none",
       show_hierarchies: true
     )
   end
@@ -53,5 +54,19 @@ RSpec.describe API::V3::Queries::QueryParamsRepresenter do
       showSums: true,
       groupBy: "project"
     )
+  end
+
+  it "preserves highlighting when the query is serialized for editing" do
+    expect(params).to include(highlightingMode: "none")
+  end
+
+  context "with a non-inline instance default", with_settings: { work_package_list_default_highlighting_mode: "status" } do
+    it "omits a highlighting mode inherited from the setting" do
+      expect(described_class.new(Query.new).to_h).not_to have_key(:highlightingMode)
+    end
+
+    it "keeps an explicitly stored mode" do
+      expect(described_class.new(Query.new(highlighting_mode: :inline)).to_h).to include(highlightingMode: "inline")
+    end
   end
 end
