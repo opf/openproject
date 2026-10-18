@@ -149,6 +149,7 @@ export default class TypeFormConfigurationController extends Controller {
         currentQuery,
         callback,
         disabledTabs,
+        hideDisabledTabs: true,
       });
     } catch (error) {
       services.notifications.addError(error as string);
