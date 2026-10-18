@@ -7371,6 +7371,8 @@ en:
       short: "%d %b %H:%M"
       time: "%I:%M %p"
     pm: "pm"
+    relative_ago: "%{time} ago"
+    relative_at: "%{relative} (%{time})"
 
   timeframe:
     end: "to"
@@ -7594,6 +7596,8 @@ en:
         no_inactive_attributes: "No inactive attributes"
         not_found: "The requested form item could not be found."
         query_group_label: "Related work packages table"
+        query_summary:
+          unavailable: "Configuration unavailable"
         remove_attribute: "Remove from section"
         rename_group: "Rename section"
         required:
