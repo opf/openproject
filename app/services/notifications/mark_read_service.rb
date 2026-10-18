@@ -38,16 +38,31 @@ module Notifications
     def call(journal:)
       return unauthorized_result unless allowed?(journal)
 
-      notifications = Notification.where(journal:, recipient: user, read_ian: false)
-      notifications.update_all(read_ian: true, updated_at: Time.current)
+      # Materialize before update_all; otherwise the same relation re-queries after
+      # the update and the matching rows (read_ian: false) have become read_ian: true.
+      notifications = Notification.where(journal:, recipient: user, read_ian: false).to_a
+      Notification.where(id: notifications.map(&:id)).update_all(read_ian: true, updated_at: Time.current)
 
-      ServiceResult.success(result: notifications.to_a)
+      ServiceResult.success(result: notifications)
+    end
+
+    def call_for_work_package(work_package:)
+      return unauthorized_result unless allowed_for_work_package?(work_package)
+
+      notifications = Notification.where(resource: work_package, recipient: user, read_ian: false).to_a
+      Notification.where(id: notifications.map(&:id)).update_all(read_ian: true, updated_at: Time.current)
+
+      ServiceResult.success(result: notifications)
     end
 
     private
 
     def allowed?(journal)
       user.logged? && journal.journable.is_a?(WorkPackage) && journal.journable.visible?(user)
+    end
+
+    def allowed_for_work_package?(work_package)
+      user.logged? && work_package.visible?(user)
     end
 
     def unauthorized_result

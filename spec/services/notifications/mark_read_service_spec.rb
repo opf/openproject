@@ -119,4 +119,60 @@ RSpec.describe Notifications::MarkReadService, with_settings: { journal_aggregat
       expect(call).to be_failure
     end
   end
+
+  describe "#call_for_work_package" do
+    subject(:call) { described_class.new(user:).call_for_work_package(work_package:) }
+
+    let!(:unread_for_this_wp) do
+      create(:notification, recipient: user, resource: work_package, journal:, reason: :mentioned, read_ian: false)
+    end
+    let!(:unread_other_journal_same_wp) do
+      other_journal = create(:work_package_journal, user: author, journable: work_package, version: 3)
+      create(:notification, recipient: user, resource: work_package, journal: other_journal,
+                            reason: :assigned, read_ian: false)
+    end
+    let!(:unread_other_wp) do
+      other_wp = create(:work_package, project:, author:)
+      other_journal = create(:work_package_journal, user: author, journable: other_wp, version: 2)
+      create(:notification, recipient: user, resource: other_wp, journal: other_journal,
+                            reason: :mentioned, read_ian: false)
+    end
+    let!(:unread_other_user) do
+      other_user = create(:user, member_with_permissions: { project => %i[view_work_packages] })
+      create(:notification, recipient: other_user, resource: work_package, journal:,
+                            reason: :mentioned, read_ian: false)
+    end
+
+    it "marks every unread notification for this user+WP as read, leaving others alone" do
+      expect(call).to be_success
+
+      expect(unread_for_this_wp.reload.read_ian).to be true
+      expect(unread_other_journal_same_wp.reload.read_ian).to be true
+      expect(unread_other_wp.reload.read_ian).to be false
+      expect(unread_other_user.reload.read_ian).to be false
+    end
+
+    it "succeeds when nothing is unread for this user+WP" do
+      Notification.where(recipient: user, resource: work_package).update_all(read_ian: true)
+
+      expect(call).to be_success
+    end
+
+    context "when the user cannot see the work package" do
+      let(:user) { create(:user) }
+
+      it "fails without touching notifications" do
+        expect(call).to be_failure
+        expect(unread_for_this_wp.reload.read_ian).to be false
+      end
+    end
+
+    context "when the user is anonymous" do
+      let(:user) { User.anonymous }
+
+      it "fails" do
+        expect(call).to be_failure
+      end
+    end
+  end
 end

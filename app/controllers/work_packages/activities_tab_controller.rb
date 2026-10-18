@@ -135,6 +135,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
       if call.success? && call.result
         set_last_server_timestamp_to_headers
+        mark_work_package_as_read_on_commenting
         handle_successful_create_call(call)
       else
         handle_failed_create_or_update_call(call)
@@ -223,6 +224,22 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   private
+
+  # Preference-driven mark-read after a successful comment or quoted comment.
+  # Dispatches the notifications-updated event via turbo-stream so the IAN
+  # center, bell, and WP split view pick up the state change in place.
+  def mark_work_package_as_read_on_commenting
+    return if User.current.anonymous?
+    return unless User.current.pref.mark_wp_as_read_on_commenting?
+
+    call = Notifications::MarkReadService
+             .new(user: User.current)
+             .call_for_work_package(work_package: @work_package)
+
+    return unless call.success? && call.result.any?
+
+    dispatch_event_via_turbo_stream("op-dispatched:notifications:updated")
+  end
 
   def find_work_package
     @work_package = WorkPackage.visible.find(params[:work_package_id])

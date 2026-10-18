@@ -217,6 +217,49 @@ RSpec.describe "Work package activities tab",
     end
   end
 
+  describe "POST create — mark-as-read-on-commenting pref", :skip_csrf do
+    let!(:unread_notification) do
+      create(:notification, recipient: user, resource: work_package, journal: comment, read_ian: false)
+    end
+
+    def post_comment
+      post work_package_activities_path(work_package),
+           params: {
+             journal: { notes: "Another comment", internal: false },
+             last_update_timestamp: 1.minute.ago.iso8601
+           },
+           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    it "marks the user's unread notifications for the WP as read when the pref is on (default)" do
+      post_comment
+
+      expect(response).to have_http_status(:ok)
+      expect(unread_notification.reload.read_ian).to be true
+      expect(response.body).to include("op-dispatched:notifications:updated")
+    end
+
+    it "leaves notifications unread when the pref is off" do
+      user.pref.mark_wp_as_read_on_commenting = false
+      user.pref.save!
+
+      post_comment
+
+      expect(response).to have_http_status(:ok)
+      expect(unread_notification.reload.read_ian).to be false
+    end
+
+    it "does not mark as read when the comment save failed" do
+      allow_any_instance_of(AddWorkPackageNoteService) # rubocop:disable RSpec/AnyInstance
+        .to receive(:call)
+              .and_return(ServiceResult.failure(errors: ActiveModel::Errors.new(Journal.new).tap { |e| e.add(:notes, "x") }))
+
+      post_comment
+
+      expect(unread_notification.reload.read_ian).to be false
+    end
+  end
+
   describe "comment errors", :skip_csrf do
     let(:turbo_stream_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
 
