@@ -82,6 +82,12 @@
                 },
                 "pause_reminders": {
                   "$ref": "#/definitions/PauseReminders"
+                },
+                "auto_mark_wp_as_read": {
+                    "type": "boolean"
+                },
+                "mark_wp_as_read_on_commenting": {
+                    "type": "boolean"
                 }
             },
             "title": "UserPreferences"

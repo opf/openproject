@@ -92,6 +92,26 @@ RSpec.describe UserPreference do
     end
   end
 
+  describe "auto mark wp as read" do
+    it_behaves_like "accepts real and false booleans",
+                    :auto_mark_wp_as_read=,
+                    :auto_mark_wp_as_read?
+
+    it "defaults to true when no value is stored" do
+      expect(subject.auto_mark_wp_as_read).to be true
+    end
+  end
+
+  describe "mark wp as read on commenting" do
+    it_behaves_like "accepts real and false booleans",
+                    :mark_wp_as_read_on_commenting=,
+                    :mark_wp_as_read_on_commenting?
+
+    it "defaults to true when no value is stored" do
+      expect(subject.mark_wp_as_read_on_commenting).to be true
+    end
+  end
+
   describe "auto hide popups" do
     it_behaves_like "accepts real and false booleans",
                     :auto_hide_popups=,

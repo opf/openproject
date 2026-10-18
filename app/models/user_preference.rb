@@ -126,12 +126,30 @@ class UserPreference < ApplicationRecord
     settings[:require_double_click_for_inline_edit] = to_boolean(value)
   end
 
+  def auto_mark_wp_as_read?
+    settings.fetch(:auto_mark_wp_as_read, true)
+  end
+
+  def auto_mark_wp_as_read=(value)
+    settings[:auto_mark_wp_as_read] = to_boolean(value)
+  end
+
+  def mark_wp_as_read_on_commenting?
+    settings.fetch(:mark_wp_as_read_on_commenting, true)
+  end
+
+  def mark_wp_as_read_on_commenting=(value)
+    settings[:mark_wp_as_read_on_commenting] = to_boolean(value)
+  end
+
   # Provide an alias to form builders
   alias :comments_in_reverse_order :comments_in_reverse_order?
   alias :warn_on_leaving_unsaved :warn_on_leaving_unsaved?
   alias :auto_hide_popups :auto_hide_popups?
   alias :disable_keyboard_shortcuts :disable_keyboard_shortcuts?
   alias :require_double_click_for_inline_edit :require_double_click_for_inline_edit?
+  alias :auto_mark_wp_as_read :auto_mark_wp_as_read?
+  alias :mark_wp_as_read_on_commenting :mark_wp_as_read_on_commenting?
 
   def comments_in_reverse_order=(value)
     settings[:comments_sorting] = to_boolean(value) ? "desc" : "asc"

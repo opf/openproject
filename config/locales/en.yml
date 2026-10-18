@@ -5449,6 +5449,15 @@ en:
         dialog_title: "Add project-specific notifications"
         list_header: "Projects with specific notifications"
         title: "Project-specific notifications"
+      work_package_settings:
+        title: "Work package settings"
+        description: "Set up how the Activity tab and its notifications look and behave"
+        auto_mark_wp_as_read:
+          label: "Mark work package automatically as read"
+          caption: "Mark a work package as read when opening its Activity tab"
+        mark_wp_as_read_on_commenting:
+          label: "Mark work package as read when commenting"
+          caption: "Mark work package as read when commenting and quoting."
     notifications_and_email:
       tabs:
         email_reminders: "Email reminders"

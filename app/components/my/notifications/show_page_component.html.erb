@@ -118,3 +118,15 @@ See COPYRIGHT and LICENSE files for more details.
         helpers.t("my_account.notifications.project_specific_settings.add_button")
       end %>
 <% end %>
+
+<%=
+  settings_primer_form_with(
+    model: @user.pref,
+    scope: :pref,
+    url: { action: "update_settings" },
+    method: :patch,
+    data: { turbo: false, test_selector: "work-package-settings-form" }
+  ) do |form|
+    render(My::Notifications::WorkPackageSettingsForm.new(form))
+  end
+%>
