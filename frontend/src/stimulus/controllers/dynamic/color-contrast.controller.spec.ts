@@ -56,7 +56,7 @@ function fixture({ serverInvalid = false } = {}):string {
       <button type="button" data-action="color-contrast#check">Check contrast</button>
       <section data-color-contrast-target="preview" hidden>
         <p data-color-contrast-target="outdated" hidden>Outdated</p>
-        <span data-color-contrast-target="summary" data-template="{{count}} of 4 pass"></span>
+        <span data-color-contrast-target="summary"></span>
       </section>
     </form>
   `;
@@ -101,7 +101,7 @@ function resultsFixture():string {
       <button type="button" data-action="color-contrast#check">Check contrast</button>
       <section data-color-contrast-target="preview" hidden>
         <p data-color-contrast-target="outdated" hidden>Outdated</p>
-        <span data-color-contrast-target="summary" data-template="{{count}} of 4 pass"></span>
+        <span data-color-contrast-target="summary"></span>
         <ul>
           ${card('light', 'foreground')}
           ${card('light', 'background')}
@@ -126,6 +126,7 @@ describe('ColorContrastController', () => {
   let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
 
   beforeEach(async () => {
+    window.I18n.store({ en: { js: { colors: { contrast: { summary: '%{passed} of 4 pass' } } } } });
     document.body.appendChild(document.createElement('live-region'));
     announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
     ctx = await setupStimulusTest({

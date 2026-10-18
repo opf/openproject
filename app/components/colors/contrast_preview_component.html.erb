@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render Primer::Beta::Subhead.new(mt: 0, mb: 3) do |subhead| %>
     <% subhead.with_heading(tag: :h3, size: :medium) { t("colors.contrast.title") } %>
     <% subhead.with_actions do %>
-      <%= render Primer::Beta::Text.new(color: :muted, data: { color_contrast_target: "summary", template: t("colors.contrast.summary", count: "{{count}}") }) %>
+      <%= render Primer::Beta::Text.new(color: :muted, data: { color_contrast_target: "summary" }) %>
     <% end %>
   <% end %>
   <%= render Primer::Beta::Text.new(tag: :p, hidden: true, color: :muted, mb: 3, data: { color_contrast_target: "outdated" }) do %>

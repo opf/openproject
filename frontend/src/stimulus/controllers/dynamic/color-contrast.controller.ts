@@ -64,7 +64,7 @@ export default class ColorContrastController extends Controller {
       sample.style.setProperty('--hl-perceived-lightness', lightness);
       return this.evaluate(sample, card);
     });
-    this.summaryTarget.textContent = this.summaryTarget.dataset.template!.replace('{{count}}', String(results.filter(Boolean).length));
+    this.summaryTarget.textContent = I18n.t('js.colors.contrast.summary', { passed: results.filter(Boolean).length });
   }
 
   private setInvalid(invalid:boolean):void {
