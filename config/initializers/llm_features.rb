@@ -54,3 +54,11 @@ OpenProject::Llm::Features.register :semantic_search,
                                     kind: :embedding,
                                     requires: %i[embeddings],
                                     available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
+
+# AI Assistance skills answer with structured proposals. An assistant may choose its
+# own model, which is why it is overridable.
+OpenProject::Llm::Features.register :ai_assistance,
+                                    kind: :chat,
+                                    prefers: %i[structured_output],
+                                    overridable: true,
+                                    available: -> { OpenProject::FeatureDecisions.ai_assistance_active? }

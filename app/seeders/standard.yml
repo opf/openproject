@@ -150,6 +150,34 @@ departments:
         spoken_languages: [English, Italian]
         key_skills: [Software Development, DevOps]
         job_start_date: "2018-10-01"
+      - reference: :user__kabiru_developer
+        firstname: Kabiru
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, French]
+        key_skills: [Software Development, DevOps]
+        job_start_date: "2022-02-01"
+      - reference: :user__bruno_developer
+        firstname: Bruno
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, Portuguese]
+        key_skills: [Software Development, UX/UI Design]
+        job_start_date: "2022-06-13"
+      - reference: :user__judith_developer
+        firstname: Judith
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, German]
+        key_skills: [Software Development, Quality Assurance]
+        job_start_date: "2023-01-09"
+      - reference: :user__ihor_developer
+        firstname: Ihor
+        lastname: Developer
+        job_title: Software Developer
+        spoken_languages: [English, Polish]
+        key_skills: [Software Development, DevOps]
+        job_start_date: "2023-05-22"
   - reference: :department__finance_administration
     t_name: Finance & Administration
     members:
@@ -178,6 +206,133 @@ departments:
         key_skills: [Quality Assurance, Agile & Scrum]
         job_start_date: "2022-09-05"
 
+# The admin user of the development data has a person's name, as the COMMS team member Tom.
+development_admin:
+  firstname: Tom
+  lastname: Admin
+
+# Teams of the development data: groups that are not departments.
+development_teams:
+  - reference: :team__comms
+    name: COMMS
+    members:
+      - :openproject_admin
+      - :user__kabiru_developer
+      - :user__bruno_developer
+      - :user__judith_developer
+      - :user__ihor_developer
+
+# The Refresh work package demo, copied from a hand-made test case: the comments and the
+# weekly meeting moved on, while the subject, the description and the fields did not.
+ai_refresh_case:
+  work_package: :organize_open_source_conference
+  subject: OpenProject Community Days 2023
+  priority: :default_priority_high
+  responsible: :user__adam_admin
+  description: |-
+    this is gonna happen in November
+
+    This is a hybrid conference with an on-site meetup in Berlin next to the virtual stream.
+
+    refer to a child package that lays out the schedule
+
+    **Update**: The planning call confirmed the addition of a small on-site meetup in Berlin.
+
+    **New Date**: The Berlin venue can only host us on 2026-11-06, so the conference moves to November.
+
+    **Accountability Change**: Wanda Web is now accountable for the conference.
+  comments:
+    - author: :openproject_admin
+      notes: move this to October
+    - author: :user__olga_ops
+      notes: "Weekly meeting outcome: the budget is approved. Priority goes up to High."
+    - author: :user__olga_ops
+      notes: "Planning call result: we add a small on-site meetup in Berlin next to the virtual stream. This is a hybrid conference now."
+    - author: :user__olga_ops
+      notes: Evan takes over as event lead from the Events & Operations team. I stay accountable for the conference.
+    - author: :user__evan_events
+      notes: The Berlin venue can only host us on 2026-11-06, so the conference moves to November.
+    - author: :user__olga_ops
+      notes: "Small change: Wanda Web is accountable for the conference from now on, not me."
+    - author: :user__evan_events
+      notes: Everything is blocked until the venue contract is signed. Let's put this on hold until then.
+    - author: :user__olga_ops
+      notes: "Weekly meeting outcome: the conference gets a new name: \"OpenProject Community Days 2026\"."
+  children:
+    - subject: unrelated bug blabla
+      type: :default_type_bug
+
+# Open work of the COMMS developers in the demo project, so that "Assign to the least busy
+# developer" has one answer: Judith has none.
+development_workloads:
+  - assigned_to: :user__kabiru_developer
+    subjects:
+      - "[dev] Fix mention autocomplete in comments"
+      - "[dev] Retry failed reminder emails"
+      - "[dev] Group digest emails by project"
+  - assigned_to: :user__bruno_developer
+    subjects:
+      - "[dev] Show the unread count on the bell"
+  - assigned_to: :user__ihor_developer
+    subjects:
+      - "[dev] Mark notifications as read in bulk"
+      - "[dev] Add meeting reminders to calendars"
+
+# Sample AI assistants of the development data, for the owners that the basic data does
+# not cover: a team and the admin user. The global one is the basic data's OPAssistant.
+development_ai_assistants:
+  - reference: :ai_assistant_comms
+    principal: :team__comms
+    t_name: COMMS assistant
+    t_description: Helps the COMMS team, which builds the communication features.
+    t_instructions: You help the COMMS team, which builds the communication features of OpenProject, a project management tool - notifications, email, reminders, mentions, comments, the activity tab and meetings.
+    position: 1
+    skills:
+      - skill_key: conversation
+        t_label: Assign to the least busy developer
+        icon: people
+        t_description: Proposes the COMMS developer with the fewest open work packages as the assignee.
+        proposal_scope: changes
+        prompt: |-
+          Propose the COMMS developer with the fewest open work packages as the assignee. Make exactly two tool calls, then answer: search_users with the group "COMMS", then search_work_packages with level_of_detail "count", open true, group_by assignee, and assigned_to_id the list of the team members' ids. Name the counts. When the current assignee already has the fewest, say so and propose nothing. Propose nothing else.
+
+  - reference: :ai_assistant_tom
+    principal: :openproject_admin
+    t_name: My assistant
+    t_description: A personal assistant of the admin user.
+    position: 1
+    skills:
+      - skill_key: conversation
+        t_label: Refresh work package
+        icon: sync
+        t_description: Finds where this work package no longer matches its comments, meetings, descendants and relations, and proposes updates.
+        proposal_scope: changes
+        prompt: |
+          You check one work package of a project management tool for places where it is
+          inconsistent with itself: its subject, its description, its comments, its status,
+          its relations, its descendants and its pull requests. Answer with findings.
+
+          Look for:
+          - comments that changed the scope, a decision or a deadline, which the description
+            does not show yet;
+          - meeting notes or outcomes about this work package that the description or the
+            status does not show yet;
+          - comments or meeting outcomes that changed the assignee, the accountable person or
+            the priority;
+          - a subject that no longer names what the work package is about;
+          - a description that promises work which the descendants do not cover, or the opposite;
+          - a status that the comments contradict;
+          - a closed work package with open descendants, or an open one whose descendants are
+            all closed;
+          - a closed work package that follows or is blocked by an open one;
+          - an open work package that duplicates a closed one;
+          - a merged pull request while the status is still the default status, or a closed
+            work package with an open pull request;
+          - open work, here or in a descendant, with no activity for 60 days.
+
+          Report only what you can show with evidence: quote the comment, or name the field.
+          Report nothing rather than a guess.
+
 project_custom_field_sections:
   - reference: :default_project_attributes
     name: Project attributes
@@ -201,6 +356,8 @@ projects:
       - principal: :department__events_operations
         role: :default_role_member
       - principal: :department__finance_administration
+        role: :default_role_member
+      - principal: :team__comms
         role: :default_role_member
     project_phases:
       - definition: :default_project_phase_initiating

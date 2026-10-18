@@ -1176,6 +1176,13 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :ai_assistants, except: :show do
+      post :copy, on: :member
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show] do
+        post :copy, on: :member
+      end
+    end
+
     resources :text_transform_actions, except: :show do
       member do
         get :deletion_dialog
@@ -1250,6 +1257,19 @@ Rails.application.routes.draw do
         post :confirm_delete
       end
     end
+  end
+
+  # AI Assistance in the app header. The place (work_package_id or project_id) is a query
+  # parameter, because the menu is the same on every page.
+  resource :ai_assistance_menu, path: "ai_assistance/menu", controller: "ai_assistance/menus", only: :show
+  resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "ai_assistance/chats", only: %i[show create] do
+    post :messages, action: :send_message
+    post :start
+    post :rerun
+    get :poll
+    get :history
+    post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal
+    post "proposals/:proposal_id/dismiss", action: :dismiss, as: :dismiss_proposal
   end
 
   resources :work_packages, only: %i[index show new] do
@@ -1467,6 +1487,13 @@ Rails.application.routes.draw do
   end
 
   namespace :my do
+    resources :ai_assistants, except: :show do
+      post :copy, on: :member
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show] do
+        post :copy, on: :member
+      end
+    end
+
     resources :access_tokens, only: %i[index] do
       collection do
         get :dialog
