@@ -27,7 +27,7 @@ hy:
         select_all: Ընտրել բոլորը
         selection:
           zero: Ընտրել նիշքեր հղելու համար
-          one: Link %{count} file
+          one: Հղել %{count} նիշք
           other: Link %{count} files
         success_create:
           one: Successfully created %{count} file link.
