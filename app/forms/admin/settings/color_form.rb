@@ -47,7 +47,7 @@ module Admin
             data: {
               color_contrast_target: "hexcode",
               invalid_message: hexcode_invalid_message,
-              action: "input->color-contrast#outdate change->color-contrast#check"
+              action: "input->color-contrast#markOutdated change->color-contrast#check"
             }
           )
 
