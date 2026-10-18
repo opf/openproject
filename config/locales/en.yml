@@ -2706,7 +2706,6 @@ en:
       dark: "Dark mode"
       fail: "Fail"
       foreground: "Foreground"
-      invalid: "Enter a valid hexadecimal color code."
       light: "Light mode"
       outdated: "These results are outdated. Select Check contrast to update them."
       pass: "Pass"
