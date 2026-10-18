@@ -38,7 +38,7 @@ module Admin
           input_width: :medium
         )
 
-        color_form.group(layout: :horizontal, classes: "color-form--hexcode-row") do |hexcode_group|
+        color_form.group(layout: :horizontal, align_items: :flex_start, classes: "color-form--hexcode-row") do |hexcode_group|
           hexcode_group.color_field(
             name: :hexcode,
             label: attribute_name(:hexcode),
@@ -50,8 +50,8 @@ module Admin
 
           hexcode_group.button(
             name: :check_contrast,
-            classes: "color-form--check-contrast",
             type: :button,
+            mt: 4,
             label: I18n.t("colors.contrast.check"),
             data: { action: "color-contrast#check" }
           )

@@ -100,6 +100,19 @@ RSpec.describe "default colors administration", :js do
       expect(page).to have_no_text("These results are outdated")
     end
 
+    it "keeps the check button beside the hex code input when the hex code is invalid" do
+      click_link accessible_name: "New color"
+      fill_in "Name", with: "Invalid color"
+      fill_in "Hex code", with: "#XXX"
+      click_on "Save"
+
+      expect(page).to have_text("Hex code is not a valid 6-digit hexadecimal color code.")
+      hexcode = find_field("Hex code").rect
+      button = find_button("Check contrast").rect
+      expect(button["y"]).to be_within(1).of(hexcode["y"])
+      expect(hexcode["width"]).to be < 150
+    end
+
     it "checks contrast when a typed color is committed" do
       click_link accessible_name: "New color"
       fill_in "Hex code", with: "#fff"
