@@ -137,7 +137,7 @@ module FormConfigurations
 
       if call.success?
         @form_configuration.reload
-        replace_query_group_via_turbo_stream(call.result.key)
+        replace_query_row_via_turbo_stream(call.result.key)
       else
         render_form_configuration_error(call)
       end
@@ -147,20 +147,13 @@ module FormConfigurations
 
     private
 
-    def replace_query_group_via_turbo_stream(key)
-      groups = form_editor_context.attribute_groups.reject { |group| group.key.to_s == "__empty" }
-      index = groups.index { |group| group.key.to_s == key.to_s }
-
-      replace_via_turbo_stream(component: query_group_component(groups, index))
-    end
-
-    def query_group_component(groups, index)
-      WorkPackageTypes::FormConfiguration::GroupComponent.new(
-        group: group_form_map(groups[index]),
-        context: form_editor_context,
-        ee_available: EnterpriseToken.allows_to?(:edit_attribute_groups),
-        first: index.zero?,
-        last: index == groups.length - 1
+    def replace_query_row_via_turbo_stream(key)
+      group = form_editor_context.attribute_groups.find { |candidate| candidate.key.to_s == key.to_s }
+      replace_via_turbo_stream(
+        component: WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
+          group: group_form_map(group),
+          ee_available: EnterpriseToken.allows_to?(:edit_attribute_groups)
+        )
       )
     end
 

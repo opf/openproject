@@ -91,18 +91,20 @@ describe('Type form configuration controller', () => {
 
   const savedGroup = `
     <div data-group-key="b) > 10.000 / 20.000 Nutzende"
-         data-group-query='{"filters":[]}'
          data-update-query-url="${updateQueryUrl}">
-      <button type="button" data-action="click->admin--type-form-configuration--main#editQuery">Edit query</button>
+      <div data-group-query='{"filters":[]}'>
+        <button type="button" data-action="click->admin--type-form-configuration--main#editQuery">Edit query</button>
+      </div>
     </div>
   `;
 
   const temporaryGroup = `
     <div data-group-key="__new_form_configuration_group__"
-         data-group-query='{"filters":[]}'
          data-group-temporary="true">
       <label>Section name <input type="text" name="group[name]" value=""></label>
-      <button type="button" data-action="click->admin--type-form-configuration--main#editQuery">Edit query</button>
+      <div data-group-query='{"filters":[]}'>
+        <button type="button" data-action="click->admin--type-form-configuration--main#editQuery">Edit query</button>
+      </div>
     </div>
   `;
 
@@ -264,9 +266,9 @@ describe('Type form configuration controller', () => {
     expect(body.get('group_type')).toBe('query');
   });
 
-  it('uses authoritative server props when reopening the replaced group', async () => {
+  it('uses authoritative server props when reopening the replaced query row', async () => {
     await renderConfiguration();
-    const original = ctx.container.querySelector<HTMLElement>('[data-group-key]')!;
+    const original = ctx.container.querySelector<HTMLElement>('[data-group-query]')!;
     const serverProps = { columns: ['subject'] };
     request.mockImplementation(() => {
       const replacement = original.cloneNode(true) as HTMLElement;
@@ -296,7 +298,7 @@ describe('Type form configuration controller', () => {
     (show.mock.calls[0][0] as QueryEditorConfig).callback({ columns: ['subject'] });
     await waitFor(() => expect(request).toHaveBeenCalledTimes(1));
     await ctx.nextFrame();
-    expect(group).toHaveAttribute('data-group-query', '{"filters":[]}');
+    expect(group.querySelector('[data-group-query]')).toHaveAttribute('data-group-query', '{"filters":[]}');
     expect(group.innerHTML).toBe(before);
   });
 

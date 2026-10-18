@@ -122,12 +122,13 @@ RSpec.describe FormConfigurations::GroupsController do
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_stream(action: "replace",
-                                            target: "work-package-types-form-configuration-group-component-Related")
+                                            target: "work-package-types-form-configuration-group-query-row-component-Related")
       expect(response).not_to have_turbo_stream(action: "update",
                                                 target: "work-package-types-form-configuration-main-content-component")
       expect(response.body).to include("Relation type", "Children", "Columns", "Subject")
-      summary_values = Nokogiri::HTML.fragment(response.body).css("dd").map { it.text.strip }
-      expect(summary_values).not_to include("ID")
+      fragment = Nokogiri::HTML.fragment(response.body)
+      expect(fragment.css("dd").map { it.text.strip }).not_to include("ID")
+      expect(JSON.parse(fragment.at_css("[data-group-query]")["data-group-query"])["columns[]"]).to eq(%w[subject])
     end
 
     it "refreshes the canonical group when addressed by its display name" do
@@ -140,7 +141,7 @@ RSpec.describe FormConfigurations::GroupsController do
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_stream(action: "replace",
-                                            target: "work-package-types-form-configuration-group-component-related")
+                                            target: "work-package-types-form-configuration-group-query-row-component-related")
     end
 
     it "does not replace saved content when an existing query update is invalid" do

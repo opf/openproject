@@ -43,6 +43,22 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
     expect(page).to have_test_selector("type-form-configuration-query-actions-query-1")
   end
 
+  it "carries the editor query on its stream target" do
+    render_inline(described_class.new(group: group.merge(query: '{"filters":[]}'), ee_available: true))
+
+    expect(page).to have_element(:div, id: "work-package-types-form-configuration-group-query-row-component-query-1") do |row|
+      expect(row["data-group-query"]).to eq('{"filters":[]}')
+    end
+  end
+
+  it "omits the editor query for a group whose query was deleted" do
+    render_inline(described_class.new(group:, ee_available: true))
+
+    expect(page).to have_element(:div, id: "work-package-types-form-configuration-group-query-row-component-query-1") do |row|
+      expect(row["data-group-query"]).to be_nil
+    end
+  end
+
   it "omits the actions menu when readonly", :aggregate_failures do
     render_inline(described_class.new(group:, ee_available: true, readonly: true))
 

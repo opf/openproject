@@ -76,7 +76,8 @@ export default class TypeFormConfigurationController extends Controller {
     const group = (event.currentTarget as HTMLElement).closest<HTMLElement>('[data-group-key]');
     if (!group) return;
 
-    void this.openQueryEditor(group.dataset.groupQuery ?? this.noFilterQueryValue, (queryProps:unknown) => {
+    const queryRow = group.querySelector<HTMLElement>('[data-group-query]');
+    void this.openQueryEditor(queryRow?.dataset.groupQuery ?? this.noFilterQueryValue, (queryProps:unknown) => {
       if (group.dataset.groupTemporary === 'true') {
         const name = group.querySelector<HTMLInputElement>('input[name="group[name]"]')?.value ?? '';
         void this.postNewGroup('query', queryProps, name).catch(() => undefined);

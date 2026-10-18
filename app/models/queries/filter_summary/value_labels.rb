@@ -133,7 +133,9 @@ class Queries::FilterSummary::ValueLabels
   end
 
   def allowed_object_ids
-    if @filter.method(:allowed_values).owner == Queries::WorkPackages::Filter::PrincipalBaseFilter
+    if @filter.is_a?(Queries::WorkPackages::Filter::SharedWithUserFilter)
+      @filter.allowed_values_subset.to_set(&:to_s)
+    elsif @filter.method(:allowed_values).owner == Queries::WorkPackages::Filter::PrincipalBaseFilter
       Queries::WorkPackages::Filter::PrincipalLoader.new(@filter.project)
         .principal_ids_among(@filter.values)
         .to_set(&:to_s)
