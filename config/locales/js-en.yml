@@ -212,6 +212,9 @@ en:
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "Successfully copied to clipboard!"
+    colors:
+      contrast:
+        summary: "%{passed} of 4 pass"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
 

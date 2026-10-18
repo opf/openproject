@@ -2852,7 +2852,6 @@ en:
       pass: "Pass"
       ratio: "Contrast ratio"
       sample: "Sample text"
-      summary: "%{count} of 4 pass"
       text: "Text"
       title: "Contrast preview"
       used_as_background: "Used as background"
