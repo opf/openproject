@@ -90,17 +90,19 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
     criteria = @query.sort_criteria
     return [] if criteria.empty? || criteria == Query::DEFAULT_SORT_CRITERIA
 
-    criteria.map do |name, direction|
-      caption = @query.sort_criteria_column(name.to_sym)&.caption || I18n.t("queries.filter_summary.unavailable_value")
-      if %w[asc desc].include?(direction)
-        I18n.t(
-          "query.attribute_and_direction",
-          attribute: caption,
-          direction: I18n.t(direction == "asc" ? :label_ascending : :label_descending)
-        )
-      else
-        I18n.t("queries.filter_summary.unavailable_value")
-      end
+    criteria.map { |name, direction| sort_label(name, direction) }
+  end
+
+  def sort_label(name, direction)
+    caption = @query.sort_criteria_column(name.to_sym)&.caption || I18n.t("queries.filter_summary.unavailable_value")
+    if %w[asc desc].include?(direction)
+      I18n.t(
+        "query.attribute_and_direction",
+        attribute: caption,
+        direction: I18n.t(direction == "asc" ? :label_ascending : :label_descending)
+      )
+    else
+      I18n.t("queries.filter_summary.unavailable_value")
     end
   end
 
