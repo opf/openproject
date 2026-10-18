@@ -1,0 +1,24 @@
+# Schema: Wiki_PageTreeNodeModel
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum: [WikiPage]
+    readOnly: true
+  id:
+    type: integer
+  title:
+    type: string
+  slug:
+    type: string
+  _links:
+    type: object
+    properties:
+      self:
+        $ref: "./link.yml"
+  children:
+    type: array
+    description: Child wiki pages (same shape, recursive).
+    items:
+      $ref: "./wiki_page_tree_node_model.yml"

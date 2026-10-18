@@ -1,0 +1,20 @@
+# Schema: Wiki_PageCopyModel
+---
+type: object
+description: |-
+  Body for `POST /api/v3/wiki_pages/{id}/copy`.
+
+  When `projectId` is omitted the page is duplicated within its current project.
+  `title` defaults to `"<original title> (copy)"` if omitted.
+properties:
+  title:
+    type: string
+    description: Title for the new page. Must be unique in the destination wiki.
+  projectId:
+    type: integer
+    description: |-
+      Id of the destination project. Defaults to the current project of the
+      source page. Requires `edit_wiki_pages` permission in the destination.
+example:
+  title: "A wiki page with a name (copy)"
+  projectId: 12

@@ -1,0 +1,22 @@
+# Schema: Wiki_PageMoveModel
+---
+type: object
+description: |-
+  Body for `POST /api/v3/wiki_pages/{id}/move`.
+
+  All fields are optional. Provide `parentTitle` to re-parent within the same
+  wiki (use `null` to detach). Provide `projectId` to move the page into another
+  project's wiki — in that case the parent link is cleared.
+properties:
+  parentTitle:
+    type: string
+    nullable: true
+    description: Title of the new parent page within the same wiki.
+  projectId:
+    type: integer
+    description: |-
+      Id of a target project. When supplied, the page is moved into that
+      project's wiki. Requires `edit_wiki_pages` permission in the target
+      project.
+example:
+  parentTitle: "Reorganised root"

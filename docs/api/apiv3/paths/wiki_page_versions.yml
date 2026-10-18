@@ -1,0 +1,38 @@
+# /api/v3/wiki_pages/{id}/versions
+---
+get:
+  summary: List Wiki Page Versions
+  operationId: List_Wiki_Page_Versions
+  tags:
+    - Wiki Pages
+  description: |-
+    Lists all journal versions of the wiki page, newest first.
+
+    **Required permission:** `view_wiki_edits` in the page's project.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/list_of_wiki_page_versions_model.yml'
+    '403':
+      description: Returned if the user lacks `view_wiki_edits` in the page's project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the wiki page does not exist or is not visible to the user.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
