@@ -246,6 +246,41 @@ RSpec.describe Queries::FilterSummary do
         .to eq("Status is (OR) Unavailable value, Unavailable value")
     end
 
+    context "with shared-with principals" do
+      before { create(:project) }
+
+      it "labels selected users and groups alongside me" do
+        user = create(:user)
+        group = create(:group)
+        invited = create(:user, status: :invited)
+        values = [user.id.to_s, "me", group.id.to_s, invited.id.to_s]
+
+        expect(summary_for("shared_with_user", "=", values, show_unavailable: true).to_s)
+          .to eq("Shared with users is (OR) #{user.name}, #{I18n.t(:label_me)}, #{group.name}, #{invited.name}")
+      end
+
+      it "marks locked and missing principals unavailable alongside readable values" do
+        user = create(:user)
+        locked = create(:user, status: :locked)
+        placeholder = create(:placeholder_user)
+        values = [user.id.to_s, locked.id.to_s, placeholder.id.to_s, "999999999"]
+
+        expect(summary_for("shared_with_user", "=", values, show_unavailable: true).to_s)
+          .to eq("Shared with users is (OR) #{user.name}, Unavailable value, Unavailable value, Unavailable value")
+      end
+    end
+
+    it "does not reveal a hidden shared-with principal" do
+      project = create(:project)
+      visible = create(:user, member_with_permissions: { project => [:view_work_packages] })
+      hidden = create(:user)
+      allow(User).to receive(:current)
+        .and_return(create(:user, member_with_permissions: { project => [:view_shared_work_packages] }))
+
+      expect(summary_for("shared_with_user", "=", [visible.id.to_s, hidden.id.to_s], show_unavailable: true).to_s)
+        .to eq("Shared with users is (OR) #{visible.name}, Unavailable value")
+    end
+
     it "marks a deleted principal as unavailable" do
       expect(summary_for("assigned_to_id", "=", ["999999999"], show_unavailable: true).to_s)
         .to eq("Assignee is (OR) Unavailable value")

@@ -130,6 +130,43 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
     end
   end
 
+  it "keeps its own unsaved rename while its query is edited" do
+    within_table { click_button accessible_name: "Section actions" }
+    find(:menuitem, "Rename section").click
+    fill_in "Section name", with: "Typed same-table rename"
+
+    remove_id_column_from_saved_table
+
+    expect(page).to have_field("Section name", with: "Typed same-table rename")
+    edit_table
+    within_dialog "Work package table configuration" do
+      find(:role, :tab, accessible_name: /Columns/i).click
+      expect(page).to have_no_button(accessible_name: "Remove ID")
+      click_button "Cancel"
+    end
+    click_button "Save", exact: true
+    expect(page).to have_no_field("Section name")
+    visit current_path
+    within_table("Typed same-table rename") do
+      expect(page).to have_element(:dd, text: "Subject", exact_text: true)
+    end
+  end
+
+  it "discards its own unsaved rename when cancelled after its query is edited" do
+    within_table { click_button accessible_name: "Section actions" }
+    find(:menuitem, "Rename section").click
+    fill_in "Section name", with: "Discarded rename"
+
+    remove_id_column_from_saved_table
+
+    click_link "Cancel"
+    expect(page).to have_no_field("Section name")
+    within_table { expect(page).to have_element(:dd, text: "Subject", exact_text: true) }
+    visit current_path
+    within_table { expect(page).to have_element(:dd, text: "Subject", exact_text: true) }
+    expect(page).to have_no_css("[data-group-key='Discarded rename']")
+  end
+
   it "discards cancelled edits and retains the saved query after reload" do
     edit_table
     within_dialog "Work package table configuration" do
