@@ -71,10 +71,11 @@ RSpec.describe "default colors administration", :js do
       find_field("Hex code").send_keys(:backspace)
       expect(page).to have_text("These results are outdated")
       click_on "Check contrast"
-      expect(page).to have_text("Enter a valid hexadecimal color code.")
+      expect(page).to have_field("Hex code", validation_error: "Hex code is not a valid 6-digit hexadecimal color code.")
       expect(page).to have_no_heading "Contrast preview"
 
       fill_in "Hex code", with: "#fff"
+      expect(page).to have_field("Hex code", validation_error: false)
       click_on "Check contrast"
       expect(page).to have_heading "Contrast preview"
       expect(page).to have_no_text("These results are outdated")
@@ -111,6 +112,29 @@ RSpec.describe "default colors administration", :js do
       button = find_button("Check contrast").rect
       expect(button["y"]).to be_within(1).of(hexcode["y"])
       expect(hexcode["width"]).to be < 150
+    end
+
+    it "clears the server error when the hex code is edited" do
+      click_link accessible_name: "New color"
+      fill_in "Name", with: "Invalid color"
+      fill_in "Hex code", with: "#XXX"
+      click_on "Save"
+
+      expect(page).to have_field("Hex code", validation_error: "Hex code is not a valid 6-digit hexadecimal color code.")
+
+      find_field("Hex code").send_keys(:backspace)
+
+      expect(page).to have_field("Hex code", validation_error: false)
+      expect(page).to have_no_text("Hex code is not a valid 6-digit hexadecimal color code.")
+    end
+
+    it "shows the client hex code error where the server shows it" do
+      click_link accessible_name: "New color"
+      fill_in "Hex code", with: "#XXX"
+      click_on "Check contrast"
+
+      expect(page).to have_css(".FormControl-inlineValidation",
+                               text: "Hex code is not a valid 6-digit hexadecimal color code.", count: 1)
     end
 
     it "checks contrast when a typed color is committed" do

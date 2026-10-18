@@ -26,9 +26,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render Primer::Beta::Text.new(tag: :p, id: "color-contrast-error", hidden: true, color: :danger, role: :alert, data: { color_contrast_target: "error" }) do %>
-  <%= t("colors.contrast.invalid") %>
-<% end %>
 <%= render Primer::Box.new(tag: :section, hidden: true, aria: { live: :polite }, data: { color_contrast_target: "preview" }) do %>
   <%= render Primer::Beta::Subhead.new(mt: 0, mb: 3) do |subhead| %>
     <% subhead.with_heading(tag: :h3, size: :medium) { t("colors.contrast.title") } %>
