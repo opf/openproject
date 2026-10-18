@@ -26,13 +26,13 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { announce } from '@primer/live-region-element';
 import { composite, computedColor, contrastRatio, formatContrastRatio, normalizeHex, toHex } from '../helpers/color-contrast';
 
 export default class ColorContrastController extends Controller {
-  static targets = ['hexcode', 'error', 'preview', 'outdated', 'card', 'summary'];
+  static targets = ['hexcode', 'preview', 'outdated', 'card', 'summary'];
 
   declare readonly hexcodeTarget:HTMLInputElement;
-  declare readonly errorTarget:HTMLElement;
   declare readonly previewTarget:HTMLElement;
   declare readonly outdatedTarget:HTMLElement;
   declare readonly cardTargets:HTMLElement[];
@@ -62,9 +62,37 @@ export default class ColorContrastController extends Controller {
   }
 
   private setInvalid(invalid:boolean):void {
-    this.errorTarget.hidden = !invalid;
-    this.hexcodeTarget.setAttribute('aria-invalid', String(invalid));
-    if (invalid) this.previewTarget.hidden = true;
+    if (invalid) {
+      this.setError(this.hexcodeTarget.dataset.invalidMessage!);
+      this.previewTarget.hidden = true;
+    } else {
+      this.clearError();
+    }
+  }
+
+  // Stand-ins for the missing PrimerColorInputElement validation API:
+  // https://community.openproject.org/wp/DREAM-918
+  private setError(message:string):void {
+    this.validationMessageElement.textContent = message;
+    this.validationElement.hidden = false;
+    this.hexcodeTarget.setAttribute('invalid', 'true');
+    this.hexcodeTarget.setAttribute('aria-invalid', 'true');
+    void announce(message, { politeness: 'assertive' });
+  }
+
+  private clearError():void {
+    this.validationElement.hidden = true;
+    this.validationMessageElement.replaceChildren();
+    this.hexcodeTarget.removeAttribute('invalid');
+    this.hexcodeTarget.removeAttribute('aria-invalid');
+  }
+
+  private get validationElement():HTMLElement {
+    return this.hexcodeTarget.closest('.FormControl')!.querySelector<HTMLElement>('.FormControl-inlineValidation')!;
+  }
+
+  private get validationMessageElement():HTMLElement {
+    return this.validationElement.querySelector<HTMLElement>('span:not(.FormControl-inlineValidation--visual)')!;
   }
 
   private evaluate(sample:HTMLElement, card:HTMLElement):boolean {
