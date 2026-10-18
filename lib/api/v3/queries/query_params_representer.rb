@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -43,11 +45,7 @@ module API
         end
 
         def to_h(column_key: :columns)
-          p = super
-
-          p[:includeSubprojects] = query.include_subprojects
-          p[:showHierarchies] = query.show_hierarchies
-          p[:showSums] = query.display_sums?
+          p = super.merge(display_options)
           p[:groupBy] = query.group_by if query.group_by?
           p[column_key] = columns_to_v3 unless query.has_default_columns?
 
@@ -63,6 +61,17 @@ module API
         end
 
         private
+
+        def display_options
+          options = {
+            includeSubprojects: query.include_subprojects,
+            showHierarchies: query.show_hierarchies,
+            showSums: query.display_sums?
+          }
+          stored_highlighting_mode = query.read_attribute(:highlighting_mode).presence
+          options[:highlightingMode] = stored_highlighting_mode if stored_highlighting_mode
+          options
+        end
 
         def orders_to_v3
           converted = query.sort_criteria.map { |first, last| [convert_to_v3(first), last] }
