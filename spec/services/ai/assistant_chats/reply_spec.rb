@@ -240,7 +240,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     it "offers the read-only MCP tools and explains them" do
       ask("How many?")
 
-      expect(sent[:tools].map(&:name)).to include("search_work_packages", "count_work_packages")
+      expect(sent[:tools].map(&:name)).to include("search_work_packages", "list_statuses")
       expect(sent[:tools].map(&:name)).not_to include("update_work_package")
       expect(sent[:system]).to include(AI::Assistance::OutputRules::TOOLS, %("id":#{project.id}))
     end
@@ -250,7 +250,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
         allow(llm).to receive(:ask) do
           thinking = RubyLLM::Thinking.new(text: "Let me count them.")
           sent[:on_end_message].call(instance_double(RubyLLM::Message, tool_call?: true, content: nil, thinking:))
-          sent[:tools].find { it.name == "count_work_packages" }.call({ "project_id" => project.id })
+          sent[:tools].find { it.name == "search_work_packages" }.call({ "project_id" => project.id })
           instance_double(RubyLLM::Message, content: { "answer" => "One.", "proposals" => [] })
         end
       end
@@ -260,7 +260,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
 
         expect(message.content).to eq("One.")
         tool_call = message.events.find { it["kind"] == "tool_call" }
-        expect(tool_call["data"]).to include("name" => "count_work_packages", "arguments" => { "project_id" => project.id },
+        expect(tool_call["data"]).to include("name" => "search_work_packages", "arguments" => { "project_id" => project.id },
                                              "result" => include('"total"'))
         expect(message.events.find { it["kind"] == "thought" }["data"]).to eq("text" => "Let me count them.")
         expect(message.events.find { it["kind"] == "answer" }["data"]).to include("tool_calls" => 1)
@@ -270,7 +270,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     context "when the model calls tools without end" do
       before do
         allow(llm).to receive(:ask) do
-          tool = sent[:tools].find { it.name == "count_work_packages" }
+          tool = sent[:tools].find { it.name == "search_work_packages" }
           (AI::Assistance::ToolCalls::HARD_LIMIT + 1).times { |page| tool.call({ "project_id" => page }) }
         end
       end

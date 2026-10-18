@@ -216,7 +216,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 24 | Give AI skills a first message instead of start and answer settings | One answer format (`AnswerFormat`), simpler settings | 23 |
 | 25 | Open every AI skill in the conversation, with its proposals as cards | "Answer at once when opened", `ProposalItemComponent`, dismiss in the chat | 24 |
 | 26 | Remove AI runs and the built-in rules, and check consistency with the LLM | Runs, findings and rules removed; the context gets pull requests, the default status and activity times; the seeded prompt | 25 |
-| – | Add an open filter and a count tool to the MCP work package tools | `open` and a status list on `search_work_packages`, `count_work_packages` with `group_by` | – |
+| – | Add an open filter and counts to the MCP work package tools | `open` and a status list on `search_work_packages`, `level_of_detail` "count" and a generic `group_by` on search tools | – |
 | – | Let AI Assistance skills call the read-only MCP tools | `AI::Assistance::McpTool`, `ToolCalls`, the tool rule, the project id in the context, `tool_call` events | the MCP tool step, 26 |
 | – | Show AI tool calls while the answer loads, and stop repeated calls | The poll shows new events while pending, id normalization, the repeat limit | the step before |
 

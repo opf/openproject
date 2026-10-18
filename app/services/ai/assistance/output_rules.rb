@@ -77,8 +77,8 @@ module AI
       TOOLS = <<~TEXT.squish
         For other data, for example other work packages, counts, projects, users or versions, use
         the tools, and only when the context is not enough. Use the numeric ids in tool arguments. Do not call a tool
-        again to check a result that you already have. To count work packages, use count_work_packages, with group_by for a count per field.
-        Use open true or false for open or closed work packages. Use level_of_detail "reduced" unless
+        again to check a result that you already have. To count work packages, use search_work_packages with
+        level_of_detail "count": the total is the count, and group_by gives a count per field. Use open true or false for open or closed work packages. Use level_of_detail "reduced" unless
         you need more fields. Put answers to questions, such as counts and lists, in "answer", not in
         proposals.
       TEXT

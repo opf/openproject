@@ -33,8 +33,11 @@ module McpTools
     default_description "Search work packages matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
                         "of #{page_size} work packages. To get the rest of the results, call the tool again with a " \
-                        "page number of 2 or higher. Names of custom fields should be resolved through the corresponding tool " \
-                        "before showing them to the user. They should not be rendered as 'customFieldN'."
+                        "page number of 2 or higher. The total in the result is the number of all matching work " \
+                        "packages. To only count them, pass level_of_detail 'count', which returns no items. " \
+                        "Pass group_by to also get the count per value of one field. Names of custom fields should " \
+                        "be resolved through the corresponding tool before showing them to the user. They should " \
+                        "not be rendered as 'customFieldN'."
 
     name "search_work_packages"
     annotations read_only: true, idempotent: true, destructive: false
@@ -61,14 +64,21 @@ module McpTools
     filter :target_version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
+    group :status, column: "statuses.name", association: :status
+    group :type, column: "types.name", association: :type
+    group :priority, column: "enumerations.name", association: :priority
+    group :project, column: "projects.name", association: :project
+    group :assignee, with: :assignee_groups
+
     input_schema(
       additionalProperties: false,
       properties: {
         level_of_detail: {
           type: :string,
-          enum: %w[reduced full],
+          enum: %w[reduced full count],
           description: "Defines how much information is returned per work package. By default a reduced representation " \
-                       "is returned, but passing 'full' can return all information."
+                       "is returned, but passing 'full' can return all information. Passing 'count' returns no " \
+                       "work packages, only the total and the groups."
         },
         assigned_to_id: {
           type: %w[number array null],
@@ -115,6 +125,37 @@ module McpTools
 
     def format_item(item)
       API::V3::WorkPackages::WorkPackageRepresenter.create(item, current_user:)
+    end
+
+    # Names only principals that the user can see. Each assignee asked for by id is listed,
+    # also with no work packages, so that a missing person is not a question.
+    def assignee_groups(scope, filters)
+      requested = Array(filters[:assigned_to_id]).compact.map(&:to_i)
+      counts = scope.group(:assigned_to_id).count
+      names = visible_names(counts.keys.compact | requested)
+
+      assignee_totals(counts, requested, names)
+        .map { |key, count| assignee_group(key, count, names) }
+        .sort_by { -it[:count] }
+    end
+
+    def assignee_totals(counts, requested, names)
+      totals = requested.select { names.key?(it) }.index_with(0)
+      totals.default = 0
+      counts.each { |id, count| totals[id.nil? || names.key?(id) ? id : :not_visible] += count }
+      totals
+    end
+
+    def assignee_group(key, count, names)
+      case key
+      when nil then { name: "(none)", count: }
+      when :not_visible then { name: "(not visible)", count: }
+      else { id: key, name: names[key], count: }
+      end
+    end
+
+    def visible_names(ids)
+      Principal.visible(current_user).where(id: ids).to_h { |principal| [principal.id, principal.name] }
     end
 
     def condensed_attributes

@@ -50,7 +50,7 @@ RSpec.describe AI::Assistance::McpTool do
     subject(:names) { described_class.read_only_classes.map(&:name) }
 
     it "offers the read-only tools only" do
-      expect(names).to include("search_work_packages", "count_work_packages", "list_work_package_comments", "list_statuses")
+      expect(names).to include("search_work_packages", "list_work_package_comments", "list_statuses")
       expect(names).not_to include("create_work_package", "update_work_package", "create_work_package_comment",
                                    "create_work_package_relation", "delete_work_package_relation")
     end
@@ -98,12 +98,12 @@ RSpec.describe AI::Assistance::McpTool do
   end
 
   context "with a failing call" do
-    let(:mcp_class) { McpTools::CountWorkPackages }
+    let(:mcp_class) { McpTools::SearchWorkPackages }
 
     it "returns an error text and records the error" do
       expect(call({ "group_by" => "author" })).to have_key("error")
       expect(record.events.last).to include("kind" => "tool_call")
-      expect(record.events.last["data"]).to include("name" => "count_work_packages", "error" => "KeyError")
+      expect(record.events.last["data"]).to include("name" => "search_work_packages", "error" => "KeyError")
     end
   end
 end

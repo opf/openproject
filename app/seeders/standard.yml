@@ -294,7 +294,7 @@ development_ai_assistants:
         t_description: Proposes the COMMS developer with the fewest open work packages as the assignee.
         proposal_scope: changes
         prompt: |-
-          Propose the COMMS developer with the fewest open work packages as the assignee. Make exactly two tool calls, then answer: search_users with the group "COMMS", then count_work_packages with open true, group_by assignee, and assigned_to_id the list of the team members' ids. Name the counts. When the current assignee already has the fewest, say so and propose nothing. Propose nothing else.
+          Propose the COMMS developer with the fewest open work packages as the assignee. Make exactly two tool calls, then answer: search_users with the group "COMMS", then search_work_packages with level_of_detail "count", open true, group_by assignee, and assigned_to_id the list of the team members' ids. Name the counts. When the current assignee already has the fewest, say so and propose nothing. Propose nothing else.
 
   - reference: :ai_assistant_tom
     principal: :openproject_admin

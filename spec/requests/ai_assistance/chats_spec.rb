@@ -151,7 +151,7 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
     let!(:answer) { create(:ai_assistant_chat_message, chat:, status: "pending", content: "") }
 
     before do
-      answer.log_event(:tool_call, name: "count_work_packages", arguments: { project_id: project.id, open: true },
+      answer.log_event(:tool_call, name: "search_work_packages", arguments: { project_id: project.id, open: true },
                                    seconds: 0.1, size: 12)
     end
 

@@ -36,11 +36,11 @@ RSpec.describe AI::Assistance::RunEventsComponent, type: :component do
   let(:events) do
     [
       { "at" => Time.current.iso8601, "kind" => "tool_call",
-        "data" => { "name" => "count_work_packages", "arguments" => { "project_id" => 1 }, "seconds" => 0.2, "size" => 12,
+        "data" => { "name" => "search_work_packages", "arguments" => { "project_id" => 1 }, "seconds" => 0.2, "size" => 12,
                     "result" => %({"total":12}) } },
       { "at" => Time.current.iso8601, "kind" => "thought", "data" => { "text" => "Counting once more." } },
       { "at" => Time.current.iso8601, "kind" => "tool_call",
-        "data" => { "name" => "count_work_packages", "arguments" => { "project_id" => 1 }, "repeated" => true } },
+        "data" => { "name" => "search_work_packages", "arguments" => { "project_id" => 1 }, "repeated" => true } },
       { "at" => Time.current.iso8601, "kind" => "tool_call",
         "data" => { "name" => "search_work_packages", "arguments" => {}, "refused" => true } },
       { "at" => Time.current.iso8601, "kind" => "tool_call",
@@ -50,8 +50,8 @@ RSpec.describe AI::Assistance::RunEventsComponent, type: :component do
   end
 
   it "summarizes each tool call and the answer" do
-    expect(rendered).to have_text("Called the tool count_work_packages: 0.2 s, 12 characters.")
-    expect(rendered).to have_text("Called the tool count_work_packages again with the same arguments.")
+    expect(rendered).to have_text("Called the tool search_work_packages: 0.2 s, 12 characters.")
+    expect(rendered).to have_text("Called the tool search_work_packages again with the same arguments.")
     expect(rendered).to have_text("Refused the tool search_work_packages: the limit of tool calls is reached.")
     expect(rendered).to have_text("The tool search_work_packages failed (KeyError).")
     expect(rendered).to have_text("The model answered in 3.5 s, after 4 tool calls.")

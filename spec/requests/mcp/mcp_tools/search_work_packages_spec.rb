@@ -359,6 +359,128 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
+    describe "counting" do
+      let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+      let(:status) { create(:status, name: "Open one") }
+      let(:closed_status) { create(:closed_status, name: "Closed one") }
+      let(:assignee) { create(:user, firstname: "Ada", lastname: "Assignee", member_with_permissions: { project => [] }) }
+      let(:other_project) { create(:project, name: "Other project") }
+      let(:result) { parsed_results.fetch("structuredContent") }
+
+      before do
+        create(:work_package, project:, status: closed_status)
+        create(:work_package, project: other_project, status:)
+      end
+
+      context "with level_of_detail count" do
+        let(:call_args) { { level_of_detail: "count" } }
+
+        it "counts only the work packages that the user can see, and returns no items" do
+          mcp_request
+          expect(result).to eq("items" => [], "total" => 3)
+        end
+      end
+
+      context "with a project filter" do
+        let(:call_args) { { level_of_detail: "count", project_id: other_project.id } }
+
+        it "counts nothing in a project that the user cannot see" do
+          mcp_request
+          expect(result).to eq("items" => [], "total" => 0)
+        end
+      end
+
+      context "with open: true" do
+        let(:call_args) { { level_of_detail: "count", open: true } }
+
+        it "counts only open work packages" do
+          mcp_request
+          expect(result).to eq("items" => [], "total" => 2)
+        end
+      end
+
+      context "when grouped by status" do
+        let(:call_args) { { level_of_detail: "count", group_by: "status" } }
+
+        it "returns the count per status, the largest first" do
+          mcp_request
+          expect(result["total"]).to eq(3)
+          expect(result["groups"]).to eq([{ "name" => "Open one", "count" => 2 }, { "name" => "Closed one", "count" => 1 }])
+        end
+      end
+
+      context "when grouped by status of open work packages" do
+        let(:call_args) { { level_of_detail: "count", group_by: "status", open: true } }
+
+        it "returns the count per open status" do
+          mcp_request
+          expect(result["groups"]).to eq([{ "name" => "Open one", "count" => 2 }])
+        end
+      end
+
+      context "when grouped by project" do
+        let(:call_args) { { level_of_detail: "count", group_by: "project" } }
+
+        it "returns the count per visible project" do
+          mcp_request
+          expect(result["groups"]).to eq([{ "name" => project.name, "count" => 3 }])
+        end
+      end
+
+      %w[type priority].each do |group_by|
+        context "when grouped by #{group_by}" do
+          let(:call_args) { { level_of_detail: "count", group_by: } }
+
+          it "counts every work package in one of the groups" do
+            mcp_request
+            expect(result["groups"].sum { it["count"] }).to eq(3)
+          end
+        end
+      end
+
+      context "when grouped without level_of_detail count" do
+        let(:call_args) { { group_by: "status" } }
+
+        it "returns the items as well" do
+          mcp_request
+          expect(result["items"].size).to eq(3)
+          expect(result["groups"].sum { it["count"] }).to eq(3)
+        end
+      end
+
+      context "when grouped by assignee" do
+        let(:call_args) { { level_of_detail: "count", group_by: "assignee", open: true } }
+
+        it "names the assignees, and counts unassigned work packages as (none)" do
+          mcp_request
+          expect(result["groups"]).to contain_exactly({ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
+                                                      { "name" => "(none)", "count" => 1 })
+        end
+      end
+
+      context "when grouped by assignee for a list of people" do
+        let(:idle) { create(:user, firstname: "Ida", lastname: "Idle", member_with_permissions: { project => [] }) }
+        let(:call_args) do
+          { level_of_detail: "count", group_by: "assignee", open: true, assigned_to_id: [assignee.id, idle.id] }
+        end
+
+        it "lists every one of them, also with no work packages" do
+          mcp_request
+          expect(result["groups"]).to eq([{ "id" => assignee.id, "name" => "Ada Assignee", "count" => 1 },
+                                          { "id" => idle.id, "name" => "Ida Idle", "count" => 0 }])
+        end
+      end
+
+      context "with an unknown group" do
+        let(:call_args) { { group_by: "author" } }
+
+        it "rejects the call" do
+          mcp_request
+          expect(parsed_results["isError"]).to be(true)
+        end
+      end
+    end
+
     describe "pagination" do
       let(:page_size) { 10 }
       let(:overspilling_work_packages) { 5 }
