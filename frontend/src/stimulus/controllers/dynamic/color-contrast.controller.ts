@@ -27,7 +27,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { announce } from '@primer/live-region-element';
-import { composite, computedColor, contrastRatio, formatContrastRatio, normalizeHex, toHex } from '../helpers/color-contrast';
+import { composite, computedColor, contrastRatio, formatContrastRatio, normalizeHex, toHex } from '../../helpers/color-contrast';
 
 export default class ColorContrastController extends Controller {
   static targets = ['hexcode', 'preview', 'outdated', 'card', 'summary'];
@@ -38,7 +38,7 @@ export default class ColorContrastController extends Controller {
   declare readonly cardTargets:HTMLElement[];
   declare readonly summaryTarget:HTMLElement;
 
-  outdate():void {
+  markOutdated():void {
     this.outdatedTarget.hidden = this.previewTarget.hidden;
     this.setInvalid(false);
   }
@@ -51,6 +51,8 @@ export default class ColorContrastController extends Controller {
     this.previewTarget.hidden = false;
     this.outdatedTarget.hidden = true;
     const channels = hex.slice(1).match(/../g)!.map((channel) => parseInt(channel, 16));
+    // Mirrors Colors::HexColor#perceived_lightness (app/models/colors/hex_color.rb),
+    // including the four-place rounding; keep both in step.
     const lightness = ((channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722) / 255).toFixed(4);
     const results = this.cardTargets.map((card) => {
       const sample = card.querySelector<HTMLElement>('[data-color-contrast-target="sample"]')!;
