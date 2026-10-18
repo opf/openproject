@@ -6348,6 +6348,22 @@ en:
         automatic:
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
           heading: "Automatic"
+    filter_summary:
+      between: "%{field} %{operator} %{lower} and %{upper}"
+      current_work_package: "current work package"
+      from: "%{field} is on or after %{date}"
+      relative:
+        ago: "%{field} is %{duration} ago"
+        in: "%{field} is in %{duration}"
+        in_less_than: "%{field} is in less than %{duration}"
+        in_more_than: "%{field} is in more than %{duration}"
+        less_than_ago: "%{field} is less than %{duration} ago"
+        more_than_ago: "%{field} is more than %{duration} ago"
+      unavailable_filter: "Unavailable filter"
+      unavailable_value: "Unavailable value"
+      until: "%{field} is on or before %{date}"
+      with_values: "%{field} %{operator} %{values}"
+      without_values: "%{field} %{operator}"
 
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
