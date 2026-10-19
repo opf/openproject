@@ -66,6 +66,7 @@ module Projects::Copy
           :custom_values,
           :target_versions,
           :observed_in_versions,
+          :labels,
           :assigned_to,
           :responsible
         )

@@ -648,6 +648,48 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
           end
         end
 
+        describe "#labels" do
+          shared_let(:existing_label) { create(:label) }
+          shared_let(:new_label) { create(:label) }
+
+          before do
+            work_packages.each { |wp| create(:labeling, label: existing_label, labelable: wp) }
+
+            put :update,
+                params: {
+                  ids: work_package_ids,
+                  work_package: { label_ids: }
+                }
+          end
+
+          subject { work_packages.map { |wp| wp.labels.pluck(:id) }.uniq }
+
+          context "with labels selected" do
+            let(:label_ids) { [new_label.id.to_s] }
+
+            it "replaces the labels on every selected work package" do
+              expect(response).to be_redirect
+              expect(subject).to contain_exactly([new_label.id])
+            end
+          end
+
+          context "with none selected" do
+            let(:label_ids) { ["none"] }
+
+            it "clears the labels on every selected work package" do
+              expect(subject).to contain_exactly([])
+            end
+          end
+
+          context "with the no change option selected" do
+            let(:label_ids) { [""] }
+
+            it "keeps the labels on every selected work package" do
+              expect(subject).to contain_exactly([existing_label.id])
+            end
+          end
+        end
+
         describe "#done_ratio" do
           before do
             put :update,
