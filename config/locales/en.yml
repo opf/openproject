@@ -7190,7 +7190,6 @@ en:
       skip_last_comma: "false"
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
 
-  text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicapped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_continue: "Are you sure you want to continue?"
