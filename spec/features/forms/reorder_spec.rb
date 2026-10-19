@@ -95,7 +95,7 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
 
       moving { editor.drag_attribute(:date, to_inactive: true) }
       editor.expect_inactive(:date)
-      editor.expect_attributes("Details")
+      editor.expect_no_attributes("Details")
 
       moving { editor.drag_attribute(:date, to_group: "Details") }
       editor.expect_attributes("Details", :date)

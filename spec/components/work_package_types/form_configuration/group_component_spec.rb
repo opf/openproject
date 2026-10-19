@@ -102,7 +102,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
   it "marks one drag handle per item", :aggregate_failures do
     render_group
 
-    expect(page).to have_button(accessible_name: "Drag to reorder", count: 2) do |handle|
+    group_and_attribute_handles = 1 + group[:attributes].size
+
+    expect(page).to have_button(accessible_name: "Drag to reorder", count: group_and_attribute_handles) do |handle|
       handle["data-sortable-lists--item-target"] == "handle"
     end
   end
