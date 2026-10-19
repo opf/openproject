@@ -52,8 +52,8 @@ module IncomingEmails::Handlers
         end
 
         if message.locked?
-          ServiceResult.failure(message: "ignoring reply from [#{sender_email}] to a locked topic",
-                                mesage_type: :warn)
+          ServiceResult.failure(message: "ignoring reply from [#{user.mail}] to a locked topic",
+                                message_type: :warn)
         else
           create_reply_message(message)
         end

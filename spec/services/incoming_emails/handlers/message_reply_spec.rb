@@ -97,6 +97,17 @@ RSpec.describe IncomingEmails::Handlers::MessageReply do
         message = call.result
         expect(message).to be_a(Message)
       end
+
+      context "when the parent message is locked" do
+        let(:message) { create(:message, forum:, locked: true) }
+
+        it "returns a failure with a warning instead of creating a reply" do
+          call = handler.process
+
+          expect(call).to be_failure
+          expect(call.message_type).to eq(:warn)
+        end
+      end
     end
 
     context "when parent message is not found" do
