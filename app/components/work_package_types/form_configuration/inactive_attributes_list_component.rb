@@ -31,6 +31,7 @@ module WorkPackageTypes
   module FormConfiguration
     class InactiveAttributesListComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include AttributeItemData
 
       def initialize(context:, inactive_attributes:)
         super
@@ -53,14 +54,9 @@ module WorkPackageTypes
       end
 
       def item_data(attribute)
-        data = { attr_key: attribute[:key], attr_translation: attribute[:translation], attr_is_cf: attribute[:is_cf] }
-        return data if attribute[:id].blank?
-
-        data.merge(
-          controller: "sortable-lists--item",
-          sortable_lists__item_id_value: attribute[:id],
-          sortable_lists__item_type_value: SortableTypes::ATTRIBUTE,
-          sortable_lists__item_label_value: attribute[:translation]
+        merge_data(
+          { data: attribute_item_data(attribute) },
+          { data: { "filter--filter-list-target": "searchItem" } }
         )
       end
     end
