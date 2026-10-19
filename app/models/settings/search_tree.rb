@@ -50,8 +50,10 @@ module Settings
     # the entity an attribute links to may be outdated until it expires.
     TREE_CACHE_TTL = 1.minute
 
+    # The words of a text, decomposed and compared without accents, as users
+    # may type either, like the entity names are matched.
     def self.words(text)
-      text.to_s.downcase.split(/[^\p{L}\p{N}]+/).compact_blank
+      text.to_s.unicode_normalize(:nfd).downcase.gsub(/\p{M}/, "").split(/[^\p{L}\p{N}]+/).compact_blank
     end
 
     def initialize(view_context,

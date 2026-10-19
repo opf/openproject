@@ -52,10 +52,11 @@ registries describing what each page shows:
   attributes and matching entities of its entity kinds, then its child menu items.
 - Pages with a `label` become a node of their own, e.g. the tabs of a page.
 
-The search runs on the server. The query is split into words, ignoring case and punctuation, so
-"self registration" finds "Self-registration". A node matches when every query word is contained in the
-words of the node's label, its description (the setting's caption) or the labels of its ancestors. All
-nodes below a matching node stay visible, so "passwords" lists every setting of the passwords tab.
+The search runs on the server. The query is split into words, ignoring case, punctuation and accents, so
+"self registration" finds "Self-registration" and "realise" finds "Réalisé". A node matches when every
+query word is contained in the words of the node's label, its description (the setting's caption) or the
+labels of its ancestors. All nodes below a matching node stay visible, so "passwords" lists every setting
+of the passwords tab.
 
 The tree without the entities matching a query (the menu structure, all settings and the attributes of
 the entity kinds) is cached for every admin, locale and state of the settings, as building it is
