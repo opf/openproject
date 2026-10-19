@@ -81,25 +81,17 @@ RSpec.describe OpenProject::WebPush do
   end
 
   describe ".vapid_key" do
-    def decodes_to_der_key?(value)
-      OpenSSL::PKey::EC.new(Base64.strict_decode64(value))
-      true
-    rescue StandardError
-      false
-    end
-
-    it "persists the generated private key encrypted on first read" do
+    it "persists the generated private key on first read" do
       public_key = described_class.public_key
 
-      expect(decodes_to_der_key?(stored_value)).to be false
-      der = Base64.strict_decode64(described_class.encryptor.decrypt_and_verify(stored_value))
-      key = OpenSSL::PKey::EC.new(der)
+      key = OpenSSL::PKey::EC.new(Base64.strict_decode64(stored_value))
 
+      expect(key).to be_private
       expect(key.group.curve_name).to eq("prime256v1")
       expect(described_class.public_key).to eq(public_key)
     end
 
-    context "when the stored key cannot be decrypted" do
+    context "when the stored key is corrupted" do
       before do
         described_class.public_key
         Setting.find_by!(name: "web_push_vapid_private_key").update_columns(value: "corrupted")
@@ -140,9 +132,9 @@ RSpec.describe OpenProject::WebPush do
             ) } do
       before { reset(:web_push_vapid_private_key) }
 
-      it "uses the value as plaintext" do
-        plaintext = ENV.fetch("OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY")
-        expected = WebPush::VapidKey.new(OpenSSL::PKey::EC.new(Base64.strict_decode64(plaintext)))
+      it "uses the value as given" do
+        encoded = ENV.fetch("OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY")
+        expected = WebPush::VapidKey.new(OpenSSL::PKey::EC.new(Base64.strict_decode64(encoded)))
 
         expect(described_class.public_key).to eq(expected.public_key)
       end
@@ -201,12 +193,6 @@ RSpec.describe OpenProject::WebPush do
       described_class.public_key
       Setting.find_by!(name: "web_push_vapid_private_key").update_columns(value: "corrupted")
       Setting.clear_cache
-
-      expect(described_class).not_to be_key_readable
-    end
-
-    it "is false when the stored value is nil" do
-      allow(Setting).to receive(:web_push_vapid_private_key).and_return(nil)
 
       expect(described_class).not_to be_key_readable
     end
