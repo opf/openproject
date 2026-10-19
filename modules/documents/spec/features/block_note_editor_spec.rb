@@ -134,6 +134,17 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     end
   end
 
+  it "highlights the syntax of a code block in the chosen language and stores the language" do
+    visit document_path(document)
+    expect(page).to have_test_selector("blocknote-document-description")
+
+    editor.insert_code_block("puts 'hello'", language: "Ruby")
+
+    expect(editor.element).to have_css("[data-content-type='codeBlock'] code span[style*='--shiki']")
+    expect(editor.code_block_language_picker_background).to start_with("rgba(0, 0, 0, 0) none")
+    editor.wait_for_autosave { document.reload.description&.include?("```ruby\nputs 'hello'\n```") }
+  end
+
   context "when running with a relative_url_root and non-proxied frontend assets",
           js: false,
           with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "1" } do
