@@ -3725,7 +3725,6 @@ en:
         caption: "Start with an existing form, change it as you wish and save it as a new form."
         label: "Start with a copy of an existing form"
         missing: "Select the form to copy, or start from scratch instead."
-        panel_label: "Form to copy"
       label: "Starting point"
       scratch:
         caption: "Start with the default attribute groups and arrange them yourself."
@@ -8565,12 +8564,11 @@ en:
         caption: "Start with an existing workflow, change it as you wish and save it as a new workflow."
         label: "Start with a copy of an existing workflow"
         missing: "Select the workflow to copy, or start from scratch instead."
-        panel_label: "Workflow to copy"
       label: "Starting point"
       scratch:
         caption: "Start with a blank workflow and build it manually."
         label: "Start from scratch"
-      title: "Configure a new workflow"
+      title: "New workflow"
     usage:
       dialog:
         button: "View dependent types"
