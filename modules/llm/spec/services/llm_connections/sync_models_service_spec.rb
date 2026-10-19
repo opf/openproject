@@ -41,10 +41,10 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
 
   describe "switching to a different deployment" do
     before do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "supported", source: "admin", checked_at: Time.current)
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
-                                             state: "unsupported", source: "metadata", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                      state: "supported", source: "admin")
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "vision",
+                                      state: "unsupported", source: "metadata")
       connection.update_columns(base_url: "https://elsewhere.example/v1",
                                 connection_fingerprint: "the-previous-deployment")
     end
@@ -93,7 +93,7 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
 
     it "lets go of a feature bound to a model the previous server offered" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
       mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
 
       service.call
@@ -102,10 +102,10 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
 
     it "keeps a locked binding, which records what an existing index was written with" do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
-      binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
-                                                    dimensions: 1024, locked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "probe")
+      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
+                                             dimensions: 1024, locked_at: Time.current)
       mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
 
       service.call
@@ -115,7 +115,8 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
 
     it "leaves a kept binding dangling when the new server offers a model of the same name" do
-      binding = connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant",
+                                             model_id: "qwen3.6-27b")
       binding.update_columns(locked_at: Time.current, locked_deployment_fingerprint: connection.connection_fingerprint)
       mock_llm_models_response("https://elsewhere.example/v1")
 
@@ -202,10 +203,10 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
 
     # The everyday case: the same server still answers, one model is simply gone.
     it "withdraws a model the server stopped reporting and drops its verdict" do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "vision",
-                                             state: "supported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "probe")
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "vision",
+                                      state: "supported", source: "probe")
       mock_llm_models_response(base_url, models: [{ id: "qwen3.6-27b", object: "model" }])
 
       described_class.new(connection).call
@@ -216,10 +217,10 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
 
     it "drops every non-admin verdict when the catalogue comes back empty" do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "admin", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                      state: "supported", source: "probe")
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "admin")
       mock_llm_models_response(base_url, body: { object: "list", data: [] }.to_json)
 
       # A fresh instance, as every caller builds one: the adapter memoises the

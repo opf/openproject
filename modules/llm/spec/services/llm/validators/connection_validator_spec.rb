@@ -46,7 +46,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
   # a later refresh withdraws that model.
   def bind_to_withdrawn_model(feature_key, model_id, **)
     llm_model = create(:llm_model, llm_connection: connection, external_id: model_id)
-    connection.feature_bindings.create!(feature_key:, model_id:, **)
+    create(:llm_feature_binding, llm_connection: connection, feature_key:, model_id:, **)
     llm_model.update!(active: false)
   end
 
@@ -100,8 +100,8 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
     it "tests a model that can chat when no default is chosen" do
       create(:llm_model, :withdrawn, llm_connection: connection, external_id: "abandoned-7b")
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "probe")
       mock_llm_chat_response(base_url)
 
       expect(result_for(:inference, :chat_round_trip).state).to eq(:success)
@@ -285,9 +285,9 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
     context "with an embedding feature available", with_flag: { llm_connection: true, semantic_search: true } do
       it "fails when the bound model lacks a capability the feature requires" do
-        connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3")
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3")
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "unsupported", source: "probe")
 
         result = result_for(:features, :bindings_resolvable)
 
@@ -298,8 +298,8 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     it "passes while the model of a locked binding is still offered" do
-      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
-                                          locked_at: Time.current)
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search", model_id: "bge-m3",
+                                   locked_at: Time.current)
 
       expect(result_for(:features, :locked_bindings_intact).state).to eq(:success)
     end

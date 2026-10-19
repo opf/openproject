@@ -162,8 +162,8 @@ RSpec.describe LlmConnections::EnvSyncService do
     end
 
     before do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "admin", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "admin")
     end
 
     it "fails and keeps the stored connection as it was" do

@@ -128,8 +128,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         connection = create(:llm_connection, base_url:)
         create(:llm_model, llm_connection: connection, external_id: "bge-m3")
         create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b")
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "probe")
 
         get llm_models_path
 
@@ -163,8 +163,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       it "offers the default chat model next to the models it may be chosen from" do
         connection = create(:llm_connection, :with_models, base_url:)
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "probe")
 
         get llm_models_path
 
@@ -207,8 +207,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "offers only models known to embed as the default embedding model",
          with_flag: { llm_connection: true, semantic_search: true } do
         connection = create(:llm_connection, :with_models, base_url:)
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "probe")
 
         get llm_models_path
 
@@ -545,8 +545,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # probe or a registry found into the administrator's own assertion.
       it "leaves the stored verdict alone when the type was not changed" do
         discovered = create(:llm_model, llm_connection: connection, external_id: "from-server")
-        connection.capability_verdicts.create!(model_id: "from-server", capability: "embeddings",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "from-server", capability: "embeddings",
+                                        state: "unsupported", source: "probe")
 
         patch llm_model_path(discovered), params: { llm_model: { model_type: "chat", display_name: "From server" } }
 
@@ -745,7 +745,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "offers a confirmation naming the features that would break" do
-        connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "hand-typed")
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "hand-typed")
 
         get delete_dialog_llm_model_path(llm_model), headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
@@ -761,10 +761,10 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       before do
         connection.update!(default_chat_model: llm_model)
-        connection.feature_bindings.create!(feature_key: "description_assistant",
-                                            model_id: "qwen/qwen3.6-35b-a3b")
-        connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant",
+                                     model_id: "qwen/qwen3.6-35b-a3b")
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
+                                        state: "unsupported", source: "probe")
       end
 
       it "offers the identifier field on the edit page" do
@@ -995,8 +995,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       before do
         %w[hand-typed purged].each do |model_id|
-          connection.capability_verdicts.create!(model_id:, capability: "vision", state: "supported",
-                                                 source: "admin", checked_at: Time.current)
+          create(:llm_capability_verdict, llm_connection: connection, model_id:, capability: "vision", state: "supported",
+                                          source: "admin")
         end
       end
 
@@ -1019,8 +1019,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # that choosing it is understood as "follow the server" rather than as an
       # assertion of ignorance.
       it "offers to inherit the value the server reports" do
-        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "function_calling",
-                                               state: "supported", source: "metadata", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "function_calling",
+                                        state: "supported", source: "metadata")
 
         get edit_llm_model_path(llm_model)
 
@@ -1036,8 +1036,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # An administrator's own assertion is loaded into the field, so the blank
       # option must not claim it as inherited.
       it "does not present an administrator's own assertion as inherited" do
-        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "function_calling",
-                                               state: "supported", source: "admin", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "function_calling",
+                                        state: "supported", source: "admin")
 
         get edit_llm_model_path(llm_model)
 
@@ -1071,8 +1071,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     end
 
     it "stores the default embedding model" do
-      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "supported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                      state: "supported", source: "probe")
 
       patch defaults_llm_models_path,
             params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "bge-m3").id } }
@@ -1081,8 +1081,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     end
 
     it "refuses a model the server has ruled out" do
-      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                             state: "unsupported", source: "probe", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                      state: "unsupported", source: "probe")
 
       patch defaults_llm_models_path,
             params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }

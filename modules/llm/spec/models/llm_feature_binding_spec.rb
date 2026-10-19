@@ -91,7 +91,7 @@ RSpec.describe LlmFeatureBinding do
     end
 
     it "writes that identifier down when the binding is locked" do
-      binding = connection.feature_bindings.create!(feature_key: "semantic_search")
+      binding = create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search")
 
       binding.update!(locked_at: Time.current)
 

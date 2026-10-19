@@ -47,16 +47,16 @@ RSpec.describe LlmModel do
     end
 
     it "is embedding once the embeddings verdict says so" do
-      connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
-                                             state: "supported", source: "admin", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: llm_model.external_id, capability: "embeddings",
+                                      state: "supported", source: "admin")
 
       expect(llm_model).to be_embedding
       expect(llm_model.model_type).to eq(:embedding)
     end
 
     it "is chat when the embeddings verdict is unknown" do
-      connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
-                                             state: "unknown", source: "metadata", checked_at: Time.current)
+      create(:llm_capability_verdict, llm_connection: connection, model_id: llm_model.external_id, capability: "embeddings",
+                                      state: "unknown", source: "metadata")
 
       expect(llm_model.model_type).to eq(:chat)
     end
@@ -82,7 +82,7 @@ RSpec.describe LlmModel do
     let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
 
     it "keeps the bound model available and resolves the feature to it" do
-      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
       resolution = Llm::Runtime.for(:description_assistant)
 

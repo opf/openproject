@@ -324,8 +324,8 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
     context "with a model the server says is an embedding model" do
       before do
-        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                               state: "supported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "embeddings",
+                                        state: "supported", source: "probe")
         connection.default_chat_model = connection.models.find_by(external_id: "bge-m3")
       end
 
@@ -334,8 +334,8 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
     context "with an embedding model the server has ruled out" do
       before do
-        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        create(:llm_capability_verdict, llm_connection: connection, model_id: "qwen3.6-27b", capability: "embeddings",
+                                        state: "unsupported", source: "probe")
         connection.default_embedding_model = connection.models.find_by(external_id: "qwen3.6-27b")
       end
 

@@ -43,8 +43,7 @@ RSpec.describe LlmConnections::SelectableModelsQuery do
   after { OpenProject::Llm::Features.all.delete(feature_key) }
 
   def record_verdict(model_id, state)
-    connection.capability_verdicts.create!(model_id:, capability: "vision", state:,
-                                           source: "probe", checked_at: Time.current)
+    create(:llm_capability_verdict, llm_connection: connection, model_id:, capability: "vision", state:, source: "probe")
   end
 
   it "offers every chat model while nothing rules one out" do
