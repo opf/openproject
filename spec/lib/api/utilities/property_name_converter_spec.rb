@@ -177,7 +177,7 @@ RSpec.describe API::Utilities::PropertyNameConverter do
         end
       end
 
-      context "inapropriate back-replacement" do
+      context "inappropriate back-replacement" do
         # should not be translated back to updated_at, which is transformed for ar->api
         let(:attribute_name) { "updatedAt" }
 

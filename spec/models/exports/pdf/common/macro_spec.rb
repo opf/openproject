@@ -173,7 +173,7 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
-    describe "with markdown formating bold" do
+    describe "with markdown formatting bold" do
       let(:markdown) { "**##{work_package.id}**" }
 
       it "contains correct data" do
@@ -181,7 +181,7 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
-    describe "with markdown formating strikethrough" do
+    describe "with markdown formatting strikethrough" do
       let(:markdown) { "~~##{work_package.id}~~" }
 
       it "contains correct data" do
@@ -448,7 +448,7 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
-    describe "withh another work package ID and attribute" do
+    describe "with another work package ID and attribute" do
       let(:markdown) { "workPackageValue:#{other_work_package.id}:subject" }
 
       it "outputs the attribute value for the specified work package" do

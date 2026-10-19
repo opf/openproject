@@ -462,7 +462,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
                                       member_with_roles: { project => reader_role })
           end
 
-          it "saves selected placeholer user properly" do
+          it "saves selected placeholder user properly" do
             custom_field.custom_values.delete_all
 
             overview_page.visit_page

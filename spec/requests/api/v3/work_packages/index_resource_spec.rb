@@ -771,7 +771,7 @@ RSpec.describe "API v3 Work package resource",
 
             describe "_meta" do
               describe "timestamp" do
-                it "has the baseline timestamp, which is the first timestmap" do
+                it "has the baseline timestamp, which is the first timestamp" do
                   expect(subject.body)
                     .to be_json_eql(timestamps.first.to_s.to_json)
                     .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp")
@@ -1285,7 +1285,7 @@ RSpec.describe "API v3 Work package resource",
             describe "0 (baseline attributes)" do
               describe "_meta" do
                 describe "timestamp" do
-                  it "has the baseline timestamp, which is the first timestmap" do
+                  it "has the baseline timestamp, which is the first timestamp" do
                     expect(subject.body)
                       .to be_json_eql("oneWeekAgo@11:00+00:00".to_json)
                       .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp")

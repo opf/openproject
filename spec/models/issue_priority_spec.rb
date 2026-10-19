@@ -83,7 +83,7 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe "#transer_to" do
+  describe "#transfer_to" do
     let(:new_priority) { create(:priority) }
     let(:work_package1) { create(:work_package, priority:) }
     let(:work_package2) { create(:work_package) }
