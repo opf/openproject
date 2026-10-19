@@ -41,9 +41,7 @@ module OpenProject::JobStatus
       mount ::API::V3::JobStatus::JobStatusAPI
     end
 
-    add_api_path :job_status do |uuid|
-      "#{root}/job_statuses/#{uuid}"
-    end
+    add_api_resource_paths :job_status, only: :show
 
     add_cron_jobs do
       {

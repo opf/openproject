@@ -35,7 +35,7 @@ require_relative "../../../config/constants/settings/definition"
 
 module OpenProject::Plugins
   module ActsAsOpEngine
-    def self.included(base)
+    def self.included(base) # rubocop:disable Metrics/AbcSize
       base.send :include, InstanceMethods
 
       base.class_eval do
@@ -187,7 +187,7 @@ module OpenProject::Plugins
       #                define the minimal version of OpenProject the plugin is compatible with
       #                Another common option is :author_url.
       # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
-      def register(gem_name, options, &block)
+      def register(gem_name, options, &block) # rubocop:disable Metrics/AbcSize
         self.class.initializer "#{engine_name}.register_plugin" do
           spec = Gem.loaded_specs[gem_name]
 
@@ -221,6 +221,14 @@ module OpenProject::Plugins
             singleton_class.instance_eval do
               define_method(path_name, &)
             end
+          end
+        end
+      end
+
+      def add_api_resource_paths(name, **)
+        config.to_prepare do
+          ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
+            resources(name, **)
           end
         end
       end
