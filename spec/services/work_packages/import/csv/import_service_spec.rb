@@ -226,6 +226,18 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
 
       expect(problem).to have_attributes(row: 2, attribute: "version", value: "Shipped")
     end
+
+    it "says why the version was refused where the user may not assign versions" do
+      without_permission = create(:project_role, permissions: %i[view_work_packages add_work_packages])
+      other = create(:user, member_with_roles: { project => without_permission })
+
+      problem = described_class.new(user: other, project:)
+                               .call(rows: [row({ subject: "Planned", version: "Sprint 12" })])
+                               .result.problems.sole
+
+      expect(problem).to have_attributes(row: 2, attribute: "version", value: "Sprint 12")
+      expect(problem.message).to eq("cannot be set because you are not allowed to assign versions in this project.")
+    end
   end
 
   describe "the Created on and Updated on columns" do

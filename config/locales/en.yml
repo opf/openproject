@@ -1100,6 +1100,8 @@ en:
             identifier:
               must_not_be_changed: "must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent."
               semantic_identifier_incomplete: "and sequence_number must both be set at the same time."
+            observed_in_versions:
+              error_readonly: "cannot be set because you are not allowed to assign versions in this project."
             parent:
               cannot_be_in_another_project: "cannot be in another project."
               cannot_be_milestone: "cannot be a milestone."
@@ -1130,6 +1132,8 @@ en:
             status_id:
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
+            target_versions:
+              error_readonly: "cannot be set because you are not allowed to assign versions in this project."
             type:
               cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
