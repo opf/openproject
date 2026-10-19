@@ -35,7 +35,7 @@ RSpec.describe Llm::Capabilities do
     subject(:states) { described_class.states_from(info) }
 
     context "with an embedding entry" do
-      let(:info) { instance_double(RubyLLM::Model::Info, type: "embedding", capabilities: []) }
+      let(:info) { RubyLLM::Model::Info.new(id: "embedder", modalities: { output: ["embeddings"] }) }
 
       it "reports embeddings only" do
         expect(states).to eq(embeddings: :supported)
@@ -43,7 +43,9 @@ RSpec.describe Llm::Capabilities do
     end
 
     context "with a chat entry listing its capabilities" do
-      let(:info) { instance_double(RubyLLM::Model::Info, type: "chat", capabilities: %w[function_calling vision]) }
+      let(:info) do
+        RubyLLM::Model::Info.new(id: "chatter", modalities: { output: ["text"] }, capabilities: %w[function_calling vision])
+      end
 
       it "reports the listed ones as supported and the rest as unsupported" do
         expect(states).to eq(embeddings: :unsupported,
@@ -55,10 +57,22 @@ RSpec.describe Llm::Capabilities do
     end
 
     context "with a chat entry listing no capability at all" do
-      let(:info) { instance_double(RubyLLM::Model::Info, type: "chat", capabilities: []) }
+      let(:info) { RubyLLM::Model::Info.new(id: "chatter", modalities: { output: ["text"] }) }
 
       it "leaves the chat capabilities unknown rather than denying them" do
         expect(states).to eq(embeddings: :unsupported,
+                             function_calling: :unknown,
+                             structured_output: :unknown,
+                             vision: :unknown,
+                             reasoning: :unknown)
+      end
+    end
+
+    context "with an entry publishing neither modalities nor capabilities" do
+      let(:info) { RubyLLM::Model::Info.new(id: "silent") }
+
+      it "leaves embeddings unknown as well" do
+        expect(states).to eq(embeddings: :unknown,
                              function_calling: :unknown,
                              structured_output: :unknown,
                              vision: :unknown,

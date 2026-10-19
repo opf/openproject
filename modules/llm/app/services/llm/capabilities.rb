@@ -72,7 +72,15 @@ module Llm
       unpublished = published.empty? ? :unknown : :unsupported
 
       states = relevant.index_with { |capability| published.include?(capability) ? :supported : unpublished }
-      states.merge(embeddings: embedding ? :supported : :unsupported)
+      states.merge(embeddings: embedding_state(info, embedding))
+    end
+
+    # RubyLLM types an entry without any output modality as chat, so a silent
+    # entry would otherwise rule out embeddings it never mentioned.
+    def embedding_state(info, embedding)
+      return :supported if embedding
+
+      info.modalities.output.empty? ? :unknown : :unsupported
     end
 
     # What a model card declares about itself.
