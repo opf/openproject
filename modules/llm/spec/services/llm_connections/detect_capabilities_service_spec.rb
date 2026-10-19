@@ -37,6 +37,21 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
   let(:base_url) { "https://example.com/v1" }
   let(:connection) { create(:llm_connection, :with_models, base_url:, api_key: "sk-test") }
 
+  describe "EMBEDDING_NAME_HINT" do
+    %w[intfloat/e5-large-v2 multilingual-e5-small thenlper/gte-base gte-Qwen2-7B-instruct e5:latest
+       library/gte:Q4_K_M bge-m3 nomic-embed-text all-MiniLM-L6-v2].each do |name|
+      it "takes #{name} for a likely embedding model" do
+        expect(name).to match(described_class::EMBEDDING_NAME_HINT)
+      end
+    end
+
+    %w[llama-3-e5f2 qwen-gtex gemma3-27b gpt-4o].each do |name|
+      it "does not take #{name} for one" do
+        expect(name).not_to match(described_class::EMBEDDING_NAME_HINT)
+      end
+    end
+  end
+
   it "wraps the verdict in a ServiceResult" do
     mock_llm_embeddings_response(base_url)
 
