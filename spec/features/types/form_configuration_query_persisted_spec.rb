@@ -53,8 +53,7 @@ RSpec.describe "Saved related table queries", :js, with_ee: %i[edit_attribute_gr
   end
 
   def edit_table(name = "Saved children")
-    within_table(name) { click_button accessible_name: "Row actions" }
-    find(:menuitem, "Edit query").click
+    within_table(name) { click_on accessible_name: "Edit query" }
     expect(page).to have_dialog("Work package table configuration")
   end
 

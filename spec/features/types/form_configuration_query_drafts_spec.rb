@@ -52,8 +52,7 @@ RSpec.describe "Related table drafts", :js, with_ee: %i[edit_attribute_groups] d
   end
 
   def edit_table
-    within("[data-group-type=query]") { click_button accessible_name: "Row actions" }
-    find(:menuitem, "Edit query").click
+    within("[data-group-type=query]") { click_on accessible_name: "Edit query" }
     expect(page).to have_dialog("Work package table configuration")
   end
 

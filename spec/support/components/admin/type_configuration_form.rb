@@ -172,11 +172,7 @@ module Components
       def edit_query_group(name)
         wait_for_turbo
 
-        group_key = find_group(name)["data-group-key"]
-        menu_id = open_query_menu(name)
-        page.find("##{menu_id}", visible: :all)
-            .find(:test_id, "type-form-configuration-edit-query-#{group_key}", visible: :all)
-            .click
+        within(find_group(name)) { click_on accessible_name: I18n.t("types.edit.form_configuration.edit_query") }
         expect(page).to have_css(".wp-table--configuration-modal")
       end
 
@@ -259,11 +255,6 @@ module Components
 
       def open_attribute_menu(attribute)
         open_menu("type-form-configuration-attribute-actions-#{attribute}")
-      end
-
-      def open_query_menu(name)
-        group_key = find_group(name)["data-group-key"]
-        open_menu("type-form-configuration-query-actions-#{group_key}")
       end
 
       def close_menu(menu_id)

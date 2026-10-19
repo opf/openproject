@@ -40,7 +40,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
   it "renders the edit-query action when EE and editable" do
     render_inline(described_class.new(group:, ee_available: true))
 
-    expect(page).to have_test_selector("type-form-configuration-query-actions-query-1")
+    expect(page).to have_button(accessible_name: "Edit query")
   end
 
   it "carries the editor query on its stream target" do
@@ -59,10 +59,10 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type
     end
   end
 
-  it "omits the actions menu when readonly", :aggregate_failures do
+  it "omits the edit-query action when readonly", :aggregate_failures do
     render_inline(described_class.new(group:, ee_available: true, readonly: true))
 
-    expect(page).to have_no_test_selector("type-form-configuration-query-actions-query-1")
+    expect(page).to have_no_button(accessible_name: "Edit query")
     expect(page).to have_text("Related work packages table")
   end
 
