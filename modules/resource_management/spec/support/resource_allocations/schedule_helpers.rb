@@ -22,32 +22,30 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourceAllocations
-  # A contiguous span in which a user is overbooked, carrying the work packages
-  # forced into it and the largest amount (in minutes) it is over by. Used to
-  # highlight ranges in the allocation calendar.
-  class OverbookedRange
-    include ActiveModel::Model
-    include ActiveModel::Attributes
+  module ScheduleHelpers
+    StaticCalendar = Data.define(:capacities) do
+      def capacity_on(date) = capacities.fetch(date, 0)
+    end
 
-    attribute :start_date, :date
-    attribute :end_date, :date
-    attribute :work_package_ids, default: -> { [] }
-    attribute :over_by_minutes, :integer
-    # The user's total working capacity (in minutes) across the range, so a
-    # warning can contrast it with the hours scheduled into it.
-    attribute :available_minutes, :integer
-    # The WorkItems forced into this range, carried so a warning can list each
-    # work package's hours and flag the one that was just allocated.
-    attribute :items, default: -> { [] }
+    def static_calendar(capacities)
+      StaticCalendar.new(capacities:)
+    end
 
-    def covers?(date)
-      (start_date..end_date).cover?(date)
+    StubAllocation = Data.define(:id, :start_date, :end_date, :allocated_time)
+
+    def allocation(id, start_date, end_date, minutes)
+      StubAllocation.new(id:, start_date:, end_date:, allocated_time: minutes)
+    end
+
+    def scheduled_entry(allocation, date, minutes, overtime_minutes: 0)
+      ScheduledEntry.new(allocation:, allocated_on: date, minutes:, overtime_minutes:)
     end
   end
 end

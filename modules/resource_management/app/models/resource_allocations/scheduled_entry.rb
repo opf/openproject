@@ -30,6 +30,7 @@
 module ResourceAllocations
   # A single allocation's share of a day in a computed schedule: `minutes` of the
   # `allocation` (and its `work_package`) placed on the `allocated_on` day.
+  # `minutes` includes the `overtime_minutes` beyond the user's working hours.
   class ScheduledEntry
     include ActiveModel::Model
     include ActiveModel::Attributes
@@ -38,5 +39,6 @@ module ResourceAllocations
     attribute :work_package
     attribute :allocated_on, :date
     attribute :minutes, :integer
+    attribute :overtime_minutes, :integer, default: 0
   end
 end

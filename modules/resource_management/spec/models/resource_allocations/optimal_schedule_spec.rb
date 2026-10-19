@@ -28,30 +28,48 @@
 #++
 
 require "spec_helper"
+require_relative "../../support/resource_allocations/schedule_helpers"
 
 RSpec.describe ResourceAllocations::OptimalSchedule do
+  include ResourceAllocations::ScheduleHelpers
+
   let(:monday) { Date.new(2026, 1, 5) }
   let(:tuesday) { Date.new(2026, 1, 6) }
+  let(:wednesday) { Date.new(2026, 1, 7) }
+  let(:fitting) { allocation(1, monday, tuesday, 960) }
+  let(:exceeding) { allocation(2, monday, monday, 640) }
 
   subject(:schedule) do
-    described_class.new(by_date: { monday => %i[entry] }, capacity_by_date: { monday => 480, tuesday => 480 })
+    described_class.new(
+      by_date: {
+        monday => [scheduled_entry(fitting, monday, 480), scheduled_entry(exceeding, monday, 640, overtime_minutes: 640)],
+        tuesday => [scheduled_entry(fitting, tuesday, 480)]
+      },
+      unplannable: []
+    )
   end
 
-  it "defaults to empty collections" do
-    expect(described_class.new).to have_attributes(by_date: {}, capacity_by_date: {})
+  it "defaults to an empty schedule" do
+    expect(described_class.new).to have_attributes(by_date: {}, unplannable: [])
   end
 
   it "returns the entries scheduled on a day, or none" do
-    expect(schedule.entries_on(monday)).to eq(%i[entry])
-    expect(schedule.entries_on(tuesday)).to eq([])
+    expect(schedule.entries_on(tuesday).map(&:allocation)).to eq([fitting])
+    expect(schedule.entries_on(wednesday)).to eq([])
   end
 
-  it "returns the capacity on a day, or zero" do
-    expect(schedule.capacity_on(monday)).to eq(480)
-    expect(schedule.capacity_on(Date.new(2026, 1, 12))).to eq(0)
+  it "returns the allocations with time on a day" do
+    expect(schedule.allocations_on(monday)).to contain_exactly(fitting, exceeding)
+    expect(schedule.allocations_on(wednesday)).to eq([])
   end
 
-  it "exposes the dates with capacity" do
-    expect(schedule.dates).to contain_exactly(monday, tuesday)
+  it "sums the overtime on a day" do
+    expect(schedule.overtime_on(monday)).to eq(640)
+    expect(schedule.overtime_on(tuesday)).to eq(0)
+    expect(schedule.overtime_on(wednesday)).to eq(0)
+  end
+
+  it "lists the days with overtime in order" do
+    expect(schedule.overbooked_dates).to eq([monday])
   end
 end

@@ -169,8 +169,8 @@ class ResourceAllocation < ApplicationRecord
   def self.overbooked_ids_of(principal, booked)
     ResourceAllocations::Availability
       .new(user: principal, allocations: booked)
-      .overbooked_ranges
-      .flat_map { |range| range.items.map(&:id) }
+      .overbooked_allocation_ids
+      .to_a
   end
   private_class_method :overbooked_ids_of
 

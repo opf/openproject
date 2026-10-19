@@ -834,11 +834,18 @@ RSpec.describe ResourceAllocation do
     context "when the assigned user has working hours configured" do
       shared_let(:working_hours) { create(:user_working_hours, user: assignee, valid_from: Date.new(2025, 1, 1)) }
 
-      it "returns the ids of the allocations in overbooked ranges" do
+      it "returns the ids of the allocations with time on an overbooked day" do
         fitting = allocation
         overbooked = overbooked_allocation
 
         expect(described_class.overbooked_ids([fitting, overbooked])).to eq(Set[overbooked.id])
+      end
+
+      it "includes an allocation that fits on its own when it shares an overbooked day" do
+        full_week = allocation
+        one_hour = allocation(start_date: Date.new(2026, 1, 7), end_date: Date.new(2026, 1, 7), allocated_time: 60)
+
+        expect(described_class.overbooked_ids([full_week, one_hour])).to eq(Set[full_week.id, one_hour.id])
       end
 
       it "is empty when every allocation fits" do
