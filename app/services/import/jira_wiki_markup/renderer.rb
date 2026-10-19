@@ -93,10 +93,8 @@ module Import
           render_block_quote(node)
         when N::MultiLineBlockQuote
           render_multi_line_block_quote(node)
-        when N::TableHeaderRow
-          render_table_header_row(node)
-        when N::TableDataRow
-          node.raw
+        when N::Table
+          render_table(node)
         when N::Panel
           render_panel(node)
         when N::BlankLine
@@ -136,21 +134,39 @@ module Import
         "#{rendered.map { |line| "> #{line}" }.join("\n")}\n"
       end
 
-      def render_table_header_row(node)
-        return "" if node.cells.empty?
+      # Emitted as HTML rather than a markdown table: markdown has no headerless
+      # table, and BemCssFilter decorates plain table markup on render. Kept on a
+      # single line, since a blank line would end the CommonMark HTML block.
+      def render_table(node)
+        head = node.header ? "<thead>#{render_table_row(node.header)}</thead>" : ""
+        body = node.rows.any? ? "<tbody>#{node.rows.map { |row| render_table_row(row) }.join}</tbody>" : ""
 
-        header = "| #{node.cells.join(' | ')} |"
-        separator = "| #{node.cells.map { '---' }.join(' | ')} |"
-        "#{header}\n#{separator}"
+        # Trailing newline closes the CommonMark HTML block, so markdown on the
+        # following line is still formatted rather than swallowed as raw HTML.
+        "<table>#{head}#{body}</table>\n"
       end
 
+      def render_table_row(cells)
+        "<tr>#{cells.map { |cell| render_table_cell(cell) }.join}</tr>"
+      end
+
+      def render_table_cell(cell)
+        tag = cell.header ? "th" : "td"
+        "<#{tag}>#{cell_renderer.render_cell(cell.children)}</#{tag}>"
+      end
+
+      def cell_renderer
+        @cell_renderer ||= HtmlCellRenderer.new(@document)
+      end
+
+      # Markdown has no panel, so it becomes its title above its content. Jira does
+      # not parse the title as wiki markup, so it is emphasised as a plain label.
       def render_panel(node)
+        content = render_inline(node.children)
         title = node.params["title"]
-        if title.present?
-          "**#{title}**\n#{node.content}"
-        else
-          node.content
-        end
+        return content if title.blank?
+
+        "**#{title}**\n#{content}"
       end
 
       def render_list(list, depth)
@@ -180,6 +196,9 @@ module Import
         {
           N::Text => :render_text,
           N::BlockQuote => :render_inline_block_quote,
+          N::CodeBlock => :render_code_block,
+          N::NoformatBlock => :render_noformat_block,
+          N::Panel => :render_panel,
           N::Bold => :render_bold,
           N::Italic => :render_italic,
           N::Strikethrough => :render_strikethrough,

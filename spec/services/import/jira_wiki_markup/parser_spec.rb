@@ -157,6 +157,154 @@ RSpec.describe Import::JiraWikiMarkup::Parser do
     end
   end
 
+  # The header flag on a cell, and which row becomes the head, are the contract the
+  # renderer reads. Asserting them here keeps a change to the separator rules from
+  # hiding behind whatever HTML it happens to produce.
+  describe "#consume_table" do
+    subject(:result) { parser.send(:consume_table, lines, 0) }
+
+    let(:table) { result.first }
+
+    def cell_kinds(rows) = rows.map { |row| row.map(&:header) }
+
+    context "with a header row and a data row" do
+      let(:lines) { ["||A||B||", "|1|2|"] }
+
+      it "takes the header row as the head" do
+        expect(table.header.map(&:header)).to eq([true, true])
+      end
+
+      it "keeps the data row in the body" do
+        expect(cell_kinds(table.rows)).to eq([[false, false]])
+      end
+
+      it "consumes both lines" do
+        expect(result.last).to eq(2)
+      end
+    end
+
+    context "without a header row" do
+      let(:lines) { ["|1|2|"] }
+
+      it "has no head" do
+        expect(table.header).to be_nil
+      end
+
+      it "holds only data cells" do
+        expect(cell_kinds(table.rows)).to eq([[false, false]])
+      end
+    end
+
+    context "with a header column" do
+      let(:lines) { ["||Name|Alice|"] }
+
+      it "marks only the leading cell as a header cell" do
+        expect(cell_kinds(table.rows)).to eq([[true, false]])
+      end
+
+      it "does not mistake the mixed row for a head" do
+        expect(table.header).to be_nil
+      end
+    end
+
+    context "with a run of header rows" do
+      let(:lines) { ["||Field||Details||", "||OS||Windows||"] }
+
+      it "takes only the first as the head" do
+        expect(table.header.map(&:header)).to eq([true, true])
+      end
+
+      it "keeps the rest as body rows of header cells" do
+        expect(cell_kinds(table.rows)).to eq([[true, true]])
+      end
+    end
+
+    context "with markup in a cell" do
+      let(:lines) { ["|*bold*|"] }
+
+      it "parses the cell contents rather than storing the raw text" do
+        expect(table.rows.first.first.children.first).to be_a(Import::JiraWikiMarkup::Nodes::Bold)
+      end
+    end
+
+    context "when the starting line is not a row" do
+      let(:lines) { ["|not a table"] }
+
+      it "falls back to a paragraph rather than raising" do
+        expect(table).to be_a(Import::JiraWikiMarkup::Nodes::Paragraph)
+      end
+
+      it "advances past the line so parsing terminates" do
+        expect(result.last).to eq(1)
+      end
+    end
+
+    context "when a cell macro never closes" do
+      let(:lines) { ["|a|{code}", "never closed"] }
+
+      it "falls back to a paragraph" do
+        expect(table).to be_a(Import::JiraWikiMarkup::Nodes::Paragraph)
+      end
+
+      it "leaves the following lines for the block parser" do
+        expect(result.last).to eq(1)
+      end
+    end
+  end
+
+  # The separator rules decide both how many cells a row has and which of them are
+  # header cells, and a row that yields nothing has to be rejected here so the
+  # caller can fall back.
+  describe "#parse_cells" do
+    subject(:cells) { parser.send(:parse_cells, row) }
+
+    def contents(cells) = cells.map { |cell| cell.children.map(&:content).join }
+
+    context "with only an opening separator" do
+      let(:row) { "|not a row" }
+
+      it { is_expected.to be_nil }
+    end
+
+    context "with separators but no content" do
+      let(:row) { "||" }
+
+      it { is_expected.to be_nil }
+    end
+
+    context "without a closing separator" do
+      let(:row) { "|a|b" }
+
+      it "still yields both cells" do
+        expect(contents(cells)).to eq(%w[a b])
+      end
+    end
+
+    context "with a closing separator" do
+      let(:row) { "|a|b|" }
+
+      it "does not add an empty trailing cell" do
+        expect(contents(cells)).to eq(%w[a b])
+      end
+    end
+
+    context "with a doubled separator" do
+      let(:row) { "|a||b|" }
+
+      it "reads it as a header cell rather than an empty one" do
+        expect(cells.map(&:header)).to eq([false, true])
+      end
+    end
+
+    context "with an escaped separator" do
+      let(:row) { "|a\\|b|c|" }
+
+      it "keeps it inside the cell" do
+        expect(contents(cells)).to eq(["a|b", "c"])
+      end
+    end
+  end
+
   # consume_list is only reached for lines matching a list block pattern, which
   # parse_list_line always accepts. These cover the contract it relies on, so a
   # future change to either regex cannot turn into a crash or an endless loop.
