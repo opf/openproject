@@ -24,7 +24,7 @@
             label: attribute[:translation],
             classes: "type-form-configuration-page--inactive-item",
             content_arguments: { tag: :div },
-            data: item_data(attribute).merge("filter--filter-list-target": "searchItem")
+            data: item_data(attribute)
           ) do |item|
             item.with_leading_visual_raw_content do
               render(

@@ -32,6 +32,7 @@ module WorkPackageTypes
     class GroupComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include AttributeItemData
 
       def initialize(group:, context:, ee_available: false, first: false, last: false, edit_mode: false,
                      form_model: nil)
@@ -79,13 +80,15 @@ module WorkPackageTypes
       private
 
       def wrapper_data
-        {
+        data = {
           group_type: @group[:type].to_s,
           group_key: @group[:key].to_s,
           group_query: @group[:query],
           update_query_url: update_query_path,
           edit_mode: (true if edit_mode?)
-        }.compact.merge(item_data)
+        }.compact
+
+        merge_data({ data: }, { data: item_data })
       end
 
       def group_name
@@ -118,27 +121,24 @@ module WorkPackageTypes
         preview = { sortable_lists__item_target: "preview" }
         return preview if query_group?
 
-        preview.merge(
-          controller: "sortable-lists--list",
-          sortable_lists__list_type_value: SortableTypes::ATTRIBUTE,
-          sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
-          sortable_lists__list_id_value: @group[:id],
-          sortable_lists__list_name_value: group_name
+        merge_data(
+          { data: preview },
+          {
+            data: {
+              controller: "sortable-lists--list",
+              sortable_lists__list_type_value: SortableTypes::ATTRIBUTE,
+              sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
+              sortable_lists__list_id_value: @group[:id],
+              sortable_lists__list_name_value: group_name
+            }
+          }
         )
       end
 
-      def attribute_item_data(attribute)
+      def row_data(attribute)
         return {} if readonly?
 
-        data = { attr_key: attribute[:key], attr_translation: attribute[:translation], attr_is_cf: attribute[:is_cf] }
-        return data if attribute[:id].blank?
-
-        data.merge(
-          controller: "sortable-lists--item",
-          sortable_lists__item_id_value: attribute[:id],
-          sortable_lists__item_type_value: SortableTypes::ATTRIBUTE,
-          sortable_lists__item_label_value: attribute[:translation]
-        )
+        attribute_item_data(attribute)
       end
 
       def update_query_path
