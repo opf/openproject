@@ -171,9 +171,6 @@ OpenProject/AddPreviewForViewComponent:
 # root. Note the gap this leaves: a spec that builds a work package and reads configuration off
 # its `type` is the real bug and is no longer flagged here.
 
-Performance/Casecmp:
-  Enabled: false
-
 # Don't force us to use tag instead of content_tag
 # as this breaks angular elements
 Rails/ContentTag:

@@ -624,7 +624,7 @@ zh-CN:
     notifications:
       center:
         and_more_users:
-          other: 和 %{count} 个其他
+          other: and %{count} others
         empty_state:
           no_notification: 看起来您已查看所有通知。
           no_notification_for_filter: 看起来你已经处理完了这个筛选器的所有内容。
@@ -827,10 +827,10 @@ zh-CN:
         not_selectable: 选择未更改。此条目不参与此列表的排序。
         range_blocked: 选择未更改。该范围包含不参与此列表排序的条目。
         range_restarted:
-          other: 无法扩展范围。已选择 %{count} 个条目。
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: 选择未更改。扩展此列表，以选择该范围。
         selected:
-          other: 已选择 %{count} 个条目。
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: 关闭模式
@@ -844,9 +844,7 @@ zh-CN:
     text_user_wrote: "%{value} 写道："
     text_work_packages_destroy_confirmation: 确实要删除所选的工作包吗?
     time_entry:
-      stop: 停止
       title: 记录时间
-      tracking: 时间跟踪
       work_package_required: 需要先选择一个工作包。
     timer:
       button_stop: 停止当前计时器
@@ -881,18 +879,18 @@ zh-CN:
       label_two_factor_authentication: 双因子认证
     units:
       child_work_packages:
-        other: "%{count} 子工作包"
+        other: "%{count} work package children"
       day:
-        one: 1 天
+        one: "%{count} day"
         other: "%{count} 天"
         zero: 0 天
       hour:
-        one: 1 小时
+        one: "%{count} h"
         other: "%{count} 小时"
         zero: 0 小时
       hour_string: "%{hours} 小时"
       word:
-        other: " %{count} 个单词"
+        other: "%{count} words"
       workPackage:
         other: 工作包
     upsell:

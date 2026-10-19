@@ -624,7 +624,7 @@ si:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -828,11 +828,11 @@ si:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -847,9 +847,7 @@ si:
     text_user_wrote: "%{value} ලිවීය:"
     text_work_packages_destroy_confirmation: ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?
     time_entry:
-      stop: Stop
       title: ලොග් වේලාව
-      tracking: ෙසොයා ගැනීෙම්
       work_package_required: පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.
     timer:
       button_stop: Stop current timer
@@ -884,19 +882,19 @@ si:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: එක් ළමා වැඩ පැකේජය
-        other: "%{count} වැඩ පැකේජය දරුවන්"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: දින 1
+        one: "%{count} day"
         other: "%{count} දින"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} ඌ"
         zero: 0 ඌ
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: වැඩ පැකේජය

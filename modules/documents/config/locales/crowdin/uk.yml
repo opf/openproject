@@ -52,10 +52,10 @@ uk:
   documents:
     active_editors: Активні редактори
     active_editors_count:
-      one: 1 активний редактор
-      few: "%{count} активних редактори"
-      many: "%{count} активних редакторів"
-      other: "%{count} активного редактора"
+      one: "%{count} active editor"
+      few: "%{count} active editors"
+      many: "%{count} active editors"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

@@ -624,7 +624,7 @@ ms:
     notifications:
       center:
         and_more_users:
-          other: dan %{count} yang lain
+          other: and %{count} others
         empty_state:
           no_notification: Nampaknya anda telah selesaikan semuanya.
           no_notification_for_filter: Nampaknya anda semua terperangkap untuk penapis ini.
@@ -844,9 +844,7 @@ ms:
     text_user_wrote: "%{value} menulis:"
     text_work_packages_destroy_confirmation: Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?
     time_entry:
-      stop: Berhenti
       title: Masa log
-      tracking: Penjejakan masa
       work_package_required: Memerlukan pemilihan pakej kerja dahulu.
     timer:
       button_stop: Hentikan pemasa semasa
@@ -881,18 +879,18 @@ ms:
       label_two_factor_authentication: Pengesahan dua faktor
     units:
       child_work_packages:
-        other: "%{count} pakej kerja anak"
+        other: "%{count} work package children"
       day:
-        one: 1 hari
+        one: "%{count} day"
         other: "%{count} hari"
         zero: 0 hari
       hour:
-        one: 1 j
+        one: "%{count} h"
         other: "%{count} j"
         zero: 0 j
       hour_string: "%{hours} h"
       word:
-        other: "%{count} perkataan"
+        other: "%{count} words"
       workPackage:
         other: pakej kerja
     upsell:

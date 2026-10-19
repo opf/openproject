@@ -624,7 +624,7 @@ zh-TW:
     notifications:
       center:
         and_more_users:
-          other: 與其他 %{count} 個
+          other: and %{count} others
         empty_state:
           no_notification: 看起來您已查看所有通知。
           no_notification_for_filter: 看起來你已經處理完了這個篩選器的所有內容。
@@ -844,9 +844,7 @@ zh-TW:
     text_user_wrote: "%{value} 寫道："
     text_work_packages_destroy_confirmation: 你確定要刪除選定的工作套件嗎？
     time_entry:
-      stop: 停止
       title: 工時紀錄
-      tracking: 工時紀錄
       work_package_required: 需要先選擇一個工作套件。
     timer:
       button_stop: 停止當前計時器
@@ -881,18 +879,18 @@ zh-TW:
       label_two_factor_authentication: 雙因素驗證
     units:
       child_work_packages:
-        other: "%{count} 個子工作套件"
+        other: "%{count} work package children"
       day:
-        one: 1 天
+        one: "%{count} day"
         other: "%{count} 天"
         zero: 0 天
       hour:
-        one: 1 小時
+        one: "%{count} h"
         other: "%{count} 小時"
         zero: 0 小時
       hour_string: "%{hours} 小時"
       word:
-        other: "%{count} 字節"
+        other: "%{count} words"
       workPackage:
         other: 工作套件
     upsell:

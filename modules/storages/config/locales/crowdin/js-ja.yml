@@ -27,7 +27,7 @@ ja:
         select_all: 全て選択
         selection:
           zero: リンクするファイルを選択する
-          other: リンク %{count} ファイル
+          other: Link %{count} files
         success_create:
           other: Successfully created %{count} file links.
         tooltip:

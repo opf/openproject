@@ -40,7 +40,9 @@ zh-CN:
         view: 通过宏放置的指向某个视图的动态链接。
         work_package: 通过宏放置的指向某个工作包的动态链接。
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: 请以 <em>%{login}</em> 身份登录，以激活您的帐户。
+    continue_with_provider: Continue with %{name}
     delete: 删除帐户
     delete_confirmation: 您确认想要删除您的账户？
     deletion_info:
@@ -65,7 +67,9 @@ zh-CN:
     error_self_registration_limited_provider: '用户注册在''%{name}''单点登录提供商上受限。请向管理员请求激活您的账户，或者更改该提供商的自主注册限制。
 
       '
-    login_with_auth_provider: 或使用您的现有帐户登录
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: 继续登录
     omniauth_direct_login_redirecting: 正在将您重定向到您的身份提供商…
     omniauth_login: 请登录以激活您的帐户。
@@ -168,6 +172,7 @@ zh-CN:
         uid: 客户端 ID
       emoji_reaction:
         reactable: 作用于
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: 活跃用户
         encoded_token: 企业版支持令牌
@@ -200,11 +205,17 @@ zh-CN:
         row_count: 行数
         widgets: 小部件
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: 用户组
         identity_url: 身份 URL
         organizational_unit: 组织单元
         parent: 父群组
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: 组织单元
         parent: 父群组
       import/jira:
@@ -242,7 +253,13 @@ zh-CN:
         base_url: Host URL
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
+        env_fingerprint: Applied environment configuration
+        env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
+      llm_feature_binding:
+        dimensions: Dimensions
+        feature_key: Feature
+        model: Model
       llm_model:
         admin_context_window: Context window
         display_name: Display name
@@ -428,6 +445,7 @@ zh-CN:
       user:
         admin: 管理员
         auth_source: 身份验证源
+        avatar_type: Avatar type
         consented_at: 同意在
         current_password: 当前密码：
         department: 部门
@@ -441,7 +459,7 @@ zh-CN:
         last_name: 姓氏
         ldap_auth_source: LDAP 连接
         new_password: 新密码
-        password_confirmation: 确认
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: 分区
       user_non_working_time:
@@ -450,11 +468,15 @@ zh-CN:
       user_preference:
         auto_hide_popups: 自动隐藏成功横幅
         auto_hide_popups_caption: 启用后，绿色成功横幅将在 5 秒后自动消失。
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: 更新提醒
         button_update_look_and_feel: 更新外观和风格
         button_update_user_information: 更新配置文件
         comments_sorting: 显示工作包活动排序方式
         daily_reminders: 每日提醒
+        date_format: Date format
         disable_keyboard_shortcuts: 禁用键盘快捷键
         dismissed_enterprise_banners: 隐藏企业横幅
         force_dark_theme_contrast: 在深色模式下强制使用高对比度
@@ -471,6 +493,7 @@ zh-CN:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 颜色模式
+        time_format: Time format
         time_zone: 时区
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
         workdays: 工作日
@@ -776,8 +799,24 @@ zh-CN:
               ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
             custom_headers:
               invalid: must map header names to plain text values.
+            default_chat_model_id:
+              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
+              not_available: is not offered by the configured LLM server.
+            default_embedding_model_id:
+              cannot_embed: is known not to create embeddings, according to the LLM server.
+              not_available: is not offered by the configured LLM server.
             llm_features_enabled:
               requires_connection: cannot be turned on before a connection has been configured.
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
+              not_for_chat_feature: only applies to features that create embeddings.
+            feature_key:
+              not_registered: does not belong to a known AI feature.
+            model_id:
+              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
+              not_available: is not offered by the configured LLM server.
         llm_model:
           attributes:
             external_id:
@@ -977,7 +1016,7 @@ zh-CN:
               numeric: 数值 （例如 ' 1')
               requirements_not_met: 必须包括以下类型的字符：%{rules}
               reused:
-                other: 已被使用过。请选择一个与您过去使用的 %{count} 个密码不同的密码。
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: 特殊字符 (例如 ' %')
               uppercase: 大写字母 (如 'A')
             password_confirmation:
@@ -1081,7 +1120,7 @@ zh-CN:
       template:
         body: 请检查以下字段：
         header:
-          other: "%{count} 个错误使得 %{model} 无法保存"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: 操作
@@ -1367,6 +1406,10 @@ zh-CN:
   admin:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1613,19 +1656,19 @@ zh-CN:
             title: 请确保您有备份！
           parts:
             issues:
-              other: "%{count} 个问题"
+              other: "%{count} issues"
             jobs:
               other: "%{count} jobs"
             projects:
-              other: "%{count} 个项目"
+              other: "%{count} projects"
             statuses:
-              other: "%{count} 种状态"
+              other: "%{count} statuses"
             types:
-              other: "%{count} 种类型"
+              other: "%{count} types"
             users:
-              other: "%{count} 个用户"
+              other: "%{count} users"
             work_packages:
-              other: "%{count} 个工作包"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: 我明白，此撤消操作会永久删除数据
             description: 将删除所有导入的对象（包括整个项目）。
@@ -1690,7 +1733,7 @@ zh-CN:
               caption: 选择要导入 OpenProject 的内容
               caption_done: 已完成
               caption_done_description:
-                other: "%{count} 个项目被选作范围"
+                other: "%{count} projects selected as scope"
               description: 在从主机 Jira 实例获取的可用数据中选择要导入的数据。
               elements:
                 custom_fields: 自定义字段的子集
@@ -1801,6 +1844,7 @@ zh-CN:
           title: 没有标签与您的搜索匹配
     llm_connections:
       delete_api_key:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
         heading: Remove the stored API key?
         menu_label: Remove API key
@@ -1808,8 +1852,10 @@ zh-CN:
         title: Remove API key
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
         heading: Disconnect from the LLM server?
+        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
         menu_label: Disconnect
@@ -1819,11 +1865,14 @@ zh-CN:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_env: The key comes from the environment.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
         api_key_placeholder_stored: API key stored
         api_key_remove: Remove key
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
+        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
+        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
+        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
         label_connecting: Contacting the LLM server…
         llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
         server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
@@ -1833,14 +1882,55 @@ zh-CN:
         description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
       tabs:
         connection: Connection
+        features: Feature configuration
         models: Models
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
         success: Successfully connected to the LLM server.
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      form:
+        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
+        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
+        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
+      index:
+        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
+      inherit_with_default: Use the default (%{model})
+      inherit_without_default: Use the default (none set)
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: Values fixed by the existing index
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
+        success: The model for %{feature} has been saved.
+    llm_health_status:
+      create:
+        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
+      create_health_status_report:
+        success: The checks have run.
+      show:
+        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
+        blankslate_heading: This connection has not been checked yet
+        download: Download report
+        last_check: Last checked %{datetime}.
+        run_checks: Run checks
+        running: Running checks...
+        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
+        title: Health status
     llm_models:
+      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
         success: "%{model} has been added."
+      defaults:
+        chat_caption: Embedding models are not offered.
+        description: Used by AI features that do not choose a model themselves.
+        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
+        heading: Default models
+        success: The default models have been saved.
       destroy:
         description: The model will no longer be offered to AI features.
         description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
@@ -1928,6 +2018,10 @@ zh-CN:
         inheritance_source: "%{type} %{name}"
         inherited_via: "（通过：%{source}）"
         title: 成员资格
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: 更多信息，请参阅我们的集成和插件页面。
       no_results_title_text: 目前没有安装插件。
@@ -1941,7 +2035,7 @@ zh-CN:
         confirm_button: 取消保留标识符
         description: 此项目标识符取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，任何新项目都可以使用该名称。
         description_with_work_packages:
-          other: 此项目标识符（及其 %{count} 个工作包标识符）取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，任何新项目都可以使用该名称。
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: 是否取消保留“%{identifier}”？
         title: 取消保留标识符
       empty_body: 项目的标识符更改后，上一个标识符会出现在此处，以便您在确认安全后将其取消保留。
@@ -2069,7 +2163,7 @@ zh-CN:
           error_unknown: 需要手动检查
           error_used_in_past: 由另一个项目的标识名历史保留
           remaining_projects:
-            other: "…其他 %{count} 个项目"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: "%{project_count} 个项目的现有标识符不符合基于项目的语义标识符要求。OpenProject 可以自动更新这些标识符，使其成为如下例中所示的有效格式。点击“自转换标识符”，以这种方式更新所有项目的标识符，并启用基于项目的语义标识符。\n"
         box_header:
@@ -2148,11 +2242,7 @@ zh-CN:
         label: 角色：%{role}
         no_role: 选择角色
         roles:
-          other: |-
-            One
-            已选择一个角色
-            Other
-            已选择 %{count} 个角色
+          other: "%{count} roles selected"
         title: 选择角色
       status_button: 状态
       statuses_dialog:
@@ -2163,7 +2253,7 @@ zh-CN:
         confirm: 移除
         description: 删除这些状态将使其无法用于此类型，并会删除现有工作流。确定要继续吗？
         heading:
-          other: 是否移除 %{count} 种状态？
+          other: Remove %{count} statuses?
         title: 移除状态
       tabs:
         always: 默认转换
@@ -2183,6 +2273,21 @@ zh-CN:
         not_available: AI 助手不可用。
         timeout: AI 服务未及时响应。
         upstream_error: AI 服务返回错误。
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: 当前已显示
@@ -2597,9 +2702,9 @@ zh-CN:
     text:
       failed: 无法将项目"%{source_project_name}"复制到项目"%{target_project_name}"。
       succeeded: 已复制项目"%{source_project_name}"到"%{target_project_name}"。
-    title: 复制项目“%{source_project_name}”
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: 有一个此类型的对象
+      one: "%{count} object of this type"
       other: 有 %{count} 个此类型的对象
       zero: 没有此类型的对象
   create_portfolio:
@@ -2639,7 +2744,7 @@ zh-CN:
     admin:
       hierarchy:
         subitems:
-          one: 1 个子项目
+          one: "%{count} sub-item"
           other: "%{count} 个子项目"
           zero: 无子项目
       items:
@@ -2799,40 +2904,40 @@ zh-CN:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: 大约 %{count} 小时
+        other: about %{count} hours
       about_x_months:
-        other: 大约 %{count} 个月
+        other: about %{count} months
       about_x_years:
-        other: 大约 %{count} 年
+        other: about %{count} years
       almost_x_years:
-        other: 接近 %{count} 年
+        other: almost %{count} years
       half_a_minute: 半分钟
       less_than_x_minutes:
         other: 不到 %{count} 分钟
       less_than_x_seconds:
-        other: 不到 %{count} 秒
+        other: less than %{count} seconds
       over_x_years:
-        other: 超过 %{count} 年
+        other: over %{count} years
       x_days:
-        other: "%{count} 天"
+        other: "%{count} days"
       x_hours:
-        other: "%{count} 小时"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count} 小时"
+        other: "%{count} hrs"
       x_minutes:
-        other: "%{count} 分钟"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count} 分钟"
+        other: "%{count} mins"
       x_months:
-        other: "%{count} 个月"
+        other: "%{count} months"
       x_seconds:
-        other: "%{count} 秒"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        other: "%{count} 秒"
+        other: "%{count} s"
       x_weeks:
-        other: "%{count} 周"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count} 年"
+        other: "%{count} years"
     units:
       day:
         other: 天
@@ -2979,7 +3084,7 @@ zh-CN:
     teaser:
       description_html: 您可以访问 %{trial_plan} 的所有功能。
       title:
-        other: "%{trial_plan} 试用令牌剩余 %{count} 天"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: '您的试用 Enterprise 令牌已被检索。请检查您的电子邮件，查看是否已附上令牌。如果您需要一个新令牌，请联系我们的支持团队。
 
@@ -3440,6 +3545,8 @@ zh-CN:
   groups:
     edit:
       synchronized_groups: 同步的群组
+    form:
+      group_attributes: Group attributes
     index:
       description: 通过将用户分组到一起，您可以将他们添加为同一项目的成员，也可以将相同的全局角色分配给他们。
     memberships:
@@ -3465,6 +3572,10 @@ zh-CN:
       leave_project: 离开项目
       no_favorite_projects: 您没有收藏的项目。
       title: 项目
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3509,6 +3620,31 @@ zh-CN:
             line_5: 使用 Jira Migrator 时查看导入进度。
             line_6: 在社区版本中使用日期提醒。
           new_features_title: '此版本包含各种新功能和改进，例如：
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 了解新功能和产品更新。
@@ -3785,7 +3921,7 @@ zh-CN:
   label_database_version: PostgreSQL 版本
   label_date: 日期
   label_date_and_time: 日期和时间
-  label_date_format: 日期格式
+  label_date_and_time_formats: Date and time formats
   label_date_from: 从
   label_date_from_to: 从 %{start} 到 %{end}
   label_date_to: 到
@@ -3944,7 +4080,6 @@ zh-CN:
   label_keyword_plural: 关键词
   label_label_plural: 标签
   label_language: 语言
-  label_language_based: 基于用户的语言
   label_languages: 语言
   label_last_activity: 最近一次活动
   label_last_change_on: 最后一次修改时间
@@ -3966,6 +4101,7 @@ zh-CN:
   label_list: 列表
   label_loading: 正在加载...
   label_locale: 语言和地区
+  label_locale_based: Use default for user locale
   label_lock_user: 锁定用户
   label_locked: 已锁定
   label_logged_as: 登录用户名
@@ -4256,6 +4392,7 @@ zh-CN:
   label_subtask_plural: 子任务
   label_summary: 摘要
   label_system: 系统
+  label_system_or_language_default: Use system or language based default
   label_system_settings: 系统设置
   label_system_storage: 存储信息
   label_table_of_contents: 目录
@@ -4370,41 +4507,41 @@ zh-CN:
   label_working_hours: 工作时间表
   label_workweek: 工作周
   label_x_closed_work_packages_abbr:
-    one: 1 个已关闭
+    one: "%{count} closed"
     other: "%{count} 个已关闭"
     zero: 0 个已关闭
   label_x_comments:
-    one: 1 条评论
+    one: "%{count} comment"
     other: "%{count} 条评论"
     zero: 没有注释
   label_x_days:
-    other: "%{count} 天"
+    other: "%{count} days"
   label_x_files:
-    one: 1 个文件
+    one: "%{count} file"
     other: "%{count} 个文件"
     zero: 无文件
   label_x_items:
-    one: 1 个项目
+    one: "%{count} item"
     other: "%{count} 个项目"
     zero: 没有项目
   label_x_items_selected:
-    other: 已选择 %{count} 个条目
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 个打开
+    one: "%{count} open"
     other: "%{count} 个打开"
     zero: 0 个已打开
   label_x_projects:
-    one: 1 个项目
+    one: "%{count} project"
     other: "%{count} 个项目"
     zero: 没有项目
   label_x_work_packages:
-    one: 1 个工作包
+    one: "%{count} work package"
     other: "%{count} 个工作包"
     zero: 无工作包
   label_x_working_days:
-    other: "%{count} 个工作日"
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    other: 休息时间：%{count} 个工作日
+    other: 'Time off: %{count} working days'
   label_yesterday: 昨天
   label_zen_mode: 极简模式
   ldap_auth_sources:
@@ -4514,6 +4651,69 @@ zh-CN:
     context_window_sources:
       registry: the figure published for this model
       server: reported by the server
+    features:
+      description_assistant:
+        caption: Rewrites and restructures work package text on request.
+        label: Description assistant
+      semantic_search:
+        caption: Indexes work packages so they can be found by meaning rather than by keyword.
+        label: Semantic search
+    health_checks:
+      configuration:
+        api_format_supported: Endpoint format is usable
+        base_url_present: Endpoint is configured
+        credentials_present: API key is stored
+        enabled: Connection is switched on
+        feature_flag: AI features are switched on
+        header: Configuration
+      errors:
+        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
+        catalogue_never_fetched: The model list has never been retrieved from the server.
+        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
+        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
+        chat_failed: The server refused a request for %{model} with status %{status}.
+        connection_disabled: The connection is configured but switched off, so no feature will use it.
+        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: The server rejected the stored API key.
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
+        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
+        no_model_to_test: No model is available to test with. Add a model or choose a default first.
+        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
+        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
+        not_configured: No endpoint has been configured.
+        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
+        request_timed_out: The server did not respond in time.
+        server_error: The server responded with status %{status}.
+        ssrf_filtered: The endpoint resolves to a blocked address.
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: Every feature has a usable model
+        header: AI features
+        locked_bindings_intact: Indexed data still has its model
+      inference:
+        chat_round_trip: The server answers a request
+        header: Inference
+      models:
+        catalogue_fresh: Model list is up to date
+        catalogue_present: Models are available
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        header: Models
+      server:
+        credentials_accepted: The server accepts the API key
+        header: Server
+        reachable: The server can be reached
+    health_report_kinds:
+      full: Full check, including an inference request.
+      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
     model_kinds:
       chat: Chat
       embedding: Embedding
@@ -4521,6 +4721,15 @@ zh-CN:
       supported: supported
       unknown: not verified
       unsupported: not supported
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: Last checked %{datetime}.
+        never_checked: This connection has not been checked yet.
+        open_report: Open full health report
+        run_checks: Run checks now
+        running: Running checks...
+        title: Health status
   macro_execution_error: 执行宏 %{macro_name} 出错
   macro_unavailable: 无法显示宏 %{macro_name} 。
   macro_unknown: 未知或不支持的宏。
@@ -4606,7 +4815,7 @@ zh-CN:
       mentioned: 您已<b>在评论中被提及</b>
       mentioned_by: "%{user} 在评论中提及了您"
       more_to_see:
-        other: 还有 %{count} 个包含通知的工作包。
+        other: There are %{count} more work packages with notifications.
       open_in_browser: 在浏览器中打开
       reason:
         assigned: 已分配
@@ -4795,6 +5004,9 @@ zh-CN:
     password_confirmation_dialog:
       confirmation_required: 需要输入帐户密码以确认此更改。
       title: 确认密码以继续
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
         assign_to_me: Assign work package to me
@@ -5126,7 +5338,7 @@ zh-CN:
 
       '
     confirm_revoke_my_application:
-      other: 您真的要删除此应用程序吗？这将撤销 %{count} 已激活的令牌。
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: 没有注册任何OAuth应用程序。
     flows:
       authorization_code: 授权码流
@@ -5330,7 +5542,7 @@ zh-CN:
   permission_change_work_package_status_explanation: 允许在不编辑工作包权限的情况下更改状态
   permission_comment_news: 评论新闻
   permission_commit_access: 读/写访问存储库 (提交)
-  permission_copy_projects: 复制项目
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: 在模板项目中，此权限具有一个辅助功能，即允许通过模板创建新项目。
   permission_copy_work_packages: 复制工作包
   permission_create_backup: 创建备份
@@ -5469,7 +5681,7 @@ zh-CN:
     name: OmniAuth SAML / SSO单点登录
   portfolio:
     count:
-      one: 1 个项目组合
+      one: "%{count} portfolio"
       other: "%{count} 个项目组合"
       zero: 0 个项目组合
     filters:
@@ -5480,7 +5692,7 @@ zh-CN:
         label: 项目组合名称筛选器
         placeholder: 搜索项目组合
       sub_items_html:
-        other: "<strong>%{count}</strong> 个子条目"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: 有效项目组合
       archived: 归档的项目组合
@@ -5494,7 +5706,7 @@ zh-CN:
         颜色可用于高亮显示表中的工作包。
   program:
     count:
-      one: 1 个计划
+      one: "%{count} program"
       other: "%{count} 个计划"
       zero: 0 个计划
     filters:
@@ -5506,7 +5718,7 @@ zh-CN:
       confirmation_message: 将此项目归档后，此实例的所有用户将无法再使用此项目及其所有后代。可以对已归档的项目进行恢复。
       title: 归档项目
     count:
-      one: 1个项目
+      one: "%{count} project"
       other: "%{count} 个项目"
       zero: 0 个项目
     destroy:
@@ -5721,12 +5933,12 @@ zh-CN:
             new_heading: 变为可用状态的字段
             nothing_affected: 没有任何字段或状态受到影响。
             status_count:
-              other: "%{count} 个工作包"
+              other: "%{count} work packages"
             table_suffix: "（表）"
             value_count:
-              other: "%{count} 个工作包具有值"
+              other: "%{count} work packages have a value"
             work_packages:
-              other: "%{count} 个工作包将使用新配置"
+              other: "%{count} work packages will use the new configuration"
           success: 项目现在使用 %{type}。
           target_label: 变体
           title: "%{type}：切换变体"
@@ -5782,7 +5994,7 @@ zh-CN:
     action_title: 回应
     add_reaction: 添加回应
     and_others:
-      other: 和 %{count} 其他
+      other: and %{count} others
     and_user: 和 %{user}
     react_with: 使用 %{reaction} 进行回应
     reaction_by: 由 %{reaction}
@@ -5900,18 +6112,18 @@ zh-CN:
       entry_projects_truncated:
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        other: 此角色仍指定给 %{count} 个成员：
+        other: 'This role is still attributed to %{count} members:'
       heading_unused: 确定要删除角色“%{name}”吗？
       losing_project_access:
-        one: 在这些用户中，有 1 位用户将失去对相关项目的访问权限，因为该角色是其在这些项目中拥有的唯一角色。确定要删除此角色吗？
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: 在这些用户中，有 %{count} 位用户将失去对相关项目的访问权限，因为该角色是他们在这些项目中拥有的唯一角色。确定要删除此角色吗？
         zero: 这些用户都不会失去对其任何项目的访问权限。确定要删除此角色吗？
       show_memberships: 显示所有具有此角色的成员资格
       summary: "%{projects} 中的 %{users}"
       summary_projects:
-        other: "%{count} 个项目"
+        other: "%{count} projects"
       summary_users:
-        other: "%{count} 个用户"
+        other: "%{count} users"
       title: 删除角色
     edit:
       default_for_new_projects_warning: 此角色被配置为创建项目的非管理员用户所具有的默认角色。请勿移除以下权限，否则项目创建者将无法完成新建项目的设置：
@@ -5926,10 +6138,9 @@ zh-CN:
       section_uncheck_all_label: 取消指定所有 %{module} 权限
     permissions_dialog:
       edit_permissions: 编辑角色权限
-      implicit_permission: 始终授予访问权限
       no_permissions: 此角色未授予任何权限。
       permission_count:
-        other: "%{count} 个权限"
+        other: "%{count} permissions"
       preview_action: 查看权限
       preview_aria_label: 查看 %{role} 的权限
       title: "“%{name}”的权限"
@@ -6419,7 +6630,7 @@ zh-CN:
       section_work_week: 工作周
   sharing:
     count:
-      one: 1 个用户
+      one: "%{count} user"
       other: "%{count} 个用户"
       zero: 0 个用户
     denied: 您没有权限共享 %{entities}。
@@ -7061,7 +7272,7 @@ zh-CN:
         description_with_variants: 此类型及其所有变体将永久删除。此操作无法撤消。
         heading: 删除类型“%{name}”？
         projects:
-          other: 此类型将从 %{count} 个项目中移除：
+          other: 'The type will be removed from %{count} projects:'
         title: 删除类型
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
@@ -7074,7 +7285,7 @@ zh-CN:
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
       project_variants_count:
-        other: "%{count} 个项目特定变体"
+        other: "%{count} project-specific variants"
       remove_default: 不在新项目中激活
       remove_default_notice: "%{name} 不再在新项目中激活。"
       type_label: 类型
@@ -7109,7 +7320,7 @@ zh-CN:
     authorization_rejected: 你不允许登录。
     blocked: 暂时锁定
     blocked_num_failed_logins:
-      other: 暂时锁定（%{count} 次尝试登录失败）
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: 您即将更改 "%{name}" 的状态。确实要继续吗？
     deleted: 已删除的用户
     department_ldap_managed_caption: 此部门通过 LDAP 同步进行管理，无法在此处更改。
@@ -7269,7 +7480,7 @@ zh-CN:
         start_date: 开始日期
         work_days: 工作日
         work_days_count:
-          other: "%{count} 个工作日"
+          other: "%{count} working days"
         work_hours: 工作时数
   version_status_closed: 关闭
   version_status_locked: 锁定
@@ -7457,7 +7668,7 @@ zh-CN:
       could_not_be_deleted: 以下工作包无法删除：
       could_not_be_saved: 无法保存以下工作包：
       deletion_successful:
-        other: 成功删除 %{count} 个工作包。
+        other: Successfully deleted %{count} work packages.
       descendant: 所选项的子工作包
       move_failed: 无法移动工作包。
       none_could_be_saved: "%{total} 个工作包全部无法更新。"
@@ -7481,14 +7692,14 @@ zh-CN:
       description_with_visible_descendants: 确定要删除所选工作包和所有可见后代吗？
       heading: 永久删除这些 %{count} 工作包？
       hidden_descendants_only_warning:
-        other: 有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        other: 所有可见后代都将被移除。不过，有 %{count} 个您看不到的后代。这些后代不会被删除，但其中的任何层级关系都将被移除。
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: 删除 %{count} 个工作包
       undeletable_descendants_warning:
-        other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        other: 由于在 %{projects} 中缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -7545,14 +7756,14 @@ zh-CN:
       description: 确定要删除“%{name}”吗？
       heading: 是否永久删除此工作包？
       hidden_descendants_only_warning:
-        other: 此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        other: 所有可见后代都将被删除。不过，此工作包有 %{count} 个您看不到的后代。这些后代不会被删除，但层级关系将被移除。
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: 删除工作包
       undeletable_descendants_warning:
-        other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        other: 由于在 %{projects} 中缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
       checking_file: Checking %{filename}
@@ -7714,7 +7925,7 @@ zh-CN:
         version:
           no_results_title_text: 目前有可用的版本。
     x_descendants:
-      other: "%{count} 个子工作包"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:

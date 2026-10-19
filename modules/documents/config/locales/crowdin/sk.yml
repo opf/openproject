@@ -52,7 +52,7 @@ sk:
   documents:
     active_editors: Active editors
     active_editors_count:
-      one: 1 active editor
+      one: "%{count} active editor"
       few: "%{count} active editors"
       many: "%{count} active editors"
       other: "%{count} active editors"

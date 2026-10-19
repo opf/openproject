@@ -365,7 +365,7 @@ GEM
     awesome_nested_set (3.9.0)
       activerecord (>= 4.0.0, < 8.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1292.0)
+    aws-partitions (1.1293.0)
     aws-sdk-core (3.257.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -378,7 +378,7 @@ GEM
     aws-sdk-kms (1.132.0)
       aws-sdk-core (~> 3, >= 3.256.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.233.1)
+    aws-sdk-s3 (1.233.2)
       aws-sdk-core (~> 3, >= 3.256.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -910,7 +910,7 @@ GEM
       actionview
       openproject-octicons (= 19.37.0)
       railties
-    openproject-primer_view_components (0.93.0)
+    openproject-primer_view_components (0.94.0)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.36.0)
@@ -924,12 +924,12 @@ GEM
       logger
     opentelemetry-common (0.25.2)
       opentelemetry-api (~> 1.0)
-    opentelemetry-exporter-otlp (0.36.0)
+    opentelemetry-exporter-otlp (0.37.0)
       google-protobuf (>= 3.18)
       googleapis-common-protos-types (~> 1.3)
       opentelemetry-api (~> 1.1)
       opentelemetry-common (~> 0.20)
-      opentelemetry-exporter-otlp-common
+      opentelemetry-exporter-otlp-common (~> 0.2)
       opentelemetry-sdk (~> 1.10)
       opentelemetry-semantic_conventions
     opentelemetry-exporter-otlp-common (0.3.0)
@@ -1444,7 +1444,7 @@ GEM
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
       jwt (>= 1.5, < 4.0)
-    simplecov (1.1.1)
+    simplecov (1.3.2)
     simpleidn (0.3.0)
     smart_properties (1.17.0)
     spreadsheet (1.3.5)
@@ -1606,7 +1606,7 @@ DEPENDENCIES
   auto_strip_attributes (~> 3.0)
   awesome_nested_set (~> 3.9.0)
   aws-sdk-core (~> 3.254)
-  aws-sdk-s3 (~> 1.232)
+  aws-sdk-s3 (~> 1.233)
   axe-core-rspec
   bcrypt (~> 3.1.22)
   brakeman (~> 8.1.0)
@@ -1711,7 +1711,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.37.0)
   openproject-octicons_helper (~> 19.37.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.93.0)
+  openproject-primer_view_components (~> 0.94.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -1722,7 +1722,7 @@ DEPENDENCIES
   openproject-webhooks!
   openproject-wikis!
   openproject-xls_export!
-  opentelemetry-exporter-otlp (~> 0.36.0)
+  opentelemetry-exporter-otlp (~> 0.37.0)
   opentelemetry-instrumentation-all (~> 0.97.0)
   opentelemetry-sdk (~> 1.13)
   overviews!
@@ -1784,7 +1784,7 @@ DEPENDENCIES
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
   shoulda-matchers (~> 8.0)
-  simplecov (~> 1.1.1)
+  simplecov (~> 1.3.2)
   spring
   spring-commands-rspec
   spring-commands-rubocop
@@ -1855,10 +1855,10 @@ CHECKSUMS
   auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
   awesome_nested_set (3.9.0) sha256=3ce99e816550f97f4de118e621630070aacf24928b920fe4a68846578a8daaed
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1292.0) sha256=c7fbe8b878640f12e24c975fd14c30401f4dd112416a2d21f834d3a823c8c4b8
+  aws-partitions (1.1293.0) sha256=d53c028087a7c75b435afb35b310a315a64268e6fb5ecd5d44d8e4f210ce725c
   aws-sdk-core (3.257.0) sha256=a92ad19c7ff668cec6688ee3200ee562da80647a3bbeed9fda02e8b0ca6492c6
   aws-sdk-kms (1.132.0) sha256=094b0097bb3be9d5c1ac87e971ca7f5aebb746801dfb5f0f576480bf98dca69c
-  aws-sdk-s3 (1.233.1) sha256=cdfb5051266354ae7e93a1443ae3878cceca531d81a890cf8185458ec62919e9
+  aws-sdk-s3 (1.233.2) sha256=b138737a0de8b02f163ae47a9fc184ac98fc9b90926237c7d7af716a14ea1221
   aws-sdk-sns (1.121.0) sha256=68124e4deab8335797826d777cd9cbc6ba23c8b293fe71360bafac6123c4688d
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   axe-core-api (4.13.0) sha256=6556c36d541090993b0efffd2659e13c289c109a0a6bf65d28271e363fc7ffa3
@@ -2097,7 +2097,7 @@ CHECKSUMS
   openproject-octicons (19.37.0) sha256=de10a8339edbfbf328f3e5d92ae1f61b99e52dfb3c76d06bce4d5d3d891c0092
   openproject-octicons_helper (19.37.0) sha256=ea8ec70882de05063fc17ecbcd16f4221c91bd53e12cb4c3f225d726e89362ee
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.93.0) sha256=b387b9de37aa879906f4fbc28cd982fb0fb79f06fffb89fb387f6f5bcf78e394
+  openproject-primer_view_components (0.94.0) sha256=4fdb7c8cb4332d828d6f1033b219af1a8005c5e366e7787b07fe398ab16c519b
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
@@ -2112,7 +2112,7 @@ CHECKSUMS
   openssl-signature_algorithm (1.3.0) sha256=a3b40b5e8276162d4a6e50c7c97cdaf1446f9b2c3946a6fa2c14628e0c957e80
   opentelemetry-api (1.11.1) sha256=d07f9987ea6240b3fd5ed5dd7450f93c58e403e0553e804069c23ae18ba61ff7
   opentelemetry-common (0.25.2) sha256=c035d44987789356fe8feeeb870708b44fe7564ffc032dec7200c39da92a911d
-  opentelemetry-exporter-otlp (0.36.0) sha256=6d3d61244a5f14d29cd13f9229f2394f509f3ceaa30a9f3d60f9c556291f6448
+  opentelemetry-exporter-otlp (0.37.0) sha256=edc8bda657dce5f4d527ac735f75d44043bb5924de6df0e3f01260108aa76136
   opentelemetry-exporter-otlp-common (0.3.0) sha256=855d10d788a7272dfe5b14efa229507619abbef29085ef4a8acfd2c0d3af6171
   opentelemetry-helpers-mysql (0.6.0) sha256=7eeb5e6950c434775a8cf28b5fde4defc12e8b865c86479ce3119fcf593d9337
   opentelemetry-helpers-sql (0.4.0) sha256=b10e8c3a2cca28a98af951bbb3e4efdc59e68b25ba0825e055574af543420afb
@@ -2292,7 +2292,7 @@ CHECKSUMS
   shoulda-context (2.0.0) sha256=7adf45342cd800f507d2a053658cb1cce2884b616b26004d39684b912ea32c34
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
   signet (0.22.0) sha256=b76d495ccb07ad35dbc89f3e920665a9d8ed717141955034005d7843dcfe4780
-  simplecov (1.1.1) sha256=25825ef13f0b2e74694d769817dad6ab8e90131dabdaa666e522fea105521e78
+  simplecov (1.3.2) sha256=2a22ec1759f1b8db60881a2e038758956fc69ef93ed669be0bde0678de6d0e85
   simpleidn (0.3.0) sha256=12ca730bed2f3db04d11e9bfd1bca3e11fb37f55b21eb2e9793fb5814bf54d03
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   spreadsheet (1.3.5) sha256=cd83ea66803d9cae4ac258dfe16cd8c2b85da33eec18a6d7b48fd4a45840ab7d

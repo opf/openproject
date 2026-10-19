@@ -624,8 +624,8 @@ ka:
     notifications:
       center:
         and_more_users:
-          one: და კიდევ 1
-          other: და კიდევ %{count}
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -828,11 +828,11 @@ ka:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -847,9 +847,7 @@ ka:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: გაჩერება
       title: ჟურნალში დროის ჩაწერა
-      tracking: დროის ტრეკინგი
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -884,19 +882,19 @@ ka:
       label_two_factor_authentication: Two-factor authentication
     units:
       child_work_packages:
-        one: one child work package
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: 1 დღე
+        one: "%{count} day"
         other: "%{count} დღე"
         zero: 0 დღე
       hour:
-        one: 1 სთ
+        one: "%{count} h"
         other: "%{count} სთ"
         zero: 0 სთ
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: სამუშაო პაკეტი

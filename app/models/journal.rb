@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -91,6 +90,7 @@ class Journal < ApplicationRecord
                    status_changes
                    meeting_id
                    source_meeting_id
+                   message_id
                  ],
                  prefix: true
 
@@ -104,6 +104,7 @@ class Journal < ApplicationRecord
 
   VALID_CAUSE_TYPES = (%w[
     default_attribute_written
+    forum_message
     import
     progress_mode_changed_to_status_based
     status_changed

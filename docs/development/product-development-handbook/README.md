@@ -438,7 +438,3 @@ The Learning Goals space is closely related to the Learning section. It includes
 The Opportunity Canvas is intended to quickly validate or invalidate ideas and to identify possible issues early on. As such invalidating an idea through the opportunity canvas is just as valuable as validating an idea (if not even more so).
 
 An Opportunity Canvas may not always be required - especially when a problem is well understood or small in scope.
-
-**References:**
-
-- [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)

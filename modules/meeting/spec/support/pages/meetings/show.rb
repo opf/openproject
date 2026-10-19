@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -280,7 +279,7 @@ module Pages::Meetings
       end
     end
 
-    def duplicate_item_in_next_meeting(item)
+    def duplicate_item_in_next_meeting(item, include_outcomes: false)
       open_menu(item) do
         click_on "Duplicate"
         click_on "Duplicate in next meeting"
@@ -289,6 +288,7 @@ module Pages::Meetings
 
       retry_block do
         page.within_modal "Duplicate in next meeting?" do
+          check "Include outcomes" if include_outcomes
           click_on "Duplicate"
         end
       end

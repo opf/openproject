@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -101,12 +100,9 @@ module OpenProject::GithubIntegration
 
     initializer "github.subscribe_to_notifications" do |app|
       app.config.after_initialize do
-        ::OpenProject::Notifications.subscribe("github.check_run",
-                                               &NotificationHandler.method(:check_run))
-        ::OpenProject::Notifications.subscribe("github.issue_comment",
-                                               &NotificationHandler.method(:issue_comment))
-        ::OpenProject::Notifications.subscribe("github.pull_request",
-                                               &NotificationHandler.method(:pull_request))
+        ::OpenProject::Notifications.subscribe("github.check_run") { |payload| NotificationHandler.check_run(payload) }
+        ::OpenProject::Notifications.subscribe("github.issue_comment") { |payload| NotificationHandler.issue_comment(payload) }
+        ::OpenProject::Notifications.subscribe("github.pull_request") { |payload| NotificationHandler.pull_request(payload) }
       end
     end
 

@@ -177,9 +177,13 @@ es:
       cost_types:
         for_all_projects_hint: Este tipo de coste está habilitado en todos los proyectos.
         heading: Tipos de costos
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Este tipo de coste no se puede desactivar porque los costes ya se han registrado en este proyecto.
         none_active: Actualmente no hay tipos de coste activos en este proyecto.
       time_and_costs: Tiempo y costos
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:

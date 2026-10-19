@@ -624,7 +624,7 @@ el:
     notifications:
       center:
         and_more_users:
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -828,11 +828,11 @@ el:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -847,9 +847,7 @@ el:
     text_user_wrote: "%{value} έγραψε:"
     text_work_packages_destroy_confirmation: Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;
     time_entry:
-      stop: Stop
       title: Καταγραφή χρόνου
-      tracking: Παρακολούθηση χρόνου
       work_package_required: Πρέπει πρώτα να επιλεγεί ένα πακέτο εργασίας.
     timer:
       button_stop: Stop current timer
@@ -884,19 +882,19 @@ el:
       label_two_factor_authentication: Ταυτοποίηση δύο παραγόντων
     units:
       child_work_packages:
-        one: ένα παιδί πακέτο εργασίας
-        other: "%{count} παιδιά πακέτα εργασίας"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 ημέρα
+        one: "%{count} day"
         other: "%{count} ημέρες"
         zero: 0 days
       hour:
-        one: 1 ώρα
+        one: "%{count} h"
         other: "%{count} ώρες"
         zero: 0 ω
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: πακέτο εργασίας

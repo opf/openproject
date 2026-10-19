@@ -57,7 +57,7 @@ ar:
     active_editors: Active editors
     active_editors_count:
       zero: "%{count} active editors"
-      one: 1 active editor
+      one: "%{count} active editor"
       two: "%{count} active editors"
       few: "%{count} active editors"
       many: "%{count} active editors"

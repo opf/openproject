@@ -24,13 +24,14 @@ rw:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: Sorting mode
         duration: Duration
         end_time: End time
         location: Location
         notes: Notes
         notify: Send notifications
         participant:
-          one: 1 Participant
+          one: "%{count} Participant"
           other: "%{count} Participants"
         participants: Participants
         participants_added: 'Participants added:'
@@ -90,12 +91,13 @@ rw:
         meeting_agenda_item:
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
+          vote_based_sorting_required: Voting requires vote-based agenda sorting.
         meeting_participant:
           user_invalid: is not a valid participant.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
@@ -173,6 +175,7 @@ rw:
   label_agenda_item_duplicate: Duplicate
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: Move
   label_agenda_item_move_down: Move down
   label_agenda_item_move_to_backlog: Move to backlog
@@ -236,7 +239,7 @@ rw:
   label_meeting_last_updated: Last updated
   label_meeting_minutes: Minutes
   label_meeting_more:
-    one: There is one more meeting.
+    one: There is %{count} more meeting.
     other: There are %{count} more meetings.
   label_meeting_new: New Meeting
   label_meeting_new_dynamic: New one-time meeting
@@ -282,10 +285,10 @@ rw:
   label_recurring_meeting_delete: Delete occurrence
   label_recurring_meeting_duplicate: Duplicate as a one-time meeting
   label_recurring_meeting_more:
-    one: There is one more scheduled meeting (%{schedule}).
+    one: There is %{count} more scheduled meeting (%{schedule}).
     other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    one: There is one more past meeting.
+    one: There is %{count} more past meeting.
     other: There are %{count} more past meetings.
   label_recurring_meeting_new: New recurring meeting
   label_recurring_meeting_next_occurrence: Next occurrence
@@ -316,6 +319,21 @@ rw:
   label_view_meeting_series: View meeting series
   label_write_outcome: Write outcome
   meeting:
+    agenda_sorting:
+      change: Change sorting mode
+      invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
+      manual: Manual
+      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
+      remove_thumbs_down: Remove downvote
+      remove_thumbs_up: Remove upvote
+      sorted_by_votes: Agenda sorted by votes.
+      thumbs_down: Downvote
+      thumbs_up: Upvote
+      title: Sorting mode
+      vote_based: Vote-based
+      vote_based_description: Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted.
+      votes: 'Votes: %{count}'
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.
       series_template: These attached files will be included in all future meetings in the series.
@@ -567,13 +585,13 @@ rw:
     caption:
       ends_on: This results in a series ending on %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
+        one: This results in %{count} upcoming occurrence
         other: This results in %{count} upcoming occurrences
       occurrences_capped: This results in more than %{count} upcoming occurrences
     day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     delete_dialog:
       confirmation_message_html:
-        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
@@ -700,7 +718,7 @@ rw:
   text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
   text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
   text_agenda_item_moved_to_backlog: Agenda item moved to the backlog

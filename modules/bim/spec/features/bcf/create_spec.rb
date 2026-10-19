@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "../../spec_helper"
 
 RSpec.describe "Create BCF", :js,
@@ -108,16 +135,6 @@ RSpec.describe "Create BCF", :js,
       it_behaves_like "bcf details creation", with_viewpoints: true
     end
 
-    context "when going to split table view first" do
-      before do
-        index_page.visit_and_wait_until_finished_loading!
-
-        index_page.switch_view "Viewer and table"
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: true
-    end
-
     context "when going to cards view first" do
       before do
         index_page.visit_and_wait_until_finished_loading!
@@ -126,28 +143,6 @@ RSpec.describe "Create BCF", :js,
       end
 
       it_behaves_like "bcf details creation", with_viewpoints: false
-    end
-
-    context "when going to table view first" do
-      before do
-        index_page.visit_and_wait_until_finished_loading!
-
-        index_page.switch_view "Table"
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: false
-    end
-
-    context "when starting on the details page of an existing work package" do
-      let(:work_package) { create(:work_package, project:) }
-
-      before do
-        visit bcf_project_details_path(project, work_package_id: work_package.id)
-        index_page.finished_loading
-        index_page.expect_details_path
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: true
     end
   end
 

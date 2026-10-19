@@ -624,8 +624,8 @@ fa:
     notifications:
       center:
         and_more_users:
-          one: و ۱ نفر دیگر
-          other: و %{count} نفر دیگر
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: به نظر می‌رسد همه‌چیز را بررسی کرده‌اید.
           no_notification_for_filter: به نظر می‌رسد همه موارد این فیلتر را بررسی کرده‌اید.
@@ -828,12 +828,12 @@ fa:
         not_selectable: انتخاب بدون تغییر ماند. این مورد در ترتیب این فهرست نقشی ندارد.
         range_blocked: انتخاب بدون تغییر ماند. این بازه شامل موردی است که در ترتیب این فهرست نقشی ندارد.
         range_restarted:
-          one: گسترش بازه ممکن نشد. ۱ مورد انتخاب شد.
-          other: گسترش بازه ممکن نشد. %{count} مورد انتخاب شدند.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: انتخاب بدون تغییر ماند. برای انتخاب آن بازه، این فهرست را گسترش دهید.
         selected:
-          one: ۱ مورد انتخاب شد.
-          other: "%{count} مورد انتخاب شدند."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: بستن پنجره Modal
@@ -847,9 +847,7 @@ fa:
     text_user_wrote: "%{value} نوشت:"
     text_work_packages_destroy_confirmation: مطمئنید می‌خواهید بسته(های) کاری انتخاب‌شده را حذف کنید؟
     time_entry:
-      stop: توقف
       title: ثبت زمان
-      tracking: ثبت زمان
       work_package_required: ابتدا باید یک بسته کاری انتخاب شود.
     timer:
       button_stop: توقف تایمر فعلی
@@ -884,20 +882,20 @@ fa:
       label_two_factor_authentication: احراز هویت دومرحله‌ای
     units:
       child_work_packages:
-        one: یک بسته کاری فرزند
-        other: "%{count} بسته کاری فرزند"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: ۱ روز
+        one: "%{count} day"
         other: "%{count} روز"
         zero: ۰ روز
       hour:
-        one: ۱ ساعت
+        one: "%{count} h"
         other: "%{count} ساعت"
         zero: ۰ ساعت
       hour_string: "%{hours} ساعت"
       word:
-        one: ۱ واژه
-        other: "%{count} واژه"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: بسته کاری
         other: بسته‌های کاری
