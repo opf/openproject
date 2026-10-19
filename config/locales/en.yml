@@ -7614,6 +7614,7 @@ en:
           attribute_label: "Inherit %{attribute}"
         filter: "Search by section or name"
         tab: "Project attributes"
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
@@ -7694,6 +7695,7 @@ en:
           success: "The configuration mode was switched."
           title: "Manual configuration"
         parent_suffix: " (parent)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: >
