@@ -35,8 +35,8 @@ interface ViteWatcher {
 }
 
 const extensionDir = path.resolve(__dirname, '../../extensions/op-blocknote-extensions');
-const nodeModulesDir = path.resolve(__dirname, '../node_modules');
-const npmBackupDir = path.join(nodeModulesDir, '.op-blocknote-extensions-npm');
+const frontendDir = path.resolve(__dirname, '..');
+const nodeModulesDir = path.join(frontendDir, 'node_modules');
 
 function log(message:string) {
   console.log(`[op-blocknote-extensions] ${message}`);
@@ -44,7 +44,7 @@ function log(message:string) {
 
 function installedPackageDir() {
   const { dependencies } = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8'),
+    fs.readFileSync(path.join(frontendDir, 'package.json'), 'utf8'),
   ) as { dependencies:Record<string, string> };
   const packageName = Object.keys(dependencies).find((name) => /(^|\/)op-blocknote-extensions$/.test(name))!;
 
@@ -62,26 +62,19 @@ function isLinked(packageDir:string) {
 function link(packageDir:string) {
   if (isLinked(packageDir)) return;
 
-  if (fs.existsSync(packageDir)) {
-    fs.rmSync(npmBackupDir, { recursive: true, force: true });
-    fs.renameSync(packageDir, npmBackupDir);
-  }
+  fs.rmSync(packageDir, { recursive: true, force: true });
   fs.mkdirSync(packageDir, { recursive: true });
   linkedEntries.forEach((entry) => {
     fs.symlinkSync(path.relative(packageDir, path.join(extensionDir, entry)), path.join(packageDir, entry));
   });
 }
 
-function unlink(packageDir:string) {
-  if (!isLinked(packageDir)) return;
+function restoreNpmPackage(packageDir:string) {
+  if (!isLinked(packageDir) && fs.existsSync(path.join(packageDir, 'package.json'))) return;
 
-  fs.rmSync(packageDir, { recursive: true });
-  if (fs.existsSync(npmBackupDir)) {
-    fs.renameSync(npmBackupDir, packageDir);
-    log('switched back to the npm package');
-  } else {
-    log('could not restore the npm package, run `npm ci`');
-  }
+  log('restoring the npm package');
+  fs.rmSync(packageDir, { recursive: true, force: true });
+  execFileSync('npm', ['install', '--no-save', '--no-audit', '--no-fund'], { cwd: frontendDir, stdio: 'inherit' });
 }
 
 function installDependencies() {
@@ -123,7 +116,7 @@ export async function useLocalOpBlockNoteExtensions(isDevServer:boolean) {
   const packageDir = installedPackageDir();
 
   if (!['true', '1'].includes(process.env.OP_BLOCKNOTE_EXTENSIONS_LOCAL ?? '')) {
-    unlink(packageDir);
+    restoreNpmPackage(packageDir);
     return;
   }
 
