@@ -45,6 +45,13 @@ RSpec.describe Settings::EntityKinds do
       expect(kind.matching(%w[progr xyz])).to contain_exactly(in_progress)
     end
 
+    it "finds entities regardless of case and accents in the name" do
+      accented = create(:status, name: "Réalisé")
+
+      expect(kind.matching(["réalisé"])).to contain_exactly(accented)
+      expect(kind.matching(%w[realise])).to contain_exactly(accented)
+    end
+
     it "finds nothing without words" do
       expect(kind.matching([])).to be_empty
     end

@@ -50,6 +50,13 @@ RSpec.describe Settings::SearchTree do
     end
   end
 
+  describe ".words" do
+    it "splits case insensitively, ignoring punctuation and accents" do
+      expect(described_class.words("Self-régistration")).to eq %w[self registration]
+      expect(described_class.words("日本語 タイトル")).to eq %w[日本語 タイトル]
+    end
+  end
+
   context "as an admin" do
     current_user { admin }
 
@@ -234,6 +241,16 @@ RSpec.describe Settings::SearchTree do
           types = find_node(tree.nodes, "Work packages", "Types").children.select { it.label.start_with?("Some type") }
 
           expect(types.size).to eq Settings::EntityKinds::MATCH_LIMIT
+        end
+      end
+
+      context "with a query ignoring accents" do
+        shared_let(:accented) { create(:type, name: "Réalisé", position: 3) }
+
+        let(:query) { "realise" }
+
+        it "finds the entity" do
+          expect(find_node(tree.nodes, "Work packages", "Types", "Réalisé")).to be_present
         end
       end
     end

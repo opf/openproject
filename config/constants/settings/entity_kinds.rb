@@ -137,11 +137,22 @@ module Settings
         entity.public_send(@name)
       end
 
+      # The names are matched regardless of case and accents, like the words
+      # of the query are compared with the words of labels (Settings::SearchTree.words).
       def matching(words, limit: MATCH_LIMIT)
         return entities.none if words.empty?
 
         column = entities.arel_table[@name]
-        entities.where(column.matches_any(words.map { "%#{ActiveRecord::Base.sanitize_sql_like(it)}%" })).limit(limit)
+        matches = words.map { |word| Arel::Nodes::Matches.new(unaccent(column), unaccent(quoted_pattern(word))) }
+        entities.where(Arel::Nodes::Grouping.new(Arel::Nodes::Or.new(matches))).limit(limit)
+      end
+
+      def unaccent(node)
+        Arel::Nodes::NamedFunction.new("unaccent", [node])
+      end
+
+      def quoted_pattern(word)
+        Arel::Nodes.build_quoted("%#{ActiveRecord::Base.sanitize_sql_like(word)}%")
       end
     end
 
