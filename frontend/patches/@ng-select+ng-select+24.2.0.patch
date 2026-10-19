@@ -1,0 +1,14 @@
+diff --git a/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs b/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
+index 2b02d0d..53f8e24 100644
+--- a/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
++++ b/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
+@@ -4014,6 +4014,9 @@ var NgSelectComponent = class NgSelectComponent {
+ 	}
+ 	_changeSearch(searchTerm) {
+ 		this._searchTerm.set(searchTerm);
++		if (this.typeahead()?.observed) {
++			this.typeahead().next(searchTerm ?? '');
++		}
+ 	}
+ 	_scrollToMarked() {
+ 		if (!this.isOpen() || !this.dropdownPanel()) return;
