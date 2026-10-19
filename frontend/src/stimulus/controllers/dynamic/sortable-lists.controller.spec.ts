@@ -160,7 +160,7 @@ describe('Sortable lists controller', () => {
         data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
       >
         <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Product backlog"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Sprint 1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2" data-sortable-lists--list-accepted-type-value="work_package" data-sortable-lists--list-name-value="Sprint 1"></ul>
         <div data-controller="sortable-lists--scrollable"></div>
       </div>
     `;
@@ -614,7 +614,7 @@ describe('Sortable lists controller', () => {
     const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
 
     expect(options.body.get('list_type')).toEqual('sprint');
-    expect(options.body.get('list_id')).toEqual('1');
+    expect(options.body.get('list_id')).toEqual('2');
     expect(options.body.get('prev_id')).toEqual('5');
   });
 
@@ -686,7 +686,7 @@ describe('Sortable lists controller', () => {
         data-sortable-lists-sortable-lists--item-outlet="#backlogs-list [data-controller~='sortable-lists--item']"
       >
         <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
-        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="work_package"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2" data-sortable-lists--list-accepted-type-value="work_package"></ul>
       </turbo-frame>
     `;
 
@@ -1212,6 +1212,7 @@ describe('Sortable lists controller', () => {
       root.addEventListener('sortable-lists:before-move', (event) => event.preventDefault());
 
       rootController(root).moveInDirection(items[0], 'down');
+      await flushPromises();
 
       expect(items[0]).not.toHaveAttribute('data-batch-selected');
       expect(items[1]).toHaveAttribute('data-batch-selected');
@@ -1261,7 +1262,7 @@ describe('Sortable lists controller', () => {
       expect(details).toEqual([{
         items: [{ type: 'work_package', id: '1' }],
         listType: 'sprint',
-        listId: '1',
+        listId: '2',
         previousItemId: '5',
       }]);
       expect(itemIds(sourceList)).toEqual(['2', '3']);
@@ -2825,7 +2826,7 @@ describe('Sortable lists controller', () => {
       expect(details).toEqual([{
         items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '3' }],
         listType: 'sprint',
-        listId: '1',
+        listId: '2',
         previousItemId: '4',
       }]);
       expect(rowIdsIn(list2)).toEqual(['4', '1', '3', '5']);
