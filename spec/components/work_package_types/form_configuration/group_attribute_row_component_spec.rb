@@ -35,8 +35,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
   let(:attribute) do
-    { key: "assignee", is_cf: false, required_globally: false, required_for_variant: false, translation: "Assignee",
-      field_format_label: "Built-in" }
+    { id: 1, key: "assignee", is_cf: false, required_globally: false, required_for_variant: false,
+      translation: "Assignee", field_format_label: "Built-in" }
   end
 
   def editor_context(readonly: false, exclusions: nil)
@@ -96,7 +96,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
 
   describe "custom field" do
     let(:attribute) do
-      { key: "custom_field_5", is_cf: true, is_required: false, translation: "Alt description", field_format_label: "Text" }
+      { id: 2, key: "custom_field_5", is_cf: true, is_required: false, translation: "Alt description",
+        field_format_label: "Text" }
     end
 
     it "shows a muted field format label" do
@@ -117,5 +118,13 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     render_inline(described_class.new(attribute:, context: editor_context, total_count: 1))
 
     expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
+  end
+
+  it "offers neither handle nor move items for an attribute without a record", :aggregate_failures do
+    render_inline(described_class.new(attribute: attribute.except(:id), context: editor_context, total_count: 3))
+
+    expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
+    expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
+    expect(page).to have_test_selector("type-form-configuration-delete-attribute-assignee", visible: :all)
   end
 end

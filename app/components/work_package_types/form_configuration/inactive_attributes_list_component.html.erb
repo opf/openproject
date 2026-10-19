@@ -26,6 +26,8 @@
             content_arguments: { tag: :div },
             data: item_data(attribute)
           ) do |item|
+            next unless sortable_attribute?(attribute)
+
             item.with_leading_visual_raw_content do
               render(
                 Primer::OpenProject::DragHandle.new(

@@ -32,6 +32,7 @@ module WorkPackageTypes
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include SortableLists::MoveMenu
+      include AttributeItemData
 
       def initialize(attribute:, context:, total_count:)
         super
@@ -111,6 +112,10 @@ module WorkPackageTypes
       end
 
       private
+
+      def sortable?
+        !readonly? && sortable_attribute?(@attribute)
+      end
 
       def multiple_attributes?
         @total_count > 1
