@@ -1100,6 +1100,8 @@ en:
             identifier:
               must_not_be_changed: "must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent."
               semantic_identifier_incomplete: "and sequence_number must both be set at the same time."
+            observed_in_versions:
+              error_readonly: "cannot be set because you are not allowed to assign versions in this project."
             parent:
               cannot_be_in_another_project: "cannot be in another project."
               cannot_be_milestone: "cannot be a milestone."
@@ -1130,6 +1132,8 @@ en:
             status_id:
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
+            target_versions:
+              error_readonly: "cannot be set because you are not allowed to assign versions in this project."
             type:
               cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
@@ -8336,6 +8340,8 @@ en:
           unknown_in_project: "does not exist in this project."
           unknown_user: "does not match a user. Use the email address the user signs in with."
         template:
+          example_category: "Documentation"
+          example_version: "1.0"
           examples:
             one:
               description: "Explain what the new page has to do."
@@ -8350,10 +8356,10 @@ en:
       dry_run_label: "Check the file first, without importing"
       file_label: "CSV file"
       guidance:
-        column_reference: "column reference"
-        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
-        limits_html: "UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}."
-        names_html: "Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}."
+        column_reference: "Find more here"
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: "The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}."
+        names_html: "The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}"
         title: "Before you start"
       import_file: "Import file"
       importing_file: "Importing %{filename}"
@@ -8402,7 +8408,6 @@ en:
           notifications: "Notifications were not sent for these work packages."
           text_html: "Imported from %{filename} on %{date} at %{time}."
           title: "%{work_packages} created"
-          work_packages: "work packages"
         problems:
           all:
             one: "%{count} problem."
