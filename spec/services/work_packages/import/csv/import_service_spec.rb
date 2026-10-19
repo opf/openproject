@@ -227,6 +227,30 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       expect(problem).to have_attributes(row: 2, attribute: "version", value: "Shipped")
     end
 
+    it "checks the rest of a row the mapping already rejected" do
+      problems = import([row({ subject: "", category: "Frontend" })]).result.problems
+
+      expect(problems.map(&:attribute)).to contain_exactly("category", "subject")
+      expect(problems.map(&:message))
+        .to contain_exactly("does not exist in this project.", "can't be blank.")
+    end
+
+    it "reports a rejected column once, rather than again from the contract" do
+      problems = import([row({ subject: "Nameless category", category: "Frontend" })]).result.problems
+
+      expect(problems.map(&:attribute)).to eq(["category"])
+    end
+
+    it "leaves the rest of a row alone where the type itself is unknown" do
+      problems = import([row({ subject: "", type: "Milestone" })]).result.problems
+
+      expect(problems.map(&:attribute)).to eq(["type"])
+    end
+
+    it "creates nothing from a row it checked beyond the mapping" do
+      expect { import([row({ subject: "", category: "Frontend" })]) }.not_to change(WorkPackage, :count)
+    end
+
     it "says why the version was refused where the user may not assign versions" do
       without_permission = create(:project_role, permissions: %i[view_work_packages add_work_packages])
       other = create(:user, member_with_roles: { project => without_permission })

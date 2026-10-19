@@ -120,7 +120,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       result = map(version: "Sprint 99")
 
       expect(result).to be_failure
-      expect(result.result.first.message).to eq("does not exist in this project.")
+      expect(result.result.problems.first.message).to eq("does not exist in this project.")
       expect(mapper.available_values).to eq("version" => ["Sprint 12"])
     end
 
@@ -130,14 +130,14 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       result = map(type: "Milestone")
 
       expect(result).to be_failure
-      expect(result.result.map(&:message)).to eq(["does not exist in this project."])
+      expect(result.result.problems.map(&:message)).to eq(["does not exist in this project."])
       expect(mapper.available_values).to eq("type" => ["Task", "Bug"])
     end
 
     it "reports a status without claiming it is project specific" do
       result = map(status: "Closed")
 
-      expect(result.result.first.message).to eq("does not exist.")
+      expect(result.result.problems.first.message).to eq("does not exist.")
       expect(mapper.available_values).to eq("status" => ["New"])
     end
 
@@ -160,7 +160,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     end
 
     it "hands every cell failing on the same attribute one shared message" do
-      messages = Array.new(3) { |n| map_row({ type: "Milestone" }, number: n + 2).result.first.message }
+      messages = Array.new(3) { |n| map_row({ type: "Milestone" }, number: n + 2).result.problems.first.message }
 
       expect(messages.map(&:object_id).uniq.size).to eq(1)
     end
@@ -176,7 +176,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "reports an unknown assignee without listing users" do
       result = map(assigned_to: "nobody@example.com")
 
-      expect(result.result.first.message)
+      expect(result.result.problems.first.message)
         .to eq("does not match a user. Use the email address the user signs in with.")
     end
 
@@ -221,7 +221,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
         result = described_class.new(project:, rows:).call(row({ assigned_to: "nobody@example.com" }))
 
         expect(result).to be_failure
-        expect(result.result.first)
+        expect(result.result.problems.first)
           .to have_attributes(attribute: "assigned_to",
                               value: "nobody@example.com",
                               message: "does not match a user. " \
@@ -275,7 +275,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "rejects a date written in any other order, rather than guessing at which half is the month" do
       result = map(start_date: "01/05/2026")
 
-      expect(result.result.first.message).to eq("must be a date written as YYYY-MM-DD.")
+      expect(result.result.problems.first.message).to eq("must be a date written as YYYY-MM-DD.")
     end
 
     it "leaves work to WorkPackage#estimated_hours=, which runs the same converter" do
@@ -299,7 +299,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     end
 
     it "rejects a fractional % complete, which the integer column would truncate in silence" do
-      expect(map(done_ratio: "99.9").result.first.message)
+      expect(map(done_ratio: "99.9").result.problems.first.message)
         .to eq("must be a whole number of percent, for example 50.")
       expect(map(done_ratio: "0.4")).to be_failure
     end
@@ -307,20 +307,20 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "rejects a Created on in the future" do
       result = map(created_at: 1.day.from_now.utc.iso8601)
 
-      expect(result.result.sole)
+      expect(result.result.problems.sole)
         .to have_attributes(attribute: "created_at", message: "must not be in the future.")
     end
 
     it "rejects an Updated on in the future" do
       result = map(updated_at: 1.day.from_now.utc.iso8601)
 
-      expect(result.result.sole).to have_attributes(attribute: "updated_at")
+      expect(result.result.problems.sole).to have_attributes(attribute: "updated_at")
     end
 
     it "rejects a Created on later than the Updated on beside it" do
       result = map(created_at: "2024-05-06T11:15:00Z", updated_at: "2024-03-04T09:30:00Z")
 
-      expect(result.result.sole)
+      expect(result.result.problems.sole)
         .to have_attributes(attribute: "created_at",
                             value: "2024-05-06T11:15:00Z",
                             message: "must not be later than the value in Updated on.")
@@ -335,7 +335,7 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "says nothing about the order when one of the two could not be read" do
       result = map(created_at: "2024-05-06T11:15:00Z", updated_at: "last Tuesday")
 
-      expect(result.result.map(&:message)).to eq([unreadable_timestamp])
+      expect(result.result.problems.map(&:message)).to eq([unreadable_timestamp])
     end
 
     it "reads a timestamp whichever of its shapes the file writes" do
@@ -352,14 +352,14 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     end
 
     it "rejects a timestamp it cannot read" do
-      expect(map(created_at: "January the fourth").result.first.message).to eq(unreadable_timestamp)
-      expect(map(created_at: "2026-01-04 09:00 NOWHERE").result.first.message).to eq(unreadable_timestamp)
+      expect(map(created_at: "January the fourth").result.problems.first.message).to eq(unreadable_timestamp)
+      expect(map(created_at: "2026-01-04 09:00 NOWHERE").result.problems.first.message).to eq(unreadable_timestamp)
     end
   end
 
   describe "problems" do
     it "carries the row number, the attribute caption and the value" do
-      problem = map_row({ type: "Milestone" }, number: 7).result.first
+      problem = map_row({ type: "Milestone" }, number: 7).result.problems.first
 
       expect(problem).to have_attributes(row: 7, attribute: "type", value: "Milestone")
     end
@@ -367,17 +367,17 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "collects every bad cell instead of stopping at the first" do
       result = map(type: "Milestone", status: "Closed", start_date: "yesterday")
 
-      expect(result.result.map(&:attribute)).to eq(%w[type status start_date])
+      expect(result.result.problems.map(&:attribute)).to eq(%w[type status start_date])
     end
 
     it "keeps the problems the parser already found and leaves them unattributed" do
       result = map_row({ subject: "Write the docs" }, problems: ["has 4 cells but the header has 3."])
 
       expect(result).to be_failure
-      expect(result.result.first).to have_attributes(row: 2,
-                                                     attribute: nil,
-                                                     value: nil,
-                                                     message: "has 4 cells but the header has 3.")
+      expect(result.result.problems.first).to have_attributes(row: 2,
+                                                              attribute: nil,
+                                                              value: nil,
+                                                              message: "has 4 cells but the header has 3.")
     end
 
     it "reports nothing the contract reports better" do

@@ -118,9 +118,21 @@ module WorkPackages
 
         def import_row(row, mapper, progress)
           mapped = mapper.call(row)
-          return progress.problems.concat(mapped.result) if mapped.failure?
+          return progress.problems.concat(rejected(row, mapped.result)) if mapped.failure?
 
           record(create_work_package(mapped.result.attributes), row, mapped.result.columns, progress)
+        end
+
+        def rejected(row, mapped)
+          mapped.problems + remaining_problems(row, mapped)
+        end
+
+        def remaining_problems(row, mapped)
+          reported = mapped.problem_attributes
+          return [] if reported.include?(:type)
+
+          contract_problems(row, validate_work_package(mapped.attributes).errors)
+            .reject { |problem| reported.include?(problem.attribute&.to_sym) }
         end
 
         def record(created, row, columns, progress)
@@ -160,6 +172,12 @@ module WorkPackages
 
         def create_work_package(attributes)
           WorkPackages::CreateService.new(user:).call(project:, **attributes)
+        end
+
+        def validate_work_package(attributes)
+          WorkPackages::SetAttributesService
+            .new(user:, model: WorkPackage.new, contract_class: WorkPackages::CreateContract)
+            .call(project:, **attributes)
         end
 
         # The activity tab renders no details for a creation journal, so the mark needs an entry of

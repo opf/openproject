@@ -33,7 +33,10 @@ module WorkPackages
       class RowMapper
         Problem = Data.define(:row, :attribute, :value, :message)
 
-        Mapped = Data.define(:attributes, :columns)
+        Mapped = Data.define(:attributes, :columns, :problems) do
+          # The columns the row did not deliver, so a later check does not report them a second time.
+          def problem_attributes = problems.filter_map { |problem| problem.attribute&.to_sym }
+        end
 
         TIMESTAMPS = %i[created_at updated_at].freeze
 
@@ -72,9 +75,7 @@ module WorkPackages
 
           problems.concat(timestamp_problems(row, resolved))
 
-          return ServiceResult.failure(result: problems) if problems.any?
-
-          ServiceResult.success(result: mapped(resolved))
+          ServiceResult.new(success: problems.empty?, result: mapped(resolved, problems))
         end
 
         private
@@ -118,10 +119,12 @@ module WorkPackages
           row.problems.map { |message| Problem.new(row: row.number, attribute: nil, value: nil, message:) }
         end
 
-        def mapped(resolved)
+        def mapped(resolved, problems)
           direct, attributes = resolved.partition { |attribute, _| DIRECT.include?(attribute) }
 
-          Mapped.new(attributes: with_target_version(attributes.to_h), columns: with_author_id(direct.to_h))
+          Mapped.new(attributes: with_target_version(attributes.to_h),
+                     columns: with_author_id(direct.to_h),
+                     problems:)
         end
 
         def with_author_id(columns)
