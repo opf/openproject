@@ -81,7 +81,7 @@ module OpenProject::XlsExport
     end
 
     # Get the approximate width of a value as seen in the excel sheet
-    def get_value_width(value)
+    def get_value_width(value) # rubocop:disable Metrics/AbcSize
       if ["Time", "Date"].include?(value.class.name) && !(value.to_s.length < 18)
         return 18
       end

@@ -87,17 +87,17 @@ class VersionsController < ApplicationController
     redirect_to project_settings_versions_path(@project), status: :see_other
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     call = Versions::DeleteService
       .new(user: current_user,
            model: @version)
       .call
 
-    unless call.success?
+    if call.success?
+      flash[:notice] = I18n.t :notice_successful_delete
+    else
       flash[:error] = call.errors.full_messages
       flash[:error] << archived_project_message if archived_projects.any?
-    else
-      flash[:notice] = I18n.t :notice_successful_delete
     end
 
     redirect_to project_settings_versions_path(@project), status: :see_other

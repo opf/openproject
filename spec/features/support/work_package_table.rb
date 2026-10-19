@@ -33,10 +33,10 @@ RSpec.shared_context "work package table helpers" do
       preceding_elements = order[0..-2]
       following_elements = order[1..-1]
 
-      preceding_elements.each_with_index do |wp_1, i|
-        wp_2 = following_elements[i]
-        expect(self).to have_css(".wp-row-#{wp_1.id} + \
-                                       .wp-row-#{wp_2.id}")
+      preceding_elements.each_with_index do |wp1, i|
+        wp2 = following_elements[i]
+        expect(self).to have_css(".wp-row-#{wp1.id} + \
+                                       .wp-row-#{wp2.id}")
       end
     end
   end

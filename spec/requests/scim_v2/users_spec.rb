@@ -159,7 +159,7 @@ RSpec.describe "SCIM API Users", with_ee: [:scim_api] do
                                   "totalResults" => 0)
     end
 
-    it "filters results by externalId case-sensitively" do
+    it "filters results by externalId case-sensitively" do # rubocop:disable RSpec/ExampleLength
       filter_with_existing_rows = ERB::Util.url_encode("externalId Eq \"#{external_user_id}\"")
       get "/scim_v2/Users?filter=#{filter_with_existing_rows}", {}, headers
 
