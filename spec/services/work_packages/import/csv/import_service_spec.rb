@@ -264,6 +264,31 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
     end
   end
 
+  describe "a type with a required custom field" do
+    shared_let(:custom_field) do
+      create(:string_wp_custom_field, name: "Cost center", is_for_all: true,
+                                      is_required: true, default_value: nil) do |field|
+        project.enabled_variants.each { |variant| variant.custom_field_ids |= [field.id] }
+      end
+    end
+
+    # No column carries a custom field, so a required one would make the type impossible to import.
+    it "imports the rows and leaves the field empty" do
+      result = import([row({ subject: "Write the docs", type: "Task" })])
+
+      expect(result).to be_success
+      expect(WorkPackage.sole.custom_value_for(custom_field).value).to be_nil
+    end
+
+    it "still fills a field the administrator gave a default value" do
+      custom_field.update!(default_value: "CC-1")
+
+      import([row({ subject: "Write the docs", type: "Task" })])
+
+      expect(WorkPackage.sole.custom_value_for(custom_field).value).to eq("CC-1")
+    end
+  end
+
   describe "the Created on and Updated on columns" do
     let(:created_at) { Time.utc(2024, 3, 4, 9, 30) }
     let(:updated_at) { Time.utc(2024, 5, 6, 11, 15) }

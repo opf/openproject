@@ -171,14 +171,18 @@ module WorkPackages
         end
 
         def create_work_package(attributes)
-          WorkPackages::CreateService.new(user:).call(project:, **attributes)
+          WorkPackages::CreateService.new(user:, contract_options:).call(project:, **attributes)
         end
 
         def validate_work_package(attributes)
           WorkPackages::SetAttributesService
-            .new(user:, model: WorkPackage.new, contract_class: WorkPackages::CreateContract)
+            .new(user:, model: WorkPackage.new, contract_class: WorkPackages::CreateContract, contract_options:)
             .call(project:, **attributes)
         end
+
+        # No column carries a custom field, so holding a row to a required one would make every type
+        # that has one impossible to import. The field is left empty instead.
+        def contract_options = { skip_custom_field_validation: true }
 
         # The activity tab renders no details for a creation journal, so the mark needs an entry of
         # its own. It is written as the system user because an entry by the importing user would be
