@@ -33,21 +33,24 @@ module Messages
     include ApplicationHelper
     include WatchersHelper
 
-    def initialize(topic:, message:, forum:, project:)
+    def initialize(topic:)
       super
       @topic = topic
-      @message = message
-      @forum = forum
-      @project = project
     end
 
     def breadcrumb_items
       [
-        { href: project_overview_path(@project.id), text: @project.name },
-        { href: project_forums_path(@project), text: t(:label_forum_plural) },
-        { href: project_forum_path(@project, @forum), text: @forum.name },
+        { href: project_overview_path(project.id), text: project.name },
+        { href: project_forums_path(project), text: t(:label_forum_plural) },
+        { href: project_forum_path(project, forum), text: forum.name },
         @topic.subject
       ]
     end
+
+    private
+
+    def forum = @topic.forum
+
+    def project = forum.project
   end
 end
