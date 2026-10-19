@@ -32,6 +32,11 @@ module WorkPackageTypes
     class StartComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
+      OPTIONS = {
+        "type" => { settings: :sliders, objects: :copy },
+        "variant" => { inherit: :sliders, manual: :copy }
+      }.freeze
+
       def initialize(adding_variant:, type_name:)
         super()
         @adding_variant = adding_variant
@@ -43,9 +48,9 @@ module WorkPackageTypes
       attr_reader :adding_variant, :type_name
       alias_method :adding_variant?, :adding_variant
 
-      def show_reuse? = adding_variant?
-
       def scope = adding_variant? ? "variant" : "type"
+
+      def options = OPTIONS.fetch(scope)
 
       def t_start(key) = helpers.t("types.creation_wizard.start.#{key}", type_name:)
 
