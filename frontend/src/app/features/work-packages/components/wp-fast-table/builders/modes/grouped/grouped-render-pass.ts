@@ -97,7 +97,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    */
   private matchingGroup(workPackage:WorkPackageResource) {
     return this.groups.find((group:GroupObject) => {
-      let property = workPackage[groupByProperty(group)] as unknown;
+      let property = workPackage[groupByProperty(group)];
       // explicitly check for undefined as `false` (bool) is a valid value.
       if (property === undefined) {
         property = null;
