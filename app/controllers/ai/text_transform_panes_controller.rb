@@ -32,14 +32,26 @@ module AI
     include OpTurbo::ComponentStream
     include AI::TextTransformActionsFeature
 
+    APPLY_EVENT = "op-dispatched:ai-text-transform:apply"
+    CLOSED_EVENT = "op-dispatched:ai-text-transform:closed"
     PANE_PARAMS = %i[request_id scope work_package_id project_id type_id after].freeze
     CONTEXT_PARAMS = %i[work_package_id project_id type_id].freeze
 
     before_action :require_login
     before_action :require_ai_text_transform_actions_feature
-    authorization_checked! :create
-    before_action :validate_pane_params
-    before_action :resolve_context
+    authorization_checked! :create, :show, :destroy, :apply, :cancel
+    before_action :validate_pane_params, except: :cancel
+    before_action :find_run, only: %i[show apply cancel]
+    before_action :resolve_context, only: %i[create show]
+
+    def show
+      return head(:no_content) unless run.terminal? || new_events?
+
+      pane = pane_for(run)
+      pane.state == "cancelled" ? close_pane : update_sections(pane)
+
+      respond_with_turbo_streams
+    end
 
     def create
       append_pane(start_run)
@@ -47,12 +59,48 @@ module AI
       respond_with_turbo_streams
     end
 
+    def destroy
+      open_run = own_runs.find_by(uuid: params[:uuid])
+      request_cancel(open_run) if open_run
+      close_pane
+
+      respond_with_turbo_streams
+    end
+
+    def apply
+      return head(:unprocessable_entity) unless run.succeeded?
+
+      dispatch_event_via_turbo_stream(APPLY_EVENT, detail: { requestId: pane_params[:request_id],
+                                                             scope: pane_params[:scope],
+                                                             text: pane_for(run).text })
+
+      respond_with_turbo_streams
+    end
+
+    def cancel
+      request_cancel(run)
+
+      head :no_content
+    end
+
     private
 
-    attr_reader :pane_params, :context
+    attr_reader :pane_params, :context, :run
 
     def own_runs
       AI::TextTransformRun.where(user: current_user)
+    end
+
+    def find_run
+      @run = own_runs.find_by!(uuid: params.expect(:uuid))
+    end
+
+    def new_events?
+      run.events.maximum(:seq).to_i > pane_params[:after].to_i
+    end
+
+    def request_cancel(cancellable)
+      cancellable.update!(cancel_requested: true) unless cancellable.terminal?
     end
 
     def validate_pane_params
@@ -84,9 +132,9 @@ module AI
       [retried.action, retried.input]
     end
 
-    def pane_for(run)
-      AI::TextTransforms::ResultPaneState.new(run:, scope: pane_params[:scope], request_id: pane_params[:request_id],
-                                              work_package: context.work_package, context_ids:)
+    def pane_for(pane_run)
+      AI::TextTransforms::ResultPaneState.new(run: pane_run, scope: pane_params[:scope], request_id: pane_params[:request_id],
+                                              work_package: context&.work_package, context_ids:)
     end
 
     def rejected_pane(errors, action)
@@ -102,6 +150,17 @@ module AI
         .new(action: :append, target: nil, targets: "body",
              template: AI::TextTransforms::ResultPaneComponent.new(pane:).render_in(view_context))
         .render_in(view_context)
+    end
+
+    def update_sections(pane)
+      [AI::TextTransforms::ResultPaneComponent::Body, AI::TextTransforms::ResultPaneComponent::Footer].each do |section|
+        update_via_turbo_stream(component: section.new(pane:))
+      end
+    end
+
+    def close_pane
+      remove_via_turbo_stream(component: AI::TextTransforms::ResultPaneComponent.new(pane: nil))
+      dispatch_event_via_turbo_stream(CLOSED_EVENT, detail: { requestId: pane_params[:request_id] })
     end
   end
 end

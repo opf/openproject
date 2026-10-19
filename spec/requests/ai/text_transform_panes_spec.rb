@@ -149,4 +149,149 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       end
     end
   end
+
+  describe "GET show" do
+    it "answers without content while nothing new happened" do
+      run = run_with_events(:running, ["status", { "status" => "running" }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1), headers: stream
+
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it "streams the text so far as formatted html" do
+      run = run_with_events(:running, ["status", { "status" => "running" }], ["text_delta", { "delta" => "**bold** text" }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1), headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('action="update"', 'target="ai-text-transforms-result-pane-component-body"',
+                                       'target="ai-text-transforms-result-pane-component-footer"',
+                                       "<strong>bold</strong> text", "Generating…")
+    end
+
+    it "offers the raw text once completed" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "**done**" }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
+
+      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace")
+    end
+
+    it "shows the stopped state for a blocked response" do
+      run = run_with_events(:failed, ["error", { "reason" => "blocked", "message" => "Blocked." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include("Generation stopped", "Try again")
+    end
+
+    it "removes the pane of a cancelled run and reports the closed request" do
+      run = run_with_events(:cancelled)
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include('action="remove"', "op-dispatched:ai-text-transform:closed", request_id)
+    end
+
+    it "does not show another user's run" do
+      run = create(:ai_text_transform_run, :running)
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "rejects a request without a scope" do
+      run = run_with_events(:running)
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params.except(:scope)), headers: stream
+
+      expect(response).to have_http_status(:bad_request)
+    end
+  end
+
+  describe "DELETE destroy" do
+    it "cancels a running run, removes the pane and reports the closed request" do
+      run = run_with_events(:running)
+
+      delete ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(run.reload.cancel_requested).to be(true)
+      expect(response.body).to include('action="remove"', 'target="ai-text-transforms-result-pane-component"',
+                                       "op-dispatched:ai-text-transform:closed", request_id)
+    end
+
+    it "leaves a finished run as it is" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Done." }])
+
+      delete ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(run.reload.cancel_requested).to be(false)
+    end
+
+    it "closes a pane without a run" do
+      delete ai_text_transform_pane_path("rejected"), params: pane_params, headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('action="remove"', "op-dispatched:ai-text-transform:closed")
+    end
+
+    it "does not cancel another user's run" do
+      run = create(:ai_text_transform_run, :running)
+
+      delete ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(run.reload.cancel_requested).to be(false)
+    end
+  end
+
+  describe "POST apply" do
+    it "hands the completed text to the editor" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Fixed text." }])
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(response.body).to include('action="dispatchEvent"', "op-dispatched:ai-text-transform:apply")
+      detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
+      expect(detail).to eq("requestId" => request_id, "scope" => "selection", "text" => "Fixed text.")
+    end
+
+    it "refuses a run that has not succeeded" do
+      run = run_with_events(:running)
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "does not apply another user's run" do
+      run = create(:ai_text_transform_run, :succeeded)
+
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
+  describe "POST cancel" do
+    it "requests cancellation of a running run" do
+      run = run_with_events(:running)
+
+      post cancel_ai_text_transform_pane_path(run.uuid)
+
+      expect(response).to have_http_status(:no_content)
+      expect(run.reload.cancel_requested).to be(true)
+    end
+
+    it "does not touch another user's run" do
+      run = create(:ai_text_transform_run, :running)
+
+      post cancel_ai_text_transform_pane_path(run.uuid)
+
+      expect(response).to have_http_status(:not_found)
+      expect(run.reload.cancel_requested).to be(false)
+    end
+  end
 end
