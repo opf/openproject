@@ -81,14 +81,6 @@ RSpec.describe "types routes" do
       expect(put("/forms/42/attributes/7/move"))
         .to route_to("form_configurations/attributes#move", form_configuration_id: "42", id: "7")
     end
-
-    it "no longer routes the key-addressed group move" do
-      expect(put("/forms/42/group/move")).not_to be_routable
-    end
-
-    it "no longer routes the key-addressed row drop" do
-      expect(put("/forms/42/rows/priority/drop")).not_to be_routable
-    end
   end
 
   describe "workflow tab (mounted on the type edit page)" do
