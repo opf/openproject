@@ -8402,7 +8402,6 @@ en:
           notifications: "Notifications were not sent for these work packages."
           text_html: "Imported from %{filename} on %{date} at %{time}."
           title: "%{work_packages} created"
-          work_packages: "work packages"
         problems:
           all:
             one: "%{count} problem."
