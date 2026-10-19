@@ -51,13 +51,17 @@ module OpenProject::WebPush
   HOST_PATTERN = /\A[a-z0-9-]+(\.[a-z0-9-]+)*\z/
 
   class UnreadableKey < StandardError
-    MESSAGE = "The web_push_vapid_private_key setting does not hold a usable key. " \
-              "Renew it from the browser notifications administration page, " \
-              "or correct the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable " \
-              "if you manage the key yourself."
-
-    def initialize(message = MESSAGE)
+    def initialize(message = self.class.default_message)
       super
+    end
+
+    def self.default_message
+      definition = OpenProject::WebPush.key_definition
+
+      "The #{definition.name} setting does not hold a usable key. " \
+        "Renew it from the browser notifications administration page, " \
+        "or correct the #{definition.possible_env_names.first} environment variable " \
+        "if you manage the key yourself."
     end
   end
 
@@ -116,8 +120,12 @@ module OpenProject::WebPush
     Base64.strict_encode64(OpenSSL::PKey::EC.generate(VAPID_CURVE).private_to_der)
   end
 
+  def key_definition
+    Settings::Definition[:web_push_vapid_private_key]
+  end
+
   def key_managed_by_environment?
-    !Settings::Definition[:web_push_vapid_private_key].writable?
+    !key_definition.writable?
   end
 
   def key_readable?
