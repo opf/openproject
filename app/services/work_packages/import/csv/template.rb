@@ -126,11 +126,11 @@ module WorkPackages
 
         def priority_name = @priority_name ||= (IssuePriority.default || IssuePriority.active.first)&.name
 
-        # A project holding no categories or versions leaves the column empty: naming one it does
-        # not have would hand back a template that cannot be imported.
-        def category_name = @category_name ||= project.categories.pick(:name)
+        def category_name = @category_name ||= project.categories.pick(:name) || example(:category)
 
-        def version_name = @version_name ||= project.assignable_versions.first&.name
+        def version_name = @version_name ||= project.assignable_versions.first&.name || example(:version)
+
+        def example(field) = I18n.t("work_packages.import.csv.template.example_#{field}")
 
         def author_mail = @author_mail ||= user&.mail.presence
 

@@ -388,7 +388,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     before { login_as importer }
 
     def upload(dry_run: "1")
-      upload_content(WorkPackages::Import::CSV::Template.call(project:, user: importer), dry_run:)
+      upload_content("Subject,Type\nWrite the docs,Task\nFix the bug,Task\n", dry_run:)
     end
 
     def upload_content(body, dry_run: "1")

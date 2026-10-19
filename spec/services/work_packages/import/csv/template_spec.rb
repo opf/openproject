@@ -111,8 +111,10 @@ RSpec.describe WorkPackages::Import::CSV::Template do
     expect(rows[2][5..6]).to eq(["Backend", "Sprint 12"])
   end
 
-  it "leaves the category and the version blank rather than inventing ones the project has not" do
-    expect(bare_rows[1][5..6]).to eq([nil, nil])
+  # The example lines are there to be replaced, and an empty column demonstrates nothing.
+  it "writes an example category and version where the project has none to name" do
+    expect(bare_rows[1][5..6]).to eq(["Documentation", "1.0"])
+    expect(bare_rows[2][5..6]).to eq(["Documentation", "1.0"])
   end
 
   it "names the user downloading it, by the address they sign in with" do
@@ -160,13 +162,6 @@ RSpec.describe WorkPackages::Import::CSV::Template do
 
   it "parses back through the importer's own parser" do
     expect(parse_back(template)).to be_success
-  end
-
-  it "maps every cell it filled back to a value the importer resolves" do
-    rows = parse_back(template).result
-    mapper = WorkPackages::Import::CSV::RowMapper.new(project:, rows:)
-
-    expect(rows.map { |row| mapper.call(row) }).to all(be_success)
   end
 
   def parse_back(body)

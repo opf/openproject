@@ -8340,6 +8340,8 @@ en:
           unknown_in_project: "does not exist in this project."
           unknown_user: "does not match a user. Use the email address the user signs in with."
         template:
+          example_category: "Documentation"
+          example_version: "1.0"
           examples:
             one:
               description: "Explain what the new page has to do."
