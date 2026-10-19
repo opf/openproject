@@ -106,15 +106,15 @@ module WorkPackages::Scopes
               work_packages.id
             FROM
               work_packages
-            JOIN project_member_projects ON project_member_projects.id	= work_packages.project_id
+            WHERE work_packages.project_id IN (SELECT id FROM project_member_projects)
 
-            UNION
+            UNION ALL
 
             SELECT
               work_packages.id
             FROM
               work_packages
-            JOIN entity_member_projects ON entity_member_projects.entity_id = work_packages.id
+            WHERE work_packages.id IN (SELECT entity_id FROM entity_member_projects)
           )
 
           SELECT * from allowed
