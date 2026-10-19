@@ -155,7 +155,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
   }
 
   /**
-   * Instead of refreshing the query space diretly, send an effect so fullcalendar can reload individually
+   * Instead of refreshing the query space directly, send an effect so fullcalendar can reload individually
    */
   refresh(visibly = false, _firstPage = false):void {
     this.actions$.dispatch(calendarRefreshRequest({ showLoading: visibly }));

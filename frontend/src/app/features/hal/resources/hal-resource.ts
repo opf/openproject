@@ -75,7 +75,7 @@ export class HalResource {
   @LazyInject() I18n!:I18nService;
 
   /**
-   * Constructs and initializes the HalResource. For this, the halResoureFactory is required.
+   * Constructs and initializes the HalResource. For this, the halResourceFactory is required.
    *
    * However, We can't inject the HalResourceFactory here because it itself depends on this class.
    * So if you need to initialize a HalResource, use +HalResourceFactory.createHalResource+ instead.
@@ -177,7 +177,7 @@ export class HalResource {
    * Create a HalResource from the copied source of the given, other HalResource.
    *
    * @param {HalResource} other
-   * @returns A HalResource with the identitical copied source of other.
+   * @returns A HalResource with the identical copied source of other.
    */
   public $copy<T extends HalResource = HalResource>(source:object = {}):T {
     const clone = this.constructor as HalResourceClass<T>;
