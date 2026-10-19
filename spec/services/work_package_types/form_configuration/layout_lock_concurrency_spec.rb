@@ -29,20 +29,9 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock,
-               "concurrent moves",
-               use_transactional_fixtures: false do
-  self.use_transactional_tests = false
+RSpec.describe WorkPackageTypes::FormConfiguration::LayoutLock, "concurrent moves" do
+  include_context "with real database commits"
 
-  before { fixture_connection_pool.unpin_connection! }
-
-  after do
-    FormConfiguration.where(id: form.id).find_each(&:destroy!)
-  ensure
-    fixture_connection_pool.pin_connection!(true)
-  end
-
-  let(:fixture_connection_pool) { ActiveRecord::Base.connection_pool }
   let!(:admin) { build_stubbed(:admin) }
   let!(:form) { create(:form_configuration) }
   let!(:details) { create(:form_configuration_group, form_configuration: form, label: "Details") }
