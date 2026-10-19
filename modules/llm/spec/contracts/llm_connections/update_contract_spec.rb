@@ -204,6 +204,24 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     include_examples "contract is valid"
   end
 
+  context "when the base URL is blank" do
+    let(:base_url) { "" }
+
+    include_examples "contract is invalid", base_url: :blank
+
+    it "does not contact the server" do
+      contract.validate
+
+      expect(models_request).not_to have_been_made
+    end
+  end
+
+  context "with an unknown API format" do
+    before { connection.api_format = "carrier_pigeon" }
+
+    include_examples "contract is invalid", api_format: :inclusion
+  end
+
   context "when the base URL is not a URL at all" do
     let(:base_url) { "not a url" }
 
