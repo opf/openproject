@@ -263,7 +263,7 @@ gem "httpx", "~> 1.8.4"
 # transport and as a source of published model capabilities; what a given
 # connection actually offers is tracked per connection, never in RubyLLM's
 # application-wide registry.
-gem "ruby_llm", "~> 1.16"
+gem "ruby_llm", "~> 2.0"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
