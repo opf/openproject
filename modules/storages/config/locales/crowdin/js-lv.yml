@@ -26,7 +26,7 @@ lv:
         select: Select files
         select_all: Atzīmēt visu
         selection:
-          zero: Saite %{count} fails
+          zero: Link %{count} files
           one: Link %{count} file
           other: Saite %{count} faili
         success_create:

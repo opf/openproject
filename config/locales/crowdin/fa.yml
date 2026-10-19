@@ -1085,6 +1085,8 @@ fa:
             identifier:
               must_not_be_changed: 'نباید به‌صورت دستی تغییر کند. شناسه‌های بسته کاری به‌طور خودکار تخصیص داده می‌شوند و از طریق جدول alias حل می‌شوند؛ تغییر دستی آن‌ها پیوندها و تاریخچه شناسه را می‌شکند. اگر این تغییر عمدی است، با `save(context: :%{context})` ذخیره کنید و جدول work_package_semantic_aliases را سازگار نگه دارید.'
               semantic_identifier_incomplete: و sequence_number باید هر دو هم‌زمان تنظیم شوند.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: نمی‌تواند در پروژه دیگری باشد.
               cannot_be_milestone: نمی‌تواند نقطه عطف باشد.
@@ -1112,6 +1114,8 @@ fa:
             status_id:
               status_invalid_in_type: نامعتبر است، زیرا وضعیت فعلی در این نوع وجود ندارد.
               status_transition_invalid: نامعتبر است، زیرا برای نقش‌های کاربر فعلی هیچ انتقال معتبری از وضعیت قبلی به وضعیت جدید وجود ندارد.
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: نمی‌تواند نقطه عطف باشد، زیرا این بسته کاری فرزند دارد.
           is_not_a_valid_target_for_time_entries: 'بسته کاری #%{id} هدف معتبری برای تخصیص مجدد ورودی‌های زمان نیست.'
@@ -7221,25 +7225,30 @@ fa:
       placeholder_description: این مرحله به‌زودی در دسترس خواهد بود.
       progress_label: مرحله %{number} از %{total}
       start:
-        inherit_description: این صفحه پیکربندی موجود را از نوع دیگری به ارث می‌برد. تغییرات منبع به‌طور خودکار در اینجا نیز اعمال می‌شوند.
-        inherit_title: استفاده از همان تنظیمات نوع
-        manual_description: می‌توانید این صفحه را آزادانه پیکربندی کنید یا پیکربندی را از نوع دیگری کپی کنید.
-        manual_title: پیکربندی دستی
-        reuse_heading: استفاده مجدد از پیکربندی نوع موجود
-        reuse_inherit: برای همه موارد دیگر، می‌توانید انتخاب کنید در بخش‌هایی که تفاوتی نمی‌خواهید به‌طور خودکار همان تنظیمات نوع (%{type_name}) استفاده شود و فقط صفحه‌هایی را که باید متفاوت باشند به‌صورت دستی پیکربندی کنید.
-        reuse_intro: برای هر صفحه می‌توانید تعیین کنید چه رابطه‌ای با نوع اصلی داشته باشد.
-        reuse_named: برای گردش‌های کاری و فرم‌ها می‌توانید از پیکربندی‌های موجود استفاده کنید تا هر بار هنگام ایجاد نوع یا گونه جدید مجبور به تعریف پیکربندی متفاوت نباشید. اگر هیچ پیکربندی موجودی نیاز شما را برآورده نکند، می‌توانید یک پیکربندی جدید بسازید.
+        next_heading: What happens next?
         submit: شروع
         type:
-          description: نوع، یک نوع مشخص از آیتم را نشان می‌دهد؛ مانند قابلیت یا خطا. هر نوع یک نام، یک رنگ، مجموعه‌ای از فیلدها، قوانینی برای انتقال بین وضعیت‌ها و تنظیمات دیگری دارد. می‌توانید انواع مختلف را در پروژه‌های مختلف فعال و استفاده کنید.
           heading: ایجاد نوع جدید
-          lead_html: در حال ایجاد یک نوع جدید در این نمونه هستید.
-          step_by_step: در صفحه‌های بعد، نوع جدید را مرحله‌به‌مرحله پیکربندی خواهید کرد.
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
         variant:
-          description: گونه، نسخه‌ای جایگزین از یک نوع با چند تفاوت است. می‌توانید از گونه‌ها برای برآوردن نیازهای ویژه پروژه بدون ایجاد یک نوع کاملاً جدید استفاده کنید.
           heading: ایجاد گونه جدید
-          lead_html: در حال ایجاد یک گونه جدید از <b>%{type_name}</b> در این نمونه هستید.
-          step_by_step: در صفحه‌های بعد، این گونه جدید را مرحله‌به‌مرحله پیکربندی خواهید کرد.
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: پیش‌فرض‌ها
         details: جزئیات
@@ -8052,6 +8061,8 @@ fa:
           unknown_in_project: در این پروژه وجود ندارد.
           unknown_user: با هیچ کاربری مطابقت ندارد. از نشانی ایمیلی استفاده کنید که کاربر با آن وارد سامانه می‌شود.
         template:
+          example_category: Documentation
+          example_version: '1.0'
           examples:
             one:
               description: توضیح دهید صفحه جدید باید چه کاری انجام دهد.
@@ -8066,10 +8077,10 @@ fa:
       dry_run_label: ابتدا فایل را بدون واردسازی بررسی کنید
       file_label: فایل CSV
       guidance:
-        column_reference: راهنمای ستون‌ها
-        columns_html: فایل %{link} را دریافت و تکمیل کنید. این فایل شامل سرستون‌های دقیقی است که امکان واردسازی آن‌ها وجود دارد.
-        limits_html: فایل <code>.csv</code> با کدگذاری UTF-8/UTF-16، حداکثر %{lines} سطر و حجم %{size}.
-        names_html: نوع، وضعیت، اولویت، دسته‌بندی و نسخه بر اساس نام تطبیق داده می‌شوند و باید از قبل وجود داشته باشند. مسئول، پاسخ‌گو و نویسنده بر اساس نشانی ایمیل تطبیق داده می‌شوند. به %{link} مراجعه کنید.
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
         title: پیش از شروع
       import_file: واردسازی فایل
       importing_file: در حال واردسازی %{filename}
@@ -8118,7 +8129,6 @@ fa:
           notifications: برای این بسته‌های کاری اعلان ارسال نشد.
           text_html: واردشده از %{filename} در تاریخ %{date}، ساعت %{time}.
           title: "%{work_packages} ایجاد شد"
-          work_packages: بسته‌های کاری
         problems:
           all:
             one: "%{count} problem."
