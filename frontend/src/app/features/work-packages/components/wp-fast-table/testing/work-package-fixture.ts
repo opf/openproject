@@ -56,7 +56,7 @@ export interface GroupFixture {
   href:string;
   count:number;
   /** Sums per attribute; the group ends with a sums row when given. */
-  sums?:Record<string, number|null>;
+  sums?:GroupObject['sums'];
 }
 
 export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource {
