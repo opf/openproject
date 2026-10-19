@@ -64,6 +64,15 @@ module FormFields
         insert_equation("/inline equation", latex)
       end
 
+      def insert_code_block(code, language:)
+        send_keys_to_editor("/code block")
+        send_keys(:enter)
+        send_keys(code)
+        code_block = shadow_root.find("[data-content-type='codeBlock']")
+        code_block.hover
+        code_block.find("select").find("option", exact_text: language).select_option
+      end
+
       def click_formatting_toolbar_button(label)
         shadow_root.find("button[aria-label='#{label}']").click
       end
@@ -209,6 +218,12 @@ module FormFields
       def katex_stylesheet_applied?
         page.evaluate_script(<<~JS)
           getComputedStyle(#{shadow_root_query}.querySelector('.katex-mathml')).position === 'absolute'
+        JS
+      end
+
+      def code_block_language_picker_background
+        page.evaluate_script(<<~JS)
+          getComputedStyle(#{shadow_root_query}.querySelector('[data-content-type="codeBlock"] select')).background
         JS
       end
 
