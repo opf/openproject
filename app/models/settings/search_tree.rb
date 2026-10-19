@@ -50,6 +50,11 @@ module Settings
     # the entity an attribute links to may be outdated until it expires.
     TREE_CACHE_TTL = 1.minute
 
+    # Queries are cut at this length and word count: every word must occur in
+    # a label anyway, and each word runs an ILIKE per entity kind.
+    MAX_QUERY_LENGTH = 64
+    MAX_QUERY_WORDS = 5
+
     # The words of a text, decomposed and compared without accents, as users
     # may type either, like the entity names are matched.
     def self.words(text)
@@ -63,7 +68,8 @@ module Settings
                    menu: Settings::Pages.admin_menu,
                    hidden_menu_items: OpenProject::Configuration.hidden_menu_items["admin_menu"] || [])
       @view_context = view_context
-      @query_words = self.class.words(query)
+      @query_words =
+        self.class.words(query.to_s.truncate(MAX_QUERY_LENGTH, omission: "")).first(MAX_QUERY_WORDS)
       @pages = pages
       @pages_by_menu_item = pages.group_by(&:menu_item)
       @entity_kinds = entity_kinds

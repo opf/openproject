@@ -60,6 +60,12 @@ RSpec.describe "Admin settings search", type: :rails_request do
       expect(response.body).to include("/admin/settings/general?highlight=app_title")
       expect(response.body).not_to include("highlight=host_name")
     end
+
+    it "renders the tree for a huge query" do
+      get tree_admin_settings_search_path, params: { query: "x" * 100_000 }
+
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   context "as a regular user" do
