@@ -31,6 +31,12 @@
 module UserWorkingHours::UpdateAllocationSchedules
   private
 
+  def before_perform(*)
+    super.tap do |call|
+      ResourceAllocations::ScheduledEntry.lock_schedules_of([call.result.user])
+    end
+  end
+
   def after_perform(call)
     working_hours = call.result
     from = [working_hours.valid_from_before_last_save, working_hours.valid_from].compact.min

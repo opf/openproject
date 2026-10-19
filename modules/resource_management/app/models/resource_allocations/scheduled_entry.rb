@@ -39,6 +39,15 @@ module ResourceAllocations
 
     scope :with_overtime, -> { where(arel_table[:overtime_minutes].gt(0)) }
 
+    # Writes that cascade into the entries (e.g. deleting allocations) take this
+    # lock before writing. Otherwise a recomputation holding the lock waits for
+    # those rows while the writer waits for the lock.
+    def self.lock_schedules_of(users)
+      users.sort_by(&:id).each do |user|
+        with_advisory_lock!("resource_allocation_schedule_#{user.id}", transaction: true, blocking: true)
+      end
+    end
+
     def self.remaining_minutes_by_allocation(allocations, on:)
       placed = on ? placed_minutes_by_allocation_id(allocations, before: on) : {}
       allocations.index_with { |allocation| allocation.allocated_time - placed.fetch(allocation.id, 0) }

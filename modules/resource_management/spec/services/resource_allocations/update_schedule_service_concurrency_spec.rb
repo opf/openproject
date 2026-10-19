@@ -72,16 +72,12 @@ RSpec.describe ResourceAllocations::UpdateScheduleService, "racing a write of th
       recomputation_locked = Concurrent::Event.new
       write_requests_lock = Concurrent::Event.new
 
-      allow(described_class).to receive(:new).and_wrap_original do |original|
-        original.call.tap do |service|
-          allow(service).to receive(:lock_schedules_of).and_wrap_original do |lock, users|
-            write_requests_lock.set if Thread.current[:schedule_race] == :write
-            lock.call(users)
-            if Thread.current[:schedule_race] == :recomputation
-              recomputation_locked.set
-              raise "the write never requested the schedule lock" unless write_requests_lock.wait(10)
-            end
-          end
+      allow(ResourceAllocations::ScheduledEntry).to receive(:lock_schedules_of).and_wrap_original do |lock, users|
+        write_requests_lock.set if Thread.current[:schedule_race] == :write
+        lock.call(users)
+        if Thread.current[:schedule_race] == :recomputation
+          recomputation_locked.set
+          raise "the write never requested the schedule lock" unless write_requests_lock.wait(10)
         end
       end
 

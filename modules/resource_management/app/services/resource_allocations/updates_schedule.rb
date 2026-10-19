@@ -34,6 +34,14 @@ module ResourceAllocations
 
     private
 
+    def before_perform(*)
+      super.tap do |call|
+        allocation = call.result
+        @schedule_users = [User.find_by(id: allocation.principal_id_in_database), allocation.principal].compact.uniq
+        ScheduledEntry.lock_schedules_of(@schedule_users)
+      end
+    end
+
     def after_perform(call)
       allocation = call.result
       update_schedule(allocation) if schedule_changed?(allocation)
@@ -47,10 +55,9 @@ module ResourceAllocations
     end
 
     def update_schedule(allocation)
-      users = [User.find_by(id: allocation.principal_id_before_last_save), allocation.principal].compact.uniq
       from = [allocation.start_date_before_last_save, allocation.start_date].compact.min
 
-      UpdateScheduleService.new.call(users:, from:) if users.any?
+      UpdateScheduleService.new.call(users: @schedule_users, from:) if @schedule_users.any?
     end
   end
 end

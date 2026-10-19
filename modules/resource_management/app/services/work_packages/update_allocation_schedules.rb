@@ -32,18 +32,24 @@ module WorkPackages::UpdateAllocationSchedules
   private
 
   def before_perform(*)
-    @earliest_allocation_start_by_principal = ResourceAllocation
+    @earliest_allocation_start_by_principal = earliest_allocation_start_by_principal
+    @schedule_users = User.where(id: @earliest_allocation_start_by_principal.keys).to_a
+    ResourceAllocations::ScheduledEntry.lock_schedules_of(@schedule_users)
+
+    super
+  end
+
+  def earliest_allocation_start_by_principal
+    ResourceAllocation
       .allocated
       .where(entity: model.self_and_descendants)
       .where.not(principal_id: nil)
       .group(:principal_id)
       .minimum(:start_date)
-
-    super
   end
 
   def after_perform(call)
-    User.where(id: @earliest_allocation_start_by_principal.keys).find_each do |user|
+    @schedule_users.each do |user|
       ResourceAllocations::UpdateScheduleService
         .new
         .call(users: [user], from: @earliest_allocation_start_by_principal[user.id])

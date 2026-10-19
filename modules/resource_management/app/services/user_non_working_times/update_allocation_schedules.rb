@@ -31,6 +31,12 @@
 module UserNonWorkingTimes::UpdateAllocationSchedules
   private
 
+  def before_perform(*)
+    super.tap do |call|
+      ResourceAllocations::ScheduledEntry.lock_schedules_of([call.result.user])
+    end
+  end
+
   def after_perform(call)
     non_working_time = call.result
     from = [non_working_time.start_date_before_last_save, non_working_time.start_date].compact.min

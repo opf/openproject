@@ -39,18 +39,12 @@ module ResourceAllocations
   class UpdateScheduleService
     def call(users:, from:)
       ActiveRecord::Base.transaction do
-        lock_schedules_of(users)
+        ScheduledEntry.lock_schedules_of(users)
         users.each { |user| update_schedule_of(user, from) }
       end
     end
 
     private
-
-    def lock_schedules_of(users)
-      users.sort_by(&:id).each do |user|
-        User.with_advisory_lock!("resource_allocation_schedule_#{user.id}", transaction: true, blocking: true)
-      end
-    end
 
     def update_schedule_of(user, from)
       allocations = affected_allocations(user, from)
