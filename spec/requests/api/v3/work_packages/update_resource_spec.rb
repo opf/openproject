@@ -601,7 +601,7 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
-        context "assignee" do
+        context "for the assignee" do
           it_behaves_like "handling people", "assignee"
         end
 
