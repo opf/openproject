@@ -104,12 +104,12 @@ module OpenProject::XlsExport
         end
       end
 
-      wdth = 0
+      max_width = 0
       tot_w.each do |w|
-        wdth = w unless w < wdth
+        max_width = w unless w < max_width
       end
 
-      wdth + 1.5
+      max_width + 1.5
     end
 
     # Add a "Title". This basically just set the first column to
