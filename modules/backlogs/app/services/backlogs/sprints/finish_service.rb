@@ -80,6 +80,9 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
     call_args[:position] = position if position
 
     open_work_packages.order(position: order_direction).map do |wp|
+      # Moving the previous work package out of the sprint shifted this one's
+      # position via update_all, leaving the loaded record stale.
+      wp.reload
       ::WorkPackages::UpdateService
         .new(user:, model: wp, contract_class: ::Backlogs::WorkPackages::MoveToBacklogContract)
         .call(**call_args)
