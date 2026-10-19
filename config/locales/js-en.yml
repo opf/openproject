@@ -395,8 +395,8 @@ en:
     ical_sharing_modal:
       copy_url_label: "Copy URL"
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      inital_setup_error_message: "An error occured while fetching data."
+      ical_generation_error_text: "An error occurred while generating the calendar URL."
+      inital_setup_error_message: "An error occurred while fetching data."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
       title: "Subscribe to calendar"
       token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.'
