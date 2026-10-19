@@ -88,6 +88,9 @@ zh-CN:
         invalid_time_format: 不是有效时间。所需格式：HH:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: 该部分不属于同一个会议。
           user_invalid: 不是有效的参与者。
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -329,6 +332,9 @@ zh-CN:
     blankslate:
       desc: 您可以创建新会议或更改筛选条件
       title: 没有可显示的会议
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: '从会议 #%{id} 复制'
     copy:
       agenda: 复制议程
@@ -372,6 +378,7 @@ zh-CN:
         header: 已取消：会议 '%{title}'
         header_occurrence: 已取消：会议事件 '%{title}'
         header_series: 已取消：会议系列 '%{title}'
+        reason: Reason for cancellation
         summary: "'%{title}' 已被 %{actor} 取消，或者您的参与者身份已被移除"
         summary_occurrence: "'%{title}' 的事件已被 %{actor} 取消，或者您的参与者身份已被移除"
         summary_series: 会议系列 '%{title}' 已被 %{actor} 取消，或者您的参与者身份已被移除

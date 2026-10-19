@@ -3521,8 +3521,45 @@ ko:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3684,6 +3721,7 @@ ko:
   journals:
     cause_descriptions:
       budget_deleted: 예산이 삭제되었습니다
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} 변경됨(%{link})"
         csv: from CSV
@@ -3736,6 +3774,7 @@ ko:
       budget_deleted: 예산이 삭제되었습니다
       dates_changed: 변경된 날짜
       default_attribute_written: 읽기 전용 특성 작성됨
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 가져옴
       meeting_agenda_item_added_html: "<strong>미팅에 추가됨:</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>다음에 추가됨:</strong> %{meeting_title_information}"
@@ -4133,7 +4172,6 @@ ko:
   label_menu_item_name: 메뉴 항목의 이름
   label_message: 메시지
   label_message_last: 마지막 메시지
-  label_message_new: 새 메시지
   label_message_plural: 메시지
   label_message_posted: 메시지 추가됨
   label_minute_plural: minutes
@@ -4762,6 +4800,8 @@ ko:
       you_have: 회원님은
     logo_alt_text: 로고
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} 님이 %{id} - %{subject}에서 귀하를 멘션했습니다"
     notification:
       center: 알림 센터로
@@ -6255,7 +6295,7 @@ ko:
   setting_default_projects_wiki: 기본적으로 새 프로젝트에 대해 위키 기능을 활성화합니다.
   setting_diff_max_lines_displayed: 표시되는 최대 차이점 줄 수
   setting_disable_password_login: 암호 인증 비활성화
-  setting_display_subprojects_work_packages: 기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: 기간 형식
   setting_duration_format_days_and_hours: 일 및 시간
   setting_duration_format_hours_only: 시간만

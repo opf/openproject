@@ -3519,8 +3519,45 @@ zh-CN:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: 论坛中目前无发贴。
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3682,6 +3719,7 @@ zh-CN:
   journals:
     cause_descriptions:
       budget_deleted: 预算已删除
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "“%{field}”已更改 (%{link})"
         csv: from CSV
@@ -3734,6 +3772,7 @@ zh-CN:
       budget_deleted: 预算已删除
       dates_changed: 日期已更改
       default_attribute_written: 已写入只读属性
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 已导入
       meeting_agenda_item_added_html: "<strong>已添加到会议</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>已添加到</strong> %{meeting_title_information}"
@@ -4131,7 +4170,6 @@ zh-CN:
   label_menu_item_name: 菜单项名称
   label_message: 消息
   label_message_last: 最后一条消息
-  label_message_new: 新消息
   label_message_plural: 消息
   label_message_posted: 添加消息
   label_minute_plural: 分钟
@@ -4759,6 +4797,8 @@ zh-CN:
       you_have: 您有
     logo_alt_text: 徽标
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} 在 %{id} - %{subject} 中提及了您"
     notification:
       center: 前往通知中心
@@ -6248,7 +6288,7 @@ zh-CN:
   setting_default_projects_wiki: 默认为新项目启用 wiki 功能
   setting_diff_max_lines_displayed: 最大差异显示行数
   setting_disable_password_login: 禁用密码验证
-  setting_display_subprojects_work_packages: 默认在主项目上显示子项目工作包
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: 持续时间格式
   setting_duration_format_days_and_hours: 天数和小时数
   setting_duration_format_hours_only: 仅限小时

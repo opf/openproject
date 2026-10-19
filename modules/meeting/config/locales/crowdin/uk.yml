@@ -91,6 +91,9 @@ uk:
         invalid_time_format: 'не є допустимим часом. Необхідний формат: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Розділ не належить до тієї самої наради.
           user_invalid: не є дійсним учасником.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -365,6 +368,9 @@ uk:
     blankslate:
       desc: Створіть зустріч або змініть параметри фільтра
       title: Зустрічей не знайдено
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Скопійовано з наради #%{id} '
     copy:
       agenda: Копіювати порядок денний
@@ -408,6 +414,7 @@ uk:
         header: 'Скасовано: нарада «%{title}»'
         header_occurrence: 'Скасовано: нарада серії «%{title}»'
         header_series: 'Скасовано: серія нарад «%{title}»'
+        reason: Reason for cancellation
         summary: Нараду «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
         summary_occurrence: Нараду серії «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників
         summary_series: Серію нарад «%{title}» скасував(-ла) %{actor}, або вас видалено з учасників

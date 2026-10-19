@@ -91,6 +91,9 @@ sl:
         invalid_time_format: 'ni veljaven čas. Potreben format: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -365,6 +368,9 @@ sl:
     blankslate:
       desc: You can create a new meeting or change filter criteria
       title: There are no meetings to display
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Kopirano iz sestanka #%{id}'
     copy:
       agenda: Copy agenda
@@ -408,6 +414,7 @@ sl:
         header: 'Cancelled: Meeting ''%{title}'''
         header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
         header_series: 'Cancelled: Meeting series ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant

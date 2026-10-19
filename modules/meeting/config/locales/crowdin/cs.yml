@@ -91,6 +91,9 @@ cs:
         invalid_time_format: 'není platný čas. Požadovaný formát: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Sekce nepatří do stejné schůze.
           user_invalid: není platným účastníkem.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -369,6 +372,9 @@ cs:
     blankslate:
       desc: Můžete vytvořit novou schůzku nebo změnit kritéria filtru
       title: Žádné schůzky k zobrazení
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Zkopírováno ze schůzky #%{id}'
     copy:
       agenda: Kopírovat program
@@ -412,6 +418,7 @@ cs:
         header: 'Zrušeno: Schůzka ''%{title}'''
         header_occurrence: 'Zrušeno: Schůzka ze série ''%{title}'''
         header_series: 'Zrušeno: Série schůzek ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' byla zrušena prostřednictvím %{actor}, nebo jste byli odstraněni jako účastník"
         summary_occurrence: Schůzka ze série '%{title}' byla zrušena prostřednictvím %{actor}, nebo jste byli odstraněni jako účastník
         summary_series: Série schůzek '%{title}' byla zrušena prostřednictvím %{actor}, nebo jste byli odstraněni jako účastník

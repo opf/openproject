@@ -3670,8 +3670,48 @@ fa:
           caption: گروه‌های ویژگی فرم جدید را برای این نوع مرتب کنید.
           label: پیکربندی فرم جدید
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: در حال حاضر هیچ پستی برای انجمن وجود ندارد.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3835,6 +3875,7 @@ fa:
   journals:
     cause_descriptions:
       budget_deleted: بودجه حذف شده است
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} تغییر کرد (%{link})"
         csv: از CSV
@@ -3887,6 +3928,7 @@ fa:
       budget_deleted: بودجه حذف شده است
       dates_changed: تاریخ‌ها تغییر کردند
       default_attribute_written: ویژگی‌های فقط‌خواندنی نوشته شدند
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: واردشده
       meeting_agenda_item_added_html: "<strong>به جلسه اضافه شد</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>اضافه شد به</strong> %{meeting_title_information}"
@@ -4284,7 +4326,6 @@ fa:
   label_menu_item_name: نام آیتم منو
   label_message: پیام
   label_message_last: آخرین پیام
-  label_message_new: پیام جدید
   label_message_plural: پیام‌ها
   label_message_posted: پیام اضافه شد
   label_minute_plural: دقیقه
@@ -4916,6 +4957,8 @@ fa:
       you_have: شما دارید
     logo_alt_text: لوگو
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} در %{id} - %{subject} به شما اشاره کرد"
     notification:
       center: رفتن به مرکز اعلان‌ها
@@ -6436,7 +6479,7 @@ fa:
   setting_default_projects_wiki: فعال‌کردن قابلیت ویکی برای پروژه‌های جدید به‌صورت پیش‌فرض
   setting_diff_max_lines_displayed: حداکثر تعداد خطوط Diff نمایش‌داده‌شده
   setting_disable_password_login: غیرفعال‌کردن احراز هویت با گذرواژه
-  setting_display_subprojects_work_packages: نمایش بسته‌های کاری زیرپروژه‌ها در پروژه‌های اصلی به‌طور پیش‌فرض
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: قالب مدت‌زمان
   setting_duration_format_days_and_hours: روز و ساعت
   setting_duration_format_hours_only: فقط ساعت

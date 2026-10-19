@@ -3674,8 +3674,48 @@ pt-BR:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Não há postagens no fórum no momento.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3839,6 +3879,7 @@ pt-BR:
   journals:
     cause_descriptions:
       budget_deleted: Orçamento foi excluído
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} alterado (%{link})"
         csv: from CSV
@@ -3891,6 +3932,7 @@ pt-BR:
       budget_deleted: Orçamento foi excluído
       dates_changed: Datas alteradas
       default_attribute_written: Atributos de somente leitura escritos
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importado
       meeting_agenda_item_added_html: "<strong>Adicionado à reunião</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Adicionado à</strong> %{meeting_title_information}"
@@ -4288,7 +4330,6 @@ pt-BR:
   label_menu_item_name: Nome do item de menu
   label_message: Mensagem
   label_message_last: Última mensagem
-  label_message_new: Nova mensagem
   label_message_plural: Mensagens
   label_message_posted: Mensagem adicionada
   label_minute_plural: minutos
@@ -4921,6 +4962,8 @@ pt-BR:
       you_have: Você possui
     logo_alt_text: Logotipo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mencionou você em %{id} - %{subject}"
     notification:
       center: Para o centro de notificação
@@ -6433,7 +6476,7 @@ pt-BR:
   setting_default_projects_wiki: Ative a funcionalidade de wiki por padrão para novos projetos
   setting_diff_max_lines_displayed: Número máximo de linhas diferentes exibidas
   setting_disable_password_login: Desativar a autenticação por senha
-  setting_display_subprojects_work_packages: Exibir pacotes de trabalho de subprojetos no projeto principal por padrão
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: formato de duração
   setting_duration_format_days_and_hours: Dias e horas
   setting_duration_format_hours_only: Apenas horas

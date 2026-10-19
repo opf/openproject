@@ -88,6 +88,9 @@ zh-TW:
         invalid_time_format: '不是有效時間。所需格式: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: 區段不屬於同一會議。
           user_invalid: 不是有效的參與者。
           vote_based_sorting_required: 投票需要根據投票結果對議程進行排序。
@@ -331,6 +334,9 @@ zh-TW:
     blankslate:
       desc: 您可以建立新的會議或變更篩選條件
       title: 沒有會議要顯示
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: '從會議紀錄 #%{id} 中複製'
     copy:
       agenda: 複製議程
@@ -374,6 +380,7 @@ zh-TW:
         header: 取消：會議 '%{title}'
         header_occurrence: 取消：會議發起 '%{title}'
         header_series: 取消：系列會議 '%{title}'
+        reason: Reason for cancellation
         summary: "%{title}' 已被 %{actor}取消，或者您已被刪除為參賽者"
         summary_occurrence: "%{actor}已取消「%{title}」的發生，或您已被移除為參與者"
         summary_series: 會議系列 '%{title}' 已被 %{actor}取消, 或您已被移除為參與者

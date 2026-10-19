@@ -3672,8 +3672,48 @@ de:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Zur Zeit existieren keine Forumseinträge für dieses Forum.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3837,6 +3877,7 @@ de:
   journals:
     cause_descriptions:
       budget_deleted: Budget wurde gelöscht
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} geändert (%{link})"
         csv: aus CSV
@@ -3889,6 +3930,7 @@ de:
       budget_deleted: Budget wurde gelöscht
       dates_changed: Datum geändert
       default_attribute_written: Nur-Lese-Attribute wurde geschrieben
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importiert
       meeting_agenda_item_added_html: "<strong>Zur Besprechung hinzugefügt</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Hinzugefügt zu</strong> %{meeting_title_information}"
@@ -4286,7 +4328,6 @@ de:
   label_menu_item_name: Name des Menüpunktes
   label_message: Nachricht
   label_message_last: Letzter Forenbeitrag
-  label_message_new: Neues Thema
   label_message_plural: Forenbeiträge
   label_message_posted: Forenbeitrag hinzugefügt
   label_minute_plural: Minuten
@@ -4918,6 +4959,8 @@ de:
       you_have: Sie haben
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} erwähnte Sie in %{id} - %{subject}"
     notification:
       center: Zur Benachrichtigungszentrale
@@ -6441,7 +6484,7 @@ de:
   setting_default_projects_wiki: Aktiviere Wiki-Funktionalität für neue Projekte standardmäßig
   setting_diff_max_lines_displayed: Maximale Anzahl anzuzeigender Diff-Zeilen
   setting_disable_password_login: Passwort-Authentifizierung deaktivieren
-  setting_display_subprojects_work_packages: Arbeitspakete von Unterprojekten im Hauptprojekt anzeigen
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Anzeige der Dauer
   setting_duration_format_days_and_hours: Tage und Stunden
   setting_duration_format_hours_only: Nur Stunden
