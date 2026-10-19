@@ -131,7 +131,7 @@ module AI
 
     def pane_for(pane_run)
       AI::TextTransforms::ResultPaneState.new(run: pane_run, scope: pane_params[:scope], request_id: pane_params[:request_id],
-                                              work_package: context&.work_package, context_ids:)
+                                              work_package: context&.work_package, project: context&.project, context_ids:)
     end
 
     def rejected_pane(errors, action)
