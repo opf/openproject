@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -74,7 +76,7 @@ RSpec.describe WorkPackage do
       end
 
       it "is true" do
-        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_truthy
+        expect(described_class).to be_cleanup_action_required_before_destructing(work_package)
       end
     end
 
@@ -86,7 +88,7 @@ RSpec.describe WorkPackage do
       end
 
       it "is true" do
-        expect(WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2])).to be_truthy
+        expect(described_class).to be_cleanup_action_required_before_destructing([work_package, work_package2])
       end
     end
 
@@ -96,7 +98,7 @@ RSpec.describe WorkPackage do
       end
 
       it "is false" do
-        expect(WorkPackage.cleanup_action_required_before_destructing?(work_package)).to be_falsey
+        expect(described_class).not_to be_cleanup_action_required_before_destructing(work_package)
       end
     end
   end
@@ -109,7 +111,7 @@ RSpec.describe WorkPackage do
       end
 
       it "is have 'CostEntry' as class to address" do
-        expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to eq([CostEntry])
+        expect(described_class.associated_classes_to_address_before_destruction_of(work_package)).to eq([CostEntry])
       end
     end
 
@@ -119,7 +121,7 @@ RSpec.describe WorkPackage do
       end
 
       it "is empty" do
-        expect(WorkPackage.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
+        expect(described_class.associated_classes_to_address_before_destruction_of(work_package)).to be_empty
       end
     end
   end
@@ -132,7 +134,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "w/o a cleanup being necessary" do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
 
       before do
         cost_entry.destroy
@@ -144,7 +146,7 @@ RSpec.describe WorkPackage do
     end
 
     describe 'w/ "destroy" as action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "destroy") }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "destroy") }
 
       it "returns true" do
         expect(action).to be_truthy
@@ -159,7 +161,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "w/o an action" do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user) }
 
       it "returns true" do
         expect(action).to be_truthy
@@ -174,7 +176,7 @@ RSpec.describe WorkPackage do
     end
 
     describe 'w/ "nullify" as action' do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "nullify") }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "nullify") }
 
       it "returns false" do
         expect(action).to be_falsey
@@ -190,15 +192,16 @@ RSpec.describe WorkPackage do
       it "sets an error on work packages" do
         action
 
-        expect(work_package.errors[:base]).to eq([I18n.t(:"activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries")])
+        expect(work_package.errors[:base])
+          .to eq([I18n.t(:"activerecord.errors.models.work_package.nullify_is_not_valid_for_cost_entries")])
       end
     end
 
     describe 'with "reassign" as action ' \
              "with reassigning to a valid work_package" do
       let(:action) do
-        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
-                                                                                          reassign_to_id: work_package2.id)
+        described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
+                                                                                              reassign_to_id: work_package2.id)
       end
 
       before do
@@ -230,8 +233,8 @@ RSpec.describe WorkPackage do
     describe 'with "reassign" as action ' \
              "with reassigning to a work_package the user is not allowed to see" do
       let(:action) do
-        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
-                                                                                          reassign_to_id: work_package2.id)
+        described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
+                                                                                              reassign_to_id: work_package2.id)
       end
 
       before do
@@ -253,7 +256,8 @@ RSpec.describe WorkPackage do
     describe 'w/ "reassign" as action ' \
              "w/ reassigning to a non existing work package" do
       let(:action) do
-        WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign", reassign_to_id: 0)
+        described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign",
+                                                                                              reassign_to_id: 0)
       end
 
       it "returns true" do
@@ -270,7 +274,7 @@ RSpec.describe WorkPackage do
 
     describe 'w/ "reassign" as action ' \
              "w/o providing a reassignment id" do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "reassign") }
 
       it "returns true" do
         expect(action).to be_falsey
@@ -285,7 +289,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "w/ an invalid option" do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, action: "bogus") }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user, action: "bogus") }
 
       it "returns false" do
         expect(action).to be_falsey
@@ -293,7 +297,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "w/ nil as invalid option" do
-      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
+      let(:action) { described_class.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
       it "returns false" do
         expect(action).to be_falsey
