@@ -40,9 +40,9 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
   shared_let(:permitted_user) { create(:user, member_with_permissions: { project => [:view_work_packages] }) }
   shared_let(:unpermitted_user) { create(:user, member_with_permissions: { project => [] }) }
 
-  shared_let(:popular_elsewhere) { create(:label, name: "popular elsewhere") }
-  shared_let(:local_label) { create(:label, name: "local") }
-  shared_let(:unused_label) { create(:label, name: "unused") }
+  shared_let(:popular_elsewhere) { create(:label, name: "bug") }
+  shared_let(:local_label) { create(:label, name: "work in progress") }
+  shared_let(:unused_label) { create(:label, name: "docs") }
 
   before_all do
     create_list(:work_package, 2, project: other_project).each { create(:labeling, label: popular_elsewhere, labelable: it) }
@@ -68,7 +68,7 @@ RSpec.describe "GET workspaces/:id/labels", with_flag: :work_package_labels do
       current_user { permitted_user }
 
       before do
-        filter = [{ name: { operator: "~", values: ["popular"] } }]
+        filter = [{ name: { operator: "~", values: ["bug"] } }]
 
         get "#{get_path}?filters=#{CGI.escape(filter.to_json)}"
       end

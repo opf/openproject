@@ -38,6 +38,9 @@ class Label < ApplicationRecord
     select("labels.*, #{USAGE_COUNT_SQL} AS usage_count")
   }
 
+  # Sorts first by locality (labels already used in the current project come first)
+  # then by frequency (most used first).
+  # reorder replaces the default name order the index endpoint merges in.
   scope :ordered_by_relevance_for, ->(project) {
     used_in_project = Labeling
                         .where(labelable_type: WorkPackage.name)
