@@ -26,7 +26,7 @@ fr:
       project:
         allow_multiple_active_sprints: Autoriser plusieurs sprints actifs
         backlog_excluded_types: Types de lots de travaux exclus
-        estimation_unit: Unit
+        estimation_unit: Unité
         sprint_sharing: Partage de sprint
         statuses_considered_closed: Statuts considérés comme fermés
       sprint:
@@ -73,8 +73,8 @@ fr:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Il y a un lot de travaux qui n'a pas été achevé dans ce sprint.
-                other: Il y a %{count} lots de travaux qui n'ont pas été achevés dans ce sprint.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: n'est pas actif et ne peut donc pas être fermé.
         sprint_goal:
@@ -138,7 +138,7 @@ fr:
       show:
         blankslate_description: Définissez les dates de début et de fin du sprint afin de générer un graphique burndown.
         blankslate_title: Aucune donnée de burndown disponible
-    estimation_unit: Units
+    estimation_unit: Unités
     excluded_work_package_types_caption: 'Choisissez les types de lots de travaux à masquer dans le backlog. Les éléments des types sélectionnés n''apparaîtront pas automatiquement dans le backlog, ce qui permet de le concentrer sur le travail pertinent pour votre équipe. Par exemple, des types comme les epics ou les jalons, gérés à un niveau supérieur, peuvent être masqués afin de conserver dans le backlog les éléments sur lesquels l''équipe peut agir.
 
       '
@@ -161,8 +161,8 @@ fr:
       drop_zone_label: Déposez ici pour ajouter cet élément
       label_actions: Actions de la boîte de réception
       show_more:
-        one: Afficher 1 élément supplémentaire
-        other: Afficher %{count} éléments supplémentaires
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Boîte de réception
     index_subheader_component:
       label_search_by_subject: Rechercher des lots de travaux par objet
@@ -266,7 +266,6 @@ fr:
       header_backlogs: Module des backlogs
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copier l'URL dans le presse-papiers
         copy_work_package_id: Copier l'ID du lot de travaux
         move_menu: Déplacer vers la position
         move_to_backlog_bucket: Déplacer vers un bucket de backlog
@@ -349,17 +348,17 @@ fr:
       sprints: Sprints
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Unité
         options:
           none:
-            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            caption: Le nombre de lots de travaux sera utilisé comme unité par défaut dans les graphiques. Certains rapports de sprint ne seront pas affichés.
+            label: Aucun
           story_points:
-            caption: The cards and charts will display story points.
+            caption: Les cartes et les tableaux afficheront les story points.
             label: Story points
           time:
-            caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            caption: Les cartes et graphiques afficheront les estimations du temps de travail.
+            label: Estimation du temps de travail
       backlog_sharing:
         options:
           no_sharing:
@@ -381,8 +380,8 @@ fr:
         sprint_sharing: Partager les sprints
       backlogs:
         estimation_unit_form_component:
-          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
-          heading: Default unit of velocity, effort and capacity
+          description: Sélectionnez l'unité de mesure par défaut pour l'effort, la vélocité et la capacité qui correspond au déroulement des tâches de votre équipe agile. Ces unités apparaîtront dans les rapports sur le backlog et les sprints.
+          heading: Unité par défaut de la vitesse, de l'effort et de la capacité
         multiple_active_sprints:
           description: Par défaut, un seul sprint peut être actif à la fois par projet. Vous pouvez modifier ce paramètre afin que plusieurs sprints puissent être actifs en parallèle dans ce projet.
           heading: Nombre de sprints actifs

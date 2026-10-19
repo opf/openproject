@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,6 +38,8 @@ class AuthProvider < ApplicationRecord
            through: :user_auth_provider_links,
            source: :principal
 
+  store_attribute :options, :additional_form_action_urls, :json, default: []
+
   validates :display_name, presence: true
   validates :display_name, uniqueness: true
 
@@ -53,8 +54,13 @@ class AuthProvider < ApplicationRecord
     raise SubclassResponsibilityError
   end
 
-  def csp_form_action_origin
-    raise SubclassResponsibilityError
+  def additional_form_action_urls
+    super || []
+  end
+
+  def additional_form_action_urls=(urls)
+    urls = urls.split(/\R/) if urls.is_a?(String)
+    super(Array(urls).map(&:strip).compact_blank)
   end
 
   def auth_url
@@ -72,16 +78,5 @@ class AuthProvider < ApplicationRecord
     if Setting.omniauth_direct_login_provider == slug
       Setting.omniauth_direct_login_provider = ""
     end
-  end
-
-  def origin_from_url(url)
-    return if url.blank?
-
-    uri = URI.parse(url.to_s)
-    return unless uri.scheme.in?(%w[http https]) && uri.host.present?
-
-    URI.join(uri, "/").to_s
-  rescue URI::InvalidURIError, ArgumentError
-    nil
   end
 end

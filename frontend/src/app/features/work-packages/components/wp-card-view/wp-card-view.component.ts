@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -80,6 +79,7 @@ export interface WorkPackageAddedResult {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-card-view',
   styleUrls: ['./styles/wp-card-view.component.sass', './styles/wp-card-view-horizontal.sass', './styles/wp-card-view-vertical.sass'],
   templateUrl: './wp-card-view.component.html',
@@ -105,6 +105,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
   readonly deviceService = inject(DeviceService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
 
   @Input() public dragInto:boolean;
@@ -141,6 +142,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   /** Container reference */
   @ViewChild('container', { static: true }) public container:ElementRef<HTMLElement>;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onMoved = new EventEmitter<void>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();

@@ -22,13 +22,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackages::SpentTime
+  extend ActiveSupport::Concern
+
+  included do
+    scopes :allowed_to_log_time,
+           :include_spent_time
+  end
+
   # Returns the total number of hours spent on this work package and its descendants.
   # The result can be a subset of the actual spent time in cases where the user's permissions
   # are limited, i.e. he lacks the view_time_entries and/or view_work_packages permission.

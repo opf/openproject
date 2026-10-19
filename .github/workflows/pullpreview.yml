@@ -29,6 +29,8 @@ jobs:
         echo "OPENPROJECT_FEATURE__STORAGES__MODULE__ACTIVE=true" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__SHOW__CHANGES__ACTIVE=true" >> .env.pullpreview
         echo "OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE=true" >> .env.pullpreview
+        echo "OPENPROJECT_FEATURE__LLM__CONNECTION__ACTIVE=true" >> .env.pullpreview
+        echo "OPENPROJECT_FEATURE__SEMANTIC__SEARCH__ACTIVE=false" >> .env.pullpreview
         echo "OPENPROJECT_LOOKBOOK__ENABLED=true" >> .env.pullpreview
         echo "OPENPROJECT_HSTS=false" >> .env.pullpreview
         echo "OPENPROJECT_NOTIFICATIONS_POLLING_INTERVAL=10000" >> .env.pullpreview
@@ -54,7 +56,7 @@ jobs:
         instance_type: cpx42
         ports: 80,443
         default_port: 443
-        ttl: 10d
+        ttl: 2d
         dns: my.opf.run
       env:
         HCLOUD_TOKEN: "${{ secrets.HCLOUD_TOKEN }}"

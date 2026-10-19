@@ -22,25 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::ProjectFilter < Queries::Workflows::Filters::WorkflowFilter
-  include Queries::Filters::Shared::ProjectFilter::Optional
-  include Queries::Workflows::Filters::MemberExists
-
-  def human_name
-    ::Project.model_name.human(count: 2)
-  end
-
-  def where
-    used_in = member_exists_sql("applications.project_id IN (:project_ids)",
-                                extra_joins: "JOIN project_types applications ON applications.variant_id = members.id")
-
-    honouring_negation("#{used_in} OR COALESCE(workflows.project_id IN (:project_ids), FALSE)",
-                       { project_ids: integer_values })
-  end
+class Queries::Workflows::Filters::ProjectFilter < Queries::NamedReferences::Filters::ProjectFilter
+  self.model = Workflow
 end

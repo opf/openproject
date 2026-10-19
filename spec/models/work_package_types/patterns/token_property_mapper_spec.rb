@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,10 +58,15 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     end
   end
 
+  shared_let(:labeling_rows) do
+    [work_package, work_package_parent].map do |wp|
+      create(:labeling, labelable: wp, label: create(:label))
+    end
+  end
+
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
     end
   end
   shared_let(:custom_field_not_on_type) do
@@ -71,8 +75,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:boolean_custom_field) do
     create(:boolean_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", false)
       work_package.save!
@@ -81,8 +84,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:date_custom_field) do
     create(:date_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", "2025-10-03T13:37:00Z")
       work_package.save!
@@ -91,8 +93,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:mult_list_custom_field) do
     create(:multi_list_wp_custom_field).tap do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", custom_field.possible_values.take(2))
       work_package.save!
@@ -101,7 +102,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:not_activated_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
     end
   end
 
@@ -150,10 +151,11 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       expect(token.call(work_package, nil)).to eq("2025-10-03")
     end
 
-    it "must return :attribute_not_available if custom field is not activated in project" do
+    # Every work package custom field gets a parent_ token, whether or not the type configures it.
+    it "must return :attribute_not_available if the custom field is on no type" do
       enabled, = subject
       token = enabled.detect do |t|
-        t.key == :"custom_field_#{not_activated_custom_field.id}"
+        t.key == :"parent_custom_field_#{custom_field_not_on_type.id}"
       end
 
       expect { token.call(work_package, nil) }.not_to raise_error
@@ -182,6 +184,31 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       enabled, disabled = subject
       expect(detect(enabled, :"custom_field_#{cf.id}")).to be_nil
       expect(detect(disabled, :"custom_field_#{cf.id}")&.label).to eq(cf.name)
+    end
+
+    context "when the labels feature is enabled", with_flag: { work_package_labels: true } do
+      it "returns the label tokens as enabled" do
+        enabled, = subject
+
+        expect(detect(enabled, :labels)&.label).to eq(WorkPackage.human_attribute_name(:labels))
+        expect(detect(enabled, :parent_labels)&.label).to eq(WorkPackage.human_attribute_name(:labels))
+      end
+
+      it "resolves the label names" do
+        enabled, = subject
+
+        expect(detect(enabled, :labels).call(work_package, nil)).to eq(work_package.labels.first.name)
+        expect(detect(enabled, :parent_labels).call(work_package_parent, nil)).to eq(work_package_parent.labels.first.name)
+      end
+    end
+
+    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
+      it "does not return the label tokens" do
+        enabled, disabled = subject
+
+        expect(detect(enabled + disabled, :labels)).to be_nil
+        expect(detect(enabled + disabled, :parent_labels)).to be_nil
+      end
     end
 
     context "when defining an instance date format", with_settings: { date_format: "%d.%m.%Y" } do
@@ -287,8 +314,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value",
                                      short: "IV").value!
 
-          project.work_package_custom_fields << custom_field
-          work_package.type.default_variant.custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
           work_package.send(:"custom_field_#{custom_field.id}=", item.id)
           work_package.save!
@@ -322,8 +348,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           contract_class = CustomFields::Hierarchy::InsertWeightedItemContract
           item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value", weight: 42).value!
 
-          project.work_package_custom_fields << custom_field
-          work_package.type.default_variant.custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
           work_package.send(:"custom_field_#{custom_field.id}=", item.id)
           work_package.save!

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -230,18 +229,26 @@ class ResourceAllocation < ApplicationRecord
     principal_id.present?
   end
 
+  def staffed?
+    filter_based? && user_assigned?
+  end
+
   def placeholder_or_user
-    placeholder_user || principal
+    principal || placeholder_user
   end
 
   def placeholder_or_user_id
-    placeholder_user_id || principal_id
+    principal_id || placeholder_user_id
   end
 
+  # Picking a user for a staffed allocation re-staffs it, so the placeholder
+  # stays as the original request.
   def placeholder_or_user=(value)
     if value.is_a?(PlaceholderUser)
       self.placeholder_user = value
       self.principal = nil
+    elsif value && staffed?
+      self.principal = value
     else
       self.principal = value
       self.placeholder_user = nil

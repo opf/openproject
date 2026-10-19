@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,10 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
   let(:start_title) { I18n.t("workflows.start.title") }
 
   current_user { admin }
+
+  def accept_lost_statuses
+    within_test_selector("change-workflow-confirm-dialog") { click_on I18n.t(:button_confirm) }
+  end
 
   def visit_step = visit type_creation_wizard_path(type, step: :workflows, role_ids: [role.id])
 
@@ -156,6 +159,7 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
+      accept_lost_statuses
       expect(page).to have_current_path(/started_workflow_id=#{variant.reload.workflow_id}/)
       expect_chosen("new")
       expect(page).to have_no_test_selector("workflow-selector")
@@ -170,11 +174,61 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         click_on I18n.t(:button_continue)
       end
 
+      accept_lost_statuses
+
       switch_to_existing("Standard flow")
 
       expect(variant.reload.workflow).to eq(existing)
       expect_chosen("existing")
       expect(page).to have_test_selector("workflow-selector", text: "Standard flow")
+    end
+
+    it "asks before it returns to a workflow that lacks statuses the started one uses" do
+      visit_step
+      choose_option("new")
+
+      within_dialog start_title do
+        choose_workflow_start("scratch")
+        click_on I18n.t(:button_continue)
+      end
+
+      accept_lost_statuses
+
+      expect(page).to have_current_path(/started_workflow_id=/)
+      started = variant.reload.workflow
+      create(:status_transition, workflow: started, role:, old_status: status_a, new_status: create(:status, name: "Closed"))
+
+      switch_to_existing("Standard flow")
+
+      within_test_selector("change-workflow-confirm-dialog") do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        within_test_selector("change-workflow-missing-statuses") do
+          expect(page).to have_text("Closed")
+        end
+        click_on I18n.t(:button_confirm)
+      end
+
+      expect(page).to have_current_path(/step=workflows/)
+      expect(variant.reload.workflow).to eq(existing)
+      expect_chosen("existing")
+    end
+
+    it "asks before a blank start drops the transitions the type already uses" do
+      visit_step
+      choose_option("new")
+
+      within_dialog start_title do
+        choose_workflow_start("scratch")
+        click_on I18n.t(:button_continue)
+      end
+
+      within_test_selector("change-workflow-confirm-dialog") do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        expect(page).to have_text("The new workflow has no transitions. All status transitions of Bug will be removed.")
+        click_on I18n.t(:button_cancel)
+      end
+
+      expect(variant.reload.workflow).to eq(existing)
     end
 
     it "starts from scratch without asking for a name yet" do
@@ -185,6 +239,8 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
         choose_workflow_start("scratch")
         click_on I18n.t(:button_continue)
       end
+
+      accept_lost_statuses
 
       expect(page).to have_current_path(/step=workflows/)
 
@@ -206,6 +262,33 @@ RSpec.describe "Choosing a workflow in the type creation wizard", :js do
 
       expect(page).to have_current_path(/step=workflows/)
 
+      started = variant.reload.workflow
+      expect(started).not_to eq(existing)
+      expect(transitions_of(started)).to contain_exactly([status_a.id, status_b.id])
+    end
+
+    it "asks before copying a workflow that lacks a status the current one uses" do
+      thin = create(:named_workflow, name: "Thin flow")
+      create(:status_transition, workflow: thin, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow: existing, role:, old_status: status_b, new_status: create(:status, name: "Closed"))
+
+      visit_step
+      choose_option("new")
+
+      within_dialog start_title do
+        select_autocomplete(find_test_selector("workflow-copy-source"),
+                            query: "Thin",
+                            results_selector: "#workflow-dialog")
+        click_on I18n.t(:button_continue)
+      end
+
+      within_test_selector("change-workflow-confirm-dialog") do
+        expect(page).to have_text("Thin flow")
+        within_test_selector("change-workflow-missing-statuses") { expect(page).to have_text("Closed") }
+        click_on I18n.t(:button_confirm)
+      end
+
+      expect(page).to have_current_path(/step=workflows/)
       started = variant.reload.workflow
       expect(started).not_to eq(existing)
       expect(transitions_of(started)).to contain_exactly([status_a.id, status_b.id])

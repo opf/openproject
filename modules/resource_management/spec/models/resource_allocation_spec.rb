@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -159,11 +158,11 @@ RSpec.describe ResourceAllocation do
         expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
       end
 
-      it "is the placeholder of a staffed filter-based allocation" do
+      it "is the assigned user of a staffed filter-based allocation" do
         allocation = described_class.new(placeholder_user:, principal: assignee)
 
-        expect(allocation.placeholder_or_user).to eq(placeholder_user)
-        expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
+        expect(allocation.placeholder_or_user).to eq(assignee)
+        expect(allocation.placeholder_or_user_id).to eq(assignee.id)
       end
 
       it "is nil without either" do
@@ -175,7 +174,7 @@ RSpec.describe ResourceAllocation do
     end
 
     describe "writer" do
-      it "assigns a user as the principal" do
+      it "assigns a user as the principal of an unstaffed filter-based allocation, dropping the placeholder" do
         allocation = described_class.new(placeholder_user:)
 
         allocation.placeholder_or_user = assignee
@@ -183,6 +182,25 @@ RSpec.describe ResourceAllocation do
         expect(allocation.principal).to eq(assignee)
         expect(allocation.placeholder_user).to be_nil
         expect(allocation).not_to be_filter_based
+      end
+
+      it "re-staffs a staffed filter-based allocation, keeping the placeholder" do
+        other_assignee = build_stubbed(:user)
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = other_assignee
+
+        expect(allocation.principal).to eq(other_assignee)
+        expect(allocation.placeholder_user).to eq(placeholder_user)
+      end
+
+      it "leaves a staffed filter-based allocation unchanged when given its assigned user" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = assignee
+
+        expect(allocation.principal).to eq(assignee)
+        expect(allocation.placeholder_user).to eq(placeholder_user)
       end
 
       it "assigns a placeholder user as the placeholder" do

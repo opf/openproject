@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,39 @@ RSpec.describe OmniAuthStartController do
       get :show, params: { provider: "unknown" }
 
       expect(response).to have_http_status :not_found
+    end
+
+    context "with a plug-in provider" do
+      before do
+        allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name).and_call_original
+        allow(OpenProject::Plugins::AuthPlugin).to receive(:find_provider_by_name).with("my-plugin")
+          .and_return(plugin_provider)
+      end
+
+      context "when it declares a form action URL" do
+        let(:plugin_provider) { { name: "my-plugin", form_action_urls: "https://idp.example.com/sso/login" } }
+
+        it "renders the form" do
+          get :show, params: { provider: "my-plugin" }
+
+          expect(response).to render_template "omni_auth_start/show"
+          expect(response.body).to include('action="/auth/my-plugin"')
+        end
+      end
+
+      context "when it declares no form action URL" do
+        let(:plugin_provider) do
+          { name: "my-plugin", display_name: "My Login", idp_sso_service_url: "https://idp.example.com/sso" }
+        end
+
+        it "tells the user to contact an administrator", :aggregate_failures do
+          get :show, params: { provider: "my-plugin" }
+
+          expect(response).to have_http_status :internal_server_error
+          expect(response.body).to include(I18n.t(:error_omniauth_provider_incomplete, provider: "My Login"))
+          expect(response.body).not_to include('action="/auth/my-plugin"')
+        end
+      end
     end
 
     context "when already logged in" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -98,14 +97,8 @@ module WorkPackageTypes
       source_variant = source.default_variant
       copy_variant = copy.default_variant
 
-      CopyConfiguration::SERVICES.each_pair do |aspect, service_class|
-        aspect_result =
-          if (linked_source = source_variant.source_for(aspect))
-            SwitchToLinkedModeService.new(variant: copy_variant, aspect:).call(source: linked_source)
-          else
-            service_class.new(variant: copy_variant, user:).call(source: source_variant)
-          end
-
+      [*CopyConfiguration::SERVICES.values, CopyConfiguration::FormConfigurationService].each do |service_class|
+        aspect_result = service_class.new(variant: copy_variant, user:).call(source: source_variant)
         return aspect_result if aspect_result.failure?
       end
 

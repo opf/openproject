@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
   let(:epic_base) { epic.default_variant }
   let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
 
-  let(:project) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+  let(:project) { create(:project, types: [epic]) }
   # nil when the target is the member already in use: deciding there is nothing to report
   # belongs to whoever renders this, not to the component.
   let(:impact) do
@@ -253,8 +252,8 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
     shared_let(:role) { create(:project_role) }
     shared_let(:status) { create(:status, name: "New") }
 
-    let(:one) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
-    let(:two) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+    let(:one) { create(:project, types: [epic]) }
+    let(:two) { create(:project, types: [epic]) }
     let(:impact) do
       Projects::Types::Switch::Impact.new(source: epic_base, target: design,
                                           work_packages: WorkPackage.where(type_id: epic.id))

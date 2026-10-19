@@ -32,6 +32,10 @@ tr:
         labels: Etiketler
       gitlab_pipeline:
         ci_details: CI Detayları
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,19 +65,16 @@ tr:
   attributes:
     commit: İşlem
     gitlab: GitLab tanımlayıcı
-    gitlab_avatar_url: Avatar adresi
     gitlab_html_url: GitLab HTML adresi
     gitlab_merge_request: Birleştirme İsteği
-    gitlab_name: GitLab adı
     gitlab_updated_at: Güncellenme tarihi
     gitlab_user_avatar_url: GitLab avatar adresi
-    gitlab_username: GitLab kullanıcı adı
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -89,16 +90,15 @@ tr:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Sorun Kapatıldı:** [%{repository}](%{repository_url}) için %{issue_number} [%{issue_title}](%{issue_url}) sorunu [%{gitlab_user}](%{gitlab_user_url}) tarafından kapatılmıştır.\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Sorun Açıldı:** %{issue_number} numaralı [%{issue_title}](%{issue_url}) sorunu [%{repository}](%{repository_url}) için [%{gitlab_user}](%{gitlab_user_url}) tarafından açıldı.\n"
     issue_reopened_referenced_comment: "**Sorun Yeniden Açıldı:** [%{repository}](%{repository_url}) için %{issue_number} [%{issue_title}](%{issue_url}) sorunu [%{gitlab_user}](%{gitlab_user_url}) tarafından yeniden açılmıştır.\n"
     merge_request_closed_comment: "**MR Kapatıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından kapatıldı.\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -119,6 +119,7 @@ tr:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR Birleştirildi:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından birleştirildi.\n"
     merge_request_opened_comment: "**MR Açıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından açıldı.\n"
     merge_request_reopened_comment: "**MR Yeniden Açıldı:** [%{repository}](%{repository_url}) için %{mr_number} [%{mr_title}](%{mr_url}) birleştirme isteği [%{gitlab_user}](%{gitlab_user_url}) tarafından yeniden açıldı.\n"

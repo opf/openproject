@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,7 +101,7 @@ module WorkPackageTypes
         def reload_from_location? = true
 
         def reuse_section
-          ::Workflows::Wizard::ChoiceComponent.new(variant:, back_url: step_url)
+          NamedReferences::ChoiceComponent.new(variant:, model_class: ::Workflow, back_url: step_url)
         end
       end
     end

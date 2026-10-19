@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package create uses attributes from filters", :js, :selenium do
+RSpec.describe "Work package create uses attributes from filters", :js do
   let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -71,8 +70,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
       create(:project,
-             types: [type_task],
-             work_package_custom_fields: [custom_field])
+             types: [type_task])
     end
 
     let!(:custom_field) do

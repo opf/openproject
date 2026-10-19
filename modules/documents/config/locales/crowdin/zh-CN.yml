@@ -46,7 +46,7 @@ zh-CN:
   documents:
     active_editors: 有效编辑器
     active_editors_count:
-      other: "%{count} 位活跃编辑者"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

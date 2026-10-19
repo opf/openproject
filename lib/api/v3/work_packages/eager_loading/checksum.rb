@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,6 +51,16 @@ module API
                 .left_joins(*checksum_associations)
                 .pluck("work_packages.id", Arel.sql(md5_concat.squish))
                 .to_h
+            end
+
+            def checksum_associations
+              @checksum_associations ||= %i[status author responsible assigned_to priority category type]
+            end
+
+            # Only singular associations (belongs_to/has_one) are supported, as a has_many
+            # would multiply the rows of the left_joins in fetch_checksums_for.
+            def add_checksum_associations(*association_names)
+              @checksum_associations = checksum_associations | association_names
             end
 
             protected
@@ -86,10 +95,6 @@ module API
               <<-SQL
                 MD5(CONCAT(#{md5_parts.join(', ')}))
               SQL
-            end
-
-            def checksum_associations
-              %i[status author responsible assigned_to priority category type budget]
             end
 
             def md5_checksum_table_name(association_name)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,18 +41,6 @@ CapybaraAccessibleSelectors.add_role_selector(:list_item, role: :listitem, withi
   end
 
   filter_set(:capybara_accessible_selectors, %i[aria described_by])
-end
-
-# Border Box Tables render `role="row"` inside a `div` rowgroup with no
-# `aria-rowindex`, which the gem's `rowindex:` filter cannot resolve.
-Capybara.modify_selector(:row) do
-  expression_filter(:position, skip_if: nil) do |xpath, position|
-    xpath[position]
-  end
-
-  describe_expression_filters do |position: nil, **|
-    position ? " at position #{position}" : ""
-  end
 end
 
 module Capybara

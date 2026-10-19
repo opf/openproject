@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,16 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   include Rails.application.routes.url_helpers
+
+  include_context "with variant scope"
 
   let(:type) { create(:type) }
 
@@ -124,10 +125,9 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
     end
 
     context "when the wizard is reached from a project's settings" do
-      before do
-        vc_test_controller.instance_variable_set(:@project, project)
-        render_inline(described_class.new(type: trail_type, current_step: :details))
-      end
+      let(:variant_scope_project) { project }
+
+      before { render_inline(described_class.new(type: trail_type, current_step: :details)) }
 
       it "leads back through the project" do
         expect(page).to have_link("Apollo", href: project_overview_path(project.id))
@@ -138,8 +138,6 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
         expect(page).to have_no_link("Administration")
       end
 
-      # types_path would resolve to an administration URL carrying the project as a query
-      # parameter, which is a dead link for the caller.
       it "cancels back to the project's own list of types" do
         expect(page).to have_css("a[href='#{project_settings_work_packages_types_path(project)}']")
       end

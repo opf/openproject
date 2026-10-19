@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -667,8 +666,7 @@ RSpec.describe WorkPackage do
       # The explicit id is needed so that the accessors ('custom_field_1') can be used
       shared_let(:custom_field) do
         create(:boolean_wp_custom_field, id: 1) do |custom_field|
-          project.work_package_custom_fields << custom_field
-          type.default_variant.custom_fields << custom_field
+          type.default_variant.custom_field_ids |= [custom_field.id]
         end
       end
 
@@ -758,8 +756,7 @@ RSpec.describe WorkPackage do
                    5.days.ago => { user: }
                  }) do
             create(:boolean_wp_custom_field, id: 2) do |cf|
-              project.work_package_custom_fields << cf
-              type.default_variant.custom_fields << cf
+              type.default_variant.custom_field_ids |= [cf.id]
             end
           end
         end
@@ -771,8 +768,7 @@ RSpec.describe WorkPackage do
       context "when nothing changed and the work package has multiple values for the same custom field" do
         shared_let(:list_cf) do
           create(:list_wp_custom_field, id: 2, possible_values: %w[A B C D]) do |cf|
-            project.work_package_custom_fields << cf
-            type.default_variant.custom_fields << cf
+            type.default_variant.custom_field_ids |= [cf.id]
           end
         end
 
@@ -1005,6 +1001,61 @@ RSpec.describe WorkPackage do
                        },
                        expected_cause: "ABC",
                        expect_new_journal: false
+    end
+
+    context "on changes without a cause within aggregation time after a journal with a cause" do
+      shared_let(:journable) do
+        create(:work_package,
+               subject: "Initial subject",
+               journals: {
+                 10.minutes.ago => { user: },
+                 4.minutes.ago => { user:, cause: "ABC" }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "subject" => "Changed subject"
+                       },
+                       expected_values: {
+                         "subject" => ["Initial subject", "Changed subject"]
+                       },
+                       expect_new_journal: true
+
+      it "leaves the cause on the journal it explains" do
+        journable.subject = "Changed subject"
+        journable.save!
+
+        expect(journable.journals.reload[-2].cause).to eq("ABC")
+      end
+    end
+
+    context "on a comment within aggregation time after a journal with a meeting cause" do
+      let(:meeting_cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
+
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.ago => { user: },
+                 4.minutes.ago => { user:, cause: { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Please prepare the figures"
+                       },
+                       expected_values: {},
+                       expected_notes: "Please prepare the figures",
+                       expect_new_journal: true
+
+      # Meeting causes decide who sees a journal; a comment folded into one would be hidden with it.
+      it "keeps the comment out of the meeting's journal" do
+        journable.journal_notes = "Please prepare the figures"
+        journable.save!
+
+        expect(journable.journals.reload[-2]).to have_attributes(cause: meeting_cause, notes: "")
+      end
     end
 
     context "on mixed journal cause, notes and attribute adding outside of aggregation time" do
@@ -1358,8 +1409,7 @@ RSpec.describe WorkPackage do
     let(:type) { create(:type) }
     let(:custom_field) do
       create(:integer_wp_custom_field) do |cf|
-        project.work_package_custom_fields << cf
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let(:work_package) do

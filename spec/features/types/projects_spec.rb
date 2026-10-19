@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,7 +83,7 @@ RSpec.describe "Work package type projects tab", :js do
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect_listed(on_hardware)
   end
 
@@ -181,7 +180,7 @@ RSpec.describe "Work package type projects tab", :js do
   end
 
   it "adds a parent with its sub-projects when one of them is already on the variant" do
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects_including_sub_items(parent)
 
@@ -221,7 +220,7 @@ RSpec.describe "Work package type projects tab", :js do
     outside = create(:project, name: "Shipyard")
     inside = create(:project, name: "Annex", parent: outside)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects(outside, include_sub_items: false)
 
@@ -240,7 +239,7 @@ RSpec.describe "Work package type projects tab", :js do
     visit edit_type_projects_path(type_id: type.id)
     expect(page).to have_test_selector("quick-filter-select-panel-button")
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect(page).to have_no_test_selector("quick-filter-select-panel-button")
     expect(page).to have_test_selector("type-projects-add-button")
   end

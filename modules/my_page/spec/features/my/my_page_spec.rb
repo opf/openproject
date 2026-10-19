@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,8 +103,7 @@ RSpec.describe "My page",
     global_html_title.expect_first_segment "My page"
 
     # Waits for the default view to be created
-    # Waits for the default view to be created
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     assigned_area.expect_to_exist
     created_area.expect_to_exist
@@ -120,16 +118,14 @@ RSpec.describe "My page",
 
     # add widget above to right area
     my_page.add_widget(1, 1, :row, "Calendar")
-
-    sleep(0.5)
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
     reload_grid!
 
     calendar_area.expect_to_span(2, 1, 3, 2)
 
     # resizing will move the created area down
     calendar_area.resize_to(1, 2)
-
-    sleep(0.1)
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     # resizing again will not influence the created area. It will stay down
     calendar_area.resize_to(1, 1)
@@ -138,15 +134,13 @@ RSpec.describe "My page",
 
     # add widget right next to the calendar widget
     my_page.add_widget(1, 2, :within, "News")
-
-    sleep(0.5)
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
     reload_grid!
 
     news_area.expect_to_span(3, 2, 4, 3)
 
     calendar_area.resize_to(2, 1)
-
-    sleep(0.3)
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     # Resizing leads to the calendar area now spanning a larger area
     calendar_area.expect_to_span(2, 1, 4, 2)
@@ -155,19 +149,16 @@ RSpec.describe "My page",
     created_area.expect_to_span(1, 2, 2, 3)
 
     my_page.add_widget(1, 3, :column, "Work packages watched by me")
-
-    sleep(0.5)
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
     reload_grid!
 
     watched_area.expect_to_exist
-
-    sleep(1)
 
     # dragging makes room for the dragged widget which means
     # that widgets that have been there are moved down
     created_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 
@@ -182,7 +173,7 @@ RSpec.describe "My page",
     # as no more widgets start in the second column, that column is removed
     news_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     reload_grid!
 

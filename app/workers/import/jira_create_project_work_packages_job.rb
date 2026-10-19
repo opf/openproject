@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,19 +43,20 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Create work_packages for '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
         total = issues.count
-        position = issues.where(id: ..cursor).count
-        (position.to_f / total * 100).round(2)
+        current = issues.where(id: ..cursor).count
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: 0, percentage: 0 }
       end
     end
 
@@ -76,8 +76,6 @@ module Import
         jira_entity_id: jira_project.id,
         jira_entity_class: jira_project.class.to_s
       ).op_leg
-
-      update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
 
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
@@ -119,7 +117,6 @@ module Import
 
     def update_custom_fields_in_type(type, new_custom_fields)
       variant = type.default_variant
-      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
       groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 
@@ -146,13 +143,6 @@ module Import
       else
         groups << [JIRA_IMPORT_GROUP_KEY, cf_keys]
       end
-    end
-
-    def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
-      new_cfs = custom_fields_for_project(custom_field_registry, jira_project)
-                  .reject { |cf| existing_cf_ids.include?(cf.id) }
-      project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
     # rubocop:disable-next Metrics/AbcSize

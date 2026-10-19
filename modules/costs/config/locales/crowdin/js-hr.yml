@@ -25,8 +25,6 @@ hr:
     button_log_costs: Evidentiraj jedinice troškova
     label_hour: sat
     label_hours: sati
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: Da li ste sigurni?
     work_packages:
       properties:

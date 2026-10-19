@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,7 @@
 class Workflows::Copies::FromRolesController < ApplicationController
   include WorkPackageTypes::AddressesVariant
   include ::WorkPackageTypes::ConfiguredInScope
+  include ::WorkPackageTypes::VariantRoutes
   include OpTurbo::ComponentStream
 
   before_action :set_workflow
@@ -90,7 +90,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
     if standalone?
       workflow_matrix_path(@workflow, tab: params[:tab], role_ids:)
     else
-      type_workflow_matrix_path(**@source_variant.path_args, tab: params[:tab], role_ids:)
+      variant_workflow_matrix_path(variant_scope_project, @source_variant, tab: params[:tab], role_ids:)
     end
   end
 

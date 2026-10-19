@@ -20,17 +20,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%=
   widget_wrapper do
-    concat render(My::TimeTracking::Widget::SubHeaderComponent.new(mode:, date:, view_mode: :stack))
-    concat content_tag(:div, class: "my-time-tracking-stack-view my-time-tracking-widget--stack") {
-      render(My::TimeTracking::StackEntriesComponent.new(time_entries:, mode:, date:))
+    concat render(My::Work::Widget::SubHeaderComponent.new(mode:, date:, view_mode: :stack))
+    concat content_tag(:div, class: "my-work-stack-view my-work-widget--stack") {
+      render(My::Work::StackEntriesComponent.new(time_entries:, mode:, date:))
     }
   end
 %>

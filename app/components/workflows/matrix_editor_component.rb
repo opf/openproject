@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,16 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Workflows
   class MatrixEditorComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include WorkPackageTypes::VariantRoutes
 
     # The dirty-state controller's root. Other controllers reach it as a Stimulus outlet.
     STATE_ID = "workflow_matrix"
@@ -62,7 +62,7 @@ module Workflows
     def administration_tab? = variant_tab? && variant.project_id.nil?
 
     def create_workflow_dialog_path
-      url_helpers.configure_dialog_type_workflow_path(**variant.path_args)
+      configure_dialog_variant_workflow_path(variant)
     end
 
     def state_data

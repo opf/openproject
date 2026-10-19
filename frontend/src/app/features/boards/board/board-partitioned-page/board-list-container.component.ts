@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -71,6 +70,7 @@ import { States } from 'core-app/core/states/states.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-list-container',
   templateUrl: './board-list-container.component.html',
   styleUrls: ['./board-list-container.component.sass'],
@@ -167,6 +167,11 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         // Update split screen
         const routingId = resolveRoutingId(this.wpStates, selection.focusedWorkPackage!);
         const base = this.pathHelper.boardDetailsPath(this.currentProject.identifier, id, routingId);
+        const currentPath = window.location.pathname;
+        if (currentPath === base || currentPath.startsWith(`${base}/`)) {
+          return;
+        }
+
         const search = window.location.search;
         Turbo.visit(search ? `${base}${search}` : base, { frame: 'content-bodyRight', action: 'advance' });
       });

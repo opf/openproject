@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,8 +55,8 @@ module Budgets
            icon: "op-budget"
     end
 
-    patches %i[WorkPackage]
-    patch_with_namespace :Projects, :RowComponent
+    include_module "WorkPackages::BudgetAssignment", into: "WorkPackage"
+    prepend_module "Projects::BudgetColumns", into: "Projects::RowComponent"
 
     # Allow assigning a budget when moving work packages
     additional_permitted_attributes move_work_package: %i[budget_id]
@@ -82,6 +81,22 @@ module Budgets
       mount ::API::V3::Budgets::BudgetsByProjectAPI
     end
 
+    extend_api_response(:v3, :work_packages, :work_package) do
+      include ::API::V3::WorkPackages::ViewBudgetsPermission
+
+      associated_resource :budget,
+                          as: :budget,
+                          v3_path: :budget,
+                          link_title_attribute: :subject,
+                          representer: ::API::V3::Budgets::BudgetRepresenter,
+                          link_cache_if: -> { view_budgets_allowed? },
+                          getter: ->(*) {
+                            if embed_link?(:budget) && represented.budget && view_budgets_allowed?
+                              ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
+                            end
+                          }
+    end
+
     config.to_prepare do
       Budgets::Hooks::WorkPackageHook
     end
@@ -95,6 +110,9 @@ module Budgets
       ::WorkPackage::Exports::Attributes.add_attribute_visibility_check(:budget) do |work_package|
         User.current.allowed_in_project?(:view_budgets, work_package.project)
       end
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:budget)
+      ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load |= %i[budget]
 
       OpenProject::ProjectLatestActivity.register on: "Budget"
 

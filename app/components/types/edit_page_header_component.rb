@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,17 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Types
   class EditPageHeaderComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include ApplicationHelper
     include TabsHelper
+    include WorkPackageTypes::VariantRoutes
 
     attr_reader :description
 
@@ -78,7 +78,7 @@ module Types
     # The type's own screen is administration's, so from a project this leads to that project's
     # list of types instead.
     def variant_breadcrumb_href
-      return type_settings_path(type_id: @type.id) if scope_project.nil?
+      return variant_settings_path(nil, @type.default_variant) if scope_project.nil?
 
       project_settings_work_packages_types_path(scope_project)
     end
@@ -89,7 +89,7 @@ module Types
       text = variant_or_type_name
       return [text] if @additional_breadcrumb_items.blank?
 
-      [{ href: type_settings_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
+      [{ href: variant_settings_path(scope_project, @variant || @type.default_variant), text: }]
     end
   end
 end

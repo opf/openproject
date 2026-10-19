@@ -3,7 +3,7 @@ zh-TW:
   activerecord:
     models:
       grids/overview:
-        other: Overviews
+        other: 總覽
   overviews:
     label_dashboard: 儀表板
     label_home: "%{workspace_type} 家"

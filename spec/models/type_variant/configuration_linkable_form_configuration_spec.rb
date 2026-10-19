@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,7 +56,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
 
   before do
     base
-    variant.link!(aspect)
+    link_configuration(variant, aspect:)
   end
 
   def groups_of(record)
@@ -87,6 +86,16 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
     expect(variant.custom_fields).to contain_exactly(field_b, field_c)
   end
 
+  it "keeps a field the variant excludes on the shared form when it adds a custom field" do
+    field_e = create(:integer_wp_custom_field)
+    variant.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+
+    variant.custom_field_ids |= [field_e.id]
+
+    expect(base.reload.custom_fields).to contain_exactly(field_a, field_b, field_c, field_d, field_e)
+    expect(variant.reload.custom_fields).to contain_exactly(field_b, field_c, field_d, field_e)
+  end
+
   it "excludes a non-custom-field attribute without touching the custom fields" do
     variant.update!(form_configuration_excluded_elements: ["assignee"])
 
@@ -109,12 +118,14 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
     expect(groups_of(base).keys).to include("solo")
   end
 
-  it "reads its own configuration once switched to independent" do
+  it "edits a form of its own once switched to independent, leaving the type's alone" do
+    unlink_configuration(variant, aspect:)
     variant.attribute_groups = [["own", %w[assignee]]]
     variant.save!
-    variant.unlink!(aspect)
 
-    expect(groups_of(variant.reload)).to eq("own" => ["assignee"])
+    expect(variant.reload.form_configuration).not_to eq(base.form_configuration)
+    expect(groups_of(variant)).to eq("own" => ["assignee"])
+    expect(groups_of(base.reload).keys).to include("details", "solo")
   end
 
   context "with a query group in the base's configuration" do

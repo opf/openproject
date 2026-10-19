@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,9 +40,7 @@ Rails.application.configure do |application|
       formatter WorkPackage, Exports::Formatters::CustomComment
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundDoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundHours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Costs
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Hours
-      formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Currency
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Date
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Days
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::DoneRatio
@@ -51,7 +48,6 @@ Rails.application.configure do |application|
       formatter WorkPackage, WorkPackage::Exports::Formatters::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::Labels
       formatter WorkPackage, WorkPackage::Exports::Formatters::ProjectPhase
-      formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
       formatter WorkPackage, WorkPackage::Exports::Formatters::TargetVersions
       formatter WorkPackage, WorkPackage::Exports::Formatters::ObservedInVersions
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -124,6 +123,10 @@ module Settings
       attachments_grace_period: {
         description: "Time in minutes to wait before uploaded files not attached to any container are removed",
         default: 180
+      },
+      attachments_cleanup_period_hours: {
+        description: "Time in hours to wait before deleting up uploaded files that were not cleaned up before",
+        default: 2
       },
       antivirus_scan_available: {
         description: "Virus scanning option selectable in the UI",
@@ -384,14 +387,7 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
-        default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
-          if Setting.real_time_text_collaboration_enabled?
-            base_modules + %w[documents]
-          else
-            base_modules
-          end
-        },
+        default: -> { OpenProject::AccessControl.default_project_modules.map(&:to_s) },
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
       },
       default_projects_public: {
@@ -571,6 +567,10 @@ module Settings
       fog_download_url_expires_in: {
         description: "Expiration time in seconds of created shared presigned URLs",
         default: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
+      },
+      fog_direct_upload_expires_in: {
+        description: "Expiration time in seconds of the signed forms used for direct uploads",
+        default: 14400
       },
       # Additional / overridden help links
       force_help_link: {
@@ -756,6 +756,18 @@ module Settings
       },
       ldap_users_sync_status: {
         description: "Enable user status (locked/unlocked) synchronization from LDAP",
+        format: :boolean,
+        default: false
+      },
+      llm_connection: {
+        description: "Configure the connection to an OpenAI-API-compatible LLM server through environment variables",
+        writable: false,
+        default: {},
+        format: :hash,
+        string_values: true
+      },
+      llm_features_enabled: {
+        description: "Enable the AI features backed by the configured LLM connection",
         format: :boolean,
         default: false
       },
@@ -1455,6 +1467,12 @@ module Settings
       work_package_done_ratio: {
         default: "field",
         allowed: %w[field status]
+      },
+      work_package_import_max_rows: {
+        description: "Maximum number of data rows accepted by the work package CSV import.",
+        format: :integer,
+        writable: false,
+        default: 5_000
       },
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",

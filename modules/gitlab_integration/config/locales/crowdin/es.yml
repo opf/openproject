@@ -32,6 +32,10 @@ es:
         labels: Etiquetas
       gitlab_pipeline:
         ci_details: Detalles de CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,19 +65,16 @@ es:
   attributes:
     commit: Commit
     gitlab: Identificador de GitLab
-    gitlab_avatar_url: URL del avatar
     gitlab_html_url: URL de HTML de GitLab
     gitlab_merge_request: Solicitud de fusión
-    gitlab_name: Nombre de GitLab
     gitlab_updated_at: Actualizado a las
     gitlab_user_avatar_url: URL del avatar de GitLab
-    gitlab_username: Nombre de usuario de GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -89,16 +90,15 @@ es:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Incidencia cerrada:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido cerrada por [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Incidencia abierta:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido abierta por [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Incidencia reabierta:** La incidencia %{issue_number} [%{issue_title}](%{issue_url}) para [%{repository}](%{repository_url}) ha sido reabierta por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR cerrada:** la solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido cerrada por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -119,6 +119,7 @@ es:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR fusionada:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido fusionada por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR abierta:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido abierta por [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR reabierta:** La solicitud de fusión %{mr_number} [%{mr_title}](%{mr_url}) para [%{repository}](%{repository_url}) ha sido reabierta por [%{gitlab_user}](%{gitlab_user_url}).\n"

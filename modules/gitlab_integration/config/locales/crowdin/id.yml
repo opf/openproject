@@ -32,6 +32,10 @@ id:
         labels: Label
       gitlab_pipeline:
         ci_details: Rincian CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,19 +60,16 @@ id:
   attributes:
     commit: Tetapkan
     gitlab: Tanda pengenal GitLab
-    gitlab_avatar_url: URL avatar
     gitlab_html_url: URL HTML GitLab
     gitlab_merge_request: Permintaan penggabungan
-    gitlab_name: Nama GitLab
     gitlab_updated_at: Diperbarui pada
     gitlab_user_avatar_url: URL avatar GitLab
-    gitlab_username: Nama pengguna GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -84,16 +85,15 @@ id:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Isu Ditutup:** Isu %{issue_number} [%{issue_title}](%{issue_url}) untuk [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Isu Terbuka:** Isu %{issue_number} [%{issue_title}](%{issue_url}) untuk [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Isu Dibuka Kembali:** Isu %{issue_number} [%{issue_title}](%{issue_url}) untuk [%{repository}](%{repository_url}) telah dibuka kembali oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR Tertutup:** Permintaan penggabungan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah ditutup oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -114,6 +114,7 @@ id:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR Tergabung:** Permintaan penggabungan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah digabung oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR Terbuka:** Permintaan penggabungan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka oleh [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR Terbuka Kembali:** Permintaan penggabungan %{mr_number} [%{mr_title}](%{mr_url}) untuk [%{repository}](%{repository_url}) telah dibuka kembali oleh [%{gitlab_user}](%{gitlab_user_url}).\n"

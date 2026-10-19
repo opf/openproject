@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,7 +68,6 @@ RSpec.describe "Custom fields reporting", :js do
              name: "List CF",
              multi_value: true,
              types: [type],
-             projects: [project],
              possible_values: ["First option", "Second option"])
     end
 
@@ -154,7 +152,6 @@ RSpec.describe "Custom fields reporting", :js do
                name: "Invalid List CF",
                multi_value: true,
                types: [type],
-               projects: [project],
                possible_values: %w[A B])
       end
 
@@ -206,8 +203,7 @@ RSpec.describe "Custom fields reporting", :js do
     let(:custom_field) do
       create(:text_wp_custom_field,
              name: "Text CF",
-             types: [type],
-             projects: [project])
+             types: [type])
     end
     let(:initial_custom_values) { { custom_field.id => "foo" } }
 

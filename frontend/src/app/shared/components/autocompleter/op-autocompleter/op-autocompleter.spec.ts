@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -327,34 +326,6 @@ describe('autocompleter', () => {
         const renderedIds = Array.from(wpIdElements).map(el => el.textContent?.trim());
 
         expect(renderedIds).toContain('#1');
-      }
-      finally {
-        vi.useRealTimers();
-      }
-    });
-
-    it('should display a fallback avatar when the author has been deleted', () => {
-      vi.useFakeTimers();
-      try {
-        fixture.detectChanges();
-        vi.advanceTimersByTime(1000);
-        fixture.detectChanges();
-        const select = fixture.componentInstance.ngSelectInstance;
-
-        select.open();
-        select.focus();
-
-        const inputDebugElement = fixture.debugElement.query(By.css('input[role=combobox]'));
-        const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
-
-        inputElement.value = 'package 2';
-        inputElement.dispatchEvent(new Event('input'));
-        fixture.detectChanges();
-        vi.advanceTimersByTime(0);
-        fixture.detectChanges();
-
-        expect(document.querySelector('op-principal.op-autocompleter--option-principal')).toBeNull();
-        expect(document.querySelector('.op-autocompleter--option-principal-fallback')).not.toBeNull();
       }
       finally {
         vi.useRealTimers();

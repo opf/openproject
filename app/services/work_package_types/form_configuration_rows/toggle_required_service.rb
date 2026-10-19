@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,16 +30,15 @@
 module WorkPackageTypes
   module FormConfigurationRows
     class ToggleRequiredService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
-
       def initialize(user:, variant:, row_key:)
-        super(user:, variant:)
+        super()
+        @user = user
+        @variant = variant
         @row_key = row_key.to_s.strip
       end
 
       def perform
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
+        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless on_form?
 
         error = rejection_reason
         return failure_with_message(error) if error
@@ -50,10 +48,23 @@ module WorkPackageTypes
 
       private
 
+      attr_reader :variant
+
+      def on_form?
+        variant.form_attribute_groups.any? do |group|
+          group.group_type == :attribute && group.attributes.any? { |attribute| attribute.to_s.strip == @row_key }
+        end
+      end
+
+      def failure_with_message(message)
+        variant.errors.clear
+        variant.errors.add(:base, message)
+
+        ServiceResult.failure(result: variant, errors: variant.errors)
+      end
+
       def rejection_reason
-        if variant.linked?(TypeVariant::FORM_CONFIGURATION)
-          I18n.t("types.edit.form_configuration.required.not_available_when_linked")
-        elsif custom_field.nil?
+        if custom_field.nil?
           I18n.t("types.edit.form_configuration.required.not_a_custom_field")
         elsif custom_field.is_required?
           I18n.t("types.edit.form_configuration.required.already_required_globally")

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,15 @@ module Pages
       def item_selector = :row
 
       def actions_label = I18n.t("documents.document_type_actions")
+
+      def expect_order(*names)
+        within_list do
+          expect(page).to have_selector(item_selector, count: names.size)
+          names.each.with_index(2) do |name, rowindex|
+            expect(page).to have_selector(item_selector, name, rowindex:)
+          end
+        end
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -110,11 +109,20 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService do
     end
   end
 
-  context "when the variant owns the aspect" do
+  context "when the variant owns its project attributes" do
+    let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
+
     it "fails and explains that there is nothing to exclude" do
       expect(service_call).to be_failure
       expect(service_call.errors.full_messages.join)
         .to include(I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
+    end
+  end
+
+  context "when the variant is the only one using its form" do
+    it "excludes the element all the same" do
+      expect(service_call).to be_success
+      expect(excluded_elements).to contain_exactly("custom_field_1")
     end
   end
 

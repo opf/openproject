@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,16 +41,19 @@ module Import
                       delete_jira_objects].freeze
 
     def text
-      "REVERTING"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        ((REVERT_STEPS.index(cursor.to_sym) + 1) * 100) / REVERT_STEPS.count
+        total = REVERT_STEPS.count
+        current = REVERT_STEPS.index(cursor.to_sym) + 1
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: REVERT_STEPS.count, percentage: 0 }
       end
     end
 

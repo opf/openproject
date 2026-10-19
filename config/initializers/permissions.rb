@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -259,16 +258,14 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/creation_wizard": %i[new create show update],
                        "work_package_types/details_tab": %i[edit update],
                        "work_package_types/defaults_tab": %i[edit update],
-                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog toggle_required],
-                       "work_package_types/form_configuration_groups_tab":
-                         %i[create edit update destroy add_group cancel_edit drop move update_query],
+                       "work_package_types/form_configuration_tab": %i[edit toggle_required change_dialog change],
                        "work_package_types/project_attributes_tab":
                          %i[edit toggle enable_all_of_section disable_all_of_section],
                        "work_package_types/workflow_tab":
                          %i[edit change_dialog change create configure_dialog configure
                             start_dialog start],
                        "work_package_types/pdf_export_template":
-                         %i[edit toggle drop enable_all disable_all update_artefact_export
+                         %i[edit toggle move enable_all disable_all update_artefact_export
                             edit_settings update_settings],
                        "work_package_types/excluded_elements": %i[toggle],
                        "work_package_types/configuration_links": %i[dialog confirm switch],
@@ -277,13 +274,6 @@ Rails.application.reloader.to_prepare do
                        "workflows/matrix": %i[show update status_dialog confirm_statuses],
                        "workflows/copies": %i[new],
                        "workflows/copies/from_roles": %i[create]
-                     },
-                     permissible_on: :project,
-                     require: :member
-
-      map.permission :select_custom_fields,
-                     {
-                       "projects/settings/work_packages/custom_fields": %i[show update]
                      },
                      permissible_on: :project,
                      require: :member
@@ -339,6 +329,8 @@ Rails.application.reloader.to_prepare do
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|
+      wpt.enabled_by_default!
+
       wpt.permission :view_work_packages,
                      {
                        versions: %i[index show status_by],
@@ -469,6 +461,14 @@ Rails.application.reloader.to_prepare do
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
+      wpt.permission :import_work_packages,
+                     {
+                       "projects/settings/work_packages_import": %i[show status create template problems]
+                     },
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :add_work_packages
+
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,
@@ -557,6 +557,8 @@ Rails.application.reloader.to_prepare do
     end
 
     map.project_module :news do |news|
+      news.enabled_by_default!
+
       news.permission :view_news,
                       { news: %i[index show] },
                       permissible_on: :project,
@@ -609,7 +611,7 @@ Rails.application.reloader.to_prepare do
 
       forum.permission :view_messages,
                        { forums: %i[index show],
-                         messages: [:show] },
+                         messages: %i[show replies] },
                        permissible_on: :project,
                        public: true
 

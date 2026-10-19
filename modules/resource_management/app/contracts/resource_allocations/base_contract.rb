@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,9 +56,15 @@ module ResourceAllocations
 
     def principal_must_be_member
       return if model.principal.nil? || model.project.nil?
+      return if kept_deleted_user?
       return if Principal.in_project(model.project).exists?(id: model.principal_id)
 
       errors.add :principal, :not_a_member
+    end
+
+    # Deleting a user moves their allocations to the DeletedUser, who is a member nowhere.
+    def kept_deleted_user?
+      model.principal.is_a?(DeletedUser) && !model.principal_id_changed?
     end
   end
 end

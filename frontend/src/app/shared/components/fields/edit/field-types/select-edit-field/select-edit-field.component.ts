@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,7 +40,8 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { EditFieldComponent } from '../../edit-field.component';
-import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface ValueOption {
   name:string;
@@ -66,7 +66,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public appendTo:any = null;
 
-  public referenceOutputs:Record<string, Function> = {
+  public referenceOutputs:Record<string, EventHandler> = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
     onAddNew: (value:HalResource) => this.onNewValueAdded(value),
@@ -182,7 +182,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   protected loadAllowedValues(query?:string):Promise<CollectionResource> {
     // Cache the search without any params
     if (!query) {
-      const cacheKey = this.schema.allowedValues.$link.href;
+      const cacheKey = (this.schema.allowedValues as CallableHalLink).$link.href!;
       return this.change.cacheValue(cacheKey, this.fetchAllowedValueQuery.bind(this));
     }
 
@@ -190,8 +190,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   }
 
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const link = this.schema.allowedValues?.$link as HalLink|undefined;
+    const link = (this.schema.allowedValues as CallableHalLink|undefined)?.$link;
 
     // Race condition: Field was under edit but is no longer editable / values not loadable
     // which means the schema switched during the period it opened / updated after saved.
@@ -199,7 +198,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       return new Promise(() => {});
     }
 
-    return link.$fetch(this.allowedValuesFilter(query)) as Promise<CollectionResource>;
+    return link.$fetch(this.allowedValuesFilter(query));
   }
 
   private addValue(val:HalResource) {

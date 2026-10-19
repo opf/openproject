@@ -32,6 +32,10 @@ vi:
         labels: Nhãn
       gitlab_pipeline:
         ci_details: Chi tiết CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,19 +60,16 @@ vi:
   attributes:
     commit: cam kết
     gitlab: Mã định danh GitLab
-    gitlab_avatar_url: URL hình đại diện
     gitlab_html_url: URL HTML của GitLab
     gitlab_merge_request: Yêu cầu hợp nhất
-    gitlab_name: Tên GitLab
     gitlab_updated_at: Cập nhật lúc
     gitlab_user_avatar_url: URL hình đại diện GitLab
-    gitlab_username: tên người dùng GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      created_by: Created by %{name}.
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
@@ -84,16 +85,15 @@ vi:
       title: Git quick snippets
     issue_closed_referenced_comment: "**Vấn Đề Được Đóng:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được đóng bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_component:
-      created_by: Created by %{name}.
       states:
         closed: Closed
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Vấn Đề Được Mở:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Vấn Đề Được Mở Lại:** Vấn đề %{issue_number} [%{issue_title}](%{issue_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR Được Đóng:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được đóng bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_component:
-      created_by: Created by %{name}.
       pipeline_statuses:
         canceled: Canceled
         canceling: Canceling
@@ -114,6 +114,7 @@ vi:
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR Được Gộp:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được gộp bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR Được Mở:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở bởi [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR Được Mở Lại:** Yêu cầu kéo %{mr_number} [%{mr_title}](%{mr_url}) cho [%{repository}](%{repository_url}) đã được mở lại bởi [%{gitlab_user}](%{gitlab_user_url}).\n"

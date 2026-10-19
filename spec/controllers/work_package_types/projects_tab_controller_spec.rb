@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -165,7 +164,7 @@ because it's still in use by work packages)
         it "redirects to the variant's own projects tab" do
           update_projects
 
-          expect(response).to redirect_to(edit_type_projects_path(type_id: type.id, variant_id: variant.id))
+          expect(response).to redirect_to(edit_type_variant_projects_path(type_id: type.id, variant_id: variant.id))
         end
 
         it "puts a project that does not use the type on this variant" do
@@ -211,7 +210,7 @@ because it's still in use by work packages)
           it "leaves it alone" do
             update_projects
 
-            expect(response).to redirect_to(edit_type_projects_path(type_id: type.id, variant_id: variant.id))
+            expect(response).to redirect_to(edit_type_variant_projects_path(type_id: type.id, variant_id: variant.id))
             expect(sibling_project.reload.type_variant(type)).to eq(other_variant)
           end
         end

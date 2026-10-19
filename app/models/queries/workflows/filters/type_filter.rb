@@ -22,36 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::TypeFilter < Queries::Workflows::Filters::WorkflowFilter
-  include Queries::Workflows::Filters::MemberExists
-
-  def type
-    :list
-  end
-
-  def human_name
-    ::Type.model_name.human
-  end
-
-  def self.key
-    :type_id
-  end
-
-  def allowed_values
-    @allowed_values ||= ::Type.order(:position).pluck(:id, :name).map { |id, name| [name, id.to_s] }
-  end
-
-  def value_objects
-    ::Type.where(id: values)
-  end
-
-  def where
-    member_exists("members.type_id IN (:type_ids)", { type_ids: integer_values })
-  end
+class Queries::Workflows::Filters::TypeFilter < Queries::NamedReferences::Filters::TypeFilter
+  self.model = Workflow
 end

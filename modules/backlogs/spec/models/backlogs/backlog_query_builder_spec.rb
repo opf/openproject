@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -157,6 +156,26 @@ RSpec.describe Backlogs::BacklogQueryBuilder do
         expect(work_packages).not_to include(other_project_work_package)
       end
     end
+
+    context "with a shared with user filter" do
+      shared_let(:shared_with_user) { create(:user) }
+      shared_let(:shared_work_package) do
+        own_work_package.tap do |wp|
+          create(:member,
+                 user: shared_with_user,
+                 project:,
+                 entity: wp,
+                 roles: [create(:work_package_role, permissions: %i[view_work_packages])])
+        end
+      end
+
+      let(:sprint_ids) { [sprint.id.to_s, other_sprint.id.to_s] }
+      let(:params) { { filters: "shared_with_user = \"#{shared_with_user.id}\"" } }
+
+      it "returns only the work packages shared with that user" do
+        expect(work_packages).to contain_exactly(shared_work_package)
+      end
+    end
   end
 
   describe "#build_backlog_work_packages" do
@@ -215,6 +234,27 @@ RSpec.describe Backlogs::BacklogQueryBuilder do
 
       it "never returns the other project's work package, regardless of the requested project filter" do
         expect(work_packages).not_to include(other_work_package)
+      end
+    end
+
+    context "with a shared with user filter" do
+      shared_let(:shared_with_user) { create(:user) }
+      shared_let(:shared_work_package) do
+        bucket_work_package.tap do |wp|
+          create(:member,
+                 user: shared_with_user,
+                 project:,
+                 entity: wp,
+                 roles: [create(:work_package_role, permissions: %i[view_work_packages])])
+        end
+      end
+
+      let(:bucket_ids) { [bucket.id.to_s] }
+      let(:show_inbox) { true }
+      let(:params) { { filters: "shared_with_user = \"#{shared_with_user.id}\"" } }
+
+      it "returns only the work packages shared with that user" do
+        expect(work_packages).to contain_exactly(shared_work_package)
       end
     end
   end

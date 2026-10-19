@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -37,7 +36,7 @@ export class WorkPackagesQueryViewService {
   protected apiV3Service = inject(ApiV3Service);
 
 
-  create(query:QueryResource):Observable<IView> {
+  create(query:QueryResource, viewType = this.viewType):Observable<IView> {
     if (!query.href) {
       throw new Error('Expected only queries that are created since an href is required');
     }
@@ -53,11 +52,11 @@ export class WorkPackagesQueryViewService {
             },
           },
         },
-        this.viewType,
+        viewType,
       );
   }
 
-  private get viewType() {
+  public get viewType() {
     const { pathname } = window.location;
     if (pathname.includes('/team_planners')) { return 'team_planner'; }
     if (pathname.includes('/calendars')) { return 'work_packages_calendar'; }

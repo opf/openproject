@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,7 +103,7 @@ RSpec.describe "Types", :js do
       expect(page).to have_field("Name")
       expect(page).to have_no_text("This is an internal name only visible to administrators")
 
-      visit edit_type_details_path(type_id: existing_type.id, variant_id: variant.id)
+      visit edit_type_variant_details_path(type_id: existing_type.id, variant_id: variant.id)
       expect(page).to have_text("This is an internal name only visible to administrators")
       expect(page).to have_text("it will appear as #{existing_type.name} to all members")
     end

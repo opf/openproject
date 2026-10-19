@@ -22,64 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::NameFilter < Queries::Workflows::Filters::WorkflowFilter
-  COLUMNS = ["workflows.name",
-             "COALESCE(workflows.description, '')"].freeze
-
-  def type
-    :string
-  end
-
-  def human_name
-    I18n.t("workflows.index.filters.name")
-  end
-
-  def self.key
-    :name
-  end
-
-  def where
-    case operator
-    when "~", "**"
-      where_contains
-    when "!~"
-      where_not(where_contains)
-    when "="
-      where_equal
-    when "!"
-      where_not(where_equal)
-    end
-  end
-
-  private
-
-  def where_contains
-    match(COLUMNS.map { |column| "LOWER(#{column}) LIKE ?" }) { |value| "%#{value.downcase}%" }
-  end
-
-  def where_equal
-    match(COLUMNS.map { |column| "LOWER(#{column}) = ?" }, &:downcase)
-  end
-
-  def match(conditions)
-    joined = []
-    assignments = []
-
-    values.each do |value|
-      joined << conditions.join(" OR ")
-      assignments += Array.new(conditions.size) { yield(value) }
-    end
-
-    ["(#{joined.join(') OR (')})", *assignments]
-  end
-
-  def where_not(condition)
-    ["NOT(#{condition.first})", *condition.drop(1)]
-  end
+class Queries::Workflows::Filters::NameFilter < Queries::NamedReferences::Filters::NameFilter
+  self.model = Workflow
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,7 +87,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
     def get_matrix
-      get type_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
+      get type_variant_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
                                     tab: "always", role_ids: [role.id]),
           headers: { "Turbo-Frame" => "workflow-table" }
     end
@@ -99,7 +98,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
       get_matrix
 
       expect(response.body).to have_css("[data-test-selector='workflow-selector']",
-                                        text: I18n.t("admin.workflows.workflow_selector.same_as_type"))
+                                        text: I18n.t("workflows.selector.same_as_type"))
     end
 
     it "says nothing of the sort once it has a workflow of its own" do
@@ -109,7 +108,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
       expect(response.body).to have_css("[data-test-selector='workflow-selector']", text: "Mobile flow")
       expect(response.body).to have_no_css("[data-test-selector='workflow-selector']",
-                                           text: I18n.t("admin.workflows.workflow_selector.same_as_type"))
+                                           text: I18n.t("workflows.selector.same_as_type"))
     end
   end
 

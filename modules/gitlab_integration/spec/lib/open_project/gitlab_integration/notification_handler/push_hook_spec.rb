@@ -135,9 +135,9 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
 
       expect(GitlabBranch.last.gitlab_user).to have_attributes(
         gitlab_id: 1,
-        gitlab_name: "Administrator",
-        gitlab_username: "root",
-        gitlab_avatar_url: payload["user_avatar"]
+        name: "Administrator",
+        username: "root",
+        avatar_url: payload["user_avatar"]
       )
     end
 
@@ -290,8 +290,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
 
       expect(GitlabUser.first).to have_attributes(
         gitlab_id: 1,
-        gitlab_name: "Administrator",
-        gitlab_username: "root"
+        name: "Administrator",
+        username: "root"
       )
     end
 

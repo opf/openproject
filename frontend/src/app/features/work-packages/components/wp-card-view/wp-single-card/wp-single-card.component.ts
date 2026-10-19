@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -62,7 +61,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { fromEvent, merge } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -76,8 +74,10 @@ import {
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-card',
   styleUrls: ['./wp-single-card.component.sass'],
   templateUrl: './wp-single-card.component.html',
@@ -115,6 +115,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showAsGhost = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -221,7 +222,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   cardTitle():string {
-    return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
+    return `${this.workPackage.subject} (${this.workPackage.status.name})`;
   }
 
   public baselineIcon(workPackage:WorkPackageResource) {
@@ -267,7 +268,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   private cardHighlighting(wp:WorkPackageResource):string {
     if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
-      return Highlighting.backgroundClass(this.highlightingMode, wp[this.highlightingMode].id);
+      return Highlighting.backgroundClass(this.highlightingMode, (wp[this.highlightingMode] as HalResource).id!);
     }
     return '';
   }

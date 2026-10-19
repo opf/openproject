@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,10 +32,12 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   shared_let(:type) { create(:type) }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
-  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
+  let(:aspect) { TypeVariant::DEFAULTS }
   let(:source) { type.default_variant }
 
   subject(:component) { described_class.new(variant:, aspect:) }
@@ -61,7 +62,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
     it "names the parent type in the inherit option, linking to that setting on it" do
       expect(page).to have_link(
         source.composite_name,
-        href: edit_type_form_configuration_path(type_id: type.id, variant_id: source.id)
+        href: edit_type_defaults_path(type_id: type.id)
       )
     end
 
@@ -70,12 +71,12 @@ RSpec.describe WorkPackageTypes::ReuseMode::ModeBoxComponent, type: :component d
     end
 
     it "wires each option to its switch dialog" do
-      expect(page).to have_css(
-        "input[value='inherited'][data-dialog-url='#{type_configuration_link_dialog_path(**variant.path_args, aspect:)}']"
-      )
-      expect(page).to have_css(
-        "input[value='manual'][data-dialog-url='#{type_configuration_independence_dialog_path(**variant.path_args, aspect:)}']"
-      )
+      link_dialog = type_variant_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:)
+      independence_dialog = type_variant_configuration_independence_dialog_path(type_id: type.id, variant_id: variant.id,
+                                                                                aspect:)
+
+      expect(page).to have_css("input[value='inherited'][data-dialog-url='#{link_dialog}']")
+      expect(page).to have_css("input[value='manual'][data-dialog-url='#{independence_dialog}']")
     end
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,9 +33,11 @@ module Queries::Register
       filters[query] << filter
     end
 
-    # Exclude filter from filters collection representer.
-    def exclude(filter)
-      excluded_filters << filter
+    # Mark a registered filter as not to be offered to the user. It keeps working when set
+    # programmatically or on a stored query, but is left out of the filters collection
+    # representer and of the filter form.
+    def exclude(query, filter)
+      excluded_filters[query] << filter
     end
 
     def order(query, order)
@@ -55,25 +56,20 @@ module Queries::Register
       Registration.new(query).instance_exec(&)
     end
 
-    # A query class registering none of a given kind is normal - most notably
-    # group_bys, which only a handful of queries declare - so these must return
-    # an empty registry rather than nil.
-    def filters = @filters ||= registry
-    def orders = @orders ||= registry
-    def selects = @selects ||= registry
-    def group_bys = @group_bys ||= registry
-    def excluded_filters = @excluded_filters ||= []
+    def filters = @filters ||= build_registry
 
-    attr_writer :filters,
-                :excluded_filters,
-                :orders,
-                :selects,
-                :group_bys
+    def excluded_filters = @excluded_filters ||= build_registry
+
+    def orders = @orders ||= build_registry
+
+    def selects = @selects ||= build_registry
+
+    def group_bys = @group_bys ||= build_registry
 
     private
 
-    def registry
-      Hash.new { |hash, key| hash[key] = [] }
+    def build_registry
+      Hash.new { |hash, query| hash[query] = [] }
     end
   end
 
@@ -88,9 +84,8 @@ module Queries::Register
       Queries::Register.filter(query, filter)
     end
 
-    # Exclude filter from filters collection representer.
     def exclude(filter)
-      Queries::Register.exclude(filter)
+      Queries::Register.exclude(query, filter)
     end
 
     def order(order)

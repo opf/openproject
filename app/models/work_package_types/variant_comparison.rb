@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,6 @@ module WorkPackageTypes
 
     ASPECT_LABEL_KEYS = {
       TypeVariant::DEFAULTS => "types.edit.defaults.tab",
-      FORM => "types.edit.form_configuration.tab",
       TypeVariant::PROJECT_ATTRIBUTES => "types.edit.project_attributes.tab",
       TypeVariant::PDF_EXPORT => "types.edit.export_configuration.tab"
     }.freeze
@@ -138,7 +136,7 @@ module WorkPackageTypes
 
     def variants
       @variants ||= type.variants
-                        .includes(:type, :project, :custom_fields)
+                        .includes(:type, :project, form_configuration: [:custom_fields, { form_groups: %i[query members] }])
                         .in_display_order
                         .to_a
     end

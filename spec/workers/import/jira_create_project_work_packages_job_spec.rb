@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -343,6 +342,58 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           work_package = WorkPackage.find("DPPP-6")
           expect(work_package.target_versions).to be_empty
         end
+      end
+    end
+  end
+
+  describe "#progress" do
+    subject(:job) { described_class.new(jira_import.id, jira_project.id) }
+
+    context "when no cursor is set" do
+      it "returns zeros" do
+        expect(job.progress).to eq({ current: 0, total: 0, percentage: 0 })
+      end
+    end
+
+    context "when cursor is set" do
+      let!(:jira_issue2) do
+        payload = jira_issue_payload.deep_dup
+        payload["id"] = "10406"
+        payload["key"] = "DPPP-7"
+        create(:jira_issue,
+               jira_import:,
+               origin_id: "10406",
+               jira_project:,
+               payload:)
+      end
+
+      let!(:jira_issue3) do
+        payload = jira_issue_payload.deep_dup
+        payload["id"] = "10407"
+        payload["key"] = "DPPP-8"
+        create(:jira_issue,
+               jira_import:,
+               origin_id: "10407",
+               jira_project:,
+               payload:)
+      end
+
+      it "calculates progress based on cursor position" do
+        jira_import.set_job_cursor(job, jira_issue2.id)
+
+        progress = job.progress
+        expect(progress[:total]).to eq(3)
+        expect(progress[:current]).to eq(2)
+        expect(progress[:percentage]).to eq(66.67)
+      end
+
+      it "returns 100% when all issues are processed" do
+        jira_import.set_job_cursor(job, jira_issue3.id)
+
+        progress = job.progress
+        expect(progress[:total]).to eq(3)
+        expect(progress[:current]).to eq(3)
+        expect(progress[:percentage]).to eq(100.0)
       end
     end
   end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -199,11 +198,6 @@ module Type::Attributes
   # If a project context is given, that context is passed
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
-    # Check custom field constraints
-    if CustomField.custom_field_attribute?(attribute) && !project.nil?
-      return custom_field_in_project?(attribute, project)
-    end
-
     # Check other constraints (none in the core, but costs/backlogs adds constraints)
     constraint = attribute_constraints[attribute.to_sym]
     constraint.nil? || constraint.call(self, project:)

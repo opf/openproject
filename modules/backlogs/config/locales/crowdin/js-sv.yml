@@ -45,12 +45,12 @@ sv:
         not_selectable: Markeringen är oförändrad. Det här arbetspaketet ingår inte i listans sorteringsordning.
         range_blocked: Markeringen är oförändrad. Intervallet innehåller ett arbetspaket som inte ingår i listans sorteringsordning.
         range_restarted:
-          one: Det gick inte att utöka intervallet. 1 arbetspaket markerat.
-          other: Det gick inte att utöka intervallet. %{count} arbetspaket markerade.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
         selected:
-          one: 1 arbetspaket markerat.
-          other: "%{count} arbetspaket markerade."
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
     burndown:
       day: Dag
       points: Poäng

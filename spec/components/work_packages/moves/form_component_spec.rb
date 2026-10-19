@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -169,8 +168,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       create(:string_wp_custom_field,
              name: "Risk score",
              is_required: true,
-             types: [type],
-             projects: [project, target_project])
+             types: [type])
     end
 
     it "renders the required marker as an HTML element, not escaped text" do
@@ -220,8 +218,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       create(:version_wp_custom_field,
              name: "Milestone",
              is_required: true,
-             types: [type],
-             projects: [project, target_project])
+             types: [type])
     end
 
     it "scopes the custom field options to the target project" do

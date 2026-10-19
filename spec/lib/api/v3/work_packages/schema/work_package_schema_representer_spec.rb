@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -1377,10 +1376,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       before do
-        allow(work_package.project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return []
-
         setup
 
         original_cache_key
@@ -1477,7 +1472,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_let(:base_variant) { family_root.default_variant }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        TypeVariant::ASPECTS.each do |aspect|
+        [*TypeVariant::ASPECTS, TypeVariant::FORM_CONFIGURATION].each do |aspect|
           link_configuration(named, aspect:)
         end
       end

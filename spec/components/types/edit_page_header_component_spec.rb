@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,8 @@ require "rails_helper"
 
 RSpec.describe Types::EditPageHeaderComponent, type: :component do
   include Rails.application.routes.url_helpers
+
+  include_context "with variant scope"
 
   shared_let(:project) { create(:project, name: "Apollo") }
   shared_let(:type) { create(:type, name: "Bug") }
@@ -65,11 +66,9 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
   end
 
   context "when the screen is reached from a project's settings" do
-    before do
-      # What the controller sets, and what the trail keys off.
-      vc_test_controller.instance_variable_set(:@project, project)
-      render_header
-    end
+    let(:variant_scope_project) { project }
+
+    before { render_header }
 
     it "leads back through the project, not administration" do
       expect(page).to have_link("Apollo", href: project_overview_path(project.id))

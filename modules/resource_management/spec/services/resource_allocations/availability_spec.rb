@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -120,6 +119,15 @@ RSpec.describe ResourceAllocations::Availability do
 
       expect(scheduled_minutes).to eq(960)
       expect(schedule.capacity_on(monday)).to eq(480)
+    end
+
+    it "dates each entry with the day it is placed on" do
+      allocate(960, start_date: monday, end_date: tuesday)
+
+      schedule = availability.optimal_schedule
+
+      expect(schedule.entries_on(monday).map(&:allocated_on)).to eq([monday])
+      expect(schedule.entries_on(tuesday).map(&:allocated_on)).to eq([tuesday])
     end
   end
 

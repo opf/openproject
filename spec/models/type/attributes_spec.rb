@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,6 +73,16 @@ RSpec.describe Type::Attributes do
     it "labels the target versions field" do
       expect(TypeVariant.translated_work_package_form_attributes["target_versions"])
         .to eq(I18n.t("activerecord.attributes.work_package.target_versions"))
+    end
+  end
+
+  describe "#passes_attribute_constraint?" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, types: [type]) }
+    let(:field) { create(:work_package_custom_field) }
+
+    it "constrains a custom field by nothing but the module constraints" do
+      expect(type.default_variant.passes_attribute_constraint?(field.attribute_name, project:)).to be true
     end
   end
 end

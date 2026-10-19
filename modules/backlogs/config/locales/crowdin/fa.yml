@@ -26,7 +26,7 @@ fa:
       project:
         allow_multiple_active_sprints: اجازه دادن به چند اسپرینت فعال هم‌زمان
         backlog_excluded_types: انواع بسته‌های کاری مستثنی‌شده
-        estimation_unit: Unit
+        estimation_unit: واحد
         sprint_sharing: اشتراک‌گذاری اسپرینت
         statuses_considered_closed: وضعیت‌هایی که بسته‌شده محسوب می‌شوند
       sprint:
@@ -73,8 +73,8 @@ fa:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: یک بسته کاری در این اسپرینت تکمیل نشده است.
-                other: "%{count} بسته کاری در این اسپرینت تکمیل نشده‌اند."
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: فعال نیست بنابراین نمی تواند بسته شود
         sprint_goal:
@@ -138,7 +138,7 @@ fa:
       show:
         blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
         blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
-    estimation_unit: Units
+    estimation_unit: واحدها
     excluded_work_package_types_caption: 'انتخاب کنید کدام نوع‌های بسته کاری از بک‌لاگ پنهان شوند. موارد مربوط به نوع‌های انتخاب‌شده به‌صورت خودکار در بک‌لاگ نمایش داده نمی‌شوند تا بک‌لاگ روی کارهای مهم تیم متمرکز بماند. برای مثال، نوع‌هایی مانند Epic یا Milestone که در سطح بالاتری مدیریت می‌شوند، می‌توانند پنهان شوند تا بک‌لاگ روی موارد قابل اقدام متمرکز بماند.
 
       '
@@ -161,8 +161,8 @@ fa:
       drop_zone_label: برای افزودن این مورد، آن را اینجا رها کنید
       label_actions: اقدامات صندوق
       show_more:
-        one: نمایش ۱ مورد دیگر
-        other: نمایش %{count} مورد دیگر
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: صندوق
     index_subheader_component:
       label_search_by_subject: جستجوی بسته‌های کاری بر اساس موضوع
@@ -266,7 +266,6 @@ fa:
       header_backlogs: ماژول backlogها
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: کپی URL در کلیپ‌بورد
         copy_work_package_id: کپی شناسه بسته کاری
         move_menu: انتقال به موقعیت
         move_to_backlog_bucket: انتقال به سطل بک‌لاگ
@@ -349,17 +348,17 @@ fa:
       sprints: اسپرینت‌ها
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: واحد
         options:
           none:
-            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            caption: تعداد بسته‌های کاری به‌عنوان واحد پیش‌فرض در نمودارها استفاده خواهد شد. برخی از نمودارهای گزارش اسپرینت نمایش داده نخواهند شد.
+            label: هیچ‌کدام
           story_points:
-            caption: The cards and charts will display story points.
-            label: Story points
+            caption: کارت‌ها و نمودارها امتیازهای داستان را نمایش خواهند داد.
+            label: امتیازهای داستان
           time:
-            caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            caption: کارت‌ها و نمودارها برآورد زمان کار را نمایش خواهند داد.
+            label: برآورد زمان کار
       backlog_sharing:
         options:
           no_sharing:
@@ -381,8 +380,8 @@ fa:
         sprint_sharing: اشتراک‌گذاری اسپرینت‌ها
       backlogs:
         estimation_unit_form_component:
-          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
-          heading: Default unit of velocity, effort and capacity
+          description: واحد پیش‌فرض اندازه‌گیری تلاش، سرعت و ظرفیت را متناسب با گردش کاری تیم چابک خود انتخاب کنید. این واحدها در بک‌لاگ و گزارش‌های اسپرینت نمایش داده خواهند شد.
+          heading: واحد پیش‌فرض سرعت، تلاش و ظرفیت
         multiple_active_sprints:
           description: به‌طور پیش‌فرض، در هر پروژه فقط یک اسپرینت می‌تواند هم‌زمان فعال باشد. می‌توانید این تنظیم را تغییر دهید تا چند اسپرینت در این پروژه به‌صورت موازی فعال باشند.
           heading: تعداد اسپرینت‌های فعال

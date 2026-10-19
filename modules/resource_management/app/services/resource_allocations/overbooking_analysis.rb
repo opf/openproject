@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,27 +62,34 @@ module ResourceAllocations
     private
 
     def compute_violations
-      lower_bounds = @items.map(&:start_date).uniq.sort
+      items_by_end_date = @items.sort_by(&:end_date)
       upper_bounds = @items.map(&:end_date).uniq.sort
 
-      lower_bounds.each_with_object([]) do |from_date, violations|
-        upper_bounds.each do |to_date|
-          next if to_date < from_date
-
-          violation = violation_for(from_date, to_date)
-          violations << violation if violation
-        end
+      @items.map(&:start_date).uniq.sort.flat_map do |from_date|
+        starting = items_by_end_date.select { |item| item.start_date >= from_date }
+        violations_from(from_date, starting, upper_bounds.select { |to_date| to_date >= from_date })
       end
     end
 
-    def violation_for(from_date, to_date)
-      forced = @items.select { |item| item.start_date >= from_date && item.end_date <= to_date }
-      return if forced.empty?
+    # Walks the upper bounds in ascending order, adding up the work of the
+    # items (ordered by end date) whose window closes within each interval.
+    def violations_from(from_date, starting, upper_bounds)
+      forced_count = 0
+      forced_minutes = 0
 
-      over_by = forced.sum(&:minutes) - capacity_between(from_date, to_date)
-      return if over_by <= 0
+      upper_bounds.filter_map do |to_date|
+        while forced_count < starting.size && starting[forced_count].end_date <= to_date
+          forced_minutes += starting[forced_count].minutes
+          forced_count += 1
+        end
+        next if forced_count.zero?
 
-      Violation.new(start_date: from_date, end_date: to_date, items: forced, over_by_minutes: over_by)
+        over_by = forced_minutes - capacity_between(from_date, to_date)
+        next if over_by <= 0
+
+        forced = @items.intersection(starting.first(forced_count))
+        Violation.new(start_date: from_date, end_date: to_date, items: forced, over_by_minutes: over_by)
+      end
     end
 
     def capacity_between(from_date, to_date)
@@ -93,13 +99,25 @@ module ResourceAllocations
     # Each violating interval's days are fully covered, so every violation falls
     # entirely within exactly one contiguous block of covered days.
     def group_into_ranges(violations)
-      covered_days = violations.flat_map { |violation| (violation.start_date..violation.end_date).to_a }.uniq.sort
+      blocks = merged_blocks(violations)
+      by_block = violations.group_by { |violation| blocks.bsearch { |_first, last| last >= violation.start_date } }
 
-      consecutive_blocks(covered_days).map { |first, last| overbooked_range(first, last, violations) }
+      blocks.map { |first, last| overbooked_range(first, last, by_block.fetch([first, last])) }
     end
 
-    def overbooked_range(first, last, violations)
-      in_block = violations.select { |violation| violation.start_date >= first && violation.end_date <= last }
+    # Joins violating intervals that overlap or touch into [first, last] blocks.
+    def merged_blocks(violations)
+      violations.sort_by(&:start_date).each_with_object([]) do |violation, blocks|
+        current = blocks.last
+        if current && violation.start_date <= current.last + 1
+          current[1] = [current.last, violation.end_date].max
+        else
+          blocks << [violation.start_date, violation.end_date]
+        end
+      end
+    end
+
+    def overbooked_range(first, last, in_block)
       items = in_block.flat_map(&:items).uniq(&:id)
 
       OverbookedRange.new(
@@ -110,12 +128,6 @@ module ResourceAllocations
         over_by_minutes: in_block.map(&:over_by_minutes).max,
         available_minutes: capacity_between(first, last)
       )
-    end
-
-    def consecutive_blocks(dates)
-      dates
-        .slice_when { |previous, current| current != previous + 1 }
-        .map { |group| [group.first, group.last] }
     end
   end
 end

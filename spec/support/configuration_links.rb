@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,12 +30,19 @@
 module ConfigurationLinkHelpers
   def link_configuration(variant, aspect:, excluded: [])
     v = variant_of(variant)
-    v.link!(aspect)
+    if aspect == TypeVariant::FORM_CONFIGURATION
+      v.update!(form_configuration: v.type.default_variant.form_configuration)
+    else
+      v.link!(aspect)
+    end
     v.update!("#{aspect}_excluded_elements" => excluded) if excluded.any? && TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
   end
 
   def unlink_configuration(variant, aspect:)
-    variant_of(variant).unlink!(aspect)
+    v = variant_of(variant)
+    return v.unlink!(aspect) unless aspect == TypeVariant::FORM_CONFIGURATION
+
+    v.update!(form_configuration: create(:form_configuration), form_configuration_excluded_elements: [])
   end
 
   def exclude_configuration_elements(variant, aspect:, elements:)

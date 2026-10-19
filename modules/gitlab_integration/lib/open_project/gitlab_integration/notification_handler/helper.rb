@@ -105,16 +105,6 @@ module OpenProject::GitlabIntegration
       end
 
       ##
-      # Adds comments to the given WorkPackages.
-      def status_on_referenced_work_packages(work_packages, user, status)
-        work_packages.each do |work_package|
-          ::WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(status_id: status)
-        end
-      end
-
-      ##
       # A wapper around a ruby Hash to access webhook payloads.
       # All methods called on it are converted to `.fetch` hash-access, raising an error if the string-key does not exist.
       # If the method ends with a question mark, e.g. "comment?" not error is raised if the key does not exist.

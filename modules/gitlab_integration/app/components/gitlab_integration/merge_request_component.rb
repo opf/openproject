@@ -49,7 +49,6 @@ module GitlabIntegration
         MergeRequestStatuses::LOCKED
       when :merged
         MergeRequestStatuses::MERGED
-        :done
       else
         raise ArgumentError, "Unsupported merge request state #{state}"
       end

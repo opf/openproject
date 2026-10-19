@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,7 +64,7 @@ RSpec.describe "Work package show with a linked form configuration", :js do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   def link(variant, excluded: [])
-    variant.link!(aspect)
+    link_configuration(variant, aspect:)
     variant.update!("#{aspect}_excluded_elements" => excluded) if excluded.any?
   end
 

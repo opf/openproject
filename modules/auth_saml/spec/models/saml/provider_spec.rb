@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -334,26 +333,6 @@ RSpec.describe Saml::Provider do
       it "does not output it, leaving the ruby-saml default in place" do
         expect(provider.to_h).not_to include(:allowed_clock_drift)
       end
-    end
-  end
-
-  describe "#csp_form_action_origin" do
-    subject { build(:saml_provider, idp_sso_service_url:).csp_form_action_origin }
-
-    let(:idp_sso_service_url) { "https://idp.example.com/sso" }
-
-    it { is_expected.to eq("https://idp.example.com/") }
-
-    context "with a non-standard port" do
-      let(:idp_sso_service_url) { "https://idp.example.com:8443/sso" }
-
-      it { is_expected.to eq("https://idp.example.com:8443/") }
-    end
-
-    context "when blank" do
-      let(:idp_sso_service_url) { nil }
-
-      it { is_expected.to be_nil }
     end
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -141,10 +140,18 @@ class WorkPackages::MovesController < ApplicationController
   def prepare_for_work_package_move
     @copy = params.has_key? :copy
     if params[:new_project_id]
-      @target_project = WorkPackage.allowed_target_projects_on_move(current_user).find_by(id: params[:new_project_id])
+      @target_project = allowed_target_projects.find_by(id: params[:new_project_id])
     end
     @target_project ||= @project
     @notes = params[:notes] || ""
+  end
+
+  def allowed_target_projects
+    if @copy
+      WorkPackage.allowed_target_projects_on_copy(current_user)
+    else
+      WorkPackage.allowed_target_projects_on_move(current_user)
+    end
   end
 
   def attributes_for_create

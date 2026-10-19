@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -110,7 +109,7 @@ RSpec.describe "type PDF export template settings", :js do
       type.default_variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
       type.default_variant.save!
       link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
-      visit edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
+      visit edit_type_variant_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
     end
 
     it "does not link the template label to its settings", :aggregate_failures do
@@ -121,7 +120,8 @@ RSpec.describe "type PDF export template settings", :js do
     end
 
     it "shows the inherited settings with disabled fields" do
-      visit edit_settings_type_pdf_export_template_path(type_id: type.id, variant_id: variant.id, id: "attributes")
+      visit edit_settings_type_variant_pdf_export_template_path(type_id: type.id, variant_id: variant.id,
+                                                                id: "attributes")
 
       expect(page).to have_field("footer_text", with: "Base footer", disabled: true)
       expect(page).to have_button(I18n.t(:button_save), disabled: true)

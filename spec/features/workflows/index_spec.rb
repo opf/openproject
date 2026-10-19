@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,7 +73,7 @@ RSpec.describe "Workflows index", :js do
 
   def all_workflows = ["Bug flow", "Hardware flow", "Phase flow"]
 
-  def results = "#workflows-index-results-component"
+  def results = "#workflows-index-table-component"
 
   def row_for(name)
     page.find(".Box-row") { |row| row.has_css?(".name a", text: name, exact_text: true) }
@@ -122,14 +121,16 @@ RSpec.describe "Workflows index", :js do
   def filter_by_projects(*projects, include_sub_items: false)
     find_test_selector("quick-filter-tree-panel-button").click
 
-    within("##{Workflows::Index::ProjectsFilterComponent::DIALOG_ID}") do
+    filter = WorkPackageTypes::NamedReferences::Index::ProjectsFilterComponent
+
+    within("##{filter.dialog_id(Workflow)}") do
       check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
 
       projects.each { |project| find("[role='treeitem'][data-node-id='#{project.id}']").click }
 
       selected = projects.flat_map { |project| include_sub_items ? project.self_and_descendants.ids : [project.id] }
       expect(page).to have_css(
-        "input[type='hidden'][name='#{Workflows::Index::ProjectsFilterComponent::FIELD_NAME}[]'][value^='{']",
+        "input[type='hidden'][name='#{filter::FIELD_NAME}[]'][value^='{']",
         count: selected.uniq.size,
         visible: :hidden
       )

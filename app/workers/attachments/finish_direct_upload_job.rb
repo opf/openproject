@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
       .new(user: attachment.author, model: attachment, contract_options: derive_contract_options(allowlist))
       .call
       .on_failure do |call|
-      destroy_attachment_and_log_errors(attachment, call.errors)
+      destroy_attachment_and_log_errors(attachment, call.errors) if attachment.reload.prepared?
     end
   end
 

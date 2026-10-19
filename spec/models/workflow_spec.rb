@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -188,6 +187,32 @@ RSpec.describe Workflow do
 
       expect(workflow.statuses(tab: "author")).to contain_exactly(status_a, status_b)
       expect(workflow.statuses(tab: "always")).to be_empty
+    end
+  end
+
+  describe "#statuses_missing_in" do
+    shared_let(:workflow) { create(:named_workflow) }
+    shared_let(:other) { create(:named_workflow) }
+    shared_let(:status_c) { create(:status) }
+    shared_let(:hidden_role) { create(:work_package_role) }
+
+    let(:roles) { Role.where(id: role) }
+
+    before do
+      create(:status_transition, workflow:, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow:, role: hidden_role, old_status: status_a, new_status: status_c)
+    end
+
+    it "lists what the given roles use here and not in the other, ignoring what only the other has" do
+      create(:status_transition, workflow: other, role:, old_status: status_a, new_status: status_c)
+
+      expect(workflow.statuses_missing_in(other, roles:)).to contain_exactly(status_b)
+    end
+
+    it "ignores the statuses the other workflow reaches only through roles outside the given ones" do
+      create(:status_transition, workflow: other, role: hidden_role, old_status: status_a, new_status: status_b)
+
+      expect(workflow.statuses_missing_in(other, roles:)).to contain_exactly(status_a, status_b)
     end
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,8 @@ class Type < ApplicationRecord
   # Projects using this type. Which variant each of them applies is on the join row.
   has_many :project_types, dependent: :delete_all
   has_many :projects, through: :project_types
+
+  include Lists::MoveAfterAnchor
 
   acts_as_list
 
@@ -93,7 +94,8 @@ class Type < ApplicationRecord
 
     variants.build(is_default_variant: true,
                    variant_name: nil,
-                   workflow: Workflow.new(name: Workflow.implicit_name(name)))
+                   workflow: Workflow.new(name: Workflow.implicit_name(name)),
+                   form_configuration: FormConfiguration.new(name: FormConfiguration.implicit_name(name)))
   end
 
   def check_integrity # rubocop:disable Naming/PredicateMethod

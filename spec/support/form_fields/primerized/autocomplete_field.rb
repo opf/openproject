@@ -1,12 +1,39 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "form_field"
 
 module FormFields
   module Primerized
     class AutocompleteField < FormField
       include RSpec::Wait
-      include Components::Autocompleter::NgSelectAutocompleteHelpers
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       ### actions
 
@@ -16,7 +43,7 @@ module FormFields
 
           expect(dropdown).to have_css(".ng-option", text: val, visible: :all)
           dropdown.find(".ng-option", text: val, visible: :all).click
-          sleep 0.25 # still required?
+          expect_selected(val)
         end
       end
 
@@ -24,14 +51,14 @@ module FormFields
         values.each do |val|
           open_options
           page.find(".ng-value", text: val, visible: :all).find(".ng-value-icon").click
-          sleep 0.25 # still required?
+          expect_not_selected(val)
         end
-        field_container.find(".ng-arrow-wrapper").click # close dropdown
-        sleep 0.25
+        field_container.find(".ng-input input").send_keys(:escape)
+        expect(field_container).to have_no_css("ng-select.ng-select-opened")
       end
 
       def search(text)
-        search_autocomplete field_container, query: text
+        search_autocomplete(-> { field_container }, query: text)
       end
 
       # For remote typeahead autocompleters, where options are only loaded for
@@ -131,7 +158,7 @@ module FormFields
 
       def expect_error(string = nil)
         expect(field_container).to have_css(".FormControl-inlineValidation", visible: :all)
-        expect(field_container).to have_content(string) if string
+        expect(field_container).to have_text(string) if string
       end
 
       private
