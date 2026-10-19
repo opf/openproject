@@ -7587,11 +7587,14 @@ en:
         tab: "Form"
         untitled_group: "Untitled group"
       overview:
+        caption: "Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from."
         configuration_mode: "Configuration mode"
         mode:
           always_manual: "Always manual"
-          inheriting_from_html: "Inheriting from %{source_name}"
+          inheriting_from_html: "Using the same as type (%{source_name})"
           manual: "Manually configured"
+          using_form_html: "Using form %{name}"
+          using_workflow_html: "Using workflow %{name}"
         settings: "Settings"
         tab: "Overview"
       project_attributes:
