@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,12 +46,7 @@ module Llm
       #
       # @return [Array<Hash>] cards with :id and :raw
       def models
-        @models ||= Array(client.models["data"]).filter_map do |card|
-          id = card["id"]
-          next if id.blank?
-
-          { id:, raw: card }
-        end
+        @models ||= fetch_models
       end
 
       # Which server we are talking to decides which non-standard metadata is
@@ -70,6 +64,21 @@ module Llm
       private
 
       attr_reader :connection
+
+      def fetch_models
+        cards(client.models)
+      end
+
+      def cards(body)
+        Array(body["data"]).filter_map do |card|
+          next unless card.is_a?(Hash)
+
+          id = card["id"]
+          next if id.blank?
+
+          { id:, raw: card }
+        end
+      end
 
       def client
         @client ||= Llm::Client.new(base_url: connection.base_url,

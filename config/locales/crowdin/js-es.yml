@@ -622,8 +622,8 @@ es:
     notifications:
       center:
         and_more_users:
-          one: y 1 más
-          other: y %{count} más
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Parece que ya estás al día.
           no_notification_for_filter: Parece que ya está al día completamente para este filtro.
@@ -719,6 +719,7 @@ es:
     placeholders:
       default: "-"
       description: 'Descripción: Haga clic para editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Haga clic para añadir la descripción a esta relación
       selection: Por favor, elija
       subject: Escriba aquí el asunto
@@ -825,12 +826,12 @@ es:
         not_selectable: La selección no ha cambiado. Este elemento no influye en el orden de esta lista.
         range_blocked: La selección no ha cambiado. Ese rango contiene un elemento que no influye en el orden de esta lista.
         range_restarted:
-          one: No se pudo ampliar el rango. Se seleccionó 1 elemento.
-          other: No se pudo ampliar el rango. Se seleccionaron %{count} elementos.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
-          one: 1 elemento seleccionado.
-          other: "%{count} elementos seleccionados."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Cerrar ventana modal
@@ -844,9 +845,7 @@ es:
     text_user_wrote: "%{value} escribió:"
     text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
     time_entry:
-      stop: Detener
       title: Registro de tiempo
-      tracking: Control de tiempo
       work_package_required: Es necesario seleccionar primero un paquete de trabajo.
     timer:
       button_stop: Detener el temporizador actual
@@ -881,20 +880,20 @@ es:
       label_two_factor_authentication: Autenticación de dos factores
     units:
       child_work_packages:
-        one: un sub-paquete de trabajo
-        other: "%{count} paquetes de trabajo secundarios"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 día
+        one: "%{count} day"
         other: "%{count} días"
         zero: 0 días
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 palabra
-        other: "%{count} palabras"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: paquete de trabajo
         other: paquetes de trabajo

@@ -177,9 +177,13 @@ hy:
       cost_types:
         for_all_projects_hint: Այս ծախսի տեսակը միացված է բոլոր նախագծերում։
         heading: Ծախսի տեսակներ
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Այս ծախսի տեսակը հնարավոր չէ անջատել, քանի որ այս նախագծում դրա համար արդեն գրանցվել են ծախսեր։
         none_active: Այս նախագծում ներկայումս ակտիվ ծախսի տեսակներ չկան։
       time_and_costs: Ժամանակ և ծախսեր
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:

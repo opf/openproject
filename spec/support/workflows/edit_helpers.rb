@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,14 +22,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Workflows
   module EditHelpers
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
+
     def workflow_checkbox(from_index, to_index)
       "status_#{statuses[from_index].id}_#{statuses[to_index].id}"
     end
@@ -104,8 +105,7 @@ module Workflows
         click_link "Status"
       end
       within_dialog "Statuses" do
-        find(".ng-arrow-wrapper").click
-        find(".ng-option", text: status.name).click
+        select_autocomplete(find("ng-select"), query: status.name, wait_for_fetched_options: false)
         click_button "Apply"
       end
     end
@@ -116,6 +116,7 @@ module Workflows
       end
       within_dialog "Statuses" do
         find(".ng-value", text: status.name).find(".ng-value-icon").click
+        expect(page).to have_no_css(".ng-value-label", text: status.name)
         click_button "Apply"
       end
     end

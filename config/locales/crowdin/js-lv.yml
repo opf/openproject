@@ -625,7 +625,7 @@ lv:
       center:
         and_more_users:
           zero: and %{count} others
-          one: and 1 other
+          one: and %{count} other
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -722,6 +722,7 @@ lv:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Click to add description for this relation
       selection: Lūdzu, atlasiet
       subject: Enter subject here
@@ -829,12 +830,12 @@ lv:
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
           zero: Could not extend the range. %{count} items selected.
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
           zero: "%{count} items selected."
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -849,9 +850,7 @@ lv:
     text_user_wrote: "%{value} wrote:"
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     time_entry:
-      stop: Stop
       title: Log time
-      tracking: Laika uzskaite
       work_package_required: Requires selecting a work package first.
     timer:
       button_stop: Stop current timer
@@ -887,20 +886,20 @@ lv:
     units:
       child_work_packages:
         zero: "%{count} work package children"
-        one: one child work package
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: 1 dienas
+        one: "%{count} day"
         other: "%{count} dienām"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
         zero: "%{count} words"
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         zero: work packages

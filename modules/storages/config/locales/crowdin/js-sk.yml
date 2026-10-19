@@ -27,12 +27,12 @@ sk:
         select_all: Vybrať všetko
         selection:
           zero: Select files to link
-          one: Link 1 file
+          one: Link %{count} file
           few: Link %{count} files
           many: Link %{count} files
           other: Link %{count} files
         success_create:
-          one: Successfully created 1 file link.
+          one: Successfully created %{count} file link.
           few: Successfully created %{count} file links.
           many: Successfully created %{count} file links.
           other: Successfully created %{count} file links.

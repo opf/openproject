@@ -27,10 +27,10 @@ nl:
         select_all: Alles selecteren
         selection:
           zero: Selecteer bestanden om te koppelen
-          one: Link 1 bestand
-          other: Link %{count} bestanden
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Successfully created 1 file link.
+          one: Successfully created %{count} file link.
           other: Successfully created %{count} file links.
         tooltip:
           not_found: Dit bestand kan niet worden gevonden.

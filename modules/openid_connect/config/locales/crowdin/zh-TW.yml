@@ -162,7 +162,7 @@ zh-TW:
       delete_result_1: 從可用提供者清單中移除提供者。
       delete_result_direct: 此提供商標記為直接登入提供商。該設定將被移除，使用者將不再被重定向到提供者進行登入。
       delete_result_user_count:
-        one: 目前有一位使用者仍在使用此供應商。他們需要重新邀請或使用其他提供者登入。
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} 使用者目前仍在使用此供應商。他們需要重新邀請或使用其他提供者登入。"
         zero: 目前沒有使用者使用此供應商。不需要採取進一步的行動。
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

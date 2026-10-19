@@ -624,8 +624,8 @@ sv:
     notifications:
       center:
         and_more_users:
-          one: och 1 annan
-          other: och %{count} andra
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Du är helt uppdaterad.
           no_notification_for_filter: Det ser ut som om du är klar med det här filtret.
@@ -721,6 +721,7 @@ sv:
     placeholders:
       default: "-"
       description: 'Beskrivning: Klicka för att redigera...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klicka för att ange beskrivning för denna relation
       selection: Välj
       subject: Ange ämne här
@@ -827,12 +828,12 @@ sv:
         not_selectable: Markeringen är oförändrad. Det här objektet ingår inte i listans sorteringsordning.
         range_blocked: Markeringen är oförändrad. Intervallet innehåller ett objekt som inte ingår i listans sorteringsordning.
         range_restarted:
-          one: Det gick inte att utöka intervallet. 1 objekt markerat.
-          other: Det gick inte att utöka intervallet. %{count} objekt markerade.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
         selected:
-          one: 1 objekt markerat.
-          other: "%{count} objekt markerade."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Stäng modal
@@ -846,9 +847,7 @@ sv:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda arbetspaket(paketen)?
     time_entry:
-      stop: Stoppa
       title: Logga tid
-      tracking: Tidredovisning
       work_package_required: Kräver att man först väljer ett arbetspaket.
     timer:
       button_stop: Stoppa aktuell timer
@@ -883,20 +882,20 @@ sv:
       label_two_factor_authentication: Tvåfaktorsautentisering
     units:
       child_work_packages:
-        one: ett underordnat arbetspaket
-        other: "%{count} underordnade arbetspaket"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: En dag
+        one: "%{count} day"
         other: "%{count} dagar"
         zero: 0 dagar
       hour:
-        one: 1 tim
+        one: "%{count} h"
         other: "%{count} timmar"
         zero: 0 tim
       hour_string: "%{hours} tim"
       word:
-        one: 1 ord
-        other: "%{count} ord"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: arbetspaket
         other: arbetspaket

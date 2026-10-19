@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,14 +75,18 @@ module LlmConnections
     end
 
     def source_label
-      return %i[accent source_manual] if llm_model.manual?
       return %i[attention source_withdrawn] if llm_model.withdrawn?
+      return %i[accent source_manual] if llm_model.manual?
 
       %i[secondary source_discovered]
     end
 
     def button_links
-      llm_model.manual? ? [edit_link, delete_link] : [edit_link]
+      deletable? ? [edit_link, delete_link] : [edit_link]
+    end
+
+    def deletable?
+      llm_model.manual? && !table.connection.env_named_default?(llm_model)
     end
 
     # The classes belong on the anchor, not on an inner <i>: ".icon:before"

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,42 +22,44 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
+
 module Groups
   class Form < ApplicationForm
     include CustomFields::CustomFieldRendering
 
     form do |f|
-      f.text_field(
-        name: :lastname,
-        label: Group.human_attribute_name(:name),
-        required: true,
-        input_width: :medium,
-        autocomplete: "off"
-      )
+      f.fieldset_group(title: I18n.t("groups.form.group_attributes")) do |fg|
+        fg.text_field(
+          name: :lastname,
+          label: Group.human_attribute_name(:name),
+          required: true,
+          input_width: :medium,
+          autocomplete: "off"
+        )
 
-      f.select_list(
-        name: :parent_id,
-        label: Group.human_attribute_name(:parent),
-        include_blank: I18n.t(:label_no_parent_group),
-        caption: I18n.t(:label_parent_group_caption),
-        input_width: :medium
-      ) do |list|
-        parent_candidates.each do |group|
-          prefix = "\u00A0\u00A0" * (group.hierarchy_depth || 0)
-          # Departments managed by LDAP own their sub-tree and cannot be chosen as a manual parent.
-          list.option(label: "#{prefix}#{group.name}",
-                      value: group.id,
-                      selected: model.parent_id == group.id,
-                      disabled: group.ldap_managed?)
+        fg.select_list(
+          name: :parent_id,
+          label: Group.human_attribute_name(:parent),
+          include_blank: I18n.t(:label_no_parent_group),
+          caption: I18n.t(:label_parent_group_caption),
+          input_width: :medium
+        ) do |list|
+          parent_candidates.each do |group|
+            prefix = "\u00A0\u00A0" * (group.hierarchy_depth || 0)
+            # Departments managed by LDAP own their sub-tree and cannot be chosen as a manual parent.
+            list.option(label: "#{prefix}#{group.name}",
+                        value: group.id,
+                        selected: model.parent_id == group.id,
+                        disabled: group.ldap_managed?)
+          end
         end
-      end
 
-      render_custom_fields(form: f)
+        render_custom_fields(form: fg)
+      end
 
       f.submit(
         name: :submit,

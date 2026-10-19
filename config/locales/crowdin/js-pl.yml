@@ -624,10 +624,10 @@ pl:
     notifications:
       center:
         and_more_users:
-          one: i 1 inny
-          few: i %{count} inne
-          many: i %{count} inne
-          other: i %{count} innych
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Wygląda na to, że jesteś już na bieżąco.
           no_notification_for_filter: Wygląda na to, że wszystko jest na bieżąco dla tego filtru.
@@ -723,6 +723,7 @@ pl:
     placeholders:
       default: "-"
       description: 'Opis: Kliknij, aby edytować...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknij, aby dodać opis do tej relacji
       selection: Proszę wybrać
       subject: Wpisz tutaj temat
@@ -829,16 +830,16 @@ pl:
         not_selectable: Wybór pozostaje bez zmian. Ten element nie ma wpływu na kolejność pozycji na tej liście.
         range_blocked: Wybór pozostaje bez zmian. Ten zakres zawiera element, który nie ma wpływu na kolejność pozycji na tej liście.
         range_restarted:
-          one: Nie można rozszerzyć zakresu. Wybrano 1 element.
-          few: Nie można rozszerzyć zakresu. Wybrano %{count} elementy.
-          many: Nie można rozszerzyć zakresu. Wybrano %{count} elementów.
-          other: Nie można rozszerzyć zakresu. Wybrano %{count} elementu.
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Wybór pozostaje bez zmian. Rozwiń tę listę, aby wybrać ten zakres.
         selected:
-          one: Wybrano 1 element.
-          few: Wybrano %{count} elementy.
-          many: Wybrano %{count} elementów.
-          other: Wybrano %{count} elementu.
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Zamknij okno modalne
@@ -852,9 +853,7 @@ pl:
     text_user_wrote: "%{value} napisał(a):"
     text_work_packages_destroy_confirmation: Czy na pewno chcesz usunąć wybrane pakiety robocze?
     time_entry:
-      stop: Zatrzymaj
       title: Rejestruj czas pracy
-      tracking: Zarządzanie czasem
       work_package_required: Wymaga wybrania najpierw pakietu roboczego.
     timer:
       button_stop: Zatrzymaj bieżące odliczanie
@@ -889,24 +888,24 @@ pl:
       label_two_factor_authentication: Uwierzytelnianie dwuskładnikowe
     units:
       child_work_packages:
-        one: jeden potomny pakiet roboczy
-        few: "%{count} potomnych pakietów roboczych"
-        many: "%{count} potomnych pakietów roboczych"
-        other: "%{count} potomnych pakietów roboczych"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 dzień
+        one: "%{count} day"
         other: "%{count} dni"
         zero: 0 dni
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours}h"
       word:
-        one: 1 słowo
-        few: "%{count} słowa"
-        many: "%{count} słów"
-        other: "%{count} słowa"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: pakiet roboczy
         few: pakiety robocze

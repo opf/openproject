@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -32,13 +31,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render Homescreen::AnnouncementComponent.new(announcement: Announcement.active_and_current) %>
 
-<div id="login-form" class="form -bordered">
-  <h1><%= I18n.t(:label_login) %></h1>
-
-  <hr class="form--separator">
+<div id="login-form" class="form">
+  <%= render(Primer::Beta::Heading.new(tag: :h1, font_size: 4, font_weight: :bold, text_align: :center, mb: 3)) do %>
+    <%= t("account.login_title", app_title: Setting.app_title) %>
+  <% end %>
   <% if show_password_login_form? %>
     <%= render partial: "password_login_form" %>
   <% end %>
   <%= render partial: "auth_providers" %>
+  <% if self_registration_possible? %>
+    <%= render partial: "signup_prompt" %>
+  <% end %>
 </div>
 <%= call_hook :view_account_login_bottom %>

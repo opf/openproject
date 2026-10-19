@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,6 +78,46 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
     context "when the upper boundary is earlier on the same day" do
       let(:values) { ["2026-09-28T00:00:00Z", "2026-10-01T07:59:59Z"] }
+
+      it "excludes the work package" do
+        expect(subject).to be_empty
+      end
+    end
+  end
+
+  describe "at or after a point in time" do
+    let(:operator) { ">d" }
+
+    context "when the point in time is the exact value" do
+      let(:values) { ["2026-10-01T08:00:00Z"] }
+
+      it "includes the work package" do
+        expect(subject).to contain_exactly(wp_morning, wp_next_day)
+      end
+    end
+
+    context "when the point in time is later on the same day" do
+      let(:values) { ["2026-10-01T08:00:01Z"] }
+
+      it "excludes the work package" do
+        expect(subject).to contain_exactly(wp_next_day)
+      end
+    end
+  end
+
+  describe "at or before a point in time" do
+    let(:operator) { "<d" }
+
+    context "when the point in time is the exact value" do
+      let(:values) { ["2026-10-01T08:00:00Z"] }
+
+      it "includes the work package" do
+        expect(subject).to contain_exactly(wp_morning)
+      end
+    end
+
+    context "when the point in time is earlier on the same day" do
+      let(:values) { ["2026-10-01T07:59:59Z"] }
 
       it "excludes the work package" do
         expect(subject).to be_empty

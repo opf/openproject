@@ -624,7 +624,7 @@ ja:
     notifications:
       center:
         and_more_users:
-          other: と %{count} その他
+          other: and %{count} others
         empty_state:
           no_notification: もう追いついたようだね。
           no_notification_for_filter: どうやら、このフィルターにすべて引っかかったようだ。
@@ -720,6 +720,7 @@ ja:
     placeholders:
       default: "-"
       description: 説明クリックして編集...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: クリックしてこの関係に説明を追加
       selection: 選択してください
       subject: ここにタイトルを入力します
@@ -843,9 +844,7 @@ ja:
     text_user_wrote: "%{value} が書き込みました："
     text_work_packages_destroy_confirmation: 選択したワークパッケージを削除してもよろしいですか？
     time_entry:
-      stop: ストップ
       title: 時間を記録
-      tracking: 作業時間の記録
       work_package_required: 最初にワークパッケージを選択する必要があります。
     timer:
       button_stop: 現在のタイマーを停止する
@@ -880,13 +879,13 @@ ja:
       label_two_factor_authentication: 2要素認証
     units:
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} work package children"
       day:
-        one: 1日
+        one: "%{count} day"
         other: "%{count} 日間"
         zero: 0日
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

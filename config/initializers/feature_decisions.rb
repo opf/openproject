@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# --copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require_relative "../../lib_static/open_project/feature_decisions"
 
@@ -71,3 +70,7 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
                                                "OpenAI-API-compatible LLM server, and the AI features built on it."
+
+OpenProject::FeatureDecisions.add :semantic_search,
+                                  description: "Enables the semantic search AI feature, which indexes work packages " \
+                                               "as embeddings so they can be found by meaning rather than by keyword."

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require_relative "../shared_expectations"
 
@@ -442,7 +442,7 @@ RSpec.describe Automations::Actions::CustomField do
       let(:custom_field) { user_custom_field }
       let(:expected) do
         values = [{ label: "(Assign to executing user)", value: "current_user" }]
-        values + users.map { |u| { value: u.id, label: u.name } }
+        values + users.sort.map { |u| { value: u.id, label: u.name } }
       end
       let(:users) do
         [build_stubbed(:user),

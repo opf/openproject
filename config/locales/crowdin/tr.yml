@@ -40,7 +40,9 @@ tr:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Hesabınızı aktifleştirmek için lütfen <em>%{login}</em> olarak giriş yapın.
+    continue_with_provider: Continue with %{name}
     delete: Hesabı sil
     delete_confirmation: Hesabını silmek istediğinden emin misin?
     deletion_info:
@@ -65,7 +67,9 @@ tr:
     error_self_registration_limited_provider: 'Tek noktadan oturum açma sağlayıcısı ''%{name}'' için kullanıcı kaydı sınırlıdır. Lütfen yöneticiden hesabınızı sizin için etkinleştirmesini veya bu sağlayıcı için kendi kendine kayıt sınırını değiştirmesini isteyin.
 
       '
-    login_with_auth_provider: veya varolan hesabınızı kullanarak oturum açın
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
@@ -168,6 +172,7 @@ tr:
         uid: Müşteri Kimliği
       emoji_reaction:
         reactable: Tepki gösterilme tarihi
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: Aktif üyeler
         encoded_token: Kurumsal Destek anahtarı
@@ -200,11 +205,17 @@ tr:
         row_count: Satır sayısı
         widgets: Araçlar
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Grup kullanıcıları
         identity_url: Kimlik URL'si
         organizational_unit: Organizasyonel birim
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizasyonel birim
         parent: Parent group
       import/jira:
@@ -242,7 +253,13 @@ tr:
         base_url: Host URL
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
+        env_fingerprint: Applied environment configuration
+        env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
+      llm_feature_binding:
+        dimensions: Dimensions
+        feature_key: Feature
+        model: Model
       llm_model:
         admin_context_window: Context window
         display_name: Display name
@@ -428,6 +445,7 @@ tr:
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama kaynağı
+        avatar_type: Avatar type
         consented_at: Rızanın alınması
         current_password: Mevcut parola
         department: Department
@@ -441,7 +459,7 @@ tr:
         last_name: Soy isim
         ldap_auth_source: LDAP bağlantısı
         new_password: Yeni parola
-        password_confirmation: Onay
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -450,11 +468,15 @@ tr:
       user_preference:
         auto_hide_popups: Başarı uyarılarını otomatik olarak gizle
         auto_hide_popups_caption: Etkinleştirildiğinde, yeşil başarı uyarıları 5 saniye sonra otomatik olarak kaybolacaktır.
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Uyarıları güncelle
         button_update_look_and_feel: Görünümü ve hissi güncelle
         button_update_user_information: Profili güncelle
         comments_sorting: İş paketi faaliyetini aşağıdakilere göre sıralanmış olarak görüntüle
         daily_reminders: Günlük hatırlatmalar
+        date_format: Date format
         disable_keyboard_shortcuts: Klavye kısayollarını devre dışı bırak
         dismissed_enterprise_banners: Gizli kurumsal afişler
         force_dark_theme_contrast: Karanlık moddayken yüksek kontrastı zorla
@@ -468,7 +490,10 @@ tr:
         increase_contrast_caption: Seçilen renk modu için yüksek kontrast modunu etkinleştirir.
         increase_theme_contrast: Tema kontrastını artırın
         mode_guideline: Bazı modlar, erişilebilirlik ve okunabilirlik için özel tema renklerinin üzerine yazacaktır. Tam özel tema desteği için lütfen Aydınlık modunu seçin.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Renk modu
+        time_format: Time format
         time_zone: Zaman dilimi
         warn_on_leaving_unsaved: İş paketlerinden ayrılırken kaydedilmemiş değişiklik olduğunda beni uyar
         workdays: İş Günleri
@@ -779,8 +804,24 @@ tr:
               ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
             custom_headers:
               invalid: must map header names to plain text values.
+            default_chat_model_id:
+              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
+              not_available: is not offered by the configured LLM server.
+            default_embedding_model_id:
+              cannot_embed: is known not to create embeddings, according to the LLM server.
+              not_available: is not offered by the configured LLM server.
             llm_features_enabled:
               requires_connection: cannot be turned on before a connection has been configured.
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
+              not_for_chat_feature: only applies to features that create embeddings.
+            feature_key:
+              not_registered: does not belong to a known AI feature.
+            model_id:
+              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
+              not_available: is not offered by the configured LLM server.
         llm_model:
           attributes:
             external_id:
@@ -980,8 +1021,8 @@ tr:
               numeric: rakam (örneğin '1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                one: daha önce kullanılmıştır. Son parolanızdan farklı birini seçiniz.
-                other: daha önce kullanılmıştır. Son %{count} parolanızdan farklı birini seçiniz.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: özel (örneğin '%')
               uppercase: büyük harf (örneğin 'A')
             password_confirmation:
@@ -1085,8 +1126,8 @@ tr:
       template:
         body: 'Lütfen aşağıdaki alanları kontrol edin:'
         header:
-          one: "%{model} kaydı 1 hatadan dolayı engellendi"
-          other: "%{model} kaydı %{count} hatadan dolayı engellendi"
+          one: "%{count} error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Action
@@ -1478,6 +1519,10 @@ tr:
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1724,25 +1769,25 @@ tr:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
+              one: "%{count} issue"
               other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               other: "%{count} jobs"
             projects:
-              one: 1 project
+              one: "%{count} project"
               other: "%{count} projects"
             statuses:
-              one: 1 status
+              one: "%{count} status"
               other: "%{count} statuses"
             types:
-              one: 1 type
+              one: "%{count} type"
               other: "%{count} types"
             users:
-              one: 1 user
+              one: "%{count} user"
               other: "%{count} users"
             work_packages:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
           revert_dialog:
             confirm: Bu geri dönüşün verileri kalıcı olarak sileceğini anlıyorum
@@ -1808,7 +1853,7 @@ tr:
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
               caption_done_description:
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
@@ -1921,6 +1966,7 @@ tr:
           title: No labels match your search
     llm_connections:
       delete_api_key:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
         heading: Remove the stored API key?
         menu_label: Remove API key
@@ -1928,8 +1974,10 @@ tr:
         title: Remove API key
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
         heading: Disconnect from the LLM server?
+        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
         menu_label: Disconnect
@@ -1939,11 +1987,14 @@ tr:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_env: The key comes from the environment.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
         api_key_placeholder_stored: API key stored
         api_key_remove: Remove key
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
+        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
+        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
+        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
         label_connecting: Contacting the LLM server…
         llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
         server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
@@ -1953,14 +2004,55 @@ tr:
         description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
       tabs:
         connection: Connection
+        features: Feature configuration
         models: Models
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
         success: Successfully connected to the LLM server.
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      form:
+        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
+        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
+        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
+      index:
+        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
+      inherit_with_default: Use the default (%{model})
+      inherit_without_default: Use the default (none set)
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: Values fixed by the existing index
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
+        success: The model for %{feature} has been saved.
+    llm_health_status:
+      create:
+        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
+      create_health_status_report:
+        success: The checks have run.
+      show:
+        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
+        blankslate_heading: This connection has not been checked yet
+        download: Download report
+        last_check: Last checked %{datetime}.
+        run_checks: Run checks
+        running: Running checks...
+        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
+        title: Health status
     llm_models:
+      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
         success: "%{model} has been added."
+      defaults:
+        chat_caption: Embedding models are not offered.
+        description: Used by AI features that do not choose a model themselves.
+        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
+        heading: Default models
+        success: The default models have been saved.
       destroy:
         description: The model will no longer be offered to AI features.
         description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
@@ -2048,6 +2140,10 @@ tr:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Daha fazla bilgi için entegrasyonlar ve eklentiler sayfamıza bakın.
       no_results_title_text: Şu anda yüklü bir eklenti yok.
@@ -2061,7 +2157,7 @@ tr:
         confirm_button: Unreserve identifier
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
         title: Unreserve identifier
@@ -2190,7 +2286,7 @@ tr:
           error_unknown: Needs manual review
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
-            one: "... 1 more project"
+            one: "... %{count} more project"
             other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
@@ -2273,7 +2369,7 @@ tr:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: One role selected
+          one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
       status_button: Status
@@ -2285,7 +2381,7 @@ tr:
         confirm: Remove
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
-          one: Remove 1 status?
+          one: Remove %{count} status?
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
@@ -2306,6 +2402,21 @@ tr:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: şu an görüntüleniyor
@@ -2724,9 +2835,9 @@ tr:
     text:
       failed: '"%{source_project_name}" project "%{target_project_name}" projesine kopyalanamadı.'
       succeeded: '"%{source_project_name}" projesini "%{target_project_name}" dosyasına kopyaladı.'
-    title: "%{source_project_name} projesini kopyala"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Bu türden bir nesne
+      one: "%{count} object of this type"
       other: "%{count} bu tür nesneler"
       zero: Bu türden nesne yok
   create_portfolio:
@@ -2766,7 +2877,7 @@ tr:
     admin:
       hierarchy:
         subitems:
-          one: 1 alt öğe
+          one: "%{count} sub-item"
           other: "%{count} alt öğe"
           zero: alt öğe yok
       items:
@@ -2926,57 +3037,57 @@ tr:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: yaklaşık 1 saat
-        other: yaklaşık %{count} saat
+        one: about %{count} hour
+        other: about %{count} hours
       about_x_months:
-        one: yaklaşık 1 ay
-        other: yaklaşık %{count} ay
+        one: about %{count} month
+        other: about %{count} months
       about_x_years:
-        one: yaklaşık 1 yıl
-        other: yaklaşık %{count} yıl
+        one: about %{count} year
+        other: about %{count} years
       almost_x_years:
-        one: neredeyse 1 yıl
-        other: neredeyse %{count} yıl
+        one: almost %{count} year
+        other: almost %{count} years
       half_a_minute: yarım dakika
       less_than_x_minutes:
         one: bir dakikadan az
         other: "%{count} dakikadan az"
       less_than_x_seconds:
-        one: 1 saniyeden az
-        other: "%{count} saniyeden az"
+        one: less than %{count} second
+        other: less than %{count} seconds
       over_x_years:
-        one: 1 yıldan uzun süre
-        other: "%{count} yıldan uzun süre"
+        one: over %{count} year
+        other: over %{count} years
       x_days:
-        one: 1 gün
-        other: "%{count} gün"
+        one: "%{count} day"
+        other: "%{count} days"
       x_hours:
-        one: 1 saat
-        other: "%{count} saat"
+        one: "%{count} hour"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 sa
-        other: "%{count} sa"
+        one: "%{count} hr"
+        other: "%{count} hrs"
       x_minutes:
-        one: 1 dakika
-        other: "%{count} dakika"
+        one: "%{count} minute"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 dk
-        other: "%{count} dk"
+        one: "%{count} min"
+        other: "%{count} mins"
       x_months:
-        one: 1 ay
-        other: "%{count} ay"
+        one: "%{count} month"
+        other: "%{count} months"
       x_seconds:
-        one: 1 saniye
-        other: "%{count} saniye"
+        one: "%{count} second"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 hafta
-        other: "%{count} hafta"
+        one: "%{count} week"
+        other: "%{count} weeks"
       x_years:
-        one: 1 yıl
-        other: "%{count} yıl"
+        one: "%{count} year"
+        other: "%{count} years"
     units:
       day:
         one: gün
@@ -3126,8 +3237,8 @@ tr:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        one: "%{trial_plan} deneme anahtarının son bir günü kaldı"
-        other: "%{trial_plan} deneme anahtarının son %{count} günü kaldı"
+        one: "%{count} day left of %{trial_plan} trial token"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
 
@@ -3512,14 +3623,14 @@ tr:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Form
@@ -3555,10 +3666,10 @@ tr:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         other: This form is used by %{count} types and variants.
     wizard:
       choice:
@@ -3569,8 +3680,48 @@ tr:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Forumda şu anda yayın yok.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3595,6 +3746,8 @@ tr:
   groups:
     edit:
       synchronized_groups: Senkronize gruplar
+    form:
+      group_attributes: Group attributes
     index:
       description: Kullanıcıları birlikte gruplandırarak, onları aynı projelere üye olarak ekleyebilir veya onlara aynı genel rolleri atayabilirsiniz.
     memberships:
@@ -3620,6 +3773,10 @@ tr:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3668,6 +3825,31 @@ tr:
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin.
         learn_about: Tüm yeni özellikler hakkında daha fazla bilgi edinin
         missing: Henüz vurgulanan bir özellik yok.
@@ -3703,6 +3885,7 @@ tr:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3755,6 +3938,7 @@ tr:
       budget_deleted: Budget has been deleted
       dates_changed: Tarihler değişti
       default_attribute_written: Salt okunur öznitelikler yazıldı
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -3942,7 +4126,7 @@ tr:
   label_database_version: PostgreSQL sürümü
   label_date: Tarih
   label_date_and_time: Tarih ve zaman
-  label_date_format: Tarih formatı
+  label_date_and_time_formats: Date and time formats
   label_date_from: Başlangıç
   label_date_from_to: "%{start} tarihinden %{end} tarihine"
   label_date_to: Bitiş
@@ -4101,7 +4285,6 @@ tr:
   label_keyword_plural: Anahtar kelimeler
   label_label_plural: Labels
   label_language: Dil
-  label_language_based: Kullanıcının dili tabanlı
   label_languages: Diller
   label_last_activity: Son Aktivite
   label_last_change_on: Son değişiklik
@@ -4123,6 +4306,7 @@ tr:
   label_list: Liste
   label_loading: Yükleniyor...
   label_locale: Dil ve bölge
+  label_locale_based: Use default for user locale
   label_lock_user: Kullanıcıyı kilitle
   label_locked: kilitli
   label_logged_as: Giriş yapılan kullanıcı
@@ -4152,7 +4336,6 @@ tr:
   label_menu_item_name: Menü öğesinin ismi
   label_message: İleti
   label_message_last: Son mesaj
-  label_message_new: Yeni mesaj
   label_message_plural: Mesajlar
   label_message_posted: Mesaj eklendi
   label_minute_plural: dakika
@@ -4413,6 +4596,7 @@ tr:
   label_subtask_plural: Alt görevler
   label_summary: Özet
   label_system: Sistem
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Sistem ayarları
   label_system_storage: Depolama bilgisi
   label_table_of_contents: İçindekiler
@@ -4527,44 +4711,44 @@ tr:
   label_working_hours: Work schedule
   label_workweek: Çalışma haftası
   label_x_closed_work_packages_abbr:
-    one: 1 kapalı
+    one: "%{count} closed"
     other: "%{count} kapalı"
     zero: 0 kapalı
   label_x_comments:
-    one: 1 yorum
+    one: "%{count} comment"
     other: "%{count} yorumlar"
     zero: yorum yok
   label_x_days:
-    one: 1 day
+    one: "%{count} day"
     other: "%{count} days"
   label_x_files:
-    one: 1 dosya
+    one: "%{count} file"
     other: "%{count} dosya"
     zero: dosya yok
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
-    one: One item selected
+    one: "%{count} item selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 açık
+    one: "%{count} open"
     other: "%{count} açık"
     zero: 0 açık
   label_x_projects:
-    one: 1 proje
+    one: "%{count} project"
     other: "%{count} proje"
     zero: proje yok
   label_x_work_packages:
-    one: 1 iş paketi
+    one: "%{count} work package"
     other: "%{count} iş paketi"
     zero: İş paketi yok
   label_x_working_days:
-    one: 1 working day
+    one: "%{count} working day"
     other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
+    one: 'Time off: %{count} working day'
     other: 'Time off: %{count} working days'
   label_yesterday: dün
   label_zen_mode: Zen modu
@@ -4677,6 +4861,69 @@ tr:
     context_window_sources:
       registry: the figure published for this model
       server: reported by the server
+    features:
+      description_assistant:
+        caption: Rewrites and restructures work package text on request.
+        label: Description assistant
+      semantic_search:
+        caption: Indexes work packages so they can be found by meaning rather than by keyword.
+        label: Semantic search
+    health_checks:
+      configuration:
+        api_format_supported: Endpoint format is usable
+        base_url_present: Endpoint is configured
+        credentials_present: API key is stored
+        enabled: Connection is switched on
+        feature_flag: AI features are switched on
+        header: Configuration
+      errors:
+        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
+        catalogue_never_fetched: The model list has never been retrieved from the server.
+        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
+        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
+        chat_failed: The server refused a request for %{model} with status %{status}.
+        connection_disabled: The connection is configured but switched off, so no feature will use it.
+        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: The server rejected the stored API key.
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
+        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
+        no_model_to_test: No model is available to test with. Add a model or choose a default first.
+        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
+        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
+        not_configured: No endpoint has been configured.
+        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
+        request_timed_out: The server did not respond in time.
+        server_error: The server responded with status %{status}.
+        ssrf_filtered: The endpoint resolves to a blocked address.
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: Every feature has a usable model
+        header: AI features
+        locked_bindings_intact: Indexed data still has its model
+      inference:
+        chat_round_trip: The server answers a request
+        header: Inference
+      models:
+        catalogue_fresh: Model list is up to date
+        catalogue_present: Models are available
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        header: Models
+      server:
+        credentials_accepted: The server accepts the API key
+        header: Server
+        reachable: The server can be reached
+    health_report_kinds:
+      full: Full check, including an inference request.
+      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
     model_kinds:
       chat: Chat
       embedding: Embedding
@@ -4684,6 +4931,15 @@ tr:
       supported: supported
       unknown: not verified
       unsupported: not supported
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: Last checked %{datetime}.
+        never_checked: This connection has not been checked yet.
+        open_report: Open full health report
+        run_checks: Run checks now
+        running: Running checks...
+        title: Health status
   macro_execution_error: Makroyu çalıştırırken hata oluştu %{macro_name}
   macro_unavailable: Makro %{macro_name} görüntülenemiyor.
   macro_unknown: Unknown or unsupported macro.
@@ -4713,6 +4969,8 @@ tr:
       you_have: Var
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: Bildirim Merkezi
@@ -4769,8 +5027,8 @@ tr:
       mentioned: Sizden <b>bir yorumda bahsedildi</b>
       mentioned_by: "%{user} bir yorumda sizden bahsetti"
       more_to_see:
-        one: Bildirimli 1 iş paketi daha var.
-        other: Bildirimleri olan %{count} iş paketi daha var.
+        one: There is %{count} more work package with notifications.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Tarayıcıda aç
       reason:
         assigned: Atanmış
@@ -4953,7 +5211,7 @@ tr:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             other: "%{count} days (%{date})"
           name_label: Anahtar adı
       failed_to_create_token: 'Erişim anahtarı oluşturması başarısız oldu: %{error}'
@@ -4968,6 +5226,9 @@ tr:
     password_confirmation_dialog:
       confirmation_required: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
         assign_to_me: Assign work package to me
@@ -5296,7 +5557,7 @@ tr:
 
       '
     confirm_revoke_my_application:
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: Hiçbir OAuth uygulaması kaydedilmemiştir.
     flows:
@@ -5503,7 +5764,7 @@ tr:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Haberlere yorum yazmak
   permission_commit_access: Depoya okuma / yazma erişimi (tamamlama)
-  permission_copy_projects: Proje kopyalamak
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: İş paketlerini çoğalt
   permission_create_backup: Yedek oluşturma
@@ -5642,7 +5903,7 @@ tr:
     name: OmniAuth SAML / Tek Oturum Açma
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5653,7 +5914,7 @@ tr:
         label: Portfolio name filter
         placeholder: Search portfolios
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Aktif portföyler
@@ -5668,7 +5929,7 @@ tr:
         Tablodaki iş paketlerini vurgulamak için kullanılabilir.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5680,7 +5941,7 @@ tr:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 proje
+      one: "%{count} project"
       other: "%{count} proje"
       zero: Proje yok
     destroy:
@@ -5895,14 +6156,14 @@ tr:
             new_heading: Fields that become available
             nothing_affected: No fields or statuses are affected.
             status_count:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
             table_suffix: "(table)"
             value_count:
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               other: "%{count} work packages have a value"
             work_packages:
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
@@ -5959,8 +6220,8 @@ tr:
     action_title: Tepki
     add_reaction: Tepki ekle
     and_others:
-      one: ve 1 diğer
-      other: ve %{count} diğer
+      one: and %{count} other
+      other: and %{count} others
     and_user: ve %{user} ile
     react_with: "%{reaction} ile tepki ver"
     reaction_by: tarafından %{reaction}
@@ -6087,23 +6348,23 @@ tr:
         one: "(Project: %{projects})"
         other: "(Projects: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       summary_users:
-        one: 1 user
+        one: "%{count} user"
         other: "%{count} users"
       title: Delete role
     edit:
@@ -6119,10 +6380,9 @@ tr:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
-        one: 1 permission
+        one: "%{count} permission"
         other: "%{count} permissions"
       preview_action: View permissions
       preview_aria_label: View the permissions of %{role}
@@ -6231,7 +6491,7 @@ tr:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Görüntülenen fark satırlarının maksimum sayısı
   setting_disable_password_login: Parola kimlik doğrulamasını devre dışı bırak
-  setting_display_subprojects_work_packages: Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Süre biçimi
   setting_duration_format_days_and_hours: Gün ve saat
   setting_duration_format_hours_only: Sadece saat
@@ -6611,7 +6871,7 @@ tr:
       section_work_week: Çalışma haftası
   sharing:
     count:
-      one: 1 kullanıcı
+      one: "%{count} user"
       other: "%{count} kullanıcı"
       zero: Kullanıcı yok
     denied: "%{entities} paylaşımı için yetkiniz bulunmuyor."
@@ -6918,7 +7178,7 @@ tr:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
         parent_type: Parent type
         same_as_type: Same as parent type
@@ -7249,7 +7509,7 @@ tr:
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
         heading: Delete type '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
@@ -7263,7 +7523,7 @@ tr:
       no_results_content_text: Yeni tip oluştur
       no_results_title_text: Şu anda hiç tip yok.
       project_variants_count:
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
@@ -7272,7 +7532,7 @@ tr:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
@@ -7300,8 +7560,8 @@ tr:
     authorization_rejected: Oturum açma izniniz yok.
     blocked: geçici olarak kilitlendi
     blocked_num_failed_logins:
-      one: geçici olarak kilitlenmiştir (bir başarısız giriş denemesi)
-      other: geçici olarak kilitlenmiştir (%{count} başarısız giriş denemeleri)
+      one: locked temporarily (%{count} failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: "'%{name}' durumunu değiştirmek üzeresiniz. Devam etmek istediğinizden emin misiniz?"
     deleted: Kullanıcı silindi
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7461,7 +7721,7 @@ tr:
         start_date: Başlangıç tarihi
         work_days: Çalışma günleri
         work_days_count:
-          one: 1 working day
+          one: "%{count} working day"
           other: "%{count} working days"
         work_hours: Work hours
   version_status_closed: kapalı
@@ -7650,7 +7910,7 @@ tr:
       could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'Aşağıdaki iş paketleri kaydedilemedi:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         other: Successfully deleted %{count} work packages.
       descendant: seçilmiş nesil
       move_failed: İş paketleri taşınamadı.
@@ -7675,17 +7935,17 @@ tr:
       description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
@@ -7743,17 +8003,17 @@ tr:
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
@@ -7831,7 +8091,7 @@ tr:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
         file_rejected:
@@ -7865,7 +8125,7 @@ tr:
           work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: Problems
@@ -7882,10 +8142,10 @@ tr:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -7921,8 +8181,8 @@ tr:
         version:
           no_results_title_text: Şu anda sürüm bulunmuyor.
     x_descendants:
-      one: Bir soydan iş paketi
-      other: "%{count} Bir soydan iş paketi"
+      one: "%{count} descendant work package"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -7990,19 +8250,19 @@ tr:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         other: "%{count} roles"
       type_filter:
         label: Filter by type name…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Workflow
@@ -8034,10 +8294,10 @@ tr:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
+        one: This workflow is used by %{count} type or variant.
         other: This workflow is used by %{count} types and variants.
     wizard:
       choice:

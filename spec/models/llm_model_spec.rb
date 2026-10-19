@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,6 +57,36 @@ RSpec.describe LlmModel do
                                              state: "unknown", source: "metadata", checked_at: Time.current)
 
       expect(llm_model.model_type).to eq(:chat)
+    end
+  end
+
+  describe "withdrawal", :llm_server_helpers, :webmock, with_flag: { llm_connection: true } do
+    let(:base_url) { "https://example.com/v1" }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let(:model) { connection.models.find_by(external_id: "qwen3.6-27b") }
+
+    it "only describes a discovered model the server stopped reporting" do
+      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+      typed = create(:llm_model, :manual, :withdrawn, llm_connection: connection, external_id: "hand-typed")
+
+      expect(withdrawn).to be_withdrawn
+      expect(typed).not_to be_withdrawn
+      expect(model).not_to be_withdrawn
+    end
+  end
+
+  describe "a feature binding", :llm_server_helpers, :webmock,
+           with_flag: { llm_connection: true }, with_settings: { llm_features_enabled: true } do
+    let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
+
+    it "keeps the bound model available and resolves the feature to it" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      resolution = Llm::Runtime.for(:description_assistant)
+
+      expect(connection.available_model_ids).to include("qwen3.6-27b")
+      expect(resolution).to be_ready
+      expect(resolution.model_id).to eq("qwen3.6-27b")
     end
   end
 end

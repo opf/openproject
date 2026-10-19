@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -122,12 +121,13 @@ class WithDirectUploads
 
   def stub_chrome_background_requests
     [
-      %r{\Ahttp://clients2\.google\.com:80/},
-      %r{\Ahttps://accounts\.google\.com:443/},
-      %r{\Ahttps://www\.google\.com:443/},
-      %r{\Ahttps://content-autofill\.googleapis\.com:443/},
-      %r{\Ahttps://optimizationguide-pa\.googleapis\.com:443/},
-      %r{\Ahttps://android\.clients\.google\.com:443/}
+      %r{\Ahttp://clients2\.google\.com(?::80)?/},
+      %r{\Ahttps://accounts\.google\.com(?::443)?/},
+      %r{\Ahttps://www\.google\.com(?::443)?/},
+      %r{\Ahttps://content-autofill\.googleapis\.com(?::443)?/},
+      %r{\Ahttps://optimizationguide-pa\.googleapis\.com(?::443)?/},
+      %r{\Ahttps://update\.googleapis\.com(?::443)?/},
+      %r{\Ahttps://android\.clients\.google\.com(?::443)?/}
     ].each do |url_pattern|
       %w[get post].each do |method|
         proxy.stub(url_pattern, method:).and_return(code: 204, headers: {})

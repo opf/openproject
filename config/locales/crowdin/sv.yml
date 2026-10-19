@@ -40,7 +40,9 @@ sv:
         view: En dynamisk länk till en vy som infogats med ett makro.
         work_package: En dynamisk länk till ett arbetspaket som infogats med ett makro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Logga in som <em>%{login}</em> för att aktivera ditt konto.
+    continue_with_provider: Continue with %{name}
     delete: Ta bort konto
     delete_confirmation: Är du säker du vill ta bort kontot?
     deletion_info:
@@ -65,7 +67,9 @@ sv:
     error_self_registration_limited_provider: 'Användarregistreringen är begränsad för leverantören för enkel inloggning ”%{name}”. Be en administratör att aktivera kontot åt dig eller ändra begränsningen för självregistrering för den här leverantören.
 
       '
-    login_with_auth_provider: eller logga in med ditt befintliga konto
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Fortsätt till inloggningen
     omniauth_direct_login_redirecting: Omdirigerar dig till din identitetsleverantör…
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
@@ -168,6 +172,7 @@ sv:
         uid: Client ID
       emoji_reaction:
         reactable: Reagerade den
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: Aktiva användare
         encoded_token: Enterprise support-nyckel
@@ -180,9 +185,9 @@ sv:
       favorite:
         favorited: Objekt
       form_configuration:
-        attribute_groups: Form
-        description: Description
-        name: Name
+        attribute_groups: Formulär
+        description: Beskrivning
+        name: Namn
         type_variants: Types and variants using this form
       form_configuration_attribute:
         attribute_key: Attribute
@@ -200,11 +205,17 @@ sv:
         row_count: Antal rader
         widgets: Widgets
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Gruppera användare
         identity_url: Identitets-URL
         organizational_unit: Organisationsenhet
         parent: Överordnad grupp
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organisationsenhet
         parent: Överordnad grupp
       import/jira:
@@ -242,7 +253,13 @@ sv:
         base_url: Host URL
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
+        env_fingerprint: Applied environment configuration
+        env_provisioned_at: Applied from the environment
         llm_features_enabled: Enable LLMs for this instance
+      llm_feature_binding:
+        dimensions: Dimensions
+        feature_key: Feature
+        model: Model
       llm_model:
         admin_context_window: Context window
         display_name: Display name
@@ -428,6 +445,7 @@ sv:
       user:
         admin: Administratör
         auth_source: Källa för autentisering
+        avatar_type: Avatar type
         consented_at: Samtyckte den
         current_password: Nuvarande lösenord
         department: Avdelning
@@ -441,7 +459,7 @@ sv:
         last_name: Efternamn
         ldap_auth_source: LDAP-anslutning
         new_password: Nytt lösenord
-        password_confirmation: Bekräftelse
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Sektion
       user_non_working_time:
@@ -450,11 +468,15 @@ sv:
       user_preference:
         auto_hide_popups: Dölj automatiskt framgångsbanners
         auto_hide_popups_caption: När detta är aktiverat försvinner de gröna framgångsbanderollerna automatiskt efter 5 sekunder.
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Uppdatera varningar
         button_update_look_and_feel: Uppdatera utseende
         button_update_user_information: Uppdatera profil
         comments_sorting: Visa arbetspaketsaktivitet sorterad efter
         daily_reminders: Dagliga påminnelser
+        date_format: Date format
         disable_keyboard_shortcuts: Inaktivera kortkommandon
         dismissed_enterprise_banners: Dolda Enterprise-banderoller
         force_dark_theme_contrast: Tvinga hög kontrast i mörkt läge
@@ -468,7 +490,10 @@ sv:
         increase_contrast_caption: Aktiverar högkontrastläge för det valda färgläget.
         increase_theme_contrast: Öka temats kontrast
         mode_guideline: I vissa lägen skrivs anpassade temafärger över av tillgänglighets- och läsbarhetsskäl. Välj Light-läge för fullt stöd för anpassade teman.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Färgläge
+        time_format: Time format
         time_zone: Tidszon
         warn_on_leaving_unsaved: Varna mig när jag lämnar ett arbetspaket med osparade ändringar
         workdays: Arbetsdagar
@@ -775,8 +800,24 @@ sv:
               ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
             custom_headers:
               invalid: must map header names to plain text values.
+            default_chat_model_id:
+              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
+              not_available: is not offered by the configured LLM server.
+            default_embedding_model_id:
+              cannot_embed: is known not to create embeddings, according to the LLM server.
+              not_available: is not offered by the configured LLM server.
             llm_features_enabled:
               requires_connection: cannot be turned on before a connection has been configured.
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
+              not_for_chat_feature: only applies to features that create embeddings.
+            feature_key:
+              not_registered: does not belong to a known AI feature.
+            model_id:
+              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
+              not_available: is not offered by the configured LLM server.
         llm_model:
           attributes:
             external_id:
@@ -976,8 +1017,8 @@ sv:
               numeric: numeriska (t.ex. ' 1')
               requirements_not_met: 'Måste innehålla tecken av följande typer: %{rules}'
               reused:
-                one: har använts förut. Var god välj en som är annorlunda jämfört med din senaste.
-                other: har använts förut. Var god välj en som är annorlunda jämfört med dina senaste %{count} stycken.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: specialtecken (t.ex. ' %')
               uppercase: versal (t.ex. "A")
             password_confirmation:
@@ -1081,8 +1122,8 @@ sv:
       template:
         body: 'Kontrollera följande fält:'
         header:
-          one: 1 fel förhindrade denna %{model} från att sparas
-          other: "%{count} fel förhindrade denna %{model} från att sparas"
+          one: "%{count} error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Åtgärd
@@ -1474,6 +1515,10 @@ sv:
   admin:
     banners:
       environment_configured_readonly: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1720,26 +1765,26 @@ sv:
             title: Se till att du har en säkerhetskopia!
           parts:
             issues:
-              one: 1 ärende
-              other: "%{count} ärenden"
+              one: "%{count} issue"
+              other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               other: "%{count} jobs"
             projects:
-              one: 1 projekt
-              other: "%{count} projekt"
+              one: "%{count} project"
+              other: "%{count} projects"
             statuses:
-              one: 1 status
-              other: "%{count} statusar"
+              one: "%{count} status"
+              other: "%{count} statuses"
             types:
-              one: 1 typ
-              other: "%{count} typer"
+              one: "%{count} type"
+              other: "%{count} types"
             users:
-              one: 1 användare
-              other: "%{count} användare"
+              one: "%{count} user"
+              other: "%{count} users"
             work_packages:
-              one: 1 arbetspaket
-              other: "%{count} arbetspaket"
+              one: "%{count} work package"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: Jag förstår att den här återställningen raderar data permanent
             description: Detta tar bort alla importerade objekt (inklusive hela projekt).
@@ -1804,8 +1849,8 @@ sv:
               caption: Välj vad du vill importera till OpenProject
               caption_done: Slutförd
               caption_done_description:
-                one: 1 projekt valt som omfattning
-                other: "%{count} projekt valda som omfattning"
+                one: "%{count} project selected as scope"
+                other: "%{count} projects selected as scope"
               description: Välj vilka data du vill importera från de tillgängliga data som hämtats från Jira-värdinstansen.
               elements:
                 custom_fields: En delmängd av anpassade fält
@@ -1917,6 +1962,7 @@ sv:
           title: Inga etiketter matchar sökningen
     llm_connections:
       delete_api_key:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
         heading: Remove the stored API key?
         menu_label: Remove API key
@@ -1924,8 +1970,10 @@ sv:
         title: Remove API key
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
+        configured_from_env: This connection is configured through the environment and cannot be changed here.
         description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
         heading: Disconnect from the LLM server?
+        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
         menu_label: Disconnect
@@ -1935,11 +1983,14 @@ sv:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_env: The key comes from the environment.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
         api_key_placeholder_stored: API key stored
         api_key_remove: Remove key
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
+        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
+        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
+        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
         label_connecting: Contacting the LLM server…
         llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
         server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
@@ -1949,14 +2000,55 @@ sv:
         description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
       tabs:
         connection: Connection
+        features: Feature configuration
         models: Models
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
         success: Successfully connected to the LLM server.
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      form:
+        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
+        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
+        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
+      index:
+        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
+      inherit_with_default: Use the default (%{model})
+      inherit_without_default: Use the default (none set)
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: Values fixed by the existing index
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
+        success: The model for %{feature} has been saved.
+    llm_health_status:
+      create:
+        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
+      create_health_status_report:
+        success: The checks have run.
+      show:
+        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
+        blankslate_heading: This connection has not been checked yet
+        download: Download report
+        last_check: Last checked %{datetime}.
+        run_checks: Run checks
+        running: Running checks...
+        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
+        title: Health status
     llm_models:
+      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
       create:
         success: "%{model} has been added."
+      defaults:
+        chat_caption: Embedding models are not offered.
+        description: Used by AI features that do not choose a model themselves.
+        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
+        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
+        heading: Default models
+        success: The default models have been saved.
       destroy:
         description: The model will no longer be offered to AI features.
         description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
@@ -2044,6 +2136,10 @@ sv:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Medlemsskap
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Mer information finns på vår sida för integrationer och insticksmoduler.
       no_results_title_text: Det finns för närvarande inga installerade insticksmoduler.
@@ -2057,8 +2153,8 @@ sv:
         confirm_button: Frigör identifierare
         description: Att frigöra den här projektidentifieraren kan inte ångras. Externa länkar och integrationer som använder den slutar fungera, och namnet blir tillgängligt för nya projekt.
         description_with_work_packages:
-          one: Att frigöra den här projektidentifieraren (och dess 1 arbetspaketsidentifierare) kan inte ångras. Externa länkar och integrationer som använder den slutar fungera, och namnet blir tillgängligt för nya projekt.
-          other: Att frigöra den här projektidentifieraren (och dess %{count} arbetspaketsidentifierare) kan inte ångras. Externa länkar och integrationer som använder den slutar fungera, och namnet blir tillgängligt för nya projekt.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Frigöra ”%{identifier}”?
         title: Frigör identifierare
       empty_body: När ett projekts identifierare ändras visas den föregående här så att du kan frigöra den när det är säkert att göra det.
@@ -2186,8 +2282,8 @@ sv:
           error_unknown: Behöver granskas manuellt
           error_used_in_past: Reserverad i ett annat projekts identifierarhistorik
           remaining_projects:
-            one: "... 1 projekt till"
-            other: "... %{count} projekt till"
+            one: "... %{count} more project"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Befintliga identifierare för %{project_count} projekt uppfyller inte kraven för projektbaserade semantiska identifierare. OpenProject kan automatiskt uppdatera dem så att de blir giltiga, som i exemplen nedan. Klicka på ”Konvertera identifierare” för att uppdatera identifierarna för alla projekt på detta sätt och aktivera projektbaserade semantiska identifierare.
 
@@ -2269,8 +2365,8 @@ sv:
         label: 'Roll: %{role}'
         no_role: Välj roll
         roles:
-          one: En roll vald
-          other: "%{count} roller valda"
+          one: "%{count} role selected"
+          other: "%{count} roles selected"
         title: Välj roller
       status_button: Status
       statuses_dialog:
@@ -2281,8 +2377,8 @@ sv:
         confirm: Ta bort
         description: Om dessa statusar tas bort blir de otillgängliga för den här typen och befintliga arbetsflöden raderas. Är du säker på att du vill fortsätta?
         heading:
-          one: Ta bort 1 status?
-          other: Ta bort %{count} statusar?
+          one: Remove %{count} status?
+          other: Remove %{count} statuses?
         title: Ta bort statusar
       tabs:
         always: Standardövergångar
@@ -2302,6 +2398,21 @@ sv:
         not_available: AI-assistenten är inte tillgänglig.
         timeout: AI-tjänsten svarade inte i tid.
         upstream_error: AI-tjänsten returnerade ett fel.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: visas för tillfället
@@ -2716,9 +2827,9 @@ sv:
     text:
       failed: Kunde inte kopiera projekt "%{source_project_name}" till projektet "%{target_project_name}".
       succeeded: Kopierade projektet "%{source_project_name}" till "%{target_project_name}".
-    title: Kopiera projektet ”%{source_project_name}”
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Ett objekt av den här typen
+      one: "%{count} object of this type"
       other: "%{count} objekt av den här typen"
       zero: Inga objekt av den här typen
   create_portfolio:
@@ -2758,7 +2869,7 @@ sv:
     admin:
       hierarchy:
         subitems:
-          one: 1 underpost
+          one: "%{count} sub-item"
           other: "%{count} underposter"
           zero: inga underposter
       items:
@@ -2918,57 +3029,57 @@ sv:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: ca 1 timme
-        other: ca %{count} timmar
+        one: about %{count} hour
+        other: about %{count} hours
       about_x_months:
-        one: ca 1 månad
-        other: ca %{count} månader
+        one: about %{count} month
+        other: about %{count} months
       about_x_years:
-        one: ca 1 år
-        other: ca %{count} år
+        one: about %{count} year
+        other: about %{count} years
       almost_x_years:
-        one: nästan ett år
-        other: nästan %{count} år
+        one: almost %{count} year
+        other: almost %{count} years
       half_a_minute: en halv minut
       less_than_x_minutes:
         one: mindre än 1 minut
         other: mindre än %{count} minuter
       less_than_x_seconds:
-        one: mindre än en sekund
-        other: mindre än %{count} sekunder
+        one: less than %{count} second
+        other: less than %{count} seconds
       over_x_years:
-        one: över ett år
-        other: över %{count} år
+        one: over %{count} year
+        other: over %{count} years
       x_days:
-        one: 1 dag
-        other: "%{count} dagar"
+        one: "%{count} day"
+        other: "%{count} days"
       x_hours:
-        one: 1 timme
-        other: "%{count} timmar"
+        one: "%{count} hour"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 tim
-        other: "%{count} tim"
+        one: "%{count} hr"
+        other: "%{count} hrs"
       x_minutes:
-        one: v minut
-        other: "%{count} minuter"
+        one: "%{count} minute"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min
-        other: "%{count} min"
+        one: "%{count} min"
+        other: "%{count} mins"
       x_months:
-        one: 1 månad
-        other: "%{count} månader"
+        one: "%{count} month"
+        other: "%{count} months"
       x_seconds:
-        one: En sekund
-        other: "%{count} sekunder"
+        one: "%{count} second"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 vecka
-        other: "%{count} veckor"
+        one: "%{count} week"
+        other: "%{count} weeks"
       x_years:
-        one: 1 år
-        other: "%{count} år"
+        one: "%{count} year"
+        other: "%{count} years"
     units:
       day:
         one: dag
@@ -3118,8 +3229,8 @@ sv:
     teaser:
       description_html: Du har tillgång till alla funktioner i %{trial_plan}.
       title:
-        one: En dag återstår av provperioden för %{trial_plan}
-        other: "%{count} dagar återstår av provperioden för %{trial_plan}"
+        one: "%{count} day left of %{trial_plan} trial token"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Din Enterprise-provtoken har redan hämtats. Kontrollera din e-post efter meddelandet där token finns bifogad. Kontakta vårt supportteam om du behöver en ny.
 
@@ -3504,14 +3615,14 @@ sv:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Form
@@ -3547,10 +3658,10 @@ sv:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         other: This form is used by %{count} types and variants.
     wizard:
       choice:
@@ -3561,8 +3672,48 @@ sv:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Det finns för närvarande inga inlägg i forumet.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: ","
   general_csv_encoding: UTF-8
   general_csv_separator: ";"
@@ -3587,6 +3738,8 @@ sv:
   groups:
     edit:
       synchronized_groups: Synkroniserade grupper
+    form:
+      group_attributes: Group attributes
     index:
       description: Genom att gruppera användare kan du lägga till dem som medlemmar i samma projekt eller tilldela dem samma globala roller.
     memberships:
@@ -3612,6 +3765,10 @@ sv:
       leave_project: Lämna projektet
       no_favorite_projects: Du har inga favoritprojekt.
       title: Projekt
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3660,6 +3817,31 @@ sv:
           new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, bland annat:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: Läs om nya funktioner och produktuppdateringar.
         learn_about: Läs mer om alla nya funktioner
         missing: Det finns inga framhävda funktioner ännu.
@@ -3695,6 +3877,7 @@ sv:
   journals:
     cause_descriptions:
       budget_deleted: Budgeten har tagits bort
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} ändrades (%{link})"
         csv: from CSV
@@ -3747,6 +3930,7 @@ sv:
       budget_deleted: Budgeten har tagits bort
       dates_changed: Datum ändrade
       default_attribute_written: Skrivskyddade attribut skrevs
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Importerad
       meeting_agenda_item_added_html: "<strong>Tillagd i möte</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Tillagd i</strong> %{meeting_title_information}"
@@ -3934,7 +4118,7 @@ sv:
   label_database_version: PostgreSQL-version
   label_date: Datum
   label_date_and_time: Datum och tid
-  label_date_format: Datumformat
+  label_date_and_time_formats: Date and time formats
   label_date_from: Från
   label_date_from_to: Från %{start} till %{end}
   label_date_to: Till
@@ -4093,7 +4277,6 @@ sv:
   label_keyword_plural: Nyckelord
   label_label_plural: Etiketter
   label_language: Språk
-  label_language_based: Baserat på användarens språk
   label_languages: Språk
   label_last_activity: Senaste aktivitet
   label_last_change_on: Senast ändrad
@@ -4115,6 +4298,7 @@ sv:
   label_list: Lista
   label_loading: Laddar...
   label_locale: Språk och region
+  label_locale_based: Use default for user locale
   label_lock_user: Lås användare
   label_locked: låst
   label_logged_as: Inloggad som
@@ -4144,7 +4328,6 @@ sv:
   label_menu_item_name: Namn på menyalternativ
   label_message: Meddelande
   label_message_last: Senaste meddelandet
-  label_message_new: Nytt meddelande
   label_message_plural: Meddelanden
   label_message_posted: Meddelande tillaggt
   label_minute_plural: minuter
@@ -4405,6 +4588,7 @@ sv:
   label_subtask_plural: Underaktiviteter
   label_summary: Sammanfattning
   label_system: System
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Systeminställningar
   label_system_storage: Lagringsinformation
   label_table_of_contents: Innehållsförteckning
@@ -4519,45 +4703,45 @@ sv:
   label_working_hours: Arbetsschema
   label_workweek: Arbetsvecka
   label_x_closed_work_packages_abbr:
-    one: 1 stängd
+    one: "%{count} closed"
     other: "%{count} stängda"
     zero: 0 stängda
   label_x_comments:
-    one: En kommentar
+    one: "%{count} comment"
     other: "%{count} kommentarer"
     zero: inga kommentarer
   label_x_days:
-    one: 1 dag
-    other: "%{count} dagar"
+    one: "%{count} day"
+    other: "%{count} days"
   label_x_files:
-    one: 1 fil
+    one: "%{count} file"
     other: "%{count} filer"
     zero: inga filer
   label_x_items:
-    one: 1 post
+    one: "%{count} item"
     other: "%{count} poster"
     zero: inga poster
   label_x_items_selected:
-    one: En post vald
-    other: "%{count} poster valda"
+    one: "%{count} item selected"
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: en öppen
+    one: "%{count} open"
     other: "%{count} öppna"
     zero: 0 öppna
   label_x_projects:
-    one: 1 projekt
+    one: "%{count} project"
     other: "%{count} projekt"
     zero: inga projekt
   label_x_work_packages:
-    one: 1 arbetspaket
+    one: "%{count} work package"
     other: "%{count} arbetspaket"
     zero: Inga arbetspaket
   label_x_working_days:
-    one: 1 arbetsdag
-    other: "%{count} arbetsdagar"
+    one: "%{count} working day"
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Ledighet: 1 arbetsdag'
-    other: 'Ledighet: %{count} arbetsdagar'
+    one: 'Time off: %{count} working day'
+    other: 'Time off: %{count} working days'
   label_yesterday: igår
   label_zen_mode: Zen-läge
   ldap_auth_sources:
@@ -4668,6 +4852,69 @@ sv:
     context_window_sources:
       registry: the figure published for this model
       server: reported by the server
+    features:
+      description_assistant:
+        caption: Rewrites and restructures work package text on request.
+        label: Description assistant
+      semantic_search:
+        caption: Indexes work packages so they can be found by meaning rather than by keyword.
+        label: Semantic search
+    health_checks:
+      configuration:
+        api_format_supported: Endpoint format is usable
+        base_url_present: Endpoint is configured
+        credentials_present: API key is stored
+        enabled: Connection is switched on
+        feature_flag: AI features are switched on
+        header: Configuration
+      errors:
+        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
+        catalogue_never_fetched: The model list has never been retrieved from the server.
+        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
+        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
+        chat_failed: The server refused a request for %{model} with status %{status}.
+        connection_disabled: The connection is configured but switched off, so no feature will use it.
+        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
+        default_model_missing: "%{model} is no longer offered by the server."
+        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
+        empty_completion: "%{model} answered with an empty message."
+        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
+        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
+        features_model_missing: "%{features} point at a model the server no longer offers."
+        features_unbound: "%{features} have no model chosen yet."
+        invalid_api_key: The server rejected the stored API key.
+        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
+        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
+        no_model_to_test: No model is available to test with. Add a model or choose a default first.
+        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
+        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
+        not_configured: No endpoint has been configured.
+        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
+        request_timed_out: The server did not respond in time.
+        server_error: The server responded with status %{status}.
+        ssrf_filtered: The endpoint resolves to a blocked address.
+        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
+      features:
+        bindings_resolvable: Every feature has a usable model
+        header: AI features
+        locked_bindings_intact: Indexed data still has its model
+      inference:
+        chat_round_trip: The server answers a request
+        header: Inference
+      models:
+        catalogue_fresh: Model list is up to date
+        catalogue_present: Models are available
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        header: Models
+      server:
+        credentials_accepted: The server accepts the API key
+        header: Server
+        reachable: The server can be reached
+    health_report_kinds:
+      full: Full check, including an inference request.
+      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
     model_kinds:
       chat: Chat
       embedding: Embedding
@@ -4675,6 +4922,15 @@ sv:
       supported: supported
       unknown: not verified
       unsupported: not supported
+  llm_connections:
+    side_panel:
+      health_status_component:
+        last_check: Last checked %{datetime}.
+        never_checked: This connection has not been checked yet.
+        open_report: Open full health report
+        run_checks: Run checks now
+        running: Running checks...
+        title: Health status
   macro_execution_error: Fel under körning av makrot %{macro_name}
   macro_unavailable: Makrot %{macro_name} kan inte visas.
   macro_unknown: Okänt makro eller makro som inte stöds.
@@ -4704,6 +4960,8 @@ sv:
       you_have: Du har
     logo_alt_text: Logotyp
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} nämnde dig i %{id} – %{subject}"
     notification:
       center: Till aviseringscentret
@@ -4760,8 +5018,8 @@ sv:
       mentioned: Du har blivit <b>nämnd i en kommentar</b>
       mentioned_by: "%{user} nämnde dig i en kommentar"
       more_to_see:
-        one: Det finns ytterligare 1 arbetspaket med aviseringar.
-        other: Det finns ytterligare %{count} arbetspaket med aviseringar.
+        one: There is %{count} more work package with notifications.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Öppna i webbläsare
       reason:
         assigned: Tilldelad
@@ -4943,7 +5201,7 @@ sv:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             other: "%{count} days (%{date})"
           name_label: Namn på token
       failed_to_create_token: 'Det gick inte att skapa åtkomsttoken: %{error}'
@@ -4958,6 +5216,9 @@ sv:
     password_confirmation_dialog:
       confirmation_required: Du måste ange lösenordet till ditt konto för att bekräfta ändringen.
       title: Bekräfta ditt lösenord för att fortsätta
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
         assign_to_me: Assign work package to me
@@ -5284,8 +5545,8 @@ sv:
 
       '
     confirm_revoke_my_application:
-      one: Vill du verkligen ta bort det här programmet? Det återkallar en aktiv token för programmet.
-      other: Vill du verkligen ta bort det här programmet? Det återkallar %{count} aktiva token för programmet.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: Inga OAuth-program har registrerats.
     flows:
       authorization_code: Flöde för auktoriseringskod
@@ -5491,7 +5752,7 @@ sv:
   permission_change_work_package_status_explanation: Tillåter att status ändras utan behörigheten Redigera arbetspaket
   permission_comment_news: Kommentera nyhet
   permission_commit_access: Läs- och skrivbehörighet till databasen (incheckning)
-  permission_copy_projects: Kopiera projekt
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: 'I mallprojekt har denna behörighet en sekundär funktion: den tillåter att nya projekt skapas från mallen.'
   permission_copy_work_packages: Duplicera arbetspaket
   permission_create_backup: Skapa säkerhetskopior
@@ -5630,7 +5891,7 @@ sv:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfölj
+      one: "%{count} portfolio"
       other: "%{count} portföljer"
       zero: 0 portföljer
     filters:
@@ -5641,8 +5902,8 @@ sv:
         label: Filter för portföljnamn
         placeholder: Sök portföljer
       sub_items_html:
-        one: "<strong>1</strong> underpost"
-        other: "<strong>%{count}</strong> underposter"
+        one: "<strong>%{count}</strong> sub-item"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Aktiva portföljer
       archived: Arkiverade portföljer
@@ -5656,7 +5917,7 @@ sv:
         Den kan användas för att markera arbetspaket i tabellen.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} program"
       zero: 0 program
     filters:
@@ -5668,7 +5929,7 @@ sv:
       confirmation_message: Om projektet arkiveras blir det och alla dess underordnade projekt otillgängliga för alla användare av den här instansen. Arkiverade projekt kan återställas.
       title: Arkivera projekt
     count:
-      one: 1 projekt
+      one: "%{count} project"
       other: "%{count} projekt"
       zero: 0 projekt
     destroy:
@@ -5883,15 +6144,15 @@ sv:
             new_heading: Fält som blir tillgängliga
             nothing_affected: Inga fält eller statusar påverkas.
             status_count:
-              one: 1 arbetspaket
-              other: "%{count} arbetspaket"
+              one: "%{count} work package"
+              other: "%{count} work packages"
             table_suffix: "(tabell)"
             value_count:
-              one: 1 arbetspaket har ett värde
-              other: "%{count} arbetspaket har ett värde"
+              one: "%{count} work package has a value"
+              other: "%{count} work packages have a value"
             work_packages:
-              one: 1 arbetspaket kommer att använda den nya konfigurationen
-              other: "%{count} arbetspaket kommer att använda den nya konfigurationen"
+              one: "%{count} work package will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: Projektet använder nu %{type}.
           target_label: Variant
           title: "%{type}: Byt variant"
@@ -5947,8 +6208,8 @@ sv:
     action_title: React
     add_reaction: Lägg till reaktion
     and_others:
-      one: och 1 annan
-      other: och %{count} andra
+      one: and %{count} other
+      other: and %{count} others
     and_user: och %{user}
     react_with: Reagera med %{reaction}
     reaction_by: "%{reaction} av"
@@ -6065,24 +6326,24 @@ sv:
         one: "(Projekt: %{projects})"
         other: "(Projekt: %{projects})"
       entry_projects_truncated:
-        one: "(Projekt: %{projects} och 1 till)"
-        other: "(Projekt: %{projects} och %{count} till)"
+        one: "(Projects: %{projects} and %{count} other)"
+        other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'Den här rollen är fortfarande tilldelad 1 medlem:'
-        other: 'Den här rollen är fortfarande tilldelad %{count} medlemmar:'
+        one: 'This role is still attributed to %{count} member:'
+        other: 'This role is still attributed to %{count} members:'
       heading_unused: Vill du verkligen ta bort rollen ”%{name}”?
       losing_project_access:
-        one: Av dessa användare förlorar 1 åtkomsten till projekt där detta var användarens enda roll. Vill du verkligen ta bort rollen?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Av dessa användare förlorar %{count} åtkomsten till projekt där detta var deras enda roll. Vill du verkligen ta bort rollen?
         zero: Ingen av dessa användare förlorar åtkomsten till något av sina projekt. Vill du verkligen ta bort rollen?
       show_memberships: Visa alla medlemskap med den här rollen
       summary: "%{users} i %{projects}"
       summary_projects:
-        one: 1 projekt
-        other: "%{count} projekt"
+        one: "%{count} project"
+        other: "%{count} projects"
       summary_users:
-        one: 1 användare
-        other: "%{count} användare"
+        one: "%{count} user"
+        other: "%{count} users"
       title: Ta bort roll
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
@@ -6097,11 +6358,10 @@ sv:
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
     permissions_dialog:
       edit_permissions: Redigera rollbehörigheter
-      implicit_permission: Alltid beviljad
       no_permissions: Den här rollen ger inga behörigheter.
       permission_count:
-        one: 1 behörighet
-        other: "%{count} behörigheter"
+        one: "%{count} permission"
+        other: "%{count} permissions"
       preview_action: Visa behörigheter
       preview_aria_label: Visa behörigheterna för %{role}
       title: Behörigheter för ”%{name}”
@@ -6209,7 +6469,7 @@ sv:
   setting_default_projects_wiki: Aktivera Wiki-funktionalitet för nya projekt som standard
   setting_diff_max_lines_displayed: Max antal diff rader som visas
   setting_disable_password_login: Inaktivera lösenordsautentisering
-  setting_display_subprojects_work_packages: Visa arbetspaket för delprojekt på huvudprojekt som standard
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Varaktighetsformat
   setting_duration_format_days_and_hours: Dagar och timmar
   setting_duration_format_hours_only: Endast timmar
@@ -6591,7 +6851,7 @@ sv:
       section_work_week: Arbetsvecka
   sharing:
     count:
-      one: 1 användare
+      one: "%{count} user"
       other: "%{count} användare"
       zero: 0 användare
     denied: Du har inte behörighet att dela %{entities}.
@@ -6898,8 +7158,8 @@ sv:
         duplicate: Möjlig dubblett
         duplicate_of: Konfigurerad exakt som %{names}
         duplicate_of_more:
-          one: "%{names} och 1 till"
-          other: "%{names} och %{count} till"
+          one: "%{names} and %{count} more"
+          other: "%{names} and %{count} more"
         parent_type: Överordnad typ
         same_as_type: Samma som överordnad typ
       rows:
@@ -7229,8 +7489,8 @@ sv:
         description_with_variants: Typen och alla dess varianter tas bort permanent. Åtgärden kan inte ångras.
         heading: Ta bort typen ”%{name}”?
         projects:
-          one: 'Typen tas bort från 1 projekt:'
-          other: 'Typen tas bort från %{count} projekt:'
+          one: 'The type will be removed from %{count} project:'
+          other: 'The type will be removed from %{count} projects:'
         title: Ta bort typ
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
@@ -7243,8 +7503,8 @@ sv:
       no_results_content_text: Skapa ny typ
       no_results_title_text: Det finns för närvarande inga typer.
       project_variants_count:
-        one: 1 projektspecifik variant
-        other: "%{count} projektspecifika varianter"
+        one: "%{count} project-specific variant"
+        other: "%{count} project-specific variants"
       remove_default: Aktivera inte i nya projekt
       remove_default_notice: "%{name} aktiveras inte längre i nya projekt."
       type_label: Typ
@@ -7252,7 +7512,7 @@ sv:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milstolpe
     patterns:
@@ -7280,8 +7540,8 @@ sv:
     authorization_rejected: Du är inte tillåten att logga in.
     blocked: tillfälligt låst
     blocked_num_failed_logins:
-      one: tillfälligt låst (ett misslyckat inloggningsförsök)
-      other: tillfälligt låst (%{count} misslyckade inloggningsförsök)
+      one: locked temporarily (%{count} failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Du håller på att ändra statusen för '%{name}'. Är du säker på att du vill fortsätta?
     deleted: Raderad användare
     department_ldap_managed_caption: Den här avdelningen hanteras av LDAP-synkronisering och kan inte ändras här.
@@ -7441,8 +7701,8 @@ sv:
         start_date: Startdatum
         work_days: Arbetsdagar
         work_days_count:
-          one: 1 arbetsdag
-          other: "%{count} arbetsdagar"
+          one: "%{count} working day"
+          other: "%{count} working days"
         work_hours: Arbetstimmar
   version_status_closed: stängd
   version_status_locked: låst
@@ -7630,8 +7890,8 @@ sv:
       could_not_be_deleted: 'Följande arbetspaket kunde inte tas bort:'
       could_not_be_saved: 'Följande arbetspaket kunde inte sparas:'
       deletion_successful:
-        one: 1 arbetspaket har tagits bort.
-        other: "%{count} arbetspaket har tagits bort."
+        one: Successfully deleted %{count} work package.
+        other: Successfully deleted %{count} work packages.
       descendant: underordnad till vald
       move_failed: Arbetspaketen kunde inte flyttas.
       none_could_be_saved: Inget av de %{total} arbetspaketen kunde uppdateras.
@@ -7655,18 +7915,18 @@ sv:
       description_with_visible_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla synliga underordnade objekt?
       heading: Ta bort dessa %{count} arbetspaket permanent?
       hidden_descendants_only_warning:
-        one: Det finns ett underordnat objekt som du inte kan se. Det tas inte bort, men relationen tas bort.
-        other: Det finns %{count} underordnade objekt som du inte kan se. De tas inte bort, men alla hierarkiska relationer tas bort.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: Alla synliga underordnade objekt tas bort. Det finns dock ett underordnat objekt som du inte kan se. Det tas inte bort, men relationen tas bort.
-        other: Alla synliga underordnade objekt tas bort. Det finns dock %{count} underordnade objekt som du inte kan se. De tas inte bort, men alla hierarkiska relationer tas bort.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Ta bort %{count} arbetspaket
       undeletable_descendants_warning:
-        one: Du kan inte ta bort ett underordnat objekt eftersom du saknar nödvändiga behörigheter. Det bevaras, men den hierarkiska relationen tas bort.
-        other: Du kan inte ta bort %{count} underordnade objekt eftersom du saknar nödvändiga behörigheter. De bevaras, men alla hierarkiska relationer tas bort.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: Du kan inte ta bort ett underordnat objekt eftersom du saknar nödvändiga behörigheter i %{projects}. Det bevaras, men den hierarkiska relationen tas bort.
-        other: Du kan inte ta bort %{count} underordnade objekt eftersom du saknar nödvändiga behörigheter i %{projects}. De bevaras, men alla hierarkiska relationer tas bort.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -7723,18 +7983,18 @@ sv:
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:
-        one: Det här arbetspaketet har ett underordnat objekt som du inte kan se. Det tas inte bort, men den hierarkiska relationen tas bort.
-        other: Det här arbetspaketet har %{count} underordnade objekt som du inte kan se. De tas inte bort, men alla hierarkiska relationer tas bort.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: Alla synliga underordnade objekt tas bort. Det här arbetspaketet har dock ett underordnat objekt som du inte kan se. Det tas inte bort, men den hierarkiska relationen tas bort.
-        other: Alla synliga underordnade objekt tas bort. Det här arbetspaketet har dock %{count} underordnade objekt som du inte kan se. De tas inte bort, men alla hierarkiska relationer tas bort.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Ta bort arbetspaket
       undeletable_descendants_warning:
-        one: Du kan inte ta bort ett underordnat objekt eftersom du saknar nödvändiga behörigheter. Det bevaras, men den hierarkiska relationen tas bort.
-        other: Du kan inte ta bort %{count} underordnade objekt eftersom du saknar nödvändiga behörigheter. De bevaras, men alla hierarkiska relationer tas bort.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: Du kan inte ta bort ett underordnat objekt eftersom du saknar nödvändiga behörigheter i %{projects}. Det bevaras, men den hierarkiska relationen tas bort.
-        other: Du kan inte ta bort %{count} underordnade objekt eftersom du saknar nödvändiga behörigheter i %{projects}. De bevaras, men alla hierarkiska relationer tas bort.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
       checking_file: Checking %{filename}
@@ -7811,7 +8071,7 @@ sv:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
         file_rejected:
@@ -7845,7 +8105,7 @@ sv:
           work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: Problems
@@ -7862,10 +8122,10 @@ sv:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -7901,8 +8161,8 @@ sv:
         version:
           no_results_title_text: Det finns för närvarande inga tillgängliga versioner.
     x_descendants:
-      one: Ett underliggande arbetspaket
-      other: "%{count} underliggande arbetspaket"
+      one: "%{count} descendant work package"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -7970,20 +8230,20 @@ sv:
         name_placeholder: Filtrera efter arbetsflödets namn eller beskrivning…
         projects_placeholder: Filtrera projekt…
       projects_count:
-        one: 1 projekt
-        other: "%{count} projekt"
+        one: "%{count} project"
+        other: "%{count} projects"
       roles_count:
-        one: 1 roll
-        other: "%{count} roller"
+        one: "%{count} role"
+        other: "%{count} roles"
       type_filter:
         label: Filtrera efter typnamn…
       types_and_variants_count: "%{types} (inklusive %{variants})"
       types_count:
-        one: 1 typ
-        other: "%{count} typer"
+        one: "%{count} type"
+        other: "%{count} types"
       variants_count:
-        one: 1 variant
-        other: "%{count} varianter"
+        one: "%{count} variant"
+        other: "%{count} variants"
     name:
       fallback: Arbetsflöde
       implicit: Arbetsflödet %{name}
@@ -8014,11 +8274,11 @@ sv:
         variants: Varianter
       unused: Ingen typ eller variant använder det här arbetsflödet ännu.
       used_by_types:
-        one: Det här arbetsflödet används av 1 typ. Ändringarna tillämpas på den.
-        other: Det här arbetsflödet används av %{count} typer. Ändringarna tillämpas på alla dessa.
+        one: This workflow is used by %{count} type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: Det här arbetsflödet används av 1 typ eller variant.
-        other: Det här arbetsflödet används av %{count} typer och varianter.
+        one: This workflow is used by %{count} type or variant.
+        other: This workflow is used by %{count} types and variants.
     wizard:
       choice:
         existing:

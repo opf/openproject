@@ -25,12 +25,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+
 const cssClassRowHovered = 'row-hovered';
 
 export class WpTableHoverSync {
+  private active = false;
+
+  private readonly frames = new Set<number>();
+
   private lastHoveredElement:Element | null = null;
 
   private eventListener = (evt:MouseEvent) => {
+    if (!this.active) return;
     const target = evt.target as HTMLElement|null;
     if (target && target !== this.lastHoveredElement) {
       this.handleHover(target);
@@ -42,12 +49,18 @@ export class WpTableHoverSync {
   }
 
   activate() {
+    if (this.active) return;
+    this.active = true;
     window.addEventListener('mousemove', this.eventListener, { passive: true });
   }
 
   deactivate() {
-    window.removeEventListener('mousemove', this.eventListener);
-    this.removeAllHoverClasses();
+    this.active = false;
+    runCleanup(() => window.removeEventListener('mousemove', this.eventListener));
+    this.frames.forEach((id) => runCleanup(() => cancelAnimationFrame(id)));
+    this.frames.clear();
+    runCleanup(() => this.removeAllHoverClasses());
+    this.lastHoveredElement = null;
   }
 
   private locateHoveredTableRow(child:HTMLElement):HTMLTableRowElement | null {
@@ -76,24 +89,26 @@ export class WpTableHoverSync {
   }
 
   private removeOldAndAddNewHoverClass(parentTableRow:Element | null, parentTimelineRow:Element | null) {
-    const hovered = parentTableRow !== null ? parentTableRow : parentTimelineRow;
+    const hovered = parentTableRow ?? parentTimelineRow;
     const wpId = this.extractWorkPackageId(hovered!);
 
     const tableRow = this.tableAndTimeline.querySelector(`tr.wp-row-${wpId}`);
     const timelineRow = this.tableAndTimeline.querySelector(`div.wp-row-${wpId}`)
-      ? this.tableAndTimeline.querySelector(`div.wp-row-${wpId}`)
-      : this.tableAndTimeline.querySelector(`div.wp-ancestor-row-${wpId}`);
+      ?? this.tableAndTimeline.querySelector(`div.wp-ancestor-row-${wpId}`);
 
-    requestAnimationFrame(() => {
+    const id = requestAnimationFrame(() => {
+      this.frames.delete(id);
+      if (!this.active) return;
       this.removeAllHoverClasses();
       timelineRow?.classList.add(cssClassRowHovered);
       tableRow?.classList.add(cssClassRowHovered);
     });
+    this.frames.add(id);
   }
 
   private removeAllHoverClasses() {
     this.tableAndTimeline
       .querySelectorAll(`.${cssClassRowHovered}`)
-      .forEach((elem) => elem.classList.remove(cssClassRowHovered));
+      .forEach((elem) => runCleanup(() => elem.classList.remove(cssClassRowHovered)));
   }
 }
