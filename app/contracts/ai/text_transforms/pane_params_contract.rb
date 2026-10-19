@@ -31,14 +31,30 @@ module AI
   module TextTransforms
     class PaneParamsContract < DryApplicationContract
       SCOPES = %w[document selection].freeze
+      CONTEXT_KEYS = %i[work_package_id project_id type_id].freeze
 
       params do
         required(:request_id).filled(:string, :uuid_v4?)
         required(:scope).filled(:string, included_in?: SCOPES)
-        optional(:work_package_id).filled(:integer, gt?: 0)
-        optional(:project_id).filled(:integer, gt?: 0)
-        optional(:type_id).filled(:integer, gt?: 0)
-        optional(:after).filled(:integer, gteq?: 0)
+        optional(:work_package_id).maybe(:integer, gt?: 0)
+        optional(:project_id).maybe(:integer, gt?: 0)
+        optional(:type_id).maybe(:integer, gt?: 0)
+        optional(:after).maybe(:integer, gteq?: 0)
+        optional(:action_id).maybe(:integer, gt?: 0)
+        optional(:input).maybe(:string)
+        optional(:retry_of).maybe(:string, :uuid_v4?)
+      end
+
+      rule(:project_id) do
+        key.failure(:with_work_package) if value && values[:work_package_id]
+      end
+
+      rule(:type_id) do
+        key.failure(:without_project) if value.nil? != values[:project_id].nil?
+      end
+
+      def self.keys
+        schema.key_map.map { |key| key.name.to_sym }
       end
     end
   end

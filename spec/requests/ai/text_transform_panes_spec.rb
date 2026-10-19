@@ -86,6 +86,15 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(retried).to have_attributes(action: failed.action, input: failed.input, status: "queued")
     end
 
+    it "does not repeat a run that is still running" do
+      running = run_with_events(:running)
+
+      post ai_text_transform_panes_path, params: pane_params.merge(retry_of: running.uuid), headers: stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(AI::TextTransformRun.count).to eq(1)
+    end
+
     it "does not repeat another user's run" do
       other = create(:ai_text_transform_run, :failed)
 
@@ -141,6 +150,35 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response).to have_http_status(:bad_request)
     end
 
+    it "rejects an action id that is not a number" do
+      post ai_text_transform_panes_path, params: start_params.merge(action_id: "fix"), headers: stream
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "rejects a work package together with a project" do
+      post ai_text_transform_panes_path, params: start_params.merge(project_id: project.id, type_id: type.id), headers: stream
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "rejects a project without a type" do
+      post ai_text_transform_panes_path,
+           params: start_params.except(:work_package_id).merge(project_id: project.id),
+           headers: stream
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it "ignores blank context ids" do
+      post ai_text_transform_panes_path,
+           params: start_params.merge(work_package_id: "", project_id: project.id, type_id: type.id),
+           headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(AI::TextTransformRun.count).to eq(1)
+    end
+
     context "with the feature flag inactive", with_flag: { ai_text_transform_actions: false } do
       it "is not found" do
         post ai_text_transform_panes_path, params: start_params, headers: stream
@@ -153,10 +191,12 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
   describe "GET show" do
     it "answers without content while nothing new happened" do
       run = run_with_events(:running, ["status", { "status" => "running" }])
+      allow(AI::TextTransforms::ResolveContext).to receive(:new).and_call_original
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1), headers: stream
 
       expect(response).to have_http_status(:no_content)
+      expect(AI::TextTransforms::ResolveContext).not_to have_received(:new)
     end
 
     it "streams the text so far as formatted html" do
@@ -192,6 +232,17 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
       expect(response.body).to include('action="remove"', "op-dispatched:ai-text-transform:closed", request_id)
+    end
+
+    it "is forbidden once the permission to edit the work package is gone" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Done." }])
+      viewable = create(:project, types: [type])
+      create(:member, project: viewable, principal: user, roles: [create(:project_role, permissions: %i[view_work_packages])])
+      other = create(:work_package, project: viewable, type:)
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, work_package_id: other.id), headers: stream
+
+      expect(response).to have_http_status(:forbidden)
     end
 
     it "does not show another user's run" do

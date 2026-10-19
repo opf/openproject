@@ -34,23 +34,19 @@ module AI
 
     APPLY_EVENT = "op-dispatched:ai-text-transform:apply"
     CLOSED_EVENT = "op-dispatched:ai-text-transform:closed"
-    PANE_PARAMS = %i[request_id scope work_package_id project_id type_id after].freeze
-    CONTEXT_PARAMS = %i[work_package_id project_id type_id].freeze
 
     before_action :require_login
     before_action :require_ai_text_transform_actions_feature
     authorization_checked! :create, :show, :destroy, :apply, :cancel
     before_action :validate_pane_params, except: :cancel
     before_action :find_run, only: %i[show apply cancel]
-    before_action :resolve_context, only: %i[create show]
+    before_action :resolve_context, only: :create
 
     def show
       return head(:no_content) unless run.terminal? || new_events?
 
-      pane = pane_for(run)
-      pane.state == "cancelled" ? close_pane : update_sections(pane)
-
-      respond_with_turbo_streams
+      run.cancelled? ? close_pane : update_sections
+      respond_with_turbo_streams unless performed?
     end
 
     def create
@@ -96,7 +92,7 @@ module AI
     end
 
     def new_events?
-      run.events.maximum(:seq).to_i > pane_params[:after].to_i
+      run.events_after(pane_params[:after]).exists?
     end
 
     def request_cancel(cancellable)
@@ -104,12 +100,12 @@ module AI
     end
 
     def validate_pane_params
-      @pane_params = AI::TextTransforms::PaneParamsContract.new.call(params.permit(*PANE_PARAMS).to_h)
+      @pane_params = AI::TextTransforms::PaneParamsContract.new.call(params.permit(*AI::TextTransforms::PaneParamsContract.keys).to_h)
       head :bad_request if pane_params.failure?
     end
 
     def context_ids
-      pane_params.to_h.slice(*CONTEXT_PARAMS)
+      pane_params.to_h.slice(*AI::TextTransforms::PaneParamsContract::CONTEXT_KEYS).compact
     end
 
     def resolve_context
@@ -126,9 +122,10 @@ module AI
     end
 
     def run_source
-      return [AI::TextTransformAction.find_by(id: params[:action_id]), params[:input].to_s] if params[:retry_of].blank?
+      retry_of = pane_params[:retry_of]
+      return [AI::TextTransformAction.find_by(id: pane_params[:action_id]), pane_params[:input].to_s] unless retry_of
 
-      retried = own_runs.find_by!(uuid: params.expect(:retry_of))
+      retried = own_runs.failed.find_by!(uuid: retry_of)
       [retried.action, retried.input]
     end
 
@@ -146,13 +143,19 @@ module AI
     end
 
     def append_pane(pane)
-      turbo_streams << OpTurbo::StreamComponent
-        .new(action: :append, target: nil, targets: "body",
-             template: AI::TextTransforms::ResultPaneComponent.new(pane:).render_in(view_context))
-        .render_in(view_context)
+      turbo_streams << lambda {
+        OpTurbo::StreamComponent
+          .new(action: :append, target: nil, targets: "body",
+               template: AI::TextTransforms::ResultPaneComponent.new(pane:).render_in(view_context))
+          .render_in(view_context)
+      }
     end
 
-    def update_sections(pane)
+    def update_sections
+      resolve_context
+      return if performed?
+
+      pane = pane_for(run)
       [AI::TextTransforms::ResultPaneComponent::Body, AI::TextTransforms::ResultPaneComponent::Footer].each do |section|
         update_via_turbo_stream(component: section.new(pane:))
       end
