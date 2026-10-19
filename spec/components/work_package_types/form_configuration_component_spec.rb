@@ -61,7 +61,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
       expect(page).to have_no_css(".type-form-configuration-page--sidebar")
       expect(page).to have_no_test_selector("type-form-configuration-reset-button")
       expect(page).to have_no_test_selector("type-form-configuration-add-button")
-      expect(page).to have_no_css("[data-draggable-type='group']")
+      expect(page).to have_no_css("[data-controller*='sortable-lists']")
     end
 
     # An exclusion the variant owns is reversible from here, so its row stays and the switch
