@@ -92,6 +92,7 @@ import {
   OpFileTextIconComponent,
   OpFilePresentationIconComponent,
   OpPdfIconComponent,
+  OpWhiteboardsIconComponent,
   CloudIconComponent,
   DownloadIconComponent,
   FileDirectoryFillIconComponent,
@@ -125,7 +126,8 @@ import {
   ChevronDownIconComponent,
   VersionsIconComponent,
   BriefcaseIconComponent,
-  CircleSlashIconComponent
+  CircleSlashIconComponent,
+  OpIncludeProjectsIconComponent,
 } from '@openproject/octicons-angular';
 
 @NgModule({
@@ -169,6 +171,7 @@ import {
     OpGridMenuIconComponent,
     OpGroupIconComponent,
     OpHierarchyIconComponent,
+    OpIncludeProjectsIconComponent,
     OpNoHierarchyIconComponent,
     OpMarkNextcloudIconComponent,
     OpOrthographicPerspectiveIconComponent,
@@ -182,6 +185,7 @@ import {
     OpViewFitToIconComponent,
     OpViewModalIconComponent,
     OpViewThreedIconComponent,
+    OpWhiteboardsIconComponent,
     PackageIconComponent,
     PaperclipIconComponent,
     PersonIconComponent,
@@ -277,6 +281,7 @@ import {
     OpGridMenuIconComponent,
     OpGroupIconComponent,
     OpHierarchyIconComponent,
+    OpIncludeProjectsIconComponent,
     OpNoHierarchyIconComponent,
     OpMarkNextcloudIconComponent,
     OpOrthographicPerspectiveIconComponent,
@@ -290,6 +295,7 @@ import {
     OpViewFitToIconComponent,
     OpViewModalIconComponent,
     OpViewThreedIconComponent,
+    OpWhiteboardsIconComponent,
     PackageIconComponent,
     PaperclipIconComponent,
     PersonIconComponent,

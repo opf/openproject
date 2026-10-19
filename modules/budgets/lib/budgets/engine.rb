@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,9 +61,7 @@ module Budgets
     # Allow assigning a budget when moving work packages
     additional_permitted_attributes move_work_package: %i[budget_id]
 
-    add_api_path :budget do |id|
-      "#{root}/budgets/#{id}"
-    end
+    add_api_resource_paths :budget, only: :show
 
     add_api_path :budgets_by_project do |project_id|
       "#{project(project_id)}/budgets"

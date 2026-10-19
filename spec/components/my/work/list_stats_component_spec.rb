@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
   def allocated_on(day, minutes:)
     work_package = build_stubbed(:work_package)
     allocation = build_stubbed(:resource_allocation, entity: work_package)
-    entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: day, minutes:)
+    entry = ResourceAllocations::ScheduledEntry.new(allocation:, allocated_on: day, minutes:)
 
     instance_double(ResourceAllocations::AllocatedTimeFor, items: [entry], visible?: true)
   end

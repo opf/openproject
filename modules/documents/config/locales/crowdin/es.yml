@@ -48,8 +48,8 @@ es:
   documents:
     active_editors: Editores activos
     active_editors_count:
-      one: 1 editor activo
-      other: "%{count} editores activos"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,6 +77,8 @@ RSpec.describe "Automations me value", :js, with_ee: %i[custom_actions] do
 
     wp_page.expect_automation("Set CF to me")
     wp_page.click_automation("Set CF to me")
-    wp_page.expect_attributes "customField#{custom_field.id}": user.name
+    Capybara.using_wait_time(20) do
+      wp_page.expect_attributes "customField#{custom_field.id}": user.name
+    end
   end
 end

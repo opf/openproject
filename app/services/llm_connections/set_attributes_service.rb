@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,6 +36,13 @@ module LlmConnections
 
       model.base_url = normalized_base_url if model.base_url.present?
       set_identifying_defaults
+      release_from_environment unless params.key?(:env_provisioned_at)
+    end
+
+    # Only EnvSyncService passes the marker and only EnvironmentUpdateContract
+    # accepts it, so any other write is an administrator's and ends the lock.
+    def release_from_environment
+      model.change_by_system { model.assign_attributes(env_provisioned_at: nil, env_fingerprint: nil) }
     end
 
     # +identifier+ names the record but is never user-editable, so it is set as a

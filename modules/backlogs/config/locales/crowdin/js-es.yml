@@ -45,12 +45,12 @@ es:
         not_selectable: La selección no ha cambiado. Este paquete de trabajo no influye en el orden de esta lista.
         range_blocked: La selección no ha cambiado. Ese rango contiene un paquete de trabajo que no influye en el orden de esta lista.
         range_restarted:
-          one: No se pudo ampliar el rango. Se seleccionó 1 paquete de trabajo.
-          other: No se pudo ampliar el rango. Se seleccionaron %{count} paquetes de trabajo.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
-          one: Se ha seleccionado 1 paquete de trabajo.
-          other: Se han seleccionado %{count} paquetes de trabajo.
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
     burndown:
       day: Día
       points: Puntos

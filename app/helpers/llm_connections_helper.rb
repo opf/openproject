@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,8 @@ module LlmConnectionsHelper
 
     [
       { name: "connection", path: llm_connection_path, label: t("admin.llm_connections.tabs.connection") },
-      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") }
+      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") },
+      { name: "features", path: llm_feature_bindings_path, label: t("admin.llm_connections.tabs.features") }
     ]
   end
 end

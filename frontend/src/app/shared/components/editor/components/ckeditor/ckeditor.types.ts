@@ -47,6 +47,11 @@ export interface CKEditorDomEventData {
   keyCode:number;
 }
 
+export interface CKEditorFocusTracker {
+  isFocused:boolean;
+  on(event:string, callback:(evt:unknown, name:string, value:boolean) => void):void;
+}
+
 export interface ICKEditorInstance {
   id:string;
 
@@ -56,7 +61,7 @@ export interface ICKEditorInstance {
 
   setData(content:string):void;
 
-  destroy():void;
+  destroy():Promise<void>;
 
   enableReadOnlyMode(lockId:string):void;
 
@@ -79,41 +84,31 @@ export interface ICKEditorInstance {
       document:Document
     }
   };
-  config:any;
-  ui:any;
+  config:{
+    get(name:'autosave'):{ save(editor:ICKEditorInstance):void };
+  };
+  ui:{
+    focusTracker:CKEditorFocusTracker;
+    view:{ toolbar:{ element:HTMLElement } };
+  };
   element:HTMLElement;
 }
 
 export interface ICKEditorStatic {
-  create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  create(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 
-  createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  createCustomized(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 
   defaultConfig?:{ toolbar?:{ items:string[] } };
+
+  // Registers a page-wide callback for unhandled editor errors; returns a function that removes it.
+  onEditorError(callback:(data:ICKEditorErrorData) => void):() => void;
 }
 
-export type ICKEditorState = 'initializing'|'ready'|'crashed'|'crashedPermanently'|'destroyed';
-
-export interface ICKEditorError {
-  message:string;
-  stack:any;
-}
-
-export interface ICKEditorWatchdog {
-  setCreator(callback:(elementOrData:any, editorConfig:any) => Promise<ICKEditorInstance>):void;
-
-  setDestructor(callback:(editor:ICKEditorInstance) => void):void;
-
-  create(elementOrData:any, editorConfig:any):Promise<ICKEditorInstance>;
-
-  destroy():void;
-
-  on(listener:'stateChange', callback:() => void):void;
-
-  on(listener:'error', callback:(evt:Event, args:{ error:ICKEditorError }) => void):void;
-
-  editor:ICKEditorInstance;
-  state:ICKEditorState;
+export interface ICKEditorErrorData {
+  error:Error;
+  // The editor or context the error was attributed to.
+  source:unknown;
 }
 
 export interface ICKEditorContext {
@@ -125,6 +120,8 @@ export interface ICKEditorContext {
   field?:string;
   // Specific removing of plugins
   removePlugins?:string[];
+  // Toolbar items added to the editor type's default toolbar
+  additionalToolbarItems?:string[];
   // Set of enabled macro plugins or false to disable all
   macros?:ICKEditorMacroType;
   // Additional options like the text orientation of the editors content

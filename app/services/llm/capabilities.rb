@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -73,6 +72,23 @@ module Llm
 
       states = relevant.index_with { |capability| published.include?(capability) ? :supported : unpublished }
       states.merge(embeddings: embedding ? :supported : :unsupported)
+    end
+
+    # What a model card declares about itself.
+    #
+    # OpenRouter states the output modality on the card, which is the provider
+    # speaking about its own catalogue: better evidence than a name that looks
+    # like an embedding model's, and the only way to type a catalogue far too
+    # large to probe model by model.
+    #
+    # @return [Hash{Symbol => Symbol}] capability => state, empty when the card
+    #   declares nothing
+    def declared_for(raw_metadata)
+      architecture = raw_metadata.to_h["architecture"]
+      modalities = architecture.is_a?(Hash) ? Array(architecture["output_modalities"]).map(&:to_s) : []
+      return {} if modalities.empty?
+
+      { embeddings: modalities.include?("embeddings") ? :supported : :unsupported }
     end
 
     def label(capability)

@@ -1,9 +1,37 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Components
   class GlobalSearch
     include Capybara::DSL
     include Capybara::RSpecMatchers
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
     include RSpec::Matchers
 
     def container
@@ -29,9 +57,8 @@ module Components
 
     def search(query, submit: false)
       SeleniumHubWaiter.wait
-      input.set ""
       click_input
-      input.set query
+      ng_enter_query(container, query)
 
       if submit
         submit_with_enter
@@ -63,15 +90,15 @@ module Components
     end
 
     def submit_in_project_and_subproject_scope
-      page.find('.global-search--project-scope[title="current_project_and_all_descendants"]', wait: 10).click
+      submit_in_scope("current_project_and_all_descendants")
     end
 
     def submit_in_current_project
-      page.find('.global-search--project-scope[title="current_project"]', wait: 10).click
+      submit_in_scope("current_project")
     end
 
     def submit_in_global_scope
-      page.find('.global-search--project-scope[title="all_projects"]', wait: 10).click
+      submit_in_scope("all_projects")
     end
 
     def expect_global_scope_marked
@@ -89,32 +116,40 @@ module Components
         .to have_css(".global-search--project-scope", text:, wait: 10)
     end
 
-    def expect_work_package_marked(wp)
+    def expect_work_package_marked(work_package)
       expect(page)
-        .to have_css(".ng-option-marked", text: wp.subject.to_s, wait: 10)
+        .to have_css(".ng-option-marked", text: work_package.subject.to_s, wait: 10)
     end
 
-    def expect_work_package_option(wp)
+    def expect_work_package_option(work_package)
       expect(page)
-        .to have_css(".global-search--option", text: wp.subject.to_s, wait: 10)
+        .to have_css(".global-search .ng-option", text: work_package.subject.to_s, wait: 20)
     end
 
-    def expect_no_work_package_option(wp)
+    def expect_no_work_package_option(work_package)
       expect(page)
-        .to have_no_css(".global-search--option", text: wp.subject.to_s)
+        .to have_no_css(".global-search .ng-option", text: work_package.subject.to_s)
     end
 
-    def click_work_package(wp)
-      find_work_package(wp).click
+    def click_work_package(work_package)
+      find_work_package(work_package).click
     end
 
-    def find_work_package(wp)
-      find_option wp.subject.to_s
+    def submit_in_scope(scope)
+      scope_selector = ".global-search--project-scope[title=\"#{scope}\"]"
+
+      page.document.synchronize(20) do
+        page.find(scope_selector, wait: 0).ancestor("a").click if page.has_css?(scope_selector, wait: 0)
+        raise Capybara::ElementNotFound if page.has_css?(".global-search .ng-dropdown-panel", visible: :visible, wait: 0)
+      end
+    end
+
+    def find_work_package(work_package)
+      find_option work_package.subject.to_s
     end
 
     def find_option(text)
-      expect(page).to have_css(".global-search--wp-subject", text:, wait: 10)
-      find(".global-search--wp-subject", text:)
+      find(".global-search .op-autocompleter--wp-subject", text:, wait: 10)
     end
 
     def cancel

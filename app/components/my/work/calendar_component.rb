@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,17 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module My
   module Work
     class CalendarComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include OpStimulus::ControllerData
       include ScheduledHours
 
       options time_entries: [],
@@ -44,24 +44,24 @@ module My
       private
 
       def wrapper_data # rubocop:disable Metrics/AbcSize
-        {
-          "controller" => "my--work",
-          "my--work-mode-value" => mode,
-          "my--work-view-mode-value" => "calendar",
-          "my--work-time-entries-value" => time_entries_json,
-          "my--work-allocations-value" => allocation_events_json,
-          "my--work-initial-date-value" => date.iso8601,
-          "my--work-today-value" => User.current.today.iso8601,
-          "my--work-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
-          "my--work-can-edit-value" => User.current.allowed_in_any_project?(:edit_own_time_entries),
-          "my--work-allow-times-value" => TimeEntry.can_track_start_and_end_time?,
-          "my--work-force-times-value" => TimeEntry.must_track_start_and_end_time?,
-          "my--work-locale-value" => I18n.locale,
-          "my--work-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
-          "my--work-working-days-value" => working_days,
-          "my--work-working-hours-value" => working_hours.to_json,
-          "my--work-time-zone-value" => User.current.time_zone.name
-        }
+        stimulus_controller_data(
+          "my--work",
+          allocations: allocation_events_json,
+          allow_times: TimeEntry.can_track_start_and_end_time?,
+          can_create: User.current.allowed_in_any_project?(:log_own_time),
+          can_edit: User.current.allowed_in_any_project?(:edit_own_time_entries),
+          force_times: TimeEntry.must_track_start_and_end_time?,
+          initial_date: date.iso8601,
+          locale: I18n.locale,
+          mode:,
+          start_of_week: OpenProject::Internationalization::Date.first_day_of_week_index,
+          time_entries: time_entries_json,
+          time_zone: User.current.time_zone.name,
+          today: User.current.today.iso8601,
+          view_mode: "calendar",
+          working_days:,
+          working_hours: working_hours.to_json
+        )
       end
 
       def time_entries_json

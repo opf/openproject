@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "support/components/common/modal"
 require "support/components/autocompleter/ng_select_autocomplete_helpers"
@@ -55,13 +54,11 @@ module Components
           fields = Array(fields)
 
           if fields.include?(:start_date) && has_button?("start_date_clear_button")
-            click_button("start_date_clear_button")
-            wait_for_form_preview_to_reload
+            wait_for_turbo_stream(wait: 10) { click_button("start_date_clear_button") }
           end
 
           if fields.include?(:finish_date) && has_button?("finish_date_clear_button")
-            click_button("finish_date_clear_button")
-            wait_for_form_preview_to_reload
+            wait_for_turbo_stream(wait: 10) { click_button("finish_date_clear_button") }
           end
         end
 
@@ -69,11 +66,10 @@ module Components
           dialog_selector = "##{Overviews::ProjectPhases::EditDialogComponent::DIALOG_ID}"
           datepicker = Components::RangeDatepicker.new(dialog_selector)
 
-          sleep 1
-
           values.each do |date|
-            datepicker.set_date(date.strftime("%Y-%m-%d"))
-            wait_for_form_preview_to_reload
+            wait_for_turbo_stream(wait: 10) do
+              datepicker.set_date(date.strftime("%Y-%m-%d"))
+            end
           end
         end
 
@@ -98,13 +94,15 @@ module Components
         end
 
         def wait_for_form_preview_to_reload
-          expect(page).to have_css('form[aria-busy="true"]')
+          wait_for_network_idle
           expect(page).to have_no_css("form[aria-busy]")
         end
 
         def submit
-          within_dialog do
-            page.find("[data-test-selector='save-project-life-cycle-button']").click
+          wait_for_turbo_stream(wait: 20) do
+            within_dialog do
+              page.find("[data-test-selector='save-project-life-cycle-button']").click
+            end
           end
         end
 

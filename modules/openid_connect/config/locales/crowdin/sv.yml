@@ -164,7 +164,7 @@ sv:
       delete_result_1: Ta bort leverantören från listan över tillgängliga leverantörer.
       delete_result_direct: Den här leverantören är markerad som leverantör för direktinloggning. Inställningen tas bort och användarna omdirigeras inte längre till leverantören för inloggning.
       delete_result_user_count:
-        one: En användare använder fortfarande den här leverantören. Användaren måste bjudas in på nytt eller logga in med en annan leverantör.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} användare använder fortfarande den här leverantören. De måste bjudas in på nytt eller logga in med en annan leverantör."
         zero: Ingen användare använder för närvarande den här leverantören. Ingen ytterligare åtgärd krävs.
       input_delete_confirmation_html: Ange leverantörsnamnet %{name} för att bekräfta borttagningen.

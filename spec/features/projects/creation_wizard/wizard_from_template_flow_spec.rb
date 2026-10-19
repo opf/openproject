@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -183,9 +182,9 @@ RSpec.describe "Project creation wizard from a template",
 
     # Complete the wizard - this should create the artefact work package
     # via User.execute_as_admin despite lacking add_work_packages permission
-    click_button "Complete"
+    wait_for_turbo(wait: 20) { click_button "Complete" }
 
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page.document).to have_text("Project attributes saved and artefact work package created successfully.")
 
     # Verify we're redirected to the artefact work package
     project.reload

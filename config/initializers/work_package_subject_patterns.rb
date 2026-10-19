@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,8 @@ Rails.application.config.to_prepare do
     add(:estimated_time, ->(wp) { wp.estimated_hours }, ns::Formatters::DurationFormatter, label: :estimated_hours)
     add(:remaining_time, ->(wp) { wp.remaining_hours }, ns::Formatters::DurationFormatter, label: :remaining_hours)
     add(:finish_date, ->(wp) { wp.due_date }, ns::Formatters::DateFormatter, label: :due_date)
+    add(:labels, ->(wp) { wp.labels }, ns::Formatters::ArrayFormatter,
+        label: :labels, enabled_fn: -> { OpenProject::FeatureDecisions.work_package_labels_active? })
     add(:observed_in_versions, ->(wp) { wp.observed_in_versions }, ns::Formatters::ArrayFormatter, label: :observed_in_versions)
     add(:priority, ->(wp) { wp.priority }, label: :priority)
     add(:start_date, ->(wp) { wp.start_date }, ns::Formatters::DateFormatter, label: :start_date)
@@ -57,6 +58,8 @@ Rails.application.config.to_prepare do
     add(:parent_estimated_time, ->(parent) { parent.estimated_hours }, ns::Formatters::DurationFormatter, label: :estimated_hours)
     add(:parent_remaining_time, ->(parent) { parent.remaining_hours }, ns::Formatters::DurationFormatter, label: :remaining_hours)
     add(:parent_finish_date, ->(parent) { parent.due_date }, ns::Formatters::DateFormatter, label: :due_date)
+    add(:parent_labels, ->(parent) { parent.labels }, ns::Formatters::ArrayFormatter,
+        label: :labels, enabled_fn: -> { OpenProject::FeatureDecisions.work_package_labels_active? })
     add(:parent_observed_in_versions,
         ->(parent) { parent.observed_in_versions },
         ns::Formatters::ArrayFormatter,

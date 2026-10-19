@@ -164,7 +164,7 @@ pt-BR:
       delete_result_1: Remover o provedor da lista de provedores disponíveis.
       delete_result_direct: Este provedor está configurado como provedor de login direto. A configuração será removida e os usuários não serão mais redirecionados para ele para realizar o login.
       delete_result_user_count:
-        one: Há um usuário utilizando este provedor. Ele precisará ser re-convidado ou fazer login com outro provedor.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: Há %{count} usuários utilizando este provedor. Eles precisarão ser re-convidados ou fazer login com outro provedor.
         zero: Nenhum usuário está utilizando este provedor no momento. Não é necessária nenhuma ação adicional.
       input_delete_confirmation_html: Digite o nome do provedor %{name} para confirmar a exclusão.

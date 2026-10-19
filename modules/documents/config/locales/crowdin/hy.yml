@@ -48,8 +48,8 @@ hy:
   documents:
     active_editors: Ակտիվ խմբագրողներ
     active_editors_count:
-      one: 1 ակտիվ խմբագրող
-      other: "%{count} ակտիվ խմբագրող"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

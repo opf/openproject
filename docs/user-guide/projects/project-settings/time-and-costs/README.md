@@ -19,9 +19,8 @@ Before they can be enabled in a project, time tracking activities and cost types
 
 To enable time tracking activities for a project:
 
-1. Navigate to **Project settings → Time and costs → Time tracking activities**.
-2. Select the activities that should be available for time tracking in the project.
-3. Click **Save**.
+1. Navigate to **Project settings → Time and costs → Time tracking**.
+2. Turn on the toggle next to each activity that should be available for time tracking in the project.
 
 ![Activate time tracking activities under the Time and costs section in Project settings](openproject_user_guide_project_settings_time_and_costs.png)
 

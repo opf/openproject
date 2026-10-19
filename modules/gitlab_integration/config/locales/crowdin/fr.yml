@@ -33,9 +33,9 @@ fr:
       gitlab_pipeline:
         ci_details: Détails CI
       gitlab_user:
-        avatar_url: Avatar URL
-        name: Name
-        username: Username
+        avatar_url: URL de l'avatar
+        name: Nom
+        username: Nom d'utilisateur
     errors:
       models:
         gitlab_issue:
@@ -71,12 +71,12 @@ fr:
     gitlab_user_avatar_url: URL d'avatar GitLab
   gitlab_integration:
     branch_component:
-      copy_name: Copy branch name
-      create_merge_request: Create merge request
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+      copy_name: Copier le nom de la branche
+      create_merge_request: Créer une requête de fusion
+      updated_at: Mis à jour le %{date_time}.
+      updated_by: Dernière mise à jour par %{name}.
     commit_component:
-      authored_at: Authored on %{date_time}.
+      authored_at: Publié sur %{date_time}.
       copy_sha: Copy SHA to clipboard
       created_by: Created by %{name}.
       empty_message: "<empty commit message>"

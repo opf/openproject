@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,8 +60,8 @@ RSpec.describe "sticky messages" do
   end
 
   def expect_order_of_messages(*order)
-    order.each_with_index do |message, index|
-      expect(page).to have_css("table tbody tr:nth-of-type(#{index + 1})", text: message.subject)
+    order.each.with_index(2) do |message, rowindex|
+      expect(page).to have_selector(:row, message.subject, rowindex:)
     end
   end
 

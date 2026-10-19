@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,6 +70,7 @@ RSpec.describe "Document collaboration settings admin",
 
       # Now disable text collaboration
       click_on "Disable"
+      expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
 
       within_dialog("Disable real-time collaboration") do
         expect(page).to have_heading "Disable real-time collaboration?"
@@ -78,7 +78,11 @@ RSpec.describe "Document collaboration settings admin",
                                      "Please only do this if you are certain you want to " \
                                      "disable real-time collaboration and the BlockNote editor in this instance."
 
-        check "I understand that I might permanently lose data"
+        page.document.synchronize do
+          confirmation = find_field("I understand that I might permanently lose data", exact: true, wait: 0)
+          confirmation.click unless confirmation.checked?
+          expect(confirmation).to be_checked
+        end
 
         click_on "Disable"
       end

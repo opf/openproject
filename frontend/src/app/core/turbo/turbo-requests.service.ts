@@ -48,12 +48,14 @@ export class TurboRequestsService {
     html:string,
     headers:Headers
   }> {
+    let requestController:AbortController|undefined;
+
     if (requestId) {
       this.abortRequest(requestId);
 
-      const controller = new AbortController();
-      this.#controllers.set(requestId, controller);
-      init.signal = controller.signal;
+      requestController = new AbortController();
+      this.#controllers.set(requestId, requestController);
+      init.signal = requestController.signal;
     }
 
     const defaultHeaders:{'X-CSRF-Token'?:string} = {};
@@ -75,7 +77,7 @@ export class TurboRequestsService {
         }));
       })
       .then((result) => {
-        const contentType = result.response.headers.get('Content-Type') || '';
+        const contentType = result.response.headers.get('Content-Type') ?? '';
         const isTurboStream = contentType.includes('text/vnd.turbo-stream.html');
 
         // only render the stream message if we are in a turbo stream response
@@ -104,7 +106,7 @@ export class TurboRequestsService {
         throw error;
       })
       .finally(() => {
-        if (requestId) {
+        if (requestId && this.#controllers.get(requestId) === requestController) {
           this.#controllers.delete(requestId);
         }
       });
@@ -126,7 +128,7 @@ export class TurboRequestsService {
         body: formData,
       },
       true,
-      requestId || requestUrlWithParams,
+      requestId ?? requestUrlWithParams,
     );
   }
 
