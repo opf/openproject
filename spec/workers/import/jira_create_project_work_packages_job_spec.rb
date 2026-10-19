@@ -159,7 +159,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       context "if priority is nil or hidden in jira filed configuration" do
         let(:jira_issue_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read) }
 
-        it "creates work_packge with default priority if it exists" do
+        it "creates work package with default priority if it exists" do
           priority = create(:default_priority)
           create_work_packages
 
