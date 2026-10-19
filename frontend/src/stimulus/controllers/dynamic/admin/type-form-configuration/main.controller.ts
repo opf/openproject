@@ -27,6 +27,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import type FilterListController from 'core-stimulus/controllers/dynamic/filter/filter-list.controller';
 
 export default class TypeFormConfigurationController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'externalRelationQueryConfiguration'];
@@ -124,7 +125,7 @@ export default class TypeFormConfigurationController extends Controller {
     const filterListElement = this.element.querySelector<HTMLElement>('[data-controller~="filter--filter-list"]');
     if (!filterListElement) return;
 
-    const filterListController = this.application.getControllerForElementAndIdentifier(filterListElement, 'filter--filter-list') as { filterLists:() => void }|null;
+    const filterListController = this.application.getControllerForElementAndIdentifier(filterListElement, 'filter--filter-list') as FilterListController|null;
     filterListController?.filterLists();
   }
 

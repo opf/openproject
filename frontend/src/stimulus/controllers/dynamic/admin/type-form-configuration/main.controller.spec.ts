@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { Controller } from '@hotwired/stimulus';
 import { vi, type Mock } from 'vitest';
 
@@ -103,21 +103,20 @@ describe('Type form configuration controller', () => {
 
   async function renderEditor({ editing = false } = {}) {
     await ctx.mount(`
-      <section aria-label="Form editor"
-               data-controller="admin--type-form-configuration--main"
+      <section data-controller="admin--type-form-configuration--main"
                data-action="sortable-lists:before-move->admin--type-form-configuration--main#confirmDiscardingEdit turbo:morph-element->admin--type-form-configuration--main#reapplyInactiveFilter"
                data-admin--type-form-configuration--main-add-group-url-value="/forms/1/group/add_group"
                data-admin--type-form-configuration--main-no-filter-query-value="{}">
         <div data-controller="filter--filter-list"></div>
         <div data-admin--type-form-configuration--main-target="inactiveContainer">
-          <ul aria-label="Inactive attributes"><li>Assignee</li></ul>
+          <ul><li>Assignee</li></ul>
         </div>
         <div data-admin--type-form-configuration--main-target="groupsContainer">
-          <section aria-label="Details" ${editing ? 'data-edit-mode="true"' : ''}></section>
+          <section data-testid="details-group" ${editing ? 'data-edit-mode="true"' : ''}></section>
         </div>
       </section>
     `);
-    return within(screen.getByRole('region', { name: 'Form editor' }));
+    return ctx.screen;
   }
 
   function fireBeforeMove(element:HTMLElement) {
@@ -171,7 +170,7 @@ describe('Type form configuration controller', () => {
       const editor = await renderEditor();
       filterLists.mockClear();
 
-      fireMorph(editor.getByRole('region', { name: 'Details' }));
+      fireMorph(editor.getByTestId('details-group'));
       await ctx.nextFrame();
 
       expect(filterLists).not.toHaveBeenCalled();
