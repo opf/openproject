@@ -1078,7 +1078,7 @@ module Pages
     end
 
     def expect_sprint_completing_modal
-      expect(page).to have_css sprint_complete_modal_selector
+      wait_for_size_animation_completion(sprint_complete_modal_selector)
     end
 
     def expect_sprints_to_choose_for_moving_unfinished_work_packages_to(*sprints)
