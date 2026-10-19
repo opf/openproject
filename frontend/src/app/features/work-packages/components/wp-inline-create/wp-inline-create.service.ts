@@ -76,7 +76,7 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   /**
    * Observable capability check for work_packages/create and /edit.
    * Edit is included as inline create saves quickly, preventing further edits for users
-   * that don't also have edit permisison.
+   * that don't also have edit permission.
    *
    * @protected
    */
