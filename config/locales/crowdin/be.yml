@@ -3976,8 +3976,54 @@ be:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        few: 'Accepted solutions:'
+        many: 'Accepted solutions:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          few: Load previous %{count} replies
+          many: Load previous %{count} replies
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        few: "%{count} participants"
+        many: "%{count} participants"
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -4145,6 +4191,7 @@ be:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -4197,6 +4244,7 @@ be:
       budget_deleted: Budget has been deleted
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -4594,7 +4642,6 @@ be:
   label_menu_item_name: Name of menu item
   label_message: Message
   label_message_last: Last message
-  label_message_new: New message
   label_message_plural: Messages
   label_message_posted: Message added
   label_minute_plural: minutes
@@ -5235,6 +5282,8 @@ be:
       you_have: You have
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: To notification center
@@ -6798,7 +6847,7 @@ be:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
-  setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Duration format
   setting_duration_format_days_and_hours: Days and hours
   setting_duration_format_hours_only: Hours only

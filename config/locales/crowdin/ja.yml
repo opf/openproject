@@ -3525,8 +3525,45 @@ ja:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: 現在、フォーラムへの投稿はありません。
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3688,6 +3725,7 @@ ja:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3740,6 +3778,7 @@ ja:
       budget_deleted: Budget has been deleted
       dates_changed: 日付を変更
       default_attribute_written: 読み取り専用属性が書き込まれました
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -4137,7 +4176,6 @@ ja:
   label_menu_item_name: メニュー項目の名称
   label_message: メッセージ
   label_message_last: 最新のメッセージ
-  label_message_new: 新規メッセージ
   label_message_plural: メッセージ
   label_message_posted: メッセージが追加されました。
   label_minute_plural: 分
@@ -4766,6 +4804,8 @@ ja:
       you_have: あなたへの
     logo_alt_text: ロゴ
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: 通知センターへ
@@ -6262,7 +6302,7 @@ ja:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 差分の表示行数の上限
   setting_disable_password_login: パスワード認証を無効にする
-  setting_display_subprojects_work_packages: デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: 期間の形式
   setting_duration_format_days_and_hours: 日数と時間
   setting_duration_format_hours_only: 時間のみ

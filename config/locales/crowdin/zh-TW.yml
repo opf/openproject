@@ -3525,8 +3525,45 @@ zh-TW:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: 論壇上目前沒有任何貼文。
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3688,6 +3725,7 @@ zh-TW:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3740,6 +3778,7 @@ zh-TW:
       budget_deleted: Budget has been deleted
       dates_changed: 日期變更
       default_attribute_written: 已寫入只讀屬性
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -4137,7 +4176,6 @@ zh-TW:
   label_menu_item_name: 選單項目名稱
   label_message: 訊息
   label_message_last: 最後訊息
-  label_message_new: 新增訊息
   label_message_plural: 訊息
   label_message_posted: 訊息已新增
   label_minute_plural: 分鐘
@@ -4766,6 +4804,8 @@ zh-TW:
       you_have: 你擁有
     logo_alt_text: 商標
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: 顯示通知中心
@@ -6262,7 +6302,7 @@ zh-TW:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: 顯示比對差異的最大行數
   setting_disable_password_login: 停用密碼驗證
-  setting_display_subprojects_work_packages: 預設在主專案中顯示子專案的工作套件
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: 持續時間格式
   setting_duration_format_days_and_hours: 天數和小時數
   setting_duration_format_hours_only: 僅限小時

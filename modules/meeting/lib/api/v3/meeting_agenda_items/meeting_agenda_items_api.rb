@@ -49,6 +49,7 @@ module API
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: MeetingAgendaItem).mount
 
             mount VotesAPI
+            mount MoveToNextMeetingAPI
           end
         end
       end

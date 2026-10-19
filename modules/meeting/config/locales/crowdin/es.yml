@@ -89,6 +89,9 @@ es:
         invalid_time_format: 'no es una hora válida. Formato requerido: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: La sección no pertenece a la misma reunión.
           user_invalid: no es un participante válido.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ es:
     blankslate:
       desc: Puedes crear una nueva reunión o cambiar los criterios de filtrado
       title: No hay reuniones que mostrar
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: Copiado de la reunión %{id}
     copy:
       agenda: Copiar agenda
@@ -384,6 +390,7 @@ es:
         header: 'Cancelada: Reunión «%{title}»'
         header_occurrence: 'Cancelada: Repetición de la reunión «%{title}»'
         header_series: 'Cancelada: Serie de reuniones «%{title}»'
+        reason: Reason for cancellation
         summary: "%{actor} ha cancelado «%{title}» o se le ha eliminado como participante"
         summary_occurrence: "%{actor} ha cancelado una repetición de «%{title}» o se le ha eliminado como participante"
         summary_series: "%{actor} ha cancelado la serie de reuniones «%{title}» o se le ha eliminado como participante"

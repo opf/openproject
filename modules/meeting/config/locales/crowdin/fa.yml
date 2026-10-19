@@ -89,6 +89,9 @@ fa:
         invalid_time_format: 'زمان معتبری نیست. قالب الزامی: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: بخش به همان جلسه تعلق ندارد.
           user_invalid: شرکت‌کننده معتبری نیست.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ fa:
     blankslate:
       desc: می‌توانید یک جلسه جدید ایجاد کنید یا معیارهای فیلتر را تغییر دهید
       title: جلسه‌ای برای نمایش وجود ندارد
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'کپی‌شده از جلسه #%{id}'
     copy:
       agenda: کپی دستور جلسه
@@ -384,6 +390,7 @@ fa:
         header: 'لغوشده: جلسه «%{title}»'
         header_occurrence: 'لغوشده: نوبت جلسه «%{title}»'
         header_series: 'لغوشده: مجموعه جلسات «%{title}»'
+        reason: Reason for cancellation
         summary: "«%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید"
         summary_occurrence: یک نوبت از «%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید
         summary_series: مجموعه جلسات «%{title}» توسط %{actor} لغو شده یا شما از فهرست شرکت‌کنندگان حذف شده‌اید

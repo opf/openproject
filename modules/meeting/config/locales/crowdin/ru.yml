@@ -91,6 +91,9 @@ ru:
         invalid_time_format: 'недопустимое время. Требуемый формат: ЧЧ:ММ'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Раздел не принадлежит к одному и тому же совещанию.
           user_invalid: не является действительным участником.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -365,6 +368,9 @@ ru:
     blankslate:
       desc: Вы можете создать новое совещание или изменить критерии фильтра
       title: Нет совещаний для отображения
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Скопировано с совещания #%{id}'
     copy:
       agenda: Копировать повестку
@@ -408,6 +414,7 @@ ru:
         header: 'Отменено: совещание ''%{title}'''
         header_occurrence: 'Отменено: событие совещания ''%{title}'''
         header_series: 'Отменено: серия совещаний ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' было отменено %{actor}, или вы были удалены из списка участников"
         summary_occurrence: Начало '%{title}' было отменено %{actor}, или вы были удалены из списка участников
         summary_series: Серия совещаний '%{title}' была отменена %{actor}, или вы были удалены из списка участников

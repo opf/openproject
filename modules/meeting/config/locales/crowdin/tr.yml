@@ -89,6 +89,9 @@ tr:
         invalid_time_format: 'geçerli bir zaman değil. Gerekli format: SS:DD'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: geçerli bir katılımcı değildir.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ tr:
     blankslate:
       desc: Yeni bir toplantı oluşturabilir veya filtre kriterlerini değiştirebilirsiniz
       title: Gösterilecek toplantı yok
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: "#%{id} numaralı toplantıdan kopyalandı"
     copy:
       agenda: Gündemi kopyala
@@ -384,6 +390,7 @@ tr:
         header: 'İptal edildi: Toplantı ''%{title}'''
         header_occurrence: 'İptal edildi: Toplantı ''%{title}'''
         header_series: 'İptal edildi: Toplantı serisi ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız"
         summary_occurrence: Bir '%{title}' oluşumu %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız
         summary_series: Toplantı serisi '%{title}' %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız
