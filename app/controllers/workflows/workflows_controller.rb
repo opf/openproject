@@ -54,7 +54,7 @@ module Workflows
 
     def edit
       @current_tab = params[:tab] || ::Workflows::MatrixContext::DEFAULT_TAB
-      @roles = Workflows::StatusTransition.selected_roles(params[:role_ids])
+      @roles = Workflows::StatusTransition.selected_roles(params[:role_ids], workflow: @workflow)
     end
 
     def create

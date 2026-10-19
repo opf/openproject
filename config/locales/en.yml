@@ -2204,6 +2204,8 @@ en:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: "Select roles"
+        with_transitions: "With transitions"
+        without_transitions: "Without transitions"
       status_button: "Status"
       statuses_dialog:
         caption: "Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it."
