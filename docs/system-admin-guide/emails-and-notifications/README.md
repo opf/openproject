@@ -116,7 +116,7 @@ Pausing reminders in **My account** also pauses browser notifications.
 
 ### Signing key
 
-The instance signs each push with a key the push services trust, a so-called VAPID key. The key is generated on first use and stored encrypted in the database.
+The instance signs each push with a key the push services trust, a so-called VAPID key. The key is generated on first use and stored in the database.
 
 To supply your own key, set the environment variable `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` to the base64 encoding of a PKCS#8 DER P-256 private key. The following command generates a suitable value:
 
@@ -128,7 +128,7 @@ Each push is signed with the root URL of your instance as its subject, the conta
 
 Changing or rotating the key invalidates every subscription. Users then turn browser notifications on again on each device.
 
-Click **Renew keys** to rotate the key on purpose. A dialog explains the consequences, shows how many subscriptions will be deleted and asks you to confirm. If the stored key can no longer be read, for example after the instance secret key base changed, the page shows a banner and browser notifications stay unavailable to users until you renew the key the same way. When the key comes from the environment variable, the page says so instead of offering to renew it.
+Click **Renew keys** to rotate the key on purpose. A dialog explains the consequences, shows how many subscriptions will be deleted and asks you to confirm. If the stored key is unusable, the page shows a banner and browser notifications stay unavailable to users until you renew the key the same way. When the key comes from the environment variable, the page says so instead of offering to renew it.
 
 ### Storage
 
