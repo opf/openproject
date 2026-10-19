@@ -259,6 +259,31 @@ RSpec.describe Settings::SearchTree do
         expect(find_node(tree.nodes, "System settings").children.map(&:label)).not_to include("General")
       end
     end
+
+    describe "caching" do
+      def count_queries
+        queries = []
+        subscription = ActiveSupport::Notifications.subscribe("sql.active_record") { queries << 1 }
+
+        yield
+        queries.size
+      ensure
+        ActiveSupport::Notifications.unsubscribe(subscription)
+      end
+
+      it "serves the tree from the cache instead of building it again" do
+        expect(count_queries { tree.nodes }).to be > 10
+
+        expect(count_queries { described_class.new(vc_test_controller.view_context).nodes }).to eq(0)
+      end
+
+      it "builds the tree again when a setting changed", :settings_reset do
+        tree.nodes
+        Setting.app_title = "Changed"
+
+        expect(count_queries { described_class.new(vc_test_controller.view_context).nodes }).to be > 10
+      end
+    end
   end
 
   context "as a regular user" do
