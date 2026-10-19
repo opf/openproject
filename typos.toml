@@ -69,7 +69,6 @@ extend-ignore-identifiers-re = [
   "^expect_emoji_reactions_highlited_in_overlay$", # spec helper; follow-up
   "^fo$", # form builder block variable
   "^(grouped_)?setable_permissions$", # public helper; follow-up
-  "^@?first_occurence$", # reset misses the @first_occurrence memo; follow-up bug
   "^activites$", # module name typo in a spec, so the module is never enabled; follow-up
   "^blured$", # public component method bound in template; follow-up
   "^inital_setup_error_message$", # i18n key
