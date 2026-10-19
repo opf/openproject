@@ -1486,6 +1486,7 @@ en:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "date deleted %{date}"
+      status_changed: "phase changed from %{from} to %{to}"
 
   admin:
     banners:
@@ -6048,6 +6049,15 @@ en:
       new:
         placeholder: "New project list"
       shared: "Shared project lists"
+    phase_status:
+      description:
+        completed: 'Marking a phase as complete will complete all previous phases.'
+        in_progress: 'Marking a phase as complete will complete all previous phases.'
+        open: 'Re-opening a phase will also open all future phases.'
+      title:
+        completed: 'Completed'
+        in_progress: 'In progress'
+        open: 'Open'
     settings:
       actions:
         label_disable_all: "Disable all"
