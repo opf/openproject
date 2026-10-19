@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { fireEvent } from '@testing-library/dom';
 import AiTextTransformPaneController from './ai-text-transform-pane.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
@@ -38,11 +39,11 @@ describe('AiTextTransformPaneController', () => {
 <div data-controller="ai-text-transform-pane"
      data-ai-text-transform-pane-close-form-value="${CLOSE_FORM_ID}"
      data-action="keydown.esc->ai-text-transform-pane#close resize@window->ai-text-transform-pane#keepInViewport">
-  <div data-ai-text-transform-pane-target="pane" tabindex="-1"
+  <div data-ai-text-transform-pane-target="pane" role="dialog" aria-label="AI result" tabindex="-1"
        style="position: fixed; top: 40px; right: 16px; width: 340px; height: 260px; max-width: calc(100vw - 32px);">
     <div data-testid="header" ${action('pointerdown', 'beginDrag')}>
-      <a href="#" data-testid="link">Link</a>
-      <button type="button" data-testid="close" ${action('click', 'close')}>×</button>
+      <a href="#">Link</a>
+      <button type="button" aria-label="Close" ${action('click', 'close')}>×</button>
     </div>
     <div>
       <span data-testid="grip" ${action('pointerdown', 'beginDrag')}></span>
@@ -53,23 +54,22 @@ describe('AiTextTransformPaneController', () => {
 </div>`;
 
   const wrapper = () => ctx.container.querySelector<HTMLElement>('[data-controller="ai-text-transform-pane"]');
-  const pane = () => ctx.container.querySelector<HTMLElement>('[data-ai-text-transform-pane-target="pane"]')!;
+  const pane = () => ctx.screen.getByRole('dialog', { name: 'AI result' });
+  const closeButton = () => ctx.screen.getByRole('button', { name: 'Close' });
+  const link = () => ctx.screen.getByRole('link', { name: 'Link' });
   const rect = () => pane().getBoundingClientRect().toJSON() as DOMRect;
   const byTestId = (id:string) => ctx.screen.getByTestId(id);
 
-  function pointer(type:string, target:EventTarget, clientX:number, clientY:number, button = 0):void {
-    target.dispatchEvent(new PointerEvent(type, { bubbles: true, cancelable: true, clientX, clientY, button }));
-  }
-
   function dragBy(handle:HTMLElement, dx:number, dy:number, button = 0):void {
     const start = handle.getBoundingClientRect();
-    pointer('pointerdown', handle, start.left, start.top, button);
-    pointer('pointermove', window, start.left + dx, start.top + dy);
-    pointer('pointerup', window, start.left + dx, start.top + dy);
+    const end = { clientX: start.left + dx, clientY: start.top + dy };
+    fireEvent.pointerDown(handle, { clientX: start.left, clientY: start.top, button });
+    fireEvent.pointerMove(window, end);
+    fireEvent.pointerUp(window, end);
   }
 
   function pressEscape():void {
-    pane().dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    fireEvent.keyDown(pane(), { key: 'Escape' });
   }
 
   beforeEach(async () => {
@@ -85,7 +85,7 @@ describe('AiTextTransformPaneController', () => {
   });
 
   it('focuses the pane on connect', () => {
-    expect(document.activeElement).toBe(pane());
+    expect(pane()).toHaveFocus();
   });
 
   describe('dragging', () => {
@@ -93,8 +93,7 @@ describe('AiTextTransformPaneController', () => {
       const before = rect();
       dragBy(byTestId('header'), -20, 30);
 
-      expect(pane().style.left).toBe(`${before.left - 20}px`);
-      expect(pane().style.top).toBe(`${before.top + 30}px`);
+      expect(pane()).toHaveStyle({ left: `${before.left - 20}px`, top: `${before.top + 30}px` });
       expect(pane().style.right).toBe('auto');
       expect(pane().style.bottom).toBe('auto');
     });
@@ -108,22 +107,23 @@ describe('AiTextTransformPaneController', () => {
     });
 
     it('does not start a drag on interactive elements in the header', () => {
-      dragBy(byTestId('close'), -20, 30);
-      dragBy(byTestId('link'), -20, 30);
+      const before = rect();
+      dragBy(closeButton(), -20, 30);
+      dragBy(link(), -20, 30);
 
-      expect(pane().style.left).toBe('');
+      expect(rect()).toEqual(before);
     });
 
     it('does not start a drag with a secondary button', () => {
+      const before = rect();
       dragBy(byTestId('header'), -20, 30, 2);
 
-      expect(pane().style.left).toBe('');
+      expect(rect()).toEqual(before);
     });
 
     it('keeps the pane inside the viewport', () => {
       dragBy(byTestId('header'), -5000, -5000);
-      expect(pane().style.left).toBe('8px');
-      expect(pane().style.top).toBe('8px');
+      expect(pane()).toHaveStyle({ left: '8px', top: '8px' });
 
       dragBy(byTestId('header'), 5000, 5000);
       expect(rect().right).toBe(window.innerWidth - 8);
@@ -133,7 +133,7 @@ describe('AiTextTransformPaneController', () => {
     it('stops following the pointer after pointerup', () => {
       dragBy(byTestId('header'), -20, 30);
       const after = rect();
-      pointer('pointermove', window, 0, 0);
+      fireEvent.pointerMove(window, { clientX: 0, clientY: 0 });
 
       expect(rect()).toEqual(after);
     });
@@ -141,11 +141,12 @@ describe('AiTextTransformPaneController', () => {
     it('stops following the pointer after pointercancel', () => {
       const header = byTestId('header');
       const start = header.getBoundingClientRect();
-      pointer('pointerdown', header, start.left, start.top);
-      pointer('pointercancel', window, start.left, start.top);
-      pointer('pointermove', window, start.left - 20, start.top + 30);
+      const before = rect();
+      fireEvent.pointerDown(header, { clientX: start.left, clientY: start.top });
+      fireEvent.pointerCancel(window, { clientX: start.left, clientY: start.top });
+      fireEvent.pointerMove(window, { clientX: start.left - 20, clientY: start.top + 30 });
 
-      expect(pane().style.left).toBe('');
+      expect(rect()).toEqual(before);
     });
   });
 
@@ -206,7 +207,7 @@ describe('AiTextTransformPaneController', () => {
       dragBy(byTestId('header'), -20, 30);
       pane().style.left = '5000px';
 
-      window.dispatchEvent(new Event('resize'));
+      fireEvent.resize(window);
 
       expect(rect().right).toBe(window.innerWidth - 8);
     });
@@ -221,19 +222,21 @@ describe('AiTextTransformPaneController', () => {
       pressEscape();
 
       expect(submit).toHaveBeenCalled();
-      expect(wrapper()).not.toBeNull();
+      expect(pane()).toBeInTheDocument();
     });
 
     it('removes the pane on Escape without a close form', () => {
+      const removedPane = pane();
       pressEscape();
 
-      expect(wrapper()).toBeNull();
+      expect(removedPane).not.toBeInTheDocument();
     });
 
     it('removes the pane with the header close button', () => {
-      byTestId('close').click();
+      const removedPane = pane();
+      fireEvent.click(closeButton());
 
-      expect(wrapper()).toBeNull();
+      expect(removedPane).not.toBeInTheDocument();
     });
   });
 });
