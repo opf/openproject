@@ -279,6 +279,10 @@ module OpenProject::Meeting
       "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
     end
 
+    add_api_path :meeting_agenda_item_move_to_next_meeting do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/move_to_next_meeting"
+    end
+
     add_api_path :meeting_agenda_item_upvote do |id, meeting_id: nil|
       "#{meeting_agenda_item(id, meeting_id:)}/upvote"
     end
