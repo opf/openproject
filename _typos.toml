@@ -81,7 +81,6 @@ extend-ignore-identifiers-re = [
   "^@?first_occurence$", # reset misses the @first_occurrence memo; follow-up bug
   "^activites$", # module name typo in a spec, so the module is never enabled; follow-up
   "^blured$", # public component method bound in template; follow-up
-  "^hasTagTaget$", # never set by Stimulus (hasTagTarget), so always undefined; follow-up bug
   "^inital_setup_error_message$", # i18n key
   "^isLoggedInAndHasCapabalities\\$?$", # public service method; follow-up
   "^iterate_user_statusses$", # public helper; follow-up
