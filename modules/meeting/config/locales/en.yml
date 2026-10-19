@@ -97,6 +97,9 @@ en:
 
       models:
         meeting_agenda_item:
+          meeting_closed: "The meeting is closed. Its agenda items can no longer be moved."
+          meeting_is_template: "Template agenda items cannot be moved to the next meeting."
+          not_in_recurring_series: "The agenda item does not belong to a recurring meeting."
           section_not_belong_to_meeting: "Section does not belong to the same meeting."
           user_invalid: "is not a valid participant."
           vote_based_sorting_required: "Voting requires vote-based agenda sorting."
