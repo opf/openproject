@@ -178,6 +178,14 @@ frontend, for example:
 OP_BLOCKNOTE_EXTENSIONS_LOCAL=true bin/dev
 ```
 
+With Docker, set `OP_BLOCKNOTE_EXTENSIONS_LOCAL=true` in `.env` and restart the
+`frontend` container.
+
+While enabled, `frontend/node_modules/@openproject/op-blocknote-extensions`
+links to this folder's `package.json` and `dist`, and changes here rebuild on
+save. When you unset the variable, the next frontend start runs `npm install` in
+`frontend/` to put the npm version back.
+
 ### Releases
 
 Bump `version` in _package.json_ and merge to `release-op-blocknote-extensions`. The
