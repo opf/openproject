@@ -51,7 +51,9 @@ module ResourceAllocations
       placements = Hash.new { |hash, id| hash[id] = {} }
       daily_load = {}
 
-      each_day { |date| fill_day(date, remaining, placements, daily_load) }
+      each_day_with_active_items(remaining) do |date, active|
+        fill_day(date, active, remaining, placements, daily_load)
+      end
 
       Result.new(
         placements:,
@@ -62,25 +64,23 @@ module ResourceAllocations
 
     private
 
-    def fill_day(date, remaining, placements, daily_load)
+    def fill_day(date, active, remaining, placements, daily_load)
       capacity = @calendar.capacity_on(date)
       return if capacity.zero?
 
-      free = place_items(date, capacity, remaining, placements)
+      free = place_items(date, active, capacity, remaining, placements)
       used = capacity - free
       daily_load[date] = used if used.positive?
     end
 
     # Fills the day from the active items in earliest-deadline order, returning
     # the capacity left over.
-    def place_items(date, capacity, remaining, placements)
+    def place_items(date, active, capacity, remaining, placements)
       free = capacity
-      active_items(date, remaining).each do |item|
+      active.each do |item|
         break if free.zero?
 
         take = [remaining[item.id], free].min
-        next if take.zero?
-
         placements[item.id][date] = take
         remaining[item.id] -= take
         free -= take
@@ -88,18 +88,43 @@ module ResourceAllocations
       free
     end
 
-    def each_day(&)
-      return if @items.empty?
+    # Yields each day on which items with work left are within their window,
+    # together with those items in earliest-deadline order. Days without any
+    # such item are skipped.
+    def each_day_with_active_items(remaining)
+      pending = items_with_work_by_start_date
+      active = []
+      date = pending.first&.start_date
 
-      from = @items.map(&:start_date).min
-      to = @items.map(&:end_date).max
-      (from..to).each(&)
+      while date
+        activate_starting_on(date, pending, active)
+        drop_expired_before(date, active)
+
+        yield date, active
+
+        active.reject! { |item| remaining[item.id].zero? }
+        date = active.empty? ? pending.first&.start_date : date + 1
+      end
     end
 
-    def active_items(date, remaining)
-      @items
-        .select { |item| date.between?(item.start_date, item.end_date) && remaining[item.id].positive? }
-        .sort_by { |item| [item.end_date, item.start_date, item.id] }
+    def items_with_work_by_start_date
+      @items.select { |item| item.minutes.positive? }.sort_by(&:start_date)
+    end
+
+    def activate_starting_on(date, pending, active)
+      while pending.first&.start_date == date
+        item = pending.shift
+        index = active.bsearch_index { |other| (priority(other) <=> priority(item)).positive? } || active.size
+        active.insert(index, item)
+      end
+    end
+
+    def drop_expired_before(date, active)
+      active.shift while active.any? && active.first.end_date < date
+    end
+
+    def priority(item)
+      [item.end_date, item.start_date, item.id]
     end
   end
 end
