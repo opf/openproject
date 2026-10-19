@@ -37,9 +37,13 @@ module Projects
     end
 
     OPEN = Status.new(code: :open, hexcode: "#1F883D", icon: "issue-opened")
-    IN_PROGRESS = Status.new(code: :in_progress, hexcode: "#1F883D", icon: "issue-opened")
-    COMPLETED = Status.new(code: :completed, hexcode: "#1F883D", icon: "issue-opened")
+    IN_PROGRESS = Status.new(code: :in_progress, hexcode: "#1F883D", icon: "play")
+    COMPLETED = Status.new(code: :completed, hexcode: "#1F883D", icon: "check-circle")
 
     AVAILABLE = [OPEN, IN_PROGRESS, COMPLETED].freeze
+
+    def self.find(code)
+      AVAILABLE.find { it.code.to_s == code.to_s }
+    end
   end
 end

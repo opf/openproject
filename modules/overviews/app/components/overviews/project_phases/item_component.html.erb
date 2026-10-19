@@ -17,6 +17,10 @@
           text
         end
       end
+
+      row.with_column do
+        render(Projects::PhaseStatusButtonComponent.new(phase: model))
+      end
     end
 
     life_cycle_container.with_row(w: :full) do
