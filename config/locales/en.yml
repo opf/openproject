@@ -5769,6 +5769,7 @@ en:
       filled?: "must be filled."
       format?: "is in invalid format."
       greater_or_equal_zero: "must be greater or equal to 0."
+      gt?: "must be greater than %{num}."
       gteq?: "must be greater than or equal to %{num}."
       hash?: "must be a hash."
       included_in?:
@@ -5796,6 +5797,7 @@ en:
       type?: "must be %{type}."
       unexpected_key: "is not allowed."
       uri?: "is not a valid URI."
+      uuid_v4?: "must be a UUID (version 4)."
     or: "or"
     rules:
       blueprint: "Pattern blueprint"
