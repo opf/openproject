@@ -234,7 +234,7 @@ class JiraProjectCreator
     "Feature Creep Chronicles",
     "The Spaghetti Untangler",
     "Quantum Bug Squasher",
-    "Legacy Code Archaelogy",
+    "Legacy Code Archaeology",
     "The Memory Leak Saga",
     "Operation Stack Overflow",
     "Project Copy-Paste",

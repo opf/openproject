@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_news_plural) %>
 
-<% managable = User.current.allowed_in_project?(:manage_news, @project) %>
+<% manageable = User.current.allowed_in_project?(:manage_news, @project) %>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs(@project ? [{ href: project_overview_path(@project.id), text: @project.name }, t(:label_news_plural)] : nil)
   end
 %>
-<% if managable %>
+<% if manageable %>
   <%=
     render(Primer::OpenProject::SubHeader.new) do |subheader|
       subheader.with_action_button(
@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
    </div>
   <% end %>
 <% else %>
-  <% if managable %>
+  <% if manageable %>
     <%= no_results_box(
           action_url: new_project_news_path(@project),
           display_action: true
