@@ -51,8 +51,10 @@ module OpenProject::WebPush
   HOST_PATTERN = /\A[a-z0-9-]+(\.[a-z0-9-]+)*\z/
 
   class UnreadableKey < StandardError
-    MESSAGE = "The stored web_push_vapid_private_key setting could not be read. " \
-              "Renew it from the browser notifications administration page."
+    MESSAGE = "The web_push_vapid_private_key setting does not hold a usable key. " \
+              "Renew it from the browser notifications administration page, " \
+              "or correct the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable " \
+              "if you manage the key yourself."
 
     def initialize(message = MESSAGE)
       super
@@ -95,12 +97,14 @@ module OpenProject::WebPush
 
   # The signing key as the web-push gem expects it.
   #
-  # @raise [UnreadableKey] when the stored value does not yield a private
-  #   P-256 key, whether missing, garbled or encrypted under a previous
-  #   secret key base. One error for all causes, since the only remedy is
-  #   regenerating the key.
+  # @raise [UnreadableKey] when the stored value is missing, garbled or not a
+  #   private P-256 key. One error for all causes, since the remedy is the
+  #   same: a fresh key.
   def vapid_key
-    key = OpenSSL::PKey::EC.new(Base64.strict_decode64(private_key_der_b64))
+    value = Setting.web_push_vapid_private_key
+    raise UnreadableKey if value.blank?
+
+    key = OpenSSL::PKey::EC.new(Base64.strict_decode64(value))
     raise UnreadableKey unless key.private? && key.group.curve_name == VAPID_CURVE
 
     ::WebPush::VapidKey.new(key)
@@ -108,29 +112,12 @@ module OpenProject::WebPush
     raise UnreadableKey
   end
 
-  def generate_encrypted_private_key
-    der = OpenSSL::PKey::EC.generate(VAPID_CURVE).private_to_der
-
-    encryptor.encrypt_and_sign(Base64.strict_encode64(der))
+  def generate_private_key
+    Base64.strict_encode64(OpenSSL::PKey::EC.generate(VAPID_CURVE).private_to_der)
   end
 
   def key_managed_by_environment?
     !Settings::Definition[:web_push_vapid_private_key].writable?
-  end
-
-  def private_key_der_b64
-    value = Setting.web_push_vapid_private_key
-    return value if key_managed_by_environment?
-
-    decrypt(value)
-  end
-
-  def decrypt(value)
-    raise ActiveSupport::MessageEncryptor::InvalidMessage if value.nil?
-
-    encryptor.decrypt_and_verify(value)
-  rescue ActiveSupport::MessageEncryptor::InvalidMessage
-    raise UnreadableKey
   end
 
   def key_readable?
@@ -143,15 +130,9 @@ module OpenProject::WebPush
   def regenerate_key!
     OpenProject::Mutex.with_advisory_lock(Setting, "persist_default_web_push_vapid_private_key") do
       PushSubscription.transaction do
-        Setting.web_push_vapid_private_key = generate_encrypted_private_key
+        Setting.web_push_vapid_private_key = generate_private_key
         PushSubscription.delete_all
       end
     end
-  end
-
-  def encryptor
-    key = Rails.application.key_generator.generate_key("op-web-push:vapid:v1", 32)
-
-    ActiveSupport::MessageEncryptor.new(key, cipher: "aes-256-gcm")
   end
 end
