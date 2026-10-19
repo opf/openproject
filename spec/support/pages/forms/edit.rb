@@ -79,6 +79,10 @@ module Pages
         end
       end
 
+      def expect_no_attributes(group_name)
+        expect(group(group_name)).to have_no_css("li[data-attr-key]")
+      end
+
       def expect_inactive(*keys)
         keys.each { expect(inactive_list).to have_css(row_selector(it)) }
       end
