@@ -22,10 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
+
 module EnvData
   class CustomDesignSeeder < Seeder
     def seed_data!
@@ -44,10 +45,17 @@ module EnvData
     end
 
     def applicable?
-      Setting.seed_design.present?
+      return false if Setting.seed_design.blank?
+      return true unless only_when_empty?
+
+      CustomStyle.none?
     end
 
     private
+
+    def only_when_empty?
+      ActiveRecord::Type::Boolean.new.deserialize(Setting.seed_design["only_when_empty"])
+    end
 
     def seed_logos(custom_style)
       CustomStyle.uploaders.each_key do |key|

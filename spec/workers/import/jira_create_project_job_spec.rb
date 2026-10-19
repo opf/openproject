@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,11 +67,10 @@ RSpec.describe Import::JiraCreateProjectJob,
 
     context "when project creation fails with a general error" do
       before do
-        # rubocop:disable RSpec/AnyInstance
+        # rubocop:disable-next RSpec/AnyInstance
         allow_any_instance_of(Projects::CreateService).to receive(:call).and_return(
           ServiceResult.failure(message: "Something went wrong during project creation")
         )
-        # rubocop:enable RSpec/AnyInstance
       end
 
       it "raises the error message" do

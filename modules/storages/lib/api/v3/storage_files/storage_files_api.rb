@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ module API::V3::StorageFiles
 
         case body.transform_keys(&:to_sym)
         in { projectId: project_id, fileName: file_name, parent: parent }
-          authorize_in_project(:manage_file_links, project: Project.find(project_id))
+          authorize_in_project(:manage_file_links, project: @storage.projects.find(project_id))
           ServiceResult.success(result: { folder_id: parent, file_name: })
         else
           raise API::Errors::BadRequest.new("Request body malformed!")

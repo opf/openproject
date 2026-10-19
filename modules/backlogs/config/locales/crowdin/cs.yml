@@ -26,6 +26,7 @@ cs:
       project:
         allow_multiple_active_sprints: Povolit více aktivních sprintů
         backlog_excluded_types: Vyloučené typy pracovních balíčků
+        estimation_unit: Unit
         sprint_sharing: Sdílení sprintu
         statuses_considered_closed: Stavy považované za uzavřené
       sprint:
@@ -72,10 +73,10 @@ cs:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Jeden pracovní balíček nebyl v tomto sprintu dokončen.
-                few: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
-                many: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
-                other: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
+                one: There is %{count} work package that was not completed in this sprint.
+                few: There are %{count} work packages that were not completed in this sprint.
+                many: There are %{count} work packages that were not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: není aktivní, takže jej nelze uzavřít.
         sprint_goal:
@@ -145,6 +146,7 @@ cs:
       show:
         blankslate_description: Nastavte datum začátku a konce sprintu pro vygenerování Burndown grafu.
         blankslate_title: Nedostupná data pro Burndown
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Zvolte, které typy pracovních balíčků se mají skrýt z backlogu. Položky vybraných typů se v backlogu automaticky nezobrazí, takže zůstane soustředěn na práci, která je pro váš tým důležitá. Například typy jako Epicy nebo Milníky, které jsou řízeny na vyšší úrovni, lze skrýt, aby se backlog soustředil na položky, které lze realizovat.
 
       '
@@ -167,10 +169,10 @@ cs:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        one: Zobrazit ještě 1 položku
-        few: Zobrazit ještě %{count} položek
-        many: Zobrazit ještě %{count} položek
-        other: Zobrazit ještě %{count} položek
+        one: Show %{count} more item
+        few: Show %{count} more items
+        many: Show %{count} more items
+        other: Show %{count} more items
       title: Nevyřízené
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -280,7 +282,6 @@ cs:
       header_backlogs: Modul backlogů
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Kopírovst adresu URL
         copy_work_package_id: Kopírovat ID pracovního balíčku
         move_menu: Přesun na pozici
         move_to_backlog_bucket: Přesunout do sekce backlogu
@@ -364,6 +365,18 @@ cs:
       backlog_buckets: Backlog buckets
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -384,6 +397,9 @@ cs:
             label: Podprojekty
         sprint_sharing: Sdílet sprinty
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
           heading: Počet aktivních sprintů

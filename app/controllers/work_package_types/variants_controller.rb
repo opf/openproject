@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,9 +30,6 @@
 module WorkPackageTypes
   class VariantsController < BaseTabController
     include OpTurbo::ComponentStream
-
-    administration_only! :index, :make_default, :remove_default,
-                         :convert_to_global_dialog, :convert_to_global
 
     current_menu_item do
       :types
@@ -45,6 +41,10 @@ module WorkPackageTypes
       return unless turbo_frame_request?
 
       render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
+    end
+
+    def comparison
+      @comparison = VariantComparison.new(type: @type)
     end
 
     def menu
@@ -94,15 +94,7 @@ module WorkPackageTypes
     end
 
     def convert_to_global_dialog
-      variant = named_variant
-      service_call = ConvertToGlobalService.new(variant:).validate
-
-      if service_call.errors.added?(:base, :inherits_from_project_owned)
-        refuse_blocked_convert(service_call)
-      else
-        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
-      end
-
+      dialog_via_turbo_stream(component: convert_confirm_dialog(named_variant))
       respond_with_turbo_streams
     end
 
@@ -187,18 +179,11 @@ module WorkPackageTypes
     end
 
     def handle_failed_convert(service_call)
-      if service_call.errors.added?(:base, :inherits_from_project_owned)
-        refuse_blocked_convert(service_call)
-      elsif params.key?(:type_variant)
+      if params.key?(:type_variant)
         repaint_rename_form(service_call)
       else
         open_rename_dialog
       end
-    end
-
-    def refuse_blocked_convert(service_call)
-      flash[:error] = service_call.errors.full_messages
-      reload_page_via_turbo_stream
     end
 
     def open_rename_dialog

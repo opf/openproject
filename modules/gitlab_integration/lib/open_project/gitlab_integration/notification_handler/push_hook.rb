@@ -36,15 +36,19 @@ module OpenProject::GitlabIntegration
 
       def process(payload_params) # rubocop:disable Metrics/AbcSize
         @payload = wrap_payload(payload_params)
+
         return nil unless payload.object_kind == "push"
 
         user = User.find_by(id: payload.open_project_user_id)
+
+        track_branch(user)
 
         payload.commits.each do |commit|
           text = [commit["title"], commit["message"]]
             .compact_blank
             .join(" - ")
           work_packages = find_mentioned_work_packages(text, user)
+          create_commit(commit, payload, work_packages)
           notes = generate_notes(commit, payload)
           comment_on_referenced_work_packages(work_packages, user, notes)
         end
@@ -53,6 +57,18 @@ module OpenProject::GitlabIntegration
       private
 
       attr_reader :payload
+
+      def create_commit(commit_payload, event_payload, work_packages)
+        ::OpenProject::GitlabIntegration::Services::CreateCommit.new.call(commit_payload, event_payload, work_packages:)
+      end
+
+      # A branch we cannot track must not stop the commits in the same push
+      # from being processed.
+      def track_branch(user)
+        ::OpenProject::GitlabIntegration::Services::TrackBranch.new.call(payload, user:)
+      rescue ActiveRecord::ActiveRecordError => e
+        ::OpenProject.logger.error("Failed to track Gitlab branch #{payload.ref}", exception: e)
+      end
 
       def generate_notes(commit, payload)
         commit_id = commit["id"]

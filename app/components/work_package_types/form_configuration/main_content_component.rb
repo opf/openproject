@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,17 +33,14 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, group_components:, ee_available:, readonly: false)
+      def initialize(context:, group_components:, ee_available:)
         super
-        @variant = variant
+        @context = context
         @group_components = group_components
         @ee_available = ee_available
-        @readonly = readonly
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, to: :@context
 
       private
 

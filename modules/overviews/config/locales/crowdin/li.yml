@@ -1,0 +1,11 @@
+---
+li:
+  activerecord:
+    models:
+      grids/overview:
+        one: Euverzich
+        other: Euverzichte
+  overviews:
+    label_dashboard: Behierpaneel
+    label_home: "%{workspace_type} thoes"
+    label_overview: Euverzich

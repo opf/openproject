@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -65,11 +64,13 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
       click_link "Configure the workflows in the administration."
     end
 
-    # The warning links to the types administration; open the type's workflow tab from there.
+    # The warning links to the types administration; open the type's workflow tab from there,
+    # then follow the read-only banner to the workflow that the type uses.
     expect(page).to have_current_path(types_path)
     visit edit_type_workflow_path(type)
+    within_test_selector("workflow-read-only") { click_link I18n.t("admin.workflows.read_only.edit_action") }
 
-    # On the copy workflow form, the source role is pre-selected from the tab;
+    # On the copy workflow form, the source role is pre-selected;
     # copy its workflow to the work package edit role.
     within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     target_roles_autocompleter.select_option work_package_role.name

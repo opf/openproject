@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -234,6 +233,29 @@ RSpec.describe "ResourceAllocations requests",
         expect(response).to have_http_status(:ok)
         expect(response.body).to have_turbo_stream(action: "replace", target: "resource-allocations-list-component")
         expect_allocation_change_announced_for(work_package)
+      end
+    end
+
+    context "for a single day as submitted by the range date picker" do
+      subject(:perform) do
+        post project_resource_allocations_path(project),
+             params: { resource_allocation: {
+               placeholder_or_user_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-10-07",
+               allocated_hours: "3h"
+             } },
+             as: :turbo_stream
+      end
+
+      it "creates a one-day allocation" do
+        expect { perform }.to change(ResourceAllocation, :count).by(1)
+
+        expect(response).to have_http_status(:ok)
+        allocation = ResourceAllocation.last
+        expect(allocation.start_date).to eq(Date.new(2026, 10, 7))
+        expect(allocation.end_date).to eq(Date.new(2026, 10, 7))
       end
     end
 
@@ -462,7 +484,33 @@ RSpec.describe "ResourceAllocations requests",
         end.to change(ResourceAllocation, :count).by(1)
       end
 
-      it "collapses allocations of work packages the requester cannot see into a lump sum" do
+      it "states its hours and period and, emphasized, the overtime it causes",
+         with_settings: { date_format: "%Y-%m-%d" } do
+        post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+
+        page = Nokogiri::HTML4.fragment(response.body)
+        expect(page.text).to include(
+          "This allocation adds 40h between 2026-03-02 and 2026-03-03, " \
+          "causing 24h of overtime between 2026-03-02 and 2026-03-03."
+        )
+        expect(page.css("strong").map(&:text)).to include("causing 24h of overtime between 2026-03-02 and 2026-03-03")
+      end
+
+      it "includes the overtime of other allocations it pushes back in that period",
+         with_settings: { date_format: "%Y-%m-%d" } do
+        create(:resource_allocation, principal: working_assignee, entity: work_package, allocated_time: 960,
+                                     start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 4))
+        params = base_params.deep_merge(resource_allocation: { allocated_hours: "16h" })
+
+        post project_resource_allocations_path(project), params:, as: :turbo_stream
+
+        expect(Nokogiri::HTML4.fragment(response.body).text).to include(
+          "This allocation adds 16h between 2026-03-02 and 2026-03-03, " \
+          "causing 8h of overtime between 2026-03-02 and 2026-03-04."
+        )
+      end
+
+      it "does not name the work packages of other allocations" do
         hidden_work_package = create(:work_package, project: create(:project), subject: "Confidential rocket plans")
         create(:resource_allocation,
                principal: working_assignee,
@@ -473,9 +521,27 @@ RSpec.describe "ResourceAllocations requests",
 
         post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
 
-        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.hidden_work"))
-        expect(response.body).to include("10h")
         expect(response.body).not_to include("Confidential rocket plans")
+      end
+
+      it "warns with its own text when the period contains no working day of the user" do
+        params = base_params.deep_merge(resource_allocation: { date_range: "2026-03-07 - 2026-03-08", allocated_hours: "4h" })
+        post project_resource_allocations_path(project), params:, as: :turbo_stream
+
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include(working_assignee.name)
+        expect(response.body).to include("has no working day")
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "creates directly when only an existing overbooking it does not add to is present" do
+        create(:resource_allocation, principal: working_assignee, entity: work_package, allocated_time: 600,
+                                     start_date: Date.new(2026, 3, 9), end_date: Date.new(2026, 3, 9))
+        params = base_params.deep_merge(resource_allocation: { allocated_hours: "8h" })
+
+        expect do
+          post project_resource_allocations_path(project), params:, as: :turbo_stream
+        end.to change(ResourceAllocation, :count).by(1)
       end
     end
 
@@ -551,13 +617,13 @@ RSpec.describe "ResourceAllocations requests",
       create(:resource_allocation, entity: work_package, principal: assignee, allocated_time: 600)
     end
 
-    def perform(allocated_hours: "16h")
+    def perform(allocated_hours: "16h", date_range: "2026-03-02 - 2026-03-06")
       patch project_resource_allocation_path(project, allocation),
             params: { resource_allocation: {
               placeholder_or_user_id: assignee.id,
               entity_type: "WorkPackage",
               entity_id: work_package.id,
-              date_range: "2026-03-02 - 2026-03-06",
+              date_range:,
               allocated_hours:
             } },
             as: :turbo_stream
@@ -577,6 +643,14 @@ RSpec.describe "ResourceAllocations requests",
       perform
 
       expect_allocation_change_announced_for(work_package)
+    end
+
+    it "narrows the allocation to a single day as submitted by the range date picker" do
+      perform(date_range: "2026-03-04")
+
+      expect(response).to have_http_status(:ok)
+      expect(allocation.reload.start_date).to eq(Date.new(2026, 3, 4))
+      expect(allocation.end_date).to eq(Date.new(2026, 3, 4))
     end
 
     context "with invalid input" do
@@ -632,6 +706,15 @@ RSpec.describe "ResourceAllocations requests",
 
         expect(response).to have_http_status(:ok)
         expect(allocation.reload.allocated_time).to eq(600)
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "renders the overbooking confirmation when an already overbooked allocation is saved unchanged" do
+        allocation.update!(allocated_time: 40 * 60)
+
+        perform
+
         expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
         expect(response.body).to include('name="confirmed"')
       end
@@ -772,6 +855,41 @@ RSpec.describe "ResourceAllocations requests",
 
       expect(response.body).to include(user_dialog_id)
       expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+    end
+
+    describe "acting on an existing allocation" do
+      shared_let(:allocation) do
+        create(:resource_allocation, entity: work_package, principal: assignee,
+                                     start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 3))
+      end
+
+      it "replaces the utilization dialog with the edit form" do
+        get edit_project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to have_turbo_stream(action: "closeDialog", target: user_dialog_id)
+      end
+
+      it "re-renders the utilization dialog after a successful update" do
+        patch project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+              params: { resource_allocation: {
+                placeholder_or_user_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
+                date_range: "2026-03-02 - 2026-03-03", allocated_hours: "8h"
+              } },
+              as: :turbo_stream
+
+        expect(response.body).to include(user_dialog_id)
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+      end
+
+      it "re-renders the utilization dialog after a successful delete" do
+        delete project_resource_allocation_path(project, allocation, resource_planner_view_id: card_view.id),
+               as: :turbo_stream
+
+        expect(response.body).to include(user_dialog_id)
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+      end
     end
   end
 

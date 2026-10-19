@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -276,6 +275,88 @@ RSpec.describe UserWorkingHours do
 
     it "does not return future records" do
       expect(described_class.for_user(user).current).not_to eq(future_hours)
+    end
+  end
+
+  describe ".effective_within" do
+    let(:user) { create(:user) }
+    let(:monday) { Date.new(2026, 1, 5) }
+    let(:tuesday) { Date.new(2026, 1, 6) }
+    let(:friday) { Date.new(2026, 1, 9) }
+    let(:range) { monday..friday }
+
+    it "returns the schedule in effect at the range start" do
+      in_effect = create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
+
+      expect(described_class.for_user(user).effective_within(range)).to eq([in_effect])
+    end
+
+    it "includes schedules taking effect within the range, in order" do
+      in_effect = create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
+      switched = create(:user_working_hours, user:, valid_from: tuesday)
+
+      expect(described_class.for_user(user).effective_within(range)).to eq([in_effect, switched])
+    end
+
+    it "drops schedules superseded before the range starts" do
+      create(:user_working_hours, user:, valid_from: Date.new(2024, 1, 1))
+      in_effect = create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
+
+      expect(described_class.for_user(user).effective_within(range)).to eq([in_effect])
+    end
+
+    it "excludes schedules taking effect after the range ends" do
+      in_effect = create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
+      create(:user_working_hours, user:, valid_from: Date.new(2027, 1, 1))
+
+      expect(described_class.for_user(user).effective_within(range)).to eq([in_effect])
+    end
+
+    it "starts with a mid-range schedule when none is in effect at the range start" do
+      starting = create(:user_working_hours, user:, valid_from: tuesday)
+
+      expect(described_class.for_user(user).effective_within(range)).to eq([starting])
+    end
+
+    it "is empty when the user has no working time configured" do
+      expect(described_class.for_user(user).effective_within(range)).to be_empty
+    end
+  end
+
+  describe ".unscheduled_within" do
+    let(:user) { create(:user) }
+    let(:monday) { Date.new(2026, 1, 5) }
+    let(:tuesday) { Date.new(2026, 1, 6) }
+    let(:friday) { Date.new(2026, 1, 9) }
+    let(:range) { monday..friday }
+
+    it "is nil when a schedule covers the whole range" do
+      create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
+
+      expect(described_class.for_user(user).unscheduled_within(range)).to be_nil
+    end
+
+    it "is the whole range when the user has no working time configured" do
+      expect(described_class.for_user(user).unscheduled_within(range)).to eq(range)
+    end
+
+    it "is the stretch before the earliest schedule takes effect" do
+      create(:user_working_hours, user:, valid_from: tuesday)
+
+      expect(described_class.for_user(user).unscheduled_within(range)).to eq(monday..monday)
+    end
+
+    it "is the whole range when the earliest schedule only takes effect after it" do
+      create(:user_working_hours, user:, valid_from: Date.new(2027, 1, 1))
+
+      expect(described_class.for_user(user).unscheduled_within(range)).to eq(range)
+    end
+
+    it "ignores later schedule changes within the range" do
+      create(:user_working_hours, user:, valid_from: Date.new(2025, 1, 1))
+      create(:user_working_hours, user:, valid_from: tuesday)
+
+      expect(described_class.for_user(user).unscheduled_within(range)).to be_nil
     end
   end
 

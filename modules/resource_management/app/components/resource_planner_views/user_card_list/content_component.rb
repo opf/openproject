@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,13 +52,11 @@ module ResourcePlannerViews::UserCardList
     def remove_path_for(user)
       return nil unless @view.manually_picked?
 
-      helpers.remove_user_project_resource_planner_view_path(
-        @project, @resource_planner, @view, user_id: user.id
-      )
+      remove_planner_view_user_path(@resource_planner, @view, user.id)
     end
 
     def details_path_for(user)
-      helpers.project_user_resource_allocations_path(@project, user, resource_planner_view_id: @view.id)
+      user_allocations_path(@project, user, resource_planner_view_id: @view.id)
     end
 
     def utilization_for(user)
@@ -72,7 +69,7 @@ module ResourcePlannerViews::UserCardList
 
     def working_schedules_for(user)
       if utilization_window
-        ResourceAllocations::Availability.new(user:).working_schedules(utilization_window)
+        UserWorkingHours.for_user(user).effective_within(utilization_window)
       else
         Array(UserWorkingHours.for_user(user).valid_for_date(Date.current))
       end

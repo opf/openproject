@@ -114,12 +114,12 @@ uk:
     not_recommended: не рекомендується
     recommended: рекомендовано
     x_bcf_issues:
-      one: Одна проблема BCF
+      one: "%{count} BCF issue"
       other: 'Помилок BCF: %{count}'
       zero: Немає проблем BCF
   bim:
     error_direct_upload_failed: Не вдалося виконати пряме завантаження.
-    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
+    error_direct_upload_file_too_large: Модель IFC занадто велика (максимальний розмір становить %{size} байт).
     label_bim: BIM
   export:
     format:

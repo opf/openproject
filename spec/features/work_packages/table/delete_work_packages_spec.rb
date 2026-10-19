@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -74,7 +73,7 @@ RSpec.describe "Delete work package", :js do
       wp_table.visit!
 
       wp_table.expect_work_package_listed wp1, wp2, wp_child
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
 
       context_menu.open_for(wp1)
       context_menu.choose("Bulk delete")

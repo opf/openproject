@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -262,6 +261,19 @@ RSpec.describe CostReport do
       instance.save!
 
       expect(described_class.find(instance.id).unit_id).to eq(3)
+    end
+  end
+
+  describe "#to_query_params" do
+    it "carries the filters and unit" do
+      instance.query.where("work_package_id", "=", ["42"])
+      instance.unit_id = -1
+
+      expect(instance.to_query_params).to include(filters: 'work_package_id = "42"', unit: -1)
+    end
+
+    it "carries an empty filter set so it is not rebuilt with the defaults" do
+      expect(instance.to_query_params).to include(filters: "")
     end
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,8 +34,6 @@ module WorkPackageTypes
     end
 
     def call(name: nil)
-      return blocked if blocked?
-
       assign(name)
       variant.save!
 
@@ -46,22 +43,9 @@ module WorkPackageTypes
       ServiceResult.failure(result: variant)
     end
 
-    def validate
-      return blocked if blocked?
-
-      ServiceResult.success(result: variant)
-    end
-
     private
 
     attr_reader :variant
-
-    def blocked? = variant.inherits_from_project_owned_variant?
-
-    def blocked
-      variant.errors.add(:base, :inherits_from_project_owned)
-      ServiceResult.failure(result: variant)
-    end
 
     def assign(name)
       convert_own_workflow
@@ -74,6 +58,7 @@ module WorkPackageTypes
       return unless workflow&.project_specific? && workflow.project_id == variant.project_id
 
       workflow.project = nil
+      workflow.name = Workflow.available_name(workflow.name)
     end
   end
 end

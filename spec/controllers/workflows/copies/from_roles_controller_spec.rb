@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,8 @@ RSpec.describe Workflows::Copies::FromRolesController do
       expect(Workflows::StatusTransition).to have_received(:copy).exactly(1).time
       expect(Workflows::StatusTransition)
         .to have_received(:copy)
-              .with(source_variant, source_role, [source_variant], a_collection_containing_exactly(*target_roles))
+              .with(source_variant.workflow, source_role, [source_variant.workflow],
+                    a_collection_containing_exactly(*target_roles))
     end
 
     it "points the matrix frame at the target roles with a flash notice" do

@@ -1,9 +1,6 @@
 <%# Color variables per highlightable resource. The rules consuming them live in the %>
 <%# "Highlighting colors" section of frontend/src/global_styles/layout/_colors.sass %>
-<%= resource_color_css("status", ::Status.includes(:color)) %>
-<%= resource_color_css("priority", ::IssuePriority.includes(:color)) %>
-<%= resource_color_css("type", ::Type.includes(:color)) %>
-<%= resource_color_css("project_phase_definition", ::Project::PhaseDefinition.includes(:color)) %>
-<%= resource_color_css("meeting_status", Meetings::Statuses::AVAILABLE) %>
-<%= resource_color_css("project_status", Projects::Statuses::AVAILABLE) %>
-<%= resource_color_css("color", ::Color.all) %>
+
+<% Highlighting::Registry.entries.each_pair do |key, value_fn| %>
+  <%= resource_color_css(key, value_fn.call) %>
+<% end %>

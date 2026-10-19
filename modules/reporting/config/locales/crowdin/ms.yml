@@ -104,7 +104,6 @@ ms:
   plugin_openproject_reporting:
     description: Plugin ini membenarkan untuk mencipta laporan kos tersuai dengan penyaring dan pengumpulan yang dibuat oleh plugin Masa dan kos OpenProject.
     name: Pelaporan OpenProject
-  project_module_reporting_module: Laporan kos
   reporting:
     group_by:
       selected_columns: Kolum terpilih

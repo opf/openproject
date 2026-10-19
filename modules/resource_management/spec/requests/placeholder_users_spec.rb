@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -123,6 +122,26 @@ RSpec.describe "ResourceManagement PlaceholderUsers requests",
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include("placeholder_user[name]")
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    let(:placeholder_user) { create(:placeholder_user) }
+
+    context "when the placeholder user is used in a resource allocation" do
+      before { create(:resource_allocation, placeholder_user:, principal: nil) }
+
+      it "refuses the deletion and explains why" do
+        delete placeholder_user_path(placeholder_user)
+
+        expect(response).to redirect_to(placeholder_users_path)
+        expect(flash[:error]).to include(
+          I18n.t("activerecord.errors.models.placeholder_user.used_in_resource_allocations")
+        )
+        expect(flash[:info]).to be_nil
+        expect(Principals::DeleteJob).not_to have_been_enqueued
+        expect(placeholder_user.reload).to be_active
       end
     end
   end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -199,9 +198,9 @@ export class WorkPackageFilterValues {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
     const current = Array.isArray(value) ? value : [value];
 
-    for (let i = 0; i < filter.values.length; i++) {
-      for (let j = 0; j < current.length; j++) {
-        if (compareByHrefOrString(current[j], filter.values[i])) {
+    for (const filterValue of filter.values) {
+      for (const currentValue of current) {
+        if (compareByHrefOrString(currentValue, filterValue)) {
           return true;
         }
       }

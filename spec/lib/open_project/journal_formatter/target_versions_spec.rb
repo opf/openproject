@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,9 +77,18 @@ RSpec.describe OpenProject::JournalFormatter::TargetVersions do
     end
 
     context "with a version that no longer exists" do
-      it "renders only the existing version names" do
+      it "keeps a placeholder in the deleted version's position" do
         expect(instance.render(:target_versions, [nil, "#{version.id},99999"]))
-          .to eq(I18n.t(:text_journal_set_to, label:, value: "<i>Alpha</i>"))
+          .to eq(I18n.t(:text_journal_set_to, label:, value: "<i>Alpha, (deleted version)</i>"))
+      end
+
+      it "still shows the change when only the deleted version was removed" do
+        expect(instance.render(:target_versions, ["#{version.id},99999", version.id.to_s]))
+          .to eq(I18n.t(:text_journal_changed_plain,
+                        label:,
+                        linebreak: nil,
+                        old: "<i>Alpha, (deleted version)</i>",
+                        new: "<i>Alpha</i>"))
       end
     end
 

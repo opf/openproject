@@ -182,7 +182,7 @@ The **General** tab is divided into several sections.
 
 ### Avatar
 
-The **Avatar** section displays the user's current avatar. By default, a generic icon is shown. You can upload a custom avatar image for the user.
+The **Avatar** section displays the user's current avatar. By default, a generic image is shown. The color for that image can be defined. You can upload a custom avatar image for the user.
 
 If enabled, users can also use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), which they can manage in their [Account settings](../../../user-guide/account-settings/account/#set-an-avatar). Both custom avatars and Gravatar support can be disabled in the [Avatar settings](../avatars).
 
@@ -224,6 +224,9 @@ You can either:
 
 If you set a password manually, share it with the user using a secure communication channel. You can also enable **Enforce password change on next login** to require the user to create a new password when they next sign in.
 
+> [!NOTE]
+> Assigning or resetting a password does not necessarily allow the user to authenticate with it. If an administrator has [restricted password login for SSO](../../authentication/login-registration-settings/#single-sign-on-sso-settings), SSO-linked users or all non-allowlisted users may be prevented from using internal or LDAP passwords. Password-related administration controls may also be unavailable depending on the configured policy.
+
 ![Authentication settings under user settings in OpenProject administrations](openproject_system_guide_general_tab_authentication.png)
 
 ### Preferences
@@ -237,6 +240,7 @@ Available settings include:
 - **Time zone** – By default, the time zone is determined from the selected language but can be changed.
 - **Color mode** – Choose the preferred appearance. Some color modes override custom theme colors to improve accessibility and readability. Select **Light mode** for full compatibility with custom themes.
 - **Disable keyboard shortcuts** – Disable the default [keyboard shortcuts](../../../user-guide/keyboard-shortcuts-access-keys/?go_to_locale=en). This can be helpful when using a screen reader or to avoid triggering actions accidentally.
+- **Require double click to edit fields** – Only open editable fields on a double click instead of a single click, which makes it easier to select and copy text. See [Interface settings](../../../user-guide/account-settings/interface/#require-double-click-to-edit-fields) for details.
 
 Remember to **Save** your changes before leaving the page.
 
@@ -316,7 +320,7 @@ This tab shows whether a user has activated a device for two-factor authenticati
 
 ## Delete users
 
-Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
+Two [settings](../settings/#deletion) allow users to be deleted from the system:
 
 - **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
 - **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **Account settings** page.

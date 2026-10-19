@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -81,6 +80,14 @@ RSpec.describe AI::TextTransforms::Context do
       type.default_variant.update!(default_work_package_description: "## Steps")
 
       expect(context.template).to eq("## Steps")
+    end
+
+    it "resolves the variant once" do
+      allow(project).to receive(:type_variant).and_call_original
+
+      3.times { context.template }
+
+      expect(project).to have_received(:type_variant).once
     end
   end
 

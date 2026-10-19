@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -75,20 +74,5 @@ RSpec.describe WorkPackageTypes::DeleteVariantService do
       end
     end
 
-    context "when deletion is refused because the variant is linked" do
-      before do
-        borrower = create(:type_variant, type: bug, variant_name: "Borrower")
-        borrower.update_columns(workflows_source_id: variant.id)
-      end
-
-      it "rolls the switch back and reports why" do
-        result = service.call(target: sibling)
-
-        expect(result).to be_failure
-        expect(result.errors.full_messages.to_sentence).to match(/reused/i)
-        expect(variant.reload).to be_present
-        expect(project_a.project_types.find_by(type: bug).variant).to eq(variant)
-      end
-    end
   end
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -72,10 +71,29 @@ module Import
 
     delegate :client, to: :jira
 
+    def find_op_leg(jira_leg)
+      Import::JiraOpenProjectReference
+        .where(jira_entity_class: jira_leg.class.to_s,
+               jira_entity_id: jira_leg.id,
+               jira_import_id: id)
+        .first
+        &.op_leg
+    end
+
+    def find_jira_leg(op_leg)
+      Import::JiraOpenProjectReference
+        .where(op_entity_class: op_leg.class.to_s,
+               op_entity_id: op_leg.id,
+               jira_import_id: id)
+        .first
+        &.jira_leg
+    end
+
     def project_ids
       (projects || []).pluck("id")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
       Import::JiraField.where(jira_import_id: id).destroy_all
       Import::JiraIssue.where(jira_import_id: id).destroy_all

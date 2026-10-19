@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,14 +37,14 @@ RSpec.describe "The overview of a work package type",
 
   before { login_as admin }
 
-  it "serves the overview of a type" do
+  it "redirects a type to its details tab, since only variants have an overview" do
     get type_settings_path(type_id: type.id)
 
-    expect(response).to have_http_status(:ok)
+    expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
   end
 
   it "serves the overview of a named variant" do
-    get type_settings_path(**variant.path_args)
+    get type_variant_settings_path(type_id: type.id, variant_id: variant.id)
 
     expect(response).to have_http_status(:ok)
   end
@@ -68,7 +67,7 @@ RSpec.describe "The overview of a work package type",
     before { login_as project_admin }
 
     it "serves the overview to a member who may manage the project's variants" do
-      get type_settings_path(**owned.path_args)
+      get project_type_variant_settings_path(project_id: project, type_id: type.id, variant_id: owned.id)
 
       expect(response).to have_http_status(:ok)
     end

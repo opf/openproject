@@ -16,6 +16,14 @@
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
@@ -52,10 +60,13 @@ RSpec.describe "Work package type required attributes",
 
   def toggle(variant, in_project: nil, row_key: custom_field.attribute_name)
     args = { type_id: type.id, variant_id: variant.id, row_key: }
-    args[:in_project_id] = in_project if in_project
+    path = if in_project
+             toggle_required_project_type_variant_form_configuration_row_path(project_id: in_project, **args)
+           else
+             toggle_required_type_variant_form_configuration_row_path(**args)
+           end
 
-    put toggle_required_type_form_configuration_row_path(**args),
-        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    put path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
   end
 
   def required_on(variant)

@@ -3,15 +3,16 @@ sv:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        resource_allocations: Resource allocations
+        user_filter: Filterkriterier
       resource_allocation:
         allocated_hours: Timmar
         allocated_time: Tilldelad tid
         date_range: Datum
         end_date: Slutdatum
         entity: Entitet
-        placeholder_or_user: Assignee
-        placeholder_user: Placeholder user
+        placeholder_or_user: Tilldelad till
+        placeholder_user: Platshållaranvändare
         principal: Tilldelad till
         start_date: Startdatum
         state: Tillstånd
@@ -23,12 +24,19 @@ sv:
         name: Namn
         public: Offentlig
         start_date: Startdatum
+      work_package:
+        allocated_principals: Tilldelade resurser
+        allocated_time: Tilldelad
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: måste vara efter startdatumet.
+            principal:
+              not_a_member: är inte medlem i arbetspaketets projekt.
         resource_planner:
           attributes:
             end_date:
@@ -59,6 +67,9 @@ sv:
       resource_work_package_timeline:
         one: Arbetspaketstidslinje
         other: Arbetspaketstidslinjer
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Dold – den tilldelade användaren visas inte eftersom du saknar behörighet.
   button_next: Nästa
   ee:
     features:
@@ -72,8 +83,12 @@ sv:
   permission_allocate_user_resources_explanation: Tillåter användare att skapa, uppdatera och ta bort resurstilldelningar i en resursplanerare. Detta omfattar att tilldela användare (eller användarfilter) till en planerare och justera tilldelad tid och datumintervall.
   permission_assign_users_to_generic_allocations: Tilldela användare till generiska tilldelningar
   permission_assign_users_to_generic_allocations_explanation: Tillåter användare att använda bemanningsvyn för att tilldela verkliga användare till generiska (filterbaserade) resurstilldelningar som ännu inte har någon användare. Det tillåter inte att tilldelningar skapas eller redigeras.
+  permission_manage_public_global_resource_planners: Hantera offentliga globala resursplanerare
+  permission_manage_public_global_resource_planners_explanation: Tillåter användare att publicera egna globala resursplanerare och hantera globala resursplanerare som andra användare har delat offentligt. Behörigheten ger inte tillgång till globala resursplanerare som inte har delats offentligt.
   permission_manage_public_resource_planners: Hantera offentliga resursplanerare
   permission_manage_public_resource_planners_explanation: Tillåter användare att skapa och hantera offentliga resursplanerare. De kan visa, skapa, hantera och publicera sina egna resursplanerare. Det tillåter inte användare att visa resursplanerare som skapats av andra användare och inte delas offentligt.
+  permission_view_global_resource_planners: Visa globala resursplanerare
+  permission_view_global_resource_planners_explanation: Tillåter användare att öppna avsnittet för global resursplanering, där resurser och tilldelningar från flera projekt kan planeras tillsammans. De får skapa och hantera egna globala resursplanerare och visa offentliga. Användare ser endast de projekt, resurser och tilldelningar som de har behörighet att visa.
   permission_view_resource_planners: Visa resursplanerare
   permission_view_resource_planners_explanation: Tillåter användare att komma åt resursplanerare. De kan skapa och hantera sina egna resursplanerare och visa offentliga resursplanerare. Det tillåter inte användare att visa resursplanerare som skapats av andra användare och inte delas offentligt.
   plugin_openproject_resource_management:
@@ -90,11 +105,12 @@ sv:
       unfavorite: Ta bort från favoriter
     allocate_resource_dialog:
       criteria:
-        empty: No criteria set.
-        label: Criteria
+        empty: Inga kriterier angivna.
+        label: Kriterier
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: Den valda användaren har inga arbetstider angivna för dessa datum och räknas därför som att sakna kapacitet.
+        partial: Den valda användaren har inga arbetstider angivna för %{dates}, så dessa dagar räknas som att sakna kapacitet.
       outside_dates:
         description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
       overbooking:
@@ -106,6 +122,7 @@ sv:
         schedule_note: Den här användaren arbetar %{schedule}.
         submit: Tilldela övertid
         title: Vill du tilldela användaren övertid?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Tilldela
       success_message: Resursen har tilldelats.
       title: Tilldela resurs
@@ -128,6 +145,7 @@ sv:
       title: Tilldela %{filter_name}
     blankslate:
       desc: Skapa en resursplanerare för att börja planera kapaciteten för det här projektet.
+      global_desc: Skapa en resursplanerare för att börja planera kapacitet över flera projekt.
       title: Inga resursplanerare ännu
     configure_view_dialog:
       delete_confirmation: Är du säker på att du vill ta bort den här vyn? Detta kan inte ångras.
@@ -141,17 +159,22 @@ sv:
           label: Manuellt utvalda
       title: Konfigurera vy
     create_placeholder_user_dialog:
-      submit: Create
-      title: Create placeholder user
+      submit: Skapa
+      title: Skapa platshållaranvändare
     edit_allocation_dialog:
       submit: Spara
       success_message: Resurstilldelningen har uppdaterats.
       title: Redigera tilldelning
     favorite_caption: Gör den här vyn till favorit för att lägga till den högst upp i sidofältsmenyn.
+    filters:
+      resource_management_enabled: Resurshantering aktiverad
+    global_public_caption: Gör den här vyn offentlig för alla som har behörighet att se globala resursplanerare. Detta påverkar inte synligheten för arbetspaket, som fortfarande styrs av varje användares behörigheter.
     label_edit_resource_planner: Redigera resursplanerare
     label_new_resource_planner: Ny resursplanerare
     label_resource_planner: Resursplanerare
     label_resource_planner_plural: Resursplanerare
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Lägg till vy
     public_caption: Gör den här vyn offentlig för alla projektmedlemmar. Detta påverkar inte synligheten för arbetspaket, som fortfarande beror på varje användares behörigheter.
@@ -192,13 +215,16 @@ sv:
         add: Lägg till
         allocate: Tilldela
         settings: Konfigurera vy
+      undisclosed:
+        tooltip: Du har inte behörighet att se den här tilldelade resursen
+        work_package: Arbetspaketet är inte synligt för dig
     user_allocations_dialog:
       allocate_work_package: Tilldela arbetspaket
       blank: Den här användaren har inga tilldelade arbetspaket.
-      other_work_packages:
-        one: 1 annat arbetspaket
-        other: "%{count} andra arbetspaket"
+      blank_in_timeframe: Den här användaren har inga tilldelade arbetspaket under den valda tidsperioden.
+      hidden_work_package: Arbetspaketet är inte synligt för dig
       title: Utnyttjandegrad
+      total_time: "%{hours} totalt"
     user_card_list:
       add_user_dialog:
         title: Lägg till användare

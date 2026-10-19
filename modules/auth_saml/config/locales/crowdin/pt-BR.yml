@@ -4,7 +4,7 @@ pt-BR:
     attributes:
       saml/provider:
         allowed_clock_drift: Diferença de horário permitida
-        assertion_consumer_service_url: URL do ACS (Assertion Consumer Service)
+        assertion_consumer_service_url: URL do ACS (Serviço Consumidor de Aserção)
         authn_requests_signed: Assinar solicitações de autenticação SAML
         certificate: Certificado usado pelo OpenProject para solicitações SAML
         digest_method: Algoritmo de resumo
@@ -73,7 +73,7 @@ pt-BR:
       idp_entity_id: 'Opcional: útil quando a URL de metadados aponta para um agregado de federação com muitas entradas. Insira o ID da entidade do provedor de identidade da sua instituição. Deixe em branco para URLs de metadados de entidade única.
 
         '
-      idp_slo_service_url: 'A URL do ponto final de logout do provedor de identidade.
+      idp_slo_service_url: 'A URL do endpoint de logout do provedor de identidade.
 
         '
       idp_sso_service_url: 'O URL do endpoint do login do provedor de identidade.

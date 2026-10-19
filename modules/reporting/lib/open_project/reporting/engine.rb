@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ module OpenProject::Reporting
       view_controllers = ["cost_reports", "reporting/cost_reports"]
       entry_permissions = %i[view_time_entries view_own_time_entries view_cost_entries view_own_cost_entries]
 
-      # register reporting_module including permissions
+      # Cost reports have no project module of their own and are enabled together with costs.
       project_module :costs do
         permission :save_cost_reports,
                    { cost_reports: edit_actions, "reporting/cost_reports": edit_actions },
@@ -128,7 +127,7 @@ module OpenProject::Reporting
                                  format: :boolean
     end
 
-    patches %i[CustomFieldsController]
-    patch_with_namespace :BasicData, :SettingSeeder
+    prepend_module "OpenProject::Reporting::Patches::CustomFieldsControllerPatch",
+                   into: "Admin::Settings::CustomFieldsBaseController"
   end
 end

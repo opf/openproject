@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,7 +46,10 @@
 # by `Filter::FilterComponent` subclasses that restrict or reorder the list).
 # To keep the default set but drop a few entries, pass `excluded_filters:` a
 # list of filter names (e.g. `%i[project_id]`); they are removed from the
-# advertised and active filters so they cannot be added in the UI.
+# advertised and active filters so they cannot be added in the UI. On top of
+# that, filters that are never meant to be user selectable are dropped
+# unconditionally — see `NEVER_ADVERTISED_FILTER_NAMES` and the filters modules
+# register via `exclude` in `Queries::Register.register`.
 #
 # By default the component does *not* attach the `filter--filters-form` Stimulus
 # controller, because in the standard layout (e.g. `Projects::IndexSubHeaderComponent`)
@@ -85,6 +87,11 @@ class Filters::FilterFormComponent < ApplicationComponent
   include Primer::FetchOrFallbackHelper
 
   OUTPUT_FORMATS = %i[params json].freeze
+
+  # Internal filters backing autocompleters and the global search. They are supported by the
+  # query but have no meaningful standalone UI. Could also be excluded using Queries::Register.excluded_filters
+  # but they are so common that it's easier to just exclude them here.
+  NEVER_ADVERTISED_FILTER_NAMES = %i[search subject_or_id typeahead].freeze
 
   def initialize(builder:,
                  query:,
@@ -132,9 +139,13 @@ class Filters::FilterFormComponent < ApplicationComponent
   def advertised_filters(allowed_filters, excluded_filters)
     filters = allowed_filters || query.available_advanced_filters
     excluded = Array(excluded_filters).map(&:to_sym)
-    return filters if excluded.empty?
 
-    filters.reject { |filter| excluded.include?(filter.name.to_sym) }
+    filters.reject { |filter| never_advertised?(filter) || excluded.include?(filter.name.to_sym) }
+  end
+
+  def never_advertised?(filter)
+    NEVER_ADVERTISED_FILTER_NAMES.include?(filter.name.to_sym) ||
+      query.class.excluded_filters.include?(filter.class)
   end
 
   def form_list
@@ -184,8 +195,10 @@ class Filters::FilterFormComponent < ApplicationComponent
       Filters::Inputs::AutocompleteForm
     elsif filter.type.in? %i[list list_optional list_all]
       Filters::Inputs::ListForm
-    elsif filter.type.in? %i[datetime_past date]
+    elsif filter.type == :date
       Filters::Inputs::DateForm
+    elsif filter.type.in? %i[datetime_past datetime]
+      Filters::Inputs::DateTimeForm
     else
       Filters::Inputs::TextForm
     end

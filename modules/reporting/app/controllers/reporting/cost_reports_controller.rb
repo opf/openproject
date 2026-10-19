@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,15 +61,11 @@ module Reporting
     end
 
     def index
-      respond_to do |format|
-        format.html { render_report }
-        format.xls { export(:xls) }
-        format.pdf { export(:pdf) }
-      end
+      render_or_export_report
     end
 
     def show
-      render_report
+      render_or_export_report
     end
 
     def create
@@ -122,7 +117,7 @@ module Reporting
     def available_values
       return head :bad_request if params[:filter_name].blank?
 
-      canvas = +"".html_safe
+      canvas = ActiveSupport::SafeBuffer.new
       render_widget Widget::Filters::Option, requested_filter, to: canvas
 
       render html: canvas, layout: !request.xhr?
@@ -169,6 +164,14 @@ module Reporting
       @report = ::CostReports::ParamsToReport.new(params, project: @project, user: current_user).call
     end
 
+    def render_or_export_report
+      respond_to do |format|
+        format.html { render_report }
+        format.xls { export(:xls) }
+        format.pdf { export(:pdf) }
+      end
+    end
+
     def render_report
       return render_table if request.xhr?
 
@@ -183,7 +186,7 @@ module Reporting
       job_id = ::CostReports::ScheduleExportService
                  .new(user: current_user)
                  .call(format:,
-                       report_name: @report.name,
+                       report_name: (@report.name if @report.persisted?),
                        report_params: @report.to_query_params,
                        project: @project,
                        cost_types: @cost_types)

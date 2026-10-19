@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -207,7 +206,6 @@ export default class PageController extends Controller {
     jQuery.metadata = undefined;
 
     // Override the default texts to enable translations
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     jQuery.tablesorter.language = {
       sortAsc: I18n.t('js.sort.sorted_asc'),
       sortDesc: I18n.t('js.sort.sorted_dsc'),
@@ -218,7 +216,6 @@ export default class PageController extends Controller {
       nextNone: I18n.t('js.sort.activate_no'),
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     jQuery('#sortable-table')
       .not('.tablesorter')
       .tablesorter({

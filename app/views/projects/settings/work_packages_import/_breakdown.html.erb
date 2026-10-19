@@ -1,0 +1,14 @@
+<%= render Primer::Alpha::Stack.new(gap: :condensed) do %>
+  <% breakdown.each do |attribute, values| %>
+    <%= render Primer::Alpha::Stack.new(direction: :horizontal, align: :baseline, gap: :normal, wrap: :wrap) do %>
+      <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { attribute } %>
+
+      <% values.each do |name, count| %>
+        <%= render(Primer::Beta::Label.new(scheme: :secondary)) do %>
+          <%= name %>
+          <%= render Primer::Beta::Counter.new(count:, limit: nil, ml: 1) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

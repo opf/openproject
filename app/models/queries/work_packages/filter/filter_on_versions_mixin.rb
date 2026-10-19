@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,22 @@ module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   STATUS_BY_OPERATOR = { "o" => "open", "c" => "closed", "l" => "locked" }.freeze
 
   def allowed_values
-    # as we no longer display the allowed values, the first value is irrelevant
-    @allowed_values ||= versions.pluck(:id).map { |id| [id.to_s, id.to_s] }
+    @allowed_values ||= version_options.map { |name, id, _project_name| [name, id.to_s] }
+  end
+
+  def autocomplete_options
+    items = version_options.map { |name, id, project_name| { name:, id: id.to_s, project_name: } }
+
+    {
+      component: "opce-autocompleter",
+      items:,
+      model: items.select { |item| values.include?(item[:id]) },
+      groupBy: "project_name",
+      bindLabel: "name",
+      bindValue: "id",
+      hideSelected: true,
+      defaultData: false
+    }
   end
 
   def available_operators
@@ -81,6 +94,10 @@ module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   end
 
   private
+
+  def version_options
+    @version_options ||= versions.joins(:project).order("projects.name", :name).pluck(:name, :id, "projects.name")
+  end
 
   def versions
     if project

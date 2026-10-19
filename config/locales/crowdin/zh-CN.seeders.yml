@@ -237,25 +237,25 @@ zh-CN:
           versions:
             item_0:
               wiki:
-                title: Release 1.0
+                title: 版本 1.0
                 content: |
-                  ### Release 1.0
+                  ### 版本 1.0
 
-                  _Please document here what this release contains._
+                  _请在此处记录此版本包含的内容_。
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * 此版本的工作包是目标版本为 1.0 的工作包。
+                  * 发布日期为 *版本 v1.0* 里程碑的日期。
+                  * 打开[路线图]({{opSetting:base_url}}/projects/your-scrum-project/roadmap)可以跟踪所有版本的进展。
+                  * 打开[项目设置 &rightarrow; 版本]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions)可以将另一个 WiKi 页面关联到某个版本。
           categories:
             item_0: 第1类(在项目设置中更改)
           queries:
             item_0:
               name: 项目计划
             item_1:
-              name: Version 1.1
+              name: 版本 1.1
             item_2:
-              name: Version 1.0
+              name: 版本 1.0
             item_3:
               name: 任务
           boards:
@@ -280,22 +280,7 @@ zh-CN:
               item_1:
                 options:
                   name: 入门指南
-                  text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    _Try the following steps:_
-
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                  text: "我们很高兴您加入！建议您尝试以下几个步骤来开始使用 OpenProject。\n\n_请按照以下步骤进行操作_：\n\n1. *邀请新成员加入项目*：&rightarrow; 在项目导航中前往[成员]({{opSetting:base_url}}/projects/your-scrum-project/members)。\n2. *查看产品积压工作和冲刺积压工作*：&rightarrow; 在项目导航中前往[积压工作]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)。\n3. *创建冲刺*：&rightarrow; 前往[积压工作]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)，并点击“+冲刺”创建新冲刺。将工作包从积压工作移动到冲刺，以规划待完成的工作。准备好后，点击“开始冲刺”。 \n4. *查看冲刺面板*：&rightarrow; 前往[面板]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 点击冲刺名称打开冲刺的面板。\n5. *创建新的工作包*：&rightarrow; 前往[工作包 &rightarrow; 创建]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)。\n6. *创建和更新项目计划*：&rightarrow; 在项目导航中前往[项目计划](##query:scrum_project__query__project_plan)。\n7. *激活其他模块*：&rightarrow; 前往[项目设置 &rightarrow; 模块]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules)。\n\n\n您可以在这里找到我们的[用户指南](https://www.openproject.org/docs/user-guide/)。\n如果您有任何问题或需要支持，请随时与我们联系：[support[at]openproject.com](mailto:support@openproject.com)。\n"
               item_5:
                 options:
                   name: 工作包

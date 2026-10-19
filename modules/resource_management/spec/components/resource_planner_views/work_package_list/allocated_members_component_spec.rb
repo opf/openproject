@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -137,6 +136,33 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::AllocatedMembersComponent,
       expect(rendered).to have_no_css("avatar-fallback")
       expect(rendered).to have_no_text("Michael Johnson")
       expect(rendered).to have_text("2 users")
+    end
+  end
+
+  context "with only a deleted user, who the current user may not see" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    let(:allocations) { [assigned_allocation(deleted_user)] }
+    let(:visible_principal_ids) { Set.new }
+
+    it "names the deleted user with their avatar" do
+      expect(rendered).to have_css("avatar-fallback[data-unique-id='#{deleted_user.id}']")
+      expect(rendered).to have_text(deleted_user.name)
+      expect(rendered).to have_no_text("1 user")
+    end
+  end
+
+  context "with a visible member and a deleted user" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    let(:allocations) { [assigned_allocation(deleted_user), assigned_allocation(assignee)] }
+    let(:visible_principal_ids) { Set[assignee.id] }
+
+    it "stacks both avatars and names both members in the tooltip" do
+      expect(rendered).to have_css("avatar-fallback", count: 2)
+      expect(rendered).to have_text("+1")
+      expect(rendered).to have_css("tool-tip", text: deleted_user.name, visible: :all)
+      expect(rendered).to have_css("tool-tip", text: "Michael Johnson", visible: :all)
     end
   end
 

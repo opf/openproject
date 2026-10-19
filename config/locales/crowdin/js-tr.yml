@@ -202,6 +202,7 @@ tr:
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       ckeditor_error: CKEditor içinde bir hata oluştu
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
       macro:
         attribute_reference:
@@ -623,8 +624,8 @@ tr:
     notifications:
       center:
         and_more_users:
-          one: ve 1 diğeri
-          other: ve %{count} tane daha
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Görünüşe göre yapacağınız bir şey kalmadı.
           no_notification_for_filter: Görünüşe göre bu filtre için her şey tamam.
@@ -720,6 +721,7 @@ tr:
     placeholders:
       default: "-"
       description: 'Açıklama: Düzenlemek için tıklayın...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Bu ilişkiye açıklama eklemek için tıklayın
       selection: Lütfen seçin
       subject: Buraya konuyu girin
@@ -826,11 +828,11 @@ tr:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -845,9 +847,7 @@ tr:
     text_user_wrote: "%{value} demiş ki:"
     text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?
     time_entry:
-      stop: Dur
       title: Zaman kaydet
-      tracking: Zaman takibi
       work_package_required: Önce bir iş paketi seçilmesini gerektirir.
     timer:
       button_stop: Geçerli zamanlayıcıyı durdur
@@ -882,20 +882,20 @@ tr:
       label_two_factor_authentication: İki aşamalı kimlik doğrulama
     units:
       child_work_packages:
-        one: bir alt iş paketi
-        other: "%{count} alt iş paketi"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 gün
+        one: "%{count} day"
         other: "%{count} gün"
         zero: 0 gün
       hour:
-        one: 1 saat
+        one: "%{count} h"
         other: "%{count} saat"
         zero: 0 s
       hour_string: "%{hours} saat"
       word:
-        one: 1 kelime
-        other: "%{count} kelime"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: iş paketleri
         other: iş paketleri

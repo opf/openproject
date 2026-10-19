@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -2383,6 +2382,27 @@ RSpec.describe WorkPackages::SetAttributesService,
 
       expect(work_package.target_version_ids_replacements).to eq []
       expect(work_package.override_target_versions?).to be true
+    end
+  end
+
+  describe "labels attributes" do
+    it "extracts label_ids into replacements" do
+      instance.call(label_ids: ["3", 4])
+
+      expect(work_package.label_id_replacements).to eq [3, 4]
+    end
+
+    it "leaves replacements nil when not passed" do
+      instance.call(subject: "foo")
+
+      expect(work_package.label_id_replacements).to be_nil
+    end
+
+    it "sets empty array as override (does not set to nil)" do
+      instance.call(label_ids: [])
+
+      expect(work_package.label_id_replacements).to eq []
+      expect(work_package.override_labels?).to be true
     end
   end
 

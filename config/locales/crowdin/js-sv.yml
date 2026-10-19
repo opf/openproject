@@ -202,6 +202,7 @@ sv:
     description_subwork_package: 'Underordnad till arbetspaket #%{id}'
     editor:
       ckeditor_error: Ett fel inträffade inom CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       macro:
         attribute_reference:
@@ -623,8 +624,8 @@ sv:
     notifications:
       center:
         and_more_users:
-          one: och 1 annan
-          other: och %{count} andra
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Du är helt uppdaterad.
           no_notification_for_filter: Det ser ut som om du är klar med det här filtret.
@@ -720,6 +721,7 @@ sv:
     placeholders:
       default: "-"
       description: 'Beskrivning: Klicka för att redigera...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klicka för att ange beskrivning för denna relation
       selection: Välj
       subject: Ange ämne här
@@ -806,31 +808,31 @@ sv:
       sorting_disabled: sortering är inaktiverad
     sortable_lists:
       announcements:
-        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
+        batch_too_large: Det går inte att flytta %{count} objekt samtidigt. Välj högst %{max}.
         fallback_item_label: Objekt
         fallback_list_name: en annan lista
         move_failed_check_position: Flytten misslyckades. Kontrollera postens aktuella position.
         move_failed_check_positions_batch:
-          other: Move failed. Check the items' current positions.
+          other: Flytten misslyckades. Kontrollera objektens aktuella positioner.
         move_failed_rolled_back: Flytten misslyckades. %{label} återställdes till sin tidigare position.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} items returned to their previous positions.
+          other: Flytten misslyckades. %{count} objekt återställdes till sina tidigare positioner.
         moved: "%{label} flyttades till position %{position} av %{total}"
         moved_batch:
-          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} objekt flyttades till positionerna %{first} till %{last} av %{total}"
         moved_batch_to_list:
-          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
+          other: "%{count} objekt flyttades till %{list}, positionerna %{first} till %{last} av %{total}"
         moved_to_list: "%{label} flyttades till %{list}, position %{position} av %{total}"
       selection:
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        cleared: Markeringen har rensats.
+        not_selectable: Markeringen är oförändrad. Det här objektet ingår inte i listans sorteringsordning.
+        range_blocked: Markeringen är oförändrad. Intervallet innehåller ett objekt som inte ingår i listans sorteringsordning.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+        range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -845,9 +847,7 @@ sv:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda arbetspaket(paketen)?
     time_entry:
-      stop: Stoppa
       title: Logga tid
-      tracking: Tidredovisning
       work_package_required: Kräver att man först väljer ett arbetspaket.
     timer:
       button_stop: Stoppa aktuell timer
@@ -882,20 +882,20 @@ sv:
       label_two_factor_authentication: Tvåfaktorsautentisering
     units:
       child_work_packages:
-        one: ett underordnat arbetspaket
-        other: "%{count} underordnade arbetspaket"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: En dag
+        one: "%{count} day"
         other: "%{count} dagar"
         zero: 0 dagar
       hour:
-        one: 1 tim
+        one: "%{count} h"
         other: "%{count} timmar"
         zero: 0 tim
       hour_string: "%{hours} tim"
       word:
-        one: 1 ord
-        other: "%{count} ord"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: arbetspaket
         other: arbetspaket

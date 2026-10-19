@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,7 +42,7 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
   describe "menu items" do
     it "offers configure, make default and delete", :aggregate_failures do
       expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure) do |item|
-        expect(item[:href]).to eq type_settings_path(type_id: root_type.id, variant_id: variant.id)
+        expect(item[:href]).to eq type_variant_settings_path(type_id: root_type.id, variant_id: variant.id)
       end
       expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.make_default")
       expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)

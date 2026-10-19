@@ -20,32 +20,33 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+// vi.doMock is not hoisted above imports, unlike vi.mock, so the subject
+// below is imported dynamically further down, after these calls run.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
   combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
     cleanups.forEach((cleanup) => cleanup());
   })),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
   draggable: vi.fn(() => vi.fn()),
   dropTargetForElements: vi.fn(() => vi.fn()),
   monitorForElements: vi.fn(() => vi.fn()),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
   preventUnhandled: {
     start: vi.fn(),
     stop: vi.fn(),
   },
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
   setCustomNativeDragPreview: vi.fn(),
 }));
 

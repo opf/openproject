@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -664,38 +663,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "spentTime" do
-      context "with the view_time_entries permission" do
-        let(:permissions) { %i[edit_work_packages view_time_entries] }
-
-        it_behaves_like "has basic schema properties" do
-          let(:path) { "spentTime" }
-          let(:type) { "Duration" }
-          let(:name) { I18n.t("activerecord.attributes.work_package.spent_time") }
-          let(:required) { false }
-          let(:writable) { false }
-        end
-      end
-
-      context "with the view_own_time_entries permission" do
-        let(:permissions) { %i[edit_work_packages view_own_time_entries] }
-
-        it_behaves_like "has basic schema properties" do
-          let(:path) { "spentTime" }
-          let(:type) { "Duration" }
-          let(:name) { I18n.t("activerecord.attributes.work_package.spent_time") }
-          let(:required) { false }
-          let(:writable) { false }
-        end
-      end
-
-      context "without any view time_entries permission" do
-        it "has no spentTime attribute" do
-          expect(subject).not_to have_json_path("spentTime")
-        end
-      end
-    end
-
     describe "percentageDone" do
       context "in work-based progress calculation mode",
               with_settings: { work_package_done_ratio: "field" } do
@@ -1242,6 +1209,59 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe "labels" do
+      context "with the feature flag active", with_flag: :work_package_labels do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "labels" }
+          let(:type) { "[]Label" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.labels") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it_behaves_like "links to allowed values via collection link" do
+          let(:path) { "labels" }
+          let(:href) { api_v3_paths.labels_by_workspace(work_package.project_id) }
+        end
+
+        context "when not embedded" do
+          let(:embedded) { false }
+
+          it_behaves_like "does not link to allowed values" do
+            let(:path) { "labels" }
+          end
+        end
+
+        context "when not having a project (yet)" do
+          before { work_package.project = nil }
+
+          it_behaves_like "does not link to allowed values" do
+            let(:path) { "labels" }
+          end
+        end
+
+        context "when lacking the edit_work_packages permission" do
+          let(:permissions) { [] }
+
+          it_behaves_like "has basic schema properties" do
+            let(:path) { "labels" }
+            let(:type) { "[]Label" }
+            let(:name) { I18n.t("activerecord.attributes.work_package.labels") }
+            let(:required) { false }
+            let(:writable) { false }
+            let(:location) { "_links" }
+          end
+        end
+      end
+
+      context "with the feature flag inactive" do
+        it "is not part of the schema" do
+          expect(generated).not_to have_json_path("labels")
+        end
+      end
+    end
+
     describe "budget" do
       context "when user allowed to view_budgets" do
         let(:permissions) { %i[edit_work_packages view_budgets] }
@@ -1356,10 +1376,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       before do
-        allow(work_package.project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return []
-
         setup
 
         original_cache_key
@@ -1456,8 +1472,8 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_let(:base_variant) { family_root.default_variant }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        TypeVariant::ASPECTS.each do |aspect|
-          link_configuration(named, source: base_variant, aspect:)
+        [*TypeVariant::ASPECTS, TypeVariant::FORM_CONFIGURATION].each do |aspect|
+          link_configuration(named, aspect:)
         end
       end
     end

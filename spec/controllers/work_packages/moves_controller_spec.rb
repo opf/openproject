@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -611,7 +610,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
 
             it "reports the one child work package" do
               expect(response.body).to have_css "a.work_package", count: 2
-              expect(response.body).to have_css ".contextual-info", text: "(+ One descendant work package)"
+              expect(response.body).to have_css ".contextual-info", text: "(+ 1 descendant work package)"
             end
           end
 

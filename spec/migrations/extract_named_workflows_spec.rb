@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 require Rails.root.join("db/migrate/20260916120000_extract_named_workflows.rb")
+require Rails.root.join("db/migrate/20260916140000_drop_workflows_aspect_link.rb")
 
 RSpec.describe ExtractNamedWorkflows, type: :model do
   subject(:migrate_up) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
@@ -55,7 +55,10 @@ RSpec.describe ExtractNamedWorkflows, type: :model do
   end
 
   before do
-    borrower.update!(workflows_source: owner)
+    ActiveRecord::Migration.suppress_messages { DropWorkflowsAspectLink.new.down }
+    ActiveRecord::Base.connection.execute(
+      "UPDATE type_variants SET workflows_source_id = #{owner.id} WHERE id = #{borrower.id}"
+    )
 
     ActiveRecord::Migration.suppress_messages { described_class.new.down }
     ActiveRecord::Base.connection.execute(unreachable_transition)

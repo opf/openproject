@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,7 @@ module WorkPackageTypes
     class SubHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(type:, variant:, query:)
         super()
@@ -80,10 +80,10 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = url_helpers.new_link_type_projects_path(**variant.path_args)
+      def add_path = new_link_variant_projects_path(variant)
 
       def toggle_all_path
-        url_helpers.enable_all_type_projects_path(**variant.path_args, value: enabled_everywhere? ? "0" : "1")
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
       end
 
       def toggle_all_label

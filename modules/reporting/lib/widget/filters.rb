@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -94,7 +93,7 @@ class Widget::Filters < Widget::Base
   # rubocop:disable Metrics/PerceivedComplexity
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
-    html = "".html_safe
+    html = ActiveSupport::SafeBuffer.new
     render_widget Label, f, to: html
     render_widget Operators, f, to: html
 

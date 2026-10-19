@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,15 +43,6 @@ module WorkPackageTypes
         return muted(t("types.edit.overview.mode.manual")) unless variant.linked?(aspect)
 
         t("types.edit.overview.mode.inheriting_from_html", source_name:)
-      end
-
-      def dependents
-        return muted("-") if dependents_count.zero?
-
-        render(Primer::Beta::Link.new(href: dependents_dialog_path,
-                                      data: { controller: "async-dialog" })) do
-          t("types.edit.reuse_mode.dependents.title", count: dependents_count)
-        end
       end
 
       private
@@ -79,14 +69,6 @@ module WorkPackageTypes
         return true if helpers.variant_scope_project.nil?
 
         source.project_id == helpers.variant_scope_project.id
-      end
-
-      def dependents_count
-        @dependents_count ||= aspect.nil? ? 0 : variant.dependents_for(aspect).count(:all)
-      end
-
-      def dependents_dialog_path
-        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
       end
 
       def muted(text) = render(Primer::Beta::Text.new(color: :muted)) { text }

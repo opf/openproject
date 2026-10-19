@@ -20,23 +20,18 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
-export interface IFieldSchema {
-  type:string;
-  writable:boolean;
-  allowedValues?:any;
-  required?:boolean;
-  hasDefault:boolean;
+export interface IFieldSchema extends Omit<IOPFieldSchema, 'name'|'options'> {
   name:string;
-  options?:any;
+  options?:IOPFieldSchema['options'];
   placeholder?:string;
 }
 
@@ -75,7 +70,7 @@ export class Field extends UntilDestroyedMixin {
     return this.schema.hasDefault;
   }
 
-  public get options():boolean {
+  public get options():IFieldSchema['options'] {
     return this.schema.options;
   }
 

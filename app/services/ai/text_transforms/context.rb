@@ -22,15 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module AI
   module TextTransforms
-    Context = Data.define(:work_package, :project, :type) do
+    class Context
+      attr_reader :work_package, :project, :type
+
       def self.for_work_package(work_package)
         new(work_package:, project: work_package.project, type: work_package.type)
       end
@@ -43,15 +44,31 @@ module AI
         new(work_package: nil, project: nil, type: nil)
       end
 
+      def initialize(work_package:, project:, type:)
+        @work_package = work_package
+        @project = project
+        @type = type
+      end
+
       def type_variant
+        return @type_variant if defined?(@type_variant)
+
+        @type_variant = resolve_type_variant
+      end
+
+      def template
+        return @template if defined?(@template)
+
+        @template = type_variant&.default_work_package_description.presence
+      end
+
+      private
+
+      def resolve_type_variant
         return work_package.type_variant if work_package
         return project.type_variant(type) if project && type
 
         nil
-      end
-
-      def template
-        type_variant&.default_work_package_description.presence
       end
     end
   end

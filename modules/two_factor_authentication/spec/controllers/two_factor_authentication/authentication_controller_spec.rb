@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require_relative "../../spec_helper"
 require_relative "authentication_controller_shared_examples"
 
@@ -114,6 +141,32 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
 
     it "receives a 405" do
       expect(response.response_code).to eq(405)
+    end
+  end
+
+  describe "remember cookie",
+           with_config: { https: true },
+           with_settings: {
+             "plugin_openproject_two_factor_authentication" => {
+               active_strategies: [:totp],
+               allow_remember_for_days: 30
+             }
+           } do
+    let!(:device) { create(:two_factor_authentication_device_totp, user:, channel: :totp) }
+
+    before do
+      session[:authenticated_user_id] = user.id
+      request.env["HTTPS"] = "on"
+      allow(request).to receive(:cookies_same_site_protection).and_return(nil)
+
+      post :confirm_otp, params: { otp: device.totp.now, remember_me: "1" }
+    end
+
+    it "explicitly sets SameSite=Lax on the secure, HTTP-only cookie" do
+      cookie = Array(response.headers["Set-Cookie"]).find { |header| header.start_with?("op2fa_remember_token=") }
+
+      expect(cookie).to be_present
+      expect(cookie).to include("SameSite=Lax", "secure", "HttpOnly")
     end
   end
 

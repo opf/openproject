@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,31 @@ class Label < ApplicationRecord
   belongs_to :author, class_name: "User"
   has_many :labelings, dependent: :delete_all
 
+  USAGE_COUNT_SQL = "(SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id)"
+
   scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
+    select("labels.*, #{USAGE_COUNT_SQL} AS usage_count")
+  }
+
+  # Sorts first by locality (labels already used in the current project come first)
+  # then by frequency (most used first).
+  # reorder replaces the default name order the index endpoint merges in.
+  scope :ordered_by_relevance_for, ->(project) {
+    used_in_project = Labeling
+                        .where(labelable_type: WorkPackage.name)
+                        .where("labelings.label_id = labels.id")
+                        .joins("INNER JOIN work_packages ON work_packages.id = labelings.labelable_id")
+                        .where(work_packages: { project_id: project })
+                        .arel
+                        .exists
+
+    reorder(used_in_project.desc)
+      .order(Arel.sql("#{USAGE_COUNT_SQL} DESC"))
+      .order("LOWER(labels.name) ASC")
+  }
+
+  scope :named, ->(name) {
+    where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
   }
 
   normalizes :name, with: -> { it.squish }
@@ -42,4 +64,10 @@ class Label < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+
+  def self.page_of(label, per_page:)
+    (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
+  end
+
+  def to_s = name
 end

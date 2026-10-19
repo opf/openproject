@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Import
   class JiraStagedImportJob < ApplicationJob
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def perform(batch, _context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
@@ -53,6 +52,7 @@ module Import
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).pluck(:id).each do |id|
               Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
+              Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
             end
           end
         elsif batch.properties[:stage] == 2
@@ -80,7 +80,8 @@ module Import
           batch.enqueue(stage: 7) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_7"])
+              Import::JiraCreateProjectVersionsJob
+                .set(good_job_labels: ["stage_7"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
@@ -88,17 +89,24 @@ module Import
           batch.enqueue(stage: 8) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_8"])
+              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_8"])
                 .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 8
+          batch.enqueue(stage: 9) do
+            Import::JiraProject.where(jira_import_id: jira_import.id,
+                                      origin_id: jira_import.project_ids).find_each do |jira_project|
+              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_9"])
+                .perform_later(jira_import.id, jira_project.id)
+            end
+          end
+        elsif batch.properties[:stage] == 9
           jira_import.transition_to!(:imported)
         end
       elsif batch.discarded?
         jira_import.transition_to!(:import_error)
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

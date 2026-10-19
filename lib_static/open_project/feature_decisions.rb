@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,9 +101,19 @@ module OpenProject
       @all ||= []
     end
 
+    def setting_name(flag_name)
+      :"feature_#{flag_name}_active"
+    end
+
+    def setting_names
+      all.map { |flag_name| setting_name(flag_name) }
+    end
+
     def define_flag_methods(flag_name)
+      setting = setting_name(flag_name)
+
       define_singleton_method :"#{flag_name}_active?" do
-        Setting.exists?("feature_#{flag_name}_active") && Setting.send(:"feature_#{flag_name}_active?")
+        Setting.exists?(setting) && Setting.send(:"#{setting}?")
       end
     end
 
@@ -115,7 +124,7 @@ module OpenProject
                    allow_enabling
                  end
 
-      Settings::Definition.add :"feature_#{flag_name}_active",
+      Settings::Definition.add setting_name(flag_name),
                                description:,
                                default: force_active || Rails.env.development?,
                                writable: writable,

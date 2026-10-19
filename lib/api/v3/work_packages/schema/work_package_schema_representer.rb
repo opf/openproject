@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,8 @@ module API
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?]
+                                  Setting::WorkPackageMultipleVersions.active?,
+                                  OpenProject::FeatureDecisions.work_package_labels_active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -204,14 +204,6 @@ module API
                  required: false,
                  writable: false
 
-          schema :spent_time,
-                 type: "Duration",
-                 required: false,
-                 show_if: ->(*) {
-                   current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-                     current_user.allowed_in_any_work_package?(:view_own_time_entries, in_project: represented.project)
-                 }
-
           schema :percentage_done,
                  type: "Integer",
                  name_source: :done_ratio,
@@ -286,6 +278,12 @@ module API
                                    type: "User",
                                    required: false,
                                    href_callback: ->(*) { assignee_user_autocompleter }
+
+          schema_with_allowed_link :labels,
+                                   type: "[]Label",
+                                   required: false,
+                                   show_if: ->(*) { OpenProject::FeatureDecisions.work_package_labels_active? },
+                                   href_callback: ->(*) { labels_autocompleter }
 
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
@@ -466,6 +464,12 @@ module API
               .flatten
               .uniq
               .sort
+          end
+
+          def labels_autocompleter
+            project_id = represented.work_package&.project_id
+
+            api_v3_paths.labels_by_workspace(project_id) if project_id
           end
 
           def assignee_user_autocompleter

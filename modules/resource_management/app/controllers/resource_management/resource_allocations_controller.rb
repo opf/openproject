@@ -22,19 +22,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module ::ResourceManagement
   class ResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::PlannerRoutes
+    include ResourceManagement::UserAllocationsDialog
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    before_action :load_and_authorize_in_optional_project
     before_action :find_resource_allocation, only: %i[edit update destroy]
 
     def new
@@ -56,13 +57,18 @@ module ::ResourceManagement
     # make Turbo restore focus to the date input afterwards, reopening its
     # date picker. Uses the EmptyContract so in-progress input never surfaces
     # validation errors while the user types.
-    def refresh_form
-      allocation = set_attributes(allocation_params, contract_class: EmptyContract).result
+    def refresh_form # rubocop:disable Metrics/AbcSize
+      model = params[:id].present? ? find_resource_allocation : ResourceAllocation.new
+      allocation = set_attributes(allocation_params, contract_class: EmptyContract, model:).result
+
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation:)
+      )
+      replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation:)
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)
@@ -112,12 +118,13 @@ module ::ResourceManagement
 
     def destroy
       entity = @resource_allocation.entity
+      principal = @resource_allocation.principal
       call = ResourceAllocations::DeleteService
                .new(user: current_user, model: @resource_allocation)
                .call
 
       if call.success?
-        render_destroy_success(entity)
+        render_destroy_success(entity, principal)
       else
         render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
         respond_with_turbo_streams
@@ -140,8 +147,6 @@ module ::ResourceManagement
     end
 
     def render_warning_step(allocation, dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID)
-      ranges = overbooked_ranges(allocation)
-
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
@@ -149,8 +154,8 @@ module ::ResourceManagement
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
-          overbooked_ranges: ranges,
-          working_schedules: working_schedules(allocation, ranges)
+          overbooking: overbooking(allocation),
+          working_schedules: working_schedules(allocation)
         )
       )
       replace_via_turbo_stream(
@@ -181,28 +186,16 @@ module ::ResourceManagement
     def needs_confirmation?(allocation)
       return false if params[:confirmed].present?
 
-      overbooked_ranges(allocation).any?
-    end
-
-    def overbooked_ranges(allocation)
-      @overbooked_ranges ||= compute_overbooked_ranges(allocation)
+      overbooking(allocation)&.overbooked?
     end
 
     # Overbooking is a user-level concern, so it is only checked for allocations
     # assigned to a specific user, and only when that user has working time
     # configured (otherwise their capacity is unknown, not zero).
-    def compute_overbooked_ranges(allocation)
-      return [] unless overbooking_checkable?(allocation)
+    def overbooking(allocation)
+      return unless overbooking_checkable?(allocation)
 
-      # `exclude_id` drops the persisted version of an allocation being edited,
-      # so its old booking does not count against the new one.
-      availability(allocation).overbooking_with(
-        start_date: allocation.start_date,
-        end_date: allocation.end_date,
-        minutes: allocation.allocated_time,
-        work_package_id: allocation.entity_id,
-        exclude_id: allocation.id
-      )
+      @overbooking ||= availability(allocation).overbooking_with(allocation)
     end
 
     def overbooking_checkable?(allocation)
@@ -212,22 +205,18 @@ module ::ResourceManagement
         UserWorkingHours.for_user(allocation.principal).exists?
     end
 
-    # The schedule note covers the span of the displayed overbooked ranges so
-    # it explains the capacity figures the user actually sees.
-    def working_schedules(allocation, ranges)
-      return [] if ranges.empty?
-
-      span = ranges.map(&:start_date).min..ranges.map(&:end_date).max
-      availability(allocation).working_schedules(span)
+    def working_schedules(allocation)
+      span = overbooking(allocation).period || (allocation.start_date..allocation.end_date)
+      UserWorkingHours.for_user(allocation.principal).effective_within(span)
     end
 
     def availability(allocation)
       @availability ||= ResourceAllocations::Availability.new(user: allocation.principal)
     end
 
-    def set_attributes(attributes, contract_class: ResourceAllocations::CreateContract)
+    def set_attributes(attributes, contract_class: ResourceAllocations::CreateContract, model: ResourceAllocation.new)
       ResourceAllocations::SetAttributesService
-        .new(user: current_user, model: ResourceAllocation.new, contract_class:)
+        .new(user: current_user, model:, contract_class:)
         .call(attributes)
     end
 
@@ -238,25 +227,16 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::NewDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
-      reopen_user_dialog(allocation)
+      refresh_user_allocations_dialog(allocation.principal)
       respond_with_turbo_streams
     end
 
-    def reopen_user_dialog(allocation)
+    def refresh_user_allocations_dialog(principal)
       return unless reopen_user_allocations_dialog?
-      return if allocation.principal.nil?
-
-      user = allocation.principal
-      allocations = ResourceAllocation.allocated.for_principal(user).includes(:entity).to_a
+      return if principal.nil?
 
       dialog_via_turbo_stream(
-        component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
-          project: @project,
-          view: resource_planner_view,
-          user:,
-          allocations:,
-          overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
-        )
+        component: user_allocations_dialog_component(view: resource_planner_view, user: principal)
       )
     end
 
@@ -279,7 +259,7 @@ module ::ResourceManagement
           nil
         else
           PersistedView
-            .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+            .where(parent: ResourcePlanner.visible_to(current_user, @project))
             .find_by(id:)
         end
     end
@@ -329,11 +309,11 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
-      reopen_user_dialog(allocation)
+      refresh_user_allocations_dialog(allocation.principal)
       respond_with_turbo_streams
     end
 
-    def render_destroy_success(entity)
+    def render_destroy_success(entity, principal)
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.work_package_allocations_dialog.delete_success")
       )
@@ -342,6 +322,7 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream(ResourceAllocations::EditDialogComponent::DIALOG_ID)
       refresh_allocations_list(entity)
       notify_allocation_change(entity)
+      refresh_user_allocations_dialog(principal)
       respond_with_turbo_streams
     end
 
@@ -383,9 +364,11 @@ module ::ResourceManagement
     # Only allocations of work packages reachable by the current user within
     # the project may be touched; anything else 404s.
     def find_resource_allocation
+      work_packages = WorkPackage.visible(current_user)
+      work_packages = work_packages.where(project: @project) if @project
+
       @resource_allocation = ResourceAllocation
-                               .where(entity_type: "WorkPackage",
-                                      entity_id: WorkPackage.visible(current_user).where(project: @project))
+                               .where(entity_type: "WorkPackage", entity_id: work_packages)
                                .find(params.expect(:id))
     end
 
@@ -398,14 +381,31 @@ module ::ResourceManagement
 
       placeholder_or_user = selected_placeholder_or_user(permitted.delete(:placeholder_or_user_id))
       entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
+
       permitted.merge(entity:, placeholder_or_user:)
     end
 
+    # A global planner has no project of its own, so an allocation belongs to the
+    # project of the work package it is made against.
+    def allocation_project(entity)
+      @project || entity&.project
+    end
+
+    # Membership is not filtered here: dropping a non-member would leave the
+    # allocation without a principal and report it as blank. The contract rejects
+    # the mismatch by name, and the form warns about it while the dialog is open.
     def selected_placeholder_or_user(placeholder_or_user_id)
       return if placeholder_or_user_id.blank?
+      # The current assignee is kept even when no longer visible, such as a deleted user.
+      return @resource_allocation.principal if current_principal_id?(placeholder_or_user_id)
 
-      User.visible.in_project(@project).find_by(id: placeholder_or_user_id) ||
+      User.visible(current_user).find_by(id: placeholder_or_user_id) ||
         PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
+    end
+
+    def current_principal_id?(placeholder_or_user_id)
+      @resource_allocation&.principal_id.present? &&
+        @resource_allocation.principal_id.to_s == placeholder_or_user_id.to_s
     end
 
     def preselected_work_package
@@ -417,7 +417,7 @@ module ::ResourceManagement
     def preselected_user
       return @preselected_user if defined?(@preselected_user)
 
-      @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+      @preselected_user = User.visible(current_user).find_by(id: params[:principal_id])
     end
 
     def prefilled_allocation

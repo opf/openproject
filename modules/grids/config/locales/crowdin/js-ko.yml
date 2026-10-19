@@ -39,7 +39,7 @@ ko:
           accessible_phase: '단계 %{name}: %{date}'
           accessible_sprint: '스프린트 %{name}: %{date}. 상태: %{status}'
           sprint_status:
-            active: 진행 중
+            active: 활성
             completed: 완료
             in_planning: 계획 중
           tooltip_type_gate: 단계 게이트

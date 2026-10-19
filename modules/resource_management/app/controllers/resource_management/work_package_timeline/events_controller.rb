@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,15 +64,22 @@ module ResourceManagement
       private
 
       def edit_url_for(allocation)
-        return unless may_allocate?
+        return unless may_allocate?(allocation)
 
-        edit_project_resource_allocation_path(@project, allocation)
+        edit_allocation_path(@project, allocation)
       end
 
-      def may_allocate?
-        return @may_allocate if defined?(@may_allocate)
+      # The permission lives on the allocation's own project, which on a global
+      # planner differs from bar to bar.
+      def may_allocate?(allocation)
+        allocation_project = allocation.project
+        return false if allocation_project.nil?
 
-        @may_allocate = current_user.allowed_in_project?(:allocate_user_resources, @project)
+        @may_allocate ||= {}
+        @may_allocate.fetch(allocation_project.id) do
+          @may_allocate[allocation_project.id] =
+            current_user.allowed_in_project?(:allocate_user_resources, allocation_project)
+        end
       end
 
       # One background event per work package spanning the days it is active,

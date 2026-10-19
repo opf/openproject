@@ -10,7 +10,7 @@
 
   <% if attributes_tab? %>
   <%=
-    render Primer::OpenProject::SubHeader.new(collapsed_search: true) do |subheader|
+    render Primer::OpenProject::SubHeader.new do |subheader|
       subheader.with_filter_input(
         name: "attribute-filter-input",
         label: t(".attribute_filter.label"),

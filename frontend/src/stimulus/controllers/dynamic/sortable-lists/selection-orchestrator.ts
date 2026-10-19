@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,7 +41,9 @@ import {
   type SelectionCandidate,
 } from './selection';
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
-import { isApplePlatform } from 'core-stimulus/helpers/platform';
+import { isApplePlatform } from 'core-common/platform';
+import { clearSelectionOnEscape } from 'core-common/selection-escape';
+import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
 
 /**
  * What the orchestrator needs from whatever hosts it.
@@ -71,23 +72,6 @@ type ScopeMutation = 'none'|'replace-if-unselected'|'replace';
 /**
  * Batch selection: gestures in, model and presentation out.
  */
-// Read the way browsers bind their own select-all: by the key's meaning on
-// Latin layouts (AZERTY's Ctrl+A sits on physical KeyQ), by the physical key
-// where the layout prints another letter (Cyrillic ф, Greek α on KeyA). A
-// dead key, composition or an AltGr chord is input, not a shortcut.
-function isSelectAllKey(event:KeyboardEvent):boolean {
-  if (event.isComposing || event.altKey || event.getModifierState('AltGraph')) {
-    return false;
-  }
-
-  return event.key === 'a' || event.key === 'A'
-    || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));
-}
-
-// Every root listens for Escape at the document, so the first to clear
-// would otherwise look to the next like an overlay that consumed the key.
-const escapesClearedBySelection = new WeakSet<Event>();
-
 export class SelectionOrchestrator {
   private readonly selection = new BatchSelection();
 
@@ -263,7 +247,7 @@ export class SelectionOrchestrator {
       default:
         // Enter belongs to the card's own activation handler; Escape is
         // handled at the document.
-        if (isSelectAllKey(event)) {
+        if (isSelectAllShortcut(event, isApplePlatform())) {
           this.handleSelectAll(event, candidate);
         }
         break;
@@ -350,10 +334,6 @@ export class SelectionOrchestrator {
 
   // Confined to the focused card's list, like a range.
   private handleSelectAll(event:KeyboardEvent, candidate:SelectionCandidate):void {
-    if (!this.multiSelectModifier(event)) {
-      return;
-    }
-
     const items = liveOrderableListItems(this.host.rootElement, candidate.itemElement)
       .filter((item) => item.type === candidate.type);
     // Only consumed once there is something to select: otherwise the
@@ -381,47 +361,17 @@ export class SelectionOrchestrator {
   // At the document, in the bubble phase: focus routinely sits off the root
   // after a mouse selection, and an overlay's own Escape must run first.
   readonly handleEscape = (event:KeyboardEvent):void => {
-    // A consumed Escape already answered the keystroke — unless it was
-    // another root's selection that consumed it, in which case this root's
-    // batch still has to go.
-    if (event.key !== 'Escape' || (event.defaultPrevented && !escapesClearedBySelection.has(event))) {
-      return;
-    }
-
-    if (!this.escapeConcernsSelection(event.target)) {
-      return;
-    }
-
     // BatchSelection#toggle re-bases the anchor even on a deselect, so an
     // emptied selection can still leave one behind for Escape to drop.
-    const hadSelection = this.selection.size > 0;
-    if (!hadSelection && this.selection.anchor === null) {
-      return;
-    }
-
-    event.preventDefault();
-    escapesClearedBySelection.add(event);
-    this.selection.clear();
-    this.renderSelection('selection');
+    clearSelectionOnEscape(
+      event,
+      () => this.selection.size > 0 || this.selection.anchor !== null,
+      () => {
+        this.selection.clear();
+        this.renderSelection('selection');
+      },
+    );
   };
-
-  // Escape drops the selection from wherever focus sits, except where the
-  // key already means "dismiss this thing": an open overlay anywhere — focus
-  // can still sit on its invoker for a frame after it opens — or a field
-  // whose widget owns it (a picker, an inline editor, an autocompleter).
-  private escapeConcernsSelection(target:EventTarget|null):boolean {
-    if (document.querySelector('dialog[open], :popover-open')) {
-      return false;
-    }
-
-    if (!(target instanceof Element)) {
-      return true;
-    }
-
-    return target.closest(
-      '[role="dialog"], [role="menu"], [role="listbox"], input, textarea, select, [contenteditable]',
-    ) === null;
-  }
 
   // A batch holds one item type: "all of these together" has no meaning
   // across two kinds of thing, and a collection move sends one list of ids

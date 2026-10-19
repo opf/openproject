@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -124,6 +123,15 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).to include(project_path(project))
       expect(response.body).to include(edit_role_path(role))
       expect(response.body).to include(edit_role_path(other_role))
+    end
+
+    it "does not include entity shares in the list" do
+      share_role = create(:view_project_query_role)
+      create(:project_query_member, principal: user, roles: [share_role])
+
+      get admin_members_path
+
+      expect(response.body).not_to include(share_role.name)
     end
 
     it "does not link archived projects" do

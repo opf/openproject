@@ -22,24 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourceAllocations
   # A user's working time optimally allocated to their work packages: the
-  # scheduled entries and the available capacity, both keyed by date (minutes).
+  # scheduled entries keyed by date, and the allocations whose window contains
+  # no working day of the user.
   class OptimalSchedule
     include ActiveModel::Model
     include ActiveModel::Attributes
 
     attribute :by_date, default: -> { {} }
-    attribute :capacity_by_date, default: -> { {} }
+    attribute :unplannable, default: -> { [] }
 
     def entries_on(date) = by_date.fetch(date, [])
-    def capacity_on(date) = capacity_by_date.fetch(date, 0)
-    def dates = capacity_by_date.keys
+    def allocations_on(date) = entries_on(date).map(&:allocation)
+    def overtime_on(date) = entries_on(date).sum(&:overtime_minutes)
+    def overbooked_dates = by_date.keys.select { |date| overtime_on(date).positive? }.sort
   end
 end

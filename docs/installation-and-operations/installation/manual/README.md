@@ -150,7 +150,7 @@ v24.18.0
 
 ## Installation of OpenProject
 
-We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
+We will install the OpenProject Community edition. It contains the recommended set of plugins for use
 with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 ```shell

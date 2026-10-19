@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,8 +35,12 @@ module Roles
 
     TEST_SELECTOR = "op-roles--permissions-dialog"
 
-    def self.visible_to?(user)
-      user.admin? || user.allowed_in_any_project?(:manage_members)
+    # Without a role this only answers whether the user may inspect roles in general,
+    # which is what the pickers choosing a role dynamically need.
+    def self.visible_to?(user, role = nil)
+      return true if user.admin? || user.allowed_in_any_project?(:manage_members)
+
+      role.present? && user.held_role_ids.include?(role.id)
     end
 
     alias_method :role, :model
@@ -65,8 +68,6 @@ module Roles
     def permission_description(permission)
       t(:"permission_#{permission.name}_explanation", default: nil)
     end
-
-    def implicit?(permission) = permission.public?
 
     def editable? = User.current.admin?
 

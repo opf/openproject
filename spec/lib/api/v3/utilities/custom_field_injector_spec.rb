@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -666,6 +665,15 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         let(:field_format) { "date" }
         let(:value) { Date.current }
         let(:json_value) { value.to_date.iso8601 }
+        let(:expected_setter) { json_value }
+      end
+    end
+
+    context "for datetime custom field" do
+      it_behaves_like "injects property custom field" do
+        let(:field_format) { "datetime" }
+        let(:value) { Time.utc(2026, 10, 1, 12, 30) }
+        let(:json_value) { "2026-10-01T12:30:00.000Z" }
         let(:expected_setter) { json_value }
       end
     end

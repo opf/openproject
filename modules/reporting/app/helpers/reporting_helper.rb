@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -103,7 +102,7 @@ module ReportingHelper
 
     case key.to_sym
     when :activity_id
-      mapped value, Enumeration, "<i>#{I18n.t(:caption_material_costs)}</i>".html_safe
+      mapped value, Enumeration, content_tag(:i, I18n.t(:caption_material_costs))
     when :project_id
       link_to_project Project.find(value.to_i)
     when :user_id, :assigned_to_id, :author_id, :logged_by_id

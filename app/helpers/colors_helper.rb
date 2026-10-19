@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,6 +63,10 @@ module ColorsHelper
 
   def hl_background_class(name, model)
     "__hl_background #{hl_color_class(name, model)}"
+  end
+
+  def hl_background_muted_class(name, model)
+    "__hl_background_muted #{hl_color_class(name, model)}"
   end
 
   def hl_foreground_class(name, model)

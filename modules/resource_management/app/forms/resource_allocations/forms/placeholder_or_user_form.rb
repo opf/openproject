@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,9 +48,14 @@ module ResourceAllocations
             focusDirectly: false,
             multiple: false,
             appendTo: "##{@dialog_id}",
-            data: { action: "change->refresh-on-form-changes#triggerTurboStream" }
+            data: { action: "change->refresh-on-form-changes#triggerTurboStream" },
+            **deleted_user_selection
           }
         )
+
+        f.html_content do
+          render(ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation: model))
+        end
 
         f.html_content do
           render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
@@ -78,12 +82,28 @@ module ResourceAllocations
              .presence
       end
 
+      # Without a project (a global planner whose work package is not picked yet)
+      # the membership narrowing cannot be resolved, so the picker offers every
+      # allocatable principal; the contract still requires the permission on the
+      # chosen work package's project.
       def principal_filters
-        filters = [
-          { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] }
-        ]
+        filters = []
+        filters << { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] } if @project
         filters.concat(@view.allocation_principal_filters) if @view&.allocation_principal_filters
+        filters << candidate_filter if model.staffed?
         filters
+      end
+
+      def candidate_filter
+        { name: "candidate_of_placeholder", operator: "=", values: [model.placeholder_user_id.to_s] }
+      end
+
+      # The picker would look the selected principal up through the API, which
+      # does not return the deleted user to most users.
+      def deleted_user_selection
+        return {} unless model.principal.is_a?(DeletedUser)
+
+        { model: { id: model.principal_id, name: model.principal.name } }
       end
     end
   end

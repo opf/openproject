@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,10 +47,6 @@ module Settings
 
       def show_categories?
         User.current.allowed_in_project?(:manage_categories, @project)
-      end
-
-      def show_custom_fields?
-        User.current.allowed_in_project?(:select_custom_fields, @project)
       end
 
       def internal_comments_title
@@ -82,14 +77,6 @@ module Settings
             name: "categories",
             path: project_settings_work_packages_categories_path,
             label: t("documents.label_categories")
-          }
-        end
-
-        if show_custom_fields?
-          tabs << {
-            name: "custom_fields",
-            path: project_settings_work_packages_custom_fields_path,
-            label: t("attributes.custom_values")
           }
         end
 

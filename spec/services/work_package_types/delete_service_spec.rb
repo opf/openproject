@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -69,21 +68,6 @@ RSpec.describe WorkPackageTypes::DeleteService do
       expect(result).to be_failure
       expect(result.errors.full_messages)
         .to eq([I18n.t("activerecord.errors.models.type.attributes.base.in_use_by_work_packages")])
-      expect(type.reload).to be_present
-      expect(project.reload.enabled_types).to contain_exactly(type)
-    end
-  end
-
-  context "when another type's variant borrows configuration from this one" do
-    let!(:project) { create(:project, types: [type]) }
-
-    before do
-      borrower = create(:type_variant, type: create(:type, name: "Feature"), variant_name: "Borrower")
-      borrower.update_columns(workflows_source_id: type.default_variant.id)
-    end
-
-    it "keeps the type and leaves the projects using it" do
-      expect(service.call).to be_failure
       expect(type.reload).to be_present
       expect(project.reload.enabled_types).to contain_exactly(type)
     end

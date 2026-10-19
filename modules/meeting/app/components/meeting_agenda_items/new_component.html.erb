@@ -8,18 +8,23 @@
               meeting: @meeting,
               meeting_agenda_item: @meeting_agenda_item,
               meeting_section: @meeting_section,
+              key: relative_key,
               method: :post,
               submit_path: project_meeting_agenda_items_path(
                 @meeting.project,
                 @meeting,
                 format: :turbo_stream,
-                current_occurrence: @current_occurrence
+                current_occurrence: @current_occurrence,
+                relative_to_id: @relative_to&.id,
+                insert_position: @insert_position
               ),
               cancel_path: cancel_new_project_meeting_agenda_items_path(
                 @meeting.project,
                 @meeting,
                 meeting_section_id: @meeting_section&.id,
-                current_occurrence: @current_occurrence
+                current_occurrence: @current_occurrence,
+                relative_to_id: @relative_to&.id,
+                insert_position: @insert_position
               ),
               type: @type
             )

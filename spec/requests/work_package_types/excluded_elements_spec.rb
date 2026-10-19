@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,20 +33,20 @@ RSpec.describe "Work package type excluded elements",
                :skip_csrf,
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
-  shared_let(:source) { create(:type) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
   let(:type) { create(:type) }
-  let(:link) { variant_of(type) }
+  let(:link) { create(:type_variant, type:) }
 
   before { login_as admin }
 
   def toggle(value:, element: "assignee")
-    post type_excluded_element_toggle_path(type_id: type.id, aspect:, element:), params: { value: }
+    post type_variant_excluded_element_toggle_path(type_id: type.id, variant_id: link.id, aspect:, element:),
+         params: { value: }
   end
 
   context "when the type is Linked for the aspect" do
-    before { link_configuration(type, source:, aspect:) }
+    before { link_configuration(link, aspect:) }
 
     it "excludes the element when switched off", :aggregate_failures do
       toggle(value: "0")
@@ -66,19 +65,30 @@ RSpec.describe "Work package type excluded elements",
     end
 
     it "leaves the other aspects alone" do
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+      link_configuration(link, aspect: TypeVariant::PDF_EXPORT)
 
       toggle(value: "0")
 
-      expect(excluded_configuration_elements(type, aspect: TypeVariant::PDF_EXPORT))
+      expect(excluded_configuration_elements(link, aspect: TypeVariant::PDF_EXPORT))
         .to be_empty
     end
   end
 
-  it "is unprocessable when the type owns the aspect" do
+  context "when the variant owns its project attributes" do
+    let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
+
+    it "is unprocessable" do
+      toggle(value: "0")
+
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+  end
+
+  it "narrows a form the variant has to itself" do
     toggle(value: "0")
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:ok)
+    expect(excluded_configuration_elements(link, aspect:)).to contain_exactly("assignee")
   end
 
   it "is not found for an unknown aspect" do
@@ -92,7 +102,7 @@ RSpec.describe "Work package type excluded elements",
     before { login_as create(:user) }
 
     it "is forbidden" do
-      link_configuration(type, source:, aspect:)
+      link_configuration(link, aspect:)
 
       toggle(value: "0")
 

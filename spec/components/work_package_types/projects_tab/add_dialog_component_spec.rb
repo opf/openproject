@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,7 +50,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::AddDialogComponent, type: :compone
   end
 
   it "posts to the variant's link action" do
-    expect(page).to have_css("form[action='#{link_type_projects_path(**variant.path_args)}']")
+    expect(page).to have_css("form[action='#{link_type_projects_path(type_id: type.id)}']")
   end
 
   it "names the tree's form field after the field the controller expects" do

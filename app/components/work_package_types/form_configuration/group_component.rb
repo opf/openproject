@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,18 +33,16 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(group:, variant: nil, ee_available: false, first: false, last: false, edit_mode: false,
-                     form_model: nil, readonly: false, exclusions: nil)
+      def initialize(group:, context:, ee_available: false, first: false, last: false, edit_mode: false,
+                     form_model: nil)
         super(group)
         @group = group
-        @variant = variant
+        @context = context
         @ee_available = ee_available
         @first = first
         @last = last
         @edit_mode = edit_mode
         @form_model = form_model
-        @readonly = readonly
-        @exclusions = exclusions
         @instance_uid = SecureRandom.hex(4)
       end
 
@@ -57,9 +54,7 @@ module WorkPackageTypes
         @edit_mode
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, :exclusions, to: :@context
 
       def query_group?
         @group[:type].to_s == "query"
@@ -107,8 +102,7 @@ module WorkPackageTypes
         {
           "draggable-id": @group[:key],
           "draggable-type": "group",
-          "drop-url": drop_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                              key: @group[:key])
+          "drop-url": @context.group_path(:drop, key: @group[:key])
         }
       end
 
@@ -123,32 +117,12 @@ module WorkPackageTypes
         }
       end
 
-      def edit_path
-        edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
-      def update_path
-        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
-      def cancel_edit_path
-        cancel_edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
-      def move_path(move_to)
-        move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key], move_to:)
-      end
-
-      def destroy_path
-        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
-      end
-
       def update_query_path
-        update_query_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+        @context.group_path(:update_query, key: @group[:key])
       end
 
       def row_drop_path(attribute)
-        drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id, row_key: attribute[:key])
+        @context.row_path(:drop, row_key: attribute[:key])
       end
     end
   end

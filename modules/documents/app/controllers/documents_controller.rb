@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,7 @@ class DocumentsController < ApplicationController
 
   def search
     index
-    replace_via_turbo_stream component: Documents::ListComponent.new(@documents, project: @project)
+    replace_via_turbo_stream component: Documents::TableComponent.new(rows: @documents, project: @project)
     current_url = url_for(params.permit(:controller, :filters, :sortBy).merge(action: "index"))
     turbo_streams << turbo_stream.push_state(current_url)
 

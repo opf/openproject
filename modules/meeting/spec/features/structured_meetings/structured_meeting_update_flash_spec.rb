@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,8 +77,7 @@ RSpec.describe "Meetings CRUD",
           show_page.trigger_change_poll
           expect(page).to have_css(flash_component, wait: 5)
           expect(page).to have_text I18n.t(:notice_meeting_updated)
-          page.within(flash_component) { click_on "Reload" }
-          sleep 1
+          wait_for_turbo { page.within(flash_component) { click_on "Reload" } }
         end
 
         # Expect no notification in window2
@@ -107,8 +105,7 @@ RSpec.describe "Meetings CRUD",
           expect(page).to have_css(flash_component, wait: 5)
           expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-          page.within(flash_component) { click_on "Reload" }
-          sleep 1
+          wait_for_turbo { page.within(flash_component) { click_on "Reload" } }
 
           ## Add section
           show_page.add_section do
@@ -126,8 +123,7 @@ RSpec.describe "Meetings CRUD",
           show_page.trigger_change_poll
           expect(page).to have_css(flash_component, wait: 5)
           expect(page).to have_text I18n.t(:notice_meeting_updated)
-          page.within(flash_component) { click_on "Reload" }
-          sleep 1
+          wait_for_turbo { page.within(flash_component) { click_on "Reload" } }
         end
 
         # Expect no notification in window2
@@ -155,8 +151,7 @@ RSpec.describe "Meetings CRUD",
           show_page.trigger_change_poll
           expect(page).to have_text I18n.t(:notice_meeting_updated)
 
-          page.within(flash_component) { click_on "Reload" }
-          sleep 1
+          wait_for_turbo { page.within(flash_component) { click_on "Reload" } }
 
           ## Close meeting
           find_test_selector("close-meeting-button").click
@@ -173,8 +168,7 @@ RSpec.describe "Meetings CRUD",
           show_page.trigger_change_poll
           expect(page).to have_css(flash_component, wait: 5)
           expect(page).to have_text I18n.t(:notice_meeting_updated)
-          page.within(flash_component) { click_on "Reload" }
-          sleep 1
+          wait_for_turbo { page.within(flash_component) { click_on "Reload" } }
         end
 
         # Expect no notification in window2

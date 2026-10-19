@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,8 +60,24 @@ RSpec.describe "GET /roles/:role_id/permissions_dialog", :aggregate_failures, :s
     end
   end
 
-  context "when the user may not manage members anywhere" do
-    before { login_as create(:user) }
+  context "when the user holds the role themselves" do
+    shared_let(:own_project) { create(:project) }
+    shared_let(:holder) { create(:user, member_with_roles: { own_project => [role] }) }
+
+    before { login_as holder }
+
+    it "renders the dialog" do
+      expect(response_body).to include("Permissions of &quot;Reviewer&quot;")
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  context "when the user neither manages members nor holds the role" do
+    shared_let(:other_project) { create(:project) }
+    shared_let(:other_role) { create(:project_role, permissions: %i[view_members]) }
+    shared_let(:outsider) { create(:user, member_with_roles: { other_project => [other_role] }) }
+
+    before { login_as outsider }
 
     it "denies access" do
       response_body

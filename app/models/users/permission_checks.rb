@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -169,10 +168,21 @@ module Users::PermissionChecks
     end
   end
 
+  # Ids of every role this user holds, in any project and globally.
+  def held_role_ids
+    @held_role_ids ||= MemberRole
+                         .joins(:member)
+                         .where(members: { user_id: id })
+                         .distinct
+                         .pluck(:role_id)
+                         .to_set
+  end
+
   def reset_permission_caches
     @user_permissible_service = nil
     @user_allowed_service = nil
     @project_role_cache = nil
+    @held_role_ids = nil
   end
 
   private

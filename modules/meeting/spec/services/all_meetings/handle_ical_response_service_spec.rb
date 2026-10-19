@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -122,6 +121,15 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
           meeting.participants.find_by(user: user).participation_status
         }.from("needs_action").to("declined")
         expect(subject).to be_success
+      end
+
+      it "journals the meeting as the responding user" do
+        subject
+
+        journal = meeting.journals.last
+        expect(journal.user).to eq(user)
+        expect(journal.participant_journals.find_by(user_id: user.id))
+          .to have_attributes(participation_status: "declined")
       end
     end
 

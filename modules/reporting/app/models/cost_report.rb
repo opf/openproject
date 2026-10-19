@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,7 @@ class CostReport < PersistedView
   # The configuration as the url carries it, so that a report can be rebuilt
   # elsewhere - an export job runs long after the request is gone.
   def to_query_params
-    compact_filters.to_params.merge(unit: unit_id).compact
+    compact_filters.to_params.reverse_merge(filters: "").merge(unit: unit_id).compact
   end
 
   def uses_dimension?(attribute)

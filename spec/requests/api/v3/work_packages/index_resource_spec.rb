@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -146,6 +145,28 @@ RSpec.describe "API v3 Work package resource",
 
       it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [exact_match, prefix_match] }
+      end
+    end
+
+    context "when filtering by typeahead with a number beyond the 64-bit integer range and sorting by exact_match" do
+      let(:filters) do
+        [
+          {
+            typeahead: {
+              operator: "**",
+              values: "2608049472608049476767"
+            }
+          }
+        ]
+      end
+      let(:path) do
+        api_v3_paths.path_for :work_packages, filters:, sort_by: [["exact_match", "desc"], ["updatedAt", "desc"]]
+      end
+
+      before { get path }
+
+      it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
+        let(:elements) { [] }
       end
     end
 
@@ -323,8 +344,7 @@ RSpec.describe "API v3 Work package resource",
       let(:custom_field) do
         create(:string_wp_custom_field,
                name: "String CF",
-               types: project.enabled_types,
-               projects: [project])
+               types: project.enabled_types)
       end
 
       let(:custom_value) do
@@ -476,8 +496,7 @@ RSpec.describe "API v3 Work package resource",
         let(:custom_field) do
           create(:user_wp_custom_field,
                  name: "User CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
 
         let(:custom_value) do
@@ -532,10 +551,10 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when there is a custom value in the past but not in the now" \
-              "as the custom field has been disabled for the project" do
+              "as the custom field is no longer on the type" do
         before do
           create_customizable_journal(journal: original_journal, custom_field:, value: "Original value")
-          project.update(work_package_custom_fields: [])
+          custom_field.form_configurations.each { it.custom_field_ids -= [custom_field.id] }
         end
 
         it "does not embed the custom fields in the attributesByTimestamp" do

@@ -22,15 +22,20 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 Rails.application.routes.draw do
-  scope "projects/:project_id", as: "project" do
-    resources :resource_planners, controller: "resource_management/resource_planners" do
+  # Written once and drawn twice, so every route exists in both scopes and each
+  # has its own helper: `project_resource_planners_path` inside a project,
+  # `resource_planners_path` globally. A call site therefore names the area it
+  # links into, and naming one that does not exist fails rather than quietly
+  # producing the other one's URL.
+  concern :resource_planning do
+    resources :resource_planners,
+              controller: "resource_management/resource_planners" do
       member do
         post :toggle_public
       end
@@ -80,9 +85,8 @@ Rails.application.routes.draw do
     resources :resource_allocations,
               controller: "resource_management/resource_allocations",
               only: %i[new create edit update destroy] do
-      collection do
-        post :refresh_form
-      end
+      post :refresh_form, on: :collection
+      post :refresh_form, on: :member
     end
 
     resources :work_packages, only: [] do
@@ -97,12 +101,20 @@ Rails.application.routes.draw do
                 only: :index
     end
 
-    # clobber the global `project_path` helper.
-    get "staffing" => "resource_management/staffing#index", as: :staffing
-    get "staffing/:id/assign" => "resource_management/staffing#assign_form", as: :staffing_assign
-    put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
+    scope "resource_management", as: "resource_management" do
+      get "staffing" => "resource_management/staffing#index", as: :staffing
+      get "staffing/:id/assign" => "resource_management/staffing#assign_form", as: :staffing_assign
+      put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
+    end
   end
 
+  scope "projects/:project_id", as: "project" do
+    concerns :resource_planning
+  end
+
+  concerns :resource_planning
+
+  # Global only: placeholder users are not managed inside a project.
   scope "resource_management", as: "resource_management" do
     resources :placeholder_users,
               controller: "resource_management/placeholder_users",

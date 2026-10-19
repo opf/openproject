@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -89,8 +88,16 @@ RSpec.describe Members::RowComponent, type: :component do
       end
     end
 
-    context "when the current user may not inspect role permissions" do
+    context "when the current user holds the role themselves" do
       current_user { user }
+
+      it "offers the preview for their own role" do
+        expect(rendered).to have_css("td.roles a[href='#{role_permissions_dialog_path(role)}']", visible: :all)
+      end
+    end
+
+    context "when the current user neither manages members nor holds the role" do
+      current_user { create(:user) }
 
       it "renders the role names as plain text" do
         expect(rendered).to have_css("td.roles", text: role.name)

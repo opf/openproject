@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,18 +30,13 @@
 module WorkPackageTypes
   module Patterns
     class TokenPropertyMapper
-      STRING_OR_NIL = ->(v) { v&.to_s }
-      ARRAY = ->(v) { v.compact.presence&.join(", ") }
-      DATE = ->(v) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
-      DURATION = ->(v) { DurationConverter.output(v) }
-
       class StaticAttributeDSL
         def initialize(context:, label_model:)
           @context = context
           @label_model = label_model
         end
 
-        def add(key, value_fn, formatter = STRING_OR_NIL, label: key)
+        def add(key, value_fn, formatter = Formatters::DefaultFormatter, label: key, enabled_fn: -> { true })
           label_fn = label
           unless label_fn.respond_to?(:call)
             raise ArgumentError, "label must be passed as function when no label_model is provided" if @label_model.nil?
@@ -50,7 +44,7 @@ module WorkPackageTypes
             label_fn = -> { @label_model.human_attribute_name(label) }
           end
 
-          TokenPropertyMapper.add_static_attribute(key, @context, label_fn, value_fn, formatter)
+          TokenPropertyMapper.add_static_attribute(key, @context, label_fn, value_fn, formatter, enabled_fn:)
         end
       end
 
@@ -59,12 +53,16 @@ module WorkPackageTypes
           StaticAttributeDSL.new(context:, label_model:).instance_exec(&)
         end
 
-        def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL)
-          static_tokens << AttributeToken.new(key, context, label_fn, value_fn, formatter)
+        def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL, enabled_fn: -> { true })
+          static_token_definitions << [AttributeToken.new(key, context, label_fn, value_fn, formatter), enabled_fn]
         end
 
         def static_tokens
-          @static_tokens ||= []
+          static_token_definitions.filter_map { |token, enabled_fn| token if enabled_fn.call }
+        end
+
+        def static_token_definitions
+          @static_token_definitions ||= []
         end
 
         def add_custom_fields(scope_fn, context, prefix = "")
@@ -92,11 +90,15 @@ module WorkPackageTypes
       def tokenize(custom_field_scope, context_name, prefix = nil)
         custom_field_scope.pluck(:name, :id, :field_format, :multi_value).map do |name, id, format, multiple|
           formatter = if multiple
-                        ARRAY
+                        Formatters::ArrayFormatter
                       elsif format == "date"
-                        DATE
+                        Formatters::DateFormatter
+                      elsif format == "hierarchy"
+                        Formatters::HierarchyFormatter
+                      elsif format == "weighted_item_list"
+                        Formatters::WeightedItemListFormatter
                       else
-                        ->(v) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v) }
+                        Formatters::DefaultFormatter
                       end
           AttributeToken.new(
             :"#{prefix}custom_field_#{id}",

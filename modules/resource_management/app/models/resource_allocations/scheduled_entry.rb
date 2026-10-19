@@ -22,21 +22,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ResourceAllocations
   # A single allocation's share of a day in a computed schedule: `minutes` of the
-  # `allocation` (and its `work_package`) placed on one day.
+  # `allocation` (and its `work_package`) placed on the `allocated_on` day.
+  # `minutes` includes the `overtime_minutes` beyond the user's working hours.
   class ScheduledEntry
     include ActiveModel::Model
     include ActiveModel::Attributes
 
     attribute :allocation
     attribute :work_package
+    attribute :allocated_on, :date
     attribute :minutes, :integer
+    attribute :overtime_minutes, :integer, default: 0
   end
 end

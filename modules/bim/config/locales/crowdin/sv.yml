@@ -106,12 +106,12 @@ sv:
     not_recommended: rekommenderas inte
     recommended: rekommenderad
     x_bcf_issues:
-      one: Ett BCF-ärende
+      one: "%{count} BCF issue"
       other: "%{count} BCF-ärenden"
       zero: Inga BCF-problem
   bim:
     error_direct_upload_failed: Direktuppladdningen misslyckades.
-    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
+    error_direct_upload_file_too_large: IFC-modellen är för stor (högsta storlek är %{size} byte).
     label_bim: BIM
   export:
     format:

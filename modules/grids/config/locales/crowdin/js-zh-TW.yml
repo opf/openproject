@@ -5,7 +5,7 @@ zh-TW:
       add_widget: 新增小工具
       configure: 設定小工具
       remove: 移除小工具
-      widget_menu_label: Show menu options for %{widgetName} widget
+      widget_menu_label: 顯示「 %{widgetName} 」小工具的選單選項
       widgets:
         custom_text:
           title: 自訂文字
@@ -17,11 +17,11 @@ zh-TW:
         missing_permission: 您沒有必要的權限來檢視小工具。
         news:
           title: 最新消息
-        not_available: This widget is currently unavailable.
+        not_available: 此小工具目前無法使用。
         project_description:
           title: 說明
         project_favorites:
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          no_results: 您目前沒有任何收藏的專案。您可以透過專案概覽或專案清單，將一個或多個專案加入收藏。
           title: 收藏的專案
         project_status:
           at_risk: 存在風險
@@ -33,19 +33,19 @@ zh-TW:
           on_track: 如期進行
           title: 狀態
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_date_range: "%{start} 至 %{end}"
+          accessible_gate: 階段閘道 %{name}： %{date}
           accessible_milestone: 'Milestone %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
+          accessible_phase: 階段 %{name}： %{date}
           accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
           sprint_status:
             active: Active
             completed: Completed
             in_planning: In planning
-          tooltip_type_gate: Phase gate
-          tooltip_type_milestone: Milestone
-          tooltip_type_phase: Phase
-          tooltip_type_sprint: Sprint
+          tooltip_type_gate: 階段閘道
+          tooltip_type_milestone: 里程碑
+          tooltip_type_phase: 階段
+          tooltip_type_sprint: 衝刺
         subprojects:
           title: 子項目
         time_entries_current_user:

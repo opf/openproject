@@ -106,7 +106,6 @@ de:
   plugin_openproject_reporting:
     description: Dieses Plugin ermöglicht die Erstellung benutzerdefinierter Kostenberichte mit Filtern und Gruppierungen
     name: OpenProject Berichterstattung
-  project_module_reporting_module: Kostenauswertungen
   reporting:
     group_by:
       selected_columns: Ausgewählte Spalten

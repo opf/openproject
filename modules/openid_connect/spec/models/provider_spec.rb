@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe OpenIDConnect::Provider do
@@ -199,30 +199,6 @@ RSpec.describe OpenIDConnect::Provider do
       it "contains the option" do
         expect(subject[:post_logout_redirect_uri]).to eq options[:post_logout_redirect_uri]
       end
-    end
-  end
-
-  describe "#csp_form_action_origin" do
-    subject { build(:oidc_provider, authorization_endpoint:, issuer:).csp_form_action_origin }
-
-    let(:authorization_endpoint) { "https://keycloak.local/realms/master/protocol/openid-connect/auth" }
-    let(:issuer) { "https://keycloak.local/realms/master" }
-
-    it { is_expected.to eq("https://keycloak.local/") }
-
-    context "when the authorization endpoint is relative" do
-      let(:authorization_endpoint) { "/realms/master/protocol/openid-connect/auth" }
-
-      it "falls back to the issuer origin" do
-        expect(subject).to eq("https://keycloak.local/")
-      end
-    end
-
-    context "when authorization endpoint and issuer are blank" do
-      let(:authorization_endpoint) { nil }
-      let(:issuer) { nil }
-
-      it { is_expected.to be_nil }
     end
   end
 end
