@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,6 +45,35 @@ module ResourceAllocations
 
     def scheduled_entry(allocation, date, minutes, overtime_minutes: 0)
       ScheduledEntry.new(allocation:, allocated_on: date, minutes:, overtime_minutes:)
+    end
+
+    def stored_schedule(user)
+      ScheduledEntry
+        .where(user:)
+        .pluck(:resource_allocation_id, :allocated_on, :minutes, :overtime_minutes)
+        .map do |allocation_id, allocated_on, minutes, overtime_minutes|
+          { allocation_id:, allocated_on:, minutes:, overtime_minutes: }
+        end
+    end
+
+    def computed_schedule(user)
+      allocations = ResourceAllocation.allocated.for_principal(user).to_a
+      return [] if allocations.empty?
+
+      range = allocations.map(&:start_date).min..allocations.map(&:end_date).max
+      result = FitCalculator.new(calendar: WorkingTimeCalendar.new(user:, range:), allocations:).call
+
+      allocations.flat_map do |allocation|
+        placed = result.placements.fetch(allocation, {})
+        overtime = result.overtime.fetch(allocation, {})
+        scheduled_dates = placed.keys | overtime.keys
+
+        scheduled_dates.map do |allocated_on|
+          overtime_minutes = overtime.fetch(allocated_on, 0)
+          { allocation_id: allocation.id, allocated_on:,
+            minutes: placed.fetch(allocated_on, 0) + overtime_minutes, overtime_minutes: }
+        end
+      end
     end
   end
 end

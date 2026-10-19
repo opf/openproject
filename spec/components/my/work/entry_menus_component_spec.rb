@@ -41,7 +41,7 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
   let(:allocation_minutes) { 360 }
   let(:scheduled_entry) do
     allocation = build_stubbed(:resource_allocation, entity: work_package, principal: user)
-    ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: allocation_minutes)
+    ResourceAllocations::ScheduledEntry.new(allocation:, allocated_on: date, minutes: allocation_minutes)
   end
   let(:allocations) { instance_double(ResourceAllocations::AllocatedTimeFor, items: [scheduled_entry], visible?: true) }
   let(:event_id) { FullCalendar::ResourceAllocationEvent.id_for(scheduled_entry) }

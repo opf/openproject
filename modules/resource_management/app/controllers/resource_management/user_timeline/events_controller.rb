@@ -91,6 +91,10 @@ module ResourceManagement
         end
       end
 
+      def global_non_working_days
+        @global_non_working_days ||= NonWorkingDay.for_dates(visible_range).pluck(:date).to_set
+      end
+
       def working_day_runs(range, calendar)
         runs = []
         run_start = nil

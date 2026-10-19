@@ -28,19 +28,21 @@
 #++
 
 module ResourceAllocations
-  # A user's working time optimally allocated to their work packages: the
-  # scheduled entries keyed by date, and the allocations whose window contains
-  # no working day of the user.
-  class OptimalSchedule
-    include ActiveModel::Model
-    include ActiveModel::Attributes
+  class RebuildSchedulesJob < ApplicationJob
+    def perform(user_ids: nil)
+      users(user_ids).find_each do |user|
+        UpdateScheduleService.new.call(users: [user], from: nil)
+      end
+    end
 
-    attribute :by_date, default: -> { {} }
-    attribute :unplannable, default: -> { [] }
+    private
 
-    def entries_on(date) = by_date.fetch(date, [])
-    def allocations_on(date) = entries_on(date).map(&:allocation)
-    def overtime_on(date) = entries_on(date).sum(&:overtime_minutes)
-    def overbooked_dates = by_date.keys.select { |date| overtime_on(date).positive? }.sort
+    def users(user_ids)
+      if user_ids.present?
+        User.where(id: user_ids)
+      else
+        User.where(id: ResourceAllocation.allocated.select(:principal_id))
+      end
+    end
   end
 end

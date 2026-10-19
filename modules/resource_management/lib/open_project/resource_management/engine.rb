@@ -40,6 +40,16 @@ module OpenProject::ResourceManagement
     include_module "Users::ResourceAllocations", into: "User"
     include_module "WorkPackages::ResourceAllocations", into: "WorkPackage"
 
+    prepend_module "WorkPackages::UpdateAllocationSchedules", into: "WorkPackages::DeleteService"
+    prepend_module "Projects::UpdateAllocationSchedules", into: "Projects::DeleteService"
+    prepend_module "UserWorkingHours::UpdateAllocationSchedules",
+                   into: %w[UserWorkingHours::CreateService UserWorkingHours::UpdateService
+                            UserWorkingHours::DeleteService]
+    prepend_module "UserNonWorkingTimes::UpdateAllocationSchedules",
+                   into: %w[UserNonWorkingTimes::CreateService UserNonWorkingTimes::UpdateService
+                            UserNonWorkingTimes::DeleteService]
+    prepend_module "Settings::UpdateAllocationSchedules", into: "Settings::WorkingDaysAndHoursUpdateService"
+
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]
 

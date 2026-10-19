@@ -41,8 +41,7 @@ RSpec.describe My::Work::AllocationActionMenuComponent, type: :component do
   let(:navigation) { false }
   let(:allocation) do
     resource_allocation = build_stubbed(:resource_allocation, entity: work_package, principal: user)
-    entry = ResourceAllocations::ScheduledEntry.new(allocation: resource_allocation, work_package:,
-                                                    allocated_on: date, minutes: 360)
+    entry = ResourceAllocations::ScheduledEntry.new(allocation: resource_allocation, allocated_on: date, minutes: 360)
 
     My::Work::AllocationRow::Entry.new(scheduled_entry: entry, visible:, hours: 4.5)
   end
