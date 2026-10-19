@@ -43,7 +43,7 @@ module Accounts::SessionLifetime
   # but it will never be expired later than that, ensuring that the setting is considered a maximum.
   #
   # The interval is a fraction of the configured TTL, with min and max values at 1 and 5 minutes respectively.
-  # This alllows us to save more writes on longer TTLs, while keeping the "expire ahead" minimal for smaller values.
+  # This allows us to save more writes on longer TTLs, while keeping the "expire ahead" minimal for smaller values.
   SESSION_ACTIVITY_REFRESH_RATIO = 0.2
   SESSION_ACTIVITY_REFRESH_MIN = 1.minute
   SESSION_ACTIVITY_REFRESH_MAX = 5.minutes

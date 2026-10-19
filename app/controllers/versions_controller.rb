@@ -95,7 +95,7 @@ class VersionsController < ApplicationController
 
     unless call.success?
       flash[:error] = call.errors.full_messages
-      flash[:error] << archived_project_mesage if archived_projects.any?
+      flash[:error] << archived_project_message if archived_projects.any?
     else
       flash[:notice] = I18n.t :notice_successful_delete
     end
@@ -126,7 +126,7 @@ class VersionsController < ApplicationController
                      end
   end
 
-  def archived_project_mesage
+  def archived_project_message
     if current_user.admin?
       ApplicationController.helpers.sanitize(
         t(:error_can_not_delete_in_use_archived_work_packages,

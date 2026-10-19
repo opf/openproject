@@ -37,7 +37,7 @@ I18n::Backend::Simple.include OpenProject::Translations::PluralizationBackend
 # English. For production, that's less useful as files downloaded from Crowdin
 # already contain fallback English translations.
 #
-# Also we can't completly remove the fallback mechanism: we still need the it to
+# Also we can't completely remove the fallback mechanism: we still need the it to
 # get translated versions of email header and footer as they are supplied by the
 # admins and may not be provided for all configured languages. (See
 # `Setting#localized_emails_header` and `Setting#localized_emails_footer`.)
