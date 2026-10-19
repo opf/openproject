@@ -42,6 +42,14 @@ module Settings
     Node = Data.define(:key, :label, :description, :href, :children)
     EXAMPLE_ENTITIES = 25
 
+    # How long the tree without the entities matching a query is cached.
+    # Building it is expensive (translations of all settings, an example
+    # entity per kind), while it is identical between requests as long as
+    # neither the settings nor the registries change. Entities added or
+    # renamed within that time are found by the search all the same; only
+    # the entity an attribute links to may be outdated until it expires.
+    TREE_CACHE_TTL = 1.minute
+
     def self.words(text)
       text.to_s.downcase.split(/[^\p{L}\p{N}]+/).compact_blank
     end
@@ -54,7 +62,9 @@ module Settings
                    hidden_menu_items: OpenProject::Configuration.hidden_menu_items["admin_menu"] || [])
       @view_context = view_context
       @query_words = self.class.words(query)
+      @pages = pages
       @pages_by_menu_item = pages.group_by(&:menu_item)
+      @entity_kinds = entity_kinds
       @entity_kinds_by_menu_item = entity_kinds.group_by(&:menu_item)
       @menu = menu
       @hidden_menu_items = hidden_menu_items.map(&:to_s)
@@ -63,20 +73,59 @@ module Settings
     attr_reader :query_words
 
     def nodes
-      @nodes ||= filter(build(@menu), [])
+      @nodes ||= filter(assemble(@menu), [])
     end
 
     private
 
     attr_reader :view_context
 
-    def build(menu_node)
+    def assemble(menu_node)
       menu_node.children.filter_map do |item|
         next unless visible_menu_item?(item)
 
-        children = [*page_nodes(item), *entity_kind_nodes(item), *build(item)]
-
+        children = [*children_of(item), *matching_nodes(item), *assemble(item)]
         Node.new(key: item.name.to_s, label: item.caption, description: nil, href: menu_item_url(item), children:)
+      end
+    end
+
+    # The pages and entity kind attributes of a menu item, cached as they
+    # are expensive to build. Entities matching the query are added by
+    # #matching_nodes on each request.
+    def children_of(item)
+      children_by_item[item.name] || [*page_nodes(item), *kind_attribute_nodes(item)]
+    end
+
+    def children_by_item
+      @children_by_item ||= Rails.cache.fetch(cache_key, expires_in: TREE_CACHE_TTL) { build_children_by_item }
+    end
+
+    def build_children_by_item
+      {}.tap do |children_by_item|
+        each_menu_item do |item|
+          children_by_item[item.name] = [*page_nodes(item), *kind_attribute_nodes(item)]
+        end
+      end
+    end
+
+    def each_menu_item(menu_node = @menu, &)
+      menu_node.children.each do |item|
+        next unless visible_menu_item?(item)
+
+        yield item
+        each_menu_item(item, &)
+      end
+    end
+
+    def kind_attribute_nodes(item)
+      @entity_kinds_by_menu_item.fetch(item.name, []).select(&:visible?).flat_map do |kind|
+        attribute_nodes(kind, kind.attributes)
+      end
+    end
+
+    def matching_nodes(item)
+      @entity_kinds_by_menu_item.fetch(item.name, []).select(&:visible?).flat_map do |kind|
+        matching_entity_nodes(kind, kind.attributes)
       end
     end
 
@@ -129,13 +178,6 @@ module Settings
       when Hash then engine.url_for(item.url.merge(params, only_path: true))
       when Symbol then engine.public_send(item.url, **params)
       else engine.url_for(item.url)
-      end
-    end
-
-    def entity_kind_nodes(item)
-      @entity_kinds_by_menu_item.fetch(item.name, []).select(&:visible?).flat_map do |kind|
-        attributes = kind.attributes
-        [*attribute_nodes(kind, attributes), *matching_entity_nodes(kind, attributes)]
       end
     end
 
@@ -209,6 +251,27 @@ module Settings
 
     def plain_text(html)
       view_context.strip_tags(html)&.squish.presence
+    end
+
+    # The tree depends on the locale, the menu items the admin may see, the
+    # state of the settings shown only in certain configurations, the
+    # installed enterprise features and the registered pages and entity
+    # kinds. Changed entities are covered by the expiry time alone.
+    def cache_key
+      [
+        "settings/search-tree",
+        I18n.locale,
+        User.current.id,
+        Setting.cache_key,
+        enterprise_tokens_key,
+        @hidden_menu_items.join(","),
+        @pages.map(&:key).join(","),
+        @entity_kinds.map(&:key).join(",")
+      ].join("/")
+    end
+
+    def enterprise_tokens_key
+      EnterpriseToken.active_tokens.map { "#{it.id}-#{it.updated_at.to_i}" }.sort.join(",")
     end
 
     def visible_menu_item?(item)
