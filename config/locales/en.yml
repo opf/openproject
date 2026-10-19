@@ -3747,8 +3747,8 @@ en:
         one: "This form is used by %{count} type. Changes apply to it."
         other: "This form is used by %{count} types. Changes apply to all of them."
       used_by_variants:
-        one: "This form is used by %{count} type or variant."
-        other: "This form is used by %{count} types and variants."
+        one: "This form is used by %{count} type or variant. Changes apply to it."
+        other: "This form is used by %{count} types and variants. Changes apply to all of them."
     wizard:
       choice:
         existing:
@@ -7473,7 +7473,7 @@ en:
         defaults: "Defaults"
         details: "Details"
         form_configuration: "Form"
-        pdf: "PDF generation"
+        pdf: "Generate PDF"
         project_attributes: "Project attributes"
         projects: "Projects"
         start: "Start"
@@ -8581,8 +8581,8 @@ en:
         one: "This workflow is used by %{count} type. Changes apply to it."
         other: "This workflow is used by %{count} types. Changes apply to all of them."
       used_by_variants:
-        one: "This workflow is used by %{count} type or variant."
-        other: "This workflow is used by %{count} types and variants."
+        one: "This workflow is used by %{count} type or variant. Changes apply to it."
+        other: "This workflow is used by %{count} types and variants. Changes apply to all of them."
     wizard:
       choice:
         existing:
