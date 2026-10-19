@@ -310,13 +310,13 @@
       }
     },
     "_links": {
-      "self": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1" },
-      "html": { "href": "https://github.com/test_user/webhooks_playground/pull/1" },
-      "issue": { "href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1" },
-      "comments": { "href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1/comments" },
-      "review_comments": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/comments" },
-      "review_comment": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/comments{/number}" },
-      "commits": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/commits" },
+      "self": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1"},
+      "html": {"href": "https://github.com/test_user/webhooks_playground/pull/1"},
+      "issue": {"href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1"},
+      "comments": {"href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1/comments"},
+      "review_comments": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/comments"},
+      "review_comment": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/comments{/number}"},
+      "commits": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/commits"},
       "statuses": {
         "href": "https://api.github.com/repos/test_user/webhooks_playground/statuses/07a21e0bc6f0dbf2fadbf51146e62a7ec96ec7ae"
       }
@@ -774,13 +774,13 @@
         }
       },
       "_links": {
-        "self": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1" },
-        "html": { "href": "https://github.com/test_user/webhooks_playground/pull/1" },
-        "issue": { "href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1" },
-        "comments": { "href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1/comments" },
-        "review_comments": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/comments" },
-        "review_comment": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/comments{/number}" },
-        "commits": { "href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/commits" },
+        "self": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1"},
+        "html": {"href": "https://github.com/test_user/webhooks_playground/pull/1"},
+        "issue": {"href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1"},
+        "comments": {"href": "https://api.github.com/repos/test_user/webhooks_playground/issues/1/comments"},
+        "review_comments": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/comments"},
+        "review_comment": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/comments{/number}"},
+        "commits": {"href": "https://api.github.com/repos/test_user/webhooks_playground/pulls/1/commits"},
         "statuses": {
           "href": "https://api.github.com/repos/test_user/webhooks_playground/statuses/07a21e0bc6f0dbf2fadbf51146e62a7ec96ec7ae"
         }

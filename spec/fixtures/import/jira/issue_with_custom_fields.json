@@ -62,7 +62,10 @@
         "value": "Turtle"
       }
     ],
-    "customfield_10280": ["Label A", "Label B"],
+    "customfield_10280": [
+      "Label A",
+      "Label B"
+    ],
     "customfield_10258": {
       "key": "JIRAUSER10000",
       "name": "e.xample",

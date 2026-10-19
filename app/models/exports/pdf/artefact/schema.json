@@ -68,15 +68,15 @@
         "heading": {
           "type": "object",
           "allOf": [
-            { "$ref": "#/$defs/font" },
-            { "$ref": "#/$defs/margin" }
+            {"$ref": "#/$defs/font"},
+            {"$ref": "#/$defs/margin"}
           ]
         },
         "item": {
           "type": "object",
           "allOf": [
-            { "$ref": "#/$defs/font" },
-            { "$ref": "#/$defs/margin" }
+            {"$ref": "#/$defs/font"},
+            {"$ref": "#/$defs/margin"}
           ]
         }
       }
@@ -106,9 +106,7 @@
           "x-example": {
             "subject": {
               "size": 10,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_bottom": 10
             }
           },
@@ -139,9 +137,7 @@
                 "border_width": 0.25
               },
               "cell_label": {
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               }
             }
           },
@@ -170,9 +166,7 @@
           "x-example": {
             "attributes_group": {
               "size": 12,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_top": 2,
               "margin_bottom": 4
             }
@@ -190,9 +184,7 @@
               "properties": {
                 "height": {
                   "title": "Line height of the horizontal rule",
-                  "examples": [
-                    1
-                  ],
+                  "examples": [1],
                   "$ref": "#/$defs/measurement"
                 },
                 "color": {
@@ -218,9 +210,7 @@
           "x-example": {
             "markdown_label": {
               "size": 12,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_top": 2,
               "margin_bottom": 4
             }
@@ -260,21 +250,15 @@
           "x-example": {
             "subject_level_1": {
               "size": 14,
-              "styles": [
-                "bold"
-              ]
+              "styles": ["bold"]
             },
             "subject_level_2": {
               "size": 13,
-              "styles": [
-                "bold"
-              ]
+              "styles": ["bold"]
             },
             "subject_level_3": {
               "size": 12,
-              "styles": [
-                "bold"
-              ]
+              "styles": ["bold"]
             }
           },
           "allOf": [
@@ -308,7 +292,7 @@
         "page_break_threshold": {
           "title": "Page break threshold",
           "description": "Start the budgets section on a new page unless at least this much vertical space is left",
-          "examples": [ 300 ],
+          "examples": [300],
           "$ref": "#/$defs/measurement"
         },
         "rule": {
@@ -325,7 +309,7 @@
           "properties": {
             "height": {
               "title": "Line height of a single line of the rule",
-              "examples": [ 0.5 ],
+              "examples": [0.5],
               "$ref": "#/$defs/measurement"
             },
             "color": {
@@ -334,7 +318,7 @@
             },
             "spacing": {
               "title": "Vertical gap between the two lines of the rule",
-              "examples": [ 2 ],
+              "examples": [2],
               "$ref": "#/$defs/measurement"
             }
           }
@@ -351,11 +335,11 @@
                 "padding_bottom": 2
               },
               "cell_header": {
-                "styles": [ "bold" ]
+                "styles": ["bold"]
               },
               "cell_budget_heading": {
                 "color": "175A8E",
-                "styles": [ "bold" ]
+                "styles": ["bold"]
               },
               "cell_group_heading": {
                 "padding_top": 8
@@ -364,7 +348,7 @@
                 "padding_top": 8
               },
               "cell_total": {
-                "styles": [ "bold" ]
+                "styles": ["bold"]
               }
             }
           },
@@ -426,9 +410,7 @@
           "x-example": {
             "group_heading": {
               "size": 11,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_bottom": 10
             }
           },
@@ -455,15 +437,11 @@
               },
               "cell_header": {
                 "size": 9,
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               },
               "cell_sums": {
                 "size": 8,
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               }
             }
           },
@@ -558,9 +536,7 @@
       "properties": {
         "logo_height": {
           "title": "Height of the logo in the page header",
-          "examples": [
-            25
-          ],
+          "examples": [25],
           "$ref": "#/$defs/measurement"
         }
       },
@@ -606,7 +582,7 @@
             }
           },
           "properties": {
-           },
+          },
           "allOf": [
             {
               "$ref": "#/$defs/font"
@@ -662,9 +638,7 @@
           "x-example": {
             "attributes_group": {
               "size": 12,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_top": 2,
               "margin_bottom": 4
             }
@@ -682,9 +656,7 @@
               "properties": {
                 "height": {
                   "title": "Line height of the horizontal rule",
-                  "examples": [
-                    1
-                  ],
+                  "examples": [1],
                   "$ref": "#/$defs/measurement"
                 },
                 "color": {
@@ -721,9 +693,7 @@
                 "border_width": 0.25
               },
               "cell_label": {
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               }
             }
           },
@@ -764,9 +734,7 @@
       "properties": {
         "offset": {
           "title": "Offset in title",
-          "examples": [
-            1
-          ],
+          "examples": [1],
           "$ref": "#/$defs/measurement_signed"
         }
       },
@@ -805,9 +773,7 @@
               "properties": {
                 "height": {
                   "title": "Line height of the horizontal rule",
-                  "examples": [
-                    1
-                  ],
+                  "examples": [1],
                   "$ref": "#/$defs/measurement"
                 },
                 "color": {
@@ -1154,9 +1120,7 @@
             "blockquote": {
               "background_color": "f4f9ff",
               "size": 14,
-              "styles": [
-                "italic"
-              ],
+              "styles": ["italic"],
               "color": "0f3b66",
               "border_color": "b8d6f4",
               "border_width": 1,
@@ -1250,9 +1214,7 @@
       "type": "string",
       "title": "Color",
       "description": "A color in RRGGBB format",
-      "examples": [
-        "F0F0F0"
-      ],
+      "examples": ["F0F0F0"],
       "x-example": {
         "color": "F0F0F0"
       },
@@ -1298,9 +1260,7 @@
       "type": "string",
       "title": "Font Style",
       "description": "Style of the font to use",
-      "examples": [
-        "bold"
-      ],
+      "examples": ["bold"],
       "enum": [
         "bold",
         "italic",
@@ -1335,9 +1295,7 @@
           "title": "Page layout",
           "description": "The layout of a page",
           "type": "string",
-          "examples": [
-            "portrait"
-          ],
+          "examples": ["portrait"],
           "enum": [
             "portrait",
             "landscape"
@@ -1347,9 +1305,7 @@
           "type": "string",
           "title": "Page size",
           "description": "The size of a page",
-          "examples": [
-            "EXECUTIVE"
-          ],
+          "examples": ["EXECUTIVE"],
           "enum": [
             "EXECUTIVE",
             "TABLOID",
@@ -1426,9 +1382,7 @@
       "x-example": {
         "page_heading": {
           "size": 14,
-          "styles": [
-            "bold"
-          ],
+          "styles": ["bold"],
           "margin_bottom": 10
         }
       },
@@ -1454,16 +1408,12 @@
       "properties": {
         "offset": {
           "title": "Offset position from page bottom",
-          "examples": [
-            -30
-          ],
+          "examples": [-30],
           "$ref": "#/$defs/measurement_signed"
         },
         "spacing": {
           "title": "Minimum spacing between different page footers",
-          "examples": [
-            8
-          ],
+          "examples": [8],
           "$ref": "#/$defs/measurement"
         }
       },
@@ -1489,9 +1439,7 @@
         },
         "offset": {
           "title": "Offset position from page top",
-          "examples": [
-            -30
-          ],
+          "examples": [-30],
           "$ref": "#/$defs/measurement_signed"
         }
       },
@@ -1521,9 +1469,7 @@
         },
         "offset": {
           "title": "Offset position from page top",
-          "examples": [
-            -30
-          ],
+          "examples": [-30],
           "$ref": "#/$defs/measurement_signed"
         }
       }
@@ -1623,9 +1569,7 @@
     "alignment": {
       "title": "Alignment",
       "description": "How the element should be aligned",
-      "examples": [
-        "center"
-      ],
+      "examples": ["center"],
       "type": "string",
       "enum": [
         "left",
@@ -1803,9 +1747,7 @@
       "title": "Markdown header",
       "x-example": {
         "header": {
-          "styles": [
-            "bold"
-          ],
+          "styles": ["bold"],
           "padding_top": "2mm",
           "padding_bottom": "2mm"
         },
@@ -1818,9 +1760,7 @@
         },
         "header_2": {
           "size": 12,
-          "styles": [
-            "bold"
-          ]
+          "styles": ["bold"]
         }
       },
       "allOf": [
@@ -1866,9 +1806,7 @@
       "x-example": {
         "table_header": {
           "size": 9,
-          "styles": [
-            "bold"
-          ]
+          "styles": ["bold"]
         }
       },
       "properties": {
@@ -1906,9 +1844,7 @@
         "align": {
           "title": "Horizontal alignment",
           "description": "Set the horizontal alignment of the content in a cell",
-          "examples": [
-            "center"
-          ],
+          "examples": ["center"],
           "type": "string",
           "enum": [
             "left",
@@ -1919,9 +1855,7 @@
         "valign": {
           "title": "Vertical alignment",
           "description": "Border width only on the left side",
-          "examples": [
-            "middle"
-          ],
+          "examples": ["middle"],
           "type": "string",
           "enum": [
             "top",

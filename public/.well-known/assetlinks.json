@@ -1,8 +1,10 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "org.openproject.app",
-    "sha256_cert_fingerprints": ["45:FE:6C:9C:94:21:B8:E4:4A:69:BA:5E:C1:22:9C:3D:01:6B:6A:69:22:CF:25:F6:42:78:5E:20:7B:25:99:33"]
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.openproject.app",
+      "sha256_cert_fingerprints": ["45:FE:6C:9C:94:21:B8:E4:4A:69:BA:5E:C1:22:9C:3D:01:6B:6A:69:22:CF:25:F6:42:78:5E:20:7B:25:99:33"]
+    }
   }
-}]
+]

@@ -1,6 +1,6 @@
 {
   "action": "handle_hook",
-  "changes": { "body": { "from": "${old_body}" } },
+  "changes": {"body": {"from": "${old_body}"}},
   "issue": {
     "url": "https://api.github.com/repos/test_user/webhooks_playground/issues/1",
     "repository_url": "https://api.github.com/repos/test_user/webhooks_playground",
@@ -229,7 +229,7 @@
   "hook_name": "github",
   "payload": {
     "action": "edited",
-    "changes": { "body": { "from": "${old_body}" } },
+    "changes": {"body": {"from": "${old_body}"}},
     "issue": {
       "url": "https://api.github.com/repos/test_user/webhooks_playground/issues/1",
       "repository_url": "https://api.github.com/repos/test_user/webhooks_playground",

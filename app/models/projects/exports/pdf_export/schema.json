@@ -76,23 +76,17 @@
       "properties": {
         "spacing": {
           "title": "Minimum spacing between logo and page header text",
-          "examples": [
-            20
-          ],
+          "examples": [20],
           "$ref": "#/$defs/measurement"
         },
         "offset": {
           "title": "Offset position from page top",
-          "examples": [
-            6.5
-          ],
+          "examples": [6.5],
           "$ref": "#/$defs/measurement"
         },
         "logo_height": {
           "title": "Height of the logo in the page header",
-          "examples": [
-            25
-          ],
+          "examples": [25],
           "$ref": "#/$defs/measurement"
         },
         "border": {
@@ -146,16 +140,12 @@
           "properties": {
             "spacing": {
               "title": "Minimum spacing between title and heading",
-              "examples": [
-                10
-              ],
+              "examples": [10],
               "$ref": "#/$defs/measurement"
             },
             "max_height": {
               "title": "Maximum height of the block",
-              "examples": [
-                30
-              ],
+              "examples": [30],
               "$ref": "#/$defs/measurement"
             }
           },
@@ -173,17 +163,13 @@
               "spacing": 10,
               "size": 32,
               "color": "414d5f",
-              "styles": [
-                "bold"
-              ]
+              "styles": ["bold"]
             }
           },
           "properties": {
             "spacing": {
               "title": "Minimum spacing between heading and subheading",
-              "examples": [
-                10
-              ],
+              "examples": [10],
               "$ref": "#/$defs/measurement"
             }
           },
@@ -202,24 +188,18 @@
               "max_height": 20,
               "size": 32,
               "color": "414d5f",
-              "styles": [
-                "bold"
-              ]
+              "styles": ["bold"]
             }
           },
           "properties": {
             "max_height": {
               "title": "Maximum height of the block",
-              "examples": [
-                30
-              ],
+              "examples": [30],
               "$ref": "#/$defs/measurement"
             },
             "spacing": {
               "title": "Minimum spacing between dates and subheading",
-              "examples": [
-                10
-              ],
+              "examples": [10],
               "$ref": "#/$defs/measurement"
             }
           },
@@ -237,17 +217,13 @@
               "max_height": 30,
               "size": 10,
               "color": "414d5f",
-              "styles": [
-                "italic"
-              ]
+              "styles": ["italic"]
             }
           },
           "properties": {
             "max_height": {
               "title": "Maximum height of the block",
-              "examples": [
-                30
-              ],
+              "examples": [30],
               "$ref": "#/$defs/measurement"
             }
           },
@@ -273,9 +249,7 @@
       "properties": {
         "offset": {
           "title": "Offset position from page bottom",
-          "examples": [
-            30
-          ],
+          "examples": [30],
           "$ref": "#/$defs/measurement"
         }
       },
@@ -299,23 +273,17 @@
       "properties": {
         "spacing": {
           "title": "Minimum spacing between logo and page header text",
-          "examples": [
-            20
-          ],
+          "examples": [20],
           "$ref": "#/$defs/measurement"
         },
         "offset": {
           "title": "Offset position from page top",
-          "examples": [
-            6
-          ],
+          "examples": [6],
           "$ref": "#/$defs/measurement"
         },
         "height": {
           "title": "Line height of the border",
-          "examples": [
-            25
-          ],
+          "examples": [25],
           "$ref": "#/$defs/measurement"
         },
         "color": {
@@ -345,9 +313,7 @@
           },
           "item_level_1": {
             "size": 10,
-            "styles": [
-              "bold"
-            ],
+            "styles": ["bold"],
             "margin_top": 4,
             "margin_bottom": 4
           },
@@ -490,9 +456,7 @@
           "x-example": {
             "attributes_group": {
               "size": 12,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_top": 2,
               "margin_bottom": 4
             }
@@ -510,9 +474,7 @@
               "properties": {
                 "height": {
                   "title": "Line height of the horizontal rule",
-                  "examples": [
-                    1
-                  ],
+                  "examples": [1],
                   "$ref": "#/$defs/measurement"
                 },
                 "color": {
@@ -549,9 +511,7 @@
                 "border_width": 0.25
               },
               "cell_label": {
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               }
             }
           },
@@ -608,9 +568,7 @@
           "x-example": {
             "group_heading": {
               "size": 11,
-              "styles": [
-                "bold"
-              ],
+              "styles": ["bold"],
               "margin_bottom": 10
             }
           },
@@ -637,15 +595,11 @@
               },
               "cell_header": {
                 "size": 9,
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               },
               "cell_sums": {
                 "size": 8,
-                "styles": [
-                  "bold"
-                ]
+                "styles": ["bold"]
               }
             }
           },
@@ -990,9 +944,7 @@
             "blockquote": {
               "background_color": "f4f9ff",
               "size": 14,
-              "styles": [
-                "italic"
-              ],
+              "styles": ["italic"],
               "color": "0f3b66",
               "border_color": "b8d6f4",
               "border_width": 1,
@@ -1086,9 +1038,7 @@
       "type": "string",
       "title": "Color",
       "description": "A color in RRGGBB format",
-      "examples": [
-        "F0F0F0"
-      ],
+      "examples": ["F0F0F0"],
       "x-example": {
         "color": "F0F0F0"
       },
@@ -1134,9 +1084,7 @@
       "type": "string",
       "title": "Font Style",
       "description": "Style of the font to use",
-      "examples": [
-        "bold"
-      ],
+      "examples": ["bold"],
       "enum": [
         "bold",
         "italic",
@@ -1171,9 +1119,7 @@
           "title": "Page layout",
           "description": "The layout of a page",
           "type": "string",
-          "examples": [
-            "portrait"
-          ],
+          "examples": ["portrait"],
           "enum": [
             "portrait",
             "landscape"
@@ -1183,9 +1129,7 @@
           "type": "string",
           "title": "Page size",
           "description": "The size of a page",
-          "examples": [
-            "EXECUTIVE"
-          ],
+          "examples": ["EXECUTIVE"],
           "enum": [
             "EXECUTIVE",
             "TABLOID",
@@ -1262,9 +1206,7 @@
       "x-example": {
         "page_heading": {
           "size": 14,
-          "styles": [
-            "bold"
-          ],
+          "styles": ["bold"],
           "margin_bottom": 10
         }
       },
@@ -1290,16 +1232,12 @@
       "properties": {
         "offset": {
           "title": "Offset position from page bottom",
-          "examples": [
-            -30
-          ],
+          "examples": [-30],
           "$ref": "#/$defs/measurement_signed"
         },
         "spacing": {
           "title": "Minimum spacing between different page footers",
-          "examples": [
-            8
-          ],
+          "examples": [8],
           "$ref": "#/$defs/measurement"
         }
       },
@@ -1325,9 +1263,7 @@
         },
         "offset": {
           "title": "Offset position from page top",
-          "examples": [
-            -30
-          ],
+          "examples": [-30],
           "$ref": "#/$defs/measurement_signed"
         }
       },
@@ -1357,9 +1293,7 @@
         },
         "offset": {
           "title": "Offset position from page top",
-          "examples": [
-            -30
-          ],
+          "examples": [-30],
           "$ref": "#/$defs/measurement_signed"
         }
       }
@@ -1459,9 +1393,7 @@
     "alignment": {
       "title": "Alignment",
       "description": "How the element should be aligned",
-      "examples": [
-        "center"
-      ],
+      "examples": ["center"],
       "type": "string",
       "enum": [
         "left",
@@ -1639,9 +1571,7 @@
       "title": "Markdown header",
       "x-example": {
         "header": {
-          "styles": [
-            "bold"
-          ],
+          "styles": ["bold"],
           "padding_top": "2mm",
           "padding_bottom": "2mm"
         },
@@ -1654,9 +1584,7 @@
         },
         "header_2": {
           "size": 12,
-          "styles": [
-            "bold"
-          ]
+          "styles": ["bold"]
         }
       },
       "allOf": [
@@ -1702,9 +1630,7 @@
       "x-example": {
         "table_header": {
           "size": 9,
-          "styles": [
-            "bold"
-          ]
+          "styles": ["bold"]
         }
       },
       "properties": {
@@ -1742,9 +1668,7 @@
         "align": {
           "title": "Horizontal alignment",
           "description": "Set the horizontal alignment of the content in a cell",
-          "examples": [
-            "center"
-          ],
+          "examples": ["center"],
           "type": "string",
           "enum": [
             "left",
@@ -1755,9 +1679,7 @@
         "valign": {
           "title": "Vertical alignment",
           "description": "Border width only on the left side",
-          "examples": [
-            "middle"
-          ],
+          "examples": ["middle"],
           "type": "string",
           "enum": [
             "top",
