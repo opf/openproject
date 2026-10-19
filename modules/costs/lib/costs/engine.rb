@@ -256,25 +256,7 @@ module Costs
       "#{hourly_rates_by_principal(principal_id)}/#{id}"
     end
 
-    add_api_path :time_entries do
-      "#{root}/time_entries"
-    end
-
-    add_api_path :time_entry do |id|
-      "#{time_entries}/#{id}"
-    end
-
-    add_api_path :create_time_entry_form do
-      "#{time_entries}/form"
-    end
-
-    add_api_path :time_entry_form do |id|
-      "#{time_entry(id)}/form"
-    end
-
-    add_api_path :time_entry_schema do
-      "#{time_entries}/schema"
-    end
+    add_api_resource_paths :time_entry
 
     add_api_path :time_entries_activity do |activity_id|
       "#{time_entries}/activities/#{activity_id}"
