@@ -70,6 +70,30 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
     end
   end
 
+  describe "navigation between reports" do
+    let!(:previous_sprint) do
+      create(:sprint,
+             project:,
+             name: "Sprint 41",
+             start_date: 20.days.ago,
+             finish_date: 10.days.ago,
+             status: :completed)
+    end
+
+    before { visit_sprint_report }
+
+    it "navigates to the next report in the sprint list order" do
+      expect(page).to have_test_selector("sprint-report-next")
+      expect(page).to have_no_test_selector("sprint-report-previous")
+
+      click_on "Next"
+
+      expect(page).to have_heading("Sprint 41 report", level: 2)
+      expect(page).to have_test_selector("sprint-report-previous", text: "Previous")
+      expect(page).to have_no_test_selector("sprint-report-next")
+    end
+  end
+
   describe "widget area", with_ee: %i[sprint_report_pro_widgets] do
     before { visit_sprint_report }
 

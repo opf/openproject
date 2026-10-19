@@ -239,6 +239,9 @@ en:
       shared_sprint_warning_banner: "This is a shared sprint. You do not have the necessary permissions to edit it."
 
     sprint_reports:
+      navigation_component:
+        next: "Next"
+        previous: "Previous"
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
