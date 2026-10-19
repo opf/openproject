@@ -56,7 +56,8 @@ The search runs on the server. The query is split into words, ignoring case, pun
 "self registration" finds "Self-registration" and "realise" finds "Réalisé". A node matches when every
 query word is contained in the words of the node's label, its description (the setting's caption) or the
 labels of its ancestors. All nodes below a matching node stay visible, so "passwords" lists every setting
-of the passwords tab.
+of the passwords tab. The query is cut at 64 characters and 5 words, as each word runs an ILIKE per
+entity kind.
 
 The tree without the entities matching a query (the menu structure, all settings and the attributes of
 the entity kinds) is cached for every admin, locale and state of the settings, as building it is

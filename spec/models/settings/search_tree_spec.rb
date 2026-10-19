@@ -164,6 +164,14 @@ RSpec.describe Settings::SearchTree do
       it "keeps only matching settings regardless of word order and punctuation" do
         expect(leaf_labels(tree.nodes)).to eq ["Self-registration"]
       end
+
+      it "cuts the query at a length and word count" do
+        tree = described_class.new(vc_test_controller.view_context, query: "title " * 20)
+
+        expect(tree.query_words).to eq ["title"] * described_class::MAX_QUERY_WORDS
+        expect(described_class.new(vc_test_controller.view_context, query: "t" * 10_000).query_words)
+          .to eq ["t" * described_class::MAX_QUERY_LENGTH]
+      end
     end
 
     context "with a query matching a tab" do
