@@ -114,14 +114,14 @@ fr:
       outside_dates:
         description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travaux, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} disponible · %{scheduled} prévu"
         description: L'utilisateur sélectionné, %{user}, serait affecté à des tâches en dehors de ses heures de travail pendant cette période.
-        hidden_work: Autres relations
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor} % de disponibilité pour des projets)"
         schedule_change: jusqu'au %{date}, puis %{schedule}
         schedule_note: Cet utilisateur utilise l'adresse %{schedule}.
         submit: Attribuer des heures supplémentaires
         title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: Attribuer
       success_message: Ressource attribuée.
@@ -261,7 +261,8 @@ fr:
       no_work_schedule: Aucun horaire de travail n'est prévu pour cet utilisateur
       overbooked: Cet utilisateur est en surcharge d'affectation pendant la période sélectionnée.
       overbooked_tooltip:
-        range: "%{dates} : %{scheduled} planifiées, %{available} disponibles"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Ajouter un utilisateur
     view_types:

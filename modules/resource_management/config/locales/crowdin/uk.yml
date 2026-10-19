@@ -126,14 +126,14 @@ uk:
       outside_dates:
         description: Вибрані дати ресурсу, %{resource_dates}, виходять за межі термінів виконання пакета робіт, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} доступно · %{scheduled} заплановано"
         description: Вибраному користувачу %{user} у цей період буде призначено більше годин роботи, ніж передбачено його робочим часом.
-        hidden_work: Інші виділення ресурсів
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% доступно для роботи над проєктом)"
         schedule_change: до %{date}, потім %{schedule}
         schedule_note: Цей користувач працює %{schedule}.
         submit: Виділити понаднормовий час
         title: Хочете виділити цьому користувачу понаднормовий час?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: Виділити
       success_message: Ресурси виділено.
@@ -273,7 +273,8 @@ uk:
       no_work_schedule: Для цього користувача не створено жодного розкладу роботи
       overbooked: На вибраний період цьому користувачу призначено більше годин, ніж доступно.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} заплановано, %{available} доступно"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Додати користувача
     view_types:
