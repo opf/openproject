@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,7 +73,7 @@ RSpec.describe "Workflows index", :js do
 
   def all_workflows = ["Bug flow", "Hardware flow", "Phase flow"]
 
-  def results = "#workflows-index-results-component"
+  def results = "#workflows-index-table-component"
 
   def row_for(name)
     page.find(".Box-row") { |row| row.has_css?(".name a", text: name, exact_text: true) }

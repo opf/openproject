@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -278,6 +277,10 @@ module OpenProject::Meeting
 
     add_api_path :meeting_agenda_item_outcomes do |agenda_item_id, meeting_id: nil|
       "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
+    end
+
+    add_api_path :meeting_agenda_item_move_to_next_meeting do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/move_to_next_meeting"
     end
 
     add_api_path :meeting_agenda_item_upvote do |id, meeting_id: nil|

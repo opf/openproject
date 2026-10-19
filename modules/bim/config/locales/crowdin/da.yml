@@ -106,7 +106,7 @@ da:
     not_recommended: ikke anbefalet
     recommended: Anbefalet
     x_bcf_issues:
-      one: Et BCF- problem
+      one: "%{count} BCF issue"
       other: "%{count} BCF sager"
       zero: Ingen BCF-problemer
   bim:

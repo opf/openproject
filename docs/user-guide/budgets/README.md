@@ -20,7 +20,7 @@ Then, you will assign work packages to a budgets. If you log time or costs to th
 | [Add planned unit costs](#add-planned-unit-costs)                       | How to add planned unit costs to a budget.                               |
 | [Add planned labor costs](#add-planned-labor-costs)                     | How to add planned labor costs to a budget.                              |
 | [Assign a work package to a budget](#assign-a-work-package-to-a-budget) | How to assign a work package to book time and costs to a project budget. |
-| [View details and update budget](#view-details-and-update-budget)       | How to display the details, update, copy or delete a project budget.     |
+| [View details and update budget](#view-details-and-update-budget)       | How to display the details, update, duplicate or delete a project budget. |
 | [Frequently asked questions (FAQ)](#frequently-asked-questions-faq)     | What are frequent questions regarding budgets?                           |
 
 ## Create a project budget
@@ -113,10 +113,10 @@ Click on the subject to open the details view of the budget.
 
 You will get and overview of planned as well as spent costs and the available costs for your variable rate budget. Also, the total progress of the budget (ratio spent) is displayed. Furthermore the fixed rate is shown from which the costs for labor and unit costs are being calculated.
 
-In the top right corner you can update, copy or delete a budget by clicking the respective button: 
+In the top right corner you can update, duplicate or delete a budget by clicking the respective button: 
 
 - **Update** the budget and make changes to e.g. planned unit costs or planned labor costs.
-- **Copy** the budget to use it to create a new budget based on the configurations for this budget.
+- **Duplicate** the budget to use it to create a new budget based on the configurations for this budget.
 - **Delete** the budget.
 
 The detailed budget view will show the following:

@@ -40,7 +40,9 @@ fa:
         view: پیوند پویای یک نما که با Macro درج شده است.
         work_package: پیوند پویای یک بسته کاری که با Macro درج شده است.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: برای فعال‌سازی حساب خود لطفاً با <em>%{login}</em> وارد شوید.
+    continue_with_provider: Continue with %{name}
     delete: حذف حساب کاربری
     delete_confirmation: مطمئن هستید که می خواهید حساب کاربری را حذف کنید؟
     deletion_info:
@@ -65,7 +67,9 @@ fa:
     error_self_registration_limited_provider: 'ثبت‌نام کاربر برای ارائه‌دهنده ورود یکپارچه ''%{name}'' محدود شده است. لطفاً از مدیر بخواهید حساب شما را فعال کند یا محدودیت ثبت‌نام شخصی این ارائه‌دهنده را تغییر دهد.
 
       '
-    login_with_auth_provider: یا با حساب موجود خود وارد سیستم شوید
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: ادامه برای ورود
     omniauth_direct_login_redirecting: در حال هدایت شما به ارائه‌دهنده هویت…
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
@@ -201,11 +205,17 @@ fa:
         row_count: تعداد ردیف‌ها
         widgets: ویجت‌ها
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: کاربران گروه
         identity_url: نشانی هویت
         organizational_unit: واحد سازمانی
         parent: گروه والد
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: واحد سازمانی
         parent: گروه والد
       import/jira:
@@ -435,6 +445,7 @@ fa:
       user:
         admin: مدیر
         auth_source: منبع احراز هویت
+        avatar_type: Avatar type
         consented_at: زمان اعلام رضایت
         current_password: گذرواژه فعلی
         department: واحد سازمانی
@@ -448,7 +459,7 @@ fa:
         last_name: نام خانوادگی
         ldap_auth_source: اتصال LDAP
         new_password: رمز عبور جديد
-        password_confirmation: تاییدیه
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: بخش
       user_non_working_time:
@@ -458,12 +469,14 @@ fa:
         auto_hide_popups: پنهان‌سازی خودکار بنرهای موفقیت
         auto_hide_popups_caption: در صورت فعال‌بودن، بنرهای سبز موفقیت پس از ۵ ثانیه به‌طور خودکار ناپدید می‌شوند.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: هشدارهای به‌روزرسانی
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: به‌روزرسانی ظاهر
         button_update_user_information: به‌روزرسانی پروفایل
         comments_sorting: نمایش فعالیت بسته کاری مرتب‌شده بر اساس
         daily_reminders: یادآوری‌های روزانه
+        date_format: Date format
         disable_keyboard_shortcuts: غیرفعال‌کردن میانبرهای صفحه‌کلید
         dismissed_enterprise_banners: بنرهای Enterprise پنهان‌شده
         force_dark_theme_contrast: اجبار کنتراست بالا در حالت تیره
@@ -480,6 +493,7 @@ fa:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: حالت رنگ
+        time_format: Time format
         time_zone: منطقه زمانی
         warn_on_leaving_unsaved: هنگام ترک بسته کاری با تغییرات ذخیره‌نشده به من هشدار بده
         workdays: روزهای کاری
@@ -1001,8 +1015,8 @@ fa:
               numeric: عدد (برای مثال '1')
               requirements_not_met: 'باید شامل نویسه‌هایی از انواع زیر باشد: %{rules}'
               reused:
-                one: قبلاً استفاده شده است. لطفاً گزینه‌ای متفاوت از آخرین گذرواژه خود انتخاب کنید.
-                other: قبلاً استفاده شده است. لطفاً گزینه‌ای متفاوت از %{count} گذرواژه اخیر خود انتخاب کنید.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: نویسه ویژه (برای مثال '%')
               uppercase: حرف بزرگ (برای مثال 'A')
             password_confirmation:
@@ -1106,8 +1120,8 @@ fa:
       template:
         body: 'لطفاً فیلدهای زیر را بررسی کنید:'
         header:
-          one: ۱ خطا مانع ذخیره این %{model} شد
-          other: "%{count} خطا مانع ذخیره این %{model} شدند"
+          one: "%{count} error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: اقدام
@@ -1749,26 +1763,26 @@ fa:
             title: لطفاً مطمئن شوید نسخه پشتیبان دارید!
           parts:
             issues:
-              one: ۱ Issue
-              other: "%{count} Issue"
+              one: "%{count} issue"
+              other: "%{count} issues"
             jobs:
-              one: ۱ کار
-              other: "%{count} کار"
+              one: "%{count} job"
+              other: "%{count} jobs"
             projects:
-              one: ۱ پروژه
-              other: "%{count} پروژه"
+              one: "%{count} project"
+              other: "%{count} projects"
             statuses:
-              one: ۱ وضعیت
-              other: "%{count} وضعیت"
+              one: "%{count} status"
+              other: "%{count} statuses"
             types:
-              one: ۱ نوع
-              other: "%{count} نوع"
+              one: "%{count} type"
+              other: "%{count} types"
             users:
-              one: ۱ کاربر
-              other: "%{count} کاربر"
+              one: "%{count} user"
+              other: "%{count} users"
             work_packages:
-              one: ۱ بسته کاری
-              other: "%{count} بسته کاری"
+              one: "%{count} work package"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: می‌دانم که این بازگردانی داده‌ها را برای همیشه حذف می‌کند
             description: این کار همه اشیای واردشده، از جمله کل پروژه‌ها، را حذف می‌کند.
@@ -1833,8 +1847,8 @@ fa:
               caption: انتخاب کنید چه چیزی می‌خواهید به OpenProject وارد شود
               caption_done: تکمیل‌شده
               caption_done_description:
-                one: ۱ پروژه به‌عنوان دامنه انتخاب شده است
-                other: "%{count} پروژه به‌عنوان دامنه انتخاب شده‌اند"
+                one: "%{count} project selected as scope"
+                other: "%{count} projects selected as scope"
               description: از داده‌های موجود دریافت‌شده از نمونه میزبان Jira، موارد موردنظر برای Import را انتخاب کنید.
               elements:
                 custom_fields: زیرمجموعه‌ای از فیلدهای سفارشی
@@ -2120,6 +2134,10 @@ fa:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(از طریق: %{source})"
         title: عضویت‌ها
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: برای اطلاعات بیشتر صفحه یکپارچه‌سازی‌ها و Pluginهای ما را ببینید.
       no_results_title_text: در حال حاضر هیچ Pluginای نصب نشده است.
@@ -2133,8 +2151,8 @@ fa:
         confirm_button: آزادکردن رزرو شناسه
         description: آزادکردن رزرو این شناسه پروژه قابل بازگشت نیست. پیوندهای خارجی و یکپارچه‌سازی‌هایی که از آن استفاده می‌کنند دیگر Resolve نمی‌شوند و این نام برای استفاده هر پروژه جدیدی آزاد خواهد شد.
         description_with_work_packages:
-          one: آزادکردن رزرو این شناسه پروژه (و ۱ شناسه بسته کاری آن) قابل بازگشت نیست. پیوندهای خارجی و یکپارچه‌سازی‌هایی که از آن استفاده می‌کنند دیگر Resolve نمی‌شوند و این نام برای استفاده هر پروژه جدیدی آزاد خواهد شد.
-          other: آزادکردن رزرو این شناسه پروژه (و %{count} شناسه بسته کاری آن) قابل بازگشت نیست. پیوندهای خارجی و یکپارچه‌سازی‌هایی که از آن استفاده می‌کنند دیگر Resolve نمی‌شوند و این نام برای استفاده هر پروژه جدیدی آزاد خواهد شد.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: رزرو «%{identifier}» آزاد شود؟
         title: آزادکردن رزرو شناسه
       empty_body: وقتی شناسه یک پروژه تغییر می‌کند، شناسه قبلی در اینجا نمایش داده می‌شود تا زمانی که امن بود رزرو آن را آزاد کنید.
@@ -2262,8 +2280,8 @@ fa:
           error_unknown: نیازمند بازبینی دستی است
           error_used_in_past: در تاریخچه Handle پروژه‌ای دیگر رزرو شده است
           remaining_projects:
-            one: "... ۱ پروژه دیگر"
-            other: "... %{count} پروژه دیگر"
+            one: "... %{count} more project"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'شناسه‌های موجود %{project_count} پروژه الزامات شناسه‌های معنایی مبتنی بر پروژه را برآورده نمی‌کنند. OpenProject می‌تواند آن‌ها را به‌طور خودکار مطابق نمونه‌های زیر به‌روزرسانی کند. برای به‌روزرسانی شناسه همه پروژه‌ها به این روش و فعال‌سازی شناسه‌های معنایی مبتنی بر پروژه، روی «تبدیل شناسه‌ها» کلیک کنید.
 
@@ -2345,8 +2363,8 @@ fa:
         label: 'نقش: %{role}'
         no_role: انتخاب نقش
         roles:
-          one: یک نقش انتخاب شده است
-          other: "%{count} نقش انتخاب شده‌اند"
+          one: "%{count} role selected"
+          other: "%{count} roles selected"
         title: انتخاب نقش‌ها
       status_button: وضعیت
       statuses_dialog:
@@ -2357,8 +2375,8 @@ fa:
         confirm: حذف
         description: حذف این وضعیت‌ها آن‌ها را برای این نوع غیرقابل استفاده می‌کند و گردش‌کارهای موجود را حذف خواهد کرد. مطمئنید می‌خواهید ادامه دهید؟
         heading:
-          one: ۱ وضعیت حذف شود؟
-          other: "%{count} وضعیت حذف شوند؟"
+          one: Remove %{count} status?
+          other: Remove %{count} statuses?
         title: حذف وضعیت‌ها
       tabs:
         always: انتقال‌های پیش‌فرض
@@ -2378,6 +2396,21 @@ fa:
         not_available: دستیار هوش مصنوعی در دسترس نیست.
         timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
         upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: محتوا
     is_active: در حال حاضر نمایش داده می‌شود
@@ -2794,9 +2827,9 @@ fa:
     text:
       failed: کپی پروژه «%{source_project_name}» به پروژه «%{target_project_name}» ناموفق بود.
       succeeded: پروژه «%{source_project_name}» به «%{target_project_name}» کپی شد.
-    title: کپی پروژه «%{source_project_name}»
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: یک شیء از این نوع
+      one: "%{count} object of this type"
       other: "%{count} شیء از این نوع"
       zero: هیچ شیئی از این نوع
   create_portfolio:
@@ -2836,7 +2869,7 @@ fa:
     admin:
       hierarchy:
         subitems:
-          one: ۱ زیرمورد
+          one: "%{count} sub-item"
           other: "%{count} زیرمورد"
           zero: بدون زیرمورد
       items:
@@ -2994,57 +3027,57 @@ fa:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: حدود ۱ ساعت
-        other: حدود %{count} ساعت
+        one: about %{count} hour
+        other: about %{count} hours
       about_x_months:
-        one: حدود ۱ ماه
-        other: حدود %{count} ماه
+        one: about %{count} month
+        other: about %{count} months
       about_x_years:
-        one: حدود ۱ سال
-        other: حدود %{count} سال
+        one: about %{count} year
+        other: about %{count} years
       almost_x_years:
-        one: تقریباً ۱ سال
-        other: تقریباً %{count} سال
+        one: almost %{count} year
+        other: almost %{count} years
       half_a_minute: نیم دقیقه
       less_than_x_minutes:
         one: کمتر از یک دقیقه
         other: کمتر از %{count} دقیقه
       less_than_x_seconds:
-        one: کمتر از ۱ ثانیه
-        other: کمتر از %{count} ثانیه
+        one: less than %{count} second
+        other: less than %{count} seconds
       over_x_years:
-        one: بیش از ۱ سال
-        other: بیش از %{count} سال
+        one: over %{count} year
+        other: over %{count} years
       x_days:
-        one: ۱ روز
-        other: "%{count} روز"
+        one: "%{count} day"
+        other: "%{count} days"
       x_hours:
-        one: ۱ ساعت
-        other: "%{count} ساعت"
+        one: "%{count} hour"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: ۱ ساعت
-        other: "%{count} ساعت"
+        one: "%{count} hr"
+        other: "%{count} hrs"
       x_minutes:
-        one: ۱ دقیقه
-        other: "%{count} دقیقه"
+        one: "%{count} minute"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: ۱ دقیقه
-        other: "%{count} دقیقه"
+        one: "%{count} min"
+        other: "%{count} mins"
       x_months:
-        one: ۱ ماه
-        other: "%{count} ماه"
+        one: "%{count} month"
+        other: "%{count} months"
       x_seconds:
-        one: ۱ ثانیه
-        other: "%{count} ثانیه"
+        one: "%{count} second"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: ۱ ثانیه
-        other: "%{count} ثانیه"
+        one: "%{count} s"
+        other: "%{count} s"
       x_weeks:
-        one: ۱ هفته
-        other: "%{count} هفته"
+        one: "%{count} week"
+        other: "%{count} weeks"
       x_years:
-        one: ۱ سال
-        other: "%{count} سال"
+        one: "%{count} year"
+        other: "%{count} years"
     units:
       day:
         one: روز
@@ -3194,8 +3227,8 @@ fa:
     teaser:
       description_html: به همه قابلیت‌های %{trial_plan} دسترسی دارید.
       title:
-        one: ۱ روز از توکن آزمایشی %{trial_plan} باقی مانده است
-        other: "%{count} روز از توکن آزمایشی %{trial_plan} باقی مانده است"
+        one: "%{count} day left of %{trial_plan} trial token"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'توکن Enterprise آزمایشی شما قبلاً دریافت شده است. لطفاً ایمیل‌های خود را برای توکن پیوست‌شده بررسی کنید. اگر به توکن جدید نیاز دارید با تیم پشتیبانی ما تماس بگیرید.
 
@@ -3580,15 +3613,15 @@ fa:
         name_placeholder: فیلتر بر اساس نام یا توضیحات فرم…
         projects_placeholder: فیلتر پروژه‌ها…
       projects_count:
-        one: ۱ پروژه
-        other: "%{count} پروژه"
+        one: "%{count} project"
+        other: "%{count} projects"
       types_and_variants_count: "%{types} (شامل %{variants})"
       types_count:
-        one: ۱ نوع
-        other: "%{count} نوع"
+        one: "%{count} type"
+        other: "%{count} types"
       variants_count:
-        one: ۱ گونه
-        other: "%{count} گونه"
+        one: "%{count} variant"
+        other: "%{count} variants"
     name:
       fallback: فرم
       implicit: فرم %{name}
@@ -3623,11 +3656,11 @@ fa:
         variants: گونه‌ها
       unused: هنوز هیچ نوع یا گونه‌ای از این فرم استفاده نمی‌کند.
       used_by_types:
-        one: این فرم در ۱ نوع استفاده می‌شود. تغییرات روی همان نوع اعمال می‌شوند.
-        other: این فرم در %{count} نوع استفاده می‌شود. تغییرات روی همه آن‌ها اعمال می‌شوند.
+        one: This form is used by %{count} type. Changes apply to it.
+        other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: این فرم در ۱ نوع یا گونه استفاده می‌شود.
-        other: این فرم در %{count} نوع و گونه استفاده می‌شود.
+        one: This form is used by %{count} type or variant.
+        other: This form is used by %{count} types and variants.
     wizard:
       choice:
         existing:
@@ -3637,8 +3670,48 @@ fa:
           caption: گروه‌های ویژگی فرم جدید را برای این نوع مرتب کنید.
           label: پیکربندی فرم جدید
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: در حال حاضر هیچ پستی برای انجمن وجود ندارد.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3663,6 +3736,8 @@ fa:
   groups:
     edit:
       synchronized_groups: گروه‌های همگام‌شده
+    form:
+      group_attributes: Group attributes
     index:
       description: با گروه‌بندی کاربران می‌توانید آن‌ها را به‌صورت عضو به پروژه‌های یکسان اضافه کنید یا نقش‌های سراسری یکسان به آن‌ها تخصیص دهید.
     memberships:
@@ -3688,6 +3763,10 @@ fa:
       leave_project: ترک پروژه
       no_favorite_projects: هیچ پروژه موردعلاقه‌ای ندارید.
       title: پروژه‌ها
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3736,6 +3815,31 @@ fa:
           new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید متنوعی است، از جمله:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
         learn_about: اطلاعات بیشتر درباره همه قابلیت‌های جدید
         missing: هنوز هیچ قابلیت برجسته‌ای وجود ندارد.
@@ -3771,6 +3875,7 @@ fa:
   journals:
     cause_descriptions:
       budget_deleted: بودجه حذف شده است
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} تغییر کرد (%{link})"
         csv: از CSV
@@ -3823,6 +3928,7 @@ fa:
       budget_deleted: بودجه حذف شده است
       dates_changed: تاریخ‌ها تغییر کردند
       default_attribute_written: ویژگی‌های فقط‌خواندنی نوشته شدند
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: واردشده
       meeting_agenda_item_added_html: "<strong>به جلسه اضافه شد</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>اضافه شد به</strong> %{meeting_title_information}"
@@ -4010,7 +4116,7 @@ fa:
   label_database_version: نسخه PostgreSQL
   label_date: تاریخ
   label_date_and_time: تاریخ و زمان
-  label_date_format: قالب تاریخ
+  label_date_and_time_formats: Date and time formats
   label_date_from: از
   label_date_from_to: از %{start} تا %{end}
   label_date_to: تا
@@ -4169,7 +4275,6 @@ fa:
   label_keyword_plural: کلیدواژه‌ها
   label_label_plural: برچسب‌ها
   label_language: زبان
-  label_language_based: براساس زبان کاربر
   label_languages: زبان‌ها
   label_last_activity: آخرین فعالیت
   label_last_change_on: آخرین تغییر در
@@ -4191,6 +4296,7 @@ fa:
   label_list: فهرست
   label_loading: در حال بارگذاری...
   label_locale: زبان و منطقه
+  label_locale_based: Use default for user locale
   label_lock_user: کاربر قفل شده
   label_locked: قفل‌شده
   label_logged_as: واردشده به‌عنوان
@@ -4220,7 +4326,6 @@ fa:
   label_menu_item_name: نام آیتم منو
   label_message: پیام
   label_message_last: آخرین پیام
-  label_message_new: پیام جدید
   label_message_plural: پیام‌ها
   label_message_posted: پیام اضافه شد
   label_minute_plural: دقیقه
@@ -4481,6 +4586,7 @@ fa:
   label_subtask_plural: زیرکارها
   label_summary: خلاصه
   label_system: سیستم
+  label_system_or_language_default: Use system or language based default
   label_system_settings: تنظیمات سیستم
   label_system_storage: اطلاعات ذخیره‌سازی
   label_table_of_contents: فهرست مطالب
@@ -4595,45 +4701,45 @@ fa:
   label_working_hours: برنامه کاری
   label_workweek: هفته کاری
   label_x_closed_work_packages_abbr:
-    one: ۱ بسته
+    one: "%{count} closed"
     other: "%{count} بسته"
     zero: ۰ بسته
   label_x_comments:
-    one: ۱ دیدگاه
+    one: "%{count} comment"
     other: "%{count} دیدگاه"
     zero: بدون دیدگاه
   label_x_days:
-    one: ۱ روز
-    other: "%{count} روز"
+    one: "%{count} day"
+    other: "%{count} days"
   label_x_files:
-    one: ۱ فایل
+    one: "%{count} file"
     other: "%{count} فایل"
     zero: بدون فایل
   label_x_items:
-    one: ۱ مورد
+    one: "%{count} item"
     other: "%{count} مورد"
     zero: بدون مورد
   label_x_items_selected:
-    one: یک مورد انتخاب شده است
-    other: "%{count} مورد انتخاب شده‌اند"
+    one: "%{count} item selected"
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: ۱ باز
+    one: "%{count} open"
     other: "%{count} باز"
     zero: ۰ باز
   label_x_projects:
-    one: ۱ پروژه
+    one: "%{count} project"
     other: "%{count} پروژه"
     zero: بدون پروژه
   label_x_work_packages:
-    one: ۱ بسته کاری
+    one: "%{count} work package"
     other: "%{count} بسته کاری"
     zero: بدون بسته کاری
   label_x_working_days:
-    one: ۱ روز کاری
-    other: "%{count} روز کاری"
+    one: "%{count} working day"
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'مرخصی: ۱ روز کاری'
-    other: 'مرخصی: %{count} روز کاری'
+    one: 'Time off: %{count} working day'
+    other: 'Time off: %{count} working days'
   label_yesterday: دیروز
   label_zen_mode: حالت Zen
   ldap_auth_sources:
@@ -4851,6 +4957,8 @@ fa:
       you_have: شما دارید
     logo_alt_text: لوگو
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} در %{id} - %{subject} به شما اشاره کرد"
     notification:
       center: رفتن به مرکز اعلان‌ها
@@ -4907,8 +5015,8 @@ fa:
       mentioned: در یک <b>دیدگاه به شما اشاره شده است</b>
       mentioned_by: "%{user} در یک دیدگاه به شما اشاره کرد"
       more_to_see:
-        one: ۱ بسته کاری دیگر دارای اعلان است.
-        other: "%{count} بسته کاری دیگر دارای اعلان هستند."
+        one: There is %{count} more work package with notifications.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: بازکردن در مرورگر
       reason:
         assigned: تخصیص‌یافته
@@ -5091,7 +5199,7 @@ fa:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             other: "%{count} days (%{date})"
           name_label: نام توکن
       failed_to_create_token: 'ایجاد توکن دسترسی ناموفق بود: %{error}'
@@ -5437,8 +5545,8 @@ fa:
 
       '
     confirm_revoke_my_application:
-      one: آیا واقعاً می‌خواهید این برنامه را حذف کنید؟ این کار یک توکن فعال آن را لغو می‌کند.
-      other: آیا واقعاً می‌خواهید این برنامه را حذف کنید؟ این کار %{count} توکن فعال آن را لغو می‌کند.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: هیچ برنامه OAuth ثبت نشده است.
     flows:
       authorization_code: جریان Authorization Code
@@ -5644,7 +5752,7 @@ fa:
   permission_change_work_package_status_explanation: اجازه تغییر وضعیت بدون مجوز «ویرایش بسته‌های کاری»
   permission_comment_news: دیدگاه روی اخبار
   permission_commit_access: دسترسی خواندن/نوشتن به مخزن (Commit)
-  permission_copy_projects: کپی پروژه‌ها
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: در پروژه‌های الگو، این مجوز یک کارکرد ثانویه دارد و اجازه ایجاد پروژه‌های جدید براساس الگو را می‌دهد.
   permission_copy_work_packages: تکثیر بسته‌های کاری
   permission_create_backup: ایجاد نسخه‌های پشتیبان
@@ -5783,7 +5891,7 @@ fa:
     name: OmniAuth SAML / ورود یکپارچه
   portfolio:
     count:
-      one: ۱ سبد پروژه
+      one: "%{count} portfolio"
       other: "%{count} سبد پروژه"
       zero: ۰ سبد پروژه
     filters:
@@ -5794,8 +5902,8 @@ fa:
         label: فیلتر نام سبد پروژه
         placeholder: جستجوی سبدهای پروژه
       sub_items_html:
-        one: "<strong>۱</strong> زیرمورد"
-        other: "<strong>%{count}</strong> زیرمورد"
+        one: "<strong>%{count}</strong> sub-item"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: سبدهای پروژه فعال
       archived: سبدهای پروژه بایگانی‌شده
@@ -5809,7 +5917,7 @@ fa:
         از آن می‌توان برای برجسته‌کردن بسته‌های کاری در جدول استفاده کرد.
   program:
     count:
-      one: ۱ برنامه
+      one: "%{count} program"
       other: "%{count} برنامه"
       zero: ۰ برنامه
     filters:
@@ -5821,7 +5929,7 @@ fa:
       confirmation_message: بایگانی این پروژه، آن و همه فرزندانش را برای همه کاربران این نمونه غیرقابل دسترس می‌کند. پروژه‌های بایگانی‌شده قابل بازیابی هستند.
       title: بایگانی پروژه
     count:
-      one: ۱ پروژه
+      one: "%{count} project"
       other: "%{count} پروژه"
       zero: ۰ پروژه
     destroy:
@@ -6036,15 +6144,15 @@ fa:
             new_heading: فیلدهایی که در دسترس قرار می‌گیرند
             nothing_affected: هیچ فیلد یا وضعیتی تحت‌تأثیر قرار نمی‌گیرد.
             status_count:
-              one: ۱ بسته کاری
-              other: "%{count} بسته کاری"
+              one: "%{count} work package"
+              other: "%{count} work packages"
             table_suffix: "(جدول)"
             value_count:
-              one: ۱ بسته کاری دارای مقدار است
-              other: "%{count} بسته کاری دارای مقدار هستند"
+              one: "%{count} work package has a value"
+              other: "%{count} work packages have a value"
             work_packages:
-              one: ۱ بسته کاری از پیکربندی جدید استفاده خواهد کرد
-              other: "%{count} بسته کاری از پیکربندی جدید استفاده خواهند کرد"
+              one: "%{count} work package will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: پروژه اکنون از %{type} استفاده می‌کند.
           target_label: گونه
           title: "%{type}: تغییر گونه"
@@ -6100,8 +6208,8 @@ fa:
     action_title: واکنش
     add_reaction: افزودن واکنش
     and_others:
-      one: و ۱ نفر دیگر
-      other: و %{count} نفر دیگر
+      one: and %{count} other
+      other: and %{count} others
     and_user: و %{user}
     react_with: واکنش با %{reaction}
     reaction_by: "%{reaction} توسط"
@@ -6228,24 +6336,24 @@ fa:
         one: "(پروژه: %{projects})"
         other: "(پروژه‌ها: %{projects})"
       entry_projects_truncated:
-        one: "(پروژه‌ها: %{projects} و ۱ مورد دیگر)"
-        other: "(پروژه‌ها: %{projects} و %{count} مورد دیگر)"
+        one: "(Projects: %{projects} and %{count} other)"
+        other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'این نقش همچنان به ۱ عضو اختصاص دارد:'
-        other: 'این نقش همچنان به %{count} عضو اختصاص دارد:'
+        one: 'This role is still attributed to %{count} member:'
+        other: 'This role is still attributed to %{count} members:'
       heading_unused: آیا مطمئن هستید که می‌خواهید نقش «%{name}» را حذف کنید؟
       losing_project_access:
-        one: از میان این کاربران، ۱ کاربر دسترسی خود را به پروژه‌هایی که این نقش تنها نقش او در آن‌هاست از دست خواهد داد. آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: از میان این کاربران، %{count} کاربر دسترسی خود را به پروژه‌هایی که این نقش تنها نقش آن‌ها در آن پروژه‌هاست از دست خواهند داد. آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
         zero: هیچ‌یک از این کاربران دسترسی به هیچ‌یک از پروژه‌های خود را از دست نخواهند داد. آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
       show_memberships: نمایش همه عضویت‌های دارای این نقش
       summary: "%{users} در %{projects}"
       summary_projects:
-        one: ۱ پروژه
-        other: "%{count} پروژه"
+        one: "%{count} project"
+        other: "%{count} projects"
       summary_users:
-        one: ۱ کاربر
-        other: "%{count} کاربر"
+        one: "%{count} user"
+        other: "%{count} users"
       title: حذف نقش
     edit:
       default_for_new_projects_warning: 'این نقش به‌عنوان نقش پیش‌فرض برای کاربران غیرمدیری که پروژه ایجاد می‌کنند پیکربندی شده است. مجوزهای زیر را حذف نکنید؛ در غیر این صورت ایجادکنندگان پروژه نمی‌توانند راه‌اندازی پروژه‌های تازه خود را کامل کنند:'
@@ -6260,11 +6368,10 @@ fa:
       section_uncheck_all_label: لغو تخصیص همه مجوزهای %{module}
     permissions_dialog:
       edit_permissions: ویرایش مجوزهای نقش
-      implicit_permission: همیشه اعطا می‌شود
       no_permissions: این نقش هیچ مجوزی اعطا نمی‌کند.
       permission_count:
-        one: ۱ مجوز
-        other: "%{count} مجوز"
+        one: "%{count} permission"
+        other: "%{count} permissions"
       preview_action: مشاهده مجوزها
       preview_aria_label: مشاهده مجوزهای %{role}
       title: مجوزهای «%{name}»
@@ -6372,7 +6479,7 @@ fa:
   setting_default_projects_wiki: فعال‌کردن قابلیت ویکی برای پروژه‌های جدید به‌صورت پیش‌فرض
   setting_diff_max_lines_displayed: حداکثر تعداد خطوط Diff نمایش‌داده‌شده
   setting_disable_password_login: غیرفعال‌کردن احراز هویت با گذرواژه
-  setting_display_subprojects_work_packages: نمایش بسته‌های کاری زیرپروژه‌ها در پروژه‌های اصلی به‌طور پیش‌فرض
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: قالب مدت‌زمان
   setting_duration_format_days_and_hours: روز و ساعت
   setting_duration_format_hours_only: فقط ساعت
@@ -6754,7 +6861,7 @@ fa:
       section_work_week: هفته کاری
   sharing:
     count:
-      one: ۱ کاربر
+      one: "%{count} user"
       other: "%{count} کاربر"
       zero: ۰ کاربر
     denied: مجوز اشتراک‌گذاری %{entities} را ندارید.
@@ -7067,8 +7174,8 @@ fa:
         duplicate: احتمالاً تکراری
         duplicate_of: دقیقاً مانند %{names} پیکربندی شده است
         duplicate_of_more:
-          one: "%{names} و ۱ مورد دیگر"
-          other: "%{names} و %{count} مورد دیگر"
+          one: "%{names} and %{count} more"
+          other: "%{names} and %{count} more"
         parent_type: نوع والد
         same_as_type: همانند نوع والد
       rows:
@@ -7398,8 +7505,8 @@ fa:
         description_with_variants: این نوع و همه گونه‌های آن برای همیشه حذف خواهند شد. این اقدام قابل بازگشت نیست.
         heading: نوع «%{name}» حذف شود؟
         projects:
-          one: 'این نوع از ۱ پروژه حذف خواهد شد:'
-          other: 'این نوع از %{count} پروژه حذف خواهد شد:'
+          one: 'The type will be removed from %{count} project:'
+          other: 'The type will be removed from %{count} projects:'
         title: حذف نوع
       description: 'هر بخش پیکربندی در نوع‌ها و گونه‌ها می‌تواند مستقل پیکربندی شود، از نوع دیگری محدود شود یا به‌طور کامل به یک منبع پیوند داده شود.
 
@@ -7412,8 +7519,8 @@ fa:
       no_results_content_text: ایجاد نوع جدید
       no_results_title_text: در حال حاضر هیچ نوعی وجود ندارد.
       project_variants_count:
-        one: ۱ گونه ویژه پروژه
-        other: "%{count} گونه ویژه پروژه"
+        one: "%{count} project-specific variant"
+        other: "%{count} project-specific variants"
       remove_default: در پروژه‌های جدید فعال نشود
       remove_default_notice: "%{name} دیگر در پروژه‌های جدید فعال نیست."
       type_label: نوع
@@ -7421,8 +7528,8 @@ fa:
     migration:
       variant_name: "%{type} بدون %{fields}"
       variant_name_truncated:
-        one: "%{type} بدون %{fields} و ۱ فیلد دیگر"
-        other: "%{type} بدون %{fields} و %{count} فیلد دیگر"
+        one: "%{type} without %{fields} and %{count} more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: نقطه عطف
     patterns:
       formats:
@@ -7449,8 +7556,8 @@ fa:
     authorization_rejected: اجازه ورود ندارید.
     blocked: موقتاً قفل‌شده
     blocked_num_failed_logins:
-      one: موقتاً قفل‌شده (یک تلاش ناموفق ورود)
-      other: موقتاً قفل‌شده (%{count} تلاش ناموفق ورود)
+      one: locked temporarily (%{count} failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: شما در حال تغییر وضعیت '%{name}' هستید. آیا می خواهید ادامه دهید؟
     deleted: کاربر حذف‌شده
     department_ldap_managed_caption: این واحد سازمانی توسط همگام‌سازی LDAP مدیریت می‌شود و از اینجا قابل تغییر نیست.
@@ -7610,8 +7717,8 @@ fa:
         start_date: تاریخ شروع
         work_days: روزهای کاری
         work_days_count:
-          one: ۱ روز کاری
-          other: "%{count} روز کاری"
+          one: "%{count} working day"
+          other: "%{count} working days"
         work_hours: ساعات کاری
   version_status_closed: بسته
   version_status_locked: قفل‌شده
@@ -7799,8 +7906,8 @@ fa:
       could_not_be_deleted: 'بسته‌های کاری زیر حذف نشدند:'
       could_not_be_saved: 'بسته‌های کاری زیر ذخیره نشدند:'
       deletion_successful:
-        one: ۱ بسته کاری با موفقیت حذف شد.
-        other: "%{count} بسته کاری با موفقیت حذف شدند."
+        one: Successfully deleted %{count} work package.
+        other: Successfully deleted %{count} work packages.
       descendant: فرزندِ مورد انتخاب‌شده
       move_failed: بسته‌های کاری منتقل نشدند.
       none_could_be_saved: هیچ‌یک از %{total} بسته کاری قابل به‌روزرسانی نبودند.
@@ -7824,18 +7931,18 @@ fa:
       description_with_visible_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان قابل مشاهده را حذف کنید؟
       heading: این %{count} بسته کاری برای همیشه حذف شوند؟
       hidden_descendants_only_warning:
-        one: یک فرزند وجود دارد که نمی‌توانید ببینید. حذف نخواهد شد، اما رابطه آن برداشته می‌شود.
-        other: "%{count} فرزند وجود دارد که نمی‌توانید ببینید. حذف نخواهند شد، اما همه روابط سلسله‌مراتبی آن‌ها برداشته می‌شود."
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: همه فرزندان قابل مشاهده حذف خواهند شد. با این حال یک فرزند وجود دارد که نمی‌توانید ببینید؛ حذف نخواهد شد، اما رابطه آن برداشته می‌شود.
-        other: همه فرزندان قابل مشاهده حذف خواهند شد. با این حال %{count} فرزند وجود دارد که نمی‌توانید ببینید؛ حذف نخواهند شد، اما روابط سلسله‌مراتبی آن‌ها برداشته می‌شود.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: حذف %{count} بسته کاری
       undeletable_descendants_warning:
-        one: به‌دلیل نداشتن مجوز لازم نمی‌توانید یک فرزند را حذف کنید. آن مورد حفظ می‌شود اما رابطه سلسله‌مراتبی برداشته خواهد شد.
-        other: به‌دلیل نداشتن مجوز لازم نمی‌توانید %{count} فرزند را حذف کنید. این موارد حفظ می‌شوند اما روابط سلسله‌مراتبی آن‌ها برداشته خواهد شد.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: به‌دلیل نداشتن مجوز لازم در %{projects} نمی‌توانید یک فرزند را حذف کنید. آن مورد حفظ می‌شود اما رابطه سلسله‌مراتبی برداشته خواهد شد.
-        other: به‌دلیل نداشتن مجوز لازم در %{projects} نمی‌توانید %{count} فرزند را حذف کنید. این موارد حفظ می‌شوند اما روابط سلسله‌مراتبی آن‌ها برداشته خواهد شد.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -7892,18 +7999,18 @@ fa:
       description: مطمئنید می‌خواهید «%{name}» را حذف کنید؟
       heading: این بسته کاری برای همیشه حذف شود؟
       hidden_descendants_only_warning:
-        one: این بسته کاری یک فرزند دارد که نمی‌توانید ببینید. حذف نخواهد شد اما رابطه سلسله‌مراتبی برداشته می‌شود.
-        other: این بسته کاری %{count} فرزند دارد که نمی‌توانید ببینید. حذف نخواهند شد اما روابط سلسله‌مراتبی برداشته می‌شود.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: همه فرزندان قابل مشاهده حذف خواهند شد. با این حال این بسته کاری یک فرزند دارد که نمی‌توانید ببینید؛ حذف نخواهد شد اما رابطه سلسله‌مراتبی برداشته می‌شود.
-        other: همه فرزندان قابل مشاهده حذف خواهند شد. با این حال این بسته کاری %{count} فرزند دارد که نمی‌توانید ببینید؛ حذف نخواهند شد اما روابط سلسله‌مراتبی برداشته می‌شود.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: حذف بسته کاری
       undeletable_descendants_warning:
-        one: به‌دلیل نداشتن مجوز لازم نمی‌توانید یک فرزند را حذف کنید. آن مورد حفظ می‌شود اما رابطه سلسله‌مراتبی برداشته خواهد شد.
-        other: به‌دلیل نداشتن مجوز لازم نمی‌توانید %{count} فرزند را حذف کنید. این موارد حفظ می‌شوند اما روابط سلسله‌مراتبی آن‌ها برداشته خواهد شد.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: به‌دلیل نداشتن مجوز لازم در %{projects} نمی‌توانید یک فرزند را حذف کنید. آن مورد حفظ می‌شود اما رابطه سلسله‌مراتبی برداشته خواهد شد.
-        other: به‌دلیل نداشتن مجوز لازم در %{projects} نمی‌توانید %{count} فرزند را حذف کنید. این موارد حفظ می‌شوند اما روابط سلسله‌مراتبی آن‌ها برداشته خواهد شد.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: بررسی فایل
       checking_file: در حال بررسی %{filename}
@@ -7980,8 +8087,8 @@ fa:
           kept: فایل بررسی‌شده چند ساعت نگه داشته می‌شود؛ بنابراین برای واردسازی به بارگذاری دوباره نیازی نیست.
           text: هنوز هیچ موردی ایجاد نشده است. خلاصه زیر را بررسی کنید و سپس واردسازی را انجام دهید.
           title:
-            one: ۱ سطر بررسی شد؛ هیچ مشکلی یافت نشد
-            other: "%{count} سطر بررسی شد؛ هیچ مشکلی یافت نشد"
+            one: "%{count} line checked, no problems found"
+            other: "%{count} lines checked, no problems found"
         download_problems: دریافت گزارش به‌صورت CSV
         file_rejected:
           heading: سطر سرستون‌ها
@@ -8014,8 +8121,8 @@ fa:
           work_packages: بسته‌های کاری
         problems:
           all:
-            one: ۱ مشکل.
-            other: "%{count} مشکل؛ همه نمایش داده شده‌اند."
+            one: "%{count} problem."
+            other: "%{count} problems, all shown."
           capped: "%{count} مشکل؛ %{shown} مورد نخست نمایش داده شده است. برای مشاهده همه مشکلات، فهرست را دریافت کنید."
           heading: مشکلات
         rows_rejected:
@@ -8031,11 +8138,11 @@ fa:
           row: سطر
           value: مقدار
         x_lines:
-          one: ۱ سطر
-          other: "%{count} سطر"
+          one: "%{count} line"
+          other: "%{count} lines"
         x_problems:
-          one: ۱ مشکل
-          other: "%{count} مشکل"
+          one: "%{count} problem"
+          other: "%{count} problems"
       run_failed: این اجرا کامل نشد و هیچ موردی ایجاد نشد. فایل را دوباره بارگذاری کنید.
       running_note: این عملیات در پس‌زمینه انجام می‌شود. لطفاً صفحه را نبندید.
       title: واردسازی بسته‌های کاری
@@ -8070,8 +8177,8 @@ fa:
         version:
           no_results_title_text: در حال حاضر هیچ نسخه‌ای در دسترس نیست.
     x_descendants:
-      one: یک بسته کاری فرزند
-      other: "%{count} فرزند بسته کاری"
+      one: "%{count} descendant work package"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -8139,20 +8246,20 @@ fa:
         name_placeholder: فیلتر بر اساس نام یا توضیحات گردش کاری…
         projects_placeholder: فیلتر پروژه‌ها…
       projects_count:
-        one: ۱ پروژه
-        other: "%{count} پروژه"
+        one: "%{count} project"
+        other: "%{count} projects"
       roles_count:
-        one: ۱ نقش
-        other: "%{count} نقش"
+        one: "%{count} role"
+        other: "%{count} roles"
       type_filter:
         label: فیلتر بر اساس نام نوع…
       types_and_variants_count: "%{types} (شامل %{variants})"
       types_count:
-        one: ۱ نوع
-        other: "%{count} نوع"
+        one: "%{count} type"
+        other: "%{count} types"
       variants_count:
-        one: ۱ گونه
-        other: "%{count} گونه"
+        one: "%{count} variant"
+        other: "%{count} variants"
     name:
       fallback: گردش کاری
       implicit: گردش کاری %{name}
@@ -8183,11 +8290,11 @@ fa:
         variants: گونه‌ها
       unused: هنوز هیچ نوع یا گونه‌ای از این گردش کاری استفاده نمی‌کند.
       used_by_types:
-        one: این گردش کاری توسط ۱ نوع استفاده می‌شود. تغییرات روی آن اعمال می‌شود.
-        other: این گردش کاری توسط %{count} نوع استفاده می‌شود. تغییرات روی همه آن‌ها اعمال می‌شود.
+        one: This workflow is used by %{count} type. Changes apply to it.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: این گردش کاری توسط ۱ نوع یا گونه استفاده می‌شود.
-        other: این گردش کاری توسط %{count} نوع و گونه استفاده می‌شود.
+        one: This workflow is used by %{count} type or variant.
+        other: This workflow is used by %{count} types and variants.
     wizard:
       choice:
         existing:

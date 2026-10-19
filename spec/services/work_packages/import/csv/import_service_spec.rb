@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -226,6 +225,67 @@ RSpec.describe WorkPackages::Import::CSV::ImportService do
       problem = import([row({ subject: "Late", version: closed_version.name })]).result.problems.sole
 
       expect(problem).to have_attributes(row: 2, attribute: "version", value: "Shipped")
+    end
+
+    it "checks the rest of a row the mapping already rejected" do
+      problems = import([row({ subject: "", category: "Frontend" })]).result.problems
+
+      expect(problems.map(&:attribute)).to contain_exactly("category", "subject")
+      expect(problems.map(&:message))
+        .to contain_exactly("does not exist in this project.", "can't be blank.")
+    end
+
+    it "reports a rejected column once, rather than again from the contract" do
+      problems = import([row({ subject: "Nameless category", category: "Frontend" })]).result.problems
+
+      expect(problems.map(&:attribute)).to eq(["category"])
+    end
+
+    it "leaves the rest of a row alone where the type itself is unknown" do
+      problems = import([row({ subject: "", type: "Milestone" })]).result.problems
+
+      expect(problems.map(&:attribute)).to eq(["type"])
+    end
+
+    it "creates nothing from a row it checked beyond the mapping" do
+      expect { import([row({ subject: "", category: "Frontend" })]) }.not_to change(WorkPackage, :count)
+    end
+
+    it "says why the version was refused where the user may not assign versions" do
+      without_permission = create(:project_role, permissions: %i[view_work_packages add_work_packages])
+      other = create(:user, member_with_roles: { project => without_permission })
+
+      problem = described_class.new(user: other, project:)
+                               .call(rows: [row({ subject: "Planned", version: "Sprint 12" })])
+                               .result.problems.sole
+
+      expect(problem).to have_attributes(row: 2, attribute: "version", value: "Sprint 12")
+      expect(problem.message).to eq("cannot be set because you are not allowed to assign versions in this project.")
+    end
+  end
+
+  describe "a type with a required custom field" do
+    shared_let(:custom_field) do
+      create(:string_wp_custom_field, name: "Cost center", is_for_all: true,
+                                      is_required: true, default_value: nil) do |field|
+        project.enabled_variants.each { |variant| variant.custom_field_ids |= [field.id] }
+      end
+    end
+
+    # No column carries a custom field, so a required one would make the type impossible to import.
+    it "imports the rows and leaves the field empty" do
+      result = import([row({ subject: "Write the docs", type: "Task" })])
+
+      expect(result).to be_success
+      expect(WorkPackage.sole.custom_value_for(custom_field).value).to be_nil
+    end
+
+    it "still fills a field the administrator gave a default value" do
+      custom_field.update!(default_value: "CC-1")
+
+      import([row({ subject: "Write the docs", type: "Task" })])
+
+      expect(WorkPackage.sole.custom_value_for(custom_field).value).to eq("CC-1")
     end
   end
 

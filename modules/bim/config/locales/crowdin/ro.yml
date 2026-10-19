@@ -110,7 +110,7 @@ ro:
     not_recommended: Recomandat
     recommended: recomandat
     x_bcf_issues:
-      one: O problemă BCF
+      one: "%{count} BCF issue"
       other: "%{count} Probleme BCF"
       zero: Nu există probleme legate de BCF
   bim:

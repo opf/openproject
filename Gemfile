@@ -205,7 +205,7 @@ gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.232"
+gem "aws-sdk-s3", "~> 1.233"
 
 gem "openproject-token", "~> 8.13.0"
 
@@ -235,7 +235,7 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.97.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
@@ -275,7 +275,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.3"
+  gem "test-prof", "~> 1.6.4"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"

@@ -168,9 +168,13 @@ zh-CN:
       cost_types:
         for_all_projects_hint: 此成本类型已在所有项目中启用。
         heading: 成本类型
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: 此成本类型无法禁用，因为已在此项目中为其记录成本。
         none_active: 此项目中目前没有有效成本类型。
       time_and_costs: 时间和成本
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:

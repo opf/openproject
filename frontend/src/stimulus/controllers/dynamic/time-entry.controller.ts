@@ -213,7 +213,7 @@ export default class TimeEntryController extends Controller {
       const diffInDays = Math.floor((startTimeInMinutes + hoursInMinutes) / (60 * 24));
       const span = document.createElement('span');
       span.className = 'FormControl-caption';
-      span.innerText = `+${diffInDays === 1 ? I18n.t('js.units.day.one') : I18n.t('js.units.day.other', { count: diffInDays })}`;
+      span.innerText = `+${I18n.t('js.units.day', { count: diffInDays })}`;
       formControl.append(span);
     }
   }

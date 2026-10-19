@@ -8,14 +8,14 @@ zh-TW:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: 隊伍分配
             work_package_list:
-              name: Work packages
+              name: 工作項目
             work_package_timeline:
-              name: Work package timeline
+              name: 工作項目時程表
             user_card:
-              name: Team members
+              name: 團隊成員
             user_timeline:
-              name: Team timeline
+              name: 團隊時間軸
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: 開發人員 / 程式設計師

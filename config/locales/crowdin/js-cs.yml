@@ -624,10 +624,10 @@ cs:
     notifications:
       center:
         and_more_users:
-          one: a 1 další
-          few: a %{count} dalšich
-          many: a %{count} dalšich
-          other: a %{count} dalšich
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Vypadá to, že jste všechno dohnali...
           no_notification_for_filter: Vypadá to, že jste všichni zachytili tento filtr.
@@ -834,13 +834,13 @@ cs:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           few: Could not extend the range. %{count} items selected.
           many: Could not extend the range. %{count} items selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           few: "%{count} items selected."
           many: "%{count} items selected."
           other: "%{count} items selected."
@@ -892,24 +892,24 @@ cs:
       label_two_factor_authentication: Dvoufázové ověření
     units:
       child_work_packages:
-        one: jeden podřazený pracovní balíček
-        few: "%{count} podřazených pracovních balíčků"
-        many: "%{count} podřazených pracovních balíčků"
-        other: "%{count} podřazených pracovních balíčků"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 den
+        one: "%{count} day"
         other: "%{count} dní"
         zero: 0 dní
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 slovo
-        few: "%{count} slov"
-        many: "%{count} slov"
-        other: "%{count} slov"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: pracovní balíček
         few: pracovní balíčky

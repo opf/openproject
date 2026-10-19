@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,9 +44,6 @@ RSpec.describe WhatsNew::Release do
               new_features_list: {
                 first: { title: "First", description: "The first one", url: "https://example.com/first" },
                 second: { title: "Second", description: "The second one", url: "https://example.com/second" }
-              },
-              whats_new: {
-                video_url: "https://example.com/video"
               }
             },
             "99_3": {
@@ -76,7 +72,7 @@ RSpec.describe WhatsNew::Release do
                                   url: "https://example.com/second")
       ]
     )
-    expect(release.video_url).to eq("https://example.com/video")
+    expect(release.video_url).to eq("https://www.openproject.org/release-videos/99-1?go_to_locale=en")
     expect(release.version).to eq("99.1")
   end
 

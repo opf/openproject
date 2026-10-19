@@ -31,8 +31,8 @@ da:
         title: Medlemmer
         view_all_members: Vis alle medlemmer
         x_more:
-          one: og et medlem mere.
-          other: og %{count} flere medlemmer.
+          one: and %{count} more member.
+          other: and %{count} more members.
       news:
         no_results: Intet nyt at rapportere.
       not_available: Denne widget er ikke tilgængelig.

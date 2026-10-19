@@ -40,7 +40,9 @@ ar:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: حذف الحساب
     delete_confirmation: هل أنت متأكد من رغبتك في إلغاء الحساب؟
     deletion_info:
@@ -65,7 +67,9 @@ ar:
     error_self_registration_limited_provider: 'User registration is limited for the Single sign-on provider ''%{name}''. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
 
       '
-    login_with_auth_provider: أو سجل دخولك من خلال حسابك الموجود مسبقا
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: الرجاء تسجيل الدخول لتفعيل حسابك.
@@ -201,11 +205,17 @@ ar:
         row_count: عدد الصفوف
         widgets: الودجات
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -435,6 +445,7 @@ ar:
       user:
         admin: مدير النظام
         auth_source: Authentication source
+        avatar_type: Avatar type
         consented_at: Consented at
         current_password: كلمة السر الحالية
         department: Department
@@ -448,7 +459,7 @@ ar:
         last_name: الاسم الأخير
         ldap_auth_source: اتصال LDAP
         new_password: كلمة مرور جديدة
-        password_confirmation: تأكيد
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -458,12 +469,14 @@ ar:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
         comments_sorting: Display work package activity sorted by
         daily_reminders: Daily reminders
+        date_format: Date format
         disable_keyboard_shortcuts: Disable keyboard shortcuts
         dismissed_enterprise_banners: Hidden enterprise banners
         force_dark_theme_contrast: Force high-contrast when in Dark mode
@@ -480,6 +493,7 @@ ar:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Color mode
+        time_format: Time format
         time_zone: المنطقة الزمنية
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved changes
         workdays: Working days
@@ -1007,12 +1021,12 @@ ar:
               numeric: رقمية (على سبيل المثال، '1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                zero: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                one: has been used before. Please choose one that is different from your last one.
-                two: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                few: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                many: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
-                other: لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}.
+                zero: has been used before. Please choose one that is different from your last %{count}.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                two: has been used before. Please choose one that is different from your last %{count}.
+                few: has been used before. Please choose one that is different from your last %{count}.
+                many: has been used before. Please choose one that is different from your last %{count}.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: خاصة (مثل '%')
               uppercase: أحرف كبيرة (على سبيل المثال، 'A')
             password_confirmation:
@@ -1116,12 +1130,12 @@ ar:
       template:
         body: 'من فضلك تحقّقْ من الحقول التالية:'
         header:
-          zero: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
-          one: 1 error prohibited this %{model} from being saved
-          two: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
-          few: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
-          many: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
-          other: أخطاء %{count} ويحظر هذا %{model} من يتم حفظها
+          zero: "%{count} errors prohibited this %{model} from being saved"
+          one: "%{count} error prohibited this %{model} from being saved"
+          two: "%{count} errors prohibited this %{model} from being saved"
+          few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         zero: Actions
@@ -2188,49 +2202,49 @@ ar:
           parts:
             issues:
               zero: "%{count} issues"
-              one: 1 issue
+              one: "%{count} issue"
               two: "%{count} issues"
               few: "%{count} issues"
               many: "%{count} issues"
               other: "%{count} issues"
             jobs:
               zero: "%{count} jobs"
-              one: 1 job
+              one: "%{count} job"
               two: "%{count} jobs"
               few: "%{count} jobs"
               many: "%{count} jobs"
               other: "%{count} jobs"
             projects:
               zero: "%{count} projects"
-              one: 1 project
+              one: "%{count} project"
               two: "%{count} projects"
               few: "%{count} projects"
               many: "%{count} projects"
               other: "%{count} projects"
             statuses:
               zero: "%{count} statuses"
-              one: 1 status
+              one: "%{count} status"
               two: "%{count} statuses"
               few: "%{count} statuses"
               many: "%{count} statuses"
               other: "%{count} statuses"
             types:
               zero: "%{count} types"
-              one: 1 type
+              one: "%{count} type"
               two: "%{count} types"
               few: "%{count} types"
               many: "%{count} types"
               other: "%{count} types"
             users:
               zero: "%{count} users"
-              one: 1 user
+              one: "%{count} user"
               two: "%{count} users"
               few: "%{count} users"
               many: "%{count} users"
               other: "%{count} users"
             work_packages:
               zero: "%{count} work packages"
-              one: 1 work package
+              one: "%{count} work package"
               two: "%{count} work packages"
               few: "%{count} work packages"
               many: "%{count} work packages"
@@ -2300,7 +2314,7 @@ ar:
               caption_done: Completed
               caption_done_description:
                 zero: "%{count} projects selected as scope"
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 two: "%{count} projects selected as scope"
                 few: "%{count} projects selected as scope"
                 many: "%{count} projects selected as scope"
@@ -2594,6 +2608,10 @@ ar:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2608,7 +2626,7 @@ ar:
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
           zero: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           two: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
@@ -2741,7 +2759,7 @@ ar:
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
             zero: "... %{count} more projects"
-            one: "... 1 more project"
+            one: "... %{count} more project"
             two: "... %{count} more projects"
             few: "... %{count} more projects"
             many: "... %{count} more projects"
@@ -2832,7 +2850,7 @@ ar:
         no_role: Select role
         roles:
           zero: "%{count} roles selected"
-          one: One role selected
+          one: "%{count} role selected"
           two: "%{count} roles selected"
           few: "%{count} roles selected"
           many: "%{count} roles selected"
@@ -2848,7 +2866,7 @@ ar:
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
           zero: Remove %{count} statuses?
-          one: Remove 1 status?
+          one: Remove %{count} status?
           two: Remove %{count} statuses?
           few: Remove %{count} statuses?
           many: Remove %{count} statuses?
@@ -2872,6 +2890,21 @@ ar:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: معروض حاليًا
@@ -3288,9 +3321,9 @@ ar:
     text:
       failed: تعذّر نسخ مشروع "%{source_project_name}" لمشروع "%{target_project_name}".
       succeeded: تمّ نسخ مشروع "%{source_project_name}" إلى "%{target_project_name}".
-    title: Copy project "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: One object of this type
+      one: "%{count} object of this type"
       other: "%{count} objects of this type"
       zero: No objects of this type
   create_portfolio:
@@ -3330,7 +3363,7 @@ ar:
     admin:
       hierarchy:
         subitems:
-          one: 1 sub-item
+          one: "%{count} sub-item"
           other: "%{count} sub-items"
           zero: no sub-items
       items:
@@ -3490,33 +3523,33 @@ ar:
   datetime:
     distance_in_words:
       about_x_hours:
-        zero: حوالي %{count} ساعات
-        one: حوالي 1 ساعات
-        two: حوالي %{count} ساعات
-        few: حوالي %{count} ساعات
-        many: حوالي %{count} ساعات
-        other: حوالي %{count} ساعات
+        zero: about %{count} hours
+        one: about %{count} hour
+        two: about %{count} hours
+        few: about %{count} hours
+        many: about %{count} hours
+        other: about %{count} hours
       about_x_months:
-        zero: حوالي %{count} ساعات
-        one: about 1 month
-        two: حوالي %{count} ساعات
-        few: حوالي %{count} ساعات
-        many: حوالي %{count} ساعات
-        other: حوالي %{count} ساعات
+        zero: about %{count} months
+        one: about %{count} month
+        two: about %{count} months
+        few: about %{count} months
+        many: about %{count} months
+        other: about %{count} months
       about_x_years:
-        zero: حوالي %{count} سنوات
-        one: about 1 year
-        two: حوالي %{count} سنوات
-        few: حوالي %{count} سنوات
-        many: حوالي %{count} سنوات
-        other: حوالي %{count} سنوات
+        zero: about %{count} years
+        one: about %{count} year
+        two: about %{count} years
+        few: about %{count} years
+        many: about %{count} years
+        other: about %{count} years
       almost_x_years:
-        zero: تقريبا %{count} سنوات
-        one: almost 1 year
-        two: تقريبا %{count} سنوات
-        few: تقريبا %{count} سنوات
-        many: تقريبا %{count} سنوات
-        other: تقريبا %{count} سنوات
+        zero: almost %{count} years
+        one: almost %{count} year
+        two: almost %{count} years
+        few: almost %{count} years
+        many: almost %{count} years
+        other: almost %{count} years
       half_a_minute: نصف دقيقة
       less_than_x_minutes:
         zero: أقل من %{count} دقائق
@@ -3526,85 +3559,85 @@ ar:
         many: أقل من %{count} دقائق
         other: أقل من %{count} دقائق
       less_than_x_seconds:
-        zero: أقل من %{count} ثواني
-        one: less than 1 second
-        two: أقل من %{count} ثواني
-        few: أقل من %{count} ثواني
-        many: أقل من %{count} ثواني
-        other: أقل من %{count} ثواني
+        zero: less than %{count} seconds
+        one: less than %{count} second
+        two: less than %{count} seconds
+        few: less than %{count} seconds
+        many: less than %{count} seconds
+        other: less than %{count} seconds
       over_x_years:
-        zero: على مدى %{count} سنوات
-        one: أكثر من 1  سنة
-        two: على مدى %{count} سنوات
-        few: على مدى %{count} سنوات
-        many: على مدى %{count} سنوات
-        other: على مدى %{count} سنوات
+        zero: over %{count} years
+        one: over %{count} year
+        two: over %{count} years
+        few: over %{count} years
+        many: over %{count} years
+        other: over %{count} years
       x_days:
-        zero: "%{count} يوم"
-        one: 1 يوم
-        two: "%{count} يوم"
-        few: "%{count} يوم"
-        many: "%{count} يوم"
-        other: "%{count} يوم"
+        zero: "%{count} days"
+        one: "%{count} day"
+        two: "%{count} days"
+        few: "%{count} days"
+        many: "%{count} days"
+        other: "%{count} days"
       x_hours:
-        zero: "%{count} ساعات"
-        one: ساعة واحدة
-        two: "%{count} ساعات"
-        few: "%{count} ساعات"
-        many: "%{count} ساعات"
-        other: "%{count} ساعات"
+        zero: "%{count} hours"
+        one: "%{count} hour"
+        two: "%{count} hours"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
       x_hours_abbreviated:
         zero: "%{count} hrs"
-        one: 1 hr
+        one: "%{count} hr"
         two: "%{count} hrs"
         few: "%{count} hrs"
         many: "%{count} hrs"
         other: "%{count} hrs"
       x_minutes:
-        zero: دقائق %{count}
-        one: 1 minute
-        two: دقائق %{count}
-        few: دقائق %{count}
-        many: دقائق %{count}
-        other: دقائق %{count}
+        zero: "%{count} minutes"
+        one: "%{count} minute"
+        two: "%{count} minutes"
+        few: "%{count} minutes"
+        many: "%{count} minutes"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
         zero: "%{count} mins"
-        one: 1 min
+        one: "%{count} min"
         two: "%{count} mins"
         few: "%{count} mins"
         many: "%{count} mins"
         other: "%{count} mins"
       x_months:
-        zero: "%{count} ساعه"
-        one: 1 month
-        two: "%{count} ساعه"
-        few: "%{count} ساعه"
-        many: "%{count} ساعه"
-        other: "%{count} ساعه"
+        zero: "%{count} months"
+        one: "%{count} month"
+        two: "%{count} months"
+        few: "%{count} months"
+        many: "%{count} months"
+        other: "%{count} months"
       x_seconds:
-        zero: "%{count} ثانية"
-        one: 1 ثانية
-        two: "%{count} ثانية"
-        few: "%{count} ثانية"
-        many: "%{count} ثانية"
-        other: "%{count} ثانية"
+        zero: "%{count} seconds"
+        one: "%{count} second"
+        two: "%{count} seconds"
+        few: "%{count} seconds"
+        many: "%{count} seconds"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
         zero: "%{count} s"
-        one: 1 s
+        one: "%{count} s"
         two: "%{count} s"
         few: "%{count} s"
         many: "%{count} s"
         other: "%{count} s"
       x_weeks:
         zero: "%{count} weeks"
-        one: 1 week
+        one: "%{count} week"
         two: "%{count} weeks"
         few: "%{count} weeks"
         many: "%{count} weeks"
         other: "%{count} weeks"
       x_years:
         zero: "%{count} years"
-        one: 1 year
+        one: "%{count} year"
         two: "%{count} years"
         few: "%{count} years"
         many: "%{count} years"
@@ -3771,7 +3804,7 @@ ar:
       description_html: You have access to all %{trial_plan} features.
       title:
         zero: "%{count} days left of %{trial_plan} trial token"
-        one: One day left of %{trial_plan} trial token
+        one: "%{count} day left of %{trial_plan} trial token"
         two: "%{count} days left of %{trial_plan} trial token"
         few: "%{count} days left of %{trial_plan} trial token"
         many: "%{count} days left of %{trial_plan} trial token"
@@ -4167,7 +4200,7 @@ ar:
         projects_placeholder: Filter projects…
       projects_count:
         zero: "%{count} projects"
-        one: 1 project
+        one: "%{count} project"
         two: "%{count} projects"
         few: "%{count} projects"
         many: "%{count} projects"
@@ -4175,14 +4208,14 @@ ar:
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
         zero: "%{count} types"
-        one: 1 type
+        one: "%{count} type"
         two: "%{count} types"
         few: "%{count} types"
         many: "%{count} types"
         other: "%{count} types"
       variants_count:
         zero: "%{count} variants"
-        one: 1 variant
+        one: "%{count} variant"
         two: "%{count} variants"
         few: "%{count} variants"
         many: "%{count} variants"
@@ -4222,14 +4255,14 @@ ar:
       unused: No type or variant uses this form yet.
       used_by_types:
         zero: This form is used by %{count} types. Changes apply to all of them.
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         two: This form is used by %{count} types. Changes apply to all of them.
         few: This form is used by %{count} types. Changes apply to all of them.
         many: This form is used by %{count} types. Changes apply to all of them.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
         zero: This form is used by %{count} types and variants.
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         two: This form is used by %{count} types and variants.
         few: This form is used by %{count} types and variants.
         many: This form is used by %{count} types and variants.
@@ -4243,8 +4276,60 @@ ar:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        zero: 'Accepted solutions:'
+        one: 'Accepted solution:'
+        two: 'Accepted solutions:'
+        few: 'Accepted solutions:'
+        many: 'Accepted solutions:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          zero: Load previous %{count} replies
+          one: Load previous reply
+          two: Load previous %{count} replies
+          few: Load previous %{count} replies
+          many: Load previous %{count} replies
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        zero: "%{count} participants"
+        one: 1 participant
+        two: "%{count} participants"
+        few: "%{count} participants"
+        many: "%{count} participants"
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -4269,6 +4354,8 @@ ar:
   groups:
     edit:
       synchronized_groups: Synchronized groups
+    form:
+      group_attributes: Group attributes
     index:
       description: By grouping users together, you can add them as members to the same projects or assign the same global roles to them.
     memberships:
@@ -4294,6 +4381,10 @@ ar:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -4350,6 +4441,31 @@ ar:
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: Read about new features and product updates.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
@@ -4385,6 +4501,7 @@ ar:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -4437,6 +4554,7 @@ ar:
       budget_deleted: Budget has been deleted
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -4624,7 +4742,7 @@ ar:
   label_database_version: PostgreSQL version
   label_date: التاريخ
   label_date_and_time: Date and time
-  label_date_format: صيغة التاريخ
+  label_date_and_time_formats: Date and time formats
   label_date_from: من
   label_date_from_to: من %{start} إلى %{end}
   label_date_to: إلى
@@ -4783,7 +4901,6 @@ ar:
   label_keyword_plural: Keywords
   label_label_plural: Labels
   label_language: اللغة
-  label_language_based: استناداً إلى لغة المستخدم
   label_languages: Languages
   label_last_activity: آخر نشاط
   label_last_change_on: آخر تغيير في
@@ -4805,6 +4922,7 @@ ar:
   label_list: القائمة
   label_loading: جاري التحميل...
   label_locale: Language and region
+  label_locale_based: Use default for user locale
   label_lock_user: Lock user
   label_locked: مقفل
   label_logged_as: تسجيل الدخول ك
@@ -4834,7 +4952,6 @@ ar:
   label_menu_item_name: اسم عنصر من القائمة
   label_message: رسالة
   label_message_last: الرسالة الأخيرة
-  label_message_new: رسالة جديدة
   label_message_plural: رسائل
   label_message_posted: تم إضافة رسالة
   label_minute_plural: دقائق
@@ -5095,6 +5212,7 @@ ar:
   label_subtask_plural: المهام الفرعية
   label_summary: مُلخّص
   label_system: نظام
+  label_system_or_language_default: Use system or language based default
   label_system_settings: إعدادات النظام
   label_system_storage: معلومات التخزين
   label_table_of_contents: Table of contents
@@ -5209,57 +5327,57 @@ ar:
   label_working_hours: Work schedule
   label_workweek: أسبوع العمل
   label_x_closed_work_packages_abbr:
-    one: 1 مغلقة
+    one: "%{count} closed"
     other: "%{count} مغلق"
     zero: 0 closed
   label_x_comments:
-    one: 1 comment
+    one: "%{count} comment"
     other: "%{count} تعليقات"
     zero: no comments
   label_x_days:
     zero: "%{count} days"
-    one: 1 day
+    one: "%{count} day"
     two: "%{count} days"
     few: "%{count} days"
     many: "%{count} days"
     other: "%{count} days"
   label_x_files:
-    one: 1 file
+    one: "%{count} file"
     other: "%{count} files"
     zero: no files
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
     zero: "%{count} items selected"
-    one: One item selected
+    one: "%{count} item selected"
     two: "%{count} items selected"
     few: "%{count} items selected"
     many: "%{count} items selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 open
+    one: "%{count} open"
     other: "%{count} مفتوح"
     zero: 0 open
   label_x_projects:
-    one: 1 project
+    one: "%{count} project"
     other: "%{count} مشاريع"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: "%{count} work package"
     other: "%{count} work packages"
     zero: No work packages
   label_x_working_days:
     zero: "%{count} working days"
-    one: 1 working day
+    one: "%{count} working day"
     two: "%{count} working days"
     few: "%{count} working days"
     many: "%{count} working days"
     other: "%{count} working days"
   label_x_working_days_time_off:
     zero: 'Time off: %{count} working days'
-    one: 'Time off: 1 working day'
+    one: 'Time off: %{count} working day'
     two: 'Time off: %{count} working days'
     few: 'Time off: %{count} working days'
     many: 'Time off: %{count} working days'
@@ -5482,6 +5600,8 @@ ar:
       you_have: You have
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: To notification center
@@ -5539,7 +5659,7 @@ ar:
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
         zero: There are %{count} more work packages with notifications.
-        one: There is 1 more work package with notifications.
+        one: There is %{count} more work package with notifications.
         two: There are %{count} more work packages with notifications.
         few: There are %{count} more work packages with notifications.
         many: There are %{count} more work packages with notifications.
@@ -5752,7 +5872,7 @@ ar:
           expiry_never: No expiration
           expiry_preset:
             zero: "%{count} days (%{date})"
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             two: "%{count} days (%{date})"
             few: "%{count} days (%{date})"
             many: "%{count} days (%{date})"
@@ -6108,7 +6228,7 @@ ar:
       '
     confirm_revoke_my_application:
       zero: Do you really want to remove this application? This will revoke %{count} tokens active for it.
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       two: Do you really want to remove this application? This will revoke %{count} tokens active for it.
       few: Do you really want to remove this application? This will revoke %{count} tokens active for it.
       many: Do you really want to remove this application? This will revoke %{count} tokens active for it.
@@ -6318,7 +6438,7 @@ ar:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: أخبار التعليق
   permission_commit_access: الوصول للقراءة/الكتابة إلى المستودع (الالتزام)
-  permission_copy_projects: نسخ المشاريع
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: انشيئ نسخ احتياطية
@@ -6457,7 +6577,7 @@ ar:
     name: OmniAuth SAML / تسجيل الدخول الموحد
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -6469,7 +6589,7 @@ ar:
         placeholder: Search portfolios
       sub_items_html:
         zero: "<strong>%{count}</strong> sub-items"
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         two: "<strong>%{count}</strong> sub-items"
         few: "<strong>%{count}</strong> sub-items"
         many: "<strong>%{count}</strong> sub-items"
@@ -6487,7 +6607,7 @@ ar:
         It can be used for highlighting work packages in the table.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -6499,7 +6619,7 @@ ar:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 project
+      one: "%{count} project"
       other: "%{count} مشاريع"
       zero: 0 projects
     destroy:
@@ -6715,7 +6835,7 @@ ar:
             nothing_affected: No fields or statuses are affected.
             status_count:
               zero: "%{count} work packages"
-              one: 1 work package
+              one: "%{count} work package"
               two: "%{count} work packages"
               few: "%{count} work packages"
               many: "%{count} work packages"
@@ -6723,14 +6843,14 @@ ar:
             table_suffix: "(table)"
             value_count:
               zero: "%{count} work packages have a value"
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               two: "%{count} work packages have a value"
               few: "%{count} work packages have a value"
               many: "%{count} work packages have a value"
               other: "%{count} work packages have a value"
             work_packages:
               zero: "%{count} work packages will use the new configuration"
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               two: "%{count} work packages will use the new configuration"
               few: "%{count} work packages will use the new configuration"
               many: "%{count} work packages will use the new configuration"
@@ -6791,7 +6911,7 @@ ar:
     add_reaction: Add reaction
     and_others:
       zero: and %{count} others
-      one: and 1 other
+      one: and %{count} other
       two: and %{count} others
       few: and %{count} others
       many: and %{count} others
@@ -6917,35 +7037,35 @@ ar:
         other: "(Projects: %{projects})"
       entry_projects_truncated:
         zero: "(Projects: %{projects} and %{count} others)"
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         two: "(Projects: %{projects} and %{count} others)"
         few: "(Projects: %{projects} and %{count} others)"
         many: "(Projects: %{projects} and %{count} others)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
         zero: 'This role is still attributed to %{count} members:'
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         two: 'This role is still attributed to %{count} members:'
         few: 'This role is still attributed to %{count} members:'
         many: 'This role is still attributed to %{count} members:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
         zero: "%{count} projects"
-        one: 1 project
+        one: "%{count} project"
         two: "%{count} projects"
         few: "%{count} projects"
         many: "%{count} projects"
         other: "%{count} projects"
       summary_users:
         zero: "%{count} users"
-        one: 1 user
+        one: "%{count} user"
         two: "%{count} users"
         few: "%{count} users"
         many: "%{count} users"
@@ -6964,11 +7084,10 @@ ar:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
         zero: "%{count} permissions"
-        one: 1 permission
+        one: "%{count} permission"
         two: "%{count} permissions"
         few: "%{count} permissions"
         many: "%{count} permissions"
@@ -7080,7 +7199,7 @@ ar:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: الحد الأقصى لعدد الخطوط المختلفة المعروضة
   setting_disable_password_login: Disable password authentication
-  setting_display_subprojects_work_packages: عرض المشاريع الجزئية لمجموعات العمل في المشاريع الرئيسية افتراضيا
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Duration format
   setting_duration_format_days_and_hours: Days and hours
   setting_duration_format_hours_only: Hours only
@@ -7462,7 +7581,7 @@ ar:
       section_work_week: أسبوع العمل
   sharing:
     count:
-      one: 1 user
+      one: "%{count} user"
       other: "%{count} users"
       zero: 0 users
     denied: You don't have permissions to share %{entities}.
@@ -7772,7 +7891,7 @@ ar:
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
           zero: "%{names} and %{count} more"
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           two: "%{names} and %{count} more"
           few: "%{names} and %{count} more"
           many: "%{names} and %{count} more"
@@ -8107,7 +8226,7 @@ ar:
         heading: Delete type '%{name}'?
         projects:
           zero: 'The type will be removed from %{count} projects:'
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           two: 'The type will be removed from %{count} projects:'
           few: 'The type will be removed from %{count} projects:'
           many: 'The type will be removed from %{count} projects:'
@@ -8125,7 +8244,7 @@ ar:
       no_results_title_text: لا يوجد حالياً أي أنواع.
       project_variants_count:
         zero: "%{count} project-specific variants"
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         two: "%{count} project-specific variants"
         few: "%{count} project-specific variants"
         many: "%{count} project-specific variants"
@@ -8138,7 +8257,7 @@ ar:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
         zero: "%{type} without %{fields} and %{count} more fields"
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         two: "%{type} without %{fields} and %{count} more fields"
         few: "%{type} without %{fields} and %{count} more fields"
         many: "%{type} without %{fields} and %{count} more fields"
@@ -8169,22 +8288,12 @@ ar:
     authorization_rejected: لايسمح لك بتسجيل الدخول.
     blocked: مغلق مؤقتاً
     blocked_num_failed_logins:
-      zero: |-
-        مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)
-        مغلق مؤقتا"(محاولات تسجيل الدخول الفاشلة%{count})
-      one: مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)
-      two: |-
-        مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)
-        مغلق مؤقتا"(محاولات تسجيل الدخول الفاشلة%{count})
-      few: |-
-        مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)
-        مغلق مؤقتا"(محاولات تسجيل الدخول الفاشلة%{count})
-      many: |-
-        مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)
-        مغلق مؤقتا"(محاولات تسجيل الدخول الفاشلة%{count})
-      other: |-
-        مغلق مؤقتا ( فشل واحد في محاولة تسجيل الدخول)
-        مغلق مؤقتا"(محاولات تسجيل الدخول الفاشلة%{count})
+      zero: locked temporarily (%{count} failed login attempts)
+      one: locked temporarily (%{count} failed login attempt)
+      two: locked temporarily (%{count} failed login attempts)
+      few: locked temporarily (%{count} failed login attempts)
+      many: locked temporarily (%{count} failed login attempts)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: You are about to change the status of '%{name}'. Are you sure you want to continue?
     deleted: حذف المستخدم
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -8345,7 +8454,7 @@ ar:
         work_days: Work days
         work_days_count:
           zero: "%{count} working days"
-          one: 1 working day
+          one: "%{count} working day"
           two: "%{count} working days"
           few: "%{count} working days"
           many: "%{count} working days"
@@ -8540,7 +8649,7 @@ ar:
       could_not_be_saved: 'The following work packages could not be saved:'
       deletion_successful:
         zero: Successfully deleted %{count} work packages.
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         two: Successfully deleted %{count} work packages.
         few: Successfully deleted %{count} work packages.
         many: Successfully deleted %{count} work packages.
@@ -8569,14 +8678,14 @@ ar:
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
         zero: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         two: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
         zero: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         two: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
         many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
@@ -8584,14 +8693,14 @@ ar:
       title: Delete %{count} work packages
       undeletable_descendants_warning:
         zero: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         zero: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
@@ -8653,14 +8762,14 @@ ar:
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
         zero: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         two: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
         zero: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         two: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
         many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
@@ -8668,14 +8777,14 @@ ar:
       title: Delete work package
       undeletable_descendants_warning:
         zero: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
         zero: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         two: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
         many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
@@ -8757,7 +8866,7 @@ ar:
           text: Nothing has been created yet. Review the summary below, then import.
           title:
             zero: "%{count} lines checked, no problems found"
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             two: "%{count} lines checked, no problems found"
             few: "%{count} lines checked, no problems found"
             many: "%{count} lines checked, no problems found"
@@ -8799,7 +8908,7 @@ ar:
         problems:
           all:
             zero: "%{count} problems, all shown."
-            one: 1 problem.
+            one: "%{count} problem."
             two: "%{count} problems, all shown."
             few: "%{count} problems, all shown."
             many: "%{count} problems, all shown."
@@ -8820,14 +8929,14 @@ ar:
           value: Value
         x_lines:
           zero: "%{count} lines"
-          one: 1 line
+          one: "%{count} line"
           two: "%{count} lines"
           few: "%{count} lines"
           many: "%{count} lines"
           other: "%{count} lines"
         x_problems:
           zero: "%{count} problems"
-          one: 1 problem
+          one: "%{count} problem"
           two: "%{count} problems"
           few: "%{count} problems"
           many: "%{count} problems"
@@ -8867,7 +8976,7 @@ ar:
           no_results_title_text: لا يوجد حاليا أي إصدارات متوفرة.
     x_descendants:
       zero: "%{count} work package descendants"
-      one: One descendant work package
+      one: "%{count} descendant work package"
       two: "%{count} work package descendants"
       few: "%{count} work package descendants"
       many: "%{count} work package descendants"
@@ -8944,14 +9053,14 @@ ar:
         projects_placeholder: Filter projects…
       projects_count:
         zero: "%{count} projects"
-        one: 1 project
+        one: "%{count} project"
         two: "%{count} projects"
         few: "%{count} projects"
         many: "%{count} projects"
         other: "%{count} projects"
       roles_count:
         zero: "%{count} roles"
-        one: 1 role
+        one: "%{count} role"
         two: "%{count} roles"
         few: "%{count} roles"
         many: "%{count} roles"
@@ -8961,14 +9070,14 @@ ar:
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
         zero: "%{count} types"
-        one: 1 type
+        one: "%{count} type"
         two: "%{count} types"
         few: "%{count} types"
         many: "%{count} types"
         other: "%{count} types"
       variants_count:
         zero: "%{count} variants"
-        one: 1 variant
+        one: "%{count} variant"
         two: "%{count} variants"
         few: "%{count} variants"
         many: "%{count} variants"
@@ -9004,14 +9113,14 @@ ar:
       unused: No type or variant uses this workflow yet.
       used_by_types:
         zero: This workflow is used by %{count} types. Changes apply to all of them.
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         two: This workflow is used by %{count} types. Changes apply to all of them.
         few: This workflow is used by %{count} types. Changes apply to all of them.
         many: This workflow is used by %{count} types. Changes apply to all of them.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
         zero: This workflow is used by %{count} types and variants.
-        one: This workflow is used by 1 type or variant.
+        one: This workflow is used by %{count} type or variant.
         two: This workflow is used by %{count} types and variants.
         few: This workflow is used by %{count} types and variants.
         many: This workflow is used by %{count} types and variants.

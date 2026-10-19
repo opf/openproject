@@ -116,7 +116,7 @@ sl:
     not_recommended: ni priporočeno
     recommended: Priporočeno
     x_bcf_issues:
-      one: Ena BCF napaka
+      one: "%{count} BCF issue"
       other: "%{count} BCF napake"
       zero: Ni BCF napak
   bim:

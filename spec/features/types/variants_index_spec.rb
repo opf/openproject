@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -174,6 +173,7 @@ RSpec.describe "Work package variants index", :js do
     expect(Type.exists?(name: I18n.t("types.index.duplicate_name", name: bug_type.name))).to be(true)
   end
 
+  # Native HTML5 drag and drop needs CDP drag interception on Cuprite (AGILE-335)
   it "reorders types via drag and drop", :selenium do
     visit types_path
 

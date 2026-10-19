@@ -30,7 +30,8 @@ apt-get install -yq --no-install-recommends \
   build-essential \
   libyaml-dev \
   libpq-dev \
-  libclang-dev
+  libclang-dev \
+  postgresql-$PGVERSION
 
 if ! command -v node > /dev/null || ! command -v npm > /dev/null; then
   curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1

@@ -54,11 +54,6 @@ export class InAppNotificationActorsLineComponent implements OnInit {
 
   text = {
     and: this.I18n.t('js.notifications.center.label_actor_and'),
-    and_other_singular: this.I18n.t('js.notifications.center.and_more_users.one'),
-    and_other_plural: (count:number):string => this.I18n.t(
-      'js.notifications.center.and_more_users.other',
-      { count },
-    ),
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
@@ -71,12 +66,8 @@ export class InAppNotificationActorsLineComponent implements OnInit {
     }
   }
 
-  text_for_additional_authors(number:number):string {
-    if (number === 1) {
-      return this.text.and_other_singular;
-    }
-
-    return this.text.and_other_plural(number);
+  text_for_additional_authors(count:number):string {
+    return this.I18n.t('js.notifications.center.and_more_users', { count });
   }
 
   private buildActors() {

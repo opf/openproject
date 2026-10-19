@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -120,7 +119,7 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
         get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
 
         expect(response).to be_successful
-        expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
+        expect(response.body).to eq '{"content":" wrote:\n\u003e foo\n\n"}'
       end
 
       it "escapes HTML in quoted message author" do
@@ -159,20 +158,6 @@ RSpec.describe MessagesController, with_settings: { journal_aggregation_time_min
 
         expect(response).to be_successful
         expect(response.parsed_body["content"]).to include('she said "hello" to him')
-      end
-
-      it "does not add RE: prefix when subject already starts with RE:" do
-        message.update!(subject: "RE: already replied")
-        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
-
-        expect(response.parsed_body["subject"]).to eq "RE: already replied"
-      end
-
-      it "adds RE: prefix to subject" do
-        message.update!(subject: "original topic")
-        get :quote, params: { project_id: project.id, forum_id: forum.id, id: message.id }, format: :json
-
-        expect(response.parsed_body["subject"]).to eq "RE: original topic"
       end
 
       it "handles nil content gracefully" do

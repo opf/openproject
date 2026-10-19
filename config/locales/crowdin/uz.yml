@@ -40,7 +40,9 @@ uz:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: Delete account
     delete_confirmation: Are you sure you want to delete the account?
     deletion_info:
@@ -65,7 +67,9 @@ uz:
     error_self_registration_limited_provider: 'User registration is limited for the Single sign-on provider ''%{name}''. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
 
       '
-    login_with_auth_provider: or sign in with your existing account
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Please login to activate your account.
@@ -201,11 +205,17 @@ uz:
         row_count: Number of rows
         widgets: Widgets
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -435,6 +445,7 @@ uz:
       user:
         admin: Administrator
         auth_source: Authentication source
+        avatar_type: Avatar type
         consented_at: Consented at
         current_password: Current password
         department: Department
@@ -448,7 +459,7 @@ uz:
         last_name: Last name
         ldap_auth_source: LDAP connection
         new_password: New password
-        password_confirmation: Confirmation
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -458,12 +469,14 @@ uz:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
         comments_sorting: Display work package activity sorted by
         daily_reminders: Daily reminders
+        date_format: Date format
         disable_keyboard_shortcuts: Disable keyboard shortcuts
         dismissed_enterprise_banners: Hidden enterprise banners
         force_dark_theme_contrast: Force high-contrast when in Dark mode
@@ -480,6 +493,7 @@ uz:
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Color mode
+        time_format: Time format
         time_zone: Time zone
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved changes
         workdays: Working days
@@ -1003,7 +1017,7 @@ uz:
               numeric: numeric (e.g. '1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                one: has been used before. Please choose one that is different from your last one.
+                one: has been used before. Please choose one that is different from your last %{count} password.
                 other: has been used before. Please choose one that is different from your last %{count}.
               special: special (e.g. '%')
               uppercase: uppercase (e.g. 'A')
@@ -1108,7 +1122,7 @@ uz:
       template:
         body: 'Please check the following fields:'
         header:
-          one: 1 error prohibited this %{model} from being saved
+          one: "%{count} error prohibited this %{model} from being saved"
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
@@ -1751,25 +1765,25 @@ uz:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
+              one: "%{count} issue"
               other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               other: "%{count} jobs"
             projects:
-              one: 1 project
+              one: "%{count} project"
               other: "%{count} projects"
             statuses:
-              one: 1 status
+              one: "%{count} status"
               other: "%{count} statuses"
             types:
-              one: 1 type
+              one: "%{count} type"
               other: "%{count} types"
             users:
-              one: 1 user
+              one: "%{count} user"
               other: "%{count} users"
             work_packages:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
@@ -1835,7 +1849,7 @@ uz:
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
               caption_done_description:
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
@@ -2122,6 +2136,10 @@ uz:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2135,7 +2153,7 @@ uz:
         confirm_button: Unreserve identifier
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
         title: Unreserve identifier
@@ -2264,7 +2282,7 @@ uz:
           error_unknown: Needs manual review
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
-            one: "... 1 more project"
+            one: "... %{count} more project"
             other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
@@ -2347,7 +2365,7 @@ uz:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: One role selected
+          one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
       status_button: Status
@@ -2359,7 +2377,7 @@ uz:
         confirm: Remove
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
-          one: Remove 1 status?
+          one: Remove %{count} status?
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
@@ -2380,6 +2398,21 @@ uz:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: currently displayed
@@ -2796,9 +2829,9 @@ uz:
     text:
       failed: Could not copy project "%{source_project_name}" to project "%{target_project_name}".
       succeeded: Copied project "%{source_project_name}" to "%{target_project_name}".
-    title: Copy project "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: One object of this type
+      one: "%{count} object of this type"
       other: "%{count} objects of this type"
       zero: No objects of this type
   create_portfolio:
@@ -2838,7 +2871,7 @@ uz:
     admin:
       hierarchy:
         subitems:
-          one: 1 sub-item
+          one: "%{count} sub-item"
           other: "%{count} sub-items"
           zero: no sub-items
       items:
@@ -2998,56 +3031,56 @@ uz:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: about 1 hour
+        one: about %{count} hour
         other: about %{count} hours
       about_x_months:
-        one: about 1 month
+        one: about %{count} month
         other: about %{count} months
       about_x_years:
-        one: about 1 year
+        one: about %{count} year
         other: about %{count} years
       almost_x_years:
-        one: almost 1 year
+        one: almost %{count} year
         other: almost %{count} years
       half_a_minute: half a minute
       less_than_x_minutes:
         one: less than a minute
         other: less than %{count} minutes
       less_than_x_seconds:
-        one: less than 1 second
+        one: less than %{count} second
         other: less than %{count} seconds
       over_x_years:
-        one: over 1 year
+        one: over %{count} year
         other: over %{count} years
       x_days:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} days"
       x_hours:
-        one: 1 hour
+        one: "%{count} hour"
         other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 hr
+        one: "%{count} hr"
         other: "%{count} hrs"
       x_minutes:
-        one: 1 minute
+        one: "%{count} minute"
         other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min
+        one: "%{count} min"
         other: "%{count} mins"
       x_months:
-        one: 1 month
+        one: "%{count} month"
         other: "%{count} months"
       x_seconds:
-        one: 1 second
+        one: "%{count} second"
         other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 week
+        one: "%{count} week"
         other: "%{count} weeks"
       x_years:
-        one: 1 year
+        one: "%{count} year"
         other: "%{count} years"
     units:
       day:
@@ -3198,7 +3231,7 @@ uz:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        one: One day left of %{trial_plan} trial token
+        one: "%{count} day left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
@@ -3584,14 +3617,14 @@ uz:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Form
@@ -3627,10 +3660,10 @@ uz:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
+        one: This form is used by %{count} type or variant.
         other: This form is used by %{count} types and variants.
     wizard:
       choice:
@@ -3641,8 +3674,48 @@ uz:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3667,6 +3740,8 @@ uz:
   groups:
     edit:
       synchronized_groups: Synchronized groups
+    form:
+      group_attributes: Group attributes
     index:
       description: By grouping users together, you can add them as members to the same projects or assign the same global roles to them.
     memberships:
@@ -3692,6 +3767,10 @@ uz:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3740,6 +3819,31 @@ uz:
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: Read about new features and product updates.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
@@ -3775,6 +3879,7 @@ uz:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3827,6 +3932,7 @@ uz:
       budget_deleted: Budget has been deleted
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -4014,7 +4120,7 @@ uz:
   label_database_version: PostgreSQL version
   label_date: Date
   label_date_and_time: Date and time
-  label_date_format: Date format
+  label_date_and_time_formats: Date and time formats
   label_date_from: From
   label_date_from_to: From %{start} to %{end}
   label_date_to: To
@@ -4173,7 +4279,6 @@ uz:
   label_keyword_plural: Keywords
   label_label_plural: Labels
   label_language: Language
-  label_language_based: Based on user's language
   label_languages: Languages
   label_last_activity: Last activity
   label_last_change_on: Last change on
@@ -4195,6 +4300,7 @@ uz:
   label_list: List
   label_loading: Loading...
   label_locale: Language and region
+  label_locale_based: Use default for user locale
   label_lock_user: Lock user
   label_locked: locked
   label_logged_as: Logged in as
@@ -4224,7 +4330,6 @@ uz:
   label_menu_item_name: Name of menu item
   label_message: Message
   label_message_last: Last message
-  label_message_new: New message
   label_message_plural: Messages
   label_message_posted: Message added
   label_minute_plural: minutes
@@ -4485,6 +4590,7 @@ uz:
   label_subtask_plural: Subtasks
   label_summary: Summary
   label_system: System
+  label_system_or_language_default: Use system or language based default
   label_system_settings: System settings
   label_system_storage: Storage information
   label_table_of_contents: Table of contents
@@ -4599,44 +4705,44 @@ uz:
   label_working_hours: Work schedule
   label_workweek: Work week
   label_x_closed_work_packages_abbr:
-    one: 1 closed
+    one: "%{count} closed"
     other: "%{count} closed"
     zero: 0 closed
   label_x_comments:
-    one: 1 comment
+    one: "%{count} comment"
     other: "%{count} comments"
     zero: no comments
   label_x_days:
-    one: 1 day
+    one: "%{count} day"
     other: "%{count} days"
   label_x_files:
-    one: 1 file
+    one: "%{count} file"
     other: "%{count} files"
     zero: no files
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
-    one: One item selected
+    one: "%{count} item selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 open
+    one: "%{count} open"
     other: "%{count} open"
     zero: 0 open
   label_x_projects:
-    one: 1 project
+    one: "%{count} project"
     other: "%{count} projects"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: "%{count} work package"
     other: "%{count} work packages"
     zero: No work packages
   label_x_working_days:
-    one: 1 working day
+    one: "%{count} working day"
     other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
+    one: 'Time off: %{count} working day'
     other: 'Time off: %{count} working days'
   label_yesterday: yesterday
   label_zen_mode: Zen mode
@@ -4856,6 +4962,8 @@ uz:
       you_have: You have
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: To notification center
@@ -4912,7 +5020,7 @@ uz:
       mentioned: You have been <b>mentioned in a comment</b>
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: There is 1 more work package with notifications.
+        one: There is %{count} more work package with notifications.
         other: There are %{count} more work packages with notifications.
       open_in_browser: Open in browser
       reason:
@@ -5097,7 +5205,7 @@ uz:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
@@ -5443,7 +5551,7 @@ uz:
 
       '
     confirm_revoke_my_application:
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: No OAuth applications have been registered.
     flows:
@@ -5650,7 +5758,7 @@ uz:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Comment news
   permission_commit_access: Read/write access to repository (commit)
-  permission_copy_projects: Copy projects
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
@@ -5789,7 +5897,7 @@ uz:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5800,7 +5908,7 @@ uz:
         label: Portfolio name filter
         placeholder: Search portfolios
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Active portfolios
@@ -5815,7 +5923,7 @@ uz:
         It can be used for highlighting work packages in the table.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5827,7 +5935,7 @@ uz:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 project
+      one: "%{count} project"
       other: "%{count} projects"
       zero: 0 projects
     destroy:
@@ -6042,14 +6150,14 @@ uz:
             new_heading: Fields that become available
             nothing_affected: No fields or statuses are affected.
             status_count:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
             table_suffix: "(table)"
             value_count:
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               other: "%{count} work packages have a value"
             work_packages:
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
@@ -6106,7 +6214,7 @@ uz:
     action_title: React
     add_reaction: Add reaction
     and_others:
-      one: and 1 other
+      one: and %{count} other
       other: and %{count} others
     and_user: and %{user}
     react_with: React with %{reaction}
@@ -6234,23 +6342,23 @@ uz:
         one: "(Project: %{projects})"
         other: "(Projects: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       summary_users:
-        one: 1 user
+        one: "%{count} user"
         other: "%{count} users"
       title: Delete role
     edit:
@@ -6266,10 +6374,9 @@ uz:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
-        one: 1 permission
+        one: "%{count} permission"
         other: "%{count} permissions"
       preview_action: View permissions
       preview_aria_label: View the permissions of %{role}
@@ -6378,7 +6485,7 @@ uz:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
-  setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Duration format
   setting_duration_format_days_and_hours: Days and hours
   setting_duration_format_hours_only: Hours only
@@ -6760,7 +6867,7 @@ uz:
       section_work_week: Work week
   sharing:
     count:
-      one: 1 user
+      one: "%{count} user"
       other: "%{count} users"
       zero: 0 users
     denied: You don't have permissions to share %{entities}.
@@ -7073,7 +7180,7 @@ uz:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
         parent_type: Parent type
         same_as_type: Same as parent type
@@ -7404,7 +7511,7 @@ uz:
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
         heading: Delete type '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
@@ -7418,7 +7525,7 @@ uz:
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
       project_variants_count:
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
@@ -7427,7 +7534,7 @@ uz:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
@@ -7455,7 +7562,7 @@ uz:
     authorization_rejected: You are not allowed to sign in.
     blocked: locked temporarily
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
+      one: locked temporarily (%{count} failed login attempt)
       other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: You are about to change the status of '%{name}'. Are you sure you want to continue?
     deleted: Deleted user
@@ -7616,7 +7723,7 @@ uz:
         start_date: Start date
         work_days: Work days
         work_days_count:
-          one: 1 working day
+          one: "%{count} working day"
           other: "%{count} working days"
         work_hours: Work hours
   version_status_closed: closed
@@ -7805,7 +7912,7 @@ uz:
       could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'The following work packages could not be saved:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         other: Successfully deleted %{count} work packages.
       descendant: descendant of selected
       move_failed: The work packages could not be moved.
@@ -7830,17 +7937,17 @@ uz:
       description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
@@ -7898,17 +8005,17 @@ uz:
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
@@ -7986,7 +8093,7 @@ uz:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
         file_rejected:
@@ -8020,7 +8127,7 @@ uz:
           work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: Problems
@@ -8037,10 +8144,10 @@ uz:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -8076,7 +8183,7 @@ uz:
         version:
           no_results_title_text: There are currently no versions available.
     x_descendants:
-      one: One descendant work package
+      one: "%{count} descendant work package"
       other: "%{count} work package descendants"
   workflows:
     change:
@@ -8145,19 +8252,19 @@ uz:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         other: "%{count} roles"
       type_filter:
         label: Filter by type name…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Workflow
@@ -8189,10 +8296,10 @@ uz:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
+        one: This workflow is used by %{count} type or variant.
         other: This workflow is used by %{count} types and variants.
     wizard:
       choice:
