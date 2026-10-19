@@ -173,6 +173,8 @@ The form shows the available global permissions which can be assigned to the new
 - View all users' mail addresses
 - Edit attribute help texts
 - Manage public project lists
+- [View global resource planners](../../../user-guide/resource-management/#global-resource-planners)
+- [Manage public global resource planners](../../../user-guide/resource-management/#global-resource-planners)
 
 ### Edit and delete roles
 

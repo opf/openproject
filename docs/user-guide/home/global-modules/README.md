@@ -21,7 +21,7 @@ You can also use the grid icon in the top left corner to access the **Global mod
 
 You can also use the grid icon in the top left corner to access the **Global modules** side menu.
 
-If you navigate within a specific project, you can also return to the global modules by unselecting your project in the project selector menu. The project you are currently in will be indicated by the grey background. Click the **x** icon to unselect it and return to global modules. The module selection will be kept, i.e. if you were viewing Meetings module in the project, you will see the global Meetings module. 
+If you navigate within a specific project, you can also return to the global modules by unselecting your project in the project selector menu. The project you are currently in will be indicated by the grey background. Click the **x** icon to unselect it and return to global modules. The module selection will be kept, i.e. if you were viewing Meetings module in the project, you will see the global Meetings module.
 
 ![Unselect a project from the project list in OpenProject](openproject_global_modules_unselect_project.png)
 
@@ -111,6 +111,14 @@ You can also create a new team planner directly from the global modules menu by 
 
 You can name the new team planner, select a project to which it should belong and set to be public or favorited. Find out more about editing team planners [here](../../team-planner).
 
+## Resource management
+
+The **Resource management** global module displays your personal global and public resource planners. Global resource planners let you plan resources and allocations across several projects. You also find the global **Staffing** view here.
+
+![The Resource management global module](openproject_global_modules_resource_management.png)
+
+For more information, see [Global resource planners](../../resource-management/#global-resource-planners).
+
 ## Boards
 
 The **Boards** global module lists all boards to which you have access across all projects, including public projects.
@@ -159,11 +167,11 @@ Read more about creating and editing **Meetings** [here](../../meetings).
 
 ## Wiki
 
-The **Wiki** global module lists all wiki pages across all projects and displays their respective project, the number of sub-pages, and the last edit date. The default view shows **Main wiki pages**, but you can select to show **All wiki pages**. Please note that  you will only see the wiki pages that you're authorized to view. 
+The **Wiki** global module lists all wiki pages across all projects and displays their respective project, the number of sub-pages, and the last edit date. The default view shows **Main wiki pages**, but you can select to show **All wiki pages**. Please note that  you will only see the wiki pages that you're authorized to view.
 
 ![The Wiki global module](openproject_global_modules_wiki.png)
 
-You can also use the search bar on the top of the list to search for wiki pages by name. 
+You can also use the search bar on the top of the list to search for wiki pages by name.
 
 Clicking on a wiki page will guide you directly to this page in the respective project.
 
