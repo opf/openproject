@@ -1,7 +1,7 @@
 <%=
   flex_layout(justify_content: :space_between, align_items: :center) do |row|
     row.with_column(flex_layout: true, align_items: :center, flex: 1) do |left|
-      unless readonly?
+      if sortable?
         left.with_column(mr: 2, classes: "hide-when-print type-form-configuration-page--drag-handle") do
           render(
             Primer::OpenProject::DragHandle.new(
@@ -56,7 +56,7 @@
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(**actions_button_arguments)
 
-          if multiple_attributes?
+          if sortable? && multiple_attributes?
             with_move_items(menu)
             menu.with_divider
           end
