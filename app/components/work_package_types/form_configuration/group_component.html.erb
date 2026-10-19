@@ -70,7 +70,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       elsif !attributes.empty?
         attributes.each do |attribute|
-          box.with_row(data: attribute_item_data(attribute)) do
+          box.with_row(data: row_data(attribute)) do
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
