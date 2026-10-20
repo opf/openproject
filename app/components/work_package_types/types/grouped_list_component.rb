@@ -36,30 +36,35 @@ module WorkPackageTypes
 
       FRAME_ID = "admin-types-list"
 
-      def initialize(types:, expanded_type_id: nil, page_args: {}, query: nil)
+      def initialize(types:, expanded_type_id: nil, page_args: {}, query: nil, created_by_migration: nil)
         super()
 
         @types = types
         @expanded_type_id = expanded_type_id
         @page_args = page_args.presence || { page: types.current_page, per_page: types.per_page }
         @query = query.presence
+        @created_by_migration = created_by_migration.presence
       end
 
       private
 
-      attr_reader :types, :expanded_type_id, :page_args, :query
+      attr_reader :types, :expanded_type_id, :page_args, :query, :created_by_migration
+
+      def migration_filter? = created_by_migration == "t"
+
+      def filtered? = query.present? || migration_filter?
 
       def collapsed?(root)
-        return false if query
+        return false if filtered?
 
         root.id != expanded_type_id
       end
 
       def named_variants(root)
         scope = root.variants.non_default_variants
-        return scope unless narrowed_to_query?(root)
-
-        scope.with_name_like(query)
+        scope = scope.with_name_like(query) if narrowed_to_query?(root)
+        scope = scope.created_by_migration if migration_filter?
+        scope
       end
 
       def narrowed_to_query?(root)
@@ -82,7 +87,7 @@ module WorkPackageTypes
       end
 
       def owned_variants_path(root)
-        type_variants_path(type_id: root.id)
+        type_variants_path(type_id: root.id, created_by_migration: created_by_migration)
       end
 
       # Only the type's own configuration: a variant carrying the flag says so on its own row.
@@ -113,11 +118,11 @@ module WorkPackageTypes
       end
 
       def reorderable?(type)
-        query.nil? && !(type.first? && type.last?)
+        !filtered? && !(type.first? && type.last?)
       end
 
       def context_args
-        page_args.merge(expand: expanded_type_id, query:).compact
+        page_args.merge(expand: expanded_type_id, query:, created_by_migration:).compact
       end
 
       def wrapper_data_attributes

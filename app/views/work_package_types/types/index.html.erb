@@ -60,27 +60,63 @@ See COPYRIGHT and LICENSE files for more details.
                         turbo_frame: WorkPackageTypes::Types::GroupedListComponent::FRAME_ID,
                         turbo_action: "replace" }
   ) do
-    render(Primer::OpenProject::SubHeader.new) do |subheader|
-      subheader.with_filter_input(
-        name: "query",
-        value: @query,
-        label: t("types.index.filter"),
-        placeholder: t("types.index.filter"),
-        leading_visual: { icon: :search, size: :small },
-        data: { action: "input->auto-submit#submit" }
-      )
+    concat(
+      render(Primer::OpenProject::SubHeader.new) do |subheader|
+        subheader.with_filter_input(
+          name: "query",
+          value: @query,
+          label: t("types.index.filter"),
+          placeholder: t("types.index.filter"),
+          leading_visual: { icon: :search, size: :small },
+          data: { action: "input->auto-submit#submit" }
+        )
 
-      subheader.with_action_button(
-        scheme: :primary,
-        leading_icon: :plus,
-        label: t(:label_type_new),
-        test_selector: "op-admin-types--button-new",
-        tag: :a,
-        href: type_creation_path
-      ) do
-        t("activerecord.attributes.work_package.type")
+        if @migrated_variants_exist
+          subheader.with_quick_filter(
+            data: {
+              controller: "filter--segmented-control",
+              action: "itemActivated->filter--segmented-control#activate"
+            }
+          ) do
+            concat hidden_field_tag(
+              :created_by_migration, @created_by_migration,
+              data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
+            )
+            concat(
+              render(
+                Primer::Alpha::SegmentedControl.new(
+                  "aria-label": t(:label_filter_plural),
+                  full_width: false,
+                  test_selector: "types-migration-filter"
+                )
+              ) do |control|
+                control.with_item(
+                  label: t("types.edit.variants.created_by_migration_filter.all"),
+                  selected: @created_by_migration != "t",
+                  data: { value: "" }
+                )
+                control.with_item(
+                  label: t("types.edit.variants.created_by_migration_filter.migrated"),
+                  selected: @created_by_migration == "t",
+                  data: { value: "t" }
+                )
+              end
+            )
+          end
+        end
+
+        subheader.with_action_button(
+          scheme: :primary,
+          leading_icon: :plus,
+          label: t(:label_type_new),
+          test_selector: "op-admin-types--button-new",
+          tag: :a,
+          href: type_creation_path
+        ) do
+          t("activerecord.attributes.work_package.type")
+        end
       end
-    end
+    )
   end
 %>
 
@@ -92,9 +128,10 @@ See COPYRIGHT and LICENSE files for more details.
           types: @types,
           expanded_type_id: @expanded_type_id,
           page_args: @page_args,
-          query: @query
+          query: @query,
+          created_by_migration: @created_by_migration
         ) %>
-  <% elsif @query %>
+  <% elsif @query || @created_by_migration %>
     <%= render(Primer::Beta::Blankslate.new(border: true, test_selector: "types-filter-no-results")) do |blankslate|
           blankslate.with_visual_icon(icon: :search)
           blankslate.with_heading(tag: :h3) { t("types.index.filter_no_results") }

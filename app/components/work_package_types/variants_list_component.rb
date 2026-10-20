@@ -64,6 +64,8 @@ module WorkPackageTypes
 
     def any_variants? = named_variants.exists?
 
+    def any_migrated_variants? = named_variants.created_by_migration.exists?
+
     # An empty section is dropped: a section explains what is in it.
     def sections
       @sections ||= variants

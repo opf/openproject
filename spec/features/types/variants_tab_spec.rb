@@ -58,6 +58,11 @@ RSpec.describe "Work package type variants tab", :js do
                               href: type_variant_settings_path(type_id: bug_type.id, variant_id: hardware.id))
   end
 
+  it "leaves the banner and the migration filter out when no variant came from a migration" do
+    expect(page).to have_no_test_selector("migrated-variants-banner")
+    expect(page).to have_no_test_selector("type-variants-migration-filter")
+  end
+
   it "stays on the tab after activating a variant in new projects" do
     open_variant_menu
     click_on I18n.t("types.index.make_default")

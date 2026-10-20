@@ -73,6 +73,10 @@ class Type < ApplicationRecord
     with_name_like(query).or(where(id: TypeVariant.with_name_like(query).select(:type_id)))
   }
 
+  scope :with_migrated_variants, -> {
+    where(id: TypeVariant.created_by_migration.select(:type_id))
+  }
+
   delegate :to_s, to: :name
 
   # Read from the collection rather than through an association of its own, so a base variant

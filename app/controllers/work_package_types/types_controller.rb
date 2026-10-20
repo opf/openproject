@@ -48,6 +48,8 @@ module WorkPackageTypes
       @expanded_type_id = expanded_type_id
       @page_args = page_args
       @query = params[:query].presence
+      @created_by_migration = params[:created_by_migration].presence
+      @migrated_variants_exist = TypeVariant.created_by_migration.exists?
       @types = types_for_index
 
       render layout: false if turbo_frame_request?
@@ -98,7 +100,7 @@ module WorkPackageTypes
     end
 
     def menu
-      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:, query: params[:query]),
+      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:, filtered: filtered?),
              layout: false
     end
 
@@ -113,11 +115,16 @@ module WorkPackageTypes
         .includes(:color, :projects,
                   variants: [:workflow, { form_configuration: :custom_fields }])
       scope = scope.with_own_or_variant_name_like(@query) if @query
+      scope = scope.with_migrated_variants if migration_filter?
 
       scope
         .page(page_param)
         .per_page(per_page_param)
     end
+
+    def migration_filter? = params[:created_by_migration].presence == "t"
+
+    def filtered? = params[:query].present? || migration_filter?
 
     def refuse_deletion
       flash[:error] = destroy_error_message

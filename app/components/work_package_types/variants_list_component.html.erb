@@ -43,36 +43,38 @@ See COPYRIGHT and LICENSE files for more details.
                   data: { action: "input->auto-submit#submit" }
                 )
 
-                subheader.with_quick_filter(
-                  data: {
-                    controller: "filter--segmented-control",
-                    action: "itemActivated->filter--segmented-control#activate"
-                  }
-                ) do
-                  concat hidden_field_tag(
-                    :created_by_migration, created_by_migration,
-                    data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
-                  )
-                  concat(
-                    render(
-                      Primer::Alpha::SegmentedControl.new(
-                        "aria-label": I18n.t(:label_filter_plural),
-                        full_width: false,
-                        test_selector: "type-variants-migration-filter"
-                      )
-                    ) do |control|
-                      control.with_item(
-                        label: I18n.t("types.edit.variants.created_by_migration_filter.all"),
-                        selected: !migration_filter?,
-                        data: { value: "" }
-                      )
-                      control.with_item(
-                        label: I18n.t("types.edit.variants.created_by_migration_filter.migrated"),
-                        selected: migration_filter?,
-                        data: { value: "t" }
-                      )
-                    end
-                  )
+                if any_migrated_variants?
+                  subheader.with_quick_filter(
+                    data: {
+                      controller: "filter--segmented-control",
+                      action: "itemActivated->filter--segmented-control#activate"
+                    }
+                  ) do
+                    concat hidden_field_tag(
+                      :created_by_migration, created_by_migration,
+                      data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
+                    )
+                    concat(
+                      render(
+                        Primer::Alpha::SegmentedControl.new(
+                          "aria-label": I18n.t(:label_filter_plural),
+                          full_width: false,
+                          test_selector: "type-variants-migration-filter"
+                        )
+                      ) do |control|
+                        control.with_item(
+                          label: I18n.t("types.edit.variants.created_by_migration_filter.all"),
+                          selected: !migration_filter?,
+                          data: { value: "" }
+                        )
+                        control.with_item(
+                          label: I18n.t("types.edit.variants.created_by_migration_filter.migrated"),
+                          selected: migration_filter?,
+                          data: { value: "t" }
+                        )
+                      end
+                    )
+                  end
                 end
 
                 subheader.with_action_button(
