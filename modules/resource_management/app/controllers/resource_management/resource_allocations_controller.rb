@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module ::ResourceManagement
   class ResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
@@ -147,8 +147,6 @@ module ::ResourceManagement
     end
 
     def render_warning_step(allocation, dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID)
-      ranges = overbooked_ranges(allocation)
-
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
@@ -156,8 +154,8 @@ module ::ResourceManagement
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
-          overbooked_ranges: ranges,
-          working_schedules: working_schedules(allocation, ranges)
+          overbooking: overbooking(allocation),
+          working_schedules: working_schedules(allocation)
         )
       )
       replace_via_turbo_stream(
@@ -188,28 +186,16 @@ module ::ResourceManagement
     def needs_confirmation?(allocation)
       return false if params[:confirmed].present?
 
-      overbooked_ranges(allocation).any?
-    end
-
-    def overbooked_ranges(allocation)
-      @overbooked_ranges ||= compute_overbooked_ranges(allocation)
+      overbooking(allocation)&.overbooked?
     end
 
     # Overbooking is a user-level concern, so it is only checked for allocations
     # assigned to a specific user, and only when that user has working time
     # configured (otherwise their capacity is unknown, not zero).
-    def compute_overbooked_ranges(allocation)
-      return [] unless overbooking_checkable?(allocation)
+    def overbooking(allocation)
+      return unless overbooking_checkable?(allocation)
 
-      # `exclude_id` drops the persisted version of an allocation being edited,
-      # so its old booking does not count against the new one.
-      availability(allocation).overbooking_with(
-        start_date: allocation.start_date,
-        end_date: allocation.end_date,
-        minutes: allocation.allocated_time,
-        work_package_id: allocation.entity_id,
-        exclude_id: allocation.id
-      )
+      @overbooking ||= availability(allocation).overbooking_with(allocation)
     end
 
     def overbooking_checkable?(allocation)
@@ -219,13 +205,9 @@ module ::ResourceManagement
         UserWorkingHours.for_user(allocation.principal).exists?
     end
 
-    # The schedule note covers the span of the displayed overbooked ranges so
-    # it explains the capacity figures the user actually sees.
-    def working_schedules(allocation, ranges)
-      return [] if ranges.empty?
-
-      span = ranges.map(&:start_date).min..ranges.map(&:end_date).max
-      availability(allocation).working_schedules(span)
+    def working_schedules(allocation)
+      span = overbooking(allocation).period || (allocation.start_date..allocation.end_date)
+      UserWorkingHours.for_user(allocation.principal).effective_within(span)
     end
 
     def availability(allocation)

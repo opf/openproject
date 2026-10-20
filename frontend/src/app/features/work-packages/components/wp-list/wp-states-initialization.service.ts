@@ -155,7 +155,7 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTableAdditionalElements.initialize(query, results);
 
-    this.wpTableOrder.initialize(query, results);
+    this.wpTableOrder.initialize(query);
 
     this.wpDisplayRepresentation.initialize(query, results);
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -485,7 +484,33 @@ RSpec.describe "ResourceAllocations requests",
         end.to change(ResourceAllocation, :count).by(1)
       end
 
-      it "collapses allocations of work packages the requester cannot see into a lump sum" do
+      it "states its hours and period and, emphasized, the overtime it causes",
+         with_settings: { date_format: "%Y-%m-%d" } do
+        post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
+
+        page = Nokogiri::HTML4.fragment(response.body)
+        expect(page.text).to include(
+          "This allocation adds 40h between 2026-03-02 and 2026-03-03, " \
+          "causing 24h of overtime between 2026-03-02 and 2026-03-03."
+        )
+        expect(page.css("strong").map(&:text)).to include("causing 24h of overtime between 2026-03-02 and 2026-03-03")
+      end
+
+      it "includes the overtime of other allocations it pushes back in that period",
+         with_settings: { date_format: "%Y-%m-%d" } do
+        create(:resource_allocation, principal: working_assignee, entity: work_package, allocated_time: 960,
+                                     start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 4))
+        params = base_params.deep_merge(resource_allocation: { allocated_hours: "16h" })
+
+        post project_resource_allocations_path(project), params:, as: :turbo_stream
+
+        expect(Nokogiri::HTML4.fragment(response.body).text).to include(
+          "This allocation adds 16h between 2026-03-02 and 2026-03-03, " \
+          "causing 8h of overtime between 2026-03-02 and 2026-03-04."
+        )
+      end
+
+      it "does not name the work packages of other allocations" do
         hidden_work_package = create(:work_package, project: create(:project), subject: "Confidential rocket plans")
         create(:resource_allocation,
                principal: working_assignee,
@@ -496,9 +521,27 @@ RSpec.describe "ResourceAllocations requests",
 
         post project_resource_allocations_path(project), params: base_params, as: :turbo_stream
 
-        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.hidden_work"))
-        expect(response.body).to include("10h")
         expect(response.body).not_to include("Confidential rocket plans")
+      end
+
+      it "warns with its own text when the period contains no working day of the user" do
+        params = base_params.deep_merge(resource_allocation: { date_range: "2026-03-07 - 2026-03-08", allocated_hours: "4h" })
+        post project_resource_allocations_path(project), params:, as: :turbo_stream
+
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include(working_assignee.name)
+        expect(response.body).to include("has no working day")
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "creates directly when only an existing overbooking it does not add to is present" do
+        create(:resource_allocation, principal: working_assignee, entity: work_package, allocated_time: 600,
+                                     start_date: Date.new(2026, 3, 9), end_date: Date.new(2026, 3, 9))
+        params = base_params.deep_merge(resource_allocation: { allocated_hours: "8h" })
+
+        expect do
+          post project_resource_allocations_path(project), params:, as: :turbo_stream
+        end.to change(ResourceAllocation, :count).by(1)
       end
     end
 
@@ -663,6 +706,15 @@ RSpec.describe "ResourceAllocations requests",
 
         expect(response).to have_http_status(:ok)
         expect(allocation.reload.allocated_time).to eq(600)
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "renders the overbooking confirmation when an already overbooked allocation is saved unchanged" do
+        allocation.update!(allocated_time: 40 * 60)
+
+        perform
+
         expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
         expect(response.body).to include('name="confirmed"')
       end

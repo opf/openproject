@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,10 @@
 module Queries::Filters::Strategies
   class CfDateTime < CfDate
     def validate
-      if [Queries::Operators::OnDateTime, Queries::Operators::BetweenDateTime].include?(operator)
+      if [Queries::Operators::OnDateTime,
+          Queries::Operators::BetweenDateTime,
+          Queries::Operators::GreaterOrEqualDateTime,
+          Queries::Operators::LessOrEqualDateTime].include?(operator)
         validate_values_all_datetime
       else
         super
@@ -53,7 +55,9 @@ module Queries::Filters::Strategies
     def operator_map
       super.merge(
         "=d" => Queries::Operators::OnDateTime,
-        "<>d" => Queries::Operators::BetweenDateTime
+        "<>d" => Queries::Operators::BetweenDateTime,
+        ">d" => Queries::Operators::GreaterOrEqualDateTime,
+        "<d" => Queries::Operators::LessOrEqualDateTime
       )
     end
 

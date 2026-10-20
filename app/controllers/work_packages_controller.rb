@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ class WorkPackagesController < ApplicationController
   # For views showing the work package elsewhere to bring themselves up to date.
   UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
 
-  accept_key_auth :index, :show
+  accept_rss_key_auth :index, :show
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]

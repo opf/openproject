@@ -202,6 +202,7 @@
     description_subwork_package: 'Barn av arbeidspakke #%{id}'
     editor:
       ckeditor_error: Det oppstod en feil i CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Lagring av dokumentet mislyktes med følgende feil: %{error}'
       macro:
         attribute_reference:
@@ -623,8 +624,8 @@
     notifications:
       center:
         and_more_users:
-          one: og 1 annen
-          other: og %{count} andre
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Ser ut som du er helt oppdatert.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -720,6 +721,7 @@
     placeholders:
       default: "-"
       description: 'Beskrivelse: Klikk for å redigere...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klikk for å legge til beskrivelse for denne relasjonen
       selection: Vennligst velg
       subject: Angi emne her
@@ -826,11 +828,11 @@
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -845,9 +847,7 @@
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Er du sikker på at du vil slette valgte arbeidspakke(r)?
     time_entry:
-      stop: Stopp
       title: Logg tid
-      tracking: Tidsstyring
       work_package_required: Valg av arbeidspakke er påkrevd
     timer:
       button_stop: Stopp nåværende tidtaker
@@ -882,19 +882,19 @@
       label_two_factor_authentication: Tofaktorautentisering
     units:
       child_work_packages:
-        one: en underordnet arbeidspakke
-        other: "%{count} underordnet arbeidspakke"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dag
+        one: "%{count} day"
         other: "%{count} dager"
         zero: 0 dager
       hour:
-        one: 1 t
+        one: "%{count} h"
         other: "%{count} t"
         zero: 0 t
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: arbeidspakke

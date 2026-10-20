@@ -65,6 +65,8 @@
             test_selector: "op-meeting-agenda-actions"
           )
 
+          with_item_group(menu) { vote_action_items(menu) }
+
           with_item_group(menu) do
             edit_action_item(menu)
             copy_action_item(menu) unless in_backlog?
@@ -109,14 +111,23 @@
             end
           end
 
+          if add_item_action?
+            with_item_group(menu) { add_item_action_items(menu) }
+          end
+
           with_item_group(menu) { delete_action_item(menu) }
         end
       end
 
       grid.with_area(:notes, tag: :div) do
-        if @meeting_agenda_item.notes.present?
-          render(Primer::Box.new(classes: notes_classes, mt: 1)) do
-            formatted_notes
+        component_collection do |body|
+          if @meeting_agenda_item.vote_based_ordering?
+            body.with_component(MeetingAgendaItems::VoteControlsComponent.new(meeting_agenda_item: @meeting_agenda_item, voting_enabled: voting_enabled?))
+          end
+          if @meeting_agenda_item.notes.present?
+            body.with_component(Primer::Box.new(classes: notes_classes, mt: 1)) do
+              formatted_notes
+            end
           end
         end
       end

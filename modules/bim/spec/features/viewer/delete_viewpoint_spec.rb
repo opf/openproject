@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative "../../spec_helper"
 
-RSpec.describe "Delete viewpoint in model viewer", :js, :selenium, with_config: { edition: "bim" } do
+RSpec.describe "Delete viewpoint in model viewer", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:user) { create(:admin) }
 
@@ -59,12 +60,10 @@ RSpec.describe "Delete viewpoint in model viewer", :js, :selenium, with_config: 
     # Delete but don't confirm alert
     bcf_details.delete_current_viewpoint confirm: false
 
-    sleep 1
     bcf_details.expect_viewpoint_count 1
 
     # Delete for real now
     bcf_details.delete_current_viewpoint confirm: true
-    sleep 1
     bcf_details.expect_viewpoint_count 0
 
     bcf.reload

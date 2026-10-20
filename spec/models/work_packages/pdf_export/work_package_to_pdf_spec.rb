@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,7 +78,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     create(:project,
            name: "Forbidden project",
            types: [type],
-           id: 666,
            identifier: "forbidden-project",
            public: false,
            status_code: "on_track",
@@ -157,7 +155,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:work_package) do
     create(:work_package,
-           id: 1,
            project:,
            type:,
            subject: "Work package 1",
@@ -192,7 +189,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:forbidden_work_package) do
     create(:work_package,
-           id: 10,
            project: forbidden_project,
            type:,
            subject: "forbidden Work package",
@@ -324,6 +320,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       end
     end
 
+    describe "with the work package labels feature active", with_flag: { work_package_labels: true } do
+      before do
+        create(:labeling, label: create(:label, name: "Urgent"), labelable: work_package)
+      end
+
+      it "renders the labels attribute" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:labels)} Urgent")
+      end
+    end
+
     describe "with faulty images" do
       before do
         # simulate a null pointer exception
@@ -409,6 +417,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
 
     describe "with embedded work package attributes" do
+      before do
+        work_package.description = description.gsub("WORK_PACKAGE_ID", work_package.id.to_s)
+      end
+
       let(:supported_work_package_embeds) do
         [
           ["assignee", user.name],
@@ -442,10 +454,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ## Work package attributes and labels
           <table><tbody>#{supported_work_package_embeds_table}
             <tr><td>Custom field boolean</td><td>
-                workPackageValue:1:"#{cf_global_bool.name}"
+                workPackageValue:WORK_PACKAGE_ID:"#{cf_global_bool.name}"
             </td></tr>
             <tr><td>Custom field rich text</td><td>
-                workPackageValue:1:"#{cf_long_text.name}"
+                workPackageValue:WORK_PACKAGE_ID:"#{cf_long_text.name}"
             </td></tr>
             <tr><td>My link in table</td><td>workPackageValue:"#{cf_link.name}"</td></tr>
             <tr><td>No replacement of:</td><td>

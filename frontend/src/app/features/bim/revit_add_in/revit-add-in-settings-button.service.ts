@@ -75,17 +75,22 @@ export class RevitAddInSettingsButtonService {
       const loginMenuItem:HTMLElement = document.createElement('div');
 
       loginMenuItem.dataset.name = this.labelText;
+      // Mirrors the markup of OmniauthHelper#omniauth_provider_button so the entry
+      // looks like the provider buttons it is appended to.
       loginMenuItem.innerHTML = `
-        <div class="login-auth-providers">
-          <h3 class="login-auth-providers-title">
-            <span>
-              ${this.groupLabelText}
-            </span>
-           </h3>
-          <div class="login-auth-provider-list revit-add-in-button">
-            <div class="auth-provider auth-provider-developer button">
-              <span class="auth-provider-name">${this.labelText}</span>
-            </div>
+        <div class="login-auth-providers mt-4 pt-4 border-top">
+          <h3 class="login-auth-providers-title f4 text-bold text-center mb-3">
+            ${this.groupLabelText}
+          </h3>
+          <div class="login-auth-provider-list Stack" data-direction="vertical" data-gap="condensed">
+            <button type="button"
+                    class="revit-add-in-button auth-provider auth-provider-developer Button Button--secondary Button--medium Button--fullWidth">
+              <span class="Button-content">
+                <span class="Button-label">
+                  <span class="auth-provider-name">${this.labelText}</span>
+                </span>
+              </span>
+            </button>
           </div>
         </div>
       `;

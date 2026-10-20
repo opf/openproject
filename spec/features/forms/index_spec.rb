@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,7 +55,7 @@ RSpec.describe "Forms index", :js do
 
   def all_forms = ["Bug form", "Hardware form", "Phase form"]
 
-  def results = "#form_configurations-index-results-component"
+  def results = "#work-package-types-named-references-index-table-component"
 
   def row_for(name)
     page.find(".Box-row") { |row| row.has_css?(".name a", text: name, exact_text: true) }

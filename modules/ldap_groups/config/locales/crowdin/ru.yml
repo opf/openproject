@@ -60,7 +60,7 @@ ru:
 
           '
       label_n_groups_found:
-        one: 1 группа найдена по фильтру
+        one: "%{count} group found by the filter"
         other: Найдено %{count} групп по фильтру
         zero: Группы не были найдены фильтром
       plural: Фильтры синхронизации группы LDAP

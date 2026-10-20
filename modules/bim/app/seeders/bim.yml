@@ -101,42 +101,42 @@ time_entry_activities:
 types:
 - reference: :default_type_task
   t_name: Task
-  is_default: true
+  enabled_in_new_projects: true
   color_name: 'blue-6'
   is_in_roadmap: true
   position: 1
 - reference: :default_type_milestone
   t_name: Milestone
-  is_default: true
+  enabled_in_new_projects: true
   color_name: 'orange-6'
   is_milestone: true
   position: 2
 - reference: :default_type_summary_task
   t_name: Phase
-  is_default: true
+  enabled_in_new_projects: true
   color_name: :default_color_grey
   position: 3
 - reference: :default_type_issue
   t_name: Issue
-  is_default: true
+  enabled_in_new_projects: true
   color_name: 'indigo-7'
   is_in_roadmap: true
   position: 4
 - reference: :default_type_remark
   t_name: Remark
-  is_default: true
+  enabled_in_new_projects: true
   color_name: :default_color_green_dark
   is_in_roadmap: true
   position: 5
 - reference: :default_type_request
   t_name: Request
-  is_default: true
+  enabled_in_new_projects: true
   color_name: 'cyan-7'
   is_in_roadmap: true
   position: 6
 - reference: :default_type_clash
   t_name: Clash
-  is_default: true
+  enabled_in_new_projects: true
   color_name: 'red-8'
   is_in_roadmap: true
   position: 7

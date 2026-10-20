@@ -106,7 +106,7 @@ pt-BR:
     not_recommended: não recomendado
     recommended: recomendado
     x_bcf_issues:
-      one: Um problema BCF
+      one: "%{count} BCF issue"
       other: "%{count} problemas BCF"
       zero: Sem problemas no BCF
   bim:

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,6 +63,10 @@ RSpec.describe RootSeeder,
       expect(Bim::IfcModels::IfcModel.count).to eq 3
       expect(Grids::Overview.count).to eq 4
       expect(Boards::Grid.count).to eq 2
+    end
+
+    it "starts new projects with every seeded type" do
+      expect(TypeVariant.enabled_in_new_projects.count).to eq 7
     end
 
     it "adds the BIM module to the default_projects_modules setting" do
@@ -257,12 +260,12 @@ RSpec.describe RootSeeder,
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it "creates 5 additional projects for development" do
-      expect(Project.count).to eq 9
+    it "creates 6 additional projects for development" do
+      expect(Project.count).to eq 10
     end
 
-    it "creates 4 additional work packages for development" do
-      expect(WorkPackage.count).to eq 80
+    it "creates 5 additional work packages for development" do
+      expect(WorkPackage.count).to eq 81
     end
 
     it "creates 1 project with custom fields" do

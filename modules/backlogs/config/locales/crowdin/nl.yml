@@ -73,7 +73,7 @@ nl:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is one work package that was not completed in this sprint.
+                one: There is %{count} work package that was not completed in this sprint.
                 other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: is niet actief en kan dus niet worden gesloten.
@@ -161,8 +161,8 @@ nl:
       drop_zone_label: Drop here to add this item
       label_actions: Acties in postvak in
       show_more:
-        one: Nog 1 item weergeven
-        other: Nog %{count} items weergeven
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Postvak in
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -266,7 +266,6 @@ nl:
       header_backlogs: Backlogs module
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
         move_menu: Verplaats naar positie
         move_to_backlog_bucket: Verplaats naar voorraadbakje
