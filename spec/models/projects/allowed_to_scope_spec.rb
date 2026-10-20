@@ -263,6 +263,52 @@ RSpec.describe Project, "allowed to" do
     it_behaves_like "member based allowed to check"
     it_behaves_like "with an admin user"
 
+    context "with an admin user and admin privilege elevation required",
+            with_flag: { admin_privilege_elevation: true } do
+      let(:user) { admin }
+
+      before do
+        project.save!
+        user.save!
+      end
+
+      context "without the admin being elevated" do
+        it_behaves_like "is empty"
+
+        it "includes the project for a permission admins have without elevation" do
+          expect(described_class.allowed_to(user, public_non_module_action)).to contain_exactly(project)
+        end
+      end
+
+      context "without the admin being elevated but being a member with the permission" do
+        before do
+          member.save!
+        end
+
+        it_behaves_like "includes the project"
+      end
+
+      context "with the admin being elevated in the project" do
+        before do
+          user.admin_elevation = Users::AdminElevation.in_projects([project.id])
+        end
+
+        it_behaves_like "includes the project"
+      end
+
+      context "with the admin being elevated in another project" do
+        let(:other_project) { create(:project, public: false) }
+
+        before do
+          user.admin_elevation = Users::AdminElevation.in_projects([other_project.id])
+        end
+
+        it "only includes the other project" do
+          expect(described_class.allowed_to(user, action)).to contain_exactly(other_project)
+        end
+      end
+    end
+
     context "with the user not being logged in" do
       before do
         project.save!

@@ -246,4 +246,24 @@ RSpec.describe ApplicationController do
       end
     end
   end
+
+  describe ".accept_api_key_auth" do
+    let(:parent_class) { Class.new(described_class) }
+    let(:controller_class) { Class.new(parent_class) }
+
+    it "records the scope per action across several declarations" do
+      controller_class.accept_api_key_auth :index, :show, scope: :webhooks
+      controller_class.accept_api_key_auth :create, scope: :api_v3
+
+      expect(controller_class.api_key_auth_scopes)
+        .to eq("index" => :webhooks, "show" => :webhooks, "create" => :api_v3)
+    end
+
+    it "does not change the scopes of the parent class" do
+      parent_class.accept_api_key_auth :index, scope: :webhooks
+      controller_class.accept_api_key_auth :create, scope: :api_v3
+
+      expect(parent_class.api_key_auth_scopes).to eq("index" => :webhooks)
+    end
+  end
 end

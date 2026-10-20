@@ -37,6 +37,11 @@ module Settings
       activity_days_default: {
         default: 30
       },
+      admin_elevation_idle_timeout: {
+        description: "Minutes of inactivity after which an admin's elevated privileges in a project expire",
+        format: :integer,
+        default: 30
+      },
       after_first_login_redirect_url: {
         format: :string,
         description: "URL users logging in for the first time will be redirected to (e.g., a help screen)",

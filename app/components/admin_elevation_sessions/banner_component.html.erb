@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if elevated? %>
+  <%=
+    render(
+      Primer::Alpha::Banner.new(
+        scheme: :warning,
+        icon: :"shield-check",
+        full: true,
+        test_selector: "admin-elevation-banner-elevated"
+      )
+    ) do |banner|
+      banner.with_action_button(
+        tag: :a,
+        href: project_admin_elevation_path(project),
+        data: { turbo_method: :delete, turbo_confirm: t("admin_elevation.banner.end_confirmation") }
+      ) { t("admin_elevation.banner.end") }
+
+      t(
+        "admin_elevation.banner.elevated_html",
+        time: render(Primer::Beta::RelativeTime.new(datetime: expires_at, tense: :future))
+      )
+    end
+  %>
+<% else %>
+  <%=
+    render(Primer::Alpha::Banner.new(icon: :"shield-lock", full: true, test_selector: "admin-elevation-banner")) do |banner|
+      banner.with_action_button(
+        tag: :a,
+        href: new_project_admin_elevation_path(project, back_url: request.fullpath),
+        data: { controller: "async-dialog" }
+      ) { t("admin_elevation.banner.elevate") }
+
+      t("admin_elevation.banner.not_elevated")
+    end
+  %>
+<% end %>

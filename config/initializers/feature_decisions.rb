@@ -71,6 +71,10 @@ OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
                                                "OpenAI-API-compatible LLM server, and the AI features built on it."
 
+OpenProject::FeatureDecisions.add :admin_privilege_elevation,
+                                  description: "Requires admins to temporarily elevate their privileges to act on " \
+                                               "projects they are not a member of. See SE-663 for details."
+
 OpenProject::FeatureDecisions.add :semantic_search,
                                   description: "Enables the semantic search AI feature, which indexes work packages " \
                                                "as embeddings so they can be found by meaning rather than by keyword."

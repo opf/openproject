@@ -29,7 +29,7 @@ require "spec_helper"
 
 RSpec.describe Webhooks::Incoming::HooksController do
   let(:hook) { double(OpenProject::Webhooks::Hook) }
-  let(:user) { double(User).as_null_object }
+  let(:user) { build_stubbed(:user) }
 
   describe "#handle_hook" do
     before do
@@ -50,12 +50,24 @@ RSpec.describe Webhooks::Incoming::HooksController do
       expect(response).to be_successful
     end
 
-    it "calls the hook with a user" do
-      expect(hook).to receive(:handle) { |_env, _params, user|
-        expect(user).to equal(user)
-      }
+    it "calls the hook with the authenticated user" do
+      allow(hook).to receive(:handle)
 
       post :handle_hook, params: { hook_name: "testhook" }
+
+      expect(hook).to have_received(:handle).with(anything, anything, user)
+    end
+
+    context "without an authenticated user", with_settings: { login_required: false } do
+      let(:user) { nil }
+
+      it "calls the hook without a user" do
+        allow(hook).to receive(:handle)
+
+        post :handle_hook, params: { hook_name: "testhook" }
+
+        expect(hook).to have_received(:handle).with(anything, anything, nil)
+      end
     end
   end
 end

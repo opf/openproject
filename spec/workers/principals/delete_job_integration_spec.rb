@@ -406,6 +406,16 @@ RSpec.describe Principals::DeleteJob, type: :model do
       end
     end
 
+    shared_examples_for "admin elevation session handling" do
+      let!(:admin_elevation_session) { create(:admin_elevation_session, user: principal, project:) }
+
+      it "removes the admin elevation sessions" do
+        job
+
+        expect(AdminElevationSession.find_by(id: admin_elevation_session.id)).to be_nil
+      end
+    end
+
     shared_examples_for "public cost_report handling" do
       let!(:report) { create(:cost_report, principal:, public: true, query: create(:cost_report_query, principal:)) }
 
@@ -546,6 +556,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it_behaves_like "mention rewriting"
       it_behaves_like "working hours handling"
       it_behaves_like "non working times handling"
+      it_behaves_like "admin elevation session handling"
 
       describe "favorites" do
         before do

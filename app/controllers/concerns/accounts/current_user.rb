@@ -33,7 +33,7 @@ module Accounts::CurrentUser
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_user
+    helper_method :current_user, :current_admin_elevation_sessions
   end
 
   protected
@@ -45,6 +45,40 @@ module Accounts::CurrentUser
   def user_setup
     # Find the current user
     User.current = find_current_user
+    apply_admin_elevation
+  end
+
+  def apply_admin_elevation
+    return if performed?
+    return unless current_user.admin?
+
+    # Authentication other than the session sets the elevation on the user it authenticates.
+    if session_authenticated_admin?
+      current_user.admin_elevation = Users::AdminElevation.for_session(current_user, session.id.private_id)
+    end
+
+    RequestStore[:admin_elevations] = { current_user.id => current_user.admin_elevation }
+  end
+
+  def record_admin_elevation_usage
+    return unless @project.is_a?(Project) && session_authenticated_admin?
+
+    AdminElevationSessions::RecordUsageService
+      .new(user: current_user, session_id: session.id.private_id)
+      .call(project: @project)
+  end
+
+  def current_admin_elevation_sessions
+    @current_admin_elevation_sessions ||=
+      if session_authenticated_admin?
+        current_user.admin_elevation_sessions.active.for_session(session.id.private_id)
+      else
+        AdminElevationSession.none
+      end
+  end
+
+  def session_authenticated_admin?
+    current_user.admin? && session[:user_id] == current_user.id
   end
 
   # check if login is globally required to access the application
@@ -95,19 +129,18 @@ module Accounts::CurrentUser
   def current_rss_key_user
     if params[:format] == "atom" && params[:key] && accept_rss_key_auth_actions.include?(action_name)
       # RSS key authentication does not start a session
-      User.find_by_rss_key(params[:key])
+      Users::Authentication.find_user_by_rss_key(params[:key])
     end
   end
 
   def current_api_key_user
-    return unless Setting.api_tokens_enabled? && api_request?
+    return unless api_request?
 
     key = api_key_from_request
+    scope = api_key_auth_scopes[action_name]
+    return unless key && scope
 
-    if key && accept_api_key_auth_actions.include?(action_name)
-      # Use API key
-      User.find_by_api_key(key)
-    end
+    Users::Authentication.find_user_by_api_key(key, scope:)
   end
 
   # Sets the logged in user

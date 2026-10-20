@@ -52,7 +52,7 @@ module OpenProject
           end
 
           def authenticate_user(_, api_key)
-            User.find_by_api_key api_key
+            ::Users::Authentication.find_user_by_api_key(api_key, scope:)
           end
         end
       end

@@ -227,6 +227,7 @@ class ProjectsController < ApplicationController
     @new_project = service_call.result
 
     if service_call.success?
+      elevate_admin_in(@new_project)
       redirect_to project_path(@new_project), notice: I18n.t(:notice_successful_create)
     else
       # Do not display custom field errors if the form is submitted from the second page.
@@ -238,6 +239,14 @@ class ProjectsController < ApplicationController
       end
       render action: :new, status: :unprocessable_entity, layout: "no_menu"
     end
+  end
+
+  def elevate_admin_in(project)
+    return unless session_authenticated_admin? && !current_user.admin_in_project?(project)
+
+    AdminElevationSessions::CreateService
+      .new(user: current_user)
+      .call(project:, session_id: session.id.private_id, confirmed_with: "project_creation")
   end
 
   def create_from_template # rubocop:disable Metrics/AbcSize

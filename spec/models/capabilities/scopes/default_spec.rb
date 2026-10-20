@@ -31,6 +31,8 @@ require "spec_helper"
 require_relative "shared_examples"
 
 RSpec.describe Capabilities::Scopes::Default do
+  include CapabilityHelpers
+
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 
@@ -312,25 +314,7 @@ RSpec.describe Capabilities::Scopes::Default do
         include_examples "consists of contract actions",
                          with: "all actions of all permissions (project and global) grantable to admin" do
           let(:expected) do
-            # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
-            item = ->(namespace, action, global, module_name) {
-              # We only expect contract actions for project modules that are enabled by default. In the
-              # default edition the Bim module is not enabled by default for instance and thus its contract
-              # actions are not expected to be part of the default capabilities.
-              return if module_name.present? && project.enabled_module_names.exclude?(module_name.to_s)
-
-              ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
-               user.id,
-               global ? nil : project.id]
-            }
-
-            OpenProject::AccessControl
-              .contract_actions_map
-              .select { |_, v| v[:grant_to_admin] }
-              .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
-              .flatten(2)
-              .compact
-              .uniq { |v| v.join(",") }
+            global_admin_capabilities(user) + project_admin_capabilities(user, project)
           end
 
           it "does not include actions of permissions non-grantable to admin" do
@@ -351,24 +335,7 @@ RSpec.describe Capabilities::Scopes::Default do
         include_examples "consists of contract actions",
                          with: "all actions of all core permissions without the ones from modules" do
           let(:expected) do
-            # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
-            item = ->(namespace, action, global, module_name) {
-              # A global permission is granted without a project, so the modules a project
-              # has enabled never gate it, even when it is declared inside a project module.
-              return if module_name.present? && !global
-
-              ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
-               user.id,
-               global ? nil : project.id]
-            }
-
-            OpenProject::AccessControl
-              .contract_actions_map
-              .select { |_, v| v[:grant_to_admin] }
-              .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
-              .flatten(2)
-              .compact
-              .uniq { |v| v.join(",") }
+            global_admin_capabilities(user) + project_admin_capabilities(user, project)
           end
         end
       end
@@ -531,6 +498,148 @@ RSpec.describe Capabilities::Scopes::Default do
             [
               ["memberships/read", user.id, project.id]
             ]
+          end
+        end
+      end
+    end
+  end
+
+  describe ".default for admins with privilege elevation" do
+    shared_let(:other_project) { create(:project) }
+
+    before do
+      project.enabled_module_names = OpenProject::AccessControl.available_project_modules
+    end
+
+    after do
+      current_user.admin_elevation = nil
+    end
+
+    context "with the feature flag inactive" do
+      subject(:scope) { Capability.default.where(principal_id: current_user.id, context_id: [nil, project.id]) }
+
+      include_examples "consists of contract actions",
+                       with: "all actions grantable to admin for the current admin" do
+        let(:expected) do
+          global_admin_capabilities(current_user) + project_admin_capabilities(current_user, project)
+        end
+      end
+    end
+
+    context "with the feature flag active", with_flag: { admin_privilege_elevation: true } do
+      context "for another admin" do
+        subject(:scope) { Capability.default.where(principal_id: user.id, context_id: [nil, project.id]) }
+
+        before do
+          user.update(admin: true)
+        end
+
+        include_examples "consists of contract actions", with: "only the global actions grantable to admin" do
+          let(:expected) { global_admin_capabilities(user) }
+        end
+
+        context "with the other admin being a member with a project permission" do
+          let(:member_permissions) { %i[manage_members] }
+
+          before { member }
+
+          include_examples "consists of contract actions",
+                           with: "the global actions grantable to admin and the actions of the membership" do
+            let(:expected) do
+              global_admin_capabilities(user) +
+                [
+                  ["activities/read", user.id, project.id],
+                  ["memberships/create", user.id, project.id],
+                  ["memberships/destroy", user.id, project.id],
+                  ["memberships/update", user.id, project.id]
+                ]
+            end
+          end
+        end
+
+        context "with the current admin being elevated in the project" do
+          before do
+            current_user.admin_elevation = Users::AdminElevation.in_projects([project.id])
+          end
+
+          include_examples "consists of contract actions", with: "still only the global actions grantable to admin" do
+            let(:expected) { global_admin_capabilities(user) }
+          end
+        end
+      end
+
+      context "for the current admin" do
+        subject(:scope) { Capability.default.where(principal_id: current_user.id, context_id: [nil, project.id]) }
+
+        context "without being elevated" do
+          include_examples "consists of contract actions", with: "only the global actions grantable to admin" do
+            let(:expected) { global_admin_capabilities(current_user) }
+          end
+        end
+
+        context "without being elevated but being a member with a project permission" do
+          let(:own_role) { create(:project_role, permissions: %i[manage_members]) }
+
+          before do
+            create(:member, principal: current_user, roles: [own_role], project:)
+          end
+
+          include_examples "consists of contract actions",
+                           with: "the global actions grantable to admin and the actions of the membership" do
+            let(:expected) do
+              global_admin_capabilities(current_user) +
+                [
+                  ["activities/read", current_user.id, project.id],
+                  ["memberships/create", current_user.id, project.id],
+                  ["memberships/destroy", current_user.id, project.id],
+                  ["memberships/update", current_user.id, project.id]
+                ]
+            end
+          end
+        end
+
+        context "when being elevated in the project" do
+          before do
+            current_user.admin_elevation = Users::AdminElevation.in_projects([project.id])
+          end
+
+          include_examples "consists of contract actions",
+                           with: "all actions grantable to admin in the elevated project" do
+            let(:expected) do
+              global_admin_capabilities(current_user) + project_admin_capabilities(current_user, project)
+            end
+          end
+
+          it "does not include actions of permissions non-grantable to admin" do
+            expect(scope.pluck(:action)).not_to include("work_packages/assigned")
+          end
+        end
+
+        context "when being elevated in another project" do
+          before do
+            current_user.admin_elevation = Users::AdminElevation.in_projects([other_project.id])
+          end
+
+          include_examples "consists of contract actions", with: "only the global actions grantable to admin" do
+            let(:expected) { global_admin_capabilities(current_user) }
+          end
+
+          it "includes the actions grantable to admin in the other project" do
+            expect(Capability.default.where(principal_id: current_user.id, context_id: other_project.id).pluck(:action))
+              .to include("work_packages/update")
+          end
+        end
+
+        context "when being elevated everywhere" do
+          before do
+            current_user.admin_elevation = Users::AdminElevation.everywhere
+          end
+
+          include_examples "consists of contract actions",
+                           with: "all actions grantable to admin, as without the feature flag" do
+            let(:expected) do
+              global_admin_capabilities(current_user) + project_admin_capabilities(current_user, project)
+            end
           end
         end
       end

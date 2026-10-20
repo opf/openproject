@@ -70,10 +70,27 @@ module API
 
       def authenticate
         User.current = warden.authenticate! scope: authentication_scope
+        apply_admin_elevation
 
         if Setting.login_required? && !logged_in? && !allowed_unauthenticated_route?
           raise ::API::Errors::Unauthenticated
         end
+      end
+
+      def apply_admin_elevation
+        return unless current_user.admin?
+
+        # Strategies other than the session set the elevation on the user they authenticate.
+        if authenticated_by_session?
+          current_user.admin_elevation = Users::AdminElevation.for_session(current_user, env["rack.session"].id&.private_id)
+        end
+
+        RequestStore[:admin_elevations] = { current_user.id => current_user.admin_elevation }
+      end
+
+      def authenticated_by_session?
+        warden.winning_strategies[authentication_scope]
+              .is_a?(OpenProject::Authentication::Strategies::Warden::Session)
       end
 
       def allowed_unauthenticated_route?

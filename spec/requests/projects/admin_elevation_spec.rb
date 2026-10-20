@@ -1,0 +1,281 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe "Elevating admin privileges in a project",
+               :skip_csrf,
+               type: :rails_request,
+               with_flag: { admin_privilege_elevation: true } do
+  shared_let(:password) { "UserPassword!123" }
+  shared_let(:admin) { create(:admin, password:, password_confirmation: password) }
+  shared_let(:project) { create(:project, public: false) }
+
+  let(:user) { admin }
+  let(:browser) do
+    ActionDispatch::Integration::Session.new(Rails.application).tap { it.host! Setting.host_name }
+  end
+  let(:session_id) { browser.request.session.id.private_id }
+
+  before do
+    browser.post "/login", params: { username: user.login, password: }
+    5.times do
+      break unless browser.response.redirect?
+
+      browser.follow_redirect!
+    end
+  end
+
+  describe "GET new" do
+    def get_dialog
+      browser.get "/projects/#{project.identifier}/admin_elevation/new",
+                  headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      browser.response
+    end
+
+    it "renders the elevate dialog", :aggregate_failures do
+      expect(get_dialog).to have_http_status(:ok)
+      expect(browser.response.body).to include('data-test-selector="admin-elevation-dialog"')
+    end
+
+    context "for a regular user" do
+      let(:user) { create(:user, password:, password_confirmation: password) }
+
+      it "is forbidden" do
+        expect(get_dialog).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe "POST create" do
+    let(:include_subprojects) { "0" }
+    let(:entered_password) { password }
+    let(:back_url) { "/projects/#{project.identifier}/settings/general" }
+
+    def elevate
+      browser.post "/projects/#{project.identifier}/admin_elevation",
+                   params: { back_url:, admin_elevation: { include_subprojects:, password: entered_password } },
+                   headers: { "Accept" => "text/vnd.turbo-stream.html, text/html" }
+      browser.response
+    end
+
+    it "elevates the admin in the project for the session", :aggregate_failures do
+      expect { elevate }.to change(AdminElevationSession, :count).by(1)
+
+      expect(AdminElevationSession.last).to have_attributes(user: admin,
+                                                            project:,
+                                                            session_id:,
+                                                            include_subprojects: false,
+                                                            confirmed_with: "password")
+    end
+
+    context "with a wrong password" do
+      let(:entered_password) { "wrong" }
+
+      it "shows the dialog again with an error without elevating", :aggregate_failures do
+        expect { elevate }.not_to change(AdminElevationSession, :count)
+
+        expect(browser.response).to have_http_status(:unprocessable_entity)
+        expect(browser.response.body).to include('data-test-selector="admin-elevation-dialog"')
+        expect(browser.response.body).to include(I18n.t(:notice_password_confirmation_failed))
+      end
+    end
+
+    context "without a password" do
+      let(:entered_password) { nil }
+
+      it "does not elevate", :aggregate_failures do
+        expect { elevate }.not_to change(AdminElevationSession, :count)
+        expect(browser.response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
+    context "for an admin without a password" do
+      let(:entered_password) { nil }
+
+      before { UserPassword.where(user: admin).delete_all }
+
+      it "elevates the admin by confirming", :aggregate_failures do
+        expect { elevate }.to change(AdminElevationSession, :count).by(1)
+
+        expect(AdminElevationSession.last.confirmed_with).to eq("confirmation")
+      end
+    end
+
+    it "redirects back", :aggregate_failures do
+      expect(elevate).to have_http_status(:see_other)
+      expect(browser.response.location).to end_with(back_url)
+    end
+
+    it "grants access to the project settings afterwards" do
+      elevate
+      browser.get back_url
+
+      expect(browser.response).to have_http_status(:ok)
+    end
+
+    context "with subprojects included" do
+      let(:include_subprojects) { "1" }
+
+      it "elevates the admin including the subprojects" do
+        elevate
+
+        expect(AdminElevationSession.last.include_subprojects).to be true
+      end
+    end
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "does not elevate the admin", :aggregate_failures do
+        expect { elevate }.not_to change(AdminElevationSession, :count)
+
+        browser.follow_redirect!
+        expect(browser.response.body).to include(I18n.t("activerecord.errors.messages.feature_disabled").delete_suffix("."))
+      end
+    end
+
+    context "for a regular user" do
+      let(:user) { create(:user, password:, password_confirmation: password) }
+
+      it "is forbidden without elevating", :aggregate_failures do
+        expect { elevate }.not_to change(AdminElevationSession, :count)
+        expect(browser.response).to have_http_status(:forbidden)
+      end
+    end
+  end
+
+  describe "creating a project" do
+    def create_project
+      browser.post "/projects", params: { project: { name: "Brand new", workspace_type: "project" } }
+      browser.response
+    end
+
+    let(:new_project) { Project.find_by(name: "Brand new") }
+
+    it "elevates the admin in the new project for the session", :aggregate_failures do
+      expect { create_project }.to change(AdminElevationSession, :count).by(1)
+
+      expect(AdminElevationSession.last).to have_attributes(user: admin,
+                                                            project: new_project,
+                                                            session_id:,
+                                                            include_subprojects: false,
+                                                            confirmed_with: "project_creation")
+    end
+
+    it "grants access to the settings of the new project right away" do
+      create_project
+      browser.get "/projects/#{new_project.identifier}/settings/general"
+
+      expect(browser.response).to have_http_status(:ok)
+    end
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "does not elevate the admin" do
+        expect { create_project }.not_to change(AdminElevationSession, :count)
+      end
+    end
+
+    context "for a regular user allowed to add projects" do
+      let(:user) do
+        create(:user, password:, password_confirmation: password, global_permissions: [:add_project])
+      end
+
+      it "does not elevate the user" do
+        expect { create_project }.not_to change(AdminElevationSession, :count)
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    shared_let(:subproject) { create(:project, parent: project, public: false) }
+
+    def end_elevation(in_project: project)
+      browser.delete "/projects/#{in_project.identifier}/admin_elevation"
+      browser.response
+    end
+
+    context "with an elevation for the project in the session" do
+      let!(:elevation) { create(:admin_elevation_session, user: admin, project:, session_id:) }
+
+      it "ends the elevation" do
+        freeze_time do
+          end_elevation
+
+          expect(elevation.reload.ended_at).to eq(Time.current)
+        end
+      end
+
+      it "redirects to the project overview", :aggregate_failures do
+        expect(end_elevation).to have_http_status(:see_other)
+        expect(browser.response.location).to end_with("/projects/#{project.identifier}")
+      end
+
+      it "takes away the elevated access to the project settings" do
+        end_elevation
+        browser.get "/projects/#{project.identifier}/settings/general"
+
+        expect(browser.response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with an elevation for the parent project including subprojects in the session" do
+      let!(:elevation) do
+        create(:admin_elevation_session, user: admin, project:, session_id:, include_subprojects: true)
+      end
+
+      it "ends the elevation when ending it from the subproject" do
+        end_elevation(in_project: subproject)
+
+        expect(elevation.reload.ended_at).to be_present
+      end
+    end
+
+    context "with an elevation for another project in the session" do
+      let!(:other_elevation) do
+        create(:admin_elevation_session, user: admin, project: create(:project), session_id:)
+      end
+
+      it "does not end it" do
+        end_elevation
+
+        expect(other_elevation.reload.ended_at).to be_nil
+      end
+    end
+
+    context "with an elevation for the project in another session" do
+      let!(:other_elevation) { create(:admin_elevation_session, user: admin, project:, session_id: "other") }
+
+      it "does not end it" do
+        end_elevation
+
+        expect(other_elevation.reload.ended_at).to be_nil
+      end
+    end
+  end
+end

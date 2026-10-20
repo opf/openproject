@@ -30,8 +30,8 @@ sharing the same (web) application through OAuth.
 This way of authentication requires no further setup on the administration side of OpenProject.
 The only requirement is that the ["Enable API tokens"](../../api-and-webhooks/) setting is enabled.
 
-Afterwards users that want to make use of MCP on a personal basis, can create a personal API token and configure an MCP client with that
-token. However, this only works properly with locally running MCP clients that are only used by a single user and it requires the user
+Afterwards users that want to make use of MCP on a personal basis, can create a personal API token with the
+[MCP scope](../../../user-guide/account-settings/access-tokens/#api) and configure an MCP client with that token. However, this only works properly with locally running MCP clients that are only used by a single user and it requires the user
 to configure the MCP endpoint themselves.
 
 API tokens can [expire](../../../user-guide/account-settings/access-tokens/#api). Once the token used by an MCP client has expired,
