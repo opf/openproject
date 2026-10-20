@@ -117,7 +117,7 @@ module API
           when "user"
             inject_user_schema(custom_field)
           when "list", "weighted_item_list"
-            custom_field.nestable? ? inject_hierarchy_schema(custom_field) : inject_list_schema(custom_field)
+            custom_field.nested_items_shown? ? inject_hierarchy_schema(custom_field) : inject_list_schema(custom_field)
           else
             inject_basic_schema(custom_field)
           end
