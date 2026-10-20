@@ -183,8 +183,8 @@ class InplaceEditFieldsController < ApplicationController
     cleaned_values = raw_value.compact_blank
     # FilterableTreeView encodes each selected item as a JSON payload
     # {"path":[...],"value":"<id>"} — extract only the "value" field.
-    # Only fields whose items may nest use this encoding, so we check that first.
-    values = if nestable_custom_field?(custom_field_id)
+    # Only lists showing their nesting are edited with the tree picker, so we check that first.
+    values = if tree_picked_custom_field?(custom_field_id)
                cleaned_values.map { |v| JSON.parse(v)["value"] }
              else
                cleaned_values
@@ -193,8 +193,8 @@ class InplaceEditFieldsController < ApplicationController
     values.size <= 1 ? values.first : values
   end
 
-  def nestable_custom_field?(custom_field_id)
-    @model.available_custom_fields.detect { it.id == custom_field_id.to_i }&.nestable?
+  def tree_picked_custom_field?(custom_field_id)
+    @model.available_custom_fields.detect { it.id == custom_field_id.to_i }&.nested_items_shown?
   end
 
   def component(enforce_edit_mode: false)

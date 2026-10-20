@@ -59,7 +59,7 @@ module OpenProject
       end
 
       def field_class
-        if custom_field&.nestable?
+        if custom_field&.nested_items_shown?
           OpenProject::Common::InplaceEditFields::HierarchyListComponent
         elsif custom_field?
           OpenProject::InplaceEdit::FieldRegistry.fetch_for_custom_field_format(custom_field&.field_format)
