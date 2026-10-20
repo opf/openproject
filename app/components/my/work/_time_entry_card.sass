@@ -1,9 +1,23 @@
 // Shared card for a time entry in the FullCalendar based my work views. The
-// views own the padding and the height, since those follow from how they size a bar.
+// views own the height, since that follows from how they size a bar.
 
-// For the event element carrying ONGOING_CLASS_NAME, which each view names for itself.
-=te-entry-card-ongoing
-  background: var(--bgColor-accent-muted)
+// For the event element of a time entry, which each view names for itself. The work
+// package type colour arrives as the top border, through __hl_border_top.
+=te-time-entry-event
+  background: var(--bgColor-default)
+  border: 0
+  border-radius: 5px
+  box-shadow: var(--shadow-floating-small)
+  overflow: hidden
+  user-select: none
+
+  &.te-entry-card-ongoing
+    background: var(--bgColor-accent-muted)
+
+  .fc-event-main
+    height: 100%
+    padding: 0
+    color: var(--fgColor-default)
 
 =te-entry-card
   .te-entry-card--timer
@@ -23,6 +37,7 @@
     min-width: 0
     flex-direction: column
     gap: 2px
+    padding: 8px
     overflow: hidden
 
   .te-entry-card--duration
@@ -82,6 +97,12 @@
   border-radius: 6px
   box-shadow: var(--shadow-resting-medium)
   overflow: hidden
+  user-select: none
+
+  .fc-event-main
+    height: 100%
+    padding: 0
+    color: var(--fgColor-default)
 
 // For a card with no room for more than a single row.
 =te-entry-card-condensed
@@ -89,6 +110,7 @@
     flex-direction: row
     align-items: center
     gap: 8px
+    padding: 4px 8px
 
   .te-entry-card--duration
     flex-shrink: 0

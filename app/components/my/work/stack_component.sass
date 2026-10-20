@@ -37,38 +37,18 @@
     padding-right: 8px
     color: var(--fgColor-muted)
 
-  // The work package type colour arrives as the top border, through __hl_border_top.
   .te-stack--time-entry
-    background: var(--bgColor-default)
-    border: 0
-    border-radius: 5px
-    box-shadow: var(--shadow-floating-small)
-    overflow: hidden
-
-    &.te-entry-card-ongoing
-      +te-entry-card-ongoing
-
-    .fc-event-main
-      height: 100%
-      color: var(--fgColor-default)
+    +te-time-entry-event
 
   .te-stack--allocation
     +te-allocation-event
-
-    .fc-event-main
-      height: 100%
-      color: var(--fgColor-default)
 
   +te-entry-card
 
   .te-entry-card
     height: 100%
-    padding: 8px
 
   .fc-timegrid-event-short
     +te-entry-card-condensed
-
-    .te-entry-card
-      padding: 4px 8px
 
   +fc-day-total
