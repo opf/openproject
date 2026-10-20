@@ -83,7 +83,6 @@ module Projects::Scopes
 
       # Wraps the member-permission UNION in a provider so it can be hoisted into a
       # shared CTE. Identical derivations share an alias derived from the rendered SQL.
-      # Public because WorkPackages.allowed_to emits it for the member_projects CTE too.
       def allowed_to_member_union_provider(user, permissions, entity_types: [nil])
         body = allowed_to_member_union(user, permissions, entity_types:).to_sql
         alias_name = "user_permissions_#{Digest::SHA256.hexdigest(body)[0, 16]}"
