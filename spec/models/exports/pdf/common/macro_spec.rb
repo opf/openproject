@@ -289,6 +289,43 @@ RSpec.describe Exports::PDF::Common::Macro do
         end
       end
     end
+
+    describe "in a task list" do
+      let(:markdown) { "*   [ ] ##{work_package.id}\n    *   [x] Done" }
+
+      it "keeps the task list markers unescaped" do
+        expect(formatted).to eq("- [ ] #{expected_tag}\n  - [x] Done")
+      end
+    end
+  end
+
+  describe "wiki link macro" do
+    let!(:wiki_page) { create(:wiki_page, wiki: create(:wiki, project:), title: "Wiki page") }
+    let(:wiki_url) { "http://#{Setting.host_name}/projects/#{project.identifier}/wiki" }
+
+    describe "to a page" do
+      let(:markdown) { "See [[Wiki page]]" }
+
+      it "renders a Markdown link" do
+        expect(formatted).to eq("See [Wiki page](#{wiki_url}/wiki-page)")
+      end
+    end
+
+    describe "with a title" do
+      let(:markdown) { "See [[Wiki page|the docs]]" }
+
+      it "renders a Markdown link with the title" do
+        expect(formatted).to eq("See [the docs](#{wiki_url}/wiki-page)")
+      end
+    end
+
+    describe "inside a code span" do
+      let(:markdown) { "See `[[Wiki page]]`" }
+
+      it "leaves the code untouched" do
+        expect(formatted).to eq("See `[[Wiki page]]`")
+      end
+    end
   end
 
   describe "workPackageValue macro" do
