@@ -15,9 +15,9 @@ logo: 'publiccode_logo.svg'
 platforms:
   - web
 usedBy:
+  - Deutsche Bahn
   - Deutsches Museum
   - Europäische Kommission
-  - Deutsche Bahn
   - FITKO
   - Fraunhofer Institut
   - Harvard University
