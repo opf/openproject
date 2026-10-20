@@ -31,6 +31,9 @@ module WorkPackageTypes
   class TypesController < ApplicationController
     include PaginationHelper
     include OpTurbo::ComponentStream
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: ::Type.model_name.param_key, list_id_scoped: false
 
     layout "admin"
 
@@ -197,26 +200,6 @@ module WorkPackageTypes
 
       predecessor = ::Type.offset(current_page.offset - 1).pick(:id) if current_page.offset.positive?
       @type.move_after_anchor(predecessor, scope: ::Type.all)
-    end
-
-    def valid_drop_request?
-      drop_params[:list_type] == sortable_list_type &&
-        unscoped_list_id? &&
-        drop_params.key?(:prev_id)
-    end
-
-    # The type list carries no list id. The raw param is checked because
-    # permit cannot tell an absent value from a filtered-out array or hash.
-    def unscoped_list_id?
-      params[:list_id].nil? || params[:list_id] == ""
-    end
-
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
-    end
-
-    def sortable_list_type
-      ::Type.model_name.param_key
     end
   end
 end
