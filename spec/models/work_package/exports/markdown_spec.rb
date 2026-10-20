@@ -129,6 +129,11 @@ RSpec.describe WorkPackage::Exports::Markdown, with_settings: { work_packages_id
     expect(content).to end_with("## Description\n\nHello #{work_package.subject}\n")
   end
 
+  it "keeps task list markers unescaped when the description has macros" do
+    work_package.update!(description: "workPackageValue:subject\n\n*   [ ] Open\n*   [x] Done")
+    expect(content).to end_with("## Description\n\n#{work_package.subject}\n\n- [ ] Open\n- [x] Done\n")
+  end
+
   it "escapes pipes and newlines in table cells" do
     expect(content).to include("| Code | a\\|b c |")
   end

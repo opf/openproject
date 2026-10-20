@@ -33,6 +33,7 @@ module Exports::PDF::Common::Macro
   UNSUPPORTED_NESTED = %w[<table <img ```].freeze
   # markdown quotes are not supported in nested rich text
   UNSUPPORTED_NESTED_REGEX = [/^\s>/].freeze
+  MARKDOWN_EXTENSIONS = %i[autolink strikethrough table tagfilter tasklist].freeze
 
   def apply_markdown_field_macros(markdown, context)
     return markdown if markdown.blank?
@@ -52,7 +53,7 @@ module Exports::PDF::Common::Macro
   def apply_macros(markdown, context)
     return markdown unless macros.any? { |macro| macro.applicable?(markdown) }
 
-    document = Markly.parse(markdown)
+    document = Markly.parse(markdown, extensions: MARKDOWN_EXTENSIONS)
     document.walk { |node| apply_macros_node(node, context) }
     document.to_markdown
             .gsub("\\~", "~") # fix a bug in Markly that escapes tildes
@@ -170,7 +171,7 @@ module Exports::PDF::Common::Macro
     document = Markly.parse(
       markdown,
       flags: Markly::SMART | Markly::STRIKETHROUGH_DOUBLE_TILDE | Markly::UNSAFE | Markly::VALIDATE_UTF8,
-      extensions: %i[autolink strikethrough table tagfilter tasklist]
+      extensions: MARKDOWN_EXTENSIONS
     )
     document.to_html
   end

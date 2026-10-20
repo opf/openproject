@@ -289,6 +289,14 @@ RSpec.describe Exports::PDF::Common::Macro do
         end
       end
     end
+
+    describe "in a task list" do
+      let(:markdown) { "*   [ ] ##{work_package.id}\n    *   [x] Done" }
+
+      it "keeps the task list markers unescaped" do
+        expect(formatted).to eq("- [ ] #{expected_tag}\n  - [x] Done")
+      end
+    end
   end
 
   describe "workPackageValue macro" do
