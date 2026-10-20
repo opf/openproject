@@ -43,6 +43,8 @@ export class WidgetHeaderComponent {
 
   @Input() name:string;
 
+  @Input({ required: true }) headingId:string;
+
   @Input() editable = true;
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
