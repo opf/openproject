@@ -276,14 +276,14 @@ RSpec.describe "filter work packages", :js do
 
     let(:work_package_with_list_value) do
       wp = create(:work_package, project:, type:)
-      wp.send(list_cf.attribute_setter, list_cf.custom_options.first.id)
+      wp.send(list_cf.attribute_setter, list_cf.possible_values.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
       wp = create(:work_package, project:, type:)
-      wp.send(list_cf.attribute_setter, list_cf.custom_options.last.id)
+      wp.send(list_cf.attribute_setter, list_cf.possible_values.last.id)
       wp.save!
       wp
     end
@@ -311,7 +311,7 @@ RSpec.describe "filter work packages", :js do
       filters.open
       filters.add_filter_by(list_cf.name,
                             "is not",
-                            list_cf.custom_options.last.value,
+                            list_cf.possible_values.last.label,
                             list_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
@@ -321,7 +321,7 @@ RSpec.describe "filter work packages", :js do
       # Do not display already selected values in the autocompleter (Regression #46249)
       filters.open_autocompleter list_cf.attribute_name(:camel_case)
 
-      expect(page).to have_no_css(".ng-option", text: list_cf.custom_options.last.value)
+      expect(page).to have_no_css(".ng-option", text: list_cf.possible_values.last.label)
     end
   end
 

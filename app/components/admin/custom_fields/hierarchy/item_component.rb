@@ -33,6 +33,7 @@ module Admin
       class ItemComponent < ApplicationComponent
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
+        include ItemRoutes
 
         class << self
           def menu_id(item:)
@@ -63,21 +64,9 @@ module Admin
             .format(item: model)
         end
 
-        def item_link
-          if project_custom_field_context?
-            admin_settings_project_custom_field_item_path(custom_field_id, model)
-          else
-            custom_field_item_path(custom_field_id, model)
-          end
-        end
+        def item_link = hierarchy_item_path(model)
 
-        def item_actions_href
-          if project_custom_field_context?
-            item_actions_admin_settings_project_custom_field_item_path(custom_field_id, model)
-          else
-            item_actions_custom_field_item_path(custom_field_id, model)
-          end
-        end
+        def item_actions_href = hierarchy_item_path(model, :item_actions)
 
         def show_form? = @show_edit_form || model.new_record?
 
@@ -89,11 +78,7 @@ module Admin
 
         private
 
-        def project_custom_field_context?
-          @project_custom_field_context ||= @custom_field.is_a?(ProjectCustomField)
-        end
-
-        def custom_field_id = @custom_field.id
+        attr_reader :custom_field
       end
     end
   end

@@ -22,7 +22,8 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -30,28 +31,23 @@
 module CustomFields
   module Hierarchy
     class UpdateListItemContract < DryApplicationContract
+      config.messages.namespace = :list_item
+
       params do
         required(:item).filled(type?: CustomField::Hierarchy::Item)
         required(:label).filled(:string)
-        required(:short).maybe(:string)
       end
 
       rule(:item) do
         key.failure(:not_persisted) if value.new_record?
         key.failure(:root_item) if value.root?
+        key.failure(:nesting_not_allowed) if value.parent.present? && !value.parent.root?
       end
 
       rule(:label) do
         next if schema_error?(:item)
 
         key.failure(:not_unique) if values[:item].siblings.exists?(label: value)
-      end
-
-      rule(:short) do
-        next if schema_error?(:item)
-        next if value.nil?
-
-        key.failure(:not_unique) if values[:item].siblings.exists?(short: value)
       end
     end
   end

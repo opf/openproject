@@ -58,7 +58,7 @@ RSpec.describe WorkPackage do
 
     before do
       def self.change_custom_field_value(work_package, value, save: true)
-        val = custom_field.custom_options.find { |co| co.value == value }.try(:id)
+        val = custom_field.list? && custom_field.possible_values.find { |item| item.label == value }.try(:id)
 
         work_package.custom_field_values = { custom_field.id => val || value }
         work_package.custom_values_to_validate = work_package.custom_field_values
@@ -200,7 +200,7 @@ RSpec.describe WorkPackage do
             let(:custom_field_value) { "SQLServer" }
 
             it_behaves_like "custom field with invalid value" do
-              let(:error_key) { "inclusion" }
+              let(:error_key) { "invalid" }
             end
           end
         end
@@ -211,7 +211,7 @@ RSpec.describe WorkPackage do
           subject { work_package.errors.full_messages.first }
 
           it "matches" do
-            expect(subject).to eq("Database #{I18n.t('activerecord.errors.messages.inclusion')}")
+            expect(subject).to eq("Database #{I18n.t('activerecord.errors.messages.invalid')}")
           end
         end
       end
@@ -226,7 +226,7 @@ RSpec.describe WorkPackage do
         end
 
         context "save" do
-          subject { work_package.typed_custom_value_for(custom_field) }
+          subject { work_package.typed_custom_value_for(custom_field).to_s }
 
           it { is_expected.to eq("PostgreSQL") }
         end
@@ -240,7 +240,7 @@ RSpec.describe WorkPackage do
           work_package.reload
         end
 
-        subject { work_package.typed_custom_value_for(custom_field) }
+        subject { work_package.typed_custom_value_for(custom_field).to_s }
 
         it { is_expected.to eql("PostgreSQL") }
       end
@@ -272,7 +272,7 @@ RSpec.describe WorkPackage do
             work_package.type = type_feature
           end
 
-          subject { described_class.find(work_package.id).typed_custom_value_for(custom_field) }
+          subject { described_class.find(work_package.id).typed_custom_value_for(custom_field).to_s }
 
           it { is_expected.to eq("PostgreSQL") }
         end
@@ -354,7 +354,7 @@ RSpec.describe WorkPackage do
 
       context "for a custom field with default value" do
         before do
-          custom_field.custom_options[1].update_attribute(:default_value, true)
+          custom_field.possible_values[1].update_attribute(:default_value, true)
         end
 
         it "sets the default values for custom_field_values" do
@@ -362,7 +362,7 @@ RSpec.describe WorkPackage do
             .to be 1
 
           expect(work_package.custom_field_values[0].value)
-            .to eql custom_field.custom_options[1].id.to_s
+            .to eql custom_field.possible_values[1].id.to_s
         end
       end
 

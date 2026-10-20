@@ -35,12 +35,10 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
 
-  let(:custom_field) do
-    create(:wp_custom_field, field_format: "hierarchy", hierarchy_root: nil, types: [type])
-  end
+  let(:custom_field) { create(:wp_custom_field, field_format: "hierarchy", types: [type]) }
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let!(:root) { service.generate_root(custom_field).value! }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+  let(:root) { custom_field.hierarchy_root }
+  let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
   let!(:luke) { service.insert_item(contract_class:, parent: root, label: "Luke", short: "LS").value! }
   let!(:r2d2) { service.insert_item(contract_class:, parent: luke, label: "R2-D2", short: "R2").value! }
   let!(:mouse) { service.insert_item(contract_class:, parent: r2d2, label: "Mouse Droid", short: "MD").value! }

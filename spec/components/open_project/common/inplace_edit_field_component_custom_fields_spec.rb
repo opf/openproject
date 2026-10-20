@@ -105,7 +105,7 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
                                            possible_values: ["Option 1", "Option 2", "Option 3"])
       end
 
-      let(:default_options) { custom_field.custom_options.first(multi_value ? 2 : 1) }
+      let(:default_options) { custom_field.possible_values.first(multi_value ? 2 : 1) }
 
       before do
         default_options.each { |option| option.update!(default_value: true) }
@@ -115,7 +115,7 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
         model = JSON.parse(rendered_input.find("opce-autocompleter")["data-model"])
         selected = multi_value ? model : [model]
 
-        expect(selected.pluck("name")).to eq(default_options.pluck(:value))
+        expect(selected.pluck("name")).to eq(default_options.pluck(:label))
         expect(selected.pluck("selected")).to all(be(true))
       end
     end
@@ -128,7 +128,7 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
     end
 
     it "includes the selected value in the display and accessible dialog label" do
-      create(:custom_value, customized: project, custom_field:, value: custom_field.custom_options.first.id)
+      create(:custom_value, customized: project, custom_field:, value: custom_field.possible_values.first.id)
       render_inline(described_class.new(model: Project.find(project.id), attribute: custom_field.attribute_name.to_sym))
 
       display = page.find(".op-inplace-edit--display-field")

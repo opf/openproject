@@ -22,34 +22,28 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# A custom option is a possible value for a given custom field
-# which is restricted to a set of specific values.
-class CustomOption < ApplicationRecord
-  belongs_to :custom_field, touch: true
+require "spec_helper"
 
-  validates :value, presence: true, length: { maximum: 255 }
-
-  before_destroy :assure_at_least_one_option
-
-  def to_s
-    value
+RSpec.describe Admin::CustomFields::Hierarchy::ChangeItemParentDialogComponent,
+               type: :component, with_ee: [:custom_field_hierarchies] do
+  let(:custom_field_traits) { [:hierarchy] }
+  let(:item) do
+    CustomFields::Hierarchy::HierarchicalItemService
+      .new
+      .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                   parent: custom_field.hierarchy_root, label: "Moving")
+      .value!
   end
 
-  alias :name :to_s
+  subject(:form_action) { render_inline(described_class.new(custom_field:, hierarchy_item: item)).at_css("form")["action"] }
 
-  protected
-
-  def assure_at_least_one_option
-    return if CustomOption.where(custom_field_id:).where.not(id:).count > 0
-
-    errors.add(:base, I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option"))
-
-    throw :abort
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it("submits the new parent into its own admin area") { is_expected.to eq("#{items_path}/#{item.id}/change_parent") }
   end
 end

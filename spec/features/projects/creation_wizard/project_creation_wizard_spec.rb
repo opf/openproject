@@ -275,7 +275,7 @@ RSpec.describe "Project creation wizard",
                                       "activity")
     expect(project.typed_custom_value_for(text_custom_field)).to eq("This is a test project for validation")
     expect(project.typed_custom_value_for(string_custom_field)).to eq("TEST-001")
-    expect(project.typed_custom_value_for(list_custom_field)).to eq("Internal")
+    expect(project.typed_custom_value_for(list_custom_field).label).to eq("Internal")
     expect(project.typed_custom_value_for(int_custom_field)).to eq(5)
     expect(project.typed_custom_value_for(user_custom_field)).to eq(user_assignee)
 
@@ -404,7 +404,7 @@ RSpec.describe "Project creation wizard",
                                         "activity")
       expect(project.typed_custom_value_for(text_custom_field)).to eq("Test description")
       expect(project.typed_custom_value_for(string_custom_field)).to eq("TEST-ENABLED")
-      expect(project.typed_custom_value_for(list_custom_field)).to eq("Internal")
+      expect(project.typed_custom_value_for(list_custom_field).label).to eq("Internal")
       expect(project.typed_custom_value_for(int_custom_field)).to eq(3)
       expect(project.typed_custom_value_for(user_custom_field)).to eq(user_assignee)
     end

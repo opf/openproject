@@ -115,10 +115,6 @@ RSpec.describe "custom field inplace editor", :js do
     end
     let(:initial_custom_values) { {} }
 
-    def custom_value(value)
-      CustomOption.find_by(value:).try(:id)
-    end
-
     it "properly updates both values" do
       field1.activate!
       expect_update "bar",

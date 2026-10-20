@@ -77,7 +77,7 @@ RSpec.describe Journal::WorkPackageJournal do
        with_settings: { journal_aggregation_time_minutes: 0 } do
       custom_field = create(:list_wp_custom_field, types: [type])
       updated_work_package = create(:work_package, project:, type:, subject: "Before")
-      updated_work_package.update!(custom_field_values: { custom_field.id => custom_field.custom_options.first.id })
+      updated_work_package.update!(custom_field_values: { custom_field.id => custom_field.possible_values.first.id })
       custom_field.destroy!
 
       updated_work_package.reload.update!(subject: "After")

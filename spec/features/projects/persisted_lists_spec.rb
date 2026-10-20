@@ -522,7 +522,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.set_filter(list_custom_field.column_name,
                                list_custom_field.name,
                                "is (OR)",
-                               [list_custom_field.possible_values.first.value])
+                               [list_custom_field.possible_values.first.label])
 
       wait_for_reload
       projects_page.save_query
@@ -536,7 +536,7 @@ RSpec.describe "Persisted lists on projects index page",
         projects_page.expect_filter_set("project_status_code", value: "On track")
         projects_page.expect_filter_set(
           list_custom_field.column_name,
-          value: list_custom_field.possible_values.first.value
+          value: list_custom_field.possible_values.first.label
         )
       end
     end
@@ -578,7 +578,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.set_filter(list_custom_field.column_name,
                                list_custom_field.name,
                                "is (OR)",
-                               [list_custom_field.possible_values.first.value])
+                               [list_custom_field.possible_values.first.label])
       wait_for_reload
 
       # The "Save" button and label should be visible
@@ -603,7 +603,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_filter_set "active"
       projects_page.expect_filter_set(
         list_custom_field.column_name,
-        value: list_custom_field.possible_values.first.value
+        value: list_custom_field.possible_values.first.label
       )
     end
 

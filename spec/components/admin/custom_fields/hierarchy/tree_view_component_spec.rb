@@ -22,33 +22,30 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
-  def validate_type_of_value
-    unless custom_field.custom_options.pluck(:id).include?(value.to_i)
-      :inclusion
-    end
+require "spec_helper"
+
+RSpec.describe Admin::CustomFields::Hierarchy::TreeViewComponent,
+               type: :component, with_ee: [:custom_field_hierarchies] do
+  let(:custom_field_traits) { [:hierarchy] }
+  let!(:item) do
+    CustomFields::Hierarchy::HierarchicalItemService
+      .new
+      .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                   parent: custom_field.hierarchy_root, label: "Branch")
+      .value!
   end
 
-  def typed_value
-    super&.to_s
-  end
+  before { render_inline(described_class.new(custom_field:, active_item: custom_field.hierarchy_root)) }
 
-  private
-
-  def ar_class
-    CustomOption
-  end
-
-  def ar_object(value)
-    if (option = super)
-      option.value
-    else
-      "#{value} #{I18n.t(:label_not_found)}"
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it "links each item into its own admin area" do
+      expect(page).to have_link("Branch", href: "#{items_path}/#{item.id}")
     end
   end
 end

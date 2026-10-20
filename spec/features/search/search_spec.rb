@@ -551,7 +551,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
             )
           end
         end
-        let(:query) { project_list_cf.possible_values.pick(:value) }
+        let(:query) { project_list_cf.possible_values.pick(:label) }
 
         subject do
           visit search_path(q: query, scope: "all", filter: "projects")
@@ -574,7 +574,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
         end
 
         context "when using % in the query string the escaping works correcly and" do
-          let(:query) { "%#{project_list_cf.possible_values.pick(:value)}" }
+          let(:query) { "%#{project_list_cf.possible_values.pick(:label)}" }
 
           it_behaves_like "does not find the project"
         end

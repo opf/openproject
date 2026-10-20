@@ -93,38 +93,67 @@ post:
                         allowedValues:
                         - _links:
                             self:
-                              href: "/api/v3/custom_options/513"
+                              href: "/api/v3/custom_field_items/513"
                               title: abc
-                          _type: CustomOption
+                            parent:
+                              href: "/api/v3/custom_field_items/512"
+                            children: []
+                            branch:
+                              href: "/api/v3/custom_field_items/513/branch"
+                          _type: HierarchyItem
                           id: 513
-                          value: abc
+                          label: abc
+                          short:
+                          weight:
+                          formattedWeight:
+                          depth: 1
                         - _links:
                             self:
-                              href: "/api/v3/custom_options/514"
+                              href: "/api/v3/custom_field_items/514"
                               title: def
-                          _type: CustomOption
+                            parent:
+                              href: "/api/v3/custom_field_items/512"
+                            children: []
+                            branch:
+                              href: "/api/v3/custom_field_items/514/branch"
+                          _type: HierarchyItem
                           id: 514
-                          value: def
+                          label: def
+                          short:
+                          weight:
+                          formattedWeight:
+                          depth: 1
                         - _links:
                             self:
-                              href: "/api/v3/custom_options/515"
+                              href: "/api/v3/custom_field_items/515"
                               title: ghi
-                          _type: CustomOption
+                            parent:
+                              href: "/api/v3/custom_field_items/512"
+                            children: []
+                            branch:
+                              href: "/api/v3/custom_field_items/515/branch"
+                          _type: HierarchyItem
                           id: 515
-                          value: ghi
+                          label: ghi
+                          short:
+                          weight:
+                          formattedWeight:
+                          depth: 1
                       _links:
                         allowedValues:
-                        - href: "/api/v3/custom_options/513"
+                        - href: "/api/v3/custom_field_items/513"
                           title: abc
-                        - href: "/api/v3/custom_options/514"
+                        - href: "/api/v3/custom_field_items/514"
                           title: def
-                        - href: "/api/v3/custom_options/515"
+                        - href: "/api/v3/custom_field_items/515"
                           title: ghi
                       hasDefault: false
                       location: _links
                       name: list project cf
+                      options:
+                        allowsNesting: false
                       required: false
-                      type: CustomOption
+                      type: CustomField::Hierarchy::Item
                       visibility: default
                       writable: true
                     customField34:

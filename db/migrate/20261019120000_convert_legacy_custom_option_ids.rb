@@ -22,13 +22,16 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :custom_option do
-    sequence(:value) { |n| "Custom Option #{n}" }
+class ConvertLegacyCustomOptionIds < ActiveRecord::Migration[8.1]
+  def up
+    CustomFields::ConvertLegacyOptionIdsJob.perform_later
   end
+
+  def down; end
 end

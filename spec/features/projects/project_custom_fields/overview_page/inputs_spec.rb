@@ -112,11 +112,11 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:custom_field) { list_project_custom_field }
         let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        let(:expected_initial_value) { custom_field.custom_options.first.value }
+        let(:expected_initial_value) { custom_field.possible_values.first.label }
 
-        let(:first_option) { custom_field.custom_options.first.value }
-        let(:second_option) { custom_field.custom_options.second.value }
-        let(:third_option) { custom_field.custom_options.third.value }
+        let(:first_option) { custom_field.possible_values.first.label }
+        let(:second_option) { custom_field.possible_values.second.label }
+        let(:third_option) { custom_field.possible_values.third.label }
 
         it_behaves_like "an autocomplete single select field"
       end
@@ -328,11 +328,11 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:custom_field) { multi_list_project_custom_field }
         let(:form_field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        let(:expected_initial_value) { [custom_field.custom_options.first.value, custom_field.custom_options.second.value] }
+        let(:expected_initial_value) { [custom_field.possible_values.first.label, custom_field.possible_values.second.label] }
 
-        let(:first_option) { custom_field.custom_options.first.value }
-        let(:second_option) { custom_field.custom_options.second.value }
-        let(:third_option) { custom_field.custom_options.third.value }
+        let(:first_option) { custom_field.possible_values.first.label }
+        let(:second_option) { custom_field.possible_values.second.label }
+        let(:third_option) { custom_field.possible_values.third.label }
 
         it_behaves_like "an autocomplete multi select field"
       end

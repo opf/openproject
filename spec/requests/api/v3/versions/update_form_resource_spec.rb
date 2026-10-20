@@ -154,7 +154,7 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
           sharing: "descendants",
           _links: {
             list_cf.attribute_name(:camel_case) => {
-              href: api_v3_paths.custom_option(list_cf.custom_options.first.id)
+              href: api_v3_paths.custom_field_item(list_cf.possible_values.first.id)
             }
           }
         }
@@ -192,7 +192,7 @@ RSpec.describe API::V3::Versions::UpdateFormAPI, content_type: :json do
           .at_path("_embedded/payload/sharing")
 
         expect(last_response.body)
-          .to be_json_eql(api_v3_paths.custom_option(list_cf.custom_options.first.id).to_json)
+          .to be_json_eql(api_v3_paths.custom_field_item(list_cf.possible_values.first.id).to_json)
           .at_path("_embedded/payload/_links/customField#{list_cf.id}/href")
 
         expect(last_response.body)

@@ -136,7 +136,7 @@ RSpec.describe "inline create work package", :js do
       it "applies the filter value for the custom field" do
         wp_table.visit!
         filters.open
-        filters.add_filter_by cf_list.name, "is (OR)", cf_list.custom_options.second.name, cf_accessor_frontend
+        filters.add_filter_by cf_list.name, "is (OR)", cf_list.possible_values.second.label, cf_accessor_frontend
 
         columns.open_modal
         columns.add(cf_list.name, save_changes: true)
@@ -167,7 +167,7 @@ RSpec.describe "inline create work package", :js do
         created_wp = WorkPackage.last
 
         cf_field = wp_table.edit_field(created_wp, cf_list.attribute_name(:camel_case))
-        cf_field.expect_text(cf_list.custom_options.second.name)
+        cf_field.expect_text(cf_list.possible_values.second.label)
       end
     end
   end

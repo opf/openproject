@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,26 +22,33 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module CustomOptions
-      class CustomOptionRepresenter < ::API::Decorators::Single
-        self_link
+module CustomFields
+  # Within a list field, legacy custom option ids and item ids cannot collide: the
+  # migration advances hierarchical_items' sequence past every custom option id
+  # ever issued, so every item of a list field has a higher id than any of its
+  # former options. Items of other fields may share an option id, hence the lookup
+  # among the field's own items.
+  class LegacyOptionIdResolver
+    class << self
+      def resolve(custom_field:, id:)
+        resolve_all(custom_field:, ids: [id]).first
+      end
 
-        # TODO: add link to custom field once api for custom fields exists
+      def resolve_all(custom_field:, ids:)
+        return ids unless custom_field.list?
 
-        def _type
-          "CustomOption"
-        end
+        items = CustomField::Hierarchy::Item
+                  .where(parent: custom_field.hierarchy_root, legacy_option_id: ids)
+                  .pluck(:legacy_option_id, :id)
+                  .to_h
 
-        property :id
-
-        property :value
+        ids.map { |id| items[id.to_i]&.to_s || id }
       end
     end
   end

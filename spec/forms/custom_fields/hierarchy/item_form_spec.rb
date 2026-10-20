@@ -22,41 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe CustomValue::ListStrategy, "integration tests" do
-  let(:type) { create(:type) }
-  let(:project) { create(:project, types: [type]) }
-  let!(:custom_field) do
-    create(
-      :list_wp_custom_field,
-      name: "Invalid List CF",
-      multi_value: true,
-      types: [type],
-      possible_values: ["A", "B"]
-    )
-  end
+RSpec.describe CustomFields::Hierarchy::ItemForm, type: :forms do
+  include_context "with rendered form"
 
-  let!(:work_package) do
-    create(:work_package,
-           project:,
-           type:,
-           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: "A") })
-  end
+  let(:custom_field_traits) { [:list, { possible_values: %w[Only Other] }] }
+  let(:item) { custom_field.hierarchy_root.children.first }
+  let(:model) { item }
+  let(:params) { { target_item: item, secondary_input_format: nil } }
 
-  it "can handle invalid CustomOptions (Regression test)" do
-    expect(work_package.public_send(custom_field.attribute_getter)).to eq(%w(A))
+  subject(:rendered_form) { page }
 
-    # Remove the custom value without replacement
-    CustomValue.find_by(customized_id: work_package.id).update_columns(value: "invalid")
-    work_package.reload
-    work_package.reset_custom_values!
-
-    expect(work_package.public_send(custom_field.attribute_getter)).to eq(["invalid not found"])
+  for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
+    it("cancels back to its own admin area") { is_expected.to have_link("Cancel", href: items_path) }
   end
 end

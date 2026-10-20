@@ -29,15 +29,30 @@
 
 module CustomFields
   module Hierarchy
-    class GenerateRootContract < DryApplicationContract
+    class InsertHierarchyItemContract < DryApplicationContract
       params do
-        required(:custom_field).filled(type?: CustomField)
+        required(:parent).filled(type?: CustomField::Hierarchy::Item)
+        required(:label).filled(:string)
+        required(:short).maybe(:string)
       end
 
-      rule(:custom_field) do
-        field_format = value.field_format
-        key.failure(:format_not_supported, field_format:) if %w[hierarchy weighted_item_list].exclude?(field_format)
-        key.failure(:defined) if value.hierarchy_root.present?
+      rule(:parent) do
+        next if schema_error?(:parent)
+
+        key.failure("must exist") unless value.persisted?
+      end
+
+      rule(:label) do
+        next if schema_error?(:parent)
+
+        key.failure(:not_unique) if values[:parent].children.exists?(label: value)
+      end
+
+      rule(:short) do
+        next if schema_error?(:parent)
+        next if value.nil?
+
+        key.failure(:not_unique) if values[:parent].children.exists?(short: value)
       end
     end
   end

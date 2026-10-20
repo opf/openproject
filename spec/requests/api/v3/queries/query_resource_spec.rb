@@ -271,6 +271,35 @@ RSpec.describe "API v3 Query resource",
         end
       end
     end
+
+    context "with a list custom field filter" do
+      let(:type) { create(:type) }
+      let(:project) { create(:project, identifier: "test_project", public: false, types: [type]) }
+      let(:custom_field) { create(:list_wp_custom_field, possible_values: ["Chosen"], types: [type]) }
+      let(:item) { custom_field.possible_values.first }
+
+      def store_raw_filters(filters_hash)
+        Query.where(id: query.id).update_all(["filters = ?", YAML.dump(filters_hash)])
+      end
+
+      before do
+        store_raw_filters("cf_#{custom_field.id}" => { "operator" => "=", "values" => [item.id.to_s] })
+
+        get base_path
+      end
+
+      it "renders the filter values without erroring, with the item's name and href" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(item.label.to_json)
+          .at_path("filters/0/_links/values/0/title")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.custom_field_item(item.id).to_json)
+          .at_path("filters/0/_links/values/0/href")
+      end
+    end
   end
 
   describe "#get queries/default" do

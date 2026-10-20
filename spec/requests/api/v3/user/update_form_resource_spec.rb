@@ -43,7 +43,7 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
   shared_let(:user) do
     create(:user,
            text_custom_field.attribute_getter => "CF text",
-           list_custom_field.attribute_getter => list_custom_field.custom_options.first)
+           list_custom_field.attribute_getter => list_custom_field.possible_values.first)
   end
 
   let(:path) { api_v3_paths.user_form(user.id) }
