@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +53,7 @@ module Pages
         if allowed
           click_toolbar_button "ifc-create-button"
 
-          expect_correct_page_loaded '.button[type="submit"]'
+          expect_correct_page_loaded '.Button.Button--primary[type="submit"]'
           expect(page).to have_current_path new_bcf_project_ifc_model_path(project)
 
           visit!
@@ -107,7 +108,7 @@ module Pages
         expect_model_active(model)
       end
 
-      def expect_model_active(model, active = true)
+      def expect_model_active(model, active: true)
         expect(page).to have_field("input-#{model.id}", checked: active, wait: 30)
       end
 
@@ -117,7 +118,7 @@ module Pages
         expect_correct_page_loaded '[data-test-selector="op-ifc-viewer--container"]'
 
         models.each do |model|
-          expect_model_active(model, model.is_default)
+          expect_model_active(model, active: model.is_default)
         end
       end
 
@@ -151,7 +152,6 @@ module Pages
       end
 
       def change_model_name(model_name, new_name)
-        expect(page).to have_css('input[type="file"]')
         expect(page).to have_field("bim_ifc_models_ifc_model[title]", with: model_name)
         fill_in "bim_ifc_models_ifc_model[title]", with: new_name
       end

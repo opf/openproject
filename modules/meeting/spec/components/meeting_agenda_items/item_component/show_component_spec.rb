@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -142,6 +141,47 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
       it "shows the duplicate submenu" do
         expect(series.next_occurrence(from_time: meeting.start_time)).to be_present
         expect(rendered_component).to have_text(I18n.t("label_agenda_item_duplicate"))
+      end
+    end
+  end
+
+  describe "notes split into slides" do
+    let(:meeting) { create(:meeting, project:) }
+    let(:meeting_agenda_item) do
+      create(:meeting_agenda_item, meeting:, notes: "First slide\n\n---\n\nSecond slide")
+    end
+
+    context "in presentation mode" do
+      subject(:rendered_component) do
+        render_inline(described_class.new(meeting_agenda_item:, presentation_mode: true, slide: 2))
+      end
+
+      it "renders only the current slide" do
+        expect(rendered_component).to have_text("Second slide")
+        expect(rendered_component).to have_no_text("First slide")
+        expect(rendered_component).to have_no_css("hr")
+      end
+
+      context "with vote-based sorting" do
+        before { meeting.update!(agenda_sorting_mode: :vote_based) }
+
+        it "renders only the current slide alongside the vote count" do
+          expect(rendered_component).to have_text("Second slide")
+          expect(rendered_component).to have_no_text("First slide")
+          expect(rendered_component).to have_css('[data-test-selector="agenda-item-vote-score"]')
+        end
+      end
+    end
+
+    context "when not in presentation mode" do
+      subject(:rendered_component) do
+        render_inline(described_class.new(meeting_agenda_item:, slide: 2))
+      end
+
+      it "renders all notes" do
+        expect(rendered_component).to have_text("First slide")
+        expect(rendered_component).to have_text("Second slide")
+        expect(rendered_component).to have_css("hr")
       end
     end
   end

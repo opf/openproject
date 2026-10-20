@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Grids
   module Widgets
@@ -63,10 +62,7 @@ module Grids
         return [].to_json unless view_sprints_allowed?
 
         assign_sprint_rows(sprints_scope)
-          .map do |sprint, row|
-          { id: sprint.id, name: sprint.name, startDate: sprint.start_date.iso8601,
-            endDate: sprint.finish_date.iso8601, status: sprint.status, row: }
-        end
+          .map { |sprint, row| sprint_data(sprint, row) }
           .to_json
       end
 
@@ -167,6 +163,18 @@ module Grids
           end
           [sprint, row_index]
         end
+      end
+
+      def sprint_data(sprint, row)
+        {
+          id: sprint.id,
+          name: sprint.name,
+          startDate: sprint.start_date.iso8601,
+          endDate: sprint.finish_date.iso8601,
+          status: sprint.status,
+          row:,
+          href: helpers.href_for_sprint(sprint, project)
+        }
       end
 
       def phase_data(phase) # rubocop:disable Metrics/AbcSize

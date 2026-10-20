@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -94,7 +93,7 @@ module Accounts::CurrentUser
   end
 
   def current_rss_key_user
-    if params[:format] == "atom" && params[:key] && accept_key_auth_actions.include?(action_name)
+    if params[:format] == "atom" && params[:key] && accept_rss_key_auth_actions.include?(action_name)
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
     end
@@ -105,7 +104,7 @@ module Accounts::CurrentUser
 
     key = api_key_from_request
 
-    if key && accept_key_auth_actions.include?(action_name)
+    if key && accept_api_key_auth_actions.include?(action_name)
       # Use API key
       User.find_by_api_key(key)
     end
@@ -169,7 +168,8 @@ module Accounts::CurrentUser
         end
 
         format.any(:xml, :js, :json, :turbo_stream) do
-          head :unauthorized, "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header
+          head :unauthorized,
+               "WWW-Authenticate" => OpenProject::Authentication::WWWAuthenticate.response_header(env: request.env)
         end
 
         format.all { head :not_acceptable }

@@ -75,10 +75,10 @@ migrate() {
 	pushd $APP_PATH >/dev/null
 	start_memcached_daemon
 	echo "-----> Running migrations..."
-	bundle exec rake db:migrate
+	$APP_PATH/docker/prod/migrate
 	# run seed as app user so created attachments (and folder) belong to app, not root
 	echo "-----> Seeding database..."
-	su app -c 'bundle exec rake db:seed'
+	su app -c "$APP_PATH/docker/prod/seeder --skip-migrate"
 	stop_memcached_daemon
 	popd >/dev/null
 }

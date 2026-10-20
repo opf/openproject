@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -129,7 +128,7 @@ module Components
 
     def update_time_field(field_name, hour:, minute:)
       built_time = browser_timezone.local(2025, 1, 1, hour, minute, 0)
-      page.fill_in "time_entry_#{field_name}", with: built_time.iso8601
+      page.fill_in "time_entry_#{field_name}", with: built_time.strftime("%H:%M")
     end
 
     def update_field(field_name, value)
@@ -182,7 +181,7 @@ module Components
     end
 
     def modal_container
-      page.find("dialog#time-entry-dialog", visible: :all)
+      page.find("dialog#time-entry-dialog", visible: :all, wait: 10)
     end
   end
 end

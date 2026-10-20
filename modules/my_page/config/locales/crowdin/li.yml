@@ -1,0 +1,9 @@
+---
+li:
+  activerecord:
+    models:
+      grids/my_page:
+        one: Mien pagina
+        other: Mien pagina's
+  my_page:
+    label: Mien pagina

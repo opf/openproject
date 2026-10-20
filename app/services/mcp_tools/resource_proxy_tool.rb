@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,13 +40,14 @@ module McpTools
 
       def resource_annotations
         annotations read_only: true, idempotent: true, destructive: false
+        input_schema additionalProperties: false
       end
     end
 
     private
 
     def call
-      McpResources.read_resource_content(self.class.resource.uri, resources_considered: McpResources.all)
+      Success(McpResources.read_resource_content(self.class.resource.uri, resources_considered: McpResources.all))
     end
 
     def format_content(result)

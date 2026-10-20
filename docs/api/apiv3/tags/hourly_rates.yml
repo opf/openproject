@@ -1,0 +1,54 @@
+---
+name: Hourly rates
+description: |-
+  An hourly rate defines what an hour of work by a principal (a user or a placeholder user) costs.
+  It applies from its `validFrom` date until a later rate of the same kind takes effect.
+
+  Two kinds of rate exist, told apart by the presence of the `project` link:
+
+  - A **project rate** links a project and applies within that project only.
+  - A **default rate** carries no `project` link and applies in every project in which the principal
+    has no project rate.
+
+  Both are rendered as `HourlyRate` and are served below the principal they belong to, ordered by
+  `validFrom` descending.
+
+  Creating, changing or deleting a rate recalculates the costs of time entries and budgets already
+  booked in the period the rate covers.
+
+  ## Linked Properties
+
+  | Link      | Description                                                         | Type       | Constraints | Supported operations |
+  | :-------: | ------------------------------------------------------------------- | ---------- | ----------- | -------------------- |
+  | self      | This hourly rate                                                     | HourlyRate | not null    | READ                 |
+  | principal | The user or placeholder user the rate belongs to                     | Principal  | not null    | READ                 |
+  | project   | The project the rate applies in; absent on a default rate            | Project    |             | READ / WRITE         |
+
+  `project` can only be written when creating a rate. A rate cannot be moved from one project to
+  another, and a project rate cannot be turned into a default rate or the other way around.
+
+  ## Local Properties
+
+  | Property  | Description                                                              | Type    | Constraints | Supported operations |
+  | :-------: | ------------------------------------------------------------------------ | ------- | ----------- | -------------------- |
+  | id        | The unique identifier of the rate                                        | Integer | x > 0       | READ                 |
+  | validFrom | The date from which the rate takes effect (ISO 8601 format)              | Date    | not null    | READ / WRITE         |
+  | rate      | The amount charged per hour, in the currency configured for the instance  | Float   | not null    | READ / WRITE         |
+
+  ## Permissions
+
+  Reading:
+
+  - Reaching a principal's rates at all requires the **`view_hourly_rates`** permission in at least one
+    project, unless the principal is the requesting user.
+  - A project rate is readable in the project it applies in, and requires **`view_hourly_rates`** there,
+    or **`view_own_hourly_rate`** when the rate belongs to the requesting user. Having neither hides the
+    rate even from the principal it belongs to.
+  - A default rate belongs to no project and is returned as soon as the principal's rates are reachable.
+
+  Writing:
+
+  - A project rate requires the **`edit_hourly_rates`** permission in the rate's project, or
+    **`edit_own_hourly_rate`** in that project when the rate belongs to the requesting user.
+  - A default rate requires the global **`manage_default_hourly_rates`** permission.
+  - Administrators may manage every rate.

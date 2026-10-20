@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -825,6 +824,208 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
     it "handles parents without children" do
       minor = hierarchy_cf.hierarchy_root.children.find_by(label: "Minor")
       expect(minor.children).to be_empty
+    end
+  end
+
+  describe "#find_existing_custom_field" do
+    let(:jira) { create(:jira) }
+    let(:jira_import) { create(:jira_import, jira:, author: create(:user)) }
+
+    def list_builder(name: "Severity", values: %w[Low High], projects: [], needs_disambiguation: false,
+                     multi_value: false)
+      schema = if multi_value
+                 { "type" => "array", "items" => "option",
+                   "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:multiselect" }
+               else
+                 { "type" => "option", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:select" }
+               end
+      context_group = { "projects" => projects, "issuetypes" => [],
+                        "allowedValues" => values.map { |value| { "value" => value } } }
+      described_class.new(jira_field_for(name:, schema:, context_groups: [context_group]),
+                          context_group:, needs_disambiguation:, jira_import:)
+    end
+
+    def with_mode(mode)
+      stub_const("#{described_class}::VALUE_MATCH_MODE", mode)
+    end
+
+    context "with a list field" do
+      it "reuses a custom field left behind by an earlier run" do
+        existing = create(:list_wp_custom_field, name: "Severity", possible_values: %w[Low High])
+
+        expect(list_builder.find_existing_custom_field).to eq(existing)
+      end
+
+      it "looks past a dedup-counter suffix on the existing name" do
+        existing = create(:list_wp_custom_field, name: "Severity (2)", possible_values: %w[Low High])
+
+        expect(list_builder.find_existing_custom_field).to eq(existing)
+      end
+
+      it "looks past a project-key disambiguation suffix on either side" do
+        existing = create(:list_wp_custom_field, name: "Severity (DYX)", possible_values: %w[Low High])
+        builder = list_builder(projects: %w[ABC], needs_disambiguation: true)
+
+        expect(builder.find_existing_custom_field).to eq(existing)
+      end
+
+      it "does not reuse the only candidate when its values are incompatible" do
+        create(:list_wp_custom_field, name: "Severity", possible_values: %w[Blocker])
+
+        expect(list_builder.find_existing_custom_field).to be_nil
+      end
+
+      it "creates a free name for itself when it does not reuse a candidate" do
+        create(:list_wp_custom_field, name: "Severity", possible_values: %w[Red Green])
+        builder = list_builder
+
+        expect(builder.find_existing_custom_field).to be_nil
+        expect(builder.custom_field_settings.first).to eq("Severity (2)")
+      end
+
+      it "does not reuse a candidate of another format" do
+        create(:string_wp_custom_field, name: "Severity")
+
+        expect(list_builder.find_existing_custom_field).to be_nil
+      end
+
+      it "does not reuse a candidate whose multi_value differs" do
+        create(:list_wp_custom_field, name: "Severity", possible_values: %w[Low High], multi_value: true)
+
+        expect(list_builder(multi_value: false).find_existing_custom_field).to be_nil
+      end
+
+      it "picks the split that covers the needed values" do
+        create(:list_wp_custom_field, name: "Severity", possible_values: %w[Red Green])
+        matching = create(:list_wp_custom_field, name: "Severity (DYX)", possible_values: %w[Low High Critical])
+
+        expect(list_builder.find_existing_custom_field).to eq(matching)
+      end
+
+      it "never matches when the context declares no values at all" do
+        create(:list_wp_custom_field, name: "Severity", possible_values: %w[Low High])
+
+        expect(list_builder(values: []).find_existing_custom_field).to be_nil
+      end
+
+      it "creates a new field when no candidate shares a value, under every mode" do
+        create(:list_wp_custom_field, name: "Severity", possible_values: %w[Red Green])
+
+        %i[subset exact].each do |mode|
+          with_mode(mode)
+          expect(list_builder.find_existing_custom_field).to be_nil
+        end
+      end
+    end
+
+    context "when the needed values are a subset of an existing field's" do
+      let!(:existing) { create(:list_wp_custom_field, name: "Severity", possible_values: %w[Low High Critical]) }
+      let(:builder) { list_builder(values: %w[Low High]) }
+
+      it "reuses it under :subset" do
+        with_mode(:subset)
+
+        expect(builder.find_existing_custom_field).to eq(existing)
+      end
+
+      it "creates a new field under :exact" do
+        with_mode(:exact)
+
+        expect(builder.find_existing_custom_field).to be_nil
+      end
+    end
+
+    context "when the needed values only partially overlap an existing field's" do
+      let!(:existing) { create(:list_wp_custom_field, name: "Severity", possible_values: %w[Low High]) }
+      let(:builder) { list_builder(values: %w[High Critical]) }
+
+      it "creates a new field under :subset" do
+        with_mode(:subset)
+
+        expect(builder.find_existing_custom_field).to be_nil
+      end
+
+      it "creates a new field under :exact" do
+        with_mode(:exact)
+
+        expect(builder.find_existing_custom_field).to be_nil
+      end
+    end
+
+    context "with two context groups of the same run" do
+      let!(:sibling) { create(:list_wp_custom_field, name: "Severity (DYX)", possible_values: %w[Low High]) }
+
+      it "shares one custom field when their option sets are identical" do
+        builder = list_builder(values: %w[Low High], projects: %w[ABC], needs_disambiguation: true)
+
+        expect(builder.find_existing_custom_field(run_custom_field_ids: [sibling.id])).to eq(sibling)
+      end
+
+      it "keeps the split when the second group only needs a subset" do
+        builder = list_builder(values: %w[Low], projects: %w[ABC], needs_disambiguation: true)
+
+        expect(builder.find_existing_custom_field(run_custom_field_ids: [sibling.id])).to be_nil
+      end
+    end
+
+    context "with a non-value-bearing format" do
+      def date_builder
+        schema = { "type" => "date", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" }
+        described_class.new(jira_field_for(name: "Due", schema:), jira_import:)
+      end
+
+      it "prefers the exact base name over an older suffixed candidate" do
+        create(:date_wp_custom_field, name: "Due (archived)")
+        exact = create(:date_wp_custom_field, name: "Due")
+
+        expect(date_builder.find_existing_custom_field).to eq(exact)
+      end
+
+      it "does not reuse a suffixed candidate when no exact name matches" do
+        create(:date_wp_custom_field, name: "Due (archived)")
+        create(:date_wp_custom_field, name: "Due (2)")
+
+        expect(date_builder.find_existing_custom_field).to be_nil
+      end
+
+      it "keeps two Jira fields apart when one is named like the other's dedup suffix" do
+        suffixed = create(:string_wp_custom_field, name: "foo (2)")
+        schema = { "type" => "string", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:textfield" }
+        builder = described_class.new(jira_field_for(name: "foo", schema:), jira_import:)
+
+        expect(builder.find_existing_custom_field).to be_nil
+        expect(builder.custom_field_settings.first).to eq("foo")
+        expect(suffixed.reload.name).to eq("foo (2)")
+      end
+    end
+
+    context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
+      def hierarchy_builder(allowed_values)
+        schema = { "type" => "option-with-child",
+                   "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect" }
+        context_group = { "projects" => [], "issuetypes" => [], "allowedValues" => allowed_values }
+        described_class.new(jira_field_for(name: "Impact", schema:, context_groups: [context_group]),
+                            context_group:, jira_import:)
+      end
+
+      def hierarchy_cf_with(allowed_values)
+        custom_field = create(:hierarchy_wp_custom_field, name: "Impact")
+        hierarchy_builder(allowed_values).custom_field_post_processing(custom_field)
+        custom_field.reload
+      end
+
+      it "reuses a field that already carries the needed paths" do
+        existing = hierarchy_cf_with([{ "value" => "Critical", "children" => [{ "value" => "Security" }] },
+                                      { "value" => "Minor" }])
+
+        expect(hierarchy_builder([{ "value" => "Minor" }]).find_existing_custom_field).to eq(existing)
+      end
+
+      it "does not reuse a field missing one of the needed paths" do
+        hierarchy_cf_with([{ "value" => "Critical" }])
+
+        expect(hierarchy_builder([{ "value" => "Minor" }]).find_existing_custom_field).to be_nil
+      end
     end
   end
 end

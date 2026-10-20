@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -214,7 +213,7 @@ export default class TimeEntryController extends Controller {
       const diffInDays = Math.floor((startTimeInMinutes + hoursInMinutes) / (60 * 24));
       const span = document.createElement('span');
       span.className = 'FormControl-caption';
-      span.innerText = `+${diffInDays === 1 ? I18n.t('js.units.day.one') : I18n.t('js.units.day.other', { count: diffInDays })}`;
+      span.innerText = `+${I18n.t('js.units.day', { count: diffInDays })}`;
       formControl.append(span);
     }
   }

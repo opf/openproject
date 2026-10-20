@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,50 +35,45 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
-  subject(:rendered_component) { render_inline(described_class.new(variant:, caption:)) }
-
-  let(:caption) { nil }
+  subject(:rendered_component) { render_inline(described_class.new(variant:)) }
 
   it "links the variant to its settings page" do
     expect(rendered_component)
-      .to have_link("Hardware", href: edit_type_details_path(type_id: type.id, variant_id: variant.id))
+      .to have_link("Hardware", href: type_variant_settings_path(type_id: type.id, variant_id: variant.id))
   end
 
   it "names no project for a variant every project may use" do
-    expect(rendered_component).to have_no_link("Hardware", href: /in-project/)
+    expect(rendered_component).to have_no_link("Hardware", href: %r{/projects/})
   end
 
   it "leaves out the caption unless one is given" do
     expect(rendered_component).to have_no_text(I18n.t("types.index.variant_label"))
   end
 
+  it "renders the caption its caller gives it" do
+    rendered = render_inline(described_class.new(variant:)) do |row|
+      row.with_caption { I18n.t("types.index.variant_label") }
+    end
+
+    expect(rendered).to have_text(I18n.t("types.index.variant_label"))
+  end
+
   it "says nothing about new projects while the variant is not the one they start with" do
     expect(rendered_component).to have_no_text(I18n.t("types.index.enabled_in_new_projects"))
   end
 
-  context "with a caption" do
-    let(:caption) { I18n.t("types.index.variant_label") }
-
-    it "renders it next to the name" do
-      expect(rendered_component).to have_text(caption)
-    end
-  end
-
-  it "renders the labels its caller gives it" do
+  it "renders the state its caller gives it" do
     rendered = render_inline(described_class.new(variant:)) do |row|
-      row.with_label { "Only available in this project" }
-      row.with_label(scheme: :accent) { "In use" }
+      row.with_state { "Variant in this project" }
     end
 
-    expect(rendered).to have_css(".Label", text: "Only available in this project")
-    expect(rendered).to have_css(".Label--accent", text: "In use")
+    expect(rendered).to have_text("Variant in this project")
   end
 
   it "says nothing of its own about ownership or new projects" do
     expect(rendered_component).to have_no_css(".Label")
   end
 
-  # Right-aligned, for status rather than an affordance.
   it "sets a status label apart from the rest" do
     rendered = render_inline(described_class.new(variant:)) do |row|
       row.with_status_label { "Active in new projects" }

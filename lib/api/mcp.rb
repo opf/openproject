@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ module API
 
     default_format :json
 
-    error_representer ::API::Mcp::ErrorRepresenter, :json
+    error_representer ::API::Mcp::ErrorRepresenter, "application/json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::MCP_SCOPE
 
     helpers do

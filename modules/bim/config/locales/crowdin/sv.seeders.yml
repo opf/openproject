@@ -18,7 +18,7 @@ sv:
         item_0:
           name: Ny
         item_1:
-          name: Pågående
+          name: Pågår
         item_2:
           name: Löst
         item_3:
@@ -52,7 +52,7 @@ sv:
         item_0:
           form_configuration:
             item_0:
-              group_name: Barn
+              group_name: Underordnade
       groups:
         item_0:
           name: Arkitekter
@@ -107,7 +107,7 @@ sv:
             item_2:
               name: Uppgifter
             item_3:
-              name: Team planerare
+              name: Teamplanerare
           boards:
             bcf:
               name: Enkelt arbetsflöde med drag'n drop
@@ -169,7 +169,7 @@ sv:
             item_2:
               name: Uppgifter
             item_3:
-              name: Team planerare
+              name: Teamplanerare
           project-overview:
             widgets:
               item_0:
@@ -351,70 +351,70 @@ sv:
                 item_3:
                   subject: Färdigställande av fasaden
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Facade is done
-                    *   Whole building is waterproof
+                    *   Fasaden är klar
+                    *   Hela byggnaden är vattentät
                     *   ...
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
+                    *   Installera alla fasadelement
+                    *   Färdigställ taket
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Installera byggnadens tekniska system
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   All building service systems are ready to be used
+                    *   Alla byggnadens tekniska system är klara att användas
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
+                    *   Installera värmesystemet
+                    *   Installera klimatsystemet
+                    *   Elinstallation
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: Slutliga detaljer
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
+                    *   Överlämning av nycklarna
+                    *   Kunden är nöjd med sin byggnad
                     *   ...
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
+                    *   Slutför installationen av byggnadens tekniska system
+                    *   Slutför invändiga byggnadsarbeten
+                    *   Slutför fasaden
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: Inflyttningsfest
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Have a blast!
+                    *   Ha riktigt roligt!
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *   Bjud in byggteamet
+                    *   Bjud in dina vänner
+                    *   Ta med dryck, snacks och ett leende
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: "(Demo) BIM-projekt"
+          status_explanation: Alla uppgifter och underprojekt följer tidsplanen. De inblandade känner till sina uppgifter. Systemet är helt konfigurerat.
+          description: Detta är en kort sammanfattning av målen för detta BIM-demoprojekt.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Välkommen till ditt demoprojekt
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Vi är glada att du anslöt dig.
+                I den här modulen kan du kommunicera projektnyheter till dina teammedlemmar.
+              description: De faktiska nyheterna
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (ändras i Projektinställningar)
           queries:
             item_0:
               name: Projektplan
@@ -423,7 +423,7 @@ sv:
             item_2:
               name: Uppgifter
             item_3:
-              name: Team planerare
+              name: Teamplanerare
           project-overview:
             widgets:
               item_0:
@@ -433,24 +433,24 @@ sv:
                 options:
                   name: Komma igång
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi är glada att du är med! Vi föreslår att du provar några saker för att komma igång med OpenProject.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    Detta demoprojekt erbjuder roller, arbetsflöden och arbetspaket som är specialiserade för BIM.
 
-                    _Try the following steps:_
+                    _Prova följande steg:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _Bjud in nya medlemmar till projektet:_ → Gå till [Medlemmar]({{opSetting:base_url}}/projects/demo-bim-project/members) i projektnavigeringen.
+                    2.  _Ladda upp och visa 3D-modeller i IFC-format:_ → Gå till [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) i projektnavigeringen.
+                    3.  _Skapa och hantera BCF-ärenden som är direkt länkade i IFC-modellen:_ → Gå till [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Skapa.
+                    4.  _Visa arbetet i dina projekt:_ → Gå till [Arbetspaket]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigeringen.
+                    5.  _Skapa ett nytt arbetspaket:_ → Gå till [Arbetspaket → Skapa]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    6.  _Skapa och uppdatera ett Gantt-diagram:_ → Gå till [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i projektnavigeringen.
+                    7.  _Aktivera fler moduler:_ → Gå till [Projektinställningar → Moduler]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
+                    8.  _Se kortvyn för att få en översikt över dina BCF-ärenden:_ → Gå till [Arbetspaket]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    9.  _Arbetar du agilt? Skapa en ny tavla:_ → Gå till [Tavlor]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Här hittar du våra [användarguider](https://www.openproject.org/docs/user-guide/).
+                    Kontakta oss om du har frågor eller behöver support: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmar
@@ -462,142 +462,142 @@ sv:
                   name: Milstolpar
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Projektstart för att skapa BIM-modell
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                Projektstarten initierar projektet i ditt företag. Hela projektteamet bör bjudas in till projektstarten för en första genomgång.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Nästa steg kan vara att kontrollera tidsplanen och justera tiderna genom att titta på [Gantt-diagrammet]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Projektförberedelser
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Samla in projektspecifika data och information för BIM-modellen
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    *   Identifiera kundens informationsstrategi (t.ex. genom frågor på klarspråk)
+                    *   Om sådana finns, analysera kundens informationskrav för BIM-modellen
+                    *   Definiera en strategi för informationsleverans utifrån kundens behov
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
+                    *   Analysera kundens behov och mål med BIM-metodiken
+                    *   Resultatet av dessa uppgifter bör vara:
+                    *   Projektkraven
+                    *   En strategi för leveransfasen
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Skapa BIM-genomförandeplanen
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    *   En BIM-genomförandeplan definieras enligt specifikationerna för informationsutbyte (ERS)
+                    *   Alla teammedlemmar och partner har en plan för hur vart och ett av projektmålen ska nås
 
-                    # Description
+                    # Beskrivning
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+                    *   Beroende på identifierade användningsfall definieras de individuella handböckerna för informationsleverans
+                    *   För att hantera de tekniska gränssnitten definieras, analyseras och verifieras en programvarutopologi
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Slutför BIM-genomförandeplanen
+                  description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Förberedelsefasens slut
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Skapa inledande BIM-modell
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Modellera inledande BIM-modell
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   Modellera den inledande BIM-modellen
+                    *   Skapa en BIM-modell för hela projektteamet
 
-                    # Description
+                    # Beskrivning
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   Utifrån insamlade kunddata modelleras den inledande modellen
+                    *   Modellen ska utformas enligt LOD-matriserna och innehålla nödvändig information
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Inledande intern modellkontroll och revidering
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Leverera en BIM-modell enligt de definierade standarderna
 
-                    # Description
+                    # Beskrivning
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   Modellen ska kontrolleras mot de definierade standarderna (konventioner, LOD, ...) och revideras
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Skicka inledande BIM-modell
+                  description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modellering, första cykeln
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Referera externa BIM-modeller
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   Ha en grund för att utveckla den interna modellen/ge svar
+                    *   Använda den externa modellen för att utveckla den interna modellen
 
-                    # Description
+                    # Beskrivning
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   Den externa modellen refereras i BIM-plattformen och används därmed för att modellera den interna modellen
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Modellera BIM-modellen
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *   Skapa en BIM-modell för projektet
+                    *   Skapa en BIM-modell för hela projektteamet
 
-                    # Description
+                    # Beskrivning
 
-                    *   The model will be created according to the BIM execution plan
+                    *   Modellen skapas enligt BIM-genomförandeplanen
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Första cykeln, intern modellkontroll och revidering
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   Leverera en BIM-modell enligt de definierade standarderna
 
-                    # Description
+                    # Beskrivning
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+                    *   Modellen ska kontrolleras mot de definierade standarderna (konventioner, LOD, ...) och revideras.
                     *   ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Skicka BIM-modell
+                  description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Samordning, första cykeln
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Samordna de olika BIM-modellerna
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   Sammanställa de olika BIM-modellerna från hela projektteamet
+                    *   Samordna identifierade problem
 
-                    # Description
+                    # Beskrivning
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   De olika BIM-modellerna sammanställs och kontrolleras
+                    *   Identifierade modellspecifika problem kommuniceras via BCF-filer
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Ärendehantering, första cykeln
                 item_2:
                   subject: Koordinering av slutbearbetning, första cykeln
                   description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
@@ -612,83 +612,83 @@ sv:
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivning\r\n\r\n* \\ ..."
             item_9:
               subject: Modellering & koordinering av n-te cykel
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Slutför modellering och samordning, n:te cykeln
+              description: Denna typ är hierarkiskt överordnad typerna &quot;Clash&quot; och &quot;Request&quot;, och utgör således en allmän anmärkning.
             item_11:
-              subject: Use model for construction phase
+              subject: Använd modellen för byggfasen
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Överlämna modellen till byggteamet
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
+                    *   Alla känner till modellen och sina uppgifter
+                    *   Alla får all relevant information baserad på modellen
                     *   ...
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
+                    *   Projektstarten på byggarbetsplatsen omfattar en introduktion till modellen
+                    *   Alla objekt bör innehålla den information som behövs för de tilldelade uppgifterna. Om inte behöver modellen kompletteras med data
                     *   ...
                 item_1:
-                  subject: Construct the building
+                  subject: Uppför byggnaden
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    *   Nya problem som upptäcks på byggarbetsplatsen hanteras modellbaserat
+                    *   Problem dokumenteras med BCF-filer och BIM-modellen
 
-                    ## Description
+                    ## Beskrivning
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
+                    *   Nya problem dokumenteras med BCF-filer som digitala notiser i modellen
+                    *   BCF-filerna används för att tilldela, följa upp och korrigera problem
                     *   ...
                 item_2:
-                  subject: Finish construction
+                  subject: Slutför byggnationen
             item_12:
-              subject: Issue management, construction phase
+              subject: Ärendehantering, byggfas
             item_13:
-              subject: Handover for Facility Management
+              subject: Överlämning till fastighetsförvaltning
               description: |-
-                ## Goal
+                ## Mål
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
+                *   BIM-modellen används för fastighetsförvaltning
+                *   Modellen tillhandahåller all relevant information för driftsättning och drift av byggnaden
                 *   ...
 
-                ## Description
+                ## Beskrivning
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                *   Modellen innehåller relevant information för fastighetsförvaltaren
+                *   Modellen kan användas för byggnadens driftsystem
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Tillgångsförvaltning
+              description: Njut av din byggnad :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: "(Demo) BCF-hantering"
+          status_explanation: Alla arbetsuppgifter följer tidsplanen. De inblandade känner till sina uppgifter. Systemet är helt klart.
+          description: Detta är en kort sammanfattning av målen för detta BCF-hanteringsdemoprojekt.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Sjukhus – Arkitektur (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Sjukhus – Konstruktion (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Sjukhus – Installationer (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (ändras i Projektinställningar)
           queries:
             item_0:
               name: Problem
             item_1:
-              name: Clashes
+              name: Kollisioner
             item_2:
-              name: Requests
+              name: Förfrågningar
             item_3:
-              name: Remarks
+              name: Anmärkningar
             item_4:
               name: Projektplan
             item_5:
@@ -696,10 +696,10 @@ sv:
             item_6:
               name: Uppgifter
             item_7:
-              name: Team planerare
+              name: Teamplanerare
           boards:
             bcf:
-              name: BCF issues
+              name: BCF-ärenden
           project-overview:
             widgets:
               item_0:
@@ -709,23 +709,23 @@ sv:
                 options:
                   name: Komma igång
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi är glada att du är med! Vi föreslår att du provar några saker för att komma igång med OpenProject.
 
-                    This demo project shows BCF management functionalities.
+                    Detta demoprojekt visar funktioner för BCF-hantering.
 
-                    _Try the following steps:_
+                    _Prova följande steg:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _Bjud in nya medlemmar till projektet:_ → Gå till [Medlemmar]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) i projektnavigeringen.
+                    2.  _Ladda upp och visa 3D-modeller i IFC-format:_ → Gå till [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) i projektnavigeringen.
+                    3.  _Skapa och hantera BCF-ärenden som är direkt länkade i IFC-modellen:_ → Gå till [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Skapa.
+                    4.  _Visa BCF-filerna i projektet:_ → Gå till [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) i projektnavigeringen.
+                    5.  _Läs in BCF-filer:_ → Gå till [BCF → Importera]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
+                    6.  _Skapa och uppdatera ett Gantt-diagram:_ → Gå till [Gantt-diagram]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) i projektnavigeringen.
+                    7.  _Aktivera fler moduler:_ → Gå till [Projektinställningar → Moduler]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
+                    8.  _Gillar du agila arbetssätt? Skapa en tavla:_ → Gå till [Tavlor]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Här hittar du våra [användarguider](https://www.openproject.org/docs/user-guide/).
+                    Kontakta oss om du har frågor eller behöver support: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Medlemmar

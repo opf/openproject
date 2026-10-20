@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -126,11 +125,15 @@ module Import
       end
 
       def render_block_quote(node)
-        "> #{render_inline(node.children)}\n"
+        content = render_inline(node.children)
+        content.empty? ? "" : "> #{content}\n"
       end
 
       def render_multi_line_block_quote(node)
-        "#{node.lines.map { |line_nodes| "> #{render_inline(line_nodes)}" }.join("\n")}\n"
+        rendered = node.lines.map { |line_nodes| render_inline(line_nodes) }
+        return "" if rendered.all?(&:empty?)
+
+        "#{rendered.map { |line| "> #{line}" }.join("\n")}\n"
       end
 
       def render_table_header_row(node)
@@ -143,7 +146,7 @@ module Import
 
       def render_panel(node)
         title = node.params["title"]
-        if title
+        if title.present?
           "**#{title}**\n#{node.content}"
         else
           node.content
@@ -176,6 +179,7 @@ module Import
       def inline_node_renderer(node)
         {
           N::Text => :render_text,
+          N::BlockQuote => :render_inline_block_quote,
           N::Bold => :render_bold,
           N::Italic => :render_italic,
           N::Strikethrough => :render_strikethrough,
@@ -197,6 +201,12 @@ module Import
 
       def render_text(node)
         node.content
+      end
+
+      # Reached where a quote cannot become its own block (headings, list items,
+      # table cells); markdown has no inline quote, so keep the text unadorned.
+      def render_inline_block_quote(node)
+        render_inline(node.children)
       end
 
       def render_bold(node)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -115,12 +114,31 @@ RSpec.describe McpTools::SearchTimeEntries do
     end
 
     describe "filtering by work_package_id" do
-      let(:call_args) { { work_package_id: time_entries.first.entity_id } }
+      before do
+        time_entries.each_with_index do |entry, i|
+          entry.entity.assign_attributes(identifier: "PROJ-#{100 + i}", sequence_number: 100 + i)
+          entry.entity.save!(context: :identifier_rewrite)
+        end
+      end
 
-      it "finds only time entries with the given entity" do
-        mcp_request
-        expect(result_items.size).to eq(1)
-        expect(result_items.first["id"]).to eq(time_entries.first.id)
+      context "when searching by classic id" do
+        let(:call_args) { { work_package_id: time_entries.first.entity_id } }
+
+        it "finds only time entries with the given entity" do
+          mcp_request
+          expect(result_items.size).to eq(1)
+          expect(result_items.first["id"]).to eq(time_entries.first.id)
+        end
+      end
+
+      context "when searching by semantic id" do
+        let(:call_args) { { work_package_id: "PROJ-100" } }
+
+        it "finds only time entries with the given entity" do
+          mcp_request
+          expect(result_items.size).to eq(1)
+          expect(result_items.first["id"]).to eq(time_entries.first.id)
+        end
       end
     end
 

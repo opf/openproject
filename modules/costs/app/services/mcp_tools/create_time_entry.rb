@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,21 +73,25 @@ module McpTools
     )
 
     def call(data:)
-      parsed = parse_time_entry(data).on_failure { |result| return { error: result.message } }.result
+      parsed = parse_time_entry(data).on_failure { |result| return Failure(result.message) }.result
       parsed = parsed.reverse_merge(user_id: current_user.id, spent_on: Date.current)
       result = TimeEntries::CreateService.new(user: current_user).call(**parsed)
 
-      if result.success?
-        API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:)
-      else
-        { error: result.message }
-      end
+      format_result(result)
     end
 
     private
 
     def parse_time_entry(data)
       ::API::V3::ParseResourceParamsService.new(current_user, model: TimeEntry).call(data.deep_stringify_keys)
+    end
+
+    def format_result(result)
+      if result.success?
+        Success(API::V3::TimeEntries::TimeEntryRepresenter.create(result.result, current_user:))
+      else
+        Failure(result.message)
+      end
     end
   end
 end

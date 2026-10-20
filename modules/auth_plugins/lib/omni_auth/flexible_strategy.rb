@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -29,9 +28,18 @@
 require "open_project/plugins/auth_plugin"
 
 module OmniAuth
+  # OmniAuth decides request vs callback by comparing
+  # the current path to +request_path+ / +callback_path+, which it derives from
+  # +name+ and then memoizes later on.
+  # For this reason, we need to verride the on_request_path and on_callback_path? methods
+  # to make sure we match our provider strategy class from the request (e.g., /auth/saml)
   module FlexibleStrategy
-    def on_auth_path?
-      possible_auth_path? && (match_provider! || false) && super
+    def on_request_path?
+      possible_auth_path? && match_provider! && super
+    end
+
+    def on_callback_path?
+      possible_auth_path? && match_provider! && super
     end
 
     ##
@@ -46,6 +54,8 @@ module OmniAuth
 
       if @provider
         options.merge! provider.to_hash
+        @request_path = nil
+        @callback_path = nil
       end
 
       @provider
@@ -90,7 +100,7 @@ module OmniAuth
   end
 
   module FlexibleStrategyClass
-    def new(app, *args, &)
+    def new(app, *, **, &)
       super.tap do |strategy|
         strategy.extend FlexibleStrategy
       end

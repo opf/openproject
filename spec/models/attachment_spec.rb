@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe Attachment do
@@ -167,6 +167,27 @@ RSpec.describe Attachment do
     it "creates an md5 digest" do
       expect(attachment.digest)
         .to eql Digest::MD5.file(file.path).hexdigest
+    end
+
+    context "when CarrierWave moves the source file during cache" do
+      it "still detects size, content type, and digest from the original file" do
+        expected_size = file.size
+        expected_digest = Digest::MD5.file(file.path).hexdigest
+
+        # Simulate FogFileUploader::MovableSource: cache! moves (deletes) the source.
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(LocalFileUploader).to receive(:cache!) do |_uploader, new_file|
+          path = new_file.respond_to?(:path) ? new_file.path : new_file.to_s
+          FileUtils.rm_f(path) if path.present? && File.exist?(path)
+        end
+        # rubocop:enable RSpec/AnyInstance
+
+        moved = described_class.new(author:, container: work_package, content_type: nil, file:)
+
+        expect(moved.filesize).to eq expected_size
+        expect(moved.content_type).to eq "image/jpeg"
+        expect(moved.digest).to eq expected_digest
+      end
     end
   end
 
@@ -510,6 +531,31 @@ RSpec.describe Attachment do
 
       context "on update" do
         it_behaves_like "does not run extraction"
+      end
+    end
+  end
+
+  describe ".clean_cached_files!" do
+    let(:storage) { instance_double(CarrierWave::Storage::File, clean_cache!: nil) }
+
+    before do
+      allow(CarrierWave::Storage::File).to receive(:new).and_return(storage)
+    end
+
+    it "removes CarrierWave workfiles older than the given age and keeps newer ones" do
+      Dir.mktmpdir do |dir|
+        allow(CarrierWave).to receive(:tmp_path).and_return(dir)
+
+        old_dir = File.join(dir, "#{10.days.ago.utc.to_i}-1-0001-0002")
+        fresh_dir = File.join(dir, "#{Time.zone.now.to_i}-1-0001-0003")
+        FileUtils.mkdir_p(old_dir)
+        FileUtils.mkdir_p(fresh_dir)
+
+        described_class.clean_cached_files!(age_in_seconds: 1.day.to_i)
+
+        expect(File).not_to exist(old_dir)
+        expect(File).to exist(fresh_dir)
+        expect(storage).to have_received(:clean_cache!).with(1.day.to_i)
       end
     end
   end

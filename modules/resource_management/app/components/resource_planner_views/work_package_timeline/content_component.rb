@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,12 +54,8 @@ module ResourcePlannerViews
 
       def timeline_feed_values
         {
-          "resources-url" => helpers.project_resource_planner_view_work_package_timeline_resources_path(
-            @project, @resource_planner, @view, format: :json
-          ),
-          "events-url" => helpers.project_resource_planner_view_work_package_timeline_events_path(
-            @project, @resource_planner, @view, format: :json
-          ),
+          "resources-url" => planner_view_work_package_timeline_resources_path(@resource_planner, @view, format: :json),
+          "events-url" => planner_view_work_package_timeline_events_path(@resource_planner, @view, format: :json),
           # A date-range selection on a work-package row pre-fills that work
           # package on the new-allocation dialog.
           "selection-param" => "work_package_id"
@@ -73,7 +68,7 @@ module ResourcePlannerViews
       end
 
       def add_work_package_path
-        helpers.new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view)
+        new_planner_view_work_package_path(@resource_planner, @view)
       end
     end
   end

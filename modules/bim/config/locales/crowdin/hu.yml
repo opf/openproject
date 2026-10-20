@@ -106,11 +106,12 @@ hu:
     not_recommended: nem ajánlott
     recommended: Ajánlott
     x_bcf_issues:
-      one: Egy BCF probléma
+      one: "%{count} BCF issue"
       other: "%{count} BCF probléma"
       zero: Nincs BCF feladat
   bim:
     error_direct_upload_failed: A közvetlen feltöltés nem sikerült.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

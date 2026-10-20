@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,6 +52,23 @@ RSpec.describe "Series template participant management",
   before do
     login_as user
     template_page.visit!
+  end
+
+  describe "the ICS revision of the series" do
+    it "advances when a participant is added to the template" do
+      ical_sequence = recurring_meeting.ical_sequence
+
+      template_page.open_participant_form
+      template_page.in_participant_form do
+        template_page.uncheck_apply_to_upcoming
+
+        wait_for_turbo_stream do
+          template_page.select_participant(participant_a)
+        end
+      end
+
+      expect(recurring_meeting.reload.ical_sequence).to eq ical_sequence + 1
+    end
   end
 
   describe "'apply to upcoming' checkbox state" do

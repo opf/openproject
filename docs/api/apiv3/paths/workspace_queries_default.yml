@@ -12,7 +12,7 @@ get:
     to the workspace.
   parameters:
     - description: Id of the workspace the default query is requested for
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -23,7 +23,7 @@ get:
         JSON specifying filter conditions.
         The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
         All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
-      example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
+      example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] } }]'
       in: query
       required: false
       schema:
@@ -31,7 +31,7 @@ get:
         type: string
     - name: offset
       description: Page number inside the queries' result collection of work packages.
-      example: '25'
+      example: 25
       in: query
       required: false
       schema:
@@ -40,7 +40,7 @@ get:
     - name: pageSize
       description: Number of elements to display per page for the queries' result collection
         of work packages.
-      example: '25'
+      example: 25
       in: query
       required: false
       schema:

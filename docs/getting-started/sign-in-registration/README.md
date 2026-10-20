@@ -70,12 +70,19 @@ Enter the following information:
 - Last name
 - Company E-Mail address
 - Choose a password
+- Confirm your password
 
 Click the **Create** button.
 
 ![Create a new account for OpenProject](openproject_user_guide_sign_in_activation_screen.png)
 
 Make sure to remember your password in order to sign in again at a later point.
+
+> [!NOTE]
+>
+> If your administrator has already enforced [two-factor authentication](../../system-admin-guide/authentication/two-factor-authentication/) , you'll need to add a 2FA device to complete the sign-in process.
+
+![Add new two-factor authentication device](openproject_user_guide_sign_in_first_time_2fa.png)
 
 ## Choose your language
 
@@ -91,6 +98,9 @@ If you have already logged in before, you can [set your language in your user pr
 ## Reset your password
 
 If you forgot your password, you can reset your password by clicking the blue **Forgot your password** link directly below the Sign in field.
+
+> [!NOTE]
+> If your administrator has restricted password login for an SSO-enabled instance, the password form and password recovery may not be available. In that case, sign in through your configured identity provider or contact your administrator.
 
 ![Forgot password link on OpenProject sign in page](openproject_user_guide_sign_in_forgot_pw_link.png)
 

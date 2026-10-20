@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -258,10 +257,8 @@ RSpec.describe "Reordering project attribute sections and fields", :js, :seleniu
   end
 
   def drag_via_handle(handle:, target_element:, edge: nil)
-    scroll_to_element(handle)
-
-    target_x, target_y = selenium_target_point(target_element.native.rect, edge:)
-    perform_native_drag(source: handle, target_x:, target_y:)
+    offset_x, offset_y = selenium_target_offset(target_element.native.rect, edge:)
+    perform_native_drag(source: handle, target: target_element, offset_x:, offset_y:)
 
     # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
     # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -270,18 +267,18 @@ RSpec.describe "Reordering project attribute sections and fields", :js, :seleniu
     clear_pragmatic_dnd_honey_pot
   end
 
-  def selenium_target_point(rect, edge:)
+  def selenium_target_offset(rect, edge:)
     offset = [6, rect.height / 4].min
 
     [
-      rect.x + (rect.width / 2),
+      0,
       case edge
       when :top
-        rect.y + offset
+        offset - (rect.height / 2)
       when :bottom
-        rect.y + rect.height - offset
+        (rect.height / 2) - offset
       else
-        rect.y + (rect.height / 2)
+        0
       end
     ].map(&:round)
   end

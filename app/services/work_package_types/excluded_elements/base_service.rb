@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,13 +32,6 @@ module WorkPackageTypes
     # Shared scaffolding for narrowing what a variant inherits for one aspect. Subclasses only
     # implement #updated_elements.
     #
-    # Exclusions describe what this variant drops from what it inherits, so they only mean
-    # something while the aspect is linked. A variant that owns the aspect has nothing to
-    # exclude — it edits its own configuration directly — so the services fail rather than
-    # silently doing nothing.
-    #
-    # Writes target this variant's own exclusions only. A variant can never narrow an
-    # ancestor's; that ancestor's exclusions reach it through the chain instead.
     class BaseService < ::BaseServices::BaseCallable
       def initialize(user:, variant:)
         super()
@@ -50,7 +42,7 @@ module WorkPackageTypes
       def perform(*)
         aspect = params[:aspect].to_s
         return unknown_aspect_result(aspect) unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
-        return not_linked_result unless variant.linked?(aspect)
+        return not_linked_result unless variant.excludable?(aspect)
 
         narrow(aspect)
       end
@@ -93,7 +85,7 @@ module WorkPackageTypes
       end
 
       def not_linked_result
-        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_linked"))
+        variant.errors.add(:base, I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
 
         ServiceResult.failure(result: variant, errors: variant.errors)
       end

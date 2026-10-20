@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,25 @@ RSpec.describe Users::DropTokensService, type: :model do
 
       expect(Token::Recovery.exists?(reset_token.id)).to be false
       expect(Token::Recovery.exists?(other_reset_token.id)).to be true
+    end
+  end
+
+  describe "Remember-me token", with_settings: { autologin: 1 } do
+    let!(:autologin_token) { create(:autologin_token, user: input_user) }
+    let!(:other_autologin_token) { create(:autologin_token, user: other_user) }
+
+    it "preserves tokens by default" do
+      subject
+
+      expect(Token::AutoLogin.exists?(autologin_token.id)).to be true
+      expect(Token::AutoLogin.exists?(other_autologin_token.id)).to be true
+    end
+
+    it "removes only the user's tokens when requested" do
+      instance.call!(clear_autologin_tokens: true)
+
+      expect(Token::AutoLogin.exists?(autologin_token.id)).to be false
+      expect(Token::AutoLogin.exists?(other_autologin_token.id)).to be true
     end
   end
 end

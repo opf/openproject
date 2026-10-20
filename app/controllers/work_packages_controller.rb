@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,17 +33,24 @@ class WorkPackagesController < ApplicationController
   include Layout
   include WorkPackagesControllerHelper
   include OpTurbo::ComponentStream
+  include OpTurbo::FlashStreamHelper
+  include WorkPackages::WithSplitView
 
-  accept_key_auth :index, :show
+  # For views showing the work package elsewhere to bring themselves up to date.
+  UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
+
+  accept_rss_key_auth :index, :show
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]
   before_action :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
 
-  before_action :load_and_authorize_in_optional_project, only: %i[index new show copy export_dialog]
+  before_action :load_and_authorize_in_optional_project, only: %i[index new show copy export_dialog split_view split_create]
   before_action :authorize, only: %i[show_conflict_flash_message share_upsell]
-  authorization_checked! :index, :show, :new, :copy, :export_dialog, :generate_pdf_dialog, :generate_pdf
+  # assign_to_me is authorized by the contract of the update service it calls.
+  authorization_checked! :index, :show, :new, :copy, :export_dialog, :generate_pdf_dialog, :generate_pdf,
+                         :split_view, :split_create, :assign_to_me
 
   before_action :load_and_validate_query, only: %i[index copy], unless: -> { request.format.html? }
 
@@ -55,8 +61,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :index,
-               locals: { query: @query, project: @project, menu_name: project_or_global_menu },
-               layout: "angular/angular"
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
       end
 
       format.any(*supported_list_formats) do
@@ -65,6 +70,32 @@ class WorkPackagesController < ApplicationController
 
       format.atom do
         atom_list
+      end
+    end
+  end
+
+  def split_view
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request?
+          render "work_packages/split_view", layout: false
+        else
+          render :index,
+                 locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+        end
+      end
+    end
+  end
+
+  def split_create
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request?
+          render "work_packages/split_create", layout: false
+        else
+          render :index,
+                 locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+        end
       end
     end
   end
@@ -108,6 +139,21 @@ class WorkPackagesController < ApplicationController
     respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query,
                                                                         project: @query.project,
                                                                         title: params[:title])
+  end
+
+  def assign_to_me
+    return respond_with_flash_error(message: I18n.t(:notice_file_not_found), status: :not_found) unless work_package
+
+    call = WorkPackages::UpdateService
+             .new(user: current_user, model: work_package)
+             .call(assigned_to: current_user)
+
+    render_assign_to_me_result(call)
+    respond_with_turbo_streams
+  rescue StandardError => e
+    op_handle_error(e)
+    respond_with_flash_error(message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title),
+                             status: :internal_server_error)
   end
 
   def generate_pdf_dialog
@@ -201,6 +247,14 @@ class WorkPackagesController < ApplicationController
 
   private
 
+  def split_view_base_route
+    if @project
+      project_work_packages_path(@project, request.query_parameters)
+    else
+      work_packages_path(request.query_parameters)
+    end
+  end
+
   def handle_standard_show_formats(format)
     format.any(*supported_single_formats) do
       export_single(request.format.symbol)
@@ -235,6 +289,19 @@ class WorkPackagesController < ApplicationController
 
   def authorize_on_work_package
     deny_access(not_found: true) unless work_package
+  end
+
+  def render_assign_to_me_result(call)
+    if call.success?
+      render_success_flash_message_via_turbo_stream(message: assigned_to_me_message)
+      dispatch_event_via_turbo_stream(UPDATED_EVENT_NAME, detail: { work_package_id: work_package.id })
+    else
+      render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
+    end
+  end
+
+  def assigned_to_me_message
+    I18n.t("work_packages.assign_to_me.success", work_package: "#{work_package.formatted_id} #{work_package.subject}")
   end
 
   def per_page_param

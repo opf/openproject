@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["vitest/globals", "vite/client"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["."]
+}

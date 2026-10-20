@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,30 @@ RSpec.describe Meetings::UpdateService, "integration", type: :model do
 
   let(:service_result) { instance.call(attributes:, **params) }
   let(:updated_meeting) { service_result.result }
+
+  describe "the ICS revision counter of the series" do
+    shared_let(:series, refind: true) { create(:recurring_meeting, project:, frequency: "daily") }
+
+    let(:params) { { location: "A new location" } }
+
+    context "when the meeting is the series template" do
+      let(:meeting) { series.template }
+
+      it "advances it, because the series event renders the template" do
+        expect { expect(service_result).to be_success }
+          .to change { series.reload.ical_sequence }.by(1)
+      end
+    end
+
+    context "when the meeting is not a template" do
+      let(:meeting) { create(:meeting, project:) }
+
+      it "leaves every series alone" do
+        expect { expect(service_result).to be_success }
+          .not_to change { series.reload.ical_sequence }
+      end
+    end
+  end
 
   context "when meeting is in a series and scheduled to the future" do
     shared_let(:recurring_meeting, refind: true) { create(:recurring_meeting, project:, frequency: "daily") }

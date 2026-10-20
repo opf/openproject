@@ -101,7 +101,7 @@ It is now possible to bulk edit the subject field for multiple work packages. Se
 - Fixed: Misalignment in Project specific settings table  \[[#44932](https://community.openproject.org/wp/44932)\]
 - Fixed: Backup failed with message "undefined method 'body'.." if attachment is unavailable \[[#44939](https://community.openproject.org/wp/44939)\]
 - Fixed: Admin sidebar enterprise badge is misaligned \[[#44990](https://community.openproject.org/wp/44990)\]
-- Fixed: Text in the Enterprise Edition administration page still includes 2FA as EE Feature \[[#44991](https://community.openproject.org/wp/44991)\]
+- Fixed: Text in the Enterprise edition administration page still includes 2FA as EE Feature \[[#44991](https://community.openproject.org/wp/44991)\]
 - Changed: List up to 3 people in a notification card \[[#43294](https://community.openproject.org/wp/43294)\]
 - Changed: Cannot self-notify via @mention \[[#43846](https://community.openproject.org/wp/43846)\]
 - Changed: Make 2FA available in the community edition \[[#44327](https://community.openproject.org/wp/44327)\]

@@ -120,7 +120,7 @@ There are **four ways to add or create a child work package**:
 
    ![Add a child in a work package table](openproject_user_guide_wp_table_add_child.png)
 
-4. You can add a child work package directly under the table of related work packages. To do that you first need to [include a table of related work packages to work package forms (Enterprise add-on)](../../../system-admin-guide/manage-work-packages/work-package-types/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on). 
+4. You can add a child work package directly under the table of related work packages. To do that you first need to [include a table of related work packages to work package forms (Enterprise add-on)](../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on). 
 
    ![A table of related work packages in OpenProject](open_project_admin_related_wp_table.png)
 

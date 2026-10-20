@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,9 +73,8 @@ RSpec.describe MyController do
       end
     end
 
-    describe "with disabled password login" do
+    describe "with disabled password login", with_settings: { password_login: "none" } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         post :change_password
       end
 
@@ -382,9 +380,8 @@ RSpec.describe MyController do
     end
   end
 
-  describe "account with disabled password login" do
+  describe "account with disabled password login", with_settings: { password_login: "none" } do
     before do
-      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       as_logged_in_user user do
         get :security
       end

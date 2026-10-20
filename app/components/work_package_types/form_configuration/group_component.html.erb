@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -36,13 +35,12 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
             group: @group,
-            variant: @variant,
+            context: @context,
             ee_available: ee_available?,
             first: first?,
             last: last?,
             edit_mode: edit_mode?,
-            form_model: @form_model,
-            readonly: readonly?
+            form_model: @form_model
           )
         )
       end
@@ -54,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
               group: @group,
               ee_available: ee_available?,
               readonly: readonly?,
-              exclusions: @exclusions
+              exclusions:
             )
           )
         end
@@ -87,11 +85,9 @@ See COPYRIGHT and LICENSE files for more details.
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
-                variant: @variant,
+                context: @context,
                 index:,
-                total_count: attributes.length,
-                readonly: readonly?,
-                exclusions: @exclusions
+                total_count: attributes.length
               )
             )
           end

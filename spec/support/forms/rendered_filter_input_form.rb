@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,16 +32,19 @@ RSpec.shared_context "with rendered filter input form" do
 
   let(:additional_attributes) { {} }
   let(:active) { true }
+  let(:dialog_id) { nil }
 
   def vc_render_filter_form(
     form_class = described_class,
     filter: self.filter,
     additional_attributes: self.additional_attributes,
-    active: self.active
+    active: self.active,
+    dialog_id: self.dialog_id
   )
-    render_in_view_context(form_class, filter, additional_attributes, active) do |form_class, filter, attrs, active|
+    render_in_view_context(form_class, filter, additional_attributes, active,
+                           dialog_id) do |form_class, filter, attrs, active, dialog|
       primer_form_with(url: "/test", method: :post) do |f|
-        render(form_class.new(f, filter:, additional_attributes: attrs, active:))
+        render(form_class.new(f, filter:, additional_attributes: attrs, active:, dialog_id: dialog))
       end
     end
   end

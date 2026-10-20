@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,8 +58,8 @@ RSpec.describe McpTools::CreateWorkPackageRelation do
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_item) { parsed_results.fetch("structuredContent") }
 
-  let(:work_package_a) { create(:work_package, project: allowed_project) }
-  let(:work_package_b) { create(:work_package, project: allowed_project) }
+  let(:work_package_a) { create(:work_package, project: allowed_project, identifier: "PROJ-42") }
+  let(:work_package_b) { create(:work_package, project: allowed_project, identifier: "PROJ-1337") }
 
   let(:allowed_project) { create(:project) }
   let(:disallowed_project) { create(:project) }
@@ -97,6 +96,30 @@ RSpec.describe McpTools::CreateWorkPackageRelation do
         {
           from_work_package_id: work_package_a.id,
           to_work_package_id: work_package_b.id,
+          type: "follows",
+          lag: 5,
+          description: "A follows B."
+        }
+      end
+
+      it "creates a work package relation" do
+        expect { mcp_request }.to change(Relation, :count).from(0).to(1)
+
+        expect(Relation.first).to have_attributes(
+          from: work_package_a,
+          to: work_package_b,
+          relation_type: "follows",
+          lag: 5,
+          description: "A follows B."
+        )
+      end
+    end
+
+    context "when defining work package via semantic identifier" do
+      let(:call_args) do
+        {
+          from_work_package_id: work_package_a.identifier,
+          to_work_package_id: work_package_b.identifier,
           type: "follows",
           lag: 5,
           description: "A follows B."

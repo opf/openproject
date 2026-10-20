@@ -25,8 +25,8 @@ sv:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Befintlig Wiki-sida
+          create_new: Ny Wiki-sida
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: Wikier

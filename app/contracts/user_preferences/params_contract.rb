@@ -22,18 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module UserPreferences
   class ParamsContract < ::ParamsContract
-    include RequiresEnterpriseGuard
-    self.enterprise_action = :date_alerts
-    self.enterprise_condition = ->(*) { date_alerts_set? }
-
     DATE_ALERT_DURATIONS = [nil, 0, 1, 3, 7].freeze
     DATE_ALERT_OVERDUE_DURATIONS = [nil, 1, 3, 7].freeze
 
@@ -76,12 +71,6 @@ module UserPreferences
       NotificationSetting.email_settings.any? do |setting|
         notification_setting[setting] == true
       end
-    end
-
-    ##
-    # Check if the given notification hash has date alert related settings set
-    def date_alerts_set?
-      (NotificationSetting.date_alert_settings & notifications.flat_map(&:keys)).any?
     end
 
     def global_notifications

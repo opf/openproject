@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,10 +58,11 @@ module API
               end
 
               def authorized_work_package_option(custom_option)
-                allowed = Project
-                  .with_visible_work_packages(current_user)
-                  .joins(:work_package_custom_fields)
-                  .exists?(custom_fields: { id: custom_option.custom_field_id })
+                allowed = WorkPackageCustomField
+                  .on_visible_type_and_project(
+                    current_user, projects: Project.with_visible_work_packages(current_user)
+                  )
+                  .exists?(id: custom_option.custom_field_id)
 
                 unless allowed
                   raise API::Errors::NotFound

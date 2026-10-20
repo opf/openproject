@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -70,7 +69,8 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
             "name" => "Galactic Order",
             "color_id" => lightsaber_red.id.to_s,
             "is_milestone" => "0",
-            "is_in_roadmap" => "1"
+            "is_in_roadmap" => "1",
+            "allow_project_variants" => "0"
           }
         }
       end
@@ -85,7 +85,8 @@ RSpec.describe WorkPackageTypes::DetailsTabController do
         expect(type.reload).to have_attributes(name: "Galactic Order",
                                                color_id: lightsaber_red.id,
                                                is_milestone: false,
-                                               is_in_roadmap: true)
+                                               is_in_roadmap: true,
+                                               allow_project_variants: false)
       end
 
       context "if the the params are invalid" do

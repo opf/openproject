@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -78,6 +77,23 @@ module OpPrimer
     end
 
     def pagination_params = {}
+
+    # For tables mixing several kinds of rows.
+    def row_class_for(_row)
+      row_class
+    end
+
+    # Data attributes for the box element wrapping the whole table, for
+    # subclasses that need to attach behaviour to it.
+    def container_data
+      {}
+    end
+
+    # The header and footer carry `role=rowgroup` too, so the element holding the
+    # rows needs a class of its own to be addressable.
+    def rows_container_class
+      "op-border-box-table--rows"
+    end
 
     def column_title(name)
       _, header_options = headers.assoc(name)
@@ -156,6 +172,25 @@ module OpPrimer
 
     def column_count
       @column_count ||= columns.size + (has_actions? ? 1 : 0)
+    end
+
+    # Header rows share index 1, so data rows start at 2 and the footer is last.
+    def row_count
+      @row_count ||= 1 + body_row_count + (has_footer? ? 1 : 0)
+    end
+
+    def body_row_count
+      [paginated? ? rows.total_entries : rows.size, 1].max
+    end
+
+    def row_index(index)
+      2 + page_offset + index
+    end
+
+    def page_offset
+      return 0 unless paginated?
+
+      (rows.current_page - 1) * rows.per_page
     end
   end
 end

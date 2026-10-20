@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -117,8 +116,10 @@ export default class AutoScrollingController extends BaseController {
       // Your own comment streams in and keeps growing like a polled one, so follow
       // it while it settles rather than scrolling once the keyboard is down.
       this.keepInputInViewWhileSettling(SUBMIT_KEYBOARD_DISMISS_MS);
+    } else if (this.indexOutlet.sortingAscending) {
+      this.keepScrolledToBottomWhileSettling();
     } else {
-      this.scrollJournalContainer(this.indexOutlet.sortingAscending, true);
+      this.scrollJournalContainer(false, true);
     }
   }
 

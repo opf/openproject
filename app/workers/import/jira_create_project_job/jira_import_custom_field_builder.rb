@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -133,6 +132,11 @@ module Import
         "user" => "user"
       }.freeze
 
+      # Picks how a same-name candidate is matched when Jira Field Contexts have split one
+      # Jira field into several OP custom fields: `:subset` (needed values already covered) or
+      # `:exact` (identical option set).
+      VALUE_MATCH_MODE = :subset
+
       def self.supported?(jira_field)
         schema = jira_field.payload["schema"] || {}
         JIRA_SUPPORTED_FIELDS.any? do |entry|
@@ -144,24 +148,18 @@ module Import
 
       attr_reader :jira_field, :context_group
 
-      def initialize(jira_field, context_group: nil, option_value: nil, needs_disambiguation: false, jira_import: nil,
-                     context_index: 0)
+      def initialize(jira_field, context_group: nil, option_value: nil, needs_disambiguation: false, jira_import: nil)
         @jira_field = jira_field
         @context_group = context_group
         @option_value = option_value
         @needs_disambiguation = needs_disambiguation
         @jira_import = jira_import
-        @context_index = context_index
         @import_name = default_cf_name
       end
 
-      def find_existing_custom_field
-        existing_cf = if %w[hierarchy list].include?(format)
-                        custom_field_created_by_import
-                      else
-                        custom_field_by_name(@import_name)
-                      end
-        return existing_cf if existing_cf&.field_format == format
+      def find_existing_custom_field(run_custom_field_ids: [])
+        match = best_matching_candidate(compatible_candidates, run_custom_field_ids)
+        return match if match
 
         @import_name = unique_custom_field_name
         nil
@@ -205,9 +203,13 @@ module Import
 
       private
 
-      def default_cf_name
+      def stable_base_name
         base_name = jira_field.payload["name"]
-        base_name = "#{base_name} - #{@option_value}" if @option_value
+        @option_value ? "#{base_name} - #{@option_value}" : base_name
+      end
+
+      def default_cf_name
+        base_name = stable_base_name
         project_keys = context_group_projects
         return base_name if project_keys.empty? || !@needs_disambiguation
 
@@ -249,8 +251,6 @@ module Import
         schema["type"] == "array" && JIRA_ARRAY_ITEMS_TO_OP_FORMAT.key?(schema["items"])
       end
 
-      # Returns the flat list of option labels for this list field's context group.
-      # For cascading selects the tree is fully flattened so every level becomes an option.
       def list_field_option_values
         allowed = context_group_allowed_values
         if cascading_select_as_list?
@@ -282,40 +282,79 @@ module Import
         end.uniq
       end
 
+      # Matches `Example`, `Example (2)`, `Example (DYX)` and `Example (DYX, ABC)
+      def candidate_custom_fields
+        base_name = stable_base_name
+        escaped = ActiveRecord::Base.sanitize_sql_like(base_name)
+        WorkPackageCustomField
+          .where("LOWER(name) = LOWER(?)", base_name)
+          .or(WorkPackageCustomField.where("name ILIKE ?", "#{escaped} (%"))
+          .order(:id)
+      end
+
+      def compatible_candidates
+        candidate_custom_fields.select { |cf| cf.field_format == format && compatible_multi_value?(cf) }
+      end
+
+      def compatible_multi_value?(custom_field)
+        return true unless %w[list user].include?(format)
+
+        custom_field.multi_value? == jira_field_multi_value?
+      end
+
+      def best_matching_candidate(candidates, run_custom_field_ids)
+        return best_value_bearing_candidate(candidates, run_custom_field_ids) if value_bearing_format?
+
+        candidates.find { |cf| cf.name.casecmp?(@import_name) } ||
+          candidates.find { |cf| cf.name.casecmp?(stable_base_name) }
+      end
+
+      def value_bearing_format?
+        %w[list hierarchy].include?(format)
+      end
+
+      def best_value_bearing_candidate(candidates, run_custom_field_ids)
+        needed = needed_value_labels.to_set
+        return nil if needed.empty?
+
+        same_run, other_runs = candidates.partition { |cf| run_custom_field_ids.include?(cf.id) }
+        exact_match(same_run, needed) || match_by_mode(other_runs, needed)
+      end
+
+      def match_by_mode(candidates, needed)
+        case VALUE_MATCH_MODE
+        when :exact then exact_match(candidates, needed)
+        else candidates.find { |cf| needed.subset?(existing_value_labels(cf).to_set) }
+        end
+      end
+
+      def exact_match(candidates, needed)
+        candidates.find { |cf| existing_value_labels(cf).to_set == needed }
+      end
+
+      def needed_value_labels
+        format == "hierarchy" ? flatten_cascading_allowed_values(context_group_allowed_values) : list_field_option_values
+      end
+
+      def existing_value_labels(custom_field)
+        labels = format == "hierarchy" ? hierarchy_labels(custom_field) : custom_field.custom_options.pluck(:value)
+        labels.map { |label| option_label(label) }.compact_blank
+      end
+
+      def hierarchy_labels(custom_field)
+        root = custom_field.hierarchy_root
+        return [] if root.nil?
+
+        CustomFields::Hierarchy::HierarchicalItemService
+          .new
+          .get_descendants(item: root, include_self: false)
+          .fmap { |items| items.map(&:ancestry_path) }
+          .value_or([])
+      end
+
       def custom_field_by_name(name)
         WorkPackageCustomField.where("LOWER(name) = LOWER(?)", name).first
       end
-
-      # List and hierarchy fields must not be matched by name: a custom field that happens to
-      # share the name may carry a different option set, and reusing it would silently drop
-      # values. They are matched by the position of their context group instead, which is stable
-      # because build_custom_field_registry derives the contexts of a Jira field deterministically
-      # from its stored payload.
-      #
-      # This is what keeps the registry idempotent: it is rebuilt by every per-project job of an
-      # import run, and without this lookup each rebuild created another copy of every list and
-      # hierarchy field ("CF List", "CF List (2)", ...).
-      def custom_field_created_by_import
-        custom_fields_created_by_import[@context_index]
-      end
-
-      # rubocop:disable Metrics/AbcSize
-      def custom_fields_created_by_import
-        return [] if @jira_import.blank?
-
-        @custom_fields_created_by_import ||= begin
-          ids = Import::JiraOpenProjectReference
-                  .where(jira_import_id: @jira_import.id,
-                         jira_entity_class: jira_field.class.to_s,
-                         jira_entity_id: jira_field.id.to_s,
-                         op_entity_class: "WorkPackageCustomField")
-                  .order(:id)
-                  .pluck(:op_entity_id)
-          by_id = WorkPackageCustomField.where(id: ids).index_by { |cf| cf.id.to_s }
-          ids.filter_map { |id| by_id[id] }
-        end
-      end
-      # rubocop:enable Metrics/AbcSize
 
       def unique_custom_field_name
         unique_name = @import_name
@@ -413,13 +452,17 @@ module Import
         label = option_label(option["value"])
         return if label.blank?
 
-        result = service.insert_item(contract_class: contract, parent:, label:)
-        return unless result.success?
+        item = insert_hierarchy_item(service, contract, parent, label)
+        return unless item
 
-        item = result.value!
         Array(option["children"]).each do |child_option|
           insert_hierarchy_option(service, contract, item, child_option)
         end
+      end
+
+      def insert_hierarchy_item(service, contract, parent, label)
+        result = service.insert_item(contract_class: contract, parent:, label:)
+        result.success? ? result.value! : nil
       end
 
       # Fallback for scalar formats (string, float, date, link). Hash values

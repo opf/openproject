@@ -22,18 +22,24 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Meetings
   class DeleteService < ::BaseServices::Delete
+    def initialize(cancellation_reason: nil, **)
+      super(**)
+      @cancellation_reason = cancellation_reason
+    end
+
     protected
 
     def after_validate(call)
       Meetings::NotificationDebounceJob.cancel_pending(model)
+      # The occurrence becomes an EXDATE on the series event, so we have to increase the SEQUENCE counter
+      model.recurring_meeting.bump_ical_sequence! if cancel_occurrence?(model)
       send_cancellation_mail(model) if model.notify?
 
       call
@@ -42,7 +48,7 @@ module Meetings
     # For occurrences of a recurring series, keep the record and set state to
     # cancelled instead of destroying it, so the slot remains visible in the series.
     def destroy(meeting)
-      if meeting.recurring? && meeting.recurrence_start_time.present?
+      if cancel_occurrence?(meeting)
         meeting.update_column(:state, Meeting.states[:cancelled])
         true
       else
@@ -50,10 +56,14 @@ module Meetings
       end
     end
 
+    def cancel_occurrence?(meeting)
+      meeting.recurring? && meeting.recurrence_start_time.present?
+    end
+
     def send_cancellation_mail(meeting)
       meeting.participants.where(invited: true).find_each do |participant|
         MeetingMailer
-          .cancelled(meeting, participant.user, User.current)
+          .cancelled(meeting, participant.user, User.current, reason: @cancellation_reason)
           .deliver_now
       rescue StandardError => e
         Rails.logger.error do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,23 @@ RSpec.describe MeetingParticipants::DeleteService do
         allow(Meetings::NotificationDebounceJob).to receive(:debounce)
         subject
         expect(Meetings::NotificationDebounceJob).to have_received(:debounce).with(meeting, since_invited_ids: anything)
+      end
+
+      context "when the meeting is a series template" do
+        shared_let(:series) { create(:recurring_meeting, project:) }
+
+        let(:series_participant) do
+          create(:meeting_participant, :invitee, meeting: series.template, user: participant_user)
+        end
+
+        subject { described_class.new(user: current_user, model: series_participant).call }
+
+        it "advances the ICS revision of the series" do
+          series_participant
+
+          expect { expect(subject).to be_success }
+            .to change { series.reload.ical_sequence }.by(1)
+        end
       end
 
       context "when notify: false" do

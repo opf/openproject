@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,6 +78,23 @@ RSpec.describe LaborBudgetItem do
       end
 
       it { expect(item.calculated_costs).to eq(rate.rate * item.hours) }
+    end
+
+    describe "WHEN a placeholder user, hours and rate are defined" do
+      let(:principal) { create(:placeholder_user) }
+      let(:placeholder_rate) do
+        create(:hourly_rate, principal:, project:, valid_from: 4.days.ago, rate: 250.0)
+      end
+
+      before do
+        project.save!
+        item.hours = 5.0
+        placeholder_rate
+      end
+
+      it { expect(item).to be_valid }
+
+      it { expect(item.calculated_costs).to eq(placeholder_rate.rate * item.hours) }
     end
 
     describe "WHEN user, hours and rate are defined " \
@@ -184,7 +200,7 @@ RSpec.describe LaborBudgetItem do
 
       it "is not valid" do
         expect(item).not_to be_valid
-        expect(item.errors[:user]).to eq([I18n.t("activerecord.errors.messages.blank")])
+        expect(item.errors[:principal]).to eq([I18n.t("activerecord.errors.messages.blank")])
       end
     end
 

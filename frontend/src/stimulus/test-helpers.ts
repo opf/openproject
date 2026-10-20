@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,6 +28,7 @@
 import { Application, Controller } from '@hotwired/stimulus';
 import { type ControllerConstructor } from '@hotwired/stimulus/dist/types/core/controller';
 import { getQueriesForElement, queries, type BoundFunctions } from '@testing-library/dom';
+import { nextFrame } from 'core-common/testing/timing';
 
 export interface StimulusTestContext {
   application:Application;
@@ -90,9 +90,7 @@ export async function setupStimulusTest(options:SetupOptions):Promise<StimulusTe
       return controller as T;
     },
 
-    nextFrame() {
-      return new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-    },
+    nextFrame,
 
     dispose() {
       // Unload before stopping: stop() kills the DOM observer, so controllers

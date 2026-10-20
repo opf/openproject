@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,17 +38,18 @@ module Projects
 
           DIALOG_ID = "project-types-switch-dialog"
 
-          def initialize(project:, source:, url:)
+          def initialize(project:, source:, url:, selected: source)
             super()
 
             @project = project
             @source = source
             @url = url
+            @selected = selected
           end
 
           private
 
-          attr_reader :project, :source, :url
+          attr_reader :project, :source, :url, :selected
         end
       end
     end

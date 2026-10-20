@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module McpTools
-  class SearchCustomFields < Base
+  class SearchCustomFields < SearchTool
     default_title "Search custom fields"
     default_description "Show details of the custom fields matching given criteria."
 
@@ -55,16 +54,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      custom_fields = apply_filters(CustomField.visible, filters)
-      custom_fields, total = apply_pagination(custom_fields, page)
+    def base_scope
+      Success(CustomField.visible)
+    end
 
-      {
-        items: custom_fields.map do |custom_field|
-          ::API::V3::CustomFields::CustomFieldRepresenter.create(custom_field, current_user:)
-        end,
-        total:
-      }
+    def format_item(item)
+      ::API::V3::CustomFields::CustomFieldRepresenter.create(item, current_user:)
     end
   end
 end

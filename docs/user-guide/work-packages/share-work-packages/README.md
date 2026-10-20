@@ -97,4 +97,4 @@ Users with the edit role can update most of the attributes of a shared work pack
 
 ![Message on not configured work package editor workflows](openproject_user_guide_sharing_configuration_message.png)
 
-To do so, an administrator can follow the link in the message to get to the form for [copying workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows/#copy-an-existing-workflow). 
+To do so, an administrator can follow the link in the message to get to the form for [copying workflows](../../../system-admin-guide/manage-work-packages/work-package-types/workflows/#copy-an-existing-workflow). 

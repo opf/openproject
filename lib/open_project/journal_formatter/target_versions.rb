@@ -22,17 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions. Each value is the sorted,
-# comma-joined version ids (see JournalChanges#get_target_versions_changes);
-# every id is resolved to the version's name, dropping versions that have
-# been deleted in the meantime.
-class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAssociation
+# Renders the change to the set of target versions
+# (see JournalChanges#get_target_versions_changes).
+class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedVersions
   private
 
   # While the multiple versions feature is inactive, the rest of the UI still
@@ -42,19 +39,6 @@ class OpenProject::JournalFormatter::TargetVersions < JournalFormatter::NamedAss
       super
     else
       super("version")
-    end
-  end
-
-  def format_values(values, key)
-    klass = class_from_field(key)
-
-    values.map do |value|
-      next if value.blank? || klass.nil?
-
-      value.to_s.split(",")
-           .filter_map { |id| name_or_placeholder(associated_object(klass, id.to_i)) }
-           .join(", ")
-           .presence
     end
   end
 end

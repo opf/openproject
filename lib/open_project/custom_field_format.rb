@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,6 +41,8 @@ module OpenProject
                    edit_as: name,
                    only: nil,
                    multi_value_possible: false,
+                   numeric_bounds_possible: false,
+                   length_limits_possible: false,
                    enterprise_feature: nil,
                    enabled: lambda { true },
                    formatter: "CustomValue::StringStrategy")
@@ -51,6 +52,8 @@ module OpenProject
       @edit_as = edit_as
       @class_names = only
       @multi_value_possible = multi_value_possible
+      @numeric_bounds_possible = numeric_bounds_possible
+      @length_limits_possible = length_limits_possible
       @enterprise_feature = enterprise_feature
       @enabled = enabled
       @formatter = formatter
@@ -58,6 +61,14 @@ module OpenProject
 
     def multi_value_possible?
       @multi_value_possible
+    end
+
+    def numeric_bounds_possible?
+      @numeric_bounds_possible
+    end
+
+    def length_limits_possible?
+      @length_limits_possible
     end
 
     def formatter

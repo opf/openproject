@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,6 +103,49 @@ RSpec.describe RecurringMeetings::SetAttributesService, type: :model do
         # Meeting runs from 01.01.2026 10:00 UTC, every 2 weeks and ends at 31.12.2026
         # There is no next occurrence from 01.01.2027 09:00 UTC, so we set it to start_time
         expect(model_instance.current_schedule_start).to eq(model_instance.start_time)
+      end
+    end
+  end
+
+  context "when updating a persisted series" do
+    let(:current_user) { create(:user) }
+    let(:model_instance) do
+      create(:recurring_meeting,
+             author: current_user,
+             start_time: Time.utc(2026, 1, 7, 10, 0, 0),
+             frequency: "weekly",
+             interval: 1,
+             end_after: "never",
+             end_date: nil,
+             time_zone: "UTC")
+    end
+    let(:instance) do
+      described_class.new(user: current_user, model: model_instance, contract_class: RecurringMeetings::UpdateContract)
+    end
+
+    around do |example|
+      travel_to(Time.utc(2026, 6, 15, 9, 0, 0)) { example.run }
+    end
+
+    context "with a schedule change" do
+      let(:params) { { start_time_hour: "14:00" } }
+
+      it "leaves the anchor pinned to the UID" do
+        expect { subject }.not_to change(model_instance, :current_schedule_start)
+      end
+    end
+
+    context "without a schedule change" do
+      let(:params) { { title: "A new title" } }
+
+      it "leaves the anchor untouched" do
+        expect { subject }.not_to change(model_instance, :current_schedule_start)
+      end
+
+      it "still applies the other attributes" do
+        subject
+
+        expect(model_instance.title).to eq "A new title"
       end
     end
   end

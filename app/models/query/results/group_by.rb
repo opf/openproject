@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,7 +50,6 @@ module ::Query::Results::GroupBy
       .joins(query.group_by_join_statement)
       .group(group_by_for_count)
       .visible
-      .references(:statuses, :projects)
       .where(query.statement)
       .order(order_for_count)
       .pluck(*pluck_for_count)
@@ -60,7 +58,7 @@ module ::Query::Results::GroupBy
 
   def work_packages_with_includes_for_count
     WorkPackage
-      .includes(all_includes)
+      .eager_load(all_includes)
       .joins(all_filter_joins)
   end
 

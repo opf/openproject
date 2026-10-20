@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,7 +49,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       }
     }
   end
-  let(:call_args) { {} }
+  let(:call_args) { { level_of_detail: "full" } }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_items) { parsed_results.dig("structuredContent", "items") }
 
@@ -63,6 +62,7 @@ RSpec.describe McpTools::SearchWorkPackages do
 
   let!(:work_package_a) do
     create(:work_package,
+           identifier: "PROJ-42",
            project:,
            type:,
            status:,
@@ -74,6 +74,7 @@ RSpec.describe McpTools::SearchWorkPackages do
 
   let!(:work_package_b) do
     create(:work_package,
+           identifier: "PROJ-64",
            project:,
            type:,
            status:,
@@ -125,13 +126,44 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
-    describe "filtering by id" do
-      let(:call_args) { { id: work_package_a.id } }
+    context "when not requesting a full representation" do
+      let(:call_args) { {} }
 
-      it "finds the work package" do
+      it "finds all work packages" do
         mcp_request
-        expect(result_items.size).to eq(1)
-        expect(result_items.first["id"]).to eq(work_package_a.id)
+        expect(result_items.size).to eq(2)
+      end
+
+      it "removes lots of attributes" do
+        subject
+        result_items.each do |work_package|
+          expect(work_package.keys.size).to be < 15
+
+          links = work_package.fetch("_links")
+          expect(links.keys.size).to be < 10
+        end
+      end
+    end
+
+    describe "filtering by id" do
+      context "when searching by a classic identifier" do
+        let(:call_args) { { id: work_package_a.id } }
+
+        it "finds the work package" do
+          mcp_request
+          expect(result_items.size).to eq(1)
+          expect(result_items.first["id"]).to eq(work_package_a.id)
+        end
+      end
+
+      context "when searching by a semantic identifier" do
+        let(:call_args) { { id: work_package_a.identifier } }
+
+        it "finds the work package" do
+          mcp_request
+          expect(result_items.size).to eq(1)
+          expect(result_items.first["id"]).to eq(work_package_a.id)
+        end
       end
     end
 

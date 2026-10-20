@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects
   class RowComponent < ::RowComponent
     include CalculatedValues::ErrorsHelper
@@ -195,15 +195,7 @@ module Projects
     def project_status
       return nil unless user_can_view_project_attributes?
 
-      status_code = project.status_code
-      if status_code
-        classes = helpers.project_status_css_class(status_code)
-
-        capture do
-          concat content_tag(:span, "", class: "project-status--bulb -inline #{classes}")
-          concat content_tag(:span, helpers.project_status_name(status_code), class: "project-status--name #{classes}")
-        end
-      end
+      render(Projects::StatusBadgeComponent.new(project:))
     end
 
     def status_explanation

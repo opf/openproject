@@ -22,18 +22,26 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Projects
   module Types
-    class SwitchVariantContract < ManageTypesContract
+    class SwitchVariantContract < ::BaseContract
+      validate :validate_user_allowed_to_switch
       validate :validate_target_selectable
 
       protected
+
+      # Deferred to validate_target_selectable, which names what is wrong with the pair itself.
+      def validate_user_allowed_to_switch
+        return if target.nil? || target.type_id != source.type_id
+        return if ::TypeVariant.switchable?(user:, project: model, source:, target:)
+
+        errors.add :base, :error_unauthorized
+      end
 
       def validate_target_selectable
         if target.nil?

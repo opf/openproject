@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,6 +148,27 @@ RSpec.describe RecurringMeetings::CreateService, "integration", type: :model do
         expect(service_result).not_to be_success
         expect(service_result.errors[:start_date]).to include "must be in the future."
         expect(series).to be_new_record
+      end
+    end
+
+    context "when the start time keeps the default of a minute that already started" do
+      let(:params) do
+        {
+          frequency: "daily",
+          interval: 1,
+          end_after: "never",
+          project:,
+          title: "My daily"
+        }
+      end
+
+      before { travel_to(business_day_at_noon.change(sec: 10)) }
+
+      it_behaves_like "creates the series"
+
+      it "starts the series in the current minute" do
+        expect(service_result).to be_success
+        expect(series.reload.start_time).to eq(business_day_at_noon)
       end
     end
   end

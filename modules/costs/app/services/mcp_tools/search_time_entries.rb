@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module McpTools
-  class SearchTimeEntries < Base
+  class SearchTimeEntries < SearchTool
     default_title "Search time entries"
     default_description "Search time entries matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -42,7 +41,9 @@ module McpTools
 
     filter :id
     filter :user_id
-    filter :work_package_id, filter_proc: ->(entries, v) { entries.where(entity_type: "WorkPackage", entity_id: v) }
+    filter :work_package_id, filter_proc: ->(entries, v) {
+      entries.where(entity_type: "WorkPackage", entity_id: WorkPackage.where_display_id_in(v))
+    }
     filter :spent_since, filter_proc: ->(entries, v) { entries.where(spent_on: v..) }
     filter :spent_until, filter_proc: ->(entries, v) { entries.where(spent_on: ..v) }
 
@@ -51,7 +52,10 @@ module McpTools
       properties: {
         id: { type: "number", description: "The ID of the time entry." },
         user_id: { type: "number", description: "The ID of the user that the time entry tracks expenditures for." },
-        work_package_id: { type: "number", description: "The ID of the work package that the time entry is created on." },
+        work_package_id: {
+          type: %w[string number],
+          description: "The identifier of the work package that the time entry is created on."
+        },
         spent_since: {
           type: :string,
           format: :date,
@@ -65,15 +69,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filters = filters.reverse_merge(spent_since: Date.current, spent_until: Date.current)
-      filtered = apply_filters(TimeEntry.visible, filters)
-      time_entries, total = apply_pagination(filtered, page)
+    def base_scope = Success(TimeEntry.visible)
 
-      {
-        items: time_entries.map { |entry| API::V3::TimeEntries::TimeEntryRepresenter.create(entry, current_user:) },
-        total:
-      }
+    def default_filters = { spent_since: Date.current, spent_until: Date.current }
+
+    def format_item(item)
+      API::V3::TimeEntries::TimeEntryRepresenter.create(item, current_user:)
     end
   end
 end

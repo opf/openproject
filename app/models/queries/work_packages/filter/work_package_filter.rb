@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,11 +42,11 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < Queries::Filters::Base
     nil
   end
 
-  def apply_to(_query_scope)
-    # We only return the WorkPackage base scope for now as most of the filters
+  def apply_to(query_scope)
+    # We only pass through the query_scope for now as most of the filters
     # (this one's subclasses) currently do not follow the base filter approach of using the scope.
-    # The intend is to have more and more wp filters use the scope method just like the
+    # The intent is to have more and more wp filters use the scope method just like the
     # rest of the queries (e.g. project)
-    WorkPackage.unscoped
+    query_scope
   end
 end

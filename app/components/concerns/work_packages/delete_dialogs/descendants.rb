@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,6 +46,29 @@ module WorkPackages
 
       def deletion_user
         User.current
+      end
+
+      # The dialogs always show the full cascade, the user's actual choice is applied later by
+      # WorkPackages::DeleteService.
+      def include_descendants?
+        true
+      end
+
+      def render_descendants_choice
+        render(Primer::Alpha::RadioButtonGroup.new(
+                 name: "delete_descendants",
+                 label: t_dialog("descendants_choice.heading"),
+                 visually_hide_label: true,
+                 mb: 3
+               )) do |group|
+          group.radio_button(value: "false",
+                             label: t_dialog("descendants_choice.self_only_label"),
+                             caption: t_dialog("descendants_choice.self_only_caption"))
+          group.radio_button(value: "true",
+                             checked: true,
+                             label: t_dialog("descendants_choice.with_descendants_label"),
+                             caption: t_dialog("descendants_choice.with_descendants_caption"))
+        end
       end
 
       def variant

@@ -22,14 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 
-RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants: true } do
+RSpec.describe Projects::Types::SwitchVariantService do
   subject(:service_call) { described_class.new(user:, model: project).call(source:, target:) }
 
   let(:user) { create(:admin) }
@@ -104,6 +104,10 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_in_family)
     end
+
+    it "says nothing about the user's permissions" do
+      expect(service_call.errors.symbols_for(:base)).to be_empty
+    end
   end
 
   # Refused rather than raised on: the caller reaches the service with whatever the request
@@ -118,7 +122,7 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the user is not allowed to manage types" do
+  context "when the user may not author the project's variants" do
     let(:user) { create(:user) }
 
     it "fails without changing anything" do

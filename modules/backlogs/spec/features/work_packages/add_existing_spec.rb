@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,8 +67,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_work_package_in_backlog_bucket(work_package, bucket_a)
-      backlogs_page.expect_no_inbox_item(work_package)
+      backlogs_page.expect_bucket_items(bucket_a, items: work_package)
+      backlogs_page.expect_no_inbox_items(items: work_package)
 
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
       within_modal "Add existing work package" do
@@ -87,8 +86,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_work_package_in_sprint(work_package, sprint_a)
-      backlogs_page.expect_no_inbox_item(work_package)
+      backlogs_page.expect_sprint_items(sprint_a, items: work_package)
+      backlogs_page.expect_no_inbox_items(items: work_package)
 
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
       within_modal "Add existing work package" do
@@ -110,8 +109,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_inbox_item(work_package)
-      backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
+      backlogs_page.expect_inbox_items(items: work_package)
+      backlogs_page.expect_no_bucket_items(bucket_a, items: work_package)
 
       backlogs_page.click_in_inbox_menu("Add existing work package")
       within_modal "Add existing work package" do
@@ -129,8 +128,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_work_package_in_backlog_bucket(work_package, bucket_b)
-      backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
+      backlogs_page.expect_bucket_items(bucket_b, items: work_package)
+      backlogs_page.expect_no_bucket_items(bucket_a, items: work_package)
 
       backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
       within_modal "Add existing work package" do
@@ -148,8 +147,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_work_package_in_sprint(work_package, sprint_a)
-      backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
+      backlogs_page.expect_sprint_items(sprint_a, items: work_package)
+      backlogs_page.expect_no_bucket_items(bucket_a, items: work_package)
 
       backlogs_page.click_in_sprint_menu(sprint_a, "Add existing work package")
       within_modal "Add existing work package" do
@@ -171,8 +170,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_inbox_item(work_package)
-      backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
+      backlogs_page.expect_inbox_items(items: work_package)
+      backlogs_page.expect_no_sprint_items(sprint_a, items: work_package)
 
       backlogs_page.click_in_inbox_menu("Add existing work package")
       within_modal "Add existing work package" do
@@ -190,8 +189,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_work_package_in_backlog_bucket(work_package, bucket_a)
-      backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
+      backlogs_page.expect_bucket_items(bucket_a, items: work_package)
+      backlogs_page.expect_no_sprint_items(sprint_a, items: work_package)
 
       backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
       within_modal "Add existing work package" do
@@ -209,8 +208,8 @@ RSpec.describe "Add existing work package", :js do
         wait_for_turbo_stream { click_on I18n.t(:button_add) }
       end
 
-      backlogs_page.expect_work_package_in_sprint(work_package, sprint_b)
-      backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
+      backlogs_page.expect_sprint_items(sprint_b, items: work_package)
+      backlogs_page.expect_no_sprint_items(sprint_a, items: work_package)
 
       backlogs_page.click_in_sprint_menu(sprint_b, "Add existing work package")
       within_modal "Add existing work package" do

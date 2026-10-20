@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,7 +56,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       status_code: "on_track",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 1" }
     )
@@ -66,7 +64,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       name: "Other Project",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 2" }
     )
@@ -86,7 +83,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       name: "Other Project",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 3" }
     )

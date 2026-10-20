@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -72,7 +71,7 @@ Rails.application.routes.draw do
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
   get "/auth/failure", to: "omni_auth_login#failure", as: "omni_auth_failure"
-  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start"
+  match "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start", via: %i[get post]
   match "/auth/:provider/callback", to: "omni_auth_login#callback", as: "omni_auth_callback", via: %i[get post]
 
   scope ".well-known" do
@@ -122,7 +121,11 @@ Rails.application.routes.draw do
     get "/logout", action: "logout", as: "signout"
 
     get "/sso", action: "auth_source_sso_failed", as: "sso_failure"
+  end
 
+  get "/login/omniauth/:provider", to: "omni_auth_start#show", as: "omniauth_login"
+
+  scope controller: "account" do
     get "/login/:stage/failure", action: "stage_failure", as: "stage_failure"
     get "/login/:stage/:secret", action: "stage_success", as: "stage_success"
 
@@ -156,42 +159,45 @@ Rails.application.routes.draw do
 
   # Configuring one variant of a type, from administration or from the settings of a project
   # that owns one.
-  concern :type_variant_configuration do
-    # ProjectsTabController turns a project away: which projects use a type is instance-wide.
-    resource :projects, controller: "projects_tab", only: %i[edit update] do
-      collection do
-        post :enable_all, to: "projects_tab#enable_all_projects"
+  concern :type_variant_configuration do |options|
+    administration = !options[:project_scoped]
 
-        get :new_link
-        get :tree
-        post :link
-        delete :unlink
+    resources :settings, controller: "settings_tab", only: %i[index]
 
-        get :new_switch
-        post :switch
+    if administration
+      resource :projects, controller: "projects_tab", only: %i[edit update] do
+        collection do
+          post :enable_all, to: "projects_tab#enable_all_projects"
+
+          get :new_link
+          get :tree
+          post :link
+          delete :unlink
+
+          get :new_switch
+          post :switch
+        end
       end
     end
 
     resource :details, controller: "details_tab", only: %i[update edit]
 
-    resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
-      get :reset_dialog
-      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
-        collection do
-          post :add_group
-        end
+    resource :form_configuration, only: %i[edit], controller: "form_configuration_tab" do
+      get :change_dialog
+      patch :change
 
-        member do
-          post :cancel_edit
-          put :drop
-          put :move
-          patch :update_query
-        end
+      if administration
+        get :start_dialog
+        post :start
+
+        get :configure_dialog
+        post :configure
+        post :create
       end
-      resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
+
+      resources :rows, only: [], controller: "form_configuration_tab", param: :row_key do
         member do
-          put :drop
-          put :move
+          put :toggle_required
         end
       end
     end
@@ -206,7 +212,6 @@ Rails.application.routes.draw do
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog
-      post :confirm
       post :switch
     end
 
@@ -227,23 +232,32 @@ Rails.application.routes.draw do
     end
 
     resource :workflow, controller: "workflow_tab", only: %i[edit] do
+      get :change_dialog
+      patch :change
+
+      get :start_dialog
+      post :start
+
+      if administration
+        get :configure_dialog
+        post :configure
+        post :create
+      end
+
       resource :matrix, only: %i[show update], controller: "/workflows/matrix" do
         get :status_dialog
         post :confirm_statuses
       end
 
       resource :copy, only: %i[new], controller: "/workflows/copies" do
-        resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
     end
 
-    resources :pdf_export_template, only: %i[],
-                                    controller: "pdf_export_template",
-                                    path: "pdf_export" do
+    resources :pdf_export_template, only: %i[], controller: "pdf_export_template", path: "pdf_export" do
       member do
         post :toggle
-        put :drop
+        put :move
         get :edit_settings
         patch :update_settings
       end
@@ -258,15 +272,15 @@ Rails.application.routes.draw do
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
   end
 
-  resources :types, module: "work_package_types", except: [:update] do
+  resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
-      post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
       get :menu
-      put :drop
+      get :deletion_dialog
+      put :move
       post :duplicate
     end
   end
@@ -274,41 +288,125 @@ Rails.application.routes.draw do
   # `only: []` so this resource does not shadow the project's own types page, which has its own
   # controller.
   resources :types, only: [], module: "work_package_types" do
-    # The project has to stay behind the type. Ahead of it, an optional segment takes any
-    # positional argument for itself, silently naming a type's id as a project.
     nested do
-      scope "(in-project/:in_project_id)" do
-        resources :variants, controller: "variants", only: %i[index destroy] do
-          member do
-            get :menu
-            post :make_default
-            post :remove_default
-          end
-        end
+      concerns :type_variant_configuration
+    end
 
-        scope "(variants/:variant_id)" do
-          concerns :type_variant_configuration
-        end
+    resources :variants, only: %i[index destroy] do
+      collection do
+        get :comparison
+
+        get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+        post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+      end
+
+      member do
+        get :menu
+        post :make_default
+        post :remove_default
+        get :convert_to_global_dialog
+        post :convert_to_global
+        get :deletion_dialog
+        post :deletion_preview
+      end
+
+      nested do
+        concerns :type_variant_configuration
       end
     end
 
     collection do
-      scope "(in-project/:in_project_id)" do
-        get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
-        post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+      get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+      post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+    end
+  end
+
+  scope "projects/:project_id/settings/work_packages", as: :project do
+    resources :types, only: [], module: "work_package_types" do
+      resources :variants, only: %i[destroy] do
+        collection do
+          get "creation_wizard/new", to: "creation_wizard#new", as: :new_creation_wizard
+          post "creation_wizard", to: "creation_wizard#create", as: :creation_wizard
+        end
+
+        nested do
+          concerns :type_variant_configuration, project_scoped: true
+        end
       end
     end
   end
 
-  resources :statuses, except: :show
+  resources :statuses, except: :show do
+    member do
+      put :move
+    end
+  end
 
-  get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
+  resources :workflows, only: %i[index], controller: "workflows/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
+    collection do
+      get :configure_dialog
+      post :configure
+    end
+
+    member do
+      get :edit_dialog
+    end
+
+    resource :matrix, only: %i[show update], controller: "workflows/matrix" do
+      get :status_dialog
+      post :confirm_statuses
+    end
+
+    resource :copy, only: %i[new], controller: "workflows/copies" do
+      resource :from_role, only: %i[create], controller: "workflows/copies/from_roles"
+    end
+  end
+
+  resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
+    collection do
+      get :projects_tree
+    end
+  end
+
+  resources :form_configurations,
+            path: "forms",
+            only: %i[edit update destroy],
+            controller: "form_configurations/form_configurations" do
+    member do
+      get :edit_dialog
+      get :reset_dialog
+      patch :reset
+      patch :mark_default
+    end
+
+    resource :group, only: %i[create edit update destroy], controller: "form_configurations/groups" do
+      post :add_group
+      post :cancel_edit
+      put :drop
+      put :move
+      patch :update_query
+    end
+
+    resources :rows, only: %i[destroy], controller: "form_configurations/rows", param: :row_key do
+      member do
+        put :drop
+        put :move
+      end
+    end
+  end
+
+  get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
-      constraints: { filename: /[^\/]*/ }
-
-  get "custom_style/:digest/logo_mobile/:filename" => "custom_styles#logo_mobile_download",
-      as: "custom_style_logo_mobile",
-      constraints: { filename: /[^\/]*/ }
+      constraints: {
+        field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s)),
+        filename: /[^\/]*/
+      }
 
   get "custom_style/:digest/export_logo/:filename" => "custom_styles#export_logo_download",
       as: "custom_style_export_logo",
@@ -333,33 +431,17 @@ Rails.application.routes.draw do
   get "highlighting/styles(/:version_tag)" => "highlighting#styles",
       as: "highlighting_css_styles"
 
-  resources :custom_fields, except: :show do
-    member do
-      delete "options/:option_id", to: "custom_fields#delete_option", as: :delete_option_of
-
-      post :reorder_alphabetical
-
-      get :attribute_help_text
-      put :update_attribute_help_text
-
-      get :list_items
-    end
-
-    scope module: :admin do
-      scope module: :custom_fields do
-        resources :projects, controller: "/admin/custom_fields/custom_field_projects", only: %i[index new create]
-        resource :project, controller: "/admin/custom_fields/custom_field_projects", only: :destroy
-        resources :items, controller: "/admin/custom_fields/hierarchy/items" do
-          member do
-            get :change_parent, action: :change_parent_dialog
-            post :change_parent, action: :change_parent
-            get :delete, action: :deletion_dialog
-            get :item_actions
-            post :move
-            get :new_child, action: :new
-            post :new_child, action: :create
-          end
-        end
+  resources :custom_fields, only: :index
+  scope "admin/settings/work_package_custom_fields/:custom_field_id", as: :custom_field, module: "admin/custom_fields" do
+    resources :items, controller: "hierarchy/items" do
+      member do
+        get :change_parent, action: :change_parent_dialog
+        post :change_parent, action: :change_parent
+        get :delete, action: :deletion_dialog
+        get :item_actions
+        post :move
+        get :new_child, action: :new
+        post :new_child, action: :create
       end
     end
   end
@@ -413,7 +495,13 @@ Rails.application.routes.draw do
     resources :projects, only: :index do
       collection do
         get :frame
+        get :children
       end
+    end
+    resource :whats_new, only: :show, controller: "whats_new" do
+      get :dialog
+      post :seen
+      post :read
     end
   end
 
@@ -469,20 +557,23 @@ Rails.application.routes.draw do
         resource :versions, only: %i[show]
         resource :storage, only: %i[show], controller: "storage"
         get :types, to: redirect("projects/%{project_id}/settings/work_packages/types")
-        get :custom_fields, to: redirect("projects/%{project_id}/settings/work_packages/custom_fields")
         get :categories, to: redirect("projects/%{project_id}/settings/work_packages/categories")
         resource :work_packages, only: %i[show]
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
-            patch :bulk_update, on: :collection
-
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end
           end
-          resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
+        end
+        resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
+          member do
+            get :status
+            get :template
+            get :problems
+          end
         end
       end
 
@@ -583,10 +674,11 @@ Rails.application.routes.draw do
       get "(/:tab)" => "work_packages#show", on: :member, as: "",
           constraints: { id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT, state: /(?!(shares|copy|dialog)).+/ }
 
-      # states managed by client-side routing on work_package#index
-      get "(/*state)" => "work_packages#index", on: :collection, as: "", constraints: { state: /(?!(dialog|new)).+/ }
+      get "details/:work_package_id(/:tab)" => "work_packages#split_view", on: :collection, as: :details,
+          defaults: { tab: "overview" }, work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
-      get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
+      get "/create_new" => "work_packages#split_create", on: :collection, as: "new_split", work_package_split_create: true
     end
 
     namespace :work_packages do
@@ -603,16 +695,21 @@ Rails.application.routes.draw do
 
     resources :forums do
       resources :topics, controller: "messages", except: [:index] do
+        resource :accepted_solution, only: %i[create destroy], controller: "messages/accepted_solutions"
+
         member do
           get :quote
+          get :replies
           post :reply, as: "reply_to"
+        end
+
+        resource :work_package, only: %i[new create], controller: "messages/work_packages" do
+          post :refresh_form
         end
       end
 
       member do
-        get :confirm_destroy
-        get :move
-        post :move
+        put :move
       end
     end
 
@@ -689,6 +786,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/roles/:role_id/permissions_dialog" => "roles/permissions_dialogs#show", as: :role_permissions_dialog
+
   scope "admin" do
     resource :announcements, only: %i[edit update]
 
@@ -712,8 +811,11 @@ Rails.application.routes.draw do
       end
     end
 
-    delete "design/logo" => "custom_styles#logo_delete", as: "custom_style_logo_delete"
-    delete "design/logo_mobile" => "custom_styles#logo_mobile_delete", as: "custom_style_logo_mobile_delete"
+    delete "design/logo/:field" => "custom_styles#logo_delete",
+           as: "custom_style_logo_delete",
+           constraints: {
+             field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s))
+           }
     delete "design/export_logo" => "custom_styles#export_logo_delete", as: "custom_style_export_logo_delete"
     delete "design/export_cover" => "custom_styles#export_cover_delete", as: "custom_style_export_cover_delete"
     delete "design/export_footer" => "custom_styles#export_footer_delete", as: "custom_style_export_footer_delete"
@@ -727,6 +829,7 @@ Rails.application.routes.draw do
     delete "design/touch_icon" => "custom_styles#touch_icon_delete", as: "custom_style_touch_icon_delete"
     post "design/colors" => "custom_styles#update_colors", as: "update_design_colors"
     post "design/themes" => "custom_styles#update_themes", as: "update_design_themes"
+    post "design/themes/confirm" => "custom_styles#confirm_theme", as: "confirm_design_theme"
     post "design/export_cover_text_color" => "custom_styles#update_export_cover_text_color",
          as: "update_custom_style_export_cover_text_color"
 
@@ -750,6 +853,11 @@ Rails.application.routes.draw do
     end
 
     resources :roles, except: %i[show] do
+      member do
+        get :deletion_dialog
+        put :drop
+      end
+
       collection do
         put "/" => "roles#bulk_update"
         get :report
@@ -762,13 +870,42 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
+      collection do
+        delete :api_key, action: :delete_api_key
+        get :delete_api_key_dialog
+        get :disconnect_dialog
+        post :disconnect
+      end
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
+    end
+
+    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        post :refresh
+        patch :defaults, action: :update_defaults
+      end
+
+      member do
+        get :delete_dialog
+      end
+    end
+
+    # Keyed by feature key rather than by record id: the binding is an attribute
+    # of a registered feature, and a feature may not have a row yet.
+    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update
       end
     end
 
-    resources :custom_actions, except: :show
+    resources :automations, except: :show
 
     namespace :oauth do
       resources :applications do
@@ -825,8 +962,7 @@ Rails.application.routes.draw do
                 controller: "/admin/settings/project_phase_definitions",
                 except: :show do
         member do
-          patch :move
-          put :drop # should be patch, but requires passing method to generic-drag-and-drop controller
+          put :move
         end
       end
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
@@ -849,6 +985,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/project_custom_fields/hierarchy/items" do
@@ -890,6 +1028,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/user_custom_fields/hierarchy/items" do
@@ -922,6 +1062,48 @@ Rails.application.routes.draw do
             put :move
             put :drop
           end
+        end
+      end
+
+      resources :work_package_custom_fields, controller: "/admin/settings/work_package_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
+        end
+      end
+
+      resources :version_custom_fields, controller: "/admin/settings/version_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
+        end
+      end
+
+      resources :group_custom_fields, controller: "/admin/settings/group_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
         end
       end
 
@@ -999,6 +1181,31 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :text_transform_actions, except: :show do
+      member do
+        get :deletion_dialog
+        post :toggle
+        put :drop
+      end
+
+      collection do
+        put :enable_all
+        put :disable_all
+        post :toggle_setting
+      end
+    end
+
+    resources :labels, only: %i[index create update destroy] do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        get :new_dialog, defaults: { format: :turbo_stream }
+      end
+      member do
+        get :edit_dialog, defaults: { format: :turbo_stream }
+        get :deletion_dialog, defaults: { format: :turbo_stream }
+      end
+    end
+
     resource :backups, controller: "/admin/backups", only: %i[show] do
       collection do
         get :reset_token_dialog
@@ -1008,6 +1215,8 @@ Rails.application.routes.draw do
         post :delete_token
       end
     end
+
+    resources :members, only: %i[index]
 
     resources :departments,
               only: %i[index show edit update destroy] do
@@ -1043,6 +1252,7 @@ Rails.application.routes.draw do
       collection do
         match :reassign, via: %i[get delete]
         get :delete_dialog
+        post :confirm_delete
       end
     end
   end
@@ -1056,6 +1266,8 @@ Rails.application.routes.draw do
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member
 
+    post "assign_to_me" => "work_packages#assign_to_me", on: :member
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
@@ -1063,8 +1275,9 @@ Rails.application.routes.draw do
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
 
-    # states managed by client-side routing on work_package#index
-    get "details/*state" => "work_packages#index", on: :collection, as: :details
+    get "details/:work_package_id(/:tab)" => "work_packages#split_view", on: :collection, as: :details,
+        defaults: { tab: "overview" }, work_package_split_view: true,
+        constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
     resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
       member do
@@ -1084,6 +1297,10 @@ Rails.application.routes.draw do
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"
+
+    resources :children, only: %i[new create], controller: "work_package_children" do
+      post :refresh_form, on: :collection
+    end
 
     resource :progress, only: %i[edit update], controller: "work_packages/progress" do
       get :preview, on: :member
@@ -1137,7 +1354,7 @@ Rails.application.routes.draw do
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
-    get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
+    get "/create_new" => "work_packages#split_create", on: :collection, as: "new_split", work_package_split_create: true
 
     get "/share_upsell" => "work_packages#share_upsell", on: :collection, as: "share_upsell"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
@@ -1199,6 +1416,8 @@ Rails.application.routes.draw do
     member do
       get "/edit(/:tab)" => "placeholder_users#edit", as: "edit"
       get :deletion_info
+      get :update_criteria
+      post :toggle_criteria
     end
   end
 
@@ -1267,6 +1486,21 @@ Rails.application.routes.draw do
       delete :revoke_ical_token
       delete :revoke_ical_meeting_token
     end
+
+    get "/work/(:mode-:view_mode)(/:date)" => "work#index",
+        as: :work,
+        constraints: {
+          mode: /day|week|workweek|month/,
+          view_mode: /list|calendar|stack/,
+          date: /(\d{4}-\d{2}-\d{2}|today)/
+        }
+    get "/work/refresh" => "work#refresh",
+        as: :work_refresh
+
+    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
+    get "/time-tracking/*rest" => redirect { |params, _req|
+      "#{rails_relative_url_root}/my/work/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    }
   end
 
   scope controller: "my" do
@@ -1344,7 +1578,6 @@ Rails.application.routes.draw do
 
   scope :notifications do
     get "/share_upsell" => "notifications#share_upsell", as: "notifications_share_upsell"
-    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsell"
     get "/", to: "notifications#index", as: :notifications_center
   end
 

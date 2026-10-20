@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,8 +84,12 @@ module WorkPackages
         @available_versions ||= target_project.assignable_versions
       end
 
+      def available_observed_in_versions
+        @available_observed_in_versions ||= target_project.assignable_versions(only_open: false)
+      end
+
       def available_statuses
-        @available_statuses ||= Workflow.available_statuses(target_project, current_user)
+        @available_statuses ||= Workflows::StatusTransition.available_statuses(target_project, current_user)
       end
 
       def unavailable_type_in_target_project?
@@ -114,10 +117,12 @@ module WorkPackages
         @possible_assignees ||= Principal.possible_assignee(target_project)
       end
 
-      def selected_target_versions
-        selected_ids = Array(selected_values[:target_version_ids]).map(&:to_s)
+      def selected_target_versions = selected_versions_for(:target_version_ids, available_versions)
+      def selected_observed_in_versions = selected_versions_for(:observed_in_version_ids, available_observed_in_versions)
 
-        available_versions.select { |version| selected_ids.include?(version.id.to_s) }
+      def selected_versions_for(key, available)
+        selected_ids = Array(selected_values[key]).map(&:to_s)
+        available.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
       def selected_custom_field_value(custom_field)

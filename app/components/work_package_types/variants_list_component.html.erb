@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -33,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
       flex_layout do |page|
         page.with_row do
           form_tag(variants_path, method: :get, data: filter_form_data) do
-            render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+            render(Primer::OpenProject::SubHeader.new) do |subheader|
               subheader.with_filter_input(
                 name: "query",
                 value: query,
@@ -53,36 +52,64 @@ See COPYRIGHT and LICENSE files for more details.
               ) do
                 I18n.t("types.index.variant_label")
               end
+
+              subheader.with_action_button(
+                scheme: :default,
+                leading_icon: :"git-compare",
+                label: I18n.t("types.comparison.action"),
+                tag: :a,
+                href: comparison_path,
+                test_selector: "compare-type-variants"
+              ) do
+                I18n.t("types.comparison.action")
+              end
             end
           end
         end
 
         page.with_row do
           helpers.turbo_frame_tag(FRAME_ID, target: "_top") do
-            render(
-              OpenProject::Common::BorderBoxListComponent.new(
-                container: "type-variants",
-                padding: :condensed,
-                mb: 3,
-                test_selector: "type-variants"
-              )
-            ) do |list|
-              list.with_empty_state(title: I18n.t("types.edit.variants.filter_no_results"), icon: :search)
-
-              variants.each do |variant|
-                list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
-                  item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
-
-                  render(WorkPackageTypes::VariantRowComponent.new(variant:)) do |row|
-                    if variant.project_owned?
-                      row.with_label { t("types.index.owned_by", project: variant.project.name) }
+            if sections.empty?
+              render(
+                OpenProject::Common::BorderBoxListComponent.new(
+                  container: "type-variants",
+                  padding: :condensed,
+                  mb: 3,
+                  test_selector: "type-variants"
+                )
+              ) do |list|
+                list.with_empty_state(title: I18n.t("types.edit.variants.filter_no_results"), icon: :search)
+              end
+            else
+              safe_join(
+                sections.map do |section, section_variants|
+                  render(
+                    OpenProject::Common::BorderBoxListComponent.new(
+                      container: "type-variants-#{section}",
+                      padding: :condensed,
+                      mb: 3,
+                      test_selector: "type-variants-#{section}"
+                    )
+                  ) do |list|
+                    list.with_header(title: I18n.t("types.edit.variants.#{section}.title")) do |header|
+                      header.with_description_content(I18n.t("types.edit.variants.#{section}.description"))
                     end
-                    if variant.enabled_in_new_projects?
-                      row.with_status_label { t("types.index.enabled_in_new_projects") }
+
+                    section_variants.each do |variant|
+                      list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
+                        item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
+
+                        render(WorkPackageTypes::VariantRowComponent.new(variant:)) do |row|
+                          row.with_caption { created_in(variant.project) } if variant.project_owned?
+                          if variant.enabled_in_new_projects?
+                            row.with_status_label { t("types.index.enabled_in_new_projects") }
+                          end
+                        end
+                      end
                     end
                   end
                 end
-              end
+              )
             end
           end
         end

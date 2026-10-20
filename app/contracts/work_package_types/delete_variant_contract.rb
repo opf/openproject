@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,7 @@ module WorkPackageTypes
     def self.model = TypeVariant
 
     validate :variant_is_named
+    validate :migration_target_is_available
 
     private
 
@@ -42,6 +42,12 @@ module WorkPackageTypes
     # when the type does.
     def variant_is_named
       errors.add(:base, :is_default_variant) if model.is_default_variant?
+    end
+
+    def migration_target_is_available
+      target = options[:target]
+
+      errors.add(:base, :migration_target_invalid) if target && model.migration_targets.exclude?(target)
     end
   end
 end

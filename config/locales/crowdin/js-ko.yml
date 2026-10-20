@@ -202,6 +202,7 @@ ko:
     description_subwork_package: '작업 패키지 #%{id}의 자식'
     editor:
       ckeditor_error: CKEditor에서 오류가 발생했습니다
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
       macro:
         attribute_reference:
@@ -623,7 +624,7 @@ ko:
     notifications:
       center:
         and_more_users:
-          other: 외 %{count}건
+          other: and %{count} others
         empty_state:
           no_notification: 모두 확인하신 것 같습니다.
           no_notification_for_filter: 이 필터에 대한 모든 알림을 본 것 같습니다.
@@ -719,6 +720,7 @@ ko:
     placeholders:
       default: "-"
       description: '설명: 클릭하여 편집...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 이 관계에 대한 설명을 추가하려면 클릭
       selection: 선택하십시오
       subject: 여기에 제목 입력
@@ -805,12 +807,30 @@ ko:
       sorting_disabled: 정렬이 불가능합니다
     sortable_lists:
       announcements:
+        batch_too_large: "%{count}개 항목을 한 번에 이동할 수 없습니다. %{max}개까지만 선택하세요."
         fallback_item_label: 항목
         fallback_list_name: 다른 목록
         move_failed_check_position: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
+        move_failed_check_positions_batch:
+          other: 이동하지 못했습니다. 항목의 현재 위치를 확인하세요.
         move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
-        moved: "%{label}이(가) 위치 %{position}/%{total}(으)로 이동됨"
+        move_failed_rolled_back_batch:
+          other: 이동하지 못했습니다. %{count}개 항목이 이전 위치로 돌아갔습니다.
+        moved: "%{label}이(가) %{total}개 중 %{position} 위치로 이동됨"
+        moved_batch:
+          other: "%{count}개 항목이 %{total}개 중 %{first} ~ %{last} 위치로 이동됨"
+        moved_batch_to_list:
+          other: "%{count}개 항목이 %{list}(으)로 이동됨, 위치 %{first} ~ %{last}/%{total}"
         moved_to_list: "%{label}이(가) %{list}(으)로 이동됨, 위치 %{position}/%{total}"
+      selection:
+        cleared: 선택 항목이 지워졌습니다.
+        not_selectable: 선택 항목이 변경되지 않았습니다. 이 항목은 해당 목록의 순서 지정에 영향을 미치지 않습니다.
+        range_blocked: 선택 항목이 변경되지 않았습니다. 해당 범위에는 이 목록의 순서 지정에 영향을 미치지 않는 항목이 포함되어 있습니다.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: 선택 항목이 변경되지 않았습니다. 이 목록을 확장하여 해당 범위를 선택하세요.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: 모달 닫기
@@ -824,9 +844,7 @@ ko:
     text_user_wrote: "%{value}이(가) 작성함:"
     text_work_packages_destroy_confirmation: 선택한 작업 패키지를 삭제하시겠습니까?
     time_entry:
-      stop: 중지
       title: 작업시간 기록
-      tracking: 시간 추적
       work_package_required: 먼저 작업 패키지를 선택해야 합니다.
     timer:
       button_stop: 현재 타이머 중지
@@ -861,18 +879,18 @@ ko:
       label_two_factor_authentication: 2단계 인증
     units:
       child_work_packages:
-        other: "%{count}개의 작업 패키지 자식"
+        other: "%{count} work package children"
       day:
-        one: 1일
+        one: "%{count} day"
         other: "%{count}일"
         zero: 0일
       hour:
-        one: 1시간
+        one: "%{count} h"
         other: "%{count}시간"
         zero: 0 h
       hour_string: "%{hours}시간"
       word:
-        other: 단어 %{count}개
+        other: "%{count} words"
       workPackage:
         other: 작업 패키지
     upsell:

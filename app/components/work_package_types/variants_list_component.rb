@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ module WorkPackageTypes
   class VariantsListComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     FRAME_ID = "type-variants-list"
 
@@ -60,6 +60,14 @@ module WorkPackageTypes
 
     def any_variants? = named_variants.exists?
 
+    # An empty section is dropped: a section explains what is in it.
+    def sections
+      @sections ||= variants
+                      .partition { |variant| !variant.project_owned? }
+                      .zip(%i[global_section project_specific_section])
+                      .filter_map { |list, key| [key, list] if list.any? }
+    end
+
     def filter_form_data
       {
         controller: "auto-submit",
@@ -69,7 +77,9 @@ module WorkPackageTypes
       }
     end
 
-    def add_variant_path = new_creation_wizard_types_path(type_id: type.id, back_url: variants_path)
+    def add_variant_path = new_variant_creation_wizard_path(nil, type, back_url: variants_path)
+
+    def comparison_path = comparison_type_variants_path(type_id: type.id)
 
     def menu_id(variant) = Types::VariantActionsComponent.menu_id(variant)
 
@@ -80,5 +90,13 @@ module WorkPackageTypes
     end
 
     def variants_path = type_variants_path(type_id: type.id)
+
+    def created_in(project)
+      link = render(Primer::Beta::Link.new(href: project_settings_work_packages_types_path(project))) do
+        project.name
+      end
+
+      t("types.edit.variants.created_in_html", project: link)
+    end
   end
 end

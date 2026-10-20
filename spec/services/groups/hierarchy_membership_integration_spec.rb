@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -245,6 +244,73 @@ RSpec.describe "Group hierarchy membership propagation", type: :model do
       expect(mid_user.memberships.find_by(project:)).to be_nil
       # leaf_user is unaffected — still inherits from root via the hierarchy
       expect(leaf_user.memberships.find_by(project:)&.roles).to contain_exactly(role)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # Groups::CreateService — a group created with a parent already set inherits
+  #                         that parent's memberships right away
+  # ---------------------------------------------------------------------------
+
+  describe "Groups::CreateService — parent set on creation" do
+    let!(:root_group) { create(:group, members: [root_user]) }
+
+    before do
+      Members::CreateService
+        .new(user: admin)
+        .call(principal: root_group, project_id: project.id, role_ids: [role.id])
+    end
+
+    def create_subgroup(name, parent)
+      Groups::CreateService
+        .new(user: admin)
+        .call(lastname: name, parent_id: parent.id)
+        .result
+    end
+
+    it "gives the new subgroup the memberships of its parent" do
+      subgroup = create_subgroup("Subgroup", root_group)
+
+      expect(subgroup.memberships.find_by(project:)&.roles).to contain_exactly(role)
+    end
+
+    it "marks the subgroup's membership as inherited from the parent" do
+      subgroup = create_subgroup("Subgroup", root_group)
+      parent_member_role_ids = root_group.members.find_by(project:).member_roles.ids
+
+      member_roles = subgroup.members.find_by(project:)&.member_roles
+
+      expect(member_roles&.pluck(:inherited_from)).to match_array(parent_member_role_ids)
+    end
+
+    it "gives the new subgroup the memberships of every ancestor, not just the direct parent" do
+      mid_role = create(:project_role)
+      mid_group = create_subgroup("Mid", root_group)
+      Members::CreateService
+        .new(user: admin)
+        .call(principal: mid_group, project_id: project.id, role_ids: [mid_role.id])
+
+      leaf_group = create_subgroup("Leaf", mid_group)
+
+      expect(leaf_group.memberships.find_by(project:)&.roles).to contain_exactly(role, mid_role)
+    end
+
+    it "gives a user added to the subgroup afterwards the memberships of the parent" do
+      subgroup = create_subgroup("Subgroup", root_group)
+
+      Groups::AddUsersService
+        .new(subgroup, current_user: admin)
+        .call(ids: [leaf_user.id])
+
+      expect(leaf_user.memberships.find_by(project:)&.roles).to contain_exactly(role)
+    end
+
+    it "does not assign the parent's memberships to unrelated groups" do
+      other_group = create(:group, members: [mid_user])
+      create_subgroup("Subgroup", root_group)
+
+      expect(other_group.memberships.find_by(project:)).to be_nil
+      expect(mid_user.memberships.find_by(project:)).to be_nil
     end
   end
 

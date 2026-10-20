@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,8 +39,21 @@ module RecurringMeetings
           model.interval = 1
         end
 
-        model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
+        determine_current_schedule_start
       end
+    end
+
+    # current_schedule_start is used as the DTSTART of the ICS series event.
+    # As a result, it needs to be conencted to the UID.
+    # If DTSTART moves while the UID stays the same, some clients delete all earlier
+    # occurrences
+    #
+    # Only RecurringMeetings::StartNewScheduleService will update it again, and
+    # update DTSTART and UID together when the series already has past occurrences.
+    def determine_current_schedule_start
+      return if model.current_schedule_start.present?
+
+      model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
     end
 
     def set_default_attributes(_params)

@@ -20,17 +20,18 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BlockNoteEditorOptions, BlockNoteSchema } from '@blocknote/core';
+import { BlockNoteEditorOptions, BlockNoteSchema, User } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
-import { User } from '@blocknote/core/comments';
+import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
+import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
+import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -38,19 +39,15 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
+  getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
-} from 'op-blocknote-extensions';
-import { useCallback, useEffect, useMemo } from 'react';
+} from '@openproject/op-blocknote-extensions';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
-
-interface CollaborativeUser {
-  name:string;
-  color:string;
-}
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -58,6 +55,7 @@ export interface OpBlockNoteEditorProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider?:HocuspocusProvider;
   doc:Y.Doc;
@@ -82,6 +80,7 @@ export function OpBlockNoteEditor({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
   doc,
@@ -90,35 +89,42 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
-    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString });
-  }, [openProjectUrl, localeString]);
+    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
+  }, [openProjectUrl, localeString, projectId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
-    return {
+    const baseParams = {
       schema,
-      // BlockNote 0.51 tightened `collaboration.provider` to a non-null shape
-      // and `awareness: Awareness | undefined` (vs Hocuspocus's
-      // `Awareness | null`). Omit the whole `collaboration` block when no
-      // provider is wired up; cast the provider at the boundary otherwise.
-      ...(hocuspocusProvider && {
-        collaboration: {
-          fragment: doc.getXmlFragment('document-store'),
-          user: {
-            name: activeUser.username,
-            color: generateRandomColor(),
-            id: activeUser.id,
-          } as unknown as CollaborativeUser,
-          provider: hocuspocusProvider as unknown as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
-          showCursorLabels: 'activity' as const,
-        },
-      }),
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
         ExternalLinkA11yExtension,
+        HeadingLinkExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
+        ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
     };
+
+    if (!hocuspocusProvider) {
+      return baseParams;
+    }
+
+    // Since BlockNote 0.52 a `collaboration` option passed straight to the editor is
+    // ignored, and the spread keeps TypeScript from flagging it.
+    return withCollaboration({
+      ...baseParams,
+      collaboration: {
+        fragment: doc.getXmlFragment('document-store'),
+        user: {
+          name: activeUser.username,
+          color: generateRandomColor(),
+          id: activeUser.id,
+        },
+        // Hocuspocus types `awareness` as `Awareness | null`, BlockNote as `Awareness | undefined`.
+        provider: hocuspocusProvider as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
+        showCursorLabels: 'activity' as const,
+      },
+    });
   }, [hocuspocusProvider, doc, activeUser, localeDictionary, attachmentsEnabled, uploadFile, captureExternalLinks]);
 
   // Create the editor exactly once per mount. `useCreateBlockNote(options, deps)` uses `deps`
@@ -129,9 +135,22 @@ export function OpBlockNoteEditor({
   type EditorType = typeof editor;
   const theme = useOpTheme();
 
+  // Works around a BlockNote/Yjs bootstrap race (COMMS-909): the initial sync leaves BlockNote's
+  // `data-prev-type` transition decoration stuck on the first block, so a heading renders at
+  // body-text size until the next transaction clears it. Dispatch one before first paint.
+  const forcedInitialBlockRefreshRef = useRef(false);
+  useLayoutEffect(() => {
+    if (!hocuspocusProvider || forcedInitialBlockRefreshRef.current) {
+      return;
+    }
+
+    forcedInitialBlockRefreshRef.current = true;
+    editor.transact((tr) => tr.setMeta('addToHistory', false));
+  }, [editor, hocuspocusProvider]);
+
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),
-    workPackageSlashMenu(editorInstance),
+    ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
@@ -140,10 +159,12 @@ export function OpBlockNoteEditor({
       <BlockNoteView
         editor={editor}
         slashMenu={false}
+        formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
+        <OpenProjectFormattingToolbar />
         <SuggestionMenuController
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}

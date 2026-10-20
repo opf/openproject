@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,6 +41,7 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { TOpAutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
   id:string,
@@ -104,14 +104,12 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     }
 
     return from(
-      // Please address the disabled eslint rule when making major changes to this file.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-      this.workPackage.availableRelationCandidates.$link.$fetch({
+      (this.workPackage.availableRelationCandidates as { $link:HalLink }).$link.$fetch<WorkPackageCollectionResource>({
         query,
         filters: JSON.stringify(this.createFilters()),
         type: this.filterCandidatesFor || this.selectedRelationType,
         sortBy: JSON.stringify([['exactMatch', 'desc'], ['updatedAt', 'desc']]),
-      }) as Promise<WorkPackageCollectionResource>,
+      }),
     )
       .pipe(
         map((collection) => collection.elements),

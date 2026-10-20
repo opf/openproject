@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,6 +87,19 @@ RSpec.shared_examples "it supports direct uploads" do
         end
       end
 
+      context "with no file name metadata" do
+        let(:metadata) { { fileSize: file.size } }
+        let(:json) { JSON.parse subject.body }
+
+        it "responds with 422 due to missing file name metadata instead of erroring" do
+          expect(subject.status).to eq(422)
+        end
+
+        it_behaves_like "constraint violation" do
+          let(:message) { "File #{I18n.t('activerecord.errors.messages.blank')}" }
+        end
+      end
+
       context "with the correct parameters" do
         let(:json) { JSON.parse subject.body }
 
@@ -140,6 +152,14 @@ RSpec.shared_examples "it supports direct uploads" do
                 expect(fields["Content-Type"]).to eq metadata[:contentType]
 
                 expect(fields["key"]).to end_with "cat.png"
+              end
+
+              it "only grants write access to the staging location, not the attachment's final location" do
+                fields = link["form_fields"]
+                staging_key = "uploads/direct_uploads/attachment/#{json['id']}/cat.png"
+
+                expect(fields["key"]).to eq staging_key
+                expect(Base64.decode64(fields["policy"])).to include %(["starts-with","$key","#{staging_key}"])
               end
 
               it "also includes the content type and the necessary policy in the form fields" do

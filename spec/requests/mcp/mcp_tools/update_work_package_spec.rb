@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,7 +61,7 @@ RSpec.describe McpTools::UpdateWorkPackage do
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_item) { parsed_results.fetch("structuredContent") }
 
-  let(:work_package) { create(:work_package).reload }
+  let(:work_package) { create(:work_package, identifier: "PROJ-1337").reload }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -106,6 +105,24 @@ RSpec.describe McpTools::UpdateWorkPackage do
 
       it "does not update the work package" do
         expect { mcp_request }.not_to change { work_package.reload.subject }
+      end
+    end
+
+    context "when finding the work package via its semantic identifier" do
+      let(:call_args) do
+        {
+          id: work_package.identifier,
+          data: {
+            lockVersion: work_package.lock_version,
+            subject: "The new subject"
+          }
+        }
+      end
+
+      it "updates the work package" do
+        expect { mcp_request }.not_to change(WorkPackage, :count)
+
+        expect(work_package.reload.subject).to eq("The new subject")
       end
     end
   end

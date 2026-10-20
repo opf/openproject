@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,8 @@ module Backlogs
     current_menu_item %i[show details] do
       :backlog
     end
+
+    before_action :build_backlog_query, only: %i[show details]
 
     def show
       case turbo_frame_request_id
@@ -59,6 +60,10 @@ module Backlogs
     end
 
     private
+
+    def build_backlog_query
+      @backlog_query = Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:).build
+    end
 
     def split_view_base_route
       project_backlogs_backlog_path(@project, request.query_parameters)

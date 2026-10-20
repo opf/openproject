@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,6 +83,13 @@ RSpec.describe Wikis::WorkPackageWikisTabComponent, type: :component do
 
     it "renders a collapsible section for each link group" do
       expect(page).to have_css("collapsible-header", count: 2)
+    end
+
+    # The keep-collapsed-state controller keys the collapsed state it carries
+    # over re-renders on these ids, so they must not be generated ones.
+    it "gives every collapsible section a toggle with a stable target", :aggregate_failures do
+      expect(page).to have_css("collapsible-header [data-collapsible-toggle][aria-controls='inline_page_links_list']")
+      expect(page).to have_css("collapsible-header [data-collapsible-toggle][aria-controls='referencing_wiki_pages_list']")
     end
 
     it "renders the inline page links section", :aggregate_failures do

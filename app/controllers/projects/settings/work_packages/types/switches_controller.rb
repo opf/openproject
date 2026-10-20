@@ -22,25 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
-  include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include WorkPackageTypes::SwitchLookup
 
   menu_item :settings_work_packages
 
-  before_action :require_type_variants_feature
   before_action :load_source
 
   def new
     respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
-                          .new(project: @project, source: @source, url: switch_path)
+                          .new(project: @project, source: @source, url: switch_path, selected: requested_target)
   end
 
   def create
@@ -70,6 +67,12 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
         project: @project, source: @source, url: switch_path, selected: target || @source, validation_message: message
       )
     )
+  end
+
+  # A list row asks about the variant it sits on, so the dialog opens on that one. It comes off a
+  # URL: only a variant this project may use counts, as in the list itself.
+  def requested_target
+    @source.type.variants.available_in(@project).find_by(id: params[:target_id]) || @source
   end
 
   def switch_path

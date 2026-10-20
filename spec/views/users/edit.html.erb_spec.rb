@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,7 +59,7 @@ RSpec.describe "users/edit" do
     end
 
     it "does not show a no-login warning when password login is disabled" do
-      allow(OpenProject::Configuration).to receive(:disable_password_login).and_return(true)
+      allow(Users::PasswordLogin).to receive(:none?).and_return(true)
       render
 
       expect(rendered).not_to include I18n.t("user.no_login")
@@ -108,11 +107,7 @@ RSpec.describe "users/edit" do
   context "with password-based login" do
     let(:user) { build_stubbed(:user) }
 
-    context "with password login disabled" do
-      before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
-      end
-
+    context "with password login disabled", with_settings: { password_login: "none" } do
       it "warns that the user cannot login" do
         render
 
@@ -135,10 +130,6 @@ RSpec.describe "users/edit" do
     end
 
     context "with password login enabled" do
-      before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
-      end
-
       it "shows password options" do
         render
 
@@ -170,7 +161,7 @@ RSpec.describe "users/edit" do
           render
 
           expect(rendered).to have_css("label", text: "Password")
-          expect(rendered).to have_css("label", text: "Confirmation")
+          expect(rendered).to have_css("label", text: "Password confirmation")
         end
       end
 
@@ -183,7 +174,7 @@ RSpec.describe "users/edit" do
           render
 
           expect(rendered).to have_no_css("label", text: "Password")
-          expect(rendered).to have_no_css("label", text: "Confirmation")
+          expect(rendered).to have_no_css("label", text: "Password confirmation")
         end
       end
     end

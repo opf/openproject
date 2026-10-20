@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ RSpec.describe LdapAuthSourcesController do
   let(:current_user) { create(:admin) }
 
   before do
-    allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+    allow(Users::PasswordLogin).to receive(:none?).and_return(false)
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -127,7 +126,7 @@ RSpec.describe LdapAuthSourcesController do
 
   context "with password login disabled" do
     before do
-      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+      allow(Users::PasswordLogin).to receive(:none?).and_return(true)
     end
 
     it "cannot find index" do

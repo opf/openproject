@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -88,7 +87,7 @@ module OpenProject::Wikis
 
     replace_principal_references "Wikis::PageLink" => %i[author_id]
 
-    register "openproject-wikis", author_url: "https://openproject.org" do
+    register "openproject-wikis", author_url: "https://openproject.org", bundled: true do
       project_module nil do
         permission :view_wiki_pages,
                    { wiki: %i[index show special menu menu_tree export] },
@@ -177,18 +176,19 @@ module OpenProject::Wikis
            icon: :book
 
       menu :admin_menu,
-           :internal_wiki_provider,
-           { controller: "/wikis/admin/internal_wiki_provider", action: :show },
-           parent: :wiki_providers,
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
-           caption: :"menus.admin.internal_wiki_provider"
-
-      menu :admin_menu,
            :external_wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
            parent: :wiki_providers,
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
            caption: :"menus.admin.external_wiki_providers"
+
+      menu :admin_menu,
+           :internal_wiki_provider,
+           { controller: "/wikis/admin/internal_wiki_provider", action: :show },
+           parent: :wiki_providers,
+           after: :external_wiki_providers,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.internal_wiki_provider"
 
       menu :project_menu,
            :settings_project_wiki,
@@ -203,9 +203,8 @@ module OpenProject::Wikis
     patch_with_namespace :WorkPackages, :CreateService
     patch_with_namespace :WorkPackages, :UpdateService
 
-    add_api_path(:wiki_page_links) { "#{root}/wiki_page_links" }
-    add_api_path(:wiki_page_link) { |page_link_id| "#{wiki_page_links}/#{page_link_id}" }
-    add_api_path(:wiki_provider) { |provider_universal_identifier| "#{root}/wiki_providers/#{provider_universal_identifier}" }
+    add_api_resource_paths :wiki_page_link, only: %i[index show]
+    add_api_resource_paths :wiki_provider, only: :show
     add_api_path(:work_package_wiki_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
 
     add_api_endpoint "API::V3::Root" do

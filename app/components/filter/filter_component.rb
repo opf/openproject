@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
+
 module Filter
   class FilterComponent < ApplicationComponent
     TURBO_FRAME_ID = "filter_component"
@@ -36,9 +36,13 @@ module Filter
     # If none is provided, the filters are rendered right away.
     options lazy_loaded_path: false
     options initially_expanded: false
+    options excluded_filters: []
+    # The inputs are capped at a readable width by default. Set this where they should
+    # instead stretch to the full width of whatever contains the component.
+    options full_width: false
 
     def filter_form(form)
-      Filters::FilterFormComponent.new(builder: form, query:, allowed_filters:)
+      Filters::FilterFormComponent.new(builder: form, query:, allowed_filters:, excluded_filters:)
     end
 
     def allowed_filters
@@ -48,6 +52,8 @@ module Filter
     def lazy_loaded? = !!lazy_loaded_path
 
     def initially_expanded? = initially_expanded
+
+    def full_width? = full_width
 
     def turbo_requests? = false
 
@@ -63,7 +69,8 @@ module Filter
         "op-filters-form",
         "op-filters-form_top-margin",
         ("-expanded" if initially_expanded?),
-        ("op-filters-form--with-footer" unless turbo_requests?)
+        ("op-filters-form--with-footer" unless turbo_requests?),
+        ("op-filters-form--full-width" if full_width?)
       ].compact.join(" ")
     end
 

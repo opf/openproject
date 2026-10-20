@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 require_relative "../../support/pages/backlog"
@@ -68,29 +67,29 @@ RSpec.describe "Dragging work packages in the inbox",
     backlogs_page.visit!
 
     backlogs_page
-      .expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1,
-                                                              inbox_wp2,
-                                                              inbox_wp3,
-                                                              inbox_wp4,
-                                                              inbox_wp5])
+      .expect_inbox_items_in_order(items: [inbox_wp1,
+                                           inbox_wp2,
+                                           inbox_wp3,
+                                           inbox_wp4,
+                                           inbox_wp5])
     backlogs_page
       .drag_work_package(inbox_wp1, before: inbox_wp4)
 
     backlogs_page
-      .expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp2,
-                                                              inbox_wp3,
-                                                              inbox_wp1,
-                                                              inbox_wp4,
-                                                              inbox_wp5])
+      .expect_inbox_items_in_order(items: [inbox_wp2,
+                                           inbox_wp3,
+                                           inbox_wp1,
+                                           inbox_wp4,
+                                           inbox_wp5])
     backlogs_page
       .drag_work_package(inbox_wp1, before: inbox_wp3)
 
     backlogs_page
-      .expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp2,
-                                                              inbox_wp1,
-                                                              inbox_wp3,
-                                                              inbox_wp4,
-                                                              inbox_wp5])
+      .expect_inbox_items_in_order(items: [inbox_wp2,
+                                           inbox_wp1,
+                                           inbox_wp3,
+                                           inbox_wp4,
+                                           inbox_wp5])
   end
 
   context "when having closed work packages at the top" do
@@ -107,16 +106,16 @@ RSpec.describe "Dragging work packages in the inbox",
       backlogs_page.visit!
 
       backlogs_page
-        .expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1,
-                                                                inbox_wp4,
-                                                                inbox_wp5])
+        .expect_inbox_items_in_order(items: [inbox_wp1,
+                                             inbox_wp4,
+                                             inbox_wp5])
       backlogs_page
         .drag_work_package(inbox_wp1, before: inbox_wp5)
 
       backlogs_page
-        .expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp4,
-                                                                inbox_wp1,
-                                                                inbox_wp5])
+        .expect_inbox_items_in_order(items: [inbox_wp4,
+                                             inbox_wp1,
+                                             inbox_wp5])
     end
   end
 
@@ -125,19 +124,19 @@ RSpec.describe "Dragging work packages in the inbox",
       backlogs_page.visit!
 
       backlogs_page.click_in_inbox_move_menu(inbox_wp2, "Move down")
-      backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1,
-                                                                           inbox_wp3,
-                                                                           inbox_wp2,
-                                                                           inbox_wp4,
-                                                                           inbox_wp5])
+      backlogs_page.expect_inbox_items_in_order(items: [inbox_wp1,
+                                                        inbox_wp3,
+                                                        inbox_wp2,
+                                                        inbox_wp4,
+                                                        inbox_wp5])
 
       backlogs_page.drag_work_package(inbox_wp2, before: inbox_wp5)
 
-      backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1,
-                                                                           inbox_wp3,
-                                                                           inbox_wp4,
-                                                                           inbox_wp2,
-                                                                           inbox_wp5])
+      backlogs_page.expect_inbox_items_in_order(items: [inbox_wp1,
+                                                        inbox_wp3,
+                                                        inbox_wp4,
+                                                        inbox_wp2,
+                                                        inbox_wp5])
     end
   end
 

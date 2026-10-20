@@ -110,11 +110,12 @@ ca:
     not_recommended: no recomanat
     recommended: recomanat
     x_bcf_issues:
-      one: Un element BCF
+      one: "%{count} BCF issue"
       other: "%{count} elements BCF"
       zero: Sense elements de BCF
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA stage
+RSpec.describe "OpenID Connect", :skip_2fa_stage, :skip_csrf, # Prevent redirects to 2FA stage
                type: :rails_request,
                with_ee: %i[sso_auth_providers] do
   let(:host) { "keycloak.local" }

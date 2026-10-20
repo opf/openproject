@@ -22,13 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameFilter
+class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::NameAndIdentifierFilter
+  WORD_CONDITION = "(LOWER(projects.identifier) LIKE ? OR LOWER(projects.name) LIKE ?)"
+
   def self.key
     :typeahead
   end
@@ -39,5 +40,15 @@ class Queries::Projects::Filters::TypeaheadFilter < Queries::Projects::Filters::
 
   def human_name
     I18n.t("label_search")
+  end
+
+  def where
+    terms = operator == "**" ? values.first.to_s.downcase.split : []
+    return super if terms.size < 2
+
+    # In contrast to the filter this class inherits from, the typeahead
+    # requires every word to match the query.
+    [Array.new(terms.size, WORD_CONDITION).join(" AND "),
+     *terms.flat_map { |term| ["%#{term}%", "%#{term}%"] }]
   end
 end

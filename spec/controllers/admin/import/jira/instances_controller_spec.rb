@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -572,7 +570,9 @@ RSpec.describe Admin::Import::Jira::InstancesController do
 
     context "when Import::JiraClient raises ApiError" do
       before do
-        allow(jira_client).to receive(:server_info).and_raise(Import::JiraClient::ApiError.new("Unauthorized", status: 401))
+        allow(jira_client).to receive(:server_info).and_raise(
+          Import::JiraClient::ApiError.new("Unauthorized", status: 401, response_body: "", response_headers: {})
+        )
       end
 
       it "returns an API error message" do

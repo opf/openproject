@@ -31,8 +31,8 @@ fa:
         title: اعضا
         view_all_members: مشاهده همه اعضا
         x_more:
-          one: و یک عضو دیگر.
-          other: و %{count} عضو دیگر.
+          one: and %{count} more member.
+          other: and %{count} more members.
       news:
         no_results: مورد جدیدی برای گزارش وجود ندارد.
       not_available: این ویجت در دسترس نیست.

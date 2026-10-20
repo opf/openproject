@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -684,57 +683,6 @@ RSpec.describe TimeEntry do
       context "with the setting disabled", with_settings: { time_entries_prohibit_logging_for_past_months: false } do
         it { expect(described_class).not_to be_prohibit_logging_for_past_months }
       end
-    end
-  end
-
-  describe "deprecated work package association" do
-    it "ignores the deprecated work package association" do
-      expect(described_class.ignored_columns).to include("work_package_id")
-    end
-
-    it "allows access to the work package" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.entity = work_package
-      expect(time_entry.work_package).to eq(work_package)
-
-      time_entry.entity = create(:meeting)
-      expect(time_entry.work_package).to be_nil
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).twice.with(:work_package, :entity, any_args)
-    end
-
-    it "allows access to the work package ID" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.entity = work_package
-      expect(time_entry.work_package_id).to eq(work_package.id)
-
-      time_entry.entity = create(:meeting)
-      expect(time_entry.work_package_id).to be_nil
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).twice.with(:work_package_id, :entity_id, any_args)
-    end
-
-    it "allows setting the work package" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.work_package = work_package
-      expect(time_entry.entity).to eq(work_package)
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).with(:work_package=, :entity=, any_args)
-    end
-
-    it "allows setting the work package ID" do
-      allow(OpenProject::Deprecation).to receive(:replaced)
-
-      time_entry.entity_type = nil # to make sure that we properly set it
-      time_entry.work_package_id = work_package.id
-      expect(time_entry.entity).to eq(work_package)
-      expect(time_entry.entity_type).to eq("WorkPackage")
-      expect(time_entry.entity_id).to eq(work_package.id)
-
-      expect(OpenProject::Deprecation).to have_received(:replaced).with(:work_package_id=, :entity_id=, any_args)
     end
   end
 

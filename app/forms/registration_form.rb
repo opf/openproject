@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,8 +33,8 @@ class RegistrationForm < ApplicationForm
   form do |f|
     login_or_email(f) if model.ldap_auth_source_id.nil?
 
-    f.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:)
-    f.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:)
+    f.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:, autocomplete: "given-name")
+    f.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:, autocomplete: "family-name")
 
     if show_email?
       f.text_field(name: :mail,
@@ -43,7 +42,8 @@ class RegistrationForm < ApplicationForm
                    label: attribute_name(:mail),
                    required: true,
                    readonly: !registration_mail_editable?,
-                   input_width:)
+                   input_width:,
+                   autocomplete: "email")
     end
 
     f.html_content { helpers.call_hook(:view_account_register_after_basic_information, f:) }
@@ -54,9 +54,8 @@ class RegistrationForm < ApplicationForm
 
     consent(f) if helpers.user_consent_required?
 
-    f.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
+    f.submit(name: "register", label: I18n.t(:button_create), scheme: :primary, block: true)
 
-    authentication_providers(f) unless model.uses_external_authentication?
     registration_footer(f)
   end
 
@@ -69,9 +68,10 @@ class RegistrationForm < ApplicationForm
                       label: attribute_name(:mail),
                       required: true,
                       readonly: !registration_mail_editable?,
-                      input_width:)
+                      input_width:,
+                      autocomplete: "email")
     else
-      form.text_field(name: :login, label: attribute_name(:login), required: true, input_width:)
+      form.text_field(name: :login, label: attribute_name(:login), required: true, input_width:, autocomplete: "username")
     end
   end
 
@@ -126,21 +126,10 @@ class RegistrationForm < ApplicationForm
 
     form.html_content do
       helpers.content_tag(:div, class: "FormControl-inlineValidation") do
-        helpers.safe_join([
-                            helpers.content_tag(
-                              :span,
-                              render(Primer::Beta::Octicon.new(icon: :"alert-fill", size: :xsmall, aria: { hidden: true })),
-                              class: "FormControl-inlineValidation--visual"
-                            ),
-                            helpers.content_tag(:span, message)
-                          ])
+        render(Primer::OpenProject::InlineMessage.new(scheme: :critical, size: :small)) do
+          message
+        end
       end
-    end
-  end
-
-  def authentication_providers(form)
-    form.html_content do
-      render("account/auth_providers", omniauth_title: I18n.t("account.signup_with_external_account"), wide: true)
     end
   end
 

@@ -22,17 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-  # Filters on `target_versions` as it is replacing
-  # the legacy `work_packages.version_id` column.
-  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+  include ::Queries::WorkPackages::Filter::FilterOnVersionsMixin
 
   def human_name
     WorkPackage.human_attribute_name("version")
@@ -42,9 +39,13 @@ class Queries::WorkPackages::Filter::VersionFilter <
     :version_id
   end
 
-  # `version_id` and `target_version_id` replace one another; stored keys are
-  # translated on read, see Query::DeprecatedVersionFilter.
+  def self.stored_key = :target_version_id
+
   def available?
     !Setting::WorkPackageMultipleVersions.active?
   end
+
+  private
+
+  def version_kind = "target"
 end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -196,7 +195,7 @@ module WorkPackage::PDFExport::Wp::Attributes
     group.attributes.each do |form_key|
       next unless show_attribute?(form_key, work_package)
 
-      if allowed_long_text_custom_field?(form_key, work_package)
+      if allowed_long_text_custom_field?(form_key)
         cf = form_key_to_custom_field(form_key)
         if current_part[:type] == :long_text
           current_part[:list] << cf
@@ -218,13 +217,13 @@ module WorkPackage::PDFExport::Wp::Attributes
     CustomField.custom_field_attribute?(form_key) || allowed_to_view_attribute?(work_package, form_key)
   end
 
-  def allowed_long_text_custom_field?(form_key, work_package)
+  def allowed_long_text_custom_field?(form_key)
     return false unless CustomField.custom_field_attribute? form_key
 
     cf = form_key_to_custom_field(form_key)
     return false if cf.nil?
 
-    cf.formattable? && custom_field_allowed?(cf, work_package)
+    cf.formattable?
   end
 
   def write_group_title(group, with_hr: true)
@@ -263,13 +262,9 @@ module WorkPackage::PDFExport::Wp::Attributes
     CustomField.find_by(id:)
   end
 
-  def custom_field_allowed?(custom_field, work_package)
-    custom_field.is_for_all? || work_package.project.work_package_custom_field_ids.include?(custom_field.id)
-  end
-
-  def form_key_custom_field_to_column_entries(form_key, work_package)
+  def form_key_custom_field_to_column_entries(form_key)
     cf = form_key_to_custom_field(form_key)
-    return [] if cf.nil? || cf.formattable? || !custom_field_allowed?(cf, work_package)
+    return [] if cf.nil? || cf.formattable?
 
     [{ label: cf.name || form_key, name: form_key.to_s.sub("custom_field_", "cf_") }]
   end
@@ -278,19 +273,19 @@ module WorkPackage::PDFExport::Wp::Attributes
     return [] if form_key == :bcf_thumbnail
 
     if CustomField.custom_field_attribute? form_key
-      return form_key_custom_field_to_column_entries(form_key, work_package)
+      return form_key_custom_field_to_column_entries(form_key)
     end
 
     column_name = ::API::Utilities::PropertyNameConverter.to_ar_name(form_key, context: work_package)
     [column_entry(column_name)]
   end
 
-  def column_entries(column_names)
-    column_names.map { |key| column_entry(key) }
+  def column_entry(column_name)
+    { label: WorkPackage.human_attribute_name(column_label_attribute(column_name)), name: column_name }
   end
 
-  def column_entry(column_name)
-    { label: WorkPackage.human_attribute_name(column_name), name: column_name }
+  def column_label_attribute(column_name)
+    Queries::WorkPackages::StoredNames.offered_select(column_name).to_s
   end
 
   def build_columns_table_cells(attribute_data)

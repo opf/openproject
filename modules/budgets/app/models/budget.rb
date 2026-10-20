@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ class Budget < ApplicationRecord
     includes(:cost_type).order(Arel.sql("material_budget_items.id ASC"))
   }, dependent: :destroy
   has_many :labor_budget_items, -> {
-    includes(:user).order(Arel.sql("labor_budget_items.id ASC"))
+    includes(:principal).order(Arel.sql("labor_budget_items.id ASC"))
   }, dependent: :destroy
 
   validates_associated :material_budget_items

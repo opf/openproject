@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,7 +64,7 @@ RSpec.describe "Backlog bucket deletion", :js do
     expect_and_dismiss_flash type: :success, exact_message: "Successful deletion."
     backlogs_page.expect_no_backlog_bucket(bucket)
 
-    backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1, inbox_wp2, bucket_wp1, bucket_wp2])
+    backlogs_page.expect_inbox_items_in_order(items: [inbox_wp1, inbox_wp2, bucket_wp1, bucket_wp2])
 
     expect(BacklogBucket.where(id: bucket.id)).to be_empty
     expect(bucket_wp1.reload.backlog_bucket_id).to be_nil

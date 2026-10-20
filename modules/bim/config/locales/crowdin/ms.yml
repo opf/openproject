@@ -102,11 +102,12 @@ ms:
     not_recommended: tidak disarankan
     recommended: disarankan
     x_bcf_issues:
-      one: Satu isu BCF
+      one: "%{count} BCF issue"
       other: "%{count} Isu-isu BCF"
       zero: Tiada isu-isu BCF
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

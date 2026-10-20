@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,8 +34,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
   current_user { create(:admin) }
 
-  # An administrator sees every project's variants together, so an owned one has to say whose it
-  # is; otherwise it is indistinguishable from a variant every project may use.
   describe "a variant a project owns" do
     shared_let(:owning_project) { create(:project, name: "Apollo") }
     shared_let(:root_type) { create(:type, name: "Bug") }
@@ -51,10 +48,12 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
       end
     end
 
-    # The index is the list of variants every project may use. A project's own belong to that
-    # project, and are reached from the type's variants tab instead.
     it "does not list it" do
       expect(rendered_component).to have_no_text("Internal")
+    end
+
+    it "sets the type's name in the same weight as its variants" do
+      expect(rendered_component).to have_css(".Box-header a.text-bold", text: "Bug")
     end
 
     it "still lists the variants every project may use" do
@@ -62,38 +61,53 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     end
 
     it "counts it, and links the count to the type's variants tab" do
-      expect(rendered_component).to have_link("1 variant owned by a project",
+      expect(rendered_component).to have_link("1 project-specific variant",
                                               href: type_variants_path(type_id: root_type.id))
     end
 
-    it "counts it in the footer rather than in a row", :aggregate_failures do
-      count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
+    it "leads with the count rather than an icon", :aggregate_failures do
+      row = "[data-test-selector='type-#{root_type.id}-project-variants']"
 
-      expect(rendered_component).to have_css(".Box-footer #{count_link}")
-      expect(rendered_component).to have_no_css(".Box-row #{count_link}")
+      expect(rendered_component).to have_css(row)
+      expect(rendered_component).to have_no_css("#{row} svg")
+      expect(rendered_component).to have_no_css("#{row}.color-fg-muted")
     end
 
-    # The last row of the list, below the variants and above the footer.
-    it "adds a variant from a row, not from the group header", :aggregate_failures do
-      add_link = "a[href='#{new_creation_wizard_types_path(type_id: root_type.id, back_url: types_path)}']"
+    it "counts them in a row above the add action", :aggregate_failures do
+      count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
+      add_link = "a[href='#{new_creation_wizard_type_variants_path(type_id: root_type.id, back_url: types_path)}']"
 
-      expect(rendered_component).to have_css(".Box-row #{add_link}")
-      expect(rendered_component).to have_no_css(".Box-header #{add_link}")
-      expect(rendered_component).to have_no_css(".Box-footer #{add_link}")
+      expect(rendered_component).to have_css(".Box-row #{count_link}")
+      expect(rendered_component).to have_no_css(".Box-footer #{count_link}")
+      expect(rendered_component).to have_css(".Box-row:last-of-type #{add_link}")
     end
 
     it "names the type it adds to" do
-      expect(rendered_component).to have_link("Add variant to Bug")
+      expect(rendered_component).to have_link("Add a variant to Bug")
     end
 
     it "counts only the variants projects own" do
-      expect(rendered_component).to have_no_text("2 variants owned by projects")
+      expect(rendered_component).to have_no_text("2 project-specific variants")
     end
 
-    # The header counts every named variant of the type, listed or not, so it is the whole
-    # picture: one listed here plus the one the project owns.
-    it "counts both in the header" do
-      expect(rendered_component).to have_css(".Box-header", text: "2 variants")
+    it "counts both in a badge on the header" do
+      expect(rendered_component).to have_css(".Box-header .Counter", text: "2")
+    end
+
+    context "when the type has no variant at all" do
+      shared_let(:root_type) { create(:type, name: "Plain") }
+      shared_let(:owned) { nil }
+      shared_let(:global) { nil }
+
+      # visible: :all, because Primer hides a zero counter by itself: a visible-only assertion
+      # would hold whether or not the count is left out.
+      it "shows no badge" do
+        expect(rendered_component).to have_no_css(".Box-header .Counter", visible: :all)
+      end
+    end
+
+    it "no longer spells the count out" do
+      expect(rendered_component).to have_no_text("2 variants")
     end
   end
 
@@ -117,9 +131,6 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     let(:root_type) { create(:type, name: "Task") }
     let!(:variant) { create(:type_variant, type: root_type, variant_name: "Hardware") }
     let(:label_text) { I18n.t("types.index.enabled_in_new_projects") }
-    let(:variant_label_text) do
-      I18n.t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
-    end
 
     subject(:rendered_component) do
       with_request_url "/types" do
@@ -129,9 +140,8 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     end
 
     context "when no variant of the type carries the flag" do
-      it "renders nowhere", :aggregate_failures do
+      it "renders nowhere" do
         expect(rendered_component).to have_no_css(".Label", text: label_text)
-        expect(rendered_component).to have_no_css(".Label", text: variant_label_text)
       end
     end
 
@@ -147,13 +157,88 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
     context "when a named variant carries it" do
       before { variant.update!(enabled_in_new_projects: true) }
 
-      it "names the variant in the group header, which stays visible when collapsed" do
-        expect(rendered_component).to have_css(".Box-header .Label", text: variant_label_text)
-      end
-
-      it "marks the variant's own row too" do
+      it "marks the variant's own row and leaves the header alone", :aggregate_failures do
         expect(rendered_component).to have_css(".Box-row .Label", text: label_text)
+        expect(rendered_component).to have_no_css(".Box-header .Label")
       end
+    end
+  end
+
+  describe "sortable groups", with_settings: { per_page_options: "2,100" } do
+    let!(:types) { %w[A B C D E].map { |name| create(:type, name:) } }
+    let(:page_two) { Type.order(:position).page(2).per_page(2) }
+    let(:expanded) { page_two.first }
+    let!(:variant) { create(:type_variant, type: expanded, variant_name: "Variant") }
+    let(:wrapper) { described_class.wrapper_key }
+
+    subject(:rendered_component) do
+      with_request_url "/types?page=2&per_page=2" do
+        render_inline(described_class.new(types: page_two, expanded_type_id: expanded.id))
+      end
+    end
+
+    it_behaves_like "a sortable-lists list", list_type: "type", name: "Types"
+
+    it "wires the component wrapper as the sortable-lists root", :aggregate_failures do
+      expect(rendered_component).to have_element(id: wrapper) do |root|
+        expect(root["data-controller"]).to eq("sortable-lists")
+        expect(root["data-sortable-lists-sortable-lists--list-outlet"])
+          .to eq("##{wrapper} [data-controller~='sortable-lists--list']")
+        expect(root["data-sortable-lists-sortable-lists--item-outlet"])
+          .to eq("##{wrapper} [data-controller~='sortable-lists--item']")
+      end
+    end
+
+    it "lists the types of the page by name" do
+      expect(rendered_component).to have_selector(:list, "Types") do |list|
+        expect(list.all(:heading).map { it.text.squish }).to eq(page_two.map(&:name))
+      end
+    end
+
+    it "registers type groups, not variant rows, as sortable items", :aggregate_failures do
+      expect(rendered_component)
+        .to have_element(role: "listitem", "data-controller": "sortable-lists--item", count: 2)
+      expect(rendered_component).to have_no_element(:li, "data-controller": "sortable-lists--item")
+    end
+
+    it "gives each type group a single drag handle as its item handle" do
+      expect(rendered_component).to have_button(accessible_name: "Drag to reorder", count: 2) do |handle|
+        handle["data-sortable-lists--item-target"] == "handle"
+      end
+    end
+
+    it "carries page context through the move URL" do
+      expected = move_type_path("__id__", page: 2, per_page: 2, expand: expanded.id).sub("__id__", "{id}")
+
+      expect(rendered_component).to have_element(id: wrapper) do |root|
+        expect(root["data-sortable-lists-move-url-template-value"]).to eq(expected)
+      end
+    end
+
+    it "carries page context through the pagination links" do
+      expect(rendered_component).to have_link("1", href: types_path(page: 1, per_page: 2, expand: expanded.id))
+    end
+
+    it "carries page context into the lazy menus" do
+      expect(rendered_component)
+        .to have_element(:"include-fragment", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
+    end
+  end
+
+  describe "a lone type" do
+    let!(:lone) { create(:type, name: "Only") }
+
+    subject(:rendered_component) do
+      with_request_url "/types" do
+        render_inline(described_class.new(types: Type.page(1).per_page(10)))
+      end
+    end
+
+    it "fixes a lone type in place without a drag handle", :aggregate_failures do
+      expect(Type.count).to eq(1)
+      expect(rendered_component)
+        .to have_element(role: "listitem", "data-sortable-lists--item-mobility-value": "fixed", count: 1)
+      expect(rendered_component).to have_no_button(accessible_name: "Drag to reorder")
     end
   end
 end

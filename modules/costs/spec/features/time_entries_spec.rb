@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,8 +83,8 @@ RSpec.describe "Work Package table time entries", :js do
     check("Spent time")
     click_on "Apply"
 
-    wp1 = time_entry1.work_package
-    wp2 = time_entry2.work_package
+    wp1 = time_entry1.entity
+    wp2 = time_entry2.entity
     expect(page).to have_css(".op-activity-list--item-title", text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
     expect(page).to have_css(".op-activity-list--item-title", text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
   end

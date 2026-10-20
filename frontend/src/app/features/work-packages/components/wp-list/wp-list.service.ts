@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,11 +28,12 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import * as Turbo from '@hotwired/turbo';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { firstValueFrom, from, Observable, of } from 'rxjs';
@@ -54,10 +54,15 @@ import { WorkPackageStatesInitializationService } from './wp-states-initializati
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string|null, query_props?:string|null };
   projectIdentifier?:string;
+}
+
+export interface PreparedQuerySave {
+  persist():Promise<QueryResource>;
 }
 
 @Injectable()
@@ -67,7 +72,7 @@ export class WorkPackagesListService {
   readonly I18n = inject(I18nService);
   protected UrlParamsHelper = inject(UrlParamsHelperService);
   protected authorisationService = inject(AuthorisationService);
-  protected $state = inject(StateService);
+  protected urlParams = inject(UrlParamsService);
   protected apiV3Service = inject(ApiV3Service);
   protected states = inject(States);
   protected querySpace = inject(IsolatedQuerySpace);
@@ -225,7 +230,11 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string):Promise<QueryResource> {
-    return firstValueFrom(this.fromQueryParams(this.$state.params as { query_id?:string|null, query_props?:string }, projectIdentifier));
+    const queryParams = {
+      query_id: this.urlParams.get('query_id'),
+      query_props: this.urlParams.get('query_props') ?? undefined,
+    };
+    return firstValueFrom(this.fromQueryParams(queryParams, projectIdentifier));
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
@@ -309,11 +318,7 @@ export class WorkPackagesListService {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
         if (queryAccessibleByUser) {
-          if (this.isOnNonRouterPage()) {
-            this.navigateToQueryOnNonRouterPage(query.id);
-          } else {
-            void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
-          }
+          this.navigateToQueryOnNonRouterPage(query.id);
           this.states.changes.queries.next(query.id);
           this.reloadSidemenu(query.id);
         } else {
@@ -325,6 +330,89 @@ export class WorkPackagesListService {
       });
 
     return promise;
+  }
+
+  public async prepareSave(
+    query:QueryResource,
+    isCurrent:(expectedQuery?:QueryResource) => boolean,
+  ):Promise<PreparedQuerySave> {
+    const api = this.apiV3Service;
+    const wasPersisted = isPersistedResource(query);
+    const endpoint = wasPersisted ? api.queries.id(query) : undefined;
+    const viewType = wasPersisted ? undefined : this.wpQueryView.viewType;
+    const toast = this.toastService;
+    const states = this.states;
+    const initialization = this.wpStatesInitialization;
+    const creationName = this.I18n.t('js.work_packages.default_queries.manually_sorted');
+    const createdMessage = this.I18n.t('js.notice_successful_create');
+    const updatedMessage = this.I18n.t('js.notice_successful_update');
+    const accessible = wasPersisted && (query.public || query.user.id === this.currentUser.userId);
+    const capturedUrl = window.location.href;
+    const pagination = { offset: 1, pageSize: this.wpTablePagination.current.perPage };
+    const projectIdentifier = query.project?.href?.split('/').pop();
+    const currentForm = this.querySpace.queryForm.value;
+    const form = this.querySpace.query.value === query && currentForm && (query.$links.update as CallableHalLink|undefined)?.href === currentForm.href
+      ? currentForm
+      : (await firstValueFrom(api.queries.form.load(query)))[0];
+    const reportFollowUpError = (error:unknown) => toast.addError(error instanceof Error ? error.message : String(error));
+
+    const followCreated = async (saved:QueryResource):Promise<void> => {
+      if (!isCurrent()) return;
+      const loaded = await firstValueFrom(this.loadQueryFromExisting(saved, pagination, projectIdentifier));
+      if (!isCurrent()) return;
+      const [loadedForm] = await firstValueFrom(api.queries.form.load(loaded));
+      if (!isCurrent()) return;
+      this.navigateToQueryOnNonRouterPage(loaded.id);
+      this.reloadSidemenu(loaded.id);
+      initialization.initialize(loaded, loaded.results);
+      if (isCurrent(loaded)) initialization.updateStatesFromForm(loaded, loadedForm);
+    };
+    const followDefault = async ():Promise<void> => {
+      if (!isCurrent()) return;
+      const href = this.defaultViewUrl(capturedUrl);
+      if (href) {
+        window.location.href = href;
+        return;
+      }
+      const fallback = await firstValueFrom(api.queries.find({ pageSize: pagination.pageSize }, undefined, projectIdentifier));
+      if (!isCurrent()) return;
+      const [fallbackForm] = await firstValueFrom(api.queries.form.load(fallback));
+      if (!isCurrent()) return;
+      this.reloadSidemenu(null);
+      initialization.initialize(fallback, fallback.results);
+      if (isCurrent(fallback)) initialization.updateStatesFromForm(fallback, fallbackForm);
+    };
+    const followSaved = (saved:QueryResource):void => {
+      if (!isCurrent()) return;
+      if (accessible) {
+        this.navigateToQueryOnNonRouterPage(saved.id);
+        this.reloadSidemenu(saved.id);
+      } else {
+        void followDefault().catch(reportFollowUpError);
+      }
+    };
+
+    return {
+      persist: async () => {
+        if (endpoint) {
+          const saved = await firstValueFrom(endpoint.patch(query, form));
+          toast.addSuccess(updatedMessage);
+          states.changes.queries.next(saved.id!);
+          try {
+            followSaved(saved);
+          } catch (error:unknown) {
+            reportFollowUpError(error);
+          }
+          return saved;
+        }
+        query.name = creationName;
+        const created = await firstValueFrom(this.createQueryAndView(query, form, viewType));
+        toast.addSuccess(createdMessage);
+        states.changes.queries.next(created.id!);
+        void followCreated(created).catch(reportFollowUpError);
+        return created;
+      },
+    };
   }
 
   public async createOrSave(query:QueryResource):Promise<unknown> {
@@ -364,8 +452,7 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!currentForm || query.$links.update?.href !== currentForm.href) {
+    if (!currentForm || (query.$links.update as CallableHalLink|undefined)?.href !== currentForm.href) {
       return this.loadForm(query);
     }
 
@@ -419,7 +506,7 @@ export class WorkPackagesListService {
     });
   }
 
-  private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined) {
+  private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined, viewType = this.wpQueryView.viewType) {
     return this
       .apiV3Service
       .queries
@@ -427,7 +514,7 @@ export class WorkPackagesListService {
       .pipe(
         switchMap((createdQuery) => this
           .wpQueryView
-          .create(createdQuery)
+          .create(createdQuery, viewType)
           .pipe(
             mapTo(createdQuery),
           )),
@@ -435,61 +522,65 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
-    const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
-
-    if (hardReloadOnBaseRoute) {
-      const url = new URL(window.location.href);
-      const defaultQuery = sideMenuOptions.defaultQuery;
-
-      // If there is a default query passed, we replace the hard coded ids with the default query
-      // e.g. calendars/:id, team_planner/:id, ...
-      // Otherwise, we will just delete the search params
-      if (defaultQuery) {
-        url.pathname = url.pathname.replace(/\d+$/, defaultQuery);
-      }
-
-      url.search = '';
-      window.location.href = url.href;
-    } else {
-      let projectId;
-      if (query.project.href) {
-        projectId = query.project.href.split('/').pop();
-      }
-
-      void this.loadDefaultQuery(projectId);
-
-      this.states.changes.queries.next(query.id);
-      this.reloadSidemenu(null);
+    const href = this.defaultViewUrl(window.location.href);
+    if (href) {
+      window.location.href = href;
+      return;
     }
+
+    let projectId;
+    if (query.project.href) {
+      projectId = query.project.href.split('/').pop();
+    }
+
+    void this.loadDefaultQuery(projectId);
+
+    this.states.changes.queries.next(query.id);
+    this.reloadSidemenu(null);
   }
 
-  private isOnNonRouterPage():boolean {
-    return !this.$state.current.name || !!this.getNonRouterSidemenuId();
+  private defaultViewUrl(href:string):string|undefined {
+    const url = new URL(href);
+    if (!url.pathname.includes('/calendars/') && !url.pathname.includes('/team_planners/')) return undefined;
+    url.pathname = url.pathname.replace(/\/[^/]+$/, '/new');
+    url.search = '';
+    return url.href;
   }
 
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
-    if (!this.isOnNonRouterPage()) { return; }
-
-    // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
     const url = new URL(window.location.href);
-    url.pathname = url.pathname.replace(/\/[^/]+$/, `/${queryId}`);
-    url.searchParams.delete('query_id');
-    url.searchParams.delete('query_props');
-    window.history.pushState({}, '', url.toString());
+    const { pathname } = url;
+
+    if (pathname.includes('/work_packages') || pathname.includes('/gantt') || pathname.includes('/bcf')) {
+      // List-based pages: the query id lives in the query_id search param, the path itself
+      // doesn't address a specific view (unlike calendars/:id, team_planners/:id below).
+      if (queryId) {
+        url.searchParams.set('query_id', queryId);
+      } else {
+        url.searchParams.delete('query_id');
+      }
+      url.searchParams.delete('query_props');
+    } else {
+      // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
+      url.pathname = pathname.replace(/\/[^/]+$/, `/${queryId}`);
+      url.searchParams.delete('query_id');
+      url.searchParams.delete('query_props');
+    }
+
+    Turbo.session.history.push(url);
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const sidemenuId = this.isOnNonRouterPage() ? this.getNonRouterSidemenuId() : undefined;
-    this.submenuService.reloadSubmenu(selectedQueryId, sidemenuId);
+    this.submenuService.reloadSubmenu(selectedQueryId, this.getNonRouterSidemenuId());
   }
 
   private getNonRouterSidemenuId():string|undefined {
     const { pathname } = window.location;
     if (pathname.includes('/calendars')) return 'calendar_sidemenu';
     if (pathname.includes('/team_planners')) return 'team_planner_sidemenu';
-    if (pathname.includes('/ifc_models')) return 'bim_sidemenu';
+    if (pathname.includes('/ifc_models') || pathname.includes('/bcf')) return 'bim_sidemenu';
+    if (pathname.includes('/gantt')) return 'gantt_menu';
+    if (pathname.includes('/work_packages')) return 'work_packages_sidemenu';
     return undefined;
   }
 }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Backlogs::Concerns
   module ContainerLoading
@@ -43,9 +42,8 @@ module Backlogs::Concerns
       # another active sprint that isn't shared with (and is thus invisible to)
       # @project, which would still block starting a sprint it owns.
       @active_sprints = Sprint.active.where(project_id: @sprints.map(&:project_id).uniq)
-
-      @work_packages_by_sprint_id = WorkPackage
-                                      .where(sprint: @sprints, project: @project)
+      @work_packages_by_sprint_id = backlog_query_builder
+                                      .build_sprint_work_packages(sprint_ids: @sprints.pluck(:id))
                                       .includes(:type, :status, :assigned_to, :priority, :parent)
                                       .order_by_position
                                       .group_by(&:sprint_id)
@@ -58,10 +56,19 @@ module Backlogs::Concerns
       # This has the drawback of loading more work packages than are displayed in the inbox as pagination
       # will only show the top 50 and lowest 10 work packages.
       # But doing only a single query (+ includes) to the database has its benefits, and currently this seems quicker.
-      @work_packages_by_backlog_id = WorkPackage
-                                       .in_backlog_for(project: @project)
+      bucket_ids = @backlog_buckets.pluck(:id)
+      show_inbox = backlog_filters.show_inbox?
+
+      @work_packages_by_backlog_id = backlog_query_builder
+                                       .build_backlog_work_packages(bucket_ids:, show_inbox:)
                                        .includes(:type, :status, :assigned_to, :priority, :parent)
                                        .group_by(&:backlog_bucket_id)
+    end
+
+    private
+
+    def backlog_query_builder
+      @backlog_query_builder ||= Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:)
     end
   end
 end

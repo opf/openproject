@@ -1,0 +1,51 @@
+Feature IDs are defined in the [openproject-token](https://github.com/opf/openproject-token) gem.
+They are used to associate features to plans.
+For develop usage see [this document](./components/enterprise).
+
+# List of feature IDs
+
+This is the lists of all currently registered feature IDs.
+
+<% OpenProject::Token::FEATURES_PER_PLAN.values.reduce(Set.new, :|).to_a.uniq.map(&:to_s).sort.each do |fid| %>
+
+## <%= I18n.t("ee.features.#{fid}", locale: 'en', default: fid.humanize) %>
+
+**Feature ID**<br>
+`<%= fid %>`
+
+<%
+  active_plans = OpenProject::Token::ACTIVE_PLAN_NAMES
+    .select{ |key| OpenProject::Token::FEATURES_PER_PLAN[key]&.include?(fid.to_sym) }
+  unless active_plans.empty?
+ %>
+
+**Active plans**<br>
+<%= active_plans.map{ |key| key.to_s.titleize }.join(", ") %>
+
+<% end %>
+<%
+  legacy_plans = OpenProject::Token::LEGACY_PLAN_NAMES
+    .select{ |key| OpenProject::Token::FEATURES_PER_PLAN[key]&.include?(fid.to_sym) }
+  unless legacy_plans.empty?
+%>
+
+**Legacy plans**<br>
+<%= legacy_plans.map{ |key| key.to_s.titleize }.join(", ") %>
+
+<% end %>
+<% end %>
+
+# Usage in the docs
+
+To render a feature information banner in the documentation on our [website](https://www.openproject.org/docs/), use the following syntax in the docs Markdown.
+
+```markdown
+[feature: feature_id ]
+```
+
+Example:
+
+```markdown
+[feature: custom_field_hierarchies ]
+```
+**Important**: Must be on an own line. Occurrences in headers, lists, quotes, tables, etc. are ignored.

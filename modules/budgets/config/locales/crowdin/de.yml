@@ -61,6 +61,8 @@ de:
   attributes:
     budget: Budget
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Kein Stundensatz für %{date}
     widgets:
       budget_by_cost_type:
         blankslate:

@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module McpTools
-  class SearchUsers < Base
+  class SearchUsers < SearchTool
     default_title "Search users"
     default_description "Search users matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum of #{page_size} users. " \
@@ -52,14 +51,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      users = apply_filters(User.visible.not_builtin, filters)
-      users, total = apply_pagination(users, page)
+    def base_scope
+      Success(User.visible.not_builtin)
+    end
 
-      {
-        items: users.map { |user| API::V3::Users::UserRepresenter.create(user, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::Users::UserRepresenter.create(item, current_user:)
     end
   end
 end

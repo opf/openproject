@@ -44,11 +44,23 @@ class CldrTranslations
     locale = cldr_supported(locale)
     variations = variations(locale)
     language_names = merged_language_names(variations)
-    language_name = variations.filter_map { |l| language_names[l] }.first
-    language_name.capitalize
+    name = variations.filter_map { |l| language_names[l] }.first
+    # In case CLDR does not publish a localized name, we fall back to the english language name
+    name ||= english_language_name(locale)
+    raise "No CLDR language name for locale #{locale}" if name.nil?
+
+    name.capitalize
   end
 
   private
+
+  def english_language_name(locale)
+    name = language_names(:en)[locale]
+    return if name.nil?
+
+    warn "CLDR has no locale data for #{locale}. Falling back to #{name.inspect}"
+    name
+  end
 
   def merged_language_names(variations)
     variations.reduce({}) do |merged, locale|

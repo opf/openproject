@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 module Import
   class JiraFetchUsersJob < ApplicationJob
     def text
-      "Fetch users"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)
@@ -107,7 +106,7 @@ module Import
       collect_mentions_from_node(ast, mention_usernames)
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def collect_mentions_from_node(node, mention_usernames)
       case node
       when JiraWikiMarkup::Nodes::Mention
@@ -123,7 +122,6 @@ module Import
         node.children.each { |child| collect_mentions_from_node(child, mention_usernames) }
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def build_users_upsert_data(user_keys, jira_import)
       jira_client = jira_import.client

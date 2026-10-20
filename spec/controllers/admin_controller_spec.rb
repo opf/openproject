@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,8 +103,8 @@ RSpec.describe AdminController do
         expect(response).to be_successful
         expect(response).to render_template "plugins"
 
-        expect(response.body).to have_css("td span", text: "Foo")
-        expect(response.body).to have_css("td span", text: "Bar")
+        expect(response.body).to have_css(".Box-row", text: "Foo")
+        expect(response.body).to have_css(".Box-row", text: "Bar")
       end
     end
 
@@ -118,6 +117,9 @@ RSpec.describe AdminController do
         get :plugins
         expect(response).to be_successful
         expect(response).to render_template "plugins"
+
+        expect(response.body).to have_css(".blankslate-heading",
+                                          text: "There are currently no plugins installed.")
       end
     end
   end

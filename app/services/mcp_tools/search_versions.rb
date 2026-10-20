@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module McpTools
-  class SearchVersions < Base
+  class SearchVersions < SearchTool
     default_title "Search versions"
     default_description "Search versions matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -55,14 +54,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Version.visible, filters)
-      versions, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(Version.visible)
+    end
 
-      {
-        items: versions.map { |v| API::V3::Versions::VersionRepresenter.create(v, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::Versions::VersionRepresenter.create(item, current_user:)
     end
   end
 end

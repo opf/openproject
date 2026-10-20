@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,8 +62,8 @@ RSpec.describe "Move to backlog", :js do
 
         planning_page.click_in_work_package_menu(work_package, "Move to backlog inbox")
 
-        planning_page.expect_work_package_not_in_sprint(work_package, sprint)
-        planning_page.expect_inbox_item(work_package)
+        planning_page.expect_no_sprint_items(sprint, items: work_package)
+        planning_page.expect_inbox_items(items: work_package)
         planning_page.expect_no_sprints_total_counter
       end
     end
@@ -76,8 +75,8 @@ RSpec.describe "Move to backlog", :js do
         planning_page.visit!
         planning_page.click_in_work_package_menu(work_package, "Move to backlog inbox")
 
-        planning_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
-        planning_page.expect_inbox_item(work_package)
+        planning_page.expect_no_bucket_items(bucket_a, items: work_package)
+        planning_page.expect_inbox_items(items: work_package)
       end
     end
   end
@@ -97,8 +96,8 @@ RSpec.describe "Move to backlog", :js do
 
         wait_for_network_idle
 
-        planning_page.expect_work_package_not_in_sprint(work_package, sprint)
-        planning_page.expect_work_package_in_backlog_bucket(work_package, bucket_b)
+        planning_page.expect_no_sprint_items(sprint, items: work_package)
+        planning_page.expect_bucket_items(bucket_b, items: work_package)
       end
     end
 
@@ -116,8 +115,8 @@ RSpec.describe "Move to backlog", :js do
 
         wait_for_network_idle
 
-        planning_page.expect_no_inbox_item(work_package)
-        planning_page.expect_work_package_in_backlog_bucket(work_package, bucket_a)
+        planning_page.expect_no_inbox_items(items: work_package)
+        planning_page.expect_bucket_items(bucket_a, items: work_package)
       end
     end
 
@@ -137,8 +136,8 @@ RSpec.describe "Move to backlog", :js do
 
         wait_for_network_idle
 
-        planning_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
-        planning_page.expect_work_package_in_backlog_bucket(work_package, bucket_b)
+        planning_page.expect_no_bucket_items(bucket_a, items: work_package)
+        planning_page.expect_bucket_items(bucket_b, items: work_package)
       end
     end
   end
@@ -152,7 +151,7 @@ RSpec.describe "Move to backlog", :js do
 
       it "opens the dialog excluding the current sprint, and moves to another sprint" do
         planning_page.visit!
-        planning_page.expect_work_package_in_sprint(work_package, sprint)
+        planning_page.expect_sprint_items(sprint, items: work_package)
 
         planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
 
@@ -166,8 +165,8 @@ RSpec.describe "Move to backlog", :js do
 
         wait_for_network_idle
 
-        planning_page.expect_work_package_not_in_sprint(work_package, sprint)
-        planning_page.expect_work_package_in_sprint(work_package, second_sprint)
+        planning_page.expect_no_sprint_items(sprint, items: work_package)
+        planning_page.expect_sprint_items(second_sprint, items: work_package)
       end
     end
 
@@ -187,8 +186,8 @@ RSpec.describe "Move to backlog", :js do
 
         wait_for_network_idle
 
-        planning_page.expect_no_inbox_item(work_package)
-        planning_page.expect_work_package_in_sprint(work_package, sprint)
+        planning_page.expect_no_inbox_items(items: work_package)
+        planning_page.expect_sprint_items(sprint, items: work_package)
         planning_page.expect_sprints_total_count(1)
       end
     end
@@ -209,8 +208,8 @@ RSpec.describe "Move to backlog", :js do
 
         wait_for_network_idle
 
-        planning_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
-        planning_page.expect_work_package_in_sprint(work_package, sprint)
+        planning_page.expect_no_bucket_items(bucket_a, items: work_package)
+        planning_page.expect_sprint_items(sprint, items: work_package)
         planning_page.expect_sprints_total_count(1)
       end
     end

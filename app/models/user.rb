@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,7 @@ class User < Principal
   include ::Associations::Groupable
   include ::Users::Avatars
   include ::Users::PermissionChecks
+  include ::Users::SemanticCustomFields
   extend DeprecatedAlias
 
   # Join association backing #departments. The group_users lifecycle is already
@@ -130,18 +130,7 @@ class User < Principal
   has_many :emoji_reactions, dependent: :destroy
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
-
-  # Resource allocations assigned to this user. Normal user-deletion goes
-  # through Principals::DeleteJob, which rewrites principal_id to a
-  # DeletedUser placeholder before destroy fires (registered in the
-  # resource_management engine). The `dependent: :nullify` here is a
-  # defensive fallback if a user is destroyed outside that flow — the column
-  # is already nullable for the unassigned/filter-only state.
-  has_many :resource_allocations,
-           class_name: "ResourceAllocation",
-           foreign_key: :principal_id,
-           dependent: :nullify,
-           inverse_of: :principal
+  has_many :ai_text_transform_runs, class_name: "AI::TextTransformRun", dependent: :delete_all
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -286,17 +275,13 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password, session = nil) # rubocop:disable Metrics/PerceivedComplexity
+  def self.try_authentication_for_existing_user(user, password, session = nil)
     activate_user! user, session if session
 
-    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+    return nil unless user.active?
+    return nil unless user.check_password?(password)
 
-    if user.ldap_auth_source
-      # user has an external authentication method
-      return nil unless user.ldap_auth_source.authenticate(user.login, password)
-    else
-      # authentication with local password
-      return nil unless user.check_password?(password)
+    unless user.ldap_auth_source
       return nil if user.force_password_change
       return nil if user.password_expired?
     end
@@ -318,7 +303,7 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
-    return nil if OpenProject::Configuration.disable_password_login?
+    return nil if Users::PasswordLogin.none?
 
     user = LdapAuthSource.authenticate(login, password)
 
@@ -401,6 +386,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
+    return false unless password_login_allowed?
+
     if ldap_auth_source.present?
       ldap_auth_source.authenticate(login, clear_password)
     else
@@ -412,7 +399,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return false if OpenProject::Configuration.disable_password_login?
+    return false unless password_login_allowed?
     return false if uses_external_authentication? && current_password.nil?
 
     ldap_auth_source_id.blank?
@@ -422,6 +409,10 @@ class User < Principal
   def uses_external_authentication?
     # using #any? instead of #exists? so that it also works on unpersisted auth provider links
     user_auth_provider_links.any?
+  end
+
+  def password_login_allowed?
+    Users::PasswordLogin.allowed?(self)
   end
 
   #
@@ -463,12 +454,24 @@ class User < Principal
     preference || build_preference
   end
 
+  delegate :avatar_color, :avatar_text, :avatar_type, to: :pref
+
   def time_zone
     @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
   end
 
+  def date_format
+    @date_format ||= pref.date_format.presence || Setting.date_format.to_s
+  end
+
+  def time_format
+    @time_format ||= pref.time_format.presence || Setting.time_format.to_s
+  end
+
   def reload(*)
     @time_zone = nil
+    @date_format = nil
+    @time_format = nil
 
     super
   end

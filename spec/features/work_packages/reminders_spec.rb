@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -290,15 +289,13 @@ RSpec.describe "Work package reminder modal",
 
           # Fill in the time but not the date
           fill_in "Date", with: ""
-          fill_in "Time", with: Time.use_zone(current_user.time_zone) { Time.zone.parse("05:00") }
+          fill_in "Time", with: "05:00"
           click_link_or_button "Set reminder"
 
           wait_for_network_idle
           expect(page).to have_css(".FormControl-inlineValidation", text: "Date can't be blank.")
           expect(page).to have_no_css(".FormControl-inlineValidation", text: "Time can't be blank.", wait: 0)
-          expect(page).to have_field("Time", with: Time.use_zone(current_user.time_zone) {
-            Time.zone.parse("05:00").localtime.strftime("%H:%M:%S")
-          })
+          expect(page).to have_field("Time", with: "05:00")
         end
       end
 

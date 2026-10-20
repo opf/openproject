@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -239,7 +238,7 @@ class MeetingsController < ApplicationController
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     Meetings::DeleteService
-      .new(model: @meeting, user: User.current)
+      .new(model: @meeting, user: User.current, cancellation_reason: params[:cancellation_reason])
       .call
       .on_success { flash[:notice] = recurring ? I18n.t(:notice_successful_cancel) : I18n.t(:notice_successful_delete) }
       .on_failure { |call| flash[:error] = call.message }
@@ -268,6 +267,24 @@ class MeetingsController < ApplicationController
   end
 
   def details_dialog; end
+
+  def agenda_sorting_dialog
+    respond_with_dialog Meetings::AgendaSortingDialogComponent.new(meeting: @meeting)
+  end
+
+  def update_agenda_sorting
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(params.expect(meeting: %i[agenda_sorting_mode lock_version]))
+
+    if call.success?
+      update_all_via_turbo_stream
+    else
+      update_via_turbo_stream(component: Meetings::AgendaSortingFormComponent.new(meeting: @meeting), status: :bad_request)
+    end
+
+    respond_with_turbo_streams
+  end
 
   def update_title
     @meeting.update(title: meeting_params[:title])
@@ -475,7 +492,8 @@ class MeetingsController < ApplicationController
     time_filter = @query.find_active_filter(:time)
     # We group meetings into individual groups, but only for upcoming meetings
     if time_filter&.past?
-      @meetings = show_more_pagination(@query.results, limit: params[:limit])
+      @meetings = show_more_pagination(@query.results, limit: params[:limit],
+                                                       initial_limit: SHOW_MORE_PAST_DEFAULT_LIMIT)
     else
       service = ::GroupMeetingsService.new(@query.results, limit: params[:limit])
       call = service.call

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,10 @@ module Users::Scopes
     class_methods do
       def by_login(login)
         where(["LOWER(login) = ?", login.to_s.downcase])
+      end
+
+      def by_logins(logins)
+        where(["LOWER(login) IN (?)", Array(logins).map { it.to_s.downcase }])
       end
 
       # Find a user scope by matching the exact login and then a case-insensitive

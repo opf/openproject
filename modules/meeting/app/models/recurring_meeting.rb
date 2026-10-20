@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,6 +112,12 @@ class RecurringMeeting < ApplicationRecord
           class_name: "Meeting"
 
   has_many :recurring_meeting_interim_responses,
+           inverse_of: :recurring_meeting,
+           dependent: :destroy
+
+  has_many :historic_schedules,
+           -> { order(id: :asc) },
+           class_name: "RecurringMeetings::HistoricSchedule",
            inverse_of: :recurring_meeting,
            dependent: :destroy
 
@@ -218,6 +223,27 @@ class RecurringMeeting < ApplicationRecord
     end
   end
 
+  # The recurrence rule without the end rule applied.
+  # This is used to define the UNTIL rule for previous schedules.
+  def frequency_rule # rubocop:disable Metrics/AbcSize
+    case frequency
+    when "daily"
+      IceCube::Rule.daily(interval)
+    when "working_days"
+      IceCube::Rule
+        .weekly(interval)
+        .day(*Setting.working_day_names)
+    when "weekly"
+      IceCube::Rule.weekly(interval)
+    when "monthly_day_of_month"
+      IceCube::Rule.monthly(interval).day_of_month(monthly_day)
+    when "monthly_nth_weekday"
+      IceCube::Rule.monthly(interval).day_of_week(monthly_weekday_rule)
+    else
+      raise ArgumentError, "Invalid frequency: #{frequency}"
+    end
+  end
+
   def base_schedule # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     case frequency
     when "daily"
@@ -283,7 +309,7 @@ class RecurringMeeting < ApplicationRecord
 
   # Attributes that affect the recurrence schedule itself (not template-only fields like location).
   SCHEDULE_ATTRIBUTES = %w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time
-                           start_time_hour iterations interval end_after end_date].freeze
+                           start_time_hour time_zone iterations interval end_after end_date].freeze
 
   def reschedule_required?(previous: false)
     (previous ? previous_changes : changes)
@@ -295,6 +321,17 @@ class RecurringMeeting < ApplicationRecord
     (previous ? previous_changes : changes)
       .keys
       .intersect?(SCHEDULE_ATTRIBUTES)
+  end
+
+  # Bump the SEQUENCE value of the ICS series event.
+  # Previously, this value would simply match the template's lock_version, but that increases far more often.
+  # By using an explicit database-backed value, we can control when we want to bump it.
+  def bump_ical_sequence!
+    increment!(:ical_sequence)
+  end
+
+  def last_historic_schedule
+    historic_schedules.last
   end
 
   def scheduled_occurrences(limit:, from_time: Time.current)
@@ -445,25 +482,6 @@ class RecurringMeeting < ApplicationRecord
 
   def monthly_weekday_rule
     { monthly_weekday.to_sym => [monthly_ordinal] }
-  end
-
-  def frequency_rule # rubocop:disable Metrics/AbcSize
-    case frequency
-    when "daily"
-      IceCube::Rule.daily(interval)
-    when "working_days"
-      IceCube::Rule
-        .weekly(interval)
-        .day(*Setting.working_day_names)
-    when "weekly"
-      IceCube::Rule.weekly(interval)
-    when "monthly_day_of_month"
-      IceCube::Rule.monthly(interval).day_of_month(monthly_day)
-    when "monthly_nth_weekday"
-      IceCube::Rule.monthly(interval).day_of_week(monthly_weekday_rule)
-    else
-      raise ArgumentError, "Invalid frequency: #{frequency}"
-    end
   end
 
   def count_rule(rule, only_upcoming_iterations: false)

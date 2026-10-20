@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -90,6 +89,12 @@ import {
   TimeEntriesWorkPackageAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/time-entries-work-package-autocompleter/time-entries-work-package-autocompleter.component';
 import {
+  ResourceAllocationAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter.component';
+import {
+  ResourceAllocationAutocompleterTemplateComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter-template.component';
+import {
   ProjectPhaseAutocompleterComponent,
 } from './project-phase-autocompleter/project-phase-autocompleter.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
@@ -103,6 +108,8 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   DraggableAutocompleteComponent,
   UserAutocompleterComponent,
   UserAutocompleterTemplateComponent,
+  ResourceAllocationAutocompleterComponent,
+  ResourceAllocationAutocompleterTemplateComponent,
   MeetingAutocompleterTemplateComponent,
   MeetingAutocompleterComponent,
   ProjectAutocompleterComponent,

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,8 +64,14 @@ RSpec.describe "Work package Parent field ranks exact matches first", :js, :sele
     field.activate!
 
     dropdown = field.autocomplete("#PARENTFIELD-5", select: false)
+    expect(dropdown).to have_css(".ng-option", text: exact_match.subject)
 
     within(dropdown) do
+      # Both matches must be rendered before the options are read, otherwise the
+      # snapshot can be taken while the dropdown still shows the previous results.
+      expect(page).to have_css(".ng-option", text: exact_match.subject)
+      expect(page).to have_css(".ng-option", text: prefix_match.subject)
+
       # The first option is always a "-" (clear/no-parent) entry, unrelated to ranking.
       # This autocompleter's options only render the work package's subject, not its id.
       candidate_texts = all(".ng-option").map(&:text).reject { |text| text == "-" }

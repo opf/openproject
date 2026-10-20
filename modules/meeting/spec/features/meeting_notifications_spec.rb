@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,13 @@ RSpec.describe "Meeting notifications", :js do
     create(:user,
            lastname: "First",
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas] })
+  end
+
+  # Meetings default to a now-based start time and occurrences may not be
+  # rescheduled into the past, so the edited times below must stay on the same
+  # day as "now". Freeze early in the day to keep that true around midnight.
+  around do |example|
+    travel_to(Time.zone.today.beginning_of_day + 8.hours) { example.run }
   end
 
   before do
@@ -65,13 +71,15 @@ RSpec.describe "Meeting notifications", :js do
 
       within "#exit-draft-mode-dialog" do
         # toggle between checkbox states
-        checkbox = find_field(I18n.t("label_meeting_send_updates"))
+        label = I18n.t("label_meeting_send_updates")
         expect(page).to have_css(".Banner", text: enabled_text.strip)
 
-        checkbox.click
+        find("label", text: label).click
+        expect(page).to have_unchecked_field(label)
         expect(page).to have_css(".Banner", text: disabled_text.strip)
 
-        checkbox.click
+        find("label", text: label).click
+        expect(page).to have_checked_field(label)
         expect(page).to have_css(".Banner", text: enabled_text.strip)
       end
     end
@@ -97,8 +105,7 @@ RSpec.describe "Meeting notifications", :js do
     include_examples "notification checkbox behaviour"
 
     it "sets and toggles the calendar updates state" do
-      # a time comfortably away from the now-based default start time, so editing is a real change
-      edit_start_time = 4.hours.from_now.strftime("%H:00")
+      edit_start_time = "12:00"
 
       # check if the default is set correctly
       expect(meeting.notify).to be false
@@ -263,9 +270,8 @@ RSpec.describe "Meeting notifications", :js do
     end
 
     it "can set and toggle the calendar updates state for the template and occurrences" do
-      # times comfortably away from the now-based default start time, so each edit is a real change
-      template_start_time = 4.hours.from_now.strftime("%H:00")
-      occurrence_start_time = 5.hours.from_now.strftime("%H:00")
+      template_start_time = "12:00"
+      occurrence_start_time = "13:00"
 
       template_page.visit!
 

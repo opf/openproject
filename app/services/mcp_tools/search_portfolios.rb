@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module McpTools
-  class SearchPortfolios < Base
+  class SearchPortfolios < SearchTool
     default_title "Search portfolios"
     default_description "Search portfolios matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -53,14 +52,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Project.portfolio.visible, filters)
-      portfolios, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(Project.portfolio.visible)
+    end
 
-      {
-        items: portfolios.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::Projects::ProjectRepresenter.create(item, current_user:)
     end
   end
 end

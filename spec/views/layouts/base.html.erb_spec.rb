@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -91,7 +90,7 @@ RSpec.describe "layouts/base" do
 
     context "with password login disabled" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Users::PasswordLogin).to receive(:none?).and_return(true)
         render
       end
 
@@ -263,6 +262,21 @@ RSpec.describe "layouts/base" do
       it "has a current_user metatag" do
         expect(rendered).to have_css("meta[name=current_user]", visible: false)
       end
+    end
+  end
+
+  describe "blank target link description" do
+    let(:current_user) { anonymous }
+
+    before do
+      render
+    end
+
+    it "is hidden via inline styles so it stays invisible before the stylesheets load" do
+      expect(rendered).to have_css(
+        "span#open-blank-target-link-description.sr-only[style*='position:absolute'][style*='clip-path']",
+        visible: :all
+      )
     end
   end
 

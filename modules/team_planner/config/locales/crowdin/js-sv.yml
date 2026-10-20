@@ -7,12 +7,12 @@ sv:
       add_existing_title: Lägg till befintliga arbetspaket
       cannot_drag_here: Kan inte flytta arbetspaketet på grund av behörigheter eller redigeringsrestriktioner.
       cannot_drag_to_non_working_day: Detta arbetspaket kan inte påbörjas/avslutas på en arbetsfri dag.
-      create_label: Team planerare
+      create_label: Teamplanerare
       create_title: Skapa ny teamplanerare
       drag_here_to_remove: Dra här för att ta bort tilldelad person och start- och slutdatum.
       eight_weeks: 8 veckor
       four_weeks: 4 veckor
-      label_team_planner_plural: Team planerare
+      label_team_planner_plural: Teamplanerare
       modify:
         errors:
           fallback: Detta arbetspaket kan inte redigeras.
@@ -23,7 +23,7 @@ sv:
         empty_state: Använd sökfältet för att hitta arbetspaket och dra dem till planeraren för att tilldela det till någon och definiera start- och slutdatum.
         search_placeholder: Sök...
       remove_assignee: Ta bort tilldelad person
-      today: Idag
+      today: I dag
       two_weeks: 2 veckor
       unsaved_title: Namnlös teamplanerare
       work_week: Arbetsvecka

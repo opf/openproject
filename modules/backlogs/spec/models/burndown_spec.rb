@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ RSpec.describe Burndown do
   end
 
   let(:project) { create(:project) }
-  let(:role) { create(:project_role) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   let(:type_feature) { create(:type_feature) }
   let(:type_task) { create(:type_task) }
   let(:issue_priority) { create(:priority, is_default: true) }
@@ -79,8 +78,19 @@ RSpec.describe Burndown do
           sprint.save!
         end
 
-        it "generates an empty burndown" do
-          expect(burndown.series[:story_points]).to be_empty
+        describe "WITH 1 work_package assigned to the sprint" do
+          let!(:work_package) do
+            create(:work_package,
+                   subject: "WorkPackage 1",
+                   project:,
+                   sprint:,
+                   type: type_feature,
+                   status: issue_open,
+                   priority: issue_priority,
+                   story_points: 9)
+          end
+
+          it { expect(burndown.story_points).to eql [9.0] }
         end
       end
 

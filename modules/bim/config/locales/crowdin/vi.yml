@@ -102,11 +102,12 @@ vi:
     not_recommended: không khuyến nghị
     recommended: khuyến nghị
     x_bcf_issues:
-      one: Một vấn đề về BCF
+      one: "%{count} BCF issue"
       other: "%{count} vấn đề về BCF"
       zero: Không có vấn đề BCF
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

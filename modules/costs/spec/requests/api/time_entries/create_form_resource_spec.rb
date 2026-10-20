@@ -20,10 +20,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -183,6 +183,32 @@ RSpec.describe API::V3::TimeEntries::CreateFormAPI, content_type: :json do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.time_entries.to_json)
           .at_path("_links/commit/href")
+      end
+    end
+
+    context "with a link to a work package that does not exist" do
+      let(:parameters) do
+        {
+          _links: {
+            workPackage: {
+              href: api_v3_paths.work_package(not_existing_id(WorkPackage))
+            }
+          }
+        }
+      end
+
+      it "returns 200 OK" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "renders an empty entity link in the payload" do
+        expect(subject.body)
+          .to be_json_eql(nil.to_json)
+          .at_path("_embedded/payload/_links/entity/href")
+      end
+
+      it "has a validation error on entity" do
+        expect(subject.body).to have_json_path("_embedded/validationErrors/entity")
       end
     end
 

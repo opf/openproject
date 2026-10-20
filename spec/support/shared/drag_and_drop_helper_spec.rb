@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def start_dragging(from, offset_x: nil, offset_y: nil)
-  scroll_to_element(from)
+def start_dragging(from, offset_x: nil, offset_y: nil, scroll: true)
+  scroll_to_element(from) if scroll
   page
     .driver
     .browser
@@ -66,26 +65,34 @@ end
 
 # Single-sequence primitive for native HTML5 drags (Pragmatic drag and drop):
 # once the native drag loop starts, Chrome swallows input from later action
-# chains, so multi-`perform` sequences never deliver the drop. Coordinates are
-# viewport-absolute; callers pick the exact drop point (edge targeting).
-def perform_native_drag(source:, target_x:, target_y:)
-  scroll_to_element(source)
+# chains, so multi-`perform` sequences never deliver the drop. Offsets are
+# relative to the target element's center (callers pick the exact drop point
+# for edge targeting), so callers don't need to keep the target scrolled into
+# view before computing them.
+#
+# `dwell` adds a second pointer move over the target before releasing. One
+# move produces a single dragover, and a drag engine that paints its drop
+# feedback on an animation frame has not painted by then; a caller asserting
+# that feedback needs the extra event.
+def perform_native_drag(source:, target:, offset_x: 0, offset_y: 0, dwell: false)
+  # Ensure both elements are on the page, note this works only if the screen
+  # size can fit both.
+  scroll_to_element(source, block: :nearest)
+  scroll_to_element(target, block: :nearest)
 
-  rect = source.native.rect
-  source_x = (rect.x + (rect.width / 2)).to_i
-  source_y = (rect.y + (rect.height / 2)).to_i
-
-  page
+  action = page
     .driver
     .browser
     .action
     .move_to(source.native)
     .click_and_hold(source.native)
     .pause(duration: 0.1)
-    .move_by(target_x.to_i - source_x, target_y.to_i - source_y)
+    .move_to(target.native, offset_x, offset_y)
     .pause(duration: 0.1)
-    .release
-    .perform
+
+  action = action.move_by(0, 1).pause(duration: 0.1) if dwell
+
+  action.release.perform
 end
 
 def drag_by_pixel(element:, by_x:, by_y:)
@@ -97,6 +104,7 @@ def drag_by_pixel(element:, by_x:, by_y:)
     .action
     .move_to(element.native)
     .click_and_hold(element.native)
+    .pause(duration: 0.2)
     .perform
 
   page
@@ -104,6 +112,7 @@ def drag_by_pixel(element:, by_x:, by_y:)
     .browser
     .action
     .move_by(by_x, by_y)
+    .pause(duration: 0.2)
     .release
     .perform
 end
