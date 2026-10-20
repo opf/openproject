@@ -81,8 +81,15 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     ActiveModel::Type::Boolean.new.cast(options[:no_columns])
   end
 
+  # Preload the target versions separately: an eager_load join would repeat
+  # work packages that have several target versions.
+  def export_work_packages
+    work_packages = query.results.work_packages
+    query.group_by == "version" ? work_packages.preload(:target_versions) : work_packages
+  end
+
   def export!
-    success(render_work_packages(query.results.work_packages))
+    success(render_work_packages(export_work_packages))
   rescue Prawn::Errors::CannotFit => e
     error(e, I18n.t(:error_pdf_export_too_many_columns))
   rescue Exports::PDF::Components::Gantt::InvalidDateRangeError => e
