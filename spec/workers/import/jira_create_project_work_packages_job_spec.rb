@@ -382,13 +382,37 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           end
         end
 
-        it "stores the resolutiondate as a custom field" do
-          create_work_packages
+        it "stores the resolutiondate as a new datetime custom field" do
+          expect { create_work_packages }.to change(WorkPackageCustomField, :count).by(1)
 
           work_package = WorkPackage.find("DPPP-6")
           cf = WorkPackageCustomField.find_by!(name: "Resolution Date")
           resolution_date = work_package.send(cf.attribute_getter)
-          expect(resolution_date).to eq(Date.new(2026, 9, 12))
+          expect(resolution_date).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+        end
+
+        context "with an existing datetime custom field for resolutiondate" do
+          let!(:existing_cf) { create(:work_package_custom_field, name: "Resolution Date", field_format: "datetime") }
+
+          it "uses the existing field and does not create a new custom field" do
+            expect { create_work_packages }.not_to change(WorkPackageCustomField, :count)
+
+            work_package = WorkPackage.find("DPPP-6")
+            cf = WorkPackageCustomField.find_by!(name: "Resolution Date")
+            resolution_date = work_package.send(cf.attribute_getter)
+            expect(resolution_date).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+          end
+        end
+
+        context "with an existing but wrongly typed custom field for resolutiondate" do
+          let!(:existing_cf) { create(:work_package_custom_field, name: "Resolution Date", field_format: "date") }
+
+          it "raises an error" do
+            # TODO: This should work differently if we move the creation to step 5
+            expect { create_work_packages }
+              .to raise_error(/Failed to create custom field/)
+              .and not_change(WorkPackageCustomField, :count)
+          end
         end
       end
 
@@ -402,7 +426,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         end
 
         it "adds the Resolution Date field to all work packages' type" do
-          create_work_packages
+          expect { create_work_packages }.to change(WorkPackageCustomField, :count).by(1)
 
           cf = WorkPackageCustomField.find_by!(name: "Resolution Date")
           wp_without_date = WorkPackage.find("DPPP-6")
@@ -410,7 +434,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
           expect(wp_without_date.type.default_variant.custom_field_ids).to include(cf.id)
           expect(wp_without_date.send(cf.attribute_getter)).to be_nil
-          expect(wp_with_date.send(cf.attribute_getter)).to eq(Date.new(2026, 9, 12))
+          expect(wp_with_date.send(cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
         end
       end
     end

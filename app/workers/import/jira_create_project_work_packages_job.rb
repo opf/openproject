@@ -210,7 +210,8 @@ module Import
                                .exists?
       return unless has_resolution_dates
 
-      @resolution_date_cf = WorkPackageCustomField.find_by(name: "Resolution Date") || create_resolution_date_cf
+      @resolution_date_cf = WorkPackageCustomField.find_by(name: "Resolution Date",
+                                                           field_format: "datetime") || create_resolution_date_cf
     end
 
     def new_resolution_date_cfs_for_type(type)
@@ -225,7 +226,7 @@ module Import
                         .new(user: @system_user)
                         .call(type: "WorkPackageCustomField",
                               name: "Resolution Date",
-                              field_format: "date",
+                              field_format: "datetime",
                               is_required: false,
                               is_for_all: false)
 
@@ -246,7 +247,7 @@ module Import
       raw = jira_issue.payload.dig("fields", "resolutiondate")
       return {} if raw.blank?
 
-      { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).to_date }
+      { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
     def create_priority(jira_issue)
