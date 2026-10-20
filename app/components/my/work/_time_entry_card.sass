@@ -27,6 +27,7 @@
 
   .te-entry-card--duration
     display: flex
+    padding-right: var(--base-size-20)
     color: var(--fgColor-muted)
     font-size: var(--text-body-size-small)
     line-height: var(--text-body-lineHeight-small)
@@ -63,12 +64,10 @@
   .te-entry-card--finish-by-attention
     color: var(--fgColor-attention)
 
-  // Anchored rather than pushed down by the text, which would shove it out of a card that
-  // is only just tall enough and get it clipped.
   .te-entry-card--icon
     position: absolute
+    top: 8px
     right: 8px
-    bottom: 8px
     display: flex
     color: var(--fgColor-muted)
 
@@ -92,6 +91,7 @@
 
   .te-entry-card--duration
     flex-shrink: 0
+    padding-right: 0
 
   .te-entry-card--subject
     min-width: 0
