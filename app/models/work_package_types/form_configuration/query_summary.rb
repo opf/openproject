@@ -95,7 +95,9 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
 
   def sort_label(name, direction)
     caption = @query.sort_criteria_column(name.to_sym)&.caption || I18n.t("queries.filter_summary.unavailable_value")
-    if %w[asc desc].include?(direction)
+    if name.to_s == "manual_sorting"
+      caption
+    elsif %w[asc desc].include?(direction)
       I18n.t(
         "query.attribute_and_direction",
         attribute: caption,
