@@ -161,6 +161,21 @@ RSpec.shared_examples "nestable list custom field administration" do |items_rout
 
       expect(entry("cherry").short).to be_nil
     end
+
+    it "has no page for an entry while none is nested" do
+      get item_path(entry("pear"))
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it "keeps the page of an entry nested before Enterprise expired" do
+      CustomFields::Hierarchy::HierarchicalItemService.new
+        .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: entry("pear"), label: "nested")
+
+      get item_path(entry("pear"))
+
+      expect(response).to have_http_status(:ok)
+    end
   end
 
   context "with Enterprise", with_ee: %i[custom_field_hierarchies] do

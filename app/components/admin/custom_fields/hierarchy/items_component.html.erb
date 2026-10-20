@@ -45,14 +45,16 @@ See COPYRIGHT and LICENSE files for more details.
               t("custom_fields.reorder_alphabetical")
             end
 
-            subheader.with_action_button(
-              tag: :a,
-              scheme: :primary,
-              leading_icon: :plus,
-              label: t(:label_item),
-              href: new_item_path
-            ) do
-              I18n.t(:label_item)
+            if adding_items?
+              subheader.with_action_button(
+                tag: :a,
+                scheme: :primary,
+                leading_icon: :plus,
+                label: t(:label_item),
+                href: new_item_path
+              ) do
+                I18n.t(:label_item)
+              end
             end
           end
         end
@@ -67,10 +69,13 @@ See COPYRIGHT and LICENSE files for more details.
                   component.with_visual_icon(icon: blank_icon)
 
                   component.with_heading(tag: :h3).with_content(I18n.t(blank_header_text))
-                  component.with_description { I18n.t(blank_description_text) }
-                  component.with_primary_action(href: new_item_path) do |button|
-                    button.with_leading_visual_icon(icon: :plus)
-                    I18n.t(:label_item)
+
+                  if adding_items?
+                    component.with_description { I18n.t(blank_description_text) }
+                    component.with_primary_action(href: new_item_path) do |button|
+                      button.with_leading_visual_icon(icon: :plus)
+                      I18n.t(:label_item)
+                    end
                   end
                 end
               end
@@ -104,11 +109,9 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    # A former option list has no tree to navigate, and Primer::Alpha::Layout#render? requires
-    # both a main and a sidebar slot to render anything at all — so it must not wrap main content here.
-    if custom_field.was_list?
-      render(Primer::BaseComponent.new(tag: :div, overflow: :auto, h: :full, classes: "custom-fields-hierarchy-page")) { main_content }
-    else
+    # A list without a tree to navigate renders flat: Primer::Alpha::Layout#render? requires
+    # both a main and a sidebar slot to render anything at all.
+    if custom_field.nested_items_shown?
       render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "custom-fields-hierarchy-page")) do |content|
         content.with_main(overflow: :auto) { main_content }
 
@@ -116,6 +119,8 @@ See COPYRIGHT and LICENSE files for more details.
           render Admin::CustomFields::Hierarchy::TreeViewComponent.new(custom_field:, active_item: model)
         end
       end
+    else
+      render(Primer::BaseComponent.new(tag: :div, overflow: :auto, h: :full, classes: "custom-fields-hierarchy-page")) { main_content }
     end
   end
 %>

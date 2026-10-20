@@ -40,7 +40,7 @@ module Admin
         before_action :find_custom_field
         before_action :find_active_item
         before_action :reject_nesting_without_editing, only: %i[change_parent_dialog change_parent new create]
-        before_action :reject_sub_item_pages_in_former_list, only: %i[show reorder_alphabetical]
+        before_action :reject_sub_item_pages_without_tree, only: %i[show reorder_alphabetical]
 
         # See https://github.com/hotwired/turbo-rails?tab=readme-ov-file#a-note-on-custom-layouts
         def admin_or_frame_layout
@@ -269,8 +269,8 @@ module Admin
           render_404 if @custom_field.list? && !@custom_field.nested_items_editable? && !@active_item.root?
         end
 
-        def reject_sub_item_pages_in_former_list
-          render_404 if @custom_field.was_list? && !@active_item.root?
+        def reject_sub_item_pages_without_tree
+          render_404 if !@custom_field.nested_items_shown? && !@active_item.root?
         end
       end
     end

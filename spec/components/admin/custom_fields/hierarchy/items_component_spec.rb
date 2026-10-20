@@ -54,4 +54,50 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemsComponent, type: :component 
       expect(page).to have_link(custom_field.name, href: items_path)
     end
   end
+
+  context "with a nestable list" do
+    let(:custom_field) { create(:wp_custom_field, :hierarchy, possible_values: %w[Laptop Phone]) }
+    let(:laptop) { root.children.find_by!(label: "Laptop") }
+    let(:phone) { root.children.find_by!(label: "Phone") }
+
+    def nest_under_laptop
+      CustomFields::Hierarchy::HierarchicalItemService.new
+        .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract, parent: laptop, label: "MacBook")
+    end
+
+    context "without Enterprise" do
+      it "browses flat, like a list, while no item is nested" do
+        expect(page).to have_no_role(:tree)
+        expect(page).to have_no_link("Laptop")
+        expect(page).to have_link("Item")
+      end
+
+      context "when items were nested before Enterprise expired" do
+        before do
+          nest_under_laptop
+          render_inline(described_class.new(item: root.reload))
+        end
+
+        it "keeps the tree to reach them" do
+          expect(page).to have_role(:tree)
+          expect(page).to have_link("Laptop")
+        end
+
+        it "offers no way to nest more items" do
+          render_inline(described_class.new(item: phone))
+
+          expect(page).to have_no_link("Item")
+        end
+      end
+    end
+
+    context "with Enterprise", with_ee: %i[custom_field_hierarchies] do
+      it "offers to add sub-items on an item's page" do
+        render_inline(described_class.new(item: phone))
+
+        expect(page).to have_role(:tree)
+        expect(page).to have_link("Item")
+      end
+    end
+  end
 end

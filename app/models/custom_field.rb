@@ -389,6 +389,21 @@ class CustomField < ApplicationRecord
 
   def short_names_allowed? = list? && nestable? && EnterpriseToken.allows_to?(:custom_field_hierarchies)
 
+  # Without Enterprise a list browses flat, unless it still holds items nested before the token expired.
+  def nested_items_shown? = nested_items_editable? || (nestable? && nested_items?)
+
+  def nested_items?
+    return @nested_items unless @nested_items.nil?
+
+    @nested_items = hierarchy_root.present? &&
+                    hierarchy_root.descendants.where.not(parent_id: hierarchy_root.id).exists?
+  end
+
+  def reload(*)
+    @nested_items = nil
+    super
+  end
+
   def user?
     field_format == "user"
   end

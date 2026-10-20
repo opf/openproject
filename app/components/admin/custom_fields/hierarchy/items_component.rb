@@ -51,6 +51,8 @@ module Admin
 
         def reorder_alphabetical_path = hierarchy_item_path(model, :reorder_alphabetical)
 
+        def adding_items? = model.root? || custom_field.nested_items_editable?
+
         def move_item_url(item) = hierarchy_item_url(item, :move)
 
         def index_item_url(item) = hierarchy_item_url(item)
