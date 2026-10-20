@@ -32,7 +32,7 @@ module WorkPackage::Exports
     module Markdown
       class DateTime < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          %i[created_at updated_at].include?(name.to_sym) && export_format == :md
+          name.to_sym.in?(%i[created_at updated_at]) && export_format == :md
         end
 
         def format(work_package, **)

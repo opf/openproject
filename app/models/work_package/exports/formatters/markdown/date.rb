@@ -32,7 +32,7 @@ module WorkPackage::Exports
     module Markdown
       class Date < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          %i[date start_date due_date].include?(name.to_sym) && export_format == :md
+          name.to_sym.in?(%i[date start_date due_date]) && export_format == :md
         end
 
         def format(work_package, **)
