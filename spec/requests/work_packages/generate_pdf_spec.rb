@@ -62,4 +62,40 @@ RSpec.describe "POST work package generate_pdf", :skip_csrf, type: :rails_reques
       expect(Hyphen).not_to have_received(:new)
     end
   end
+
+  context "without the permission to export work packages" do
+    let(:permissions) { %i[view_work_packages] }
+
+    it "denies generating the PDF" do
+      generate_pdf(hyphenation_language: "de")
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "denies opening the generate PDF dialog" do
+      get "/work_packages/#{work_package.id}/generate_pdf_dialog",
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "denies the PDF export of the work package" do
+      get "/work_packages/#{work_package.id}.pdf"
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "denies the PDF export when it is negotiated after an HTML-like format" do
+      get "/work_packages/#{work_package.id}",
+          headers: { "Accept" => "text/vnd.turbo-stream.html, application/pdf" }
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "still shows the work package" do
+      get "/projects/#{project.id}/work_packages/#{work_package.id}/activity"
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
