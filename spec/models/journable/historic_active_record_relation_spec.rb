@@ -256,7 +256,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
           end
         end
 
-        context "with 'is empty' on list field and 'is not' on hierarchy field (Regression#70490)",
+        context "with 'is empty' on list field and 'is not' on nestable list field (Regression#70490)",
                 with_ee: [:custom_field_hierarchies] do
           let(:list_custom_field) do
             create(:list_wp_custom_field,

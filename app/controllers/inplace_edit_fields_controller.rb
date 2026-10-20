@@ -169,7 +169,7 @@ class InplaceEditFieldsController < ApplicationController
     # Strong Parameters doesn't support dynamic keys in nested hashes
     # So we extract the value directly from the raw params.
     # Two formats are supported:
-    #   - Array format: project[custom_field_values][] (used by FilterableTreeView / hierarchy fields)
+    #   - Array format: project[custom_field_values][] (used by FilterableTreeView / nestable lists)
     #   - Hash format:  project[custom_field_values][{id}] (used by SelectList / legacy fields_for)
     cf_values = params.dig(model_key, :custom_field_values)
     raw_value = cf_values.is_a?(Array) ? cf_values : cf_values&.dig(custom_field_id)

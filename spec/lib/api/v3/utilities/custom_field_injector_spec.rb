@@ -372,7 +372,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+    context "for a nestable list custom field", with_ee: [:custom_field_hierarchies] do
       let(:custom_field) { create(:hierarchy_wp_custom_field) }
 
       it "reports that the field allows nesting" do

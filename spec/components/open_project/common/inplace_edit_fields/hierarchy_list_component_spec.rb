@@ -46,7 +46,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::HierarchyListComponent,
     end
   end
 
-  context "with a single-value hierarchy custom field" do
+  context "with a single-value nestable list custom field" do
     let(:project) { create(:project) }
     let(:custom_field) { create(:project_custom_field, :hierarchy) }
     let(:attribute) { custom_field.attribute_name.to_sym }
@@ -90,7 +90,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::HierarchyListComponent,
     end
   end
 
-  context "with a multi-value hierarchy custom field" do
+  context "with a multi-value nestable list custom field" do
     let(:project) { create(:project) }
     let(:custom_field) { create(:project_custom_field, :multi_hierarchy) }
     let(:attribute) { custom_field.attribute_name.to_sym }

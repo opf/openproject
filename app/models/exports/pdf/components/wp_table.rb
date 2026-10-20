@@ -81,7 +81,7 @@ module Exports::PDF::Components::WpTable
   # }
   #
   # b) query.results.all_group_sums returns a hash with the group as key - not the value;
-  # for list and hierarchy custom fields an array of items, even for single value ones, e.g.
+  # for list custom fields an array of items, even for single value ones, e.g.
   # {
   # { []: …,
   #   [#<HierarchyItemAdapter … label: "Foo">]: …,

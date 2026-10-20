@@ -40,7 +40,7 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
                         parent: custom_field.hierarchy_root, label: "Developer").value!
   end
 
-  # The filter UserQuery builds for this hierarchy custom field, with its values
+  # The filter UserQuery builds for this list custom field, with its values
   # set as strings (how they come back when editing a stored filter).
   def filter_for(values)
     UserQuery.new

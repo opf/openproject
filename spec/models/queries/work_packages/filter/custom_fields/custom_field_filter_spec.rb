@@ -428,7 +428,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       it_behaves_like "availability checked"
     end
 
-    context "for a hierarchy custom field" do
+    context "for a nestable list custom field" do
       let(:custom_field) { hierarchy_wp_custom_field }
 
       it_behaves_like "availability checked"

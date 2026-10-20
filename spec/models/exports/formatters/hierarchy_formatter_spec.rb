@@ -113,7 +113,7 @@ RSpec.describe Exports::Formatters::HierarchyFormatter, with_ee: [:custom_field_
       end
     end
 
-    context "with a blank value (empty hierarchy field, regression for OP-19798)" do
+    context "with a blank value (empty nestable list field, regression for OP-19798)" do
       let(:custom_values) { [CustomValue.new(custom_field:, value: nil)] }
 
       it "returns an empty string rather than a 'not found' marker" do

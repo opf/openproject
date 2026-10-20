@@ -994,7 +994,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       end
     end
 
-    context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
+    context "with a cascading select field", with_ee: [:custom_field_hierarchies] do
       def hierarchy_builder(allowed_values)
         schema = { "type" => "option-with-child",
                    "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect" }

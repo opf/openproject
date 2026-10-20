@@ -52,7 +52,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::HierarchyL
     expect(rendered_content).to have_text("Alpha")
   end
 
-  context "with a multi-value hierarchy field" do
+  context "with a multi-value nestable list field" do
     let(:custom_field) { create(:project_custom_field, :multi_hierarchy) }
 
     it "renders multiple item labels joined by comma" do

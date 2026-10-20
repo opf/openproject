@@ -340,7 +340,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       end
     end
 
-    describe "grouped by a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
+    describe "grouped by a nestable list custom field", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
         create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug])
       end
@@ -395,7 +395,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       end
     end
 
-    describe "grouped by a multi value hierarchy custom field with sums", with_ee: %i[custom_field_hierarchies] do
+    describe "grouped by a multi value nestable list custom field with sums", with_ee: %i[custom_field_hierarchies] do
       let!(:multi_hierarchy_custom_field) do
         create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug])
       end
