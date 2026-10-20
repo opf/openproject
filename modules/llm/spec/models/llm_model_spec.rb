@@ -35,6 +35,134 @@ RSpec.describe LlmModel do
   let(:connection) { create(:llm_connection) }
   let(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "bge-m3") }
 
+  describe "validations" do
+    it "requires an identifier unique within the connection" do
+      create(:llm_model, llm_connection: connection, external_id: "bge-m3")
+
+      expect(build(:llm_model, llm_connection: connection, external_id: "")).not_to be_valid
+      expect(build(:llm_model, llm_connection: connection, external_id: "bge-m3")).not_to be_valid
+      expect(build(:llm_model, external_id: "bge-m3")).to be_valid
+    end
+
+    it "bounds the identifier length" do
+      too_long = "m" * (described_class::MAX_EXTERNAL_ID_LENGTH + 1)
+
+      expect(build(:llm_model, llm_connection: connection, external_id: too_long)).not_to be_valid
+    end
+  end
+
+  describe "#name" do
+    it "prefers the administrator's name, then the reported one, then the identifier" do
+      llm_model.raw_metadata = { "name" => "BGE M3" }
+      expect(llm_model.name).to eq("BGE M3")
+
+      llm_model.display_name = "Embeddings"
+      expect(llm_model.name).to eq("Embeddings")
+
+      llm_model.assign_attributes(display_name: "", raw_metadata: {})
+      expect(llm_model.name).to eq("bge-m3")
+    end
+  end
+
+  describe "#context_window" do
+    it "prefers the administrator's figure, then the server's, then the registry's" do
+      llm_model.raw_metadata = { "context_window" => 4_096 }
+      expect([llm_model.context_window, llm_model.context_window_source]).to eq([4_096, :registry])
+
+      llm_model.raw_metadata = llm_model.raw_metadata.merge("max_model_len" => 8_192)
+      expect([llm_model.context_window, llm_model.context_window_source]).to eq([8_192, :server])
+
+      llm_model.admin_context_window = "16384"
+      expect([llm_model.context_window, llm_model.context_window_source]).to eq([16_384, :admin])
+    end
+
+    it "reveals the reported figure again when the administrator's is cleared" do
+      llm_model.raw_metadata = { "max_model_len" => 8_192, "admin_context_window" => 16_384 }
+
+      llm_model.admin_context_window = ""
+
+      expect(llm_model.context_window).to eq(8_192)
+      expect(llm_model.raw_metadata).not_to have_key("admin_context_window")
+    end
+
+    %w[abc -5 0].each do |value|
+      it "rejects #{value.inspect} as the administrator's figure" do
+        llm_model.admin_context_window = value
+
+        expect(llm_model).not_to be_valid
+        expect(llm_model.errors.symbols_for(:admin_context_window)).to be_present
+      end
+    end
+  end
+
+  describe "capability attributes" do
+    it "shows only an administrator's own assertion as the value" do
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "vision",
+                                      state: "supported", source: "admin")
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", capability: "reasoning",
+                                      state: "supported", source: "metadata")
+
+      expect(llm_model.capability_vision).to eq("supported")
+      expect(llm_model.capability_reasoning).to be_nil
+    end
+
+    it "keeps a submitted value until it is saved" do
+      llm_model.capability_vision = "unsupported"
+      llm_model.capability_reasoning = ""
+
+      expect(llm_model.capability_overrides).to eq("vision" => "unsupported", "reasoning" => nil)
+      expect(llm_model.capability_vision).to eq("unsupported")
+    end
+  end
+
+  describe "#cascade_rename!" do
+    let(:connection) { create(:llm_connection, :provisioned_from_env, env_fingerprint: "seeded") }
+
+    before do
+      llm_model
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3")
+      create(:llm_feature_binding, llm_connection: connection, feature_key: "description_assistant", model_id: "bge-m3")
+    end
+
+    it "carries verdicts and bindings over to the new identifier" do
+      llm_model.update!(external_id: "bge-m3-v2")
+      llm_model.cascade_rename!("bge-m3")
+
+      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["bge-m3-v2"])
+      expect(connection.feature_bindings.pluck(:model_id)).to eq(["bge-m3-v2"])
+    end
+
+    it "takes the connection out of the environment's hands when it renames a default" do
+      connection.update_columns(default_chat_model_id: llm_model.id)
+      llm_model.update!(external_id: "bge-m3-v2")
+
+      llm_model.cascade_rename!("bge-m3")
+
+      expect(connection.reload).to have_attributes(env_provisioned_at: nil, env_fingerprint: nil)
+    end
+
+    it "leaves the environment's claim alone when the model is no default" do
+      llm_model.update!(external_id: "bge-m3-v2")
+
+      llm_model.cascade_rename!("bge-m3")
+
+      expect(connection.reload.env_provisioned_at).to be_present
+    end
+  end
+
+  describe "#cascade_delete!" do
+    it "removes the model's verdicts and the defaults that named it" do
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3")
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "another")
+      connection.update_columns(default_embedding_model_id: llm_model.id)
+
+      llm_model.cascade_delete!
+
+      expect(connection.capability_verdicts.pluck(:model_id)).to eq(["another"])
+      expect(connection.reload.default_embedding_model_id).to be_nil
+    end
+  end
+
   describe "#model_type" do
     it "is chat while nothing says the model embeds" do
       expect(llm_model).not_to be_embedding
