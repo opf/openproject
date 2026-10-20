@@ -306,7 +306,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       end
     end
 
-    describe "hierarchy custom fields", with_ee: %i[custom_field_hierarchies] do
+    describe "nestable list custom fields", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
         create(:hierarchy_wp_custom_field).tap do |custom_field|
           service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -328,15 +328,15 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         end
       end
 
-      it "formats hierarchy custom fields using the default format" do
+      it "formats nestable list custom fields using the default format" do
         expect(token.call(work_package, nil)).to eq("Item Value (IV)")
       end
 
-      it "formats hierarchy custom fields using the label when asking for 'label' format" do
+      it "formats nestable list custom fields using the label when asking for 'label' format" do
         expect(token.call(work_package, "label")).to eq("Item Value")
       end
 
-      it "formats hierarchy custom fields using the short when asking for 'short' format" do
+      it "formats nestable list custom fields using the short when asking for 'short' format" do
         expect(token.call(work_package, "short")).to eq("IV")
       end
     end
@@ -362,15 +362,15 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         end
       end
 
-      it "formats hierarchy custom fields using the default format" do
+      it "formats weighted item list custom fields using the default format" do
         expect(token.call(work_package, nil)).to eq("Item Value (42)")
       end
 
-      it "formats hierarchy custom fields using the label when asking for 'label' format" do
+      it "formats weighted item list custom fields using the label when asking for 'label' format" do
         expect(token.call(work_package, "label")).to eq("Item Value")
       end
 
-      it "formats hierarchy custom fields using the weight when asking for 'weight' format" do
+      it "formats weighted item list custom fields using the weight when asking for 'weight' format" do
         expect(token.call(work_package, "weight")).to eq("42")
       end
     end

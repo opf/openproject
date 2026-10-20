@@ -81,7 +81,7 @@ module Exports::PDF::Components::WpTable
   # }
   #
   # b) query.results.all_group_sums returns a hash with the group as key - not the value;
-  # for list and hierarchy custom fields an array of items, even for single value ones, e.g.
+  # for list custom fields an array of items, even for single value ones, e.g.
   # {
   # { []: …,
   #   [#<HierarchyItemAdapter … label: "Foo">]: …,
@@ -101,7 +101,7 @@ module Exports::PDF::Components::WpTable
 
   def transform_custom_field_keys(groups, query)
     custom_field = query.group_by_column.custom_field
-    if custom_field.list? || custom_field.field_format_hierarchy?
+    if custom_field.list?
       transform_hierarchy_custom_field_keys(custom_field, groups)
     else
       transform_single_custom_field_keys(custom_field, groups)

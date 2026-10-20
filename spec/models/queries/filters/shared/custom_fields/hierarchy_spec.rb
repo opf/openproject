@@ -40,7 +40,7 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
                         parent: custom_field.hierarchy_root, label: "Developer").value!
   end
 
-  # The filter UserQuery builds for this hierarchy custom field, with its values
+  # The filter UserQuery builds for this list custom field, with its values
   # set as strings (how they come back when editing a stored filter).
   def filter_for(values)
     UserQuery.new
@@ -62,6 +62,34 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
 
     it "pre-selects nothing when there are no values" do
       expect(filter_for([]).autocomplete_options[:model]).to eq([])
+    end
+
+    context "for a list that holds no nested items" do
+      let!(:custom_field) { create(:user_custom_field, :hierarchy, name: "Team", possible_values: ["Frontend / UI"]) }
+
+      it "keeps a label containing the path separator whole, at the first level", with_ee: false do
+        expect(filter_for([]).autocomplete_options[:items]).to include(include(name: "Frontend / UI", depth: 0))
+      end
+    end
+
+    context "for a former option list" do
+      let!(:custom_field) { create(:user_custom_field, :list, name: "Team", possible_values: ["Frontend / UI"]) }
+
+      it "keeps a label containing the path separator whole, at the first level" do
+        expect(filter_for([]).autocomplete_options[:items]).to include(include(name: "Frontend / UI", depth: 0))
+      end
+    end
+  end
+
+  describe "#value_objects" do
+    let!(:designer) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                          parent: custom_field.hierarchy_root, label: "Designer", before: developer.sort_order).value!
+    end
+
+    it "lists the items in the order of the list, as the filter summary reads them" do
+      expect(filter_for([developer.id.to_s, designer.id.to_s]).value_objects.map(&:name))
+        .to eq(%w[Designer Developer])
     end
   end
 end

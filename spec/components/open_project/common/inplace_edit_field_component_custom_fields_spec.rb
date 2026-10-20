@@ -121,6 +121,29 @@ RSpec.describe OpenProject::Common::InplaceEditFieldComponent, type: :component 
     end
   end
 
+  context "with a list custom field that may nest" do
+    let(:custom_field) do
+      create(:list_project_custom_field, projects: [project], was_list: false, possible_values: %w[Laptop])
+    end
+
+    it "edits it with a select while no item is nested" do
+      expect(rendered_input).to have_element("opce-autocompleter")
+      expect(rendered_input).to have_no_role(:tree)
+    end
+
+    context "when an item is nested", with_ee: %i[custom_field_hierarchies] do
+      before do
+        CustomFields::Hierarchy::HierarchicalItemService.new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                       parent: custom_field.possible_values.first, label: "MacBook")
+      end
+
+      it "edits it with the tree picker" do
+        expect(rendered_input).to have_role(:tree)
+      end
+    end
+  end
+
   context "with a list custom field that opens in a dialog" do
     let(:custom_field) do
       create(:list_project_custom_field, projects: [project], has_comment: true,

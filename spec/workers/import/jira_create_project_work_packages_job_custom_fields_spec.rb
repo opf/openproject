@@ -757,7 +757,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
-  describe "cascading select / hierarchy field (com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect)",
+  describe "cascading select / nestable list field (com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect)",
            with_ee: [:custom_field_hierarchies] do
     # Jira value: option-with-child -> hierarchy item.
     let!(:jira_field) do
@@ -797,8 +797,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     before { import_project }
 
-    it "creates a 'hierarchy' custom field" do
-      expect(WorkPackageCustomField.find_by!(name: "CF Cascading").field_format).to eq("hierarchy")
+    it "creates a list custom field that may nest" do
+      expect(WorkPackageCustomField.find_by!(name: "CF Cascading")).to have_attributes(field_format: "list", nestable?: true)
     end
 
     it "populates the hierarchy with parent items" do
@@ -1158,7 +1158,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           "CF Labels" => "list",
           "CF List" => "list",
           "CF Multi-List" => "list",
-          "CF Cascading" => "hierarchy",
+          "CF Cascading" => "list",
           "CF Booleans" => "list",
           "CF Boolean - Yes" => "bool",
           "CF Radio" => "list"
@@ -1356,7 +1356,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
     end
 
-    context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
+    context "with a cascading select field", with_ee: [:custom_field_hierarchies] do
       let!(:jira_field) do
         create(:jira_field, jira_import:,
                             origin_id: "customfield_10266",
@@ -1377,7 +1377,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                             })
       end
 
-      it "creates one hierarchy field without duplicating its items" do
+      it "creates one nestable list field without duplicating its items" do
         import_both_projects
 
         custom_field = WorkPackageCustomField.sole

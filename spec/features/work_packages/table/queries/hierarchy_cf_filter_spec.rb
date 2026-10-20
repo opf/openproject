@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package filtering by hierarchy custom field", :js, with_ee: [:custom_field_hierarchies] do
+RSpec.describe "Work package filtering by nestable list custom field", :js, with_ee: [:custom_field_hierarchies] do
   let(:project) { create(:project) }
   let(:type) { project.enabled_types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

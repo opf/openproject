@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Query::Results, "Summing groups of a list or hierarchy custom field" do
+RSpec.describe Query::Results, "Summing groups of a flat or nestable list custom field" do
   let(:user) { create(:user, member_with_permissions: { project => [:view_work_packages] }) }
   let(:float_custom_field) { create(:float_wp_custom_field) }
   let(:type) { create(:type_task, custom_fields: [float_custom_field, group_custom_field]) }
@@ -67,7 +67,7 @@ RSpec.describe Query::Results, "Summing groups of a list or hierarchy custom fie
     it_behaves_like "sums reachable from the counted groups"
   end
 
-  context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+  context "for a nestable list custom field", with_ee: [:custom_field_hierarchies] do
     let(:group_custom_field) { create(:hierarchy_wp_custom_field) }
     let(:foo) { create(:hierarchy_item, parent: group_custom_field.hierarchy_root, label: "Foo") }
 

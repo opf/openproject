@@ -55,11 +55,18 @@ RSpec.describe "List custom field administration", :skip_csrf, type: :rails_requ
                  redirect_route: :edit_admin_settings_user_custom_field,
                  items_route: :admin_settings_user_custom_field }
   }.each do |entity, area|
-    context "for #{entity}" do
+    # Enterprise allows nesting, which former option lists still refuse.
+    context "for #{entity} former option lists", with_ee: %i[custom_field_hierarchies] do
       let(:custom_field) { create(area[:factory], :list, possible_values: %w[pear apple]) }
       let(:create_attributes) { area[:section] ? { custom_field_section_id: create(area[:section]).id } : {} }
 
       it_behaves_like "list custom field administration", **area.slice(:create_route, :redirect_route, :items_route)
+    end
+
+    context "for #{entity} lists that may nest their items" do
+      let(:custom_field) { create(area[:factory], :hierarchy, possible_values: %w[pear apple]) }
+
+      it_behaves_like "nestable list custom field administration", items_route: area[:items_route]
     end
   end
 end

@@ -37,7 +37,6 @@ module CustomFields
 
     ENTERPRISE_GUARDED = {
       "calculated_value" => { key: :calculated_values, image: "enterprise/calculated-values.png" },
-      "hierarchy" => { key: :custom_field_hierarchies, image: "enterprise/hierarchies.png" },
       "weighted_item_list" => { key: :weighted_item_lists, image: "enterprise/weighted_item_lists.png" }
     }.freeze
 
@@ -68,7 +67,7 @@ module CustomFields
 
     def show_top_banner?
       case custom_field.field_format
-      when "hierarchy", "weighted_item_list", "list"
+      when "weighted_item_list", "list"
         persisted_cf_has_no_items_or_projects?
       else
         false
@@ -77,7 +76,7 @@ module CustomFields
 
     def top_banner_text
       case custom_field.field_format
-      when "hierarchy", "weighted_item_list", "list"
+      when "weighted_item_list", "list"
         I18n.t("custom_fields.admin.notice.remember_items_and_projects")
       end
     end

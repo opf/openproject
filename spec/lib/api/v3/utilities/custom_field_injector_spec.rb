@@ -372,11 +372,26 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+    context "for a nestable list custom field", with_ee: [:custom_field_hierarchies] do
       let(:custom_field) { create(:hierarchy_wp_custom_field) }
 
       it "reports that the field allows nesting" do
         expect(JSON.parse(subject).dig("customField#{custom_field.id}", "options", "allowsNesting")).to be(true)
+      end
+    end
+
+    context "for a list that may nest but cannot without Enterprise" do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, possible_values: %w[Laptop]) }
+
+      before do
+        allow(schema).to receive(:assignable_custom_field_values).with(custom_field).and_return(custom_field.possible_values)
+      end
+
+      it "describes it as a flat list, embedding its items" do
+        schema = JSON.parse(subject).fetch("customField#{custom_field.id}")
+
+        expect(schema.dig("options", "allowsNesting")).to be(false)
+        expect(schema.dig("_embedded", "allowedValues")).to contain_exactly(include("label" => "Laptop"))
       end
     end
 
@@ -547,7 +562,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    %w[list hierarchy weighted_item_list].each do |format|
+    %w[list weighted_item_list].each do |format|
       context "for #{format} custom field" do
         let(:value) { build_stubbed(:hierarchy_item) }
         let(:raw_value) { value.id.to_s }
@@ -793,7 +808,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
   end
 
   describe "writing links to a multi-value list field" do
-    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, possible_values: %w[apple]) }
+    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, was_list: true, possible_values: %w[apple]) }
     let(:pear) { create(:legacy_list_item, custom_field:, label: "pear") }
     let(:apple) { custom_field.possible_values.find_by!(label: "apple") }
     let(:legacy_pear_id) { pear.legacy_option_id }

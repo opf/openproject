@@ -37,7 +37,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemComponent, type: :component d
   before { render_inline(described_class.new(item:, custom_field:)) }
 
   for_each_context(*CustomFieldAdminAreas::CONTEXTS) do
-    context "for a hierarchy field", with_ee: [:custom_field_hierarchies] do
+    context "for a nestable list field", with_ee: [:custom_field_hierarchies] do
       let(:custom_field_traits) { [:hierarchy] }
       let(:item) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
 

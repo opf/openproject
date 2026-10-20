@@ -67,7 +67,7 @@ RSpec.describe Admin::CustomFields::Hierarchy::ItemFormComponent, type: :compone
 
     subject(:rendered_component) { render_inline(described_class.new(item)) }
 
-    context "for a hierarchy field", with_ee: [:custom_field_hierarchies] do
+    context "for a nestable list field", with_ee: [:custom_field_hierarchies] do
       let(:custom_field) { create(:hierarchy_wp_custom_field) }
 
       it("asks for a short name") { is_expected.to have_field("Short name") }

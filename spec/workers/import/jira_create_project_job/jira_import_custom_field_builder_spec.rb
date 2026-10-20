@@ -675,7 +675,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       end
       let(:context_group) { jira_field.payload["contextGroups"].first }
       let(:builder) { described_class.new(jira_field, context_group:) }
-      let(:hierarchy_cf) { create(:custom_field, :hierarchy, field_format: "hierarchy") }
+      let(:hierarchy_cf) { create(:custom_field, :hierarchy, field_format: "list") }
 
       before do
         root = hierarchy_cf.hierarchy_root
@@ -797,7 +797,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                      context_groups: [context_group])
     end
     let(:builder) { described_class.new(jira_field, context_group:) }
-    let!(:hierarchy_cf) { create(:custom_field, field_format: "hierarchy") }
+    let!(:hierarchy_cf) { create(:custom_field, field_format: "list") }
 
     before { builder.custom_field_post_processing(hierarchy_cf) }
 
@@ -994,7 +994,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       end
     end
 
-    context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
+    context "with a cascading select field", with_ee: [:custom_field_hierarchies] do
       def hierarchy_builder(allowed_values)
         schema = { "type" => "option-with-child",
                    "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:cascadingselect" }

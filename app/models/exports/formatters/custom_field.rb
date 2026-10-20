@@ -51,14 +51,14 @@ module Exports
       # - For long text values, output the plain value
       # - For hierarchy values, print out the full hierarchy of the item(s)
       def format_for_export(object, custom_field)
+        return HierarchyFormatter.new.format(object, custom_field) if custom_field.nested_items_shown?
+
         case custom_field.field_format
         when "bool"
           value = object.typed_custom_value_for(custom_field)
           value == nil ? false : value
         when "text"
           object.typed_custom_value_for(custom_field)
-        when "hierarchy", "weighted_item_list"
-          HierarchyFormatter.new.format(object, custom_field)
         else
           object.formatted_custom_value_for(custom_field)
         end

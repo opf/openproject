@@ -210,7 +210,7 @@ end
 
 #### HierarchyListComponent (example of a dialog-only field)
 
-`HierarchyListComponent` is the edit field for hierarchy-type custom fields. It uses `Primer::OpenProject::FilterableTreeView` to render a filterable, hierarchical tree picker. Because the tree picker is a complex, non-inline widget, the component declares `self.open_in_dialog? = true` so it always opens in a dialog.
+`HierarchyListComponent` is the edit field for list custom fields that may nest their items. It uses `Primer::OpenProject::FilterableTreeView` to render a filterable, hierarchical tree picker. Because the tree picker is a complex, non-inline widget, the component declares `self.open_in_dialog? = true` so it always opens in a dialog.
 
 **Key patterns used:**
 

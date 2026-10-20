@@ -51,6 +51,8 @@ module Admin
 
         def reorder_alphabetical_path = hierarchy_item_path(model, :reorder_alphabetical)
 
+        def adding_items? = model.root? || custom_field.nested_items_editable?
+
         def move_item_url(item) = hierarchy_item_url(item, :move)
 
         def index_item_url(item) = hierarchy_item_url(item)
@@ -77,22 +79,22 @@ module Admin
         end
 
         def blank_header_text
-          if custom_field.list?
-            "custom_fields.admin.items.blankslate.list.title"
-          elsif model.root?
+          if !model.root?
+            "custom_fields.admin.items.blankslate.item.title"
+          elsif custom_field.nested_items_editable?
             "custom_fields.admin.items.blankslate.root.title"
           else
-            "custom_fields.admin.items.blankslate.item.title"
+            "custom_fields.admin.items.blankslate.list.title"
           end
         end
 
         def blank_description_text
-          if custom_field.list?
-            "custom_fields.admin.items.blankslate.list.description"
-          elsif model.root?
+          if !model.root?
+            "custom_fields.admin.items.blankslate.item.description"
+          elsif custom_field.nested_items_editable?
             "custom_fields.admin.items.blankslate.root.description"
           else
-            "custom_fields.admin.items.blankslate.item.description"
+            "custom_fields.admin.items.blankslate.list.description"
           end
         end
 

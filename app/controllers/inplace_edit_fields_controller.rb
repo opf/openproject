@@ -169,7 +169,7 @@ class InplaceEditFieldsController < ApplicationController
     # Strong Parameters doesn't support dynamic keys in nested hashes
     # So we extract the value directly from the raw params.
     # Two formats are supported:
-    #   - Array format: project[custom_field_values][] (used by FilterableTreeView / hierarchy fields)
+    #   - Array format: project[custom_field_values][] (used by FilterableTreeView / nestable lists)
     #   - Hash format:  project[custom_field_values][{id}] (used by SelectList / legacy fields_for)
     cf_values = params.dig(model_key, :custom_field_values)
     raw_value = cf_values.is_a?(Array) ? cf_values : cf_values&.dig(custom_field_id)
@@ -183,8 +183,8 @@ class InplaceEditFieldsController < ApplicationController
     cleaned_values = raw_value.compact_blank
     # FilterableTreeView encodes each selected item as a JSON payload
     # {"path":[...],"value":"<id>"} — extract only the "value" field.
-    # Only hierarchy-format fields use this encoding, so we check the field format first.
-    values = if hierarchy_format_custom_field?(custom_field_id)
+    # Only lists showing their nesting are edited with the tree picker, so we check that first.
+    values = if tree_picked_custom_field?(custom_field_id)
                cleaned_values.map { |v| JSON.parse(v)["value"] }
              else
                cleaned_values
@@ -193,8 +193,8 @@ class InplaceEditFieldsController < ApplicationController
     values.size <= 1 ? values.first : values
   end
 
-  def hierarchy_format_custom_field?(custom_field_id)
-    @model.available_custom_fields.exists?(id: custom_field_id, field_format: %w[hierarchy weighted_item_list])
+  def tree_picked_custom_field?(custom_field_id)
+    @model.available_custom_fields.detect { it.id == custom_field_id.to_i }&.nested_items_shown?
   end
 
   def component(enforce_edit_mode: false)

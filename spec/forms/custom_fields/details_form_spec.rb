@@ -30,14 +30,14 @@
 require "rails_helper"
 
 format_cases = {
-  WorkPackageCustomField => %w[hierarchy],
+  WorkPackageCustomField => %w[list],
   TimeEntryCustomField => %w[text date float user version string bool list int],
   VersionCustomField => %w[text date float int user bool string list version],
   GroupCustomField => %w[text date float int bool list string],
   ProjectCustomField => %w[
-    text date link calculated_value float weighted_item_list user bool hierarchy int string list version
+    text date link calculated_value float weighted_item_list user bool int string list version
   ],
-  UserCustomField => %w[text date float int hierarchy list string bool]
+  UserCustomField => %w[text date float int list string bool]
 }.freeze
 
 RSpec.describe CustomFields::DetailsForm, type: :forms do
@@ -63,7 +63,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       max_value: ->(model) { %w[int float].include?(model.field_format) },
       regexp: ->(model) { %w[string int float text link].include?(model.field_format) },
       default_value: ->(model) { %w[string int float text link bool].include?(model.field_format) },
-      multi_value: ->(model) { %w[list user version hierarchy].include?(model.field_format) },
+      multi_value: ->(model) { %w[list user version].include?(model.field_format) },
       is_required: ->(model) { %w[calculated_value bool].exclude?(model.field_format) },
       formula: ->(model) { model.field_format == "calculated_value" },
       allow_non_open_versions: ->(model) { model.field_format == "version" }
