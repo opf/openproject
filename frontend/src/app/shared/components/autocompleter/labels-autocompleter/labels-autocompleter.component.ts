@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -66,11 +65,7 @@ export interface IApiLabel {
 export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabelAutocompleteItem> implements OnInit {
   getOptionsFn = this.getLabels.bind(this);
 
-  classes = 'op-labels-autocompleter--panel';
-
-  // Virtual scroll absolutely positions and translates the options container,
-  // which breaks the sticky create row's positioning against the scroll port.
-  virtualScroll = false;
+  addTagText = this.I18n.t('js.autocompleter.create_label');
 
   readonly halNotification = inject(HalResourceNotificationService);
 
@@ -102,35 +97,6 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
       .subscribe((canCreateLabels) => {
         this.addTag = canCreateLabels ? this.createLabel.bind(this) : false;
       });
-  }
-
-  public keydowned(val:unknown):void {
-    super.keydowned(val);
-
-    const key = (val as KeyboardEvent)?.key;
-    if (key !== 'ArrowDown' && key !== 'ArrowUp') {
-      return;
-    }
-
-    // ng-select scrolls the marked option flush with the scroll port's bottom edge, which the sticky create row also occupies.
-    requestAnimationFrame(() => this.keepMarkedOptionAboveCreateRow());
-  }
-
-  private keepMarkedOptionAboveCreateRow():void {
-    const scrollHost = document.getElementById(this.ngSelectInstance?.dropdownId ?? '');
-    const marked = scrollHost?.querySelector<HTMLElement>('.ng-option-marked');
-    const createRow = scrollHost
-      ?.querySelector<HTMLElement>('.labels-autocompleter--create-option')
-      ?.closest<HTMLElement>('.ng-option');
-
-    if (!scrollHost || !marked || !createRow || marked === createRow) {
-      return;
-    }
-
-    const overlap = marked.getBoundingClientRect().bottom - createRow.getBoundingClientRect().top;
-    if (overlap > 0) {
-      scrollHost.scrollTop += overlap;
-    }
   }
 
   public getLabels(searchTerm?:string):Observable<ILabelAutocompleteItem[]> {

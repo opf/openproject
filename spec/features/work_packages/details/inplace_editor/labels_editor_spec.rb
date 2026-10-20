@@ -20,6 +20,12 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
     login_as(user)
   end
 
+  def create_option_text(name)
+    prefix = I18n.t("js.autocompleter.create_label")
+
+    /#{Regexp.escape(prefix)}\s*"#{Regexp.escape(name)}"/
+  end
+
   context "in the full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
     let(:field) { work_package_page.edit_field(:labels) }
@@ -46,13 +52,11 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
 
     it "creates a new label from the search term via the keyboard and adds it to the selection" do
       new_label_name = "Urgent"
-      new_label_suffix = I18n.t("js.autocompleter.new_label")
-      create_option_text = "#{new_label_name} #{new_label_suffix}"
 
       field.activate!
 
       dropdown = field.autocomplete(new_label_name, select: false)
-      expect(dropdown).to have_selector(:list_box_option, text: create_option_text)
+      expect(dropdown).to have_selector(:list_box_option, text: create_option_text(new_label_name))
 
       field.autocomplete_selector.send_keys(:return)
 
@@ -65,14 +69,11 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
     end
 
     it "offers no create option for an existing name in a different case" do
-      new_label_suffix = I18n.t("js.autocompleter.new_label")
-      duplicate_option_text = "#{other_label.name.upcase} #{new_label_suffix}"
-
       field.activate!
 
       dropdown = field.autocomplete(other_label.name.upcase, select: false)
       expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
-      expect(dropdown).to have_no_selector(:list_box_option, text: duplicate_option_text)
+      expect(dropdown).to have_no_selector(:list_box_option, text: create_option_text(other_label.name.upcase))
     end
 
     it "discards the selection when the edit is cancelled" do
@@ -132,8 +133,6 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       end
 
       it "allows picking existing labels but offers no option to create one" do
-        new_label_suffix = I18n.t("js.autocompleter.new_label")
-
         field.set_value(label.name)
         field.expect_selected_values(label.name)
 
@@ -141,7 +140,7 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
         expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
 
         dropdown = field.autocomplete("Unknown", select: false)
-        expect(dropdown).to have_no_selector(:list_box_option, text: "Unknown #{new_label_suffix}")
+        expect(dropdown).to have_no_selector(:list_box_option, text: create_option_text("Unknown"))
       end
     end
 
@@ -153,11 +152,9 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
 
       it "creates a new label from the search term and assigns it" do
         new_label_name = "Urgent"
-        new_label_suffix = I18n.t("js.autocompleter.new_label")
-        create_option_text = "#{new_label_name} #{new_label_suffix}"
 
         dropdown = field.autocomplete(new_label_name, select: false)
-        expect(dropdown).to have_selector(:list_box_option, text: create_option_text)
+        expect(dropdown).to have_selector(:list_box_option, text: create_option_text(new_label_name))
 
         field.autocomplete_selector.send_keys(:return)
 
