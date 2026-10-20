@@ -56,7 +56,14 @@ module WorkPackageTypes
       end
 
       def named_variants(root)
-        root.variants.non_default_variants
+        scope = root.variants.non_default_variants
+        return scope unless narrowed_to_query?(root)
+
+        scope.with_name_like(query)
+      end
+
+      def narrowed_to_query?(root)
+        query && root.name.downcase.exclude?(query.strip.downcase)
       end
 
       # Left out rather than shown as zero, so the badge never labels a type nobody has made a

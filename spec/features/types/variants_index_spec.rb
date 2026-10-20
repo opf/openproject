@@ -259,7 +259,7 @@ RSpec.describe "Work package variants index", :js do
     end
   end
 
-  it "finds a type by one of its variant names, and opens it on the match" do
+  it "finds a type by one of its variant names, listing the matching variants only" do
     visit types_path
 
     fill_in "query", with: zeta_variant.variant_name
@@ -270,6 +270,16 @@ RSpec.describe "Work package variants index", :js do
       zeta_variant.variant_name,
       href: type_variant_settings_path(type_id: bug_type.id, variant_id: zeta_variant.id)
     )
+    expect(page).to have_no_text(alfa_variant.variant_name)
+  end
+
+  it "lists every variant of a type the name filter matches by its own name" do
+    visit types_path
+
+    fill_in "query", with: bug_type.name
+
+    expect(page).to have_text(zeta_variant.variant_name)
+    expect(page).to have_text(alfa_variant.variant_name)
   end
 
   it "explains on a banner what the migrated variants are" do
