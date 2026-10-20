@@ -145,6 +145,18 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     editor.wait_for_autosave { document.reload.description&.include?("```ruby\nputs 'hello'\n```") }
   end
 
+  it "renders a Mermaid diagram and stores its source as a mermaid code block" do
+    visit document_path(document)
+    expect(page).to have_test_selector("blocknote-document-description")
+
+    editor.insert_diagram
+
+    expect(editor.element).to have_css("[data-content-type='diagram'] svg")
+    editor.wait_for_autosave do
+      document.reload.description&.include?("```mermaid\ngraph TD\n    A[Start] --> B[Stop]\n```")
+    end
+  end
+
   context "when running with a relative_url_root and non-proxied frontend assets",
           js: false,
           with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "1" } do
