@@ -71,6 +71,11 @@ module WorkPackages::Scopes
                             .unscoped
                             .allowed_to_member_union(user, permissions, entity_types: [nil, WorkPackage.name])
 
+        # Plucking the ids is deliberate here.
+        # We were confused by it ourselves, but with a subquery, PostgreSQL does not always optimize the query,
+        # so the second roundtrip is almost always faster.
+        # Please see the following PR for references
+        # https://github.com/opf/openproject/pull/26131#issuecomment-6270068603
         project_rows, work_package_rows = Project
                                             .unscoped
                                             .from(Arel::Nodes::TableAlias.new(Arel::Nodes::Grouping.new(member_projects),
