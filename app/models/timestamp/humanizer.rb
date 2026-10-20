@@ -27,27 +27,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackageTypes::FormConfiguration::QuerySummaryTimestamp
+class Timestamp::Humanizer
+  KEYWORD_LABELS = {
+    "oneDayAgo" => "yesterday",
+    "lastWorkingDay" => "last_working_day",
+    "oneWeekAgo" => "last_week",
+    "oneMonthAgo" => "last_month"
+  }.freeze
+
   def initialize(timestamp)
     @timestamp = timestamp
   end
 
   def text
-    return I18n.t("js.label_current").upcase_first if @timestamp == Timestamp.now
-    return unavailable_value unless @timestamp.valid?
+    return I18n.t("js.label_current") if @timestamp == Timestamp.now
+    return unless @timestamp.valid?
     return duration_text if @timestamp.duration?
     return keyword_text if @timestamp.relative_date_keyword?
 
     Redmine::I18n.format_time(@timestamp.to_time)
   rescue ArgumentError, Timestamp::Exception
-    unavailable_value
+    nil
   end
 
   private
-
-  def unavailable_value
-    I18n.t("queries.filter_summary.unavailable_value")
-  end
 
   def duration_text
     parts = @timestamp.to_duration.parts.filter_map do |unit, amount|
@@ -57,16 +60,10 @@ class WorkPackageTypes::FormConfiguration::QuerySummaryTimestamp
   end
 
   def keyword_text
-    key = {
-      "oneDayAgo" => "yesterday",
-      "lastWorkingDay" => "last_working_day",
-      "oneWeekAgo" => "last_week",
-      "oneMonthAgo" => "last_month"
-    }.fetch(@timestamp.to_s.split("@").first)
     I18n.t(
       "time.relative_at",
-      relative: I18n.t("js.baseline.drop_down.#{key}").upcase_first,
-      time: Redmine::I18n.format_time(@timestamp.to_time)
+      relative: I18n.t("js.baseline.drop_down.#{KEYWORD_LABELS.fetch(@timestamp.to_s.split('@').first)}"),
+      time: Redmine::I18n.format_time(@timestamp.to_time, include_date: false)
     )
   end
 end

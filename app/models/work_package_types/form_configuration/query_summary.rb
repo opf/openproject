@@ -111,7 +111,19 @@ class WorkPackageTypes::FormConfiguration::QuerySummary
   def baseline_labels
     return [] unless @query.historic?
 
-    @query.timestamps.map { WorkPackageTypes::FormConfiguration::QuerySummaryTimestamp.new(it).text }
+    timestamps = @query.timestamps
+    return timestamps.map { baseline_text(it).upcase_first } unless timestamps.size == 2
+
+    from, to = timestamps
+    if to == Timestamp.now
+      [t("baseline.since", time: baseline_text(from))]
+    else
+      [t("baseline.between", from: baseline_text(from), to: baseline_text(to))]
+    end
+  end
+
+  def baseline_text(timestamp)
+    Timestamp::Humanizer.new(timestamp).text || I18n.t("queries.filter_summary.unavailable_value")
   end
 
   def row(key, values)

@@ -85,9 +85,21 @@ RSpec.describe WorkPackageTypes::FormConfiguration::QuerySummary do
     expect(described_class.new(query).rows.last).to eq(label: "Sorting", values: ["Manual sort order"])
   end
 
-  it "keeps baseline instants in stored order" do
+  it "describes a baseline compared with now as changes since" do
     query.timestamps = [Timestamp.new("P1W"), Timestamp.now]
-    expect(described_class.new(query).rows.last).to eq(label: "Baseline", values: ["1 week ago", "Current"])
+    expect(described_class.new(query).rows.last).to eq(label: "Baseline", values: ["Changes since 1 week ago"])
+  end
+
+  it "describes a baseline between two instants in stored order" do
+    query.timestamps = [Timestamp.new("P2W"), Timestamp.new("P1W")]
+    expect(described_class.new(query).rows.last)
+      .to eq(label: "Baseline", values: ["Changes between 2 weeks ago and 1 week ago"])
+  end
+
+  it "marks a baseline instant that cannot be shown" do
+    query.timestamps = [Timestamp.new("invalid"), Timestamp.now]
+    expect(described_class.new(query).rows.last)
+      .to eq(label: "Baseline", values: ["Changes since Unavailable value"])
   end
 
   it "represents a missing query explicitly" do

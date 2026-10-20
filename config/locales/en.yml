@@ -7372,7 +7372,7 @@ en:
       time: "%I:%M %p"
     pm: "pm"
     relative_ago: "%{time} ago"
-    relative_at: "%{relative} (%{time})"
+    relative_at: "%{relative} at %{time}"
 
   timeframe:
     end: "to"
@@ -7597,6 +7597,9 @@ en:
         not_found: "The requested form item could not be found."
         query_group_label: "Related work packages table"
         query_summary:
+          baseline:
+            between: "Changes between %{from} and %{to}"
+            since: "Changes since %{time}"
           unavailable: "Configuration unavailable"
         remove_attribute: "Remove from section"
         rename_group: "Rename section"
