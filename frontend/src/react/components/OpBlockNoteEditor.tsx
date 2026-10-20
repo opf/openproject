@@ -27,6 +27,7 @@
 
 import { BlockNoteEditorOptions, BlockNoteSchema, combineByGroup, User } from '@blocknote/core';
 import { createCodeBlockSpec } from '../extensions/code-block';
+import { applyDiagramTheme } from '../extensions/diagram-theme';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
@@ -35,6 +36,7 @@ import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
 import { syntaxHighlighter } from '@blocknote/code-block';
+import { createReactDiagramBlockSpec, getDiagramSlashMenuItems } from '@blocknote/diagram-block';
 import { createReactInlineMathSpec, createReactMathBlockSpec, getMathSlashMenuItems } from '@blocknote/math-block';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -69,6 +71,7 @@ const schema = BlockNoteSchema.create().extend({
     codeBlock: createCodeBlockSpec(),
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
     mathBlock: createReactMathBlockSpec(),
+    diagram: createReactDiagramBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
@@ -142,6 +145,9 @@ export function OpBlockNoteEditor({
   type EditorType = typeof editor;
   const theme = useOpTheme();
 
+  // A layout effect, so the theme is set before the diagram previews render in their effects.
+  useLayoutEffect(() => applyDiagramTheme(theme), [theme]);
+
   // Works around a BlockNote/Yjs bootstrap race (COMMS-909): the initial sync leaves BlockNote's
   // `data-prev-type` transition decoration stuck on the first block, so a heading renders at
   // body-text size until the next transaction clears it. Dispatch one before first paint.
@@ -156,7 +162,11 @@ export function OpBlockNoteEditor({
   }, [editor, hocuspocusProvider]);
 
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
-    ...combineByGroup(getDefaultReactSlashMenuItems(editorInstance), getMathSlashMenuItems(editorInstance)),
+    ...combineByGroup(
+      getDefaultReactSlashMenuItems(editorInstance),
+      getMathSlashMenuItems(editorInstance),
+      getDiagramSlashMenuItems(editorInstance),
+    ),
     ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
