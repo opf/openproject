@@ -31,6 +31,51 @@
 require "spec_helper"
 
 RSpec.describe Llm::Capabilities do
+  describe ".published_for" do
+    subject(:published) { described_class.published_for("gpt-4o") }
+
+    context "with a model the registry catalogues" do
+      before do
+        info = RubyLLM::Model::Info.new(id: "gpt-4o", name: "GPT-4o", context_window: 128_000,
+                                        modalities: { output: ["text"] }, capabilities: %w[vision])
+        allow(RubyLLM.models).to receive(:find).with("gpt-4o").and_return(info)
+      end
+
+      it "returns the derived states with the published name and context window" do
+        expect(published).to include(display_name: "GPT-4o", context_window: 128_000)
+        expect(published[:states]).to include(vision: :supported, reasoning: :unsupported, embeddings: :unsupported)
+      end
+    end
+
+    context "with a model the registry does not know" do
+      before { allow(RubyLLM.models).to receive(:find).and_raise(RubyLLM::ModelNotFoundError) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context "when the lookup itself fails" do
+      let(:logged) { [] }
+
+      before do
+        allow(RubyLLM.models).to receive(:find).and_raise(JSON::ParserError, "broken registry")
+        allow(Rails.logger).to receive(:info) { |*args, &block| logged << (block ? block.call : args.first) }
+      end
+
+      it "returns nil and logs the failure" do
+        expect(published).to be_nil
+        expect(logged.join).to include("gpt-4o", "broken registry")
+      end
+    end
+  end
+
+  describe ".label" do
+    it "has a translation for every capability" do
+      described_class::ALL.each do |capability|
+        expect(described_class.label(capability)).not_to include("Translation missing")
+      end
+    end
+  end
+
   describe ".states_from" do
     subject(:states) { described_class.states_from(info) }
 
