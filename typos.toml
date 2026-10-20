@@ -23,6 +23,7 @@ extend-ignore-re = [
   "FND-\\d+", # ticket reference
   "\\b(Ben(jamin)? Tey|Valentin Ege|Abou-Rikab)\\b", # contributor names
   "Bitte stimmen Sie den neuen Bedingungen zu|deutsches Dokument|Mein schöner Titel|Noch mal ein Dialog", # German test strings
+  "%<count>s Tage?|vor (%<time>s|\\d+ Tage?)", # German test strings in humanizer_spec
   "Nam vel neque|sea tak|asperiores possimus nam doloribus ab", # Lorem ipsum
   "IfcEntites", # comment in the vendored BCF markup.xsd
   "&#x[0-9A-Fa-f]+;", # SVG glyph code points

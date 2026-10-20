@@ -29,12 +29,12 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::FormConfiguration::QuerySummaryTimestamp do
+RSpec.describe Timestamp::Humanizer do
   {
-    "PT0S" => "Current",
+    "PT0S" => "current",
     "P1W" => "1 week ago",
     "P2DT3H" => "2 days and 3 hours ago",
-    "invalid" => "Unavailable value"
+    "invalid" => nil
   }.each do |value, expected|
     it "describes #{value} without resolving relative dates" do
       expect(described_class.new(Timestamp.new(value)).text).to eq(expected)
@@ -66,10 +66,10 @@ RSpec.describe WorkPackageTypes::FormConfiguration::QuerySummaryTimestamp do
       expect(described_class.new(timestamp).text).to eq("01.10.2026 00:00")
     end
 
-    it "keeps the relative keyword while localizing its resolved date and time" do
+    it "keeps the relative keyword with only its localized time" do
       travel_to(Time.utc(2026, 10, 2, 12)) do
         timestamp = Timestamp.new("oneDayAgo@23:00-04:00")
-        expect(described_class.new(timestamp).text).to eq("Yesterday (02.10.2026 05:00)")
+        expect(described_class.new(timestamp).text).to eq("yesterday at 05:00")
       end
     end
   end
