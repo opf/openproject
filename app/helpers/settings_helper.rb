@@ -72,28 +72,6 @@ module SettingsHelper
     end
   end
 
-  def setting_url_field(setting, options = {})
-    setting_field_wrapper(setting, options) do
-      styled_url_field_tag("settings[#{setting}]",
-                           Setting.send(setting),
-                           disabled_setting_option(setting).merge(options))
-    end
-  end
-
-  def setting_number_field(setting, options = {})
-    setting_field_wrapper(setting, options) do
-      styled_number_field_tag("settings[#{setting}]",
-                              Setting.send(setting),
-                              disabled_setting_option(setting).merge(options))
-    end
-  end
-
-  def setting_time_field(setting, options = {})
-    setting_field_wrapper(setting, options) do
-      styled_time_field_tag("settings[#{setting}]", Setting.send(setting), options)
-    end
-  end
-
   def setting_field_wrapper(setting, options)
     unit = options.delete(:unit)
     unit_html = ""
@@ -114,45 +92,6 @@ module SettingsHelper
       end
   end
 
-  def setting_text_area(setting, options = {})
-    setting_label(setting, options) +
-      wrap_field_outer(options) do
-        value = Setting.send(setting)
-
-        if value.is_a?(Array)
-          value = value.join("\n")
-        end
-
-        styled_text_area_tag("settings[#{setting}]",
-                             value,
-                             disabled_setting_option(setting).merge(options))
-      end
-  end
-
-  def setting_check_box(setting, options = {})
-    setting_label(setting, options) +
-      wrap_field_outer(options) do
-        hidden = with_empty_unless_writable(setting) do
-          tag(:input, type: "hidden", name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden")
-        end
-
-        hidden +
-          styled_check_box_tag("settings[#{setting}]",
-                               1,
-                               Setting.send(:"#{setting}?"),
-                               disabled_setting_option(setting).merge(options))
-      end
-  end
-
-  def setting_password(setting, options = {})
-    setting_label(setting, options) +
-      wrap_field_outer(options) do
-        styled_password_field_tag("settings[#{setting}]",
-                                  Setting.send(setting),
-                                  disabled_setting_option(setting).merge(options))
-      end
-  end
-
   def setting_label(setting, options = {})
     label = options[:label]
     return "" if label == false
@@ -161,10 +100,6 @@ module SettingsHelper
       "settings_#{setting}", options[:not_translated_label] || I18n.t(label || "setting_#{setting}"),
       options.slice(:title)
     )
-  end
-
-  def setting_block(setting, options = {}, &)
-    setting_label(setting, options) + wrap_field_outer(options, &)
   end
 
   def writable_setting?(setting)
