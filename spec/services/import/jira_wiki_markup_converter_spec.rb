@@ -452,15 +452,24 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     context "without a file extension" do
       let(:input) { "!no extension!" }
 
-      it "is not an image, since that is what keeps prose from matching" do
-        expect(result).to eq("!no extension!")
+      it "is still an embed, as Jira treats it" do
+        expect(result).to eq("![](no_extension)")
       end
     end
 
-    context "with whitespace against the delimiters" do
-      it "does not allow the name to start or end with it" do
-        expect(described_class.new("! leading.png!").convert).to eq("! leading.png!")
-        expect(described_class.new("!trailing .png!").convert).to eq("!trailing .png!")
+    context "with whitespace before the extension" do
+      let(:input) { "!bad .png!" }
+
+      it "is an embed, since only the first character may not be whitespace" do
+        expect(result).to eq("![](bad_.png)")
+      end
+    end
+
+    context "with whitespace directly after the delimiter" do
+      let(:input) { "! leading.png!" }
+
+      it "is not an embed" do
+        expect(result).to eq("! leading.png!")
       end
     end
   end
@@ -853,6 +862,30 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "with an escaped separator abutting a live one" do
+      let(:input) { "||a\\||b||c||" }
+
+      it "swallows the live one, as Jira's escape token does" do
+        expect(result).to eq("<table><thead><tr><th>a|b</th><th>c</th></tr></thead></table>\n")
+      end
+    end
+
+    context "with both separators escaped" do
+      let(:input) { "||a\\|\\|b||c||" }
+
+      it "keeps both in the cell" do
+        expect(result).to eq("<table><thead><tr><th>a||b</th><th>c</th></tr></thead></table>\n")
+      end
+    end
+
+    context "with an escaped separator abutting a live one in a data row" do
+      let(:input) { "|a\\||b|" }
+
+      it "stays a single cell" do
+        expect(result).to eq("<table><tbody><tr><td>a|b</td></tr></tbody></table>\n")
+      end
+    end
+
     context "with a separator inside a header cell macro" do
       let(:input) { "||{code}a||b{code}||c||" }
 
@@ -1101,6 +1134,34 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       let(:input) { "* unordered\n*# ordered child\n* unordered again" }
 
       it { is_expected.to eq("- unordered\n   1. ordered child\n- unordered again") }
+    end
+
+    context "with a block that opens deeper than the top level" do
+      let(:input) { "#* mixed ordered then bullet\n*# mixed bullet then ordered" }
+
+      it "keeps the items rather than dropping the whole block" do
+        expect(result).to eq("- mixed ordered then bullet\n- mixed bullet then ordered")
+      end
+    end
+
+    context "with a block of only nested markers" do
+      let(:input) { "** a\n** b" }
+
+      it { is_expected.to eq("- a\n- b") }
+    end
+
+    context "with a deeper item before any shallow one" do
+      let(:input) { "** deep\n* shallow" }
+
+      it "keeps the leading item" do
+        expect(result).to eq("- deep\n- shallow")
+      end
+    end
+
+    context "with a skipped nesting level" do
+      let(:input) { "* a\n*** deeper" }
+
+      it { is_expected.to eq("- a\n   - deeper") }
     end
 
     context "with dash list marker" do

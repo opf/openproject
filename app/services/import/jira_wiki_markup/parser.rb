@@ -44,11 +44,11 @@ module Import
       TABLE_ROW_PATTERN = /\A\|.+\z/
       # Macros whose body may span lines, so a table row stays open until they close.
       MULTILINE_MACRO_PATTERN = /\{(code|noformat|panel|quote)(:[^}]*)?\}/
-      # Jira allows spaces in an attachment name, and macOS screenshots always carry
-      # them, so only the delimiters bound the name. A trailing file extension is
-      # what keeps an exclamation mark in ordinary prose from opening an image, and
-      # the name may not begin or end with whitespace.
-      IMAGE_NAME = /[^!|\s\n](?:[^!|\n]*[^!|\s\n])?\.[A-Za-z0-9]{1,6}/
+      # Jira bounds an attachment name only by the delimiters: spaces are allowed
+      # anywhere but the first character, and no file extension is required. That
+      # leading character is the whole guard against an exclamation mark in prose,
+      # which is why "Stop! Now!" is text while "!no extension!" is an embed.
+      IMAGE_NAME = /[^!|\s\n][^!|\n]*/
       IMAGE_WITH_PARAMS_PATTERN = /!(#{IMAGE_NAME})\|([^!\n]+)!/
       IMAGE_PATTERN = /!(#{IMAGE_NAME})!/
       # Regions of a row whose separators belong to the content: a macro body, a
@@ -398,9 +398,11 @@ module Import
         N::TableCell.new(children:, header: separator.length > 1)
       end
 
+      # Jira's escape token swallows a separator that immediately follows it, so
+      # "\||" yields one literal separator rather than a literal plus a live one.
       def mask_protected_separators(inner)
         inner
-          .gsub("\\|", CELL_SEPARATOR_PLACEHOLDER)
+          .gsub(/\\\|\|?/, CELL_SEPARATOR_PLACEHOLDER)
           .gsub(PROTECTED_CELL_REGION) { |region| region.tr("|", CELL_SEPARATOR_PLACEHOLDER) }
       end
 
@@ -443,23 +445,26 @@ module Import
       end
 
       def build_list_tree(flat_items, target_depth, start, finish)
-        list_type = flat_items[start][:marker_type]
+        depth = list_depth(flat_items, target_depth, start, finish)
         items = []
         i = start
 
         while i < finish
-          item = flat_items[i]
-          if item[:depth] == target_depth
-            sub_end = find_sublist_end(flat_items, i, finish, target_depth)
-            sublist = sub_end > i + 1 ? build_list_tree(flat_items, target_depth + 1, i + 1, sub_end) : nil
-            items << N::ListItem.new(children: item[:children], sublist:)
-            i = sub_end
-          else
-            i += 1
-          end
+          sub_end = find_sublist_end(flat_items, i, finish, depth)
+          items << build_list_item(flat_items, depth, i, sub_end)
+          i = sub_end
         end
 
-        N::List.new(list_type:, items:)
+        N::List.new(list_type: flat_items[start][:marker_type], items:)
+      end
+
+      def list_depth(flat_items, target_depth, start, finish)
+        [target_depth, (start...finish).map { |j| flat_items[j][:depth] }.min].max
+      end
+
+      def build_list_item(flat_items, depth, start, finish)
+        sublist = build_list_tree(flat_items, depth + 1, start + 1, finish) if finish > start + 1
+        N::ListItem.new(children: flat_items[start][:children], sublist:)
       end
 
       def find_sublist_end(flat_items, start, finish, target_depth)
