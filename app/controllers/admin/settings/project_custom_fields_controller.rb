@@ -29,8 +29,8 @@
 
 module Admin::Settings
   class ProjectCustomFieldsController < ::Admin::SettingsController
-    include CustomFields::SharedActions
-    include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::SharedActions
+    include ::CustomFields::AttributeHelpTextActions
     include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
@@ -88,7 +88,7 @@ module Admin::Settings
     end
 
     def update_role_assignment
-      call = CustomFields::LinkWithRoleService
+      call = ::CustomFields::LinkWithRoleService
         .new(user: current_user, model: @custom_field)
         .call(role_assignment_params)
 
@@ -145,7 +145,7 @@ module Admin::Settings
     end
 
     def move
-      result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
         move_to: params.expect(:move_to)
       )
 
@@ -163,7 +163,7 @@ module Admin::Settings
     def drop
       return render_invalid_drop_request unless valid_drop_request?
 
-      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
         list_id: drop_params[:list_id],
         prev_id: drop_params[:prev_id]
       )
@@ -185,7 +185,7 @@ module Admin::Settings
     end
 
     def destroy
-      result = CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
+      result = ::CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
 
       if result.success?
         update_section_via_turbo_stream(project_custom_field_section: @custom_field.project_custom_field_section.reload)
