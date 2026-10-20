@@ -347,7 +347,7 @@ module Import
       end
 
       def unique_custom_field_name
-        CustomFieldNames.unique_nrme(@import_name)
+        CustomFieldNames.unique_name(@import_name)
       end
 
       def jira_to_op_field_format(jira_field)

@@ -152,13 +152,80 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
 
       expect(WorkPackageCustomField.find_by(name: "CF Unused")).to be_nil
     end
+
+    it "aborts with an error when a custom field cannot be created" do
+      create_service = CustomFields::CreateService
+      service = instance_double(create_service, call: ServiceResult.failure(message: "boom"))
+      allow(create_service).to receive(:new).and_return(service)
+
+      expect { create_custom_fields }.to raise_error(/Failed to create custom field/)
+    end
+  end
+
+  describe "when the import uses Jira's resolution date field" do
+    let(:custom_field) { WorkPackageCustomField.find_by(name: "Resolution Date") }
+    let(:reference) do
+      Import::JiraOpenProjectReference.find_by(jira_import:, op_entity_id: custom_field.id,
+                                               op_entity_class: "WorkPackageCustomField")
+    end
+    let(:resolution_date) { "2025-10-20T12:18:05.123+0000" }
+    let(:payload) { { "key" => "#{jira_project_key}-2", "fields" => { "resolutiondate" => resolution_date } } }
+
+    before { create(:jira_issue, jira_import:, jira_project:, payload:) }
+
+    it "creates a resolutiondate custom field" do
+      expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+      expect(custom_field.field_format).to eq("datetime")
+      expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+      expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: false)
+    end
+
+    it "is idempotent" do
+      create_custom_fields
+      expect { create_custom_fields }.not_to change(WorkPackageCustomField, :count)
+      expect(reference).to have_attributes(uses_existing: false)
+    end
+
+    context "with an existing resolutiondate custom field" do
+      before { create(:work_package_custom_field, name: "Resolution Date", field_format: "datetime") }
+
+      it "uses the existing field and does not create a new custom field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+        expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: true)
+      end
+    end
+
+    context "with an existing resolutiondate custom field with a different field format" do
+      let(:custom_field) { WorkPackageCustomField.find_by(name: "Resolution Date (2)") }
+
+      before { create(:work_package_custom_field, name: "Resolution Date", field_format: "date") }
+
+      it "creates a new custom field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(3)
+        expect(custom_field.field_format).to eq("datetime")
+        expect(jira_import.reload.system_field_custom_fields).to eq("resolutiondate" => custom_field.id)
+        expect(reference).to have_attributes(jira_entity_class: nil, uses_existing: false)
+      end
+    end
+
+    context "when no issue has a resolutiondate" do
+      let(:resolution_date) { nil }
+
+      it "creates no field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(custom_field).to be_nil
+        expect(jira_import.reload.system_field_custom_fields).to be_empty
+      end
+    end
   end
 
   describe "with the issue value index stored by stage 3" do
-    it "reads no issues at all" do
+    it "reads issues only to check the system fields" do
+      number_of_fields = Import::JiraCreateProjectJob::JiraImportCustomFields::SYSTEM_FIELD_CUSTOM_FIELDS.size
       store_index
 
-      expect(jira_issue_reads { create_custom_fields }).to eq(0)
+      expect(jira_issue_reads { create_custom_fields }).to eq(number_of_fields)
     end
 
     it "creates the same custom fields as a scan would" do

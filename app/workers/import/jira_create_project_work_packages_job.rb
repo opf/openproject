@@ -98,7 +98,6 @@ module Import
               status = create_status(jira_issue)
               update_workflows(type)
               new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
-              new_custom_fields += new_resolution_date_cfs_for_type(type)
               update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
@@ -114,8 +113,11 @@ module Import
     private
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
+      custom_fields = custom_fields_for_issue(custom_field_registry, jira_issue)
+      custom_fields << @resolution_date_cf if @resolution_date_cf
+
       existing_cf_ids = type.default_variant.custom_field_ids
-      custom_fields_for_issue(custom_field_registry, jira_issue).reject { |cf| existing_cf_ids.include?(cf.id) }
+      custom_fields.reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 
     def update_custom_fields_in_type(type, new_custom_fields)
@@ -204,41 +206,18 @@ module Import
     end
 
     def setup_resolution_date_cf(jira_project)
-      has_resolution_dates = Import::JiraIssue
-                               .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
-                               .where("payload #>> '{fields,resolutiondate}' IS NOT NULL")
-                               .exists?
-      return unless has_resolution_dates
+      custom_field = system_field_custom_field("resolutiondate")
+      return unless custom_field
+      return unless has_issues_with_resolution_date?(jira_project)
 
-      @resolution_date_cf = WorkPackageCustomField.find_by(name: "Resolution Date",
-                                                           field_format: "datetime") || create_resolution_date_cf
+      @resolution_date_cf = custom_field
     end
 
-    def new_resolution_date_cfs_for_type(type)
-      return [] unless @resolution_date_cf
-      return [] if type.default_variant.custom_field_ids.include?(@resolution_date_cf.id)
-
-      [@resolution_date_cf]
-    end
-
-    def create_resolution_date_cf
-      service_call = CustomFields::CreateService
-                        .new(user: @system_user)
-                        .call(type: "WorkPackageCustomField",
-                              name: "Resolution Date",
-                              field_format: "datetime",
-                              is_required: false,
-                              is_for_all: false)
-
-      unless service_call.success?
-        raise I18n.t(
-          "admin.jira.errors.custom_field_creation_failed",
-          name: "Resolution date",
-          message: service_call.message
-        )
-      end
-
-      service_call.result
+    def has_issues_with_resolution_date?(jira_project)
+      Import::JiraIssue
+        .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
+        .with_field_set("resolutiondate")
+        .exists?
     end
 
     def resolution_date_cf_attrs(jira_issue)
