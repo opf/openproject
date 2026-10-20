@@ -166,10 +166,7 @@ module Admin::Settings
     def drop
       return render_invalid_drop_request unless valid_drop_request?
 
-      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
-        list_id: drop_params[:list_id],
-        prev_id: drop_params[:prev_id]
-      )
+      result = drop_service.call(list_id: drop_params[:list_id], prev_id: drop_params[:prev_id])
 
       if result.success?
         drop_success_streams(result)
@@ -275,6 +272,10 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = ProjectCustomField.find(params.expect(:id))
+    end
+
+    def drop_service
+      CustomFields::DropService.new(user: current_user, custom_field: @custom_field)
     end
 
     def render_invalid_drop_request
