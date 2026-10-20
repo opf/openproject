@@ -71,7 +71,7 @@ module CustomFieldsHelper
                         id: field_id,
                         include_blank: I18n.t(:label_no_change_option))
     when "list", "weighted_item_list"
-      return nested_custom_field_tag_for_bulk_edit(field_name, field_id, custom_field, value) if custom_field.nestable?
+      return nested_custom_field_tag_for_bulk_edit(field_name, field_id, custom_field, value) if custom_field.nested_items_shown?
 
       styled_select_tag(field_name,
                         options_for_list(custom_field, project, value),
@@ -84,7 +84,7 @@ module CustomFieldsHelper
   end
 
   def nested_custom_field_tag_for_bulk_edit(field_name, field_id, custom_field, value) # rubocop:disable Metrics/AbcSize
-    base_options = []
+    base_options = custom_field.required? ? [] : [[I18n.t(:label_none), "none"]]
     result = CustomFields::Hierarchy::HierarchicalItemService.new
       .get_descendants(item: custom_field.hierarchy_root, include_self: false)
       .either(

@@ -61,5 +61,47 @@ RSpec.describe CustomFieldsHelper do
         end
       end
     end
+
+    context "with a list custom field" do
+      subject(:rendered) do
+        Capybara.string(helper.custom_field_tag_for_bulk_edit("work_package", custom_field.reload, nil, nil))
+      end
+
+      shared_examples "a bulk-clearable list" do
+        it "offers to clear the value" do
+          expect(rendered).to have_select(with_options: ["(No change)", "none"])
+        end
+
+        context "when required" do
+          before { custom_field.update!(is_required: true) }
+
+          it "offers no way to clear it" do
+            expect(rendered).to have_no_select(with_options: ["none"])
+          end
+        end
+      end
+
+      context "when it may nest but holds no nested items" do
+        let(:custom_field) { create(:wp_custom_field, :hierarchy, possible_values: ["Design / UX"]) }
+
+        it_behaves_like "a bulk-clearable list"
+
+        it "lists its items by their label" do
+          expect(rendered).to have_select(with_options: ["Design / UX"])
+        end
+      end
+
+      context "when it holds nested items", with_ee: %i[custom_field_hierarchies] do
+        let(:custom_field) do
+          create(:wp_custom_field, :hierarchy, possible_values: ["Laptop"]).tap do |field|
+            CustomFields::Hierarchy::HierarchicalItemService.new
+              .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                           parent: field.possible_values.first, label: "MacBook")
+          end
+        end
+
+        it_behaves_like "a bulk-clearable list"
+      end
+    end
   end
 end
