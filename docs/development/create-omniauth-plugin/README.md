@@ -134,7 +134,6 @@ If you haven’t published it as a gem yet you can also use a local copy:
 ```
 
 Also don’t forget to include the `openproject-auth_plugins` as a dependency in your plugin’s gem specification (`openproject-my_auth_plugin.gemspec`).
-The `openproject-auth_plugins` plugin ships with OpenProject (see `modules/auth_plugins`), so do not add it to `Gemfile.plugins` yourself.
 
 ### Profit
 
