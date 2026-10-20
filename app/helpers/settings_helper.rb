@@ -64,13 +64,6 @@ module SettingsHelper
       end
   end
 
-  def settings_matrix(settings, choices, options = {})
-    content_tag(:table, class: "form--matrix") do
-      content_tag(:thead, build_settings_matrix_head(settings, options)) +
-        content_tag(:tbody, build_settings_matrix_body(settings, choices))
-    end
-  end
-
   def setting_text_field(setting, options = {})
     setting_field_wrapper(setting, options) do
       styled_text_field_tag("settings[#{setting}]",
@@ -186,52 +179,6 @@ module SettingsHelper
     else
       content_tag(:span, class: "form--field-container", &)
     end
-  end
-
-  def build_settings_matrix_head(settings, options = {})
-    content_tag(:tr, class: "form--matrix-header-row") do
-      content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
-                  class: "form--matrix-header-cell") + build_settings_matrix_head_values(settings)
-    end
-  end
-
-  def build_settings_matrix_head_values(settings)
-    values = settings.map do |setting|
-      content_tag(:th, class: "form--matrix-header-cell") do
-        hidden_field_tag("settings[#{setting}][]", "") +
-          I18n.t("setting_#{setting}")
-      end
-    end
-
-    safe_join(values)
-  end
-
-  def build_settings_matrix_body(settings, choices)
-    body = choices.map do |choice|
-      value = choice[:value]
-      caption = choice[:caption] || value.to_s
-      exceptions = Array(choice[:except]).compact
-      content_tag(:tr, class: "form--matrix-row") do
-        content_tag(:td, caption, class: "form--matrix-cell") +
-          settings_matrix_tds(settings, exceptions, value)
-      end
-    end
-
-    safe_join(body)
-  end
-
-  def settings_matrix_tds(settings, exceptions, value)
-    tds = settings.map do |setting|
-      content_tag(:td, class: "form--matrix-checkbox-cell") do
-        unless exceptions.include?(setting)
-          styled_check_box_tag("settings[#{setting}][]", value,
-                               Setting.send(setting).include?(value),
-                               disabled_setting_option(setting).merge(id: "#{setting}_#{value}"))
-        end
-      end
-    end
-
-    safe_join(tds)
   end
 
   def setting_multiselect_choice(setting, choice, options) # rubocop:disable Metrics/AbcSize
