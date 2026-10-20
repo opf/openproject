@@ -261,9 +261,9 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * @param defaults Values the new work package should possess on creation.
    */
   protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<WorkPackageChangeset> {
-    // A fresh work package must never inherit attachments left in the 'new'
-    // collection by a previously created (or stale) work package.
-    this.attachmentsService.clear('new');
+    // A fresh work package must never inherit state (attachments, cached
+    // resource, form) left over from a previous or abandoned new work package.
+    this.reset();
 
     return this
       .withFiltersPayload(projectIdentifier, defaults)
