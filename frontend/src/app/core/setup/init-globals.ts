@@ -26,6 +26,11 @@
 //++
 
 import 'hammerjs';
+import { getMetaElement } from './globals/global-helpers';
+
+// Sets the relative base path (RAILS_RELATIVE_URL_ROOT) here rather than in main.ts, as main.ts imports
+// the Stimulus and Turbo setup before running its own code, and their elements may already use it then.
+window.appBasePath = getMetaElement('app_base_path')?.content ?? '';
 
 // Global scripts previously part of the application.js
 // Avoid require.context since that crashes angular regularly

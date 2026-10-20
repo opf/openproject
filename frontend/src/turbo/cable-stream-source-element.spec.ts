@@ -163,6 +163,15 @@ describe('turbo-cable-stream-source', () => {
     expect(FakeEventSource.instances).toHaveLength(1);
   });
 
+  it('connects to /events below the relative URL root', () => {
+    vi.stubGlobal('appBasePath', '/op');
+    sessionStorage.setItem(TRANSPORT_STORAGE_KEY, 'sse');
+
+    attach();
+
+    expect(FakeEventSource.instances[0].url).toBe(`/op${sseUrl}`);
+  });
+
   it('does not fall back when the server refuses the connection', () => {
     attach();
     mixin().disconnected?.({ willAttemptReconnect: false });

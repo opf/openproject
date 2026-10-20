@@ -46,9 +46,6 @@ import { platformBrowser } from '@angular/platform-browser';
 // based on the RAILS_RELATIVE_URL_ROOT setting
 const ASSET_BASE_PATH = '/assets/frontend/';
 
-// Sets the relative base path
-window.appBasePath = getMetaElement('app_base_path')?.content || '';
-
 // Get the asset host, if any
 const initializer = getMetaElement('openproject_initializer');
 const ASSET_HOST = initializer?.dataset.assetHost ? `//${initializer.dataset.assetHost}` : '';
