@@ -76,7 +76,7 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
     end
 
     it "formats the earliest allowed date according to user preference" do
-      user.pref[:date_format] = "%d.%m.%Y"
+      user.pref.date_format = "%d.%m.%Y"
 
       call = log_time(first_day_of_last_month)
 

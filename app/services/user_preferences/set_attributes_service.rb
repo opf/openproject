@@ -29,16 +29,38 @@
 
 module UserPreferences
   class SetAttributesService < ::BaseServices::SetAttributes
+    SETTABLE_PREFERENCES = %w[
+      time_zone
+      date_format
+      time_format
+      avatar_color
+      avatar_text
+      avatar_type
+      theme
+      increase_theme_contrast
+      force_light_theme_contrast
+      force_dark_theme_contrast
+      disable_keyboard_shortcuts
+      require_double_click_for_inline_edit
+      warn_on_leaving_unsaved
+      comments_sorting
+      auto_hide_popups
+      diff_type
+      my_work_view_mode
+      my_work_mode
+      workdays
+      daily_reminders_enabled
+      daily_reminders_times
+      immediate_reminders_mentioned
+      immediate_reminders_personal_reminder
+      pause_reminders_enabled
+      pause_reminders_first_day
+      pause_reminders_last_day
+      pause_reminders_date_range
+    ].freeze
+
     def set_attributes(params)
-      params.each do |k, v|
-        model[k] = v if model.supported_settings_method?(k)
-      end
-    end
-
-    private
-
-    def set_boolean_value(key, value)
-      model[key] = ActiveRecord::Type::Boolean.new.cast(value)
+      model.assign_attributes(params.to_h.stringify_keys.slice(*SETTABLE_PREFERENCES))
     end
   end
 end

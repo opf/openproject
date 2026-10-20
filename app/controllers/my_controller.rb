@@ -190,8 +190,8 @@ class MyController < ApplicationController
 
   def user_params
     # The Users::UpdateService updates the user's pref using the UserPreferences::UpdateService
-    # which has a contract/schema applied to the values which is why it is ok
-    # to blindly allow all scalar values in pref.
+    # which only assigns UserPreferences::SetAttributesService::SETTABLE_PREFERENCES
+    # and validates their values, which is why it is ok to blindly allow all scalar values in pref.
     attributes = permitted_params.user.to_h.merge(params.permit(pref: {}))
     drop_non_editable_custom_field_values(attributes)
   end
@@ -255,9 +255,5 @@ class MyController < ApplicationController
 
   def set_current_user
     @user = current_user
-  end
-
-  def get_current_layout
-    @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   end
 end

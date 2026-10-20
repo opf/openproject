@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   settings_primer_form_with(
     model: @user.pref,
-    scope: "pref[immediate_reminders]",
+    scope: :pref,
     url: update_url,
     method: :patch,
     data: { turbo: false, test_selector: "immediate-reminders-form" }
@@ -40,8 +40,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   settings_primer_form_with(
-    model: daily_reminders_form_model,
-    scope: "pref[daily_reminders]",
+    model: @user.pref,
+    scope: :pref,
     url: update_url,
     method: :patch,
     data: {
@@ -69,8 +69,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   settings_primer_form_with(
-    model: pause_reminders_form_model,
-    scope: "pref[pause_reminders]",
+    model: @user.pref,
+    scope: :pref,
     url: update_url,
     method: :patch,
     data: {

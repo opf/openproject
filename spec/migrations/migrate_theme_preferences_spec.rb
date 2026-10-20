@@ -35,21 +35,18 @@ RSpec.describe MigrateThemePreferences, type: :model do
 
   describe "up migration" do
     it "converts light_high_contrast to new structure without corrupting other settings" do
-      user.pref.update(settings: {
-                         "theme" => "light_high_contrast",
-                         "comments_sorting" => "desc",
-                         "time_zone" => "UTC"
-                       })
+      user.pref.assign_attributes(theme: "light_high_contrast", comments_sorting: "desc", time_zone: "UTC")
+      user.pref.save(validate: false)
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
       user.pref.reload
-      expect(user.pref.settings["theme"]).to eq("light")
-      expect(user.pref.settings["increase_theme_contrast"]).to be(true)
+      expect(user.pref.theme).to eq("light")
+      expect(user.pref.increase_theme_contrast).to be(true)
 
       # Verify other settings remain intact
-      expect(user.pref.settings["comments_sorting"]).to eq("desc")
-      expect(user.pref.settings["time_zone"]).to eq("UTC")
+      expect(user.pref.comments_sorting).to eq("desc")
+      expect(user.pref.time_zone).to eq("UTC")
 
       # Verify model methods work correctly for unset auto-contrast settings
       expect(user.pref).not_to be_force_light_theme_contrast
@@ -57,24 +54,25 @@ RSpec.describe MigrateThemePreferences, type: :model do
     end
 
     it "converts dark_high_contrast to new structure" do
-      user.pref.update(settings: { "theme" => "dark_high_contrast" })
+      user.pref.theme = "dark_high_contrast"
+      user.pref.save(validate: false)
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
       user.pref.reload
-      expect(user.pref.settings["theme"]).to eq("dark")
-      expect(user.pref.settings["increase_theme_contrast"]).to be(true)
+      expect(user.pref.theme).to eq("dark")
+      expect(user.pref.increase_theme_contrast).to be(true)
     end
 
     it "leaves existing themes unchanged" do
-      user.pref.update(settings: { "theme" => "light", "comments_sorting" => "asc" })
+      user.pref.update!(theme: "light", comments_sorting: "asc")
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
       user.pref.reload
-      expect(user.pref.settings["theme"]).to eq("light")
-      expect(user.pref.settings["comments_sorting"]).to eq("asc")
-      expect(user.pref.settings).not_to have_key("increase_theme_contrast")
+      expect(user.pref.theme).to eq("light")
+      expect(user.pref.comments_sorting).to eq("asc")
+      expect(user.pref.increase_theme_contrast).to be_nil
 
       # Verify model methods work correctly for unset settings
       expect(user.pref).not_to be_increase_theme_contrast
@@ -83,33 +81,26 @@ RSpec.describe MigrateThemePreferences, type: :model do
 
   describe "down migration" do
     it "reverts light theme with contrast back to light_high_contrast" do
-      user.pref.update(settings: {
-                         "theme" => "light",
-                         "increase_theme_contrast" => true,
-                         "comments_sorting" => "asc"
-                       })
+      user.pref.update!(theme: "light", increase_theme_contrast: true, comments_sorting: "asc")
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
       user.pref.reload
-      expect(user.pref.settings["theme"]).to eq("light_high_contrast")
-      expect(user.pref.settings).not_to have_key("increase_theme_contrast")
+      expect(user.pref.theme).to eq("light_high_contrast")
+      expect(user.pref.increase_theme_contrast).to be_nil
 
       # Verify other settings remain intact
-      expect(user.pref.settings["comments_sorting"]).to eq("asc")
+      expect(user.pref.comments_sorting).to eq("asc")
     end
 
     it "leaves themes without contrast unchanged" do
-      user.pref.update(settings: {
-                         "theme" => "sync_with_os",
-                         "disable_keyboard_shortcuts" => true
-                       })
+      user.pref.update!(theme: "sync_with_os", disable_keyboard_shortcuts: true)
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
       user.pref.reload
-      expect(user.pref.settings["theme"]).to eq("sync_with_os")
-      expect(user.pref.settings["disable_keyboard_shortcuts"]).to be(true)
+      expect(user.pref.theme).to eq("sync_with_os")
+      expect(user.pref.disable_keyboard_shortcuts).to be(true)
     end
   end
 end

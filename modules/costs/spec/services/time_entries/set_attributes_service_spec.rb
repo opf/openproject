@@ -159,7 +159,7 @@ RSpec.describe TimeEntries::SetAttributesService, type: :model do
 
   context "with a user with a defined timezone" do
     it "extracts the current timezone from the user and stores it in the time entry" do
-      user.pref[:time_zone] = "America/Los_Angeles"
+      user.pref.time_zone = "America/Los_Angeles"
       subject
 
       expect(time_entry_instance.time_zone).to eq "America/Los_Angeles"
@@ -179,7 +179,7 @@ RSpec.describe TimeEntries::SetAttributesService, type: :model do
     end
 
     before do
-      user.pref[:time_zone] = "America/Los_Angeles"
+      user.pref.time_zone = "America/Los_Angeles"
     end
 
     context "when start_time is allowed" do

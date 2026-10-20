@@ -61,7 +61,7 @@ RSpec.describe "new work package", :js do
   let(:toaster) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
-    create(:user_preference, user:, others: { warn_on_leaving_unsaved: false })
+    create(:user_preference, user:, warn_on_leaving_unsaved: false)
   end
 
   def save_work_package!(expect_success = true)

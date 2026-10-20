@@ -995,7 +995,7 @@ RSpec.describe User do
       it "returns the new format after a reload" do
         expect(user.date_format).to eql ""
 
-        user.pref.update!(settings: { "date_format" => "%d-%m-%Y" })
+        user.pref.update!(date_format: "%d-%m-%Y")
 
         expect(user.date_format).to eql ""
 
@@ -1031,11 +1031,11 @@ RSpec.describe User do
       it "returns the new format after a reload" do
         expect(user.time_format).to eql ""
 
-        user.pref.update!(settings: { "time_format" => "%H×%M" })
+        user.pref.update!(time_format: "%I:%M %p")
 
         expect(user.time_format).to eql ""
 
-        expect(user.reload.time_format).to eql "%H×%M"
+        expect(user.reload.time_format).to eql "%I:%M %p"
       end
     end
 

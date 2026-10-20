@@ -41,7 +41,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
   end
 
   before do
-    create(:user_preference, user:, others: { comments_sorting: sorting })
+    create(:user_preference, user:, comments_sorting: sorting)
     login_as(user)
 
     allow(journal).to receive(:details).and_return(details)

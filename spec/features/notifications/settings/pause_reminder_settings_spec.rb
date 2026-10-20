@@ -58,9 +58,9 @@ RSpec.describe "Pause reminder settings", :js do
                                             last:)
 
       pref.reload
-      expect(pref.pause_reminders[:enabled]).to be true
-      expect(pref.pause_reminders[:first_day]).to eq first.iso8601
-      expect(pref.pause_reminders[:last_day]).to eq last.iso8601
+      expect(pref.pause_reminders_enabled).to be true
+      expect(pref.pause_reminders_first_day).to eq first
+      expect(pref.pause_reminders_last_day).to eq last
     end
   end
 

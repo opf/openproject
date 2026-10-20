@@ -41,7 +41,7 @@ RSpec.describe "Meetings deletion",
     create(:user,
            lastname: "First",
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings] }).tap do |u|
-      u.pref[:time_zone] = "Etc/UTC"
+      u.pref.time_zone = "Etc/UTC"
 
       u.save!
     end

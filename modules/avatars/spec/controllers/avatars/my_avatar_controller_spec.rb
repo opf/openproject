@@ -57,7 +57,7 @@ RSpec.describe Avatars::MyAvatarController do
     end
 
     it "uses default initials without an override" do
-      current_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "OP" })
+      current_user.pref.update!(avatar_type: "initials", avatar_text: "OP")
       patch :update_settings, params: { avatar_type: "initials", avatar_text: " " }
 
       expect(flash[:notice]).to be_present

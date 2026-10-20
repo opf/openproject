@@ -39,11 +39,11 @@ RSpec.describe "Immediate reminder settings", :js do
       reminders_settings_page.visit!
 
       # By default the immediate reminder is checked
-      expect(pref.immediate_reminders[:mentioned]).to be(true)
+      expect(pref.immediate_reminders_mentioned).to be(true)
       reminders_settings_page.expect_immediate_reminder "mentioned", true
 
       # By default the personal reminder is checked
-      expect(pref.immediate_reminders[:personal_reminder]).to be(true)
+      expect(pref.immediate_reminders_personal_reminder).to be(true)
       reminders_settings_page.expect_immediate_reminder "personal_reminder", true
 
       reminders_settings_page.set_immediate_reminder "mentioned", false
@@ -58,8 +58,8 @@ RSpec.describe "Immediate reminder settings", :js do
       reminders_settings_page.expect_immediate_reminder "mentioned", false
       reminders_settings_page.expect_immediate_reminder "personal_reminder", false
 
-      expect(pref.reload.immediate_reminders[:mentioned]).to be(false)
-      expect(pref.reload.immediate_reminders[:personal_reminder]).to be(false)
+      expect(pref.reload.immediate_reminders_mentioned).to be(false)
+      expect(pref.reload.immediate_reminders_personal_reminder).to be(false)
     end
   end
 
@@ -93,11 +93,7 @@ RSpec.describe "Immediate reminder settings", :js do
     let(:receiver) do
       create(
         :user,
-        preferences: {
-          immediate_reminders: {
-            mentioned: true
-          }
-        },
+        preferences: { immediate_reminders_mentioned: true },
         notification_settings: [
           build(:notification_setting,
                 mentioned: true)

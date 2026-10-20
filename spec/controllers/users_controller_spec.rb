@@ -925,7 +925,7 @@ RSpec.describe UsersController do
         expect(some_user_from_db.firstname).to eq("Changed")
         expect(some_user_from_db.login).to eq("changed_login")
         expect(some_user_from_db.force_password_change).to be(true)
-        expect(some_user_from_db.pref[:comments_sorting]).to eq("desc")
+        expect(some_user_from_db.pref.comments_sorting).to eq("desc")
       end
 
       it "sends no mail" do

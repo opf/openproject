@@ -30,7 +30,7 @@ To configure the email reminders which you receive from the system, switch to th
 
 You can choose between several email reminders.
 
-Default: Enable daily email reminders: 2am, Monday - Friday.
+Default: Enable daily email reminders: 8am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 

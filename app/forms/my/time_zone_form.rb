@@ -45,7 +45,7 @@ class My::TimeZoneForm < ApplicationForm
   private
 
   def available_time_zones
-    @available_time_zones ||= UserPreferences::UpdateContract
+    @available_time_zones ||= UserPreference
       .assignable_time_zones
       .group_by { it.tzinfo.canonical_zone }
       .map { |canonical_zone, included_zones| build_time_zone_entry(canonical_zone, included_zones) }

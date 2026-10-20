@@ -37,7 +37,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
     build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:preference)
-        .and_return(build_stubbed(:user_preference, settings: preferences))
+        .and_return(build_stubbed(:user_preference, **preferences))
     end
   end
   let(:preferences) { {} }

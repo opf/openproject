@@ -48,9 +48,7 @@ FactoryBot.define do
     first_login { false if User.table_exists? and User.columns.map(&:name).include? "first_login" }
 
     callback(:after_build) do |user, evaluator|
-      evaluator.preferences&.each do |key, val|
-        user.pref[key] = val
-      end
+      user.pref.assign_attributes(evaluator.preferences) if evaluator.preferences.present?
     end
 
     callback(:after_create) do |user, factory|
@@ -73,7 +71,7 @@ FactoryBot.define do
         # The assign_attributes workaround is required, because assigning user.preference will trigger
         # creating a new database record, which raises an error in the build_stubbed context
         user.pref.assign_attributes(
-          build_stubbed(:user_preference, user:, settings: evaluator.preferences).attributes
+          build_stubbed(:user_preference, user:, **evaluator.preferences).attributes
         )
       end
     end

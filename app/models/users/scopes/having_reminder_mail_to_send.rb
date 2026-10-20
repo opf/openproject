@@ -87,8 +87,8 @@ module Users::Scopes
         # If no time zone is present or if it is blank, the configured default
         # time zone or UTC is assumed.
         #
-        # If no reminder settings are present, sending a reminder at 08:00 local
-        # time is assumed.
+        # Reminder settings that are not present fall back to the UserPreference defaults:
+        # daily reminders enabled at 08:00 local time and reminders not paused.
         #
         # If no workdays are specified, 1 - 5 is assumed which represents Monday
         # to Friday.
@@ -97,6 +97,7 @@ module Users::Scopes
                       .as("t(today_local, hours, zone, workday)")
 
         default_timezone = Arel::Nodes::build_quoted(Setting.user_default_timezone.presence)
+        default_times = Arel::Nodes::build_quoted(UserPreference::DEFAULT_DAILY_REMINDERS_TIMES.to_json)
 
         <<~SQL.squish
           JOIN (SELECT * FROM #{times_sql.to_sql}) AS local_times
@@ -108,31 +109,13 @@ module Users::Scopes
               AND local_times.workday BETWEEN 1 AND 5
             )
           )
+          AND COALESCE((user_preferences.settings->>'daily_reminders_enabled')::boolean, true)
+          AND COALESCE(user_preferences.settings->'daily_reminders_times', #{default_times.to_sql}::jsonb) ? local_times.hours
           AND (
-            (
-              user_preferences.settings->'daily_reminders'->'times' IS NULL
-              AND local_times.hours = '08:00:00+00:00'
-            )
-            OR
-            (
-              (user_preferences.settings->'daily_reminders'->>'enabled')::boolean
-              AND user_preferences.settings->'daily_reminders'->'times' ? local_times.hours
-            )
-          )
-          AND (
-            (
-              user_preferences.settings->'pause_reminders' IS NULL
-              OR (user_preferences.settings->'pause_reminders'->>'enabled')::boolean = false
-            )
-            OR
-            (
-              (user_preferences.settings->'pause_reminders'->>'enabled')::boolean
-              AND (
-               local_times.today_local::date
-               NOT BETWEEN (user_preferences.settings->'pause_reminders'->>'first_day')::date
-               AND (user_preferences.settings->'pause_reminders'->>'last_day')::date
-              )
-            )
+            NOT COALESCE((user_preferences.settings->>'pause_reminders_enabled')::boolean, false)
+            OR local_times.today_local::date
+               NOT BETWEEN (user_preferences.settings->>'pause_reminders_first_day')::date
+               AND (user_preferences.settings->>'pause_reminders_last_day')::date
           )
         SQL
       end
@@ -144,7 +127,7 @@ module Users::Scopes
       end
 
       def times_for_zones(times)
-        UserPreferences::UpdateContract
+        UserPreference
           .assignable_time_zones
           .flat_map { |zone| build_local_times(times, zone) }
           .compact

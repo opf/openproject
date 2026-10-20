@@ -397,7 +397,7 @@ RSpec.describe Notifications::CreateFromModelService, "message", with_settings: 
       end
 
       context "when the recipient opted out of immediate mention emails" do
-        before { recipient.pref.update!(immediate_reminders: { mentioned: false }) }
+        before { recipient.pref.update!(immediate_reminders_mentioned: false) }
 
         # Forums have no notification center or digest to defer the mention to.
         it_behaves_like "creates notification" do

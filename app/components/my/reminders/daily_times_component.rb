@@ -40,7 +40,7 @@ module My
       end
 
       def field_name
-        "#{@scope}[times][]"
+        "#{@scope}[daily_reminders_times][]"
       end
 
       def time_options

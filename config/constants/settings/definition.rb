@@ -1430,9 +1430,7 @@ module Settings
       user_default_theme: {
         default: "light",
         format: :string,
-        allowed: -> do
-          UserPreferences::Schema.schema.dig("definitions", "UserPreferences", "properties", "theme", "enum")
-        end
+        allowed: -> { UserPreference::THEMES.map(&:to_s) }
       },
       users_deletable_by_self: {
         default: false

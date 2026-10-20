@@ -36,11 +36,7 @@ RSpec.describe Notifications::MailService, type: :model do
 
   let(:recipient) do
     build_stubbed(:user,
-                  preferences: {
-                    immediate_reminders: {
-                      mentioned: immediate_reminders_mentioned
-                    }
-                  })
+                  preferences: { immediate_reminders_mentioned: })
   end
   let(:actor) do
     build_stubbed(:user)

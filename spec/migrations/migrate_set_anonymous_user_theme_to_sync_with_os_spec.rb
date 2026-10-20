@@ -35,48 +35,48 @@ RSpec.describe SetAnonymousUserThemeToSyncWithOs, type: :model do
 
   before do
     # Ensure the anonymous user has a preference entry
-    anonymous_user.pref.update(settings: { "theme" => "light" })
+    anonymous_user.pref.update!(theme: "light")
   end
 
   describe "up migration" do
     it "sets the anonymous user theme to sync_with_os" do
-      expect(anonymous_user.pref.settings["theme"]).to eq("light")
+      expect(anonymous_user.pref.theme).to eq("light")
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
       anonymous_user.pref.reload
-      expect(anonymous_user.pref.settings["theme"]).to eq("sync_with_os")
+      expect(anonymous_user.pref.theme).to eq("sync_with_os")
     end
 
     it "does not affect other users" do
       other_user = create(:user)
-      other_user.pref.update(settings: { "theme" => "dark" })
+      other_user.pref.update!(theme: "dark")
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
 
       other_user.pref.reload
-      expect(other_user.pref.settings["theme"]).to eq("dark")
+      expect(other_user.pref.theme).to eq("dark")
     end
   end
 
   describe "down migration" do
     it "reverts the anonymous user theme back to light" do
-      anonymous_user.pref.update(settings: { "theme" => "sync_with_os" })
+      anonymous_user.pref.update!(theme: "sync_with_os")
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
       anonymous_user.pref.reload
-      expect(anonymous_user.pref.settings["theme"]).to eq("light")
+      expect(anonymous_user.pref.theme).to eq("light")
     end
 
     it "does not modify other user preferences" do
       other_user = create(:user)
-      other_user.pref.update(settings: { "theme" => "dark" })
+      other_user.pref.update!(theme: "dark")
 
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
 
       other_user.pref.reload
-      expect(other_user.pref.settings["theme"]).to eq("dark")
+      expect(other_user.pref.theme).to eq("dark")
     end
   end
 end

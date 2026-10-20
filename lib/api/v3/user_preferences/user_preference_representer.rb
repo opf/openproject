@@ -32,6 +32,8 @@ module API
   module V3
     module UserPreferences
       class UserPreferenceRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
+
         link :self do
           {
             href: api_v3_paths.user_preferences(represented.user.id)
@@ -72,38 +74,63 @@ module API
                  as: :commentSortDescending
         property :auto_hide_popups
 
-        # Also accept times in the format of HH:MM which are also valid according to ISO8601
-        # and have those as the only times in the resource.
+        property :daily_reminders_enabled
+
+        property :daily_reminders_times,
+                 exec_context: :decorator,
+                 getter: ->(*) { render_reminder_times(represented.daily_reminders_times) },
+                 setter: ->(fragment:, **) { represented.daily_reminders_times = parse_reminder_times(fragment) }
+
+        property :immediate_reminders_mentioned
+
+        property :immediate_reminders_personal_reminder
+
+        property :pause_reminders_enabled
+
+        date_property :pause_reminders_first_day
+
+        date_property :pause_reminders_last_day
+
+        # Deprecated in favour of the flat reminder properties above, kept for API compatibility.
         property :daily_reminders,
+                 exec_context: :decorator,
                  getter: ->(*) do
-                   reminders = daily_reminders.dup
-                   reminders["times"].map! { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') } if reminders
-                   reminders
+                   {
+                     "enabled" => represented.daily_reminders_enabled,
+                     "times" => render_reminder_times(represented.daily_reminders_times)
+                   }
                  end,
                  setter: ->(fragment:, **) do
-                   self.daily_reminders = fragment
-
-                   daily_reminders["times"].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
+                   represented.daily_reminders_enabled = fragment["enabled"]
+                   represented.daily_reminders_times = parse_reminder_times(fragment["times"])
                  end
 
         property :immediate_reminders,
                  getter: ->(*) do
-                   immediate_reminders.transform_keys { |k| k.camelize(:lower) }
+                   {
+                     "mentioned" => immediate_reminders_mentioned,
+                     "personalReminder" => immediate_reminders_personal_reminder
+                   }
                  end,
                  setter: ->(fragment:, **) do
-                   self.immediate_reminders = fragment.transform_keys(&:underscore)
+                   self.immediate_reminders_mentioned = fragment["mentioned"] if fragment.key?("mentioned")
+                   if fragment.key?("personalReminder")
+                     self.immediate_reminders_personal_reminder = fragment["personalReminder"]
+                   end
                  end
 
         property :pause_reminders,
                  getter: ->(*) do
-                   pause_reminders.transform_keys { |k| k.camelize(:lower) }
+                   {
+                     "enabled" => pause_reminders_enabled,
+                     "firstDay" => pause_reminders_first_day&.iso8601,
+                     "lastDay" => pause_reminders_last_day&.iso8601
+                   }.compact
                  end,
                  setter: ->(fragment:, **) do
-                   self.pause_reminders = fragment.transform_keys(&:underscore)
-
-                   if pause_reminders["last_day"].blank? && pause_reminders["first_day"]
-                     pause_reminders["last_day"] = pause_reminders["first_day"]
-                   end
+                   self.pause_reminders_enabled = fragment["enabled"]
+                   self.pause_reminders_first_day = fragment["firstDay"]
+                   self.pause_reminders_last_day = fragment["lastDay"].presence || fragment["firstDay"]
                  end
 
         property :workdays
@@ -127,6 +154,15 @@ module API
 
         def _type
           "UserPreferences"
+        end
+
+        # Times are rendered as HH:MM, which is valid ISO8601, and accepted in both formats.
+        def render_reminder_times(times)
+          times.map { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') }
+        end
+
+        def parse_reminder_times(times)
+          Array(times).map { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
         end
       end
     end

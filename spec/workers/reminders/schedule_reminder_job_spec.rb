@@ -108,7 +108,7 @@ RSpec.describe Reminders::ScheduleReminderJob do
     context "when the recipient has immediate reminders disabled" do
       before do
         recipient = reminder.creator
-        recipient.pref.immediate_reminders = { personal_reminder: false }
+        recipient.pref.immediate_reminders_personal_reminder = false
         recipient.pref.save
       end
 

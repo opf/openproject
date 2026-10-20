@@ -117,7 +117,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       let(:local_avatars) { true }
       let(:setup) do
         other_user.attachments = [build(:avatar_attachment, author: other_user)]
-        other_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "🚀" })
+        other_user.pref.update!(avatar_type: "initials", avatar_text: "🚀")
       end
 
       it "renders the override instead of the uploaded image or Gravatar" do
@@ -132,7 +132,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       let(:local_avatars) { true }
       let(:setup) do
         other_user.attachments = [build(:avatar_attachment, author: other_user)]
-        other_user.pref.update!(settings: { avatar_type: "initials", avatar_text: "🚀" })
+        other_user.pref.update!(avatar_type: "initials", avatar_text: "🚀")
       end
 
       it "renders the selected emoji" do
@@ -145,7 +145,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
     context "with custom avatar text" do
       let(:gravatars) { true }
       let(:local_avatars) { true }
-      let(:setup) { other_user.pref.update!(settings: { avatar_text: "👩🏽‍💻", avatar_color: "#AABBCC" }) }
+      let(:setup) { other_user.pref.update!(avatar_text: "👩🏽‍💻", avatar_color: "#AABBCC") }
 
       it "renders the chosen text and color instead of redirecting to Gravatar" do
         expect(response).to have_http_status :ok
@@ -171,7 +171,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       it_behaves_like "cache headers set to 24 hours"
 
       context "with an explicit choice of image" do
-        let(:setup) { other_user.pref.update!(settings: { avatar_type: "image" }) }
+        let(:setup) { other_user.pref.update!(avatar_type: "image") }
 
         it "serves the uploaded image" do
           expect(response).to have_http_status :ok
@@ -180,7 +180,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       end
 
       context "with custom avatar text" do
-        let(:setup) { other_user.pref.update!(settings: { avatar_text: "🚀" }) }
+        let(:setup) { other_user.pref.update!(avatar_text: "🚀") }
 
         it "keeps the uploaded image as the avatar" do
           expect(response).to have_http_status :ok
@@ -213,7 +213,7 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
     let(:other_user) do
       create(:user).tap do |user|
         user.attachments = [build(:avatar_attachment, author: user)]
-        user.pref.update!(settings: { avatar_type: "initials" })
+        user.pref.update!(avatar_type: "initials")
       end
     end
 

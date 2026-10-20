@@ -169,7 +169,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
 
   context "when user does not want to be warned" do
     before do
-      create(:user_preference, user:, others: { warn_on_leaving_unsaved: false })
+      create(:user_preference, user:, warn_on_leaving_unsaved: false)
     end
 
     it "does alert when moving to a new page" do

@@ -39,12 +39,8 @@ RSpec.describe "API v3 UserPreferences resource", content_type: :json do
   let(:user) { create(:user, preference:) }
   let(:preference) do
     create(:user_preference,
-           settings: {
-             daily_reminders: {
-               enabled: false,
-               times: %w[07:00:00+00:00 15:00:00+00:00]
-             }
-           })
+           daily_reminders_enabled: false,
+           daily_reminders_times: %w[07:00:00+00:00 15:00:00+00:00])
   end
   let(:preference_path) { api_v3_paths.user_preferences(user.id) }
 
@@ -113,9 +109,24 @@ RSpec.describe "API v3 UserPreferences resource", content_type: :json do
           .to eq(200)
       end
 
-      it "updates the time zone" do
-        expect(preference.daily_reminders)
-          .to eql("enabled" => true, "times" => %w[08:00:00+00:00 18:00:00+00:00])
+      it "updates the reminder settings" do
+        expect(preference.daily_reminders_enabled).to be(true)
+        expect(preference.daily_reminders_times).to eql(%w[08:00:00+00:00 18:00:00+00:00])
+      end
+    end
+
+    context "when updating the email_reminder settings via the flat properties" do
+      let(:params) do
+        {
+          dailyRemindersEnabled: true,
+          dailyRemindersTimes: %w[08:00 18:00]
+        }
+      end
+
+      it "updates the reminder settings" do
+        expect(subject.status).to eq(200)
+        expect(preference.daily_reminders_enabled).to be(true)
+        expect(preference.daily_reminders_times).to eql(%w[08:00:00+00:00 18:00:00+00:00])
       end
     end
 
@@ -133,25 +144,17 @@ RSpec.describe "API v3 UserPreferences resource", content_type: :json do
         expect(subject.status).to eq(422)
 
         expect(subject.body)
-          .to be_json_eql("Daily reminders does not match the expected format 'time' at path 'times/0'.".to_json)
-                .at_path("_embedded/errors/0/message")
-
-        expect(subject.body)
-          .to be_json_eql("dailyReminders".to_json)
-                .at_path("_embedded/errors/0/_embedded/details/attribute")
-
-        expect(subject.body)
           .to be_json_eql("Daily reminders can only be configured to be delivered at a full hour.".to_json)
-                .at_path("_embedded/errors/1/message")
+                .at_path("message")
 
         expect(subject.body)
           .to be_json_eql("dailyReminders".to_json)
-                .at_path("_embedded/errors/1/_embedded/details/attribute")
+                .at_path("_embedded/details/attribute")
       end
 
       it "keeps the previous values" do
-        expect(preference.daily_reminders)
-          .to eql("enabled" => false, "times" => %w[07:00:00+00:00 15:00:00+00:00])
+        expect(preference.daily_reminders_enabled).to be(false)
+        expect(preference.daily_reminders_times).to eql(%w[07:00:00+00:00 15:00:00+00:00])
       end
     end
 

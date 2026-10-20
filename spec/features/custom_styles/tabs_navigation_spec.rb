@@ -201,7 +201,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
             Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
           )
         )
-        admin.pref.update!(settings: admin.pref.settings.merge("theme" => "light"))
+        admin.pref.update!(theme: "light")
         visit custom_style_path
       end
 
@@ -210,7 +210,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       it "shows the mobile logos only in dark mode" do
         expect(page).to have_no_css("a.op-logo--icon", visible: :visible)
 
-        admin.pref.update!(settings: admin.pref.settings.merge("theme" => "dark"))
+        admin.pref.update!(theme: "dark")
         visit custom_style_path
 
         expect(page).to have_css("a.op-logo--icon", visible: :visible)

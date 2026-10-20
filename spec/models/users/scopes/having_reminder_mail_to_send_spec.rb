@@ -46,21 +46,21 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
       preferences: {
         time_zone: "Europe/Paris",
         workdays: paris_user_workdays,
-        pause_reminders: paris_user_pause_reminders,
-        daily_reminders: paris_user_daily_reminders
+        **paris_user_pause_reminders,
+        **paris_user_daily_reminders
       }
     )
   end
   let(:paris_user_workdays) { [1, 2, 3, 4, 5] }
   let(:paris_user_pause_reminders) do
     {
-      enabled: false
+      pause_reminders_enabled: false
     }
   end
   let(:paris_user_daily_reminders) do
     {
-      enabled: true,
-      times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time)]
+      daily_reminders_enabled: true,
+      daily_reminders_times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time)]
     }
   end
   let(:notifications) do
@@ -95,9 +95,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is matching but the reminders are paused" do
     let(:paris_user_pause_reminders) do
       {
-        enabled: true,
-        first_day: "2021-09-20",
-        last_day: "2021-10-05"
+        pause_reminders_enabled: true,
+        pause_reminders_first_day: "2021-09-20",
+        pause_reminders_last_day: "2021-10-05"
       }
     end
 
@@ -110,9 +110,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is matching but the reminders are paused until today" do
     let(:paris_user_pause_reminders) do
       {
-        enabled: true,
-        first_day: "2021-09-10",
-        last_day: "2021-09-30"
+        pause_reminders_enabled: true,
+        pause_reminders_first_day: "2021-09-10",
+        pause_reminders_last_day: "2021-09-30"
       }
     end
 
@@ -125,9 +125,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is matching and the pause reminders is expired" do
     let(:paris_user_pause_reminders) do
       {
-        enabled: true,
-        first_day: "2021-09-10",
-        last_day: "2021-09-29"
+        pause_reminders_enabled: true,
+        pause_reminders_first_day: "2021-09-10",
+        pause_reminders_last_day: "2021-09-29"
       }
     end
 
@@ -156,17 +156,15 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         preferences: {
           time_zone: "Pacific/Honolulu",
           workdays: hawaii_user_workdays,
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Pacific/Honolulu", scope_upper_boundary_time)]
-          },
-          pause_reminders: hawaii_user_pause_reminders
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Pacific/Honolulu", scope_upper_boundary_time)],
+          **hawaii_user_pause_reminders
         }
       )
     end
     let(:hawaii_user_pause_reminders) do
       {
-        enabled: false
+        pause_reminders_enabled: false
       }
     end
     let(:notifications) do
@@ -194,9 +192,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     context "with local date range for pausing that includes the boundary time" do
       let(:hawaii_user_pause_reminders) do
         {
-          enabled: true,
-          first_day: "2021-09-29",
-          last_day: "2021-09-29"
+          pause_reminders_enabled: true,
+          pause_reminders_first_day: "2021-09-29",
+          pause_reminders_last_day: "2021-09-29"
         }
       end
 
@@ -209,9 +207,9 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
     context "with local date range for pausing that excludes the boundary time" do
       let(:hawaii_user_pause_reminders) do
         {
-          enabled: true,
-          first_day: "2021-09-30",
-          last_day: "2021-09-30"
+          pause_reminders_enabled: true,
+          pause_reminders_first_day: "2021-09-30",
+          pause_reminders_last_day: "2021-09-30"
         }
       end
 
@@ -234,10 +232,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         preferences: {
           time_zone: "Pacific/Apia",
           workdays: samoa_user_workdays,
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Pacific/Apia", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Pacific/Apia", scope_upper_boundary_time)]
         }
       )
     end
@@ -271,10 +267,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         firstname: "Europe-Moscow",
         preferences: {
           time_zone: "Europe/Moscow",
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Europe/Moscow", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Europe/Moscow", scope_upper_boundary_time)]
         }
       )
     end
@@ -294,8 +288,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is matching one of the configured times" do
     let(:paris_user_daily_reminders) do
       {
-        enabled: true,
-        times: [
+        daily_reminders_enabled: true,
+        daily_reminders_times: [
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 3.hours),
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time),
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 3.hours)
@@ -312,8 +306,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user who has configured a slot between the earliest_time (in local time) and latest_time (in local time)" do
     let(:paris_user_daily_reminders) do
       {
-        enabled: true,
-        times: [
+        daily_reminders_enabled: true,
+        daily_reminders_times: [
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 2.hours),
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 3.hours)
         ]
@@ -330,8 +324,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user who has configured a slot before the earliest_time (in local time) and after latest_time (in local time)" do
     let(:paris_user_daily_reminders) do
       {
-        enabled: true,
-        times: [
+        daily_reminders_enabled: true,
+        daily_reminders_times: [
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 3.hours),
           hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 1.hour)
         ]
@@ -359,8 +353,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is matching the configured time but with the reminder being deactivated" do
     let(:paris_user_daily_reminders) do
       {
-        enabled: false,
-        times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time)]
+        daily_reminders_enabled: false,
+        daily_reminders_times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time)]
       }
     end
 
@@ -415,10 +409,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         firstname: "Asia-Kathmandu",
         preferences: {
           time_zone: "Asia/Kathmandu",
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
         }
       )
     end
@@ -445,10 +437,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         firstname: "Asia-Kathmandu",
         preferences: {
           time_zone: "Asia/Kathmandu",
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
         }
       )
     end
@@ -475,10 +465,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         firstname: "Asia-Kathmandu",
         preferences: {
           time_zone: "Asia/Kathmandu",
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Asia/Kathmandu", scope_upper_boundary_time)]
         }
       )
     end
@@ -559,8 +547,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is before the boundary time" do
     let(:paris_user_daily_reminders) do
       {
-        enabled: true,
-        times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 1.hour)]
+        daily_reminders_enabled: true,
+        daily_reminders_times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time + 1.hour)]
       }
     end
 
@@ -573,8 +561,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
   context "for a user whose local time is after the boundary time" do
     let(:paris_user_daily_reminders) do
       {
-        enabled: true,
-        times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 1.hour)]
+        daily_reminders_enabled: true,
+        daily_reminders_times: [hitting_reminder_slot_for("Europe/Paris", scope_upper_boundary_time - 1.hour)]
       }
     end
 
@@ -590,10 +578,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         :user,
         firstname: "Europe-Paris",
         preferences: {
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Etc/UTC", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Etc/UTC", scope_upper_boundary_time)]
         }
       )
     end
@@ -611,10 +597,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         firstname: "Europe-Paris",
         preferences: {
           time_zone: "",
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Etc/UTC", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Etc/UTC", scope_upper_boundary_time)]
         }
       )
     end
@@ -665,10 +649,8 @@ RSpec.describe User, ".having_reminder_mail_to_send" do
         :user,
         firstname: "Europe-Moscow",
         preferences: {
-          daily_reminders: {
-            enabled: true,
-            times: [hitting_reminder_slot_for("Europe/Moscow", scope_upper_boundary_time)]
-          }
+          daily_reminders_enabled: true,
+          daily_reminders_times: [hitting_reminder_slot_for("Europe/Moscow", scope_upper_boundary_time)]
         }
       )
     end

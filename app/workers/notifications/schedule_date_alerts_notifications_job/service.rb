@@ -47,7 +47,7 @@ class Notifications::ScheduleDateAlertsNotificationsJob::Service
   private
 
   def time_zones_covering_1am_local_time
-    UserPreferences::UpdateContract
+    UserPreference
       .assignable_time_zones
       .select { |time_zone| executing_at_1am_for_timezone?(time_zone) }
       .map { |time_zone| time_zone.tzinfo.canonical_zone.name }

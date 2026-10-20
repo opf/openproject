@@ -40,7 +40,7 @@ module Notifications
         Notification.transaction do
           # It might be decided by the callers that the notifications should not be sent after all which
           # is signaled by `nil`. This happens e.g. for work packages where users might have disabled the
-          # immediate_reminders for mentioned.
+          # immediate_reminders_mentioned.
           was_sent = yield
 
           mark_notifications_sent(notification_ids, was_sent.present? ? !!was_sent : nil)
