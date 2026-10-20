@@ -51,7 +51,10 @@ RSpec.describe SprintNeighbors do
                     start_date: 15.days.ago, finish_date: 12.days.ago)
   end
 
-  subject(:neighbors) { described_class.new(sprint:, project:) }
+  let(:permissions) { %i[view_sprints] }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+
+  subject(:neighbors) { described_class.new(sprint:, project:, user:) }
 
   context "for a sprint in the middle of the 'All sprints' order" do
     let(:sprint) { planned_sprint }
@@ -76,6 +79,16 @@ RSpec.describe SprintNeighbors do
 
     it "has no next sprint", :aggregate_failures do
       expect(neighbors.previous_sprint).to eq(recent_sprint)
+      expect(neighbors.next_sprint).to be_nil
+    end
+  end
+
+  context "for a user without permission to view the project's sprints" do
+    let(:sprint) { planned_sprint }
+    let(:permissions) { %i[view_work_packages] }
+
+    it "has no neighbors", :aggregate_failures do
+      expect(neighbors.previous_sprint).to be_nil
       expect(neighbors.next_sprint).to be_nil
     end
   end
