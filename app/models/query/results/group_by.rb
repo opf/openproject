@@ -49,7 +49,6 @@ module ::Query::Results::GroupBy
     restrict_to_filter_matches(work_packages_with_includes_for_count)
       .joins(query.group_by_join_statement)
       .group(group_by_for_count)
-      .visible
       .order(order_for_count)
       .pluck(*pluck_for_count)
       .to_h
@@ -57,9 +56,9 @@ module ::Query::Results::GroupBy
 
   def restrict_to_filter_matches(scope)
     if query.historic?
-      scope.where(id: filtered_work_packages.at_timestamp(query.timestamps))
+      scope.where(id: filtered_work_packages.visible.at_timestamp(query.timestamps))
     else
-      scope.where(query.statement)
+      scope.visible.where(query.statement)
     end
   end
 
