@@ -46,7 +46,8 @@ module Admin
             update_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::ShowComponent.new(
                 user_custom_field_section:
-              )
+              ),
+              method: :morph
             )
           end
 
@@ -62,7 +63,8 @@ module Admin
             replace_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::IndexComponent.new(
                 user_custom_field_sections:
-              )
+              ),
+              method: :morph
             )
           end
         end

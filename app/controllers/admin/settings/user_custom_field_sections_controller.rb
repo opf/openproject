@@ -31,6 +31,9 @@ module Admin::Settings
   class UserCustomFieldSectionsController < ::Admin::SettingsController
     include OpTurbo::ComponentStream
     include Admin::Settings::UserCustomFields::ComponentStreams
+    include ::SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: "user_custom_field_section", list_id_scoped: false
 
     before_action :set_user_custom_field_section, only: %i[update move drop destroy]
 
@@ -93,18 +96,17 @@ module Admin::Settings
     end
 
     def drop
-      call = ::UserCustomFieldSections::UpdateService.new(user: current_user, model: @user_custom_field_section).call(
-        position: params[:position].to_i
-      )
+      moved = valid_drop_request? &&
+        @user_custom_field_section.move_after_anchor(drop_params[:prev_id], scope: UserCustomFieldSection.all)
 
-      if call.success?
+      if moved
         update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
         update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
+        respond_with_turbo_streams
       else
-        render_section_error_via_turbo_stream(call)
+        render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+        respond_with_turbo_streams(status: :unprocessable_entity)
       end
-
-      respond_with_turbo_streams
     end
 
     def new_link
