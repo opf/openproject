@@ -237,6 +237,22 @@ RSpec.describe "Work package variants index", :js do
     expect(page).to have_no_text(bug_type.name)
   end
 
+  it "takes the move actions away while the name filter is on" do
+    visit types_path
+
+    fill_in "query", with: "Feature"
+
+    expect(page).to have_no_text(bug_type.name)
+
+    index_page.within_actions_menu(feature_type) do
+      expect(page).to have_selector(:menuitem, I18n.t(:button_delete), exact: true)
+      expect(page).to have_no_selector(:menuitem, I18n.t(:button_move), exact: true)
+    end
+
+    expect(index_page.type_group(feature_type))
+      .to have_no_selector(:button, accessible_name: I18n.t("drag_handle.button_drag"))
+  end
+
   it "says so when the name filter matches no type" do
     visit types_path
 

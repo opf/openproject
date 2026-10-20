@@ -37,12 +37,13 @@ module WorkPackageTypes
         "type-#{type.id}-action-menu"
       end
 
-      def initialize(type:, page_args: {}, expanded_type_id: nil)
+      def initialize(type:, page_args: {}, expanded_type_id: nil, query: nil)
         super()
 
         @type = type
         @page_args = page_args
         @expanded_type_id = expanded_type_id
+        @query = query.presence
       end
 
       def menu_id
@@ -51,7 +52,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :type, :page_args, :expanded_type_id
+      attr_reader :type, :page_args, :expanded_type_id, :query
 
       def type_actions(menu)
         configure_action(menu)
@@ -149,7 +150,7 @@ module WorkPackageTypes
       end
 
       def reorderable?
-        !(type.first? && type.last?)
+        query.nil? && !(type.first? && type.last?)
       end
 
       def move_action(menu)

@@ -113,11 +113,11 @@ module WorkPackageTypes
       end
 
       def reorderable?(type)
-        !(type.first? && type.last?)
+        query.nil? && !(type.first? && type.last?)
       end
 
       def context_args
-        page_args.merge(expand: expanded_type_id).compact
+        page_args.merge(expand: expanded_type_id, query:).compact
       end
 
       def wrapper_data_attributes

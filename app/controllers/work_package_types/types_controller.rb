@@ -102,7 +102,8 @@ module WorkPackageTypes
     end
 
     def menu
-      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:), layout: false
+      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:, query: params[:query]),
+             layout: false
     end
 
     protected
