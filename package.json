@@ -4,7 +4,7 @@
   "scripts": {
     "herb:lint": "herb-lint",
     "postinstall": "cd frontend && npm install",
-    "test": "cd frontend && npm test && cd ..",
+    "test": "npm test --prefix frontend --",
     "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
     "serve": "cd frontend && npm run serve",
     "serve:public": "cd frontend && ./node_modules/.bin/ng serve --host 0.0.0.0"
