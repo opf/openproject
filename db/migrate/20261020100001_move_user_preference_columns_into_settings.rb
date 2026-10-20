@@ -27,7 +27,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 class MoveUserPreferenceColumnsIntoSettings < ActiveRecord::Migration[8.1]
+  include Migration::Utils
+
   FLAT_REMINDER_KEYS = %w[
     daily_reminders_enabled
     daily_reminders_times
@@ -129,8 +133,8 @@ class MoveUserPreferenceColumnsIntoSettings < ActiveRecord::Migration[8.1]
   private
 
   def remove_reminder_indexes
-    remove_index :user_preferences, name: "index_user_prefs_settings_daily_reminders_enabled"
-    remove_index :user_preferences, name: "index_user_prefs_settings_daily_reminders_times"
-    remove_index :user_preferences, name: "index_user_prefs_settings_pause_reminders_enabled"
+    remove_index_on :user_preferences, "index_user_prefs_settings_daily_reminders_enabled"
+    remove_index_on :user_preferences, "index_user_prefs_settings_daily_reminders_times"
+    remove_index_on :user_preferences, "index_user_prefs_settings_pause_reminders_enabled"
   end
 end
