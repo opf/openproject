@@ -71,17 +71,15 @@ module API
 
       private
 
-      # The staged file is removed once the upload is finished, so this redirect must not be cached
+      # Only the author may access the staged file.
+      # It is removed once the upload is finished, so this redirect must not be cached.
       def redirect_to_staged_upload(attachment)
+        raise ::API::Errors::NotFound.new if attachment.author != current_user
+
         redirect DirectFogUploader.for_attachment(attachment).download_url(attachment.external_url_options)
       end
 
       def validate_attachment_access!(attachment)
-        # A prepared attachment's staged file can still be replaced by its author, so only they may see it
-        if attachment.prepared? && attachment.author != current_user
-          raise ::API::Errors::NotFound.new
-        end
-
         if attachment.status_quarantined?
           raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.quarantined_message",
                                                                 filename: attachment.filename))
