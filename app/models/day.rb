@@ -106,7 +106,7 @@ class Day < ApplicationRecord
     def non_working_intervals(from:, to:)
       from_range(from:, to:)
         .where(working: false)
-        .map(&:date)
+        .pluck(:date)
         .slice_when { |previous, current| current != previous + 1 }
         .map { it.first..it.last }
     end
