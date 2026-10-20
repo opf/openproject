@@ -57,18 +57,31 @@ module API
       #                                Defaults to no cache headers.
       def respond_with_attachment(attachment, cache_seconds: nil)
         validate_attachment_access!(attachment)
-        prepare_cache_headers(cache_seconds) if cache_seconds
 
-        if attachment.external_storage?
+        if attachment.prepared?
+          redirect_to_staged_upload(attachment)
+        elsif attachment.external_storage?
+          prepare_cache_headers(cache_seconds) if cache_seconds
           redirect_to_external_attachment(attachment, cache_seconds)
         else
+          prepare_cache_headers(cache_seconds) if cache_seconds
           send_attachment(attachment)
         end
       end
 
       private
 
+      # The staged file is removed once the upload is finished, so this redirect must not be cached
+      def redirect_to_staged_upload(attachment)
+        redirect DirectFogUploader.for_attachment(attachment).download_url(attachment.external_url_options)
+      end
+
       def validate_attachment_access!(attachment)
+        # A prepared attachment's staged file can still be replaced by its author, so only they may see it
+        if attachment.prepared? && attachment.author != current_user
+          raise ::API::Errors::NotFound.new
+        end
+
         if attachment.status_quarantined?
           raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.quarantined_message",
                                                                 filename: attachment.filename))
