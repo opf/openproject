@@ -3729,7 +3729,6 @@ en:
         caption: "Start with an existing form, change it as you wish and save it as a new form."
         label: "Start with a copy of an existing form"
         missing: "Select the form to copy, or start from scratch instead."
-        panel_label: "Form to copy"
       label: "Starting point"
       scratch:
         caption: "Start with the default attribute groups and arrange them yourself."
@@ -3752,8 +3751,8 @@ en:
         one: "This form is used by %{count} type. Changes apply to it."
         other: "This form is used by %{count} types. Changes apply to all of them."
       used_by_variants:
-        one: "This form is used by %{count} type or variant."
-        other: "This form is used by %{count} types and variants."
+        one: "This form is used by %{count} type or variant. Changes apply to it."
+        other: "This form is used by %{count} types and variants. Changes apply to all of them."
     wizard:
       choice:
         existing:
@@ -7483,7 +7482,7 @@ en:
         defaults: "Defaults"
         details: "Details"
         form_configuration: "Form"
-        pdf: "PDF generation"
+        pdf: "Generate PDF"
         project_attributes: "Project attributes"
         projects: "Projects"
         start: "Start"
@@ -7597,11 +7596,14 @@ en:
         tab: "Form"
         untitled_group: "Untitled group"
       overview:
+        caption: "Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from."
         configuration_mode: "Configuration mode"
         mode:
           always_manual: "Always manual"
-          inheriting_from_html: "Inheriting from %{source_name}"
+          inheriting_from_html: "Using the same as type (%{source_name})"
           manual: "Manually configured"
+          using_form_html: "Using form %{name}"
+          using_workflow_html: "Using workflow %{name}"
         settings: "Settings"
         tab: "Overview"
       project_attributes:
@@ -7621,6 +7623,7 @@ en:
           attribute_label: "Inherit %{attribute}"
         filter: "Search by section or name"
         tab: "Project attributes"
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
@@ -7701,6 +7704,7 @@ en:
           success: "The configuration mode was switched."
           title: "Manual configuration"
         parent_suffix: " (parent)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: >
@@ -8575,12 +8579,11 @@ en:
         caption: "Start with an existing workflow, change it as you wish and save it as a new workflow."
         label: "Start with a copy of an existing workflow"
         missing: "Select the workflow to copy, or start from scratch instead."
-        panel_label: "Workflow to copy"
       label: "Starting point"
       scratch:
         caption: "Start with a blank workflow and build it manually."
         label: "Start from scratch"
-      title: "Configure a new workflow"
+      title: "New workflow"
     usage:
       dialog:
         button: "View dependent types"
@@ -8593,8 +8596,8 @@ en:
         one: "This workflow is used by %{count} type. Changes apply to it."
         other: "This workflow is used by %{count} types. Changes apply to all of them."
       used_by_variants:
-        one: "This workflow is used by %{count} type or variant."
-        other: "This workflow is used by %{count} types and variants."
+        one: "This workflow is used by %{count} type or variant. Changes apply to it."
+        other: "This workflow is used by %{count} types and variants. Changes apply to all of them."
     wizard:
       choice:
         existing:
