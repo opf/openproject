@@ -99,6 +99,9 @@ If you have already logged in before, you can [set your language in your user pr
 
 If you forgot your password, you can reset your password by clicking the blue **Forgot your password** link directly below the Sign in field.
 
+> [!NOTE]
+> If your administrator has restricted password login for an SSO-enabled instance, the password form and password recovery may not be available. In that case, sign in through your configured identity provider or contact your administrator.
+
 ![Forgot password link on OpenProject sign in page](openproject_user_guide_sign_in_forgot_pw_link.png)
 
 You are then asked to enter your email address with which you registered to OpenProject.

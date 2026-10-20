@@ -29,9 +29,7 @@ zh-CN:
         title: 成员
         view_all_members: 查看所有成员
         x_more:
-          other: |-
-            以及另外一位成员。
-            以及另外 %{count} 位成员。
+          other: and %{count} more members.
       news:
         no_results: 没有新消息报告。
       not_available: 此微件不可用。
@@ -42,7 +40,7 @@ zh-CN:
         sprints_link: 冲刺概览
         title: 项目时间线
         title_portfolio: 项目组合时间线
-        title_program: 项目群时间线
+        title_program: 计划时间线
       subitems:
         button_text: 子条目
         no_results: 没有可见的子级。

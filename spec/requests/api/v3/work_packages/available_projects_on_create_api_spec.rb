@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,6 +65,28 @@ RSpec.describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
 
     it_behaves_like "API V3 collection response", 1, 1, "Project" do
       let(:elements) { [project_with_type] }
+    end
+  end
+
+  context "with a favored filter present" do
+    let(:favored_project) { create(:project) }
+    let(:member) do
+      create(:member, principal: current_user, project: favored_project, roles: [add_role])
+    end
+
+    before do
+      project
+      member
+      Favorite.create!(user: current_user, favorited: favored_project)
+
+      params = [{ favored: { operator: "=", values: ["t"] } }]
+      escaped = CGI.escape(JSON.dump(params))
+
+      get "#{api_v3_paths.available_projects_on_create}?filters=#{escaped}"
+    end
+
+    it_behaves_like "API V3 collection response", 1, 1, "Project" do
+      let(:elements) { [favored_project] }
     end
   end
 

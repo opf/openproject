@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -114,6 +113,30 @@ RSpec.shared_examples_for "indicates length requirements" do
     else
       expect(subject)
         .not_to have_json_path("#{path}/maxLength")
+    end
+  end
+end
+
+RSpec.shared_examples_for "indicates value bounds" do
+  it "indicates its minimum value" do
+    if defined?(minimum)
+      expect(subject)
+        .to be_json_eql(minimum.to_json)
+        .at_path("#{path}/minimum")
+    else
+      expect(subject)
+        .not_to have_json_path("#{path}/minimum")
+    end
+  end
+
+  it "indicates its maximum value" do
+    if defined?(maximum)
+      expect(subject)
+        .to be_json_eql(maximum.to_json)
+        .at_path("#{path}/maximum")
+    else
+      expect(subject)
+        .not_to have_json_path("#{path}/maximum")
     end
   end
 end

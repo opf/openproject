@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ module MeetingSections
 
       @meeting = meeting_section.meeting
       @meeting_section = meeting_section
-      @meeting_agenda_items = meeting_section.agenda_items
+      @meeting_agenda_items = meeting_section.ordered_agenda_items.includes(:emoji_reactions)
       @first_and_last = first_and_last
       @form_hidden = form_hidden
       @form_type = form_type

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -47,16 +46,20 @@ module ::Widget
       @dont_cache or (self != Widget::Base && Widget::Base.dont_cache?)
     end
 
-    def initialize(query)
+    # ActionView::Base#initialize requires a lookup context, assigns and a
+    # controller. Widgets are handed those later by render_widget, so the parent
+    # initializer is deliberately skipped.
+    def initialize(query) # rubocop:disable Lint/MissingSuper
       @subject = query
-      @engine = query.class
+      @engine = query.respond_to?(:engine) ? query.engine : query.class
       @options = {}
     end
 
     ##
     # Write a string to the canvas.
+    # OG: html_safe canvas; markup passed to write must be safe or it is escaped.
     def write(str)
-      @output ||= (+"").html_safe
+      @output ||= ActiveSupport::SafeBuffer.new
       @output << str
       str
     end

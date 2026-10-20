@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,7 +52,7 @@ class Widget::Settings < Widget::Base
 
   def render_controls_settings
     content_tag :div, class: "form--buttons -with-button-form hide-when-print" do
-      widgets = "".html_safe
+      widgets = ActiveSupport::SafeBuffer.new
       render_widget(Widget::Controls::Apply, @subject, to: widgets)
       render_widget(Widget::Controls::Save, @subject, to: widgets,
                                                       can_save: allowed_in_report?(:save, @subject, current_user))
@@ -73,7 +72,7 @@ class Widget::Settings < Widget::Base
         # will render a setting menu for every setting.
         # To add new settings, write a new instance method render_<a name>_setting
         # and add <a name> to the @@settings_to_render list.
-        content = "".html_safe
+        content = ActiveSupport::SafeBuffer.new
         settings_to_render.each do |setting_name|
           render_method_name = "render_#{setting_name}_settings"
           content << send(render_method_name) if respond_to? render_method_name

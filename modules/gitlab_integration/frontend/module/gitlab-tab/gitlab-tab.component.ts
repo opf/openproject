@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2023 Ben Tey
+// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -8,7 +8,6 @@
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 // Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
-// Copyright (C) the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -22,29 +21,33 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { TabComponent } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TabComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
-  selector: 'gitlab-tab',
+  selector: 'op-gitlab-tab',
   templateUrl: './gitlab-tab.template.html',
-  styleUrls: [
-    './gitlab-tab.component.sass',
-  ],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class GitlabTabComponent implements TabComponent {
+export class GitlabTabComponent implements OnInit, TabComponent {
   readonly PathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
 
   @Input() public workPackage:WorkPackageResource;
+
+  turboFrameSrc:string;
+
+  ngOnInit():void {
+    this.turboFrameSrc = `${this.PathHelper.projectWorkPackagePath(this.workPackage.project.id as string, this.workPackage.id as string)}/gitlab/tab`;
+  }
 }

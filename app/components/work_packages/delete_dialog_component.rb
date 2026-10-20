@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,8 @@ module WorkPackages
   class DeleteDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include WorkPackages::DeleteDialogs::Descendants
+
+    DIALOG_ID = "wp-delete-dialog"
 
     attr_reader :work_package
 
@@ -43,45 +44,36 @@ module WorkPackages
 
     private
 
-    def id = "wp-delete-dialog"
+    def id = DIALOG_ID
 
     def i18n_scope = "work_packages.delete_dialog"
 
     def deletion_roots = [work_package]
 
     def title
-      t_dialog("title")
+      t_dialog(has_descendants? ? "descendants_choice.heading" : "title")
     end
 
     def heading
-      t_dialog("heading")
+      t_dialog(has_descendants? ? "descendants_choice.heading" : "heading")
     end
 
     def description
+      return t_dialog("descendants_choice.question") if has_descendants?
+
       t_dialog("description", name: work_package.to_s)
     end
 
-    # Only the deleted descendants are listed, so only those can be confirmed.
     def confirmation_checkbox_text
-      t_dialog(deleted_descendants.any? ? "confirm_descendants_deletion" : "confirm_deletion")
-    end
-
-    def cross_project_descendants?
-      deleted_descendants.any? { |d| d.project != work_package.project }
-    end
-
-    def all_project_links
-      projects = deleted_descendants
-        .filter_map(&:project)
-        .uniq
-        .reject { |p| p == work_package.project }
-        .unshift(work_package.project)
-
-      link_to_projects(projects)
+      t_dialog("confirm_deletion")
     end
 
     def form_action
-      helpers.work_packages_bulk_path(ids: [work_package.id], back_url: @back_url)
+      helpers.work_packages_bulk_path(ids: [work_package.id], delete_descendants: false, back_url: @back_url)
+    end
+
+    def confirm_delete_path
+      helpers.confirm_delete_work_packages_bulk_path(ids: [work_package.id], back_url: @back_url)
     end
   end
 end

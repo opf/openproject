@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,6 +43,8 @@ RSpec.describe CustomFields::UpdateContract do
                     is_required: custom_field_is_required,
                     max_length: custom_field_max_length,
                     min_length: custom_field_min_length,
+                    max_value: custom_field_max_value,
+                    min_value: custom_field_min_value,
                     possible_values: custom_field_possible_values,
                     regexp: custom_field_regexp,
                     formula: custom_field_formula,

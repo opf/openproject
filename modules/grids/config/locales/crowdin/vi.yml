@@ -29,7 +29,7 @@ vi:
         title: thành viên
         view_all_members: Xem tất cả thành viên
         x_more:
-          other: và %{count} thành viên khác.
+          other: and %{count} more members.
       news:
         no_results: Không có gì mới để báo cáo.
       not_available: Tiện ích này không có sẵn.

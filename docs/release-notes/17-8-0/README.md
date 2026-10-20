@@ -1,7 +1,7 @@
 ---
 title: OpenProject 17.8.0
 sidebar_navigation:
-title: 17.8.0
+    title: 17.8.0
 release_version: 17.8.0
 release_date: 2026-09-02
 ---
@@ -183,6 +183,8 @@ The authentication setting controlling who can create projects now includes a no
 
 The page for creating a new two-factor authentication device during an enforced 2FA login has also been updated to the modern Primer-based interface. For more information, see the [two-factor authentication (2FA) documentation](../../system-admin-guide/authentication/two-factor-authentication/).
 
+[Workflow configuration](../../system-admin-guide/manage-work-packages/work-package-types/workflows/) has moved directly into the work package type settings under **Administration → Work packages → Types → Workflows**, bringing type-specific configuration together in one place. The workflow interface has been updated as well: **Default transitions**, **User is author**, and **User is assignee** can now be selected from a dropdown alongside the role selection.
+
 ## Important updates and breaking changes
 
 The Activity tab polling interval can now be configured using the `WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS` setting. Previously, this interval was hardcoded or configurable only through an environment variable.
@@ -217,15 +219,15 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 - Feature: Make target\_versions the canonical data source for all subsystems in OpenProject \[[#76166](https://community.openproject.org/wp/76166)\]
 - Feature: Adjust CKEditor version macros: single-line/multi-line layout argument for attribute value macros \[[#76876](https://community.openproject.org/wp/76876)\]
 - Feature: Add proxy URL for work package links in op-blocknote-extensions \[[#77115](https://community.openproject.org/wp/77115)\]
-- Feature: Fix the work package URL if it does not use the canoncial identifier of a work package \[[#77262](https://community.openproject.org/wp/77262)\]
+- Feature: Fix the work package URL if it does not use the canonical identifier of a work package \[[#77262](https://community.openproject.org/wp/77262)\]
 - Feature: Clarify that project identifiers are non-confidential when project-based semantic work package identifiers are used \[[#78128](https://community.openproject.org/wp/78128)\]
 - Feature: Global restrictions/limits for time entries \[[#78132](https://community.openproject.org/wp/78132)\]
 - Feature: Implement a primerized page for creating a new 2FA device  \[[#56848](https://community.openproject.org/wp/56848)\]
 - Feature: Easier navigation in project wiki sidemenu  \[[#77507](https://community.openproject.org/wp/77507)\]
 - Feature: Allow changing reuse mode through a dialog \[[#77331](https://community.openproject.org/wp/77331)\]
-- Feature: Activity tab: Journalise and add information about when a work package is added or discussed in a meeting \[[#61057](https://community.openproject.org/wp/61057)\]
+- Feature: Activity tab: Journalize and add information about when a work package is added or discussed in a meeting \[[#61057](https://community.openproject.org/wp/61057)\]
 - Feature: Make it possible to make the split screen narrower  \[[#58783](https://community.openproject.org/wp/58783)\]
-- Feature: Standardise the actions available in the Overview more action  \[[#69398](https://community.openproject.org/wp/69398)\]
+- Feature: Standardize the actions available in the Overview more action  \[[#69398](https://community.openproject.org/wp/69398)\]
 - Feature: Primerize the create new account page \[[#69793](https://community.openproject.org/wp/69793)\]
 - Feature: Annotate auth setting UI with security comment on project creation \[[#76856](https://community.openproject.org/wp/76856)\]
 - Feature: Display relations in the work package table to the community edition \[[#78598](https://community.openproject.org/wp/78598)\]
@@ -235,6 +237,7 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 - Feature: Enable wiki macros in more editors \[[#76758](https://community.openproject.org/wp/76758)\]
 - Feature: Update internal wiki create/edit page with modern UI \[[#77225](https://community.openproject.org/wp/77225)\]
 - Feature: Always show &quot;project wiki&quot; settings menu \[[#78266](https://community.openproject.org/wp/78266)\]
+- Feature: Move workflows as a tab under type edit  \[[#77228](https://community.openproject.org/wp/77228)\]
 - Bugfix: Multiple active sprints coexist with sharing if there was one active sprint in the subproject before sharing was enabled \[[#77498](https://community.openproject.org/wp/77498)\]
 - Bugfix: Variants are indistinguishable from their parent type when choosing a configuration source \[[#78002](https://community.openproject.org/wp/78002)\]
 - Bugfix: Admin user cannot update their own profile from My Account page on BIM instance \[[#78487](https://community.openproject.org/wp/78487)\]
@@ -243,10 +246,10 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 - Bugfix: Low contrast text in documents inline work package links that makes it hard to read \[[#75432](https://community.openproject.org/wp/75432)\]
 - Bugfix: Wrong placement of context menu if inline work package link spans multiple lines \[[#76583](https://community.openproject.org/wp/76583)\]
 - Bugfix: Documents: cursor misplaced after block is created on work package url copy-paste \[[#77458](https://community.openproject.org/wp/77458)\]
-- Bugfix: Clickling / selecting a work package link block sometimes looks weird on Safari \[[#77691](https://community.openproject.org/wp/77691)\]
+- Bugfix: Clicking / selecting a work package link block sometimes looks weird on Safari \[[#77691](https://community.openproject.org/wp/77691)\]
 - Bugfix: Copy &amp; Paste Loses Formatting in Documents \[[#73669](https://community.openproject.org/wp/73669)\]
 - Bugfix: Documents: Drag and drop of blocks only works when dragging over editor content \[[#76200](https://community.openproject.org/wp/76200)\]
-- Bugfix: Switch from Markdown source back to WSIWYG editor results in an error \[[#76260](https://community.openproject.org/wp/76260)\]
+- Bugfix: Switch from Markdown source back to WYSIWYG editor results in an error \[[#76260](https://community.openproject.org/wp/76260)\]
 - Bugfix: SMTP configuration fields never appear on Email notifications settings page \[[#76898](https://community.openproject.org/wp/76898)\]
 - Bugfix: Allow copying the link to an unavailable (unauthorized) work package for all inline/block sizes \[[#77454](https://community.openproject.org/wp/77454)\]
 - Bugfix: &quot;Autocompleter&quot; should not be an option for sorting work package tables \[[#77862](https://community.openproject.org/wp/77862)\]
@@ -264,7 +267,7 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 - Bugfix: Meeting email update is sent in sender&#39;s OP language \[[#67287](https://community.openproject.org/wp/67287)\]
 - Bugfix: Double clicking remove button in meeting participants result in 404 \[[#74955](https://community.openproject.org/wp/74955)\]
 - Bugfix: No way to send meeting notification mails via the API \[[#77650](https://community.openproject.org/wp/77650)\]
-- Bugfix: Translation error in &quot;add work package&quot; macro in WYSWIG \[[#40221](https://community.openproject.org/wp/40221)\]
+- Bugfix: Translation error in &quot;add work package&quot; macro in WYSIWYG \[[#40221](https://community.openproject.org/wp/40221)\]
 - Bugfix: In Time and costs (administration), Costs tab always opens first despite being second \[[#67668](https://community.openproject.org/wp/67668)\]
 - Bugfix: WP search dropdown: wp created by deleted user has a weird layout with missing avatar \[[#70580](https://community.openproject.org/wp/70580)\]
 - Bugfix: Export: Queries accessed within another project cannot be exported \[[#75759](https://community.openproject.org/wp/75759)\]
@@ -276,7 +279,7 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 - Bugfix: PDF table export grouped by a hierarchy custom field stops the full export \[[#78036](https://community.openproject.org/wp/78036)\]
 - Bugfix: Deleting a parent leaves a journal entry with empty parentheses \[[#78038](https://community.openproject.org/wp/78038)\]
 - Bugfix: Users with leading emojis in names have broken avatars \[[#78109](https://community.openproject.org/wp/78109)\]
-- Bugfix: Long WP name or timespan doesn&#39;t wrap in planner cell \[[#78323](https://community.openproject.org/wp/78323)\]
+- Bugfix: Long WP name or time span doesn&#39;t wrap in planner cell \[[#78323](https://community.openproject.org/wp/78323)\]
 - Bugfix: User cannot update own profile because password confirmation autosaves \[[#78327](https://community.openproject.org/wp/78327)\]
 - Bugfix: Ckeditor toolbar is partially offscreen on work package description \[[#78401](https://community.openproject.org/wp/78401)\]
 - Bugfix: Community version: Project list inconsistencies \[[#78430](https://community.openproject.org/wp/78430)\]

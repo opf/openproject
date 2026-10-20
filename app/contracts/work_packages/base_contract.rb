@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -136,6 +135,8 @@ module WorkPackages
     attribute :duration
 
     attribute :budget
+
+    attribute :labels
 
     validates :subject,
               presence: true,
@@ -401,11 +402,11 @@ module WorkPackages
     end
 
     def user_target_versions_override?
-      model.override_target_versions? && !model.system_version_override?("target")
+      model.target_versions_changed? && !model.system_version_override?("target")
     end
 
     def user_observed_in_versions_override?
-      model.override_observed_in_versions? && !model.system_version_override?("observed_in")
+      model.observed_in_versions_changed? && !model.system_version_override?("observed_in")
     end
 
     # target_versions behaves as a single value while the multiple-versions feature is disabled

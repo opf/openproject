@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Backlogs
   module Sprints
@@ -56,7 +55,6 @@ module Backlogs
           group.radio_button(
             label: label("actions.move_to_bottom_of_backlog"),
             value: :move_to_bottom_of_backlog,
-            checked: !sprints_available?,
             data: {
               "show-when-value-selected-target": "cause",
               target_name: "unfinished_action"

@@ -22,8 +22,15 @@
 ---
 el:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
       cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
         one: Cost report
         other: Cost reports
   button_save_report_as: Αποθήκευση αναφοράς ως...
@@ -99,7 +106,6 @@ el:
   plugin_openproject_reporting:
     description: Αυτό το πρόσθετο επιτρέπει τη δημιουργία προσαρμοσμένων αναφορών κόστους με φιλτράρισμα και ομαδοποίηση που δημιουργούνται από το πρόσθετο OpenProject Χρόνου και Κόστους.
     name: Αναφορές OpenProject
-  project_module_reporting_module: Αναφορές κόστους
   reporting:
     group_by:
       selected_columns: Επιλεγμένες στήλες

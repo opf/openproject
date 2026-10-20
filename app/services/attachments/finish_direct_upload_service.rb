@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Attachments
   class FinishDirectUploadService < BaseServices::BaseContracted
@@ -48,7 +47,8 @@ module Attachments
 
     def validate_params
       super.tap do |call|
-        validate_local_file_exists(call)
+        validate_still_prepared(call)
+        validate_staged_file_exists(call) if call.success?
       end
     end
 
@@ -72,11 +72,21 @@ module Attachments
         journalize_container
         attachment_created_event
         schedule_jobs
+        DirectFogUploader.delete_staged_upload(attachment)
       end
     end
 
-    def validate_local_file_exists(call)
-      unless local_file
+    def validate_still_prepared(call)
+      attachment.lock!
+
+      unless attachment.prepared?
+        call.errors.add(:base, "Upload of attachment #{attachment.filename} has already been completed.")
+        call.success = false
+      end
+    end
+
+    def validate_staged_file_exists(call)
+      unless staged_upload.readable?
         call.errors.add(:base, "File for attachment #{attachment.filename} was not uploaded.")
         call.success = false
       end
@@ -86,7 +96,7 @@ module Attachments
       attachment.extend(OpenProject::ChangedBySystem)
       attachment.change_by_system do
         attachment.status = :uploaded
-        attachment.file = local_file
+        attachment.file = staged_upload.local_file
       end
     end
 
@@ -133,8 +143,8 @@ module Attachments
       ::Attachments::CreateContract
     end
 
-    def local_file
-      attachment&.diskfile
+    def staged_upload
+      @staged_upload ||= DirectFogUploader.for_attachment(attachment)
     end
   end
 end

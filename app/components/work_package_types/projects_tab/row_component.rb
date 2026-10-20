@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ module WorkPackageTypes
   module ProjectsTab
     class RowComponent < ::Projects::RowComponent
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def wrapper_uniq_by
         "project-#{project.id}"
@@ -52,7 +52,7 @@ module WorkPackageTypes
           scheme: :default,
           icon: :"list-ordered",
           label: I18n.t("types.edit.projects.actions.switch_variant"),
-          href: url_helpers.new_switch_type_projects_path(**variant.path_args, project_id: project.id),
+          href: new_switch_variant_projects_path(variant, project_id: project.id),
           data: { controller: "async-dialog" }
         }
       end
@@ -62,9 +62,7 @@ module WorkPackageTypes
           scheme: :danger,
           icon: :trash,
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
-          href: url_helpers.unlink_type_projects_path(**variant.path_args,
-                                                      project_id: project.id,
-                                                      page: current_page),
+          href: unlink_variant_projects_path(variant, project_id: project.id, page: current_page),
           data: { turbo_method: :delete, turbo_confirm: confirm_removal }
         }
       end

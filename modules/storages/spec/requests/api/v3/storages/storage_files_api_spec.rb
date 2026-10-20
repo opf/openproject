@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -293,6 +292,33 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
                                                folder: "/Pictures", storage_name: storage.name))
           expect(body["errorIdentifier"]).to eq("urn:openproject-org:api:v3:errors:OutboundRequest:NotFound")
         end
+      end
+    end
+
+    context "when the user lacks manage_file_links in the linked project" do
+      let(:permissions) { %i(view_work_packages view_file_links) }
+
+      before { allow(Storages::UploadLinkService).to receive(:call) }
+
+      it "is forbidden and requests no upload link" do
+        expect(last_response).to have_http_status(:forbidden)
+        expect(Storages::UploadLinkService).not_to have_received(:call)
+      end
+    end
+
+    context "when the project is not linked to the storage" do
+      let(:other_project) { create(:project) }
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i(view_work_packages view_file_links),
+                                                 other_project => permissions })
+      end
+      let(:body) { { fileName: "ape.png", parent: "/Pictures", projectId: other_project.id }.to_json }
+
+      before { allow(Storages::UploadLinkService).to receive(:call) }
+
+      it "is not found and requests no upload link" do
+        expect(last_response).to have_http_status(:not_found)
+        expect(Storages::UploadLinkService).not_to have_received(:call)
       end
     end
 

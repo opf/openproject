@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -120,12 +119,12 @@ module WorkPackagesHelper
       .new
       .displayable_columns
       .sort_by(&:caption)
-      .map { |column| { name: column.caption, id: column.name.to_s } }
+      .map { |column| { name: column.caption, id: stored_column_id(column.name) } }
   end
 
   def selected_work_packages_columns_options
     Setting[:work_package_list_default_columns]
-      .map { Query::DeprecatedVersionSelect.normalize_name(it) }
+      .map { |column| stored_column_id(column) }
       .filter_map { |column| work_packages_columns_options.find { |c| c[:id] == column } }
   end
 
@@ -155,6 +154,10 @@ module WorkPackagesHelper
   end
 
   private
+
+  def stored_column_id(name)
+    Queries::WorkPackages::StoredNames.stored_select(name).to_s
+  end
 
   def truncated_work_package_description(work_package, lines = 3) # rubocop:disable Metrics/AbcSize
     description_lines = work_package.description.to_s.lines.to_a[0, lines]

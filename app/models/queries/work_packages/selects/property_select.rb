@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -121,10 +120,9 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.category_id"
     },
-    # `version` and `target_versions` replace one another; stored names are
-    # translated on read, see Query::DeprecatedVersionSelect.
     version: {
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
+      stored_as: :target_versions,
       group_by_class_name: "Version",
       # The lowest-id target version represents the work package, matching the
       # version_id mirror column and the cost report's single-version join;
@@ -221,13 +219,46 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
   }
 
   def self.instances(_context = nil)
-    active_selects = property_selects.reject do |_, options|
-      condition = options[:if]
-      condition && !condition.call
-    end
+    active_selects = property_selects.select { |_, options| active_entry?(options) }
     active_selects.filter_map do |default_name, options|
       name = options[:name] || default_name
-      new(name, options.without(:if, :name))
+      new(name, options.without(:if, :name, :stored_as))
     end
   end
+
+  def self.stored_name(name)
+    return name if name.nil?
+
+    entry = property_selects.find { |key, options| offered_name_of(key, options).to_s == name.to_s }
+    return name unless entry
+
+    entry.last[:stored_as]&.to_s || name
+  end
+
+  def self.offered_name(name)
+    return name if name.nil?
+
+    stored = stored_name(name)
+    entry = property_selects.find do |key, options|
+      stored_name_of(key, options).to_s == stored.to_s && active_entry?(options)
+    end
+    return name unless entry
+
+    offered = offered_name_of(*entry)
+    offered.to_s == name.to_s ? name : offered.to_s
+  end
+
+  def self.active_entry?(options)
+    condition = options[:if]
+    condition.nil? || condition.call
+  end
+
+  def self.stored_name_of(key, options)
+    options[:stored_as] || options[:name] || key
+  end
+
+  def self.offered_name_of(key, options)
+    options[:name] || key
+  end
+  private_class_method :active_entry?, :stored_name_of, :offered_name_of
 end

@@ -25,8 +25,6 @@ nl:
     button_log_costs: Registreer kost per eenheid
     label_hour: uur
     label_hours: uren
-    myTimeTracking:
-      noSpecificTime: Geen specifieke tijd
     text_are_you_sure: Weet u het zeker?
     work_packages:
       properties:

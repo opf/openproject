@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,8 @@ module Primer
                       :readonly,
                       :classes,
                       :attachments_upload_url,
-                      :attachments_collection_key
+                      :attachments_collection_key,
+                      :project_id
 
           ##
           # @param name [String] The name of the input field.
@@ -47,8 +47,9 @@ module Primer
           # @param value [String] The initial value of the input in base64 format.
           # @param attachments_upload_url [String] The URL to which attachments will be uploaded.
           # @param attachments_collection_key [String] The collection key for attachments.
+          # @param project_id [Integer] The project the edited document belongs to.
           def initialize(name:, label:, value:, readonly: false, attachments_upload_url: "", attachments_collection_key: "",
-                         **system_arguments)
+                         project_id: nil, **system_arguments)
             @name = name
             @label = label
             @value = value
@@ -56,12 +57,14 @@ module Primer
             @classes = system_arguments[:classes]
             @attachments_upload_url = attachments_upload_url
             @attachments_collection_key = attachments_collection_key
+            @project_id = project_id
 
             super(**system_arguments)
           end
 
           def to_component
-            BlockNoteEditor.new(input: self, value:, readonly:, attachments_upload_url:, attachments_collection_key:)
+            BlockNoteEditor.new(input: self, value:, readonly:, attachments_upload_url:, attachments_collection_key:,
+                                project_id:)
           end
 
           def type

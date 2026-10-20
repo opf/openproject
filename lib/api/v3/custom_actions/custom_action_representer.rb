@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +34,7 @@ module API
         link :executeImmediately do
           {
             href: api_v3_paths.custom_action_execute(represented.id),
-            title: I18n.t("custom_actions.execute", name: represented.name),
+            title: I18n.t("custom_actions.execute", name: name),
             method: "post"
           }
         end
@@ -43,6 +44,10 @@ module API
         property :name
         property :description,
                  render_nil: true
+
+        def name
+          represented.button_trigger&.button_label
+        end
 
         def _type
           "CustomAction"

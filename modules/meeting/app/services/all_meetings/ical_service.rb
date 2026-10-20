@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,11 @@ module AllMeetings
         calendar.calendar_title = "#{Setting.app_title} - #{I18n.t('label_my_meetings')}"
 
         recurring_meetings.each do |recurring_meeting|
+          # Subscriptions render the whole calendar including all historic schedules
+          recurring_meeting.historic_schedules.each do |historic|
+            calendar.historic_schedule_event(recurring_meeting:, historic:)
+          end
+
           calendar.add_series_event(recurring_meeting:, cancelled: false)
         end
 
@@ -65,7 +69,10 @@ module AllMeetings
     private
 
     def recurring_meetings
-      @recurring_meetings ||= RecurringMeeting.visible(user).participated_by(user)
+      @recurring_meetings ||= RecurringMeeting
+                                .visible(user)
+                                .participated_by(user)
+                                .includes(:historic_schedules)
     end
 
     def single_meetings

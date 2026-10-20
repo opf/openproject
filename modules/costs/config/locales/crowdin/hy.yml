@@ -72,6 +72,10 @@ hy:
           attributes:
             project_ids:
               blank: Խնդրում ենք ընտրել նախագիծ։
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -140,7 +144,6 @@ hy:
   button_add_time_entry: Գրանցել ժամանակ
   button_log_costs: Գրանցել միավորի ծախսեր
   button_log_time: Գրանցել
-  button_stop_timer: Դադարեցնել ժամաչափը
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Հաշվառված է նախագծում
@@ -174,9 +177,13 @@ hy:
       cost_types:
         for_all_projects_hint: Այս ծախսի տեսակը միացված է բոլոր նախագծերում։
         heading: Ծախսի տեսակներ
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Այս ծախսի տեսակը հնարավոր չէ անջատել, քանի որ այս նախագծում դրա համար արդեն գրանցվել են ծախսեր։
         none_active: Այս նախագծում ներկայումս ակտիվ ծախսի տեսակներ չկան։
       time_and_costs: Ժամանակ և ծախսեր
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:
@@ -207,9 +214,9 @@ hy:
   label_costlog: Գրանցված միավորի ծախսեր
   label_costs: Ծախսեր
   label_costs_per_page: Ծախսեր մեկ էջում
+  label_current: Current
   label_current_default_rate: Ընթացիկ կանխադրված դրույք
   label_date_on: նշված օրը
-  label_day: Օր
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Ջնջված ծախսի տեսակներ
   label_display_cost_entries: Ցուցադրել միավորի ծախսերը
@@ -225,21 +232,12 @@ hy:
   label_less_or_equal: "<="
   label_list: Ցուցակ
   label_log_costs: Գրանցել միավորի ծախսեր
-  label_month: Ամիս
-  label_my_time_tracking: Իմ ժամանակի հաշվառում
   label_new_time_entry_activity: Ժամանակի հաշվառման նոր գործունեություն
-  label_next_day: Հաջորդ օր
-  label_next_month: Հաջորդ ամիս
-  label_next_week: Հաջորդ շաբաթ
-  label_next_workweek: Հաջորդ աշխատանքային շաբաթ
   label_no: Ոչ
-  label_no_time: Ժամանակ չի հաշվառվել
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_option_plural: Ընտրանքներ
   label_overall_costs: Ընդհանուր ծախսեր
-  label_previous_day: Նախորդ օր
-  label_previous_month: Նախորդ ամիս
-  label_previous_week: Նախորդ շաբաթ
-  label_previous_workweek: Նախորդ աշխատանքային շաբաթ
   label_rate_plural: Դրույքներ
   label_show: Ցուցադրել
   label_specific_day: Օր %{day}
@@ -248,15 +246,14 @@ hy:
   label_status_finished: Ավարտված
   label_time: Ժամ
   label_time_entry_activity_form_description: Ժամանակի հաշվառման այս գործունեության փոփոխությունները կարտացոլվեն բոլոր նախագծերում, որտեղ այն միացված է։
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Սկսվել է %{time}-ին
   label_today_capitalized: Այսօր
   label_units: Ծախսի միավորներ
   label_until: մինչև
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Վավեր է սկսած
-  label_view_mode_switcher: Փոխել տեսքը
   label_work_package_filter_add: Ավելացնել աշխատանքային փաթեթի զտիչ
-  label_workweek: Աշխատանքային շաբաթ
   label_yes: Այո
   notice_cost_logged_successfully: Միավորի ծախսը հաջողությամբ գրանցվել է։
   notice_different_time_zones: Այս օգտատերն ունի այլ ժամային գոտի (%{tz})։ Ժամանակը կգրանցվի իր ժամային գոտով։
@@ -272,6 +269,10 @@ hy:
   permission_edit_rates: Խմբագրել դրույքները
   permission_log_costs: Հաշվառել միավորի ծախսեր
   permission_log_own_costs: Հաշվառել միավորի ծախսեր սեփական անձի համար
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Դիտել հաշվառված ծախսերը
   permission_view_cost_rates: Դիտել ծախսի դրույքները
   permission_view_hourly_rates: Դիտել բոլոր ժամային դրույքները
@@ -309,6 +310,11 @@ hy:
   text_destroy_cost_entries_question: "%{cost_entries} գրանցվել են այն աշխատանքային փաթեթների համար, որոնք պատրաստվում եք ջնջել։ Ի՞նչ եք ցանկանում անել։"
   text_destroy_time_and_cost_entries: Ջնջել գրանցված ժամերը և ծախսերը
   text_destroy_time_and_cost_entries_question: "%{hours} ժամ, %{cost_entries} գրանցվել են այն աշխատանքային փաթեթների համար, որոնք պատրաստվում եք ջնջել։ Ի՞նչ եք ցանկանում անել։"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: Վերանշանակել գրանցված ժամերը և ծախսերն այս աշխատանքային փաթեթին՝
   text_warning_hidden_elements: Որոշ գրառումներ կարող են բացառված լինել ամփոփ հաշվարկից։
   total_times:

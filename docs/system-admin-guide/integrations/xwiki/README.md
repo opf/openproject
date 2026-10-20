@@ -111,15 +111,15 @@ For each XWiki provider you can define the following attributes:
 - `url`: The wiki provider's base URL.
 - `uid` (optional): The XWiki installation id of the related XWiki instance. If not provided, this will be asynchronously fetched later.
 - `openproject_oauth`
-    - `client_id`: The client ID that XWiki will be able to use to authenticate towards OpenProject via OAuth.
-    - `client_secret`: The client secret that XWiki will be able to use to authenticate towards OpenProject via OAuth. Make sure to pick a strong password.
+  - `client_id`: The client ID that XWiki will be able to use to authenticate towards OpenProject via OAuth.
+  - `client_secret`: The client secret that XWiki will be able to use to authenticate towards OpenProject via OAuth. Make sure to pick a strong password.
 - `xwiki_oauth`
-    - `client_id`: The client ID that OpenProject shall use to authenticate towards XWiki via OAuth.
-   - `client_secret`: The client secret that OpenProject shall use to authenticate towards XWiki via OAuth.
+  - `client_id`: The client ID that OpenProject shall use to authenticate towards XWiki via OAuth.
+  - `client_secret`: The client secret that OpenProject shall use to authenticate towards XWiki via OAuth.
 
 The following is a configuration example for a single XWiki provider:
 
-```
+```json
 [{ "type": "xwiki", "name": "XWiki knowledge base", "url": "https://xwiki.example.com", "openproject_oauth": { "client_id": "xwiki", "client_secret": "secret" }, "xwiki_oauth": { "client_id": "openproject", "client_secret": "secret" } }]
 ```
 
@@ -132,3 +132,4 @@ To apply the configuration after changes, you need to run the `db:seed` rake tas
 
 Changes will also be applied to existing wiki providers this way. Existing wiki providers will be matched to the ones defined in environment variables preferably
 by their `uid` (if one was defined) and otherwise by their human-readable name.
+

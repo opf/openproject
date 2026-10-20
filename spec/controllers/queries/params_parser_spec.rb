@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -122,6 +121,47 @@ RSpec.describe Queries::ParamsParser, type: :model do
       it "returns the parsed filter" do
         expect(subject[:filters])
           .to contain_exactly({ attribute: "active", operator: "=", values: ["something, or another thing ' something else"] })
+      end
+    end
+
+    context "with a single filter with a value containing an escaped backslash" do
+      let(:params) do
+        {
+          filters: 'subject ~ "C:\\\\some\\\\path"'
+        }
+      end
+
+      it "unescapes the backslashes" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "subject", operator: "~", values: ['C:\some\path'] })
+      end
+    end
+
+    context "with a single filter whose value ends on an escaped backslash" do
+      let(:params) do
+        {
+          filters: 'subject ~ "trailing\\\\" & project_id = "5"'
+        }
+      end
+
+      it "ends the value at the closing quote and keeps the filters that follow" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "subject", operator: "~", values: ["trailing\\"] },
+                              { attribute: "project_id", operator: "=", values: ["5"] })
+      end
+    end
+
+    context "with multiple values containing escaped quotes and a closing bracket" do
+      let(:params) do
+        {
+          filters: 'subject ~ ["a\\"b","x]y"] & project_id = "5"'
+        }
+      end
+
+      it "keeps the values intact and does not end the array early" do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: "subject", operator: "~", values: ['a"b', "x]y"] },
+                              { attribute: "project_id", operator: "=", values: ["5"] })
       end
     end
 

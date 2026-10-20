@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -131,10 +130,8 @@ RSpec.describe RecurringMeetings::SetAttributesService, type: :model do
     context "with a schedule change" do
       let(:params) { { start_time_hour: "14:00" } }
 
-      it "moves the anchor to the next occurrence of the new schedule" do
-        subject
-
-        expect(model_instance.current_schedule_start).to eq("2026-06-17 14:00:00 UTC")
+      it "leaves the anchor pinned to the UID" do
+        expect { subject }.not_to change(model_instance, :current_schedule_start)
       end
     end
 

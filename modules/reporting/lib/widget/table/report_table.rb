@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,7 +62,7 @@ class Widget::Table::ReportTable < Widget::Table
       subrows
     end
 
-    @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
+    @walker.for_empty_cell { content_tag(:td, "\u00A0", class: "normal empty") }
 
     @walker.for_cell do |result|
       content_tag(:td, show_result(result), class: "normal right")

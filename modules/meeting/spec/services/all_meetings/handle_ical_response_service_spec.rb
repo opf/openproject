@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -122,6 +121,15 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
           meeting.participants.find_by(user: user).participation_status
         }.from("needs_action").to("declined")
         expect(subject).to be_success
+      end
+
+      it "journals the meeting as the responding user" do
+        subject
+
+        journal = meeting.journals.last
+        expect(journal.user).to eq(user)
+        expect(journal.participant_journals.find_by(user_id: user.id))
+          .to have_attributes(participation_status: "declined")
       end
     end
 
@@ -617,6 +625,51 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
         }
 
         expect(subject).to be_success
+      end
+    end
+    context "when the recurrence ID is not a slot of the series" do
+      let(:uid) { recurring_meeting.uid }
+      let(:meeting) { recurring_meeting.template }
+      let(:partstat) { "ACCEPTED" }
+      let(:stale_slot) { (recurring_meeting.start_time + 14.days + 3.hours).change(usec: 0) }
+
+      let(:additional_ical_properties) do
+        "RECURRENCE-ID:#{stale_slot.utc.strftime('%Y%m%dT%H%M%SZ')}"
+      end
+
+      it "ignores the reply instead of raising out of the mail handler" do
+        expect(recurring_meeting.occurs_at?(stale_slot)).to be false
+
+        expect { subject }.not_to change(RecurringMeetingInterimResponse, :count)
+        expect(subject).to be_success
+      end
+    end
+
+    context "when the reply carries the UID of a schedule that ended" do
+      let(:uid) { "historic@example.com" }
+      let(:meeting) { recurring_meeting.template }
+      let(:partstat) { "ACCEPTED" }
+
+      before do
+        create(:recurring_meeting_historic_schedule, recurring_meeting:, uid:)
+      end
+
+      it "succeeds and writes nothing, so the mail handler makes no error noise" do
+        expect { subject }.not_to change(RecurringMeetingInterimResponse, :count)
+
+        expect(subject).to be_success
+        expect(subject.errors).to be_empty
+      end
+
+      context "when a later change ended another schedule after this one" do
+        before do
+          create(:recurring_meeting_historic_schedule, recurring_meeting:, uid: "newer@example.com")
+        end
+
+        it "still recognises the older UID" do
+          expect(subject).to be_success
+          expect(subject.errors).to be_empty
+        end
       end
     end
   end

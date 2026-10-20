@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,8 @@ module OpenProject::WorkPackages
     # @param wrap [Boolean]
     def playground(show_project: false, show_subject: false, show_status: true, font_size: :small, status_scheme: :default,
                    wrap: true)
-      render(WorkPackages::InfoLineComponent.new(work_package: WorkPackage.visible.first,
+      work_package = FactoryBot.build_stubbed(:work_package, subject: "Prepare the release notes")
+      render(WorkPackages::InfoLineComponent.new(work_package: work_package,
                                                  show_project:,
                                                  show_subject:,
                                                  show_status:,

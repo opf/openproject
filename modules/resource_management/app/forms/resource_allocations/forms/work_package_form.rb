@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,6 +37,7 @@ module ResourceAllocations
 
       form do |f|
         f.hidden name: :entity_type, value: "WorkPackage"
+
         f.work_package_autocompleter(
           name: :entity_id,
           label: WorkPackage.model_name.human,
@@ -45,6 +45,7 @@ module ResourceAllocations
           invalid: entity_error.present?,
           validation_message: entity_error,
           autocomplete_options: {
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_work_packages,
             openDirectly: false,
             focusDirectly: false,
             dropdownPosition: "bottom",
@@ -67,7 +68,8 @@ module ResourceAllocations
       # Constrains the picker to the project, and additionally to the planner
       # view's work packages when the dialog was opened from a work-package view.
       def autocomplete_filters
-        filters = [{ name: "project_id", operator: "=", values: [@project.id.to_s] }]
+        filters = []
+        filters << { name: "project_id", operator: "=", values: [@project.id.to_s] } if @project
         filters.concat(@view.allocation_work_package_filters) if @view&.allocation_work_package_filters
         filters
       end

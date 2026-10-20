@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ module ResourcePlannerViews
   module Timeline
     module Content
       extend ActiveSupport::Concern
+      include ResourceManagement::PlannerRoutes
 
       STIMULUS = "resource-management--resource-timeline"
 
@@ -71,11 +71,11 @@ module ResourcePlannerViews
       end
 
       def configure_view_path
-        helpers.edit_project_resource_planner_view_path(@project, @resource_planner, @view)
+        edit_planner_view_path(@resource_planner, @view)
       end
 
       def can_allocate?
-        helpers.current_user.allowed_in_project?(:allocate_user_resources, @project)
+        ResourcePlanner.allocatable_by?(helpers.current_user, @project)
       end
 
       # Blank when the user may not allocate (the controller treats a present URL
@@ -84,7 +84,7 @@ module ResourcePlannerViews
       def new_allocation_url
         return "" unless can_allocate?
 
-        helpers.new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id)
+        new_allocation_path(@project, resource_planner_view_id: @view.id)
       end
     end
   end

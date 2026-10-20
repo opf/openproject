@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -44,6 +43,7 @@ export interface WorkPackageAction {
   link?:string;
   href?:string;
   hidden?:boolean;
+  turboRequest?:boolean;
 }
 
 @Injectable()
@@ -55,7 +55,7 @@ export class WorkPackageContextMenuHelperService {
   private wpViewIndent = inject(WorkPackageViewHierarchyIdentationService);
   private PathHelper = inject(PathHelperService);
 
-  private BULK_ACTIONS = [
+  private BULK_ACTIONS:WorkPackageAction[] = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
       key: 'edit',
@@ -92,7 +92,7 @@ export class WorkPackageContextMenuHelperService {
     // remove some actions on Gantt
     if (this.wpViewTimeline.isVisible) {
       allowedActions = allowedActions.filter((el) => {
-        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs'];
+        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'generate_pdf', 'export-atom', 'log_costs', 'allocate_resource'];
         return !(ganttNotAllowedActions.includes(el.key));
       });
     }
@@ -105,6 +105,7 @@ export class WorkPackageContextMenuHelperService {
         text: allowedAction.text,
         icon: allowedAction.icon,
         link: this.linkForAction(workPackage, allowedAction),
+        turboRequest: allowedAction.turboRequest,
       });
     });
 
@@ -116,6 +117,9 @@ export class WorkPackageContextMenuHelperService {
     switch (action.key) {
       case 'copy_link_to_clipboard':
         link = this.PathHelper.workPackageShortPath(workPackage.displayId);
+        break;
+      case 'log_time':
+        link = this.PathHelper.timeEntryWorkPackageDialog(workPackage.id!);
         break;
       default:
         link = action.link ? (workPackage[action.link] as HalLink).href! : undefined;

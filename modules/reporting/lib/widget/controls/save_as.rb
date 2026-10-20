@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -84,7 +83,7 @@ class Widget::Controls::SaveAs < Widget::Controls
   # rubocop:enable Metrics/AbcSize
 
   def render_popup_buttons
-    save_url_params = { action: "create", set_filter: "1" }
+    save_url_params = { action: "create" }
     save_url_params[:project_id] = @subject.project.id if @subject.project
 
     save = link_to(I18n.t(:button_save),

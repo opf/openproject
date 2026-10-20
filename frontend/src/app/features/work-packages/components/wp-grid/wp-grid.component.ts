@@ -20,17 +20,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, DestroyRef, inject } from '@angular/core';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { CardViewOrientation } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
@@ -39,6 +39,7 @@ import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/c
 import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-grid',
   template: `
     <wp-card-view opSortableLists
@@ -51,7 +52,6 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
       [showStatusButton]="true"
       [orientation]="gridOrientation"
       (onMoved)="switchToManualSorting()"
-      (selectionChanged)="selectionChanged.emit($event)"
       (itemClicked)="itemClicked.emit($event)"
       (stateLinkClicked)="stateLinkClicked.emit($event)"
       [showEmptyResultsBox]="true"
@@ -73,6 +73,8 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
   standalone: false,
 })
 export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly wpTableHighlight = inject(WorkPackageViewHighlightingService);
   readonly wpTableSortBy = inject(WorkPackageViewSortByService);
   readonly wpList = inject(WorkPackagesListService);
@@ -86,8 +88,6 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
   @Input() public resizerClass = '';
 
   @Input() public resizerStorageKey = '';
-
-  @Output() selectionChanged = new EventEmitter<string[]>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
@@ -105,12 +105,14 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
     this.dragInto = this.configuration.dragAndDropEnabled;
     this.canDragOutOf = () => this.configuration.dragAndDropEnabled;
 
-    this.wpTableHighlight.onReady().then(() => this.highlightingModeChanged());
+    void this.wpTableHighlight.onReady().then(() => {
+      if (!this.destroyRef.destroyed) this.highlightingModeChanged();
+    });
 
     this.wpTableHighlight
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(this.destroyRef),
         distinctUntilChanged(),
       )
       .subscribe(() => this.highlightingModeChanged());

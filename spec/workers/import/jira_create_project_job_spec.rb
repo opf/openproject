@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,11 +67,10 @@ RSpec.describe Import::JiraCreateProjectJob,
 
     context "when project creation fails with a general error" do
       before do
-        # rubocop:disable RSpec/AnyInstance
+        # rubocop:disable-next RSpec/AnyInstance
         allow_any_instance_of(Projects::CreateService).to receive(:call).and_return(
           ServiceResult.failure(message: "Something went wrong during project creation")
         )
-        # rubocop:enable RSpec/AnyInstance
       end
 
       it "raises the error message" do
@@ -80,9 +78,9 @@ RSpec.describe Import::JiraCreateProjectJob,
       end
     end
 
-    # Custom fields are built by Import::JiraCreateProjectWorkPackagesJob, which needs the
-    # registry anyway to convert values. Building them here as well duplicated every list and
-    # hierarchy custom field, because those are never looked up by name.
+    # Custom fields belong to Import::JiraCreateCustomFieldsJob, and Import::JiraCreateProjectWorkPackagesJob
+    # resolves the registry again because it needs it to convert values. Building them here as well
+    # created a second copy of every field before the registry was able to resolve existing ones.
     context "with a jira issue carrying a list custom field" do
       let!(:jira_field) do
         create(:jira_field, jira_import:,

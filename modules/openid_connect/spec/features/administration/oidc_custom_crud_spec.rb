@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,6 +62,7 @@ RSpec.describe "OIDC administration CRUD",
       # Client credentials
       fill_in "Client ID", with: "client_id"
       fill_in "Client secret", with: "client secret"
+      fill_in "Additional allowed login redirect URLs", with: "https://idp.prod.soloidp.dk/login\nhttps://broker.example.com"
 
       # Scope
       fill_in "Scope", with: "custom_scope another_scope"
@@ -119,6 +119,7 @@ RSpec.describe "OIDC administration CRUD",
       expect(provider.issuer).to eq "foobar"
       expect(provider.client_id).to eq "client_id"
       expect(provider.client_secret).to eq "client secret"
+      expect(provider.additional_form_action_urls).to eq %w[https://idp.prod.soloidp.dk/login https://broker.example.com]
 
       expect(provider.mapping_login).to eq "login"
       expect(provider.mapping_email).to eq "mail"
@@ -130,8 +131,16 @@ RSpec.describe "OIDC administration CRUD",
 
       click_link_or_button "Delete"
 
-      check "I understand that this deletion cannot be reversed."
-      click_on "Delete permanently"
+      expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
+
+      within_dialog "Delete OpenID Connect provider" do
+        confirmation = find_field("I understand that this deletion cannot be reversed.")
+        confirmation.click
+
+        expect(confirmation).to be_checked
+        expect(page).to have_button("Delete permanently", disabled: false)
+        click_on "Delete permanently"
+      end
 
       expect(page).to have_text "No OpenID providers configured yet."
       expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -177,7 +186,7 @@ RSpec.describe "OIDC administration CRUD",
     end
   end
 
-  context "without EE", without_ee: %i[sso_auth_providers] do
+  context "without EE" do
     it "renders the upsell page" do
       visit "/admin/openid_connect/providers"
       expect(page).to have_enterprise_banner(:professional)

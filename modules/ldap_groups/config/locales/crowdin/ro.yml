@@ -3,7 +3,7 @@ ro:
   activerecord:
     attributes:
       ldap_groups/synchronized_filter:
-        auth_source: Auth source
+        auth_source: Sursă autentificare
         base_dn: Baza de căutare DN
         filter_string: Filtru LDAP
         group_name_attribute: Atributul nume de grup
@@ -58,7 +58,7 @@ ro:
 
           '
       label_n_groups_found:
-        one: 1 grup găsit de filtru
+        one: "%{count} group found by the filter"
         other: "%{count} grupuri găsite de filtru"
         zero: Nu au fost găsite grupuri prin filtru
       plural: Filtre de sincronizare a grupurilor LDAP

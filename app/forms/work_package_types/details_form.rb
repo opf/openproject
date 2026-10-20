@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,7 +60,7 @@ module WorkPackageTypes
                              disabled: inherited?,
                              caption: inherited_caption)
 
-      if offers_project_variants?
+      unless inherited?
         details_form.check_box(name: :allow_project_variants,
                                label: label(:allow_project_variants),
                                caption: I18n.t("types.edit.details.allow_project_variants_caption"))
@@ -71,10 +70,6 @@ module WorkPackageTypes
     private
 
     def inherited? = model.is_a?(TypeVariant)
-
-    def offers_project_variants?
-      !inherited? && OpenProject::FeatureDecisions.type_variants_active?
-    end
 
     def name_attribute = inherited? ? :variant_name : :name
 

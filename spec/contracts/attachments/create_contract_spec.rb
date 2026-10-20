@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -138,6 +137,16 @@ RSpec.describe Attachments::CreateContract do
 
       it_behaves_like "contract is valid"
     end
+  end
+
+  context "with filesize exceeding maximum",
+          with_settings: { attachment_max_size: 0 } do
+    it_behaves_like "contract is invalid", file: :file_too_large
+  end
+
+  context "with filesize within maximum",
+          with_settings: { attachment_max_size: 1024 } do
+    it_behaves_like "contract is valid"
   end
 
   include_examples "contract reuses the model errors"

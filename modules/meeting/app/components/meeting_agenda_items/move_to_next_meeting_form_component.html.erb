@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -37,10 +36,20 @@ See COPYRIGHT and LICENSE files for more details.
         @agenda_item.meeting.project,
         @agenda_item.meeting,
         @agenda_item,
-        datetime: @datetime
+        datetime: @datetime,
+        presentation_mode: @presentation_mode || nil,
+        started_at: @started_at
       )
     ) do |f|
-      render(Meeting::AddToSection.new(f, wrapper_id: "move-to-next-meeting-dialog", occurrence: @next_occurrence, move_to_section: false))
+      render(
+        Meeting::AddToSection.new(
+          f,
+          wrapper_id: "move-to-next-meeting-dialog",
+          occurrence: @next_occurrence,
+          item: @agenda_item,
+          move_to_section: false
+        )
+      )
     end
   end
 %>

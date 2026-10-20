@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -259,6 +258,20 @@ RSpec.shared_examples "work package contract" do
 
         it_behaves_like "contract is invalid", target_versions: :error_readonly
       end
+    end
+
+    describe "labels" do
+      let(:label) { create(:label) }
+
+      after do
+        work_package.label_id_replacements = nil
+      end
+
+      before do
+        work_package.label_id_replacements = [label.id]
+      end
+
+      it_behaves_like "contract is valid"
     end
 
     describe "ignore_non_working_days" do

@@ -114,7 +114,7 @@ cs:
     not_recommended: nedoporučeno
     recommended: doporučeno
     x_bcf_issues:
-      one: Jeden problém s BCFF
+      one: "%{count} BCF issue"
       other: "%{count} Problémy s BCF"
       zero: Žádné problémy s BCF
   bim:

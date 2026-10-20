@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -185,9 +184,23 @@ class CreateTypeVariants < ActiveRecord::Migration[8.0]
 
   def repoint_custom_fields_types
     remove_index_on :custom_fields_types, "custom_fields_types_unique", %w[custom_field_id type_id]
+    remove_obsolete_custom_fields_types
+
     move_type_reference :custom_fields_types
     add_index :custom_fields_types, %i[custom_field_id type_variant_id],
               unique: true, name: "custom_fields_types_unique"
+  end
+
+  def remove_obsolete_custom_fields_types
+    # Delete join table entries where the matching custom field or type have been deleted
+    execute <<~SQL.squish
+      DELETE FROM custom_fields_types
+      WHERE custom_field_id NOT IN (SELECT id FROM custom_fields)
+    SQL
+    execute <<~SQL.squish
+      DELETE FROM custom_fields_types
+      WHERE type_id NOT IN (SELECT id FROM types)
+    SQL
   end
 
   def repoint_project_custom_field_type_mappings

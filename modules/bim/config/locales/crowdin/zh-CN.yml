@@ -102,12 +102,12 @@ zh-CN:
     not_recommended: 不推荐
     recommended: 推荐
     x_bcf_issues:
-      one: 一个 BCF 问题
+      one: "%{count} BCF issue"
       other: "%{count} 个 BCF 问题"
       zero: 无 BCF 问题
   bim:
     error_direct_upload_failed: 直接上传失败。
-    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
+    error_direct_upload_file_too_large: IFC 模型过大（最大大小为 %{size} 字节）。
     label_bim: BIM
   export:
     format:

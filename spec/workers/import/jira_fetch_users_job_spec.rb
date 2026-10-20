@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -131,7 +130,7 @@ RSpec.describe Import::JiraFetchUsersJob do
     end
 
     context "when a mentioned user does not exist in Jira" do
-      let(:api_error) { Import::JiraClient::ApiError.new("User not found", status: 404) }
+      let(:api_error) { Import::JiraClient::ApiError.new("User not found", status: 404, response_body: "", response_headers: {}) }
 
       before do
         allow(jira_client).to receive(:user_by_username).with(username: "alice").and_return({ "key" => "JIRAUSER100" })
@@ -155,7 +154,7 @@ RSpec.describe Import::JiraFetchUsersJob do
     end
 
     context "when resolving a mentioned user fails with a non-404 error" do
-      let(:api_error) { Import::JiraClient::ApiError.new("Boom", status: 500) }
+      let(:api_error) { Import::JiraClient::ApiError.new("Boom", status: 500, response_body: "", response_headers: {}) }
 
       before do
         allow(jira_client).to receive(:user_by_username).with(username: "alice").and_raise(api_error)
@@ -163,7 +162,7 @@ RSpec.describe Import::JiraFetchUsersJob do
 
       it "raises an error" do
         expect { job.send(:resolve_mention_user_keys, %w[alice], user_keys, jira_client) }
-          .to raise_error("Could not resolve mentioned user 'alice': Boom")
+          .to raise_error(/Could not resolve mentioned user 'alice': Boom/)
       end
     end
   end

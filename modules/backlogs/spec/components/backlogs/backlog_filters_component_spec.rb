@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -75,12 +74,30 @@ RSpec.describe Backlogs::BacklogFiltersComponent, type: :component do
     end
   end
 
-  it "renders the generic filters, but not the ones controlled by the dedicated picker" do
+  it "renders the generic filters, but not the ones controlled by the dedicated picker", :aggregate_failures do
     render_inline(component)
 
-    expect(page).to have_css("[data-filter-name='status_id']")
-    expect(page).to have_no_css("[data-filter-name='sprint_id']")
-    expect(page).to have_no_css("[data-filter-name='backlog_bucket_id']")
-    expect(page).to have_no_css("[data-filter-name='backlog_inbox']")
+    expect(page).to have_element("data-filter-name": "status_id")
+    expect(page).to have_no_element("data-filter-name": "sprint_id", visible: :all)
+    expect(page).to have_no_element("data-filter-name": "backlog_bucket_id", visible: :all)
+    expect(page).to have_no_element("data-filter-name": "backlog_inbox", visible: :all)
+  end
+
+  it "excludes the internal filters that are never user selectable", :aggregate_failures do
+    names = %i[file_link_origin_id
+               linkable_to_storage_id
+               linkable_to_storage_url
+               storage_id storage_url
+               subject_or_id
+               typeahead
+               search]
+    expect(query.available_advanced_filters.map(&:name)).to include(*names)
+
+    render_inline(component)
+
+    names.each do |name|
+      expect(page).to have_no_element(:option, value: name, visible: :all)
+      expect(page).to have_no_element("data-filter-name": name, visible: :all)
+    end
   end
 end

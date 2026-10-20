@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,6 +45,15 @@ module Wikis
                section: :oauth_configuration,
                if: ->(provider) { provider.authenticate_via_two_way_oauth2? },
                completed_if: ->(provider) { provider.oauth_client.present? }
+
+          step :redirect_uri,
+               section: :oauth_configuration,
+               if: ->(provider) { provider.authenticate_via_two_way_oauth2? },
+               # Nothing changes on the provider when the redirect URI is shown. The step only exists to
+               # show the OAuth client's redirect URI right after the client was created.
+               completed_if: lambda { |provider|
+                 provider.oauth_client&.persisted? && provider.oauth_client.created_at < 10.seconds.ago
+               }
 
           private
 

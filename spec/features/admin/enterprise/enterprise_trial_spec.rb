@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -176,10 +175,8 @@ RSpec.describe "Enterprise trial management",
     fill_in "Last name", with: "Bar"
     fill_in "Email", with: mail
 
-    retry_block do
-      check "general_consent", allow_label_click: true
-      expect(page).to have_checked_field("general_consent")
-    end
+    check "general_consent", allow_label_click: true
+    expect(page).to have_checked_field("general_consent")
   end
 
   it "does not send a request when an internal validation fails" do
@@ -284,7 +281,7 @@ RSpec.describe "Enterprise trial management",
         click_link_or_button("Resend confirmation email")
       end
 
-      expect(page).to have_text("Quick feature overview")
+      expect(page).to have_text("Quick feature overview", wait: 10)
       expect(page).to have_css("#enterprise-trial-welcome-dialog video")
 
       expect(page).to have_text("Enterprise Plan")

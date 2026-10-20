@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,7 @@ module Settings
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include ::CustomFields::AdminRoutes
 
       def initialize(project_custom_field:, first:, last:)
         super()
@@ -92,15 +92,8 @@ module Settings
       def delete_action_item(menu)
         menu.with_item(label: t("text_destroy"),
                        scheme: :danger,
-                       href: admin_settings_project_custom_field_path(@project_custom_field),
-                       form_arguments: {
-                         method: :delete,
-                         data: {
-                           turbo_confirm: t("text_are_you_sure_with_project_custom_fields"),
-                           turbo_stream: true,
-                           test_selector: "project-custom-field-delete"
-                         }
-                       }) do |item|
+                       href: deletion_dialog_path(@project_custom_field),
+                       content_arguments: { data: { controller: "async-dialog" } }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
       end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
+  include DirectUploadHelpers
+
   let(:grace_period) { 120 }
 
   let!(:containered_attachment) { create(:attachment) }
@@ -64,5 +65,15 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
 
     expect(Attachment.all)
       .to contain_exactly(containered_attachment, new_uncontainered_attachment, finished_upload, new_pending_upload)
+  end
+
+  it "removes the staged direct uploads of the removed pending uploads only", :with_direct_uploads do
+    stage_direct_upload(old_pending_upload)
+    stage_direct_upload(new_pending_upload)
+
+    job.perform
+
+    expect(staged_direct_upload(old_pending_upload)).to be_nil
+    expect(staged_direct_upload(new_pending_upload)).to be_present
   end
 end

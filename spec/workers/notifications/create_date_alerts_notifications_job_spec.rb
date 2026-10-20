@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
+RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job do
   shared_let(:project) { create(:project, name: "main") }
 
   shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
@@ -221,16 +220,6 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob, type: :job, with
       run_job do
         expect(user).not_to have_a_start_date_alert_notification_for(work_package)
         expect(user).to have_a_due_date_alert_notification_for(work_package)
-      end
-    end
-
-    context "without enterprise token", with_ee: false do
-      it "does not create any date alerts" do
-        work_package = alertable_work_package
-
-        run_job do
-          expect(user).not_to have_a_start_date_alert_notification_for(work_package)
-        end
       end
     end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,7 @@ module WorkPackageTypes
     class AddFormComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       DIALOG_ID = "work-package-type-add-projects-dialog"
       FORM_ID = "work-package-type-add-projects-form"
@@ -48,7 +48,7 @@ module WorkPackageTypes
       def form_arguments
         {
           id: FORM_ID,
-          url: url_helpers.link_type_projects_path(**variant.path_args),
+          url: link_variant_projects_path(variant),
           method: :post,
           data: { turbo: true }
         }
@@ -58,7 +58,7 @@ module WorkPackageTypes
 
       attr_reader :variant, :validation_message
 
-      def tree_src = url_helpers.tree_type_projects_path(**variant.path_args, name: FIELD_NAME)
+      def tree_src = tree_variant_projects_path(variant, name: FIELD_NAME)
     end
   end
 end

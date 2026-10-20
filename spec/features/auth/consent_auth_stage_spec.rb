@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -213,6 +212,7 @@ RSpec.describe "Authentication Stages" do
       fill_in "user_lastname", with: "Last"
 
       click_on I18n.t(:button_create)
+      expect_flash(message: "Successful creation.")
 
       # Get invitation token and log in as that user
       visit signout_path

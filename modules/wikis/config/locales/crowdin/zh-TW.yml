@@ -27,7 +27,7 @@ zh-TW:
       wikis/inline_page_link:
         other: Inline page links
       wikis/internal_provider:
-        other: Internal providers
+        other: 內部供應者
       wikis/page_link:
         other: Page links
       wikis/provider:
@@ -42,8 +42,8 @@ zh-TW:
       internal_wiki_provider: Project wikis
       wikis: Wikis
     project_settings:
-      wiki: Project wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+      wiki: 專案維基
+  permission_manage_wiki_page_links: 管理維基頁面連結
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -59,8 +59,6 @@ zh-TW:
         oauth_client_form_component:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
           actions:
@@ -85,6 +83,10 @@ zh-TW:
         confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
         label_oauth_client_id: OAuth Client ID
         replace_oauth_client: Replace XWiki OAuth application
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: 'Last check: %{datetime}'
@@ -106,8 +108,11 @@ zh-TW:
         name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
         name_placeholder: XWiki knowledge base
         new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: General information
           oauth_configuration: OAuth configuration
@@ -135,11 +140,11 @@ zh-TW:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
+      connection_error: 無法連線至維基服務提供者。
+      invalid_parent: 所選頁面並非有效的父頁面。
+      invalid_response: 維基服務提供者傳回了意外的回應。
+      missing_token: 該使用者帳戶尚未與維基服務提供者連結。
+      request_failed: 維基服務提供者發生了意外錯誤。
       unauthorized: An authorization error occurred.
     health_checks:
       authentication:
@@ -175,8 +180,8 @@ zh-TW:
       sub_pages_count:
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: 新增現有的維基頁面
+      title_create: 建立新的維基頁面
     instructions:
       xwiki:
         integration: XWiki Administration

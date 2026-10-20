@@ -30,12 +30,14 @@ Users who want to change their authentication method can just be re-invited. Go 
 
 ## I am an administrator of an on-premises installation of OpenProject. Our users can't login and when I send them a link to login they don't receive it. What can I do?
 
-Probably it has something to do with the configuration of the email server if messages do not arrive. As a workaround, you can first [manually set a password](../../users-permissions/users/#manage-user-settings) for the users and send it to them by protected channels (then the users can log in in any case).
+Probably it has something to do with the configuration of the email server if messages do not arrive. As a workaround, you can [manually set a password](../../users-permissions/users/#manage-user-settings) for users and send it to them through a protected channel. Note that this only provides access when the configured [Password login policy](../login-registration-settings/#single-sign-on-sso-settings) permits that user to authenticate with a password.
 In addition, we ask you to check if there are general difficulties with sending emails. There is a possibility to send a [test email](../../../installation-and-operations/configuration/outbound-emails). If the test email arrives, then the email dispatch from OpenProject works. Otherwise you would have to look in the [server logs](../../../installation-and-operations/operation/monitoring), whether there is an error displayed when a user is invited again.
 
 ## Is it possible to only allow authentication via SSO (not via user name / password)?
 
-Yes, for Enterprise on-premises and Community edition there is a [configuration option](../../../installation-and-operations/configuration/#password-login) to restrict or completely disable the password login.
+Yes. When SSO is configured, administrators can choose who may use a password under _Administration -> Authentication -> Login and registration -> Single Sign-On (SSO)_. Password login can be allowed for everyone, disallowed for users linked to SSO, or disallowed for everyone. For the restricted modes, selected users and groups can retain password access as a break-glass mechanism. See the [login and registration settings](../login-registration-settings/#single-sign-on-sso-settings).
+
+For on-premises installations, the same policy can also be set through [configuration or environment variables](../../../installation-and-operations/configuration/#password-login).
 
 ## Which authentication providers are supported for single sign-on?
 

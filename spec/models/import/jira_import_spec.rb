@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -129,6 +128,94 @@ RSpec.describe Import::JiraImport do
       jira_import.destroy_jira_objects
 
       expect(Import::JiraField.exists?(other_field.id)).to be true
+    end
+  end
+
+  describe "#find_op_leg" do
+    let(:jira_project) { create(:jira_project, jira_import:) }
+    let(:jira_version) { create(:jira_version, jira_import:, jira_project:) }
+    let(:version) { create(:version) }
+
+    context "when reference exists" do
+      before do
+        create(:jira_open_project_reference,
+               jira_import:,
+               jira_entity_class: jira_version.class.to_s,
+               jira_entity_id: jira_version.id.to_s,
+               op_entity_class: version.class.to_s,
+               op_entity_id: version.id.to_s)
+      end
+
+      it "returns the OpenProject entity" do
+        expect(jira_import.find_op_leg(jira_version)).to eq(version)
+      end
+    end
+
+    context "when reference does not exist" do
+      it "returns nil" do
+        expect(jira_import.find_op_leg(jira_version)).to be_nil
+      end
+    end
+
+    context "when reference exists in a different import" do
+      let(:other_import) { create(:jira_import, jira:, author:) }
+
+      before do
+        create(:jira_open_project_reference,
+               jira_import: other_import,
+               jira_entity_class: jira_version.class.to_s,
+               jira_entity_id: jira_version.id.to_s,
+               op_entity_class: version.class.to_s,
+               op_entity_id: version.id.to_s)
+      end
+
+      it "returns nil" do
+        expect(jira_import.find_op_leg(jira_version)).to be_nil
+      end
+    end
+  end
+
+  describe "#find_jira_leg" do
+    let(:jira_project) { create(:jira_project, jira_import:) }
+    let(:jira_version) { create(:jira_version, jira_import:, jira_project:) }
+    let(:version) { create(:version) }
+
+    context "when reference exists" do
+      before do
+        create(:jira_open_project_reference,
+               jira_import:,
+               jira_entity_class: jira_version.class.to_s,
+               jira_entity_id: jira_version.id.to_s,
+               op_entity_class: version.class.to_s,
+               op_entity_id: version.id.to_s)
+      end
+
+      it "returns the Jira entity" do
+        expect(jira_import.find_jira_leg(version)).to eq(jira_version)
+      end
+    end
+
+    context "when reference does not exist" do
+      it "returns nil" do
+        expect(jira_import.find_jira_leg(version)).to be_nil
+      end
+    end
+
+    context "when reference exists in a different import" do
+      let(:other_import) { create(:jira_import, jira:, author:) }
+
+      before do
+        create(:jira_open_project_reference,
+               jira_import: other_import,
+               jira_entity_class: jira_version.class.to_s,
+               jira_entity_id: jira_version.id.to_s,
+               op_entity_class: version.class.to_s,
+               op_entity_id: version.id.to_s)
+      end
+
+      it "returns nil" do
+        expect(jira_import.find_jira_leg(version)).to be_nil
+      end
     end
   end
 end

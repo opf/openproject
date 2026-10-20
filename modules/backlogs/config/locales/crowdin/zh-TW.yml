@@ -24,33 +24,34 @@ zh-TW:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
-        backlog_excluded_types: Excluded work package types
+        allow_multiple_active_sprints: 允許多個活躍的衝刺
+        backlog_excluded_types: 不包含的工作包類型
+        estimation_unit: 單位
         sprint_sharing: Sprint 共用
-        statuses_considered_closed: Statuses considered closed
+        statuses_considered_closed: 被視為已關閉的狀態
       sprint:
-        duration: Duration
-        finish_date: Finish date
-        goal: Sprint goal
-        name: Sprint name
-        sharing: Sharing
+        duration: 持續時間
+        finish_date: 完成日期
+        goal: 衝刺目標
+        name: Sprint 名稱
+        sharing: 共享
         statuses:
-          active: Active
-          completed: Completed
-          in_planning: In planning
-        work_packages: Work packages
+          active: 啟用
+          completed: 已完成
+          in_planning: 規劃中
+        work_packages: 工作項目
       sprint_goal:
-        text: Sprint goal
+        text: 衝刺目標
       work_package:
-        backlog_bucket: Backlog bucket
-        backlog_inbox: Backlog inbox
+        backlog_bucket: 待處理事項區
+        backlog_inbox: 待辦事項收件匣
         backlogs_work_package_type: 待辦事項類型
         position: 位置
         sprint: 衝刺
         story_points: 需求重要性
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: 當專案正在接收共享衝刺時，無法啟動。
         dates_required: 要開始衝刺，必須要有開始和結束日期。
         must_be_in_planning: 必須在規劃中開始。
         only_one_active_sprint_allowed: 每個專案只允許一個活動衝刺。
@@ -58,14 +59,14 @@ zh-TW:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: 當有多個活躍的衝刺正在進行時，此設定無法變更。
+              requires_no_sharing: 僅當衝刺共享設定為「不共享」時，才可啟用此功能。
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              active_or_borrowed_sprint_blocks_receiving: 無法設定為「接收」，因為該專案目前有正在進行或借用的衝刺。請先關閉或解除指派這些工作包。
+              locked_by_multiple_active_sprints: 當有多個活躍的衝刺正在進行時，此設定無法變更。
               share_all_projects_already_taken: 無法設定，因為專案 "%{name}" 已經與所有專案共用。
               share_all_projects_already_taken_anonymous: 無法設定，因為另一個專案已經與所有專案共用。
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: 由於工作包仍與共用衝刺相關聯，因此無法進行變更。請先取消指派。
           receiving_sprints: 正在接收共享衝刺的同時。無法建立自己的衝刺。
         sprint:
           attributes:
@@ -74,66 +75,67 @@ zh-TW:
               unfinished_work_packages:
                 other: There are %{count} work packages that were not completed in this sprint.
             status:
-              not_active: is not active so it cannot be closed.
+              not_active: 目前處於非活躍狀態，因此無法關閉。
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: 已經為這個衝刺設定了目標。
         work_package:
           attributes:
             backlog_bucket:
-              backlog_bucket_from_another_project: must belong to the same project as the work package.
+              backlog_bucket_from_another_project: 必須與工作包屬於同一個專案。
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: 只能包含當前衝刺（Sprint）中的工作套件 ID。
               must_block_at_least_one_work_package: 必須包含至少一個項目的 ID
             sprint:
-              not_assignable: is not assignable since it is either not shared with the project or already finished.
+              not_assignable: 無法指派，因為該任務要麼未與專案共享，要麼已經完成。
               not_eligible_for_moving: 工作任務被移出的項目中沒有活耀的衝刺。
             version_id:
               task_version_must_be_the_same_as_story_version: 必須與上層「使用者需求」(User Story)的版本相同。
-          backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
+          backlog_bucket_xor_sprint: 無法同時指派給衝刺和待辦事項區塊。
     models:
       backlog_bucket:
-        other: Backlog buckets
+        other: 待處理事項區
       sprint:
-        other: Sprints
+        other: 衝刺
       sprint_goal:
-        other: Sprint goals
+        other: 衝刺目標
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: 新增現有的工作套件
     administration_blankslate:
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
       title: Backlog 管理設定不斷演進
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: 新的待辦事項區塊
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: 待處理事項區
+        other: 待處理事項區
+        zero: 所有待處理事項區塊
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
-    blankslate_filtered_title: No work packages match the filter criteria.
+        one: 衝刺
+        other: 衝刺
+        zero: 所有衝刺
+      select_panel_title: 選擇項目
+    blankslate_filtered_title: 沒有任何工作包符合篩選條件。
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-        delete_backlog_bucket: Delete backlog bucket
-        edit_backlog_bucket: Edit backlog bucket
-      blankslate_description: Drag items here to add them
-      blankslate_title: Backlog bucket is empty
-      drop_zone_label: Drop here to add this item
-      label_actions: Backlog bucket actions
+        add_existing_work_package: 新增現有的工作套件
+        add_new_work_package: 新增工作項目
+        delete_backlog_bucket: 刪除積壓桶
+        edit_backlog_bucket: 編輯積壓項目區
+      blankslate_description: 將項目拖曳至此處以新增
+      blankslate_title: 待處理事項區為空
+      drop_zone_label: 將此項目拖放至此處以新增
+      label_actions: 待處理事項區塊的操作
     bucket_destroy_modal_component:
-      details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
-      title: Delete backlog bucket?
+      details: 待辦事項桶「%{name}」將被刪除，所有工作包將移至待辦事項收件匣。不會刪除任何工作包。
+      title: 刪除積壓桶？
     burndown_chart:
       show:
-        blankslate_description: Set start and end date for the sprint to generate a burndown chart.
-        blankslate_title: No burndown data available
-    excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
+        blankslate_description: 設定衝刺的開始和結束日期，以產生燃盡圖表。
+        blankslate_title: 沒有可用的燃盡圖資料
+    estimation_unit: 單位
+    excluded_work_package_types_caption: '選擇要從待辦清單中隱藏哪些工作包類型。所選類型的項目將不會自動出現在待辦清單中，使待辦清單能專注於對您的團隊至關重要的工作。例如，可將「史詩」或「里程碑」這類在更高層級管理的類型隱藏起來，讓待辦清單專注於可執行的項目。
 
       '
     finish_sprint_dialog_component:
@@ -148,27 +150,27 @@ zh-TW:
       title: 有進行中的工作項目
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
+        add_existing_work_package: 新增現有的工作套件
+        add_new_work_package: 新增工作項目
+      blankslate_description: 未歸屬於任何衝刺或待辦事項區塊的開放式工作包，會自動顯示在此處
       blankslate_title: 積壓收件匣為空
-      drop_zone_label: Drop here to add this item
-      label_actions: Inbox actions
+      drop_zone_label: 將此項目拖放至此處以新增
+      label_actions: 收件匣操作
       show_more:
-        other: 再顯示 %{count} 項
-      title: Inbox
+        other: Show %{count} more items
+      title: 收件匣
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: 依主題搜尋工作項目
     label_burndown_chart: 未完成圖
     label_is_done_status: 狀態 %{status_name} 表示完成
     label_sprint_board: 衝刺目標
-    label_sprint_report: Sprint report
+    label_sprint_report: 衝刺報告
     move_to_bucket_dialog_component:
-      title: Move to backlog bucket
+      title: 移至待辦事項區
     move_to_sprint_dialog_component:
       label_sprint: 衝刺
       title: 移動到衝刺
-    multiple_active_sprints: Multiple active sprints
+    multiple_active_sprints: 多個正在進行的衝刺
     points_label:
       other: 點
     positions_could_not_be_rebuilt: 無法重建位置
@@ -176,160 +178,209 @@ zh-TW:
     rebuild: 重建
     rebuild_positions: 重建位置
     remaining_hours: 剩餘工時
-    sharing: Sprint sharing
+    sharing: 共用衝刺
     show_burndown_chart: 未完成圖
+    show_work_package_overview: 衝刺中的工作包
     sprint_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-        edit_sprint: Edit sprint
+        add_existing_work_package: 新增現有的工作套件
+        add_new_work_package: 新增工作項目
+        edit_sprint: 編輯衝刺
       blankslate_description: 尚未規劃任何項目。將項目拖曳至此即可新增。
       blankslate_title: "%{name} 為空"
-      drop_zone_label: Drop here to add this item
-      label_actions: Sprint actions
-      label_complete_sprint: Complete sprint
-      label_start_sprint: Start sprint
-      start_sprint_disabled_reason_active_sprint: Another sprint is already active.
-      start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
-      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
+      drop_zone_label: 將此項目拖放至此處以新增
+      label_actions: 衝刺行動
+      label_complete_sprint: 完成衝刺
+      label_start_sprint: 開始衝刺
+      start_sprint_disabled_reason_active_sprint: 另一個衝刺已經展開。
+      start_sprint_disabled_reason_missing_dates: 必須填寫開始和結束日期，才能啟動衝刺。
+      start_sprint_disabled_reason_receiving_shared_sprints: 當此專案正在接收共用衝刺時，其自身的衝刺將無法啟動。
+      start_sprint_disabled_reason_shared_sprint: 此衝刺來自另一個不支援同時進行多個衝刺的專案。
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: 此衝刺目標專屬於本專案，不會與同樣使用此衝刺的其他專案共用。
+      goal_for_this_project_label: "%{attribute} （針對此專案）"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: 這是個共用衝刺。所做的修改將會反映在所有使用此衝刺的專案中。
+      shared_sprint_warning_banner: 這是個共享的衝刺。您沒有編輯它的必要權限。
     sprint_reports:
       page_header_component:
-        breadcrumb: Report
-        title: "%{sprint} report"
+        breadcrumb: 報告
+        title: "%{sprint} 報告"
+      widgets:
+        work_package_graph:
+          title: 工作套件圖表
+        work_package_overview:
+          blankslate:
+            description: 設定衝刺的開始與結束日期，以產生工作項目概覽。
+            heading: 沒有衝刺數據
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: 範圍變更
+              story_points_change: "+%{added} / -%{removed} 故事點數"
+            completed:
+              heading: 已完成
+            initially_planned:
+              heading: 最初的計畫是
+            unfinished:
+              heading: 未完成
+          breakdown_block:
+            blocks:
+              show_all: 查看全部
+          closed_work_packages: 已關閉的工作項目
+          resolved_summary:
+            other: "%{percentage}% (%{resolved} 佔 %{total} 工作項目)"
     sprints:
       row_component:
         action_menu:
-          edit_sprint: Edit sprint
-          sprint_report: Sprint report
+          edit_sprint: 編輯衝刺
+          sprint_report: 衝刺報告
     sprints_component:
       blankslate:
-        create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
-        create_description_text: To start planning your sprint, create one here.
-        manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
-        no_actions_description_text: No sprints are available for this project yet.
-        receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
-        receive_description_text: This project receives shared sprints from a different project, but none are available right now.
-        settings_link_text: project settings
-        title: No sprints present yet
-      button_new_sprint: New sprint
-    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+        create_and_manage_description_html: 要開始規劃您的衝刺，請在此建立一個，或前往 %{settings_link} 接收來自其他專案的衝刺。
+        create_description_text: 若要開始規劃您的衝刺，請在此建立一個。
+        manage_description_html: 要開始規劃您的衝刺，請前往 %{settings_link}，以取得來自其他專案的衝刺。
+        no_actions_description_text: 此專案目前尚無任何衝刺任務。
+        receive_and_manage_description_html: 此專案會接收來自另一個專案的衝刺。請在 %{settings_link} 中進行管理。
+        receive_description_text: 此專案會接收來自另一個專案的共享衝刺，但目前沒有可用的衝刺。
+        settings_link_text: 專案設定
+        title: 目前尚無衝刺
+      button_new_sprint: 新的衝刺階段
+    statuses_considered_closed_caption: '請選擇代表工作流程中「已關閉」或「已完成」狀態的狀態。這些狀態將在報表（例如燃盡圖）和衝刺規劃中被視為「已關閉」狀態。例如，「已完成」、「已解決」或「不予修復」等狀態，在您的流程中都可能代表已關閉的工作項目。
 
       '
     story_points:
       other: "%{count} 故事點"
-    types_and_statuses: Types and statuses
+    types_and_statuses: 類型與狀態
     unassigned: 尚未指派
     user_preference:
       button_update_backlogs: 更新待辦清單模組
       header_backlogs: 待辦清單模組
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copy URL to clipboard
-        copy_work_package_id: Copy work package ID
-        move_menu: Move to position
-        move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to backlog inbox
-        move_to_sprint: Move to sprint
+        copy_work_package_id: 複製工作項目 ID
+        move_menu: 移動至該位置
+        move_to_backlog_bucket: 移至待辦事項區
+        move_to_inbox: 移至待辦事項收件匣
+        move_to_sprint: 移動到衝刺
     work_package_is_closed: 視為工作套件已完成
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
-        target_not_found: The sprint or backlog you are trying to add to was not found.
+        invalid_target: 您嘗試新增的目標無效。
+        target_not_found: 找不到您嘗試新增的衝刺或待辦事項清單。
+      batch_update_service:
+        mixed_projects: 同一批次中的所有工作包必須屬於同一個專案。
+        stale_batch: 在籌備搬遷期間，至少有一個工作包發生了變更。請確認目前的狀態，並請重新嘗試。
+        stale_predecessor: 原本應插入於此處後的工作包已移至其他位置。請確認當前位置並重新嘗試。
+        unavailable_target: 目的地清單已無法使用。請重新載入頁面並再次嘗試。
+        unexpected_failure: 無法移動這些工作包。請重試。
       move:
-        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+        moved_announcement: "%{label} 已移至 %{list}，位置 %{position} 的 %{total}"
+      move_collection:
+        invalid_ids: 待移轉的工作包清單無效。
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: 一次最多只能移動 %{max} 個工作包。
+        work_packages_not_found: 在此專案中，至少有一個工作包無法找到。
       update_service:
-        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
-        missing_target: list_type or list_id must be present.
+        invalid_target_type: list_type 必須為以下其中一種：帶有 list_id 的 backlog_bucket、帶有 list_id 的 sprint，或不帶有 list_id 的 inbox。
+        missing_target: 必須包含 list_type 或 list_id。
   burndown:
     story_points: 故事點
     story_points_ideal: 理想估算故事點數
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
-      sprint_sharing: Sprint sharing
+      multiple_active_sprints: 多個正在進行的衝刺
+      sprint_sharing: 共用衝刺
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: 為專案中的不同團隊並行執行多個衝刺，以獲得更大的掌控力與靈活性。
       sprint_sharing:
-        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
-  label_all_sprints: All sprints
-  label_backlog: Backlog
-  label_backlog_and_sprints: Backlog and sprints
-  label_backlog_bucket_edit: Edit backlog bucket
-  label_backlog_bucket_new: New backlog bucket
+        description: 在跨專案環境中共享衝刺，以在擴展式敏捷（SAFe）架構下統一團隊方向並協調工作。
+  label_all_sprints: 所有衝刺
+  label_backlog: 待辦事項
+  label_backlog_and_sprints: 待辦事項清單與衝刺
+  label_backlog_bucket_edit: 編輯待辦事項區塊
+  label_backlog_bucket_new: 新的待辦事項區塊
   label_backlogs: 待辦事項
-  label_burndown_chart: Burndown chart
-  label_inbox: Inbox
+  label_burndown_chart: 燃盡圖
+  label_inbox: 收件匣
   label_points_burn_down: 減少
   label_points_burn_up: 增加
-  label_sprint_board: Sprint board
-  label_sprint_edit: Edit sprint
-  label_sprint_new: New sprint
+  label_sprint_board: 衝刺板
+  label_sprint_edit: 編輯衝刺
+  label_sprint_new: 新的衝刺階段
   label_task_board: 任務看板
-  notice_successful_finish: The sprint was completed.
-  notice_successful_start: The sprint was started.
-  notice_unsuccessful_finish: The sprint could not be completed.
-  notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
-  notice_unsuccessful_start: The sprint could not be started.
-  notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
-  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+  notice_successful_finish: 衝刺已完成。
+  notice_successful_start: 衝刺開始。
+  notice_unsuccessful_finish: 無法完成該衝刺。
+  notice_unsuccessful_finish_with_reason: 無法完成該衝刺： %{reason}
+  notice_unsuccessful_start: 無法啟動衝刺。
+  notice_unsuccessful_start_with_reason: 無法完成該衝刺： %{reason}
+  notice_work_package_invisible_after_move:
+    other: "%{count} 工作包已移至 %{backlog}，但由於其類型或狀態被排除在待辦清單之外，因此無法顯示。\n"
+  permission_create_sprints: 建立衝刺
+  permission_manage_sprint_items: 管理衝刺項目
+  permission_select_backlog_types_and_statuses: 選擇待辦事項類型與狀態
+  permission_select_backlog_types_and_statuses_explanation: '可選擇要從待辦事項清單中隱藏哪些工作包類型。此外，還可定義在專案工作流程中，哪些狀態代表已關閉或已完成狀態。
 
     '
-  permission_create_sprints: Create sprints
-  permission_manage_sprint_items: Manage sprint items
-  permission_select_backlog_types_and_statuses: Select backlog types and statuses
-  permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
-
-    '
-  permission_share_sprint: Share sprint
-  permission_start_complete_sprint: Start/complete sprint
-  permission_view_sprints: View sprints
+  permission_share_sprint: 共享衝刺
+  permission_start_complete_sprint: 開始／完成衝刺
+  permission_view_sprints: 檢視衝刺
   plugin_openproject_backlogs:
     description: 此模組新增了讓敏捷團隊能夠在 Scrum 專案中使用 OpenProject 的功能。
     name: OpenProject代辦事項
   project_module_backlogs: 待辦事項
   projects:
     copy:
-      backlog_buckets: Backlog buckets
-      sprints: Sprints
+      backlog_buckets: 待處理事項區
+      sprints: 衝刺
     settings:
+      backlog_estimation_unit:
+        estimation_unit: 單位
+        options:
+          none:
+            caption: 工作包的數量將作為圖表中的預設單位。部分衝刺報告圖表將不會顯示。
+            label: 無
+          story_points:
+            caption: 這些卡片和圖表將顯示故事點數。
+            label: 故事點數
+          time:
+            caption: 這些卡片和圖表將顯示工作時間的預估值。
+            label: 預計工時
       backlog_sharing:
         options:
           no_sharing:
-            caption: Sprints created in this project will only be available and visible to this project. They will also not be visible to subprojects.
-            label: Don't share
+            caption: 在此專案中建立的衝刺，僅限於此專案內可用且可見。此外，子專案亦無法查看這些衝刺。
+            label: 請勿共享
           receive_shared:
-            caption: This project can only use sprints shared by other projects.
-            label: Receive shared sprints
-            warning: This project can only use sprints shared by other projects. Unused sprints created in this project in the past, will no longer be visible.
+            caption: 此專案只能使用其他專案共用的衝刺。
+            label: 接收共享的衝刺
+            warning: 此專案僅能使用其他專案共享的衝刺。過去在此專案中建立但未使用的衝刺，將不再顯示。
           share_all_projects:
-            caption: Sprints created in this project will be available to all projects in this instance. If you select this option, it will no longer be available to other projects.
-            disabled_caption: Option not available since project "%{name}" is currently sharing with all projects and only one project can do this.
-            disabled_caption_anonymous: Option not available since another project is currently sharing with all projects and only one project can do this.
-            label: All projects
+            caption: 在此專案中建立的衝刺，將可供此執行個體中的所有專案使用。若您選取此選項，其他專案將無法再使用該衝刺。
+            disabled_caption: 由於專案「%{name}」目前正與所有專案共用此功能，且僅能由一個專案執行此操作，因此此選項不可用。
+            disabled_caption_anonymous: 由於目前有另一個專案正與所有專案共享資源，且僅能由一個專案執行此操作，因此此選項不可用。
+            label: 所有專案
           share_subprojects:
-            caption: Sprints created in this project will be available to all subprojects of the current project.
-            info: Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints.
-            label: Subprojects
-        sprint_sharing: Share sprints
+            caption: 在此專案中建立的衝刺，將可供當前專案的所有子專案使用。
+            info: 共用一個衝刺會將其名稱、狀態以及開始和結束日期在所有專案中共用。在接收並使用這些衝刺的專案中，無法修改這些資訊。
+            label: 子專案
+        sprint_sharing: 共享衝刺
       backlogs:
+        estimation_unit_form_component:
+          description: 請選擇與您敏捷團隊工作流程相符的「工作量」、「速度」及「產能」預設單位。這些單位將顯示於待辦事項清單和衝刺報告中。
+          heading: 速度、功和容量的預設單位
         multiple_active_sprints:
-          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
-          heading: Number of active sprints
+          description: 預設情況下，每個專案一次只能有一個衝刺處於活躍狀態。您可以變更此設定，讓該專案中能同時有多個衝刺處於活躍狀態。
+          heading: 正在進行的衝刺數量
         multiple_active_sprints_component:
-          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
-          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
+          cannot_turn_off: 目前有多個衝刺處於活躍狀態。若要切換回「每次僅允許一個衝刺處於活躍狀態」的模式，請先確保活躍的衝刺數量最多為一個。
+          not_available_html: 當 <a href=%{sprint_sharing_url}>衝刺共享</a> 或接收功能已啟用時，將無法同時進行多個活躍衝刺。
         sharing_form_component:
-          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
-          sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
-          sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+          disabled_due_to_multiple_active_sprints: 當啟用多個活躍衝刺時，將無法使用衝刺共享功能。
+          sharing_description: 此專案可以分享自身的衝刺、接收他人分享的衝刺，或獨立處理衝刺（不進行共享）。
+          sharing_fallback_description: 由於缺乏企業級計畫，共享選項僅限於該專案自身的衝刺階段。目前啟用的設定將維持有效。
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: 待辦事項收件匣
   remaining_hours: 剩餘工時

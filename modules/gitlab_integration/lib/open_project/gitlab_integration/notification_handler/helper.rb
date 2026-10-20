@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -98,19 +100,7 @@ module OpenProject::GitlabIntegration
         return if notes.nil?
 
         work_packages.each do |work_package|
-          ::WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(journal_notes: notes, send_notifications: false)
-        end
-      end
-
-      ##
-      # Adds comments to the given WorkPackages.
-      def status_on_referenced_work_packages(work_packages, user, status)
-        work_packages.each do |work_package|
-          ::WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(status_id: status)
+          ::AddWorkPackageNoteService.new(user:, work_package:).call(notes, send_notifications: false)
         end
       end
 
@@ -128,6 +118,8 @@ module OpenProject::GitlabIntegration
           @payload.dup
         end
 
+        delegate :[], :to_hash, to: :@payload
+
         def method_missing(name, *args, &block)
           super unless args.empty? && block.nil?
 
@@ -138,6 +130,7 @@ module OpenProject::GitlabIntegration
                   end
 
           return Payload.new(value) if value.is_a?(Hash)
+          return value.map { |i| Payload.new(i) } if value.is_a?(Array)
 
           value
         end

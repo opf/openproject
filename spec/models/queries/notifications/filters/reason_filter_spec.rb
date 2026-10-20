@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,17 +40,8 @@ RSpec.describe Queries::Notifications::Filters::ReasonFilter do
     it_behaves_like "non ar filter"
 
     describe "#allowed_values" do
-      context "with enterprise", with_ee: %i[date_alerts] do
-        it "contains all the REASONS" do
-          expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
-        end
-      end
-
-      context "without enterprise", with_ee: false do
-        it "does not contains date alerts" do
-          expect(instance.allowed_values)
-            .to eq(described_class::REASONS.keys.without("dateAlert").map { |r| [r, r] })
-        end
+      it "contains all the REASONS" do
+        expect(instance.allowed_values).to eq(described_class::REASONS.keys.map { |r| [r, r] })
       end
     end
   end

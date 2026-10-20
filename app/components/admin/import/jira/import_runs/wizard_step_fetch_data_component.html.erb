@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -98,14 +97,15 @@ See COPYRIGHT and LICENSE files for more details.
         end
       elsif model.in_state?(:instance_meta_fetching)
         box.with_row(display: :flex, align_items: :center) do
+          job_status = model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status
           concat(
             render(
-              Primer::Beta::Button.new(
+              (job_status == :running ? OpPrimer::SpinnerButtonComponent : Primer::Beta::Button).new(
                 tag: :a,
                 size: :medium
               )
             ) do |button|
-              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status))
+              button.with_leading_visual_icon(**job_status_icon(job_status)) unless job_status == :running
               I18n.t(:"admin.jira.run.wizard.sections.fetch_data.label_progress")
             end
           )

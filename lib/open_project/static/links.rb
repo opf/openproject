@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,9 +50,11 @@ module OpenProject
           I18n.t(key)
         end
 
-        def url_for(*path, localize_url: true, url_params: {})
+        def url_for(*path, localize_url: true, url_templates: {}, url_params: {})
           href = links.dig(*path, :href)
           return if href.nil?
+
+          href = Addressable::Template.new(href).expand(url_templates).to_s unless url_templates.empty?
 
           if localize_url && website_link?(href)
             url_with_query(href, **url_params, go_to_locale: I18n.locale)
@@ -100,8 +101,8 @@ module OpenProject
               href: help_link,
               label: "top_menu.help_and_support"
             },
-            current_release_notes: {
-              href: current_release_notes_link,
+            current_minor_release_notes: {
+              href: current_minor_release_notes_link,
               label: :label_release_notes
             }
           }
@@ -116,8 +117,9 @@ module OpenProject
           dynamic
         end
 
-        def current_release_notes_link
-          version = OpenProject::VERSION.to_semver(separator: "-")
+        def current_minor_release_notes_link
+          version = [OpenProject::VERSION::MAJOR, OpenProject::VERSION::MINOR, 0].join("-")
+
           "https://www.openproject.org/docs/release-notes/#{version}"
         end
 

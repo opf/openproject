@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,22 +55,20 @@ class Queries::Projects::Filters::FavoritedFilter < Queries::Projects::Filters::
     User.current.logged?
   end
 
-  def apply_to(_query_scope)
-    if filtering_for_true?
-      super.where(id: favorited_project_ids)
-    else
-      super.where.not(id: favorited_project_ids)
-    end
-  end
-
-  # Handled by scope
+  # A condition on `id` does not survive here: endpoints like
+  # /work_packages/available_projects merge an id-restricting scope onto the
+  # query, and that merge drops the query's own conditions on the same column.
   def where
-    nil
+    exists = favorites_of_current_user.arel.exists
+
+    filtering_for_true? ? exists : exists.not
   end
 
-  def favorited_project_ids
+  private
+
+  def favorites_of_current_user
     Favorite
       .where(favorited_type: "Project", user_id: User.current.id)
-      .select(:favorited_id)
+      .where(Favorite.arel_table[:favorited_id].eq(Project.arel_table[:id]))
   end
 end

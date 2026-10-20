@@ -12,6 +12,9 @@ To reset your password, add a two-factor authentication and generate backup code
 
 ## Change password
 
+> [!NOTE]
+> Password changes may be unavailable if your administrator has restricted password authentication for an SSO-enabled instance. If you authenticate through an external identity provider, manage your password with that provider.
+
 Enter your current password.
 
 Enter your new password and ensure all password requirements are met.
@@ -23,7 +26,7 @@ Press the **Change password** button in order to confirm the password changes.
 ![Change password under security section in user account settings](openproject_account_settings_change_password.png)
 
 > [!NOTE]
-> You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
+> You cannot reset the password of an external identity provider in OpenProject. If you authenticate through an external provider, change your password with that provider.
 
 ## Two-factor authentication devices
 

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,11 +28,10 @@
 import { Application } from '@hotwired/stimulus';
 import { installElements } from '@openproject/stimulus-elements';
 import { ContextualActionMenu } from 'core-common/contextual-action-menu';
+import { nextFrame } from 'core-common/testing/timing';
 import type ContextualActionMenuControllerType from './contextual-action-menu.controller';
 
 describe('Contextual action menu controller', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   let application:Application;
   let fixture:HTMLElement;
   let ContextualActionMenuController:typeof ContextualActionMenuControllerType;

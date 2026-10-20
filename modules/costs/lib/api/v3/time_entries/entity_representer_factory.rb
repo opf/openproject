@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,6 +76,10 @@ module API
         def create_link_lambda(name, getter: "#{name}_id")
           ->(*) {
             entity = represented.send(name)
+
+            # entity_id can reference a record that no longer exists, e.g. when a form request
+            # links a deleted work package.
+            next { href: nil } unless entity
 
             unless API::V3::TimeEntries::EntityRepresenterFactory.entity_visible?(entity, current_user)
               next API::V3::TimeEntries::EntityRepresenterFactory.undisclosed_link
@@ -138,7 +141,9 @@ module API
               represented.public_send("#{name}_id=", result[:id])
               represented.public_send("#{name}_type=", "Meeting")
             when "work_packages"
-              represented.public_send("#{name}_id=", result[:id])
+              id = WorkPackage.find_by_display_id(result[:id])&.id if WorkPackage::SemanticIdentifier.semantic_id?(result[:id])
+              id ||= result[:id]
+              represented.public_send("#{name}_id=", id)
               represented.public_send("#{name}_type=", "WorkPackage")
             else
               # TODO: Handle error if unexpected object
