@@ -44,6 +44,7 @@ module Exports::PDF::Common::Macro
   def macros
     [
       WorkPackage::Exports::Macros::Links,
+      WorkPackage::Exports::Macros::WikiLinks,
       WorkPackage::Exports::Macros::Attributes
     ]
   end

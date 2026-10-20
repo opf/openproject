@@ -134,6 +134,14 @@ RSpec.describe WorkPackage::Exports::Markdown, with_settings: { work_packages_id
     expect(content).to end_with("## Description\n\n#{work_package.subject}\n\n- [ ] Open\n- [x] Done\n")
   end
 
+  it "renders wiki links in the description as Markdown links" do
+    create(:wiki_page, wiki: create(:wiki, project:), title: "Wiki page")
+    work_package.update!(description: "See [[Wiki page]]")
+    expect(content).to end_with(
+      "## Description\n\nSee [Wiki page](http://#{Setting.host_name}/projects/#{project.identifier}/wiki/wiki-page)\n"
+    )
+  end
+
   it "escapes pipes and newlines in table cells" do
     expect(content).to include("| Code | a\\|b c |")
   end
