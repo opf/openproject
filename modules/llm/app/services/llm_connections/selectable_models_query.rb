@@ -70,8 +70,7 @@ module LlmConnections
       @qualifying_ids ||= model_ids_of_kind - ruled_out_model_ids
     end
 
-    # Models an administrator has switched off are not offered: both lists are
-    # built from the selectable ones.
+    # Withdrawn models are not offered: both lists are built from the active ones.
     def model_ids_of_kind
       feature.embedding? ? connection.embedding_model_ids : connection.chat_model_ids
     end
