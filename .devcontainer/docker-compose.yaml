@@ -43,6 +43,7 @@ services:
     build:
       context: ../
       dockerfile: .devcontainer/Dockerfile
+    command: sleep infinity
     volumes:
       - ../:/home/dev/openproject
       - /tmp/.X11-unix:/tmp/.X11-unix
