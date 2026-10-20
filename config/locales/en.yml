@@ -1656,6 +1656,8 @@ en:
             title: "Create project '%{jira_project_name}'"
           JiraCreateProjectRoleJob:
             title: "Create 'JiraMember' project role"
+          JiraCreateProjectTimeEntriesJob:
+            title: "Create time entries for '%{jira_project_name}'"
           JiraCreateProjectVersionsJob:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackageAttachmentsJob:
@@ -1815,7 +1817,7 @@ en:
                   subtitle: "Involved in imported projects "
                 work_packages:
                   label: "Work packages"
-                  subtitle: "With attachments"
+                  subtitle: "With attachments and logged time"
               title: "Import run results"
             import_scope:
               button_continue: "Continue"
@@ -1832,6 +1834,7 @@ en:
                 issue_details: "Issue description, history, comments and attachments"
                 issue_ids: "Issue identifiers"
                 issues: "Issues"
+                logged_time: "Logged time"
                 permissions: "Permissions"
                 project_ids: "Project identifiers"
                 project_versions: "Project versions"
@@ -1864,6 +1867,9 @@ en:
             "1":
               rest_line_text: ""
               title: "Fetch Jira configuration"
+            "10":
+              rest_line_text: "Creating time entries for %{projects_number} more projects"
+              title: "Create time entries"
             "2":
               rest_line_text: "Fetching issues and versions for %{projects_number} more projects"
               title: "Fetch project issues and versions"

@@ -82,6 +82,18 @@ module Import
         &.op_leg
     end
 
+    def find_op_leg!(jira_leg)
+      op_leg = find_op_leg(jira_leg)
+
+      return op_leg if op_leg
+
+      message = "Reference was expected to be found, but it was not. #{jira_leg.class} with id #{jira_leg.id}"
+
+      Rails.logger.error message
+
+      raise ActiveRecord::RecordNotFound, message
+    end
+
     def find_jira_leg(op_leg)
       Import::JiraOpenProjectReference
         .where(op_entity_class: op_leg.class.to_s,

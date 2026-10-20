@@ -32,6 +32,7 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
     include Import::JiraJobUtils
+    include Import::JiraProjectIssuesJob
 
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
@@ -49,20 +50,6 @@ module Import
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
-    end
-
-    def progress
-      jira_import = Import::JiraImport.find(arguments[0])
-      cursor = jira_import.get_job_cursor(self)
-      if cursor.present?
-        issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
-        total = issues.count
-        current = issues.where(id: ..cursor).count
-        percentage = (current.to_f / total * 100).round(2)
-        { current:, total:, percentage: }
-      else
-        { current: 0, total: 0, percentage: 0 }
-      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
@@ -405,23 +392,6 @@ module Import
       end
 
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
-    end
-
-    def create_member(project, member)
-      service_call = Members::CreateService
-                       .new(user: @system_user, contract_class: EmptyContract)
-                       .call(
-                         project:,
-                         roles: [@project_role],
-                         user_id: member.id,
-                         principal: member
-                       )
-      return if service_call.success?
-
-      if service_call.errors.find { |error| error.type == :taken }.blank?
-        Rails.logger.error service_call.message
-        raise service_call.message
-      end
     end
 
     def find_user(jira_user_key)
