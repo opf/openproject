@@ -264,6 +264,124 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
   end
 
+  describe "a first sync" do
+    let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test", options: { "kept" => "as is" }) }
+
+    it "stores the catalogue and records what it learnt about the deployment" do
+      freeze_time do
+        service.call
+
+        expect(connection.models.pluck(:external_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
+        expect(connection.reload).to have_attributes(last_synced_at: Time.current,
+                                                     last_connected_at: Time.current,
+                                                     connection_fingerprint: connection.settings_fingerprint)
+      end
+    end
+
+    it "adds the server flavour to the options without dropping the others" do
+      service.call
+
+      expect(connection.reload.options).to eq("kept" => "as is", "server_flavour" => "vllm")
+    end
+
+    it "moves the sync and sighting times forward on the next one" do
+      travel_to(2.days.ago) { described_class.new(connection).call }
+
+      described_class.new(connection).call
+
+      expect(connection.reload.last_synced_at).to be_within(1.minute).of(Time.current)
+      expect(connection.models.pluck(:last_seen_at)).to all(be_within(1.minute).of(Time.current))
+    end
+  end
+
+  describe "a model the server offers again" do
+    before do
+      service.call
+      connection.models.find_by(external_id: "bge-m3").update!(active: false)
+    end
+
+    it "brings back the withdrawn row instead of adding another" do
+      expect { described_class.new(connection).call }.not_to change(LlmModel, :count)
+
+      expect(connection.models.find_by(external_id: "bge-m3")).to be_active
+    end
+  end
+
+  describe "an empty catalogue" do
+    let!(:typed) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+    before { mock_llm_models_response(base_url, body: { object: "list", data: [] }.to_json) }
+
+    it "withdraws every discovered model and leaves a manual entry alone" do
+      service.call
+
+      expect(connection.models.discovered.active).to be_empty
+      expect(typed.reload).to be_active
+    end
+  end
+
+  describe "a failed fetch" do
+    {
+      "a timeout" => { timeout: true },
+      "a body that is not JSON" => { body: "<html>Gateway</html>" },
+      "a 405" => { response_code: 405 },
+      "a 501" => { response_code: 501 }
+    }.each do |label, response|
+      it "leaves the catalogue unchanged on #{label}" do
+        mock_llm_models_response(base_url, **response)
+
+        expect { expect(service.call).to be_failure }
+          .not_to change { connection.models.reload.map { |model| [model.external_id, model.active, model.last_seen_at] } }
+      end
+    end
+  end
+
+  describe "an enrichment that fails after the catalogue was stored" do
+    let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test") }
+
+    before do
+      allow(LlmConnections::EnrichCapabilitiesService)
+        .to receive(:new).and_raise(ActiveRecord::RecordInvalid)
+    end
+
+    it "keeps the stored catalogue and reports the failure" do
+      expect(service.call).to be_failure
+
+      expect(connection.models.pluck(:external_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
+    end
+  end
+
+  describe "a format whose models come from the registry" do
+    let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test", api_format: "anthropic") }
+    let(:models_request) { mock_llm_models_response(base_url) }
+
+    before do
+      models_request
+      info = RubyLLM::Model::Info.new(id: "claude-sonnet-4-5", name: "Claude Sonnet 4.5", context_window: 200_000,
+                                      provider: "anthropic", modalities: { output: ["text"] })
+      allow(RubyLLM.models).to receive(:by_provider).with(:anthropic).and_return([info])
+    end
+
+    it "takes the catalogue from the registry without contacting the server" do
+      service.call
+
+      expect(models_request).not_to have_been_made
+      expect(connection.models.pluck(:external_id, :raw_metadata))
+        .to eq([["claude-sonnet-4-5", { "name" => "Claude Sonnet 4.5", "context_window" => 200_000,
+                                        "owned_by" => "anthropic" }]])
+      expect(connection.reload.server_flavour).to eq(:anthropic)
+    end
+
+    it "fails without touching the catalogue when the registry cannot be read" do
+      service.call
+      allow(RubyLLM.models).to receive(:by_provider).and_raise(RubyLLM::ConfigurationError)
+
+      expect { expect(described_class.new(connection).call).to be_failure }
+        .not_to change { connection.models.reload.pluck(:external_id, :active, :last_seen_at) }
+      expect(connection.models.pluck(:external_id)).to eq(["claude-sonnet-4-5"])
+    end
+  end
+
   describe "a server refusing the model list" do
     it "hands back the error, so a caller can tell whether trying again could help" do
       mock_llm_models_response(base_url, response_code: 404)
