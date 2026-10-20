@@ -254,6 +254,17 @@ RSpec.describe UserPreference do
     end
   end
 
+  describe ".user_settable_preferences" do
+    let(:internal_preferences) do
+      %w[dismissed_enterprise_banners whats_new_read_items whats_new_seen_version whats_new_seen_at]
+    end
+
+    it "contains every stored preference except the internal ones, plus the pause date range" do
+      expect(described_class.user_settable_preferences)
+        .to match_array(described_class.stored_attributes[:settings] - internal_preferences + %w[pause_reminders_date_range])
+    end
+  end
+
   describe "defaults of a new preference" do
     subject(:preference) { described_class.new }
 

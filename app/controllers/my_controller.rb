@@ -190,7 +190,7 @@ class MyController < ApplicationController
 
   def user_params
     # The Users::UpdateService updates the user's pref using the UserPreferences::UpdateService
-    # which only assigns UserPreferences::SetAttributesService::SETTABLE_PREFERENCES
+    # which only assigns UserPreference.user_settable_preferences
     # and validates their values, which is why it is ok to blindly allow all scalar values in pref.
     attributes = permitted_params.user.to_h.merge(params.permit(pref: {}))
     drop_non_editable_custom_field_values(attributes)

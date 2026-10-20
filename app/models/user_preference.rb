@@ -44,77 +44,84 @@ class UserPreference < ApplicationRecord
   MY_WORK_MODES = %w[day week workweek month].freeze
   AVATAR_TYPES = %w[gravatar image initials].freeze
 
+  class_attribute :user_settable_preferences, instance_accessor: false, default: []
+
+  def self.preference(name, type, user_settable:, **)
+    store_attribute(:settings, name, type, **)
+    self.user_settable_preferences += [name.to_s] if user_settable
+  end
+
   validates :user,
             presence: true
 
   # Time zone and formats are checked only when changed, as the lists of allowed values can
   # change between releases and must not block unrelated saves of existing preferences.
-  store_attribute :settings, :time_zone, :string
+  preference :time_zone, :string, user_settable: true
   validate :time_zone_assignable, if: :time_zone_changed?
 
-  store_attribute :settings, :date_format, :string
+  preference :date_format, :string, user_settable: true
   validates :date_format,
             inclusion: { in: ->(*) { Settings::Definition[:date_format].allowed } },
             allow_blank: true,
             if: :date_format_changed?
 
-  store_attribute :settings, :time_format, :string
+  preference :time_format, :string, user_settable: true
   validates :time_format,
             inclusion: { in: ->(*) { Settings::Definition[:time_format].allowed } },
             allow_blank: true,
             if: :time_format_changed?
 
-  store_attribute :settings, :avatar_color, :string
+  preference :avatar_color, :string, user_settable: true
   validates :avatar_color, format: { with: /\A#[0-9A-F]{6}\z/ }, allow_blank: true
 
-  store_attribute :settings, :avatar_text, :string
+  preference :avatar_text, :string, user_settable: true
   validates :avatar_text, avatar_text: true, allow_nil: true
 
-  store_attribute :settings, :avatar_type, :string
+  preference :avatar_type, :string, user_settable: true
   validates :avatar_type, inclusion: { in: AVATAR_TYPES }, allow_nil: true
 
-  store_attribute :settings, :theme, :string
+  preference :theme, :string, user_settable: true
   validates :theme, inclusion: { in: THEMES.map(&:to_s) }
 
-  store_attribute :settings, :increase_theme_contrast, :boolean
-  store_attribute :settings, :force_light_theme_contrast, :boolean
-  store_attribute :settings, :force_dark_theme_contrast, :boolean
-  store_attribute :settings, :disable_keyboard_shortcuts, :boolean
-  store_attribute :settings, :require_double_click_for_inline_edit, :boolean
-  store_attribute :settings, :warn_on_leaving_unsaved, :boolean
-  store_attribute :settings, :auto_hide_popups, :boolean
+  preference :increase_theme_contrast, :boolean, user_settable: true
+  preference :force_light_theme_contrast, :boolean, user_settable: true
+  preference :force_dark_theme_contrast, :boolean, user_settable: true
+  preference :disable_keyboard_shortcuts, :boolean, user_settable: true
+  preference :require_double_click_for_inline_edit, :boolean, user_settable: true
+  preference :warn_on_leaving_unsaved, :boolean, user_settable: true
+  preference :auto_hide_popups, :boolean, user_settable: true
 
-  store_attribute :settings, :comments_sorting, :string
+  preference :comments_sorting, :string, user_settable: true
   validates :comments_sorting, inclusion: { in: COMMENTS_SORTINGS }
 
-  store_attribute :settings, :diff_type, :string
+  preference :diff_type, :string, user_settable: true
   validates :diff_type, inclusion: { in: DIFF_TYPES }
 
-  store_attribute :settings, :my_work_view_mode, :string
+  preference :my_work_view_mode, :string, user_settable: true
   validates :my_work_view_mode, inclusion: { in: MY_WORK_VIEW_MODES }, allow_nil: true
 
-  store_attribute :settings, :my_work_mode, :string
+  preference :my_work_mode, :string, user_settable: true
   validates :my_work_mode, inclusion: { in: MY_WORK_MODES }, allow_nil: true
 
-  store_attribute :settings, :workdays, :value, default: WORKDAYS_FROM_MONDAY_TO_FRIDAY
+  preference :workdays, :value, user_settable: true, default: WORKDAYS_FROM_MONDAY_TO_FRIDAY
   validate :workdays_valid
 
-  store_attribute :settings, :daily_reminders_enabled, :boolean, default: true
-  store_attribute :settings, :daily_reminders_times, :value, default: DEFAULT_DAILY_REMINDERS_TIMES
+  preference :daily_reminders_enabled, :boolean, user_settable: true, default: true
+  preference :daily_reminders_times, :value, user_settable: true, default: DEFAULT_DAILY_REMINDERS_TIMES
   validate :full_hour_reminder_times
 
-  store_attribute :settings, :immediate_reminders_mentioned, :boolean, default: true
-  store_attribute :settings, :immediate_reminders_personal_reminder, :boolean, default: true
+  preference :immediate_reminders_mentioned, :boolean, user_settable: true, default: true
+  preference :immediate_reminders_personal_reminder, :boolean, user_settable: true, default: true
 
-  store_attribute :settings, :pause_reminders_enabled, :boolean, default: false
-  store_attribute :settings, :pause_reminders_first_day, :date
-  store_attribute :settings, :pause_reminders_last_day, :date
+  preference :pause_reminders_enabled, :boolean, user_settable: true, default: false
+  preference :pause_reminders_first_day, :date, user_settable: true
+  preference :pause_reminders_last_day, :date, user_settable: true
   validate :valid_pause_days, if: :pause_reminders_enabled?
 
-  store_attribute :settings, :dismissed_enterprise_banners, :value, default: {}
-  store_attribute :settings, :whats_new_read_items, :value, default: {}
-  store_attribute :settings, :whats_new_seen_version, :string
-  store_attribute :settings, :whats_new_seen_at, :datetime
+  preference :dismissed_enterprise_banners, :value, user_settable: false, default: {}
+  preference :whats_new_read_items, :value, user_settable: false, default: {}
+  preference :whats_new_seen_version, :string, user_settable: false
+  preference :whats_new_seen_at, :datetime, user_settable: false
 
   class << self
     ##
@@ -258,6 +265,8 @@ class UserPreference < ApplicationRecord
   def pause_reminders_enabled
     super || false
   end
+
+  self.user_settable_preferences += %w[pause_reminders_date_range]
 
   def pause_reminders_date_range=(value)
     first_day, last_day = value.to_s.split(" - ", 2)
