@@ -130,12 +130,11 @@ All that’s that left to do is declaring your plugin in the file `Gemfile.plugi
 If you haven’t published it as a gem yet you can also use a local copy:
 
 ```ruby
-  gem "openproject-auth_plugins", :git => 'https://github.com/opf/openproject-auth_plugins.git', :branch => 'dev'
   gem 'openproject-my_auth_plugin', :path => 'plugins/openproject-my_auth_plugin'
 ```
 
 Also don’t forget to include the `openproject-auth_plugins` as a dependency in your plugin’s gem specification (`openproject-my_auth_plugin.gemspec`).
-The first line in the snippet shown above is only necessary because the `openproject-auth_plugins` plugin itself has not been published as a gem yet.
+The `openproject-auth_plugins` plugin ships with OpenProject (see `modules/auth_plugins`), so do not add it to `Gemfile.plugins` yourself.
 
 ### Profit
 
