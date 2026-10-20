@@ -96,7 +96,7 @@ RSpec.describe WorkPackage::PDFExport::DocumentGenerator do
       let(:options) do
         {
           hyphenation: "1",
-          hyphenation_language: "en_us",
+          hyphenation_language: "en",
           footer_text_center: ""
         }
       end
@@ -107,7 +107,7 @@ RSpec.describe WorkPackage::PDFExport::DocumentGenerator do
       it "contains correct data" do
         expected_result = [
           "honorificabilitudinitatibus honorificabilitudinitatibus honorificabilitudinitatibus " \
-          "honorificabili ­ tudinitatibus honorificabilitudinitatibus honorificabilitudinitatibus",
+          "honorificabil ­ itudinitatibus honorificabilitudinitatibus honorificabilitudinitatibus",
           export_date_formatted,
           "Page 1 of 1"
         ]

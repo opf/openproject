@@ -33,38 +33,10 @@ module WorkPackages
     module Generate
       module Templates
         module HyphenationOptions
-          # This is a list of languages that are supported by the hyphenation library
-          # https://rubygems.org/gems/text-hyphen
-          # The labels are the language names in the language itself (NOT to be put I18n)
           def hyphenation_options
             [
               { label: "-", value: "" },
-              { label: "Català", value: "ca" },
-              { label: "Dansk", value: "da" },
-              { label: "Deutsch", value: "de" },
-              { label: "Eesti", value: "et" },
-              { label: "English", value: "en" },
-              { label: "Español", value: "es" },
-              { label: "Euskara", value: "eu" },
-              { label: "Français", value: "fr" },
-              { label: "Gaeilge", value: "ga" },
-              { label: "Hrvatski", value: "hr" },
-              { label: "Indonesia", value: "id" },
-              { label: "Interlingua", value: "ia" },
-              { label: "Italiano", value: "it" },
-              { label: "Magyar", value: "hu" },
-              { label: "Melayu", value: "ms" },
-              { label: "Nederlands", value: "nl" },
-              { label: "Norsk", value: "no" },
-              { label: "Polski", value: "pl" },
-              { label: "Português", value: "pt" },
-              { label: "Slovenčina", value: "sk" },
-              { label: "Suomi", value: "fi" },
-              { label: "Svenska", value: "sv" },
-              { label: "Ísland", value: "is" },
-              { label: "Čeština", value: "cs" },
-              { label: "Монгол", value: "mn" },
-              { label: "Русский", value: "ru" }
+              *::Exports::PDF::Common::Common::HYPHENATION_LANGUAGES.map { |value, label| { label:, value: } }
             ]
           end
 
