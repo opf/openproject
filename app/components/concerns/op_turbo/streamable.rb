@@ -29,10 +29,7 @@
 
 module OpTurbo
   module Streamable
-    # rubocop:disable OpenProject/AddPreviewForViewComponent
     class MissingComponentWrapper < StandardError; end
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
-
     INLINE_ACTIONS = %i[dialog flash].freeze
     private_constant :INLINE_ACTIONS
     # Turbo allows the response method for these actions only:
