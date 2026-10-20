@@ -30,7 +30,7 @@
 module OpenProject::Projects
   # @logical_path OpenProject/Projects
   class PhaseStatusButtonComponentPreview < ViewComponent::Preview
-    # !! Currently nothing happens when changing the status by !!
+    # !! Currently nothing happens when changing the status by
     # !! clicking the options in the dropdown!!
     # @param status select [open, in_progress, completed]
     def playground(status: :open)
