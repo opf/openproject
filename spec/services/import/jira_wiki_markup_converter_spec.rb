@@ -396,6 +396,73 @@ RSpec.describe Import::JiraWikiMarkupConverter do
 
       it { is_expected.to eq("![](screenshot.png)") }
     end
+
+    context "with spaces in the file name" do
+      let(:input) { "!Screenshot 2025-06-07 at 16.28.33.png|thumbnail!" }
+
+      it "references the name the attachment is stored under" do
+        expect(result).to eq("![](Screenshot_2025-06-07_at_16.28.33.png)")
+      end
+    end
+
+    context "with spaces in the file name and no parameters" do
+      let(:input) { "!My Screenshot.png!" }
+
+      it { is_expected.to eq("![](My_Screenshot.png)") }
+    end
+
+    context "with spaces in the file name, mid-sentence" do
+      let(:input) { "See !My File.png|width=100! here" }
+
+      it { is_expected.to eq("See ![](My_File.png) here") }
+    end
+
+    context "with characters the uploader replaces beyond spaces" do
+      let(:input) { "!My (final) report #2.png!" }
+
+      it "mirrors the stored name rather than only swapping spaces" do
+        expect(result).to eq("![](My__final__report__2.png)")
+      end
+    end
+
+    context "with non-latin characters in the file name" do
+      let(:input) { "!Übersicht Diagramm.png!" }
+
+      it "keeps them, since the uploader treats them as word characters" do
+        expect(result).to eq("![](Übersicht_Diagramm.png)")
+      end
+    end
+
+    context "with a remote URL rather than an attachment" do
+      let(:input) { "!http://example.com/a b.png|width=10!" }
+
+      it "leaves the URL alone and wraps it so CommonMark accepts it" do
+        expect(result).to eq("![](<http://example.com/a b.png>)")
+      end
+    end
+
+    context "with exclamation marks in ordinary prose" do
+      let(:input) { "Stop! Don't do that! Really!" }
+
+      it "does not read them as an image" do
+        expect(result).to eq("Stop! Don't do that! Really!")
+      end
+    end
+
+    context "without a file extension" do
+      let(:input) { "!no extension!" }
+
+      it "is not an image, since that is what keeps prose from matching" do
+        expect(result).to eq("!no extension!")
+      end
+    end
+
+    context "with whitespace against the delimiters" do
+      it "does not allow the name to start or end with it" do
+        expect(described_class.new("! leading.png!").convert).to eq("! leading.png!")
+        expect(described_class.new("!trailing .png!").convert).to eq("!trailing .png!")
+      end
+    end
   end
 
   describe "block quotes" do
@@ -641,6 +708,18 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "with an image whose file name contains spaces" do
+      let(:input) { "||Head||\n|!My Shot.png|thumbnail!|caption|" }
+
+      it "does not split the row inside the file name or its parameters" do
+        expect(result).to eq(
+          "<table><thead><tr><th>Head</th></tr></thead>" \
+          '<tbody><tr><td><img src="My_Shot.png" alt=""></td><td>caption</td></tr></tbody>' \
+          "</table>\n"
+        )
+      end
+    end
+
     context "with an image whose parameters carry alt text" do
       let(:input) { "||!head.png|a head!||\n|see !img.png|width=100! here|b|" }
 
@@ -849,6 +928,16 @@ RSpec.describe Import::JiraWikiMarkupConverter do
       end
     end
 
+    context "with an unclosed macro that a later bare tag would close" do
+      let(:input) { "|a|{code:java}\nstray\n\nUnrelated paragraph.\n\n{code}\nreal block\n{code}" }
+
+      it "does not pull the document into the row" do
+        expect(result).not_to include("<table")
+        expect(result).to include("Unrelated paragraph.")
+        expect(result).to end_with("```\nreal block\n```")
+      end
+    end
+
     context "with a header and a row whose macro never closes" do
       let(:input) { "||Head||\n|a|{code:java}\nnever closed\ntrailing text" }
 
@@ -875,6 +964,20 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     # whether CommonMark kept it in one piece.
     describe "rendered through the text formatting pipeline" do
       subject(:html) { OpenProject::TextFormatting::Renderer.format_text(result) }
+
+      context "with an image whose attachment exists" do
+        let(:work_package) { create(:work_package) }
+        let(:input) { "|!My Shot.png|thumbnail!|b|" }
+
+        before do
+          create(:attachment, container: work_package, content_type: "image/png", filename: "My Shot.png")
+        end
+
+        it "resolves the cell image to the attachment" do
+          rendered = OpenProject::TextFormatting::Renderer.format_text(result, object: work_package)
+          expect(rendered).to match(%r{src="[^"]*/api/v3/attachments/\d+/content"})
+        end
+      end
 
       context "with a blank line inside a cell macro" do
         let(:input) { "|a|{code}\nx\n\ny\n{code}|\n|c|d|" }

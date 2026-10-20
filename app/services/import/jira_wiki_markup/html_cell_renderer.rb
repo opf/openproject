@@ -75,7 +75,7 @@ module Import
       end
 
       def render_image(node)
-        %(<img src="#{escape(node.url)}" alt="#{escape(node.params['alt'] || '')}">)
+        %(<img src="#{escape(attachment_reference(node.url))}" alt="#{escape(node.params['alt'] || '')}">)
       end
 
       def render_line_break(_node)

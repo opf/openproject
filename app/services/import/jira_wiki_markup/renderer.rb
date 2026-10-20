@@ -271,7 +271,23 @@ module Import
       def render_image(node)
         # TODO get work package attachment and use OP image syntax (HTML <img> tag with data attributes)
         alt = node.params["alt"] || ""
-        "![#{alt}](#{node.url})"
+        "![#{alt}](#{markdown_destination(attachment_reference(node.url))})"
+      end
+
+      # An attachment is stored under a name sanitized by CarrierWave, and
+      # AttachmentFilter resolves an image by matching src against that name, so a
+      # reference to "My Shot.png" has to be written the way it was stored. Reusing
+      # the uploader's own expression keeps the two from drifting apart.
+      def attachment_reference(url)
+        return url if url.match?(%r{\A(\w+://|//|/|www\.)}i)
+
+        url.gsub(CarrierWave::SanitizedFile.sanitize_regexp, "_")
+      end
+
+      # A remote URL may still carry spaces, which CommonMark only accepts in a
+      # destination wrapped in angle brackets.
+      def markdown_destination(url)
+        url.match?(/\s/) ? "<#{url}>" : url
       end
 
       def render_mention(node)

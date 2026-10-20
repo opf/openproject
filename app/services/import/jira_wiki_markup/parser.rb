@@ -44,12 +44,19 @@ module Import
       TABLE_ROW_PATTERN = /\A\|.+\z/
       # Macros whose body may span lines, so a table row stays open until they close.
       MULTILINE_MACRO_PATTERN = /\{(code|noformat|panel|quote)(:[^}]*)?\}/
+      # Jira allows spaces in an attachment name, and macOS screenshots always carry
+      # them, so only the delimiters bound the name. A trailing file extension is
+      # what keeps an exclamation mark in ordinary prose from opening an image, and
+      # the name may not begin or end with whitespace.
+      IMAGE_NAME = /[^!|\s\n](?:[^!|\n]*[^!|\s\n])?\.[A-Za-z0-9]{1,6}/
+      IMAGE_WITH_PARAMS_PATTERN = /!(#{IMAGE_NAME})\|([^!\n]+)!/
+      IMAGE_PATTERN = /!(#{IMAGE_NAME})!/
       # Regions of a row whose separators belong to the content: a macro body, a
       # [text|url] link, or the !image|params! form that scan_image accepts.
       PROTECTED_CELL_REGION = /
         \{(code|noformat|panel|quote|color)(?::[^}]*)?\}.*?\{\1\}
         | \[[^\]]*\]
-        | ![^!\s|]+\|[^!]+!
+        | #{IMAGE_WITH_PARAMS_PATTERN}
       /mx
       CELL_SEPARATOR_PLACEHOLDER = "\u0000"
 
@@ -345,6 +352,11 @@ module Import
         end
 
         return if open_macro
+        # A row only runs past its own line to let a macro close, and that form is
+        # always written with its closing separator. Without requiring it, a macro
+        # left open in one cell would pull in everything up to some later bare tag
+        # that happens to close it.
+        return if i > start + 1 && !row.rstrip.end_with?("|")
 
         cells = parse_cells(row)
         [cells, i] if cells
@@ -555,9 +567,9 @@ module Import
       end
 
       def scan_image(scanner, buffer, nodes)
-        if scanner.scan(/!([^!\s|]+)\|([^!]+)!/)
+        if scanner.scan(IMAGE_WITH_PARAMS_PATTERN)
           flush_and_add(buffer, nodes, N::Image.new(url: scanner[1], params: parse_image_params(scanner[2])))
-        elsif scanner.scan(/!([^!\s|]+)!/)
+        elsif scanner.scan(IMAGE_PATTERN)
           flush_and_add(buffer, nodes, N::Image.new(url: scanner[1], params: {}))
         end
       end
