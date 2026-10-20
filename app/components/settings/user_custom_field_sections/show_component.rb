@@ -33,15 +33,14 @@ module Settings
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include SortableLists::MoveMenu
 
-      def initialize(user_custom_field_section:, first_and_last: [])
+      def initialize(user_custom_field_section:)
         super
 
         @user_custom_field_section = user_custom_field_section
         @ordered_attributes = user_custom_field_section.attribute_order
         @custom_fields_by_key = user_custom_field_section.custom_fields_by_key
-
-        @first_and_last = first_and_last
       end
 
       def custom_field_row_component_class
@@ -81,28 +80,6 @@ module Settings
         }
       end
 
-      def move_actions(menu)
-        unless first?
-          move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top")
-          move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up")
-        end
-        unless last?
-          move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down")
-          move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom")
-        end
-      end
-
-      def move_action_item(menu, move_to, label_text, icon)
-        menu.with_item(label: label_text,
-                       href: move_admin_settings_user_custom_field_section_path(@user_custom_field_section, move_to:),
-                       form_arguments: {
-                         method: :put, data: { "turbo-stream": true,
-                                               test_selector: "user-custom-field-section-move-#{move_to}" }
-                       }) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
-      end
-
       def disabled_delete_action_item(menu)
         menu.with_item(label: t("text_destroy"), disabled: true) do |item|
           item.with_leading_visual_icon(icon: :trash)
@@ -135,24 +112,6 @@ module Settings
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
-      end
-
-      def first?
-        @first ||=
-          if @first_and_last.first
-            @first_and_last.first == @user_custom_field_section
-          else
-            @user_custom_field_section.first?
-          end
-      end
-
-      def last?
-        @last ||=
-          if @first_and_last.last
-            @first_and_last.last == @user_custom_field_section
-          else
-            @user_custom_field_section.last?
-          end
       end
 
       def action_menu_item_for_custom_field_format(menu, format)
