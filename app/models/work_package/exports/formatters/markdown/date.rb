@@ -42,7 +42,7 @@ module WorkPackage::Exports
           due_date = work_package.due_date&.iso8601
           return start_date.to_s if start_date == due_date
 
-          "#{start_date} - #{due_date}"
+          "#{start_date} – #{due_date}"
         end
       end
     end

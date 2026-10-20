@@ -37,7 +37,7 @@ RSpec.describe WorkPackage::Exports::Formatters::Markdown::Date do
   end
 
   it "prints the ISO date range" do
-    expect(format(start_date: "2024-05-30", due_date: "2025-03-13")).to eq("2024-05-30 - 2025-03-13")
+    expect(format(start_date: "2024-05-30", due_date: "2025-03-13")).to eq("2024-05-30 – 2025-03-13")
   end
 
   it "prints one date when both are equal" do
@@ -45,11 +45,11 @@ RSpec.describe WorkPackage::Exports::Formatters::Markdown::Date do
   end
 
   it "prints an open-ended range when only the start date is set" do
-    expect(format(start_date: "2024-05-30", due_date: nil)).to eq("2024-05-30 - ")
+    expect(format(start_date: "2024-05-30", due_date: nil)).to eq("2024-05-30 – ")
   end
 
   it "prints an open-started range when only the due date is set" do
-    expect(format(start_date: nil, due_date: "2024-05-30")).to eq(" - 2024-05-30")
+    expect(format(start_date: nil, due_date: "2024-05-30")).to eq(" – 2024-05-30")
   end
 
   it "prints an empty string when both are missing" do
