@@ -67,7 +67,7 @@ class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autoco
   end
 
   def item_label(item)
-    @custom_field.nestable? ? item.ancestry_path(include_shorts_and_weights: true) : item.label
+    @custom_field.nested_items_shown? ? item.ancestry_path(include_shorts_and_weights: true) : item.label
   end
 
   def selected?(item)

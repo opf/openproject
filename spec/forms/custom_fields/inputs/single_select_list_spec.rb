@@ -107,4 +107,16 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
       end
     end
   end
+
+  context "with a list that may nest but holds no nested items" do
+    let(:custom_field) do
+      create(:list_project_custom_field, name: "List field", was_list: false, possible_values: %w[eins zwei drei vier fünf])
+    end
+
+    it "labels its items without looking up each item's ancestors" do
+      queries = ActiveRecord::QueryRecorder.new { vc_render_form }.log
+
+      expect(queries.grep(/hierarchical_item_hierarchies/).size).to be < custom_field.possible_values.size
+    end
+  end
 end
