@@ -50,11 +50,7 @@ module WorkPackageTypes
       @query = params[:query].presence
       @types = types_for_index
 
-      return unless turbo_frame_request?
-
-      render Types::GroupedListComponent.new(types: @types, expanded_type_id: @expanded_type_id,
-                                             page_args: @page_args, query: @query),
-             layout: false
+      render layout: false if turbo_frame_request?
     end
 
     def type

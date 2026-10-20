@@ -237,6 +237,15 @@ RSpec.describe "Work package variants index", :js do
     expect(page).to have_no_text(bug_type.name)
   end
 
+  it "leaves the search field alone while the list reloads" do
+    visit types_path
+
+    fill_in "query", with: "Feature"
+
+    expect(page).to have_no_text(bug_type.name)
+    expect(page).to have_css("input[name='query']:focus")
+  end
+
   it "takes the move actions away while the name filter is on" do
     visit types_path
 
