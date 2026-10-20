@@ -27,7 +27,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 class ReorderGoodJobsCronIndex < ActiveRecord::Migration[8.1]
+  include Migration::Utils
+
   CURRENT_INDEX = :index_good_jobs_on_cron_key_and_cron_at_cond
   REPLACEMENT_INDEX = :index_good_jobs_on_cron_key_and_cron_at_desc_cond
 
@@ -43,8 +47,8 @@ class ReorderGoodJobsCronIndex < ActiveRecord::Migration[8.1]
               unique: true,
               algorithm: :concurrently,
               if_not_exists: true
-    remove_index :good_jobs, name: CURRENT_INDEX, algorithm: :concurrently, if_exists: true
-    rename_index :good_jobs, REPLACEMENT_INDEX, CURRENT_INDEX
+    remove_index_on :good_jobs, CURRENT_INDEX, algorithm: :concurrently
+    rename_index_on :good_jobs, REPLACEMENT_INDEX, CURRENT_INDEX
   end
 
   def down
@@ -56,8 +60,8 @@ class ReorderGoodJobsCronIndex < ActiveRecord::Migration[8.1]
               unique: true,
               algorithm: :concurrently,
               if_not_exists: true
-    remove_index :good_jobs, name: CURRENT_INDEX, algorithm: :concurrently, if_exists: true
-    rename_index :good_jobs, REPLACEMENT_INDEX, CURRENT_INDEX
+    remove_index_on :good_jobs, CURRENT_INDEX, algorithm: :concurrently
+    rename_index_on :good_jobs, REPLACEMENT_INDEX, CURRENT_INDEX
   end
 
   private

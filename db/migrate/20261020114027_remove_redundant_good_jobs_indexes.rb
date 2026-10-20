@@ -27,28 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 class RemoveRedundantGoodJobsIndexes < ActiveRecord::Migration[8.1]
+  include Migration::Utils
+
   disable_ddl_transaction!
 
   def up
-    remove_index(
-      :good_jobs,
-      name: :index_good_jobs_jobs_on_priority_created_at_when_unfinished,
-      algorithm: :concurrently,
-      if_exists: true
-    )
-    remove_index(
-      :good_jobs,
-      name: :index_good_jobs_on_priority_scheduled_at_unfinished_unlocked,
-      algorithm: :concurrently,
-      if_exists: true
-    )
-    remove_index(
-      :good_jobs,
-      name: :index_good_jobs_on_queue_name_and_scheduled_at,
-      algorithm: :concurrently,
-      if_exists: true
-    )
+    remove_index_on :good_jobs, :index_good_jobs_jobs_on_priority_created_at_when_unfinished, algorithm: :concurrently
+    remove_index_on :good_jobs, :index_good_jobs_on_priority_scheduled_at_unfinished_unlocked, algorithm: :concurrently
+    remove_index_on :good_jobs, :index_good_jobs_on_queue_name_and_scheduled_at, algorithm: :concurrently
   end
 
   def down
