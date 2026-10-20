@@ -152,6 +152,16 @@ module API
           }
         end
 
+        link :markdown do
+          next if represented.new_record?
+
+          {
+            href: work_package_path(id: represented.id, format: :md),
+            type: "text/markdown",
+            title: I18n.t(:label_markdown_version)
+          }
+        end
+
         link :availableRelationCandidates do
           next if represented.new_record?
 

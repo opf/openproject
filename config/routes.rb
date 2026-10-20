@@ -65,7 +65,8 @@ Rails.application.routes.draw do
   # Redirect wp short url for work packages to full URL
   get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
-    "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    target = "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    params[:format].to_s.match?(/\A[A-Za-z0-9]+\z/) ? "#{target}.#{params[:format]}" : target
   }, as: :work_package_short
 
   # Add catch method for Rack OmniAuth to allow route helpers
