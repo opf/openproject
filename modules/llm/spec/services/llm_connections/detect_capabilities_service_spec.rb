@@ -168,6 +168,16 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to contain_exactly("bge-m3", "gte-large")
     end
 
+    it "spends no probe on a model an administrator ruled on" do
+      create(:llm_capability_verdict, llm_connection: connection, model_id: "bge-m3", state: "unsupported", source: "admin")
+
+      service.detect_likely_embedding_models
+
+      expect(a_request(:post, "#{base_url}/embeddings").with(body: hash_including("model" => "bge-m3")))
+        .not_to have_been_made
+      expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to have_attributes(source: "admin")
+    end
+
     it "leaves out a model the server has withdrawn" do
       create(:llm_model, :withdrawn, llm_connection: connection, external_id: "nomic-embed-text")
 

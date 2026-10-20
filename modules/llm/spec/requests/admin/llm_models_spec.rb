@@ -500,6 +500,25 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(connection.capability_verdicts.for_model("hand-typed").for_capability(:vision)).to be_empty
       end
 
+      it "answers 404 for an unknown model before it reads the submitted fields" do
+        patch llm_model_path(id: 0)
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "answers 400 when the submitted fields are missing" do
+        patch llm_model_path(llm_model)
+
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it "refuses to clear the identifier and keeps the model as it was" do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(llm_model.reload.external_id).to eq("hand-typed")
+      end
+
       # An administrator looked at this deployment; a published registry did not.
       it "is not overwritten by registry enrichment" do
         patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }

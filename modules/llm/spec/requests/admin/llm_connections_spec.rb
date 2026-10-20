@@ -711,6 +711,18 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
   end
 
+  describe "the confirmation dialogs on an instance with no connection stored" do
+    before { login_as admin }
+
+    it "answers 404 for both" do
+      get delete_api_key_dialog_llm_connection_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      expect(response).to have_http_status(:not_found)
+
+      get disconnect_dialog_llm_connection_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "disconnecting" do
     let!(:connection) do
       create(:llm_connection, :with_models,
