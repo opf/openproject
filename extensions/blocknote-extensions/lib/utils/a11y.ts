@@ -37,6 +37,9 @@ function itemsOf(menu:Element):HTMLElement[] {
     .filter((item) => item.closest('[role="menu"]') === menu);
 }
 
+// Without focusVisible, Firefox hides the ring once the editor was clicked.
+export const KEYBOARD_FOCUS:FocusOptions = { preventScroll: true, focusVisible: true };
+
 export function focusMenuItem(menu:Element | null, target:MenuItemTarget):void {
   if (!menu) return;
   const items = itemsOf(menu);
@@ -53,7 +56,7 @@ export function focusMenuItem(menu:Element | null, target:MenuItemTarget):void {
     checked: checked ?? items[0],
   }[target];
 
-  next.focus({ preventScroll: true });
+  next.focus(KEYBOARD_FOCUS);
 }
 
 const NAVIGATION_KEYS = {

@@ -232,22 +232,23 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
   });
 
   it('draws its own focus ring on the item in focus, whatever the host page does to focused buttons', async () => {
-    // What OpenProject's stylesheet does inside the editor's shadow root: its
-    // outline names a colour variable that is not defined there.
     const hostStyles = document.createElement('style');
-    hostStyles.textContent = 'button:focus-visible { outline: 2px solid var(--undefined-host-color); }';
+    hostStyles.textContent = `
+      :focus-visible { outline: none !important; }
+      button:focus-visible { box-shadow: none; }
+    `;
     document.head.appendChild(hostStyles);
     onTestFinished(() => hostStyles.remove());
 
     await selectChipWithKeyboard();
     await userEvent.keyboard('{Enter}');
     await expect.element(openItem()).toHaveFocus();
-    expect(getComputedStyle(openItem().element()).outline).toBe('rgb(100, 160, 255) solid 2px');
+    expect(getComputedStyle(openItem().element()).boxShadow).toBe('rgb(100, 160, 255) 0px 0px 0px 2px inset');
 
     await userEvent.keyboard('{ArrowRight}{Enter}');
     const regular = page.getByRole('menuitemradio', { name: 'Regular' });
     await expect.element(regular).toHaveFocus();
-    expect(getComputedStyle(regular.element()).outline).toBe('rgb(100, 160, 255) solid 2px');
+    expect(getComputedStyle(regular.element()).boxShadow).toBe('rgb(100, 160, 255) 0px 0px 0px 2px inset');
   });
 
   it('works inside a shadow root', async () => {

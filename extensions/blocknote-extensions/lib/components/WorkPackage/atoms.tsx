@@ -40,13 +40,11 @@ export const menuSurfaceStyles = css`
   color: var(--bn-colors-menu-text, #3f3f3f);
 `;
 
-// Our own ring rather than the host page's: OpenProject loads its stylesheet into
-// the editor's shadow root, and its focus outline names a colour variable that is
-// not defined there, which leaves a focused item with no outline at all.
+// A box-shadow, not an outline: OpenProject removes every focus outline inside
+// the editor with `outline: none !important`.
 export const menuItemFocusStyles = css`
   &:focus-visible {
-    outline: 2px solid var(--blocknote-focus-color);
-    outline-offset: -2px;
+    box-shadow: inset 0 0 0 2px var(--blocknote-focus-color);
   }
 `;
 

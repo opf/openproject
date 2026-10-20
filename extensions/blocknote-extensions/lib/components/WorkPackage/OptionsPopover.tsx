@@ -15,7 +15,7 @@ import {
 } from '@primer/octicons-react';
 import {formatWorkPackageId} from '../../utils/id';
 import { useTapActivation } from '../../utils/tapActivation';
-import { focusMenuItem, hasFocusWithin, isKeyboardClick, navigateMenu } from '../../utils/a11y';
+import { focusMenuItem, hasFocusWithin, isKeyboardClick, KEYBOARD_FOCUS, navigateMenu } from '../../utils/a11y';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
@@ -153,7 +153,7 @@ export const WpOptionsPopover = ({
 
   const closeSizes = () => {
     setShowSizes(false);
-    sizeButtonEl?.focus({ preventScroll: true });
+    sizeButtonEl?.focus(KEYBOARD_FOCUS);
   };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLDivElement>) => {
