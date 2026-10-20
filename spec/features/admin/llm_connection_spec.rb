@@ -65,7 +65,7 @@ RSpec.describe "LLM connection administration",
       check "Enable LLMs for this instance"
 
       expect(page).to have_field("Host URL")
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
 
     it "hides the server settings until the connection is enabled" do
@@ -156,7 +156,7 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_test_selector("llm-model--refresh-button")
       expect(page).to have_text(connection.models.first.external_id)
       expect(page).to have_test_selector("llm-model--edit-#{connection.models.first.id}")
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
 
     it "picks and saves the default chat model" do
@@ -179,7 +179,7 @@ RSpec.describe "LLM connection administration",
       find_test_selector("llm-model--add-button").click
 
       expect(page).to have_field("Model name")
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
       expect(page).to have_field("Tool calling")
 
       fill_in "Model name", with: "nomic-embed-text"
@@ -243,7 +243,7 @@ RSpec.describe "LLM connection administration",
 
         expect(page).to have_current_path(llm_connection_health_status_report_path)
         expect(page).to have_text("Configuration")
-        expect(page).to be_axe_clean.within("#content")
+        expect(page).to be_axe_clean
 
         find_test_selector("llm-connection--rerun-health-checks").click
 
@@ -267,7 +267,7 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_test_selector("llm-settings--tabs")
       expect(page).to have_test_selector("llm-feature-binding--dimensions-semantic_search")
       expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
     end
   end
 end
