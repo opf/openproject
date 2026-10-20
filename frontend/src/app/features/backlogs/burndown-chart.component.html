@@ -1,6 +1,5 @@
 @if (hasChartData()) {
   <div class="position-relative mx-auto" style="height:60vh">
-    <p [id]="chartDescriptionId" hidden>{{ chartDescription() }}</p>
     <canvas
       baseChart
       role="img"
@@ -10,7 +9,7 @@
       [options]="lineChartOptions()"
       [type]="'line'"
     >
-      {{ chartDescription() }}
+      <span [id]="chartDescriptionId">{{ chartDescription() }}</span>
     </canvas>
   </div>
 } @else {

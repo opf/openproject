@@ -84,11 +84,12 @@ describe('BurndownChartComponent', () => {
 
     expect(canvas).toHaveAttribute('role', 'img');
     expect(canvas).toHaveAccessibleName('Burndown chart');
-    expect(description).not.toBeVisible();
+    expect(canvas).toContainElement(description);
     expect(description).toHaveTextContent(
       'Burndown chart data: Day 1: Story points: 8, Story points (ideal): 8; Day 2: Story points: 6, Story points (ideal): 4.',
     );
-    expect(canvas).toHaveTextContent(description.textContent.trim());
+    expect(canvas).toHaveAccessibleDescription(description.textContent.trim());
+    expect(element.textContent.split(description.textContent.trim())).toHaveLength(2);
   });
 
   it('omits unavailable values from future sprint days', () => {
