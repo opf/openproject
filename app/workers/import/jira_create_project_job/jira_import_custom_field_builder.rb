@@ -282,14 +282,8 @@ module Import
         end.uniq
       end
 
-      # Matches `Example`, `Example (2)`, `Example (DYX)` and `Example (DYX, ABC)
       def candidate_custom_fields
-        base_name = stable_base_name
-        escaped = ActiveRecord::Base.sanitize_sql_like(base_name)
-        WorkPackageCustomField
-          .where("LOWER(name) = LOWER(?)", base_name)
-          .or(WorkPackageCustomField.where("name ILIKE ?", "#{escaped} (%"))
-          .order(:id)
+        CustomFieldNames.candidates(stable_base_name)
       end
 
       def compatible_candidates
@@ -352,18 +346,8 @@ module Import
           .value_or([])
       end
 
-      def custom_field_by_name(name)
-        WorkPackageCustomField.where("LOWER(name) = LOWER(?)", name).first
-      end
-
       def unique_custom_field_name
-        unique_name = @import_name
-        suffix = 2
-        while custom_field_by_name(unique_name)
-          unique_name = "#{@import_name} (#{suffix})"
-          suffix += 1
-        end
-        unique_name
+        CustomFieldNames.unique_nrme(@import_name)
       end
 
       def jira_to_op_field_format(jira_field)
