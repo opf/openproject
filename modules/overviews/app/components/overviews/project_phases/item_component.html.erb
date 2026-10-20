@@ -1,13 +1,11 @@
 <%=
   flex_layout(
-    align_items: :flex_start,
-    justify_content: :space_between,
     classes: "op-project-life-cycle-container",
     data: {
       test_selector: "project-life-cycle-#{model.id}"
     }
   ) do |life_cycle_container|
-    life_cycle_container.with_row(mb: 1, flex_layout: true) do |row|
+    life_cycle_container.with_row(mb: 1, flex_layout: true, align_items: :center) do |row|
       row.with_column(mr: 1, classes: icon_color_class) do
         render Primer::Beta::Octicon.new(icon:)
       end

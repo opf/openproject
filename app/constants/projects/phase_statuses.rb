@@ -36,9 +36,9 @@ module Projects
       def color = Color.new(hexcode:)
     end
 
-    OPEN = Status.new(code: :open, hexcode: "#1F883D", icon: "issue-opened")
+    OPEN = Status.new(code: :open, hexcode: "#006edb", icon: "issue-opened")
     IN_PROGRESS = Status.new(code: :in_progress, hexcode: "#1F883D", icon: "play")
-    COMPLETED = Status.new(code: :completed, hexcode: "#1F883D", icon: "check-circle")
+    COMPLETED = Status.new(code: :completed, hexcode: "#25292e", icon: "check-circle")
 
     AVAILABLE = [OPEN, IN_PROGRESS, COMPLETED].freeze
 

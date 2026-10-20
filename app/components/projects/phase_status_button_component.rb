@@ -34,8 +34,12 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
   include Primer::ClassNameHelper
   include ProjectPhaseStatusHelper
 
+  attr_reader :phase
+
   def initialize(phase:, **system_arguments)
     super
+
+    @phase = phase
     @status = Projects::PhaseStatuses.find(phase.status)
     @system_arguments = system_arguments
   end
@@ -43,13 +47,21 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
   def before_render
     @system_arguments[:classes] = class_names(
       @system_arguments[:classes],
-      helpers.hl_background_muted_class(:project_phase_status, @status.id)
+      helpers.hl_foreground_class(:project_phase_status, @status.id)
     )
+  end
+
+  def wrapper_uniq_by
+    phase
   end
 
   def render? = @status.present?
 
   private
+
+  def edit_enabled?
+    User.current.allowed_in_project?(:edit_project_phases, phase.project)
+  end
 
   def build_items
     Projects::PhaseStatuses::AVAILABLE.map { build_item(it) }
@@ -59,11 +71,12 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
     OpPrimer::StatusButtonOption.new(
       name: project_phase_status_name(status.code),
       description: project_phase_status_description(status.code),
-      color_namespace: :project_status,
+      color_namespace: :project_phase_status,
       color_ref: status.id,
       icon: status.icon,
       item_id: status.id,
       tag: :a,
+      href: project_phase_status_path(phase, status: status.code),
       content_arguments: {
         data: { turbo_method: status.value ? :put : :delete },
         aria: { current: (true if status == @status) }

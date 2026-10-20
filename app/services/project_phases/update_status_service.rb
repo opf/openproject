@@ -28,36 +28,31 @@
 #++
 
 module ProjectPhases
-  class UpdateStatusService < ::BaseServices::BaseContracted
-    alias_method :phase, :model
+  class UpdateStatusService < ::BaseServices::Update
+    delegate :project, to: :model
 
-    def initialize(user:, phase:, contract_class: nil, contract_options: {})
-      super(user:, contract_class:, contract_options:)
-      self.model = phase
+    def after_perform(*)
+      cascade_to_other_phases
+      project.touch_and_save_journals
+
+      super
     end
 
     private
 
-    def persist(service_call)
-      Project::Phase.transaction do
-        phase.update!(status: params[:status])
-        cascade
-      end
-      phase.project.touch_and_save_journals
-      service_call
-    end
+    def cascade_to_other_phases
+      project.available_phases.each do |other|
+        next if other == model
 
-    def cascade
-      phase.project.available_phases.each do |other|
-        next if other == phase
+        target = cascaded_status(earlier: other.position < model.position)
+        next if target.nil? || other.status == target
 
-        target = cascaded_status(earlier: other.position < phase.position)
-        other.update!(status: target) if target && other.status != target
+        other.update!(status: target)
       end
     end
 
     def cascaded_status(earlier:)
-      case phase.status
+      case model.status
       when "open"        then earlier ? nil : "open"
       when "in_progress" then earlier ? "completed" : "open"
       when "completed"   then earlier ? "completed" : nil
