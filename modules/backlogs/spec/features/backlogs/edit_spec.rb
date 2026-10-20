@@ -79,6 +79,13 @@ RSpec.describe "Edit", :js do
     planning_page.visit!
   end
 
+  context "as an accessible page", :selenium do
+    it "is AXe clean" do
+      planning_page.expect_sprint_names_in_order(first_sprint.name, second_sprint.name)
+      expect(page).to be_axe_clean
+    end
+  end
+
   it "lists all open sprints" do
     planning_page.expect_sprint_names_in_order(first_sprint.name, second_sprint.name)
 
