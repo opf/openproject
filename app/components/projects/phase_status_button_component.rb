@@ -44,13 +44,6 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
     @system_arguments = system_arguments
   end
 
-  def before_render
-    @system_arguments[:classes] = class_names(
-      @system_arguments[:classes],
-      helpers.hl_foreground_class(:project_phase_status, @status.id)
-    )
-  end
-
   def wrapper_uniq_by
     phase
   end

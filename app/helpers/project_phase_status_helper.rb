@@ -34,7 +34,7 @@ module ProjectPhaseStatusHelper
   # @param status_code [String | Symbol | nil] Project Status code
   # @return [String] the CSS class.
   def project_phase_status_css_class(status_code)
-    "-#{status_code&.to_s.dasherize}"
+    "-#{status_code&.to_s&.dasherize}"
   end
 
   ##

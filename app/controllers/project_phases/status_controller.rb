@@ -53,7 +53,7 @@ module ProjectPhases
     private
 
     def find_phase
-      @phase = Project::Phase.where(active: true).find(params[:project_phase_id])
+      @phase = Project::Phase.where(active: true).find(params.expect(:project_phase_id))
       @project = @phase.project
     end
 
