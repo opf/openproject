@@ -109,6 +109,9 @@ Rails.application.configure do
         # When we match health checks
         return true if /#{relative_url}\/health_checks/.match?(request.path)
 
+        # When we match the AnyCable RPC endpoint, called by the AnyCable server over the internal network
+        return true if /#{relative_url}\/_anycable\//.match?(request.path)
+
         false
       end
     },
