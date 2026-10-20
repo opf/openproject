@@ -64,6 +64,14 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
       expect(filter_for([]).autocomplete_options[:model]).to eq([])
     end
 
+    context "for a list that holds no nested items" do
+      let!(:custom_field) { create(:user_custom_field, :hierarchy, name: "Team", possible_values: ["Frontend / UI"]) }
+
+      it "keeps a label containing the path separator whole, at the first level", with_ee: false do
+        expect(filter_for([]).autocomplete_options[:items]).to include(include(name: "Frontend / UI", depth: 0))
+      end
+    end
+
     context "for a former option list" do
       let!(:custom_field) { create(:user_custom_field, :list, name: "Team", possible_values: ["Frontend / UI"]) }
 

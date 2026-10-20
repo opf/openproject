@@ -38,7 +38,7 @@ module Queries
 
           def autocomplete_options
             items = allowed_values.map do |name, id|
-              path = custom_field.nestable? ? name.split(" / ") : [name]
+              path = custom_field.nested_items_shown? ? name.split(" / ") : [name]
               { name: path.last, id:, depth: path.length - 1 }
             end
 

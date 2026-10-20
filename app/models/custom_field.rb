@@ -182,7 +182,7 @@ class CustomField < ApplicationRecord
     when "version"
       possible_version_values_options(obj, options:)
     when "list"
-      nestable? ? custom_field_hierarchy_items : possible_values.map { |item| [item.label, item.id.to_s] }
+      nested_items_shown? ? custom_field_hierarchy_items : possible_values.map { |item| [item.label, item.id.to_s] }
     else
       possible_values
     end
