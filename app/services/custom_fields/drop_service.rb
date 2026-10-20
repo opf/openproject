@@ -36,62 +36,21 @@ module CustomFields
     end
 
     def perform
-      service_call = validate_permissions
-      if service_call.success?
-        service_call = if params.key?(:prev_id)
-                         perform_anchor_drop(service_call, params)
-                       else
-                         perform_drop(service_call, params)
-                       end
-      end
-      service_call
-    end
+      return ServiceResult.failure(errors: { base: :error_unauthorized }) unless @user.admin?
 
-    def validate_permissions
-      if @user.admin?
-        ServiceResult.success
-      else
-        ServiceResult.failure(errors: { base: :error_unauthorized })
-      end
-    end
-
-    def perform_drop(service_call, params)
-      section_changed, current_section, old_section = move_to_target_section(params)
-      current_section.add_to_order(@custom_field.column_name, position: params[:position]&.to_i)
-
-      service_call.success = true
-      service_call.result = { section_changed:, current_section: current_section.reload, old_section: }
-      service_call
-    rescue StandardError => e
-      service_call.success = false
-      service_call.errors = e.message
-      service_call
+      perform_anchor_drop
     end
 
     private
 
-    def move_to_target_section(params)
-      current_section = @custom_field.custom_field_section
-      new_section_id = params[:target_id]&.to_i
-
-      return [false, current_section, nil] if current_section.id == new_section_id
-
-      old_section = current_section
-      current_section = CustomFieldSection.find(new_section_id)
-      old_section.remove_from_order(@custom_field.column_name)
-      @custom_field.update!(custom_field_section_id: current_section.id)
-
-      [true, current_section, old_section.reload]
-    end
-
     # The sortable-lists wire: list_id names the target section, prev_id the
     # custom field to insert after (blank = top).
-    def perform_anchor_drop(service_call, params)
+    def perform_anchor_drop
       target_section = @custom_field.custom_field_section.class.find_by(id: params[:list_id])
-      return invalid_anchor(service_call) if target_section.nil?
+      return invalid_anchor if target_section.nil?
 
       prev_key = anchor_key_in(target_section, params[:prev_id])
-      return invalid_anchor(service_call) if prev_key == :invalid
+      return invalid_anchor if prev_key == :invalid
 
       CustomFieldSections::MoveKeyService
         .new(key: @custom_field.column_name,
@@ -108,10 +67,8 @@ module CustomFields
       target_section.custom_fields.find_by(id: prev_id)&.column_name || :invalid
     end
 
-    def invalid_anchor(service_call)
-      service_call.success = false
-      service_call.errors = I18n.t(:error_invalid_list_move_anchor)
-      service_call
+    def invalid_anchor
+      ServiceResult.failure(errors: I18n.t(:error_invalid_list_move_anchor))
     end
   end
 end
