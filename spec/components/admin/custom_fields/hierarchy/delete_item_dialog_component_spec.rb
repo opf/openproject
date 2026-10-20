@@ -48,6 +48,12 @@ RSpec.describe Admin::CustomFields::Hierarchy::DeleteItemDialogComponent, type: 
     it("does not warn about sub-items it cannot have") { is_expected.to have_no_text("sub-items") }
   end
 
+  context "for a nestable list field without Enterprise or nested items" do
+    let(:custom_field) { create(:hierarchy_wp_custom_field, possible_values: %w[Only Other]) }
+
+    it("does not warn about sub-items it cannot have") { is_expected.to have_no_text("sub-items") }
+  end
+
   context "for a nestable list field", with_ee: [:custom_field_hierarchies] do
     let(:custom_field) { create(:hierarchy_wp_custom_field) }
     let(:item) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
