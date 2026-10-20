@@ -80,6 +80,11 @@ RSpec.describe WorkPackageTypes::FormConfiguration::QuerySummary do
     expect(rows.last).to eq(label: "Sorting", values: ["Subject (Descending)", "Unavailable value (Ascending)"])
   end
 
+  it "omits the direction of manual sorting" do
+    query.sort_criteria = [%w[manual_sorting asc]]
+    expect(described_class.new(query).rows.last).to eq(label: "Sorting", values: ["Manual sort order"])
+  end
+
   it "keeps baseline instants in stored order" do
     query.timestamps = [Timestamp.new("P1W"), Timestamp.now]
     expect(described_class.new(query).rows.last).to eq(label: "Baseline", values: ["1 week ago", "Current"])
