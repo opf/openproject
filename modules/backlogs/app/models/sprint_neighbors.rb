@@ -28,9 +28,10 @@
 #++
 
 class SprintNeighbors
-  def initialize(sprint:, project:)
+  def initialize(sprint:, project:, user: User.current)
     @sprint = sprint
     @project = project
+    @user = user
   end
 
   def previous_sprint = neighbors[:previous]
@@ -41,7 +42,7 @@ class SprintNeighbors
 
   def neighbors
     @neighbors ||= begin
-      ids = Sprint.for_project(@project).order_by_activity.pluck(:id)
+      ids = Sprint.for_project(@project).visible(@user).order_by_activity.pluck(:id)
       position = ids.index(@sprint.id)
 
       position ? load_neighbors(ids, position) : {}

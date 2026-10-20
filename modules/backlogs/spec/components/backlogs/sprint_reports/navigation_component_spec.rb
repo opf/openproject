@@ -49,6 +49,8 @@ RSpec.describe Backlogs::SprintReports::NavigationComponent, type: :component do
                     start_date: 40.days.ago, finish_date: 30.days.ago)
   end
 
+  current_user { create(:user, member_with_permissions: { project => %i[view_sprints] }) }
+
   subject(:rendered_component) { render_inline(described_class.new(sprint:, project:)) }
 
   context "for a sprint in the middle of the list" do
