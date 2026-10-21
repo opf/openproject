@@ -31,7 +31,8 @@ module CustomStylesHelper
   include TabsHelper
 
   # The dark, dark high contrast and light high contrast themes paint the header with Primer's --bgColor-inset,
-  # which a meta tag cannot resolve.
+  # which a meta tag cannot resolve. The values are copied from @primer/primitives 11.5.1; re-check them
+  # when that package is bumped.
   DARK_HEADER_BG_COLOR = "#010409"
   LIGHT_HIGH_CONTRAST_HEADER_BG_COLOR = "#eff2f5"
 
