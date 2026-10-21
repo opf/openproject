@@ -128,7 +128,7 @@ RSpec.describe Label do
 
     it "excludes labels only referenced by a journal snapshot" do
       journaled = create(:label)
-      Journal::LabelJournal.create!(journal: create(:work_package).journals.last, label: journaled)
+      create(:journal_label_journal, journal: create(:work_package).journals.last, label: journaled)
 
       expect(described_class.never_used).to contain_exactly(unused)
     end
