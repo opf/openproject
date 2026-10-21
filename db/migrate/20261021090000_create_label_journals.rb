@@ -35,5 +35,30 @@ class CreateLabelJournals < ActiveRecord::Migration[8.1]
       # No foreign key: journal snapshots must outlive deleted labels.
       t.belongs_to :label, null: false
     end
+
+    # Existing journals predate this table, so only the latest journal of each
+    # labelled work package gets a snapshot of its current labels. That keeps
+    # the next save from journaling a spurious change; older journals cannot be
+    # reconstructed and stay empty.
+    reversible do |dir|
+      dir.up do
+        say_with_time "Snapshotting current work package labels onto each latest journal" do
+          execute(<<~SQL.squish)
+            INSERT INTO label_journals (journal_id, label_id)
+            SELECT latest.id, labelings.label_id
+            FROM labelings
+            INNER JOIN LATERAL (
+              SELECT journals.id
+              FROM journals
+              WHERE journals.journable_type = 'WorkPackage'
+                AND journals.journable_id = labelings.labelable_id
+              ORDER BY journals.version DESC
+              LIMIT 1
+            ) latest ON TRUE
+            WHERE labelings.labelable_type = 'WorkPackage'
+          SQL
+        end
+      end
+    end
   end
 end
