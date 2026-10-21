@@ -28,14 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "extensions/pgvector"
+pgvector_failure = nil
 
-class EnablePgvector < ActiveRecord::Migration[8.1]
-  def up
-    Extensions::Pgvector.create(self)
-  end
+namespace :openproject do
+  namespace :llm do
+    namespace :pgvector do
+      desc "Create the pgvector extension if possible, so its migrations run with db:migrate"
+      task try_enable: :environment do
+        pgvector_failure = OpenProject::Llm::Pgvector.enable
+      rescue ActiveRecord::NoDatabaseError
+        # db:migrate creates the database after this task. The next run creates the extension.
+      end
 
-  def down
-    disable_extension "vector"
+      desc "Show whether pgvector is available"
+      task status: :environment do
+        pgvector = OpenProject::Llm::Pgvector
+        puts "Extension available on server: #{pgvector.extension_available?}"
+        puts "Extension installed:           #{pgvector.extension_installed?}"
+        puts "Migrations applied:            #{pgvector.migrations_applied?}"
+      end
+    end
   end
+end
+
+Rake::Task["db:migrate"].enhance ["openproject:llm:pgvector:try_enable"] do
+  warn OpenProject::Llm::Pgvector.warning(pgvector_failure) if pgvector_failure
 end
