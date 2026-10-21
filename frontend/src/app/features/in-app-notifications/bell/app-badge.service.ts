@@ -26,7 +26,6 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { distinctUntilChanged, skip } from 'rxjs/operators';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
@@ -54,15 +53,13 @@ export class AppBadgeService {
       return;
     }
 
-    this.ianBell.unread$
-      .pipe(skip(1), distinctUntilChanged())
-      .subscribe((count) => {
-        if (count === 0) {
-          this.clear();
-        } else if (count > 0 && Number.isFinite(count)) {
-          this.call((nav) => nav.setAppBadge(count));
-        }
-      });
+    this.ianBell.loadedUnread$.subscribe((count) => {
+      if (count === 0) {
+        this.clear();
+      } else if (count > 0 && Number.isFinite(count)) {
+        this.call((nav) => nav.setAppBadge(count));
+      }
+    });
   }
 
   get backgroundPollingFactor():number {

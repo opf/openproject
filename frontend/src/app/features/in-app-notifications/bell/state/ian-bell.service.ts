@@ -67,6 +67,8 @@ export class IanBellService {
 
   unread$ = this.query.unread$;
 
+  loadedUnread$ = this.query.loadedUnread$;
+
   constructor() {
     this.query.unreadCountChanged$.subscribe((count) => {
       this.actions$.dispatch(notificationCountChanged({ origin: this.id, count }));
@@ -87,7 +89,7 @@ export class IanBellService {
         map((result) => result.total),
         tap({
           next: (count) => {
-            this.store.update({ totalUnread: count });
+            this.store.update({ totalUnread: count, loaded: true });
           },
           error: (error) => {
             console.error('Failed to load notifications: %O', error);

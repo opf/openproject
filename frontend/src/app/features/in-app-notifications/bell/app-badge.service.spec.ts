@@ -26,13 +26,13 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
 
 describe('AppBadgeService', () => {
-  let unread$:BehaviorSubject<number>;
+  let loadedUnread$:Subject<number>;
   let setAppBadge:ReturnType<typeof vi.fn>;
   let clearAppBadge:ReturnType<typeof vi.fn>;
   let meta:HTMLMetaElement;
@@ -49,7 +49,7 @@ describe('AppBadgeService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: IanBellService, useValue: { unread$ } },
+        { provide: IanBellService, useValue: { loadedUnread$ } },
         { provide: ConfigurationService, useValue: { activeFeatureFlags: flags } },
       ],
     });
@@ -58,7 +58,7 @@ describe('AppBadgeService', () => {
   };
 
   beforeEach(() => {
-    unread$ = new BehaviorSubject<number>(0);
+    loadedUnread$ = new Subject<number>();
     setAppBadge = vi.fn().mockResolvedValue(undefined);
     clearAppBadge = vi.fn().mockResolvedValue(undefined);
     meta = document.createElement('meta');
@@ -75,14 +75,14 @@ describe('AppBadgeService', () => {
     it('mirrors the unread count on the badge', () => {
       setup().initialize();
 
-      unread$.next(7);
+      loadedUnread$.next(7);
       expect(setAppBadge).toHaveBeenLastCalledWith(7);
     });
 
     it('passes the real count to the badge', () => {
       setup().initialize();
 
-      unread$.next(1500);
+      loadedUnread$.next(1500);
       expect(setAppBadge).toHaveBeenLastCalledWith(1500);
     });
 
@@ -90,43 +90,35 @@ describe('AppBadgeService', () => {
       setup().initialize();
       expect(clearAppBadge).not.toHaveBeenCalled();
 
-      unread$.next(0);
+      loadedUnread$.next(0);
       expect(clearAppBadge).toHaveBeenCalledTimes(1);
     });
 
     it('clears the badge at zero unread', () => {
       setup().initialize();
 
-      unread$.next(3);
-      unread$.next(0);
+      loadedUnread$.next(3);
+      loadedUnread$.next(0);
       expect(clearAppBadge).toHaveBeenCalledTimes(1);
     });
 
     it('leaves the badge unchanged when the count could not be fetched', () => {
       setup().initialize();
 
-      unread$.next(4);
+      loadedUnread$.next(4);
       setAppBadge.mockClear();
       clearAppBadge.mockClear();
-      unread$.next(-1);
+      loadedUnread$.next(-1);
 
       expect(setAppBadge).not.toHaveBeenCalled();
       expect(clearAppBadge).not.toHaveBeenCalled();
-    });
-
-    it('ignores repeated identical counts', () => {
-      setup().initialize();
-
-      unread$.next(4);
-      unread$.next(4);
-      expect(setAppBadge).toHaveBeenCalledTimes(1);
     });
 
     it('does not surface a rejected badge call', async () => {
       setAppBadge.mockRejectedValue(new DOMException('not installed', 'NotAllowedError'));
       setup().initialize();
 
-      unread$.next(2);
+      loadedUnread$.next(2);
       await Promise.resolve();
 
       expect(setAppBadge).toHaveBeenCalledWith(2);
@@ -136,7 +128,7 @@ describe('AppBadgeService', () => {
   it('does nothing in a plain browser tab', () => {
     setup({ standalone: false }).initialize();
 
-    unread$.next(5);
+    loadedUnread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
     expect(clearAppBadge).not.toHaveBeenCalled();
   });
@@ -146,14 +138,14 @@ describe('AppBadgeService', () => {
 
     expect(clearAppBadge).toHaveBeenCalledTimes(1);
 
-    unread$.next(5);
+    loadedUnread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
   });
 
   it('clears a stale badge when the feature flag is off in an installed app', () => {
     setup({ flags: [], loggedIn: true, standalone: true }).initialize();
 
-    unread$.next(5);
+    loadedUnread$.next(5);
     expect(clearAppBadge).toHaveBeenCalledTimes(1);
     expect(setAppBadge).not.toHaveBeenCalled();
   });
@@ -161,7 +153,7 @@ describe('AppBadgeService', () => {
   it('does nothing when the feature flag is off in a plain tab', () => {
     setup({ flags: [], standalone: false }).initialize();
 
-    unread$.next(5);
+    loadedUnread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
     expect(clearAppBadge).not.toHaveBeenCalled();
   });
@@ -169,7 +161,7 @@ describe('AppBadgeService', () => {
   it('does nothing when the Badging API is missing', () => {
     expect(() => setup({ badgeApi: false }).initialize()).not.toThrow();
 
-    unread$.next(5);
+    loadedUnread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
   });
 
