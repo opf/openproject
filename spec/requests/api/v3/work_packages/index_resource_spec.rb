@@ -464,6 +464,34 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
+      context "when the labels changed and the last timestamp is historic",
+              with_flag: { work_package_labels: true } do
+        let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+        let(:label_a) { create(:label) }
+        let(:label_b) { create(:label) }
+        let(:label_hrefs) do
+          JSON.parse(subject.body).dig("_embedded", "elements", 0, "_links", "labels").pluck("href")
+        end
+
+        before do
+          create(:labeling, labelable: work_package, label: label_a)
+          create(:labeling, labelable: work_package, label: label_b)
+          create(:journal_label_journal, journal: current_journal, label: label_a)
+          create(:journal_label_journal, journal: current_journal, label: label_b)
+        end
+
+        it "renders the historic labels on the work package" do
+          create(:journal_label_journal, journal: original_journal, label: label_a)
+
+          expect(label_hrefs)
+            .to contain_exactly(api_v3_paths.label(label_a.id))
+        end
+
+        it "renders no labels when the work package had none at the timestamp" do
+          expect(label_hrefs).to eq([])
+        end
+      end
+
       context "when a custom value changes" do
         before do
           custom_value
