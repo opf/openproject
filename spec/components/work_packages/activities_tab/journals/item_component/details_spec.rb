@@ -75,6 +75,29 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
     end
   end
 
+  context "with a labels change" do
+    let(:details) { { "labels" => ["1", nil] } }
+    let(:rendered) { { ["labels", ["1", nil]] => "Labels deleted A" } }
+
+    it "renders the labels line" do
+      expect(page).to have_text("Labels deleted A")
+    end
+
+    context "when written for a label deletion" do
+      let(:cause) { Journal::CausedByLabelDeletion.new(label_ids: [1], label_names: ["A"]).to_hash }
+      let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 2, cause:) }
+      let(:details) { { "labels" => ["1", nil], cause: [nil, cause] } }
+      let(:rendered) do
+        { ["labels", ["1", nil]] => "Labels deleted A", [:cause, [nil, cause]] => "Label removed: 'A' was deleted" }
+      end
+
+      it "renders the cause but not the labels line", :aggregate_failures do
+        expect(page).to have_text("Label removed: 'A' was deleted")
+        expect(page).to have_no_text("Labels deleted A")
+      end
+    end
+  end
+
   # A formatter that renders nothing leaves the entry with no change to show, so
   # a header would announce an author and a time above an empty entry.
   context "when every detail renders blank" do
