@@ -2073,10 +2073,6 @@ en:
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
-        drop:
-          error: "The section could not be reordered."
-        move:
-          error: "The section could not be reordered."
       versions_and_categories:
         banner:
           button_more_information: More information
