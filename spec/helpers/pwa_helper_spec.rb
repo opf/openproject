@@ -40,6 +40,22 @@ RSpec.describe PwaHelper do
       expect(helper.pwa_cache_name).not_to eq(before)
     end
 
+    it "changes when the app title changes" do
+      before = helper.pwa_cache_name
+
+      allow(Setting).to receive(:app_title).and_return("Another title")
+
+      expect(helper.pwa_cache_name).not_to eq(before)
+    end
+
+    it "changes when the version changes" do
+      before = helper.pwa_cache_name
+
+      stub_const("OpenProject::VERSION", "0.0.1")
+
+      expect(helper.pwa_cache_name).not_to eq(before)
+    end
+
     it "starts with the instance's cache prefix" do
       expect(helper.pwa_cache_name).to start_with(helper.pwa_cache_prefix)
     end
