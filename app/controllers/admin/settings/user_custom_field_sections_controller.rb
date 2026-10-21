@@ -35,7 +35,7 @@ module Admin::Settings
 
     configure_drop_request list_type: "user_custom_field_section", list_id_scoped: false
 
-    before_action :set_user_custom_field_section, only: %i[update move drop destroy]
+    before_action :set_user_custom_field_section, only: %i[update drop destroy]
 
     def create
       call = ::UserCustomFieldSections::CreateService.new(user: current_user).call(
@@ -73,20 +73,6 @@ module Admin::Settings
 
       if call.success?
         update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
-        update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
-      else
-        render_section_error_via_turbo_stream(call)
-      end
-
-      respond_with_turbo_streams
-    end
-
-    def move
-      call = ::UserCustomFieldSections::UpdateService.new(user: current_user, model: @user_custom_field_section).call(
-        move_to: params.expect(:move_to)&.to_sym
-      )
-
-      if call.success?
         update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
       else
         render_section_error_via_turbo_stream(call)
