@@ -28,7 +28,7 @@
 #++
 
 require "spec_helper"
-require Rails.root.join("db/migrate/20261021090000_create_label_journals.rb")
+require Rails.root.join("db/migrate/20261021120000_create_label_journals.rb")
 
 RSpec.describe CreateLabelJournals, type: :model,
                                     with_settings: { journal_aggregation_time_minutes: 0 } do
