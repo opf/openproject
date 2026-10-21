@@ -28,7 +28,7 @@
 #++
 
 # Skips work packages that already carry the deletion journal, so a retried job adds no second entry.
-# A journal written within the aggregation window merges into the admin's own preceding edit of that work package.
+# Deletions by the same admin inside the aggregation window merge into one entry listing every label.
 class Labels::JournalizeDeletionJob < ApplicationJob
   queue_with_priority :below_normal
 

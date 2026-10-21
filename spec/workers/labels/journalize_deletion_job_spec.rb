@@ -35,6 +35,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
   let(:label) { create(:label, name: "Deprecated") }
   let(:label_id) { label.id }
   let(:label_name) { label.name }
+  let(:labels_on_work_packages) { [label] }
   let(:work_packages) do
     create_list(:work_package, 2, journals: { 10.minutes.ago => { user: admin } })
   end
@@ -49,7 +50,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
 
   before do
     work_packages.each do |work_package|
-      WorkPackages::UpdateService.new(user: admin, model: work_package).call(label_ids: [label.id]).on_failure { raise it.message }
+      WorkPackages::UpdateService.new(user: admin, model: work_package).call(label_ids: labels_on_work_packages.map(&:id)).on_failure { raise it.message }
     end
     label.destroy!
   end
@@ -87,18 +88,41 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     end
   end
 
-  context "when the admin edited the work package within the aggregation window",
-          with_settings: { journal_aggregation_time_minutes: 5 } do
+  context "when the same admin deletes another label right after" do
     let(:work_packages) { [create(:work_package, journals: { 10.minutes.ago => { user: admin } })] }
+    let(:other_label) { create(:label, name: "Obsolete") }
+    let(:labels_on_work_packages) { [label, other_label] }
+    let(:work_package) { work_packages.first }
 
-    before do
-      WorkPackages::UpdateService.new(user: admin, model: work_packages.first).call(subject: "x")
+    def perform_for(deleted_label)
+      described_class.perform_now(work_package_ids: [work_package.id], label_id: deleted_label.id,
+                                  label_name: deleted_label.name, user_id:)
     end
 
-    it "merges the cause into that preceding journal" do
-      expect { perform }.not_to change { work_packages.first.journals.count }
+    before do
+      WorkPackages::UpdateService.new(user: admin, model: work_package).call(subject: "x").on_failure { raise it.message }
+      with_settings(journal_aggregation_time_minutes: 5)
+      perform_for(label)
+      other_label.destroy!
+    end
 
-      expect(work_packages.first.reload.last_journal.cause_type).to eq("label_deleted")
+    it "merges both labels into one journal entry" do
+      expect { perform_for(other_label) }.not_to change { work_package.journals.count }
+
+      journal = work_package.reload.last_journal
+      expect(journal.cause).to eq(
+        "type" => "label_deleted",
+        "label_ids" => [label.id, other_label.id],
+        "label_names" => [label.name, other_label.name]
+      )
+      new_ids = journal.details["labels"].last.to_s.split(",").map(&:to_i)
+      expect(new_ids).not_to include(label.id, other_label.id)
+    end
+
+    it "adds nothing when the first label's job runs again after the merge" do
+      perform_for(other_label)
+
+      expect { perform_for(label) }.not_to change { work_package.journals.count }
     end
   end
 end
