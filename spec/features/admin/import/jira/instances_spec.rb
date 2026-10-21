@@ -49,12 +49,12 @@ RSpec.describe "Jira instance configuration", :js do
     end
 
     it "does not restore form values when navigating back after a successful creation" do
-      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
 
       fill_in "Name", with: "My Jira"
       fill_in "Jira Server/Data Center URL", with: "https://jira.example.com"
       fill_in "Personal Access Token", with: "secret_token"
-      uncheck "Exclude resolution fields for this configuration"
+      check "Exclude resolution fields for this configuration"
 
       click_on "Add configuration"
 
@@ -68,16 +68,16 @@ RSpec.describe "Jira instance configuration", :js do
       expect(page).to have_field("Personal Access Token", with: "")
 
       # The checkbox is restored
-      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
     end
 
     it "has extra configuration options" do
-      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
 
-      uncheck "Exclude resolution fields for this configuration"
+      check "Exclude resolution fields for this configuration"
       click_on "Add configuration"
 
-      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
     end
 
     it "shows an error when name is blank" do
@@ -133,13 +133,13 @@ RSpec.describe "Jira instance configuration", :js do
     end
 
     it "has extra configuration options" do
-      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
 
-      uncheck "Exclude resolution fields for this configuration"
+      check "Exclude resolution fields for this configuration"
       click_on "Save configuration"
       visit edit_admin_import_jira_path(jira)
 
-      expect(page).to have_unchecked_field("Exclude resolution fields for this configuration")
+      expect(page).to have_checked_field("Exclude resolution fields for this configuration")
     end
   end
 end

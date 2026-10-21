@@ -181,7 +181,7 @@ module Import
 
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
-      resolution = jira_issue.payload["fields"]["resolution"]
+      resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
       status, uses_existing = find_or_create_status(issue_status, resolution)
 
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
@@ -206,6 +206,8 @@ module Import
     end
 
     def setup_resolution_date_cf(jira_project)
+      return if @jira_import.exclude_resolution_fields?
+
       custom_field = system_field_custom_field("resolutiondate")
       return unless custom_field
       return unless has_issues_with_resolution_date?(jira_project)

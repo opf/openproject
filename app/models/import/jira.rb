@@ -31,7 +31,7 @@ module Import
   class Jira < ApplicationRecord
     self.table_name = "jiras"
 
-    store_attribute :options, :exclude_resolution_fields, :boolean, default: true
+    store_attribute :options, :exclude_resolution_fields, :boolean, default: false
 
     has_many :jira_imports, dependent: :destroy
 

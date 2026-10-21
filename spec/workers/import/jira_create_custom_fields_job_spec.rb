@@ -218,6 +218,16 @@ RSpec.describe Import::JiraCreateCustomFieldsJob do
         expect(jira_import.reload.system_field_custom_fields).to be_empty
       end
     end
+
+    context "when the import is configured to exclude resolution fields" do
+      let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+      it "creates no field" do
+        expect { create_custom_fields }.to change(WorkPackageCustomField, :count).by(2)
+        expect(custom_field).to be_nil
+        expect(jira_import.reload.system_field_custom_fields).to be_empty
+      end
+    end
   end
 
   describe "with the issue value index stored by stage 3" do

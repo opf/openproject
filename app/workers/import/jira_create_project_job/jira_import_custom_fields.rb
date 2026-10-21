@@ -37,12 +37,17 @@ module Import
 
       def create_system_field_custom_fields
         SYSTEM_FIELD_CUSTOM_FIELDS.each do |field, options|
+          next if exclude_system_field?(field)
           next unless Import::JiraIssue.where(jira_import_id: @jira_import.id).with_field_set(field).any?
 
           OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
             find_or_create_system_field_custom_field(field, **options)
           end
         end
+      end
+
+      def exclude_system_field?(field)
+        field == "resolutiondate" && @jira_import.exclude_resolution_fields?
       end
 
       def system_field_custom_field(field_key)
