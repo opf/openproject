@@ -40,7 +40,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
   end
   let(:user_id) { admin.id }
   let(:cause) do
-    { "type" => "label_deleted", "label_id" => label_id, "label_name" => label_name }
+    { "type" => "label_deleted", "label_ids" => [label_id], "label_names" => [label_name] }
   end
 
   def perform

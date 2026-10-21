@@ -89,8 +89,8 @@ class Journal < ApplicationRecord
                    status_name
                    status_id
                    status_changes
-                   label_id
-                   label_name
+                   label_ids
+                   label_names
                    meeting_id
                    source_meeting_id
                    message_id
