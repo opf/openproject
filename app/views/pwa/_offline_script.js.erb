@@ -49,7 +49,11 @@ async function retry() {
   if (reachable) {
     render("online", { text: "reloadingLabel", status: "statusRestored" });
     await pause(RELOAD_DELAY_MS);
-    location.replace(onOfflinePage() ? root.dataset.homeUrl : location.href);
+    if (onOfflinePage()) {
+      location.replace(root.dataset.homeUrl);
+    } else {
+      location.reload();
+    }
   } else {
     render("still", { text: "retryLabel", status: "statusStill" });
     scheduleRetry();
