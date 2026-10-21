@@ -66,3 +66,8 @@ OpenProject::FeatureDecisions.add :work_package_labels,
 OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
                                   description: "Enables project settings for the unit of velocity, effort and capacity. " \
                                                "See AGILE-198 for details."
+
+OpenProject::FeatureDecisions.add :shared_permissions_cte,
+                                  description: "OP-18140: materialise the per-user visible id set in a single CTE where it " \
+                                               "is embedded once as a semi-join, so the planner is given a concrete " \
+                                               "cardinality instead of a user-independent heuristic. Kill-switch."
