@@ -5893,6 +5893,13 @@ en:
           Select which project attributes should be included in the project initiation request.
           This list only includes [project attributes](project_attributes_url) enabled for for this project.
       custom_fields:
+        changes_heading: "Important changes"
+        changes_text: >
+          Starting with version 18.0, custom fields are no longer enabled or disabled for each
+          project. They are part of forms, which types and variants use. The list below shows the
+          custom fields on the work packages of this project, and the variants that include them.
+        column_name: "Custom field"
+        column_variants: "Variants"
         no_results_title_text: There are currently no custom fields available.
       forums:
         no_results_content_text: Create a new forum
@@ -7405,6 +7412,9 @@ en:
             Each variant can inherit, copy or have its own custom configuration for the default
             template, custom fields, workflows and preferences.
           title: "No variants exist for this type"
+        created_by_migration_filter:
+          all: "All"
+          migrated: "Migrated"
         created_in_html: "Created in %{project}"
         delete:
           description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
@@ -7435,6 +7445,7 @@ en:
         confirm: "Convert"
         text: "A global variant with this name already exists. Please choose a different name."
         title: "Pick another name for this variant"
+      created_by_migration: "Migrated"
       delete:
         description: "The type will be deleted permanently. This action cannot be undone."
         description_with_variants: "The type and all of its variants will be deleted permanently. This action cannot be undone."
@@ -7449,7 +7460,15 @@ en:
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"
+      filter: "Filter by name"
+      filter_no_results: "No types match this filter"
       make_default: "Activate in new projects"
+      migrated_variants_banner:
+        text: >
+          Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0.
+          They are marked as "%{label}".
+          To remove them, make the affected projects use a different variant or type, then delete the migrated variant.
+          [Learn more about variants](docs_url).
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
