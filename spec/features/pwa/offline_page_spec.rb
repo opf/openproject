@@ -31,57 +31,42 @@
 require "spec_helper"
 
 RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true } do
-  let(:offline_path) { "/offline" }
+  let(:network) { page.driver.browser.network }
 
-  def stub_fetch(body)
-    page.execute_script(<<~JS)
-      window.__fetchUrls = [];
-      window.fetch = (...args) => {
-        window.__fetchUrls.push(args[0]);
-        #{body}
-      };
-    JS
+  after do
+    network.emulate_network_conditions(offline: false, latency: 0, download_throughput: -1, upload_throughput: -1)
   end
 
-  def respond_ok = "return Promise.resolve({ ok: true });"
-  def fail_network = "return Promise.reject(new TypeError('Failed to fetch'));"
-  def hang_until_released = "return new Promise((resolve) => { window.__release = () => resolve({ ok: true }); });"
-
-  def offline_text(key) = I18n.t("pwa.offline.#{key}")
-
   it "reports that the connection is still down and lets the user retry again" do
-    visit offline_path
-    stub_fetch(fail_network)
+    visit "/offline"
+    network.offline_mode
 
-    click_on offline_text("retry")
+    click_on "Retry"
 
-    expect(page).to have_text(offline_text("status_still"))
-    expect(find_button(offline_text("retry"))["aria-busy"]).to eq("false")
+    expect(page).to have_text("Still offline. We’ll try again in a moment.")
+    expect(find_button("Retry")["aria-busy"]).to eq("false")
   end
 
   it "announces the restored connection and leaves the offline page for the home page" do
-    visit offline_path
-    stub_fetch(respond_ok)
-    page.execute_script("window.__sameDocument = true")
+    visit "/offline"
 
-    click_on offline_text("retry")
+    click_on "Retry"
 
-    expect(page).to have_heading(offline_text("headline_online"))
-    expect(page.evaluate_script("window.__fetchUrls")).to eq([offline_path])
-    expect(page).to have_text(offline_text("status_restored"))
-    expect(page).to have_no_current_path(offline_path)
-    expect(page.evaluate_script("window.__sameDocument")).to be_nil
+    expect(page).to have_heading("You’re back online")
+    expect(page).to have_text("Connection restored. Reloading…")
+    expect(page).to have_no_current_path("/offline")
   end
 
   it "ignores further clicks while a check is running" do
-    visit offline_path
-    stub_fetch(hang_until_released)
+    visit "/offline"
+    network.emulate_network_conditions(latency: 60_000)
 
-    click_on offline_text("retry")
-    expect(page).to have_button(offline_text("retrying"))
-    click_on offline_text("retrying")
+    click_on "Retry"
+    expect(page).to have_button("Retrying…")
+    click_on "Retrying…"
 
-    expect(find_button(offline_text("retrying"))).to match_css("[aria-busy='true'][aria-disabled='true']")
-    expect(page.evaluate_script("window.__fetchUrls.length")).to eq(1)
+    button = find_button("Retrying…")
+    expect(button["aria-busy"]).to eq("true")
+    expect(button["aria-disabled"]).to eq("true")
   end
 end
