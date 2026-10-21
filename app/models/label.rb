@@ -58,6 +58,13 @@ class Label < ApplicationRecord
     where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
   }
 
+  scope :created_inline, -> { where(created_inline: true) }
+
+  scope :never_used, -> {
+    where.not(id: Labeling.select(:label_id))
+      .where.not(id: Journal::LabelJournal.select(:label_id))
+  }
+
   normalizes :name, with: -> { it.squish }
 
   validates :name,

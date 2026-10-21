@@ -104,6 +104,36 @@ RSpec.describe Label do
     end
   end
 
+  describe ".created_inline" do
+    it "returns only labels created inline" do
+      inline = create(:label, :created_inline)
+      create(:label)
+
+      expect(described_class.created_inline).to contain_exactly(inline)
+    end
+  end
+
+  describe ".never_used" do
+    let!(:unused) { create(:label) }
+
+    it "includes labels without labelings or journal snapshots" do
+      expect(described_class.never_used).to contain_exactly(unused)
+    end
+
+    it "excludes labels with a labeling" do
+      create(:labeling, label: create(:label))
+
+      expect(described_class.never_used).to contain_exactly(unused)
+    end
+
+    it "excludes labels only referenced by a journal snapshot" do
+      journaled = create(:label)
+      Journal::LabelJournal.create!(journal: create(:work_package).journals.last, label: journaled)
+
+      expect(described_class.never_used).to contain_exactly(unused)
+    end
+  end
+
   describe ".page_of" do
     let!(:alpha) { create(:label, name: "Alpha") }
     let!(:bravo) { create(:label, name: "bravo") }

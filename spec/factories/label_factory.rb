@@ -31,5 +31,9 @@ FactoryBot.define do
   factory :label do
     sequence(:name) { "Label #{it}" }
     author factory: :user
+
+    trait :created_inline do
+      created_inline { true }
+    end
   end
 end
