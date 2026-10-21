@@ -44,7 +44,10 @@ describe('AppBadgeService', () => {
     standalone = true,
   }:{ flags?:string[], loggedIn?:boolean, badgeApi?:boolean, standalone?:boolean } = {}) => {
     meta.dataset.loggedIn = String(loggedIn);
-    vi.stubGlobal('navigator', badgeApi ? { setAppBadge, clearAppBadge } : {});
+    if (badgeApi) {
+      Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: setAppBadge });
+      Object.defineProperty(navigator, 'clearAppBadge', { configurable: true, value: clearAppBadge });
+    }
     vi.stubGlobal('matchMedia', (query:string) => ({ matches: standalone && query === '(display-mode: standalone)' }));
 
     TestBed.configureTestingModule({
@@ -69,6 +72,8 @@ describe('AppBadgeService', () => {
   afterEach(() => {
     meta.remove();
     vi.unstubAllGlobals();
+    delete (navigator as { setAppBadge?:unknown }).setAppBadge;
+    delete (navigator as { clearAppBadge?:unknown }).clearAppBadge;
   });
 
   describe('when running as an installed app', () => {
