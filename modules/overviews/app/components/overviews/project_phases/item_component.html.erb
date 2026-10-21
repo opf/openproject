@@ -5,7 +5,7 @@
       test_selector: "project-life-cycle-#{phase.id}"
     }
   ) do |life_cycle_container|
-    life_cycle_container.with_row(mb: 1, flex_layout: true, align_items: :center) do |row|
+    life_cycle_container.with_row(flex_layout: true, align_items: :center) do |row|
       row.with_column(mr: 1, flex_layout: true) do |text_and_icon|
         text_and_icon.with_column(mr: 1, classes: icon_color_class) do
           render Primer::Beta::Octicon.new(icon:)

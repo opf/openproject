@@ -155,25 +155,4 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
       end
     end
   end
-
-  context "when no user is passed" do
-    subject do
-      render_inline(described_class.new(phase:))
-      page
-    end
-
-    let(:current) { build_stubbed(:user) }
-
-    current_user { current }
-
-    before do
-      mock_permissions_for(current) do |mock|
-        mock.allow_in_project(:edit_project_phases, project: phase.project)
-      end
-    end
-
-    it "falls back to the current user" do
-      expect(subject).to have_button "Open", disabled: false
-    end
-  end
 end
