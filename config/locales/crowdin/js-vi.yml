@@ -61,6 +61,7 @@ vi:
         single: Chọn "%{name}"
       remove: Xoá %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Không tìm thấy mục nào
       placeholder: Nhập để tìm kiếm
       project:
@@ -162,6 +163,7 @@ vi:
     button_stop_timer: Dừng hẹn giờ
     button_uncheck_all: Bỏ chọn tất cả
     button_update: Cập Nhật
+    button_view_markdown: View Markdown
     caption_rate_history: Lịch sử giá
     card:
       add_new: Thêm thẻ mới

@@ -61,6 +61,7 @@ da:
         single: Vælg "%{name}"
       remove: Fjern %{name};
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ da:
     button_stop_timer: Stop timer
     button_uncheck_all: Fjern alle markeringer
     button_update: Opdater
+    button_view_markdown: View Markdown
     caption_rate_history: Satshistorik
     card:
       add_new: Add new card

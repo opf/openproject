@@ -61,6 +61,7 @@ ms:
         single: Pilih "%{name}"
       remove: Keluarkan %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Tiada item ditemui
       placeholder: Taip untuk cari
       project:
@@ -162,6 +163,7 @@ ms:
     button_stop_timer: Stop timer
     button_uncheck_all: Batalkan semua pilihan
     button_update: Kemas kini
+    button_view_markdown: View Markdown
     caption_rate_history: Sejarah kadar
     card:
       add_new: Tambah kad baharu

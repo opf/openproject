@@ -61,6 +61,7 @@ hr:
         single: Select "%{name}"
       remove: Remove %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ hr:
     button_stop_timer: Stop timer
     button_uncheck_all: Nemoj odabrati sve
     button_update: Ažuriraj
+    button_view_markdown: View Markdown
     caption_rate_history: Povijest satnica
     card:
       add_new: Add new card

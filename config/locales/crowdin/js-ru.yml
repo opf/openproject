@@ -61,6 +61,7 @@ ru:
         single: Выберите "%{name}"
       remove: Удалить %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Элементов не найдено
       placeholder: Введите для поиска
       project:
@@ -162,6 +163,7 @@ ru:
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
     button_update: Обновление
+    button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
       add_new: Добавить новую карту

@@ -61,6 +61,7 @@ el:
         single: Επιλογή "%{name}"
       remove: Διαγραφή %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Πληκτρολογήστε για αναζήτηση
       project:
@@ -162,6 +163,7 @@ el:
     button_stop_timer: Διακοπή χρονόμετρου
     button_uncheck_all: Αποεπιλογή όλων
     button_update: Ενημέρωση
+    button_view_markdown: View Markdown
     caption_rate_history: Ιστορικό αμοιβής
     card:
       add_new: Προσθέστε νέα κάρτα

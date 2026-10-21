@@ -61,6 +61,7 @@ cs:
         single: Vybrat "%{name}"
       remove: Odstranit %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenalezeny žádné položky
       placeholder: Zadejte hledaný text
       project:
@@ -162,6 +163,7 @@ cs:
     button_stop_timer: Zastavit časovač
     button_uncheck_all: Odznačit vše
     button_update: Aktualizovat
+    button_view_markdown: View Markdown
     caption_rate_history: Historie sazeb
     card:
       add_new: Přidat novou kartu

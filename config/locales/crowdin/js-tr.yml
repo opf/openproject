@@ -61,6 +61,7 @@ tr:
         single: '"%{name}" seçeneğini seçin'
       remove: "%{name} öğesini kaldır"
     autocompleter:
+      create_label: Create label
       notFoundText: Hiçbir öge bulunamadı
       placeholder: Aramak için yazın
       project:
@@ -162,6 +163,7 @@ tr:
     button_stop_timer: Zamanlayıcıyı durdur
     button_uncheck_all: Tümünü işaretleme
     button_update: Güncelleştirme
+    button_view_markdown: View Markdown
     caption_rate_history: Değerleme geçmişi
     card:
       add_new: Yeni kart ekleyin

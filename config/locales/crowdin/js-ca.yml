@@ -61,6 +61,7 @@ ca:
         single: Seleccionar "%{name}"
       remove: Eliminar %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Elements no trobats
       placeholder: Escriviu per cercar
       project:
@@ -162,6 +163,7 @@ ca:
     button_stop_timer: Stop timer
     button_uncheck_all: Desmarca-ho tot
     button_update: Actualitza
+    button_view_markdown: View Markdown
     caption_rate_history: Història d'índex
     card:
       add_new: Afegir nova targeta

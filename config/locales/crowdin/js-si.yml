@@ -61,6 +61,7 @@ si:
         single: තෝරන්න "%{name}”
       remove: "%{name}ඉවත් කරන්න"
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: සෙවීමට ටයිප් කරන්න
       project:
@@ -162,6 +163,7 @@ si:
     button_stop_timer: Stop timer
     button_uncheck_all: සියල්ල ඉවත් කරන්න
     button_update: යාවත්කාලීන
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: නව කාඩ් එකතු කරන්න

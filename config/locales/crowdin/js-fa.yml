@@ -61,6 +61,7 @@ fa:
         single: انتخاب «%{name}»
       remove: حذف %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: موردی یافت نشد
       placeholder: برای جستجو تایپ کنید
       project:
@@ -162,6 +163,7 @@ fa:
     button_stop_timer: توقف تایمر
     button_uncheck_all: لغو انتخاب همه
     button_update: به روز رسانی
+    button_view_markdown: View Markdown
     caption_rate_history: تاریخچه نرخ
     card:
       add_new: افزودن کارت جدید

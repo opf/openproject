@@ -61,6 +61,7 @@
         single: Velg "%{name}"
       remove: Fjern %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Ingen elementer funnet
       placeholder: Skriv for å søke
       project:
@@ -162,6 +163,7 @@
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
     button_update: Oppdatèr
+    button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
       add_new: Legg til nytt kort

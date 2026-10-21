@@ -61,6 +61,7 @@ sv:
         single: Välj ”%{name}”
       remove: Ta bort %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Inga objekt hittades
       placeholder: Skriv för att söka
       project:
@@ -162,6 +163,7 @@ sv:
     button_stop_timer: Stoppa timer
     button_uncheck_all: Avmarkera alla
     button_update: Uppdatera
+    button_view_markdown: View Markdown
     caption_rate_history: Historiska timpriser
     card:
       add_new: Lägg till kort
