@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of labels attached to a work package
-# (see JournalChanges#get_labels_changes).
 class OpenProject::JournalFormatter::Labels < OpenProject::JournalFormatter::JoinedAssociation
   private
 
