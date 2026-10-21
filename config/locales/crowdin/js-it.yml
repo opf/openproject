@@ -61,6 +61,7 @@ it:
         single: Seleziona "%{name}"
       remove: Rimuovi %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nessun elemento trovato
       placeholder: Digita per cercare
       project:
@@ -162,6 +163,7 @@ it:
     button_stop_timer: Ferma il timer
     button_uncheck_all: Deseleziona tutti
     button_update: Aggiorna
+    button_view_markdown: View Markdown
     caption_rate_history: Cronologia tariffe
     card:
       add_new: Aggiungi una nuova carta

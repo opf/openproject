@@ -61,6 +61,7 @@ ko:
         single: '"%{name}" 선택'
       remove: "%{name} 삭제"
     autocompleter:
+      create_label: Create label
       notFoundText: 항목 없음
       placeholder: 검색할 유형
       project:
@@ -162,6 +163,7 @@ ko:
     button_stop_timer: 타이머 중지
     button_uncheck_all: 모두 선택 취소
     button_update: 업데이트
+    button_view_markdown: View Markdown
     caption_rate_history: 요금 기록
     card:
       add_new: 새로운 카드를 추가하다

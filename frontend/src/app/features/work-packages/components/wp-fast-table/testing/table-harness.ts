@@ -100,8 +100,10 @@ import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipb
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
@@ -164,9 +166,13 @@ export interface TableHarness {
   /** The relation row of `to` under `from`, located by its occurrence key. */
   relationRow(from:string, to:string, type?:string):HTMLTableRowElement;
   timelineRow(workPackageId:string):HTMLElement;
+  /** The timeline cell at the position of the given table row; both sides render one element per row. */
+  timelineRowOf(row:HTMLElement):HTMLElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   /** Fresh lookup; group headers are replaced on every collapse toggle. */
   groupHeader(index:number):HTMLTableRowElement;
+  /** Selects the given columns as the column configuration does, redrawing the table without reloading results. */
+  setColumns(columnIds:string[]):void;
   rowIds():string[];
   /** Work-package entries of the rendered state, in order, as `[workPackageId, hidden]`. */
   renderedState():[string, boolean][];
@@ -196,10 +202,14 @@ const unbuildableColumns:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+const sumsSchemaHref = '/api/v3/work_packages/schemas/sums';
+
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
   const injector = createEnvironmentInjector([...harnessProviders(dragService, options), ...(options.providers ?? [])], TestBed.inject(EnvironmentInjector));
-  injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+  injector.get(DisplayFieldService)
+    .addFieldType(TextDisplayField, 'text', ['String'])
+    .addFieldType(IntegerDisplayField, 'integer', ['Integer']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
   const dom = options.dom ?? buildDom();
@@ -263,7 +273,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       }
 
       const rendered = nextRender();
-      querySpace.results.putValue({ elements: resources } as WorkPackageCollectionResource);
+      querySpace.results.putValue({ elements: resources, sumsSchema: { href: sumsSchemaHref } } as WorkPackageCollectionResource);
       querySpace.initialized.putValue(null);
 
       return rendered;
@@ -299,6 +309,14 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return row;
     },
 
+    timelineRowOf(row) {
+      const cell = dom.timelineBody.children.item(Array.from(dom.tbody.children).indexOf(row));
+      if (!(cell instanceof HTMLElement)) {
+        throw new Error('No rendered timeline row at the position of the given table row');
+      }
+      return cell;
+    },
+
     groupHeaderOf(row) {
       return locatePredecessorBySelector(row, `.${rowGroupClassName}`) as HTMLTableRowElement|null;
     },
@@ -309,6 +327,10 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
         throw new Error(`No rendered group header ${index}`);
       }
       return header;
+    },
+
+    setColumns(columnIds) {
+      injector.get(WorkPackageViewColumnsService).setColumns(columnIds.map((id) => buildColumn(id) as QueryColumn));
     },
 
     rowIds() {
@@ -419,6 +441,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+  const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [
     { provide: States, useValue: options.states ?? new States() },
@@ -457,6 +480,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     {
       provide: SchemaCacheService,
       useValue: {
+        state: () => ({ value: sumsSchema }),
         of: () => ({
           ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
           mappedName: (attribute:string) => attribute,
@@ -548,6 +572,12 @@ export function buildDom() {
     tbody: wrapper.querySelector<HTMLTableSectionElement>('tbody')!,
     timelineBody: wrapper.querySelector<HTMLElement>('.wp-table-timeline--body')!,
   };
+}
+
+function buildSumsSchema(groups:GroupFixture[]):Record<string, IFieldSchema> {
+  const attributes = groups.flatMap((group) => Object.keys(group.sums ?? {}));
+
+  return Object.fromEntries(attributes.map((name) => [name, { type: 'Integer', name, writable: false, hasDefault: false }]));
 }
 
 export function buildQuery(columns:(string|RelationColumnSpec)[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean, highlightingMode:HighlightingMode = 'inline'):QueryResource {

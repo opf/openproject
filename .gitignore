@@ -112,6 +112,7 @@ npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
 node_modules/
+/.angular
 
 # Ignore global package-lock.json that generates
 plaintext.yml

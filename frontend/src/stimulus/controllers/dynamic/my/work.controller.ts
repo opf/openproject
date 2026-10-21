@@ -175,7 +175,6 @@ export default class MyWorkController extends Controller {
           return [
             'calendar-allocation-event',
             ...(info.event.extendedProps.typeId ? [`__hl_type_${info.event.extendedProps.typeId}`] : []),
-            'ellipsis',
           ];
         }
 
@@ -183,7 +182,6 @@ export default class MyWorkController extends Controller {
           'calendar-time-entry-event',
           `__hl_type_${info.event.extendedProps.typeId}`,
           '__hl_border_top',
-          'ellipsis',
         ];
 
         if (info.event.extendedProps.ongoing) {

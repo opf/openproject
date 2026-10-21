@@ -26,10 +26,8 @@ ru:
         select: Выберите файлы
         select_all: Выбрать все
         selection:
-          zero: Выберите файлы для связывания
+          none: Select files to link
           one: Link %{count} file
-          few: Link %{count} files
-          many: Link %{count} files
           other: Link %{count} files
         success_create:
           one: Successfully created %{count} file link.

@@ -26,7 +26,7 @@ eu:
         select: Select files
         select_all: Hautatu guztiak
         selection:
-          zero: Select files to link
+          none: Select files to link
           one: Link %{count} file
           other: Link %{count} files
         success_create:

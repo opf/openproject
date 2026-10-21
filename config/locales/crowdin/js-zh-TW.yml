@@ -61,6 +61,7 @@ zh-TW:
         single: 選擇 "%{name}"
       remove: 刪除 %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: 找不到任何項目
       placeholder: 搜尋
       project:
@@ -162,6 +163,7 @@ zh-TW:
     button_stop_timer: 停止計時器
     button_uncheck_all: 取消全選
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 費率歷史紀錄
     card:
       add_new: 新增卡片

@@ -61,6 +61,7 @@ fil:
         single: Pumili ng "%{name}"
       remove: Alisin ang %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ fil:
     button_stop_timer: Stop timer
     button_uncheck_all: I-uncheck lahat
     button_update: I-update
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Add new card

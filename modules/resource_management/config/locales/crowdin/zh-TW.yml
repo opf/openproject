@@ -108,14 +108,14 @@ zh-TW:
       outside_dates:
         description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
         description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% available for project work)"
         schedule_change: until %{date}, then %{schedule}
         schedule_note: This user works %{schedule}.
         submit: Allocate overtime
         title: Do you want to allocate overtime to the user?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: Allocate
       success_message: Resource allocated.
@@ -255,7 +255,8 @@ zh-TW:
       no_work_schedule: No work schedule planned for this user
       overbooked: This user is over-allocated in the selected period.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Add user
     view_types:

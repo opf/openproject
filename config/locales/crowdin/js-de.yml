@@ -61,6 +61,7 @@ de:
         single: "%{name} auswählen"
       remove: Entferne %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Keine Elemente gefunden
       placeholder: Suchbegriff eintippen
       project:
@@ -162,6 +163,7 @@ de:
     button_stop_timer: Timer anhalten
     button_uncheck_all: Alle abwählen
     button_update: Aktualisieren
+    button_view_markdown: View Markdown
     caption_rate_history: Stundensatz-Historie
     card:
       add_new: Neue Karte hinzufügen

@@ -61,6 +61,7 @@ sk:
         single: Vybrať "%{name}"
       remove: Odstrániť %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ sk:
     button_stop_timer: Stop timer
     button_uncheck_all: Odznačiť všetky
     button_update: Aktualizovať
+    button_view_markdown: View Markdown
     caption_rate_history: Hodinová sadzba - História
     card:
       add_new: Pridať novú kartu

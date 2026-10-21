@@ -61,6 +61,7 @@ lt:
         single: Pažymėti „%{name}“
       remove: Pašalinti %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nieko nerasta
       placeholder: Paieškai pradėkite rinkti tekstą
       project:
@@ -162,6 +163,7 @@ lt:
     button_stop_timer: Stop timer
     button_uncheck_all: Atžymėti visus
     button_update: Atnaujinti
+    button_view_markdown: View Markdown
     caption_rate_history: Koeficiento istorija
     card:
       add_new: Pridėti naują kortelę

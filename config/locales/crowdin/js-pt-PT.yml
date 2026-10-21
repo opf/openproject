@@ -61,6 +61,7 @@ pt-PT:
         single: Selecionar "%{name}"
       remove: Remover %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenhum elemento encontrado
       placeholder: Digite para pesquisar
       project:
@@ -162,6 +163,7 @@ pt-PT:
     button_stop_timer: Parar temporizador
     button_uncheck_all: Desmarcar tudo
     button_update: Atualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Histórico de tarifas
     card:
       add_new: Adicionar novo cartão

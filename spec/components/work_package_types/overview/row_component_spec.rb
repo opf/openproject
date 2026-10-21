@@ -79,9 +79,35 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
       it "names the base, linking to that setting on it" do
         render_inline(row)
 
-        expect(page).to have_text("Inheriting from")
+        expect(page).to have_text("Using the same as type")
         expect(page).to have_link(type.default_variant.composite_name,
                                   href: edit_type_defaults_path(type_id: type.id))
+      end
+    end
+
+    context "when the setting is a form configuration" do
+      let(:aspect) { nil }
+      let(:tab) { { name: "form_configuration", path: "/forms", label: "Form", aspect: } }
+
+      it "names the form it uses, linking to that form" do
+        render_inline(row)
+
+        expect(page).to have_text("Using form")
+        expect(page).to have_link(variant.form_configuration.name,
+                                  href: edit_form_configuration_path(variant.form_configuration))
+      end
+    end
+
+    context "when the setting is a workflow" do
+      let(:aspect) { nil }
+      let(:tab) { { name: "workflow", path: "/workflow", label: "Workflow", aspect: } }
+
+      it "names the workflow it uses, linking to that workflow" do
+        render_inline(row)
+
+        expect(page).to have_text("Using workflow")
+        expect(page).to have_link(variant.workflow.name,
+                                  href: edit_workflow_path(variant.workflow))
       end
     end
   end

@@ -34,7 +34,11 @@ Rails.application.configure do |application|
       list WorkPackage, WorkPackage::PDFExport::WorkPackageListToPdf
 
       single WorkPackage, WorkPackage::PDFExport::WorkPackageToPdf
+      single WorkPackage, WorkPackage::Exports::Markdown
 
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Markdown::Date
+      formatter WorkPackage, WorkPackage::Exports::Formatters::Markdown::DateTime
+      formatter WorkPackage, Exports::Formatters::CustomFieldMarkdown
       formatter WorkPackage, Exports::Formatters::CustomField
       formatter WorkPackage, Exports::Formatters::CustomFieldPdf
       formatter WorkPackage, Exports::Formatters::CustomComment
@@ -68,6 +72,10 @@ Rails.application.configure do |application|
     WorkPackage::Exports::Attributes.add_attribute_visibility_check(:project_phase) do |work_package|
       User.current.allowed_in_project?(:view_project_phases, work_package.project) &&
         work_package.project.phases.active.any?
+    end
+
+    WorkPackage::Exports::Attributes.add_attribute_visibility_check(:parent) do |work_package|
+      work_package.parent.nil? || work_package.parent.visible?(User.current)
     end
   end
 end

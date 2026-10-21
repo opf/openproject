@@ -61,6 +61,7 @@ hy:
         single: Ընտրել "%{name}"
       remove: Հեռացնել %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Տարրեր չեն գտնվել
       placeholder: Մուտքագրեք որոնելու համար
       project:
@@ -162,6 +163,7 @@ hy:
     button_stop_timer: Դադարեցնել ժամաչափը
     button_uncheck_all: Հանել բոլոր նշումները
     button_update: Թարմացնել
+    button_view_markdown: View Markdown
     caption_rate_history: Դրույքի պատմություն
     card:
       add_new: Ավելացնել նոր քարտ
