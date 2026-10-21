@@ -31,4 +31,11 @@
 # Renders the change to the set of labels attached to a work package
 # (see JournalChanges#get_labels_changes).
 class OpenProject::JournalFormatter::Labels < OpenProject::JournalFormatter::JoinedAssociation
+  private
+
+  def name_or_placeholder(object)
+    return I18n.t(:label_deleted_label) if object.nil?
+
+    super
+  end
 end

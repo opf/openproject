@@ -37,9 +37,8 @@ class OpenProject::JournalFormatter::JoinedAssociation < JournalFormatter::Named
       next if value.blank? || klass.nil?
 
       value.to_s.split(",")
-           .filter_map { |id| name_or_placeholder(associated_object(klass, id.to_i)) }
+           .map { |id| name_or_placeholder(associated_object(klass, id.to_i)) }
            .join(", ")
-           .presence
     end
   end
 end

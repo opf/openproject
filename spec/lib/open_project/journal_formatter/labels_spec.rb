@@ -73,16 +73,18 @@ RSpec.describe OpenProject::JournalFormatter::Labels do
     end
 
     context "with a label that no longer exists" do
-      it "renders only the existing label names" do
+      it "renders a placeholder next to the existing label names" do
         expect(instance.render(:labels, [nil, "#{label.id},99999"]))
-          .to eq(I18n.t(:text_journal_set_to, label: label_text, value: "<i>A</i>"))
+          .to eq(I18n.t(:text_journal_set_to, label: label_text, value: "<i>A, #{I18n.t(:label_deleted_label)}</i>"))
       end
     end
 
     context "when setting labels that no longer exist" do
-      it "renders no detail" do
+      it "renders a placeholder for each missing label" do
+        placeholder = I18n.t(:label_deleted_label)
+
         expect(instance.render(:labels, [nil, "99999,99998"]))
-          .to eq(I18n.t(:text_journal_deleted_no_detail, label: label_text))
+          .to eq(I18n.t(:text_journal_set_to, label: label_text, value: "<i>#{placeholder}, #{placeholder}</i>"))
       end
     end
 
