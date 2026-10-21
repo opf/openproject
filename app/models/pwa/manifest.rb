@@ -64,8 +64,8 @@ module Pwa
     end
 
     def short_name
-      title = Setting.app_title
-      [title, title.split.first].compact.find { it.length <= SHORT_NAME_MAX_LENGTH }
+      title = Setting.app_title.presence
+      title if title && title.length <= SHORT_NAME_MAX_LENGTH
     end
 
     def icons

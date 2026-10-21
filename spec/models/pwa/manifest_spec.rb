@@ -37,15 +37,11 @@ RSpec.describe Pwa::Manifest do
       expect(manifest[:short_name]).to eq("OpenProject")
     end
 
-    it "falls back to the first word of a longer title", with_settings: { app_title: "Acme Projektverwaltung" } do
-      expect(manifest[:short_name]).to eq("Acme")
-    end
-
-    it "gives none rather than cutting a long single word", with_settings: { app_title: "Projektverwaltungssystem" } do
+    it "omits a longer title rather than guessing a word from it", with_settings: { app_title: "My Company Projects" } do
       expect(manifest).not_to have_key(:short_name)
     end
 
-    it "gives none for a long blank title", with_settings: { app_title: " " * 13 } do
+    it "omits a blank title", with_settings: { app_title: " " } do
       expect(manifest).not_to have_key(:short_name)
     end
   end
