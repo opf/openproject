@@ -40,9 +40,7 @@ RSpec.describe "Project settings work package custom fields", :js do
 
   let(:project) { create(:project, types: [converted]) }
 
-  let(:banner_text) do
-    I18n.t("projects.settings.custom_fields.variants_banner").sub(/\[.+\z/m, "").squish
-  end
+  let(:banner_text) { I18n.t("projects.settings.custom_fields.changes_text").squish }
 
   current_user do
     create(:user, member_with_permissions: { project => %i[edit_project manage_types manage_project_variants] })
@@ -59,8 +57,13 @@ RSpec.describe "Project settings work package custom fields", :js do
     expect(page).to have_no_text(unused_field.name)
   end
 
-  it "explains on a banner that variants replace the per-project activation" do
-    expect(page).to have_test_selector("project-custom-fields-banner", text: banner_text)
+  it "explains that variants replace the per-project activation, and links the documentation" do
+    within_test_selector("project-custom-fields-banner") do
+      expect(page).to have_text(I18n.t("projects.settings.custom_fields.changes_heading"))
+      expect(page).to have_text(banner_text)
+      expect(page).to have_link(I18n.t(:label_learn_more),
+                                href: OpenProject::Static::Links.url_for(:sysadmin_docs, :types))
+    end
   end
 
   it "is reachable from the work package settings tabs" do

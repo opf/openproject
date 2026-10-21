@@ -27,19 +27,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(
-      Primer::Alpha::Banner.new(
-        icon: :info, mb: 3,
-        test_selector: "project-custom-fields-banner"
-      )
-    ) do %>
-  <%= helpers.link_translate(
-        "projects.settings.custom_fields.variants_banner",
-        links: { docs_url: %i[sysadmin_docs types] }
-      ) %>
-<% end %>
+<%= render(OpPrimer::InsetBoxComponent.new(mb: 3, test_selector: "project-custom-fields-banner")) do |box| %>
+  <% box.with_title_icon(icon: :info) %>
+  <% box.with_title(tag: :h3) { t("projects.settings.custom_fields.changes_heading") } %>
+  <% box.with_action_button(
+       tag: :a,
+       href: docs_url,
+       target: "_blank",
+       rel: "noopener",
+       data: { allow_external_link: true }
+     ) do |button|
+       button.with_trailing_visual_icon(icon: :"link-external")
+       t(:label_learn_more)
+     end %>
 
-<%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3)) { t("projects.settings.custom_fields.description") } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 0)) { t("projects.settings.custom_fields.changes_text") } %>
+<% end %>
 
 <%= render(
       Projects::Settings::WorkPackages::CustomFields::TableComponent.new(

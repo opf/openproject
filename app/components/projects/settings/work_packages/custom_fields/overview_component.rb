@@ -45,6 +45,8 @@ module Projects
 
           attr_reader :project
 
+          def docs_url = OpenProject::Static::Links.url_for(:sysadmin_docs, :types)
+
           def variants_by_field
             @variants_by_field ||= applied_variants
                                      .flat_map { |variant| variant.custom_fields.map { |field| [field, variant] } }
