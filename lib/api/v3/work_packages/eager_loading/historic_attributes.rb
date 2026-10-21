@@ -106,6 +106,7 @@ module API::V3::WorkPackages::EagerLoading
     def override_attributes(work_package, source)
       work_package.attributes = source.attributes.except("timestamp", "journal_id")
       override_association(work_package, source, :target_versions)
+      override_association(work_package, source, :observed_in_versions)
       override_association(work_package, source, :labels)
       work_package.clear_changes_information
       work_package.readonly!
