@@ -67,6 +67,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.headers["Cache-Control"]).to include("no-cache")
     end
 
+    it "sets no session cookie for a visitor without a session" do
+      expect(response.headers["Set-Cookie"]).to be_blank
+    end
+
     it "takes control of its clients" do
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
@@ -83,6 +87,23 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
 
         expect(response.body).to include('"/openproject/offline"')
       end
+    end
+  end
+
+  describe "GET /service-worker with an expired browser session",
+           :skip_csrf,
+           with_settings: { session_ttl_enabled?: true, session_ttl: "120" } do
+    let(:user) { create(:admin) }
+
+    it "is still served as JavaScript" do
+      post "/login", params: { username: user.login, password: "adminADMIN!" }
+      follow_redirect! while response.redirect?
+
+      travel 3.hours
+      get "/service-worker"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/javascript")
     end
   end
 

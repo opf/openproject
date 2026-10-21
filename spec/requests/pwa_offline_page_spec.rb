@@ -43,6 +43,12 @@ RSpec.describe "PWA offline page",
     expect(response.media_type).to eq("text/html")
   end
 
+  it "sets no session cookie for a visitor without a session" do
+    get "/offline"
+
+    expect(response.headers["Set-Cookie"]).to be_blank
+  end
+
   it "shows the app title and the offline copy" do
     get "/offline"
 

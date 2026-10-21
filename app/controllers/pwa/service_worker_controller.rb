@@ -32,6 +32,7 @@ module Pwa
   class ServiceWorkerController < ApplicationController
     no_authorization_required! :show
     skip_before_action :check_if_login_required
+    skip_before_action :check_session_lifetime
     skip_forgery_protection only: :show
 
     def show

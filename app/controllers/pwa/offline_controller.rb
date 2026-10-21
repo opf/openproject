@@ -32,6 +32,7 @@ module Pwa
   class OfflineController < ApplicationController
     no_authorization_required! :show
     skip_before_action :check_if_login_required
+    skip_before_action :check_session_lifetime
 
     def show
       render template: "pwa/offline", layout: false, formats: :html
