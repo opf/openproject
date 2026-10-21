@@ -1,0 +1,49 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout(classes: "op-project-hover-card", data: { test_selector: "project-hover-card-#{@project.id}" }) do |flex|
+    if breadcrumb_items.present?
+      flex.with_row do
+        render(Primer::Beta::Breadcrumbs.new) do |breadcrumbs|
+          breadcrumb_items.each do |item|
+            breadcrumbs.with_item(href: item[:href]) do
+              render(Primer::Beta::Truncate.new) do |truncate|
+                truncate.with_item(max_width: 135) { item[:text] }
+              end
+            end
+          end
+        end
+      end
+
+      flex.with_row do
+
+      end
+    end
+  end
+%>
