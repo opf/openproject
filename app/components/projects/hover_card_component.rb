@@ -37,6 +37,8 @@ module Projects
       super
 
       @project = project
+      @id = project.id
+      @name = project.name
       @user = user
     end
 

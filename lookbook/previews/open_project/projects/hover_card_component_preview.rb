@@ -1,23 +1,20 @@
 module OpenProject::Projects
   # @logical_path OpenProject/Projects
   class HoverCardComponentPreview < ViewComponent::Preview
-    # !! Currently nothing happens when changing the status by
-    # !! clicking the options in the dropdown!!
-    # @param status select [open, in_progress, completed]
-    def playground(status: :open)
+    def playground
       user = FactoryBot.build_stubbed(:admin)
-      project = FactoryBot.build_stubbed(:project)
+      project = FactoryBot.build_stubbed(:project, :with_status)
       render(::Projects::HoverCardComponent.new(project:, user:))
     end
 
-    def deep_hierarchy
+    def with_hierarchy
       user = FactoryBot.build_stubbed(:admin)
-      root = FactoryBot.build_stubbed(:project, name: "Company")
-      parent = FactoryBot.build_stubbed(:project, name: "Department", parent: root)
-      child = FactoryBot.build_stubbed(:project, name: "Team", parent: parent)
-      leaf = FactoryBot.build_stubbed(:project, name: "Sprint", parent: child)
+      status = FactoryBot.build_stubbed(:status)
+      root = FactoryBot.build_stubbed(:project, name: "Arcanos Flight Planning")
+      child = FactoryBot.build_stubbed(:project, name: "Mobile app", parent: root)
+      leaf = FactoryBot.build_stubbed(:project, active: false, name: "Data sources", parent: child, status_code: 1)
 
-      chain = [root, parent, child, leaf]
+      chain = [root, child, leaf]
 
       chain.each_with_index do |project, i|
         ancestors = chain.first(i)
