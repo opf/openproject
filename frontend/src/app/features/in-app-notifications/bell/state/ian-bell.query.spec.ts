@@ -37,23 +37,34 @@ describe('IanBellQuery', () => {
     store = new IanBellStore();
     query = new IanBellQuery(store);
     emitted = [];
-    query.loadedUnread$.subscribe((count) => emitted.push(count));
   });
+
+  const subscribe = () => query.loadedUnread$.subscribe((count) => emitted.push(count));
 
   describe('loadedUnread$', () => {
     it('emits nothing while the count has not been loaded', () => {
+      subscribe();
       store.update({ totalUnread: 5 });
 
       expect(emitted).toEqual([]);
     });
 
     it('emits the count once it is loaded', () => {
+      subscribe();
       store.update({ totalUnread: 5, loaded: true });
 
       expect(emitted).toEqual([5]);
     });
 
+    it('emits the loaded count to a subscriber that arrives afterwards', () => {
+      store.update({ totalUnread: 5, loaded: true });
+      subscribe();
+
+      expect(emitted).toEqual([5]);
+    });
+
     it('does not re-emit an unchanged count', () => {
+      subscribe();
       store.update({ totalUnread: 5, loaded: true });
       store.update({ totalUnread: 5 });
       store.update({ totalUnread: 6 });
