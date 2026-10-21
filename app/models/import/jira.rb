@@ -31,6 +31,8 @@ module Import
   class Jira < ApplicationRecord
     self.table_name = "jiras"
 
+    store_attribute :options, :exclude_resolution_fields, :boolean, default: true
+
     has_many :jira_imports, dependent: :destroy
 
     validate :url_must_be_http_or_https
