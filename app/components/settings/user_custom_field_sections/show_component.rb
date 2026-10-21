@@ -51,6 +51,10 @@ module Settings
 
       private
 
+      def available_formats
+        OpenProject::CustomFieldFormat.available_for_class_name("User").sort_by(&:name)
+      end
+
       def wrapper_uniq_by
         @user_custom_field_section.id
       end
