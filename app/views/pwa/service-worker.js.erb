@@ -14,7 +14,14 @@ const precacheOfflinePage = async () => {
 };
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(precacheOfflinePage().then(() => self.skipWaiting()));
+  event.waitUntil(
+    precacheOfflinePage()
+      .then(() => self.skipWaiting())
+      .catch((error) => {
+        console.warn("Offline page could not be precached", error);
+        throw error;
+      }),
+  );
 });
 
 self.addEventListener("activate", (event) => {
