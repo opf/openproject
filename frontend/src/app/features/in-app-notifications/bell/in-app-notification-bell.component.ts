@@ -76,7 +76,7 @@ export class InAppNotificationBellComponent implements OnInit {
   ngOnInit() {
     this.polling$ = merge(
       timer(10, this.interval).pipe(filter(() => this.activeWindow.isActive)),
-      timer(10, this.interval * this.appBadge.backgroundPollingFactor).pipe(filter(() => !this.activeWindow.isActive)),
+      timer(10, this.interval * this.appBadge.hiddenPollingFactor).pipe(filter(() => !this.activeWindow.isActive)),
     )
       .pipe(
         throttleTime(this.interval),

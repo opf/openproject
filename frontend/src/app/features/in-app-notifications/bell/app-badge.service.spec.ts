@@ -184,17 +184,17 @@ describe('AppBadgeService', () => {
     expect(clearAppBadge).not.toHaveBeenCalled();
   });
 
-  describe('backgroundPollingFactor', () => {
+  describe('hiddenPollingFactor', () => {
     it('polls a hidden installed app more often than a hidden browser tab', () => {
-      expect(setup({ standalone: true }).backgroundPollingFactor).toBe(3);
+      expect(setup({ standalone: true }).hiddenPollingFactor).toBe(3);
     });
 
     it('keeps the slow cadence for a hidden browser tab', () => {
-      expect(setup({ standalone: false }).backgroundPollingFactor).toBe(10);
+      expect(setup({ standalone: false }).hiddenPollingFactor).toBe(10);
     });
 
     it('keeps the slow cadence when the feature flag is off', () => {
-      expect(setup({ standalone: true, flags: [] }).backgroundPollingFactor).toBe(10);
+      expect(setup({ standalone: true, flags: [] }).hiddenPollingFactor).toBe(10);
     });
   });
 });

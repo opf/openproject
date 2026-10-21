@@ -63,7 +63,7 @@ export class AppBadgeService {
     });
   }
 
-  get backgroundPollingFactor():number {
+  get hiddenPollingFactor():number {
     return this.enabled
       ? INSTALLED_APP_BACKGROUND_FACTOR
       : BROWSER_TAB_BACKGROUND_FACTOR;
