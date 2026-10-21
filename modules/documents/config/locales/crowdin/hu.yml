@@ -48,8 +48,8 @@ hu:
   documents:
     active_editors: Aktív szerkesztők
     active_editors_count:
-      one: 1 aktív szerkesztő
-      other: "%{count} aktív szerkesztők"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

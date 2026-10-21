@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "rails_helper"
 
 RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::DisplayFieldComponent,
@@ -78,5 +78,56 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::DisplayFie
       expect(rendered_content).to have_no_css(".op-inplace-edit--display-field_clickable")
       expect(rendered_content).not_to include("click-&gt;inplace-edit#request")
     end
+  end
+
+  describe "activation event" do
+    let(:user) { build_stubbed(:user, preferences: { require_double_click_for_inline_edit: }) }
+
+    current_user { user }
+
+    context "when the user does not require a double click" do
+      let(:require_double_click_for_inline_edit) { false }
+
+      it "activates inline editing on click" do
+        render_inline(described_class.new(model: project, attribute: :name, writable: true, truncated: false))
+
+        expect(rendered_content).to include("\"click-&gt;inplace-edit#request")
+      end
+
+      it "opens the dialog on click" do
+        render_inline(described_class.new(model: project, attribute: :name, writable: true, truncated: false,
+                                          dialog_controller_name: "dialog", dialog_url: "/dialog"))
+
+        expect(rendered_content).to include("\"click-&gt;inplace-edit#openDialog")
+      end
+    end
+
+    context "when the user requires a double click" do
+      let(:require_double_click_for_inline_edit) { true }
+
+      it "activates inline editing on double click only" do
+        render_inline(described_class.new(model: project, attribute: :name, writable: true, truncated: false))
+
+        expect(rendered_content).to include("dblclick-&gt;inplace-edit#request")
+        expect(rendered_content).not_to include("\"click-&gt;inplace-edit#request")
+      end
+
+      it "opens the dialog on double click only" do
+        render_inline(described_class.new(model: project, attribute: :name, writable: true, truncated: false,
+                                          dialog_controller_name: "dialog", dialog_url: "/dialog"))
+
+        expect(rendered_content).to include("dblclick-&gt;inplace-edit#openDialog")
+        expect(rendered_content).not_to include("\"click-&gt;inplace-edit#openDialog")
+      end
+    end
+  end
+
+  it "does not open a dialog for a read-only field without comments" do
+    render_inline(described_class.new(model: project, attribute: :name, writable: false, truncated: false,
+                                      dialog_controller_name: "inplace-edit", dialog_url: "/unused"))
+
+    expect(rendered_content).to have_text(project.name)
+    expect(rendered_content).to have_no_css("[data-controller~='async-dialog']")
+    expect(rendered_content).to have_no_css("[data-action*='openDialog']")
   end
 end

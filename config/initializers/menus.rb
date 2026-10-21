@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -124,13 +123,53 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
               { controller: "/projects", action: :new, project_id: nil, parent_id: project&.id }
             },
             caption: ->(_) { Project.model_name.human },
-            icon: "plus",
+            icon: "project",
             html: {
               aria: { label: I18n.t(:label_project_new) }
             },
             if: ->(project) {
               User.current.allowed_globally?(:add_project) ||
                 User.current.allowed_in_project?(:add_subprojects, project)
+            }
+
+  menu.push :new_board,
+            ->(project) { [:new, project, :work_package_board] },
+            caption: ->(_) { I18n.t("boards.label_board") },
+            icon: "op-boards",
+            skip_permissions_check: true, # url is a polymorphic path, not a controller/action hash
+            if: ->(project) {
+              if project
+                User.current.allowed_in_project?(:manage_board_views, project)
+              else
+                User.current.allowed_in_any_project?(:manage_board_views)
+              end
+            }
+
+  menu.push :new_meeting,
+            ->(project) { [:new_dialog, project, :meetings] },
+            caption: ->(_) { I18n.t(:label_meeting) },
+            icon: "comment-discussion",
+            html: {
+              target: nil,
+              data: {
+                controller: "async-dialog"
+              }
+            },
+            skip_permissions_check: true, # url is a polymorphic path, not a controller/action hash
+            if: ->(project) {
+              if project
+                User.current.allowed_in_project?(:create_meetings, project)
+              else
+                User.current.allowed_in_any_project?(:create_meetings)
+              end
+            }
+
+  menu.push :new_document,
+            ->(_project) { { controller: "/documents", action: :new } },
+            caption: ->(_) { Document.model_name.human },
+            icon: "note",
+            if: ->(project) {
+              project.present? && User.current.allowed_in_project?(:manage_documents, project)
             }
 
   menu.push :invite_user,
@@ -591,7 +630,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :date_format,
             { controller: "/admin/settings/date_format_settings", action: :show },
             if: ->(_) { User.current.admin? },
-            caption: :label_date_format,
+            caption: :label_date_and_time_formats,
             parent: :calendars_and_dates
 
   menu.push :icalendar,

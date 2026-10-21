@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -20,12 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">
@@ -141,15 +140,7 @@ See COPYRIGHT and LICENSE files for more details.
               <td><%= reorder_links("custom_field", { action: "update", id: custom_field, back_url: index_path }, method: :put) %></td>
             <% end %>
             <td class="buttons">
-              <%= link_to(
-                    op_icon("icon icon-delete"),
-                    member_path(custom_field),
-                    data: {
-                      turbo_method: :delete,
-                      turbo_confirm: I18n.t(:text_are_you_sure)
-                    },
-                    title: t(:button_delete)
-                  ) %>
+              <%= render(Admin::CustomFields::DeleteButtonComponent.new(custom_field:)) %>
             </td>
           </tr>
         <% end %>

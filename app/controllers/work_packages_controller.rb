@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,8 @@ class WorkPackagesController < ApplicationController
   # For views showing the work package elsewhere to bring themselves up to date.
   UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
 
-  accept_key_auth :index, :show
+  accept_rss_key_auth :index, :show
+  accept_api_key_auth :show
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]
@@ -113,6 +113,8 @@ class WorkPackagesController < ApplicationController
         render :show,
                locals: { work_package:, menu_name: project_or_global_menu }
       end
+
+      format.md { render_markdown_export }
 
       handle_standard_show_formats(format)
     end
@@ -201,6 +203,8 @@ class WorkPackagesController < ApplicationController
 
   protected
 
+  def api_key_auth_format? = request.format == Mime[:md]
+
   def load_and_validate_query_for_export
     if params[:query_id].present?
       # A saved query may be opened from a project other than the one it belongs to
@@ -236,6 +240,12 @@ class WorkPackagesController < ApplicationController
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
     redirect_back(fallback_location: work_package_path(work_package))
+  end
+
+  def render_markdown_export
+    export = Exports::Register.single_exporter(WorkPackage, :md).new(work_package).export!
+    response.headers["Content-Disposition"] = %(inline; filename="#{export.title}")
+    render markdown: export.content
   end
 
   def atom_journals

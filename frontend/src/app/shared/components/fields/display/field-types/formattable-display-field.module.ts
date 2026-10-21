@@ -29,11 +29,14 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { ApplicationRef } from '@angular/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ExpressionService } from 'core-app/core/expression/expression.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export class FormattableDisplayField extends DisplayField {
   @LazyInject() readonly appRef:ApplicationRef;
 
-  public render(element:HTMLElement, displayText:string, options:any = {}):void {
+  @LazyInject() readonly configurationService:ConfigurationService;
+
+  public render(element:HTMLElement, displayText:string, options:Record<string, unknown> = {}):void {
     const div = document.createElement('div');
 
     div.classList.add(
@@ -55,7 +58,9 @@ export class FormattableDisplayField extends DisplayField {
 
   get placeholder():string {
     if (this.name === 'description') {
-      return this.I18n.t('js.placeholders.description');
+      return this.configurationService.requireDoubleClickForInlineEdit()
+        ? this.I18n.t('js.placeholders.description_double_click')
+        : this.I18n.t('js.placeholders.description');
     }
 
     return super.placeholder;

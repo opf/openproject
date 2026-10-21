@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -209,6 +208,34 @@ RSpec.describe LaborBudgetItem do
       before do
         item # trigger build so after(:build) creates the membership first
         Member.where(project:, principal: user).destroy_all
+      end
+
+      it "is not valid" do
+        expect(item).not_to be_valid
+        expect(item.errors.where(:principal, :not_a_member_of_budget_project)).not_to be_empty
+      end
+    end
+
+    describe "WHEN a placeholder user without an assignable role is provided" do
+      let(:principal) { create(:placeholder_user) }
+
+      before do
+        create(:member, principal:, project:, roles: [create(:project_role, permissions: %i[view_work_packages])])
+      end
+
+      it "is valid" do
+        expect(item).to be_valid
+      end
+    end
+
+    describe "WHEN the principal is only a member of a work package in the budget project" do
+      before do
+        item
+        Member.where(project:, principal: user).destroy_all
+        create(:work_package_member,
+               entity: create(:work_package, project:),
+               principal: user,
+               roles: [create(:work_package_role)])
       end
 
       it "is not valid" do

@@ -35,10 +35,10 @@ uk:
         title: Учасники
         view_all_members: Переглянути всіх учасників
         x_more:
-          one: і ще один учасник.
-          few: і ще %{count} учасники.
-          many: і ще %{count} учасників.
-          other: і ще %{count} учасника.
+          one: and %{count} more member.
+          few: and %{count} more members.
+          many: and %{count} more members.
+          other: and %{count} more members.
       news:
         no_results: Нічого нового для звітування.
       not_available: Цей віджет недоступний.

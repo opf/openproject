@@ -54,7 +54,7 @@ vi:
 
           '
       label_n_groups_found:
-        one: 1 nhóm được tìm thấy bởi bộ lọc
+        one: "%{count} group found by the filter"
         other: "%{count} nhóm được bộ lọc tìm thấy"
         zero: Không có nhóm nào được bộ lọc tìm thấy
       plural: Bộ lọc đồng bộ hóa nhóm LDAP

@@ -182,7 +182,7 @@ The **General** tab is divided into several sections.
 
 ### Avatar
 
-The **Avatar** section displays the user's current avatar. By default, a generic icon is shown. You can upload a custom avatar image for the user.
+The **Avatar** section displays the user's current avatar. By default, a generic image is shown. The color for that image can be defined. You can upload a custom avatar image for the user.
 
 If enabled, users can also use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), which they can manage in their [Account settings](../../../user-guide/account-settings/account/#set-an-avatar). Both custom avatars and Gravatar support can be disabled in the [Avatar settings](../avatars).
 
@@ -240,6 +240,7 @@ Available settings include:
 - **Time zone** – By default, the time zone is determined from the selected language but can be changed.
 - **Color mode** – Choose the preferred appearance. Some color modes override custom theme colors to improve accessibility and readability. Select **Light mode** for full compatibility with custom themes.
 - **Disable keyboard shortcuts** – Disable the default [keyboard shortcuts](../../../user-guide/keyboard-shortcuts-access-keys/?go_to_locale=en). This can be helpful when using a screen reader or to avoid triggering actions accidentally.
+- **Require double click to edit fields** – Only open editable fields on a double click instead of a single click, which makes it easier to select and copy text. See [Interface settings](../../../user-guide/account-settings/interface/#require-double-click-to-edit-fields) for details.
 
 Remember to **Save** your changes before leaving the page.
 

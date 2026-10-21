@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ RSpec.describe "highlighting styles", type: :rails_request do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
 
-  let(:version_tag) { Class.new { include HighlightingHelper }.new.highlight_css_version_tag }
+  let(:version_tag) { Highlighting::Registry.cache_key }
 
   def get_styles(user:)
     login_as user

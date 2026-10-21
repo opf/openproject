@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,9 +30,11 @@
 # as it would appear in a filters available values. If given, it renders the
 # option-tags from the content array instead of the filters available values.
 class Widget::Filters::Option < Widget::Filters::Base
-  def render
-    options = content(@options[:content] || filter_class.available_values)
-    write safe_join(options)
+  option :content, optional: true
+
+  def render_filter
+    options = content(@content || filter_class.available_values)
+    safe_join(options)
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity

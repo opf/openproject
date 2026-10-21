@@ -58,7 +58,7 @@ ca:
 
           '
       label_n_groups_found:
-        one: 1 grup trobat a través del filtre
+        one: "%{count} group found by the filter"
         other: "%{count} grups trobats a través del filtre"
         zero: No s'ha trobat cap grup a través del filtre
       plural: Filtres de sincronització de grup LDAP

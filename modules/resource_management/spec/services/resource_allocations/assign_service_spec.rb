@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,6 +67,21 @@ RSpec.describe ResourceAllocations::AssignService, type: :model do
     expect { service_call }.not_to change { allocation.reload.placeholder_user_id }
     expect(allocation.placeholder_user.user_filter).to be_present
     expect(allocation).to be_filter_based
+  end
+
+  describe "updating the schedule" do
+    let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+    before do
+      matching_user
+      allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service)
+    end
+
+    it "recomputes the assigned user's schedule from the start date" do
+      service_call
+
+      expect(schedule_service).to have_received(:call).once.with(users: [matching_user], from: allocation.start_date)
+    end
   end
 
   context "when the selected user does not match the filter" do

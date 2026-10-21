@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,8 +39,9 @@ module Automations
     attribute :description
 
     attribute :actions do
-      errors.add(:actions, :empty) if model.actions.empty?
-      model.actions.each { |action| action.validate(errors) }
+      live_actions = model.actions.reject(&:marked_for_destruction?)
+      errors.add(:actions, :empty) if live_actions.empty?
+      live_actions.each { |action| action.validate(errors) }
     end
 
     attribute :conditions do

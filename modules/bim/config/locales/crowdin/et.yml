@@ -106,7 +106,7 @@ et:
     not_recommended: not recommended
     recommended: recommended
     x_bcf_issues:
-      one: One BCF issue
+      one: "%{count} BCF issue"
       other: "%{count} BCF issues"
       zero: No BCF issues
   bim:

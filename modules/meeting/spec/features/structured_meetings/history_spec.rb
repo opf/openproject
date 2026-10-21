@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -339,16 +338,13 @@ RSpec.describe "history",
 
     history_page.open_history_modal
 
-    retry_block do
-      within("li.op-activity-list--item", match: :first) do
-        expect(page).to have_css("li", text: "Notes set")
-        click_link_or_button "Details"
-      end
-
-      wait_for_network_idle
-      expect(page).to have_current_path /\/journals\/\d+\/diff\/agenda_items_\d+_notes/
-      expect(page).to have_css("ins.diffmod", text: "# Hello there")
+    within("li.op-activity-list--item", match: :first) do
+      expect(page).to have_css("li", text: "Notes set")
+      visit find_link("Details")[:href]
     end
+
+    expect(page).to have_current_path(/\/journals\/\d+\/diff\/agenda_items_\d+_notes/, wait: 10)
+    expect(page).to have_css("ins.diffmod", text: "# Hello there")
   end
 
   it "for a user with no permissions, renders an error", with_settings: { journal_aggregation_time_minutes: 0 } do

@@ -190,7 +190,7 @@ hr:
         all: All wiki pages
         main: Main wiki pages
       sub_pages_count:
-        one: 1 sub-page
+        one: "%{count} sub-page"
         few: "%{count} sub-pages"
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "rails_helper"
 
 RSpec.describe OpenProject::Common::InplaceEditFields::HierarchyListComponent,
@@ -36,6 +36,13 @@ RSpec.describe OpenProject::Common::InplaceEditFields::HierarchyListComponent,
   describe ".open_in_dialog?" do
     it "returns true so that the field always opens in a dialog" do
       expect(described_class.open_in_dialog?).to be(true)
+    end
+  end
+
+  describe ".display_class" do
+    it "uses the hierarchy display component" do
+      expect(described_class.display_class)
+        .to eq(OpenProject::Common::InplaceEditFields::DisplayFields::HierarchyListComponent)
     end
   end
 
