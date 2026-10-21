@@ -28,6 +28,8 @@
 #++
 
 module OpenProject::Documents
+  EDIT_DOCUMENTS_OAUTH_SCOPE = "edit_documents"
+
   class Engine < ::Rails::Engine
     engine_name :openproject_documents
 
@@ -128,11 +130,11 @@ module OpenProject::Documents
     end
 
     config.to_prepare do
-      Doorkeeper.configuration.scopes.add(Documents::OAuth::EDIT_DOCUMENTS_SCOPE)
+      Doorkeeper.configuration.scopes.add(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
 
-      OpenProject::Authentication.add_internal_oauth_scope(Documents::OAuth::EDIT_DOCUMENTS_SCOPE)
+      OpenProject::Authentication.add_internal_oauth_scope(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
       OpenProject::Authentication.add_restricted_oauth_scope(OpenProject::Authentication::Scope::API_V3,
-                                                             Documents::OAuth::EDIT_DOCUMENTS_SCOPE)
+                                                             OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
     end
 
     # Add documents to allowed search params
