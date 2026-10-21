@@ -60,6 +60,18 @@ RSpec.describe Labels::DeleteService, type: :model do
       expect(Labels::JournalizeDeletionJob).not_to have_been_enqueued
     end
 
+    context "when the label cannot be destroyed" do
+      before do
+        create(:labeling, label:)
+        allow(label).to receive(:destroy).and_return(false)
+      end
+
+      it "fails and enqueues nothing" do
+        expect(instance.call).to be_failure
+        expect(Labels::JournalizeDeletionJob).not_to have_been_enqueued
+      end
+    end
+
     context "with a non-admin user" do
       let(:instance) { described_class.new(user: create(:user), model: label) }
 

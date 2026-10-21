@@ -54,7 +54,7 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
     label.destroy!
   end
 
-  it "writes one journal per work package, authored by the admin, carrying the cause" do
+  it "writes one journal per work package, authored by the admin, recording the label as removed" do
     expect { perform }.to change(Journal, :count).by(2)
 
     work_packages.each do |work_package|
@@ -62,10 +62,6 @@ RSpec.describe Labels::JournalizeDeletionJob, type: :job, with_settings: { journ
       expect(journal.user).to eq(admin)
       expect(journal.cause).to eq(cause)
     end
-  end
-
-  it "records the label as removed and renders it as a deleted label" do
-    perform
 
     journal = work_packages.first.reload.last_journal
     old_ids, new_ids = journal.details["labels"].map { it.to_s.split(",").map(&:to_i) }
