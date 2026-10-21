@@ -48,6 +48,12 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<% if OpenProject::FeatureDecisions.semantic_search_active? && !OpenProject::Llm::Pgvector.available? %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3, icon: :alert)) do %>
+    <%= link_translate("llm.pgvector.unavailable_html", links: { docs_url: OpenProject::Llm::Pgvector::DOCS_URL }) %>
+  <% end %>
+<% end %>
+
 <% @features.each do |feature| %>
   <%= render(
         LlmConnections::FeatureBindingComponent.new(
