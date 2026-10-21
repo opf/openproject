@@ -33,6 +33,7 @@ files: [
   },
   {
     "source": "/extensions/op-blocknote-extensions/lib/locales/en.ts",
+    "dest": "/op-blocknote-extensions/en.ts",
     "translation": "/extensions/op-blocknote-extensions/lib/locales/crowdin/%two_letters_code%.ts"
   },
 ]
