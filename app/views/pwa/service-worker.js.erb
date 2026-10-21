@@ -43,7 +43,7 @@ self.addEventListener("activate", (event) => {
 // The URL stays the requested one so the offline page can retry it.
 self.addEventListener("fetch", (event) => {
   const { request } = event;
-  if (request.mode !== "navigate" || request.method !== "GET") return;
+  if (request.mode !== "navigate" || request.destination !== "document" || request.method !== "GET") return;
 
   event.respondWith(
     (async () => {
