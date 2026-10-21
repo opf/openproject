@@ -288,3 +288,14 @@ export const disableElement = (element:HTMLElement) => toggleEnabled(element, fa
 export function isHTMLInputElement(element:EventTarget|Element|null):element is HTMLInputElement {
   return element !== null && element instanceof HTMLInputElement;
 }
+
+/**
+ * Sets a single file on an `<input type="file">`. The `files` property is a read-only
+ * `FileList`, so a `DataTransfer` is the only way to assign to it programmatically — e.g. after
+ * a drag-and-drop, or to replace a chosen file with a processed version of itself.
+ */
+export function setInputFiles(input:HTMLInputElement, file:File):void {
+  const transfer = new DataTransfer();
+  transfer.items.add(file);
+  input.files = transfer.files;
+}

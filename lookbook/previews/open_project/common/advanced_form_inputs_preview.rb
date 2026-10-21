@@ -78,6 +78,30 @@ module OpenProject
       def segmented_control_input_boolean
         render_with_template
       end
+
+      # **FileFieldInput**
+      #
+      # A full-width, dashed-border drop zone replacing the browser-native file
+      # input button. Clicking it, or dropping a file onto it, opens/accepts the
+      # native file picker; the chosen file's name then replaces the label text.
+      # Toggle the field's options freely, including `auto_submit` (submits the
+      # form as soon as a file is chosen) and whether a preview image is present.
+      # Please note, the uploading and deleting do not work in the preview.
+      # @param label text
+      # @param description text
+      # @param caption text
+      # @param accept text
+      # @param auto_submit toggle
+      # @param with_preview toggle
+      # @param disabled toggle
+      def file_field(label: "Upload a file", description: "PDF, DOCX up to 10 MB", caption: "Shown below the field",
+                     accept: ".pdf,.docx", auto_submit: false, with_preview: false, disabled: false)
+        preview_url = ActionController::Base.helpers.asset_path("icon_logo.svg") if with_preview
+
+        render_with_template(
+          locals: { label:, description:, caption:, accept:, auto_submit:, disabled:, preview_url: }
+        )
+      end
     end
   end
 end
