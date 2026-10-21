@@ -269,6 +269,7 @@ module CustomStylesHelper
 
     {
       field:,
+      mode:,
       label: t("admin.custom_styles.branding.modes.#{mode}.name"),
       present:,
       source: present ? custom_logo_url(custom_style, attachment) : nil,

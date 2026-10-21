@@ -1487,6 +1487,11 @@ en:
         desktop:
           description: "By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo."
           title: "Custom desktop logos"
+        favicon:
+          field: "Favicon"
+          field_description: "The image should be 32x32px in PNG format on transparent background."
+          title: "Custom favicon"
+          title_description: "This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme."
         mobile:
           description: "By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo."
           title: "Custom mobile logos"
@@ -1500,6 +1505,11 @@ en:
           light_high_contrast:
             description: "The app header will be grey. We recommend a black logo on transparent background."
             name: "High contrast mode logo"
+        touch_icon:
+          field: "Touch icon"
+          field_description: "The image should be 180x180px in PNG format and colour background to avoid contrast problems."
+          title: "Custom touch icon"
+          title_description: "This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme."
       color_groups:
         base_colors: "Base colors"
         main_menu: "Main lateral menu"

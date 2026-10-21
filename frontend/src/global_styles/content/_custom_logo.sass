@@ -3,7 +3,14 @@ img.custom-logo-mobile-preview,
 img.custom-favicon-preview,
 img.custom-touch-icon-preview
   box-shadow: 0 0 3px lightgrey
-  background-color: var(--header-bg-color)
+  background-color: #1A67A3 // we need hard coded hex values here, because we are not really in the specific mode
+
+  .custom-style--logo-mode-dark &
+    background-color: #010409
+
+  .custom-style--logo-mode-light_high_contrast &
+    background-color: #eff2f5
+
 
 img.custom-export-logo-preview,
 img.custom-export-cover-preview
@@ -28,3 +35,32 @@ img.custom-favicon-preview
 img.custom-touch-icon-preview
   height: 180px
   background-color: whiteSmoke
+
+// Makes the desktop/mobile logo upload fields (rendered side by side via
+// flex_layout in custom_styles/_branding.html.erb) grow to the same height, so
+// their dashed-border drop zones line up even when the label/description text
+// above them wraps to a different number of lines.
+//
+// Primer::Forms wraps a single file_field input in several of its own divs
+// (form > .FormControl-spacingWrapper > group box > .FormControl) before our
+// own drop zone; collapsing those with display: contents lets the drop zone
+// grow as if it were a direct child of this row item, without touching
+// Primer's classes anywhere else they're used.
+.custom-style--growing-logo-form
+  display: flex
+  flex-direction: column
+  flex: 1
+
+  form,
+  .FormControl-spacingWrapper,
+  .FormControl-spacingWrapper > div,
+  .FormControl
+    display: contents
+
+  .FormControl-file-field-wrap
+    flex: 1
+    display: flex
+    flex-direction: column
+
+    .FormControl-file-field-drop-zone
+      flex: 1
