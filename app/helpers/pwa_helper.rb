@@ -29,12 +29,6 @@
 #++
 
 module PwaHelper
-  SHORT_NAME_MAX_LENGTH = 12
-
-  def pwa_short_name(title = Setting.app_title)
-    [title, title.split.first].compact.find { it.length <= SHORT_NAME_MAX_LENGTH }
-  end
-
   def pwa_theme_color_tags
     pref = User.current.pref
 

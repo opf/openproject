@@ -32,6 +32,8 @@ require "spec_helper"
 require "mini_magick"
 
 RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_web_app: true } do
+  include CspHelper
+
   subject(:manifest) { response.parsed_body }
 
   shared_context "with a relative url root" do
@@ -87,6 +89,12 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
 
     it "paints the window in the default header colour" do
       expect(manifest).to include("theme_color" => "#1A67A3")
+    end
+
+    it "serves the page-level content security policy" do
+      csp = parse_csp(response.headers["Content-Security-Policy"])
+
+      expect(csp["script-src"]).to include(a_string_starting_with("'nonce-"))
     end
 
     # Chrome silently declines to install when an icon is missing or mis-sized.

@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
 
   constraints(->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }) do
-    get "manifest" => "rails/pwa#manifest", as: :pwa_manifest, format: false, defaults: { format: :json }
+    get "manifest" => "pwa/manifest#show", as: :pwa_manifest, format: false
   end
 
   # Route for error pages

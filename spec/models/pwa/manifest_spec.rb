@@ -30,22 +30,24 @@
 
 require "spec_helper"
 
-RSpec.describe PwaHelper do
-  describe "#pwa_short_name" do
-    it "keeps a title that fits under an icon" do
-      expect(helper.pwa_short_name("OpenProject")).to eq("OpenProject")
+RSpec.describe Pwa::Manifest do
+  subject(:manifest) { described_class.new(ApplicationController.helpers).as_json }
+
+  describe "short_name" do
+    it "keeps a title that fits under an icon", with_settings: { app_title: "OpenProject" } do
+      expect(manifest[:short_name]).to eq("OpenProject")
     end
 
-    it "falls back to the first word of a longer title" do
-      expect(helper.pwa_short_name("Acme Projektverwaltung")).to eq("Acme")
+    it "falls back to the first word of a longer title", with_settings: { app_title: "Acme Projektverwaltung" } do
+      expect(manifest[:short_name]).to eq("Acme")
     end
 
-    it "gives none rather than cutting a long single word" do
-      expect(helper.pwa_short_name("Projektverwaltungssystem")).to be_nil
+    it "gives none rather than cutting a long single word", with_settings: { app_title: "Projektverwaltungssystem" } do
+      expect(manifest).not_to have_key(:short_name)
     end
 
-    it "gives none for a long blank title" do
-      expect(helper.pwa_short_name(" " * 13)).to be_nil
+    it "gives none for a long blank title", with_settings: { app_title: " " * 13 } do
+      expect(manifest).not_to have_key(:short_name)
     end
   end
 end
