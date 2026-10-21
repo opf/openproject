@@ -109,7 +109,7 @@ module CustomStylesHelper
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
-  def header_bg_color(color_mode = :light, high_contrast: false)
+  def header_bg_color(color_mode: :light, high_contrast: false)
     return DARK_HEADER_BG_COLOR if color_mode == :dark
     return LIGHT_HIGH_CONTRAST_HEADER_BG_COLOR if high_contrast
 
