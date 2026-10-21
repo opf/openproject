@@ -670,6 +670,8 @@ en:
         odd: "must be odd."
         overlapping_range: "overlaps with an existing non-working day range."
         regex_invalid: "could not be validated with the associated regular expression."
+        replacement_workflow_invalid: "The selected replacement must be another available workflow."
+        replacement_workflow_required: "A replacement workflow must be selected before this workflow can be deleted."
         regex_list_invalid: "Lines %{invalid_lines} could not be parsed as regular expression."
         regex_match_failed: "does not match the regular expression %{expression}."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
@@ -8503,6 +8505,17 @@ en:
             other: "Successfully copied workflow to %{count} roles."
       new:
         dialog_title: 'Copy workflow of "%{source}"'
+    delete:
+      title: "Delete workflow %{name}?"
+      body_not_in_use: "This workflow will be permanently deleted. This action is not reversible."
+      body_in_use:
+        one: "This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with."
+        other: "This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with."
+      replace_label: "Replace with workflow"
+      replace_placeholder: "Select a workflow"
+      replace_caption: "The selected workflow will be applied to all types and variants listed above."
+      confirmation_checkbox_label: "I understand that this action is not reversible."
+      button: "Delete workflow"
     form:
       copy_from:
         caption: "The new workflow starts with a copy of that workflow's status transitions."

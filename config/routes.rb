@@ -356,6 +356,7 @@ Rails.application.routes.draw do
 
     member do
       get :edit_dialog
+      get :deletion_dialog
     end
 
     resource :matrix, only: %i[show update], controller: "workflows/matrix" do
