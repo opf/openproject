@@ -28,7 +28,7 @@
 #++
 
 module OpenProject::Documents
-  EDIT_DOCUMENTS_OAUTH_SCOPE = "edit_documents"
+  EDIT_DOCUMENTS_OAUTH_SCOPE = "op:resource:documents:edit"
 
   class Engine < ::Rails::Engine
     engine_name :openproject_documents

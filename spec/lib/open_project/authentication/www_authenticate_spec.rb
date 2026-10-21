@@ -41,13 +41,14 @@ RSpec.describe OpenProject::Authentication::WWWAuthenticate do
     end
 
     it "lists the given OAuth scopes space-separated as the scope attribute" do
+      oauth_scope = "op:resource:documents:edit"
       header = described_class.response_header(env:,
                                                scope: :api_v3,
-                                               oauth_scopes: %w[api_v3 edit_documents],
+                                               oauth_scopes: ["api_v3", oauth_scope],
                                                error: "insufficient_scope")
 
       expect(header).to eq(
-        %{Bearer realm="OpenProject API", #{resource_metadata}, scope="api_v3 edit_documents", error="insufficient_scope"}
+        %{Bearer realm="OpenProject API", #{resource_metadata}, scope="api_v3 #{oauth_scope}", error="insufficient_scope"}
       )
     end
   end
