@@ -71,7 +71,7 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
 
-    it "precaches the offline page under a cache named after its contents" do
+    it "precaches the offline page under the configured cache name" do
       expect(response.body).to include(ApplicationController.helpers.pwa_cache_name, '"/offline"')
     end
 

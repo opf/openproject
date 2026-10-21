@@ -4,7 +4,7 @@ const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
 const CACHE_NAME = <%== pwa_cache_name.to_json %>;
 const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
 
-// A failed install keeps the previous worker, so a gateway answering with its own page never gets cached.
+// An error status or a redirect fails the install, which keeps the previous worker.
 const precacheOfflinePage = async () => {
   const response = await fetch(new Request(OFFLINE_URL, { credentials: "omit", cache: "reload" }));
   if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
