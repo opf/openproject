@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     get "offline" => "pwa/offline#show", as: :pwa_offline, format: false
   end
 
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker, format: false, defaults: { format: :js }
+  get "service-worker" => "pwa/service_worker#show", as: :pwa_service_worker, format: false
 
   # Route for error pages
   get "/404", to: "errors#not_found"

@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progressive_web_app: true } do
+  include CspHelper
+
   shared_context "with a relative url root" do
     around do |example|
       previous = OpenProject::Configuration["rails_relative_url_root"]
@@ -53,6 +55,16 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     it "is served as JavaScript to a visitor without a session" do
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/javascript")
+    end
+
+    it "carries the page-level content security policy" do
+      csp = parse_csp(response.headers["Content-Security-Policy"])
+
+      expect(csp["script-src"]).to include(a_string_starting_with("'nonce-"))
+    end
+
+    it "must be revalidated so browsers pick up a new worker" do
+      expect(response.headers["Cache-Control"]).to include("no-cache")
     end
 
     it "takes control of its clients" do
