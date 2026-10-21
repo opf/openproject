@@ -864,7 +864,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           _pagy, records = paginator.call
           expect(snapshot.reload.label_journals.count).to eq(1)
           changes = snapshot.reload.get_changes
-          expect(changes).to eq({}) # no changes
+          expect(changes).to eq({})
 
           expect(records.map(&:id)).not_to include(snapshot.id)
         end

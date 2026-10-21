@@ -36,10 +36,7 @@ class CreateLabelJournals < ActiveRecord::Migration[8.1]
       t.belongs_to :label, null: false
     end
 
-    # Existing journals predate this table, so only the latest journal of each
-    # labelled work package gets a snapshot of its current labels. That keeps
-    # the next save from journaling a spurious change; older journals cannot be
-    # reconstructed and stay empty.
+    # Only the latest journal of each labelled work package gets a snapshot; older journals cannot be reconstructed.
     reversible do |dir|
       dir.up do
         say_with_time "Snapshotting current work package labels onto each latest journal" do
