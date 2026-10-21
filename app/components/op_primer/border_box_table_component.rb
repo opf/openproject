@@ -124,21 +124,16 @@ module OpPrimer
       false
     end
 
-    # The action column sits outside the evenly distributed columns. The default fits a single
-    # icon button or action menu; tables with wider actions return a larger CSS length.
-    def action_column_width
-      "var(--control-medium-size)"
-    end
-
     def actions_grid_class
       "#{grid_class}--with-actions" if has_actions?
     end
 
-    def container_style
-      return unless has_actions?
+    def container_classes
+      class_names(container_class, "op-border-box-table--with-actions": has_actions?)
+    end
 
-      "--op-border-box-grid-tracks: #{column_track_count}; " \
-        "--op-border-box-grid-action-width: #{action_column_width};"
+    def container_style
+      "--op-border-box-grid-tracks: #{column_track_count};" if has_actions?
     end
 
     def has_header?

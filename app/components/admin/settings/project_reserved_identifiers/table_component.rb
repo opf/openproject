@@ -36,8 +36,6 @@ module Admin::Settings::ProjectReservedIdentifiers
     def mobile_title = I18n.t("admin.reserved_identifiers.title")
     def has_actions? = true
 
-    def action_column_width = "6rem"
-
     def headers
       [
         [:project,    { caption: t("admin.reserved_identifiers.col_project") }],

@@ -53,8 +53,6 @@ module LlmConnections
     # Without this the row's button_links are never rendered.
     def has_actions? = true
 
-    def action_column_width = "4rem"
-
     def mobile_title = I18n.t("admin.llm_connections.tabs.models")
 
     # The row class is otherwise derived by convention as LlmConnections::RowComponent.

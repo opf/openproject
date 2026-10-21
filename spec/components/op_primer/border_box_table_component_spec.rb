@@ -287,25 +287,15 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
       page.find(:role, :table)
     end
 
-    it "sizes the grid from the column tracks, counting the main column twice" do
-      expect(table[:style]).to include("--op-border-box-grid-tracks: 3;")
-      expect(table[:style]).to include("--op-border-box-grid-action-width: var(--control-medium-size);")
+    it "defines the column tracks on the table, counting the main column twice" do
+      expect(table[:class]).to include("op-border-box-table--with-actions")
+      expect(table[:style]).to eq("--op-border-box-grid-tracks: 3;")
     end
 
-    it "lays out the header and body rows with the action track, but not the footer" do
+    it "lays out the header and body rows on the table's tracks, but not the footer" do
       expect(rendered_component).to have_css(".op-border-box-grid--has-headers.op-border-box-grid--with-actions")
       expect(rendered_component).to have_css(".Box-row.op-border-box-grid--with-actions", count: 2)
       expect(rendered_component).to have_no_css(".Box-footer .op-border-box-grid--with-actions")
-    end
-
-    context "when the table needs a wider action column" do
-      before do
-        table_class.define_method(:action_column_width) { "7rem" }
-      end
-
-      it "uses that width" do
-        expect(table[:style]).to include("--op-border-box-grid-action-width: 7rem;")
-      end
     end
   end
 
@@ -320,7 +310,7 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
       rendered_component
 
       expect(page.find(:role, :table)[:style]).to be_nil
-      expect(rendered_component).to have_no_css(".op-border-box-grid--with-actions")
+      expect(rendered_component).to have_no_css(".op-border-box-table--with-actions, .op-border-box-grid--with-actions")
     end
   end
 
