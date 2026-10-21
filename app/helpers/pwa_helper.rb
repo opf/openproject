@@ -29,7 +29,10 @@
 
 module PwaHelper
   CACHE_PREFIX = "openproject-offline-"
-  OFFLINE_WORDMARK = Rails.root.join("app/assets/images/logo_openproject_white_big.png")
+  OFFLINE_WORDMARK_DATA_URI = [
+    "data:image/png;base64,",
+    Base64.strict_encode64(Rails.root.join("app/assets/images/logo_openproject_white_big.png").binread)
+  ].join.freeze
 
   def pwa_cache_prefix = "#{CACHE_PREFIX}#{Digest::SHA256.hexdigest(root_path).first(8)}-"
 
@@ -38,9 +41,7 @@ module PwaHelper
     "#{pwa_cache_prefix}#{Digest::SHA256.hexdigest(version).first(16)}"
   end
 
-  def pwa_offline_wordmark_data_uri
-    "data:image/png;base64,#{Base64.strict_encode64(OFFLINE_WORDMARK.binread)}"
-  end
+  def pwa_offline_wordmark_data_uri = OFFLINE_WORDMARK_DATA_URI
 
   def pwa_theme_color_tags
     pref = User.current.pref
