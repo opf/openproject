@@ -130,11 +130,8 @@ module OpenProject::Documents
     end
 
     config.to_prepare do
-      Doorkeeper.configuration.scopes.add(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
-
-      OpenProject::Authentication.add_internal_oauth_scope(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
-      OpenProject::Authentication.add_restricted_oauth_scope(OpenProject::Authentication::Scope::API_V3,
-                                                             OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
+      OpenProject::Authentication.register_restricted_oauth_scope(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE,
+                                                                  restricted_to: OpenProject::Authentication::Scope::API_V3)
     end
 
     # Add documents to allowed search params
