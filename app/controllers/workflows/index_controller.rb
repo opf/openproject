@@ -46,7 +46,6 @@ module Workflows
         format.html
         format.turbo_stream do
           update_via_turbo_stream(component: results_component)
-          turbo_streams << helpers.render_flash_messages_as_turbo_streams
           respond_with_turbo_streams
         end
       end

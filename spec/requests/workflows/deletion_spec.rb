@@ -69,7 +69,8 @@ RSpec.describe "Workflows deletion", :skip_csrf, type: :rails_request do
       expect { delete workflow_path(workflow), as: :turbo_stream }
         .to change { Workflow.exists?(workflow.id) }.from(true).to(false)
 
-      expect(response).to have_http_status(:see_other)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(workflows_path)
     end
 
     context "when the workflow is in use" do
@@ -81,7 +82,7 @@ RSpec.describe "Workflows deletion", :skip_csrf, type: :rails_request do
 
         delete workflow_path(workflow), params: { target_id: replacement.id }, as: :turbo_stream
 
-        expect(response).to have_http_status(:see_other)
+        expect(response).to have_http_status(:ok)
         expect(Workflow.exists?(workflow.id)).to be(false)
         expect(variant.reload.workflow).to eq(replacement)
       end

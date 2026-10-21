@@ -89,10 +89,14 @@ module Workflows
       return repaint_delete_dialog(service_call) unless service_call.success?
 
       flash[:notice] = t(:notice_successful_delete)
-      redirect_to workflows_path, status: :see_other
+      redirect_to_index
     end
 
     private
+
+    def redirect_to_index
+      render turbo_stream: turbo_stream.redirect_to(workflows_path)
+    end
 
     def chosen_target
       return if params[:target_id].blank?
