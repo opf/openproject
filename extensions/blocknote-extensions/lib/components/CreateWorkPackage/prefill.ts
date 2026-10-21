@@ -1,5 +1,5 @@
 import type { WorkPackagePayload } from '../../openProjectTypes';
-import { fetchAllowedValueById, fetchAllowedValues } from '../../services/openProjectApi';
+import { fetchAllowedValueById, fetchAllowedValues } from '../../services/openProjectApi/allowedValues';
 import { contextProjectId } from '../../services/editorContext';
 import { projectIdFromHref } from '../../utils/id';
 import { allowedValueOf, toAllowedValues } from './formSchema';

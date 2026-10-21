@@ -1,17 +1,17 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { WorkPackage } from '../../../lib/openProjectTypes';
-import * as openProjectApi from '../../../lib/services/openProjectApi';
-import { OpenProjectApiError } from '../../../lib/services/openProjectApi';
+import * as workPackagesApi from '../../../lib/services/openProjectApi/workPackages';
+import { OpenProjectApiError } from '../../../lib/services/openProjectApi/errors';
 import { cachedWorkPackage, clearWorkPackageCache, loadWorkPackage } from '../../../lib/services/workPackageLoader';
 
 const workPackage = (id:number) => ({ id, displayId: String(id), subject: `Work package ${id}` }) as WorkPackage;
 
 describe('workPackageLoader', () => {
-  let fetchWorkPackages:ReturnType<typeof vi.spyOn<typeof openProjectApi, 'fetchWorkPackages'>>;
+  let fetchWorkPackages:ReturnType<typeof vi.spyOn<typeof workPackagesApi, 'fetchWorkPackages'>>;
 
   beforeEach(() => {
     clearWorkPackageCache();
-    fetchWorkPackages = vi.spyOn(openProjectApi, 'fetchWorkPackages')
+    fetchWorkPackages = vi.spyOn(workPackagesApi, 'fetchWorkPackages')
       .mockImplementation(async (ids) => ids.filter((id) => id !== 404).map(workPackage));
   });
 
@@ -62,7 +62,7 @@ describe('workPackageLoader', () => {
   it('asks for each work package of a failed batch on its own', async () => {
     const failure = new OpenProjectApiError('HTTP error! status: 500', 500);
     fetchWorkPackages.mockRejectedValueOnce(failure);
-    const fetchWorkPackage = vi.spyOn(openProjectApi, 'fetchWorkPackage')
+    const fetchWorkPackage = vi.spyOn(workPackagesApi, 'fetchWorkPackage')
       .mockImplementation(async (id) => (id === 2 ? Promise.reject(failure) : workPackage(Number(id))));
 
     const [first, second] = [loadWorkPackage(1), loadWorkPackage(2)];
@@ -77,7 +77,7 @@ describe('workPackageLoader', () => {
   it('tries a work package that failed to load again on the next load', async () => {
     const failure = new OpenProjectApiError('HTTP error! status: 500', 500);
     fetchWorkPackages.mockRejectedValueOnce(failure);
-    vi.spyOn(openProjectApi, 'fetchWorkPackage').mockRejectedValueOnce(failure);
+    vi.spyOn(workPackagesApi, 'fetchWorkPackage').mockRejectedValueOnce(failure);
 
     await expect(loadWorkPackage(1)).rejects.toBe(failure);
 

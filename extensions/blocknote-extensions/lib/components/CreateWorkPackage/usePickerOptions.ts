@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
-import { fetchAllowedValues } from '../../services/openProjectApi';
-import type { AllowedValuesQuery } from '../../services/openProjectApi';
+import { fetchAllowedValues } from '../../services/openProjectApi/allowedValues';
+import type { AllowedValuesQuery } from '../../services/openProjectApi/allowedValues';
 import { listedValues, toAllowedValues } from './formSchema';
 import type { AllowedValue, ListedValue } from './formSchema';
 

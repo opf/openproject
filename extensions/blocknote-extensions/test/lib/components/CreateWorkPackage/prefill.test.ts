@@ -6,7 +6,7 @@ import {
   rememberSelection,
 } from '../../../../lib/components/CreateWorkPackage/lastSelection';
 import type { FormField } from '../../../../lib/components/CreateWorkPackage/formSchema';
-import { initOpenProjectApi } from '../../../../lib/services/openProjectApi';
+import { initOpenProjectApi } from '../../../../lib/services/openProjectApi/client';
 import { initEditorContext } from '../../../../lib/services/editorContext';
 
 const typeField:FormField = {

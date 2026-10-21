@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { AlertIcon, SyncIcon, XIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useColors } from '../../services/colors';
-import { linkToNewWorkPackage } from '../../services/openProjectApi';
+import { linkToNewWorkPackage } from '../../services/openProjectApi/workPackages';
 import { projectIdFromHref } from '../../utils/id';
 import { dependencyOf, writable } from './formSchema';
 import type { FormField } from './formSchema';

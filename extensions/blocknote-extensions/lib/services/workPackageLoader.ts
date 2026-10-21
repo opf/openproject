@@ -1,5 +1,6 @@
 import type { WorkPackage } from '../openProjectTypes';
-import { fetchWorkPackage, fetchWorkPackages, OpenProjectApiError } from './openProjectApi';
+import { OpenProjectApiError } from './openProjectApi/errors';
+import { fetchWorkPackage, fetchWorkPackages } from './openProjectApi/workPackages';
 
 interface Batch {
   ids:Set<number>;
