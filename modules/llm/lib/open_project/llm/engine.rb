@@ -108,6 +108,10 @@ module OpenProject::Llm
       OpenProject::Llm::Pgvector.include_migrations_path_if_installed!
     end
 
+    config.to_prepare do
+      OpenProject::Llm::Hooks
+    end
+
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
 
