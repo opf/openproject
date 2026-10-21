@@ -56,29 +56,29 @@ RSpec.describe SprintNeighbors do
 
   subject(:neighbors) { described_class.new(sprint:, project:, user:) }
 
-  context "for a sprint in the middle of the 'All sprints' order" do
-    let(:sprint) { planned_sprint }
-
-    it "returns the sprints before and after it, ignoring other projects", :aggregate_failures do
-      expect(neighbors.previous_sprint).to eq(active_sprint)
-      expect(neighbors.next_sprint).to eq(oldest_sprint)
-    end
-  end
-
-  context "for the first sprint" do
+  context "for a sprint in the middle of the chronological order" do
     let(:sprint) { active_sprint }
 
-    it "has no previous sprint", :aggregate_failures do
-      expect(neighbors.previous_sprint).to be_nil
+    it "returns the sprints before and after it, regardless of status and other projects", :aggregate_failures do
+      expect(neighbors.previous_sprint).to eq(recent_sprint)
       expect(neighbors.next_sprint).to eq(planned_sprint)
     end
   end
 
-  context "for the last sprint" do
-    let(:sprint) { recent_sprint }
+  context "for the earliest sprint" do
+    let(:sprint) { oldest_sprint }
+
+    it "has no previous sprint", :aggregate_failures do
+      expect(neighbors.previous_sprint).to be_nil
+      expect(neighbors.next_sprint).to eq(recent_sprint)
+    end
+  end
+
+  context "for the latest sprint" do
+    let(:sprint) { planned_sprint }
 
     it "has no next sprint", :aggregate_failures do
-      expect(neighbors.previous_sprint).to eq(oldest_sprint)
+      expect(neighbors.previous_sprint).to eq(active_sprint)
       expect(neighbors.next_sprint).to be_nil
     end
   end

@@ -53,45 +53,45 @@ RSpec.describe Backlogs::SprintReports::NavigationComponent, type: :component do
 
   subject(:rendered_component) { render_inline(described_class.new(sprint:, project:)) }
 
-  context "for a sprint in the middle of the list" do
-    let(:sprint) { planned_sprint }
+  context "for a sprint in the middle of the chronological order" do
+    let(:sprint) { active_sprint }
 
     it "links to the previous sprint's report" do
       expect(rendered_component)
-        .to have_link("Previous", href: project_backlogs_sprint_report_path(project, active_sprint))
+        .to have_link("Previous", href: project_backlogs_sprint_report_path(project, recent_sprint))
     end
 
     it "links to the next sprint's report" do
       expect(rendered_component)
-        .to have_link("Next", href: project_backlogs_sprint_report_path(project, oldest_sprint))
+        .to have_link("Next", href: project_backlogs_sprint_report_path(project, planned_sprint))
     end
 
     it "shows the neighboring sprint names as plain text" do
-      expect(rendered_component).to have_test_selector("sprint-report-previous-name", text: "Active")
-      expect(rendered_component).to have_test_selector("sprint-report-next-name", text: "Oldest")
-      expect(rendered_component).to have_no_link("Active")
-      expect(rendered_component).to have_no_link("Oldest")
+      expect(rendered_component).to have_test_selector("sprint-report-previous-name", text: "Recent")
+      expect(rendered_component).to have_test_selector("sprint-report-next-name", text: "Planned")
+      expect(rendered_component).to have_no_link("Recent")
+      expect(rendered_component).to have_no_link("Planned")
     end
   end
 
-  context "for the first sprint of the list" do
-    let(:sprint) { active_sprint }
+  context "for the earliest sprint" do
+    let(:sprint) { oldest_sprint }
 
     it "renders only the next link" do
       expect(rendered_component)
-        .to have_link("Next", href: project_backlogs_sprint_report_path(project, planned_sprint))
+        .to have_link("Next", href: project_backlogs_sprint_report_path(project, recent_sprint))
 
       expect(rendered_component).to have_no_test_selector("sprint-report-previous")
       expect(rendered_component).to have_no_test_selector("sprint-report-previous-name")
     end
   end
 
-  context "for the last sprint of the list" do
-    let(:sprint) { recent_sprint }
+  context "for the latest sprint" do
+    let(:sprint) { planned_sprint }
 
     it "renders only the previous link" do
       expect(rendered_component)
-        .to have_link("Previous", href: project_backlogs_sprint_report_path(project, oldest_sprint))
+        .to have_link("Previous", href: project_backlogs_sprint_report_path(project, active_sprint))
 
       expect(rendered_component).to have_no_test_selector("sprint-report-next")
       expect(rendered_component).to have_no_test_selector("sprint-report-next-name")
