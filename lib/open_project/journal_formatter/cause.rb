@@ -131,9 +131,10 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def label_deleted_message
-    label_name = html? ? h(cause["label_names"].first) : cause["label_names"].first
+    names = Array(cause["label_names"])
+    label_names = names.map { |name| "'#{html? ? h(name) : name}'" }.join(", ")
 
-    I18n.t("journals.cause_descriptions.label_deleted", label_name:)
+    I18n.t("journals.cause_descriptions.label_deleted", count: names.size, label_names:)
   end
 
   def working_days_changed_message(changed_dates)

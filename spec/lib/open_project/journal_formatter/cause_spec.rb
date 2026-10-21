@@ -650,12 +650,26 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
 
     it do
       expect(cause).to render_html_variant(
-        "<strong>Label removed</strong> because the label 'Foo' was deleted"
+        "<strong>Label removed:</strong> 'Foo' was deleted"
       )
     end
 
     it do
-      expect(cause).to render_raw_variant("Label removed because the label 'Foo' was deleted")
+      expect(cause).to render_raw_variant("Label removed: 'Foo' was deleted")
+    end
+
+    context "when several labels were deleted" do
+      subject(:cause) do
+        Journal::CausedByLabelDeletion.new(
+          label_ids: [1, 2, 3], label_names: %w[Frontend Backend Middleware]
+        ).to_hash
+      end
+
+      it "lists every label name and pluralises the verb" do
+        expect(cause).to render_html_variant(
+          "<strong>Label removed:</strong> 'Frontend', 'Backend', 'Middleware' were deleted"
+        )
+      end
     end
 
     context "when the label name contains HTML (XSS prevention)" do
