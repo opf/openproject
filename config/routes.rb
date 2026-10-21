@@ -1039,6 +1039,14 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :user_custom_field_section_fields,
+                controller: "/admin/settings/user_custom_field_sections/fields",
+                param: :key, only: [] do
+        member do
+          put :drop
+        end
+      end
+
       resources :work_package_custom_fields, controller: "/admin/settings/work_package_custom_fields" do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
