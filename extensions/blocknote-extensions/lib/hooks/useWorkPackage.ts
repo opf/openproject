@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
-import { OpenProjectApiError } from '../services/openProjectApi';
+import { OpenProjectApiError } from '../services/openProjectApi/errors';
 import { cachedWorkPackage, loadWorkPackage } from '../services/workPackageLoader';
 
 export function useWorkPackage(wpid:number|undefined) {

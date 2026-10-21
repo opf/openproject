@@ -7,7 +7,7 @@ import * as createWorkPackageChoice from '../lib/components/CreateWorkPackage/la
 import * as attributeChoice from '../lib/components/WorkPackageAttribute/lastChoice';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
 import { clearDatePickerSettings } from '../lib/components/CreateWorkPackage/datePickerSettings';
-import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
+import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi/workPackageCreation';
 import { DESKTOP } from './helpers/createWorkPackageHelpers';
 
 beforeEach(async () => {

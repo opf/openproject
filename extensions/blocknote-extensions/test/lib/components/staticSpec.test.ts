@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeAll } from 'vitest';
-import { initOpenProjectApi } from '../../../lib/services/openProjectApi';
+import { initOpenProjectApi } from '../../../lib/services/openProjectApi/client';
 import { openProjectWorkPackageStaticBlockSpec } from '../../../lib/components/BlockWorkPackage/staticSpec';
 import { openProjectWorkPackageStaticInlineSpec } from '../../../lib/components/InlineWorkPackage/staticSpec';
 import {

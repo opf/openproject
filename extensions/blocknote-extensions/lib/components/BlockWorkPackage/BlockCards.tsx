@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import type { WorkPackage } from '../../openProjectTypes';
-import { linkToWorkPackage } from '../../services/openProjectApi';
+import { linkToWorkPackage } from '../../services/openProjectApi/workPackages';
 import {
   defaultWpVariables,
   WorkPackageId,
