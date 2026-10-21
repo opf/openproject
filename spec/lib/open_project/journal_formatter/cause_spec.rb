@@ -645,6 +645,32 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was caused by the deletion of a label" do
+    subject(:cause) { Journal::CausedByLabelDeletion.new(label_id: 42, label_name: "Foo").to_hash }
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>Label removed</strong> because the label 'Foo' was deleted"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant("Label removed because the label 'Foo' was deleted")
+    end
+
+    context "when the label name contains HTML (XSS prevention)" do
+      subject(:cause) do
+        Journal::CausedByLabelDeletion.new(label_id: 42, label_name: "<script>alert('x')</script>").to_hash
+      end
+
+      it "escapes the label name in HTML output" do
+        expect(cause).to render_html_variant(
+          a_string_including("&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;")
+        )
+      end
+    end
+  end
+
   context "when the change was caused by an import" do
     subject(:cause) do
       {
