@@ -60,7 +60,7 @@ module ProjectPhases
     def refresh_buttons
       @project.available_phases.each do |phase|
         update_via_turbo_stream(
-          component: Projects::PhaseStatusButtonComponent.new(phase: phase.reload)
+          component: Projects::PhaseStatusButtonComponent.new(phase: phase.reload, user: current_user)
         )
       end
     end

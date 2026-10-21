@@ -34,12 +34,13 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
   include Primer::ClassNameHelper
   include ProjectPhaseStatusHelper
 
-  attr_reader :phase
+  attr_reader :phase, :user
 
-  def initialize(phase:, **system_arguments)
+  def initialize(phase:, user:, **system_arguments)
     super
 
     @phase = phase
+    @user = user
     @status = Projects::PhaseStatuses.find(phase.status)
     @system_arguments = system_arguments
   end
@@ -53,7 +54,7 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
   private
 
   def edit_enabled?
-    User.current.allowed_in_project?(:edit_project_phases, phase.project)
+    user.allowed_in_project?(:edit_project_phases, phase.project)
   end
 
   def build_items
