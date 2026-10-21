@@ -81,6 +81,12 @@ RSpec.describe "PWA offline page",
     expect(page).to have_css("h1", text: "You’re offline")
   end
 
+  it "follows the system colour scheme" do
+    get "/offline"
+
+    expect(response.body).to include("prefers-color-scheme: dark")
+  end
+
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
     it "is not routed" do
       expect { get "/offline" }.to raise_error(ActionController::RoutingError)

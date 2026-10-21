@@ -20,6 +20,20 @@
       --focus-outlineColor: #0969da;
     }
 
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --offline-bg: #0d1117;
+        --offline-fg: #f0f6fc;
+        --offline-fg-muted: #9198a1;
+        --offline-header-bg: <%= header_bg_color(color_mode: :dark) %>;
+        --offline-button-bg: #238636;
+        --offline-button-hover-bg: #29903b;
+        --offline-button-active-bg: #2e9a40;
+        --offline-button-border: #ffffff1a;
+        --focus-outlineColor: #1f6feb;
+      }
+    }
+
     * { box-sizing: border-box; }
 
     html, body { min-height: 100%; margin: 0; }
