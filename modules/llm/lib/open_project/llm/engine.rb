@@ -104,6 +104,21 @@ module OpenProject::Llm
                                           available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
     end
 
+    initializer "openproject_llm.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
+          Llm::WorkPackages::RefreshEmbedding.call(payload[:journal])
+        end
+      end
+    end
+
+    config.to_prepare do
+      ::Queries::Register.register(::Query) do
+        filter Queries::WorkPackages::Filter::SemanticSearchFilter
+        select Queries::WorkPackages::Selects::SemanticSimilaritySelect
+      end
+    end
+
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
 
