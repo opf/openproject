@@ -77,7 +77,7 @@ export class AppBadgeService {
   }
 
   private get badgeApiAvailable():boolean {
-    return 'setAppBadge' in navigator;
+    return typeof navigator.setAppBadge === 'function';
   }
 
   private get runsAsInstalledApp():boolean {

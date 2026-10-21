@@ -47,6 +47,9 @@ describe('AppBadgeService', () => {
     if (badgeApi) {
       Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: setAppBadge });
       Object.defineProperty(navigator, 'clearAppBadge', { configurable: true, value: clearAppBadge });
+    } else {
+      Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: undefined });
+      Object.defineProperty(navigator, 'clearAppBadge', { configurable: true, value: undefined });
     }
     vi.stubGlobal('matchMedia', (query:string) => ({ matches: standalone && query === '(display-mode: standalone)' }));
 
@@ -72,6 +75,7 @@ describe('AppBadgeService', () => {
   afterEach(() => {
     meta.remove();
     vi.unstubAllGlobals();
+    vi.restoreAllMocks();
     delete (navigator as { setAppBadge?:unknown }).setAppBadge;
     delete (navigator as { clearAppBadge?:unknown }).clearAppBadge;
   });
@@ -164,10 +168,15 @@ describe('AppBadgeService', () => {
   });
 
   it('does nothing when the Badging API is missing', () => {
+    const nativeSet = vi.spyOn(Navigator.prototype, 'setAppBadge').mockResolvedValue(undefined);
+    const nativeClear = vi.spyOn(Navigator.prototype, 'clearAppBadge').mockResolvedValue(undefined);
+
     expect(() => setup({ badgeApi: false }).initialize()).not.toThrow();
 
+    expect(loadedUnread$.observed).toBe(false);
     loadedUnread$.next(5);
-    expect(setAppBadge).not.toHaveBeenCalled();
+    expect(nativeSet).not.toHaveBeenCalled();
+    expect(nativeClear).not.toHaveBeenCalled();
   });
 
   describe('backgroundPollingFactor', () => {
