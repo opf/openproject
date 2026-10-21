@@ -114,6 +114,7 @@ RSpec.describe "Managing labels", :js, with_flag: { work_package_labels: true } 
     end
 
     expect_flash(message: "Successful deletion.")
+    expect(Labels::JournalizeDeletionJob).to have_been_enqueued
     expect(page).to have_no_test_selector(row_selector(label))
     expect(Label.where(id: label.id)).not_to exist
     expect(Labeling.where(label_id: label.id)).not_to exist

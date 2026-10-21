@@ -1905,7 +1905,7 @@ en:
     labels:
       delete_dialog_component:
         confirmation: "I understand that this action is not reversible"
-        description_html: "This will remove the label <strong>%{name}</strong> from all work packages in all projects."
+        description_html: "This will remove the label <strong>%{name}</strong> from all work packages in all projects. The removal is recorded in each work package's activity."
         heading: "Delete this label?"
         title: "Delete this label?"
       dialog_component:
