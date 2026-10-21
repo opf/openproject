@@ -69,4 +69,23 @@ RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true }
     expect(button["aria-busy"]).to eq("true")
     expect(button["aria-disabled"]).to eq("true")
   end
+
+  it "reloads the page it was opened on even when the URL has a fragment" do
+    visit "/offline"
+    page.execute_script("history.replaceState(null, '', '/#activity-3')")
+
+    click_on "Retry"
+
+    expect(page).to have_current_path("/")
+    expect(page).to have_no_button("Retry")
+  end
+
+  it "retries on its own when the browser reports the connection is back" do
+    visit "/offline"
+
+    page.execute_script("window.dispatchEvent(new Event('online'))")
+
+    expect(page).to have_heading("You’re back online")
+    expect(page).to have_no_current_path("/offline")
+  end
 end
