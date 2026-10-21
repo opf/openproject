@@ -215,8 +215,10 @@ module CustomStylesHelper
   private
 
   def custom_header_bg_color
-    RequestStore.fetch(:custom_header_bg_color) do
-      DesignColor.overwritten.find { it.variable == "header-bg-color" }&.hexcode if apply_custom_styles?
+    return unless apply_custom_styles?
+
+    Rails.cache.fetch([CustomStyle.current, :header_bg_color]) do
+      DesignColor.overwritten.find { it.variable == "header-bg-color" }&.hexcode
     end
   end
 
