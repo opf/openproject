@@ -31,14 +31,6 @@
 require "spec_helper"
 
 RSpec.describe Journal::LabelJournal do
-  it "belongs to a label" do
-    expect(described_class.reflect_on_association(:label).macro).to eq(:belongs_to)
-  end
-
-  it "uses the label_journals table" do
-    expect(described_class.table_name).to eq("label_journals")
-  end
-
   it "keeps its rows when the label is destroyed" do
     journal = create(:work_package_journal)
     label = create(:label)

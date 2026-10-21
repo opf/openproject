@@ -598,6 +598,18 @@ RSpec.describe WorkPackage do
             .to eq([nil, [label.id, other_label.id].sort.join(",")])
         end
 
+        it "journals labels assigned through label_id_replacements in the same save" do
+          journable.label_id_replacements = [label.id, other_label.id]
+
+          expect { journable.save! }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, [label.id, other_label.id].sort.join(",")])
+          expect(Journal::LabelJournal.where(journal: journable.last_journal).pluck(:label_id))
+            .to contain_exactly(label.id, other_label.id)
+        end
+
         it "touches the journable to match the journal's timestamp" do
           expect { set_labels([label]) }
             .to change { journable.reload.updated_at }
