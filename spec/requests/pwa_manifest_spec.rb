@@ -91,6 +91,10 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(manifest).to include("theme_color" => "#1A67A3")
     end
 
+    it "holds the page background until first paint" do
+      expect(manifest).to include("background_color" => "#ffffff")
+    end
+
     it "serves the page-level content security policy" do
       csp = parse_csp(response.headers["Content-Security-Policy"])
 

@@ -30,6 +30,7 @@
 module Pwa
   class Manifest
     SHORT_NAME_MAX_LENGTH = 12
+    BACKGROUND_COLOR = "#ffffff"
     ICON_SIZES = [192, 512].freeze
 
     def initialize(helpers)
@@ -51,7 +52,7 @@ module Pwa
             url: OpenProject::Static::Links.url_for(:mobile_app_play_store) }
         ],
         theme_color: @helpers.header_bg_color,
-        background_color: @helpers.header_bg_color,
+        background_color: BACKGROUND_COLOR,
         icons:
       }.compact
     end
