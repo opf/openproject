@@ -168,15 +168,12 @@ describe('AppBadgeService', () => {
   });
 
   it('does nothing when the Badging API is missing', () => {
-    const nativeSet = vi.spyOn(Navigator.prototype, 'setAppBadge').mockResolvedValue(undefined);
-    const nativeClear = vi.spyOn(Navigator.prototype, 'clearAppBadge').mockResolvedValue(undefined);
-
     expect(() => setup({ badgeApi: false }).initialize()).not.toThrow();
 
     expect(loadedUnread$.observed).toBe(false);
-    loadedUnread$.next(5);
-    expect(nativeSet).not.toHaveBeenCalled();
-    expect(nativeClear).not.toHaveBeenCalled();
+    expect(() => loadedUnread$.next(5)).not.toThrow();
+    expect(setAppBadge).not.toHaveBeenCalled();
+    expect(clearAppBadge).not.toHaveBeenCalled();
   });
 
   describe('backgroundPollingFactor', () => {
