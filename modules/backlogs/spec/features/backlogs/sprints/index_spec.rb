@@ -182,18 +182,18 @@ RSpec.describe "Sprint index", :js do
     sprints_page.visit!
 
     sprints_page.expect_pagination_range(from: 1, to: 2, total: 4)
-    sprints_page.expect_sprint_present(other_sprint)
-    sprints_page.expect_sprint_present(sprint)
-    sprints_page.expect_sprint_not_present(past_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_present(past_sprint)
+    sprints_page.expect_sprint_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_not_present(sprint)
+    sprints_page.expect_sprint_not_present(other_sprint)
 
     sprints_page.go_to_page!(2)
 
     sprints_page.expect_pagination_range(from: 3, to: 4, total: 4)
-    sprints_page.expect_sprint_present(past_sprint)
-    sprints_page.expect_sprint_present(past_sprint_with_other_name)
-    sprints_page.expect_sprint_not_present(other_sprint)
-    sprints_page.expect_sprint_not_present(sprint)
+    sprints_page.expect_sprint_present(sprint)
+    sprints_page.expect_sprint_present(other_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
   end
 
   context "when there are no sprints" do
