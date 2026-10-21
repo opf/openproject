@@ -61,7 +61,7 @@ RSpec.describe SprintNeighbors do
 
     it "returns the sprints before and after it, ignoring other projects", :aggregate_failures do
       expect(neighbors.previous_sprint).to eq(active_sprint)
-      expect(neighbors.next_sprint).to eq(recent_sprint)
+      expect(neighbors.next_sprint).to eq(oldest_sprint)
     end
   end
 
@@ -75,10 +75,10 @@ RSpec.describe SprintNeighbors do
   end
 
   context "for the last sprint" do
-    let(:sprint) { oldest_sprint }
+    let(:sprint) { recent_sprint }
 
     it "has no next sprint", :aggregate_failures do
-      expect(neighbors.previous_sprint).to eq(recent_sprint)
+      expect(neighbors.previous_sprint).to eq(oldest_sprint)
       expect(neighbors.next_sprint).to be_nil
     end
   end

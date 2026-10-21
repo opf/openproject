@@ -63,14 +63,14 @@ RSpec.describe Backlogs::SprintReports::NavigationComponent, type: :component do
 
     it "links to the next sprint's report" do
       expect(rendered_component)
-        .to have_link("Next", href: project_backlogs_sprint_report_path(project, recent_sprint))
+        .to have_link("Next", href: project_backlogs_sprint_report_path(project, oldest_sprint))
     end
 
     it "shows the neighboring sprint names as plain text" do
       expect(rendered_component).to have_test_selector("sprint-report-previous-name", text: "Active")
-      expect(rendered_component).to have_test_selector("sprint-report-next-name", text: "Recent")
+      expect(rendered_component).to have_test_selector("sprint-report-next-name", text: "Oldest")
       expect(rendered_component).to have_no_link("Active")
-      expect(rendered_component).to have_no_link("Recent")
+      expect(rendered_component).to have_no_link("Oldest")
     end
   end
 
@@ -87,11 +87,11 @@ RSpec.describe Backlogs::SprintReports::NavigationComponent, type: :component do
   end
 
   context "for the last sprint of the list" do
-    let(:sprint) { oldest_sprint }
+    let(:sprint) { recent_sprint }
 
     it "renders only the previous link" do
       expect(rendered_component)
-        .to have_link("Previous", href: project_backlogs_sprint_report_path(project, recent_sprint))
+        .to have_link("Previous", href: project_backlogs_sprint_report_path(project, oldest_sprint))
 
       expect(rendered_component).to have_no_test_selector("sprint-report-next")
       expect(rendered_component).to have_no_test_selector("sprint-report-next-name")
