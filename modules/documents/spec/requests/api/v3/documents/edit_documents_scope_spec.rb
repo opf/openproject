@@ -149,11 +149,11 @@ RSpec.describe "API v3 access with the edit documents scope" do
       get api_v3_paths.document(document.id)
 
       expect(last_response).to have_http_status(:forbidden)
-      expect(last_response.headers["WWW-Authenticate"]).to include('scope="api_v3 edit_documents"')
+      expect(last_response.headers["WWW-Authenticate"]).to include(%{scope="api_v3 #{OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE}"})
       expect(last_response.body)
         .to be_json_eql(I18n.t("api_v3.errors.insufficient_scope_any",
                                granted: "'other_scope'",
-                               accepted: "'api_v3', 'edit_documents'").to_json)
+                               accepted: "'api_v3', '#{OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE}'").to_json)
         .at_path("message")
     end
   end
