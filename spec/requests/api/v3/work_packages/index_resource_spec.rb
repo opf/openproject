@@ -490,6 +490,20 @@ RSpec.describe "API v3 Work package resource",
         it "renders no labels when the work package had none at the timestamp" do
           expect(label_hrefs).to eq([])
         end
+
+        context "when comparing the baseline with the current state" do
+          let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z"), Timestamp.now] }
+
+          it "embeds the historic labels in the baseline entry only" do
+            create(:journal_label_journal, journal: original_journal, label: label_a)
+
+            expect(subject.body)
+              .to be_json_eql([{ href: api_v3_paths.label(label_a.id), title: label_a.name }].to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/labels")
+            expect(subject.body)
+              .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_links/labels")
+          end
+        end
       end
 
       context "when a custom value changes" do
