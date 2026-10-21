@@ -1178,7 +1178,7 @@ RSpec.describe WorkPackage do
       end
     end
 
-    context "on label deletion causes within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+    context "on consecutive label deletions within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
       shared_let(:journable) do
         create(:work_package, journals: { 10.minutes.ago => { user: } })
       end
@@ -1205,6 +1205,8 @@ RSpec.describe WorkPackage do
 
         expect(journable.journals.reload[-2].cause)
           .to eq("type" => "label_deleted", "label_ids" => [1], "label_names" => ["A"])
+        expect(journable.journals.reload.last.cause)
+          .to eq(Journal::CausedByWorkPackageParentDeletion.new.to_hash)
       end
     end
 

@@ -37,7 +37,13 @@ class Journal::CausedByLabelDeletion < CauseOfChange::Base
   end
 
   def aggregate_with(predecessor_cause)
-    self.class.new(label_ids: predecessor_cause["label_ids"] | additional_attributes["label_ids"],
-                   label_names: predecessor_cause["label_names"] | additional_attributes["label_names"])
+    self.class.new(label_ids: predecessor_cause["label_ids"] | label_ids,
+                   label_names: predecessor_cause["label_names"] | label_names)
   end
+
+  private
+
+  def label_ids = additional_attributes["label_ids"]
+
+  def label_names = additional_attributes["label_names"]
 end

@@ -47,5 +47,13 @@ module CauseOfChange
     def ==(other)
       to_hash == other.to_hash
     end
+
+    def aggregatable_with?(_predecessor_cause)
+      false
+    end
+
+    def aggregate_with(_predecessor_cause)
+      self
+    end
   end
 end
