@@ -302,6 +302,8 @@ en:
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
+    pgvector:
+      admin_check: "Database extension pgvector enabled (optional)"
     verdict_states:
       supported: "supported"
       unknown: "not verified"
