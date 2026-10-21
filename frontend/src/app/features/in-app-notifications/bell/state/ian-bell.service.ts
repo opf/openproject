@@ -105,7 +105,9 @@ export class IanBellService {
     if (action.all) {
       this.fetchUnread().subscribe();
     } else {
-      this.store.update(({ totalUnread }) => ({ totalUnread: Math.max(0, totalUnread - action.notifications.length) }));
+      this.store.update(({ totalUnread }) => ({
+        totalUnread: totalUnread < 0 ? totalUnread : Math.max(0, totalUnread - action.notifications.length),
+      }));
     }
   }
 }
