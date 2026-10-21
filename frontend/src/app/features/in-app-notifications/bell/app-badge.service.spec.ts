@@ -41,9 +41,9 @@ describe('AppBadgeService', () => {
     flags = ['progressiveWebApp'],
     loggedIn = true,
     badgeApi = true,
-    standalone = true,
+    installed = true,
     displayMode = 'standalone',
-  }:{ flags?:string[], loggedIn?:boolean, badgeApi?:boolean, standalone?:boolean, displayMode?:string } = {}) => {
+  }:{ flags?:string[], loggedIn?:boolean, badgeApi?:boolean, installed?:boolean, displayMode?:string } = {}) => {
     meta.dataset.loggedIn = String(loggedIn);
     if (badgeApi) {
       Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: setAppBadge });
@@ -52,7 +52,7 @@ describe('AppBadgeService', () => {
       Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: undefined });
       Object.defineProperty(navigator, 'clearAppBadge', { configurable: true, value: undefined });
     }
-    vi.stubGlobal('matchMedia', (query:string) => ({ matches: standalone && query === `(display-mode: ${displayMode})` }));
+    vi.stubGlobal('matchMedia', (query:string) => ({ matches: installed && query === `(display-mode: ${displayMode})` }));
 
     TestBed.configureTestingModule({
       providers: [
@@ -143,7 +143,15 @@ describe('AppBadgeService', () => {
   });
 
   it('does nothing in a plain browser tab', () => {
-    setup({ standalone: false }).initialize();
+    setup({ installed: false }).initialize();
+
+    loadedUnread$.next(5);
+    expect(setAppBadge).not.toHaveBeenCalled();
+    expect(clearAppBadge).not.toHaveBeenCalled();
+  });
+
+  it('does nothing in a browser tab that is in fullscreen display mode', () => {
+    setup({ displayMode: 'fullscreen' }).initialize();
 
     loadedUnread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
@@ -160,7 +168,7 @@ describe('AppBadgeService', () => {
   });
 
   it('clears a stale badge when the feature flag is off in an installed app', () => {
-    setup({ flags: [], loggedIn: true, standalone: true }).initialize();
+    setup({ flags: [], loggedIn: true, installed: true }).initialize();
 
     loadedUnread$.next(5);
     expect(clearAppBadge).toHaveBeenCalledTimes(1);
@@ -168,7 +176,7 @@ describe('AppBadgeService', () => {
   });
 
   it('does nothing when the feature flag is off in a plain tab', () => {
-    setup({ flags: [], standalone: false }).initialize();
+    setup({ flags: [], installed: false }).initialize();
 
     loadedUnread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
@@ -186,15 +194,15 @@ describe('AppBadgeService', () => {
 
   describe('hiddenPollingFactor', () => {
     it('polls a hidden installed app more often than a hidden browser tab', () => {
-      expect(setup({ standalone: true }).hiddenPollingFactor).toBe(3);
+      expect(setup({ installed: true }).hiddenPollingFactor).toBe(3);
     });
 
     it('keeps the slow cadence for a hidden browser tab', () => {
-      expect(setup({ standalone: false }).hiddenPollingFactor).toBe(10);
+      expect(setup({ installed: false }).hiddenPollingFactor).toBe(10);
     });
 
     it('keeps the slow cadence when the feature flag is off', () => {
-      expect(setup({ standalone: true, flags: [] }).hiddenPollingFactor).toBe(10);
+      expect(setup({ installed: true, flags: [] }).hiddenPollingFactor).toBe(10);
     });
   });
 });

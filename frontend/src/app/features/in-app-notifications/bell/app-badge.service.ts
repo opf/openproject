@@ -32,7 +32,7 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 
 const INSTALLED_APP_BACKGROUND_FACTOR = 3;
 const BROWSER_TAB_BACKGROUND_FACTOR = 10;
-const INSTALLED_DISPLAY_MODES = ['standalone', 'minimal-ui', 'fullscreen', 'window-controls-overlay'];
+const INSTALLED_DISPLAY_MODES = ['standalone', 'minimal-ui', 'window-controls-overlay'];
 
 @Injectable({ providedIn: 'root' })
 export class AppBadgeService {
