@@ -388,7 +388,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         subject { work_package.reload.labels }
 
         context "when labels are selected" do
-          let(:label_ids) { [new_label.id] }
+          let(:label_ids) { [new_label.id.to_s] }
 
           it "replaces the work package's labels" do
             expect(subject).to contain_exactly(new_label)
@@ -397,6 +397,14 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
 
         context "when none is selected" do
           let(:label_ids) { ["none"] }
+
+          it "clears the work package's labels" do
+            expect(subject).to be_empty
+          end
+        end
+
+        context "when none is selected together with a label" do
+          let(:label_ids) { ["none", new_label.id.to_s] }
 
           it "clears the work package's labels" do
             expect(subject).to be_empty

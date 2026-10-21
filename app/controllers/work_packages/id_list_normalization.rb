@@ -31,7 +31,7 @@
 # work package move and bulk-edit forms. They are pulled out of the generic
 # scalar "none"/blank attribute transforms and normalized here instead:
 #   * blank selection  -> nil  (leave the existing associations untouched)
-#   * "none" selection -> []   (clear all associations)
+#   * "none" selected  -> []   (clear all associations, even if ids are selected too)
 #   * ids              -> [ids]
 module WorkPackages::IdListNormalization
   extend ActiveSupport::Concern
@@ -49,7 +49,9 @@ module WorkPackages::IdListNormalization
 
     def normalized_id_list(raw)
       values = Array(raw).compact_blank
-      values == ["none"] ? [] : values.presence
+      return [] if values.include?("none")
+
+      values.presence
     end
   end
 end

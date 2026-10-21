@@ -681,6 +681,15 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
+          context "with none selected together with a label" do
+            let(:label_ids) { ["none", new_label.id.to_s] }
+
+            it "clears the labels on every selected work package" do
+              expect(response).to be_redirect
+              expect(subject).to contain_exactly([])
+            end
+          end
+
           context "with the no change option selected" do
             let(:label_ids) { [""] }
 
