@@ -834,6 +834,7 @@ GEM
     matrix (0.4.3)
     mcp (1.7.0)
       json_schemer (>= 2.4)
+    memory_profiler (1.1.0)
     messagebird-rest (5.0.0)
       jwt (< 4)
     meta-tags (2.24.0)
@@ -1686,6 +1687,7 @@ DEPENDENCIES
   matrix (~> 0.4.3)
   mcp (~> 1.7.0)
   md_to_pdf!
+  memory_profiler
   meta-tags (~> 2.24.0)
   mini_magick (~> 5.4.0)
   msgpack (~> 1.8.4)
@@ -2048,6 +2050,7 @@ CHECKSUMS
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
   mcp (1.7.0) sha256=bdf3261177b948b0777a6f247c57aad5f64c84830c02d126d4bfea188b0cebb7
   md_to_pdf (0.2.7)
+  memory_profiler (1.1.0) sha256=79a17df7980a140c83c469785905409d3027ca614c42c086089d128b805aa8f8
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.24.0) sha256=3a8a7a1059a3f223d08f5364b9ffac6dd2bbbbbe9cbaf1f466d234d4c43f8ab6
   method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
