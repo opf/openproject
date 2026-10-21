@@ -1,6 +1,6 @@
 <%=
   component_wrapper(class: "op-user-custom-field-section-container", data: { test_selector: "user-custom-field-section-container-#{@user_custom_field_section.id}" }) do
-    render(border_box_container(mt: 3, data: drag_and_drop_target_config)) do |component|
+    render(border_box_container(mt: 3, data: field_list_data)) do |component|
       component.with_header(font_weight: :bold) do
         flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
           section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
@@ -87,28 +87,21 @@
           end
         end
       else
-        @ordered_attributes.each_with_index do |key, index|
-          first = index == 0
-          last  = index == @ordered_attributes.size - 1
-
+        @ordered_attributes.each do |key|
           if UserCustomFieldSection::BUILT_IN_ATTRIBUTES.include?(key)
-            component.with_row(data: draggable_item_config_for_built_in(key).merge("filter--filter-list-target": "searchItem")) do
+            component.with_row(data: field_item_data_for_built_in(key).merge("filter--filter-list-target": "searchItem")) do
               render(
                 Settings::UserCustomFieldSections::BuiltInAttributeRowComponent.new(
                   section: @user_custom_field_section,
-                  attribute_key: key,
-                  first:,
-                  last:
+                  attribute_key: key
                 )
               )
             end
           elsif (cf = @custom_fields_by_key[key])
-            component.with_row(data: draggable_item_config_for_custom_field(cf).merge("filter--filter-list-target": "searchItem")) do
+            component.with_row(data: field_item_data_for_custom_field(cf).merge("filter--filter-list-target": "searchItem")) do
               render(
                 custom_field_row_component_class.new(
-                  user_custom_field: cf,
-                  first:,
-                  last:
+                  user_custom_field: cf
                 )
               )
             end

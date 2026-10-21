@@ -49,12 +49,65 @@ RSpec.describe Settings::UserCustomFieldSections::ShowComponent, type: :componen
     field_b
   end
 
+  it "wires the BorderBox as a sortable-lists list of type user_field scoped to the section" do
+    subject
+
+    expect(page).to have_css(
+      "[data-controller~='sortable-lists--list']" \
+      "[data-sortable-lists--list-type-value='user_field']" \
+      "[data-sortable-lists--list-accepted-type-value='user_field']" \
+      "[data-sortable-lists--list-id-value='#{section.id}']" \
+      "[data-sortable-lists--list-name-value='#{section.name}']"
+    )
+  end
+
+  it "wires the BorderBox as the section item's drag preview target" do
+    subject
+
+    expect(page).to have_css(
+      "[data-sortable-lists--list-type-value='user_field']" \
+      "[data-sortable-lists--item-target='preview']"
+    )
+  end
+
   it "wires the section-header drag handle as the sortable-lists item handle target" do
     subject
 
     expect(page).to have_css(
       ".Box-header .handle[data-sortable-lists--item-target='handle']",
       count: 1
+    )
+  end
+
+  it "wires each custom field row as a sortable-lists item of type user_field, keyed by its id" do
+    subject
+
+    [field_a, field_b].each do |field|
+      expect(page).to have_css(
+        "[data-controller~='sortable-lists--item']" \
+        "[data-sortable-lists--item-id-value='#{field.id}']" \
+        "[data-sortable-lists--item-type-value='user_field']" \
+        "[data-sortable-lists--item-label-value='#{field.name}']"
+      )
+    end
+  end
+
+  it "wires the built-in attribute row as a sortable-lists item of type user_field, keyed by its attribute name" do
+    subject
+
+    expect(page).to have_css(
+      "[data-controller~='sortable-lists--item']" \
+      "[data-sortable-lists--item-id-value='login']" \
+      "[data-sortable-lists--item-type-value='user_field']" \
+      "[data-sortable-lists--item-label-value='#{User.human_attribute_name(:login)}']"
+    )
+  end
+
+  it "has no generic-drag-and-drop remnants" do
+    subject
+
+    expect(page.native.to_html).not_to match(
+      /generic-drag-and-drop|target-container-accessor|target-allowed-drag-type|draggable-type|drop-url/
     )
   end
 end
