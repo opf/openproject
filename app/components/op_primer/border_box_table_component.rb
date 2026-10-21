@@ -124,6 +124,18 @@ module OpPrimer
       false
     end
 
+    def actions_grid_class
+      "#{grid_class}--with-actions" if has_actions?
+    end
+
+    def container_classes
+      class_names(container_class, "op-border-box-table--with-actions": has_actions?)
+    end
+
+    def container_style
+      "--op-border-box-grid-tracks: #{column_track_count};" if has_actions?
+    end
+
     def has_header?
       true
     end
@@ -172,6 +184,10 @@ module OpPrimer
 
     def column_count
       @column_count ||= columns.size + (has_actions? ? 1 : 0)
+    end
+
+    def column_track_count
+      columns.sum { |column| main_column?(column) ? 2 : 1 }
     end
 
     # Header rows share index 1, so data rows start at 2 and the footer is last.
