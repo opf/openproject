@@ -58,10 +58,22 @@ module OpenProject
         self.cte_collector_scope = relation
         super(relation.klass, table: relation.table, predicate_builder: relation.predicate_builder)
 
-        from!(Arel.sql("(#{collapsed_sql}) #{relation.klass.quoted_table_name}"))
+        from!(collapsed_from(relation))
       end
 
       private
+
+      # The collapsed query as an aliased FROM-subquery, built from Arel nodes rather
+      # than assembled SQL text. The body has to be rendered eagerly here: the visitor
+      # decides whether a ProviderStatement emits a CTE reference or its inline SQL by
+      # reading provided_cte_collected? at render time, and #collapsed_sql resets that
+      # flag once it returns.
+      def collapsed_from(relation)
+        Arel::Nodes::TableAlias.new(
+          Arel::Nodes::Grouping.new(Arel::Nodes::SqlLiteral.new(collapsed_sql)),
+          relation.klass.table_name
+        )
+      end
 
       # Render the wrapped scope with every provider CTE hoisted into one WITH clause.
       # Works on a spawn and renders through the relation (not the manager) so bind
