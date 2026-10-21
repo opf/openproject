@@ -122,6 +122,37 @@ RSpec.describe Query::Results, "Grouping and sorting for labels", with_flag: { w
         .to eq work_packages_asc.map(&:id)
     end
 
+    context "with another work package sharing a label set" do
+      let!(:other_both_labels_wp) do
+        create_wp_with_labels("Other both labels wp", [alpha_label, bravo_label])
+      end
+
+      it "counts both in the same group" do
+        expect(query_results.work_package_count_by_group)
+          .to eql([alpha_label] => 1,
+                  [alpha_label, bravo_label] => 2,
+                  [bravo_label] => 1,
+                  [] => 1)
+      end
+    end
+
+    context "with a labelled work package in a subproject the user cannot see" do
+      let(:hidden_subproject) { create(:project, parent: project) }
+      let!(:hidden_wp) do
+        create(:work_package, subject: "Hidden wp", project: hidden_subproject).tap do |wp|
+          create(:labeling, labelable: wp, label: alpha_label)
+        end
+      end
+
+      it "leaves it out of the group counts" do
+        expect(query_results.work_package_count_by_group)
+          .to eql([alpha_label] => 1,
+                  [alpha_label, bravo_label] => 1,
+                  [bravo_label] => 1,
+                  [] => 1)
+      end
+    end
+
     context "with sums displayed" do
       let(:query) do
         build(:query,
