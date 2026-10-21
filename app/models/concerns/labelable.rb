@@ -73,7 +73,9 @@ module Labelable
   def validate_label_id_replacements
     return unless override_labels?
 
-    missing = label_id_replacements - Label.where(id: label_id_replacements).pluck(:id)
+    # Holds the label rows until the labelings are written, so the nightly cleanup
+    # cannot delete a label this save is about to use.
+    missing = label_id_replacements - Label.where(id: label_id_replacements).lock("FOR KEY SHARE").pluck(:id)
 
     errors.add(:labels, :does_not_exist) if missing.any?
   end
