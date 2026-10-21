@@ -33,6 +33,15 @@ class Labels::CleanupUnusedInlineJob < ApplicationJob
   queue_with_priority :low
 
   def perform
-    Label.created_inline.never_used.where(created_at: ..GRACE_PERIOD.ago).delete_all
+    Label.transaction do
+      ids = candidates.lock("FOR UPDATE SKIP LOCKED").pluck(:id)
+      Label.where(id: ids).delete_all if ids.any?
+    end
+  end
+
+  private
+
+  def candidates
+    Label.created_inline.never_used.where(created_at: ..GRACE_PERIOD.ago)
   end
 end
