@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Created vs resolved chart widget", :js, with_flag: :sprint_reports do
+RSpec.describe "Created vs resolved chart widget", :js, with_ee: %i[sprint_report_pro_widgets], with_flag: :sprint_reports do
   include Rails.application.routes.url_helpers
 
   let(:permissions) { %i[view_sprints view_work_packages show_board_views] }

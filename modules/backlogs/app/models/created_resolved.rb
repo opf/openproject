@@ -30,19 +30,14 @@
 
 class CreatedResolved
   def initialize(sprint, project, _burn_direction = nil)
+    @sprint = sprint
+    @project = project
     @sprint_id = sprint.id
 
     make_date_series sprint
 
-    series_data = OpenProject::Backlogs::CreatedResolved::SeriesRawData.new(
-      project,
-      sprint,
-      workpackages: ["wp_created", "wp_resolved"]
-    )
-
-    series_data.collect_data
-
-    calculate_series series_data
+    make_series :wp_created, work_package_counts(sprint_journals)
+    make_series :wp_resolved, work_package_counts(sprint_journals.where(status_id: resolved_statuses))
 
     determine_max
   end
@@ -55,6 +50,8 @@ class CreatedResolved
 
   private
 
+  attr_reader :sprint, :project
+
   def make_date_series(sprint)
     @days = if sprint.date_range_set?
               Day.working.from_range(from: sprint.start_date, to: sprint.finish_date).map(&:date)
@@ -63,24 +60,50 @@ class CreatedResolved
             end
   end
 
-  def calculate_series(series_data)
-    series_data.collect_names.each do |c|
-      data = series_data[c].to_a.sort_by(&:first).map(&:last)
-      make_series(c.to_sym, series_data.unit_for(c), data)
-    end
+  def work_package_counts(journals)
+    counts = WorkPackages::JournalTimeline
+               .new(journals, ticks:)
+               .relation
+               .group(:tick)
+               .count
+               .transform_keys(&:to_i)
+
+    ticks.map { (counts[it.to_i] || 0).to_f }
   end
 
-  def make_series(name, units, data)
+  def sprint_journals
+    Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id)
+  end
+
+  def resolved_statuses
+    Status.where(is_closed: true)
+          .or(Status.where(id: project.done_statuses.reorder(nil)))
+          .reorder(nil)
+  end
+
+  def ticks
+    @ticks ||= elapsed_days.map { User.current.time_zone.local(it.year, it.month, it.day, 23, 59, 59) }
+  end
+
+  def elapsed_days
+    return [] unless sprint.date_range_set?
+
+    last_day = Time.zone.today.clamp(sprint.start_date, sprint.finish_date)
+
+    Day.working.from_range(from: sprint.start_date, to: last_day).map(&:date)
+  end
+
+  def make_series(name, data)
     @available_series ||= {}
-    s = OpenProject::Backlogs::CreatedResolved::Series.new(name, units, data)
+    s = OpenProject::Backlogs::CreatedResolved::Series.new(name, :workpackages, data)
     @available_series[name] = s.data
     instance_variable_set(:"@#{name}", s.data)
   end
 
   def determine_max
     @max = {
-      wp_created: @available_series[:wp_created].flatten.compact.reject(&:nan?).max || 0.0,
-      wp_resolved: @available_series[:wp_resolved].flatten.compact.reject(&:nan?).max || 0.0
+      wp_created: @available_series[:wp_created].compact.max || 0.0,
+      wp_resolved: @available_series[:wp_resolved].compact.max || 0.0
     }
   end
 end

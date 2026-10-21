@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -52,15 +51,17 @@ export class CreatedResolvedComponent {
   readonly lineChartData = computed<ChartData<'line'>>(() => {
     const data = JSON.parse(this.chartData()) as ChartData<'line'>;
 
-    const colors = [
-      {background: getCSSVariable('--display-red-scale-2'), border: getCSSVariable('--display-red-scale-4')}, //created
-      {background: getCSSVariable('--display-green-scale-2'), border: getCSSVariable('--display-green-scale-4')} //resolved
+    // Resolved never exceeds created, so it has to be drawn on top (lower order) to stay visible.
+    const styles = [
+      {background: getCSSVariable('--display-red-scale-2'), border: getCSSVariable('--display-red-scale-4'), order: 1}, //created
+      {background: getCSSVariable('--display-green-scale-2'), border: getCSSVariable('--display-green-scale-4'), order: 0} //resolved
     ];
 
     data.datasets.forEach((dataset, i) => {
-      dataset.backgroundColor = Array(dataset.data.length).fill(colors[i]?.background);
-      dataset.borderColor = Array(dataset.data.length).fill(colors[i]?.border);
+      dataset.backgroundColor = Array(dataset.data.length).fill(styles[i]?.background);
+      dataset.borderColor = Array(dataset.data.length).fill(styles[i]?.border);
       dataset.borderWidth = 1;
+      dataset.order = styles[i]?.order;
     });
 
     return data;

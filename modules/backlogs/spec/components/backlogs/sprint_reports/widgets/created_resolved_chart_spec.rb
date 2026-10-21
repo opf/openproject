@@ -33,7 +33,8 @@ require "rails_helper"
 # This is just a quick smoke test of the created vs resolved chart.
 # Long term, ideally there should be a proper integration test that inspects what the user
 # can actually see. For now, this is too time-intensive.
-RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart, type: :component do
+RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart, type: :component,
+                                                                       with_ee: %i[sprint_report_pro_widgets] do
   let(:project) { build_stubbed(:project) }
   let(:sprint) { build_stubbed(:sprint, project:, start_date: 1.week.ago.to_date, finish_date: 1.week.from_now.to_date) }
 
