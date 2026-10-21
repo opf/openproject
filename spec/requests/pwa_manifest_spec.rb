@@ -70,6 +70,10 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(response.headers["Set-Cookie"]).to be_blank
     end
 
+    it "lets browsers and shared caches keep it for an hour" do
+      expect(response.headers["Cache-Control"]).to include("max-age=3600", "public")
+    end
+
     it "installs as a standalone window named after the instance, rooted at the instance" do
       expect(manifest).to include("name" => "Acme Projects",
                                   "display" => "standalone",

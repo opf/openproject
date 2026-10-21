@@ -33,6 +33,7 @@ module Pwa
     skip_before_action :check_if_login_required, :check_session_lifetime
 
     def show
+      expires_in 1.hour, public: true
       render json: Pwa::Manifest.new(helpers)
     end
   end
