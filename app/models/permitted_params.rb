@@ -562,6 +562,7 @@ class PermittedParams
           :estimated_hours,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -591,6 +592,7 @@ class PermittedParams
           :status_id,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :priority_id
         ],
         oauth_application: [

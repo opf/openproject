@@ -27,33 +27,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared normalization for the array-valued +target_version_ids+ and
-# +observed_in_version_ids+ parameters used by the work package move and
-# bulk-edit forms. It is pulled out of the generic scalar "none"/blank
-# attribute transforms (which are built for scalar values) and normalized
-# here instead.
-module WorkPackages::VersionIdsNormalization
+# Shared normalization for the array-valued id list parameters used by the
+# work package move and bulk-edit forms. They are pulled out of the generic
+# scalar "none"/blank attribute transforms and normalized here instead:
+#   * blank selection  -> nil  (leave the existing associations untouched)
+#   * "none" selected  -> []   (clear all associations, even if ids are selected too)
+#   * ids              -> [ids]
+module WorkPackages::IdListNormalization
   extend ActiveSupport::Concern
+
+  ID_LIST_ATTRIBUTES = %i[target_version_ids observed_in_version_ids label_ids].freeze
 
   included do
     private
 
-    # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
-    #   * blank selection  -> nil  (leave existing target_versions untouched)
-    #   * "none" selection -> []   (clear all target_versions)
-    #   * a version id      -> [id]
-    def normalized_target_version_ids(raw)
-      normalized_version_ids(raw)
+    def extract_normalized_id_lists(attributes)
+      ID_LIST_ATTRIBUTES
+        .index_with { |key| normalized_id_list(attributes.delete(key)) }
+        .compact
     end
 
-    # Same magic values as #normalized_target_version_ids, applied to observed_in_version_ids.
-    def normalized_observed_in_version_ids(raw)
-      normalized_version_ids(raw)
-    end
-
-    def normalized_version_ids(raw)
+    def normalized_id_list(raw)
       values = Array(raw).compact_blank
-      values == ["none"] ? [] : values.presence
+      return [] if values.include?("none")
+
+      values.presence
     end
   end
 end
