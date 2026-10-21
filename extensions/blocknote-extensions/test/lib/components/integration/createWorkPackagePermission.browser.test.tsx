@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { worker } from '../../../mocks/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { openEditorAndType, typeAndSelect } from '../../../helpers/editorHelpers';
-import { probeCreateWorkPackagePermission } from '../../../../lib/services/openProjectApi';
+import { probeCreateWorkPackagePermission } from '../../../../lib/services/openProjectApi/workPackageCreation';
 
 async function withoutCreatePermission() {
   worker.use(

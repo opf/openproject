@@ -5,7 +5,7 @@ import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/hooks/useWorkPackage';
 import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
-import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
+import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi/workPackageCreation';
 import { DESKTOP } from './helpers/createWorkPackageHelpers';
 
 beforeEach(async () => {
