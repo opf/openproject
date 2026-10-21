@@ -35,12 +35,14 @@ module Settings
       include OpTurbo::Streamable
       include SortableLists::MoveMenu
 
-      def initialize(user_custom_field_section:)
+      def initialize(user_custom_field_section:, sections:)
         super
 
         @user_custom_field_section = user_custom_field_section
         @ordered_attributes = user_custom_field_section.attribute_order
         @custom_fields_by_key = user_custom_field_section.custom_fields_by_key
+
+        @other_sections = sections.reject { |section| section.id == user_custom_field_section.id }
       end
 
       def custom_field_row_component_class
@@ -60,9 +62,7 @@ module Settings
           sortable_lists__list_accepted_type_value: "user_field",
           sortable_lists__list_id_value: @user_custom_field_section.id,
           sortable_lists__list_name_value: @user_custom_field_section.name,
-          # The section's drag preview snapshots the box itself rather than
-          # the browser's native capture of the row wrapper, which paints the
-          # box's top margin and squares off the rounded corners.
+          # To omit the box's top margin and square off any rounded corners.
           sortable_lists__item_target: "preview"
         }
       end
