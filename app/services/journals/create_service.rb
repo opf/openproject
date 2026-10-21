@@ -84,9 +84,7 @@ module Journals
 
     def create_journal(notes, internal, cause)
       predecessor = aggregatable_predecessor(notes, internal, cause)
-      if predecessor && !predecessor.cause.empty? && cause.respond_to?(:aggregate_with)
-        cause = cause.aggregate_with(predecessor.cause)
-      end
+      cause = cause.aggregate_with(predecessor.cause) if predecessor && cause.try(:aggregatable_with?, predecessor.cause)
 
       log_journal_creation(predecessor)
 
