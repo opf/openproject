@@ -42,7 +42,7 @@ async function retry() {
   render("retrying", { text: "retryingLabel", status: "statusChecking" });
 
   const [reachable] = await Promise.all([
-    fetch(root.dataset.probeUrl, { method: "HEAD", cache: "no-store", signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) }).then(() => true, () => false),
+    fetch(root.dataset.probeUrl, { method: "HEAD", cache: "no-store", signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) }).then((response) => response.status < 500, () => false),
     pause(MIN_RETRYING_MS),
   ]);
 
