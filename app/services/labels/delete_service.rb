@@ -29,5 +29,29 @@
 
 module Labels
   class DeleteService < ::BaseServices::Delete
+    protected
+
+    def persist(service_result)
+      @labeled_work_package_ids = labeled_work_package_ids
+      super
+    end
+
+    def after_persist(service_result)
+      enqueue_journalization if @labeled_work_package_ids.any?
+      super
+    end
+
+    private
+
+    def labeled_work_package_ids
+      Labeling.where(label_id: model.id, labelable_type: WorkPackage.name).pluck(:labelable_id)
+    end
+
+    def enqueue_journalization
+      Labels::JournalizeDeletionJob.perform_later(work_package_ids: @labeled_work_package_ids,
+                                                  label_id: model.id,
+                                                  label_name: model.name,
+                                                  user_id: user.id)
+    end
   end
 end
