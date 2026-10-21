@@ -36,22 +36,20 @@ class Labels::JournalizeDeletionJob < ApplicationJob
     user = User.find_by(id: user_id) || DeletedUser.first
     cause = Journal::CausedByLabelDeletion.new(label_id:, label_name:)
 
-    User.execute_as(user) do
-      pending_work_packages(work_package_ids, label_id).find_each(batch_size: 100) do |work_package|
-        journalize(work_package, user, cause)
-      end
+    WorkPackage.where(id: pending_ids(work_package_ids, label_id)).find_each(batch_size: 100) do |work_package|
+      journalize(work_package, user, cause)
     end
   end
 
   private
 
-  def pending_work_packages(ids, label_id)
-    already_journalized = Journal
-                            .where(journable_type: WorkPackage.name)
-                            .where("journals.cause @> ?", { type: "label_deleted", label_id: }.to_json)
-                            .select(:journable_id)
+  def pending_ids(ids, label_id)
+    journalized = Journal
+                    .where(journable_type: WorkPackage.name, journable_id: ids)
+                    .where("journals.cause @> ?", { type: "label_deleted", label_id: }.to_json)
+                    .pluck(:journable_id)
 
-    WorkPackage.where(id: ids).where.not(id: already_journalized)
+    ids - journalized
   end
 
   def journalize(work_package, user, cause)
