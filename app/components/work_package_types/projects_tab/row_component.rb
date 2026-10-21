@@ -37,10 +37,7 @@ module WorkPackageTypes
       def row_data = { test_selector: "type-projects-row-#{project.id}" }
 
       def name
-        link = render(Primer::Beta::Link.new(href: helpers.project_path(project), font_weight: :bold)) { project.name }
-        return link unless project.archived?
-
-        safe_join([link, archived_label])
+        render(Projects::InfoLineComponent.new(project:))
       end
 
       def variant
@@ -56,10 +53,6 @@ module WorkPackageTypes
       def table_variant = table.variant
 
       def applied_variant = @applied_variant ||= project.type_variant(table_variant.type)
-
-      def archived_label
-        render(Primer::Beta::Label.new(ml: 2)) { I18n.t("project.archive.archived") }
-      end
 
       def variant_caption
         return if applied_variant.default?
