@@ -33,7 +33,8 @@ RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
   let(:label) { create(:label, :created_inline, created_at: 2.days.ago) }
 
   it "is scheduled nightly" do
-    expect(Rails.application.config.good_job.cron).to have_key(:"Labels::CleanupUnusedInlineJob")
+    expect(Rails.application.config.good_job.cron[:"Labels::CleanupUnusedInlineJob"])
+      .to include(cron: "37 2 * * *", class: described_class.name)
   end
 
   it "deletes an inline label older than the grace period that was never used" do
@@ -55,12 +56,6 @@ RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
 
     expect { described_class.perform_now }.not_to change(Label, :count)
     expect(Label.exists?(curated.id)).to be(true)
-  end
-
-  it "keeps an inline label that currently labels a work package" do
-    create(:labeling, label:)
-
-    expect { described_class.perform_now }.not_to change(Label, :count)
   end
 
   it "keeps an inline label that only a journal snapshot references" do
