@@ -51,6 +51,7 @@ describe('PwaServiceWorkerController', () => {
   afterEach(() => {
     ctx.dispose();
     vi.unstubAllGlobals();
+    vi.restoreAllMocks();
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
   });
 
@@ -76,16 +77,15 @@ describe('PwaServiceWorkerController', () => {
     expect(register).not.toHaveBeenCalled();
   });
 
-  it('swallows a rejected registration', async () => {
-    const unhandled = vi.fn();
-    window.addEventListener('unhandledrejection', unhandled);
-    register.mockRejectedValue(new Error('SecurityError'));
+  it('warns about a rejected registration', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const reason = new Error('SecurityError');
+    register.mockRejectedValue(reason);
 
     await mount();
     await ctx.nextFrame();
 
-    expect(register).toHaveBeenCalled();
-    expect(unhandled).not.toHaveBeenCalled();
-    window.removeEventListener('unhandledrejection', unhandled);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith('Service worker registration failed', reason);
   });
 });
