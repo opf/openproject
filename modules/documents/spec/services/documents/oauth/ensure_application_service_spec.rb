@@ -48,7 +48,7 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         application = result.result
 
         expect(application.uid).to eq(described_class::APPLICATION_UID)
-        expect(application.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
+        expect(application.scopes.to_a).to eq([OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE])
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         expect { service_call }
           .to change { existing_application.reload.scopes.to_a }
           .from(["api_v3"])
-          .to([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
+          .to([OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE])
       end
     end
   end

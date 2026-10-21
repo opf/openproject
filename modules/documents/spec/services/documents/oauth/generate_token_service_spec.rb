@@ -54,7 +54,7 @@ RSpec.describe Documents::OAuth::GenerateTokenService do
     it "creates a token that only grants the edit documents scope" do
       token = service_call.result
 
-      expect(token.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
+      expect(token.scopes.to_a).to eq([OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE])
     end
   end
 

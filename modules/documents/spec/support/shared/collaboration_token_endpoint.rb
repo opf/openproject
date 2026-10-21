@@ -166,7 +166,7 @@ RSpec.shared_examples_for "a guarded collaboration token endpoint" do
 
         expect_api_error(403, "InsufficientScope",
                          I18n.t("api_v3.errors.insufficient_scope",
-                                granted: "'#{Documents::OAuth::EDIT_DOCUMENTS_SCOPE}'",
+                                granted: "'#{OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE}'",
                                 required: "api_v3"))
         expect(last_response.headers["WWW-Authenticate"]).to include('error="insufficient_scope"')
       end
