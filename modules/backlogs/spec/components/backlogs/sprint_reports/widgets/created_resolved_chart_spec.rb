@@ -43,7 +43,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart, type: :co
   current_user { build_stubbed(:user) }
 
   before do
-      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+    mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
   end
 
   context "when the sprint has a date range set" do
@@ -66,6 +66,20 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart, type: :co
 
       expect(chart_data["labels"]).to be_an(Array)
       expect(chart_data["datasets"].pluck("label")).to contain_exactly("Created", "Resolved")
+    end
+
+    context "with more days than fit on the x axis" do
+      let(:created_resolved) do
+        days = (0...20).map { Time.zone.today - it.days }
+        instance_double(CreatedResolved, days:, series: { wp_created: Array.new(20, 1.0), wp_resolved: Array.new(20, 0.0) })
+      end
+
+      it "labels every day so tooltips can show the date" do
+        chart_data = JSON.parse(rendered_component.at("opce-created-resolved-chart")["chart-data"])
+
+        expect(chart_data["labels"].size).to eq 20
+        expect(chart_data["labels"]).to all(be_present)
+      end
     end
   end
 

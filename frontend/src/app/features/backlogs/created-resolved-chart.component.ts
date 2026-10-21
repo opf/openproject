@@ -82,10 +82,17 @@ export class CreatedResolvedComponent {
     fill: true,
     tension: 0,
     pointRadius: 0,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
     scales: {
       x: {
         title: {
           display: false,
+        },
+        ticks: {
+          maxTicksLimit: 15,
         }
       },
       y: {

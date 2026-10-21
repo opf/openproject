@@ -66,13 +66,8 @@ module Backlogs
         end
 
         def xaxis_labels(created_resolved)
-          # 14 entries (plus the axis label) have come along as the best value for a good optical result.
-          # Thus it is enough space between the entries.
-          entries_displayed = (created_resolved.days.length / 14.0).ceil
-          created_resolved.days.enum_for(:each_with_index).map do |d, i|
-            if (i % entries_displayed) == 0
-              [format_date(d, format: I18n.t("date.formats.short")).to_s]
-            end
+          created_resolved.days.map do |d|
+            [format_date(d, format: I18n.t("date.formats.short")).to_s]
           end
         end
 
