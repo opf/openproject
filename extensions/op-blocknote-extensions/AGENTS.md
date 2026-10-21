@@ -23,7 +23,8 @@ Don't try to use prettier!
 - Always try to be consistent with naming (e.g. of variables and CSS classes)
 
 ## Architectural guidelines
-- This repo here is used in OpenProject (https://github.com/opf/openproject) in two places:
+- This extension is used in two places:
     1. In the documents module in a BlockNote editor which is used by users and renders the work package links as react components (see frontend/src/react/components/OpBlockNoteEditor.tsx)
-    2. In the Hocuspocus extension which is used for real-time collaboration and saving the document (as ydoc and as markdown file) (see extensions/op-blocknote-hocuspocus/src/extensions/openProjectApi.ts). It needs to render a non-react static representation of the data there.
-- The interface how op-blocknote-extensions is initialized and used in BlockNote or e.g. OpenProject needs to be kept stable. 
+    2. In the Hocuspocus extension which is used for real-time collaboration and saving the document (as yDoc and as Markdown file) (see extensions/op-blocknote-hocuspocus/src/extensions/openProjectApi.ts). It needs to render a non-react static representation of the data there.
+- The interface how op-blocknote-extensions is initialized and used in BlockNote or e.g. OpenProject needs to be kept stable.
+- The extension has to be kept separate from OpenProject. We have to ensure it would also work with 3rd party applications which use BlockNote and want to integrate with OpenProject. So do not depend on OpenProject except for loading and writing data via the API.
