@@ -33,7 +33,7 @@ RSpec.describe Settings::UserCustomFieldSections::IndexComponent, type: :compone
   let(:section_a) { create(:user_custom_field_section) }
   let(:section_b) { create(:user_custom_field_section) }
   let(:root) { rendered_component.at_css("[data-controller='sortable-lists']") }
-  let(:list) { rendered_component.at_css("[data-controller~='sortable-lists--list']") }
+  let(:sections_list) { rendered_component.at_css("[data-sortable-lists--list-type-value='user_custom_field_section']") }
 
   subject(:rendered_component) do
     with_request_url "/admin/settings/user_custom_fields" do
@@ -42,27 +42,36 @@ RSpec.describe Settings::UserCustomFieldSections::IndexComponent, type: :compone
   end
 
   it_behaves_like "a sortable-lists root", wrapper_id: "settings-user-custom-field-sections-index-component"
-  it_behaves_like "a sortable-lists list", list_type: "user_custom_field_section", name: nil
+  it_behaves_like "no legacy drag-and-drop wiring"
+
+  # Not the shared list and items contracts: those describe a component owning
+  # a single list of Border Box rows, while each section row here holds a whole
+  # Border Box with a nested user_field list of its own (show_component_spec.rb
+  # covers that one).
+  it "wires the sections container as an unscoped sortable-lists list" do
+    expect(sections_list["data-controller"]).to eq("sortable-lists--list")
+    expect(sections_list["data-sortable-lists--list-accepted-type-value"]).to eq("user_custom_field_section")
+    expect(sections_list["data-sortable-lists--list-id-value"]).to be_nil
+  end
 
   it "wires each section row as a sortable item of type user_custom_field_section" do
     [section_a, section_b].each do |section|
-      row = rendered_component.at_css("[data-sortable-lists--item-id-value='#{section.id}']")
+      row = rendered_component.at_css(
+        "[data-sortable-lists--item-type-value='user_custom_field_section']" \
+        "[data-sortable-lists--item-id-value='#{section.id}']"
+      )
 
       expect(row["data-controller"]).to eq("sortable-lists--item")
-      expect(row["data-sortable-lists--item-type-value"]).to eq("user_custom_field_section")
       expect(row["data-sortable-lists--item-label-value"]).to eq(section.name)
       expect(row).to have_css(".DragHandle[data-sortable-lists--item-target~='handle']")
     end
   end
 
-  it "addresses the section list type with its own move URL template" do
+  it "addresses each list type with its own move URL template" do
     move_url_templates = JSON.parse(root["data-sortable-lists-move-url-templates-value"])
 
     expect(move_url_templates["user_custom_field_section"]).to include("/admin/settings/user_custom_field_sections/{id}/drop")
-  end
-
-  it "leaves the sections list unscoped, matching the controller's list_id_scoped: false" do
-    expect(list["data-sortable-lists--list-id-value"]).to be_nil
+    expect(move_url_templates["user_field"]).to include("/admin/settings/user_custom_field_section_fields/{id}/drop")
   end
 
   # Prove the selector-to-DOM link, not just attribute presence: if the
@@ -72,13 +81,5 @@ RSpec.describe Settings::UserCustomFieldSections::IndexComponent, type: :compone
   it "wires the root's outlet selectors so they actually resolve to the rendered list/items" do
     expect(rendered_component).to have_css(root["data-sortable-lists-sortable-lists--list-outlet"])
     expect(rendered_component).to have_css(root["data-sortable-lists-sortable-lists--item-outlet"])
-  end
-
-  # Scoped to the sections list: the nested ShowComponent still carries
-  # generic-drag-and-drop for its field list until that is migrated too
-  # (see show_component_spec.rb).
-  it "has no generic-drag-and-drop remnants on the sections list itself" do
-    expect(list["class"].to_s).not_to include("dragula-container")
-    expect(list["data-generic-drag-and-drop-target"]).to be_nil
   end
 end
