@@ -42,7 +42,8 @@ describe('AppBadgeService', () => {
     loggedIn = true,
     badgeApi = true,
     standalone = true,
-  }:{ flags?:string[], loggedIn?:boolean, badgeApi?:boolean, standalone?:boolean } = {}) => {
+    displayMode = 'standalone',
+  }:{ flags?:string[], loggedIn?:boolean, badgeApi?:boolean, standalone?:boolean, displayMode?:string } = {}) => {
     meta.dataset.loggedIn = String(loggedIn);
     if (badgeApi) {
       Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: setAppBadge });
@@ -51,7 +52,7 @@ describe('AppBadgeService', () => {
       Object.defineProperty(navigator, 'setAppBadge', { configurable: true, value: undefined });
       Object.defineProperty(navigator, 'clearAppBadge', { configurable: true, value: undefined });
     }
-    vi.stubGlobal('matchMedia', (query:string) => ({ matches: standalone && query === '(display-mode: standalone)' }));
+    vi.stubGlobal('matchMedia', (query:string) => ({ matches: standalone && query === `(display-mode: ${displayMode})` }));
 
     TestBed.configureTestingModule({
       providers: [
@@ -83,6 +84,13 @@ describe('AppBadgeService', () => {
   describe('when running as an installed app', () => {
     it('mirrors the unread count on the badge', () => {
       setup().initialize();
+
+      loadedUnread$.next(7);
+      expect(setAppBadge).toHaveBeenLastCalledWith(7);
+    });
+
+    it('mirrors the unread count in a window-controls-overlay window', () => {
+      setup({ displayMode: 'window-controls-overlay' }).initialize();
 
       loadedUnread$.next(7);
       expect(setAppBadge).toHaveBeenLastCalledWith(7);

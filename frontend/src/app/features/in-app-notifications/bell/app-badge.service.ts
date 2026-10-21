@@ -32,6 +32,7 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 
 const INSTALLED_APP_BACKGROUND_FACTOR = 3;
 const BROWSER_TAB_BACKGROUND_FACTOR = 10;
+const INSTALLED_DISPLAY_MODES = ['standalone', 'minimal-ui', 'fullscreen', 'window-controls-overlay'];
 
 @Injectable({ providedIn: 'root' })
 export class AppBadgeService {
@@ -81,7 +82,7 @@ export class AppBadgeService {
   }
 
   private get runsAsInstalledApp():boolean {
-    return window.matchMedia('(display-mode: standalone)').matches;
+    return INSTALLED_DISPLAY_MODES.some((mode) => window.matchMedia(`(display-mode: ${mode})`).matches);
   }
 
   private clear():void {
