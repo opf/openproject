@@ -33,7 +33,7 @@ module Pwa
     no_authorization_required! :show
     skip_before_action :check_if_login_required
     skip_before_action :check_session_lifetime
-    skip_forgery_protection only: :show
+    skip_after_action :verify_same_origin_request, only: :show
 
     def show
       expires_now
