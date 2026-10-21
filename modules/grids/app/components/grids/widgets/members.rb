@@ -42,22 +42,36 @@ module Grids
       end
 
       def members_by_role
-        @members_by_role ||= ProjectRole
+        return @members_by_role if @members_by_role
+
+        counts_by_role = count_members_by_role(member_role_ids)
+
+        @members_by_role = ProjectRole
           .where(id: member_role_ids)
           .order(name: :asc)
           .map do |role|
-          members_query = members_for_role(role.id)
-          total_count = members_query.count
-          members = members_query.limit(limit).to_a.map(&:principal)
+            total_count = counts_by_role[role.id]
+            principals = members_for_role(role.id).limit(limit).map(&:principal)
 
-          {
-            role:,
-            members:,
-            total_count:,
-            remaining: [total_count - limit, 0].max,
-            has_more: total_count > limit
-          }
-        end
+            {
+              role:,
+              members: principals,
+              total_count: total_count,
+              remaining: [total_count - limit, 0].max,
+              has_more: total_count > limit
+            }
+          end
+      end
+
+      def count_members_by_role(role_ids)
+        project
+          .members
+          .visible(current_user)
+          .joins(:member_roles)
+          .where(member_roles: { role_id: role_ids })
+          .includes(:principal)
+          .group(MemberRole.arel_table[:role_id])
+          .count
       end
 
       def members_for_role(role_id)
