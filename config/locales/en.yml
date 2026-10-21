@@ -6885,6 +6885,7 @@ en:
         label_built_in_attribute_actions: "Built-in attribute actions"
       custom_field_row_component:
         label_user_custom_field_actions: "User attribute actions"
+      label_move_to_section: "Move to section"
       show_component:
         label_add_attribute: "Add a user attribute"
         label_edit_section: "Edit title"
