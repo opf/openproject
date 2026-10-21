@@ -37,7 +37,13 @@ module PwaHelper
   def pwa_cache_prefix = "#{CACHE_PREFIX}#{Digest::SHA256.hexdigest(root_path).first(8)}-"
 
   def pwa_cache_name
-    version = [pwa_offline_path, Setting.app_title, header_bg_color, OpenProject::VERSION.to_s].join
+    version = [
+      pwa_offline_path,
+      Setting.app_title,
+      header_bg_color,
+      header_bg_color(color_mode: :dark),
+      OpenProject::VERSION.to_s
+    ].join
     "#{pwa_cache_prefix}#{Digest::SHA256.hexdigest(version).first(16)}"
   end
 

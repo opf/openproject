@@ -40,6 +40,16 @@ RSpec.describe PwaHelper do
       expect(helper.pwa_cache_name).not_to eq(before)
     end
 
+    it "changes when the dark header colour changes" do
+      allow(helper).to receive(:header_bg_color).and_return("#aaaaaa")
+      allow(helper).to receive(:header_bg_color).with(color_mode: :dark).and_return("#bbbbbb")
+      before = helper.pwa_cache_name
+
+      allow(helper).to receive(:header_bg_color).with(color_mode: :dark).and_return("#123456")
+
+      expect(helper.pwa_cache_name).not_to eq(before)
+    end
+
     it "changes when the app title changes" do
       before = helper.pwa_cache_name
 
