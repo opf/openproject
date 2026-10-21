@@ -46,7 +46,7 @@ module Labels
     private
 
     def create(name)
-      call = CreateService.new(user:).call(name:)
+      call = CreateService.new(user:).call(name:, created_inline: true)
       return call if call.success? || call.errors.symbols_for(:name).exclude?(:taken)
 
       existing(name)

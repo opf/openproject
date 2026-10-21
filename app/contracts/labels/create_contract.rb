@@ -29,6 +29,8 @@
 
 module Labels
   class CreateContract < BaseContract
+    attribute :created_inline
+
     validate :user_allowed_to_create
 
     private

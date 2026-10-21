@@ -48,6 +48,10 @@ RSpec.describe Labels::CreateService, type: :model do
         expect(label.name).to eq("Bug")
       end
 
+      it "does not flag the label as created inline" do
+        expect(subject.result).not_to be_created_inline
+      end
+
       it "fails when the name is already taken, case-insensitively" do
         create(:label, name: "Bug")
 

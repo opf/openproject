@@ -43,6 +43,7 @@ RSpec.describe Labels::FindOrCreateService do
       expect(call.result).to be_persisted
       expect(call.result.name).to eq("Bug")
       expect(call.result).to be_previously_new_record
+      expect(call.result).to be_created_inline
     end
   end
 
@@ -57,6 +58,7 @@ RSpec.describe Labels::FindOrCreateService do
       expect(call).to be_success
       expect(call.result).to eq(existing)
       expect(call.result).not_to be_previously_new_record
+      expect(call.result).not_to be_created_inline
     end
 
     context "with a name Ruby and Postgres lowercase differently" do

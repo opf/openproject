@@ -48,6 +48,17 @@ RSpec.describe Labels::UpdateService, type: :model do
       expect(label.reload.name).to eq("Defect")
     end
 
+    context "with a label created inline" do
+      let(:label) { create(:label, :created_inline, name: "Bug") }
+
+      it "turns it into a curated label" do
+        result = instance.call(name: "Defect")
+
+        expect(result).to be_success
+        expect(label.reload).not_to be_created_inline
+      end
+    end
+
     context "when the new name is already taken in a different case" do
       before { create(:label, name: "defect") }
 

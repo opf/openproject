@@ -31,6 +31,19 @@ module Labels
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
+    def set_attributes(params)
+      super
+      curate_on_edit
+    end
+
+    def curate_on_edit
+      return unless model.persisted?
+
+      model.change_by_system do
+        model.created_inline = false
+      end
+    end
+
     def set_default_attributes(_params)
       model.change_by_system do
         model.author = user
