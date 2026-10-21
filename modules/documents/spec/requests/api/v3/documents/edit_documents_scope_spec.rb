@@ -69,7 +69,7 @@ RSpec.describe "API v3 access with the edit documents scope" do
   describe "all other endpoints" do
     let(:expected_message) do
       I18n.t("api_v3.errors.insufficient_scope",
-             granted: "'#{Documents::OAuth::EDIT_DOCUMENTS_SCOPE}'",
+             granted: "'#{OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE}'",
              required: "api_v3")
     end
     let(:expected_www_authenticate) do
@@ -142,7 +142,7 @@ RSpec.describe "API v3 access with the edit documents scope" do
       allow(OpenProject::Authentication)
         .to receive(:restricted_oauth_scopes)
         .with(:api_v3)
-        .and_return([Documents::OAuth::EDIT_DOCUMENTS_SCOPE, "other_scope"])
+        .and_return([OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE, "other_scope"])
     end
 
     it "responds with 403 InsufficientScope naming all scopes accepted by the endpoint" do

@@ -59,11 +59,11 @@ module Documents
       end
 
       def ensure_edit_documents_scope(application)
-        return application if application.scopes.to_a == [EDIT_DOCUMENTS_SCOPE]
+        return application if application.scopes.to_a == [OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE]
 
         ::OAuth::Applications::UpdateService
           .new(model: application, user: User.system)
-          .call(scopes: EDIT_DOCUMENTS_SCOPE)
+          .call(scopes: OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
           .result
       end
 
@@ -74,7 +74,7 @@ module Documents
             uid: APPLICATION_UID,
             name: APPLICATION_NAME,
             redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
-            scopes: EDIT_DOCUMENTS_SCOPE,
+            scopes: OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE,
             confidential: true,
             owner: User.system
           )

@@ -76,7 +76,7 @@ RSpec.describe "API v3 document collaboration token resource" do
         expect(access_token.resource_owner_id).to eq(current_user.id)
         expect(access_token.expires_in).to eq(5.minutes.to_i)
         expect(access_token.application.uid).to eq(Documents::OAuth::EnsureApplicationService::APPLICATION_UID)
-        expect(access_token.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
+        expect(access_token.scopes.to_a).to eq([OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE])
       end
 
       it "does not expose the plain OAuth token" do
