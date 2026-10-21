@@ -145,6 +145,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       if: -> { !Setting::WorkPackageMultipleVersions.active? },
       stored_as: :target_versions,
       group_by_class_name: "Version",
+      value_from: ->(work_package) { work_package.target_versions.min_by(&:id) },
       # The lowest-id target version represents the work package, matching the
       # version_id mirror column and the cost report's single-version join;
       # the sort key is that version's name.
