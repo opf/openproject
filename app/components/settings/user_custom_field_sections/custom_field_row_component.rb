@@ -35,13 +35,19 @@ module Settings
       include OpTurbo::Streamable
       include ::CustomFields::AdminRoutes
       include SortableLists::MoveMenu
+      include Settings::UserCustomFieldSections::MoveBetweenSections
 
-      def initialize(user_custom_field:)
+      def initialize(user_custom_field:, other_sections:)
         super()
         @user_custom_field = user_custom_field
+        @other_sections = other_sections
       end
 
       private
+
+      def wrapper_uniq_by
+        @user_custom_field.id
+      end
 
       def edit_action_item(menu)
         menu.with_item(label: t("label_edit"),
@@ -49,6 +55,10 @@ module Settings
                        data: { turbo: "false", test_selector: "user-custom-field-edit" }) do |item|
           item.with_leading_visual_icon(icon: :pencil)
         end
+      end
+
+      def move_to_section_submenu(menu)
+        with_move_to_section_submenu(menu, key: @user_custom_field.id.to_s, other_sections: @other_sections)
       end
 
       def delete_action_item(menu)

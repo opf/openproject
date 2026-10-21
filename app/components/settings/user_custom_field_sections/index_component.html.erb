@@ -6,7 +6,7 @@
           flex.with_row(
             data: section_item_data(section)
           ) do
-            render(row_component_class.new(user_custom_field_section: section))
+            render(row_component_class.new(user_custom_field_section: section, sections: @user_custom_field_sections))
           end
         end
       end
