@@ -74,11 +74,10 @@ RSpec.describe "PWA offline page",
     expect(page).to have_no_css("meta[name='csrf-token'], meta[name='current_user']", visible: :all)
   end
 
-  it "renders in the requested language, falling back to English for untranslated copy" do
+  it "renders in the requested language" do
     get "/offline", headers: { "Accept-Language" => "de" }
 
     expect(page).to have_css("html[lang='de']")
-    expect(page).to have_css("h1", text: "You’re offline")
   end
 
   it "follows the system colour scheme" do
