@@ -28,9 +28,8 @@
 #++
 
 module Pwa
-  class ManifestController < ApplicationController
+  class ManifestController < BaseController
     no_authorization_required! :show
-    skip_before_action :check_if_login_required, :check_session_lifetime
 
     def show
       expires_in 1.hour, public: true
