@@ -45,7 +45,7 @@ module OpenProject::Llm
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
            caption: :"menus.admin.llm_connection",
            parent: :ai,
-           before: :mcp_configurations
+           first: true
     end
 
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders")
