@@ -42,7 +42,7 @@ class SprintNeighbors
 
   def neighbors
     @neighbors ||= begin
-      ids = Sprint.for_project(@project).visible(@user).order_by_activity.pluck(:id)
+      ids = Sprint.for_project(@project).visible(@user).order_by_date.pluck(:id)
       position = ids.index(@sprint.id)
 
       position ? load_neighbors(ids, position) : {}
