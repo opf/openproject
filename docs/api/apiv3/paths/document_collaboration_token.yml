@@ -66,7 +66,7 @@ post:
                 _type: Error
                 errorIdentifier: urn:openproject-org:api:v3:errors:InsufficientScope
                 message: The access token used for this request does not grant access to this resource. It only
-                  grants the scope(s) 'edit_documents', but this request requires the scope 'api_v3'.
+                  grants the scope(s) 'op:resource:documents:edit', but this request requires the scope 'api_v3'.
       description: |-
         Returned if the request is authenticated with an OAuth access token that lacks the `api_v3` scope,
         e.g. the token inside a collaboration token. Such tokens can not request further tokens.

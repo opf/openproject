@@ -189,7 +189,7 @@ en:
 
   oauth:
     scopes:
-      edit_documents: "Read and edit documents"
+      "op:resource:documents:edit": "Read and edit documents"
 
   permission_manage_documents: "Manage documents"
   permission_view_documents: "View documents"
