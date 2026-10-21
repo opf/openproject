@@ -66,6 +66,10 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(response.media_type).to eq("application/json")
     end
 
+    it "starts no session for the visitor" do
+      expect(response.headers["Set-Cookie"]).to be_blank
+    end
+
     it "installs as a standalone window named after the instance, rooted at the instance" do
       expect(manifest).to include("name" => "Acme Projects",
                                   "display" => "standalone",
