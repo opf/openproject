@@ -131,7 +131,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def label_deleted_message
-    label_name = html? ? h(cause["label_name"]) : cause["label_name"]
+    label_name = html? ? h(cause["label_names"].first) : cause["label_names"].first
 
     I18n.t("journals.cause_descriptions.label_deleted", label_name:)
   end

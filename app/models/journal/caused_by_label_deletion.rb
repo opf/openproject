@@ -28,7 +28,16 @@
 #++
 
 class Journal::CausedByLabelDeletion < CauseOfChange::Base
-  def initialize(label_id:, label_name:)
-    super("label_deleted", "label_id" => label_id, "label_name" => label_name)
+  def initialize(label_ids:, label_names:)
+    super("label_deleted", "label_ids" => label_ids, "label_names" => label_names)
+  end
+
+  def aggregatable_with?(predecessor_cause)
+    predecessor_cause["type"] == type
+  end
+
+  def aggregate_with(predecessor_cause)
+    self.class.new(label_ids: predecessor_cause["label_ids"] | additional_attributes["label_ids"],
+                   label_names: predecessor_cause["label_names"] | additional_attributes["label_names"])
   end
 end
