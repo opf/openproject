@@ -101,7 +101,10 @@ module OpenProject::Llm
       OpenProject::Llm::Features.register :semantic_search,
                                           kind: :embedding,
                                           requires: %i[embeddings],
-                                          available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
+                                          available: -> {
+                                            OpenProject::FeatureDecisions.semantic_search_active? &&
+                                              OpenProject::Llm::Pgvector.available?
+                                          }
     end
 
     initializer "openproject_llm.pgvector_migrations", after: "openproject_llm.append_migrations" do
