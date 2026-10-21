@@ -37,4 +37,5 @@ module Type::ArtefactExport
 
   MODES = [OFF, ATTACHMENT, FILE_LINK].freeze
   DEFAULT = OFF
+  TEMPLATES = %w[artefact zendis_artefact].freeze
 end
