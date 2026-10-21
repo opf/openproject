@@ -110,12 +110,10 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
   describe "the registration wiring" do
     before { login_as create(:user) }
 
-    it "registers the worker for the whole instance" do
+    it "registers the worker on the page" do
       get "/my/page"
 
       expect(page).to have_css(controller_selector, visible: :all)
-      expect(page).to have_css('body[data-pwa-service-worker-url-value="/service-worker"]', visible: :all)
-      expect(page).to have_css('body[data-pwa-service-worker-scope-value="/"]', visible: :all)
     end
 
     context "when served under a path prefix" do

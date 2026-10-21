@@ -52,10 +52,10 @@ RSpec.describe "PWA offline page",
   it "shows the app title and the offline copy" do
     get "/offline"
 
-    expect(page).to have_css("h1", text: "You’re offline")
+    expect(page).to have_selector(:heading, "You’re offline")
     expect(page).to have_text("Acme Projects reloads automatically as soon as your connection returns.")
-    expect(page).to have_css("[data-offline-target='button']", text: "Retry")
-    expect(page).to have_css("p[role='status'][aria-live='polite']", visible: :all)
+    expect(page).to have_button("Retry")
+    expect(page).to have_css("[role='status'][aria-live='polite']", visible: :all)
   end
 
   it "references nothing outside the instance" do
