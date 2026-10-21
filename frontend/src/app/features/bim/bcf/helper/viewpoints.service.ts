@@ -52,7 +52,7 @@ export class ViewpointsService {
   @LazyInject() apiV3Service:ApiV3Service;
 
   public getViewPointResource(workPackage:WorkPackageResource, index:number):BcfViewpointPaths {
-    const viewpointHref = (workPackage.bcfViewpoints as HalResource[])[index].href!;
+    const viewpointHref = workPackage.bcfViewpoints![index].href!;
 
     return this.bcfApi.parse<BcfViewpointPaths>(viewpointHref)!;
   }
@@ -90,7 +90,7 @@ export class ViewpointsService {
   }
 
   public saveViewpoint$(workPackage:WorkPackageResource, viewpoint?:CreateBcfViewpointData):Observable<CreateBcfViewpointData> {
-    const projectLink = (workPackage.project as HalResource).href;
+    const projectLink = workPackage.project.href;
     const wpProjectId = idFromLink(projectLink);
     const topicUUID$ = this.setBcfTopic$(workPackage);
     // Default to the current viewer's viewpoint
@@ -136,7 +136,7 @@ export class ViewpointsService {
 
   private createBcfTopic$(workPackage:WorkPackageResource):Observable<string> {
     const wpProjectId = idFromLink(workPackage.project.href);
-    const wpPayload = workPackage.convertBCF.payload;
+    const wpPayload = (workPackage.convertBCF as HalResource).payload;
 
     return this.bcfApi
       .projects.id(wpProjectId)

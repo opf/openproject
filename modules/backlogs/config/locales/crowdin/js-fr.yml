@@ -45,12 +45,12 @@ fr:
         not_selectable: Sélection inchangée. Ce lot de travaux n'est pas pris en compte dans l'ordre de cette liste.
         range_blocked: Sélection inchangée. Cette plage contient un lot de travaux qui n'est pas pris en compte dans l'ordre de cette liste.
         range_restarted:
-          one: Impossible d'étendre la plage. 1 lot de travaux sélectionné.
-          other: Impossible d'étendre la plage. %{count} lots de travaux sélectionnés.
+          one: Could not extend the range. %{count} work package selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Sélection inchangée. Dépliez cette liste pour sélectionner cette plage.
         selected:
-          one: 1 lot de travaux sélectionné.
-          other: "%{count} lots de travaux sélectionnés."
+          one: "%{count} work package selected."
+          other: "%{count} work packages selected."
     burndown:
       day: Jour
       points: Points

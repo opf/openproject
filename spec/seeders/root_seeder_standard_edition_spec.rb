@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,6 +76,12 @@ RSpec.describe RootSeeder,
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
       expect(Project::PhaseDefinition.count).to eq 4
       expect(DocumentType.count).to be >= 3 # at least the 3 default types
+    end
+
+    it "starts new projects with the task, milestone and summary task types" do
+      expected_variants = %i[default_type_task default_type_milestone default_type_summary_task]
+        .map { root_seeder.seed_data.find_reference(it).default_variant }
+      expect(TypeVariant.enabled_in_new_projects).to match_array(expected_variants)
     end
 
     it "dates the versions like their release milestones" do
@@ -525,17 +530,17 @@ RSpec.describe RootSeeder,
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it "creates 5 additional projects for development" do
-      expect(Project.count).to eq 7
+    it "creates 6 additional projects for development" do
+      expect(Project.count).to eq 8
     end
 
-    it "creates 4 additional work packages for development" do
-      expect(WorkPackage.count).to eq 41
+    it "creates 5 additional work packages for development" do
+      expect(WorkPackage.count).to eq 42
     end
 
     it "creates 1 project with custom fields" do
-      # 13 development work package custom fields + 4 development user custom fields
-      expect(CustomField.count).to eq 17
+      # 14 development work package custom fields + 4 development user custom fields
+      expect(CustomField.count).to eq 18
     end
 
     include_examples "creates the company staff and the demo data referencing it"

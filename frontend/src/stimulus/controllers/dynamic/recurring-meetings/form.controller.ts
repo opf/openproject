@@ -55,7 +55,7 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
     });
 
     const { turboRequests, pathHelperService } = await this.services;
-    void turboRequests
+    await turboRequests
       .request(
         `${pathHelperService.staticBase}/recurring_meetings/humanize_schedule?${urlSearchParams.toString()}`,
         {
@@ -63,7 +63,14 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
             Accept: 'text/vnd.turbo-stream.html',
           },
         },
-      );
+        false,
+        'recurring-meeting-humanize-schedule',
+      )
+      .catch((error:unknown) => {
+        if (!(error instanceof DOMException && error.name === 'AbortError')) {
+          throw error;
+        }
+      });
   }
 
   async updateTimezoneText() {

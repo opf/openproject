@@ -40,7 +40,7 @@ export class WorkPackagesGitlabMrsService extends WorkPackageLinkedResourceCache
 
 
   protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
-    return workPackage.gitlab_merge_requests.$update().then((data:any) => {
+    return (workPackage.gitlab_merge_requests as HalResource).$update().then((data:any) => {
       return this.sortList(data.elements);
     });
   }

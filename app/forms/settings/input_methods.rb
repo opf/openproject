@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -203,27 +202,30 @@ module Settings
     end
 
     def multi_language_text_select(name:, current_language: I18n.locale.to_s)
-      # Add select list to switch
-      object.select_list(
-        name: :"#{name}_lang", # Should be excluded by settings params
-        input_width: :small,
-        id: "lang-for-#{name}",
-        class: "lang-select-switch",
-        label: setting_label(name),
-        caption: setting_caption(name),
-        include_blank: false
-      ) do |select|
-        lang_options_for_select(false).each do |label, value|
-          select.option(
-            value:,
-            label:,
-            selected: value == current_language
-          )
+      object.group(data: { controller: "admin--multi-lang-text-setting" }) do |group|
+        # Add select list to switch
+        group.select_list(
+          name: :"#{name}_lang", # Should be excluded by settings params
+          input_width: :small,
+          id: "lang-for-#{name}",
+          class: "lang-select-switch",
+          label: setting_label(name),
+          caption: setting_caption(name),
+          include_blank: false,
+          data: { admin__multi_lang_text_setting_target: "select" }
+        ) do |select|
+          lang_options_for_select(false).each do |label, value|
+            select.option(
+              value:,
+              label:,
+              selected: value == current_language
+            )
+          end
         end
-      end
 
-      object.fields_for(name) do |builder|
-        MultiLangForm.new(builder, name:, current_language:)
+        group.fields_for(name) do |builder|
+          MultiLangForm.new(builder, name:, current_language:)
+        end
       end
     end
 

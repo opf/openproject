@@ -61,6 +61,7 @@ hy:
         single: Ընտրել "%{name}"
       remove: Հեռացնել %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Տարրեր չեն գտնվել
       placeholder: Մուտքագրեք որոնելու համար
       project:
@@ -162,6 +163,7 @@ hy:
     button_stop_timer: Դադարեցնել ժամաչափը
     button_uncheck_all: Հանել բոլոր նշումները
     button_update: Թարմացնել
+    button_view_markdown: View Markdown
     caption_rate_history: Դրույքի պատմություն
     card:
       add_new: Ավելացնել նոր քարտ
@@ -202,6 +204,7 @@ hy:
     description_subwork_package: "#%{id} աշխատանքային փաթեթի ենթատարր"
     editor:
       ckeditor_error: CKEditor-ում սխալ է տեղի ունեցել
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: Փաստաթղթի պահպանումը ձախողվեց հետևյալ սխալով՝ %{error}
       macro:
         attribute_reference:
@@ -623,8 +626,8 @@ hy:
     notifications:
       center:
         and_more_users:
-          one: և ևս 1 օգտատեր
-          other: և ևս %{count} օգտատեր
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Կարծես թե ամեն ինչ արդեն դիտված է։
           no_notification_for_filter: Կարծես թե այս զտիչի համար ամեն ինչ արդեն դիտված է։
@@ -720,6 +723,7 @@ hy:
     placeholders:
       default: "-"
       description: Նկարագրություն՝ սեղմեք խմբագրելու համար...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Սեղմեք՝ այս կապի նկարագրությունն ավելացնելու համար
       selection: Ընտրեք
       subject: Մուտքագրեք վերնագիրն այստեղ
@@ -826,11 +830,11 @@ hy:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -845,9 +849,7 @@ hy:
     text_user_wrote: "%{value}-ը գրել է՝"
     text_work_packages_destroy_confirmation: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթ(ներ)ը։
     time_entry:
-      stop: Դադարեցնել
       title: Գրանցել ժամանակ
-      tracking: Ժամանակի հաշվառում
       work_package_required: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ։
     timer:
       button_stop: Դադարեցնել ընթացիկ ժամաչափը
@@ -882,20 +884,20 @@ hy:
       label_two_factor_authentication: Երկգործոն նույնականացում
     units:
       child_work_packages:
-        one: մեկ դուստր աշխատանքային փաթեթ
-        other: "%{count} դուստր աշխատանքային փաթեթ"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 օր
+        one: "%{count} day"
         other: "%{count} օր"
         zero: 0 օր
       hour:
-        one: 1 ժ
+        one: "%{count} h"
         other: "%{count} ժ"
         zero: 0 ժ
       hour_string: "%{hours} ժ"
       word:
-        one: 1 բառ
-        other: "%{count} բառ"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: աշխատանքային փաթեթ
         other: աշխատանքային փաթեթ

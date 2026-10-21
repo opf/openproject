@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,14 +62,12 @@ module ResourcePlannerViews::UserCardList
     def utilization_for(user)
       return nil unless utilization_window
 
-      ResourceAllocations::Availability
-        .new(user:, allocations: booked_allocations.fetch(user.id, []))
-        .utilization_ratio(utilization_window)
+      ResourceAllocations::Availability.new(user:).utilization_ratio(utilization_window)
     end
 
     def working_schedules_for(user)
       if utilization_window
-        ResourceAllocations::Availability.new(user:).working_schedules(utilization_window)
+        UserWorkingHours.for_user(user).effective_within(utilization_window)
       else
         Array(UserWorkingHours.for_user(user).valid_for_date(Date.current))
       end
@@ -82,15 +79,6 @@ module ResourcePlannerViews::UserCardList
       from = @resource_planner.start_date
       to = @resource_planner.end_date
       @utilization_window = from && to ? from..to : nil
-    end
-
-    def booked_allocations
-      @booked_allocations ||=
-        if utilization_window
-          ResourceAllocation.allocated.for_principal(users).group_by(&:principal_id)
-        else
-          {}
-        end
     end
 
     def blank_description

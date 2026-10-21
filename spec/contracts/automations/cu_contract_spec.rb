@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,8 +35,7 @@ RSpec.describe Automations::CuContract do
 
   let(:user) { build_stubbed(:user) }
   let(:action) do
-    build_stubbed(:automation, :with_button_trigger, actions:
-                              [Automations::Actions::AssignedTo.new])
+    build(:automation, :with_button_trigger, actions: [Automations::Actions::AssignedTo.new])
   end
   let(:contract) { described_class.new(action, user) }
 
@@ -79,13 +77,13 @@ RSpec.describe Automations::CuContract do
     end
 
     it "requires a value if the action requires one" do
-      action.actions = [Automations::Actions::Status.new([])]
+      action.actions = [Automations::Actions::Status.new(values: [])]
 
       expect_contract_invalid actions: :empty
     end
 
     it "allows only the allowed values" do
-      status_action = Automations::Actions::Status.new([0])
+      status_action = Automations::Actions::Status.new(values: [0])
       allow(status_action)
         .to receive(:allowed_values)
         .and_return([{ value: nil, label: "-" },

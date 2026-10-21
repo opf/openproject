@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,8 +41,7 @@ RSpec.describe My::Work::AllocationActionMenuComponent, type: :component do
   let(:navigation) { false }
   let(:allocation) do
     resource_allocation = build_stubbed(:resource_allocation, entity: work_package, principal: user)
-    entry = ResourceAllocations::ScheduledEntry.new(allocation: resource_allocation, work_package:,
-                                                    allocated_on: date, minutes: 360)
+    entry = ResourceAllocations::ScheduledEntry.new(allocation: resource_allocation, allocated_on: date, minutes: 360)
 
     My::Work::AllocationRow::Entry.new(scheduled_entry: entry, visible:, hours: 4.5)
   end

@@ -162,7 +162,7 @@ vi:
       delete_result_1: Xóa nhà cung cấp khỏi danh sách các nhà cung cấp có sẵn.
       delete_result_direct: Nhà cung cấp này được đánh dấu là nhà cung cấp đăng nhập trực tiếp. Cài đặt này sẽ bị xóa và người dùng sẽ không được chuyển hướng đến nhà cung cấp để đăng nhập nữa.
       delete_result_user_count:
-        one: Một người dùng hiện vẫn đang sử dụng nhà cung cấp này. Họ sẽ cần được mời lại hoặc đăng nhập với nhà cung cấp khác.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} người dùng hiện vẫn đang sử dụng nhà cung cấp này. Họ sẽ cần được mời lại hoặc đăng nhập với nhà cung cấp khác."
         zero: Không có người dùng hiện đang sử dụng nhà cung cấp này. Không cần thực hiện thêm hành động nào.
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

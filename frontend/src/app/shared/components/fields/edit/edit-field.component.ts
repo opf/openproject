@@ -31,6 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Field, IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 
 export const OpEditingPortalSchemaToken = new InjectionToken('editing-portal--schema');
 export const OpEditingPortalHandlerToken = new InjectionToken('editing-portal--handler');
@@ -68,6 +69,12 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     this.element = this.elementRef.nativeElement;
     this.initialize();
 
+    if (this.handler instanceof HalResourceEditFieldHandler) {
+      this.handler.stateChanged$
+        .pipe(this.untilDestroyed())
+        .subscribe(() => this.cdRef.markForCheck());
+    }
+
     if (this.change.state) {
       this.change.state
         .values$()
@@ -98,11 +105,11 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
     return this.handler.inFlight;
   }
 
-  public get value() {
+  public get value():unknown {
     return this.resource[this.name];
   }
 
-  public set value(value:any) {
+  public set value(value:unknown) {
     this.resource[this.name] = this.parseValue(value);
   }
 
@@ -136,7 +143,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   /**
    * Parse the value from the model for setting
    */
-  protected parseValue(val:any) {
+  protected parseValue(val:unknown):unknown {
     return val;
   }
 }

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ class MeetingPresentationController < ApplicationController
 
   before_action :find_meeting
   before_action :check_presentable
-  before_action :determine_current_id
+  before_action :determine_current_position
   before_action :set_started_at
   before_action :find_agenda_item, only: [:check_for_updates]
 
@@ -84,13 +83,11 @@ class MeetingPresentationController < ApplicationController
     end
   end
 
-  def determine_current_id
-    return nil if params[:current_id].blank?
+  def determine_current_position
+    @current_slide = params.fetch(:slide, 1).to_i
+    return if params[:current_id].blank?
 
     @current_id = params[:current_id].to_i
-    return if params[:action_type].blank?
-
-    # In case we have a navigation action, determine the new current id
-    @current_id = navigate_from_current_id(@current_id)
+    navigate_from_current_position if params[:action_type].present?
   end
 end

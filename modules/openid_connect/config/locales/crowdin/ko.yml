@@ -162,7 +162,7 @@ ko:
       delete_result_1: 사용 가능한 공급자 목록에서 공급자를 제거합니다.
       delete_result_direct: 이 공급자는 직접 로그인 공급자로 표시됩니다. 이 설정은 제거되며 사용자는 더 이상 로그인을 위해 해당 공급자로 리디렉션되지 않습니다.
       delete_result_user_count:
-        one: 1명의 사용자가 이 공급자를 계속 사용하고 있습니다. 해당 사용자를 다시 초대하거나 다른 공급자로 로그인해야 합니다.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count}명의 사용자가 이 공급자를 계속 사용하고 있습니다. 해당 사용자를 다시 초대하거나 다른 공급자로 로그인해야 합니다."
         zero: 현재 이 공급자를 사용하는 사용자가 없습니다. 추가 조치가 필요하지 않습니다.
       input_delete_confirmation_html: 삭제를 확인하려면 공급자 이름 %{name}(을)를 입력하세요.

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -73,7 +72,7 @@ RSpec.describe "my access tokens", :js do
         # create API token
         fill_in "token_api[token_name]", with: "Testing Token"
         user.reload
-        find_test_selector("create-api-token-button").click
+        wait_for_turbo_stream { find_test_selector("create-api-token-button").click }
 
         within("dialog#api-created-dialog") do
           expect(page).to have_content "The API token has been generated"

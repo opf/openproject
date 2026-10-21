@@ -1,9 +1,23 @@
 // Shared card for a time entry in the FullCalendar based my work views. The
-// views own the padding and the height, since those follow from how they size a bar.
+// views own the height, since that follows from how they size a bar.
 
-// For the event element carrying ONGOING_CLASS_NAME, which each view names for itself.
-=te-entry-card-ongoing
-  background: var(--bgColor-accent-muted)
+// For the event element of a time entry, which each view names for itself. The work
+// package type colour arrives as the top border, through __hl_border_top.
+=te-time-entry-event
+  background: var(--bgColor-default)
+  border: 0
+  border-radius: 5px
+  box-shadow: var(--shadow-floating-small)
+  overflow: hidden
+  user-select: none
+
+  &.te-entry-card-ongoing
+    background: var(--bgColor-accent-muted)
+
+  .fc-event-main
+    height: 100%
+    padding: 0
+    color: var(--fgColor-default)
 
 =te-entry-card
   .te-entry-card--timer
@@ -23,10 +37,12 @@
     min-width: 0
     flex-direction: column
     gap: 2px
+    padding: 8px
     overflow: hidden
 
   .te-entry-card--duration
     display: flex
+    padding-right: var(--base-size-20)
     color: var(--fgColor-muted)
     font-size: var(--text-body-size-small)
     line-height: var(--text-body-lineHeight-small)
@@ -47,6 +63,7 @@
     line-height: var(--text-body-lineHeight-small)
 
   .te-entry-card--project
+    @include line-clamp(1)
     color: var(--fgColor-muted)
     font-size: var(--text-caption-size)
     line-height: var(--text-caption-lineHeight)
@@ -63,12 +80,10 @@
   .te-entry-card--finish-by-attention
     color: var(--fgColor-attention)
 
-  // Anchored rather than pushed down by the text, which would shove it out of a card that
-  // is only just tall enough and get it clipped.
   .te-entry-card--icon
     position: absolute
+    top: 8px
     right: 8px
-    bottom: 8px
     display: flex
     color: var(--fgColor-muted)
 
@@ -82,6 +97,12 @@
   border-radius: 6px
   box-shadow: var(--shadow-resting-medium)
   overflow: hidden
+  user-select: none
+
+  .fc-event-main
+    height: 100%
+    padding: 0
+    color: var(--fgColor-default)
 
 // For a card with no room for more than a single row.
 =te-entry-card-condensed
@@ -89,9 +110,11 @@
     flex-direction: row
     align-items: center
     gap: 8px
+    padding: 4px 8px
 
   .te-entry-card--duration
     flex-shrink: 0
+    padding-right: 0
 
   .te-entry-card--subject
     min-width: 0

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,9 @@
 class StatusesController < ApplicationController
   include PaginationHelper
   include OpTurbo::ComponentStream
+  include SortableLists::DropRequestValidation
+
+  configure_drop_request list_type: Status::SORTABLE_LIST_TYPE, list_id_scoped: false
 
   layout "admin"
 
@@ -147,17 +149,6 @@ class StatusesController < ApplicationController
 
     prev_id = Status.offset(statuses.offset - 1).pick(:id)
     status.move_after_anchor(prev_id, scope: Status.all)
-  end
-
-  def valid_drop_request?
-    drop_params[:list_type] == Status::SORTABLE_LIST_TYPE &&
-      params[:list_id].blank? &&
-      (params[:list_id].nil? || drop_params.key?(:list_id)) &&
-      drop_params.key?(:prev_id)
-  end
-
-  def drop_params
-    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
   end
 
   def recompute_progress_values

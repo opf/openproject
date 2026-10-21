@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,24 +34,41 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
 
-      def initialize(types:, expanded_type_id: nil, page_args: {})
+      FRAME_ID = "admin-types-list"
+
+      def initialize(types:, expanded_type_id: nil, page_args: {}, query: nil, created_by_migration: nil)
         super()
 
         @types = types
         @expanded_type_id = expanded_type_id
         @page_args = page_args.presence || { page: types.current_page, per_page: types.per_page }
+        @query = query.presence
+        @created_by_migration = created_by_migration.presence
       end
 
       private
 
-      attr_reader :types, :expanded_type_id, :page_args
+      attr_reader :types, :expanded_type_id, :page_args, :query, :created_by_migration
+
+      def migration_filter? = created_by_migration == "t"
+
+      def filtered? = query.present? || migration_filter?
 
       def collapsed?(root)
+        return false if filtered?
+
         root.id != expanded_type_id
       end
 
       def named_variants(root)
-        root.variants.non_default_variants
+        scope = root.variants.non_default_variants
+        scope = scope.with_name_like(query) if narrowed_to_query?(root)
+        scope = scope.created_by_migration if migration_filter?
+        scope
+      end
+
+      def narrowed_to_query?(root)
+        query && root.name.downcase.exclude?(query.strip.downcase)
       end
 
       # Left out rather than shown as zero, so the badge never labels a type nobody has made a
@@ -71,7 +87,7 @@ module WorkPackageTypes
       end
 
       def owned_variants_path(root)
-        type_variants_path(type_id: root.id)
+        type_variants_path(type_id: root.id, created_by_migration: created_by_migration)
       end
 
       # Only the type's own configuration: a variant carrying the flag says so on its own row.
@@ -102,11 +118,11 @@ module WorkPackageTypes
       end
 
       def reorderable?(type)
-        !(type.first? && type.last?)
+        !filtered? && !(type.first? && type.last?)
       end
 
       def context_args
-        page_args.merge(expand: expanded_type_id).compact
+        page_args.merge(expand: expanded_type_id, query:, created_by_migration:).compact
       end
 
       def wrapper_data_attributes

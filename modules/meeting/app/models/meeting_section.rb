@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -66,5 +65,11 @@ class MeetingSection < ApplicationRecord
     else
       agenda_items.maximum(:position) + 1
     end
+  end
+
+  def ordered_agenda_items
+    return agenda_items unless meeting.agenda_sorting_vote_based? && !backlog?
+
+    agenda_items.with_vote_score.reorder(Arel.sql("vote_score DESC"), :position, :id)
   end
 end

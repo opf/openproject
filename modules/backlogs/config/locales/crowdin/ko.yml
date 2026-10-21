@@ -73,7 +73,7 @@ ko:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: 이 스프린트에서 완료되지 않은 %{count}개 작업 패키지가 있습니다.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: "- 활성화되어 있지 않으므로 닫을 수 없습니다."
         sprint_goal:
@@ -157,7 +157,7 @@ ko:
       drop_zone_label: 이 항목을 추가하려면 여기에 놓으세요
       label_actions: 받은 편지함 액션
       show_more:
-        other: "%{count}개 항목 더 보기"
+        other: Show %{count} more items
       title: 받은 편지함
     index_subheader_component:
       label_search_by_subject: 주제별로 작업 패키지 검색
@@ -258,7 +258,6 @@ ko:
       header_backlogs: 백로그 모듈
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: 클립보드에 URL 복사
         copy_work_package_id: 작업 패키지 ID 복사
         move_menu: 위치로 이동
         move_to_backlog_bucket: 백로그 버킷으로 이동

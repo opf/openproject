@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -1206,6 +1205,59 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           it_behaves_like "does not link to allowed values" do
             let(:path) { "responsible" }
           end
+        end
+      end
+    end
+
+    describe "labels" do
+      context "with the feature flag active", with_flag: :work_package_labels do
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "labels" }
+          let(:type) { "[]Label" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.labels") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it_behaves_like "links to allowed values via collection link" do
+          let(:path) { "labels" }
+          let(:href) { api_v3_paths.labels_by_workspace(work_package.project_id) }
+        end
+
+        context "when not embedded" do
+          let(:embedded) { false }
+
+          it_behaves_like "does not link to allowed values" do
+            let(:path) { "labels" }
+          end
+        end
+
+        context "when not having a project (yet)" do
+          before { work_package.project = nil }
+
+          it_behaves_like "does not link to allowed values" do
+            let(:path) { "labels" }
+          end
+        end
+
+        context "when lacking the edit_work_packages permission" do
+          let(:permissions) { [] }
+
+          it_behaves_like "has basic schema properties" do
+            let(:path) { "labels" }
+            let(:type) { "[]Label" }
+            let(:name) { I18n.t("activerecord.attributes.work_package.labels") }
+            let(:required) { false }
+            let(:writable) { false }
+            let(:location) { "_links" }
+          end
+        end
+      end
+
+      context "with the feature flag inactive" do
+        it "is not part of the schema" do
+          expect(generated).not_to have_json_path("labels")
         end
       end
     end

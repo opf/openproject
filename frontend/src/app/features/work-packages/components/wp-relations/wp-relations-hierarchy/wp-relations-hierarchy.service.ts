@@ -42,7 +42,7 @@ export class WorkPackageRelationsHierarchyService {
   protected apiV3Service = inject(ApiV3Service);
 
 
-  public changeParent(workPackage:WorkPackageResource, parentId:string|null) {
+  public changeParent(workPackage:WorkPackageResource, parentId:string|null, options:{ reportError?:boolean } = {}) {
     const payload:any = {
       lockVersion: workPackage.lockVersion,
     };
@@ -78,8 +78,8 @@ export class WorkPackageRelationsHierarchyService {
 
         return wp;
       })
-      .catch((error) => {
-        this.notificationService.handleRawError(error, workPackage);
+      .catch((error:unknown) => {
+        if (options.reportError !== false) this.notificationService.handleRawError(error, workPackage);
         return Promise.reject(error);
       });
   }

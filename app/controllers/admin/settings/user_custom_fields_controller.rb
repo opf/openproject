@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -44,7 +43,7 @@ module Admin::Settings
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit update destroy delete_option reorder_alphabetical
+                  only: %i(show edit update destroy delete_option deletion_dialog reorder_alphabetical
                            move drop attribute_help_text update_attribute_help_text list_items)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
@@ -119,6 +118,10 @@ module Admin::Settings
       end
 
       respond_with_turbo_streams
+    end
+
+    def deletion_dialog
+      respond_with_dialog Admin::CustomFields::DeleteDialogComponent.new(custom_field: @custom_field)
     end
 
     def destroy

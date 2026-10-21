@@ -49,6 +49,9 @@ import {
   DateEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
 import {
+  DateTimeEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/datetime-edit-field.component';
+import {
   FormattableEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.component';
 import {
@@ -80,6 +83,9 @@ import {
 import {
   VersionsEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
+import {
+  LabelsEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/labels-edit-field.component';
 import { ProjectPhaseAutocompleterComponent } from '../../autocompleter/project-phase-autocompleter/project-phase-autocompleter.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
@@ -91,6 +97,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(ProgressPopoverEditFieldComponent, 'progress', ['Progress'])
       .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
       .addFieldType(UserEditFieldComponent, 'user', ['User'])
+      .addFieldType(LabelsEditFieldComponent, 'labels', ['[]Label'])
       .addFieldType(SelectEditFieldComponent, 'select', [
         'Priority',
         'ProjectPhase',
@@ -114,6 +121,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
       .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
       .addFieldType(DateEditFieldComponent, 'date', ['Date'])
+      .addFieldType(DateTimeEditFieldComponent, 'datetime', ['DateTime'])
       .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable']);
 
     editFieldService

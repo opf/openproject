@@ -31,8 +31,8 @@ sv:
         title: Medlemmar
         view_all_members: Visa alla medlemmar
         x_more:
-          one: och ytterligare en medlem.
-          other: och %{count} fler medlemmar.
+          one: and %{count} more member.
+          other: and %{count} more members.
       news:
         no_results: Inget nytt att rapportera.
       not_available: Denna widget är inte tillgänglig.
