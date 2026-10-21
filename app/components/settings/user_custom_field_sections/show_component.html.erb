@@ -92,8 +92,8 @@
             component.with_row(data: field_item_data_for_built_in(key).merge("filter--filter-list-target": "searchItem")) do
               render(
                 Settings::UserCustomFieldSections::BuiltInAttributeRowComponent.new(
-                  section: @user_custom_field_section,
-                  attribute_key: key
+                  attribute_key: key,
+                  other_sections: @other_sections
                 )
               )
             end
@@ -101,7 +101,8 @@
             component.with_row(data: field_item_data_for_custom_field(cf).merge("filter--filter-list-target": "searchItem")) do
               render(
                 custom_field_row_component_class.new(
-                  user_custom_field: cf
+                  user_custom_field: cf,
+                  other_sections: @other_sections
                 )
               )
             end

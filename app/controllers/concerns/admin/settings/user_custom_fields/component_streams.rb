@@ -45,7 +45,8 @@ module Admin
           def update_section_via_turbo_stream(user_custom_field_section:)
             update_via_turbo_stream(
               component: ::Settings::UserCustomFieldSections::ShowComponent.new(
-                user_custom_field_section:
+                user_custom_field_section:,
+                sections: UserCustomFieldSection.all
               ),
               method: :morph
             )

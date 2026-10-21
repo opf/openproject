@@ -34,6 +34,7 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
 
   let(:section) { create(:user_custom_field_section) }
   let(:field) { create(:user_custom_field, custom_field_section: section) }
+  let(:other_sections) { UserCustomFieldSection.where.not(id: section.id).order(:position) }
 
   before do
     # Basic data seeding, and the user_custom_field factory's own implicit
@@ -46,7 +47,7 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
 
   subject do
     with_request_url "/admin/settings/user_custom_fields" do
-      render_inline(described_class.new(user_custom_field: field))
+      render_inline(described_class.new(user_custom_field: field, other_sections:))
     end
   end
 
@@ -61,6 +62,38 @@ RSpec.describe Settings::UserCustomFieldSections::CustomFieldRowComponent, type:
 
     expect(page).to have_selector(:menuitem, "Move", exact: true) do |item|
       expect(item["aria-haspopup"]).to eq("true")
+    end
+  end
+
+  context "with another section to move to" do
+    let!(:other_section) { create(:user_custom_field_section, name: "Other section") }
+
+    it "renders a Move to section submenu listing the other section" do
+      subject
+
+      expect(page).to have_selector(:menuitem, "Move to section", exact: true)
+      move_item = page.find(:menuitem, "Move to section", exact: true)
+      expect(page).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
+        expect(submenu).to have_selector(:menuitem, other_section.name)
+      end
+    end
+
+    it "submits the destination section's id with no anchor, landing the field first" do
+      subject
+
+      item = page.find(:menuitem, other_section.name)
+      form = item.ancestor("form")
+      expect(form[:action]).to eq(drop_admin_settings_user_custom_field_section_field_path(field.id))
+      expect(form).to have_css("input[name='list_type'][value='user_field']", visible: :all)
+      expect(form).to have_css("input[name='list_id'][value='#{other_section.id}']", visible: :all)
+    end
+  end
+
+  context "with no other section" do
+    it "renders no Move to section item" do
+      subject
+
+      expect(page).to have_no_selector(:menuitem, "Move to section")
     end
   end
 end
