@@ -668,6 +668,10 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
           a_string_including("&lt;script&gt;alert(&#39;x&#39;)&lt;/script&gt;")
         )
       end
+
+      it "does not escape the label name in raw text output" do
+        expect(cause).to render_raw_variant(a_string_including("<script>alert('x')</script>"))
+      end
     end
   end
 
