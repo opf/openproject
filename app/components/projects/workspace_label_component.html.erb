@@ -1,0 +1,11 @@
+<%=
+  flex_layout do |container|
+    container.with_column(mr: 1) do
+      render(Primer::Beta::Octicon.new(icon: icon_name))
+    end
+
+    container.with_column do
+      render(Primer::Beta::Text.new()) {@label}
+    end
+ end
+%>
