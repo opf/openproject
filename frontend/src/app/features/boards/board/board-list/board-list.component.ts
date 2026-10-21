@@ -105,6 +105,19 @@ export interface DisabledButtonPlaceholder {
   icon:string;
 }
 
+export function listMatchesChange(
+  actionHref:string|null|undefined,
+  rendered:{ id:string|null }[],
+  workPackageId:string,
+  change:ChangeItem,
+):boolean {
+  const belongsHere = !!actionHref && [change.to]
+    .flat()
+    .some((resource) => (resource as HalResource|undefined)?.href === actionHref);
+
+  return belongsHere === rendered.some((wp) => wp.id === workPackageId);
+}
+
 @Component({
   selector: 'board-list',
   templateUrl: './board-list.component.html',
@@ -140,6 +153,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   readonly boardService = inject(BoardService);
   readonly boardActionRegistry = inject(BoardActionsRegistryService);
   readonly causedUpdates = inject(CausedUpdatesService);
+  readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
   readonly keepTab = inject(KeepTabService);
   readonly currentProject = inject(CurrentProjectService);
   readonly pathHelper = inject(PathHelperService);
@@ -512,10 +526,12 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         map((event:HalEvent) => {
           const changes = event.commit?.changes;
           const attribute = this.actionService!.watchedAttributes.find((name) => changes?.[name]);
-          return attribute && changes ? changes[attribute] : undefined;
+          return attribute && changes ? { id: event.id, value: changes[attribute] } : undefined;
         }),
-        filter((value) => !!value),
-        filter((value:ChangeItem) => {
+        filter((change):change is { id:string, value:ChangeItem } => !!change),
+        // Drag and drop has already moved the card optimistically
+        filter(({ id, value }) => !listMatchesChange(this.actionResource?.href, this.cardDragDrop.workPackages ?? [], id, value)),
+        filter(({ value }) => {
           // Compare the from and to values from the committed changes
           // with the current actionResource. Multi value attributes
           // contribute the values of each of their versions.
