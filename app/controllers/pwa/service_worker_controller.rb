@@ -29,10 +29,8 @@
 #++
 
 module Pwa
-  class ServiceWorkerController < ApplicationController
+  class ServiceWorkerController < BaseController
     no_authorization_required! :show
-    skip_before_action :check_if_login_required
-    skip_before_action :check_session_lifetime
     skip_after_action :verify_same_origin_request, only: :show
 
     def show
