@@ -37,11 +37,12 @@ export default class PwaServiceWorkerController extends Controller {
   declare readonly scopeValue:string;
 
   connect():void {
-    if (!('serviceWorker' in navigator) || !window.isSecureContext) {
+    const worker = navigator.serviceWorker as ServiceWorkerContainer|undefined;
+    if (!worker || !window.isSecureContext) {
       return;
     }
 
-    navigator.serviceWorker
+    worker
       .register(this.urlValue, { scope: this.scopeValue })
       .catch((error:unknown) => console.warn('Service worker registration failed', error));
   }

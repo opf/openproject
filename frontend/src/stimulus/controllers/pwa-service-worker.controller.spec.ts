@@ -62,11 +62,14 @@ describe('PwaServiceWorkerController', () => {
   });
 
   it('does nothing without service worker support', async () => {
-    delete (navigator as { serviceWorker?:unknown }).serviceWorker;
+    Object.defineProperty(navigator, 'serviceWorker', { value: undefined, configurable: true });
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 
     await mount();
+    await ctx.nextFrame();
 
     expect(register).not.toHaveBeenCalled();
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it('does nothing outside a secure context', async () => {
