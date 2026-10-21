@@ -43,6 +43,8 @@ module Users
         true
       end
 
+      def action_column_width = "8rem"
+
       def headers
         [
           [:browser, { caption: I18n.t("users.sessions.browser") }],

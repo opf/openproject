@@ -124,6 +124,23 @@ module OpPrimer
       false
     end
 
+    # The action column sits outside the evenly distributed columns. The default fits a single
+    # icon button or action menu; tables with wider actions return a larger CSS length.
+    def action_column_width
+      "var(--control-medium-size)"
+    end
+
+    def actions_grid_class
+      "#{grid_class}--with-actions" if has_actions?
+    end
+
+    def container_style
+      return unless has_actions?
+
+      "--op-border-box-grid-tracks: #{column_track_count}; " \
+        "--op-border-box-grid-action-width: #{action_column_width};"
+    end
+
     def has_header?
       true
     end
@@ -172,6 +189,10 @@ module OpPrimer
 
     def column_count
       @column_count ||= columns.size + (has_actions? ? 1 : 0)
+    end
+
+    def column_track_count
+      columns.sum { |column| main_column?(column) ? 2 : 1 }
     end
 
     # Header rows share index 1, so data rows start at 2 and the footer is last.

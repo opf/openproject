@@ -280,6 +280,50 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
   end
 
+  context "with an action column" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+    let(:table) do
+      rendered_component
+      page.find(:role, :table)
+    end
+
+    it "sizes the grid from the column tracks, counting the main column twice" do
+      expect(table[:style]).to include("--op-border-box-grid-tracks: 3;")
+      expect(table[:style]).to include("--op-border-box-grid-action-width: var(--control-medium-size);")
+    end
+
+    it "lays out the header and body rows with the action track, but not the footer" do
+      expect(rendered_component).to have_css(".op-border-box-grid--has-headers.op-border-box-grid--with-actions")
+      expect(rendered_component).to have_css(".Box-row.op-border-box-grid--with-actions", count: 2)
+      expect(rendered_component).to have_no_css(".Box-footer .op-border-box-grid--with-actions")
+    end
+
+    context "when the table needs a wider action column" do
+      before do
+        table_class.define_method(:action_column_width) { "7rem" }
+      end
+
+      it "uses that width" do
+        expect(table[:style]).to include("--op-border-box-grid-action-width: 7rem;")
+      end
+    end
+  end
+
+  context "without an action column" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    before do
+      table_class.define_method(:has_actions?) { false }
+    end
+
+    it "keeps the evenly distributed layout" do
+      rendered_component
+
+      expect(page.find(:role, :table)[:style]).to be_nil
+      expect(rendered_component).to have_no_css(".op-border-box-grid--with-actions")
+    end
+  end
+
   context "with a page of a paginated collection" do
     let(:rows) do
       WillPaginate::Collection.create(2, 3, 10) do |pager|

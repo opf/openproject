@@ -76,6 +76,18 @@ main_column :title
 ```
 Note: Ideally, only one main column will be present for each table.
 
+### Action column
+
+When `has_actions?` is true, the action column is not part of the evenly distributed columns. It has a fixed width
+that fits a single `Primer::Beta::IconButton` or an action menu. If the row renders wider actions, e.g. a button
+with text or two buttons, return a larger CSS length from `action_column_width`:
+
+```ruby
+def has_actions? = true
+
+def action_column_width = "7rem"
+```
+
 ### Footer
 
 Set `has_footer?` to true to add a footer to the table, defining the component/content to be rendered with the `footer` method.

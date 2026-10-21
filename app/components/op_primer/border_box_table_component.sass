@@ -81,6 +81,10 @@
     justify-content: flex-start
     align-items: flex-start
 
+    // Header and rows are separate grids, so the action track needs a fixed width to stay aligned
+    &--with-actions
+      grid-template-columns: repeat(var(--op-border-box-grid-tracks), minmax(0, 1fr)) var(--op-border-box-grid-action-width)
+
     &--has-mobile-header
       display: none
 
