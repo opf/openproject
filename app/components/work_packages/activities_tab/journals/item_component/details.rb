@@ -67,7 +67,7 @@ module WorkPackages
         end
 
         def hidden_by_cause?(attribute)
-          attribute.to_s == "labels" && journal.cause["type"] == "label_deleted"
+          attribute.to_s == "labels" && journal.cause_type == "label_deleted"
         end
 
         def has_details?
