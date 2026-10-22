@@ -376,7 +376,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'follows',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -391,7 +391,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'precedes',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
