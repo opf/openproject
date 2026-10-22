@@ -129,7 +129,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
     }
   }
 
-  private saveQuery(query:QueryResource, form:QueryFormResource) {
+  private saveQuery(query:QueryResource, _form:QueryFormResource) {
     this.inFlight = true;
 
     this

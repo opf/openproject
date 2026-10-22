@@ -134,7 +134,7 @@ export abstract class BoardActionService {
    * Returns the current filter instance
    * @param query
    */
-  getActionFilter(query:QueryResource, getHref = false):QueryFilterInstanceResource|undefined {
+  getActionFilter(query:QueryResource, _getHref = false):QueryFilterInstanceResource|undefined {
     return query.filters.find((filter) => this.filterNames.includes(filter.id));
   }
 
@@ -210,7 +210,7 @@ export abstract class BoardActionService {
    * Get action specific items that shall be shown in the list menu
    * @returns {any[]}
    */
-  getAdditionalListMenuItems(query:QueryResource):Promise<OpContextMenuItem[]> {
+  getAdditionalListMenuItems(_query:QueryResource):Promise<OpContextMenuItem[]> {
     return Promise.resolve([]);
   }
 
@@ -242,7 +242,7 @@ export abstract class BoardActionService {
    * Get icon and text to show on the add button when it is disabled
    * @returns {the icon class or nothing}
    */
-  disabledAddButtonPlaceholder(resource?:HalResource):DisabledButtonPlaceholder|undefined {
+  disabledAddButtonPlaceholder(_resource?:HalResource):DisabledButtonPlaceholder|undefined {
     return undefined;
   }
 
@@ -250,7 +250,7 @@ export abstract class BoardActionService {
    * Determines the specific warning to be shown, when there are no options to add as a list
    * @returns {the text or nothing}
    */
-  warningTextWhenNoOptionsAvailable(hasMember?:boolean):Promise<string|undefined> {
+  warningTextWhenNoOptionsAvailable(_hasMember?:boolean):Promise<string|undefined> {
     return Promise.resolve(undefined);
   }
 
@@ -261,14 +261,14 @@ export abstract class BoardActionService {
    * @param query
    * @param value
    */
-  dragIntoAllowed(query:QueryResource, value:HalResource|undefined):boolean {
+  dragIntoAllowed(_query:QueryResource, _value:HalResource|undefined):boolean {
     return true;
   }
 
   /**
    * Determine whether we can create new items for this action attribute
    */
-  canAddToQuery(query:QueryResource):Promise<boolean> {
+  canAddToQuery(_query:QueryResource):Promise<boolean> {
     return Promise.resolve(true);
   }
 

@@ -131,18 +131,18 @@ export class WorkPackageViewCollapsedGroupsService extends WorkPackageViewBaseSe
     return { allGroupsAreCollapsed, allGroupsAreExpanded };
   }
 
-  initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource) {
+  initialize(_query:QueryResource, _results:WorkPackageCollectionResource, _schema?:QuerySchemaResource) {
     // When this service is initialized (first time the table is loaded and very time the groupBy changes),
     // we need to wait until the table is ready to emit the collapseStatus. Otherwise the groups are not
     // ready in the DOM and can't be collapsed/expanded.
     this.querySpace.tableRendered.values$().pipe(take(1)).subscribe(() => this.update({ ...this.config, allGroupsChanged: true }));
   }
 
-  valueFromQuery(query:QueryResource, results:WorkPackageCollectionResource) {
+  valueFromQuery(_query:QueryResource, _results:WorkPackageCollectionResource) {
     return this.getDefaultState();
   }
 
-  applyToQuery(query:QueryResource) {
+  applyToQuery(_query:QueryResource) {
 
   }
 }

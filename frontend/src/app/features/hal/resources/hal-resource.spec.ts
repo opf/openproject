@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -41,7 +40,6 @@ type Spy = Mock;
 
 describe('HalResource', () => {
   let halResourceService:HalResourceService;
-  let injector:Injector;
 
   let source:any;
   let resource:HalResource;
@@ -61,7 +59,6 @@ describe('HalResource', () => {
       ]
     }).compileComponents();
     halResourceService = TestBed.inject(HalResourceService);
-    injector = TestBed.inject(Injector);
   });
 
   it('should be instantiable using a default object', () => {
@@ -396,7 +393,6 @@ describe('HalResource', () => {
     });
 
     it('should have a $links property with the keys of its source _links', () => {
-      const transformedLinks = Object.keys(resource.$links);
       const plainLinks = Object.keys(source._links);
 
       plainLinks.forEach((link:string) => {
@@ -632,7 +628,7 @@ describe('HalResource', () => {
       try {
         resource.$links.action = 'foo' as unknown as CallableHalLink;
       }
-      catch (ignore) {
+      catch {
         /**/
       }
 
@@ -643,7 +639,7 @@ describe('HalResource', () => {
       try {
         resource.$embedded.embedded = 'foo';
       }
-      catch (ignore) {
+      catch {
         /**/
       }
 
