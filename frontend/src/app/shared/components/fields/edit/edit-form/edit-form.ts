@@ -97,6 +97,10 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
   protected abstract focusOnFirstError():void;
 
+  /** Runs after a user submit has saved or closed its fields. */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function -- Forms override this hook.
+  public onSubmitComplete():void {}
+
   // eslint-disable-next-line @typescript-eslint/class-literal-property-style -- Forms override this lifetime check.
   protected get activationCancelled():boolean {
     return false;

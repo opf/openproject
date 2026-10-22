@@ -99,7 +99,8 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
-import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { activeFieldClassName, activeFieldContainerClassName, EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
@@ -143,8 +144,11 @@ export interface TableHarnessOptions {
   builtinDragActions?:boolean;
   query?:QueryResource;
   onDropComplete?:(success:boolean) => void;
-  /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
-  editing?:{ formWritable?:boolean };
+  /**
+   * Makes `fields` (default `subject`) inline-editable; `formWritable: false` has the loaded form refuse them.
+   * `save` stands in for the changeset save; without it every submit is an unchanged one.
+   */
+  editing?:{ formWritable?:boolean; fields?:string[]; save?:() => Promise<{ resource:WorkPackageResource; wasNew:boolean }> };
   requireDoubleClickForInlineEdit?:boolean;
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
@@ -441,27 +445,24 @@ export class FakeDragAndDropService {
   }
 }
 
-/** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
+/** Stands in for the Angular editing portal: a plain input driven by the production field handler. */
 class FakeEditingPortalService {
-  create(container:HTMLElement, _injector:Injector, form:EditForm, _schema:IFieldSchema, fieldName:string, _errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
+  create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
+    const wrapper = document.createElement('div');
+    wrapper.className = activeFieldContainerClassName;
     const input = document.createElement('input');
-    input.className = 'inline-edit--field';
-    container.appendChild(input);
-    const onDestroy = new Subject<void>();
+    input.className = activeFieldClassName;
+    wrapper.appendChild(input);
+    container.appendChild(wrapper);
+    const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
+    const markErrors = () => wrapper.classList.toggle('-error', handler.isErrorenous);
+    markErrors();
+    handler.errorsChanged$.subscribe(markErrors);
     let unregister:() => void = () => undefined;
-    const handler = {
-      onDestroy,
-      $onUserActivate: new Subject<void>(),
-      focus: () => input.focus(),
-      deactivate: () => {
-        input.remove();
-        delete form.activeFields[fieldName];
-        onDestroy.next();
-        onDestroy.complete();
-        unregister();
-        form.reset(fieldName);
-      },
-    } as unknown as EditFieldHandler;
+    handler.onDestroy.pipe(take(1)).subscribe(() => {
+      wrapper.remove();
+      unregister();
+    });
     if (destroyRef) unregister = onDestroySafely(destroyRef, () => handler.deactivate(false));
     return Promise.resolve(handler);
   }
@@ -470,7 +471,8 @@ class FakeEditingPortalService {
 export function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
-  const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+  const editableFields = options.editing?.fields ?? ['subject'];
+  const fieldSchema = (name:string, writable:boolean) => (editableFields.includes(name) ? { type: 'String', name, writable } : undefined);
   const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [
@@ -512,9 +514,9 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
       useValue: {
         state: () => ({ value: sumsSchema }),
         of: () => ({
-          ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
+          ofProperty: (attribute:string) => fieldSchema(attribute, editable),
           mappedName: (attribute:string) => attribute,
-          isAttributeEditable: (attribute:string) => editable && attribute === 'subject',
+          isAttributeEditable: (attribute:string) => editable && editableFields.includes(attribute),
         }),
       },
     },
@@ -525,10 +527,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
       useValue: {
         typedState: () => ({ hasValue: () => false, value: undefined }),
         stopEditing: () => undefined,
+        save: options.editing?.save,
         changeFor: () => ({
-          schema: { ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(formWritable) : null) },
+          schema: { ofProperty: (attribute:string) => fieldSchema(attribute, formWritable) ?? null },
           getForm: () => Promise.resolve(),
           reset: () => undefined,
+          isEmpty: () => !options.editing?.save,
         }),
       },
     },
@@ -554,7 +558,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
     { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
-    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined, showSave: () => undefined } },
     { provide: WorkPackageNotificationService, useExisting: HalResourceNotificationService },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
     { provide: CopyToClipboardService, useValue: {} },
