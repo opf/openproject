@@ -1,66 +1,50 @@
-<%=
-  component_wrapper(class: "op-user-custom-field-section-container", data: { test_selector: "user-custom-field-section-container-#{@user_custom_field_section.id}" }) do
-    render(border_box_container(mt: 3, data: field_list_data)) do |component|
-      component.with_header(font_weight: :bold) do
-        flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
-          section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
-            content_container.with_column(mr: 2) do
-              render(Primer::OpenProject::DragHandle.new(classes: "handle", data: { sortable_lists__item_target: "handle" }))
-            end
-            content_container.with_column do
-              render(Primer::Beta::Text.new(font_weight: :bold)) do
-                @user_custom_field_section.name
-              end
-            end
+<%= component_wrapper(class: "op-user-custom-field-section-container", data: { test_selector: "user-custom-field-section-container-#{@user_custom_field_section.id}" }) do %>
+  <%=
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: "user-custom-field-section-#{@user_custom_field_section.id}",
+        mt: 3,
+        empty_state_behavior: :none,
+        data: field_list_data
+      )
+    ) do |list|
+      list.with_header(
+        title: @user_custom_field_section.name,
+        title_arguments: { font_weight: :bold },
+        show_drag_handle: true,
+        drag_handle_arguments: { classes: "handle", data: { sortable_lists__item_target: "handle" } }
+      ) do |header|
+        header.with_menu(
+          button_aria_label: t(".label_section_actions"),
+          data: { test_selector: "user-custom-field-section-action-menu" }
+        ) do |menu|
+          edit_action_item(menu)
+          with_move_submenu(menu)
+          if @ordered_attributes.empty?
+            delete_action_item(menu)
+          else
+            disabled_delete_action_item(menu)
           end
 
-          section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
-            actions_container.with_column do
-              render(Primer::Alpha::ActionMenu.new(data: { test_selector: "user-custom-field-section-action-menu" })) do |menu|
-                menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(".label_section_actions"), scheme: :invisible)
-                edit_action_item(menu)
-                with_move_submenu(menu)
-                if @ordered_attributes.empty?
-                  delete_action_item(menu)
-                else
-                  disabled_delete_action_item(menu)
-                end
+          menu.with_divider
 
-                menu.with_divider
-
-                menu.with_sub_menu_item(
-                  label: t("settings.user_custom_fields.label_new_attribute"),
-                  content_arguments: {
-                    aria: { label: t(".label_add_attribute") },
-                    data: { test_selector: "new-user-custom-field-in-section-submenu" }
-                  }
-                ) do |sub_menu|
-                  sub_menu.with_leading_visual_icon(icon: :plus)
-                  OpenProject::CustomFieldFormat.available_for_class_name("User")
-                                                .sort_by(&:name)
-                                                .each do |format|
-                    action_menu_item_for_custom_field_format(sub_menu, format)
-                  end
-                end
-              end
-            end
-
-            actions_container.with_column do
-              render(
-                Primer::Alpha::Dialog.new(
-                  id: "user-custom-field-section-dialog#{@user_custom_field_section.id}", title: t("settings.user_custom_fields.label_new_section"),
-                  size: :medium_portrait,
-                  data: { "keep-open-on-submit": true }
-                )
-              ) do |_dialog|
-                render(Settings::UserCustomFieldSections::DialogBodyFormComponent.new(user_custom_field_section: @user_custom_field_section))
-              end
+          menu.with_sub_menu_item(
+            label: t("settings.user_custom_fields.label_new_attribute"),
+            content_arguments: {
+              aria: { label: t(".label_add_attribute") },
+              data: { test_selector: "new-user-custom-field-in-section-submenu" }
+            }
+          ) do |sub_menu|
+            sub_menu.with_leading_visual_icon(icon: :plus)
+            available_formats.each do |format|
+              action_menu_item_for_custom_field_format(sub_menu, format)
             end
           end
         end
       end
+
       if @ordered_attributes.empty?
-        component.with_row(data: { "empty-list-item": true, "filter--filter-list-target": "searchItem" }) do
+        list.with_item(data: { "empty-list-item": true, "filter--filter-list-target": "searchItem" }) do
           flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
             empty_list_container.with_column(ml: 4, mr: 2) do
               render(Primer::Beta::Text.new(color: :subtle)) { t(".label_no_user_custom_fields") }
@@ -77,9 +61,7 @@
                   t("settings.user_custom_fields.label_new_attribute")
                 end
 
-                OpenProject::CustomFieldFormat.available_for_class_name("User")
-                                              .sort_by(&:name)
-                                              .each do |format|
+                available_formats.each do |format|
                   action_menu_item_for_custom_field_format(menu, format)
                 end
               end
@@ -89,19 +71,20 @@
       else
         @ordered_attributes.each do |key|
           if UserCustomFieldSection::BUILT_IN_ATTRIBUTES.include?(key)
-            component.with_row(data: field_item_data_for_built_in(key).merge("filter--filter-list-target": "searchItem")) do
+            list.with_item(data: field_item_data_for_built_in(key).merge("filter--filter-list-target": "searchItem")) do
               render(
                 Settings::UserCustomFieldSections::BuiltInAttributeRowComponent.new(
-                  section: @user_custom_field_section,
-                  attribute_key: key
+                  attribute_key: key,
+                  other_sections: @other_sections
                 )
               )
             end
           elsif (cf = @custom_fields_by_key[key])
-            component.with_row(data: field_item_data_for_custom_field(cf).merge("filter--filter-list-target": "searchItem")) do
+            list.with_item(data: field_item_data_for_custom_field(cf).merge("filter--filter-list-target": "searchItem")) do
               render(
                 custom_field_row_component_class.new(
-                  user_custom_field: cf
+                  user_custom_field: cf,
+                  other_sections: @other_sections
                 )
               )
             end
@@ -109,5 +92,18 @@
         end
       end
     end
-  end
-%>
+  %>
+
+  <%=
+    render(
+      Primer::Alpha::Dialog.new(
+        id: "user-custom-field-section-dialog#{@user_custom_field_section.id}",
+        title: t("settings.user_custom_fields.label_new_section"),
+        size: :medium_portrait,
+        data: { "keep-open-on-submit": true }
+      )
+    ) do |_dialog|
+      render(Settings::UserCustomFieldSections::DialogBodyFormComponent.new(user_custom_field_section: @user_custom_field_section))
+    end
+  %>
+<% end %>
