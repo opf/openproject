@@ -169,15 +169,15 @@ describe('HalResource', () => {
     });
 
     it('should use the source link only once when called', () => {
-      resource.link;
-      resource.link;
+      void resource.link;
+      void resource.link;
 
       expect(vi.mocked(linkFn).mock.calls.length).toEqual(1);
     });
 
     it('should use the source embedded only once when called', () => {
-      resource.resource;
-      resource.resource;
+      void resource.resource;
+      void resource.resource;
 
       expect(vi.mocked(embeddedFn).mock.calls.length).toEqual(1);
     });
