@@ -69,7 +69,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   @LazyInject() wpListService:WorkPackagesListService;
 
   // Use cell builder to reset edit fields
-  private cellBuilder = new CellBuilder(this.injector);
+  private cellBuilder = new CellBuilder(this.injector, this.table.configuration);
 
   // Subscription
   private resourceSubscription:Subscription = this

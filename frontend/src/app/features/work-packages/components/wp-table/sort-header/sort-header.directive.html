@@ -19,6 +19,7 @@
             lang-attribute
             lang="{{locale}}"
             id="{{ headerColumn.id }}"
+            [attr.tabindex]="keyboardNavigationEnabled ? -1 : null"
           rel="nofollow">{{headerColumn.name}}</a>
         }
         @if (!sortable) {
@@ -58,6 +59,7 @@
             lang-attribute
             lang="{{locale}}"
             id="{{ headerColumn.id }}"
+            [attr.tabindex]="keyboardNavigationEnabled ? -1 : null"
           rel="nofollow">{{headerColumn.name}}</a>
         }
         @if (!sortable) {
