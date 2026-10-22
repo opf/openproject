@@ -285,8 +285,90 @@ module Pages
     end
 
     def select_all_work_packages
-      send_select_all(table_container.first('tr.wp-table--row[tabindex="0"]', minimum: 1))
+      send_select_all(roving_tab_stop || table_container.first("tr.wp-table--row", minimum: 1))
       expect(page).to have_no_css "#work-package-context-menu"
+    end
+
+    # Moves focus into the table with Tab from the last toolbar control.
+    def tab_into_table
+      last_toolbar_control.execute_script("this.focus()")
+      press_keys(:tab)
+    end
+
+    # Tabs into the table, returns to the header row with Ctrl+Home and moves
+    # down by arrow keys until the row for `work_package` holds focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def focus_row_by_keyboard(work_package)
+      tab_into_table
+      press_until_focused(:left, "tr")
+      press_keys(%i[control home])
+      press_until_focused(:down, row_selector(work_package))
+    end
+
+    # Focuses the row for `work_package` by keyboard, then moves right by
+    # arrow keys until its cell for `attribute` holds focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    # @param attribute [Symbol] The column attribute, e.g. `:subject`.
+    def focus_cell_by_keyboard(work_package, attribute)
+      focus_row_by_keyboard(work_package)
+      press_until_focused(:right, "#{row_selector(work_package)} #{cell_selector(attribute)}")
+    end
+
+    # Sends keys to the focused element without clicking it first.
+    #
+    # @param keys [Array<Symbol, String, Array>] Keys as accepted by Cuprite.
+    def press_keys(*keys)
+      page.driver.browser.keyboard.type(*keys)
+    end
+
+    # Expects the "Create new work package" button below the results to be rendered.
+    def expect_inline_create_button
+      expect(table_container).to have_button("Create new work package")
+    end
+
+    # Expects the row for `work_package` to hold focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    def expect_focus_on_row(work_package)
+      expect(table_container).to have_css(row_selector(work_package), focused: true)
+    end
+
+    # Expects the cell for `attribute` in the row for `work_package` to hold focus.
+    #
+    # @param work_package [WorkPackage] The work package object.
+    # @param attribute [Symbol] The column attribute, e.g. `:subject`.
+    def expect_focus_on_cell(work_package, attribute)
+      expect(table_container).to have_css("#{row_selector(work_package)} #{cell_selector(attribute)}", focused: true)
+    end
+
+    # Expects the totals row cell holding the sum for `attribute` to hold focus.
+    #
+    # @param attribute [Symbol] The column attribute, e.g. `:estimated_time`.
+    def expect_focus_on_totals_cell(attribute)
+      sum_container = ".wp-table--sum-container.#{attribute.to_s.camelize(:lower)}"
+      expect(table_container).to have_css(
+        "tbody:not(.work-package--results-tbody) > tr.wp-table--sums-row > td:has(> #{sum_container})",
+        focused: true
+      )
+    end
+
+    # Expects the column header named `name` to hold focus.
+    #
+    # @param name [String] The visible column name, e.g. `"Subject"`.
+    def expect_focus_on_column_header(name)
+      expect(table_container).to have_selector(:columnheader, name, focused: true)
+    end
+
+    # Expects focus to rest on an element outside the table's grid (header,
+    # rows and totals), and not on the document body.
+    def expect_focus_outside_table
+      expect(page).to have_no_css(
+        "thead :focus, thead:focus, tr.wp-table--row:focus, tr.wp-table--row :focus, tr.wp-table--sums-row :focus, " \
+        "tr.wp-table--group-header:focus, tr.wp-table--group-header :focus"
+      )
+      expect(page).to have_css(":focus")
     end
 
     # Returns the row element for the specified work package.
@@ -370,6 +452,10 @@ module Pages
       click_setting_item /Save$/
     end
 
+    def cell(work_package, attribute)
+      row(work_package).find(cell_selector(attribute))
+    end
+
     def table_container
       find("#content .work-packages-split-view--tabletimeline-side", wait: 20)
     end
@@ -414,6 +500,31 @@ module Pages
     end
 
     private
+
+    def roving_tab_stop
+      table_container.first('.wp-table--row[tabindex="0"], .wp-table--row [tabindex="0"]', minimum: 0)
+    end
+
+    def last_toolbar_control
+      find("#content .toolbar-items")
+        .all("a[href]:not([tabindex='-1']), button:not(:disabled):not([tabindex='-1'])", minimum: 1)
+        .last
+    end
+
+    def press_until_focused(key, selector)
+      bound = table_container.all("tr.wp-table--row", minimum: 0).size + table_container.all("thead th", minimum: 0).size + 3
+      bound.times do
+        break if table_container.has_css?(selector, focused: true, wait: 0)
+
+        press_keys(key)
+      end
+
+      expect(table_container).to have_css(selector, focused: true)
+    end
+
+    def cell_selector(attribute)
+      "td.#{attribute.to_s.camelize(:lower)}"
+    end
 
     def path
       project ? project_work_packages_path(project) : work_packages_path
