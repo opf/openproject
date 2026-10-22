@@ -122,6 +122,8 @@ ru:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клиенты SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Настраиваемый ID
         customized_type: Настраиваемый тип
@@ -132,8 +134,6 @@ ru:
         repository: Репозиторий
       comment:
         commented: Прокомментировано
-      custom_action:
-        actions: Действия
       custom_field:
         admin_only: Только администратор
         allow_non_open_versions: Разрешить неоткрытые версии
@@ -635,6 +635,8 @@ ru:
         odd: должно быть нечетным.
         overlapping_range: пересекается с существующим диапазоном нерабочих дней.
         regex_invalid: не может быть проверен связанным регулярным выражением.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Строки %{invalid_lines} не могут быть проанализированы как регулярное выражение.
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
@@ -1135,6 +1137,11 @@ ru:
         few: Провайдера аутентификации
         many: Провайдеров аутентификации
         other: Провайдеры аутентификации
+      automation:
+        one: Automation
+        few: Automations
+        many: Automations
+        other: Automations
       backup:
         one: Резервная копия
         few: Backups
@@ -1170,11 +1177,6 @@ ru:
         few: Comments
         many: Comments
         other: Комментарии
-      custom_action:
-        one: Пользовательское действие
-        few: Custom actions
-        many: Custom actions
-        other: Пользовательские действия
       custom_field:
         one: Пользовательское поле
         few: Custom fields
@@ -1285,6 +1287,11 @@ ru:
         few: Приоритеты
         many: Приоритеты
         other: Приоритеты
+      label:
+        one: Label
+        few: Labels
+        many: Labels
+        other: Labels
       ldap_auth_source:
         one: LDAP-подключение
         few: LDAP connections
@@ -1768,7 +1775,7 @@ ru:
     import:
       title: Импорт
     info:
-      database_deprecation_html: 'Начиная с OpenProject 16.0, для использования OpenProject требуется PostgreSQL 16. Ваша установка останется работоспособной с текущей базой данных, но ожидайте несовместимости в будущих выпусках. <br/> Мы подготовили [руководства по обновлению для всех способов установки](upgrade_guide). Вы можете выполнить обновление до следующего релиза в любое время, следуя этим руководствам.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Распределитель памяти Jemalloc
@@ -1818,7 +1825,9 @@ ru:
         button_delete_token: Удалить токен
         button_save: Сохранить конфигурацию
         delete_token_confirm: Вы уверены, что хотите удалить токен? Это отключит подключение к Jira.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Имя
           personal_access_token: Персональный токен доступа
           url: URL сервера/центра обработки данных Jira
@@ -2418,6 +2427,8 @@ ru:
           many: "%{count} roles selected"
           other: "%{count} roles selected"
         title: Выберите роли
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Статус
       statuses_dialog:
         caption: Добавление или удаление статусов, которые вы хотите ассоциировать с этим типом. Удаление статуса также удалит связанный с ним рабочий процесс.
@@ -2474,7 +2485,7 @@ ru:
     deleted_by_admin: Находящийся в карантине файл '%{filename}' был удален администратором.
     deleted_message: Вирус обнаружен в файле '%{filename}'. Файл был удален.
     not_processed_yet_message: Загрузка заблокирована, так как файл еще не был проверен на вирусы. Пожалуйста, повторите попытку позже.
-    overridden_by_admin: Карантин для файла '%{filename}' был снят с помощью %{user}. Теперь к файлу можно получить доступ.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Контейнер
       delete: Удалите файл, помещенный в карантин
@@ -4254,6 +4265,7 @@ ru:
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(удаленная версия)"
   label_departments: Департаменты
   label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
@@ -4924,7 +4936,7 @@ ru:
       start_tls: STARTTLS
       start_tls_description: Отправляет команду STARTTLS после подключения к стандартному LDAP порту. Рекомендуется для шифрованных соединений.
     tls_options:
-      tls_certificate_description: Если сертификат сервера LDAP отсутствует в источниках доверия этой системы, вы можете добавить его вручную. Введите строку сертификации PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Проверка SSL сертификата
       verify_peer_description_html: 'Включает строгую проверку SSL цепочки доверенных сертификатов. <br> <strong>Предупреждение:</strong> Отключение этой опции отключает проверку SSL сертификата сервера LDAP. Это делает ваше соединение уязвимым к атакам "человек посередине".
 
@@ -6090,6 +6102,12 @@ ru:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Нет доступных настраиваемых полей.
       forums:
         no_results_content_text: Создать новый форум
@@ -6697,7 +6715,7 @@ ru:
         description_html: 'Выберите режим, в котором будет работать интеграция антивирусного сканера. <br/> <ul> <li><strong>%{disabled_option}</strong>: Загруженные файлы не проверяются на наличие вирусов.</li> <li><strong>%{socket_option}</strong>: Вы установили ClamAV на том же сервере, что и OpenProject, и демон сканирования clamd работает в фоновом режиме.</li> <li><strong>%{host_option}</strong>: Вы передаете файлы на внешний хост для сканирования на вирусы.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Сканирование вирусов отключено. %{file_count} остается в карантине. Чтобы просмотреть файлы карантина, перейдите по ссылке: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Проверка на вирусы успешно включена. Есть %{file_count}, которые были загружены ранее и все еще нуждаются в сканировании. Этот процесс был запланирован в фоновом режиме. Файлы останутся доступными во время сканирования.
@@ -7017,7 +7035,6 @@ ru:
       sentence_connector: и
       skip_last_comma: Ложно
   text_access_token_hint: Маркеры доступа позволяют предоставить внешним приложениям доступ к ресурсам в OpenProject.
-  text_accessibility_hint: Режим упрощенного просмотра предназначен для ограниченных в движении пользователей и пользователей с плохим зрением. Для последних активные элементы выделяются специально. Обращаем внимание, что модуль Отставаний в этом режиме не доступен.
   text_analyze: 'Дополнительный анализ: %{subject}'
   text_are_you_sure: Вы уверены?
   text_are_you_sure_continue: Вы уверены, что хотите продолжить?
@@ -7526,6 +7543,9 @@ ru:
 
             '
           title: Для этого типа не существует вариантов
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Создан в %{project}
         delete:
           description: Проекты, в которых используется данный вариант, будут переведены на вариант, который вы выберете ниже, до того как данный вариант будет удален.
@@ -7557,6 +7577,7 @@ ru:
         confirm: Преобразовать
         text: Глобальный вариант с таким именем уже существует. Пожалуйста, выберите другое имя.
         title: Выберите другое имя для этого варианта
+      created_by_migration: Migrated
       delete:
         description: Этот тип будет удален навсегда. Это действие не может быть отменено.
         description_with_variants: Тип и все его варианты будут удалены навсегда. Это действие нельзя отменить.
@@ -7573,7 +7594,13 @@ ru:
       duplicate_name: Копия %{name}
       duplicate_notice: "%{name} был дублирован."
       enabled_in_new_projects: Активно в новых проектах
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Активировать в новых проектах
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name} теперь активирован в новых проектах."
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
@@ -8305,6 +8332,20 @@ ru:
             other: Рабочий процесс успешно скопирован в %{count} ролей.
       new:
         dialog_title: Копия рабочего процесса для "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        few: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        many: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: Новый рабочий процесс начинается с копии переходов статусов этого рабочего процесса.

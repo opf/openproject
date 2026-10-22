@@ -122,6 +122,8 @@ fa:
       auth_provider:
         additional_form_action_urls: نشانی‌های URL مجاز اضافی برای تغییرمسیر هنگام ورود
         scim_clients: کلاینت‌های SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: شناسه سفارشی
         customized_type: نوع سفارشی
@@ -132,8 +134,6 @@ fa:
         repository: مخزن
       comment:
         commented: دارای دیدگاه
-      custom_action:
-        actions: اقدام‌ها
       custom_field:
         admin_only: فقط مدیر
         allow_non_open_versions: اجازه نسخه‌های بازنشده
@@ -635,6 +635,8 @@ fa:
         odd: باید فرد باشد.
         overlapping_range: با یک بازه موجود از روزهای غیرکاری هم‌پوشانی دارد.
         regex_invalid: با عبارت منظم مرتبط قابل اعتبارسنجی نیست.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: خطوط %{invalid_lines} به‌عنوان عبارت منظم قابل تجزیه نیستند.
         regex_match_failed: با عبارت منظم %{expression} مطابقت ندارد.
         smaller_than_or_equal_to_max_length: باید کوچک‌تر از یا برابر با حداکثر طول باشد.
@@ -1103,6 +1105,9 @@ fa:
       auth_provider:
         one: ارائه‌دهنده احراز هویت
         other: ارائه‌دهندگان احراز هویت
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: نسخه پشتیبان
         other: نسخه‌های پشتیبان
@@ -1124,9 +1129,6 @@ fa:
       comment:
         one: دیدگاه
         other: دیدگاه‌ها
-      custom_action:
-        one: اقدام سفارشی
-        other: اقدام‌های سفارشی
       custom_field:
         one: فیلد سفارشی
         other: فیلدهای سفارشی
@@ -1193,6 +1195,9 @@ fa:
       issue_priority:
         one: اولویت
         other: اولویت‌ها
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: اتصال LDAP
         other: اتصال‌های LDAP
@@ -1548,7 +1553,7 @@ fa:
     import:
       title: واردکردن
     info:
-      database_deprecation_html: 'از OpenProject 16.0 به بعد، برای استفاده از OpenProject به PostgreSQL 16 نیاز است. نصب شما با پایگاه‌داده فعلی همچنان کار می‌کند، اما در نسخه‌های آینده احتمال ناسازگاری وجود دارد. <br/> برای همه روش‌های نصب [راهنمای ارتقا](upgrade_guide) آماده کرده‌ایم. می‌توانید پیش از انتشار نسخه بعدی، هر زمان با پیروی از راهنماها ارتقا را انجام دهید.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: تخصیص‌دهنده حافظه Jemalloc
@@ -1598,7 +1603,9 @@ fa:
         button_delete_token: حذف توکن
         button_save: ذخیره پیکربندی
         delete_token_confirm: مطمئنید می‌خواهید توکن را حذف کنید؟ این کار اتصال Jira را غیرفعال می‌کند.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: نام
           personal_access_token: توکن دسترسی شخصی
           url: نشانی Jira Server/Data Center
@@ -2172,6 +2179,8 @@ fa:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: انتخاب نقش‌ها
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: وضعیت
       statuses_dialog:
         caption: وضعیت‌هایی را که می‌خواهید به این نوع مرتبط کنید اضافه یا حذف کنید. حذف یک وضعیت، گردش‌کار مرتبط با آن را نیز حذف می‌کند.
@@ -2226,7 +2235,7 @@ fa:
     deleted_by_admin: فایل قرنطینه‌شده '%{filename}' توسط مدیر حذف شده است.
     deleted_message: در فایل '%{filename}' ویروس شناسایی شد. فایل حذف شده است.
     not_processed_yet_message: دانلود مسدود است، زیرا فایل هنوز برای ویروس اسکن نشده است. لطفاً بعداً دوباره تلاش کنید.
-    overridden_by_admin: قرنطینه فایل '%{filename}' توسط %{user} برداشته شد. اکنون فایل قابل دسترسی است.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: کانتینر
       delete: حذف فایل قرنطینه‌شده
@@ -3938,6 +3947,7 @@ fa:
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
   label_deleted_custom_item: "(مورد حذف‌شده)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(نسخه حذف‌شده)"
   label_departments: سازمان
   label_departments_description_html: 'ساختار شرکت خود را با ایجاد واحدهای سازمانی و زیرواحدها به‌صورت سلسله‌مراتبی تعریف کنید. این کار امکان بازتاب خطوط گزارش‌دهی و حفظ نمایی شفاف و ساختاریافته از سازمان در OpenProject را فراهم می‌کند. همچنین می‌توانید ساختار سازمانی موجود را از طریق [همگام‌سازی واحدهای سازمانی LDAP](ldap_docs_article) وارد کنید.
@@ -4600,7 +4610,7 @@ fa:
       start_tls: STARTTLS
       start_tls_description: پس از اتصال به پورت استاندارد LDAP فرمان STARTTLS ارسال می‌کند. روش توصیه‌شده برای اتصال رمزنگاری‌شده.
     tls_options:
-      tls_certificate_description: اگر گواهی سرور LDAP در منابع مورد اعتماد این سیستم نیست، می‌توانید آن را اینجا به‌صورت دستی اضافه کنید. یک رشته گواهی PEM X509 وارد کنید.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: اعتبارسنجی گواهی SSL
       verify_peer_description_html: 'اعتبارسنجی سخت‌گیرانه SSL برای زنجیره مورد اعتماد گواهی را فعال می‌کند. <br> <strong>هشدار:</strong> غیرفعال‌کردن این گزینه، اعتبارسنجی SSL گواهی سرور LDAP را خاموش می‌کند و اتصال شما را در معرض حملات Man in the Middle قرار می‌دهد.
 
@@ -5747,6 +5757,12 @@ fa:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: در حال حاضر هیچ فیلد سفارشی در دسترس نیست.
       forums:
         no_results_content_text: ایجاد انجمن جدید
@@ -6346,7 +6362,7 @@ fa:
         description_html: 'حالت عملکرد یکپارچه‌سازی اسکنر آنتی‌ویروس را انتخاب کنید. <br/> <ul> <li><strong>%{disabled_option}</strong>: فایل‌های بارگذاری‌شده برای ویروس اسکن نمی‌شوند.</li> <li><strong>%{socket_option}</strong>: ClamAV روی همان سرور OpenProject راه‌اندازی شده و Daemon اسکن clamd در پس‌زمینه اجرا می‌شود.</li> <li><strong>%{host_option}</strong>: فایل‌ها برای اسکن به یک Host خارجی ارسال می‌شوند.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'اسکن ویروس غیرفعال شده است. %{file_count} فایل در قرنطینه باقی مانده‌اند. برای بازبینی فایل‌های قرنطینه‌شده این پیوند را ببینید: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'اسکن ویروس با موفقیت فعال شد. %{file_count} فایل قبلاً بارگذاری شده‌اند و هنوز باید اسکن شوند. این فرایند در پس‌زمینه زمان‌بندی شده است. فایل‌ها هنگام اسکن قابل دسترسی می‌مانند.
@@ -6666,7 +6682,6 @@ fa:
       sentence_connector: و
       skip_last_comma: 'false'
   text_access_token_hint: توکن‌های دسترسی به شما اجازه می‌دهند به برنامه‌های خارجی دسترسی به منابع OpenProject بدهید.
-  text_accessibility_hint: حالت دسترس‌پذیری برای کاربران نابینا، دارای محدودیت حرکتی یا کم‌بینا طراحی شده است. برای گروه آخر، عناصر دارای Focus به‌طور ویژه برجسته می‌شوند. توجه داشته باشید ماژول بک‌لاگ‌ها در این حالت در دسترس نیست.
   text_analyze: 'تحلیل بیشتر: %{subject}'
   text_are_you_sure: مطمئنید؟
   text_are_you_sure_continue: مطمئنید می‌خواهید ادامه دهید؟
@@ -7179,6 +7194,9 @@ fa:
 
             '
           title: هیچ گونه‌ای برای این نوع وجود ندارد
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: ایجادشده در %{project}
         delete:
           description: پروژه‌هایی که از این گونه استفاده می‌کنند، پیش از حذف آن به گونه‌ای که در زیر انتخاب می‌کنید منتقل خواهند شد.
@@ -7210,6 +7228,7 @@ fa:
         confirm: تبدیل
         text: یک گونه سراسری با این نام از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.
         title: نام دیگری برای این گونه انتخاب کنید
+      created_by_migration: Migrated
       delete:
         description: این نوع برای همیشه حذف خواهد شد. این اقدام قابل بازگشت نیست.
         description_with_variants: این نوع و همه گونه‌های آن برای همیشه حذف خواهند شد. این اقدام قابل بازگشت نیست.
@@ -7224,7 +7243,13 @@ fa:
       duplicate_name: کپی %{name}
       duplicate_notice: "%{name} تکثیر شد."
       enabled_in_new_projects: فعال در پروژه‌های جدید
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: فعال در پروژه‌های جدید
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name} اکنون در پروژه‌های جدید فعال است."
       no_results_content_text: ایجاد نوع جدید
       no_results_title_text: در حال حاضر هیچ نوعی وجود ندارد.
@@ -7914,6 +7939,18 @@ fa:
             other: گردش‌کار با موفقیت به %{count} نقش کپی شد.
       new:
         dialog_title: کپی گردش کاری «%{source}»
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: گردش کاری جدید با کپی انتقال‌های وضعیت آن گردش کاری شروع می‌شود.

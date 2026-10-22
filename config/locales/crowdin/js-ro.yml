@@ -361,8 +361,8 @@ ro:
     ical_sharing_modal:
       copy_url_label: Copiază URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: A apărut o eroare la preluarea datelor.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-ul "%{name}" a fost copiat cu succes în clipboard-ul tău. Lipiți-l în clientul calendar pentru a finaliza abonamentul.
       title: Abonează-te la calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -554,6 +554,8 @@ ro:
     label_reset: Resetare
     label_resize_project_menu: Resize project menu
     label_save_as: Salvează ca
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Caută o coloană
     label_select_watcher: Selectează un observator...
     label_selected_filter_list: Filtre selectate

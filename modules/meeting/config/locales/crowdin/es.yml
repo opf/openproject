@@ -663,7 +663,7 @@ es:
       error_no_next: No hay próxima repetición para esta reunión.
       error_template_draft: La plantilla de serie de reuniones todavía está en modo borrador.
       first_already_exists: La primera repetición de esta serie de reuniones ya está instanciada.
-      first_created: 'La primera reunión se ha creado correctamente a partir de la plantilla. Todas las reuniones futuras se crearán automáticamente al mismo tiempo que la anterior.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Esta reunión forma parte de una serie de reuniones periódicas.

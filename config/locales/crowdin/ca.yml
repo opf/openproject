@@ -122,6 +122,8 @@ ca:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Customized ID
         customized_type: Customized type
@@ -132,8 +134,6 @@ ca:
         repository: Repositori
       comment:
         commented: Comentat
-      custom_action:
-        actions: Accions
       custom_field:
         admin_only: Admin-only
         allow_non_open_versions: Permet versions no obertes
@@ -635,6 +635,8 @@ ca:
         odd: ha de ser senar.
         overlapping_range: overlaps with an existing non-working day range.
         regex_invalid: no s'ha pogut validar amb l'expressió regular associada.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: no coincideix amb l'expressió regular %{expression}.
         smaller_than_or_equal_to_max_length: ha de ser inferior o igual a la longitud màxima.
@@ -1105,6 +1107,9 @@ ca:
       auth_provider:
         one: Authentication provider
         other: Authentication providers
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1126,9 +1131,6 @@ ca:
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1195,6 +1197,9 @@ ca:
       issue_priority:
         one: Prioritat
         other: Priorities
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1550,7 +1555,7 @@ ca:
     import:
       title: Import
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc memory allocator
@@ -1600,7 +1605,9 @@ ca:
         button_delete_token: Delete token
         button_save: Save configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
@@ -2174,6 +2181,8 @@ ca:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -2228,7 +2237,7 @@ ca:
     deleted_by_admin: Un administrador ha suprimit el fitxer en quarantena '%{filename}'.
     deleted_message: S'ha detectat un virus al fitxer '%{filename}'. El fitxer s'ha suprimit.
     not_processed_yet_message: La descàrrega està bloquejada, ja que el fitxer encara no s'ha analitzat per detectar virus. Si us plau, intenta-ho més tard.
-    overridden_by_admin: La quarantena per al fitxer '%{filename}' ha estat eliminada per %{user}. Ja es pot accedir al fitxer.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Contenidor
       delete: Suprimeix el fitxer en quarantena
@@ -3940,6 +3949,7 @@ ca:
   label_deleted_custom_field: "(camp personalitzat suprimit)"
   label_deleted_custom_item: "(deleted item)"
   label_deleted_custom_option: "(opció eliminada)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
@@ -4602,7 +4612,7 @@ ca:
       start_tls: STARTTLS
       start_tls_description: Envia una ordre STARTTLS després de connectar amb el port LDAP estàndard. Recomanat per a connexions encriptades.
     tls_options:
-      tls_certificate_description: Si el certificat de servidor LDAP no està en els recursos de confiança d'aquest sistema, pots afegir-lo manualment aquí. Introdueix una entrada de certificat PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Verifica el certificat SSL
       verify_peer_description_html: 'Enables strict SSL verification of the certificate trusted chain. <br> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
 
@@ -5752,6 +5762,12 @@ ca:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Actualment no hi ha cap camp personalitzat disponible.
       forums:
         no_results_content_text: Crea un fòrum nou
@@ -6339,7 +6355,7 @@ ca:
         description_html: 'Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
@@ -6659,7 +6675,6 @@ ca:
       sentence_connector: i
       skip_last_comma: fals
   text_access_token_hint: Els token d'accés permeten que aplicacions externes accedeixin als recursos d'OpenProject.
-  text_accessibility_hint: El mode d'accessibilitat està dissenyat per a usuaris cecs, amb discapacitats motores o problemes de vista. Els elements es focalitzen amb un ressaltat més evident. Si us plau, considera que el mòdul de "Backlogs" no està disponible en aquest mode.
   text_analyze: 'Analitzar més en profunditat: %{subject}'
   text_are_you_sure: N'estàs segur?
   text_are_you_sure_continue: Estàs segur que vols continuar?
@@ -7172,6 +7187,9 @@ ca:
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7203,6 +7221,7 @@ ca:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7217,7 +7236,13 @@ ca:
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Crear un nou tipus
       no_results_title_text: Actualment no hi ha cap tipus.
@@ -7907,6 +7932,18 @@ ca:
             other: Successfully copied workflow to %{count} roles.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

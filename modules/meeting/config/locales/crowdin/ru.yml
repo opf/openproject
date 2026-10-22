@@ -695,7 +695,7 @@ ru:
       error_no_next: Следующее событие для этого совещания не состоится.
       error_template_draft: Шаблон серии встреч все еще находится в режиме черновика.
       first_already_exists: Первое событие этой серии совещаний уже произошло.
-      first_created: 'Первое совещание было успешно создано из шаблона. Все последующие совещания будут создаваться автоматически в момент предыдущего.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Это совещание является частью повторяющейся серии совещаний.
