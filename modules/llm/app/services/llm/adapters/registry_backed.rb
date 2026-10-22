@@ -63,7 +63,7 @@ module Llm
         raise Llm::Errors.translate(e)
       end
 
-      # Nothing is queried, so there is no server to characterise.
+      # Nothing is queried, so there is no server to characterize.
       def server_flavour = connection.api_format
 
       private

@@ -55,7 +55,7 @@ class WorkPackages::StatusBadgeComponent < ApplicationComponent
 
   # A read-only status forbids every attribute write except the status itself
   # ({WorkPackages::BaseContract#readonly_attributes_unchanged}), which is not
-  # something the badge's colour and name convey on their own. The lock says so,
+  # something the badge's color and name convey on their own. The lock says so,
   # matching the leading visual {WorkPackages::StatusButtonComponent} already
   # gives read-only options in the status dropdown.
   #

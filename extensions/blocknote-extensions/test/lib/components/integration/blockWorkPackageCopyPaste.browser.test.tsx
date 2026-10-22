@@ -7,7 +7,7 @@ import {
   buildWorkPackageBlockExternalDOM,
 } from '../../../../lib/components/BlockWorkPackage/externalHtml';
 
-// Paste the serialised external HTML of a block card into the editor.
+// Paste the serialized external HTML of a block card into the editor.
 // Dispatch directly on the contenteditable so we can test paste independence
 // without relying on browser clipboard permissions.
 function pasteBlockCardHtml(wpid:number, size = 'm') {
