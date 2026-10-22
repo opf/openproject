@@ -256,6 +256,11 @@ RSpecRails/HttpStatus:
 RSpecRails/TravelAround:
   Enabled: false
 
+# Specs stub job classes and assert `have_received(:perform_later)`;
+# switching to `have_enqueued_job` needs the ActiveJob test adapter.
+RSpecRails/ReceivePerformLater:
+  Enabled: false
+
 # expect not_to change is not working as expected
 # if you chain it with multiple expected changes
 RSpec/ChangeByZero:
