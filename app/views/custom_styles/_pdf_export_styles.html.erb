@@ -26,8 +26,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<p><%= I18n.t("label_custom_export_images_instructions") %></p>
-
 <%=
   render(
     Primer::Beta::Button.new(
@@ -41,89 +39,86 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render partial: "custom_styles/uploads/image", locals: { image: {
-      field: :export_logo,
-      label: I18n.t(:label_custom_export_logo),
-      present: @custom_style.id && @custom_style.export_logo.present?,
-      source: if @custom_style.id && @custom_style.export_logo.present?
-                custom_style_export_logo_path(digest: @custom_style.digest, filename: @custom_style.export_logo_identifier)
-              end,
-      img_class: "custom-export-logo-preview",
-      accept: "image/png, image/jpeg",
-      delete_path: custom_style_export_logo_delete_path,
-      instructions: I18n.t("text_custom_export_logo_instructions")
-    } } %>
-
-<%= render partial: "custom_styles/uploads/image", locals: { image: {
-      field: :export_cover,
-      label: I18n.t(:label_custom_export_cover),
-      present: @custom_style.id && @custom_style.export_cover.present?,
-      source: if @custom_style.id && @custom_style.export_cover.present?
-                custom_style_export_cover_path(digest: @custom_style.digest, filename: @custom_style.export_cover_identifier)
-              end,
-      img_class: "custom-export-cover-preview",
-      accept: "image/png, image/jpeg",
-      delete_path: custom_style_export_cover_delete_path,
-      instructions: I18n.t("text_custom_export_cover_instructions")
-    } } %>
-
-<%= form_tag update_custom_style_export_cover_text_color_path, html: { multipart: true, class: "form -vertical" } do %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_export_cover_overlay) %></legend>
-      <div class="form--field">
-        <label class="form--label"><%= I18n.t(:label_custom_export_cover_text_color) %>:</label>
-        <span class="form--field-container">
-          <div class="form--field-affix">
-            <% design_color_name = "export_cover_text_color" %>
-            <% design_color_hex = @custom_style.export_cover_text_color.presence %>
-            <%= icon_for_color(
-                  Color.new(
-                    hexcode: design_color_hex || "#000"
-                  ),
-                  data: { target: "##{design_color_name}" }
-                ) %>
-          </div>
-          <span class="form--text-field-container">
-            <%= styled_text_field_tag design_color_name,
-                                      design_color_hex || "",
-                                      placeholder: "#000" %>
-          </span>
-        </span>
-        <div class="form--field-instructions">
-          <% instruction_key = "admin.custom_styles.instructions.#{design_color_name}" %>
-          <% if I18n.exists?(instruction_key, :en) %>
-            <%= I18n.t(instruction_key) %>
-          <% end %>
-        </div>
-      </div>
-      <%=
-        render(
-          Primer::Beta::Button.new(
-            type: :submit,
-            data: {
-              "test-selector": "text-color-change"
-            }
-          )
-        ) do |_button|
-          I18n.t(:button_save)
-        end
-      %>
-    </fieldset>
-  </section>
+<%= render(Primer::Beta::Subhead.new(spacious: false)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium, mt: 3) { t("admin.custom_styles.export.title") } %>
+  <% subhead.with_description { t("admin.custom_styles.export.description") } %>
 <% end %>
 
-<% if OpenProject::FeatureDecisions.minutes_styling_meeting_pdf_active? %>
-  <%= render partial: "custom_styles/uploads/image", locals: { image: {
-        field: :export_footer,
-        label: I18n.t(:label_custom_export_footer),
-        present: @custom_style.id && @custom_style.export_footer.present?,
-        source: if @custom_style.id && @custom_style.export_footer.present?
-                  custom_style_export_footer_path(digest: @custom_style.digest, filename: @custom_style.export_footer_identifier)
-                end,
-        img_class: "custom-export-footer-preview",
-        accept: "image/png, image/jpeg",
-        delete_path: custom_style_export_footer_delete_path,
-        instructions: I18n.t("text_custom_export_footer_instructions")
-      } } %>
+<%= flex_layout(flex_wrap: :wrap, classes: "gap-3") do |flex| %>
+  <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
+    <%= render partial: "custom_styles/uploads/image", locals: { image: {
+          field: :export_logo,
+          label: I18n.t(:label_custom_export_logo),
+          present: @custom_style.id && @custom_style.export_logo.present?,
+          source: if @custom_style.id && @custom_style.export_logo.present?
+                    custom_style_export_logo_path(digest: @custom_style.digest, filename: @custom_style.export_logo_identifier)
+                  end,
+          img_class: "custom-export-logo-preview",
+          accept: "image/png, image/jpeg",
+          delete_path: custom_style_export_logo_delete_path,
+          instructions: I18n.t("text_custom_export_logo_instructions")
+        } } %>
+  <% end %>
+
+  <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
+    <%= render partial: "custom_styles/uploads/image", locals: { image: {
+          field: :export_cover,
+          label: I18n.t(:label_custom_export_cover),
+          present: @custom_style.id && @custom_style.export_cover.present?,
+          source: if @custom_style.id && @custom_style.export_cover.present?
+                    custom_style_export_cover_path(digest: @custom_style.digest, filename: @custom_style.export_cover_identifier)
+                  end,
+          img_class: "custom-export-cover-preview",
+          accept: "image/png, image/jpeg",
+          delete_path: custom_style_export_cover_delete_path,
+          instructions: I18n.t("text_custom_export_cover_instructions")
+        } } %>
+  <% end %>
+
+  <% if OpenProject::FeatureDecisions.minutes_styling_meeting_pdf_active? %>
+    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
+      <%= render partial: "custom_styles/uploads/image", locals: { image: {
+            field: :export_footer,
+            label: I18n.t(:label_custom_export_footer),
+            present: @custom_style.id && @custom_style.export_footer.present?,
+            source: if @custom_style.id && @custom_style.export_footer.present?
+                      custom_style_export_footer_path(digest: @custom_style.digest, filename: @custom_style.export_footer_identifier)
+                    end,
+            img_class: "custom-export-footer-preview",
+            accept: "image/png, image/jpeg",
+            delete_path: custom_style_export_footer_delete_path,
+            instructions: I18n.t("text_custom_export_footer_instructions")
+          } } %>
+    <% end %>
+  <% end %>
 <% end %>
+
+<%
+  design_color_hex = @custom_style.export_cover_text_color.presence
+  instruction_key = "admin.custom_styles.instructions.export_cover_text_color"
+%>
+
+<%=
+  primer_form_with(url: update_custom_style_export_cover_text_color_path, class: "form -vertical") do |f|
+    render_inline_form(f) do |form|
+      form.fieldset_group(title: I18n.t(:label_custom_export_cover_overlay), mt: 3) do |fg|
+        fg.color_field(
+          name: :export_cover_text_color,
+          label: I18n.t(:label_custom_export_cover_text_color),
+          value: design_color_hex,
+          placeholder: "#000",
+          scope_name_to_model: false,
+          scope_id_to_model: false,
+          input_width: :small,
+          caption: (I18n.t(instruction_key) if I18n.exists?(instruction_key, :en))
+        )
+
+        fg.submit(
+          name: :submit,
+          label: I18n.t(:button_save),
+          data: { "test-selector": "text-color-change" }
+        )
+      end
+    end
+  end
+%>
