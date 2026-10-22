@@ -182,9 +182,9 @@ The **General** tab is divided into several sections.
 
 ### Avatar
 
-The **Avatar** section displays the user's current avatar. By default, a generic image is shown. The color for that image can be defined. You can upload a custom avatar image for the user.
+The **Avatar** section at the top of the **General** tab shows the user's current avatar. Click the avatar to open the **Edit avatar** dialog. There, you can change the avatar for the user in the same way users change their own avatar: use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), upload a custom image, or customize the initials and the background color. For details, see [Set an avatar](../../../user-guide/account-settings/account/#set-an-avatar).
 
-If enabled, users can also use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), which they can manage in their [Account settings](../../../user-guide/account-settings/account/#set-an-avatar). Both custom avatars and Gravatar support can be disabled in the [Avatar settings](../avatars).
+The options available in the dialog depend on the [avatar settings](../avatars). The **Initials** option is always available.
 
 > [!TIP]
 > Hover over a user's avatar or name (for example, on the **Members** or **Activity** page) to view additional user information.
