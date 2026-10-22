@@ -635,15 +635,13 @@ function inlineCreateBodyOf(dom:ReturnType<typeof buildDom>):HTMLTableSectionEle
 export function buildDom(options:{ productionMarkup?:boolean } = {}) {
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
-    <div class="work-packages-tabletimeline--table-side">
-      <div class="work-package-table--container">
-        <table class="work-package-table">
-          ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
-          <tbody class="work-package--results-tbody"></tbody>
-          ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
-          ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
-        </table>
-      </div>
+    <div class="work-packages-tabletimeline--table-side work-package-table--container">
+      <table class="work-package-table">
+        ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
+        <tbody class="work-package--results-tbody"></tbody>
+        ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
+        ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
+      </table>
     </div>
     <div class="work-packages-tabletimeline--timeline-side"><div class="wp-table-timeline--body"></div></div>
   `;
