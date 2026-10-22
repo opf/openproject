@@ -56,7 +56,6 @@ extend-ignore-re = [
   "cachable-apiv3-(resource|collection)", # file names; follow-up
   "fourty minutes", # commented-out parser input
   "\\.highlight \\.nd", # Rouge token class
-  "</?buton\\b", # <buton> tag in board-list.component.html; follow-up bug
 ]
 extend-ignore-identifiers-re = [
   "^(with|without)_trailling_slash$", # public SCM adapter API; follow-up
