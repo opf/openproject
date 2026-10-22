@@ -5,14 +5,14 @@ on:
     branches:
       - release-op-blocknote-extensions
     paths:
-      - 'extensions/op-blocknote-extensions/package.json'
+      - 'extensions/blocknote-extensions/package.json'
 
 permissions:
   contents: read
 
 defaults:
   run:
-    working-directory: ./extensions/op-blocknote-extensions
+    working-directory: ./extensions/blocknote-extensions
 
 jobs:
   publish:
