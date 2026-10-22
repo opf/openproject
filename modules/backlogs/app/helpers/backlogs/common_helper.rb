@@ -58,7 +58,7 @@ module Backlogs
 
     def backlog_filters
       RequestStore.fetch(:backlog_filters) do
-        Backlogs::BacklogFilters.from_params(params.permit(:all, :filters, :bucket_ids, :sprint_ids))
+        Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
       end
     end
 
