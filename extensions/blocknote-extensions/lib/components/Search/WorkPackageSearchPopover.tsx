@@ -7,7 +7,8 @@ import { useAnchoredPopover, PopoverPortal } from '../WorkPackage/anchoredPopove
 import { useElementHeight } from '../../hooks/useElementHeight';
 import { useCanCreateWorkPackages } from '../../hooks/useCanCreateWorkPackages';
 
-const MAX_POPOVER_HEIGHT = 360;
+// Fits all MAX_SEARCH_RESULTS and the create entry below them, with room for a subject that wraps.
+const MAX_POPOVER_HEIGHT = 440;
 
 interface WorkPackageSearchPopoverProps {
   anchorEl?:HTMLElement | null;
