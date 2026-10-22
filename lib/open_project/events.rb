@@ -54,8 +54,6 @@ module OpenProject
 
     OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created"
 
-    TIME_ENTRY_CREATED = "time_entry_created"
-
     NEWS_COMMENT_CREATED = "news_comment_created"
 
     PROJECT_CREATED = "project_created"

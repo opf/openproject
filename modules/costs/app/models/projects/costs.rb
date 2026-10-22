@@ -31,6 +31,8 @@ module Projects::Costs
   extend ActiveSupport::Concern
 
   included do
+    has_many :time_entries, dependent: :delete_all
+    has_many :time_entry_activities_projects, dependent: :delete_all
     has_many :rates, class_name: "HourlyRate" # rubocop:disable Rails/HasManyOrHasOneDependent
     has_many :cost_types_projects, dependent: :delete_all
     has_many :cost_types, through: :cost_types_projects

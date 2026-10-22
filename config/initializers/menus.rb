@@ -902,10 +902,6 @@ Redmine::MenuManager.map :project_menu do |menu|
     work_packages_import: { caption: :"work_packages.import.menu_title" },
     versions: { caption: :label_version_plural },
     repository: { caption: :label_repository },
-    time_and_costs: {
-      caption: :"cost_types.settings.time_and_costs",
-      controller: "/projects/settings/time_entry_activities"
-    },
     storage: { caption: :label_required_disk_storage }
   }
 

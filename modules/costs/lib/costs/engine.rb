@@ -171,6 +171,13 @@ module Costs
            parent: :admin_costs,
            caption: :label_time_entry_custom_field_plural
 
+      menu :project_menu,
+           :settings_time_and_costs,
+           { controller: "/projects/settings/time_entry_activities", action: :show },
+           parent: :settings,
+           after: :settings_repository,
+           caption: :"cost_types.settings.time_and_costs"
+
       menu :my_menu,
            :hourly_rates,
            { controller: "/my/hourly_rates", action: "show" },
@@ -195,14 +202,19 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    replace_principal_references "CostEntry" => %i[logged_by_id user_id]
+    replace_principal_references "CostEntry" => %i[logged_by_id user_id],
+                                 "TimeEntry" => %i[logged_by_id user_id]
 
+    include_module "Costs::Events", into: "OpenProject::Events"
     include_module "Costs::HasRates", into: %w[User PlaceholderUser]
     include_module "Projects::Costs", into: "Project"
     include_module "PermittedParams::Costs", into: "PermittedParams"
+    include_module "Versions::SpentTime", into: "Version"
+    include_module "WorkPackages::TimeEntries", into: "WorkPackage"
     include_module "WorkPackages::Costs", into: "WorkPackage"
     include_module "WorkPackages::SpentTime", into: "WorkPackage"
 
+    prepend_module "WorkPackages::UpdateService::MoveTimeEntries", into: "WorkPackages::UpdateService"
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
     prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"
@@ -244,10 +256,36 @@ module Costs
       "#{hourly_rates_by_principal(principal_id)}/#{id}"
     end
 
+    add_api_resource_paths :time_entry
+
+    add_api_path :time_entries_activity do |activity_id|
+      "#{time_entries}/activities/#{activity_id}"
+    end
+
+    add_api_path :time_entries_available_projects do
+      "#{time_entries}/available_projects"
+    end
+
+    add_api_path :time_entries_available_work_packages_on_create do
+      "#{time_entries}/available_work_packages"
+    end
+
+    add_api_path :time_entries_available_work_packages_on_edit do |time_entry_id|
+      "#{time_entry(time_entry_id)}/available_work_packages"
+    end
+
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
       mount ::API::V3::TimeEntries::TimeEntriesAPI
+    end
+
+    extend_api_response(:v3, :root) do
+      link :time_entries do
+        {
+          href: api_v3_paths.time_entries
+        }
+      end
     end
 
     add_api_endpoint "API::V3::Principals::PrincipalsAPI", :id do

@@ -424,22 +424,6 @@ RSpec.describe API::V3::Utilities::PathHelper do
     it_behaves_like "show", :status
   end
 
-  context "time_entry paths" do
-    it_behaves_like "resource", :time_entry
-
-    describe "#time_entries_activity" do
-      subject { helper.time_entries_activity 42 }
-
-      it_behaves_like "api v3 path", "/time_entries/activities/42"
-    end
-
-    describe "#time_entries_available_projects" do
-      subject { helper.time_entries_available_projects }
-
-      it_behaves_like "api v3 path", "/time_entries/available_projects"
-    end
-  end
-
   describe "types paths" do
     it_behaves_like "index", :type
     it_behaves_like "show", :type
