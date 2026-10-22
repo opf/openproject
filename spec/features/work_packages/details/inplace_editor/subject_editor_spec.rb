@@ -117,7 +117,7 @@ RSpec.describe "subject inplace editor", :js do
 
       field.display_element.click
 
-      # try to avoid flakyness with the waiting approach
+      # try to avoid flakiness with the waiting approach
       wait_for { page }.to have_content(I18n.t("notice_locking_conflict_danger"))
 
       work_packages_page.expect_conflict_error_banner

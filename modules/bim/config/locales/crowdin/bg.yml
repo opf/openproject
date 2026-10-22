@@ -106,7 +106,7 @@ bg:
     not_recommended: not recommended
     recommended: recommended
     x_bcf_issues:
-      one: Един брой на BCF
+      one: "%{count} BCF issue"
       other: "%{count} проблеми с BCF"
       zero: Няма проблеми с BCF
   bim:

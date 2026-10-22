@@ -258,8 +258,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def build_wp_attribute_group_toc_entries
-    work_package.type_variant.attribute_groups.map do |group|
-      toc_entry("wp_group_#{group.key}", group.translated_key)
+    form_configuration(work_package).groups.map do |group|
+      toc_entry("wp_group_#{group.key}", group.title)
     end
   end
 
@@ -320,7 +320,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   def write_group_title(group, with_hr: true) # rubocop:disable Lint/UnusedMethodArgument
     write_optional_page_break
     record_toc_page!("wp_group_#{group.key}")
-    write_section_title(group.translated_key)
+    write_section_title(group.title)
   end
 
   def page_orientation_landscape?

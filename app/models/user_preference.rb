@@ -247,7 +247,15 @@ class UserPreference < ApplicationRecord
   end
 
   def mark_whats_new_read(version_key, key)
-    whats_new_read_items[version_key.to_s] = (whats_new_read_keys(version_key) | [key.to_s])
+    self.whats_new_read_items = { version_key.to_s => whats_new_read_keys(version_key) | [key.to_s] }
+  end
+
+  def mark_whats_new_seen(version_key)
+    return if whats_new_seen_version == version_key.to_s
+
+    self.whats_new_seen_version = version_key.to_s
+    self.whats_new_seen_at = Time.current
+    self.whats_new_read_items = whats_new_read_items.slice(version_key.to_s)
   end
 
   def supported_settings_method?(method_name)

@@ -340,5 +340,116 @@ RSpec.describe Notifications::CreateFromModelService, "message", with_settings: 
         it_behaves_like "creates no notification"
       end
     end
+
+    context "with a message mentioning the recipient" do
+      let(:recipient_notification_settings) do
+        [build(:notification_setting, **notification_settings_all_false, mentioned: true)]
+      end
+      let(:mention) do
+        %(<mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">) +
+          "@#{recipient.name}</mention>"
+      end
+      let(:content) { "Hello #{mention}" }
+      let(:resource) { create(:message, forum:, parent: root_message, content:) }
+      let(:mentioned_notification) do
+        { read_ian: nil, reason: :mentioned, mail_reminder_sent: nil, mail_alert_sent: false }
+      end
+
+      it_behaves_like "creates notification" do
+        let(:notification_channel_reasons) { mentioned_notification }
+      end
+
+      context "when the recipient also watches the topic" do
+        let(:recipient_notification_settings) do
+          [build(:notification_setting, **notification_settings_all_false, mentioned: true, watched: true)]
+        end
+
+        before { root_message.watcher_users << recipient }
+
+        # A single notification per journal and recipient: the mention trumps watching.
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
+      context "when the mention is quoted" do
+        let(:content) { "> Hello #{mention}" }
+
+        it_behaves_like "creates no notification"
+      end
+
+      context "when the recipient cannot see the forum" do
+        before { recipient.members.destroy_all }
+
+        it_behaves_like "creates no notification"
+      end
+
+      context "when the recipient reads the forum of a public project as a non-member" do
+        shared_let(:non_member_role) { create(:non_member) }
+
+        let(:public_forum) { create(:forum, project: create(:project, public: true)) }
+        let(:root_message) { create(:message, forum: public_forum) }
+        let(:resource) { create(:message, forum: public_forum, parent: root_message, content:) }
+
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
+      context "when the recipient opted out of immediate mention emails" do
+        before { recipient.pref.update!(immediate_reminders: { mentioned: false }) }
+
+        # Forums have no notification center or digest to defer the mention to.
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
+      context "when the recipient is only shared on a work package of a private project" do
+        before do
+          recipient.members.destroy_all
+          create(:work_package_member,
+                 principal: recipient,
+                 entity: create(:work_package, project:),
+                 roles: [create(:view_work_package_role)])
+        end
+
+        it_behaves_like "creates no notification"
+      end
+
+      context "when the recipient is mentioned through a group" do
+        let(:content) { "Hello group##{create(:group, members: [recipient]).id}" }
+
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
+      context "when an edit adds the mention" do
+        let(:content) { "Hello" }
+
+        before { resource.update!(content: "Hello #{mention}") }
+
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
+      context "when an edit adds the mention after changing earlier text" do
+        let(:content) { "Hello there" }
+
+        before { resource.update!(content: "Hallo there #{mention}") }
+
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
+      context "when an edit leaves the mention untouched" do
+        before { resource.update!(subject: "A new subject") }
+
+        it_behaves_like "creates no notification"
+      end
+    end
   end
 end

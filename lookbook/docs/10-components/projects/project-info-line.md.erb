@@ -1,0 +1,26 @@
+The project info line is a consistent way to display a project wherever it is listed as one item among others.
+
+## Overview
+
+<%= embed OpenProject::Projects::InfoLineComponentPreview, :playground %>
+
+## Anatomy
+
+The info line consists of:
+
+- Project name, linking to the project unless it is archived
+- Workspace type (optional): icon and name of the workspace type (Portfolio, Program, Project)
+- Archived label, shown only for archived projects
+
+Only the project name is interactive. All other interaction has to come from the element using this component.
+
+## Used in
+
+- Projects tab of a work package type
+
+### Code structure
+
+```ruby
+render(Projects::InfoLineComponent.new(project: @project))
+render(Projects::InfoLineComponent.new(project: @project, show_workspace_type: true))
+```

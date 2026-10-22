@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -45,19 +45,25 @@ pl:
         not_selectable: Wybór pozostaje bez zmian. Ten pakiet roboczy nie ma wpływu na kolejność pozycji na tej liście.
         range_blocked: Wybór pozostaje bez zmian. Ten zakres zawiera pakiet roboczy, który nie ma wpływu na kolejność pozycji na tej liście.
         range_restarted:
-          one: Nie można rozszerzyć zakresu. Wybrano 1 pakiet roboczy.
-          few: Nie można rozszerzyć zakresu. Wybrano %{count} pakiety robocze.
-          many: Nie można rozszerzyć zakresu. Wybrano %{count} pakietów roboczych.
-          other: Nie można rozszerzyć zakresu. Wybrano %{count} pakietu roboczego.
+          one: Could not extend the range. %{count} work package selected.
+          few: Could not extend the range. %{count} work packages selected.
+          many: Could not extend the range. %{count} work packages selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Wybór pozostaje bez zmian. Rozwiń tę listę, aby wybrać ten zakres.
         selected:
-          one: Wybrano 1 pakiet roboczy.
-          few: Wybrano %{count} pakiety robocze.
-          many: Wybrano %{count} pakietów roboczych.
-          other: Wybrano %{count} pakietu roboczego.
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
     burndown:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
       day: Dzień
       points: Punkty
+    created_resolved:
+      work_packages: Work packages
     work_packages:
       properties:
         storyPoints: Historia Punktów

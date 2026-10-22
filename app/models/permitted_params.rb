@@ -42,7 +42,7 @@ class PermittedParams
   #
   # A controller could use a permitted_params method like this
   #
-  # model_instance.METHOD_USING_ASSIGMENT = permitted_params.name_of_the_params_key_referenced
+  # model_instance.METHOD_USING_ASSIGNMENT = permitted_params.name_of_the_params_key_referenced
   #
   attr_reader :params, :current_user
 
@@ -418,7 +418,7 @@ class PermittedParams
   end
 
   def reply
-    params.require(:reply).permit(:content, :subject)
+    params.require(:reply).permit(:content)
   end
 
   def wiki
@@ -562,6 +562,7 @@ class PermittedParams
           :estimated_hours,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -591,6 +592,7 @@ class PermittedParams
           :status_id,
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
+          { label_ids: [] },
           :priority_id
         ],
         oauth_application: [

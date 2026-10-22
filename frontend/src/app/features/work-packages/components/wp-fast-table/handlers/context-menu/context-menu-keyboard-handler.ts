@@ -54,10 +54,14 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
       return true;
     }
 
+    const row = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
+
+    if (!row.dataset.workPackageId || this.isUnsavedRow(row)) {
+      return true;
+    }
+
     evt.preventDefault();
     evt.stopPropagation();
-
-    const row = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
 
     super.openContextMenu(
       component.workPackageTable,

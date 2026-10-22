@@ -102,7 +102,7 @@ vi:
     not_recommended: không khuyến nghị
     recommended: khuyến nghị
     x_bcf_issues:
-      one: Một vấn đề về BCF
+      one: "%{count} BCF issue"
       other: "%{count} vấn đề về BCF"
       zero: Không có vấn đề BCF
   bim:

@@ -66,9 +66,7 @@ hu:
 
           '
       label_n_groups_found:
-        one: '1 csoportot talált a szűrő
-
-          '
+        one: "%{count} group found by the filter"
         other: "%{count} csoportot talált a szűrő"
         zero: A szűrő nem talált csoportokat
       plural: LDAP csoport szinkronizációs szűrő

@@ -54,7 +54,7 @@ zh-CN:
 
           '
       label_n_groups_found:
-        one: 筛选器找到了 1 个组
+        one: "%{count} group found by the filter"
         other: 筛选器找到了 %{count} 个组
         zero: 筛选器未找到组
       plural: LDAP 组同步筛选器

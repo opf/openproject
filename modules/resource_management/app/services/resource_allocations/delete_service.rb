@@ -29,5 +29,22 @@
 
 module ResourceAllocations
   class DeleteService < ::BaseServices::Delete
+    private
+
+    def before_perform(*)
+      super.tap do
+        @schedule_users = [model.principal].compact
+        ScheduledEntry.lock_schedules_of(@schedule_users)
+      end
+    end
+
+    def after_perform(call)
+      allocation = call.result
+      if allocation.allocated? && @schedule_users.any?
+        UpdateScheduleService.new.call(users: @schedule_users, from: allocation.start_date)
+      end
+
+      super
+    end
   end
 end

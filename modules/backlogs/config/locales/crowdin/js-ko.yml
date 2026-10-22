@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -45,13 +45,19 @@ ko:
         not_selectable: 선택 항목이 변경되지 않았습니다. 이 작업 패키지는 해당 목록의 순서 지정에 영향을 미치지 않습니다.
         range_blocked: 선택 항목이 변경되지 않았습니다. 해당 범위에는 이 목록의 순서 지정에 영향을 미치지 않는 작업 패키지가 포함되어 있습니다.
         range_restarted:
-          other: 범위를 확장할 수 없습니다. %{count}개 작업 패키지가 선택되었습니다.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: 선택 항목이 변경되지 않았습니다. 이 목록을 확장하여 해당 범위를 선택하세요.
         selected:
-          other: "%{count}개 작업 패키지가 선택되었습니다."
+          other: "%{count} work packages selected."
     burndown:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
       day: 일
       points: 포인트
+    created_resolved:
+      work_packages: Work packages
     work_packages:
       properties:
         storyPoints: 스토리 포인트

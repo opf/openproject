@@ -89,7 +89,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     create(:user,
            member_with_permissions: {
              project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
-                           view_budgets]
+                           view_budgets],
+             parent_work_package.project => %w[view_work_packages]
            })
   end
   let(:another_user) do
@@ -233,24 +234,38 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Remaining work", "9h",
       "% Complete", "25%",
       "Spent time", "0h",
-      "Story Points", "1",
+      *(project.module_enabled?(:backlogs) ? ["Story Points", "1"] : []),
       "Details",
       "Priority", "Normal",
-      *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
-      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
+      *(if project.module_enabled?(:backlogs)
+          [
+            *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
+            *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"])
+          ]
+        else
+          []
+        end),
       WorkPackage.human_attribute_name(:version), work_package.target_versions.first,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
       "Other",
-      "Position", "1",
+      *(project.module_enabled?(:backlogs) ? ["Position", "1"] : []),
       "Work Package Custom Field Long Text", "foo   faa",
       "Empty Work Package Custom Field Long Text",
       "Work Package Custom Field Boolean", "Yes",
       "My Link", "https://example.com",
-      "Costs",
-      "Spent units", "Labor costs", "Unit costs", "Overall costs",
-      *(project.module_enabled?(:budgets) ? ["Budget"] : [])
+      *(if project.costs_enabled?
+          [
+            "Costs",
+            *(project.cost_types_available? ? ["Spent units"] : []),
+            "Labor costs",
+            *(project.cost_types_available? ? ["Unit costs", "Overall costs"] : []),
+            *(project.module_enabled?(:budgets) ? ["Budget"] : [])
+          ]
+        else
+          []
+        end)
     ]
   end
 
@@ -317,6 +332,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
 
         expect(result).to include("#{WorkPackage.human_attribute_name(:target_versions)} #{version.name}")
+      end
+    end
+
+    describe "with the work package labels feature active", with_flag: { work_package_labels: true } do
+      before do
+        create(:labeling, label: create(:label, name: "Urgent"), labelable: work_package)
+      end
+
+      it "renders the labels attribute" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:labels)} Urgent")
       end
     end
 
@@ -655,6 +682,19 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
         expect(result).not_to include("NotOnTypeCustomField")
+      end
+    end
+
+    context "with the backlogs module disabled" do
+      let(:enabled_module_names) { %i[work_package_tracking] }
+      let(:attachments) { [] }
+      let(:description) { "Lorem ipsum" }
+
+      it "omits backlogs attributes" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+        expect(result).not_to include("Story Points")
+        expect(result).to include("Priority Normal")
+        expect(result).to include("Lorem")
       end
     end
   end

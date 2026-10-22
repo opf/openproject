@@ -169,7 +169,7 @@ let(:project_role) { create(:project_role, permissions: [:view_work_packages, :a
 
 let(:project) { create(:project) }
 
-let(:user) { create(:user, member_with_roles: { project => [projet_role] }, global_roles: [global_role]) }
+let(:user) { create(:user, member_with_roles: { project => [project_role] }, global_roles: [global_role]) }
 ```
 
 #### Setting up users with permissions

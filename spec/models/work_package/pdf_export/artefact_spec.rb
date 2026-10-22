@@ -556,6 +556,21 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
         expect(pdf_strings.join(" ")).not_to include(I18n.t(:label_table_of_contents))
       end
     end
+
+    context "with a group whose attributes are all hidden" do
+      let(:type) do
+        type = create(:type_bug)
+        variant = type.default_variant
+        default_groups = variant.default_attribute_groups.map { |key, attributes| [key, attributes - %w(project_phase)] }
+        variant.attribute_groups = default_groups + [["Phases", %w(project_phase)]]
+        variant.save!
+        type
+      end
+
+      it "lists no contents entry for a group with only hidden attributes" do
+        expect(pdf_strings).not_to include("Phases")
+      end
+    end
   end
 
   describe "inherited form configuration" do

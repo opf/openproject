@@ -1,0 +1,31 @@
+# Schema: SpecificationModel
+---
+type: object
+required:
+  - openapi
+  - info
+properties:
+  openapi:
+    type: string
+    description: The OpenAPI specification version number.
+  info:
+    type: object
+    description: Provides metadata about the API. 
+  servers:
+    type: array
+    items:
+      type: object
+      description: An object representing a Server.
+    description: An array of Server Objects.
+  paths:
+    type: object
+    description: The available paths and operations for the API.
+  components:
+    type: object
+    description: An element to hold various Objects for the OpenAPI Description.
+  tags:
+    type: array
+    items:
+      type: object
+      description: Adds metadata to a single tag.
+    description: A list of tags used by the OpenAPI Description with additional metadata.

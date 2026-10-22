@@ -44,9 +44,9 @@ module WorkPackages
       service_class
         .new(user:, work_packages:)
         .call(params)
-        .on_success(&method(:successful_status_update))
-        .on_failure(&method(:failure_status_update))
-        .then(&method(:wrap_result))
+        .on_success { |call| successful_status_update(call) }
+        .on_failure { |call| failure_status_update(call) }
+        .then { |call| wrap_result(call) }
     end
 
     def store_status?

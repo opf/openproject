@@ -122,6 +122,8 @@ da:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Customized ID
         customized_type: Customized type
@@ -132,8 +134,6 @@ da:
         repository: Projektarkiv
       comment:
         commented: Kommenterede
-      custom_action:
-        actions: Handlinger
       custom_field:
         admin_only: Admin-only
         allow_non_open_versions: Allow non-open versions
@@ -206,12 +206,16 @@ da:
         widgets: Widgets
       group:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -239,27 +243,6 @@ da:
         onthefly: Automatic user creation
         port: Port
         tls_certificate_string: LDAP server SSL certificate
-      llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
-      llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        env_fingerprint: Applied environment configuration
-        env_provisioned_at: Applied from the environment
-        llm_features_enabled: Enable LLMs for this instance
-      llm_feature_binding:
-        dimensions: Dimensions
-        feature_key: Feature
-        model: Model
-      llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -441,6 +424,7 @@ da:
       user:
         admin: Administrator
         auth_source: Authentication source
+        avatar_type: Avatar type
         consented_at: Consented at
         current_password: Nuværende adgangskode
         department: Department
@@ -464,6 +448,8 @@ da:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
@@ -649,6 +635,8 @@ da:
         odd: skal være ulige.
         overlapping_range: overlaps with an existing non-working day range.
         regex_invalid: could not be validated with the associated regular expression.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: skal være mindre end eller lig den maksimale længde.
@@ -776,45 +764,6 @@ da:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'The provided SSL certificate is invalid: %{additional_message}'
-        llm_connection:
-          attributes:
-            api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
-            api_key:
-              invalid_api_key: was rejected by the LLM server.
-            base:
-              singleton: Only one LLM connection can be active.
-            base_url:
-              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
-              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
-              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
-              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
-              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
-              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
-            custom_headers:
-              invalid: must map header names to plain text values.
-            default_chat_model_id:
-              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
-              not_available: is not offered by the configured LLM server.
-            default_embedding_model_id:
-              cannot_embed: is known not to create embeddings, according to the LLM server.
-              not_available: is not offered by the configured LLM server.
-            llm_features_enabled:
-              requires_connection: cannot be turned on before a connection has been configured.
-        llm_feature_binding:
-          attributes:
-            dimensions:
-              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
-              not_for_chat_feature: only applies to features that create embeddings.
-            feature_key:
-              not_registered: does not belong to a known AI feature.
-            model_id:
-              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
-              not_available: is not offered by the configured LLM server.
-        llm_model:
-          attributes:
-            external_id:
-              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Unable to save because the meeting was updated by someone else in the meantime. Please reload the page.
         member:
@@ -1010,8 +959,8 @@ da:
               numeric: tal (fx "1")
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                one: er blevet benyttet tidligere. Vælg venligst et, der er forskelligt fra dit seneste.
-                other: er blevet benyttet tidligere. Vælg venligst et, der er forskelligt fra dine seneste %{count}.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: Speciel (fx "%")
               uppercase: store bogstaver (f.eks. "A")
             password_confirmation:
@@ -1080,6 +1029,8 @@ da:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: kan ikke være i et andet projekt.
               cannot_be_milestone: kan ikke være en milepæl.
@@ -1107,6 +1058,8 @@ da:
             status_id:
               status_invalid_in_type: is invalid because the current status does not exist in this type.
               status_transition_invalid: er ugyldig, da der mangler gyldig overførsel fra gammel til ny status for den aktuelle brugers roller.
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: cannot be a milestone because this work package has children.
           is_not_a_valid_target_for_time_entries: 'Arbejdspakke # %{id} er ikke et gyldig mål for tildeling af tider.'
@@ -1115,8 +1068,8 @@ da:
       template:
         body: 'Kontroller venligst følgende felter:'
         header:
-          one: 1 fejl forhindrede, at denne %{model} blev gemt
-          other: "%{count} fejl forhindrede, at denne %{model} blev gemt"
+          one: "%{count} error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Action
@@ -1154,6 +1107,9 @@ da:
       auth_provider:
         one: Authentication provider
         other: Authentication providers
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1175,9 +1131,6 @@ da:
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1244,6 +1197,9 @@ da:
       issue_priority:
         one: Prioritet
         other: Priorities
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1599,7 +1555,7 @@ da:
     import:
       title: Import
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc memory allocator
@@ -1649,7 +1605,9 @@ da:
         button_delete_token: Delete token
         button_save: Save configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
@@ -1758,25 +1716,25 @@ da:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
+              one: "%{count} issue"
               other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               other: "%{count} jobs"
             projects:
-              one: 1 project
+              one: "%{count} project"
               other: "%{count} projects"
             statuses:
-              one: 1 status
+              one: "%{count} status"
               other: "%{count} statuses"
             types:
-              one: 1 type
+              one: "%{count} type"
               other: "%{count} types"
             users:
-              one: 1 user
+              one: "%{count} user"
               other: "%{count} users"
             work_packages:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
@@ -1842,7 +1800,7 @@ da:
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
               caption_done_description:
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
@@ -1953,144 +1911,6 @@ da:
         no_matches:
           description: Try a different search term.
           title: No labels match your search
-    llm_connections:
-      delete_api_key:
-        configured_from_env: This connection is configured through the environment and cannot be changed here.
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
-        title: Remove API key
-      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
-      disconnect:
-        configured_from_env: This connection is configured through the environment and cannot be changed here.
-        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
-        heading: Disconnect from the LLM server?
-        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
-        keeps_models: The model list, including any models you added manually, is kept.
-        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
-        menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
-      form:
-        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
-        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
-        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
-        api_key_caption_env: The key comes from the environment.
-        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
-        base_url_caption: The base URL of the server, for example https://example.com/v1.
-        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
-        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
-        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
-        label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
-      show:
-        description: Connect OpenProject to an LLM server so that AI features can use it.
-        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
-      tabs:
-        connection: Connection
-        features: Feature configuration
-        models: Models
-      update:
-        disabled: Saved. LLM features are switched off for this instance.
-        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
-        success: Successfully connected to the LLM server.
-    llm_feature_bindings:
-      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
-      form:
-        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
-        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
-        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
-        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
-      index:
-        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
-      inherit_with_default: Use the default (%{model})
-      inherit_without_default: Use the default (none set)
-      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
-      locked_values_heading: Values fixed by the existing index
-      option_unqualified: "%{model} (no longer eligible for this feature)"
-      update:
-        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
-        success: The model for %{feature} has been saved.
-    llm_health_status:
-      create:
-        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
-      create_health_status_report:
-        success: The checks have run.
-      show:
-        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
-        blankslate_heading: This connection has not been checked yet
-        download: Download report
-        last_check: Last checked %{datetime}.
-        run_checks: Run checks
-        running: Running checks...
-        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
-    llm_models:
-      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
-      create:
-        success: "%{model} has been added."
-      defaults:
-        chat_caption: Embedding models are not offered.
-        description: Used by AI features that do not choose a model themselves.
-        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
-        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
-        embedding_option_unqualified: "%{model} (not known to create embeddings)"
-        heading: Default models
-        success: The default models have been saved.
-      destroy:
-        description: The model will no longer be offered to AI features.
-        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
-        heading: Remove %{model}?
-        success: "%{model} has been removed."
-        title: Remove model
-      edit:
-        description: Edit how OpenProject uses this model.
-      form:
-        context_window: Context window
-        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
-        context_window_known: Leave blank to use %{value}, %{source}.
-        display_name_caption: An optional friendly name shown instead of the model id.
-        external_id_caption: The model name exactly as the server expects it.
-        model_type: Model type
-        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
-        model_type_chat: Chat model
-        model_type_embedding: Embedding model
-        model_type_unspecified: Not specified
-        state_inherited: Inherit from server (%{state})
-        state_supported: Supported
-        state_unsupported: Not supported
-      index:
-        add_model: Model
-        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
-        blank_title: No models available
-        context_window: Context window
-        description: Reported by the server on %{fetched_at}.
-        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
-        filter_label: Filter models
-        identifier: Model
-        kind: Type
-        refresh: Refresh models
-        source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
-      new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
-      refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
-      update:
-        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -2129,6 +1949,10 @@ da:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2142,7 +1966,7 @@ da:
         confirm_button: Unreserve identifier
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
         title: Unreserve identifier
@@ -2271,7 +2095,7 @@ da:
           error_unknown: Needs manual review
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
-            one: "... 1 more project"
+            one: "... %{count} more project"
             other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
@@ -2354,9 +2178,11 @@ da:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: One role selected
+          one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -2366,7 +2192,7 @@ da:
         confirm: Remove
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
-          one: Remove 1 status?
+          one: Remove %{count} status?
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
@@ -2411,7 +2237,7 @@ da:
     deleted_by_admin: The quarantined file '%{filename}' has been deleted by an administrator.
     deleted_message: A virus was detected in file '%{filename}'. The file has been deleted.
     not_processed_yet_message: Downloading is blocked, as file was not scanned for viruses yet. Please try again later.
-    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Container
       delete: Delete the quarantined file
@@ -2586,6 +2412,7 @@ da:
     updated_at: Opdateret den
     updated_on: Opdateret den
     uploader: Uploader
+    url: URL
     user: Bruger
     username: Username
     value: Værdi
@@ -2667,88 +2494,88 @@ da:
   button_actions: Handlinger
   button_add: Tilføj
   button_add_comment: Tilføj kommentar
-  button_add_item_above: Add item above
-  button_add_item_below: Add item below
+  button_add_item_above: Tilføj element ovenfor
+  button_add_item_below: Tilføj element nedenfor
   button_add_member: Tilføj medlem
   button_add_menu_entry: Tilføj menupunkt
-  button_add_non_working_time: Time off
-  button_add_sub_item: Add sub-item
+  button_add_non_working_time: Fravær
+  button_add_sub_item: Tilføj underelement
   button_add_watcher: Tilføj tilsynsførende
   button_all_filters: All filters
   button_annotate: Anmærke
   button_apply: Benyt
-  button_apply_changes: Apply changes
+  button_apply_changes: Anvend ændringer
   button_archive: Arkiv
   button_back: Tilbage
-  button_buy_now: Buy now
+  button_buy_now: Køb nu
   button_cancel: Annuller
   button_change: Ændring
   button_change_parent_page: Skift overordnet side
   button_change_password: Skift adgangskode
   button_check_all: Vælg alt
   button_clear: Ryd
-  button_click_to_reveal: Click to reveal
+  button_click_to_reveal: Klik for at vise
   button_close: Luk
   button_collapse_all: Fold alle sammen
-  button_complete: Complete
+  button_complete: Fuldfør
   button_configure: Opsæt
   button_configure_menu_entry: Opsæt menupunkt
-  button_confirm: Confirm
+  button_confirm: Bekræft
   button_continue: Fortsæt
   button_copy: Kopier
-  button_copy_link_to_clipboard: Copy link to clipboard
+  button_copy_link_to_clipboard: Kopiér link til udklipsholderen
   button_copy_to_clipboard: Kopiér til Udklipsholder
   button_create: Opret
   button_create_and_continue: Opret og fortsæt
-  button_decline: Decline
+  button_decline: Afvis
   button_delete: Slet
   button_delete_menu_entry: Slet menupunkt
-  button_delete_permanently: Delete permanently
+  button_delete_permanently: Slet permanent
   button_delete_watcher: Slet tilsynsførende %{name}
-  button_disable: Disable
+  button_disable: Deaktiver
   button_download: Hent
   button_duplicate: Lav dublet
   button_duplicate_and_follow: Duplicate and follow
   button_edit: Rediger
-  button_edit_associated_wikipage: 'Edit associated wiki page: %{page_title}'
-  button_edit_non_working_time: Edit time off
-  button_enable: Enable
+  button_edit_associated_wikipage: 'Rediger tilknyttet wikiside: %{page_title}'
+  button_edit_non_working_time: Rediger fravær
+  button_enable: Aktivér
   button_expand_all: Fold alle ud
-  button_favorite: Add to favorites
+  button_favorite: Føj til favoritter
   button_filter: Filter
-  button_finish_setup: Finish setup
+  button_finish_setup: Afslut opsætning
   button_generate: Generér
   button_list: Liste
   button_lock: Lås
   button_login: Log ind
   button_manage_menu_entry: Opsæt menupunkt
-  button_manage_roles: Manage roles
+  button_manage_roles: Administrer roller
   button_move: Flyt
   button_move_and_follow: Flyt og følg
   button_next: Next
-  button_print: Print
-  button_publish: Make public
+  button_print: Udskriv
+  button_publish: Gør offentlig
   button_quote: Citer
   button_remove: Fjern
-  button_remove_member: Remove member
-  button_remove_member_and_shares: Remove member and shares
-  button_remove_permanently: Remove permanently
-  button_remove_reminder: Remove reminder
+  button_remove_member: Fjern medlem
+  button_remove_member_and_shares: Fjern medlem og delinger
+  button_remove_permanently: Fjern permanent
+  button_remove_reminder: Fjern påmindelse
   button_rename: Omdøb
-  button_replace: Replace
+  button_replace: Erstat
   button_reply: Svar
   button_reset: Nulstil
-  button_revoke: Revoke
-  button_revoke_access: Revoke access
-  button_revoke_all: Revoke all
-  button_revoke_only: Revoke only %{shared_role_name}
-  button_revoke_work_package_shares: Revoke work package shares
+  button_revoke: Tilbagekald
+  button_revoke_access: Tilbagekald adgang
+  button_revoke_all: Tilbagekald alle
+  button_revoke_only: Tilbagekald kun %{shared_role_name}
+  button_revoke_work_package_shares: Tilbagekald delinger af arbejdspakker
   button_rollback: Vend tilbage til denne version
   button_save: Gem
   button_save_as: Gem som
-  button_save_back: Save and back
-  button_select: Select
-  button_set_reminder: Set reminder
+  button_save_back: Gem og gå tilbage
+  button_select: Vælg
+  button_set_reminder: Angiv påmindelse
   button_show: Vis
   button_sort: Sorter
   button_stop_timer: Stop stopur
@@ -2756,15 +2583,15 @@ da:
   button_test: Test
   button_unarchive: Udpak
   button_uncheck_all: Fjern alle markeringer
-  button_unfavorite: Remove from favorites
+  button_unfavorite: Fjern fra favoritter
   button_unlock: Ophæv spærring
-  button_unpublish: Make private
+  button_unpublish: Gør privat
   button_unwatch: Stands tilsyn
   button_update: Opdater
-  button_upgrade: Upgrade
-  button_upload: Upload
+  button_upgrade: Opgrader
+  button_upload: Overfør
   button_view: Se
-  button_view_shared_work_packages: View shared work packages
+  button_view_shared_work_packages: Vis delte arbejdspakker
   button_watch: Før tilsyn
   calculated_values:
     error_dialog:
@@ -2818,9 +2645,9 @@ da:
     text:
       failed: Kunne ikke kopiere projektet "%{source_project_name}" til projektet "%{target_project_name}".
       succeeded: Kopierede projektet "%{source_project_name}" til "%{target_project_name}".
-    title: Copy project "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Et objekt af denne type
+      one: "%{count} object of this type"
       other: "%{count} objekter af denne type"
       zero: Ingen objekter af denne type
   create_portfolio:
@@ -2860,7 +2687,7 @@ da:
     admin:
       hierarchy:
         subitems:
-          one: 1 sub-item
+          one: "%{count} sub-item"
           other: "%{count} sub-items"
           zero: no sub-items
       items:
@@ -3020,56 +2847,56 @@ da:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: ca. 1 time
-        other: ca. %{count} timer
+        one: about %{count} hour
+        other: about %{count} hours
       about_x_months:
-        one: ca. 1 måned
-        other: ca. %{count} måneder
+        one: about %{count} month
+        other: about %{count} months
       about_x_years:
-        one: ca. 1 år
-        other: ca. %{count} år
+        one: about %{count} year
+        other: about %{count} years
       almost_x_years:
-        one: knap 1 år
-        other: knap %{count} år
+        one: almost %{count} year
+        other: almost %{count} years
       half_a_minute: et halvt minut
       less_than_x_minutes:
         one: under ét minut
         other: færre end %{count} minutter
       less_than_x_seconds:
-        one: under 1 sekund
-        other: færre end %{count} sekunder
+        one: less than %{count} second
+        other: less than %{count} seconds
       over_x_years:
-        one: over 1 år
-        other: flere end %{count} år
+        one: over %{count} year
+        other: over %{count} years
       x_days:
-        one: 1 dag
-        other: "%{count} dage"
+        one: "%{count} day"
+        other: "%{count} days"
       x_hours:
-        one: 1 time
-        other: "%{count} timer"
+        one: "%{count} hour"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 hr
+        one: "%{count} hr"
         other: "%{count} hrs"
       x_minutes:
-        one: 1 minut
-        other: "%{count} minutte"
+        one: "%{count} minute"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min
+        one: "%{count} min"
         other: "%{count} mins"
       x_months:
-        one: 1 måned
-        other: "%{count} måneder"
+        one: "%{count} month"
+        other: "%{count} months"
       x_seconds:
-        one: 1 sekund
-        other: "%{count} sekunder"
+        one: "%{count} second"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 week
+        one: "%{count} week"
         other: "%{count} weeks"
       x_years:
-        one: 1 year
+        one: "%{count} year"
         other: "%{count} years"
     units:
       day:
@@ -3220,7 +3047,7 @@ da:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        one: One day left of %{trial_plan} trial token
+        one: "%{count} day left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
@@ -3351,65 +3178,65 @@ da:
   enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
   enumeration_reported_project_statuses: Reported status
   enumeration_work_package_priorities: Prioritering af arbejdspakker
-  error_attribute_not_highlightable: 'Attribute(s) not highlightable: %{attributes}'
-  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_attribute_not_highlightable: 'Attributter, der ikke kan fremhæves: %{attributes}'
+  error_auth_source_sso_failed: Single sign-on (SSO) for brugeren '%{value}' mislykkedes
   error_can_not_archive_project: 'Dette projekt kan ikke arkiveres: %{errors}'
-  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
+  error_can_not_deactivate_type_invisible_projects: Der er også arbejdspakker i projekter, som du ikke kan se.
   error_can_not_delete_custom_field: Kan ikke slette det selvvalgte felt
-  error_can_not_delete_entry: Unable to delete entry
-  error_can_not_delete_in_use_archived_undisclosed: There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.
-  error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
+  error_can_not_delete_entry: Posten kan ikke slettes
+  error_can_not_delete_in_use_archived_undisclosed: Der er også arbejdspakker i arkiverede projekter. Bed en administrator om at foretage sletningen; administratoren kan se, hvilke projekter der er berørt.
+  error_can_not_delete_in_use_archived_work_packages: 'Der er også arbejdspakker i arkiverede projekter. Du skal først genaktivere følgende projekter, før du kan ændre attributten for de pågældende arbejdspakker: %{archived_projects_urls}'
   error_can_not_delete_type:
     explanation: This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.
-  error_can_not_find_all_resources: Could not find all related resources to this request.
-  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_find_all_resources: Ikke alle ressourcer, der hører til forespørgslen, blev fundet.
+  error_can_not_invite_user: Invitationen kunne ikke sendes til brugeren.
   error_can_not_remove_role: Denne rolle er i brug og kan ikke slettes.
-  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
+  error_can_not_remove_type_from_project: '"%{name}" kan ikke fjernes fra projektet "%{project}", fordi den stadig bruges af %{work_packages_link}'
   error_can_not_reopen_work_package_on_closed_version: En arbejdspakke der er knyttet til en lukket version kan ikke åbnes igen
   error_can_not_unarchive_project: 'Dette projekt kan ikke fjernes fra arkivering: %{errors}'
   error_check_user_and_role: Vælg venligst en bruger og en rolle.
-  error_code: Error %{code}
+  error_code: Fejl %{code}
   error_color_could_not_be_saved: Farve kan ikke gemmes
-  error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.
-  error_custom_option_not_found: Option does not exist.
-  error_enterprise_activation_user_limit: Your account could not be activated (user limit reached). Please contact your administrator to gain access.
-  error_enterprise_plan_needed: You need the %{plan} enterprise plan to perform this action.
+  error_cookie_missing: OpenProject-cookien mangler. Sørg for, at cookies er slået til, da programmet ikke virker korrekt uden.
+  error_custom_option_not_found: Valgmuligheden findes ikke.
+  error_enterprise_activation_user_limit: Din konto kunne ikke aktiveres (grænsen for antal brugere er nået). Kontakt din administrator for at få adgang.
+  error_enterprise_plan_needed: Du skal have Enterprise-planen %{plan} for at udføre denne handling.
   error_enterprise_token_invalid_domain: The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected}).
-  error_external_authentication_failed_message: 'An error occurred during external authentication: %{message}'
-  error_failed_to_delete_entry: Failed to delete this entry.
-  error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
-  error_in_new_dependent: 'Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}'
-  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
-  error_invalid_selected_value: Invalid selected value.
-  error_journal_attribute_not_present: Journal does not contain attribute %{attribute}.
+  error_external_authentication_failed_message: 'Der opstod en fejl under ekstern godkendelse: %{message}'
+  error_failed_to_delete_entry: Posten kunne ikke slettes.
+  error_in_dependent: 'Fejl ved ændring af afhængigt objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
+  error_in_new_dependent: 'Fejl ved oprettelse af afhængigt objekt: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: Elementet kan ikke flyttes til den ønskede placering. Genindlæs siden, og prøv igen.
+  error_invalid_selected_value: Ugyldig valgt værdi.
+  error_journal_attribute_not_present: Journalen indeholder ikke attributten %{attribute}.
   error_menu_item_not_created: Menupunktet kunne ikke tilføjes
   error_menu_item_not_saved: Menupunktet kunne ikke gemmes
-  error_migrations_are_pending: Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation.
-  error_migrations_visit_upgrade_guides: Please visit our upgrade guide documentation
+  error_migrations_are_pending: Der er databasemigreringer, som endnu ikke er kørt i din OpenProject-installation. Du har sandsynligvis glemt at køre migreringerne ved den seneste opgradering. Se opgraderingsvejledningen for at opgradere installationen korrekt.
+  error_migrations_visit_upgrade_guides: Se vores opgraderingsvejledninger
   error_must_be_project_member: skal være et medlem af projektet
   error_no_default_work_package_status: Der er ikke angivet en status som standard for denne arbejdspakke. Tjek venligst din opsætning (gå til "Administration > Status for arbejdspakker").
   error_no_type_in_project: Der er ikke tilknyttet en type til dette projekt. Tjek venligst projektindstillingerne.
-  error_omniauth_invalid_auth: The authentication information returned from the identity provider was invalid. Please contact your administrator for further help.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
+  error_omniauth_invalid_auth: Godkendelsesoplysningerne fra identitetsudbyderen var ugyldige. Kontakt din administrator for at få hjælp.
+  error_omniauth_provider_incomplete: Du kan ikke logge ind med %{provider} lige nu, fordi denne loginmetode ikke er sat helt op. Kontakt din administrator.
   error_omniauth_registration_timed_out: Registrering via en ekstern godkendelsestjeneste er udløbet. Prøv venligst igen.
-  error_password_change_failed: An error occurred when trying to change the password.
-  error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.
-  error_pdf_export_too_many_columns: Too many columns selected for the PDF export. Please reduce the number of columns.
-  error_pdf_failed_to_export: 'The PDF export could not be saved: %{error}'
-  error_reminder_not_found: The reminder was not found or was already notified about.
+  error_password_change_failed: Der opstod en fejl under ændring af adgangskoden.
+  error_pdf_date_range_too_long: Den valgte periode for arbejdspakker overskrider grænsen for PDF-eksport. Begræns perioden til højst %{years} år.
+  error_pdf_export_too_many_columns: Der er valgt for mange kolonner til PDF-eksporten. Vælg færre kolonner.
+  error_pdf_failed_to_export: 'PDF-eksporten kunne ikke gemmes: %{error}'
+  error_reminder_not_found: Påmindelsen blev ikke fundet, eller der er allerede givet besked om den.
   error_scm_command_failed: 'Der opstod en fejl da du forsøgte at tilgå projektarkivet: %{value}'
   error_scm_not_found: Indholdet eller ændring findes ikke i projektarkivet.
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.
+  error_token_authenticity: Tokenet til beskyttelse mod Cross-Site Request Forgery kunne ikke bekræftes. Har du prøvet at sende data fra flere browsere eller faner? Luk alle faner, og prøv igen.
   error_type_could_not_be_saved: Typen kan ikke gemmes
   error_unable_delete_default_status: Det er ikke muligt at slette forhåndsværdien for arbejdspakkens status. Vælg venligst en anden status for arbejdspakken før den nuværende slettes.
   error_unable_delete_status: Arbejdspakkens status kan ikke slettes da den bruges af mindst én pakke.
-  error_unable_delete_wiki: Unable to delete the wiki page.
+  error_unable_delete_wiki: Wikisiden kan ikke slettes.
   error_unable_to_connect: Kan ikke forbinde til (%{value})
-  error_unable_update_wiki: Unable to update the wiki page.
-  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
+  error_unable_update_wiki: Wikisiden kan ikke opdateres.
+  error_wiki_root_menu_item_conflict: '"%{old_name}" kan ikke omdøbes til "%{new_name}", fordi det resulterende menupunkt er i konflikt med det eksisterende menupunkt "%{existing_caption}" (%{existing_identifier}).
 
     '
-  error_work_package_id_not_found: The work package was not found.
+  error_work_package_id_not_found: Arbejdspakken blev ikke fundet.
   error_work_package_not_found_in_project: Arbejdspakken er ikke fundet, eller den hører ikke til dette projekt
   error_workflow_copy_source: Vælg venlist en type eller rolle for kilden
   error_workflow_copy_target: Vælg venligst type(r) og rolle(r) for mål
@@ -3606,14 +3433,14 @@ da:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Form
@@ -3628,7 +3455,6 @@ da:
         caption: Start with an existing form, change it as you wish and save it as a new form.
         label: Start with a copy of an existing form
         missing: Select the form to copy, or start from scratch instead.
-        panel_label: Form to copy
       label: Starting point
       scratch:
         caption: Start with the default attribute groups and arrange them yourself.
@@ -3649,11 +3475,11 @@ da:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
-        other: This form is used by %{count} types and variants.
+        one: This form is used by %{count} type or variant. Changes apply to it.
+        other: This form is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:
@@ -3663,8 +3489,48 @@ da:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Der er i øjeblikket ingen indlæg til forummet.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3828,6 +3694,7 @@ da:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3880,6 +3747,7 @@ da:
       budget_deleted: Budget has been deleted
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -3907,24 +3775,24 @@ da:
       time_entry_activity: a non-visible activity
       version: a non-visible version
       work_package: a non-visible work package
-  label_accessibility: Accessibility
+  label_accessibility: Tilgængelighed
   label_account: Konto
   label_actions: Handlinger
-  label_activate_user: Activate user
+  label_activate_user: Aktivér bruger
   label_active: Aktiv
-  label_active_in_new_projects: Active in new projects
+  label_active_in_new_projects: Aktiv i nye projekter
   label_activity: Aktivivtet
   label_add_another_file: Tilføj en anden fil
-  label_add_column: Add column
+  label_add_column: Tilføj kolonne
   label_add_columns: Tilføj valgte kolonner
   label_add_edit_translations: Tilføje og redigere oversættelser
   label_add_note: Tilføj en note
-  label_add_projects: Add projects
+  label_add_projects: Tilføj projekter
   label_add_related_work_packages: Tilføj relaterede arbejdspakker
   label_add_subtask: Tilføj underopgave
   label_added: tilføjet
-  label_added_by: Added by %{author}
-  label_added_by_on: Added by %{author} on %{date}
+  label_added_by: Tilføjet af %{author}
+  label_added_by_on: Tilføjet af %{author} den %{date}
   label_added_time_by: Tilføjet af %{author} for %{age} siden
   label_additional_workflow_transitions_for_assignee: Yderligere overgange tilladt når brugeren er opdragsgiveren
   label_additional_workflow_transitions_for_author: Yderligere overgange tilladt når brugeren er forfatteren
@@ -3932,80 +3800,80 @@ da:
   label_age: Alder
   label_ago: dage siden
   label_all: alle
-  label_all_open_wps: All open
+  label_all_open_wps: Alle åbne
   label_all_time: alle tider
-  label_all_uppercase: All
+  label_all_uppercase: Alle
   label_all_words: Alle ord
-  label_always_visible: Always displayed
+  label_always_visible: Vises altid
   label_angular: AngularJS
-  label_announcement: Announcement
+  label_announcement: Meddelelse
   label_api_access_key: API adgangsnøgle
   label_api_access_key_created_on: API adgangsnøgle oprettet for %{value} siden
   label_api_access_key_type: API
   label_api_doc: API-dokumentation
   label_app_modules: "%{app_title} modules"
   label_applied_status: Tildelt status
-  label_archive_project: Archive project
+  label_archive_project: Arkivér projekt
   label_ascending: Stigende
   label_assigned_to_me_work_packages: Mine tilknyttede arbejdspakker
   label_associated_revisions: Tilknyttede ændringer
   label_attachment_plural: Vedhæftninger
   label_attribute: Egenskab
-  label_attribute_expand_text: The complete text for '%{attribute}'
+  label_attribute_expand_text: Den fulde tekst for '%{attribute}'
   label_attribute_plural: Egenskaber
   label_authentication: Godkendelse
   label_auto_option: "(auto)"
-  label_available_custom_fields_projects: Available custom fields projects
-  label_available_global_roles: Available global roles
-  label_available_project_attributes: Available project attributes
-  label_available_project_forums: Available forums
+  label_available_custom_fields_projects: Projekter med tilgængelige brugerdefinerede felter
+  label_available_global_roles: Tilgængelige globale roller
+  label_available_project_attributes: Tilgængelige projektattributter
+  label_available_project_forums: Tilgængelige fora
   label_available_project_repositories: Tilgængelige repositorier
   label_available_project_versions: Tilgængelige versioner
   label_available_project_work_package_categories: Tilgængelige arbejdspakkekategorier
-  label_available_project_work_package_types: Available work package types
-  label_available_projects: Available projects
+  label_available_project_work_package_types: Tilgængelige arbejdspakketyper
+  label_available_projects: Tilgængelige projekter
   label_backtrace: Backtrace
-  label_backup: Backup
-  label_basic_details: Basic details
+  label_backup: Sikkerhedskopi
+  label_basic_details: Grundlæggende oplysninger
   label_between: mellem
   label_blocked_by: spærret af
   label_blocks: spærringer
   label_blog: Blog
-  label_board_plural: Boards
+  label_board_plural: Tavler
   label_boolean: Boolsk
-  label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_false: er nej
+  label_boolean_true: er ja
   label_branch: Gren
   label_browse: Browse
-  label_builtin: Built-in
+  label_builtin: Indbygget
   label_bulk_edit_selected_work_packages: Rediger valgte arbejdspakker samlet
-  label_bundled: "(Bundled)"
-  label_calculated_value: Calculated value
+  label_bundled: "(Medfølger)"
+  label_calculated_value: Beregnet værdi
   label_calendar: Kalender
   label_calendar_show: Vis kalender
-  label_calendar_subscriptions: Calendar subscriptions
-  label_calendars_and_dates: Calendars and dates
+  label_calendar_subscriptions: Kalenderabonnementer
+  label_calendars_and_dates: Kalendere og datoer
   label_change_parent: Ændr overordnede
-  label_change_password: Change password
+  label_change_password: Skift adgangskode
   label_change_plural: Ændringer
   label_change_properties: Skift egenskaber
   label_change_status: Skift status
-  label_change_status_of_user: 'Change status of #{username}'
+  label_change_status_of_user: 'Skift status for #{username}'
   label_change_view_all: Se alle ændringer
   label_changes_details: Detaljer for alle ændringer
-  label_changeset_id: Changeset ID
+  label_changeset_id: Changeset-id
   label_changeset_plural: Pakker af ændringer
-  label_changeset_versions: Changeset versions
+  label_changeset_versions: Changeset-versioner
   label_check_uncheck_all_in_column: Markér/Afmarkér alle i kolonnen
   label_check_uncheck_all_in_row: Markér/Afmarkér alle i rækken
   label_checked: valgt
   label_child_element: Underelement
-  label_choices: Choices
+  label_choices: Valgmuligheder
   label_close_versions: Luk afsluttede versioner
   label_closed: lukket
   label_closed_work_packages: lukket
   label_collapse: Fold sammen
-  label_collapsed_click_to_show: Collapsed. Click to show
+  label_collapsed_click_to_show: Foldet sammen. Klik for at vise
   label_color_plural: Farver
   label_columns: Kolonner
   label_comment_add: Tilføj kommentar
@@ -4014,60 +3882,60 @@ da:
   label_comment_plural: Kommentarer
   label_commits_per_author: Bidrag efter forfatter
   label_commits_per_month: Bidrag efter måned
-  label_committed_at_html: "%{committed_revision_link} at %{date}"
-  label_committed_link: committed revision %{revision_identifier}
-  label_completed: Completed
+  label_committed_at_html: "%{committed_revision_link} den %{date}"
+  label_committed_link: committede revision %{revision_identifier}
+  label_completed: Fuldført
   label_configuration: opsætning
   label_confirmation: Bekræftelse
-  label_consent_settings: User Consent
-  label_constant_plural: Constants
+  label_consent_settings: Brugersamtykke
+  label_constant_plural: Konstanter
   label_contains: indeholder
   label_content: Indhold
-  label_continued_from_previous_year: continued from previous year
-  label_continues_into_next_year: continues into next year
+  label_continued_from_previous_year: fortsat fra forrige år
+  label_continues_into_next_year: fortsætter ind i næste år
   label_copied: kopieret
   label_copy_project: Kopier projekt
   label_copy_same_as_target: Samme som mål
   label_copy_source: Kilde
   label_copy_target: Mål
   label_copy_workflow_from: Kopier arbejdsgang fra
-  label_copy_workflow_from_role: Copy to other roles
-  label_core_build: Core build
+  label_copy_workflow_from_role: Kopiér til andre roller
+  label_core_build: Kerne-build
   label_core_version: Kerneversion
-  label_created_by: Created by %{user}
-  label_criteria: Criteria
+  label_created_by: Oprettet af %{user}
+  label_criteria: Kriterier
   label_current_status: Nuværende status
   label_current_version: Nuværende version
-  label_custom_comment: "%{name} comment"
-  label_custom_export_cover: Custom export cover background
-  label_custom_export_cover_overlay: Custom export cover background overlay
-  label_custom_export_cover_text_color: Text color
-  label_custom_export_font_bold: Bold
-  label_custom_export_font_bold_italic: Bold Italic
-  label_custom_export_font_instructions: 'Upload and manage custom TrueType (.ttf) fonts used in your PDF exports. For best results, use matching files from the same font family. If no font is provided, the default NotoSans font will be used.
+  label_custom_comment: "%{name}-kommentar"
+  label_custom_export_cover: Brugerdefineret baggrund til forsiden af eksporter
+  label_custom_export_cover_overlay: Brugerdefineret overlejring til forsidens baggrund
+  label_custom_export_cover_text_color: Tekstfarve
+  label_custom_export_font_bold: Fed
+  label_custom_export_font_bold_italic: Fed kursiv
+  label_custom_export_font_instructions: 'Overfør og administrer brugerdefinerede TrueType-skrifttyper (.ttf), som bruges i dine PDF-eksporter. Det bedste resultat får du med filer fra samme skrifttypefamilie. Hvis der ikke er angivet en skrifttype, bruges standardskrifttypen NotoSans.
 
     '
   label_custom_export_font_italic: Kursiv
-  label_custom_export_font_regular: Regular
-  label_custom_export_footer: Custom export footer image
-  label_custom_export_images_instructions: 'Upload and manage custom image files used in your PDF exports.
+  label_custom_export_font_regular: Normal
+  label_custom_export_footer: Brugerdefineret billede i sidefoden af eksporter
+  label_custom_export_images_instructions: 'Overfør og administrer brugerdefinerede billedfiler, som bruges i dine PDF-eksporter.
 
     '
-  label_custom_export_logo: Custom export logo
-  label_custom_favicon: Custom favicon
-  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_export_logo: Brugerdefineret logo i eksporter
+  label_custom_favicon: Brugerdefineret favicon
+  label_custom_field_add_no_type: Føj feltet til en arbejdspakketype
   label_custom_field_default_type: Tom typebetegnelse
   label_custom_field_new: Nyt selvvalgt felt
   label_custom_field_plural: Selvvalgte felter
-  label_custom_pdf_export_settings: Custom PDF export settings
+  label_custom_pdf_export_settings: Brugerdefinerede indstillinger for PDF-eksport
   label_custom_style: Design
-  label_custom_style_description: Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like.
-  label_custom_touch_icon: Custom touch icon
+  label_custom_style_description: Vælg, hvordan OpenProject skal se ud for dig med temaer, vælg de standardfarver, der skal bruges i programmet, og hvordan eksporter skal se ud.
+  label_custom_touch_icon: Brugerdefineret touch-ikon
   label_dashboard: Dashboard
   label_database_version: PostgreSQL version
   label_date: Dato
-  label_date_and_time: Date and time
-  label_date_and_time_formats: Date and time formats
+  label_date_and_time: Dato og klokkeslæt
+  label_date_and_time_formats: Dato- og tidsformater
   label_date_from: Fra
   label_date_from_to: Fra %{start} til %{end}
   label_date_to: Til
@@ -4075,17 +3943,18 @@ da:
   label_day: Dag
   label_day_plural: dage
   label_default: Forhåndsvalgt
-  label_defaults: Defaults
+  label_defaults: Standardværdier
   label_delete: Slet
-  label_delete_project: Delete project
-  label_delete_user: Delete user
+  label_delete_project: Slet projekt
+  label_delete_user: Slet bruger
   label_deleted: slettet
   label_deleted_custom_field: "(slettet selvvalgt felt)"
-  label_deleted_custom_item: "(deleted item)"
-  label_deleted_custom_option: "(deleted option)"
-  label_deleted_version: "(deleted version)"
-  label_departments: Organization
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
+  label_deleted_custom_item: "(slettet element)"
+  label_deleted_custom_option: "(slettet valgmulighed)"
+  label_deleted_label: "(deleted label)"
+  label_deleted_version: "(slettet version)"
+  label_departments: Organisation
+  label_departments_description_html: 'Definer virksomhedens struktur ved at oprette afdelinger og underafdelinger i et hierarki. Så kan du afspejle rapporteringslinjer og bevare et klart, struktureret overblik over organisationen i OpenProject. Du kan også importere en eksisterende organisationsstruktur via [LDAP-synkronisering af afdelinger](ldap_docs_article).
 
     '
   label_descending: Faldende
@@ -4094,141 +3963,141 @@ da:
   label_diff: difference
   label_diff_inline: på linje
   label_diff_side_by_side: side ved side
-  label_digital_accessibility: Digital accessibility (DE)
+  label_digital_accessibility: Digital tilgængelighed (DE)
   label_disabled: deaktiveret
-  label_disabled_uppercase: Disabled
+  label_disabled_uppercase: Deaktiveret
   label_display: Vis
   label_display_per_page: Per side %{value}
   label_display_used_statuses_only: Vis kun statuser, der bruges af denne type
   label_download: "%{count} hentning"
   label_download_plural: "%{count} hentninger"
   label_downloads_abbr: D/L
-  label_duplicate: duplicate
+  label_duplicate: dublet
   label_duplicated_by: duplikeret gennem
   label_duplicates: dubletter
   label_edit: Redigér
-  label_edit_x: 'Edit: %{x}'
+  label_edit_x: 'Rediger: %{x}'
   label_empty_element: "(tom)"
   label_enable_multi_select: Vælg multivalg
   label_enabled_project_activities: Aktiverede aktivitetstidsregistrering
   label_enabled_project_custom_fields: Aktiverede brugerdefinerede felter
   label_enabled_project_modules: Aktiverede moduler
-  label_end_date: Finish date
+  label_end_date: Slutdato
   label_end_to_end: fra slutning til slutning
   label_end_to_start: fra slutning til begyndelse
   label_enterprise: Enterprise
-  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_active_users: "%{current}/%{limit} købte aktive brugere"
   label_enterprise_edition: Enterprise edition
-  label_enterprise_support: Enterprise support
+  label_enterprise_support: Enterprise-support
   label_enumeration_new: Ny værdi til opremsning
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: Optællingsværdi
   label_enumerations: Opremsninger
   label_environment: Miljø
   label_equals: er
-  label_equals_with_descendants: is any with descendants
-  label_estimates_and_progress: Estimates and progress
-  label_everywhere: everywhere
+  label_equals_with_descendants: er en hvilken som helst med underordnede
+  label_estimates_and_progress: Estimater og fremdrift
+  label_everywhere: overalt
   label_example: Eksempel
   label_expand: Udvid
-  label_expanded_click_to_collapse: Expanded. Click to collapse
+  label_expanded_click_to_collapse: Foldet ud. Klik for at folde sammen
   label_experimental: Eksperimental
-  label_export_plural: Exports
+  label_export_plural: Eksporter
   label_export_to: 'Også til rådighed i:'
-  label_external_links: External links
+  label_external_links: Eksterne links
   label_f_hour: "%{value} time"
   label_f_hour_plural: "%{value} timer"
-  label_favorite: Favorite
+  label_favorite: Favorit
   label_feed_plural: Indlæg
   label_feeds_access_key: RSS adgangsnøgle
   label_feeds_access_key_created_on: RSS adgangsnøgle lavet for %{value} siden
   label_feeds_access_key_type: RSS
-  label_file: File
+  label_file: Fil
   label_file_plural: Filer
   label_filter: Filtre
   label_filter_add: Tilføj filter
-  label_filter_any_name_attribute: Name attributes
-  label_filter_by: Filter by
+  label_filter_any_name_attribute: Navneattributter
+  label_filter_by: Filtrer efter
   label_filter_plural: Filtre
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Vis/skjul filtre
   label_float: Flyd
-  label_folder: Folder
+  label_folder: Mappe
   label_follows: følger
-  label_form_configuration_plural: Forms
-  label_formula: Formula
+  label_form_configuration_plural: Formularer
+  label_formula: Formel
   label_forum_new: Nyt forum
   label_forum_plural: Fora
   label_forum_sticky: Fremhævet
   label_forums_locked: Låst
-  label_function_plural: Functions
-  label_gantt_chart: Gantt chart
-  label_gantt_chart_plural: Gantt charts
+  label_function_plural: Funktioner
+  label_gantt_chart: Gantt-diagram
+  label_gantt_chart_plural: Gantt-diagrammer
   label_general: Generelle
   label_generate_key: Skab nøgle
   label_git_path: Sti til .git-mappe
   label_global: Global
-  label_global_modules: Global modules
-  label_global_roles: Global roles
-  label_go_back: Go back one menu level
-  label_go_forward: Open %{module} sub-menu
+  label_global_modules: Globale moduler
+  label_global_roles: Globale roller
+  label_go_back: Gå et menuniveau tilbage
+  label_go_forward: Åbn undermenuen %{module}
   label_greater_or_equal: ">="
   label_group: Gruppe
-  label_group_attributes_plural: Group attributes
+  label_group_attributes_plural: Gruppeattributter
   label_group_by: Gruppér efter
-  label_group_named: Group %{name}
+  label_group_named: Gruppe %{name}
   label_group_new: Ny gruppe
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her
   label_hide: Gem
-  label_hierarchy: Hierarchy
-  label_hierarchy_leaf: Hierarchy leaf
+  label_hierarchy: Hierarki
+  label_hierarchy_leaf: Hierarkiblad
   label_history: Historik
   label_home: Hjem
-  label_i_am_member: I am member
-  label_ical_access_key_description: iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"
-  label_ical_access_key_generation_hint: Automatically generated when subscribing to a calendar.
-  label_ical_access_key_latest: latest
-  label_ical_access_key_not_present: iCalendar token(s) not present.
-  label_ical_access_key_revoke: Revoke
+  label_i_am_member: Jeg er medlem
+  label_ical_access_key_description: iCalendar-token "%{token_name}" til "%{calendar_name}" i "%{project_name}"
+  label_ical_access_key_generation_hint: Oprettes automatisk, når du abonnerer på en kalender.
+  label_ical_access_key_latest: seneste
+  label_ical_access_key_not_present: Der findes ingen iCalendar-tokens.
+  label_ical_access_key_revoke: Tilbagekald
   label_ical_access_key_type: iCalendar
-  label_identifier: Identifiers
-  label_ifc_model_plural: Ifc Models
-  label_ifc_viewer: Ifc Viewer
-  label_import: Import
+  label_identifier: Id'er
+  label_ifc_model_plural: IFC-modeller
+  label_ifc_viewer: IFC-fremviser
+  label_import: Importér
   label_in: i
   label_in_less_than: på mindre end
   label_in_more_than: på mere end
-  label_inactive: Inactive
-  label_include_sub_projects: Include sub-projects
+  label_inactive: Inaktiv
+  label_include_sub_projects: Medtag underprojekter
   label_includes: inkluderer
   label_incoming_emails: Indkommende e-mails
-  label_incomplete: Incomplete
+  label_incomplete: Ufuldstændig
   label_index_by_date: Indhold efter dato
   label_index_by_title: Indhold efter titel
   label_information: Information
   label_information_plural: Information
   label_installation_guides: Installation guides
   label_integer: Heltal
-  label_integrations: Integrations
-  label_interface: Interface
-  label_interface_colors: Interface colors
-  label_interface_colors_description: 'These colors control how the application looks. If you modify them the theme will automatically be changed to Custom theme, but we can’t assure the compliance of the accessibility contrast minimums (WCAG 2.1). '
+  label_integrations: Integrationer
+  label_interface: Brugerflade
+  label_interface_colors: Brugerfladens farver
+  label_interface_colors_description: 'Disse farver styrer, hvordan programmet ser ud. Hvis du ændrer dem, skifter temaet automatisk til Brugerdefineret tema, men vi kan ikke garantere, at minimumskravene til kontrast i tilgængelighedsstandarden (WCAG 2.1) overholdes. '
   label_internal: Intern
-  label_introduction_video: Getting started video
+  label_introduction_video: Video om at komme i gang
   label_invitation: Invitation
   label_invite_user: Invitér bruger
-  label_item: Item
-  label_item_plural: Items
-  label_jira_import: Jira Migrator
+  label_item: Element
+  label_item_plural: Elementer
+  label_jira_import: Jira-migrering
   label_journal: Journal
   label_journal_diff: Sammenligning af beskrivelser
   label_jump_to_a_project: Gå til et projekt...
-  label_keyword_plural: Keywords
-  label_label_plural: Labels
+  label_keyword_plural: Nøgleord
+  label_label_plural: Mærkater
   label_language: Sprog
-  label_languages: Languages
+  label_languages: Sprog
   label_last_activity: Seneste aktivitet
-  label_last_change_on: Last change on
+  label_last_change_on: Senest ændret den
   label_last_changes: seneste %{count} ændringer
   label_last_login: Seneste login
   label_last_month: seneste måned
@@ -4236,38 +4105,39 @@ da:
   label_last_week: seneste uge
   label_latest_revision: Seneste revidering
   label_latest_revision_plural: Seneste revideringer
-  label_ldap_auth_source_new: New LDAP connection
-  label_ldap_auth_source_plural: LDAP connections
+  label_ldap_auth_source_new: Ny LDAP-forbindelse
+  label_ldap_auth_source_plural: LDAP-forbindelser
   label_ldap_authentication: LDAP-godkendelse
   label_learn_more: Få mere at vide
   label_less_or_equal: "<="
   label_less_than_ago: mindre end dage siden
-  label_life_cycle_step_plural: Project life cycle
+  label_life_cycle_step_plural: Projektets livscyklus
   label_link_url: Link (URL)
   label_list: Liste
   label_loading: Henter...
-  label_locale: Language and region
-  label_locale_based: Use default for user locale
-  label_lock_user: Lock user
+  label_locale: Sprog og område
+  label_locale_based: Brug standarden for brugerens sprog
+  label_lock_user: Lås bruger
   label_locked: Spærret
   label_logged_as: Logget ind som
   label_login: Log ind
   label_logout: Log ud
   label_main_menu: Sidemenu
-  label_manage: Manage
+  label_manage: Administrer
   label_manage_groups: Administrér grupper
-  label_managed_by_ldap: Managed by LDAP synchronization
+  label_managed_by_ldap: Administreres af LDAP-synkronisering
   label_managed_repositories_vendor: Administrerede %{vendor} repositorier
-  label_mapping_for: 'Mapping for: %{attribute}'
+  label_mapping_for: 'Tilknytning for: %{attribute}'
+  label_markdown_version: Markdown-version
   label_max_size: Maksimal størrelse
   label_me: mig
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Alle roller på grund af administratorstatus)"
   label_member_new: Nyt medlem
-  label_member_of_group: Member of group
-  label_member_of_project: Member of project
+  label_member_of_group: Medlem af gruppe
+  label_member_of_project: Medlem af projekt
   label_member_plural: Medlemmer
   label_membership_added: Medlem tilføjet
-  label_membership_plural: Memberships
+  label_membership_plural: Medlemskaber
   label_membership_updated: Medlem opdateret
   label_menu: Menu
   label_menu_badge:
@@ -4275,39 +4145,38 @@ da:
     beta: beta
     pre_alpha: pre-alpha
   label_menu_item_name: Navn på menupunkt
-  label_message: Message
+  label_message: Besked
   label_message_last: Seneste meddelelse
-  label_message_new: Ny meddelelse
   label_message_plural: Meddelelser
   label_message_posted: Meddelelse tilføjet
   label_minute_plural: minutter
   label_missing_api_access_key: Manglende API-adgangsnøgle
   label_missing_feeds_access_key: Manglende RSS-adgangsnøgle
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(manglende værdi eller manglende adgangsrettigheder)"
   label_modification: "%{count} ændring"
   label_modified: ændret
   label_module_plural: Moduler
   label_modules: Moduler
-  label_modules_and_plugins: Modules and Plugins
+  label_modules_and_plugins: Moduler og plugins
   label_month: Måned
   label_months_from: måneder fra
   label_more: mere
-  label_more_information: More information
+  label_more_information: Flere oplysninger
   label_more_than_ago: mere end dage siden
   label_move_column_left: Flyt kolonne til venstre
   label_move_column_right: Flyt kolonne til højre
   label_move_work_package: Flyt arbejdspakke
-  label_my_account: Account settings
+  label_my_account: Kontoindstillinger
   label_my_account_data: Mine kontodata
-  label_my_activity: My activity
-  label_my_avatar: My avatar
+  label_my_activity: Min aktivitet
+  label_my_avatar: Min avatar
   label_my_queries: Mine selvvalgte forespørgsler
-  label_my_security: Security
-  label_my_work: My work
+  label_my_security: Sikkerhed
+  label_my_work: Mit arbejde
   label_name: Navn
   label_never: Aldrig
   label_new: Ny
-  label_new_features: New features
+  label_new_features: Nye funktioner
   label_new_statuses_allowed: Nye statuser tilladt
   label_news_added: Nyheder tilføjet
   label_news_comment_added: Kommentar tilføjet til en nyhed
@@ -4322,55 +4191,55 @@ da:
   label_next_month: Næste måned
   label_next_week: Næste uge
   label_next_workweek: Næste arbejdsuge
-  label_next_year: Next year
+  label_next_year: Næste år
   label_no_change_option: "(Ingen ændringer)"
   label_no_data: Ingen data at vise
   label_no_due_date: ingen slutdato
-  label_no_parent_group: "(No parent group)"
-  label_no_parent_page: No parent page
+  label_no_parent_group: "(Ingen overordnet gruppe)"
+  label_no_parent_page: Ingen overordnet side
   label_no_start_date: ingen startdato
   label_no_time: Ingen tid registreret
   label_nobody: ingen
-  label_non_working_days: Availability calendar
-  label_non_working_days_summary: Summary
-  label_non_working_days_with_count: Non-working days (%{count})
-  label_non_working_times_summary: "%{year} summary"
-  label_non_working_times_with_count: "%{year} time off (%{count})"
+  label_non_working_days: Tilgængelighedskalender
+  label_non_working_days_summary: Oversigt
+  label_non_working_days_with_count: Ikke-arbejdsdage (%{count})
+  label_non_working_times_summary: Oversigt %{year}
+  label_non_working_times_with_count: Fravær %{year} (%{count})
   label_none: ingen
   label_none_parentheses: "(ingen)"
-  label_not_changeable: "(not changeable)"
-  label_not_configured: Not configured
+  label_not_changeable: "(kan ikke ændres)"
+  label_not_configured: Ikke konfigureret
   label_not_contains: indeholder ikke
   label_not_equals: er ikke
-  label_not_found: not found
+  label_not_found: ikke fundet
   label_nothing_display: Intet at vise
-  label_notification_center_plural: Notifications
+  label_notification_center_plural: Notifikationer
   label_on: på
   label_open: åben
   label_open_menu: Åbn menuen
   label_open_work_packages: åbn
   label_open_work_packages_plural: åbn
-  label_openproject_website: OpenProject website
-  label_operator_all: is not empty
-  label_operator_equals_all: is (AND)
-  label_operator_equals_or: is (OR)
-  label_operator_none: is empty
-  label_operator_plural: Operators
+  label_openproject_website: OpenProjects websted
+  label_operator_all: er ikke tom
+  label_operator_equals_all: er (OG)
+  label_operator_equals_or: er (ELLER)
+  label_operator_none: er tom
+  label_operator_plural: Operatorer
   label_operator_shared_with_user_any: alle
   label_optional_description: Beskrivelse
   label_options: Muligheder
   label_other: Andet
   label_overall_activity: Samlet aktivitet
   label_overview: Overblik
-  label_parent_group_caption: 'Setting a parent group will make this group a subgroup of the selected parent group. This will also inherit all memberships, including permissions of the parent group.
+  label_parent_group_caption: 'Hvis du angiver en overordnet gruppe, bliver denne gruppe en undergruppe af den valgte overordnede gruppe. Den arver også alle medlemskaber, herunder den overordnede gruppes tilladelser.
 
     '
   label_part_of: del af
   label_password_lost: Glemt din adgangskode?
-  label_password_requirement_lowercase: Must contain at least one lowercase character.
-  label_password_requirement_numeric: Must contain at least one numeric character.
-  label_password_requirement_special: Must contain at least one special character.
-  label_password_requirement_uppercase: Must contain at least one uppercase character.
+  label_password_requirement_lowercase: Skal indeholde mindst ét lille bogstav.
+  label_password_requirement_numeric: Skal indeholde mindst ét tal.
+  label_password_requirement_special: Skal indeholde mindst ét specialtegn.
+  label_password_requirement_uppercase: Skal indeholde mindst ét stort bogstav.
   label_password_rule_lowercase: Små bogstaver
   label_password_rule_numeric: Tal
   label_password_rule_special: Specialtegn
@@ -4379,7 +4248,7 @@ da:
   label_path_encoding: Indkod sti for arkivering
   label_people: Personer
   label_per_page: 'Per side:'
-  label_percent_complete: "% Complete"
+  label_percent_complete: "% færdigt"
   label_permissions: Tilladelser
   label_permissions_report: Oversigt over tilladelser
   label_personalize_page: Tilpas denne side
@@ -4388,73 +4257,73 @@ da:
   label_planning: Planlæg
   label_please_login: Log venligst ind
   label_plugins: Tilføjelsesprogrammer
-  label_portfolio: Portfolio
-  label_portfolio_new: New portfolio
-  label_portfolio_plural: Portfolios
+  label_portfolio: Portefølje
+  label_portfolio_new: Ny portefølje
+  label_portfolio_plural: Porteføljer
   label_precedes: kommer før
   label_preferences: Indstillinger
   label_preview: Forhåndsvisning
-  label_preview_not_available: Preview not available
+  label_preview_not_available: Forhåndsvisning ikke tilgængelig
   label_previous: Foregående
   label_previous_day: Forrige dag
   label_previous_month: Forrige måned
   label_previous_week: Foregående uge
   label_previous_workweek: Forrige arbejdsuge
-  label_previous_year: Previous year
+  label_previous_year: Forrige år
   label_principal_invite_via_email: " eller invitér nye brugere via e-mail"
   label_principal_search: Tilføj eksisterende brugere eller grupper
-  label_privacy_policy: Data privacy and security policy
-  label_product_version: Product version
+  label_privacy_policy: Politik for databeskyttelse og sikkerhed
+  label_product_version: Produktversion
   label_profile: Profil
   label_program: Program
-  label_program_new: New program
-  label_progress_tracking: Progress tracking
+  label_program_new: Nyt program
+  label_progress_tracking: Opfølgning på fremdrift
   label_project: Prjoekt
-  label_project_activity: Project activity
-  label_project_attribute_manage_link: Manage project attributes
-  label_project_attribute_plural: Project attributes
-  label_project_attributes_plural: Project attributes
-  label_project_attributes_settings: Project attributes settings
+  label_project_activity: Projektaktivitet
+  label_project_attribute_manage_link: Administrer projektattributter
+  label_project_attribute_plural: Projektattributter
+  label_project_attributes_plural: Projektattributter
+  label_project_attributes_settings: Indstillinger for projektattributter
   label_project_copy_notifications: Adviser via e-mail under kopiering af projekt
   label_project_count: Samlet antal projekter
-  label_project_custom_field_plural: Project attributes
+  label_project_custom_field_plural: Projektattributter
   label_project_default_type: Tillad tom typebetegnelse
-  label_project_hide_details: Hide project details
+  label_project_hide_details: Skjul projektdetaljer
   label_project_hierarchy: Projekthierarki
-  label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
+  label_project_identifier: Projekt-id
+  label_project_initiation_export_pdf: Eksportér %{project_creation_name} som PDF
   label_project_latest: Seneste projekter
-  label_project_life_cycle: Project life cycle
-  label_project_list_plural: Project lists
+  label_project_life_cycle: Projektets livscyklus
+  label_project_list_plural: Projektlister
   label_project_mappings: Projekter
   label_project_new: Nyt projekt
   label_project_plural: Projekter
   label_project_settings: Projektindstillinger
-  label_project_show_details: Show project details
-  label_project_storage_plural: File storages
-  label_project_storage_project_folder: 'File storages: Project folders'
+  label_project_show_details: Vis projektdetaljer
+  label_project_storage_plural: Fillagre
+  label_project_storage_project_folder: 'Fillagre: Projektmapper'
   label_project_view_all: Se alle projekter
-  label_projects_disk_usage_information: "%{count} projects using %{used_disk_space} disk space"
+  label_projects_disk_usage_information: "%{count} projekter bruger %{used_disk_space} diskplads"
   label_projects_menu: Projekter
   label_public_projects: Offentlige projekter
-  label_punctuation: Punctuation
+  label_punctuation: Tegnsætning
   label_query_new: Ny forespørgsel
   label_query_plural: Selvvalgte forespørgsler
   label_read: Læs...
-  label_read_documentation: Read documentation
+  label_read_documentation: Læs dokumentationen
   label_register: Opret en ny konto
   label_register_with_developer: Registrer dig som udvikler
   label_registered_on: Registreret den
   label_related_work_packages: Forbundne arbejdspakker
   label_relates: Forbundet til
   label_relates_to: Forbundet til
-  label_relation_actions: Relation actions
+  label_relation_actions: Relationshandlinger
   label_relation_delete: Slet forbindelse
-  label_relation_edit: Edit relation
+  label_relation_edit: Rediger relation
   label_relation_new: Ny forbindelse
   label_release_notes: Udgivelsesnoter
   label_remaining_work: Resterende arbejde
-  label_remove_column: Remove column
+  label_remove_column: Fjern kolonne
   label_remove_columns: Fjern valgte kolonner
   label_renamed: omdøbt
   label_reply_plural: Svar
@@ -4466,13 +4335,13 @@ da:
   label_reporting_plural: Rapporter
   label_repository: Projektarkiv
   label_repository_plural: Projektarkiver
-  label_repository_remove: Remove repository
+  label_repository_remove: Fjern repository
   label_repository_root: Repositorie topniveau
-  label_request_submission: Request submission
-  label_required: required
+  label_request_submission: Indsendelse af anmodning
+  label_required: påkrævet
   label_required_disk_storage: Påkrævet disklagerplads
-  label_requires: requires
-  label_reserved_identifiers: Reserved project identifiers
+  label_requires: kræver
+  label_reserved_identifiers: Reserverede projekt-id'er
   label_result_plural: Resultater
   label_revision: Revidering
   label_revision_id: Revidering %{value}
@@ -4483,31 +4352,31 @@ da:
   label_roadmap_no_work_packages: Ingen arbejdspakker for denne version
   label_roadmap_overdue: "%{value} forsinket"
   label_role_and_permissions: Roller og tilladelser
-  label_role_grantable: Grantable role
-  label_role_missing_permissions: "%{role} (missing required permissions)"
+  label_role_grantable: Rolle, der kan tildeles
+  label_role_missing_permissions: "%{role} (mangler påkrævede tilladelser)"
   label_role_new: Ny rolle
   label_role_plural: Rollee
-  label_role_search: Assign role to new members
+  label_role_search: Tildel rolle til nye medlemmer
   label_role_type: Type
-  label_schedule_and_availability: Schedule and availability
+  label_schedule_and_availability: Arbejdstid og tilgængelighed
   label_scm: Versionskontrolsystem
-  label_scroll_left: Scroll left
-  label_scroll_right: Scroll right
+  label_scroll_left: Rul til venstre
+  label_scroll_right: Rul til højre
   label_search: Søg
-  label_search_by_name: Search by name
-  label_seeded_from_env_warning: This record has been created through a setting environment variable. It is not editable through UI.
+  label_search_by_name: Søg efter navn
+  label_seeded_from_env_warning: Posten er oprettet via en miljøvariabel med en indstilling. Den kan ikke redigeres i brugerfladen.
   label_select_main_menu_item: Vælg nyt punkt i hovedmenu
-  label_send_information: Send new credentials to the user
+  label_send_information: Send nye loginoplysninger til brugeren
   label_send_invitation: Send invitation
   label_send_test_email: Send en e-mailtest
   label_setting_plural: Indstillinger
   label_share: Del
-  label_share_project_list: Share project list
-  label_share_work_package: Share work package
-  label_show_all_registered_users: Show all registered users
+  label_share_project_list: Del projektliste
+  label_share_work_package: Del arbejdspakke
+  label_show_all_registered_users: Vis alle registrerede brugere
   label_show_completed_versions: Vis færdige versioner
   label_show_less: Vis mindre
-  label_show_more: Show more
+  label_show_more: Vis flere
   label_sort: Sorter
   label_sort_ascending: Sorter stigende
   label_sort_by: Sorter efter %{value}
@@ -4518,55 +4387,55 @@ da:
   label_sort_lowest: Flyt til bunden
   label_sorted_by: er sorteret efter %{value}
   label_spent_time: Anvendt tid
-  label_stack: Stack
+  label_stack: Stak
   label_start_to_end: start til slut
   label_start_to_start: Start til start
-  label_starts_with: starts with
+  label_starts_with: starter med
   label_statistics: Statistik
   label_status: Status
-  label_status_plural: Statuses
+  label_status_plural: Statusser
   label_storage_for: Omfatter lagring af
   label_storage_free_space: Resterende disklagerplads
   label_storage_group: Lagringsfilsystem %{identifier}
   label_storage_used_space: Forbrugt disklagerplads
   label_string: Tekst
-  label_subitems: Subitems
-  label_subject_or_id: Subject or ID
+  label_subitems: Underelementer
+  label_subject_or_id: Emne eller id
   label_subproject: Underprojekt
-  label_subproject_add: Add subproject
+  label_subproject_add: Tilføj underprojekt
   label_subproject_plural: Underprojekter
   label_subtask_plural: Underopgaver
   label_summary: Opsummering
   label_system: System
-  label_system_or_language_default: Use system or language based default
-  label_system_settings: System settings
+  label_system_or_language_default: Brug systemets eller sprogets standard
+  label_system_settings: Systemindstillinger
   label_system_storage: Lagringsoplysninger
   label_table_of_contents: Indholdsfortegnelse
   label_tag: Etiket
-  label_team_planner: Team Planner
+  label_team_planner: Teamplanlægger
   label_template: Template
-  label_templates: Templates
+  label_templates: Skabeloner
   label_text: Lang tekst
   label_this_month: denne måned
   label_this_week: denne uge
   label_this_year: dette år
   label_time: Tidspunkt
-  label_time_entry_activity_plural: Spent time activities
+  label_time_entry_activity_plural: Aktiviteter for anvendt tid
   label_time_entry_plural: Anvendt tid
   label_timer_since: Startede %{time}
   label_title: Titel
   label_today: i dag
-  label_today_as_date: Select today as date.
-  label_today_as_due_date: Select today as finish date.
-  label_today_as_start_date: Select today as start date.
+  label_today_as_date: Vælg dags dato.
+  label_today_as_due_date: Vælg dags dato som slutdato.
+  label_today_as_start_date: Vælg dags dato som startdato.
   label_today_capitalized: I dag
-  label_token_version: Token Version
+  label_token_version: Tokenversion
   label_top_menu: Topmenu
   label_topic_plural: Emner
   label_total: Total 
-  label_total_days_off: Total days off
-  label_total_global_non_working_days: Global non-working days
-  label_total_user_non_working_times: Personal non-working days
+  label_total_days_off: Fridage i alt
+  label_total_global_non_working_days: Globale ikke-arbejdsdage
+  label_total_user_non_working_times: Personlige ikke-arbejdsdage
   label_type_new: Ny type
   label_type_plural: Typer
   label_ui: Brugergrænseflade
@@ -4574,24 +4443,25 @@ da:
   label_updated_time: Opdateret %{value} siden
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Opdateret af %{author} %{age} siden
-  label_upgrade_guides: Upgrade guides
+  label_upgrade_guides: Opgraderingsvejledninger
   label_used_by: Anvendes af
-  label_used_by_types: Used by types
-  label_used_in_projects: Used in projects
-  label_user_activity_html: "%{value}'s activity"
-  label_user_and_permission: Users and permissions
+  label_used_by_types: Bruges af typer
+  label_used_in_projects: Bruges i projekter
+  label_user_activity_html: Aktivitet for %{value}
+  label_user_and_permission: Brugere og tilladelser
   label_user_anonymous: Anonymt
-  label_user_attributes_plural: User attributes
-  label_user_menu: User menu
-  label_user_named: User %{name}
+  label_user_attributes_plural: Brugerattributter
+  label_user_menu: Brugermenu
+  label_user_named: Bruger %{name}
   label_user_new: Ny bruger
   label_user_plural: Brugere
   label_user_search: Søg efter bruger
-  label_user_settings: User settings
-  label_users_settings: Users settings
-  label_value_x: 'Value: %{x}'
-  label_version_custom_field_plural: Version custom fields
-  label_version_edit: Edit version
+  label_user_settings: Brugerindstillinger
+  label_users_settings: Indstillinger for brugere
+  label_value: Værdi
+  label_value_x: 'Værdi: %{x}'
+  label_version_custom_field_plural: Brugerdefinerede felter for versioner
+  label_version_edit: Rediger version
   label_version_new: Ny version
   label_version_plural: Versioner
   label_version_sharing_descendants: Med underprojekter
@@ -4599,44 +4469,44 @@ da:
   label_version_sharing_none: Ikke delt
   label_version_sharing_system: Med alle projekter
   label_version_sharing_tree: Med projekttræ
-  label_versions_and_categories: Versions and categories
-  label_videos: Videos
+  label_versions_and_categories: Versioner og kategorier
+  label_videos: Videoer
   label_view_all_revisions: Se alle revisioner
   label_view_diff: Se forskelle
   label_view_mode_switcher: Skift visning
   label_view_revisions: Se ændringer
-  label_view_x: 'View: %{x}'
+  label_view_x: 'Vis: %{x}'
   label_watched_work_packages: Arbejdspakker, der er tilset
   label_week: Uge
-  label_weighted_item_list: Weighted item list
-  label_what_is_this: What is this?
-  label_widget_new: New widget
+  label_weighted_item_list: Vægtet liste
+  label_what_is_this: Hvad er det?
+  label_widget_new: Ny widget
   label_wiki_content_added: Wikiside tilføjet
   label_wiki_content_updated: Wikiside opdateret
   label_wiki_dont_show_menu_item: Vis ikke denne wikipage i projektnavigationen
   label_wiki_edit: Wiki-redigering
   label_wiki_edit_plural: Wiki-redigeringer
   label_wiki_navigation: Wiki-navigering
-  label_wiki_page_attachments: Wiki page attachments
-  label_wiki_page_id: Wiki page ID
+  label_wiki_page_attachments: Vedhæftede filer på wikisiden
+  label_wiki_page_id: Wikisidens id
   label_wiki_page_plural: Wiki-sider
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: Wikisidens versioner
   label_wiki_show_index_page_link: Vis undermenupunkt 'Indhold'
   label_wiki_show_menu_item: Vis som menupunkt i projektnavigeringen
   label_wiki_show_new_page_link: Vis undermenupunktet 'Opret ny underside'
   label_wiki_start: Startside
   label_wiki_toc: Indholdsfortegnelse
-  label_wiki_toc_empty: Table of Contents is empty as no headings are present.
-  label_with_criteria: With criteria
-  label_without_criteria: Without criteria
-  label_work: Work
+  label_wiki_toc_empty: Indholdsfortegnelsen er tom, fordi der ikke er nogen overskrifter.
+  label_with_criteria: Med kriterier
+  label_without_criteria: Uden kriterier
+  label_work: Arbejde
   label_work_package: Arbejdspakke
-  label_work_package_attachments: Work package attachments
+  label_work_package_attachments: Vedhæftede filer på arbejdspakken
   label_work_package_category_new: Ny kategori
   label_work_package_category_plural: Kategorier for arbejdspakker
-  label_work_package_comments: Work package comments
+  label_work_package_comments: Kommentarer til arbejdspakken
   label_work_package_edit: Rediger arbejdspakke %{name}
-  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_hierarchy: Arbejdspakkehierarki
   label_work_package_new: Ny arbejdspakke
   label_work_package_plural: Arbejdspakker
   label_work_package_status_new: Ny status
@@ -4645,55 +4515,55 @@ da:
   label_work_package_types: Arbejdspakketyper
   label_work_package_view_all: Vis alle arbejdspakker
   label_workflow: Arbejdsgang
-  label_workflow_copy: Copy workflow
+  label_workflow_copy: Kopiér arbejdsgang
   label_workflow_plural: Arbejdsprocesser
-  label_workflow_summary: Workflow summary
-  label_working_days: Working days
-  label_working_days_and_hours: Working days and hours
-  label_working_hours: Work schedule
+  label_workflow_summary: Oversigt over arbejdsgang
+  label_working_days: Arbejdsdage
+  label_working_days_and_hours: Arbejdsdage og -timer
+  label_working_hours: Arbejdstid
   label_workweek: Arbejdsuge
   label_x_closed_work_packages_abbr:
-    one: 1 lukket
+    one: "%{count} closed"
     other: "%{count} lukkede"
     zero: 0 closed
   label_x_comments:
-    one: 1 kommentar
+    one: "%{count} comment"
     other: "%{count} kommentarer"
     zero: no comments
   label_x_days:
-    one: 1 day
-    other: "%{count} days"
+    one: "%{count} dag"
+    other: "%{count} dage"
   label_x_files:
-    one: 1 file
+    one: "%{count} file"
     other: "%{count} files"
     zero: no files
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
-    one: One item selected
-    other: "%{count} items selected"
+    one: "%{count} element valgt"
+    other: "%{count} elementer valgt"
   label_x_open_work_packages_abbr:
-    one: 1 åben
+    one: "%{count} open"
     other: "%{count} åbne"
     zero: 0 open
   label_x_projects:
-    one: 1 projekt
+    one: "%{count} project"
     other: "%{count} projekter"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: "%{count} work package"
     other: "%{count} work packages"
     zero: No work packages
   label_x_working_days:
-    one: 1 working day
-    other: "%{count} working days"
+    one: "%{count} arbejdsdag"
+    other: "%{count} arbejdsdage"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
-    other: 'Time off: %{count} working days'
+    one: 'Fravær: %{count} arbejdsdag'
+    other: 'Fravær: %{count} arbejdsdage'
   label_yesterday: I går
-  label_zen_mode: Zen mode
+  label_zen_mode: Zen-tilstand
   ldap_auth_sources:
     attribute_texts:
       admin_map_html: 'Valgfri: Attribut nøglen i LDAP, som <strong>, hvis nuværende</strong> markerer OpenProject brugeren en admin. Efterlad blank når du er i tvivl.'
@@ -4744,7 +4614,7 @@ da:
       start_tls: STARTTLS
       start_tls_description: Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections.
     tls_options:
-      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Verify SSL certificate
       verify_peer_description_html: 'Enables strict SSL verification of the certificate trusted chain. <br> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
 
@@ -4772,114 +4642,6 @@ da:
     update:
       failure: 'The modified list cannot be saved: %{errors}'
       success: The modified list has been saved
-  llm:
-    api_formats:
-      anthropic: Anthropic
-      azure: Azure OpenAI
-      bedrock: AWS Bedrock
-      deepseek: DeepSeek
-      gemini: Google Gemini
-      gpustack: GPUStack
-      mistral: Mistral
-      ollama: Ollama
-      openai: OpenAI
-      openrouter: OpenRouter
-      perplexity: Perplexity
-      vertexai: Google Vertex AI
-      xai: xAI
-    capabilities:
-      embeddings:
-        label: Embeddings
-      function_calling:
-        label: Tool calling
-      reasoning:
-        label: Reasoning
-      structured_output:
-        label: Structured output
-      vision:
-        label: Vision
-    context_window_sources:
-      registry: the figure published for this model
-      server: reported by the server
-    features:
-      description_assistant:
-        caption: Rewrites and restructures work package text on request.
-        label: Description assistant
-      semantic_search:
-        caption: Indexes work packages so they can be found by meaning rather than by keyword.
-        label: Semantic search
-    health_checks:
-      configuration:
-        api_format_supported: Endpoint format is usable
-        base_url_present: Endpoint is configured
-        credentials_present: API key is stored
-        enabled: Connection is switched on
-        feature_flag: AI features are switched on
-        header: Configuration
-      errors:
-        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
-        catalogue_never_fetched: The model list has never been retrieved from the server.
-        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
-        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
-        chat_failed: The server refused a request for %{model} with status %{status}.
-        connection_disabled: The connection is configured but switched off, so no feature will use it.
-        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
-        default_model_missing: "%{model} is no longer offered by the server."
-        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
-        empty_completion: "%{model} answered with an empty message."
-        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
-        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
-        features_model_missing: "%{features} point at a model the server no longer offers."
-        features_unbound: "%{features} have no model chosen yet."
-        invalid_api_key: The server rejected the stored API key.
-        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
-        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
-        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
-        no_model_to_test: No model is available to test with. Add a model or choose a default first.
-        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
-        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
-        not_configured: No endpoint has been configured.
-        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
-        request_timed_out: The server did not respond in time.
-        server_error: The server responded with status %{status}.
-        ssrf_filtered: The endpoint resolves to a blocked address.
-        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
-      features:
-        bindings_resolvable: Every feature has a usable model
-        header: AI features
-        locked_bindings_intact: Indexed data still has its model
-      inference:
-        chat_round_trip: The server answers a request
-        header: Inference
-      models:
-        catalogue_fresh: Model list is up to date
-        catalogue_present: Models are available
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        header: Models
-      server:
-        credentials_accepted: The server accepts the API key
-        header: Server
-        reachable: The server can be reached
-    health_report_kinds:
-      full: Full check, including an inference request.
-      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
-    model_kinds:
-      chat: Chat
-      embedding: Embedding
-    verdict_states:
-      supported: supported
-      unknown: not verified
-      unsupported: not supported
-  llm_connections:
-    side_panel:
-      health_status_component:
-        last_check: Last checked %{datetime}.
-        never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
-        running: Running checks...
-        title: Health status
   macro_execution_error: Fejl ved udførelse af makroen %{macro_name}
   macro_unavailable: Makro %{macro_name} kan ikke vises.
   macro_unknown: Unknown or unsupported macro.
@@ -4909,6 +4671,8 @@ da:
       you_have: You have
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: To notification center
@@ -4965,7 +4729,7 @@ da:
       mentioned: You have been <b>mentioned in a comment</b>
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: There is 1 more work package with notifications.
+        one: There is %{count} more work package with notifications.
         other: There are %{count} more work packages with notifications.
       open_in_browser: Open in browser
       reason:
@@ -5123,7 +4887,6 @@ da:
       aggregation: Aggregation
       ai: Artificial Intelligence (AI)
       api_and_webhooks: API and webhooks
-      llm_connection: LLM settings
       mail_notification: E-mail-påmindelser
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
@@ -5150,7 +4913,7 @@ da:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
@@ -5331,35 +5094,35 @@ da:
   note: Note
   note_password_login_disabled_link: Password login has been disabled through a [configuration setting](configuration_url).
   nothing_to_preview: Intet at forhåndsvise
-  notice_accessibility_mode: The accessibility mode can be enabled in your [account settings](url).
+  notice_accessibility_mode: Tilgængelighedstilstanden kan slås til under dine [kontoindstillinger](url).
   notice_account_activated: Din konto er blevet aktiveret. Du kan nu logge ind.
   notice_account_already_activated: Denne konto er allerede blevet aktiveret.
   notice_account_invalid_credentials: Ugyldig bruger eller adgangskode
   notice_account_invalid_credentials_or_blocked: Ugyldig bruger eller adgangskode, eller kontoen er blokeret på grund af flere mislykkede forsøg på at logge ind. Hvis det er tilfældet, vil den automatisk genåbnes om kort tid.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: Hvis din konto er sat op til single sign-on, skal du i stedet logge ind via din identitetsudbyder.
   notice_account_invalid_token: Ugyldig aktiveringstegn
   notice_account_lost_email_sent: Der er sendt en e-mail til dig med vejledning i at vælge et nyt kodeord.
   notice_account_new_password_forced: En ny adgangskode er påkrævet.
-  notice_account_other_session_expired: All other sessions tied to your account have been invalidated.
+  notice_account_other_session_expired: Alle andre sessioner, der er knyttet til din konto, er gjort ugyldige.
   notice_account_password_expired: Din adgangskode er udløbet efter %{days} dage. Angiv venligst en ny.
   notice_account_password_updated: Det lykkedes at opdatere adgangskoden.
   notice_account_pending: Kontoen blev oprettet, og venter på at blive godkendt af administratoren.
   notice_account_register_done: Kontoen blev oprettet. For at aktivere din konto, skal du klikke på det link, der blev sendt til dig.
   notice_account_registered_and_logged_in: Velkommen, din konto er aktiveret. Du er nu logget ind.
   notice_account_unknown_email: Ukendt bruger.
-  notice_account_update_failed: Account setting could not be saved. Please have a look at your account page.
+  notice_account_update_failed: Kontoindstillingen kunne ikke gemmes. Se din kontoside.
   notice_account_updated: Opdatering af kontoen er lykkedes.
   notice_account_wrong_password: Forkert adgangskode
   notice_activation_failed: Kontoen kunne ikke aktiveres.
-  notice_attachment_migration_wiki_page: 'This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
+  notice_attachment_migration_wiki_page: 'Denne side blev oprettet automatisk under opdateringen af OpenProject. Den indeholder alle de vedhæftede filer, der tidligere hørte til %{container_type} "%{container_name}".
 
     '
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}', but '%{actual}' returned.
+  notice_auth_stage_error: Godkendelsestrinnet '%{stage}' mislykkedes.
+  notice_auth_stage_verification_error: Trinnet '%{stage}' kunne ikke bekræftes.
+  notice_auth_stage_wrong_stage: Godkendelsestrinnet '%{expected}' skulle afsluttes, men '%{actual}' blev returneret.
   notice_bad_request: Uanvendelig anmodning.
   notice_can_t_change_password: Denne konto benytter en ekstern kilde til godkendelse. Det er ikke muligt at ændre adgangskoden her.
-  notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences were deleted.
+  notice_custom_options_deleted: Valgmuligheden '%{option_value}' og dens %{num_deleted} forekomster er slettet.
   notice_deletion_scheduled: Sletningen er planlagt og udføres asynkront.
   notice_email_error: Der opstod en fejl ved afsendelse af mail (%{value})
   notice_email_sent: Der blev sendt en mail til %{value}
@@ -5378,19 +5141,19 @@ da:
   notice_member_added: Tilføjede %{name} til projektet.
   notice_member_deleted: "%{user} er blevet fjernet fra projektet og slettet."
   notice_member_removed: Fjernede %{user} fra projektet.
-  notice_members_added: Added %{number} users to the project.
+  notice_members_added: "%{number} brugere er tilføjet til projektet."
   notice_no_principals_found: Ingen resultater fundet.
   notice_not_authorized: Du har ikke tilladelser til at gå til denne side.
   notice_not_authorized_archived_project: Det projekt du forsøger at tilgå er blevet arkiveret.
-  notice_parent_item_not_found: Parent item not found.
-  notice_password_confirmation_failed: The entered password is not correct.
-  notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
-  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_parent_item_not_found: Det overordnede element blev ikke fundet.
+  notice_password_confirmation_failed: Den indtastede adgangskode er forkert.
+  notice_principals_found_multiple: "Der blev fundet %{number} resultater. \n Tryk på Tab for at gå til det første resultat."
+  notice_principals_found_single: "Der er ét resultat. \n Tryk på Tab for at gå til det."
   notice_project_not_deleted: Projektet blev ikke slettet.
-  notice_project_not_found: Project not found.
-  notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
+  notice_project_not_found: Projektet blev ikke fundet.
+  notice_requires_enterprise_token: Enterprise-tokenet mangler eller giver ikke adgang til denne side.
   notice_smtp_address_unsafe_env_hint: SMTP address %{address} is not safe. Please add it to the whitelist using the %{env_name} environment variable.
-  notice_successful_cancel: Successful cancellation.
+  notice_successful_cancel: Annulleret.
   notice_successful_connection: Forbindelse gennemført.
   notice_successful_create: Oprettelse gennemført.
   notice_successful_delete: Sletning gennemført.
@@ -5398,13 +5161,13 @@ da:
   notice_to_many_principals_to_display: |-
     Der er for mange resultater.
     Indsnævr søgningen ved at indtste navnet på det nye medlem (eller gruppe).
-  notice_unsuccessful_create: Creation failed.
-  notice_unsuccessful_create_with_reason: 'Creation failed: %{reason}'
-  notice_unsuccessful_update: Update failed.
-  notice_unsuccessful_update_with_reason: 'Update failed: %{reason}'
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
-  notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
-  notice_wont_delete_auth_source: The LDAP connection cannot be deleted as long as there are still users using it.
+  notice_unsuccessful_create: Oprettelsen mislykkedes.
+  notice_unsuccessful_create_with_reason: 'Oprettelsen mislykkedes: %{reason}'
+  notice_unsuccessful_update: Opdateringen mislykkedes.
+  notice_unsuccessful_update_with_reason: 'Opdateringen mislykkedes: %{reason}'
+  notice_user_invitation_resent: Der er sendt en invitation til %{email}.
+  notice_user_missing_authentication_method: Brugeren har endnu ikke valgt en adgangskode eller en anden måde at logge ind på.
+  notice_wont_delete_auth_source: LDAP-forbindelsen kan ikke slettes, så længe der stadig er brugere, der bruger den.
   notifications:
     facets:
       all: Alle
@@ -5496,7 +5259,7 @@ da:
 
       '
     confirm_revoke_my_application:
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: No OAuth applications have been registered.
     flows:
@@ -5703,7 +5466,7 @@ da:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Kommenter nyheder
   permission_commit_access: Read/write access to repository (commit)
-  permission_copy_projects: Kopiér projekter
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
@@ -5842,7 +5605,7 @@ da:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5853,7 +5616,7 @@ da:
         label: Portfolio name filter
         placeholder: Search portfolios
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Active portfolios
@@ -5868,7 +5631,7 @@ da:
         It can be used for highlighting work packages in the table.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5880,7 +5643,7 @@ da:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: 1 projekt
+      one: "%{count} project"
       other: "%{count} projekter"
       zero: 0 projects
     destroy:
@@ -5999,6 +5762,12 @@ da:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter tilgængelige.
       forums:
         no_results_content_text: Opret et nyt forum
@@ -6095,14 +5864,14 @@ da:
             new_heading: Fields that become available
             nothing_affected: No fields or statuses are affected.
             status_count:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
             table_suffix: "(table)"
             value_count:
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               other: "%{count} work packages have a value"
             work_packages:
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
@@ -6159,7 +5928,7 @@ da:
     action_title: React
     add_reaction: Add reaction
     and_others:
-      one: and 1 other
+      one: and %{count} other
       other: and %{count} others
     and_user: and %{user}
     react_with: React with %{reaction}
@@ -6281,23 +6050,23 @@ da:
         one: "(Project: %{projects})"
         other: "(Projects: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       summary_users:
-        one: 1 user
+        one: "%{count} user"
         other: "%{count} users"
       title: Delete role
     edit:
@@ -6313,10 +6082,9 @@ da:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
-        one: 1 permission
+        one: "%{count} permission"
         other: "%{count} permissions"
       preview_action: View permissions
       preview_aria_label: View the permissions of %{role}
@@ -6425,7 +6193,7 @@ da:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Højeste antal viste linjer for afvigelser
   setting_disable_password_login: Disable password authentication
-  setting_display_subprojects_work_packages: Vælg altid at vise underprojekters arbejdspakker ved hovedprojektet
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Duration format
   setting_duration_format_days_and_hours: Days and hours
   setting_duration_format_hours_only: Hours only
@@ -6593,7 +6361,7 @@ da:
         description_html: 'Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Virus scanning has been enabled successfully. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
@@ -6807,7 +6575,7 @@ da:
       section_work_week: Work week
   sharing:
     count:
-      one: 1 user
+      one: "%{count} user"
       other: "%{count} users"
       zero: 0 users
     denied: You don't have permissions to share %{entities}.
@@ -6913,130 +6681,130 @@ da:
       sentence_connector: og
       skip_last_comma: forkert
   text_access_token_hint: Adgangstegn tillader dig at tildele eksterne applikationer adgang til ressourcer i OpenProject.
-  text_accessibility_hint: The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode.
   text_analyze: 'Yderligere gennemgang: %{subject}'
   text_are_you_sure: Er du sikker?
-  text_are_you_sure_continue: Are you sure you want to continue?
+  text_are_you_sure_continue: Er du sikker på, at du vil fortsætte?
   text_are_you_sure_with_children: Slet arbejdspakker og alle underordnede pakker?
-  text_are_you_sure_with_project_custom_fields: Deleting this attribute will also delete its values in all projects. Are you sure you want to do this?
-  text_are_you_sure_with_project_life_cycle_step: Deleting this phase will also delete its usages in all projects. Are you sure you want to do this?
+  text_are_you_sure_with_project_custom_fields: Hvis du sletter denne attribut, slettes dens værdier også i alle projekter. Er du sikker på, at du vil gøre det?
+  text_are_you_sure_with_project_life_cycle_step: Hvis du sletter denne fase, slettes dens anvendelser også i alle projekter. Er du sikker på, at du vil gøre det?
   text_assign_to_project: Tilknyt til projektet
   text_caracters_maximum: "%{count} tegn som maksimum."
   text_caracters_minimum: Skal være mindst %{count} tegn lang.
   text_comma_separated: Flere værdier tilladt (adskilt med komma).
-  text_comment_wiki_page: 'Comment to wiki page: %{page}'
-  text_custom_export_cover_instructions: 'This is the image that appears in the background of a cover page in your PDF exports. It needs to be an about 800px width by 500px height sized PNG or JPEG image file.
+  text_comment_wiki_page: 'Kommentar til wikisiden: %{page}'
+  text_custom_export_cover_instructions: 'Det er det billede, der vises i baggrunden af forsiden i dine PDF-eksporter. Det skal være en PNG- eller JPEG-billedfil på cirka 800 pixel i bredden og 500 pixel i højden.
 
     '
-  text_custom_export_font_bold_instructions: 'This is the font file for bold text. It needs to be in TTF format.
+  text_custom_export_font_bold_instructions: 'Det er skrifttypefilen til fed tekst. Den skal være i TTF-format.
 
     '
-  text_custom_export_font_bold_italic_instructions: 'This is the font file for bold and italic text. It needs to be in TTF format.
+  text_custom_export_font_bold_italic_instructions: 'Det er skrifttypefilen til fed og kursiv tekst. Den skal være i TTF-format.
 
     '
-  text_custom_export_font_italic_instructions: 'This is the font file for italic text. It needs to be in TTF format.
+  text_custom_export_font_italic_instructions: 'Det er skrifttypefilen til kursiv tekst. Den skal være i TTF-format.
 
     '
-  text_custom_export_font_regular_instructions: 'This is the font file for regular text. It needs to be in TTF format and is required.
+  text_custom_export_font_regular_instructions: 'Det er skrifttypefilen til normal tekst. Den skal være i TTF-format og er påkrævet.
 
     '
-  text_custom_export_footer_instructions: 'PDF exports will include a graphical element positioned to the left of the footer. This image must be a PNG or JPEG file with approximately 200 pixels in width.
+  text_custom_export_footer_instructions: 'PDF-eksporter får et grafisk element til venstre i sidefoden. Billedet skal være en PNG- eller JPEG-fil på cirka 200 pixel i bredden.
 
     '
-  text_custom_export_logo_instructions: 'This is the logo that appears in your PDF exports. It needs to be a PNG or JPEG image file. A black or colored logo on transparent or white background is recommended.
+  text_custom_export_logo_instructions: 'Det er det logo, der vises i dine PDF-eksporter. Det skal være en PNG- eller JPEG-billedfil. Et sort eller farvet logo på gennemsigtig eller hvid baggrund anbefales.
 
     '
-  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser window/tab next to the page''s title. It needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+  text_custom_favicon_instructions: 'Det er det lille ikon, der vises i browservinduet eller fanen ved siden af sidens titel. Det skal være en kvadratisk PNG-billedfil på 32 × 32 pixel med gennemsigtig baggrund.
 
     '
-  text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in mind that custom fields need to be activated per project, too.
+  text_custom_field_hint_activate_per_project: 'Når du bruger brugerdefinerede felter: Husk, at brugerdefinerede felter også skal aktiveres pr. projekt.
 
     '
-  text_custom_field_hint_activate_per_project_and_type: 'Custom fields need to be activated per work package type and per project.
+  text_custom_field_hint_activate_per_project_and_type: 'Brugerdefinerede felter skal aktiveres pr. arbejdspakketype og pr. projekt.
 
     '
   text_custom_field_possible_values_info: Én linje for hver værdi
-  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image''s background is not transparent otherwise it will look bad on iOS.
+  text_custom_touch_icon_instructions: 'Det er det ikon, der vises på din mobil eller tablet, når du lægger et bogmærke på hjemmeskærmen. Det skal være en kvadratisk PNG-billedfil på 180 × 180 pixel. Sørg for, at billedets baggrund ikke er gennemsigtig, ellers ser det dårligt ud på iOS.
 
     '
-  text_database_allows_tsv: Database allows TSVector (optional)
+  text_database_allows_tsv: Databasen tillader TSVector (valgfrit)
   text_default_administrator_account_changed: Forhåndsvalgt administratorkonto ændret
   text_default_encoding: 'Forhåndsvalgt: UTF-8'
   text_destroy: Slet
   text_destroy_what_to_do: Hvad vil du lave?
-  text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
+  text_destroy_with_associated: 'Der er flere objekter knyttet til de arbejdspakker, der skal slettes. Objekterne er af følgende typer:'
   text_diff_truncated: "... Denne afvigelse blev undertrykt da den overstiger den længde, der kan vises."
   text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
-    Email delivery is not configured, and notifications are disabled.
-    Configure your SMTP server to enable them.
+    Afsendelse af e-mails er ikke konfigureret, og notifikationer er slået fra.
+    Konfigurer din SMTP-server for at slå dem til.
   text_enumeration_category_reassign_to: 'Genindsæt dem med denne værdi:'
   text_enumeration_destroy_question: "%{count} objekter er tilknyttet denne værdi."
   text_file_repository_writable: Arkiv for vedhæftninger er skrivbart
-  text_form_configuration: 'You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
+  text_form_configuration: 'Du kan tilpasse, hvilke felter der vises i formularer til arbejdspakker. Du kan frit gruppere felterne, så de passer til behovene på dit område.
 
     '
-  text_form_configuration_required_attribute: Attribute is marked required and thus always shown
+  text_form_configuration_required_attribute: Attributten er markeret som påkrævet og vises derfor altid
   text_formatting:
     markdown: Markdown
     plain: Plain text
   text_git_repo_example: et lokalt projektarkiv (f.eks. /gitrepo, c:\gitrepo)
-  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may be changed to an unwanted date.
+  text_hint_date_format: Angiv en dato i formatet ÅÅÅÅ-MM-DD. Andre formater kan blive ændret til en uønsket dato.
   text_hint_disable_with_0: Deaktivér med 0
-  text_hours_between: Between %{min} and %{max} hours.
+  text_hours_between: Mellem %{min} og %{max} timer.
   text_journal_added: "%{label} %{value} tilføjet"
-  text_journal_attachment_added: "%{label} %{value} added as attachment"
-  text_journal_attachment_deleted: "%{label} %{old} removed as attachment"
+  text_journal_attachment_added: "%{label} %{value} tilføjet som vedhæftet fil"
+  text_journal_attachment_deleted: "%{label} %{old} fjernet som vedhæftet fil"
   text_journal_changed_no_detail: "%{label} opdateret"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_plain: "%{label} ændret fra %{old} %{linebreak}til %{new}"
   text_journal_changed_with_diff: "%{label} ændret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: "%{label} slettet"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} slettet (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "%{label} link til %{value} (%{storage}) tilføjet"
+  text_journal_file_link_deleted: "%{label} link til %{old} (%{storage}) fjernet"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
-  text_journal_permission_denied: You do not have permission to see this journal activity.
+  text_journal_permission_denied: Du har ikke tilladelse til at se denne aktivitet i journalen.
   text_journal_set_to: "%{label} sat til %{value}"
   text_journal_set_with_diff: "%{label} sat (%{link})"
   text_latest_note: 'Den seneste kommentar er: %{note}'
   text_length_between: Længde mellem %{min} og %{max} tegn.
   text_line_separated: Flere værdier tilladt (én linje for hver værdi).
   text_load_default_configuration: Hent forhåndsvalgt opsætning
+  text_markdown_login_required: Log ind, eller send en X-OpenProject-API-Key-header for at læse dokumentet.
   text_no_access_tokens_configurable: Der er ingen adgangstegn, som kan konfigureres.
   text_no_configuration_data: Roller, typer, statusser for arbejdspakker og arbejdsgange er endnu ikke sat op. Det anbefales stærkt at hente forhåndsopsætningen. Du vil kunne ændre den når den er indlæst.
   text_no_notes: Der er ingen kommentarer tilgængelige til denne arbejdspakke.
   text_no_roles_defined: Der er ikke defineret nogle roller.
-  text_notice_security_badge_displayed_html: 'Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
+  text_notice_security_badge_displayed_html: 'Bemærk: Hvis det er slået til, vises et mærke med installationens status i administrationspanelet <a href="%{information_panel_path}">%{information_panel_label}</a> og på startsiden. Det vises kun for administratorer. <br/> Mærket sammenligner din nuværende OpenProject-version med OpenProjects officielle udgivelsesdatabase og gør dig opmærksom på opdateringer eller kendte sårbarheder. Du kan læse mere om, hvad tjekket giver, hvilke data der skal til for at vise tilgængelige opdateringer, og hvordan du slår tjekket fra, i <a href="%{more_info_url}">dokumentationen om konfiguration</a>.
 
     '
   text_notice_too_many_values_are_inperformant: 'Bemærk: Det kan forøge indlæsningstiden hvis der skal vises mere end 100 tegn pr side.'
   text_own_membership_delete_confirmation: |-
     Du er ved at fjerne nogle af, eller alle dine tilladelser og vil muligvis ikke kunne redigere projektet herefter.
     Er du sikker på, du vil fortsætte?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_delete_confirmation_checkbox_label: Jeg forstår, at sletningen ikke kan fortrydes.
+  text_permanent_remove_confirmation_checkbox_label: Jeg forstår, at fjernelsen ikke kan fortrydes.
   text_plugin_assets_writable: Brug af plugin forudsætter at dette arkiv er skrivbart
   text_powered_by: Drevet af %{link}
   text_project_custom_field_html: 'The Enterprise edition will add these additional add-ons for projects'' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
 
     '
-  text_project_identifier_description: The project identifier is prepended to all work package IDs. If the identifier is "PROJ" for example, the work package identifier will be "PROJ-12" or "PROJ-246".
-  text_project_identifier_format: Must start with a lowercase letter. Only lowercase letters (a-z), numbers, dashes and underscores are allowed.
-  text_project_identifier_handle_format: Must start with a letter and contain only uppercase letters, numbers, and underscores (max 10 characters).
+  text_project_identifier_description: Projekt-id'et sættes foran alle arbejdspakkers id. Er id'et fx "PROJ", bliver arbejdspakkens id "PROJ-12" eller "PROJ-246".
+  text_project_identifier_format: Skal starte med et lille bogstav. Kun små bogstaver (a-z), tal, bindestreger og understregninger er tilladt.
+  text_project_identifier_handle_format: Skal starte med et bogstav og må kun indeholde store bogstaver, tal og understregninger (højst 10 tegn).
   text_project_identifier_info: Kun små bogstaver (a-z), tal, - og _ er tilladt; først tegn skal være et bogstav.
-  text_project_identifier_url_description: The project identifier is included in the URL of the project.
+  text_project_identifier_url_description: Projekt-id'et indgår i projektets URL.
   text_reassign: 'Gentildel til arbejdspakke:'
-  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
-  text_rename_wiki_page: Rename wiki page
+  text_regexp_multiline: Det regulære udtryk anvendes i flerlinjetilstand, fx ^---\s+
+  text_rename_wiki_page: Omdøb wikiside
   text_repository_usernames_mapping: |-
     Vælg eller opdatér den OpenProject-bruger, der er tilknyttet hvert brugernavn i loggen for projektarkivet.
     Brugere med det samme brugernavn eller mailadresse i OpenProject og i projektarkivet vil automatisk blive tilknyttet.
-  text_setup_mail_configuration: Configure your email provider
+  text_setup_mail_configuration: Konfigurer din e-mailudbyder
   text_status_changed_by_changeset: Indføjet i pakken af ændringer, %{value}.
-  text_table_difference_description: In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown.
+  text_table_difference_description: Tabellen viser de enkelte %{entries}. Du kan se forskellen mellem to vilkårlige poster ved først at markere de tilhørende afkrydsningsfelter i tabellen. Når du klikker på knappen under tabellen, vises forskellene.
   text_time_logged_by_changeset: Indføjet i pakken af ændringer, %{value}.
   text_tip_work_package_begin_day: arbejdspakker, der begynder denne dag
   text_tip_work_package_begin_end_day: arbejdspakker, der begynder eller slutter denne dag
@@ -7045,10 +6813,10 @@ da:
   text_unallowed_characters: Ikke-tilladte tegn
   text_user_invited: Brugeren er blevet inviteret og afventer registrering.
   text_user_wrote: "%{value} skrev:"
-  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be lost if you leave this page.
+  text_warn_on_leaving_unsaved: Arbejdspakken indeholder tekst, der ikke er gemt, og som går tabt, hvis du forlader siden.
   text_wiki_destroy_confirmation: Er du sikker på du vil slette denne wiki og hele dens indhold?
-  text_wiki_page_comment_caption: This will only be visible in the wiki history.
-  text_wiki_page_comment_placeholder: Did you change something? Add a comment
+  text_wiki_page_comment_caption: Den vises kun i wikiens historik.
+  text_wiki_page_comment_placeholder: Har du ændret noget? Tilføj en kommentar
   text_wiki_page_destroy_children: Slet underordnede sider og alle deres afledte
   text_wiki_page_destroy_question: Denne side har %{descendants} underside(r) (og deraf afledte). Hvad vil du gøre?
   text_wiki_page_nullify_children: Behold undersider som nye hovedsider
@@ -7058,12 +6826,12 @@ da:
   text_work_package_category_destroy_question: Nogle arbejdspakker (%{count}) er tilknyttet til denne kategori. Hvad vil du gøre?
   text_work_package_category_reassign_to: Gentilknyt arbejdspakker til denne kategori
   text_work_package_updated: Arbejdspakke %{id} er blevet opdateret af %{author}.
-  text_work_package_watcher_added: You have been added as a watcher to Work package %{id} by %{watcher_changer}.
-  text_work_package_watcher_removed: You have been removed from watchers of Work package %{id} by %{watcher_changer}.
+  text_work_package_watcher_added: Du er blevet tilføjet som tilsynsførende på arbejdspakke %{id} af %{watcher_changer}.
+  text_work_package_watcher_removed: Du er blevet fjernet som tilsynsførende på arbejdspakke %{id} af %{watcher_changer}.
   text_work_packages_destroy_confirmation: Er du sikker på, du vil slette de/den valgte arbejdspakke(r)?
   text_work_packages_ref_in_commit_messages: Arbejdspakker håndteres i tilknyttede meddelelser
   text_workflow_edit: Vælg en rolle og en type til redigering af arbejdsgang
-  text_wrote: wrote
+  text_wrote: skrev
   text_zoom_in: Zoom ind
   text_zoom_out: Zoom ud
   themes:
@@ -7118,7 +6886,7 @@ da:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
         parent_type: Parent type
         same_as_type: Same as parent type
@@ -7165,30 +6933,35 @@ da:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       start:
-        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
-        inherit_title: Use the same settings as the type
-        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
-        reuse_heading: Reuse existing type configuration
-        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
-        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
-        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        next_heading: What happens next?
         submit: Start
         type:
-          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
           heading: Create a new type
-          lead_html: You are about to create a new type in your instance.
-          step_by_step: You will configure a new type step-by-step in the following pages.
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
         variant:
-          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
           heading: Create a new variant
-          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
-          step_by_step: You will configure this new variant step-by-step in the following pages.
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: Defaults
         details: Details
         form_configuration: Form
-        pdf: PDF generation
+        pdf: Generate PDF
         project_attributes: Project attributes
         projects: Projects
         start: Start
@@ -7303,11 +7076,14 @@ da:
         tab: Form
         untitled_group: Untitled group
       overview:
+        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
         configuration_mode: Configuration mode
         mode:
           always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
+          inheriting_from_html: Using the same as type (%{source_name})
           manual: Manually configured
+          using_form_html: Using form %{name}
+          using_workflow_html: Using workflow %{name}
         settings: Settings
         tab: Overview
       project_attributes:
@@ -7327,6 +7103,7 @@ da:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
@@ -7407,12 +7184,16 @@ da:
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7444,12 +7225,13 @@ da:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
         heading: Delete type '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
@@ -7458,12 +7240,18 @@ da:
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
       project_variants_count:
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
@@ -7472,7 +7260,7 @@ da:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
@@ -7500,8 +7288,8 @@ da:
     authorization_rejected: Du har ikke adgang til at logge ind.
     blocked: Midlertid spærret
     blocked_num_failed_logins:
-      one: midlertidigt låst (ét mislykket log ind-forsøg)
-      other: midlertidigt låst (%{count} mislykkede log ind-forsøg)
+      one: locked temporarily (%{count} failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: You are about to change the status of '%{name}'. Are you sure you want to continue?
     deleted: Slettet bruger
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7661,7 +7449,7 @@ da:
         start_date: Start date
         work_days: Work days
         work_days_count:
-          one: 1 working day
+          one: "%{count} working day"
           other: "%{count} working days"
         work_hours: Work hours
   version_status_closed: lukket
@@ -7850,7 +7638,7 @@ da:
       could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'The following work packages could not be saved:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         other: Successfully deleted %{count} work packages.
       descendant: descendant of selected
       move_failed: The work packages could not be moved.
@@ -7875,17 +7663,17 @@ da:
       description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
@@ -7943,17 +7731,17 @@ da:
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
@@ -7996,6 +7784,8 @@ da:
           unknown_in_project: does not exist in this project.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
+          example_category: Documentation
+          example_version: '1.0'
           examples:
             one:
               description: Explain what the new page has to do.
@@ -8010,10 +7800,10 @@ da:
       dry_run_label: Check the file first, without importing
       file_label: CSV file
       guidance:
-        column_reference: column reference
-        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
-        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
-        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
         title: Before you start
       import_file: Import file
       importing_file: Importing %{filename}
@@ -8031,7 +7821,7 @@ da:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
         file_rejected:
@@ -8062,10 +7852,9 @@ da:
           notifications: Notifications were not sent for these work packages.
           text_html: Imported from %{filename} on %{date} at %{time}.
           title: "%{work_packages} created"
-          work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: Problems
@@ -8082,10 +7871,10 @@ da:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -8121,7 +7910,7 @@ da:
         version:
           no_results_title_text: There are currently no versions available.
     x_descendants:
-      one: One descendant work package
+      one: "%{count} descendant work package"
       other: "%{count} work package descendants"
   workflows:
     change:
@@ -8147,6 +7936,18 @@ da:
             other: Successfully copied workflow to %{count} roles.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
@@ -8190,19 +7991,19 @@ da:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         other: "%{count} roles"
       type_filter:
         label: Filter by type name…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Workflow
@@ -8219,12 +8020,11 @@ da:
         caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
         label: Start with a copy of an existing workflow
         missing: Select the workflow to copy, or start from scratch instead.
-        panel_label: Workflow to copy
       label: Starting point
       scratch:
         caption: Start with a blank workflow and build it manually.
         label: Start from scratch
-      title: Configure a new workflow
+      title: New workflow
     usage:
       dialog:
         button: View dependent types
@@ -8234,11 +8034,11 @@ da:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
-        other: This workflow is used by %{count} types and variants.
+        one: This workflow is used by %{count} type or variant. Changes apply to it.
+        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:

@@ -195,9 +195,13 @@ uk:
       cost_types:
         for_all_projects_hint: Цей тип витрат увімкнено у всіх проєктах.
         heading: Типи витрат
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Цей тип витрат не можна вимкнути, оскільки він уже використовувався для реєстрації витрат у межах цього проєкту.
         none_active: Зараз у цьому проєкті немає активних типів витрат.
       time_and_costs: Час і витрати
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:

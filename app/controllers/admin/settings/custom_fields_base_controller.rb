@@ -39,7 +39,7 @@ module Admin
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :find_custom_field,
                     only: %i(edit update destroy delete_option reorder_alphabetical attribute_help_text
-                             update_attribute_help_text list_items deletion_dialog)
+                             update_attribute_help_text list_items deletion_dialog drop)
       before_action :prepare_custom_option_position, only: %i(update create)
       before_action :find_custom_option, only: :delete_option
       before_action :validate_enterprise_token, only: %i(create)
@@ -74,7 +74,20 @@ module Admin
         respond_with_dialog Admin::CustomFields::DeleteDialogComponent.new(custom_field: @custom_field)
       end
 
+      def drop
+        if valid_drop_request? && @custom_field.move_after_anchor(drop_params[:prev_id], scope: custom_field_class.all)
+          head :no_content
+        else
+          render_error_flash_message_via_turbo_stream(message: t(:error_invalid_list_move_anchor))
+          respond_with_turbo_streams(status: :unprocessable_entity)
+        end
+      end
+
       protected
+
+      def reorderable?
+        customizable_name != "WorkPackage"
+      end
 
       def custom_field_class
         raise SubclassResponsibilityError, "#{self.class} must implement #custom_field_class"
@@ -127,6 +140,19 @@ module Admin
 
       def render_attribute_help_text_form(status: :ok)
         render "custom_fields/attribute_help_texts/show_work_package", status:
+      end
+
+      private
+
+      def valid_drop_request?
+        reorderable? &&
+          drop_params[:list_type] == CustomField::SORTABLE_LIST_TYPE &&
+          params[:list_id].blank? &&
+          drop_params.key?(:prev_id)
+      end
+
+      def drop_params
+        @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
       end
     end
   end

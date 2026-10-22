@@ -156,11 +156,6 @@ module WorkPackages
           end
         end
 
-        def created_stats
-          [[created_count, t("work_packages.import.report.imported.work_packages")]] +
-            type_counts.map { |name, count| [count, name] }
-        end
-
         def imported_banner
           Primer::Alpha::Banner
             .new(scheme: :success, dismiss_scheme: :none, mb: 3, description: imported_description)

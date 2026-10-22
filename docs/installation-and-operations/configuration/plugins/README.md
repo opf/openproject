@@ -20,11 +20,13 @@ If you have a plugin you wish to add to your packaged OpenProject installation, 
 
 ```ruby
 group :opf_plugins do
-  gem 'openproject-gitlab_integration', git: 'https://github.com/btey/openproject-gitlab-integration.git'
+  gem 'openproject-slack', git: 'https://github.com/opf/openproject-slack.git', branch: 'dev'
 end
 ```
 
-**Note:** The Gitlab plugin is usually only compatible with the latest versions. For more information, please see the [respective repository](https://github.com/btey/openproject-gitlab-integration/).
+**Note:** Third party plugins are usually only compatible with specific OpenProject versions. For more information, please see the respective repository, for example the [Slack plugin repository](https://github.com/opf/openproject-slack/).
+
+**Note:** Do not add plugins that already ship with OpenProject, such as the [GitLab integration](../../../system-admin-guide/integrations/gitlab-integration/). Listing the same gem twice causes a `Bundler::GemfileError`.
 
 The group `:opf_plugins` is generally recommended, but only required for plugins with custom frontend code that is picked up by esbuild and output into their respective bundles.
 

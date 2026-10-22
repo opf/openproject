@@ -1,0 +1,187 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Messages
+  class PostComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
+    def initialize(message:, work_packages: [], focus: false)
+      super
+      @message = message
+      @work_packages = work_packages
+      @focus = focus
+    end
+
+    def wrapper_uniq_by = message.id
+
+    private
+
+    attr_reader :message
+
+    def reply? = message.parent_id.present?
+
+    def topic = message.parent || message
+
+    def project = message.project
+
+    def forum = message.forum
+
+    def quotable?
+      !topic.locked? && User.current.allowed_in_project?(:add_messages, project)
+    end
+
+    def byline # rubocop:disable Metrics/AbcSize
+      flex_layout(align_items: :center, justify_content: :space_between) do |line|
+        line.with_column(flex_layout: true, flex_wrap: :wrap, align_items: :center) do |author_and_time|
+          if message.author
+            author_and_time.with_column(mr: 2) do
+              render(Users::AvatarComponent.new(user: message.author, show_name: false, size: :mini))
+            end
+            author_and_time.with_column(mr: 2) do
+              helpers.primer_link_to_user(message.author, scheme: :primary, font_weight: :bold, hover_card: true)
+            end
+          end
+          author_and_time.with_column { anchor_link }
+          if reply? && message.accepted_solution?
+            author_and_time.with_column(ml: 2, display: :flex) { render(AcceptedSolutionIconComponent.new(kind: AcceptedSolutionIconComponent::REPLY)) }
+          end
+        end
+        line.with_column(ml: 1, flex_layout: true, align_items: :center) do |actions|
+          actions.with_column(mr: 1) { create_work_package_button } if work_package_creatable?
+          actions.with_column { action_menu }
+        end
+      end
+    end
+
+    def create_work_package_button
+      render(Primer::Beta::Button.new(tag: :a,
+                                      href: new_project_forum_topic_work_package_path(project, forum, message),
+                                      scheme: :default,
+                                      size: :small,
+                                      classes: "op-forum-post--create-work-package",
+                                      test_selector: "message-create-work-package-button-#{message.id}",
+                                      data: { controller: "async-dialog" })) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("forums.topic.add_work_package")
+      end
+    end
+
+    def created_work_package_branch(work_package)
+      render(Primer::Box.new(classes: "op-forum-post-branch",
+                             test_selector: "message-created-work-package-#{work_package.id}")) do
+        flex_layout(align_items: :center) do |row|
+          row.with_column(classes: "op-forum-post-branch--stroke")
+          row.with_column(pl: 1) { render(WorkPackages::InfoLineComponent.new(work_package:, show_subject: true, font_size: :normal)) }
+        end
+      end
+    end
+
+    def anchor_link
+      render(Primer::Beta::Link.new(href: helpers.message_anchor_path(message), scheme: :secondary, underline: false,
+                                    font_size: :small, data: { turbo: false })) do
+        helpers.format_time(message.created_at)
+      end
+    end
+
+    def action_menu # rubocop:disable Metrics/AbcSize
+      render(Primer::Alpha::ActionMenu.new(test_selector: "message-actions-#{message.id}")) do |menu|
+        menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": t("forums.topic.message_actions"))
+
+        copy_link_item(menu)
+        quote_item(menu) if quotable?
+        edit_item(menu) if message.editable_by?(User.current)
+        with_item_group(menu) { accepted_solution_item(menu) } if AcceptSolutionContract.can_accept?(user: User.current, message:)
+        with_item_group(menu) { create_work_package_item(menu) } if work_package_creatable?
+        with_item_group(menu) { delete_item(menu) } if reply? && message.destroyable_by?(User.current)
+      end
+    end
+
+    def copy_link_item(menu)
+      menu.with_item(label: t(:button_copy_link_to_clipboard),
+                     tag: :"clipboard-copy",
+                     content_arguments: { value: helpers.message_url(message) }) do |item|
+        item.with_leading_visual_icon(icon: :copy)
+      end
+    end
+
+    def quote_item(menu)
+      menu.with_item(label: t("forums.topic.quote_message"),
+                     href: quote_project_forum_topic_path(project, forum, message),
+                     content_arguments: { data: { action: "forum-messages#quote" } }) do |item|
+        item.with_leading_visual_icon(icon: :quote)
+      end
+    end
+
+    def work_package_creatable?
+      User.current.allowed_in_project?(:add_work_packages, project)
+    end
+
+    def create_work_package_item(menu)
+      menu.with_item(label: t("forums.topic.add_work_package"),
+                     href: new_project_forum_topic_work_package_path(project, forum, message),
+                     test_selector: "message-create-work-package-#{message.id}",
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :plus)
+      end
+    end
+
+    def accepted_solution_item(menu)
+      label, icon, method = if message.accepted_solution?
+                              [t("forums.topic.remove_as_solution"), AcceptedSolutionIconComponent::REMOVE_ICON, :delete]
+                            else
+                              [t("forums.topic.accept_as_solution"), AcceptedSolutionIconComponent::ICON, :post]
+                            end
+      menu.with_item(label:,
+                     tag: :button,
+                     href: project_forum_topic_accepted_solution_path(project, forum, message),
+                     form_arguments: { method: }) do |item|
+        item.with_leading_visual_icon(icon:)
+      end
+    end
+
+    def edit_item(menu)
+      menu.with_item(label: t("forums.topic.edit_message"),
+                     href: edit_project_forum_topic_path(project, forum, message)) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def delete_item(menu)
+      menu.with_item(label: t(:button_delete),
+                     tag: :button,
+                     scheme: :danger,
+                     href: project_forum_topic_path(project, forum, message),
+                     content_arguments: { data: { turbo_confirm: t(:text_are_you_sure) } },
+                     form_arguments: { method: :delete }) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
+    end
+  end
+end

@@ -128,6 +128,22 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
         expect(duplicated_item.outcomes).to be_empty
       end
 
+      it "copies outcomes when 'Include outcomes' is checked" do
+        create(:meeting_outcome, meeting_agenda_item: agenda_item, notes: "Original outcome")
+
+        meeting_page.visit!
+        meeting_page.duplicate_item_in_next_meeting(agenda_item, include_outcomes: true)
+
+        expect_and_dismiss_flash(message: "Agenda item duplicated in the next meeting")
+
+        next_meeting_page.visit!
+        next_meeting_page.expect_outcome("Original outcome")
+
+        duplicated_item = next_meeting.agenda_items.find_by(title: "Test agenda item")
+        expect(duplicated_item.outcomes.pluck(:notes)).to eq(["Original outcome"])
+        expect(agenda_item.outcomes.pluck(:notes)).to eq(["Original outcome"])
+      end
+
       context "when the next meeting has a matching section" do
         let(:intro_section) { create(:meeting_section, meeting:, title: "Intro") }
 

@@ -146,8 +146,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     # Finally, we delete the custom field ... I'm done with this ...
     custom_field_index_page.visit!
     expect(page).to have_row(hierarchy_name)
-    within("tr", text: hierarchy_name) do
-      page.find_test_selector("op-custom-fields--delete-button").click
+    within(".Box-row", text: hierarchy_name) do
+      page.find_test_selector("custom-field-delete-button").click
     end
     within_dialog("Delete custom field #{hierarchy_name}") do
       click_on "Delete"

@@ -21,15 +21,16 @@
       <% end %>
 
       <% page.with_area("main") do %>
-        <%= render(Primer::Beta::Heading.new(tag: :h2)) { step_title } %>
-        <%= render(OpenProject::Common::DividerComponent.new) %>
+        <%= render(Primer::Beta::Subhead.new(mb: 2)) do |subhead| %>
+          <% subhead.with_heading(tag: :h2, size: :medium) { step_title } %>
+        <% end %>
 
         <% if current_step == :start %>
           <%= render(WorkPackageTypes::Wizard::StartComponent.new(adding_variant: adding_variant?, type_name: type.name)) %>
         <% elsif step_editor %>
           <%= within_step_frame do %>
             <%= reuse_mode_section %>
-            <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: current_step)) %>
+            <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: editor_record, aspect: current_step)) %>
             <%= primer_form_with(**step_form_options) do |f| %>
               <%= render(step_editor.editor(f)) %>
             <% end %>
@@ -37,7 +38,7 @@
         <% else %>
           <%# Self-persisting editor: this form only advances to the next step on submit. %>
           <% if current_step == :projects %>
-            <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: current_step)) %>
+            <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: editor_record, aspect: current_step)) %>
           <% end %>
           <%= render(step_body) %>
           <%= primer_form_with(

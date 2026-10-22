@@ -57,7 +57,7 @@ module Meetings
       }
     end
 
-    # Define the interval so it can be overriden through tests
+    # Define the interval so it can be overridden through tests
     def check_for_updates_interval
       10_000
     end

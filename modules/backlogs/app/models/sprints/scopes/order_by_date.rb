@@ -33,7 +33,9 @@ module Sprints::Scopes::OrderByDate
   class_methods do
     def order_by_date
       order(arel_table[:start_date].asc.nulls_last,
-            arel_table[:finish_date].asc.nulls_last)
+            arel_table[:finish_date].asc.nulls_last,
+            arel_table[:name].asc,
+            arel_table[:id].asc)
     end
   end
 end

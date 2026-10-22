@@ -164,7 +164,7 @@ pt-PT:
       delete_result_1: Remova o fornecedor da lista de fornecedores disponíveis.
       delete_result_direct: Este fornecedor está marcado como um fornecedor de início de sessão direto. A definição será removida e os utilizadores deixarão de ser redirecionados para o fornecedor para iniciar sessão.
       delete_result_user_count:
-        one: Um utilizador ainda está a utilizar este fornecedor. Terá de ser convidado novamente ou iniciar sessão através de outro fornecedor.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} utilizadores ainda estão a utilizar este fornecedor. Terão de ser convidados novamente ou iniciar sessão através de outro fornecedor."
         zero: Nenhum utilizador está atualmente a utilizar este fornecedor. Não é necessária mais nenhuma ação.
       input_delete_confirmation_html: Insira o nome do fornecedor %{name} para confirmar a eliminação.

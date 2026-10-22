@@ -128,7 +128,7 @@ class Query < ApplicationRecord
   end
 
   def validate_sort_criteria
-    available_criteria = sortable_columns.map(&:name).map(&:to_s)
+    available_criteria = sortable_columns.map { |col| col.name.to_s }
 
     sort_criteria.each do |name, _dir|
       unless available_criteria.include? name.to_s
@@ -521,13 +521,13 @@ class Query < ApplicationRecord
   end
 
   def valid_group_by_subset!
-    unless groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
+    unless groupable_columns.map { |col| col.name.to_s }.include?(group_by.to_s)
       self.group_by = nil
     end
   end
 
   def valid_sort_criteria_subset!
-    available_criteria = sortable_columns.map(&:name).map(&:to_s)
+    available_criteria = sortable_columns.map { |col| col.name.to_s }
 
     self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
@@ -535,7 +535,7 @@ class Query < ApplicationRecord
   end
 
   def valid_column_subset!
-    available_names = displayable_columns.map(&:name).map(&:to_sym)
+    available_names = displayable_columns.map { |col| col.name.to_sym }
 
     self.column_names &= available_names
   end

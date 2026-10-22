@@ -120,7 +120,7 @@ for plugin in budgets costs openproject-avatars openproject-documents \
   }
 done
 
-for plugin_dir in budgets costs avatars documents github_integration gitlab_integration meeting; do
+for plugin_dir in budgets costs documents github_integration gitlab_integration meeting; do
   [ -d "/app/modules/${plugin_dir}/frontend/module" ] || {
     echo "Expected plugin frontend module directory '/app/modules/${plugin_dir}/frontend/module'"
     exit 1

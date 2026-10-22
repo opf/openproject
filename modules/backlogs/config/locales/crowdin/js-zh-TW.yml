@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -45,13 +45,19 @@ zh-TW:
         not_selectable: 選項維持不變。此工作包不參與此清單的排序。
         range_blocked: 選取範圍未變更。該範圍內包含一個工作包，該工作包不參與此清單的排序。
         range_restarted:
-          other: 無法擴展範圍。已選取的工作包： %{count}。
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: 選取範圍未變更。展開此清單以選取該範圍。
         selected:
-          other: "%{count} 已選定的工作項目。"
+          other: "%{count} work packages selected."
     burndown:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
       day: 日
       points: 燃盡點
+    created_resolved:
+      work_packages: Work packages
     work_packages:
       properties:
         storyPoints: 故事點數

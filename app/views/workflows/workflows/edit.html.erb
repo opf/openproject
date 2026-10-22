@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t(:label_workflow_plural), @workflow.name -%>
 
 <% model_class = ::Workflow %>
-<%= render(WorkPackageTypes::NamedReferences::PageHeaderComponent.new(record: @workflow, model_class:)) %>
+<%= render(Workflows::PageHeaderComponent.new(record: @workflow, model_class:)) %>
 <%= render(WorkPackageTypes::NamedReferences::UsageComponent.new(record: @workflow, model_class:)) %>
 
 <% if @roles.any? %>

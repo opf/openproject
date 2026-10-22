@@ -69,7 +69,7 @@ In these Release Notes, we will give an overview of important feature changes. A
 - Feature: Include Wiki page into PMflex artifact export \[[#79192](https://community.openproject.org/wp/79192)\]
 - Feature: Include a multi-project view in the timeline widget for projects with children \[[#77501](https://community.openproject.org/wp/77501)\]
 - Feature: UX improvements for edit and create actions of wiki pages \[[#77859](https://community.openproject.org/wp/77859)\]
-- Bugfix: Subject is shown incorretly when its a mix of RTL and LTR \[[#44068](https://community.openproject.org/wp/44068)\]
+- Bugfix: Subject is shown incorrectly when its a mix of RTL and LTR \[[#44068](https://community.openproject.org/wp/44068)\]
 - Bugfix: Keyboard navigation in Treeview partially broken \[[#68235](https://community.openproject.org/wp/68235)\]
 - Bugfix: APIv3 indicates fields accepting a Principal as type User \[[#70047](https://community.openproject.org/wp/70047)\]
 - Bugfix: Branding logo still displayed after being removed \[[#78622](https://community.openproject.org/wp/78622)\]

@@ -68,7 +68,7 @@ RSpec.describe Primer::OpenProject::Forms::FilterableTreeView, type: :forms do
       expect(rendered_form).to have_element :legend, class: "FormControl-label", text: "Ingredients"
     end
 
-    it "renders the leafs", :aggregate_failures do
+    it "renders the leaves", :aggregate_failures do
       expect(rendered_form).to have_element(:li, class: "TreeViewItem", role: "none", text: "flour")
       expect(rendered_form).to have_element(:li, class: "TreeViewItem", role: "none", text: "sugar")
       expect(rendered_form).to have_element(:li, class: "TreeViewItem", role: "none", text: "eggs")

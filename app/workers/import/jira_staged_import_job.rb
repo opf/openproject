@@ -34,7 +34,7 @@ module Import
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
       if batch.succeeded?
-        # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
+        # happens when jobs are not progressable and can't react to import_aborting by discarding themselves.
         if jira_import.in_state?(:import_aborting)
           jira_import.transition_to!(:import_error)
           return
