@@ -57,6 +57,7 @@ en:
         llm_feature_binding:
           attributes:
             dimensions:
+              less_than_or_equal_to: "must be at most %{count}, the largest size the vector index supports."
               locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
               not_for_chat_feature: "only applies to features that create embeddings."
             feature_key:

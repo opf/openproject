@@ -46,7 +46,12 @@ class LlmFeatureBinding < ApplicationRecord
   before_save :freeze_on_lock
 
   validates :feature_key, presence: true, uniqueness: { scope: :llm_connection_id }
-  validates :dimensions, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+  validates :dimensions, numericality: {
+                           only_integer: true,
+                           greater_than: 0,
+                           less_than_or_equal_to: WorkPackageEmbedding::DIMENSIONS
+                         },
+                         allow_nil: true
   validate :feature_registered
   validate :model_offered_by_connection, if: :model_id_changed?
   validate :embedding_settings_only_for_embedding_features

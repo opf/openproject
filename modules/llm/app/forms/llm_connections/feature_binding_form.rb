@@ -77,6 +77,7 @@ module LlmConnections
           name: :dimensions,
           type: :number,
           min: 1,
+          max: WorkPackageEmbedding::DIMENSIONS,
           label: LlmFeatureBinding.human_attribute_name(:dimensions),
           caption: dimensions_caption,
           input_width: :small,
