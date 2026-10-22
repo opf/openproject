@@ -138,8 +138,8 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
       .id(query)
       .patch(query, this.queryForm)
       .subscribe(
-        () => this.inFlight = false,
-        () => this.inFlight = false,
+        () => { this.inFlight = false; },
+        () => { this.inFlight = false; },
       );
   }
 

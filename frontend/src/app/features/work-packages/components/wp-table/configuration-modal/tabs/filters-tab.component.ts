@@ -62,9 +62,9 @@ export class WpTableConfigurationFiltersTabComponent implements TabComponent, On
   };
 
   ngOnInit() {
-    this.wpTableFilters
+    void this.wpTableFilters
       .onReady()
-      .then(() => this.filters = this.wpTableFilters.current);
+      .then(() => { this.filters = this.wpTableFilters.current; });
 
     this.wpTableFilters.changes$().subscribe(() => {
       this.filters = this.wpTableFilters.current;
