@@ -28,23 +28,22 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   flex_layout(**@system_arguments) do |flex|
-    flex.with_column do
-      if project.archived?
-        render(Primer::Beta::Text.new(font_weight: :bold)) { project.name }
+    flex.with_column(mr: 2) do
+      if @project.archived?
+        render(Primer::Beta::Text.new(font_weight: :bold)) { @project.name }
       else
-        render(Primer::Beta::Link.new(href: project_path(project), font_weight: :bold)) { project.name }
+        render(Primer::Beta::Link.new(href: project_path(@project), font_weight: :bold)) { @project.name }
       end
     end
 
     if @show_workspace_type
-      flex.with_column(ml: 2, display: :flex, align_items: :center, test_selector: "project-info-line-workspace-type") do
-        render(Primer::Beta::Octicon.new(icon: workspace_type_icon, size: :xsmall, color: :muted, mr: 1)) +
-          render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { workspace_type_label }
+      flex.with_column(mr: 2) do
+        render(Projects::WorkspaceLabelComponent.new(project: @project))
       end
     end
 
-    if project.archived?
-      flex.with_column(ml: 2) do
+    if @project.archived?
+      flex.with_column do
         render(Primer::Beta::Label.new) { t("project.archive.archived") }
       end
     end

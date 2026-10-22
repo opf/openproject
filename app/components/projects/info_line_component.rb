@@ -40,12 +40,4 @@ class Projects::InfoLineComponent < ApplicationComponent
     @system_arguments[:align_items] ||= :center
     @system_arguments[:flex_wrap] ||= :wrap
   end
-
-  private
-
-  attr_reader :project
-
-  def workspace_type_label = I18n.t(:"label_#{project.workspace_type}")
-
-  def workspace_type_icon = helpers.workspace_icon(project.workspace_type)
 end

@@ -1,11 +1,11 @@
 <%=
-  flex_layout do |container|
+  flex_layout(align_items: :center) do |container|
     container.with_column(mr: 1) do
-      render(Primer::Beta::Octicon.new(icon: icon_name))
+      render(Primer::Beta::Octicon.new(icon: icon_name, color: :muted))
     end
 
     container.with_column do
-      render(Primer::Beta::Text.new()) {@label}
+      render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { label }
     end
  end
 %>

@@ -31,10 +31,11 @@ class Projects::StatusBadgeComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::ClassNameHelper
 
-  def initialize(project:, **system_arguments)
+  def initialize(project:, with_icon: false, **system_arguments)
     super
 
     @project = project
+    @with_icon = with_icon
     @status = find_status(project.status_code)
     @system_arguments = system_arguments
   end

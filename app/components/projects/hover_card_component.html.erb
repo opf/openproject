@@ -29,10 +29,10 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   flex_layout(classes: "op-project-hover-card", data: { test_selector: "project-hover-card-#{@id}" }) do |flex|
     if breadcrumb_items.present?
-      flex.with_row do
+      flex.with_row(mb: 1) do
         render(Primer::Beta::Breadcrumbs.new) do |breadcrumbs|
-          breadcrumb_items.each do |item|
-            breadcrumbs.with_item(href: item[:href]) do
+          breadcrumb_items.each_with_index do |item, i|
+            breadcrumbs.with_item(href: item[:href], font_weight: i == breadcrumb_items.size - 1 ? :bold : nil) do
               render(Primer::Beta::Truncate.new) do |truncate|
                 truncate.with_item(max_width: 135) { item[:text] }
               end
@@ -42,23 +42,23 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    flex.with_row do
+    flex.with_row(mb: 1) do
       render(Primer::Beta::Text.new(tag: :h3)) { @name }
     end
 
-    flex.with_row(flex_layout: true) do |row|
+    flex.with_row(flex_layout: true, align_items: :center) do |row|
       row.with_column(mr: 2) do
         render(Projects::WorkspaceLabelComponent.new(project: @project))
       end
 
       if @project.archived?
-        row.with_column(mr: 1) do
+        row.with_column(mr: 2) do
           render(Primer::Beta::Label.new(scheme: :secondary)) { t('project.archive.archived') }
         end
       end
 
       row.with_column do
-        render(Projects::StatusBadgeComponent.new(project: @project))
+        render(Projects::StatusBadgeComponent.new(project: @project, size: :large, with_icon: true))
       end
     end
   end

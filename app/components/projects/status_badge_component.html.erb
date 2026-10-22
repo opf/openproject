@@ -1,1 +1,12 @@
-<%= render(Primer::Beta::Label.new(size: :medium, inline: true, **@system_arguments)) { name } %>
+<%= render(Primer::Beta::Label.new(size: :medium, **@system_arguments)) {
+  render(Primer::OpenProject::FlexLayout.new) do |flex|
+    if @with_icon
+      flex.with_column(mr: 1) do
+        render(Primer::Beta::Octicon.new(icon: @status.icon))
+      end
+    end
+    flex.with_column do
+      name
+    end
+  end
+} %>

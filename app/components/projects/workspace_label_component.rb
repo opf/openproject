@@ -28,26 +28,19 @@
 #++
 
 class Projects::WorkspaceLabelComponent < ApplicationComponent
-  include ApplicationHelper
   include OpPrimer::ComponentHelpers
-
-  attr_reader :project
 
   def initialize(project:)
     super
 
     @project = project
-    @label = project.workspace_type
   end
 
-  def icon_name
-    case project.workspace_type
-    when "program"
-      :version
-    when "portfolio"
-      :briefcase
-    else
-      :project
-    end
-  end
+  private
+
+  attr_reader :project
+
+  def label = I18n.t(:"label_#{project.workspace_type}")
+
+  def icon_name = helpers.workspace_icon(project.workspace_type)
 end
