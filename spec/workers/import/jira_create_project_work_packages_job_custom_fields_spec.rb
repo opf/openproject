@@ -222,6 +222,39 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
+  describe "datetime field (com.atlassian.jira.plugin.system.customfieldtypes:datetime)" do
+    # Jira value: ISO 8601 timestamp with milliseconds and offset "2024-06-15T14:30:45.123+0200".
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10262",
+                          payload: {
+                            "id" => "customfield_10262",
+                            "name" => "CF Datetime",
+                            "schema" => {
+                              "type" => "datetime",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime",
+                              "customId" => 10262
+                            }
+                          })
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    before { import_project }
+
+    it "creates a 'datetime' custom field" do
+      expect(WorkPackageCustomField.find_by!(name: "CF Datetime").field_format).to eq("datetime")
+    end
+
+    it "stores the date and time of day in UTC on the work package" do
+      expect(cf_value("CF Datetime")).to eq(Time.utc(2024, 6, 15, 12, 30, 45))
+    end
+  end
+
   describe "URL field (com.atlassian.jira.plugin.system.customfieldtypes:url)" do
     let!(:jira_field) do
       create(:jira_field, jira_import:,
@@ -1066,6 +1099,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         { id: "customfield_10261", name: "CF Date",
           schema: { "type" => "date",
                     "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" } },
+        { id: "customfield_10262", name: "CF Datetime",
+          schema: { "type" => "datetime",
+                    "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime" } },
         { id: "customfield_10257", name: "CF URL",
           schema: { "type" => "string",
                     "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:url" } },
@@ -1138,7 +1174,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     it "creates the correct number of OpenProject custom fields" do
       expect { import_project }
-        .to change(WorkPackageCustomField, :count).by(13)
+        .to change(WorkPackageCustomField, :count).by(14)
     end
 
     context "on after the import" do
@@ -1150,6 +1186,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           "CF Text" => "text",
           "CF Number" => "float",
           "CF Date" => "date",
+          "CF Datetime" => "datetime",
           "CF URL" => "link",
           "CF User" => "user",
           "CF Labels" => "list",
@@ -1169,6 +1206,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect(cf_value("CF String")).to eq("my plain string value")
           expect(cf_value("CF Number").to_f).to eq(42.5)
           expect(cf_value("CF Date")).to eq(Date.parse("2024-06-15"))
+          expect(cf_value("CF Datetime")).to eq(Time.utc(2024, 6, 15, 12, 30, 45))
           expect(cf_value("CF URL")).to eq("https://example.com")
           expect(cf_value("CF Text")).to include("**bold**")
         end
