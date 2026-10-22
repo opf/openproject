@@ -91,22 +91,23 @@ module Import
       started_at = time_zone.parse(worklog["started"])
       start_time = (started_at.hour * 60) + started_at.min
 
-      time_entry = TimeEntry.new(
-        user:,
-        entity: work_package,
-        project: @project,
-        logged_by: user,
-        hours: worklog["timeSpentSeconds"] / TimeEntry::SECONDS_PER_HOUR,
-        spent_on: started_at.to_date,
-        start_time:,
-        time_zone: time_zone.name,
-        comments: worklog["comment"]&.truncate(TimeEntry::COMMENTS_MAX_LENGTH),
-        created_at: Time.zone.parse(worklog["created"]),
-        updated_at: Time.zone.parse(worklog["updated"])
-      )
+      call = TimeEntries::ImportCreateService
+               .new(user:, contract_class: EmptyContract)
+               .call(
+                 user:,
+                 entity: work_package,
+                 hours: worklog["timeSpentSeconds"] / TimeEntry::SECONDS_PER_HOUR,
+                 spent_on: started_at.to_date,
+                 start_time:,
+                 time_zone: time_zone.name,
+                 comments: worklog["comment"]&.truncate(TimeEntry::COMMENTS_MAX_LENGTH),
+                 created_at: Time.zone.parse(worklog["created"]),
+                 updated_at: Time.zone.parse(worklog["updated"])
+               )
 
-      time_entry.add_journal(user:)
-      time_entry.save!
+      call.on_failure do
+        raise call.message
+      end
     end
 
     def project_user(jira_user_key)
