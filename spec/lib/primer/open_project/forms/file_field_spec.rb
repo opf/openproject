@@ -134,8 +134,24 @@ RSpec.describe Primer::OpenProject::Forms::FileField, type: :forms do
     end
   end
 
+  context "with a filename but no preview_url (e.g. a font, which cannot be previewed as an image)" do
+    it "shows the filename instead of the label, without marking the wrapper as having a preview" do
+      render_file_field(filename: "Regular.ttf")
+
+      expect(page).to have_button("Regular.ttf", class: "FormControl-file-field-drop-zone")
+      expect(page).to have_css("[data-controller='file-field']:not(.FormControl-file-field-wrap--has-preview)")
+    end
+
+    it "still resets to the label as the empty-state placeholder for a newly chosen file" do
+      render_file_field(filename: "Regular.ttf", label: "Upload file")
+
+      label = page.find("[data-file-field-target='filename']", visible: :all)
+      expect(label[:"data-empty"]).to eq("Upload file")
+    end
+  end
+
   describe "the actions menu" do
-    context "without a preview_url" do
+    context "without a preview_url or filename" do
       it "does not render the menu, since there is nothing uploaded yet to act on" do
         render_file_field(delete_path: "/uploads/logo")
 
@@ -148,6 +164,14 @@ RSpec.describe Primer::OpenProject::Forms::FileField, type: :forms do
         render_file_field(preview_url: "/uploads/logo.png", delete_path: "/uploads/logo", disabled: true)
 
         expect(page).to have_no_css(".FormControl-file-field-menu", visible: :all)
+      end
+    end
+
+    context "with only a filename (no preview_url)" do
+      it "renders the menu, since a file is already uploaded even though it cannot be previewed" do
+        render_file_field(filename: "Regular.ttf", delete_path: "/uploads/font")
+
+        expect(page).to have_css(".FormControl-file-field-menu", visible: :all)
       end
     end
 

@@ -187,11 +187,12 @@ module CustomStylesHelper
     %i[regular bold italic bold_italic].map do |variant|
       field = :"export_font_#{variant}"
       font = custom_style.public_send(field)
+      present = custom_style.id && font.present?
       {
         field: field,
         label: I18n.t("label_custom_export_font_#{variant}"),
-        present: font.present?,
-        filename: custom_style.id && font.present? ? File.basename(font.file.path) : nil,
+        present:,
+        filename: present ? File.basename(font.file.path) : nil,
         delete_path: public_send(:"custom_style_export_font_#{variant}_delete_path"),
         instructions: I18n.t("text_custom_export_font_#{variant}_instructions")
       }

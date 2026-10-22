@@ -26,19 +26,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<p><%= I18n.t(:label_custom_export_font_instructions) %></p>
-
 <%=
-  render(Primer::Beta::Button.new(
-    target: "_blank",
-    data: { turbo: false },
-    tag: :a,
-    href: export_demo_pdf_download_custom_style_path
-  )) do |_c|
+  render(
+    Primer::Beta::Button.new(
+      target: "_blank",
+      data: { turbo: false },
+      tag: :a,
+      href: export_demo_pdf_download_custom_style_path
+    )
+  ) do |_c|
     t("export.demo.button_text")
   end
 %>
 
-<% export_fonts_fields(@custom_style).each do |font| %>
-  <%= render partial: "custom_styles/uploads/font",  locals: { font: } %>
+<%= render(Primer::Beta::Subhead.new(spacious: false)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium, mt: 4) { t("admin.custom_styles.export.title") } %>
+  <% subhead.with_description { t(:label_custom_export_font_instructions) } %>
+<% end %>
+
+<%= flex_layout(flex_wrap: :wrap, classes: "gap-3") do |flex| %>
+  <% export_fonts_fields(@custom_style).each do |font| %>
+    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
+      <%= render partial: "custom_styles/uploads/font", locals: { font: } %>
+    <% end %>
+  <% end %>
 <% end %>
