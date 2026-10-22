@@ -369,6 +369,60 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.row('1')).toHaveFocus();
   });
 
+  it('returnFocus ignores a vanished origin and focus that left the table', async () => {
+    const table = await mount();
+    const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
+    const outside = document.createElement('button');
+    document.body.append(outside);
+    try {
+      cell(table.row('1'), 0).focus();
+      outside.focus();
+      outside.blur();
+
+      navigation(table).returnFocus(origin);
+
+      expect(document.body).toHaveFocus();
+      outside.focus();
+      navigation(table).returnFocus(origin);
+      expect(outside).toHaveFocus();
+      outside.remove();
+      cell(table.row('1'), 0).focus();
+      cell(table.row('1'), 0).blur();
+      navigation(table).returnFocus({ key: wpOccurrenceKey('99'), cell: 1, desiredColumn: 1 });
+      expect(cell(table.row('1'), 0)).toHaveFocus();
+      navigation(table).returnFocus(origin);
+      expect(cell(table.row('1'), 0)).toHaveFocus();
+      cell(table.row('1'), 0).blur();
+      navigation(table).returnFocus(origin);
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    } finally {
+      outside.remove();
+    }
+  });
+
+  it('returnFocus leaves focus alone after it left the grid for the inline-create button', async () => {
+    const table = await mount();
+    const button = within(table.container).getByRole('button', { name: 'Create new work package' });
+    button.focus();
+    button.remove();
+
+    navigation(table).returnFocus({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+
+    expect(document.body).toHaveFocus();
+  });
+
+  it('returnFocus leaves focus in another open editor of the table', async () => {
+    const table = await mount({ editing: {} });
+    table.row('2').querySelector<HTMLTableCellElement>('td.subject')!.focus();
+    pressActive('Enter');
+    const input = await waitFor(() => within(table.row('2')).getByRole('textbox'));
+    await waitFor(() => expect(input).toHaveFocus());
+
+    navigation(table).returnFocus({ key: wpOccurrenceKey('1'), cell: 1, desiredColumn: 1 });
+
+    expect(input).toHaveFocus();
+  });
+
   it('consumes Home on the first cell without moving', async () => {
     const table = await mount();
     cell(table.row('1'), 0).focus();
@@ -425,10 +479,13 @@ describe('KeyboardNavigationTransformer', () => {
         showHierarchies: true,
         columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+        editing: { fields: ['id', 'subject'] },
+      }, (harness) => {
+        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
       });
       const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
       const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
-      const link = idCell.querySelector('a') ?? idCell;
+      const link = within(idCell).getByRole('link');
       const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
       const relation = table.row('1').querySelector<HTMLElement>('td.relationsOfTypeFollows *')!;
 
@@ -597,6 +654,25 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(table.headerRow()).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: 'header', cell: null, desiredColumn: null });
+    });
+
+    it('does not restore after a render when focus left the grid and the outside control went away', async () => {
+      const table = await mount();
+      const outside = document.createElement('button');
+      document.body.append(outside);
+      try {
+        table.row('1').focus();
+        navigation(table).captureOwnership();
+        outside.focus();
+        outside.remove();
+
+        table.table.refreshRows(resource(table, '1'));
+
+        expect(document.body).toHaveFocus();
+        expect(table.row('1')).toHaveAttribute('tabindex', '0');
+      } finally {
+        outside.remove();
+      }
     });
 
     it('leaves focus on a still-connected inner control when another row refreshes', async () => {
