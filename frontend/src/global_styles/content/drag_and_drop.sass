@@ -46,6 +46,90 @@
   &:active
     cursor: grabbing
 
+// Sortable-lists drag states. The two selectors mirror `sortableListSelector`
+// and `sortableItemSelector` in the controllers' list-dom.ts; renaming a
+// controller or an item value there without updating them here leaves every
+// sortable list unstyled. They also leave the legacy generic-drag-and-drop
+// controller alone, which writes `data-dragging` onto rows carrying none of
+// these attributes.
+$op-sortable-list: '[data-controller~="sortable-lists--list"]'
+$op-sortable-item: '[data-sortable-lists--item-id-value]'
+
+// Drop container: the whole list outlines while a sortable item hovers it,
+// signaling the item will land inside this list. A refused container (a
+// confined item hovering a foreign list) mutes the outline to a danger tone
+// instead, signaling the item will not land here.
+#{$op-sortable-list}[data-drop-container]
+  outline: var(--borderWidth-thick) solid var(--fgColor-accent)
+  outline-offset: calc(var(--borderWidth-thick) * -1)
+  border-radius: var(--borderRadius-medium)
+
+#{$op-sortable-list}[data-drop-container="refused"]
+  outline-color: var(--borderColor-danger-muted)
+
+#{$op-sortable-list}
+  --op-sortable-drop-indicator-height: 8px
+  --op-sortable-drop-indicator-border-width: 2px
+  // @primer/primitives defines no --stack-gap-none, leaving Primer's
+  // `gap: :none` rule to resolve --stack-gap to a unitless 0 that calc()
+  // cannot add to a length.
+  --stack-gap-none: 0px
+  // Items sit flush by default and the indicator centers on their shared
+  // border. Every list declares the gap because the property inherits: a
+  // Border Box list nested in a list of groups must not pick up the outer gap.
+  --op-sortable-drop-gap: 0px
+  --op-sortable-drop-indicator-offset: calc(var(--op-sortable-drop-indicator-height) / -2)
+  --op-sortable-drop-indicator-gap-offset: calc((var(--op-sortable-drop-gap) + var(--op-sortable-drop-indicator-height)) / -2)
+
+  // A list spacing its items apart centers the indicator in that gap instead.
+  // Primer's Stack publishes the amount it applies as --stack-gap, through the
+  // same fallback chain it gives the `gap` property itself.
+  &.Stack
+    --op-sortable-drop-gap: var(--stack-gap, var(--stack-gap-normal, 1rem))
+
+  #{$op-sortable-item}[data-dragging="source"]
+    opacity: 0.4
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+    // Hover, focus-visible and batch selection each own the row's background
+    // in a component stylesheet loaded after this one, at specificities no
+    // selector here can stay ahead of as more of them are added.
+    background-color: var(--bgColor-inset) !important
+
+  #{$op-sortable-item}[data-drop-position]
+    position: relative
+
+    &::before,
+    &::after
+      position: absolute
+      left: 0
+      right: 0
+      height: var(--op-sortable-drop-indicator-height)
+      background: linear-gradient(
+        to bottom,
+        var(--bgColor-accent-muted) 0,
+        var(--bgColor-accent-muted) calc(50% - var(--op-sortable-drop-indicator-border-width) / 2),
+        var(--fgColor-accent) calc(50% - var(--op-sortable-drop-indicator-border-width) / 2),
+        var(--fgColor-accent) calc(50% + var(--op-sortable-drop-indicator-border-width) / 2),
+        var(--bgColor-accent-muted) calc(50% + var(--op-sortable-drop-indicator-border-width) / 2),
+        var(--bgColor-accent-muted) 100%
+      )
+      pointer-events: none
+      z-index: 1
+
+    &[data-drop-position="top"]::before
+      content: ''
+      top: var(--op-sortable-drop-indicator-offset)
+
+    &[data-drop-position="bottom"]::after
+      content: ''
+      bottom: var(--op-sortable-drop-indicator-offset)
+
+  // Only the edge between two items has a gap to center the indicator in. At
+  // the list's own boundaries the gap offset would paint the bar outside it.
+  #{$op-sortable-item} ~ #{$op-sortable-item}[data-drop-position="top"],
+  #{$op-sortable-item}[data-drop-position="bottom"]:has(~ #{$op-sortable-item})
+    --op-sortable-drop-indicator-offset: var(--op-sortable-drop-indicator-gap-offset)
+
 // Ghost layers behind a multi-card drag preview, one per further card in the
 // batch up to the maximum. Composed into the card's own shadow by the
 // component that renders it (border_box_list_component.sass).

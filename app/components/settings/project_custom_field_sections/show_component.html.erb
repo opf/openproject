@@ -1,6 +1,6 @@
 <%=
   component_wrapper(class: "op-project-custom-field-section-container", data: { test_selector: "project-custom-field-section-container-#{@project_custom_field_section.id}" }) do
-    render(border_box_container(mt: 3, data: field_list_data)) do |component|
+    render(border_box_container(data: field_list_data, position: :static)) do |component|
       component.with_header(font_weight: :bold) do
         flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
           section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
