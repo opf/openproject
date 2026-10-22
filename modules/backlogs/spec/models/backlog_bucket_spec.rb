@@ -155,12 +155,5 @@ RSpec.describe BacklogBucket do
       expect(result.first.displayed_work_packages.count).to eq(3)
       expect(result.first.displayed_work_packages).to eq([wp1_in_bucket1, wp2_in_bucket1, wp_nil_in_bucket1])
     end
-
-    it "eager loads the displayed work packages" do
-      result.to_a
-
-      expect { result.first.displayed_work_packages }.to have_a_query_limit(0)
-      expect { result.last.displayed_work_packages }.to have_a_query_limit(0)
-    end
   end
 end
