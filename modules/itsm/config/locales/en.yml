@@ -1,6 +1,18 @@
+---
 en:
   activerecord:
     attributes:
+      itsm/email_message:
+        direction: Direction
+        from_address: From
+        message_id: Message ID
+        status: Status
+        subject: Subject
+      itsm/email_thread:
+        recipients: Recipients
+        requester_email: Requester email
+        requester_name: Requester name
+        work_package: Work package
       itsm/mail_server:
         imap_encryption: IMAP encryption
         imap_host: IMAP server name
@@ -21,29 +33,18 @@ en:
         sender_name: Sender name
         smtp_password: SMTP password
         smtp_username: SMTP username
-      itsm/email_thread:
-        recipients: Recipients
-        requester_email: Requester email
-        requester_name: Requester name
-        work_package: Work package
-      itsm/email_message:
-        direction: Direction
-        from_address: From
-        message_id: Message ID
-        status: Status
-        subject: Subject
     models:
+      itsm/email_message:
+        one: Email message
+        other: Email messages
+      itsm/email_thread:
+        one: Email thread
+        other: Email threads
       itsm/mail_server:
         one: Mail server
         other: Mail servers
       itsm/mailbox:
         one: Mailbox
         other: Mailboxes
-      itsm/email_thread:
-        one: Email thread
-        other: Email threads
-      itsm/email_message:
-        one: Email message
-        other: Email messages
   permission_manage_helpdesk: "Manage helpdesk"
   project_module_helpdesk: "Helpdesk"
