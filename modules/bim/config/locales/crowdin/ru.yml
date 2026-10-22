@@ -114,7 +114,7 @@ ru:
     not_recommended: не рекомендуется
     recommended: рекомендуется
     x_bcf_issues:
-      one: Одна проблема BCF
+      one: "%{count} BCF issue"
       other: "%{count} проблем BCF"
       zero: Нет проблем BCF
   bim:

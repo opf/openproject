@@ -56,7 +56,7 @@ it:
 
           '
       label_n_groups_found:
-        one: 1 gruppo trovato dal filtro
+        one: "%{count} group found by the filter"
         other: "%{count} gruppi trovati dal filtro"
         zero: Nessun gruppo trovato dal filtro
       plural: Filtri sincronizzazione gruppo LDAP

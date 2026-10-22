@@ -25,8 +25,6 @@ it:
     button_log_costs: Registra unità di costo
     label_hour: ora
     label_hours: ore
-    myTimeTracking:
-      noSpecificTime: Nessun orario specifico
     text_are_you_sure: Sei sicuro/a?
     work_packages:
       properties:

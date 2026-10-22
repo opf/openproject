@@ -184,8 +184,8 @@ sv:
         all: Alla Wiki-sidor
         main: Huvudsidor i Wiki
       sub_pages_count:
-        one: 1 undersida
-        other: "%{count} undersidor"
+        one: "%{count} sub-page"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: Lägg till befintlig Wiki-sida
       title_create: Skapa ny wikisida

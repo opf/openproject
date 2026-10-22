@@ -40,7 +40,9 @@ ko:
         view: 매크로를 사용하여 배치된 보기에 대한 동적 링크.
         work_package: 매크로를 사용하여 배치된 작업 패키지에 대한 동적 링크.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: "<em>%{login}</em>(으)로 로그인하여 계정을 활성화하세요."
+    continue_with_provider: Continue with %{name}
     delete: 계정 삭제
     delete_confirmation: 이 계정을 정말로 삭제합니까?
     deletion_info:
@@ -65,7 +67,9 @@ ko:
     error_self_registration_limited_provider: 'Single Sign-On 공급자 ''%{name}''에 대한 사용자 등록이 제한되어 있습니다. 관리자에게 계정을 활성화해 달라고 요청하거나 이 공급자에 대한 자체 등록 제한을 변경하세요.
 
       '
-    login_with_auth_provider: 또는 이미 있는 계정으로 로그인
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: 로그인 계속하기
     omniauth_direct_login_redirecting: 해당 ID 공급자로 리디렉션 중…
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
@@ -168,6 +172,7 @@ ko:
         uid: 고객 ID
       emoji_reaction:
         reactable: 반응
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: 활성 사용자
         encoded_token: 엔터프라이즈 지원 토큰
@@ -179,17 +184,38 @@ ko:
         company: 회사
       favorite:
         favorited: 항목
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: 열 수
         page: 페이지
         row_count: 행 수
         widgets: 위젯
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: 그룹 사용자
         identity_url: ID URL
         organizational_unit: 조직 단위
         parent: 부모 그룹
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: 조직 단위
         parent: 부모 그룹
       import/jira:
@@ -223,6 +249,7 @@ ko:
         title: 제목
       member:
         blocked: 차단됨
+        principal_type: 멤버 유형
         roles: 역할
       notification:
         read_ian: 인앱 읽기
@@ -235,6 +262,7 @@ ko:
         position: 위치
       persisted_query:
         filters: 필터
+        group_bys: 결과 그룹화 기준
         name: 이름
         orders: 주문
         selects: 선택
@@ -367,6 +395,8 @@ ko:
         ongoing: 진행 중
         spent_on: 날짜
         type: 타입
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: 달력
         ical_token_query_assignment: 쿼리 할당
@@ -384,19 +414,17 @@ ko:
       type_variant:
         attribute_groups: 양식
         default_work_package_description: 설명의 기본 텍스트
-        defaults_source: 기본값 소스
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
-        form_configuration_source: 양식 소스
+        linked_aspects: Inherited configuration
         patterns: 패턴
-        pdf_export_source: PDF 내보내기 소스
-        project_attributes_source: 프로젝트 특성 소스
         project_types: 이 변형을 사용하는 프로젝트
         variant: 변형
         variant_name: 이름
-        workflows_source: 워크플로 소스
+        workflow: Workflow
       user:
         admin: 관리자
         auth_source: 인증 소스
+        avatar_type: Avatar type
         consented_at: '동의함:'
         current_password: 기존 비밀번호
         department: 부서
@@ -410,7 +438,7 @@ ko:
         last_name: 성
         ldap_auth_source: LDAP 연결
         new_password: 새로운 비밀번호
-        password_confirmation: 확인
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: 섹션
       user_non_working_time:
@@ -419,11 +447,15 @@ ko:
       user_preference:
         auto_hide_popups: 성공 배너 자동으로 숨기기
         auto_hide_popups_caption: 활성화하면 녹색 성공 배너가 5초 후에 자동으로 사라집니다.
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: 업데이트 알림
         button_update_look_and_feel: 모양과 느낌 업데이트
         button_update_user_information: 프로필 업데이트
         comments_sorting: '다음을 기준으로 작업 패키지 활동을 정렬하여 표시:'
         daily_reminders: 일일 미리 알림
+        date_format: Date format
         disable_keyboard_shortcuts: 키보드 바로 가기 비활성화
         dismissed_enterprise_banners: 숨겨진 엔터프라이즈 배너
         force_dark_theme_contrast: 다크 모드에서 고대비 강제 적용
@@ -437,10 +469,20 @@ ko:
         increase_contrast_caption: 선택한 색상 모드에 대한 고대비 모드를 활성화합니다.
         increase_theme_contrast: 테마 대비 증가
         mode_guideline: 일부 모드에서는 접근성과 가독성을 위해 사용자 지정 테마 색상을 덮어씁니다. 전체 사용자 지정 테마 지원을 위해서는 라이트 모드를 선택하세요.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 색상 모드
+        time_format: Time format
         time_zone: 표준 시간대
         warn_on_leaving_unsaved: 저장하지 않고 작업 패키지를 벗어날 때 알려주세요.
         workdays: 근무일
+      user_resource:
+        description: 설명
+        name: 이름
+        user_filter: 사용자 필터
+      user_resource_detail:
+        description: 설명
+        user_filter: 사용자 필터
       user_working_hours:
         availability_factor: 가용성 요소
         days: 근무일
@@ -491,6 +533,7 @@ ko:
           title: 근무일
           true: 휴무일 포함
         journal_internal: 내부 저널
+        labels: Labels
         notify: 알림
         observed_in_versions: 다음 버전에서 확인됨
         parent: 부모
@@ -519,6 +562,10 @@ ko:
         work_package: 작업 패키지
       work_package_version:
         kind: 종류
+      workflow:
+        description: Description
+        name: Name
+        type_variants: Types and variants using this workflow
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -612,6 +659,10 @@ ko:
         user_in_ldap_managed_department: 이 사용자는 LDAP 동기화를 통해 관리되는 부서에 속해 있으므로 이동할 수 없습니다.
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -671,6 +722,16 @@ ko:
           general_consent: 이용 약관에 동의해 주세요.
         favorite:
           already_favorited: "- 이미 즐겨찾기에 추가되었습니다."
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: 종료 값은 시작 값보다 커야 합니다.
           outside: "- 그리드의 외부에 있습니다."
@@ -688,6 +749,13 @@ ko:
               not_unique: "- 사용 중입니다. 다른 이름을 선택하세요."
         jira:
           invalid_protocol: 유효한 프로토콜(http 또는 https)을 입력하세요
+        label:
+          attributes:
+            name:
+              blank: 이름은 비워둘 수 없습니다.
+              format: "%{message}"
+              taken: 이 이름의 레이블이 이미 있습니다. 다른 이름을 사용해 주세요.
+              too_long: 이름이 너무 깁니다(최대 %{count}자).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -743,7 +811,6 @@ ko:
             types:
               cannot_assign_multiple_variants_of_parent: 프로젝트에서는 유형의 단일 변형만 활성화할 수 있습니다
               cannot_assign_variant_and_parent: '변형 및 해당 부모를 할당할 수 없습니다 '
-              cannot_assign_variants_yet: 아직 프로젝트에서 변형을 활성화할 수 없습니다. 변형을 사용해 보려면 기능 플래그를 활성화하세요
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
               switch_target_blank: 전환할 변형을 선택하세요
               switch_target_identical: 대상 유형은 프로젝트에서 현재 사용하는 유형과 달라야 합니다
@@ -856,42 +923,26 @@ ko:
               blank: 토큰 이름을 입력하세요
               format: "%{message}"
               in_use: 이 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: 작업 패키지가 계속 사용하는 동안에는 이 유형을 삭제할 수 없습니다.
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
-              attribute_unknown_name: '잘못된 작업 패키지 특성이 사용되었습니다: %{attribute}'
-              duplicate_group: 그룹 이름 '%{group}'이(가) 두 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다.
-              group_without_name: 그룹 이름은 비워둘 수 없습니다.
-              query_invalid: '포함된 쿼리 ''%{group}''이(가) 잘못되었습니다: %{details}'
             base:
-              borrowed_by_variants: "%{names}에서 해당 구성을 재사용하고 있는 동안에는 삭제할 수 없습니다."
               is_default_variant: 유형의 기본 구성은 삭제할 수 없습니다.
               project_variants_not_allowed: 이 유형은 프로젝트 내에서 변형 생성을 허용하지 않습니다.
               restrict_dependent_destroy:
                 has_many: 프로젝트에서 계속 사용 중인 동안에는 삭제할 수 없습니다.
-            defaults_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             enabled_in_new_projects:
               not_available_to_project_owned_variant: "- 프로젝트가 소유한 변형에는 설정할 수 없습니다."
               taken: "- 이미 이 유형의 다른 구성에 대해 설정되어 있습니다."
-            form_configuration_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             patterns:
               invalid_tokens: 필드 내의 특성이 하나 이상 유효하지 않습니다. 특성을 수정한 후에 저장하세요.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
-            project_attributes_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             variant:
               must_belong_to_the_type: "- 이 유형의 변형이어야 합니다."
-            workflows_source_id:
-              must_be_available_to_the_variant: "- 이 프로젝트가 사용할 수 있는 구성이어야 합니다."
-              would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
+            workflow:
+              not_available_to_this_variant: "- 이 프로젝트가 사용할 수 있는 워크플로여야 합니다."
         user:
           attributes:
             base:
@@ -905,7 +956,7 @@ ko:
               numeric: '숫자 (예: '' 1'')'
               requirements_not_met: '다음 유형의 문자를 포함해야 합니다: %{rules}'
               reused:
-                other: 전에 사용 되었습니다. 마지막 %{count} 에서 다른 하나를 선택 하십시오.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: '특수기호 (예: '' %'')'
               uppercase: '대문자(예: ''A'')'
             password_confirmation:
@@ -974,6 +1025,8 @@ ko:
             identifier:
               must_not_be_changed: "- 수동으로 변경해서는 안 됩니다. 작업 패키지 식별자는 자동으로 할당되며 별칭 테이블을 통해 확인되므로, 수동으로 변경하면 링크와 식별자 기록이 손상됩니다. 의도적으로 변경하는 경우, `save(context: :%{context})`를 사용하여 저장하고 work_package_semantic_aliases 테이블의 일관성을 유지하세요."
               semantic_identifier_incomplete: 및 sequence_number를 동시에 둘 다 설정해야 합니다.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: 다른 프로젝트에 포함될 수 없음
               cannot_be_milestone: 마일스톤에 포함될 수 없음
@@ -1001,6 +1054,8 @@ ko:
             status_id:
               status_invalid_in_type: "- 현재 상태가 이 유형에서 존재하지 않으므로 유효하지 않습니다."
               status_transition_invalid: 현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: "- 마일스톤일 수 없습니다. 이 작업 패키지에는 자식 항목이 있기 때문입니다."
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다.'
@@ -1009,7 +1064,7 @@ ko:
       template:
         body: 다음 필드를 확인 하십시오.
         header:
-          other: "%{count} 오류 때문에 %{model} 을 저장할 수 없습니다."
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: 작업
@@ -1081,6 +1136,8 @@ ko:
         other: 내보내기
       export_setting:
         other: 내보내기 설정
+      form_configuration:
+        other: Forms
       forum:
         other: 포럼
       global_role:
@@ -1293,7 +1350,28 @@ ko:
   admin:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: 기본 색상
         main_menu: 기본 사이드 메뉴
@@ -1326,7 +1404,11 @@ ko:
       tab_interface: 인터페이스
       tab_pdf_export_font: PDF 내보내기 글꼴
       tab_pdf_export_styles: PDF 내보내기 스타일
-      theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Enterprise edition 지원 토큰을 업로드하세요.
       book_now: 지금 예약
@@ -1518,19 +1600,19 @@ ko:
             title: 백업이 있는지 확인하세요!
           parts:
             issues:
-              other: "%{count}개 이슈"
+              other: "%{count} issues"
             jobs:
               other: "%{count} jobs"
             projects:
-              other: "%{count}개 프로젝트"
+              other: "%{count} projects"
             statuses:
-              other: "%{count}개 상태"
+              other: "%{count} statuses"
             types:
-              other: "%{count}개 유형"
+              other: "%{count} types"
             users:
-              other: "%{count}명 사용자"
+              other: "%{count} users"
             work_packages:
-              other: "%{count}개 작업 패키지"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: 이 되돌리기를 통해 데이터가 영구적으로 삭제됨을 이해합니다
             description: 이렇게 하면 가져온 모든 개체(전체 프로젝트 포함)가 삭제됩니다.
@@ -1595,7 +1677,7 @@ ko:
               caption: OpenProject로 가져올 항목을 선택합니다
               caption_done: 완료됨
               caption_done_description:
-                other: 범위로 선택된 %{count}개 프로젝트
+                other: "%{count} projects selected as scope"
               description: 호스트 Jira 인스턴스에서 가져온 사용 가능한 데이터에서 가져올 데이터를 선택합니다.
               elements:
                 custom_fields: 사용자 지정 필드의 하위 집합
@@ -1676,6 +1758,34 @@ ko:
       caption_with_maximum: '작업 패키지에 대한 사용자 액션(설명, 상태, 값 변경 또는 코멘트 작성)은 이 기간 내에 수행된 경우 그룹화됩니다. 또한 알림 및 [webhook](webhook_link) 지연을 제어합니다. 최대 시간은 %{max}분입니다.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: 이 작업은 되돌릴 수 없음을 이해합니다
+        description_html: 이렇게 하면 모든 프로젝트의 모든 작업 패키지에서 <strong>%{name}</strong> 레이블이 제거됩니다.
+        heading: 이 레이블을 삭제하시겠습니까?
+        title: 이 레이블을 삭제하시겠습니까?
+      dialog_component:
+        create_title: 레이블 만들기
+        rename_title: '"%{name}" 이름 바꾸기'
+      index:
+        description: 작업 패키지를 편집할 수 있는 모든 사용자는 기존 레이블을 사용하여 작업 패키지에 자유롭게 태그를 지정하거나, 즉시 새로운 레이블을 생성할 수 있습니다. 여기에는 모든 프로젝트에서 사용자가 생성한 모든 레이블이 포함됩니다.
+      row_component:
+        used_in_work_packages:
+          other: "%{count}개 작업 패키지"
+      sub_header_component:
+        button_add: 레이블
+        label_add: 레이블 추가
+        search_placeholder: 검색하려면 여기에 입력하세요
+      table_component:
+        blank_slate:
+          description: 사용자가 작업 패키지에서 생성한 레이블이 여기에 표시됩니다.
+          title: 아직 레이블 없음
+        headers:
+          name: 레이블
+          usage: '다음에서 사용됨:'
+        no_matches:
+          description: 다른 검색어를 사용해 보세요.
+          title: 검색 조건과 일치하는 레이블 없음
     mcp_configurations:
       index:
         description: 모델 컨텍스트 프로토콜을 통해 AI 에이전트는 이 OpenProject 인스턴스에 의해 노출된 도구와 리소스를 사용자에게 제공할 수 있습니다. 이 기능은 아직 베타 버전입니다.
@@ -1706,6 +1816,18 @@ ko:
       update:
         failure: MCP 구성을 업데이트할 수 없습니다.
         success: MCP 구성이 업데이트되었습니다.
+    members:
+      index:
+        blank_description: 현재 필터와 일치하는 멤버십이 없습니다.
+        blank_title: 멤버십 없음
+        filter_label: 사용자 검색
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(출처: %{source})"
+        title: 멤버십
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
       no_results_title_text: 현재 설치된 플러그인이 없습니다.
@@ -1719,7 +1841,7 @@ ko:
         confirm_button: 식별자 예약 취소
         description: 이 프로젝트 식별자를 예약 취소하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 더 이상 작동하지 않게 되며, 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
         description_with_work_packages:
-          other: 이 프로젝트 식별자(및 해당 %{count}개 작업 패키지 식별자)를 예약 취소하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 더 이상 작동하지 않게 되며, 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: '"%{identifier}"을(를) 예약 취소하시겠습니까?'
         title: 식별자 예약 취소
       empty_body: 프로젝트의 식별자가 변경되면, 이전 식별자가 여기에 표시되므로, 안전하다고 판단되면 예약 취소할 수 있습니다.
@@ -1847,7 +1969,7 @@ ko:
           error_unknown: 수동 검토가 필요합니다
           error_used_in_past: 다른 프로젝트의 핸들 기록에 의해 예약되었습니다
           remaining_projects:
-            other: "... %{count}개의 추가 프로젝트"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: "%{project_count}개 프로젝트의 기존 식별자가 프로젝트 기반 시맨틱 식별자에 대한 요구 사항을 충족하지 않습니다. OpenProject는 아래 예와 같이 해당 식별자가 유효하도록 자동으로 업데이트할 수 있습니다. '식별자 변환'을 클릭하여 이러한 방식으로 모든 프로젝트의 식별자를 업데이트하고 프로젝트 기반 시맨틱 식별자를 활성화하세요.\n"
         box_header:
@@ -1917,11 +2039,16 @@ ko:
         ignore: 변경 사항 무시
         save: 변경 사항을 저장하고 계속하기
         title: 변경 사항을 저장한 후에 계속하시겠습니까?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: '역할: %{role}'
         no_role: 역할 선택
         roles:
-          other: "%{count}개 역할 선택됨"
+          other: "%{count} roles selected"
         title: 역할 선택
       status_button: 상태
       statuses_dialog:
@@ -1932,7 +2059,7 @@ ko:
         confirm: 제거
         description: 이러한 상태를 제거하면 이 유형에서 사용할 수 없게 되고 기존 워크플로가 삭제됩니다. 계속 진행하시겠습니까?
         heading:
-          other: "%{count}개 상태를 제거하시겠습니까?"
+          other: Remove %{count} statuses?
         title: 상태 제거
       tabs:
         always: 기본 전환
@@ -1944,7 +2071,31 @@ ko:
           assignee: 작업 패키지의 담당자가 사용할 수 있는 추가 전환입니다.
           author: 작업 패키지의 작성자가 사용할 수 있는 추가 전환입니다.
         menu_label: 표시된 전환
+      workflow_button: Workflow
+  ai:
+    text_transform:
+      errors:
+        connection_failed: AI 서비스에 연결할 수 없습니다.
+        not_available: AI 어시스턴트를 사용할 수 없습니다.
+        timeout: AI 서비스가 제때 응답하지 않았습니다.
+        upstream_error: AI 서비스가 오류를 반환했습니다.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
+    content: Content
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
     show_until: 표시 기한
@@ -2006,10 +2157,6 @@ ko:
       not_found:
         reminder: 원하는 미리 알림을 찾을 수 없거나 삭제되었습니다.
         work_package: 원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다.
-      render:
-        context_not_parsable: 제공된 컨텍스트는 리소스에 대한 링크가 아닙니다.
-        context_object_not_found: 컨텍스트로 지정된 리소스를 찾을 수 없습니다.
-        unsupported_context: 지정된 리소스는 컨텍스트로 지원되지 않습니다.
       unable_to_create_attachment: 첨부 파일을 만들 수 없습니다.
       unable_to_create_attachment_permissions: 파일 시스템 사용 권한이 부족하여 첨부 파일을 저장할 수 없습니다.
       user:
@@ -2080,6 +2227,7 @@ ko:
     groups: 그룹
     hexcode: 16진수 코드
     id: ID
+    inexistent: Inexistent
     is_default: 기본값
     is_for_all: 모든 프로젝트용
     issue: 작업 패키지
@@ -2130,6 +2278,7 @@ ko:
     updated_at: 업데이트 날짜
     updated_on: 업데이트 날짜
     uploader: 업로더
+    url: URL
     user: 사용자
     username: 사용자 이름
     value: 값
@@ -2144,6 +2293,29 @@ ko:
 
         '
     login_and_registration: 로그인 및 등록
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: '오류로 인해 작업이 취소되었습니다: %{message}'
@@ -2272,6 +2444,7 @@ ko:
   button_set_reminder: 미리 알림 설정
   button_show: 표시
   button_sort: 분류
+  button_stop_timer: 타이머 중지
   button_submit: 제출
   button_test: 테스트
   button_unarchive: 보관 취소
@@ -2338,9 +2511,9 @@ ko:
     text:
       failed: 프로젝트 "%{source_project_name}"을(를) 프로젝트 "%{target_project_name}"에 복사할 수 없습니다.
       succeeded: 프로젝트 "%{source_project_name}"을(를) 프로젝트 "%{target_project_name}"에 복사했습니다.
-    title: '"%{source_project_name}" 프로젝트 복사'
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: 이 유형의 객체가 하나 있습니다
+      one: "%{count} object of this type"
       other: 이 유형의 객체가 %{count}개 있습니다
       zero: 이 유형의 객체가 없습니다
   create_portfolio:
@@ -2378,13 +2551,9 @@ ko:
     plural: 사용자 지정 작업
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: '"모든 프로젝트용" 옵션이 선택되었으므로 모든 프로젝트에서 이 사용자 지정 필드가 활성화되었습니다. 개별 프로젝트에 대해 비활성화할 수 없습니다.'
-          heading: 모든 프로젝트용
       hierarchy:
         subitems:
-          one: 하위 항목 1개
+          one: "%{count} sub-item"
           other: 하위 항목 %{count}개
           zero: 하위 항목 없음
       items:
@@ -2405,7 +2574,7 @@ ko:
           short: 짧은 이름
           weight: 가중치
       notice:
-        remember_items_and_projects: 이 사용자 지정 필드의 각 탭에서 항목과 프로젝트를 설정해야 합니다.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: 이 프로젝트에서 해당 사용자의 원래 역할에 관계없이 이 프로젝트 특성에 할당된 모든 사용자에게 특정 프로젝트 역할을 자동으로 부여할 수 있습니다.
         dialog:
@@ -2470,16 +2639,17 @@ ko:
     is_enabled_globally: 는 세계적으로 사용 가능합니다.
     multi_value_more:
       other: 외 %{count}개
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: 역할 할당 없음
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: 먼저 작업 패키지 또는 프로젝트를 선택해야 합니다
     reorder_alphabetical: 알파벳순으로 값 재정렬
     reorder_confirmation: '경고: 사용 가능한 값의 현재 순서 및 저장되지 않은 모든 값이 손실됩니다. 계속하시겠습니까?'
     semantic_keys:
       job_title: 직책
       none: 없음
-    tab:
-      no_results_content_text: 새 사용자 필드 생성
-      no_results_title_text: 사용자 필드가 없습니다.
     text_add_new_custom_field: '프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
 
       '
@@ -2543,60 +2713,42 @@ ko:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: 약 %{count} 시간
+        other: about %{count} hours
       about_x_months:
-        other: |-
-          약 1개월
-          약 %{count}개월
+        other: about %{count} months
       about_x_years:
-        other: |-
-          약 1년
-          약 %{count}년
+        other: about %{count} years
       almost_x_years:
-        other: |-
-          거의 1년
-          거의 %{count}년
+        other: almost %{count} years
       half_a_minute: 30초
       less_than_x_minutes:
         other: |-
           1분 미만
           %{count}분 미만
       less_than_x_seconds:
-        other: |-
-          1초 미만
-          %{count}초 미만
+        other: less than %{count} seconds
       over_x_years:
-        other: |-
-          1년 이상
-          %{count}년 이상
+        other: over %{count} years
       x_days:
-        other: |-
-          1일
-          %{count}일
+        other: "%{count} days"
       x_hours:
-        other: "%{count} 시간"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count}시간"
+        other: "%{count} hrs"
       x_minutes:
-        other: |-
-          1분
-          %{count}분
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count}분"
+        other: "%{count} mins"
       x_months:
-        other: |-
-          1개월
-          %{count}개월
+        other: "%{count} months"
       x_seconds:
-        other: |-
-          1초
-          %{count}초
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        other: "%{count}초"
+        other: "%{count} s"
       x_weeks:
-        other: "%{count}주"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count}년"
+        other: "%{count} years"
     units:
       day:
         other: 일
@@ -2743,7 +2895,7 @@ ko:
     teaser:
       description_html: 모든 %{trial_plan} 기능에 액세스할 수 있습니다.
       title:
-        other: "%{trial_plan} 평가판 토큰 %{count}일 남음"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: '평가판 Enterprise 토큰을 이미 가져왔습니다. 이메일에서 토큰이 첨부되어 있는지 확인하세요. 새 토큰이 필요한 경우 지원팀에 문의하세요.
 
@@ -3078,9 +3230,142 @@ ko:
       selected: 선택됨
     include_sub_items: 하위 항목 포함
     no_results_text: 결과 없음
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
+
+          '
+        edit_action: Edit form
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This form is used by %{count} types and variants. Changes apply to all of them.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3105,6 +3390,8 @@ ko:
   groups:
     edit:
       synchronized_groups: 동기화된 그룹
+    form:
+      group_attributes: Group attributes
     index:
       description: 사용자를 그룹화하여 동일한 프로젝트에 멤버로 추가하거나 동일한 글로벌 역할을 할당할 수 있습니다.
     memberships:
@@ -3130,6 +3417,10 @@ ko:
       leave_project: 프로젝트에서 나가기
       no_favorite_projects: 즐겨 찾는 프로젝트가 없습니다.
       title: 프로젝트
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3176,6 +3467,31 @@ ko:
           new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
         learn_about: 새로운 모든 기능에 대해 자세히 알아보기
         missing: 아직 강조 표시된 기능이 없습니다.
@@ -3211,8 +3527,10 @@ ko:
   journals:
     cause_descriptions:
       budget_deleted: 예산이 삭제되었습니다
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} 변경됨(%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} 삭제됨(%{link})"
         field_changed: "%{field}이(가) %{old_value}에서 %{new_value}(으)로 변경됨"
         field_removed: "%{field} 제거됨"
@@ -3262,6 +3580,7 @@ ko:
       budget_deleted: 예산이 삭제되었습니다
       dates_changed: 변경된 날짜
       default_attribute_written: 읽기 전용 특성 작성됨
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: 가져옴
       meeting_agenda_item_added_html: "<strong>미팅에 추가됨:</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>다음에 추가됨:</strong> %{meeting_title_information}"
@@ -3414,10 +3733,10 @@ ko:
   label_copy_target: 대상
   label_copy_workflow_from: 다음에서 워크플로 복사
   label_copy_workflow_from_role: 다른 역할에 복사
-  label_copy_workflow_from_type: 다른 유형에 복사
   label_core_build: 코어 빌드
   label_core_version: 코어 버전
   label_created_by: '작성자: %{user}'
+  label_criteria: 기준
   label_current_status: 현재 상태
   label_current_version: 현재 버전
   label_custom_comment: "%{name} 코멘트"
@@ -3441,8 +3760,6 @@ ko:
   label_custom_field_default_type: 빈 유형
   label_custom_field_new: 새 사용자 지정 필드
   label_custom_field_plural: 사용자 정의 필드
-  label_custom_logo: 사용자 지정 로고 데스크톱
-  label_custom_logo_mobile: 사용자 지정 로고 모바일
   label_custom_pdf_export_settings: 사용자 지정 PDF 내보내기 설정
   label_custom_style: 디자인
   label_custom_style_description: 테마를 사용하여 OpenProject의 모양을 선택하고, 앱에서 사용할 기본 색상 및 내보내기의 모양을 선택하세요.
@@ -3451,11 +3768,12 @@ ko:
   label_database_version: PostgreSQL 버전
   label_date: 날짜
   label_date_and_time: 날짜 및 시간
-  label_date_format: 날짜 형식
+  label_date_and_time_formats: Date and time formats
   label_date_from: 시작
   label_date_from_to: "%{start}부터 %{end}까지"
   label_date_to: 끝
   label_dates: 날짜
+  label_day: 일
   label_day_plural: 일
   label_default: 기본
   label_defaults: 기본값
@@ -3536,6 +3854,7 @@ ko:
   label_float: 부동
   label_folder: 폴더
   label_follows: 팔로우
+  label_form_configuration_plural: Forms
   label_formula: 공식
   label_forum_new: 새 포럼
   label_forum_plural: 포럼
@@ -3554,6 +3873,7 @@ ko:
   label_go_forward: "%{module} 하위 메뉴 열기"
   label_greater_or_equal: ">="
   label_group: 그룹
+  label_group_attributes_plural: Group attributes
   label_group_by: 그룹화 기준
   label_group_named: 그룹 %{name}
   label_group_new: 새 그룹
@@ -3605,8 +3925,8 @@ ko:
   label_journal_diff: 설명 비교
   label_jump_to_a_project: 프로젝트로 이동...
   label_keyword_plural: 키워드
+  label_label_plural: 레이블
   label_language: 언어
-  label_language_based: 사용자 언어에 따름
   label_languages: 언어
   label_last_activity: 마지막 활동
   label_last_change_on: 마지막 변경
@@ -3628,6 +3948,7 @@ ko:
   label_list: 목록
   label_loading: 로드 중...
   label_locale: 언어 및 지역
+  label_locale_based: Use default for user locale
   label_lock_user: 사용자 잠금
   label_locked: 잠김
   label_logged_as: '로그인한 계정:'
@@ -3639,6 +3960,7 @@ ko:
   label_managed_by_ldap: LDAP 동기화를 통해 관리됨
   label_managed_repositories_vendor: 관리 되는 %{vendor} 저장소
   label_mapping_for: '매핑 대상: %{attribute}'
+  label_markdown_version: Markdown version
   label_max_size: 최대 크기
   label_me: 나
   label_member_all_admin: "(관리 상태에 따른 모든 역할)"
@@ -3657,7 +3979,6 @@ ko:
   label_menu_item_name: 메뉴 항목의 이름
   label_message: 메시지
   label_message_last: 마지막 메시지
-  label_message_new: 새 메시지
   label_message_plural: 메시지
   label_message_posted: 메시지 추가됨
   label_minute_plural: minutes
@@ -3669,6 +3990,7 @@ ko:
   label_module_plural: 모듈
   label_modules: 모듈
   label_modules_and_plugins: 모듈 및 플러그인
+  label_month: 월
   label_months_from: 개월 동안 | 다음부터
   label_more: 기타
   label_more_information: 더보기
@@ -3682,6 +4004,7 @@ ko:
   label_my_avatar: 내 아바타
   label_my_queries: 내 사용자 지정 쿼리
   label_my_security: 보안
+  label_my_work: My work
   label_name: 이름
   label_never: 사용 안 함
   label_new: 새로 만들기
@@ -3696,7 +4019,10 @@ ko:
   label_news_singular: 뉴스
   label_news_view_all: 모든 뉴스 보기
   label_next: 다음
+  label_next_day: 다음 날
+  label_next_month: 다음 달
   label_next_week: 다음 주
+  label_next_workweek: 다음 근무 주
   label_next_year: 다음 연도
   label_no_change_option: "(변경 없음)"
   label_no_data: 표시할 데이터가 없습니다.
@@ -3704,6 +4030,7 @@ ko:
   label_no_parent_group: "(부모 그룹 없음)"
   label_no_parent_page: 부모 페이지 없음
   label_no_start_date: 시작 날짜 없음
+  label_no_time: 추적된 시간 없음
   label_nobody: 아무도 없음
   label_non_working_days: 가능 여부 캘린더
   label_non_working_days_summary: 요약
@@ -3770,7 +4097,10 @@ ko:
   label_preview: 미리 보기
   label_preview_not_available: 미리 보기를 사용할 수 없음
   label_previous: 이전
+  label_previous_day: 이전 날
+  label_previous_month: 이전 달
   label_previous_week: 이전 주
+  label_previous_workweek: 이전 근무 주
   label_previous_year: 이전 연도
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
   label_principal_search: 기존 사용자 또는 그룹 추가
@@ -3889,6 +4219,7 @@ ko:
   label_sort_lowest: 맨 아래로 이동
   label_sorted_by: "%{value}(으)로 정렬됨"
   label_spent_time: 소비한 시간
+  label_stack: Stack
   label_start_to_end: 시작 - 끝
   label_start_to_start: 시작 - 시작
   label_starts_with: 다음으로 시작
@@ -3908,6 +4239,7 @@ ko:
   label_subtask_plural: 하위 작업
   label_summary: 요약
   label_system: 시스템
+  label_system_or_language_default: Use system or language based default
   label_system_settings: 시스템 설정
   label_system_storage: 저장 공간 정보
   label_table_of_contents: 목차
@@ -3922,6 +4254,7 @@ ko:
   label_time: 시간
   label_time_entry_activity_plural: 소요 시간 활동
   label_time_entry_plural: 소비한 시간
+  label_timer_since: "%{time}에 시작됨"
   label_title: 제목
   label_today: 오늘
   label_today_as_date: 오늘을 날짜로 선택하세요.
@@ -3957,7 +4290,9 @@ ko:
   label_user_search: 사용자 검색
   label_user_settings: 사용자 설정
   label_users_settings: 사용자 설정
+  label_value: Value
   label_value_x: '값: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: 버전 편집
   label_version_new: 새 버전
   label_version_plural: 버전
@@ -3970,6 +4305,7 @@ ko:
   label_videos: 동영상
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
+  label_view_mode_switcher: 보기 변경
   label_view_revisions: 수정 보기
   label_view_x: '보기: %{x}'
   label_watched_work_packages: 주시하는 작업 패키지
@@ -3993,6 +4329,8 @@ ko:
   label_wiki_start: 시작 페이지
   label_wiki_toc: 목차
   label_wiki_toc_empty: 머리글이 없으므로 목차가 비어 있습니다.
+  label_with_criteria: 기준 있음
+  label_without_criteria: 기준 없음
   label_work: 작업
   label_work_package: 작업 패키지
   label_work_package_attachments: 작업 패키지 첨부 파일
@@ -4015,42 +4353,43 @@ ko:
   label_working_days: 근무일
   label_working_days_and_hours: 근무일 및 시간
   label_working_hours: 근무 스케줄
+  label_workweek: 근무 주
   label_x_closed_work_packages_abbr:
-    one: 1개 닫힘
+    one: "%{count} closed"
     other: "%{count}개 닫힘"
     zero: 0개 닫힘
   label_x_comments:
-    one: 1개 코멘트
+    one: "%{count} comment"
     other: "%{count}개 코멘트"
     zero: 코멘트 없음
   label_x_days:
-    other: "%{count}일"
+    other: "%{count} days"
   label_x_files:
-    one: 파일 1개
+    one: "%{count} file"
     other: 파일 %{count}개
     zero: 파일 없음
   label_x_items:
-    one: 1개 항목
+    one: "%{count} item"
     other: "%{count}개 항목"
     zero: 항목 없음
   label_x_items_selected:
-    other: "%{count}개 항목 선택됨"
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1개 열림
+    one: "%{count} open"
     other: "%{count}개 열림"
     zero: 0개 열림
   label_x_projects:
-    one: 1개 프로젝트
+    one: "%{count} project"
     other: "%{count}개 프로젝트"
     zero: 프로젝트 없음
   label_x_work_packages:
-    one: 작업 패키지 1개
+    one: "%{count} work package"
     other: 작업 패키지 %{count}개
     zero: 작업 패키지 없음
   label_x_working_days:
-    other: 근무일 %{count}일
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    other: '휴가: 근무일 %{count}일'
+    other: 'Time off: %{count} working days'
   label_yesterday: 어제
   label_zen_mode: 젠 모드
   ldap_auth_sources:
@@ -4161,6 +4500,8 @@ ko:
       you_have: 회원님은
     logo_alt_text: 로고
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} 님이 %{id} - %{subject}에서 귀하를 멘션했습니다"
     notification:
       center: 알림 센터로
@@ -4217,7 +4558,7 @@ ko:
       mentioned: 회원님이 <b>코멘트에서 멘션</b>되었습니다
       mentioned_by: "%{user} 님이 코멘트에서 회원님을 멘션했습니다."
       more_to_see:
-        other: 알림이 있는 작업 패키지가 %{count}개 더 있습니다.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: 브라우저에서 열기
       reason:
         assigned: 할당됨
@@ -4389,6 +4730,12 @@ ko:
           create_button: 만들기
           dialog_body: 이 토큰을 사용하면 타사 애플리케이션이 해당 인스턴스와 통신할 수 있습니다. 새 API 토큰을 구별하려면 이름을 지정하세요.
           dialog_title: 새 API 토큰 만들기
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: 토큰 이름
       failed_to_create_token: '액세스 토큰을 만들지 못했습니다: %{error}'
       failed_to_reset_token: '액세스 토큰을 재설정하지 못함: %{error}'
@@ -4402,10 +4749,26 @@ ko:
     password_confirmation_dialog:
       confirmation_required: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인
+    timer:
+      stop: Stop
+      tracking: Time tracking
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: 액세스 토큰
       description: 공급자 토큰은 OpenProject에서 발급하며, 다른 애플리케이션이 액세스하도록 허용합니다. 클라이언트 토큰은 다른 애플리케이션에서 발급하며, OpenProject가 액세스하도록 허용합니다.
+      expired_on: Expired on %{date}
       headers:
         action: 액션
         expiration: 만료
@@ -4611,7 +4974,6 @@ ko:
   notice_principals_found_single: |-
     한 개의 결과가 있습니다.
     보려면 탭 해주세요.
-  notice_project_cannot_update_custom_fields: '프로젝트의 사용 가능한 사용자 지정 필드를 업데이트할 수 없습니다. 프로젝트가 유효하지 않습니다: %{errors}'
   notice_project_not_deleted: 프로젝트가 삭제되지 않았습니다.
   notice_project_not_found: 프로젝트를 찾을 수 없습니다.
   notice_requires_enterprise_token: Enterprise 토큰이 누락되었거나 이 페이지에 대한 액세스를 허용하지 않습니다.
@@ -4621,9 +4983,6 @@ ko:
   notice_successful_create: 생성에 성공했습니다.
   notice_successful_delete: 삭제에 성공했습니다.
   notice_successful_update: 업데이트에 성공했습니다.
-  notice_successful_update_custom_fields_added_to_project: '업데이트 성공. 활성화된 유형의 사용자 지정 필드는 작업 패키지 양식에서 자동으로 활성화됩니다. <a href="%{url}" target="_blank">자세히 알아보세요</a>.
-
-    '
   notice_to_many_principals_to_display: |-
     너무 많은 결과가 있습니다.
     새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요.
@@ -4724,7 +5083,7 @@ ko:
 
       '
     confirm_revoke_my_application:
-      other: 이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된 토큰 %{count}개가 취소됩니다.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: 등록된 OAuth 애플리케이션이 없습니다.
     flows:
       authorization_code: 권한 부여 코드 흐름
@@ -4812,8 +5171,6 @@ ko:
       not_found: "- 찾을 수 없습니다."
       respond_to?: "- 필수 메서드를 구현하지 않습니다."
       rules:
-        copy_workflow_from:
-          workflow_missing: "- 고유한 워크플로가 없습니다."
         custom_field:
           format_not_supported: 형식 '%{field_format}'은(는) 지원되지 않습니다.
         item:
@@ -4833,7 +5190,6 @@ ko:
     or: 또는
     rules:
       blueprint: 패턴 청사진
-      copy_workflow_from: 워크플로 복사의 유형
       depth: 깊이
       enabled: 활성화됨
       item: 항목
@@ -4931,7 +5287,7 @@ ko:
   permission_change_work_package_status_explanation: 작업 패키지 편집 권한 없이 상태 변경을 허용합니다
   permission_comment_news: 뉴스에 코멘트 달기
   permission_commit_access: 리포지토리(커밋)에 대한 읽기/쓰기 액세스
-  permission_copy_projects: 프로젝트 복사
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: 템플릿 프로젝트의 이 권한에는 템플릿에서 파생된 새 프로젝트를 만들 수 있는 부차적인 기능이 있습니다.
   permission_copy_work_packages: 작업 패키지 복제
   permission_create_backup: 백업 만들기
@@ -4964,6 +5320,7 @@ ko:
   permission_export_projects: 프로젝트 내보내기
   permission_export_work_packages: 작업 패키지 내보내기
   permission_header_for_project_module_work_package_tracking: 작업 패키지 및 Gantt 차트
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: 이메일로 멤버 초대
   permission_invite_members_by_email_explanation: '사용자가 이메일로 새로운 멤버를 초대할 수 있습니다. 초대된 사용자는 암호를 설정하고 계정을 활성화하는 링크가 포함된 이메일을 받게 됩니다. 멤버를 관리하는 권한에 따라 다릅니다
 
@@ -4974,6 +5331,9 @@ ko:
   permission_manage_dashboards: 대시보드 관리
   permission_manage_forums: 포럼 관리
   permission_manage_members: 멤버 관리
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: 뉴스 관리
   permission_manage_own_reminders: 고유한 미리 알림 만들기
   permission_manage_own_working_times: 내 근무 시간 관리
@@ -5005,7 +5365,6 @@ ko:
   permission_save_bcf_queries: BCF 쿼리 저장
   permission_save_queries: 보기 저장
   permission_search_project: 프로젝트 검색
-  permission_select_custom_fields: 사용자 지정 필드 선택
   permission_select_project_custom_fields: 프로젝트 특성 선택
   permission_select_project_modules: 프로젝트 모듈 선택
   permission_select_project_phases: 프로젝트 단계 선택
@@ -5039,6 +5398,16 @@ ko:
   permission_work_package_assigned: 담당자/책임자 되기
   permission_work_package_assigned_explanation: 작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다.
   placeholder_users:
+    criteria:
+      activate: 필터 기준 활성화
+      activate_caption: '이 옵션을 통해, 원하는 기준에 부합하는 잠재적 사용자를 정의하기 위해 사용되는 이 플레이스홀더 사용자에 필터 세트를 추가할 수 있습니다.
+
+        '
+      enable: 기준에 따라 사용자 매칭
+      enable_caption: 이 플레이스홀더가 나타내는 사용자 유형을 설명해 주시면, 해당 유형에 맞는 사용자를 추천해 드릴 수 있습니다.
+      matching_users: 필터 기준을 충족하는 사용자
+      no_matching_users: 이러한 기준을 충족하는 사용자가 없습니다.
+      show_all_matching_users: 매칭되는 사용자 %{count}명 모두 표시
     delete_tooltip: 플레이스홀더 사용자 삭제
     deletion_info:
       data_consequences: '플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
@@ -5060,7 +5429,7 @@ ko:
     name: OmniAuth SAML/Single-Sign On
   portfolio:
     count:
-      one: 1개 포트폴리오
+      one: "%{count} portfolio"
       other: "%{count}개 포트폴리오"
       zero: 0개 포트폴리오
     filters:
@@ -5071,7 +5440,7 @@ ko:
         label: 포트폴리오 이름 필터
         placeholder: 포트폴리오 검색
       sub_items_html:
-        other: "<strong>%{count}</strong>개 하위 항목"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: 활성 포트폴리오
       archived: 보관된 포트폴리오
@@ -5085,7 +5454,7 @@ ko:
         테이블에서 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
   program:
     count:
-      one: 1개 프로그램
+      one: "%{count} program"
       other: "%{count}개 프로그램"
       zero: 0개 프로그램
     filters:
@@ -5097,7 +5466,7 @@ ko:
       confirmation_message: 이 프로젝트를 보관하면, 이 프로젝트와 모든 해당 하위 항목은 이 인스턴스의 모든 사용자가 사용할 수 없게 됩니다. 보관된 프로젝트는 복원할 수 있습니다.
       title: 프로젝트 보관
     count:
-      one: 1개 프로젝트
+      one: "%{count} project"
       other: "%{count}개 프로젝트"
       zero: 0개 프로젝트
     destroy:
@@ -5306,12 +5675,12 @@ ko:
             new_heading: 사용 가능하게 되는 필드
             nothing_affected: 영향을 받는 필드나 상태가 없습니다.
             status_count:
-              other: "%{count}개 작업 패키지"
+              other: "%{count} work packages"
             table_suffix: "(테이블)"
             value_count:
-              other: "%{count}개 작업 패키지에 값이 있습니다"
+              other: "%{count} work packages have a value"
             work_packages:
-              other: "%{count}개 작업 패키지가 새로운 구성을 사용할 것입니다"
+              other: "%{count} work packages will use the new configuration"
           success: 지금 이 프로젝트는 %{type}을(를) 사용합니다.
           target_label: 변형
           title: "%{type}: 변형 전환"
@@ -5322,7 +5691,7 @@ ko:
         variants_not_allowed: 이 유형은 프로젝트 내에서 변형 생성을 허용하지 않습니다.
       versions:
         no_results_content_text: 새 버전 생성
-        no_results_title_text: 프로젝트에 버전이 없습니다.
+        no_results_title_text: 이 프로젝트에서 필터 기준에 맞는 버전이 발견되지 않았습니다.
         show_work_packages: 작업 패키지 표시
         work_packages_graph: 작업 패키지 그래프
       work_package_priorities:
@@ -5367,7 +5736,7 @@ ko:
     action_title: 반응
     add_reaction: 반응 추가
     and_others:
-      other: 외 %{count}건
+      other: and %{count} others
     and_user: 및 %{user}
     react_with: "%{reaction}(으)로 반응"
     reaction_by: "%{reaction} -"
@@ -5484,6 +5853,26 @@ ko:
     warnings:
       cannot_annotate: 이 파일에는 주석을 지정할 수 없습니다.
   roles:
+    delete_dialog:
+      confirm: 이 역할을 삭제하시겠습니까?
+      entry_projects:
+        other: "(프로젝트: %{projects})"
+      entry_projects_truncated:
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: '"%{name}" 역할을 삭제하시겠습니까?'
+      losing_project_access:
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: 이러한 사용자 중 %{count}명은 해당 역할이 유일한 역할이었던 프로젝트에 대한 액세스 권한을 잃게 됩니다. 이 역할을 삭제하시겠습니까?
+        zero: 이러한 사용자 중 어느 누구도 자신의 프로젝트에 대한 액세스 권한을 잃지 않습니다. 이 역할을 삭제하시겠습니까?
+      show_memberships: 이 역할을 가진 모든 멤버십 표시
+      summary: "%{projects}의 %{users}"
+      summary_projects:
+        other: "%{count} projects"
+      summary_users:
+        other: "%{count} users"
+      title: 역할 삭제
     edit:
       default_for_new_projects_warning: '이 역할은 프로젝트를 만드는 비관리자 사용자에게 지정된 기본 역할로 구성됩니다. 다음 권한을 제거하지 마세요. 그렇지 않으면 프로젝트 생성자가 새로 생성된 프로젝트의 설정을 완료할 수 없게 됩니다:'
     index:
@@ -5495,6 +5884,14 @@ ko:
     permissions:
       section_check_all_label: 모든 %{module} 권한 할당
       section_uncheck_all_label: 모든 %{module} 권한 할당 취소
+    permissions_dialog:
+      edit_permissions: 역할 권한 편집
+      no_permissions: 이 역할은 어떠한 권한도 부여하지 않습니다.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: 권한 보기
+      preview_aria_label: "%{role}의 권한 보기"
+      title: '"%{name}"의 권한'
     report:
       matrix_caption: "%{module} 모듈에 대한 권한 매트릭스"
       matrix_check_all_label: 모든 역할에 모든 %{module} 권한 할당
@@ -5597,7 +5994,7 @@ ko:
   setting_default_projects_wiki: 기본적으로 새 프로젝트에 대해 위키 기능을 활성화합니다.
   setting_diff_max_lines_displayed: 표시되는 최대 차이점 줄 수
   setting_disable_password_login: 암호 인증 비활성화
-  setting_display_subprojects_work_packages: 기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: 기간 형식
   setting_duration_format_days_and_hours: 일 및 시간
   setting_duration_format_hours_only: 시간만
@@ -5712,6 +6109,7 @@ ko:
   setting_start_of_week: '주의 시작:'
   setting_sys_api_description: 리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다.
   setting_sys_api_enabled: 리포지토리 관리 웹 서비스 사용
+  setting_sys_api_key: API key
   setting_time_format: 시간
   setting_total_percent_complete_mode: 완료 % 계층 합계 계산
   setting_total_percent_complete_mode_simple_average: 단순 평균
@@ -5773,6 +6171,7 @@ ko:
         '
       title: 바이러스 검사
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: '이 옵션을 비활성화하면 새 프로젝트의 작업 패키지 파일 탭에서 첨부 파일 목록이 숨겨집니다. 작업 패키지 설명에 첨부된 파일은 내부 첨부 파일 저장소에 계속 업로드됩니다.
 
         '
@@ -5918,6 +6317,7 @@ ko:
         heading: 새로운 단계
       no_gate: 게이트 없음
       non_defined: 현재 정의된 단계가 없습니다.
+      order_changed: Order successfully changed.
       phase_gates: 단계 게이트
       section_header: 단계
       start_gate: 시작 게이트
@@ -5974,7 +6374,7 @@ ko:
       section_work_week: 근무 주
   sharing:
     count:
-      one: 사용자 1명
+      one: "%{count} user"
       other: 사용자 %{count}명
       zero: 사용자 0명
     denied: "%{entities} 공유를 할 수 있는 권한이 없습니다."
@@ -6067,13 +6467,14 @@ ko:
         <br>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계의 값)은 계속 적용됩니다.
     index:
+      could_not_be_moved: 상태를 이동할 수 없습니다.
       headers:
-        excluded_from_totals: 합계에서 제외됨
         is_closed: 닫음
-        is_default: 기본
         is_readonly: 읽기 전용
+      no_filter_results_title_text: 현재 필터와 일치하는 상태가 없습니다.
       no_results_content_text: 새 상태 추가
       no_results_title_text: 작업 패키지 상태가 없습니다.
+      status_actions: 상태 작업
   support:
     array:
       sentence_connector: 그리고
@@ -6122,12 +6523,6 @@ ko:
 
     '
   text_custom_field_possible_values_info: 각 값당 한 줄
-  text_custom_logo_instructions: '로고는 헤더에 맞게 자동으로 크기가 조정됩니다. 최상의 결과를 위해 투명한 130×47px 이미지에 흰색 로고를 업로드하세요. 이미지 내부에 원하는 만큼 간격을 추가할 수 있습니다.
-
-    '
-  text_custom_logo_mobile_instructions: '로고는 헤더에 맞게 자동으로 크기가 조정됩니다. 최상의 결과를 위해 투명한 130×33px 이미지에 흰색 로고를 업로드하세요. 이미지 내부에 원하는 만큼 간격을 추가할 수 있습니다.
-
-    '
   text_custom_touch_icon_instructions: '홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 정사각형 180x180 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
 
     '
@@ -6177,6 +6572,7 @@ ko:
   text_length_between: "%{min} ~ %{max}자 사이의 길이"
   text_line_separated: 여러 값이 허용됩니다(각 값에 대해 한 줄).
   text_load_default_configuration: 기본 구성 로드
+  text_markdown_login_required: Log in or send an X-OpenProject-API-Key header to read this document.
   text_no_access_tokens_configurable: 구성할 수 있는 액세스 토큰이 없습니다.
   text_no_configuration_data: |-
     역할, 유형, 작업 패키지 상태 및 워크플로가 아직 구성되지 않았습니다.
@@ -6282,23 +6678,95 @@ ko:
   tree_view:
     label_empty_sub_tree: 항목 없음
   types:
+    comparison:
+      action: 변형 비교
+      blankslate:
+        description: 이 유형에 두 번째 변형을 추가하여 두 변형의 차이점을 확인합니다.
+        title: 아직 비교할 항목이 없습니다
+      description: 이 유형의 변형을 부모 유형과 비교하세요.
+      labels:
+        duplicate: 중복 가능성
+        duplicate_of: "%{names}과(와) 동일하게 구성됨"
+        duplicate_of_more:
+          other: "%{names} and %{count} more"
+        parent_type: 부모 유형
+        same_as_type: 부모 유형과 동일
+      rows:
+        form:
+          fields: 필드
+          groups: 섹션
+          required: 필수 항목
+          same_as_base: 부모 유형과 동일
+        scope:
+          availability: '사용 가능:'
+          enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
+          projects: 프로젝트
+        workflows:
+          roles: 관련 역할
+          same_as_base: 부모 유형과 동일
+          statuses: 상태
+          transitions: 전환
+      sections:
+        configuration: 구성 개요
+        form: 양식
+        scope: 범위
+        workflows: 워크플로
+      title: 변형 비교
+      title_for_type: "%{name}의 변형 비교"
+      values:
+        global: 모든 프로젝트
+        inheriting_from: '다음에서 상속:'
+        project_specific: 프로젝트별([%{project}](project_url))
+        same_as_base: 부모 유형과 동일함
     creation_wizard:
       add_variant: "%{name}에 변형 추가"
       create_type: 유형 만들기
       create_variant: 변형 만들기
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: 이 구성의 %{type}을(를) 명명합니다. 작업 패키지는 계속해서 %{type} 자체를 사용합니다.
       finish: 완료
       placeholder_description: 이 단계는 곧 사용 가능하게 됩니다.
       progress_label: "%{number}/%{total}단계"
+      start:
+        next_heading: What happens next?
+        submit: Start
+        type:
+          heading: Create a new type
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
+        variant:
+          heading: Create a new variant
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: 기본값
         details: 세부 정보
         form_configuration: 양식
-        pdf: PDF 생성
+        pdf: Generate PDF
         project_attributes: 프로젝트 특성
         projects: 프로젝트
-        workflows: 워크플로
+        start: Start
+        workflows: Workflow
       success: 성공적으로 생성되었습니다.
     edit:
       breadcrumb_variant: '변형: %{name}'
@@ -6352,6 +6820,7 @@ ko:
             label_enable_all: 모두 활성화
             label_toggle_template: "%{template} 토글"
           label: PDF 내보내기 템플릿
+          order_changed: Order successfully changed.
         tab: PDF 생성
         templates:
           readonly_error: 소스 유형에 연결된 동안에는 변경할 수 없습니다.
@@ -6368,6 +6837,8 @@ ko:
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
         confirm_reset: 양식을 재설정하시겠습니까?
         custom_field: 사용자 지정 필드
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: 섹션 삭제
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
         drag_to_reorder: 드래그하여 재정렬
@@ -6389,6 +6860,14 @@ ko:
         query_group_label: 관련 작업 패키지 테이블
         remove_attribute: 섹션에서 제거
         rename_group: 섹션 이름 바꾸기
+        required:
+          already_required_globally: 이 사용자 지정 필드는 모든 유형에서 필수입니다.
+          for_variant: 이 유형에서 필요함
+          globally: 필수
+          globally_hint: 사용자 지정 필드에서 이 항목을 변경하세요
+          mark: 이 유형에서 필요
+          not_a_custom_field: 단일 유형에 대해서는 사용자 지정 필드만 필수로 지정할 수 있습니다.
+          unmark: 이 유형에서 필요하지 않음
         reset_description: '이렇게 하면 특성이 해당 기본 그룹으로 재설정되고 모든 사용자 지정 필드가 비활성화됩니다.
 
           '
@@ -6398,12 +6877,14 @@ ko:
         tab: 양식
         untitled_group: 제목이 없는 그룹
       overview:
+        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
         configuration_mode: 구성 모드
-        dependents: 종속 유형 및 변형
         mode:
           always_manual: 항상 수동
-          inheriting_from_html: "%{source_name}에서 상속"
+          inheriting_from_html: Using the same as type (%{source_name})
           manual: 수동으로 구성됨
+          using_form_html: Using form %{name}
+          using_workflow_html: Using workflow %{name}
         settings: 설정
         tab: 개요
       project_attributes:
@@ -6423,6 +6904,7 @@ ko:
           attribute_label: "%{attribute} 상속"
         filter: 섹션 또는 이름으로 검색
         tab: 프로젝트 특성
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: "%{project}에서 %{type} 유형을 제거하시겠습니까?"
@@ -6453,41 +6935,17 @@ ko:
             title: 구성 복사
           invalid_source: 선택한 유형에서 이 구성을 복사할 수 없습니다. 다른 소스 유형을 선택하세요.
           success: 구성이 복사되었습니다.
-        dependents:
-          blank:
-            description: 이 구성에서 상속되는 다른 유형이나 변형이 없습니다
-            title: 종속 유형 없음
-          description:
-            other: 다음 구성은 %{count}개의 기타 유형이나 변형에 상속됩니다. 여기서 변경하는 사항은 종속 항목에도 영향을 미칩니다.
-          dialog:
-            description: 이러한 유형 및 변형은 이 섹션의 구성을 상속합니다. 여기서 변경하는 사항은 모든 항목에 적용됩니다.
-            direct_heading: 직접 종속 항목
-            indirect_heading: 기타 유형을 통한 종속 항목
-            title: 종속 유형
-            variant_of_html: "%{type_name}의 변형"
-            variant_of_via_html: "%{type_name}의 변형, %{source_name}을(를) 통해 상속"
-            via_html: "%{source_name}을(를) 통해 상속"
-          title:
-            other: "%{count}개 종속 유형"
-          view: 종속 유형 보기
         exclusions:
           not_inherited: 이 구성은 상속되지 않으므로, 제외할 항목이 없습니다. 대신 구성을 직접 편집하세요.
           unknown_aspect: 알 수 없는 구성 섹션 "%{aspect}"입니다.
         inherited:
-          change_source: 소스 유형 변경
           configure_manually: 수동으로 구성
           confirm_dialog:
-            change_source:
-              description_html: 소스 유형을 %{source_name}(으)로 변경하면 현재 설정을 덮어쓰게 되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
-              heading: 소스 유형 변경?
-              title: 소스 유형 변경
             check_box: 본인은 이렇게 하면 현재 설정이 재정의된다는 것을 이해합니다
             from_manual:
               description: 현재 선택된 모든 설정이 재정의되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
               heading: 구성 모드 전환?
               title: 구성 모드 전환
-          description: 이 구성은 소스 유형 [%{source_name}](source_url)%{source_suffix}에서 상속됩니다.
-          description_unlinked: 이 구성은 소스 유형 %{source_name}%{source_suffix}에서 상속됩니다.
           dialog:
             description: 소스 유형에서 이 구성을 상속합니다. 소스에 추가된 새로운 구성도 여기에서 적용됩니다.
             source_label: 소스 유형
@@ -6495,6 +6953,9 @@ ko:
             submit: 전환
             title: 다른 유형에서 상속
           invalid_source: 선택한 유형에서 이 구성을 상속할 수 없습니다. 다른 소스 유형을 선택하세요.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
           success: 구성 모드가 전환되었습니다.
           title: 상속된 구성
         manual:
@@ -6503,13 +6964,14 @@ ko:
             description: 현재 선택된 모든 설정이 재정의되며, 이 유형의 작업 패키지에 대한 기존 정보에 영향을 미칠 수 있습니다.
             heading: 구성 모드 전환?
             title: 구성 모드 전환
-          copy_from_type: 다른 유형에서 복사
           description: 설정이 상속되지 않습니다. 다른 유형의 설정을 한 번 복사할 수는 있습니다.
           dialog:
             submit: 전환
             title: 수동으로 구성
-          inherit_from_type: 다른 유형에서 상속
+          inherit_from_type: Inherit from parent
           invalid_mode: 선택한 모드는 이 구성에 사용할 수 없습니다. 다른 모드를 선택하세요.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
               caption: 이 구성이 현재 상속받는 설정을 먼저 한 번만 복사해 두세요.
@@ -6523,6 +6985,7 @@ ko:
           success: 구성 모드가 전환되었습니다.
           title: 수동 구성
         parent_suffix: " (부모)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: '이 유형의 버전을 여러 프로젝트에 제공하기 위해 변형을 만들 수 있습니다.<br> 각 변형은 기본 템플릿, 사용자 지정 필드, 워크플로 및 기본 설정을 상속, 복사하거나 자체 사용자 지정 구성을 가질 수 있습니다.
@@ -6537,15 +7000,36 @@ ko:
         filter_no_results: 이 필터에 해당하는 변형이 없습니다.
         global_section:
           description: 이러한 변형은 모든 프로젝트에서 사용할 수 있습니다.
-          title: 변형
+          title: 글로벌 변형
         project_specific_section:
           description: 이러한 변형은 생성된 프로젝트 내에서만 사용할 수 있습니다.
           title: 프로젝트별 변형
       workflow:
-        tab: 워크플로
+        tab: Workflow
     index:
       add_variant: "%{name}에 변형 추가"
       add_variant_action: 변형 추가
+      convert_to_global: 글로벌 변형으로 변환
+      convert_to_global_dialog:
+        confirm: 변환
+        text: '이렇게 하면 이 프로젝트별 변형이 모든 프로젝트에 사용 가능한 글로벌 변형이 됩니다. 프로젝트 관리자는 더 이상 이 변형을 편집할 수 없게 됩니다.
+
+          '
+        workflow_text: '해당 워크플로 "%{name}"은(는) 이 프로젝트에 속하고, 또한 글로벌 워크플로가 됩니다.
+
+          '
+      convert_to_global_notice: "%{name}은(는) 이제 글로벌 변형입니다."
+      convert_to_global_rename:
+        confirm: 변환
+        text: 이 이름의 글로벌 변형이 이미 있습니다. 다른 이름을 선택해 주세요.
+        title: 이 변형에 대한 다른 이름 지정
+      delete:
+        description: 해당 유형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
+        description_with_variants: 해당 유형과 모든 변형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
+        heading: "'%{name}' 유형을 삭제하시겠습니까?"
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: 유형 삭제
       description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
         '
@@ -6557,12 +7041,23 @@ ko:
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
       project_variants_count:
-        other: "%{count}개 프로젝트별 변형"
+        other: "%{count} project-specific variants"
       remove_default: 새 프로젝트에서 활성화 안 함
       remove_default_notice: "%{name}이(가) 새 프로젝트에서 더 이상 활성화되지 않습니다."
       type_label: 유형
       variant_label: 변형
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: 마일스톤
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: 이 경고를 무시하십시오.
     message: 이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다.
@@ -6581,7 +7076,7 @@ ko:
     authorization_rejected: 로그인할 수 없습니다.
     blocked: 일시적으로 잠김
     blocked_num_failed_logins:
-      other: 일시적으로 잠김 (%{count} 로그인 시도 실패)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: "%{name} 상태가 변경됩니다. 계속하시겠습니까?"
     deleted: 사용자 삭제됨
     department_ldap_managed_caption: 이 부서는 LDAP 동기화를 통해 관리되며 여기에서 변경할 수 없습니다.
@@ -6741,12 +7236,18 @@ ko:
         start_date: 시작 날짜
         work_days: 근무일
         work_days_count:
-          other: 근무일 %{count}일
+          other: "%{count} working days"
         work_hours: 근무 시간
   version_status_closed: 닫음
   version_status_locked: 잠김
   version_status_open: 열기
   versions:
+    filter_status_labels:
+      closed: 닫음
+      locked: 잠김
+      open: 열림
+    index:
+      filter_label: 버전 검색
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
       work_packages_in_archived_projects: 해당 버전은 이 버전에 할당된 작업 패키지가 아직 있는 보관된 프로젝트와 공유됩니다. 이러한 버전은 카운트되지만, 링크된 보기에 나타나지는 않습니다.
@@ -6916,12 +7417,14 @@ ko:
       required_description: 이 작업 패키지를 관련 패키지에 대한 요구 사항으로 표시합니다
       requires_description: 관련 작업 패키지를 이 패키지에 대한 요구 사항으로 표시합니다
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: 작업 패키지를 복사할 수 없습니다.
       could_not_be_deleted: '다음 작업 패키지를 삭제할 수 없습니다:'
       could_not_be_saved: '다음 작업 패키지를 저장할 수 없습니다:'
       deletion_successful:
-        other: "%{count}개 작업 패키지를 삭제했습니다."
+        other: Successfully deleted %{count} work packages.
       descendant: 선택한 항목의 하위 작업 패키지
       move_failed: 작업 패키지를 이동할 수 없습니다.
       none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
@@ -6945,14 +7448,14 @@ ko:
       description_with_visible_descendants: 선택한 작업 패키지 및 표시된 모든 하위 항목을 삭제하시겠습니까?
       heading: 이러한 작업 패키지 %{count}개를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
-        other: 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 모두 제거됩니다.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        other: 표시되는 모든 하위 항목이 제거됩니다. 하지만 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 모두 제거됩니다.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: "%{count}개 작업 패키지 삭제"
       undeletable_descendants_warning:
-        other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -7009,14 +7512,145 @@ ko:
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
-        other: 이 작업 패키지에는 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 제거됩니다.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        other: 표시되는 모든 하위 항목이 제거됩니다. 하지만 이 작업 패키지에는 보이지 않는 하위 항목이 %{count}개 있습니다. 이러한 하위 항목은 삭제되지 않지만, 계층적 관계는 제거됩니다.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: 작업 패키지 삭제
       undeletable_descendants_warning:
-        other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          example_category: Documentation
+          example_version: '1.0'
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+        problems:
+          all:
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          other: "%{count} lines"
+        x_problems:
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: '작업 패키지 또는 해당 하위 항목의 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 누락된 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
 
@@ -7048,34 +7682,39 @@ ko:
         version:
           no_results_title_text: 현재 사용가능한 버전이 없습니다.
     x_descendants:
-      other: "%{count}개 작업 패키지 하위 항목"
+      other: "%{count} work package descendants"
   workflows:
+    change:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
+      select:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
+      title: Change workflow
     copies:
       form:
-        mode:
-          from_role:
-            caption: 동일한 워크플로 패키지 유형 내의 역할 하나 이상에 현재 워크플로를 복사합니다. 선택한 역할에 이미 워크플로가 있는 경우 현재 워크플로를 덮어씁니다.
-            label: 다른 역할에 복사
-          from_type:
-            caption: 다른 워크플로 유형으로 현재 워크플로를 복사합니다. 선택한 유형에 이미 워크플로가 있는 경우 현재 워크플로를 덮어씁니다. 이는 모든 역할에 영향을 줍니다.
-            label: 다른 유형에 복사
-        source_role_id:
-          label: 소스 역할
         target_role_ids:
           label: 대상 역할
-        target_variant_ids:
-          label: 대상 유형
       from_roles:
         create:
           notice:
             other: 워크플로를 %{count}개 역할에 복사했습니다.
-      from_variants:
-        create:
-          notice:
-            other: 워크플로를 %{count}개 유형에 복사했습니다.
       new:
-        title: '"%{source_type}"의 워크플로 복사'
+        dialog_title: Copy workflow of "%{source}"
     form:
+      copy_from:
+        caption: The new workflow starts with a copy of that workflow's status transitions.
+        label: Copy from
+        placeholder: Select a workflow…
+      description:
+        caption: Add a short description about where and how will this workflow be used.
+        label: Description
+      edit_title: Edit workflow
       matrix_caption: 워크플로 매트릭스
       matrix_caption_assignee: 담당자에 대한 워크플로 매트릭스
       matrix_caption_author: 작성자에 대한 워크플로 매트릭스
@@ -7084,12 +7723,82 @@ ko:
       matrix_check_uncheck_all_in_row_label_html: "<em>%{old_status}</em>에서 모든 새로운 상태로 전환 토글"
       matrix_checkbox_label: "%{old_status}에서 %{new_status}(으)로 전환 허용"
       matrix_uncheck_all_label: 모든 전환 허용 안 함
+      name:
+        caption: Pick a name that will let you identify this workflow later in other places.
+        label: Workflow name
+      new_title: Create workflow
     index:
+      actions:
+        create: Workflow
+        edit: Edit transitions
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a workflow to define the status transitions a type or variant may use.
+        filtered_description: No workflow matches the current filters.
+        filtered_title: No matching workflows
+        title: No workflows
+      columns:
+        name: Workflow name
+        projects: Projects
+        roles: Roles
+        types_and_variants: Types and variants
+      description: Every named set of status transitions in this instance, with the types and variants using it.
+      filters:
+        name: Workflow
+        name_placeholder: Filter by workflow name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      roles_count:
+        other: "%{count} roles"
       type_filter:
         label: 유형 이름으로 필터링…
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Workflow
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: 각 작업 패키지 유형에 대한 상태 전환을 구성합니다.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: New workflow
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this workflow yet.
+      used_by_types:
+        other: This workflow is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: 근무일 변경
     dialog:

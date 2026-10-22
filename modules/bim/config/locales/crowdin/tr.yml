@@ -106,7 +106,7 @@ tr:
     not_recommended: tavsiye edilmez
     recommended: Tavsiye edilen
     x_bcf_issues:
-      one: Bir BCF sorunu
+      one: "%{count} BCF issue"
       other: "%{count} BCF sorunu"
       zero: BCF sorunu yok
   bim:
