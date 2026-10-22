@@ -115,10 +115,13 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const onKeydown = (event:KeyboardEvent) => this.handleKeydown(event);
     const onFocusin = (event:FocusEvent) => this.adoptFocus(event.target as HTMLElement);
     scrollContainer.addEventListener('keydown', onKeydown);
+    const onMousedown = (event:MouseEvent) => this.recordPointerTarget(event.target);
     scrollContainer.addEventListener('focusin', onFocusin);
+    scrollContainer.addEventListener('mousedown', onMousedown);
     onDestroySafely(destroyRef, () => {
       scrollContainer.removeEventListener('keydown', onKeydown);
       scrollContainer.removeEventListener('focusin', onFocusin);
+      scrollContainer.removeEventListener('mousedown', onMousedown);
     });
 
     this.querySpace.tableRendered.values$()
@@ -197,7 +200,24 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  private positionOf(target:HTMLElement):FocusPosition|null {
+  private recordPointerTarget(target:EventTarget|null):void {
+    if (!(target instanceof Element)) {
+      return;
+    }
+
+    const cell = target.closest<HTMLTableCellElement>(`.${navigableCellClassName}`);
+    const position = this.positionOf(cell ?? target.closest('tr'));
+    if (position) {
+      this.current = position;
+      paintRovingTabindex(this.table.scrollContainer, this.elementAt(position));
+    }
+  }
+
+  private positionOf(target:HTMLElement|null):FocusPosition|null {
+    if (!target) {
+      return null;
+    }
+
     const isCell = target.classList.contains(navigableCellClassName);
     const row = isCell ? target.closest('tr') : target;
     if (!(row instanceof HTMLTableRowElement)) {

@@ -378,3 +378,38 @@ describe('TableEditForm activation lifetime', () => {
     expect(change.contains('subject')).toBe(outcome !== 'success');
   });
 });
+
+describe('TableEditForm origin', () => {
+  let harness:TableHarness;
+
+  afterEach(async () => {
+    await harness.destroy();
+  });
+
+  it('an editor opened by click remembers the cell it opened from as origin', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    const wp = harness.injector.get(States).workPackages.get('1').value!;
+    harness.table.editing.startEditing(wp, harness.row('1').dataset.classIdentifier!);
+    const form = harness.table.editing.forms['1'];
+    const subject = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    const index = Array.from(harness.row('1').cells).filter((cell) => cell.classList.contains('wp-table--navigable-cell')).indexOf(subject);
+
+    expect(form.origin).toBeNull();
+    fireEvent.mouseDown(subject, { button: 0 });
+    await form.activate('subject');
+
+    expect(index).toBeGreaterThan(-1);
+    expect(form.origin).toMatchObject({ cell: index });
+    harness.table.keyboardNavigation!.recordPosition({ key: 'header', cell: 0, desiredColumn: 0 });
+    expect(form.origin).toMatchObject({ cell: index });
+
+    form.closeEditFields();
+    expect(form.origin).toBeNull();
+  });
+});
