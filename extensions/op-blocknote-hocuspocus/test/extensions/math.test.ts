@@ -25,9 +25,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import {
+  createMathBlockConfig,
+  createReactInlineMathSpec,
+  createReactMathBlockSpec,
+  mathInlineContentConfig,
+} from "@blocknote/math-block";
 import { describe, expect, test } from "vitest";
 import * as Y from "yjs";
 import { createEditor } from "../../src/extensions/openProjectApi";
+import { mathBlockStaticSpec, mathInlineStaticSpec } from "../../src/mathSpecs";
 
 async function storedMarkdown(blocks:unknown[]) {
   const editor = createEditor();
@@ -52,5 +59,21 @@ describe("math", () => {
     ]);
 
     expect(markdown).toBe("Euler: $e^{i\\pi} + 1 = 0$.\n");
+  });
+});
+
+describe("math specs", () => {
+  test("match the math block of @blocknote/math-block", () => {
+    const { code, defining, isolating } = createReactMathBlockSpec().implementation.meta ?? {};
+
+    expect(mathBlockStaticSpec().config).toEqual(createMathBlockConfig());
+    expect(mathBlockStaticSpec().implementation.meta).toEqual({ code, defining, isolating });
+  });
+
+  test("match the inline math of @blocknote/math-block", () => {
+    const { code } = createReactInlineMathSpec().implementation.meta ?? {};
+
+    expect(mathInlineStaticSpec.config).toEqual(mathInlineContentConfig);
+    expect(mathInlineStaticSpec.implementation.meta).toEqual({ code });
   });
 });

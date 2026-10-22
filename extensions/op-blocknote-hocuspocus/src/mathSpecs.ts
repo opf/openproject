@@ -27,10 +27,10 @@
 
 import { createBlockSpec, createInlineContentSpec, plainContentToString } from "@blocknote/core";
 
-// `@blocknote/math-block` cannot run in Node (it imports KaTeX's CSS, and its React rendering crashes
-// the process after an export), so these mirror its specs. Type, content and `code` must stay in sync
-// with the editor, or Yjs content does not map onto this schema. The markdown exporter reads the LaTeX
-// from the `application/x-tex` annotation.
+// `@blocknote/math-block` cannot be loaded in Node (it imports KaTeX's CSS), and with React's development
+// build its rendering crashes the process after an export, so these mirror its specs. The math tests
+// guard that they stay in sync with the package. The markdown exporter reads the LaTeX from the
+// `application/x-tex` annotation.
 function mathElement(latex:string, display:"block" | "inline") {
   const namespace = "http://www.w3.org/1998/Math/MathML";
   const math = document.createElementNS(namespace, "math");
