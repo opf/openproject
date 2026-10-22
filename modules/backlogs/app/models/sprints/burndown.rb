@@ -115,7 +115,6 @@ module Sprints
       charted_span > HOURLY_STEP_LIMIT ? :day : :hour
     end
 
-    # Sprints::Burndown draws nothing rather than trying.
     def too_long_to_chart?
       charted_span > CHARTABLE_SPAN
     end
@@ -124,7 +123,6 @@ module Sprints
 
     attr_reader :sprint, :project, :user
 
-    # Named for the sprint rather than for the chart, so they come through as they are.
     delegate :planned_finish, :measured_until, to: :timeframe, private: true
 
     # The viewer's zone governs the whole chart: it decides where the days the series are sampled
@@ -180,9 +178,9 @@ module Sprints
     end
 
     # One straight line, measured in working days rather than in clock time: +drop+ is what a whole
-    # day takes, and every point is that slope applied to the distance still to run. Non working
-    # days are no distance at all, which is what leaves them flat, and only two points can land
-    # inside a day -- the one the series opens on (print start or end of remaining) and,
+    # day takes, and every point is that slope applied to the distance still to run.
+    # Non working days are no distance at all, which is what leaves them flat.
+    # Only two points can land inside a day -- the one the series opens on (sprint start or end of remaining) and,
     # where the chart closes before the plan does, the one it closes on.
     def decline_from(origin)
       origin_from = origin.at.in_time_zone(zone)

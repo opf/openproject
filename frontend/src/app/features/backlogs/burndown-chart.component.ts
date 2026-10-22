@@ -374,8 +374,8 @@ export class BurndownChartComponent {
     return this.timezoneService.formattedDatetime(new Date(roundedToMinute).toISOString());
   }
 
-  // The guideline and the projection value is simplified to a single digit value, Remaining is left
-  // unchanged since it has no factional story points to begin with.
+  // Guideline and projection divide story points across working days, so they are cut to one
+  // decimal. Remaining only ever holds whole story points, which this leaves as they are.
   private tooltipLabel(item:TooltipItem<'line'>):string {
     const value = (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
