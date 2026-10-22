@@ -61,6 +61,7 @@ ms:
         single: Pilih "%{name}"
       remove: Keluarkan %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Tiada item ditemui
       placeholder: Taip untuk cari
       project:
@@ -162,6 +163,7 @@ ms:
     button_stop_timer: Stop timer
     button_uncheck_all: Batalkan semua pilihan
     button_update: Kemas kini
+    button_view_markdown: View Markdown
     caption_rate_history: Sejarah kadar
     card:
       add_new: Tambah kad baharu
@@ -202,6 +204,7 @@ ms:
     description_subwork_package: 'Anak kepada pakej kerja #%{id}'
     editor:
       ckeditor_error: Ralat berlaku dalam CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
       macro:
         attribute_reference:
@@ -623,7 +626,7 @@ ms:
     notifications:
       center:
         and_more_users:
-          other: dan %{count} yang lain
+          other: and %{count} others
         empty_state:
           no_notification: Nampaknya anda telah selesaikan semuanya.
           no_notification_for_filter: Nampaknya anda semua terperangkap untuk penapis ini.
@@ -719,6 +722,7 @@ ms:
     placeholders:
       default: "-"
       description: 'Deskripsi: Klik untuk edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klik untuk tambah deskripsi untuk hubungan ini
       selection: Sila pilih
       subject: Masukkan subjek di sini
@@ -842,9 +846,7 @@ ms:
     text_user_wrote: "%{value} menulis:"
     text_work_packages_destroy_confirmation: Adakah anda pasti anda ingin memadam pakej kerja yang dipilih tersebut?
     time_entry:
-      stop: Berhenti
       title: Masa log
-      tracking: Penjejakan masa
       work_package_required: Memerlukan pemilihan pakej kerja dahulu.
     timer:
       button_stop: Hentikan pemasa semasa
@@ -879,18 +881,18 @@ ms:
       label_two_factor_authentication: Pengesahan dua faktor
     units:
       child_work_packages:
-        other: "%{count} pakej kerja anak"
+        other: "%{count} work package children"
       day:
-        one: 1 hari
+        one: "%{count} day"
         other: "%{count} hari"
         zero: 0 hari
       hour:
-        one: 1 j
+        one: "%{count} h"
         other: "%{count} j"
         zero: 0 j
       hour_string: "%{hours} h"
       word:
-        other: "%{count} perkataan"
+        other: "%{count} words"
       workPackage:
         other: pakej kerja
     upsell:

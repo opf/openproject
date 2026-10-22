@@ -24,9 +24,9 @@ vi:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Cho phép nhiều print hoạt động đồng thời
         backlog_excluded_types: Các loại gói công việc bị loại trừ khỏi Backlog
-        estimation_unit: Unit
+        estimation_unit: Đơn vị
         sprint_sharing: Chia sẻ Sprint
         statuses_considered_closed: Các trạng thái được xem là đã đóng
       sprint:
@@ -39,7 +39,7 @@ vi:
           active: Đang hoạt động
           completed: Đã hoàn thành
           in_planning: Đang lập kế hoạch
-        work_packages: Work packages
+        work_packages: Gói công việc
       sprint_goal:
         text: Sprint goal
       work_package:
@@ -73,7 +73,7 @@ vi:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                other: Có %{count} gói công việc chưa hoàn thành trong Sprint này.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: không hoạt động nên không thể đóng.
         sprint_goal:
@@ -159,7 +159,7 @@ vi:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        other: Hiển thị thêm %{count} mục
+        other: Show %{count} more items
       title: Hộp thư đến
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -260,7 +260,6 @@ vi:
       header_backlogs: Mô-đun Backlogs
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy gói công việc (work package) ID
         move_menu: Di chuyển đến vị trí
         move_to_backlog_bucket: Move to backlog bucket

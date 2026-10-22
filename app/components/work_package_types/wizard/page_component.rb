@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -74,7 +73,11 @@ module WorkPackageTypes
         variant_settings_path(nil, type.default_variant)
       end
 
-      def step_title = Steps.title(current_step)
+      def step_title
+        return I18n.t("types.creation_wizard.start.#{adding_variant? ? 'variant' : 'type'}.heading") if current_step == :start
+
+        Steps.title(current_step)
+      end
 
       def step_url
         variant_creation_wizard_path(helpers.variant_scope_project, variant, step: current_step, **carried_params)

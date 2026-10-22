@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -127,6 +126,55 @@ RSpec.describe "Recurring meetings duplicate in next meeting", :js do
 
         duplicated_item = next_meeting.agenda_items.find_by(title: "Test agenda item")
         expect(duplicated_item.outcomes).to be_empty
+      end
+
+      it "copies outcomes when 'Include outcomes' is checked" do
+        create(:meeting_outcome, meeting_agenda_item: agenda_item, notes: "Original outcome")
+
+        meeting_page.visit!
+        meeting_page.duplicate_item_in_next_meeting(agenda_item, include_outcomes: true)
+
+        expect_and_dismiss_flash(message: "Agenda item duplicated in the next meeting")
+
+        next_meeting_page.visit!
+        next_meeting_page.expect_outcome("Original outcome")
+
+        duplicated_item = next_meeting.agenda_items.find_by(title: "Test agenda item")
+        expect(duplicated_item.outcomes.pluck(:notes)).to eq(["Original outcome"])
+        expect(agenda_item.outcomes.pluck(:notes)).to eq(["Original outcome"])
+      end
+
+      context "when the next meeting has a matching section" do
+        let(:intro_section) { create(:meeting_section, meeting:, title: "Intro") }
+
+        let!(:agenda_item) do
+          create(:meeting_agenda_item, meeting:, meeting_section: intro_section, title: "Test agenda item")
+        end
+
+        let!(:next_meeting_sections) do
+          %w[Intro Outro].map { |title| create(:meeting_section, meeting: next_meeting, title:) }
+        end
+
+        it "preselects the matching section and duplicates the item" do
+          meeting_page.visit!
+          meeting_page.open_menu(agenda_item) do
+            click_on "Duplicate"
+            click_on "Duplicate in next meeting"
+          end
+
+          page.within_modal "Duplicate in next meeting?" do
+            expect_current_autocompleter_value(page.find("opce-autocompleter"), "Intro")
+            click_on "Duplicate"
+          end
+
+          expect_and_dismiss_flash(message: "Agenda item duplicated in the next meeting")
+
+          duplicated_item = next_meeting.agenda_items.find_by(title: "Test agenda item")
+          expect(duplicated_item.meeting_section).to eq(next_meeting_sections.first)
+
+          next_meeting_page.visit!
+          next_meeting_page.expect_agenda_item_in_section(title: "Test agenda item", section: next_meeting_sections.first)
+        end
       end
     end
 

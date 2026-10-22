@@ -168,9 +168,13 @@ ja:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
         heading: Cost types
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
         none_active: No cost types are currently active in this project.
       time_and_costs: Time and costs
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:

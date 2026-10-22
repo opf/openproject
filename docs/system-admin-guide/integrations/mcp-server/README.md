@@ -34,6 +34,9 @@ Afterwards users that want to make use of MCP on a personal basis, can create a 
 token. However, this only works properly with locally running MCP clients that are only used by a single user and it requires the user
 to configure the MCP endpoint themselves.
 
+API tokens can [expire](../../../user-guide/account-settings/access-tokens/#api). Once the token used by an MCP client has expired,
+OpenProject rejects its requests, and the user needs to create a new token and configure it in the MCP client.
+
 #### Shared access via OAuth
 
 If multiple users shall be able to use information from the same OpenProject instance and when using web-based MCP clients, the typical

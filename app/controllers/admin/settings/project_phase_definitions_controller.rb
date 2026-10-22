@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,6 +32,9 @@ module Admin::Settings
     include FlashMessagesOutputSafetyHelper
     include OpTurbo::ComponentStream
     include Projects::PhaseDefinitionHelper
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type_method: :sortable_list_type, list_id_scoped: false
 
     menu_item :project_phase_definitions_settings
 
@@ -124,10 +126,6 @@ module Admin::Settings
                                                  finish_gate])
     end
 
-    def move_params
-      @move_params ||= params.permit(:list_type, :list_id, :prev_id)
-    end
-
     def update_definitions_via_turbo_stream
       update_via_turbo_stream(
         component: Settings::ProjectPhaseDefinitions::IndexComponent.new(
@@ -140,19 +138,7 @@ module Admin::Settings
     def move_after_anchor
       return false unless valid_drop_request?
 
-      @definition.move_after_anchor(move_params[:prev_id], scope: Project::PhaseDefinition.all)
-    end
-
-    def valid_drop_request?
-      move_params[:list_type] == sortable_list_type &&
-        unscoped_list_id? &&
-        move_params.key?(:prev_id)
-    end
-
-    # The raw param is checked because permit cannot tell an absent
-    # value from a filtered-out array or hash.
-    def unscoped_list_id?
-      params[:list_id].nil? || params[:list_id] == ""
+      @definition.move_after_anchor(drop_params[:prev_id], scope: Project::PhaseDefinition.all)
     end
   end
 end

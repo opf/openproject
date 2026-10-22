@@ -73,8 +73,8 @@ de:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Es gibt ein Arbeitspaket, das in diesem Sprint nicht abgeschlossen wurde.
-                other: Es gibt %{count} Arbeitspakete, die in diesem Sprint nicht abgeschlossen wurden.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: ist nicht aktiv und kann deshalb nicht geschlossen werden.
         sprint_goal:
@@ -161,8 +161,8 @@ de:
       drop_zone_label: Hier ablegen um das Arbeitspaket hinzuzufügen
       label_actions: Posteingang-Aktionen
       show_more:
-        one: Zeige ein weiteres Element
-        other: Zeige %{count} weitere Elemente
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Posteingang
     index_subheader_component:
       label_search_by_subject: Arbeitspakete nach Betreff suchen
@@ -266,7 +266,6 @@ de:
       header_backlogs: Backlog-Modul
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: URL in die Zwischenablage kopieren
         copy_work_package_id: Arbeitspaket-ID kopieren
         move_menu: Zu Position verschieben
         move_to_backlog_bucket: In Backlog Bucket verschieben

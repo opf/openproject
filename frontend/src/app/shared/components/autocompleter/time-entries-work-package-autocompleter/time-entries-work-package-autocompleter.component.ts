@@ -106,8 +106,8 @@ export class TimeEntriesWorkPackageAutocompleterComponent extends OpAutocomplete
           switchMap((collection:CollectionResource<TimeEntryResource>) => {
             this.recentWorkPackageIds = collection
               .elements
-              .filter((timeEntry) => timeEntry.workPackage?.href)
-              .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
+              .filter((timeEntry) => (timeEntry.workPackage as HalResource|undefined)?.href)
+              .map((timeEntry) => idFromLink((timeEntry.workPackage as HalResource).href))
               .filter((v, i, a) => a.indexOf(v) === i);
 
             return this.loadWorkPackages(query);

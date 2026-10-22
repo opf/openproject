@@ -45,16 +45,16 @@ ru:
         not_selectable: Выборка осталась без изменений. Данный пакет работ не влияет на порядок элементов в этом списке.
         range_blocked: Выборка осталась без изменений. Данный диапазон содержит пакет работ, который не влияет на порядок элементов в этом списке.
         range_restarted:
-          one: Не удалось расширить диапазон. Выбран 1 рабочий пакет.
+          one: Could not extend the range. %{count} work package selected.
           few: Could not extend the range. %{count} work packages selected.
           many: Could not extend the range. %{count} work packages selected.
-          other: 'Не удалось расширить диапазон. Выбрано рабочих пакетов: %{count}.'
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
         selected:
-          one: Выбран 1 пакет работ.
+          one: "%{count} work package selected."
           few: "%{count} work packages selected."
           many: "%{count} work packages selected."
-          other: "%{count} пакетов работ выбрано."
+          other: "%{count} work packages selected."
     burndown:
       day: День
       points: Точки

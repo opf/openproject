@@ -40,7 +40,9 @@ fil:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: Alisin ang akawnt
     delete_confirmation: Ikaw ba ay sigurad na gusto mong alisin ang akawnt na ito?
     deletion_info:
@@ -65,7 +67,9 @@ fil:
     error_self_registration_limited_provider: 'User registration is limited for the Single sign-on provider ''%{name}''. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
 
       '
-    login_with_auth_provider: o kaya ay mag-sig in sa pamamagitan ng iyong umiiral na akawnt
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Mangyaring mag-login upang i-aktibo ang iyong akwant.
@@ -168,6 +172,7 @@ fil:
         uid: Client ID
       emoji_reaction:
         reactable: Reacted on
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: Active users
         encoded_token: Enterprise support token
@@ -200,11 +205,17 @@ fil:
         row_count: Number of rows
         widgets: Widgets
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -232,21 +243,6 @@ fil:
         onthefly: Automatic user creation
         port: Port
         tls_certificate_string: LDAP server SSL certificate
-      llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
-      llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        llm_features_enabled: Enable LLMs for this instance
-      llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -399,6 +395,8 @@ fil:
         ongoing: Ongoing
         spent_on: Petsa
         type: Uri
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalendaryo
         ical_token_query_assignment: Query assignment
@@ -426,6 +424,7 @@ fil:
       user:
         admin: Tagapangasiwa
         auth_source: Authentication source
+        avatar_type: Avatar type
         consented_at: Consented at
         current_password: Kasulukuyang password
         department: Department
@@ -439,7 +438,7 @@ fil:
         last_name: Huling pangalan
         ldap_auth_source: LDAP connection
         new_password: Bagong password
-        password_confirmation: Kompirmasyon
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -448,11 +447,15 @@ fil:
       user_preference:
         auto_hide_popups: Automatically hide success banners
         auto_hide_popups_caption: When enabled, the green success banners will automatically disappear after 5 seconds.
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Update alerts
         button_update_look_and_feel: Update look and feel
         button_update_user_information: Update profile
         comments_sorting: Display work package activity sorted by
         daily_reminders: Daily reminders
+        date_format: Date format
         disable_keyboard_shortcuts: Disable keyboard shortcuts
         dismissed_enterprise_banners: Hidden enterprise banners
         force_dark_theme_contrast: Force high-contrast when in Dark mode
@@ -466,7 +469,10 @@ fil:
         increase_contrast_caption: Enables high-contrast mode for the chosen colour mode.
         increase_theme_contrast: Increase theme contrast
         mode_guideline: Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Color mode
+        time_format: Time format
         time_zone: Time zone
         warn_on_leaving_unsaved: Balaan mo ako kung aalais ng worj package na walang pag-save ng pagbabago
         workdays: Working days
@@ -756,29 +762,6 @@ fil:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'The provided SSL certificate is invalid: %{additional_message}'
-        llm_connection:
-          attributes:
-            api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
-            api_key:
-              invalid_api_key: was rejected by the LLM server.
-            base:
-              singleton: Only one LLM connection can be active.
-            base_url:
-              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
-              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
-              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
-              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
-              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
-              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
-            custom_headers:
-              invalid: must map header names to plain text values.
-            llm_features_enabled:
-              requires_connection: cannot be turned on before a connection has been configured.
-        llm_model:
-          attributes:
-            external_id:
-              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Unable to save because the meeting was updated by someone else in the meantime. Please reload the page.
         member:
@@ -974,8 +957,8 @@ fil:
               numeric: numeric (e.g.'1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                one: ay nagamit na dati. Mangyaring pumili ng isa na kaiba mula sa iyong huling isa.
-                other: ay nagamit na dati. Mangyaring pumili ng isa na kaiba mula sa iyong huli %{count}.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: espesyal (e.g '%')
               uppercase: uppercase (e.g 'A')
             password_confirmation:
@@ -1044,6 +1027,8 @@ fil:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: hindi maaring sa iba pang proyekto.
               cannot_be_milestone: hindi maaring maging isang milestone.
@@ -1071,6 +1056,8 @@ fil:
             status_id:
               status_invalid_in_type: is invalid because the current status does not exist in this type.
               status_transition_invalid: ay invalid dahil walang valid na transisyon na umiiral mula sa luma hanggang sa bagong estado para sa mga role ng kasalukuyang user.
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: cannot be a milestone because this work package has children.
           is_not_a_valid_target_for_time_entries: 'Ang work package #%{id} ay hindi balido sa target para mag-reassign ng mga oras na entry.'
@@ -1079,8 +1066,8 @@ fil:
       template:
         body: 'Mangyaring suriin ang mga sumusunod na mga patlang:'
         header:
-          one: Ipinagbabawal na isang error sa %{model} na jto mula sa pagka-save
-          other: "%{count} mga error na ipinagbabawal sa iton %{model} mula sa pagka-save"
+          one: "%{count} error prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Action
@@ -1472,6 +1459,10 @@ fil:
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1718,25 +1709,25 @@ fil:
             title: Please make sure you have a backup!
           parts:
             issues:
-              one: 1 issue
+              one: "%{count} issue"
               other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               other: "%{count} jobs"
             projects:
-              one: 1 project
+              one: "%{count} project"
               other: "%{count} projects"
             statuses:
-              one: 1 status
+              one: "%{count} status"
               other: "%{count} statuses"
             types:
-              one: 1 type
+              one: "%{count} type"
               other: "%{count} types"
             users:
-              one: 1 user
+              one: "%{count} user"
               other: "%{count} users"
             work_packages:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
@@ -1802,7 +1793,7 @@ fil:
               caption: Choose what you want to import into OpenProject
               caption_done: Completed
               caption_done_description:
-                one: 1 project selected as scope
+                one: "%{count} project selected as scope"
                 other: "%{count} projects selected as scope"
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               elements:
@@ -1913,97 +1904,6 @@ fil:
         no_matches:
           description: Try a different search term.
           title: No labels match your search
-    llm_connections:
-      delete_api_key:
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
-        title: Remove API key
-      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
-      disconnect:
-        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
-        heading: Disconnect from the LLM server?
-        keeps_models: The model list, including any models you added manually, is kept.
-        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
-        menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
-      form:
-        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
-        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
-        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
-        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
-        base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
-        label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
-      show:
-        description: Connect OpenProject to an LLM server so that AI features can use it.
-        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
-      tabs:
-        connection: Connection
-        models: Models
-      update:
-        disabled: Saved. LLM features are switched off for this instance.
-        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
-        success: Successfully connected to the LLM server.
-    llm_models:
-      create:
-        success: "%{model} has been added."
-      destroy:
-        description: The model will no longer be offered to AI features.
-        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
-        heading: Remove %{model}?
-        success: "%{model} has been removed."
-        title: Remove model
-      edit:
-        description: Edit how OpenProject uses this model.
-      form:
-        context_window: Context window
-        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
-        context_window_known: Leave blank to use %{value}, %{source}.
-        display_name_caption: An optional friendly name shown instead of the model id.
-        external_id_caption: The model name exactly as the server expects it.
-        model_type: Model type
-        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
-        model_type_chat: Chat model
-        model_type_embedding: Embedding model
-        model_type_unspecified: Not specified
-        state_inherited: Inherit from server (%{state})
-        state_supported: Supported
-        state_unsupported: Not supported
-      index:
-        add_model: Model
-        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
-        blank_title: No models available
-        context_window: Context window
-        description: Reported by the server on %{fetched_at}.
-        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
-        filter_label: Filter models
-        identifier: Model
-        kind: Type
-        refresh: Refresh models
-        source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
-      new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
-      refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
-      update:
-        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -2042,6 +1942,10 @@ fil:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2055,7 +1959,7 @@ fil:
         confirm_button: Unreserve identifier
         description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
           other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Unreserve "%{identifier}"?
         title: Unreserve identifier
@@ -2184,7 +2088,7 @@ fil:
           error_unknown: Needs manual review
           error_used_in_past: Reserved by another project's handle history
           remaining_projects:
-            one: "... 1 more project"
+            one: "... %{count} more project"
             other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
@@ -2267,7 +2171,7 @@ fil:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: One role selected
+          one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
       status_button: Status
@@ -2279,7 +2183,7 @@ fil:
         confirm: Remove
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         heading:
-          one: Remove 1 status?
+          one: Remove %{count} status?
           other: Remove %{count} statuses?
         title: Remove statuses
       tabs:
@@ -2300,6 +2204,21 @@ fil:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: kasalukuyang naka-displey
@@ -2484,6 +2403,7 @@ fil:
     updated_at: Naka-update sa
     updated_on: Naka-update sa
     uploader: Uploader
+    url: URL
     user: Gumagamit
     username: Username
     value: Halaga
@@ -2716,9 +2636,9 @@ fil:
     text:
       failed: Hindi makopya ang proyekto "%{source_project_name}" sa proyektong "%{target_project_name}".
       succeeded: Kinopyang proyekto "%{source_project_name}'" sa "%{target_project_name}".
-    title: Copy project "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: One object of this type
+      one: "%{count} object of this type"
       other: "%{count} objects of this type"
       zero: No objects of this type
   create_portfolio:
@@ -2758,7 +2678,7 @@ fil:
     admin:
       hierarchy:
         subitems:
-          one: 1 sub-item
+          one: "%{count} sub-item"
           other: "%{count} sub-items"
           zero: no sub-items
       items:
@@ -2918,56 +2838,56 @@ fil:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: tungkol sa oras
-        other: tungkol sa mga %{count} oras
+        one: about %{count} hour
+        other: about %{count} hours
       about_x_months:
-        one: isang buwan ang nakalipas
-        other: mga isang %{count} buwan ang nakalipas
+        one: about %{count} month
+        other: about %{count} months
       about_x_years:
-        one: isang taon ang nakalipas
-        other: mga isang %{count} taon ang nakalipas
+        one: about %{count} year
+        other: about %{count} years
       almost_x_years:
-        one: halos isang taon
-        other: mga halos isang %{count} taon
+        one: almost %{count} year
+        other: almost %{count} years
       half_a_minute: kalahating minuto
       less_than_x_minutes:
         one: mas mababa sa isang minuto
         other: mga mas mababa sa isang %{count} minuto
       less_than_x_seconds:
-        one: mas mababa sa isang segundo
-        other: mga mas mababa sa isang %{count} segundo
+        one: less than %{count} second
+        other: less than %{count} seconds
       over_x_years:
-        one: mahigit sa isang taon
-        other: mas mahigit sa isang %{count} taon
+        one: over %{count} year
+        other: over %{count} years
       x_days:
-        one: Isang araw
-        other: mga Isang %{count} araw
+        one: "%{count} day"
+        other: "%{count} days"
       x_hours:
-        one: Isang oras
-        other: "%{count} mga oras"
+        one: "%{count} hour"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 hr
+        one: "%{count} hr"
         other: "%{count} hrs"
       x_minutes:
-        one: Isang minuto
-        other: mga Isang %{count} minuto
+        one: "%{count} minute"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 min
+        one: "%{count} min"
         other: "%{count} mins"
       x_months:
-        one: Isang buwan
-        other: mga isang %{count} buwan
+        one: "%{count} month"
+        other: "%{count} months"
       x_seconds:
-        one: Isang segundo
-        other: Mga Isang %{count} segundo
+        one: "%{count} second"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 s
+        one: "%{count} s"
         other: "%{count} s"
       x_weeks:
-        one: 1 week
+        one: "%{count} week"
         other: "%{count} weeks"
       x_years:
-        one: 1 year
+        one: "%{count} year"
         other: "%{count} years"
     units:
       day:
@@ -3118,7 +3038,7 @@ fil:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        one: One day left of %{trial_plan} trial token
+        one: "%{count} day left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
@@ -3504,14 +3424,14 @@ fil:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Form
@@ -3526,7 +3446,6 @@ fil:
         caption: Start with an existing form, change it as you wish and save it as a new form.
         label: Start with a copy of an existing form
         missing: Select the form to copy, or start from scratch instead.
-        panel_label: Form to copy
       label: Starting point
       scratch:
         caption: Start with the default attribute groups and arrange them yourself.
@@ -3547,11 +3466,11 @@ fil:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
-        other: This form is used by %{count} types and variants.
+        one: This form is used by %{count} type or variant. Changes apply to it.
+        other: This form is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:
@@ -3561,8 +3480,48 @@ fil:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3587,6 +3546,8 @@ fil:
   groups:
     edit:
       synchronized_groups: Synchronized groups
+    form:
+      group_attributes: Group attributes
     index:
       description: By grouping users together, you can add them as members to the same projects or assign the same global roles to them.
     memberships:
@@ -3612,6 +3573,10 @@ fil:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3660,6 +3625,31 @@ fil:
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: Read about new features and product updates.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
@@ -3695,6 +3685,7 @@ fil:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3747,6 +3738,7 @@ fil:
       budget_deleted: Budget has been deleted
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -3934,7 +3926,7 @@ fil:
   label_database_version: PostgreSQL version
   label_date: Petsa
   label_date_and_time: Petsa at oras
-  label_date_format: Format ng petsa
+  label_date_and_time_formats: Date and time formats
   label_date_from: Mula sa
   label_date_from_to: Mula sa %{start} hanggang %{end}
   label_date_to: Sa
@@ -4093,7 +4085,6 @@ fil:
   label_keyword_plural: Keywords
   label_label_plural: Labels
   label_language: Linggwahe
-  label_language_based: Naka-base sa linggwahe ng gumagamit
   label_languages: Languages
   label_last_activity: Huling aktibidad
   label_last_change_on: Hindi binago sa
@@ -4115,6 +4106,7 @@ fil:
   label_list: Listahan
   label_loading: Naglo-load...
   label_locale: Language and region
+  label_locale_based: Use default for user locale
   label_lock_user: I-kandado ang gumagamit
   label_locked: nakakandado
   label_logged_as: Naka-log in bilang
@@ -4126,6 +4118,7 @@ fil:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Pamahalain ang mga %{vendor} respository
   label_mapping_for: 'Mapping for: %{attribute}'
+  label_markdown_version: Markdown version
   label_max_size: Pinakamataas na laki
   label_me: ako
   label_member_all_admin: "(All roles due to admin status)"
@@ -4144,7 +4137,6 @@ fil:
   label_menu_item_name: Pangalan ng pagpipiliang aytem
   label_message: Mensahe
   label_message_last: Huling mensahe
-  label_message_new: Bagong mensahe
   label_message_plural: Mga mensahe
   label_message_posted: Idinagdag na mensahe
   label_minute_plural: mga minuto
@@ -4405,6 +4397,7 @@ fil:
   label_subtask_plural: Ang mga subtask
   label_summary: Buod
   label_system: Sistema
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Mga setting ng system
   label_system_storage: Impormasyon ng storage
   label_table_of_contents: Table of contents
@@ -4455,6 +4448,7 @@ fil:
   label_user_search: Maghanap para sa gumagamit
   label_user_settings: User settings
   label_users_settings: Users settings
+  label_value: Value
   label_value_x: 'Value: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Edit version
@@ -4519,44 +4513,44 @@ fil:
   label_working_hours: Work schedule
   label_workweek: Work week
   label_x_closed_work_packages_abbr:
-    one: Isa ang isinara
+    one: "%{count} closed"
     other: "%{count} ang isinara"
     zero: 0 closed
   label_x_comments:
-    one: Isang komento
+    one: "%{count} comment"
     other: "%{count} mga komento"
     zero: no comments
   label_x_days:
-    one: 1 day
+    one: "%{count} day"
     other: "%{count} days"
   label_x_files:
-    one: 1 file
+    one: "%{count} file"
     other: "%{count} files"
     zero: no files
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
-    one: One item selected
+    one: "%{count} item selected"
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: Isa ang bukas
+    one: "%{count} open"
     other: "%{count} ang bukas"
     zero: 0 open
   label_x_projects:
-    one: Isang proyekto
+    one: "%{count} project"
     other: "%{count} mga proyekto"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: "%{count} work package"
     other: "%{count} work packages"
     zero: No work packages
   label_x_working_days:
-    one: 1 working day
+    one: "%{count} working day"
     other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
+    one: 'Time off: %{count} working day'
     other: 'Time off: %{count} working days'
   label_yesterday: kahapon
   label_zen_mode: Zen mode
@@ -4639,42 +4633,6 @@ fil:
     update:
       failure: 'The modified list cannot be saved: %{errors}'
       success: The modified list has been saved
-  llm:
-    api_formats:
-      anthropic: Anthropic
-      azure: Azure OpenAI
-      bedrock: AWS Bedrock
-      deepseek: DeepSeek
-      gemini: Google Gemini
-      gpustack: GPUStack
-      mistral: Mistral
-      ollama: Ollama
-      openai: OpenAI
-      openrouter: OpenRouter
-      perplexity: Perplexity
-      vertexai: Google Vertex AI
-      xai: xAI
-    capabilities:
-      embeddings:
-        label: Embeddings
-      function_calling:
-        label: Tool calling
-      reasoning:
-        label: Reasoning
-      structured_output:
-        label: Structured output
-      vision:
-        label: Vision
-    context_window_sources:
-      registry: the figure published for this model
-      server: reported by the server
-    model_kinds:
-      chat: Chat
-      embedding: Embedding
-    verdict_states:
-      supported: supported
-      unknown: not verified
-      unsupported: not supported
   macro_execution_error: May mali habang isinasagawa ang macro %{macro_name}
   macro_unavailable: Macro %{macro_name} hindi naka-display.
   macro_unknown: Unknown or unsupported macro.
@@ -4704,6 +4662,8 @@ fil:
       you_have: You have
     logo_alt_text: Logo
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: To notification center
@@ -4760,7 +4720,7 @@ fil:
       mentioned: You have been <b>mentioned in a comment</b>
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        one: There is 1 more work package with notifications.
+        one: There is %{count} more work package with notifications.
         other: There are %{count} more work packages with notifications.
       open_in_browser: Open in browser
       reason:
@@ -4918,7 +4878,6 @@ fil:
       aggregation: Aggregation
       ai: Artificial Intelligence (AI)
       api_and_webhooks: API and webhooks
-      llm_connection: LLM settings
       mail_notification: Mga abiso ng emailba
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
@@ -4940,6 +4899,13 @@ fil:
           create_button: Lumikha
           dialog_body: This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name.
           dialog_title: Create new API token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: "%{count} day (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
       failed_to_reset_token: 'Nabigong i-reset ang access token: %{error}'
@@ -4953,6 +4919,9 @@ fil:
     password_confirmation_dialog:
       confirmation_required: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
         assign_to_me: Assign work package to me
@@ -4969,6 +4938,7 @@ fil:
     access_tokens:
       access_tokens: Access tokens
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Aksyon
         expiration: Natapos
@@ -5282,7 +5252,7 @@ fil:
 
       '
     confirm_revoke_my_application:
-      one: Do you really want to remove this application? This will revoke one token active for it.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
       other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: No OAuth applications have been registered.
     flows:
@@ -5489,7 +5459,7 @@ fil:
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Mga komento ng balita
   permission_commit_access: Magbasa/magsulat acess sa repositoryo (commit)
-  permission_copy_projects: Kopyahin ang mga proyekto
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: In template projects, this permission has a secondary function, it allows the creation of new projects derived from the template.
   permission_copy_work_packages: Duplicate work packages
   permission_create_backup: Create backups
@@ -5628,7 +5598,7 @@ fil:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
+      one: "%{count} portfolio"
       other: "%{count} portfolios"
       zero: 0 portfolios
     filters:
@@ -5639,7 +5609,7 @@ fil:
         label: Portfolio name filter
         placeholder: Search portfolios
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
+        one: "<strong>%{count}</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Active portfolios
@@ -5654,7 +5624,7 @@ fil:
         It can be used for highlighting work packages in the table.
   program:
     count:
-      one: 1 program
+      one: "%{count} program"
       other: "%{count} programs"
       zero: 0 programs
     filters:
@@ -5666,7 +5636,7 @@ fil:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
-      one: Isang proyekto
+      one: "%{count} project"
       other: "%{count} mga proyekto"
       zero: 0 projects
     destroy:
@@ -5881,14 +5851,14 @@ fil:
             new_heading: Fields that become available
             nothing_affected: No fields or statuses are affected.
             status_count:
-              one: 1 work package
+              one: "%{count} work package"
               other: "%{count} work packages"
             table_suffix: "(table)"
             value_count:
-              one: 1 work package has a value
+              one: "%{count} work package has a value"
               other: "%{count} work packages have a value"
             work_packages:
-              one: 1 work package will use the new configuration
+              one: "%{count} work package will use the new configuration"
               other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
@@ -5945,7 +5915,7 @@ fil:
     action_title: React
     add_reaction: Add reaction
     and_others:
-      one: and 1 other
+      one: and %{count} other
       other: and %{count} others
     and_user: and %{user}
     react_with: React with %{reaction}
@@ -6067,23 +6037,23 @@ fil:
         one: "(Project: %{projects})"
         other: "(Projects: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'This role is still attributed to 1 member:'
+        one: 'This role is still attributed to %{count} member:'
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
       summary: "%{users} in %{projects}"
       summary_projects:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       summary_users:
-        one: 1 user
+        one: "%{count} user"
         other: "%{count} users"
       title: Delete role
     edit:
@@ -6099,10 +6069,9 @@ fil:
       section_uncheck_all_label: Unassign all %{module} permissions
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
-        one: 1 permission
+        one: "%{count} permission"
         other: "%{count} permissions"
       preview_action: View permissions
       preview_aria_label: View the permissions of %{role}
@@ -6211,7 +6180,7 @@ fil:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Mataas na bilang ng naka-display na linya
   setting_disable_password_login: Disable password authentication
-  setting_display_subprojects_work_packages: Ipakita ang mga subproject ng work package sa pangunahing proyekto sa pamamagitan ng default
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Duration format
   setting_duration_format_days_and_hours: Days and hours
   setting_duration_format_hours_only: Hours only
@@ -6593,7 +6562,7 @@ fil:
       section_work_week: Work week
   sharing:
     count:
-      one: 1 user
+      one: "%{count} user"
       other: "%{count} users"
       zero: 0 users
     denied: You don't have permissions to share %{entities}.
@@ -6791,6 +6760,7 @@ fil:
   text_length_between: Taas pagitan ng %{min} at %{max} na mga karakter.
   text_line_separated: Maramihang halaga ang pinahintulutan (isang linya para sa bawat halaga).
   text_load_default_configuration: I-load ang kumpigurasyong default
+  text_markdown_login_required: Log in or send an X-OpenProject-API-Key header to read this document.
   text_no_access_tokens_configurable: Walang mga access tokens na pweding ma configure.
   text_no_configuration_data: |-
     Ang mga tungkulin, uri, estado ng work package at daloy na trabaho ay hindi pa na configure.
@@ -6906,7 +6876,7 @@ fil:
         duplicate: Possible duplicate
         duplicate_of: Configured exactly like %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
         parent_type: Parent type
         same_as_type: Same as parent type
@@ -6953,30 +6923,35 @@ fil:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       start:
-        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
-        inherit_title: Use the same settings as the type
-        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
-        reuse_heading: Reuse existing type configuration
-        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
-        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
-        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        next_heading: What happens next?
         submit: Start
         type:
-          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
           heading: Create a new type
-          lead_html: You are about to create a new type in your instance.
-          step_by_step: You will configure a new type step-by-step in the following pages.
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
         variant:
-          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
           heading: Create a new variant
-          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
-          step_by_step: You will configure this new variant step-by-step in the following pages.
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: Defaults
         details: Details
         form_configuration: Form
-        pdf: PDF generation
+        pdf: Generate PDF
         project_attributes: Project attributes
         projects: Projects
         start: Start
@@ -7091,11 +7066,14 @@ fil:
         tab: Form
         untitled_group: Untitled group
       overview:
+        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
         configuration_mode: Configuration mode
         mode:
           always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
+          inheriting_from_html: Using the same as type (%{source_name})
           manual: Manually configured
+          using_form_html: Using form %{name}
+          using_workflow_html: Using workflow %{name}
         settings: Settings
         tab: Overview
       project_attributes:
@@ -7115,6 +7093,7 @@ fil:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
@@ -7195,6 +7174,7 @@ fil:
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
@@ -7237,7 +7217,7 @@ fil:
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
         heading: Delete type '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'The type will be removed from %{count} project:'
           other: 'The type will be removed from %{count} projects:'
         title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
@@ -7251,7 +7231,7 @@ fil:
       no_results_content_text: Gumawa ng bagong uri
       no_results_title_text: Sa kasalukuyan ay walang mga uri.
       project_variants_count:
-        one: 1 project-specific variant
+        one: "%{count} project-specific variant"
         other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
@@ -7260,7 +7240,7 @@ fil:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
@@ -7288,8 +7268,8 @@ fil:
     authorization_rejected: Ikaw ay hindi pinapayagang mag-sign in.
     blocked: pansamantalang nakandado
     blocked_num_failed_logins:
-      one: pansamantalang nakandado (isang nabigong pagtatangkang paglog-in)
-      other: pansamantalang nakandado (%{count} ay nabigo sa mga pagtatangkang paglog-in)
+      one: locked temporarily (%{count} failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Ikaw ay malapit ng magpabago sa estado na '%{name}'. Sigurado ka bang gusto mong magpatuloy?
     deleted: Binurang gumagamit
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7449,7 +7429,7 @@ fil:
         start_date: Start date
         work_days: Work days
         work_days_count:
-          one: 1 working day
+          one: "%{count} working day"
           other: "%{count} working days"
         work_hours: Work hours
   version_status_closed: isinara
@@ -7638,7 +7618,7 @@ fil:
       could_not_be_deleted: 'The following work packages could not be deleted:'
       could_not_be_saved: 'The following work packages could not be saved:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
+        one: Successfully deleted %{count} work package.
         other: Successfully deleted %{count} work packages.
       descendant: descendant of selected
       move_failed: The work packages could not be moved.
@@ -7663,17 +7643,17 @@ fil:
       description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
       heading: Permanently delete these %{count} work packages?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
         other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Delete %{count} work packages
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
@@ -7731,17 +7711,17 @@ fil:
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
         other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Delete work package
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
         other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
@@ -7784,6 +7764,8 @@ fil:
           unknown_in_project: does not exist in this project.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
+          example_category: Documentation
+          example_version: '1.0'
           examples:
             one:
               description: Explain what the new page has to do.
@@ -7798,10 +7780,10 @@ fil:
       dry_run_label: Check the file first, without importing
       file_label: CSV file
       guidance:
-        column_reference: column reference
-        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
-        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
-        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
         title: Before you start
       import_file: Import file
       importing_file: Importing %{filename}
@@ -7819,7 +7801,7 @@ fil:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             other: "%{count} lines checked, no problems found"
         download_problems: Download as CSV
         file_rejected:
@@ -7850,10 +7832,9 @@ fil:
           notifications: Notifications were not sent for these work packages.
           text_html: Imported from %{filename} on %{date} at %{time}.
           title: "%{work_packages} created"
-          work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             other: "%{count} problems, all shown."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
           heading: Problems
@@ -7870,10 +7851,10 @@ fil:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -7909,7 +7890,7 @@ fil:
         version:
           no_results_title_text: Walang kasalukuyang bersyon ang magagamit.
     x_descendants:
-      one: One descendant work package
+      one: "%{count} descendant work package"
       other: "%{count} work package descendants"
   workflows:
     change:
@@ -7978,19 +7959,19 @@ fil:
         name_placeholder: Filter by workflow name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         other: "%{count} projects"
       roles_count:
-        one: 1 role
+        one: "%{count} role"
         other: "%{count} roles"
       type_filter:
         label: Filter by type name…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         other: "%{count} variants"
     name:
       fallback: Workflow
@@ -8007,12 +7988,11 @@ fil:
         caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
         label: Start with a copy of an existing workflow
         missing: Select the workflow to copy, or start from scratch instead.
-        panel_label: Workflow to copy
       label: Starting point
       scratch:
         caption: Start with a blank workflow and build it manually.
         label: Start from scratch
-      title: Configure a new workflow
+      title: New workflow
     usage:
       dialog:
         button: View dependent types
@@ -8022,11 +8002,11 @@ fil:
         variants: Variants
       unused: No type or variant uses this workflow yet.
       used_by_types:
-        one: This workflow is used by 1 type. Changes apply to it.
+        one: This workflow is used by %{count} type. Changes apply to it.
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This workflow is used by 1 type or variant.
-        other: This workflow is used by %{count} types and variants.
+        one: This workflow is used by %{count} type or variant. Changes apply to it.
+        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:

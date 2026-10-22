@@ -114,7 +114,7 @@ uk:
     not_recommended: не рекомендується
     recommended: рекомендовано
     x_bcf_issues:
-      one: Одна проблема BCF
+      one: "%{count} BCF issue"
       other: 'Помилок BCF: %{count}'
       zero: Немає проблем BCF
   bim:

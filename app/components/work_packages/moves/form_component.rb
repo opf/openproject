@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -125,6 +124,16 @@ module WorkPackages
         selected_ids = Array(selected_values[key]).map(&:to_s)
         available.select { |version| selected_ids.include?(version.id.to_s) }
       end
+
+      def available_labels
+        @available_labels ||= Label.order(Arel.sql("LOWER(name)"))
+      end
+
+      def selected_label_ids = Array(selected_values[:label_ids]).compact_blank.map(&:to_s)
+
+      def no_label_change_selected? = selected_label_ids.empty?
+
+      def label_removal_selected? = selected_label_ids.include?("none")
 
       def selected_custom_field_value(custom_field)
         selected_values.dig(:custom_field_values, custom_field.id.to_s)

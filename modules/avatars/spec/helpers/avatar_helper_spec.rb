@@ -1,3 +1,32 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
@@ -48,6 +77,10 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
 
   def local_expected_url(user)
     user_avatar_url(user)
+  end
+
+  def initials_expected_url(user)
+    "#{API::V3::Utilities::PathHelper::ApiV3Path.url_for(:user, user.id)}/avatar"
   end
 
   def gravatar_expected_url(digest, options = {})
@@ -127,8 +160,19 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { false }
 
-      it "returns nil" do
-        expect(helper.avatar_url(user)).to be_nil
+      it "returns the url to the generated initials avatar" do
+        expect(helper.avatar_url(user)).to eq(initials_expected_url(user))
+      end
+    end
+
+    context "when initials are selected explicitly" do
+      let(:enable_gravatars) { true }
+      let(:enable_local_avatars) { true }
+
+      it "returns the same url as for implicit initials" do
+        user.pref.avatar_type = "initials"
+
+        expect(helper.avatar_url(user)).to eq(initials_expected_url(user))
       end
     end
   end
@@ -203,8 +247,8 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
       expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
     end
 
-    it "returns nil for avatar_url" do
-      expect(helper.avatar_url(user)).to be_nil
+    it "returns the generated initials avatar for avatar_url" do
+      expect(helper.avatar_url(user)).to eq(initials_expected_url(user))
     end
   end
 

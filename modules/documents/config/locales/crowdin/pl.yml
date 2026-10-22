@@ -52,10 +52,10 @@ pl:
   documents:
     active_editors: Aktywni edytorzy
     active_editors_count:
-      one: 1 aktywny edytor
-      few: "%{count} aktywnych edytorów"
-      many: "%{count} aktywnych edytorów"
-      other: "%{count} aktywnego edytora"
+      one: "%{count} active editor"
+      few: "%{count} active editors"
+      many: "%{count} active editors"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

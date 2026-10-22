@@ -31,7 +31,7 @@ et:
         title: Members
         view_all_members: Vaata kõiki liikmeid
         x_more:
-          one: and one more member.
+          one: and %{count} more member.
           other: and %{count} more members.
       news:
         no_results: Nothing new to report.

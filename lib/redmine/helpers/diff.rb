@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -95,15 +94,7 @@ module Redmine
       end
 
       def additions
-        added_changes = []
-        if @diff.diffs.try(:first).try(:any?)
-          @diff.diffs.first.each do |change|
-            if change.first == "+"
-              added_changes << change.third
-            end
-          end
-        end
-        added_changes
+        @diff.diffs.flatten(1).filter_map { |action, _position, word| word if action == "+" }
       end
     end
   end

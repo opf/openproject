@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -169,25 +168,13 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
-    add_api_path :sprint do |id|
-      "#{root}/sprints/#{id}"
-    end
-
-    add_api_path :sprints do
-      "#{root}/sprints"
-    end
+    add_api_resource_paths :sprint, only: %i[index show]
 
     add_api_path :project_sprints do |id|
       "#{root}/projects/#{id}/sprints"
     end
 
-    add_api_path :backlog_buckets do
-      "#{root}/backlog_buckets"
-    end
-
-    add_api_path :backlog_bucket do |id|
-      "#{root}/backlog_buckets/#{id}"
-    end
+    add_api_resource_paths :backlog_bucket, only: %i[index show]
 
     add_api_path :project_backlog_buckets do |id|
       "#{root}/projects/#{id}/backlog_buckets"

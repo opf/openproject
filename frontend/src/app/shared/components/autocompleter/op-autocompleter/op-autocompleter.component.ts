@@ -74,6 +74,7 @@ export interface IAutocompleterTemplateComponent {
   labelTemplate?:TemplateRef<Element>;
   footerTemplate?:TemplateRef<Element>;
   notFoundTemplate?:TemplateRef<Element>;
+  tagTemplate?:TemplateRef<Element>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
@@ -294,6 +295,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
 
+  // Exposed so other autocompleter consumers (e.g. global search) can render
+  // work package results with the exact same markup/styling.
+  @ViewChild('workPackageOption') public workPackageOption:TemplateRef<Element>;
+
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;
 
@@ -315,6 +320,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   footerTemplate:TemplateRef<Element>;
 
   notFoundTemplate:TemplateRef<Element>;
+
+  tagTemplate:TemplateRef<Element>;
 
   readonly opAutocompleterService = inject(OpAutocompleterService);
 
@@ -553,7 +560,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     componentRef.changeDetectorRef.detectChanges();
 
-    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate', 'notFoundTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate', 'notFoundTemplate', 'tagTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
       const template = componentRef.instance[name];
       if (template) {
         this[name] = template;

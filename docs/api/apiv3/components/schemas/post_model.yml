@@ -25,6 +25,14 @@ properties:
 
             **Permission**: edit messages
           readOnly: true
+      topic:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            The post that opens the topic: the post itself, or the post it replies to
+
+            **Resource**: Post
+          readOnly: true
 example:
   _type: Post
   id: 1
@@ -40,6 +48,8 @@ example:
     addAttachment:
       href: "/api/v3/posts/1/attachments"
       method: post
+    topic:
+      href: "/api/v3/posts/1"
     project:
       href: "/api/v3/projects/1"
       title: A project with a title

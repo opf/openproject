@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,9 @@ module Admin::Settings
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
+    include ::SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: "custom_field", list_id_scoped: true
 
     helper_method :delete_option_path
 
@@ -44,9 +46,9 @@ module Admin::Settings
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit project_mappings new_link link unlink update destroy delete_option reorder_alphabetical
-                           move drop role_assignment update_role_assignment role_assignment_preview_dialog
-                           attribute_help_text update_attribute_help_text list_items)
+                  only: %i(show edit project_mappings new_link link unlink update destroy delete_option deletion_dialog
+                           role_assignment update_role_assignment role_assignment_preview_dialog
+                           reorder_alphabetical move drop attribute_help_text update_attribute_help_text list_items)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :project_custom_field_mappings_query, only: %i[project_mappings unlink]
@@ -178,6 +180,13 @@ module Admin::Settings
       end
     end
 
+    def deletion_dialog
+      respond_with_dialog Admin::CustomFields::DeleteDialogComponent.new(
+        custom_field: @custom_field,
+        description: t("text_are_you_sure_with_project_custom_fields")
+      )
+    end
+
     def destroy
       result = CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
 
@@ -266,21 +275,6 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = ProjectCustomField.find(params.expect(:id))
-    end
-
-    # Ids must be scalar strings: a collection-valued list_id would pick an
-    # arbitrary target section out of an IN lookup, and a collection-valued
-    # prev_id would 500 instead of answering the promised 422. permit's
-    # scalar filter drops collection values, so the presence checks below
-    # reject them alongside genuinely missing parameters.
-    def valid_drop_request?
-      drop_params[:list_type] == "custom_field" &&
-        drop_params[:list_id].present? &&
-        drop_params.key?(:prev_id)
-    end
-
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
     end
 
     def render_invalid_drop_request

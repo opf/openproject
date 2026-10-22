@@ -22,13 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "api/v3/labels/label_collection_representer"
+require "api/v3/labels/label_payload_representer"
 require "api/v3/labels/label_representer"
 
 module API
@@ -45,6 +45,24 @@ module API
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Label)
                  .mount
+
+          post do
+            authorize_in_any_project(:edit_work_packages)
+
+            attributes = ::API::V3::ParseResourceParamsService
+                           .new(current_user, model: Label)
+                           .call(request_body)
+                           .result
+
+            call = ::Labels::FindOrCreateService.new(user: current_user).call(name: attributes[:name])
+
+            if call.success?
+              status call.result.previously_new_record? ? :created : :ok
+              LabelRepresenter.create(call.result, current_user:, embed_links: true)
+            else
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+            end
+          end
 
           route_param :id, type: Integer, desc: "Label ID" do
             after_validation do

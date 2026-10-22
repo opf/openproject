@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,9 +34,9 @@ module Meetings
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      attr_reader :meeting
+      attr_reader :meeting, :current_slide
 
-      def initialize(meeting:, sorted_agenda_item_ids:, current_id: nil, started_at: nil)
+      def initialize(meeting:, sorted_agenda_item_ids:, current_id: nil, current_slide: 1, started_at: nil)
         super()
 
         @initial = current_id.nil?
@@ -47,6 +46,7 @@ module Meetings
         @agenda_item_ids = sorted_agenda_item_ids
         @current_id = current_id.nil? ? @agenda_item_ids.first : current_id.to_i
         @current_index = sorted_agenda_item_ids.index(@current_id)
+        @current_slide = current_slide
       end
 
       # Define the interval so it can be overriden through tests

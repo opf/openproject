@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,6 +39,7 @@ module MeetingAgendaItems
                    first_and_last: [],
                    current_occurrence: nil,
                    presentation_mode: false,
+                   slide: nil,
                    started_at: nil)
       super
 
@@ -49,6 +49,7 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
       @started_at = started_at
     end
 
@@ -69,7 +70,7 @@ module MeetingAgendaItems
     end
 
     def drag_and_drop_enabled?
-      return false if presentation_mode?
+      return false if presentation_mode? || @meeting_agenda_item.vote_based_ordering?
 
       !@meeting.closed? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
@@ -133,12 +134,40 @@ module MeetingAgendaItems
                          @meeting_agenda_item.meeting,
                          @meeting_agenda_item,
                          presentation_mode: @presentation_mode,
+                         slide: @slide,
                          current_occurrence: @current_occurrence
                        ),
                        method: "GET"
                      } }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
       end
+    end
+
+    def vote_action_items(menu)
+      return unless voting_enabled?
+
+      MeetingAgendaItem.allowed_emoji_reactions.each do |reaction|
+        menu.with_item(
+          label: "#{EmojiReaction.emoji(reaction)} #{vote_label(reaction)}",
+          href: project_meeting_agenda_item_vote_path(@meeting.project, @meeting, @meeting_agenda_item, reaction:),
+          form_arguments: { method: :post },
+          test_selector: "agenda-item-vote-#{reaction}"
+        )
+      end
+    end
+
+    def voting_enabled?
+      @meeting_agenda_item.votable? && !presentation_mode?
+    end
+
+    def vote_selected?(reaction)
+      @current_vote = @meeting_agenda_item.vote_by(User.current) unless defined?(@current_vote)
+      @current_vote == reaction
+    end
+
+    def vote_label(reaction)
+      label_key = vote_selected?(reaction) ? "remove_#{reaction}" : reaction
+      t("meeting.agenda_sorting.#{label_key}")
     end
 
     def convert_to_work_package_action_item(menu)
@@ -238,7 +267,7 @@ module MeetingAgendaItems
       menu.with_item(label: t("meeting.copy.to_clipboard"),
                      tag: :"clipboard-copy",
                      content_arguments: { value: url }) do |item|
-        item.with_leading_visual_icon(icon: :copy)
+        item.with_leading_visual_icon(icon: :paste)
       end
     end
 
@@ -317,12 +346,48 @@ module MeetingAgendaItems
     end
 
     def move_actions(menu)
+      return if @meeting_agenda_item.vote_based_ordering?
+
       return unless editable?
 
       move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless first?
       move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up") unless first?
       move_action_item(menu, :lower, t("label_agenda_item_move_down"), "chevron-down") unless last?
       move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless last?
+    end
+
+    def add_item_action?
+      editable? && !presentation_mode? && !in_backlog? && !@meeting_agenda_item.vote_based_ordering?
+    end
+
+    def add_item_action_items(menu)
+      menu.with_sub_menu_item(label: t("label_agenda_item_add")) do |submenu|
+        submenu.with_leading_visual_icon(icon: :plus)
+
+        with_item_group(submenu) do
+          add_item_relative_action_item(submenu, "above", t("label_agenda_item_add_above"), "fold-up")
+          add_item_relative_action_item(submenu, "below", t("label_agenda_item_add_below"), "fold-down")
+        end
+      end
+    end
+
+    def add_item_relative_action_item(menu, insert_position, label_text, icon)
+      menu.with_item(label: label_text,
+                     tag: :button,
+                     content_arguments: { data: {
+                       action: "click->meetings--submit#intercept",
+                       href: new_project_meeting_agenda_item_path(
+                         @meeting.project,
+                         @meeting,
+                         type: :simple,
+                         relative_to_id: @meeting_agenda_item.id,
+                         insert_position:,
+                         current_occurrence: @current_occurrence
+                       ),
+                       method: "GET"
+                     } }) do |item|
+        item.with_leading_visual_icon(icon:)
+      end
     end
 
     def delete_action_item(menu)
@@ -422,6 +487,14 @@ module MeetingAgendaItems
                        )
                      } }) do |item|
         item.with_leading_visual_icon(icon: "op-move")
+      end
+    end
+
+    def formatted_notes
+      if presentation_mode?
+        @meeting_agenda_item.slides.content(@slide)
+      else
+        format_text(@meeting_agenda_item, :notes)
       end
     end
 

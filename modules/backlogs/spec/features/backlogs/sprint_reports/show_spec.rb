@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,6 +67,30 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
     it "shows the sprint report title" do
       expect(page).to have_heading("Sprint 42 report", level: 2)
+    end
+  end
+
+  describe "navigation between reports" do
+    let!(:previous_sprint) do
+      create(:sprint,
+             project:,
+             name: "Sprint 41",
+             start_date: 20.days.ago,
+             finish_date: 10.days.ago,
+             status: :completed)
+    end
+
+    before { visit_sprint_report }
+
+    it "navigates to the chronologically previous report" do
+      expect(page).to have_test_selector("sprint-report-previous")
+      expect(page).to have_no_test_selector("sprint-report-next")
+
+      click_on "Previous"
+
+      expect(page).to have_heading("Sprint 41 report", level: 2)
+      expect(page).to have_test_selector("sprint-report-next", text: "Next")
+      expect(page).to have_no_test_selector("sprint-report-previous")
     end
   end
 
