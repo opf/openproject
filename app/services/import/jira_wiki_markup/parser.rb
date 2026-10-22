@@ -48,7 +48,7 @@ module Import
       # anywhere but the first character, and no file extension is required. That
       # leading character is the whole guard against an exclamation mark in prose,
       # which is why "Stop! Now!" is text while "!no extension!" is an embed.
-      IMAGE_NAME = /[^!|\s\n][^!|\n]*/
+      IMAGE_NAME = /[^!|\s][^!|\n]*/
       IMAGE_WITH_PARAMS_PATTERN = /!(#{IMAGE_NAME})\|([^!\n]+)!/
       IMAGE_PATTERN = /!(#{IMAGE_NAME})!/
       # Regions of a row whose separators belong to the content: a macro body, a

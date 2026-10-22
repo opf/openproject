@@ -30,9 +30,9 @@
 
 module Import
   module JiraWikiMarkup
-    # Table cells are emitted as HTML, so their contents cannot stay markdown:
+    # Table cells are emitted as HTML, so their contents cannot stay Markdown:
     # CommonMark does not format the inside of an HTML block. Only the renderers
-    # that would produce markdown are overridden here; the ones already emitting
+    # that would produce Markdown are overridden here; the ones already emitting
     # HTML or plain text are inherited unchanged.
     class HtmlCellRenderer < Renderer
       NEWLINE_ENTITY = "&#10;"

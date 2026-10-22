@@ -134,14 +134,14 @@ module Import
         "#{rendered.map { |line| "> #{line}" }.join("\n")}\n"
       end
 
-      # Emitted as HTML rather than a markdown table: markdown has no headerless
+      # Emitted as HTML rather than a Markdown table: Markdown has no headerless
       # table, and BemCssFilter decorates plain table markup on render. Kept on a
       # single line, since a blank line would end the CommonMark HTML block.
       def render_table(node)
         head = node.header ? "<thead>#{render_table_row(node.header)}</thead>" : ""
         body = node.rows.any? ? "<tbody>#{node.rows.map { |row| render_table_row(row) }.join}</tbody>" : ""
 
-        # Trailing newline closes the CommonMark HTML block, so markdown on the
+        # Trailing newline closes the CommonMark HTML block, so Markdown on the
         # following line is still formatted rather than swallowed as raw HTML.
         "<table>#{head}#{body}</table>\n"
       end
