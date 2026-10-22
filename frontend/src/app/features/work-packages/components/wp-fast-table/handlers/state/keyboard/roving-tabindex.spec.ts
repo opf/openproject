@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { waitFor, within } from '@testing-library/dom';
+import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { DisplayFieldRenderer } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
@@ -133,6 +133,29 @@ describe('roving tabindex', () => {
       expect(table.container.querySelector(`.${navigableCellClassName}`)).toBeNull();
     });
 
+    it.each([
+      ['the BCF list', { dragAndDropEnabled: false }],
+      ['an embedded table', { isEmbedded: true }],
+    ])('keeps today\'s Tab stops and handles no keys in %s', async (_name, configuration) => {
+      harness = buildTable({
+        workPackages: [{ id: '1' }, { id: '2' }],
+        productionMarkup: true,
+        editing: {},
+        configuration,
+      });
+      await harness.render();
+      harness.row('1').focus();
+
+      expect(harness.table.configuration.keyboardNavigationEnabled).toBe(false);
+      expect(harness.row('1')).toHaveAttribute('tabindex', '0');
+      expect(harness.row('2')).toHaveAttribute('tabindex', '0');
+      expect(subjectField(harness)).toHaveAttribute('tabindex', '0');
+      expect(subjectField(harness)).toHaveAttribute('role', 'button');
+      expect(harness.table.keyboardNavigation).toBeNull();
+      expect(fireEvent.keyDown(harness.row('1'), { key: 'ArrowDown' })).toBe(true);
+      expect(harness.row('1')).toHaveFocus();
+    });
+
     it('leaves the header sort link without a tabindex', async () => {
       const table = await mount(false);
 
@@ -141,13 +164,13 @@ describe('roving tabindex', () => {
   });
 
   describe('with the flag on', () => {
-    it('leaves no Tab stop inside the table', async () => {
+    it('leaves the first work package row as the only Tab stop inside the table', async () => {
       const table = await mount(true, { dragAndDropEnabled: true, columnMenuEnabled: true });
 
-      expect(tabbables(table.container)).toHaveLength(0);
+      expect(tabbables(table.container)).toEqual([table.row('1')]);
     });
 
-    it('leaves no native Tab stop, links included', async () => {
+    it('leaves no native Tab stop but the first row, links included', async () => {
       harness = buildTable({
         workPackages: [{ id: '1' }],
         productionMarkup: true,
@@ -158,7 +181,7 @@ describe('roving tabindex', () => {
 
       expect(harness.row('1').querySelector('a[href]')).toHaveAttribute('tabindex', '-1');
       expect(Array.from(harness.container.querySelectorAll('[tabindex="0"], a[href]:not([tabindex="-1"]), button:not([tabindex="-1"])'))
-        .filter((element) => !element.closest('tbody[wpInlineCreate]'))).toHaveLength(0);
+        .filter((element) => !element.closest('tbody[wpInlineCreate]'))).toEqual([harness.row('1')]);
     });
 
     it('takes a link out of the Tab order when its href is set after render', async () => {

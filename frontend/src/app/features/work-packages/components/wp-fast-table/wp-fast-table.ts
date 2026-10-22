@@ -47,6 +47,7 @@ import type { PrimaryRenderPass, RenderPassOptions } from './builders/primary-re
 import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
+import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
@@ -90,6 +91,8 @@ export class WorkPackageTable {
   public lastRenderPass:PrimaryRenderPass|null = null;
 
   public readonly ledger = new RenderedOccurrenceLedger();
+
+  public keyboardNavigation:KeyboardNavigation|null = null;
 
   private readonly rowsRefreshedSubject = new Subject<string>();
 
