@@ -85,7 +85,9 @@ RSpec.describe API::V3::Documents::DocumentRepresenter, "rendering" do
       end
     end
 
-    describe "createCollaborationToken", with_settings: { real_time_text_collaboration_enabled: true } do
+    describe "createCollaborationToken",
+             with_flag: { documents_collaboration_token_api: true },
+             with_settings: { real_time_text_collaboration_enabled: true } do
       let(:link) { :createCollaborationToken }
       let(:document_permissions) { %i(view_documents) }
 
@@ -134,6 +136,22 @@ RSpec.describe API::V3::Documents::DocumentRepresenter, "rendering" do
       context "when real-time collaboration is disabled",
               with_settings: { real_time_text_collaboration_enabled: false } do
         it_behaves_like "has no link"
+      end
+
+      context "when the feature flag is inactive", with_flag: { documents_collaboration_token_api: false } do
+        it_behaves_like "has no link"
+      end
+
+      context "when the feature flag is deactivated after the representer has been cached" do
+        it "no longer renders the link" do
+          expect(described_class.create(document, current_user:, embed_links:).to_json)
+            .to have_json_path("_links/createCollaborationToken")
+
+          allow(OpenProject::FeatureDecisions).to receive(:documents_collaboration_token_api_active?).and_return(false)
+
+          expect(described_class.create(document, current_user:, embed_links:).to_json)
+            .not_to have_json_path("_links/createCollaborationToken")
+        end
       end
 
       context "when real-time collaboration is disabled after the representer has been cached" do
