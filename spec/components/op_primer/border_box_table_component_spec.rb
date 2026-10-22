@@ -166,7 +166,7 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
 
     it "indexes body rows consecutively from #{first}" do
-      expect(rendered_component).to have_selector :role, :rowgroup, class: "op-border-box-table--rows" do |rowgroup|
+      expect(rendered_component).to have_selector :role, :rowgroup, class: "op-border-box-table__rows" do |rowgroup|
         (first..last).each do |index|
           expect(rowgroup).to have_selector :row, rowindex: index
         end

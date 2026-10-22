@@ -92,7 +92,7 @@ module OpPrimer
     # The header and footer carry `role=rowgroup` too, so the element holding the
     # rows needs a class of its own to be addressable.
     def rows_container_class
-      "op-border-box-table--rows"
+      "op-border-box-table__rows"
     end
 
     def rowgroup_class
