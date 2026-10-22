@@ -34,10 +34,10 @@ module Primer
         # :nodoc:
         class FileFieldInput < Primer::Forms::Dsl::Input
           attr_reader :name, :label, :description, :icon, :accept, :preview_url, :preview_class, :preview_data,
-                      :delete_path, :delete_button_arguments, :auto_submit
+                      :filename, :delete_path, :delete_button_arguments, :auto_submit
 
           def initialize(name:, label:, description: nil, icon: :upload, accept: nil, preview_url: nil,
-                         preview_class: nil, preview_data: {}, delete_path: nil, delete_button_arguments: {},
+                         preview_class: nil, preview_data: {}, filename: nil, delete_path: nil, delete_button_arguments: {},
                          auto_submit: false, **system_arguments)
             @name = name
             @label = label
@@ -47,6 +47,7 @@ module Primer
             @preview_url = preview_url
             @preview_class = preview_class
             @preview_data = preview_data
+            @filename = filename
             @delete_path = delete_path
             @delete_button_arguments = delete_button_arguments
             @auto_submit = auto_submit
