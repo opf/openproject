@@ -1,17 +1,17 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': "Vincular el paquete de trabajo existente",
-      'subtext': "Añadir un enlace dinámico a un solo paquete de trabajo",
+      'title': 'Link existing work package',
+      'subtext': 'Add a dynamic link to a single work package',
       'create': {
         'title': 'Create new work package',
         'subtext': 'Create a work package and link it here'
       },
       'aliases': {
-        'workpackage': "paquetedetrabajo",
-        'work package': "paquete de trabajo",
-        'wp': "pt",
-        'link': "enlance",
+        'workpackage': 'workpackage',
+        'work package': 'work package',
+        'wp': 'wp',
+        'link': 'link',
         'create': 'create'
       }
     },
@@ -50,25 +50,25 @@ export const en = {
       'createInOpenProject': 'Create it in OpenProject'
     },
     'search': {
-      'label': "Vincular el paquete de trabajo existente",
-      'placeholder': "Buscar paquete de trabajo por ID o asunto",
-      'dropdownAriaLabel': "Resultados de la búsqueda de paquetes de trabajo",
+      'label': 'Link existing work package',
+      'placeholder': 'Search by work package ID or subject',
+      'dropdownAriaLabel': 'Work package search results',
       'noResults': 'No results',
       'error': 'Error. Unable to load content.'
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': "Cargando",
-        'message': "Por favor, espere"
+        'header': 'Loading',
+        'message': 'Please wait'
       },
       'unauthorized': {
-        'header': "Paquete de trabajo vinculado no disponible",
-        'message': "Usted no está autorizado para ver este contenido",
+        'header': 'Linked work package unavailable',
+        'message': 'You do not have permission to see this',
         'short_message': 'Work package unavailable: no permission'
       },
       'error': {
         'header': 'Error',
-        'message': "No se ha podido cargar el paquete de trabajo",
+        'message': 'Could not load work package',
         'short_message': 'Unavailable: error'
       }
     },
@@ -82,6 +82,9 @@ export const en = {
       'inlineSizeLabel': 'Inline size',
       'blockSizeLabel': 'Block size',
       'chipAriaLabel': 'Work package {{id}}'
+    },
+    'preview': {
+      'showAriaLabel': 'Show details of work package {{id}}'
     },
     'sizes': {
       'xxs': {

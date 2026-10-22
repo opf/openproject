@@ -48,8 +48,8 @@ de:
   documents:
     active_editors: Aktive Bearbeiter
     active_editors_count:
-      one: Ein aktiver Bearbeiter
-      other: "%{count} aktive Bearbeiter"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

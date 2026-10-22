@@ -150,7 +150,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
       test_selector: "op-menu--whats-new",
       content_arguments: { data: { controller: "async-dialog" } }
     ) do |menu_item|
-      menu_item.with_leading_visual_icon(icon: :megaphone)
+      menu_item.with_leading_visual_icon(icon: :gift)
       unless release.seen?(User.current)
         menu_item.with_trailing_visual_icon(
           icon: :"dot-fill",

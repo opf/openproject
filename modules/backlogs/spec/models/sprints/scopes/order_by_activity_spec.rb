@@ -72,8 +72,8 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   it "orders active first, then in_planning, then completed" do
     expected_order = [
       active_sprint,
-      in_planning_sprint_later,
       in_planning_sprint_earlier,
+      in_planning_sprint_later,
       in_planning_sprint_no_dates,
       completed_sprint_a,
       completed_sprint_b
@@ -82,10 +82,10 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
     expect(Sprint.order_by_activity).to eq(expected_order)
   end
 
-  it "orders sprints with the same status by start_date descending" do
+  it "orders sprints with the same status by start_date ascending" do
     expected_order = [
-      in_planning_sprint_later,
       in_planning_sprint_earlier,
+      in_planning_sprint_later,
       in_planning_sprint_no_dates
     ]
 

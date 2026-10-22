@@ -61,6 +61,7 @@ zh-TW:
         single: 選擇 "%{name}"
       remove: 刪除 %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: 找不到任何項目
       placeholder: 搜尋
       project:
@@ -162,6 +163,7 @@ zh-TW:
     button_stop_timer: 停止計時器
     button_uncheck_all: 取消全選
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 費率歷史紀錄
     card:
       add_new: 新增卡片
@@ -624,7 +626,7 @@ zh-TW:
     notifications:
       center:
         and_more_users:
-          other: 與其他 %{count} 個
+          other: and %{count} others
         empty_state:
           no_notification: 看起來您已查看所有通知。
           no_notification_for_filter: 看起來你已經處理完了這個篩選器的所有內容。
@@ -879,18 +881,18 @@ zh-TW:
       label_two_factor_authentication: 雙因素驗證
     units:
       child_work_packages:
-        other: "%{count} 個子工作套件"
+        other: "%{count} work package children"
       day:
-        one: 1 天
+        one: "%{count} day"
         other: "%{count} 天"
         zero: 0 天
       hour:
-        one: 1 小時
+        one: "%{count} h"
         other: "%{count} 小時"
         zero: 0 小時
       hour_string: "%{hours} 小時"
       word:
-        other: "%{count} 字節"
+        other: "%{count} words"
       workPackage:
         other: 工作套件
     upsell:

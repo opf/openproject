@@ -109,13 +109,7 @@ module OpenProject::Documents
 
     patches %i[Project]
 
-    add_api_path :documents do
-      "#{root}/documents"
-    end
-
-    add_api_path :document do |id|
-      "#{root}/documents/#{id}"
-    end
+    add_api_resource_paths :document, only: %i[index show]
 
     add_api_path :attachments_by_document do |id|
       "#{document(id)}/attachments"

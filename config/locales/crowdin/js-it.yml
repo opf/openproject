@@ -61,6 +61,7 @@ it:
         single: Seleziona "%{name}"
       remove: Rimuovi %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nessun elemento trovato
       placeholder: Digita per cercare
       project:
@@ -162,6 +163,7 @@ it:
     button_stop_timer: Ferma il timer
     button_uncheck_all: Deseleziona tutti
     button_update: Aggiorna
+    button_view_markdown: View Markdown
     caption_rate_history: Cronologia tariffe
     card:
       add_new: Aggiungi una nuova carta
@@ -624,8 +626,8 @@ it:
     notifications:
       center:
         and_more_users:
-          one: e 1 altro
-          other: e altri %{count}
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Sembra che siate tutti coinvolti.
           no_notification_for_filter: A quanto pare ti piace molto questo filtro.
@@ -828,12 +830,12 @@ it:
         not_selectable: Selezione invariata. Questo elemento non partecipa all'ordinamento di questo elenco.
         range_blocked: Selezione invariata. L'intervallo contiene un elemento che non partecipa all'ordinamento di questo elenco.
         range_restarted:
-          one: Non è stato possibile estendere l'intervallo. 1 elemento selezionato.
-          other: Non è stato possibile estendere l'intervallo. %{count} elementi selezionati.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Selezione invariata. Espandi questo elenco per selezionare l'intervallo.
         selected:
-          one: 1 elemento selezionato.
-          other: "%{count} elementi selezionati."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Chiusura modale
@@ -882,20 +884,20 @@ it:
       label_two_factor_authentication: Autenticazione a due fattori
     units:
       child_work_packages:
-        one: una macro-attività subordinata
-        other: "%{count} macro-attività subordinate"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 giorno
+        one: "%{count} day"
         other: "%{count} giorni"
         zero: 0 giorni
       hour:
-        one: 1 o
+        one: "%{count} h"
         other: "%{count} o"
         zero: 0 o
       hour_string: "%{hours} h"
       word:
-        one: 1 parola
-        other: "%{count} parole"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: macro-attività
         other: macro-attività

@@ -61,6 +61,7 @@ lt:
         single: Pažymėti „%{name}“
       remove: Pašalinti %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nieko nerasta
       placeholder: Paieškai pradėkite rinkti tekstą
       project:
@@ -162,6 +163,7 @@ lt:
     button_stop_timer: Stop timer
     button_uncheck_all: Atžymėti visus
     button_update: Atnaujinti
+    button_view_markdown: View Markdown
     caption_rate_history: Koeficiento istorija
     card:
       add_new: Pridėti naują kortelę
@@ -624,10 +626,10 @@ lt:
     notifications:
       center:
         and_more_users:
-          one: ir dar 1
-          few: ir dar %{count}
-          many: ir dar %{count}
-          other: ir dar %{count}
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Panašu, kad jūs pilnai pasivijote.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -830,13 +832,13 @@ lt:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           few: Could not extend the range. %{count} items selected.
           many: Could not extend the range. %{count} items selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           few: "%{count} items selected."
           many: "%{count} items selected."
           other: "%{count} items selected."
@@ -888,21 +890,21 @@ lt:
       label_two_factor_authentication: Dviejų veiksnių autentifikavimas
     units:
       child_work_packages:
-        one: vieno vaiko darbų paketas
-        few: "%{count} darbo paketo vaikai"
-        many: "%{count} darbo paketo vaikų"
-        other: "%{count} darbų paketo vaikai"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 dieną
+        one: "%{count} day"
         other: "%{count} dienas (-ą, -ų)"
         zero: 0 dienų
       hour:
-        one: 1 val
+        one: "%{count} h"
         other: "%{count} val"
         zero: 0 val
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         few: "%{count} words"
         many: "%{count} words"
         other: "%{count} words"

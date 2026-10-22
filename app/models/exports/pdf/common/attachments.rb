@@ -30,12 +30,19 @@
 require "mini_magick"
 
 module Exports::PDF::Common::Attachments
+  # Deliberately not MiniMagick::Image#resize: that shells out to `mogrify`, which
+  # since ImageMagick 7.1.2-32 writes to a randomised temp name (`<file>-<hex>~`).
+  # ImageMagick derives the coder from that name's extension, so the module policy in
+  # config/imagemagick/policy.xml denies it.
+  # https://github.com/ImageMagick/ImageMagick/issues/8995
   def resize_image(file_path)
     tmp_file = temp_image_file(File.extname(file_path))
 
-    image = MiniMagick::Image.open(file_path)
-    image.resize("x800>")
-    image.write(tmp_file)
+    MiniMagick.convert do |convert|
+      convert << file_path
+      convert.resize("x800>")
+      convert << tmp_file
+    end
 
     tmp_file
   end

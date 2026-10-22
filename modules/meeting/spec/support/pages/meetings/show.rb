@@ -279,7 +279,7 @@ module Pages::Meetings
       end
     end
 
-    def duplicate_item_in_next_meeting(item)
+    def duplicate_item_in_next_meeting(item, include_outcomes: false)
       open_menu(item) do
         click_on "Duplicate"
         click_on "Duplicate in next meeting"
@@ -288,6 +288,7 @@ module Pages::Meetings
 
       retry_block do
         page.within_modal "Duplicate in next meeting?" do
+          check "Include outcomes" if include_outcomes
           click_on "Duplicate"
         end
       end

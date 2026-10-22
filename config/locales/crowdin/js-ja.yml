@@ -61,6 +61,7 @@ ja:
         single: '"%{name}" を選択'
       remove: "%{name} を削除"
     autocompleter:
+      create_label: Create label
       notFoundText: 見つかりませんでした
       placeholder: 検索キーワードを入力
       project:
@@ -162,6 +163,7 @@ ja:
     button_stop_timer: タイマー停止
     button_uncheck_all: 全てを選択解除
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 単価設定(予算とコスト)
     card:
       add_new: 新規カード追加
@@ -624,7 +626,7 @@ ja:
     notifications:
       center:
         and_more_users:
-          other: と %{count} その他
+          other: and %{count} others
         empty_state:
           no_notification: もう追いついたようだね。
           no_notification_for_filter: どうやら、このフィルターにすべて引っかかったようだ。
@@ -879,13 +881,13 @@ ja:
       label_two_factor_authentication: 2要素認証
     units:
       child_work_packages:
-        other: "%{count} の子ワークパッケージ"
+        other: "%{count} work package children"
       day:
-        one: 1日
+        one: "%{count} day"
         other: "%{count} 日間"
         zero: 0日
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

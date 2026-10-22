@@ -61,9 +61,7 @@ module Budgets
     # Allow assigning a budget when moving work packages
     additional_permitted_attributes move_work_package: %i[budget_id]
 
-    add_api_path :budget do |id|
-      "#{root}/budgets/#{id}"
-    end
+    add_api_resource_paths :budget, only: :show
 
     add_api_path :budgets_by_project do |project_id|
       "#{project(project_id)}/budgets"

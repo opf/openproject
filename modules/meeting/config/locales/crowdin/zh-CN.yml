@@ -31,7 +31,7 @@ zh-CN:
         notes: 备注
         notify: 发送通知
         participant:
-          other: "%{count}位参与者"
+          other: "%{count} Participants"
         participants: 参加者
         participants_added: 参会人已添加：
         participants_attended: 与会者
@@ -88,6 +88,9 @@ zh-CN:
         invalid_time_format: 不是有效时间。所需格式：HH:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: 该部分不属于同一个会议。
           user_invalid: 不是有效的参与者。
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -96,7 +99,7 @@ zh-CN:
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: 该系列会议中有一次公开会议未列入新时间表。请调整时间表，将会议包含在内。
+            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
             other: "%{count} 个公开会议未列入新时间表。请调整时间表，将会议包含在内。"
         recurring_meeting_interim_response:
           not_an_occurrence: 不是此定期会议的有效事件时间
@@ -166,6 +169,7 @@ zh-CN:
   label_agenda_item_duplicate: 复制
   label_agenda_item_duplicate_in_next: 在下次会议中重复
   label_agenda_item_duplicate_in_next_title: 是否在下次会议中重复？
+  label_agenda_item_include_outcomes: Include outcomes
   label_agenda_item_move: 移动
   label_agenda_item_move_down: 向下移动
   label_agenda_item_move_to_backlog: 移至待办事项
@@ -229,7 +233,7 @@ zh-CN:
   label_meeting_last_updated: 最后更新
   label_meeting_minutes: 会议记录
   label_meeting_more:
-    other: 还有至少 %{count} 个会议。
+    other: There are %{count} more meetings.
   label_meeting_new: 新增会议
   label_meeting_new_dynamic: 新的动态会议
   label_meeting_new_recurring: 新的定期会议
@@ -274,9 +278,9 @@ zh-CN:
   label_recurring_meeting_delete: 删除事件
   label_recurring_meeting_duplicate: 作为一次性会议复制
   label_recurring_meeting_more:
-    other: 还有 %{count} 个已安排的会议 (%{schedule}）。
+    other: There are %{count} more scheduled meetings (%{schedule}).
   label_recurring_meeting_more_past:
-    other: 还有 %{count} 次过往会议。
+    other: There are %{count} more past meetings.
   label_recurring_meeting_new: 新的定期会议
   label_recurring_meeting_next_occurrence: 下一个事件
   label_recurring_meeting_no_end_date: 还有更多预定会议 (%{schedule})。
@@ -328,6 +332,9 @@ zh-CN:
     blankslate:
       desc: 您可以创建新会议或更改筛选条件
       title: 没有可显示的会议
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: '从会议 #%{id} 复制'
     copy:
       agenda: 复制议程
@@ -371,6 +378,7 @@ zh-CN:
         header: 已取消：会议 '%{title}'
         header_occurrence: 已取消：会议事件 '%{title}'
         header_series: 已取消：会议系列 '%{title}'
+        reason: Reason for cancellation
         summary: "'%{title}' 已被 %{actor} 取消，或者您的参与者身份已被移除"
         summary_occurrence: "'%{title}' 的事件已被 %{actor} 取消，或者您的参与者身份已被移除"
         summary_series: 会议系列 '%{title}' 已被 %{actor} 取消，或者您的参与者身份已被移除
@@ -572,12 +580,12 @@ zh-CN:
     caption:
       ends_on: 这将导致一个在 %{date}结束的系列
       occurrences:
-        other: 这将导致 %{count} 个即将发生的事件
+        other: This results in %{count} upcoming occurrences
       occurrences_capped: 这将导致超过 %{count} 个即将发生的事件
     day_of_month_skipping_info: 将跳过天数少于 %{monthly_day} 天的月份
     delete_dialog:
       confirmation_message_html:
-        one: '删除 <strong>%{title}</strong> 也会删除此系列中的一次事件。此操作不可逆转。请谨慎操作。
+        one: 'Deleting <strong>%{title}</strong> will also delete %{count} occurrence in this series. This action is not reversible. Please proceed with caution.
 
           '
         other: '删除 <strong>%{title}</strong> 将删除此系列中的全部 %{count} 个事件。此操作不可逆转。请谨慎操作。
@@ -705,7 +713,7 @@ zh-CN:
   text_agenda_item_dialog_skipping_closed_many: "%{count} 个关闭的会议"
   text_agenda_item_dialog_skipping_closed_one: 已于 %{date}关闭会议
   text_agenda_item_dialog_skipping_note: 注：跳过 %{details}。
-  text_agenda_item_duplicate_in_next_meeting: 确定要将此议程条目的副本添加到 %{date} %{time} 的下一个会议吗？结果不会复制。
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}?
   text_agenda_item_duplicated_in_next_meeting: 在 %{date}的下一个会议中复制的议程条目
   text_agenda_item_move_next_meeting: 此条目将被移至 %{date} %{time} 召开的下一次会议。
   text_agenda_item_moved_to_backlog: Agenda item moved to the backlog

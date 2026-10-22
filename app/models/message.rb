@@ -39,6 +39,8 @@ class Message < ApplicationRecord
                      add_on_new_permission: :add_messages,
                      add_on_persisted_permission: :edit_messages
   belongs_to :last_reply, class_name: "Message"
+  has_many :message_work_packages, dependent: :delete_all
+  has_many :created_work_packages, through: :message_work_packages, source: :work_package
 
   acts_as_journalized
 
@@ -76,6 +78,12 @@ class Message < ApplicationRecord
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
   }
+
+  scope :accepted_solutions, -> { where(accepted_solution: true) }
+
+  def self.with_accepted_solution_ids(topic_ids)
+    accepted_solutions.where(parent_id: topic_ids).distinct.pluck(:parent_id).to_set
+  end
 
   def visible?(user = User.current)
     !user.nil? && user.allowed_in_project?(:view_messages, project)
@@ -125,6 +133,10 @@ class Message < ApplicationRecord
     usr && usr.logged? &&
     (usr.allowed_in_project?(:delete_messages,
                              project) || (author == usr && usr.allowed_in_project?(:delete_own_messages, project)))
+  end
+
+  def accepted_solutions
+    children.accepted_solutions.reorder(:created_at, :id).includes(:author)
   end
 
   private

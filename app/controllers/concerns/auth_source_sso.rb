@@ -38,13 +38,13 @@ module AuthSourceSSO
     # Do nothing if sso disabled
     return user unless auth_source_sso_enabled?
     # Return super auth if SSO already in progress
-    return user if sso_in_progress!
+    return user if !api_key_authenticated? && sso_in_progress!
 
     # Get the header-provided login value
     login = read_sso_login
 
     if login.present?
-      perform_header_sso login, user
+      api_key_authenticated? ? user : perform_header_sso(login, user)
     elsif header_optional?
       user
     else

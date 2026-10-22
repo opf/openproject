@@ -61,6 +61,7 @@ th:
         single: เลือก "%{name}"
       remove: ลบ %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: 'ไม่พบรายการ '
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ th:
     button_stop_timer: Stop timer
     button_uncheck_all: เอาเครื่องหมายออกทั้งหมด
     button_update: ปรับปรุง
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Add new card
@@ -881,11 +883,11 @@ th:
       child_work_packages:
         other: "%{count} work package children"
       day:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} วัน"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

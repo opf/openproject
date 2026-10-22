@@ -61,6 +61,7 @@ id:
         single: Pilih "%{name}"
       remove: Hapus %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ id:
     button_stop_timer: Stop timer
     button_uncheck_all: Uncek semua
     button_update: Update
+    button_view_markdown: View Markdown
     caption_rate_history: Histori rate
     card:
       add_new: Add new card
@@ -879,13 +881,13 @@ id:
       label_two_factor_authentication: Autentikasi dua faktor
     units:
       child_work_packages:
-        other: Paket kerja %{count} turunan
+        other: "%{count} work package children"
       day:
-        one: 1 day
+        one: "%{count} day"
         other: "%{count} hari"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"

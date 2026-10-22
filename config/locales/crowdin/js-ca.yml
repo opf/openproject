@@ -61,6 +61,7 @@ ca:
         single: Seleccionar "%{name}"
       remove: Eliminar %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Elements no trobats
       placeholder: Escriviu per cercar
       project:
@@ -162,6 +163,7 @@ ca:
     button_stop_timer: Stop timer
     button_uncheck_all: Desmarca-ho tot
     button_update: Actualitza
+    button_view_markdown: View Markdown
     caption_rate_history: Història d'índex
     card:
       add_new: Afegir nova targeta
@@ -624,8 +626,8 @@ ca:
     notifications:
       center:
         and_more_users:
-          one: " i 1 altre"
-          other: " i %{count} altres"
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Sembla que ja estàs al dia.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -828,11 +830,11 @@ ca:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -882,19 +884,19 @@ ca:
       label_two_factor_authentication: Autentificació en dos passos
     units:
       child_work_packages:
-        one: un paquet de treball fill
-        other: "%{count} paquets de treball fills"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dia
+        one: "%{count} day"
         other: "%{count} dies"
         zero: 0 dies
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: paquet de treball

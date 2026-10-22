@@ -216,7 +216,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_DISABLE__PASSWORD__CHOICE` | `false` | If enabled a user's password cannot be set to an arbitrary value, but can only be randomized. |
 | `OPENPROJECT_DISABLE__PASSWORD__LOGIN` | `false` | Disable internal logins and instead only allow SSO through OmniAuth. Forces password_login to 'none'. Prefer setting password_login directly. |
 | `OPENPROJECT_DISABLED__MODULES` | `[]` | A list of module names to prevent access to in the application |
-| `OPENPROJECT_DISPLAY__SUBPROJECTS__WORK__PACKAGES` | `true` | Display subprojects work packages on main projects by default |
+| `OPENPROJECT_DISPLAY__SUBPROJECTS__WORK__PACKAGES` | `true` | Display subprojects work packages in main projects by default |
 | `OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN` | `false` | Destroy all sessions for current_user on login |
 | `OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT` | `true` | Destroy all sessions for current_user on logout |
 | `OPENPROJECT_DURATION__FORMAT` | `"hours_only"` | Format for displaying durations |

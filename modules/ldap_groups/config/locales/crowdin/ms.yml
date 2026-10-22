@@ -54,7 +54,7 @@ ms:
 
           '
       label_n_groups_found:
-        one: 1 kumpulan ditemui penyaring
+        one: "%{count} group found by the filter"
         other: "%{count} kumpulan ditemui penyaring"
         zero: Tiada kumpulan yang ditemui penyaring
       plural: Penyaring sinkronisasi Kumpulan LDAP

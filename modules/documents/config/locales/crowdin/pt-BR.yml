@@ -48,8 +48,8 @@ pt-BR:
   documents:
     active_editors: Editores ativos
     active_editors_count:
-      one: 1 editor ativo
-      other: "%{count} editores ativos"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

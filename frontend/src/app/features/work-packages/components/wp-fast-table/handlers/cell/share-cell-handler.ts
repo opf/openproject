@@ -1,0 +1,63 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { Injector } from '@angular/core';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { sharedUserColumn } from '../../builders/internal-sort-columns';
+import { tableRowClassName } from '../../builders/rows/single-row-builder';
+import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+
+export class ShareCellHandler implements TableEventHandler {
+  @LazyInject(States) states:States;
+
+  @LazyInject(OpModalService) opModalService:OpModalService;
+
+  readonly EVENT = 'click' as const;
+
+  readonly SELECTOR = `td[data-column-id="${sharedUserColumn.id}"]`;
+
+  constructor(public readonly injector:Injector) {
+  }
+
+  eventScope(view:TableEventComponent) {
+    return view.workPackageTable.tbody;
+  }
+
+  handleEvent(view:TableEventComponent, event:MouseEvent):void {
+    if (view.workPackageTable.destroyed) return;
+    const row = (event.target as HTMLElement).closest<HTMLTableRowElement>(`.${tableRowClassName}`);
+    const id = row?.dataset.workPackageId;
+    if (!id) return;
+    const workPackage = this.states.workPackages.get(id).value;
+    if (workPackage) {
+      this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage }, false, true);
+    }
+  }
+}

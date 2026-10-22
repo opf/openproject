@@ -174,6 +174,20 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
           <% end %>
+          <% if OpenProject::FeatureDecisions.work_package_labels_active? %>
+            <div class="form--field">
+              <%= styled_label_tag :work_package_label_ids, WorkPackage.human_attribute_name(:labels) %>
+              <div class="form--field-container">
+                <%= styled_select_tag(
+                      "work_package[label_ids][]",
+                      content_tag("option", t(:label_none), value: "none") +
+                      options_from_collection_for_select(Label.order(Arel.sql("LOWER(name)")), :id, :name),
+                      include_blank: t(:label_no_change_option),
+                      multiple: true
+                    ) %>
+              </div>
+            </div>
+          <% end %>
           <% @custom_fields.each do |custom_field| %>
             <div class="form--field">
               <%= blank_custom_field_label_tag("work_package", custom_field) %>

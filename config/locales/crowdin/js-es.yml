@@ -59,6 +59,7 @@ es:
         single: Seleccione "%{name}"
       remove: Elimine "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: No se encontraron elementos
       placeholder: Escriba para buscar
       project:
@@ -160,6 +161,7 @@ es:
     button_stop_timer: Detener temporizador
     button_uncheck_all: Deseleccionar todos
     button_update: Actualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Historial de tasas
     card:
       add_new: Añadir nueva tarjeta
@@ -622,8 +624,8 @@ es:
     notifications:
       center:
         and_more_users:
-          one: y 1 más
-          other: y %{count} más
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Parece que ya estás al día.
           no_notification_for_filter: Parece que ya está al día completamente para este filtro.
@@ -826,12 +828,12 @@ es:
         not_selectable: La selección no ha cambiado. Este elemento no influye en el orden de esta lista.
         range_blocked: La selección no ha cambiado. Ese rango contiene un elemento que no influye en el orden de esta lista.
         range_restarted:
-          one: No se pudo ampliar el rango. Se seleccionó 1 elemento.
-          other: No se pudo ampliar el rango. Se seleccionaron %{count} elementos.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: La selección no ha cambiado. Amplíe esta lista para seleccionar ese rango.
         selected:
-          one: 1 elemento seleccionado.
-          other: "%{count} elementos seleccionados."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Cerrar ventana modal
@@ -880,20 +882,20 @@ es:
       label_two_factor_authentication: Autenticación de dos factores
     units:
       child_work_packages:
-        one: un sub-paquete de trabajo
-        other: "%{count} paquetes de trabajo secundarios"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 día
+        one: "%{count} day"
         other: "%{count} días"
         zero: 0 días
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 palabra
-        other: "%{count} palabras"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: paquete de trabajo
         other: paquetes de trabajo

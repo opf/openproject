@@ -69,7 +69,9 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       noConnectionHint: (storageType:string) => this.i18n.t('js.storages.information.connection_error', { storageType }),
     },
     buttons: {
-      submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
+      submit: (count:number):string => (count === 0
+        ? this.i18n.t('js.storages.file_links.selection.none')
+        : this.i18n.t('js.storages.file_links.selection', { count })),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
     },

@@ -45,16 +45,16 @@ uk:
         not_selectable: Вибір залишився незмінним. Цей пакет робіт не впливає на порядок у цьому списку.
         range_blocked: Вибір залишився незмінним. Діапазон містить пакет робіт, що не впливає на порядок у цьому списку.
         range_restarted:
-          one: Не вдалося розширити діапазон. Вибрано 1 пакет робіт.
-          few: Не вдалося розширити діапазон. Вибрано %{count} пакети робіт.
-          many: Не вдалося розширити діапазон. Вибрано %{count} пакетів робіт.
-          other: Не вдалося розширити діапазон. Вибрано %{count} пакета робіт.
+          one: Could not extend the range. %{count} work package selected.
+          few: Could not extend the range. %{count} work packages selected.
+          many: Could not extend the range. %{count} work packages selected.
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Вибір залишився незмінним. Щоб вибрати потрібний діапазон, розгорніть цей список.
         selected:
-          one: Вибрано 1 пакет робіт.
-          few: Вибрано %{count} пакети робіт.
-          many: Вибрано %{count} пакетів робіт.
-          other: Вибрано %{count} пакета робіт.
+          one: "%{count} work package selected."
+          few: "%{count} work packages selected."
+          many: "%{count} work packages selected."
+          other: "%{count} work packages selected."
     burndown:
       day: День
       points: Одиниці

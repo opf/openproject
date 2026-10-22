@@ -26,10 +26,11 @@ zh-TW:
         select: 選擇檔案
         select_all: 全選
         selection:
-          zero: 選擇要連結的文件
-          other: 連結 %{count} 個檔案
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          other: 成功新增%{count}個檔案連結
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: 找不到檔案。
           not_logged_in: 請登入儲存空間來存取該文件。

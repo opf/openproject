@@ -437,6 +437,40 @@ RSpec.describe "API v3 Work package resource",
           .at_path("_embedded/elements/0/_meta/timestamp")
       end
 
+      describe "observedInVersions" do
+        let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+        let(:version_a) { create(:version, project:, name: "Version A") }
+        let(:version_b) { create(:version, project:, name: "Version B") }
+
+        before do
+          work_package.observed_in_version_ids_replacements = [version_a.id, version_b.id]
+          work_package.save!
+        end
+
+        context "when the work package was observed in fewer versions at the historic timestamp" do
+          before do
+            create(:journal_work_package_version_journal,
+                   journal: original_journal,
+                   version: version_a,
+                   kind: "observed_in")
+          end
+
+          it "links only the versions of the historic state" do
+            expect(subject.body)
+              .to be_json_eql([{ href: api_v3_paths.version(version_a.id), title: "Version A" }].to_json)
+              .at_path("_embedded/elements/0/_links/observedInVersions")
+          end
+        end
+
+        context "when the work package was not observed in any version at the historic timestamp" do
+          it "links no versions" do
+            expect(subject.body)
+              .to be_json_eql([].to_json)
+              .at_path("_embedded/elements/0/_links/observedInVersions")
+          end
+        end
+      end
+
       describe "update links" do
         context "when last timestamp is current" do
           it "has the update links" do
@@ -460,6 +494,48 @@ RSpec.describe "API v3 Work package resource",
           it "has no update links because the historic state cannot be edited" do
             expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
             expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+      end
+
+      context "when the labels changed and the last timestamp is historic",
+              with_flag: { work_package_labels: true } do
+        let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z")] }
+        let(:label_a) { create(:label) }
+        let(:label_b) { create(:label) }
+        let(:label_hrefs) do
+          JSON.parse(subject.body).dig("_embedded", "elements", 0, "_links", "labels").pluck("href")
+        end
+
+        before do
+          create(:labeling, labelable: work_package, label: label_a)
+          create(:labeling, labelable: work_package, label: label_b)
+          create(:journal_label_journal, journal: current_journal, label: label_a)
+          create(:journal_label_journal, journal: current_journal, label: label_b)
+        end
+
+        it "renders the historic labels on the work package" do
+          create(:journal_label_journal, journal: original_journal, label: label_a)
+
+          expect(label_hrefs)
+            .to contain_exactly(api_v3_paths.label(label_a.id))
+        end
+
+        it "renders no labels when the work package had none at the timestamp" do
+          expect(label_hrefs).to eq([])
+        end
+
+        context "when comparing the baseline with the current state" do
+          let(:timestamps) { [Timestamp.parse("2015-01-01T00:00:00Z"), Timestamp.now] }
+
+          it "embeds the historic labels in the baseline entry only" do
+            create(:journal_label_journal, journal: original_journal, label: label_a)
+
+            expect(subject.body)
+              .to be_json_eql([{ href: api_v3_paths.label(label_a.id), title: label_a.name }].to_json)
+                    .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/labels")
+            expect(subject.body)
+              .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_links/labels")
           end
         end
       end

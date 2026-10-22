@@ -61,6 +61,7 @@ nl:
         single: Selecteer "%{name}"
       remove: Verwijder %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Geen items gevonden
       placeholder: Typ om te zoeken
       project:
@@ -162,6 +163,7 @@ nl:
     button_stop_timer: Stop timer
     button_uncheck_all: Deselecteer alles
     button_update: Bijwerken
+    button_view_markdown: View Markdown
     caption_rate_history: Tarief geschiedenis
     card:
       add_new: Nieuwe kaart toevoegen
@@ -624,8 +626,8 @@ nl:
     notifications:
       center:
         and_more_users:
-          one: en 1 ander
-          other: en %{count} anderen
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Het lijkt erop dat u helemaal bij bent.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -828,11 +830,11 @@ nl:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -882,19 +884,19 @@ nl:
       label_two_factor_authentication: Twee-staps authenticatie
     units:
       child_work_packages:
-        one: één onderliggend werkpakket
-        other: "%{count} werkpakket kinderen"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dag
+        one: "%{count} day"
         other: "%{count} dagen"
         zero: 0 dagen
       hour:
-        one: 1 u
+        one: "%{count} h"
         other: "%{count} u"
         zero: 0 uur
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: werkpakket

@@ -79,6 +79,7 @@ en:
         single: 'Select "%{name}"'
       remove: "Remove %{name}"
     autocompleter:
+      create_label: "Create label"
       notFoundText: "No items found"
       placeholder: "Type to search"
       project:
@@ -183,6 +184,7 @@ en:
     button_stop_timer: "Stop timer"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
+    button_view_markdown: "View Markdown"
     caption_rate_history: "Rate history"
 
     card:

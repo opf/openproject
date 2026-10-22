@@ -64,7 +64,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public text:Record<string, string>;
 
-  public appendTo:any = null;
+  public appendTo:string|null|undefined = null;
 
   public referenceOutputs:Record<string, EventHandler> = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
@@ -77,7 +77,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   };
 
   public get selectedOption() {
-    const href = this.value ? this.value.href : null;
+    const value = this.value as HalResource|null|undefined;
+    const href = value ? value.href : null;
     return (this.availableOptions as ValueOption[]).find((o) => o.href === href)!;
   }
 
@@ -153,7 +154,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     const { allowedValues } = this.schema;
 
     if (Array.isArray(allowedValues)) {
-      this.setValues(allowedValues);
+      this.setValues(allowedValues as HalResource[]);
       this.valuesLoaded = true;
     } else if (allowedValues && !this.valuesLoaded) {
       return this.loadValuesFromBackend(query);
@@ -172,7 +173,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
         if (collection.count === undefined || collection.total === undefined || (!query && collection.total === collection.count) || !this.value) {
           return collection.elements;
         }
-        return collection.elements.concat([this.value]);
+        return collection.elements.concat([this.value as HalResource]);
       }),
       tap((elements) => this.setValues(elements)),
       map(() => this.availableOptions),

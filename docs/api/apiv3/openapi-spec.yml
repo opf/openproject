@@ -293,6 +293,8 @@ paths:
     "$ref": "./paths/meeting_agenda_items.yml"
   "/api/v3/meeting_agenda_items/{id}":
     "$ref": "./paths/meeting_agenda_item.yml"
+  "/api/v3/meeting_agenda_items/{id}/move_to_next_meeting":
+    "$ref": "./paths/meeting_agenda_item_move_to_next_meeting.yml"
   "/api/v3/meeting_agenda_items/{id}/upvote":
     "$ref": "./paths/meeting_agenda_item_upvote.yml"
   "/api/v3/meeting_agenda_items/{id}/downvote":
@@ -677,6 +679,8 @@ paths:
     "$ref": "./paths/workspace_work_packages_form.yml"
   "/api/v3/workspaces/{id}/versions":
     "$ref": "./paths/workspace_versions.yml"
+  "/api/v3/workspaces/{id}/labels":
+    "$ref": "./paths/workspace_labels.yml"
   "/api/v3/workspaces/schema":
     "$ref": "./paths/workspaces_schema.yml"
 
@@ -970,6 +974,8 @@ components:
       "$ref": "./components/schemas/label_collection_model.yml"
     LabelModel:
       "$ref": "./components/schemas/label_model.yml"
+    LabelWriteModel:
+      "$ref": "./components/schemas/label_write_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:

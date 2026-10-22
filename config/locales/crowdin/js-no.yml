@@ -61,6 +61,7 @@
         single: Velg "%{name}"
       remove: Fjern %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Ingen elementer funnet
       placeholder: Skriv for å søke
       project:
@@ -162,6 +163,7 @@
     button_stop_timer: Stop timer
     button_uncheck_all: Avmerk alle
     button_update: Oppdatèr
+    button_view_markdown: View Markdown
     caption_rate_history: Satshistorikk
     card:
       add_new: Legg til nytt kort
@@ -624,8 +626,8 @@
     notifications:
       center:
         and_more_users:
-          one: og 1 annen
-          other: og %{count} andre
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Ser ut som du er helt oppdatert.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -828,11 +830,11 @@
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           other: "%{count} items selected."
     spot:
       drop_modal:
@@ -882,19 +884,19 @@
       label_two_factor_authentication: Tofaktorautentisering
     units:
       child_work_packages:
-        one: en underordnet arbeidspakke
-        other: "%{count} underordnet arbeidspakke"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dag
+        one: "%{count} day"
         other: "%{count} dager"
         zero: 0 dager
       hour:
-        one: 1 t
+        one: "%{count} h"
         other: "%{count} t"
         zero: 0 t
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: arbeidspakke

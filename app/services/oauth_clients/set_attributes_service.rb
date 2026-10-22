@@ -39,7 +39,7 @@ class OAuthClients::SetAttributesService < BaseServices::SetAttributes
     cloned_param = params.clone
 
     if cloned_param[:client_secret] == ""
-      cloned_param.merge!(client_secret: nil)
+      cloned_param[:client_secret] = nil
     end
 
     cloned_param

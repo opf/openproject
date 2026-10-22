@@ -60,7 +60,7 @@ cs:
 
           '
       label_n_groups_found:
-        one: 1 skupina nalezena ve filtru
+        one: "%{count} group found by the filter"
         other: "%{count} skupin nalezeno pomocí filtru"
         zero: Ve filtru nebyly nalezeny žádné skupiny
       plural: LDAP skupina synchronizační filtry

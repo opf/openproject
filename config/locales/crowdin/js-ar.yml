@@ -61,6 +61,7 @@ ar:
         single: Select "%{name}"
       remove: Remove %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ ar:
     button_stop_timer: Stop timer
     button_uncheck_all: إلغاء اختيار الكل
     button_update: التحديث
+    button_view_markdown: View Markdown
     caption_rate_history: تاريخ السعر
     card:
       add_new: Add new card
@@ -625,7 +627,7 @@ ar:
       center:
         and_more_users:
           zero: and %{count} others
-          one: and 1 other
+          one: and %{count} other
           two: and %{count} others
           few: and %{count} others
           many: and %{count} others
@@ -833,7 +835,7 @@ ar:
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
           zero: Could not extend the range. %{count} items selected.
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           two: Could not extend the range. %{count} items selected.
           few: Could not extend the range. %{count} items selected.
           many: Could not extend the range. %{count} items selected.
@@ -841,7 +843,7 @@ ar:
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
           zero: "%{count} items selected."
-          one: 1 item selected.
+          one: "%{count} item selected."
           two: "%{count} items selected."
           few: "%{count} items selected."
           many: "%{count} items selected."
@@ -895,23 +897,23 @@ ar:
     units:
       child_work_packages:
         zero: "%{count} work package children"
-        one: one child work package
+        one: "%{count} child work package"
         two: "%{count} work package children"
         few: "%{count} work package children"
         many: "%{count} work package children"
         other: "%{count} work package children"
       day:
-        one: 1 يوم
+        one: "%{count} day"
         other: "%{count} يوم"
         zero: 0 days
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
         zero: "%{count} words"
-        one: 1 word
+        one: "%{count} word"
         two: "%{count} words"
         few: "%{count} words"
         many: "%{count} words"

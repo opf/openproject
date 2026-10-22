@@ -61,6 +61,7 @@ ro:
         single: Selectează "%{name}"
       remove: Elimină ”%{name}”
     autocompleter:
+      create_label: Create label
       notFoundText: Niciun articol găsit
       placeholder: Tastează pentru a căuta
       project:
@@ -162,6 +163,7 @@ ro:
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
     button_update: Actualizare
+    button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
       add_new: Adaugă card nou
@@ -624,9 +626,9 @@ ro:
     notifications:
       center:
         and_more_users:
-          one: și încă unul
-          few: și %{count} alții
-          other: și %{count} alții
+          one: and %{count} other
+          few: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Se pare că ești cu toate la zi.
           no_notification_for_filter: Looks like you are all caught up for this filter.
@@ -829,12 +831,12 @@ ro:
         not_selectable: Selection unchanged. This item takes no part in this list's ordering.
         range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
+          one: Could not extend the range. %{count} item selected.
           few: Could not extend the range. %{count} items selected.
           other: Could not extend the range. %{count} items selected.
         range_unavailable: Selection unchanged. Expand this list to select that range.
         selected:
-          one: 1 item selected.
+          one: "%{count} item selected."
           few: "%{count} items selected."
           other: "%{count} items selected."
     spot:
@@ -885,20 +887,20 @@ ro:
       label_two_factor_authentication: Autentificare doi factori
     units:
       child_work_packages:
-        one: Un pachet de lucru descendent
-        few: "%{count} descendenți ai pachetului de lucru"
-        other: "%{count} copii din pachetul de lucru"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: o zi
+        one: "%{count} day"
         other: "%{count} zile"
         zero: 0 zile
       hour:
-        one: 1 oră
+        one: "%{count} h"
         other: "%{count} ora"
         zero: 0 ore
       hour_string: "%{hours} h"
       word:
-        one: 1 word
+        one: "%{count} word"
         few: "%{count} words"
         other: "%{count} words"
       workPackage:

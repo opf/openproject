@@ -102,7 +102,7 @@ id:
     not_recommended: Tidak disarankan
     recommended: Disarankan
     x_bcf_issues:
-      one: Satu masalah BCF
+      one: "%{count} BCF issue"
       other: Terdapat %{count} masalah BCF
       zero: Tidak ada masalah BCF
   bim:
