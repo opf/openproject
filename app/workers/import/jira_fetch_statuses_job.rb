@@ -36,8 +36,8 @@ module Import
     end
 
     def perform(jira_import_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_object_type:status") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:status") do
         Rails.logger.debug "Fetching statuses started"
         prepare_jira_import_ivars(jira_import_id)
         fetch_data

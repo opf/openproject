@@ -46,7 +46,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
       jira_import = nil
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.info "Fetching instance meta data started"
         jira_import = Import::JiraImport.find(jira_import_id)
         jira = jira_import.jira
@@ -56,7 +56,7 @@ module Import
         Rails.logger.info "Fetching instance meta data finished"
       end
     rescue StandardError => e
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.error "Fetching instance meta data failed: #{e.message}"
       end
       jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)

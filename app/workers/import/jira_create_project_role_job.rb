@@ -38,8 +38,8 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_object_type:projectRole") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:projectRole") do
         Rails.logger.debug "Creating project role started"
         jira_import = Import::JiraImport.find(jira_import_id)
         service_call = Roles::CreateService.new(user: User.system).call(

@@ -67,7 +67,6 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       cursor ||= REVERT_STEPS.index(@jira_import.get_job_cursor(self)&.to_sym)
@@ -75,7 +74,7 @@ module Import
     rescue StandardError => e
       raise if @jira_import.nil?
 
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.error "Building revert enumerator failed: #{e.message}"
       end
       @jira_import.transition_to!(:revert_error,
@@ -89,7 +88,7 @@ module Import
     def each_iteration(revert_step, jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.info "Revert step '#{revert_step}' started"
         ApplicationRecord.transaction do
           send(revert_step)
@@ -98,7 +97,7 @@ module Import
         Rails.logger.info "Revert step '#{revert_step}' finished"
       end
     rescue StandardError => e
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.error "Revert step '#{revert_step}' failed: #{e.message}"
       end
       @jira_import.transition_to!(:revert_error,

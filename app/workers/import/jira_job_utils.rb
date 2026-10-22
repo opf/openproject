@@ -29,6 +29,12 @@
 
 module Import
   module JiraJobUtils
+    extend ActiveSupport::Concern
+
+    included do
+      include GoodJob::ActiveJobExtensions::Batches
+    end
+
     def prepare_jira_import_ivars(jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -42,17 +48,18 @@ module Import
       @jira_project ||= Import::JiraProject.find(jira_project_id)
     end
 
-    # The GoodJob batch this job belongs to, if any (jobs enqueued outside of
-    # Import::JiraStagedImportJob's batch, e.g. instance/projects meta data fetching, revert and
-    # finalize, have no batch and this is nil).
-    def batch_id
-      @batch_id ||= GoodJob::Job.where(id: job_id).pick(:batch_id)
-    end
-
     # The Jira project key (e.g. "DPPP") is what users recognize, unlike the internal
     # Import::JiraProject id these jobs are otherwise passed around and tag their logs with.
     def jira_project_key(jira_project_id)
       jira_project(jira_project_id).payload["key"]
+    end
+
+    def batch_id_tag
+      batch&.id ? "batch_id:#{batch.id}" : nil
+    end
+
+    def tagged_log(*tags, &)
+      Rails.logger.tagged(*[batch_id_tag, *tags].compact, &)
     end
   end
 end

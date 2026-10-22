@@ -39,8 +39,8 @@ module Import
 
     # Creates the OP custom fields for the whole import run, before the per-project jobs fan out.
     def perform(jira_import_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_object_type:customField") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:customField") do
         Rails.logger.debug "Creating custom fields started"
         @jira_import = Import::JiraImport.find(jira_import_id)
         @jira_id = @jira_import.jira.id

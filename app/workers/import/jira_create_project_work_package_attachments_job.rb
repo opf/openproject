@@ -32,8 +32,8 @@ module Import
     include Import::JiraJobUtils
 
     on_complete do
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
-                          "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
+      tagged_log("jira_import_id:#{arguments[0]}",
+                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
         Rails.logger.debug "Downloading work package attachments finished"
       end
     end
@@ -60,8 +60,8 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       jira_project = jira_project(jira_project_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
         Rails.logger.debug "Downloading work package attachments started"
         @jira_import = Import::JiraImport.find(jira_import_id)
         jira = @jira_import.jira
@@ -87,9 +87,9 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, jira_import_id, jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_project_id:#{jira_project_key(jira_project_id)}",
-                          "jira_issue_key:#{jira_issue_key}") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{jira_project_key(jira_project_id)}",
+                 "jira_issue_key:#{jira_issue_key}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             Rails.logger.debug "Creating work package attachment"

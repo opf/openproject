@@ -40,8 +40,8 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
-                          "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
+      tagged_log("jira_import_id:#{arguments[0]}",
+                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
         Rails.logger.debug "Creating work packages finished"
       end
     end
@@ -68,8 +68,8 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       jira_project = jira_project(jira_project_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
         Rails.logger.debug "Creating work packages started"
         @jira_import = Import::JiraImport.find(jira_import_id)
         jira = @jira_import.jira
@@ -85,7 +85,6 @@ module Import
           jira_entity_class: jira_project.class.to_s
         ).op_leg
 
-
         cursor ||= @jira_import.get_job_cursor(self)
         enumerator_builder.active_record_on_records(
           Import::JiraIssue.where(jira_import_id:, jira_project_id:),
@@ -97,9 +96,9 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{_jira_import_id}",
-                          "jira_project_id:#{jira_project_key(_jira_project_id)}",
-                          "jira_issue_key:#{jira_issue_key}") do
+      tagged_log("jira_import_id:#{_jira_import_id}",
+                 "jira_project_id:#{jira_project_key(_jira_project_id)}",
+                 "jira_issue_key:#{jira_issue_key}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do

@@ -36,8 +36,8 @@ module Import
     end
 
     def perform(jira_import_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_object_type:user") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:user") do
         Rails.logger.debug "Fetching users started"
         jira_import = Import::JiraImport.find(jira_import_id)
         user_keys, mention_usernames = collect_user_to_import(jira_import)

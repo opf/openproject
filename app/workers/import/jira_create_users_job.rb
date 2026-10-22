@@ -33,8 +33,8 @@ module Import
     include JiraJobUtils
 
     on_complete do
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
-                          "jira_object_type:user") do
+      tagged_log("jira_import_id:#{arguments[0]}",
+                 "jira_object_type:user") do
         Rails.logger.debug "Creating users finished"
       end
     end
@@ -57,8 +57,8 @@ module Import
     end
 
     def build_enumerator(jira_import_id, cursor:)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_object_type:user") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:user") do
         Rails.logger.debug "Creating users started"
         @jira_import = Import::JiraImport.find(jira_import_id)
 
@@ -71,8 +71,8 @@ module Import
     end
 
     def each_iteration(jira_user, jira_import_id)
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                          "jira_object_type:user", "jira_object_id_or_name:#{jira_user.origin_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_object_type:user", "jira_object_id_or_name:#{jira_user.origin_id}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             import_user(jira_user)

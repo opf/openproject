@@ -46,7 +46,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
       jira_import = nil
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.info "Fetching meta data for selected projects started"
         jira_import = Import::JiraImport.find(jira_import_id)
         client = jira_import.jira.client
@@ -56,7 +56,7 @@ module Import
         Rails.logger.info "Fetching meta data for selected projects finished"
       end
     rescue StandardError => e
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.error "Fetching meta data for selected projects failed: #{e.message}"
       end
       jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)

@@ -37,13 +37,12 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id, jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
           jira_project = jira_project(jira_project_id)
-          Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
-                              "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
+          tagged_log("jira_import_id:#{jira_import_id}",
+                     "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
             Rails.logger.debug "Creating project started"
             @jira_import = Import::JiraImport.find(jira_import_id)
             @jira_id = @jira_import.jira.id

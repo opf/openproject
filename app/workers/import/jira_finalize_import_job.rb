@@ -31,10 +31,9 @@ module Import
   class JiraFinalizeImportJob < ApplicationJob
     include JiraJobUtils
 
-    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
       jira_import = nil
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.info "Finalizing import started"
         jira_import = Import::JiraImport.find(jira_import_id)
 
@@ -44,7 +43,7 @@ module Import
         Rails.logger.info "Finalizing import finished"
       end
     rescue StandardError => e
-      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}") do
+      tagged_log("jira_import_id:#{jira_import_id}") do
         Rails.logger.error "Finalizing import failed: #{e.message}"
       end
       jira_import&.transition_to!(:finalizing_error, error: e.message, error_backtrace: e.backtrace)
