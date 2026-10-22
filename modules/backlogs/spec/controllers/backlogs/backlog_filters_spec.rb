@@ -100,7 +100,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when bucket_ids are duplicate" do
-      let(:params) { { bucket_ids: '[1, "inbox", 1]' } }
+      let(:params) { { bucket_ids: '[1, "inbox", 1, "1"]' } }
 
       it "keeps only the deduplicated valid ids" do
         expect(filters.bucket_ids).to eq([1, "inbox"])
@@ -164,7 +164,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
 
     context "when sprint_ids are duplicate" do
-      let(:params) { { sprint_ids: "[1, 1, 2]" } }
+      let(:params) { { sprint_ids: '[1, 1, 2, "2"]' } }
 
       it "keeps only the deduplicated valid ids" do
         expect(filters.sprint_ids).to eq([1, 2])

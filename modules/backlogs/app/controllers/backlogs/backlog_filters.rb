@@ -41,9 +41,9 @@ module Backlogs
     def self.parse_ids(ids)
       return [] if ids.blank?
 
-      parsed_ids = JSON.parse(ids, { array_class: Set })
-
-      Array(parsed_ids).filter_map { |id| id == "inbox" ? "inbox" : id.to_s.to_i.nonzero? }
+      Array(JSON.parse(ids))
+        .filter_map { |id| id == "inbox" ? "inbox" : id.to_s.to_i.nonzero? }
+        .uniq
     rescue JSON::ParserError
       []
     end
