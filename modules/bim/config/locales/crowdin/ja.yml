@@ -102,7 +102,7 @@ ja:
     not_recommended: 非推奨
     recommended: 推奨
     x_bcf_issues:
-      one: 1 件の BCF チケット
+      one: "%{count} BCF issue"
       other: "%{count} 件 BCF チケット"
       zero: BCF チケットがありません
   bim:

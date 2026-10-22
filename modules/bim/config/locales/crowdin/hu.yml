@@ -106,7 +106,7 @@ hu:
     not_recommended: nem ajánlott
     recommended: Ajánlott
     x_bcf_issues:
-      one: Egy BCF probléma
+      one: "%{count} BCF issue"
       other: "%{count} BCF probléma"
       zero: Nincs BCF feladat
   bim:

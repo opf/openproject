@@ -72,6 +72,10 @@ hu:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -140,7 +144,6 @@ hu:
   button_add_time_entry: Eltöltött idő rögzítése
   button_log_costs: Költségek naplózása
   button_log_time: Napló
-  button_stop_timer: Időzítő leállítása
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Foglalt projekt
@@ -174,9 +177,13 @@ hu:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
         heading: Cost types
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Ez a költségtípus nem kapcsolható ki, mivel ehhez a projekthez már rögzítettek költségeket.
         none_active: No cost types are currently active in this project.
       time_and_costs: Time and costs
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:
@@ -207,9 +214,9 @@ hu:
   label_costlog: Naplózott fajlagos költségek
   label_costs: Költségek
   label_costs_per_page: Költések oldalanként
+  label_current: Current
   label_current_default_rate: Jelenlegi alapértelmezett díj
   label_date_on: mikor
-  label_day: Nap
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Törölt költségnemek
   label_display_cost_entries: Fajlagos költségek megjelenítése
@@ -225,21 +232,12 @@ hu:
   label_less_or_equal: "<="
   label_list: Lista
   label_log_costs: Költségek naplózása
-  label_month: Havi
-  label_my_time_tracking: Időnaplóm
   label_new_time_entry_activity: Új időrögzítési tevékenység
-  label_next_day: Holnap
-  label_next_month: Következő hónap
-  label_next_week: A jövő héten
-  label_next_workweek: Következő munkahét
   label_no: Nem
-  label_no_time: Nincs naplózott idő
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_option_plural: Beállítások
   label_overall_costs: Összes költség
-  label_previous_day: Tegnap
-  label_previous_month: Előző hónap
-  label_previous_week: Előző héten
-  label_previous_workweek: Előző munkahét
   label_rate_plural: Díjak
   label_show: Mutat
   label_specific_day: Nap %{day}
@@ -248,15 +246,14 @@ hu:
   label_status_finished: Kész
   label_time: Idő
   label_time_entry_activity_form_description: A munkaidő-nyilvántartási tevékenység változásai minden olyan projektben tükröződnek, ahol ez engedélyezve van.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Elkezdődött %{time}-kor
   label_today_capitalized: Ma
   label_units: Költség egységek
   label_until: "-ig"
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Innentől érvényes
-  label_view_mode_switcher: Nézet módosítása
   label_work_package_filter_add: Munkacsomag szűrő hozzáadása
-  label_workweek: Munkahét
   label_yes: Igen
   notice_cost_logged_successfully: Egységköltség sikeresen naplózva.
   notice_different_time_zones: 'Ez a felhasználó más időzónában van: (%{tz}). Az idő az ő időzónájával lesz naplózva.'
@@ -272,6 +269,10 @@ hu:
   permission_edit_rates: Díjak szerkeztése
   permission_log_costs: Egységre könyvelt költségek
   permission_log_own_costs: Egységköltség könyvelése magadnak
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Könyvelt költségek
   permission_view_cost_rates: Költség díjak megtekintése
   permission_view_hourly_rates: Minden óradíj megtekintése
@@ -309,6 +310,11 @@ hu:
   text_destroy_cost_entries_question: A work package-hez rögzített %{cost_entries} törlése. Mit szeretnél tenni?
   text_destroy_time_and_cost_entries: Idők és költségek törlése
   text_destroy_time_and_cost_entries_question: A work package-hez rögzített %{hours} óra és %{cost_entries} törlése. Mit szeretnél tenni?
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'A work packege-hez jelentett órák és költségek újrafelvitele:'
   text_warning_hidden_elements: Néhány bejegyzés lehet, hogy kimaradt az összesítésből.
   total_times:

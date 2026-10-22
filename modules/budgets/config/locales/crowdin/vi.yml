@@ -58,6 +58,8 @@ vi:
   attributes:
     budget: Ngân sách
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -103,7 +105,7 @@ vi:
   events:
     budget: Đã chỉnh sửa ngân sách
   help_click_to_edit: Nhấn vào đây để chỉnh sửa.
-  help_currency_format: Định dạng của giá trị tiền tệ được hiển thị. %n được thay thế bằng giá trị tiền tệ, %u được thay thế bằng đơn vị tiền tệ.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Nhập một giá trị vào đây để ghi đè tỷ lệ mặc định.
   label_budget_available: Ngân sách có sẵn
   label_budget_details: Chi tiết ngân sách
