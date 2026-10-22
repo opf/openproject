@@ -100,8 +100,12 @@ module Workflows
       @eligible_roles ||= Workflows::StatusTransition.ordered_eligible_roles
     end
 
+    def used_roles
+      @used_roles ||= Workflows::StatusTransition.used_roles(workflow)
+    end
+
     def roles
-      @roles ||= Workflows::StatusTransition.selected_roles(@requested_role_ids)
+      @roles ||= Workflows::StatusTransition.selected_roles(@requested_role_ids, workflow:)
     end
 
     # The dialogs forward these verbatim, so they must stay the raw request and never fall
