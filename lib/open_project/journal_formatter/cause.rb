@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,9 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
+  include MessagesHelper
   include OpenProject::JournalFormatter::CauseMeetingRendering
+  include OpenProject::JournalFormatter::CauseForumMessageRendering
   include ActionView::Helpers::SanitizeHelper
   include ActionView::Helpers::TranslationHelper
 
@@ -45,6 +46,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
     return "" if hidden_meeting_cause?
     return combined_meeting_message if meeting_cause?
+    return forum_message_cause_message if forum_message_cause?
 
     "#{caused_change} #{cause_description}"
   end
@@ -144,7 +146,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
   def working_date_change_message(date, working)
     I18n.t("journals.cause_descriptions.working_days_changed.dates.#{working ? :working : :non_working}",
-           date: I18n.l(Date.parse(date)))
+           date: format_date(Date.parse(date)))
   end
 
   def status_changed_message

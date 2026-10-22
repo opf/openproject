@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Workflows
   class MatrixEditorComponent < ApplicationComponent
@@ -47,6 +46,13 @@ module Workflows
     attr_reader :context
 
     delegate :variant, :workflow, :tab, :roles, :eligible_roles, :statuses, :variant_tab?, :readonly?, to: :context
+
+    def role_groups
+      @role_groups ||= begin
+        used_roles = context.used_roles.to_a
+        eligible_roles.partition { used_roles.include?(it) }
+      end
+    end
 
     def state_id = STATE_ID
 
@@ -102,6 +108,7 @@ module Workflows
     def data_attributes
       {
         controller: "admin--workflow-role-select",
+        action: "input->admin--workflow-role-select#filterGroups",
         "admin--workflow-role-select-base-url-value": context.matrix_path(tab:),
         "admin--workflow-role-select-current-role-ids-value": roles.map(&:id),
         "admin--workflow-role-select-admin--workflow-checkbox-state-outlet": "##{STATE_ID}"

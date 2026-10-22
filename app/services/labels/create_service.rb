@@ -22,13 +22,23 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Labels
   class CreateService < ::BaseServices::Create
+    protected
+
+    # The savepoint keeps a unique index violation from aborting a transaction the caller may already have open.
+    def persist(service_result)
+      Label.transaction(requires_new: true) { super }
+    rescue ActiveRecord::RecordNotUnique
+      service_result.result.errors.add(:name, :taken)
+      service_result.errors = service_result.result.errors
+      service_result.success = false
+      service_result
+    end
   end
 end

@@ -61,6 +61,7 @@ fa:
         single: انتخاب «%{name}»
       remove: حذف %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: موردی یافت نشد
       placeholder: برای جستجو تایپ کنید
       project:
@@ -162,6 +163,7 @@ fa:
     button_stop_timer: توقف تایمر
     button_uncheck_all: لغو انتخاب همه
     button_update: به روز رسانی
+    button_view_markdown: View Markdown
     caption_rate_history: تاریخچه نرخ
     card:
       add_new: افزودن کارت جدید
@@ -202,6 +204,7 @@ fa:
     description_subwork_package: 'فرزند بسته کاری #%{id}'
     editor:
       ckeditor_error: خطایی در CKEditor رخ داد
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'ذخیره سند با خطای زیر ناموفق بود: %{error}'
       macro:
         attribute_reference:
@@ -623,8 +626,8 @@ fa:
     notifications:
       center:
         and_more_users:
-          one: و ۱ نفر دیگر
-          other: و %{count} نفر دیگر
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: به نظر می‌رسد همه‌چیز را بررسی کرده‌اید.
           no_notification_for_filter: به نظر می‌رسد همه موارد این فیلتر را بررسی کرده‌اید.
@@ -720,6 +723,7 @@ fa:
     placeholders:
       default: "-"
       description: 'توضیحات: برای ویرایش کلیک کنید...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: برای افزودن توضیح به این رابطه کلیک کنید
       selection: لطفاً انتخاب کنید
       subject: موضوع را اینجا وارد کنید
@@ -826,12 +830,12 @@ fa:
         not_selectable: انتخاب بدون تغییر ماند. این مورد در ترتیب این فهرست نقشی ندارد.
         range_blocked: انتخاب بدون تغییر ماند. این بازه شامل موردی است که در ترتیب این فهرست نقشی ندارد.
         range_restarted:
-          one: گسترش بازه ممکن نشد. ۱ مورد انتخاب شد.
-          other: گسترش بازه ممکن نشد. %{count} مورد انتخاب شدند.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: انتخاب بدون تغییر ماند. برای انتخاب آن بازه، این فهرست را گسترش دهید.
         selected:
-          one: ۱ مورد انتخاب شد.
-          other: "%{count} مورد انتخاب شدند."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: بستن پنجره Modal
@@ -845,9 +849,7 @@ fa:
     text_user_wrote: "%{value} نوشت:"
     text_work_packages_destroy_confirmation: مطمئنید می‌خواهید بسته(های) کاری انتخاب‌شده را حذف کنید؟
     time_entry:
-      stop: توقف
       title: ثبت زمان
-      tracking: ثبت زمان
       work_package_required: ابتدا باید یک بسته کاری انتخاب شود.
     timer:
       button_stop: توقف تایمر فعلی
@@ -882,20 +884,20 @@ fa:
       label_two_factor_authentication: احراز هویت دومرحله‌ای
     units:
       child_work_packages:
-        one: یک بسته کاری فرزند
-        other: "%{count} بسته کاری فرزند"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: ۱ روز
+        one: "%{count} day"
         other: "%{count} روز"
         zero: ۰ روز
       hour:
-        one: ۱ ساعت
+        one: "%{count} h"
         other: "%{count} ساعت"
         zero: ۰ ساعت
       hour_string: "%{hours} ساعت"
       word:
-        one: ۱ واژه
-        other: "%{count} واژه"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: بسته کاری
         other: بسته‌های کاری

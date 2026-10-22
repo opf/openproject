@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,6 +41,24 @@ module Import
       ].freeze
 
       INLINE_QUOTE_PATTERN = /\{quote\}(.*?)\{quote\}/
+      TABLE_ROW_PATTERN = /\A\|.+\z/
+      # Macros whose body may span lines, so a table row stays open until they close.
+      MULTILINE_MACRO_PATTERN = /\{(code|noformat|panel|quote)(:[^}]*)?\}/
+      # Jira bounds an attachment name only by the delimiters: spaces are allowed
+      # anywhere but the first character, and no file extension is required. That
+      # leading character is the whole guard against an exclamation mark in prose,
+      # which is why "Stop! Now!" is text while "!no extension!" is an embed.
+      IMAGE_NAME = /[^!|\s][^!|\n]*/
+      IMAGE_WITH_PARAMS_PATTERN = /!(#{IMAGE_NAME})\|([^!\n]+)!/
+      IMAGE_PATTERN = /!(#{IMAGE_NAME})!/
+      # Regions of a row whose separators belong to the content: a macro body, a
+      # [text|url] link, or the !image|params! form that scan_image accepts.
+      PROTECTED_CELL_REGION = /
+        \{(code|noformat|panel|quote|color)(?::[^}]*)?\}.*?\{\1\}
+        | \[[^\]]*\]
+        | #{IMAGE_WITH_PARAMS_PATTERN}
+      /mx
+      CELL_SEPARATOR_PLACEHOLDER = "\u0000"
 
       EMOTICON_REGEX = Regexp.new(
         EMOTICON_KEYS.sort_by { |k| -k.length }.map { |k| Regexp.escape(k) }.join("|")
@@ -108,8 +125,7 @@ module Import
           [/\A\s*([*#]+)\s/, :handle_list],
           [/\A\s*-\s/, :handle_dash_list],
           [/\Abq\.\s+(.*)\z/, :handle_block_quote],
-          [/\A\|\|.+\|\|\s*\z/, :handle_table_header],
-          [/\A\|.+\|\s*\z/, :handle_table_data_row],
+          [TABLE_ROW_PATTERN, :handle_table],
           [/\A\s*\z/, :handle_blank_line]
         ]
       end
@@ -174,7 +190,7 @@ module Import
           # Has closing tag on same line - treat as inline panel block
           # Extract content between opening and closing tags
           content = remaining.sub(/\{panel\}.*\z/, "").strip
-          render_panel_content(content, params, index)
+          [N::Panel.new(params:, children: parse_inline(content)), index + 1]
         else
           # No closing tag - treat as multi-line block start with first line content
           consume_panel_block_with_first_line(lines, index, params, remaining)
@@ -184,16 +200,6 @@ module Import
       def handle_panel_block(lines, index, match)
         params = parse_macro_params(match[1])
         consume_panel_block(lines, index, params)
-      end
-
-      def render_panel_content(content, params, index)
-        title = params["title"]
-        output = if title.present?
-                   "**#{title}**\n#{content}"
-                 else
-                   content
-                 end
-        [N::Paragraph.new(children: parse_inline(output)), index + 1]
       end
 
       def handle_heading(_lines, index, match)
@@ -219,15 +225,8 @@ module Import
         [N::BlockQuote.new(children: parse_inline(content)), index + 1]
       end
 
-      def handle_table_header(lines, index, _match)
-        line = lines[index]
-        inner = line.delete_prefix("||").sub(/\|\|\s*\z/, "")
-        cells = inner.split("||").map(&:strip)
-        [N::TableHeaderRow.new(cells:), index + 1]
-      end
-
-      def handle_table_data_row(lines, index, _match)
-        [N::TableDataRow.new(raw: lines[index]), index + 1]
+      def handle_table(lines, index, _match)
+        consume_table(lines, index)
       end
 
       def handle_blank_line(_lines, index, _match)
@@ -303,14 +302,118 @@ module Import
         nodes << N::Paragraph.new(children: parse_inline(stripped)) if stripped.present?
       end
 
+      # Every row is consumed the same way; a leading row made entirely of header
+      # cells becomes the head. Jira writes a key/value table as a run of header
+      # rows, so breaking the run at each one would split it into many tables.
+      def consume_table(lines, start)
+        rows, i = consume_table_rows(lines, start)
+
+        return [N::Paragraph.new(children: parse_inline(lines[start])), start + 1] if rows.empty?
+
+        header = rows.shift if header_row?(rows.first)
+
+        [N::Table.new(header:, rows:), i]
+      end
+
+      def header_row?(cells)
+        cells.any? && cells.all?(&:header)
+      end
+
+      def consume_table_rows(lines, start)
+        rows = []
+        i = start
+
+        while i < lines.length && lines[i].start_with?("|")
+          cells, row_end = consume_table_row(lines, i)
+          break unless cells
+
+          rows << cells
+          i = row_end
+        end
+
+        [rows, i]
+      end
+
+      # A cell may hold a multi-line macro, so the row runs on until that macro
+      # closes. A row that never closes is not a row at all: nothing is consumed, so
+      # the line falls back to normal block parsing instead of swallowing the rest
+      # of the document.
+      def consume_table_row(lines, start)
+        i = start
+        row = +""
+        open_macro = false
+
+        while i < lines.length
+          row << "\n" unless row.empty?
+          row << lines[i]
+          i += 1
+          open_macro = unclosed_macro?(row)
+          break unless open_macro
+        end
+
+        return if open_macro
+        # A row only runs past its own line to let a macro close, and that form is
+        # always written with its closing separator. Without requiring it, a macro
+        # left open in one cell would pull in everything up to some later bare tag
+        # that happens to close it.
+        return if i > start + 1 && !row.rstrip.end_with?("|")
+
+        cells = parse_cells(row)
+        [cells, i] if cells
+      end
+
+      # Only a bare tag closes a macro, so counting tags would read two openers such
+      # as {code:java} as a balanced pair. The tags are walked in order instead, and
+      # tags of another name are passed over while one is open.
+      def unclosed_macro?(text)
+        open = nil
+        text.scan(MULTILINE_MACRO_PATTERN) do |name, params|
+          if open.nil?
+            open = name
+          elsif open == name && params.nil?
+            open = nil
+          end
+        end
+        !open.nil?
+      end
+
+      # A run of two or more separators introduces a header cell and a single one a
+      # data cell, which is how Jira writes both header rows and header columns. The
+      # leading run opens the row and the closing run is optional, since Jira lets it
+      # be left off; neither yields a cell. A line holding only the opening run is
+      # not a row. Separators belonging to a macro body, a link, an image or an
+      # escaped \| are masked first and so never split anything.
+      def parse_cells(row)
+        segments = mask_protected_separators(row.strip).split(/(\|+)/, -1)
+        segments.shift
+        parts = segments.each_slice(2).to_a
+        return if parts.size < 2
+
+        parts.pop if parts.last.last.empty?
+        parts.map { |separator, content| build_cell(separator, content) }
+      end
+
+      def build_cell(separator, content)
+        children = parse_inline(content.tr(CELL_SEPARATOR_PLACEHOLDER, "|").strip)
+        N::TableCell.new(children:, header: separator.length > 1)
+      end
+
+      # Jira's escape token swallows a separator that immediately follows it, so
+      # "\||" yields one literal separator rather than a literal plus a live one.
+      def mask_protected_separators(inner)
+        inner
+          .gsub(/\\\|\|?/, CELL_SEPARATOR_PLACEHOLDER)
+          .gsub(PROTECTED_CELL_REGION) { |region| region.tr("|", CELL_SEPARATOR_PLACEHOLDER) }
+      end
+
       def consume_panel_block(lines, start, params)
         content, new_index = consume_delimited_block(lines, start, "panel")
-        [N::Panel.new(params:, content: content.strip), new_index]
+        [N::Panel.new(params:, children: parse_inline(content.strip)), new_index]
       end
 
       def consume_panel_block_with_first_line(lines, start, params, first_line_content)
         content, new_index = consume_delimited_block(lines, start, "panel", first_line_content:)
-        [N::Panel.new(params:, content: content.strip), new_index]
+        [N::Panel.new(params:, children: parse_inline(content.strip)), new_index]
       end
 
       def consume_list(lines, start)
@@ -342,23 +445,26 @@ module Import
       end
 
       def build_list_tree(flat_items, target_depth, start, finish)
-        list_type = flat_items[start][:marker_type]
+        depth = list_depth(flat_items, target_depth, start, finish)
         items = []
         i = start
 
         while i < finish
-          item = flat_items[i]
-          if item[:depth] == target_depth
-            sub_end = find_sublist_end(flat_items, i, finish, target_depth)
-            sublist = sub_end > i + 1 ? build_list_tree(flat_items, target_depth + 1, i + 1, sub_end) : nil
-            items << N::ListItem.new(children: item[:children], sublist:)
-            i = sub_end
-          else
-            i += 1
-          end
+          sub_end = find_sublist_end(flat_items, i, finish, depth)
+          items << build_list_item(flat_items, depth, i, sub_end)
+          i = sub_end
         end
 
-        N::List.new(list_type:, items:)
+        N::List.new(list_type: flat_items[start][:marker_type], items:)
+      end
+
+      def list_depth(flat_items, target_depth, start, finish)
+        [target_depth, (start...finish).map { |j| flat_items[j][:depth] }.min].max
+      end
+
+      def build_list_item(flat_items, depth, start, finish)
+        sublist = build_list_tree(flat_items, depth + 1, start + 1, finish) if finish > start + 1
+        N::ListItem.new(children: flat_items[start][:children], sublist:)
       end
 
       def find_sublist_end(flat_items, start, finish, target_depth)
@@ -391,6 +497,7 @@ module Import
         scan_inline_code_block(scanner, buffer, nodes) ||
           scan_inline_noformat_block(scanner, buffer, nodes) ||
           scan_inline_quote(scanner, buffer, nodes) ||
+          scan_inline_panel(scanner, buffer, nodes) ||
           scan_color_macro(scanner, buffer, nodes) ||
           scan_inline_code_macro(scanner, buffer, nodes) ||
           scan_citation_macro(scanner, buffer, nodes)
@@ -398,36 +505,33 @@ module Import
 
       def scan_inline_code_block(scanner, buffer, nodes)
         # Match {code:lang}content{code} or {code}content{code}
-        return unless scanner.scan(/\{code(?::([^}]*))?\}(.*?)\{code\}/)
+        return unless scanner.scan(/\{code(?::([^}]*))?\}(.*?)\{code\}/m)
 
-        header = scanner[1]
-        content = scanner[2]
+        language, params = parse_code_block_header(scanner[1])
 
-        language, _params = parse_code_block_header(header)
-
-        # Render inline code blocks as raw markdown text
-        lang_marker = language || ""
-        code_text = "```#{lang_marker}\n#{content}\n```"
-
-        flush_and_add(buffer, nodes, N::Text.new(content: code_text))
+        flush_and_add(buffer, nodes, N::CodeBlock.new(language:, params:, content: trim_macro_body(scanner[2])))
       end
 
       def scan_inline_noformat_block(scanner, buffer, nodes)
         # Match {noformat}content{noformat}
-        return unless scanner.scan(/\{noformat(?::([^}]*))?\}(.*?)\{noformat\}/)
+        return unless scanner.scan(/\{noformat(?::([^}]*))?\}(.*?)\{noformat\}/m)
 
-        content = scanner[2]
-
-        # Render inline noformat blocks as raw markdown text
-        code_text = "```\n#{content}\n```"
-
-        flush_and_add(buffer, nodes, N::Text.new(content: code_text))
+        flush_and_add(buffer, nodes,
+                      N::NoformatBlock.new(params: parse_macro_params(scanner[1]), content: trim_macro_body(scanner[2])))
       end
 
       def scan_inline_quote(scanner, buffer, nodes)
         return unless scanner.scan(/\{quote\}(.*?)\{quote\}/)
 
         flush_and_add(buffer, nodes, N::BlockQuote.new(children: parse_inline(scanner[1])))
+      end
+
+      def scan_inline_panel(scanner, buffer, nodes)
+        return unless scanner.scan(/\{panel(?::([^}]*))?\}(.*?)\{panel\}/m)
+
+        params = parse_macro_params(scanner[1])
+        flush_and_add(buffer, nodes,
+                      N::Panel.new(params:, children: parse_inline(trim_macro_body(scanner[2]))))
       end
 
       def scan_color_macro(scanner, buffer, nodes)
@@ -468,9 +572,9 @@ module Import
       end
 
       def scan_image(scanner, buffer, nodes)
-        if scanner.scan(/!([^!\s|]+)\|([^!]+)!/)
+        if scanner.scan(IMAGE_WITH_PARAMS_PATTERN)
           flush_and_add(buffer, nodes, N::Image.new(url: scanner[1], params: parse_image_params(scanner[2])))
-        elsif scanner.scan(/!([^!\s|]+)!/)
+        elsif scanner.scan(IMAGE_PATTERN)
           flush_and_add(buffer, nodes, N::Image.new(url: scanner[1], params: {}))
         end
       end
@@ -574,6 +678,12 @@ module Import
         # StringScanner#pos is byte-based; advance by byte length to stay on a char boundary.
         scanner.pos += inner.bytesize + 2
         inner
+      end
+
+      # A macro opened on its own line contributes newlines that are delimiters,
+      # not content.
+      def trim_macro_body(content)
+        content.delete_prefix("\n").delete_suffix("\n")
       end
 
       def parse_code_block_header(raw)

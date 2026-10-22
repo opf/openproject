@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -194,7 +193,7 @@ module OpenProject
             return "" unless writable? || @has_comment
 
             [
-              "click->inplace-edit#openDialog",
+              "#{activation_event}->inplace-edit#openDialog",
               "keydown.enter->inplace-edit#openDialog",
               "keydown.space->inplace-edit#openDialog",
               "inplace-edit:open-dialog->async-dialog#handleOpenDialog"
@@ -205,10 +204,14 @@ module OpenProject
             return "" unless writable?
 
             [
-              "click->inplace-edit#request",
+              "#{activation_event}->inplace-edit#request",
               "keydown.enter->inplace-edit#request",
               "keydown.space->inplace-edit#request"
             ].join(" ")
+          end
+
+          def activation_event
+            User.current.pref.require_double_click_for_inline_edit? ? "dblclick" : "click"
           end
         end
       end

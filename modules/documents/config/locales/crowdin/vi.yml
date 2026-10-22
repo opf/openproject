@@ -46,7 +46,7 @@ vi:
   documents:
     active_editors: Người chỉnh sửa đang hoạt động
     active_editors_count:
-      other: "%{count} biên tập viên đang hoạt động"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

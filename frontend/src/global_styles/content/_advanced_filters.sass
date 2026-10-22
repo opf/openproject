@@ -44,6 +44,7 @@ $advanced-filters--value-min-width: 256px
   overflow-y: auto
   position: relative
   margin: 0 0 10px 0
+  border-radius: var(--borderRadius-medium)
 
   &.collapsed
     display: none
@@ -109,6 +110,9 @@ $advanced-filters--value-min-width: 256px
 
 .advanced-filters--tooltip-trigger[data-tooltip]
   @extend .advanced-filters--affix, .tooltip--right
+
+.advanced-filters--filter-value:has(.advanced-filters--tooltip-trigger)
+  overflow: visible
 
 .advanced-filters--remove-filter
   text-align: right

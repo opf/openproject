@@ -46,7 +46,7 @@ ko:
   documents:
     active_editors: 활성 편집자
     active_editors_count:
-      other: 활성 편집자 %{count}명
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

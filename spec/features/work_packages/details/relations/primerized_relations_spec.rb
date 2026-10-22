@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -361,15 +360,13 @@ RSpec.describe "Primerized work package relations tab",
 
       wait_for_network_idle
 
-      click_link_or_button "Add"
-
-      wait_for_network_idle
+      wait_for_turbo_stream { click_link_or_button "Add" }
 
       expect(page).to have_text "The selected work package could not be found."
 
       relations_tab.search_in_autocompleter(wp_blocks)
 
-      click_link_or_button "Add"
+      wait_for_turbo_stream { click_link_or_button "Add" }
 
       relations_tab.expect_relation(wp_blocks)
 

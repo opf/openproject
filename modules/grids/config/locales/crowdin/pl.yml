@@ -35,10 +35,10 @@ pl:
         title: Członkowie
         view_all_members: Zobacz wszystkich członków
         x_more:
-          one: i jeszcze jeden członek.
-          few: i jeszcze %{count} członków.
-          many: i jeszcze %{count} członków.
-          other: i jeszcze %{count} członka.
+          one: and %{count} more member.
+          few: and %{count} more members.
+          many: and %{count} more members.
+          other: and %{count} more members.
       news:
         no_results: Utwórz nowy raport.
       not_available: Ten widżet jest niedostępny.

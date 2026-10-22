@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -92,7 +91,7 @@ module XlsExport::WorkPackage::Exporter
   module WithRelations
     def add_headers!(spreadsheet)
       headers_0 = [I18n.t(:label_work_package_plural)] +
-        columns.size.times.map { |_| "" } +
+        Array.new(columns.size) { "" } +
         [I18n.t("js.work_packages.tabs.relations")]
 
       spreadsheet.add_headers headers_0, 0

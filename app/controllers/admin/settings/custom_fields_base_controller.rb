@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,11 +34,12 @@ module Admin
       include ::CustomFields::SharedActions
       include ::CustomFields::AttributeHelpTextActions
       include ::CustomFields::AdminRoutes
+      include OpTurbo::ComponentStream
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :find_custom_field,
                     only: %i(edit update destroy delete_option reorder_alphabetical attribute_help_text
-                             update_attribute_help_text list_items)
+                             update_attribute_help_text list_items deletion_dialog)
       before_action :prepare_custom_option_position, only: %i(update create)
       before_action :find_custom_option, only: :delete_option
       before_action :validate_enterprise_token, only: %i(create)
@@ -48,7 +48,7 @@ module Admin
 
       helper_method :index_path, :new_path, :edit_path, :member_path, :delete_option_path, :list_item_path,
                     :reorder_alphabetical_path, :attribute_help_text_path, :update_attribute_help_text_path,
-                    :custom_field_page_title, :section_label, :customizable_name
+                    :deletion_dialog_path, :custom_field_page_title, :section_label, :customizable_name
 
       def index
         @custom_fields = custom_field_scope
@@ -68,6 +68,10 @@ module Admin
 
       def update_attribute_help_text
         update_help_text
+      end
+
+      def deletion_dialog
+        respond_with_dialog Admin::CustomFields::DeleteDialogComponent.new(custom_field: @custom_field)
       end
 
       protected

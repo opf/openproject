@@ -35,10 +35,10 @@ cs:
         title: Členové
         view_all_members: Zobrazit všechny členy
         x_more:
-          one: a ještě jeden člen.
-          few: a ještě %{count} členů.
-          many: a ještě %{count} členů.
-          other: a ještě %{count} členů.
+          one: and %{count} more member.
+          few: and %{count} more members.
+          many: and %{count} more members.
+          other: and %{count} more members.
       news:
         no_results: Žádné novinky.
       not_available: Tento widget není k dispozici.

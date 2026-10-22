@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -223,14 +222,6 @@ module OpenProject
 
     # Enable the Rails 7 cache format
     config.active_support.cache_format_version = 7.1
-
-    # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
-    # and the choice has to be made before its railtie reaches ActiveRecord, so
-    # a file in config/initializers would come too late. OpenProject uses the
-    # plain client rather than either ActiveRecord API.
-    config.before_initialize do
-      RubyLLM.configure { |llm| llm.use_new_acts_as = true }
-    end
 
     config.after_initialize do
       Settings::Definition.add_all

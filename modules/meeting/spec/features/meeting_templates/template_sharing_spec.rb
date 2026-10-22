@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,8 @@ require_relative "../../support/pages/meetings/show"
 require_relative "../../support/pages/meetings/index"
 
 RSpec.describe "Template sharing", :js do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
   shared_let(:template) { create(:onetime_template, project:, title: "My template", sharing: :none) }
 
@@ -151,7 +152,7 @@ RSpec.describe "Template sharing", :js do
       child_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
         expect(page).to have_text(template.title)
       end
     end
@@ -178,7 +179,7 @@ RSpec.describe "Template sharing", :js do
       child_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
         expect(page).to have_text(descendants_template.title)
       end
     end
@@ -196,7 +197,7 @@ RSpec.describe "Template sharing", :js do
       wait_for_network_idle
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
         expect(page).to have_text(descendants_template.title)
       end
     end
@@ -223,7 +224,7 @@ RSpec.describe "Template sharing", :js do
       accessible_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
         expect(page).to have_text(system_template.title)
       end
     end
@@ -241,7 +242,7 @@ RSpec.describe "Template sharing", :js do
       wait_for_network_idle
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        search_autocomplete(-> { find('[data-test-selector="template_id"]') }, query: "")
         expect(page).to have_text(system_template.title)
       end
     end

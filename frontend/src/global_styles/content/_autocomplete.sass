@@ -70,6 +70,7 @@ div.autocomplete
 .ng-select
   width: 100%
   font-size: var(--body-font-size)
+  border-radius: var(--borderRadius-medium)
 
   &.-error
     .ng-select-container
@@ -98,7 +99,7 @@ div.autocomplete
       padding-left: 0px
 
   .ng-select-container
-    border-radius: 2px
+    border-radius: var(--borderRadius-medium)
     z-index: auto !important
     height: 30px !important
     min-height: 30px !important
@@ -115,10 +116,15 @@ div.autocomplete
       input
         height: 100%
         padding: 0
+        line-height: normal
         -webkit-box-sizing: border-box !important
         -moz-box-sizing: border-box !important
         box-sizing: border-box !important
         color: var(--body-font-color) !important
+
+  &.ng-select-single .ng-select-container .ng-value-container .ng-input
+    top: 0
+    height: 100%
 
   .ng-value
     @include text-shortener

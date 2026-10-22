@@ -36,7 +36,6 @@ import {
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import {
   Highlighting
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -48,6 +47,7 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -67,11 +67,11 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
   protected open(evt:Event) {
     const change = this.halEditing.changeFor(this.workPackage);
 
-    change.getForm().then((form:any) => {
-      const statuses = form.schema.status.allowedValues;
+    void change.getForm().then((form) => {
+      const statuses = form.schema.status!.allowedValues as HalResource[];
       this.buildItems(statuses);
 
-      const { writable } = change.schema.status;
+      const { writable } = change.schema.status as IOPFieldSchema;
       if (!writable) {
         this.toastService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
       } else {
@@ -103,7 +103,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     }
   }
 
-  private buildItems(statuses:CollectionResource<HalResource>) {
+  private buildItems(statuses:HalResource[]) {
     this.items = statuses.map((status:HalResource) => ({
       disabled: false,
       linkText: status.name,

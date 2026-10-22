@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -87,11 +86,11 @@ module CustomFields
 
       def destroy
         begin
-          @custom_field.destroy
+          @custom_field.destroy!
         rescue StandardError
           flash[:error] = I18n.t(:error_can_not_delete_custom_field)
         end
-        redirect_to index_path(@custom_field, tab: @custom_field.class.name), status: :see_other
+        redirect_to index_path(@custom_field), status: :see_other
       end
 
       def delete_option

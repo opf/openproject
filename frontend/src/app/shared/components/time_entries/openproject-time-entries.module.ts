@@ -33,7 +33,6 @@ import {
 } from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { CommonModule } from '@angular/common';
-import { TimerAccountMenuComponent } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 import {
   StopExistingTimerModalComponent,
 } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
@@ -47,7 +46,6 @@ import {
   ],
   declarations: [
     TriggerActionsEntryComponent,
-    TimerAccountMenuComponent,
     StopExistingTimerModalComponent,
   ],
   providers: [

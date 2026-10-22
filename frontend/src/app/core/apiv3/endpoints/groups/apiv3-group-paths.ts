@@ -30,6 +30,8 @@ import { GroupResource } from 'core-app/features/hal/resources/group-resource';
 import { Observable } from 'rxjs';
 
 export class ApiV3GroupPaths extends ApiV3GettableResource<GroupResource> {
+  readonly avatar = this.subResource('avatar');
+
   /**
    * Update a placeholder user resource or payload
    * @param resource

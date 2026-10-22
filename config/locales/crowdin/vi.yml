@@ -40,7 +40,9 @@ vi:
         view: A dynamic link to a view placed using a macro.
         work_package: A dynamic link to a work package placed using a macro.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: Continue with %{name}
     delete: Xoá tài khoản
     delete_confirmation: Bạn có chắc chắn muốn xoá tài khoản chứ?
     deletion_info:
@@ -51,7 +53,7 @@ vi:
       login_consequences:
         other: Tài khoản này sẽ ngay lập tức bị xóa khỏi hệ thống và người dùng sẽ không thể đăng nhập bằng thông tin đăng nhập của mình nữa.
         self: Tài khoản của bạn sẽ ngay lập tức bị xóa khỏi hệ thống và bạn sẽ không thể đăng nhập bằng thông tin đăng nhập của mình nữa.
-      title: Delete %{name}'s account
+      title: Xóa tài khoản của %{name}
     deletion_pending: Tài khoản đã được lên lịch xóa. Lưu ý rằng quá trình này diễn ra ở chế độ nền. Có thể mất vài phút cho đến khi người dùng bị xóa hoàn toàn.
     error_inactive_activation_by_mail: 'Tài khoản của bạn vẫn chưa được kích hoạt. Để kích hoạt tài khoản của bạn, hãy nhấp vào liên kết được gửi qua email cho bạn.
 
@@ -65,7 +67,9 @@ vi:
     error_self_registration_limited_provider: 'Đăng ký người dùng bị giới hạn đối với nhà cung cấp dịch vụ đăng nhập một lần ''%{name}''. Vui lòng yêu cầu quản trị viên kích hoạt tài khoản cho bạn hoặc thay đổi giới hạn tự đăng ký cho nhà cung cấp này.
 
       '
-    login_with_auth_provider: hoặc đăng nhập bằng tài khoản hiện tại
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Continue to sign in
     omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Vui lòng đăng nhập để kích hoạt tài khoản của bạn.
@@ -168,6 +172,7 @@ vi:
         uid: ID Khách hàng
       emoji_reaction:
         reactable: Đã phản hồi trên
+        reaction: Reaction
       enterprise_token:
         active_user_count_restriction: Người dùng đang hoạt động
         encoded_token: Mã thông báo hỗ trợ doanh nghiệp
@@ -200,11 +205,17 @@ vi:
         row_count: Số dòng
         widgets: Tiện ích
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Group users
         identity_url: URL nhận dạng
         organizational_unit: Organizational unit
         parent: Parent group
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Organizational unit
         parent: Parent group
       import/jira:
@@ -232,21 +243,6 @@ vi:
         onthefly: Tự động tạo người dùng
         port: hải cảng
         tls_certificate_string: Chứng chỉ SSL của máy chủ LDAP
-      llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
-      llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        llm_features_enabled: Enable LLMs for this instance
-      llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
       mcp_configuration:
         description: Mô tả
         enabled: Đã bật
@@ -399,6 +395,8 @@ vi:
         ongoing: đang diễn ra
         spent_on: Ngày
         type: Kiểu
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: lịch
         ical_token_query_assignment: Phân công truy vấn
@@ -426,6 +424,7 @@ vi:
       user:
         admin: Người Quản lý
         auth_source: Nguồn xác thực
+        avatar_type: Avatar type
         consented_at: Đồng ý tại
         current_password: Mật khẩu hiện tại
         department: Department
@@ -439,7 +438,7 @@ vi:
         last_name: Họ
         ldap_auth_source: Kết nối LDAP
         new_password: Mật khẩu mới
-        password_confirmation: Xác nhận lại mật khẩu
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
@@ -448,11 +447,15 @@ vi:
       user_preference:
         auto_hide_popups: Tự động ẩn biểu ngữ thành công
         auto_hide_popups_caption: Khi được bật, biểu ngữ thành công màu xanh sẽ tự động biến mất sau 5 giây.
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Cập nhật cảnh báo
         button_update_look_and_feel: Cập nhật giao diện
         button_update_user_information: Cập nhật hồ sơ
         comments_sorting: Hiển thị hoạt động gói công việc được sắp xếp theo
         daily_reminders: Lời nhắc hàng ngày
+        date_format: Date format
         disable_keyboard_shortcuts: Tắt phím tắt
         dismissed_enterprise_banners: Biểu ngữ doanh nghiệp ẩn
         force_dark_theme_contrast: Buộc độ tương phản cao khi ở chế độ Tối
@@ -466,7 +469,10 @@ vi:
         increase_contrast_caption: Bật chế độ tương phản cao cho chế độ màu đã chọn.
         increase_theme_contrast: Tăng độ tương phản chủ đề
         mode_guideline: Một số chế độ sẽ ghi đè màu chủ đề tùy chỉnh để đảm bảo khả năng truy cập và mức độ dễ đọc. Vui lòng chọn Chế độ ánh sáng để được hỗ trợ chủ đề tùy chỉnh đầy đủ.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Chế độ màu
+        time_format: Time format
         time_zone: Múi giờ
         warn_on_leaving_unsaved: Cảnh báo tôi khi rời khỏi gói công việc có những thay đổi chưa được lưu
         workdays: Ngày làm việc
@@ -755,29 +761,6 @@ vi:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'Chứng chỉ SSL được cung cấp không hợp lệ: %{additional_message}'
-        llm_connection:
-          attributes:
-            api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
-            api_key:
-              invalid_api_key: was rejected by the LLM server.
-            base:
-              singleton: Only one LLM connection can be active.
-            base_url:
-              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
-              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
-              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
-              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
-              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
-              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
-            custom_headers:
-              invalid: must map header names to plain text values.
-            llm_features_enabled:
-              requires_connection: cannot be turned on before a connection has been configured.
-        llm_model:
-          attributes:
-            external_id:
-              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Không thể lưu vì cuộc họp đã được người khác cập nhật trong thời gian chờ đợi. Vui lòng tải lại trang.
         member:
@@ -973,7 +956,7 @@ vi:
               numeric: số (ví dụ như ' 1')
               requirements_not_met: 'Must include characters of the following types: %{rules}'
               reused:
-                other: đã được sử dụng trước đây. Vui lòng chọn một cái khác với %{count} cuối cùng của bạn.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: đặc biệt (ví dụ như ' %')
               uppercase: chữ hoa (ví dụ như ' A')
             password_confirmation:
@@ -1042,6 +1025,8 @@ vi:
             identifier:
               must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: không thể có trong một dự án khác.
               cannot_be_milestone: không thể là một cột mốc.
@@ -1069,6 +1054,8 @@ vi:
             status_id:
               status_invalid_in_type: không hợp lệ vì tình trạng hiện tại không tồn tại loại này.
               status_transition_invalid: không hợp lệ vì không tồn tại chuyển đổi hợp lệ từ trạng thái cũ sang trạng thái mới cho vai trò của người dùng hiện tại.
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: không thể là một mốc quan trọng vì work package này có trẻ em.
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục thời gian.'
@@ -1077,7 +1064,7 @@ vi:
       template:
         body: 'Vui lòng kiểm tra các mục sau đây:'
         header:
-          other: "%{count} lỗi đã cấm lưu %{model} này"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         other: Actions
@@ -1363,6 +1350,10 @@ vi:
   admin:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+    custom_fields:
+      delete_dialog_component:
+        heading: Do you want to delete the custom field %{name}?
+        title: Delete custom field %{name}
     custom_styles:
       branding:
         desktop:
@@ -1621,7 +1612,7 @@ vi:
             users:
               other: "%{count} users"
             work_packages:
-              other: "%{count} gói công việc (work package)s"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
             description: This will delete all imported objects (including whole projects).
@@ -1795,97 +1786,6 @@ vi:
         no_matches:
           description: Try a different search term.
           title: No labels match your search
-    llm_connections:
-      delete_api_key:
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
-        title: Remove API key
-      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
-      disconnect:
-        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
-        heading: Disconnect from the LLM server?
-        keeps_models: The model list, including any models you added manually, is kept.
-        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
-        menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
-      form:
-        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
-        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
-        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
-        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
-        base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
-        label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
-      show:
-        description: Connect OpenProject to an LLM server so that AI features can use it.
-        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
-      tabs:
-        connection: Connection
-        models: Models
-      update:
-        disabled: Saved. LLM features are switched off for this instance.
-        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
-        success: Successfully connected to the LLM server.
-    llm_models:
-      create:
-        success: "%{model} has been added."
-      destroy:
-        description: The model will no longer be offered to AI features.
-        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
-        heading: Remove %{model}?
-        success: "%{model} has been removed."
-        title: Remove model
-      edit:
-        description: Edit how OpenProject uses this model.
-      form:
-        context_window: Context window
-        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
-        context_window_known: Leave blank to use %{value}, %{source}.
-        display_name_caption: An optional friendly name shown instead of the model id.
-        external_id_caption: The model name exactly as the server expects it.
-        model_type: Model type
-        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
-        model_type_chat: Chat model
-        model_type_embedding: Embedding model
-        model_type_unspecified: Not specified
-        state_inherited: Inherit from server (%{state})
-        state_supported: Supported
-        state_unsupported: Not supported
-      index:
-        add_model: Model
-        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
-        blank_title: No models available
-        context_window: Context window
-        description: Reported by the server on %{fetched_at}.
-        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
-        filter_label: Filter models
-        identifier: Model
-        kind: Type
-        refresh: Refresh models
-        source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
-      new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
-      refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
-      update:
-        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -1924,6 +1824,10 @@ vi:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
         title: Memberships
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Xem trang tích hợp và plugin của chúng tôi để biết thêm thông tin.
       no_results_title_text: Hiện tại không có plugin nào được cài đặt.
@@ -2177,6 +2081,21 @@ vi:
         not_available: The AI assistant is not available.
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: Đang hiển thị
@@ -2361,6 +2280,7 @@ vi:
     updated_at: Được cập nhật vào lúc
     updated_on: Đã cập nhật vào
     uploader: Tải lên
+    url: URL
     user: người dùng
     username: tên người dùng
     value: giá trị
@@ -2593,9 +2513,9 @@ vi:
     text:
       failed: Không thể chép dự án "%{source_project_name}" sang dự án "%{target_project_name}".
       succeeded: Đã sao chép dự án "%{source_project_name}" sang "%{target_project_name}".
-    title: Sao chép dự án "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Một đối tượng của loại này
+      one: "%{count} object of this type"
       other: "%{count} đối tượng của loại này"
       zero: Không có đối tượng thuộc loại này
   create_portfolio:
@@ -2635,7 +2555,7 @@ vi:
     admin:
       hierarchy:
         subitems:
-          one: 1 mục phụ
+          one: "%{count} sub-item"
           other: "%{count} mục phụ"
           zero: không có mục phụ
       items:
@@ -2795,40 +2715,40 @@ vi:
   datetime:
     distance_in_words:
       about_x_hours:
-        other: khoảng %{count} giờ
+        other: about %{count} hours
       about_x_months:
-        other: khoảng %{count} tháng
+        other: about %{count} months
       about_x_years:
-        other: khoảng %{count} năm
+        other: about %{count} years
       almost_x_years:
-        other: gần %{count} năm
+        other: almost %{count} years
       half_a_minute: nửa phút
       less_than_x_minutes:
         other: ít hơn %{count} phút
       less_than_x_seconds:
-        other: ít hơn %{count} giây
+        other: less than %{count} seconds
       over_x_years:
-        other: trên %{count} năm
+        other: over %{count} years
       x_days:
-        other: "%{count} ngày"
+        other: "%{count} days"
       x_hours:
-        other: "%{count} giờ"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        other: "%{count} giờ"
+        other: "%{count} hrs"
       x_minutes:
-        other: "%{count} phút"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        other: "%{count} phút"
+        other: "%{count} mins"
       x_months:
-        other: "%{count} tháng"
+        other: "%{count} months"
       x_seconds:
-        other: "%{count} giây"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        other: "%{count} giây"
+        other: "%{count} s"
       x_weeks:
-        other: "%{count} tuần"
+        other: "%{count} weeks"
       x_years:
-        other: "%{count} năm"
+        other: "%{count} years"
     units:
       day:
         other: ngày
@@ -2975,7 +2895,7 @@ vi:
     teaser:
       description_html: You have access to all %{trial_plan} features.
       title:
-        other: "%{count} ngày còn lại của %{trial_plan} mã thông báo dùng thử"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Mã thông báo doanh nghiệp dùng thử của bạn đã được truy xuất. Vui lòng kiểm tra email của bạn để biết mã thông báo được đính kèm. Vui lòng liên hệ với nhóm hỗ trợ của chúng tôi nếu bạn cần một cái mới.
 
@@ -3377,7 +3297,6 @@ vi:
         caption: Start with an existing form, change it as you wish and save it as a new form.
         label: Start with a copy of an existing form
         missing: Select the form to copy, or start from scratch instead.
-        panel_label: Form to copy
       label: Starting point
       scratch:
         caption: Start with the default attribute groups and arrange them yourself.
@@ -3400,7 +3319,7 @@ vi:
       used_by_types:
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        other: This form is used by %{count} types and variants.
+        other: This form is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:
@@ -3410,8 +3329,45 @@ vi:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: Hiện tại không có bài viết cho diễn đàn.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3436,6 +3392,8 @@ vi:
   groups:
     edit:
       synchronized_groups: Nhóm được đồng bộ hóa
+    form:
+      group_attributes: Group attributes
     index:
       description: Bằng cách nhóm người dùng lại với nhau, bạn có thể thêm họ làm thành viên cho cùng một dự án hoặc chỉ định các vai trò chung giống nhau cho họ.
     memberships:
@@ -3461,6 +3419,10 @@ vi:
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -3507,6 +3469,31 @@ vi:
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
+
+            '
         header: Đọc về các tính năng mới và cập nhật sản phẩm.
         learn_about: Tìm hiểu thêm về tất cả các tính năng mới
         missing: Chưa có tính năng nổi bật nào.
@@ -3542,6 +3529,7 @@ vi:
   journals:
     cause_descriptions:
       budget_deleted: Budget has been deleted
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} changed (%{link})"
         csv: from CSV
@@ -3594,6 +3582,7 @@ vi:
       budget_deleted: Budget has been deleted
       dates_changed: Ngày đã thay đổi
       default_attribute_written: Thuộc tính chỉ đọc được viết
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Imported
       meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
@@ -3781,7 +3770,7 @@ vi:
   label_database_version: Phiên bản PostgreSQL
   label_date: ngày
   label_date_and_time: Ngày và giờ
-  label_date_format: Định dạng ngày
+  label_date_and_time_formats: Date and time formats
   label_date_from: Từ
   label_date_from_to: Từ %{start} tới %{end}
   label_date_to: Đến
@@ -3940,7 +3929,6 @@ vi:
   label_keyword_plural: Từ khóa
   label_label_plural: Labels
   label_language: ngôn ngữ
-  label_language_based: Dựa trên ngôn ngữ của người dùng
   label_languages: ngôn ngữ
   label_last_activity: Hoạt động cuối cùng
   label_last_change_on: Thay đổi cuối trên
@@ -3962,6 +3950,7 @@ vi:
   label_list: danh sách
   label_loading: Đang tải...
   label_locale: Ngôn ngữ và khu vực
+  label_locale_based: Use default for user locale
   label_lock_user: Khóa người dùng
   label_locked: bị khóa
   label_logged_as: Đăng nhập như
@@ -3973,6 +3962,7 @@ vi:
   label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Kho lưu trữ %{vendor} được quản lý
   label_mapping_for: 'Ánh xạ cho: %{attribute}'
+  label_markdown_version: Markdown version
   label_max_size: Kích thước tối đa
   label_me: tôi
   label_member_all_admin: "(Tất cả các vai trò do tư cách quản trị viên)"
@@ -3991,7 +3981,6 @@ vi:
   label_menu_item_name: Tên món trong thực đơn
   label_message: tin nhắn
   label_message_last: Tin nhắn cuối cùng
-  label_message_new: Tin nhắn mới
   label_message_plural: Tin nhắn
   label_message_posted: Đã thêm tin nhắn
   label_minute_plural: phút
@@ -4252,6 +4241,7 @@ vi:
   label_subtask_plural: Tác vụ con
   label_summary: Tóm tắt
   label_system: Hệ thống
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Cài đặt hệ thống
   label_system_storage: Thông tin lưu trữ
   label_table_of_contents: Mục lục
@@ -4302,6 +4292,7 @@ vi:
   label_user_search: Tìm kiếm người dùng
   label_user_settings: Cài đặt người dùng
   label_users_settings: Cài đặt người dùng
+  label_value: Value
   label_value_x: 'Giá trị: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Chỉnh sửa phiên bản
@@ -4366,35 +4357,35 @@ vi:
   label_working_hours: Work schedule
   label_workweek: tuần làm việc
   label_x_closed_work_packages_abbr:
-    one: 1 đóng
+    one: "%{count} closed"
     other: "%{count} đóng"
     zero: 0 đóng
   label_x_comments:
-    one: 1 bình luận
+    one: "%{count} comment"
     other: "%{count} bình luận"
     zero: Không có bình luận
   label_x_days:
     other: "%{count} days"
   label_x_files:
-    one: 1 tập tin
+    one: "%{count} file"
     other: "%{count} tệp"
     zero: không có tập tin
   label_x_items:
-    one: 1 item
+    one: "%{count} item"
     other: "%{count} items"
     zero: no items
   label_x_items_selected:
     other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 mở
+    one: "%{count} open"
     other: "%{count} mở"
     zero: 0 mở
   label_x_projects:
-    one: một dự án
+    one: "%{count} project"
     other: "%{count} dự án"
     zero: Không có dự án
   label_x_work_packages:
-    one: 1 gói công việc
+    one: "%{count} work package"
     other: "%{count} gói công việc"
     zero: Không có gói công việc
   label_x_working_days:
@@ -4484,42 +4475,6 @@ vi:
     update:
       failure: 'Không thể lưu danh sách đã sửa đổi: %{errors}'
       success: Danh sách sửa đổi đã được lưu
-  llm:
-    api_formats:
-      anthropic: Anthropic
-      azure: Azure OpenAI
-      bedrock: AWS Bedrock
-      deepseek: DeepSeek
-      gemini: Google Gemini
-      gpustack: GPUStack
-      mistral: Mistral
-      ollama: Ollama
-      openai: OpenAI
-      openrouter: OpenRouter
-      perplexity: Perplexity
-      vertexai: Google Vertex AI
-      xai: xAI
-    capabilities:
-      embeddings:
-        label: Embeddings
-      function_calling:
-        label: Tool calling
-      reasoning:
-        label: Reasoning
-      structured_output:
-        label: Structured output
-      vision:
-        label: Vision
-    context_window_sources:
-      registry: the figure published for this model
-      server: reported by the server
-    model_kinds:
-      chat: Chat
-      embedding: Embedding
-    verdict_states:
-      supported: supported
-      unknown: not verified
-      unsupported: not supported
   macro_execution_error: Lỗi khi thực thi macro %{macro_name}
   macro_unavailable: Macro %{macro_name} không thể hiển thị.
   macro_unknown: Unknown or unsupported macro.
@@ -4549,6 +4504,8 @@ vi:
       you_have: bạn có
     logo_alt_text: biểu tượng
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: Đến trung tâm thông báo
@@ -4605,7 +4562,7 @@ vi:
       mentioned: Bạn đã được <b>đề cập trong một nhận xét</b>
       mentioned_by: "%{user} đã đề cập đến bạn trong nhận xét"
       more_to_see:
-        other: Có thêm %{count} gói công việc có thông báo.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Mở trong trình duyệt
       reason:
         assigned: được giao
@@ -4764,7 +4721,6 @@ vi:
       aggregation: sự tổng hợp
       ai: Trí tuệ nhân tạo (AI)
       api_and_webhooks: API và webhook
-      llm_connection: LLM settings
       mail_notification: Thông báo qua email
       mails_and_notifications: Email và thông báo
       mcp_configurations: Giao thức Bối cảnh Mô hình (MCP)
@@ -4786,6 +4742,12 @@ vi:
           create_button: Tạo
           dialog_body: Mã thông báo này sẽ cho phép các ứng dụng của bên thứ ba giao tiếp với phiên bản của bạn. Để phân biệt mã thông báo API mới, vui lòng đặt tên cho nó.
           dialog_title: Tạo mã thông báo API mới
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: Tên mã thông báo
       failed_to_create_token: 'Không tạo được mã thông báo truy cập: %{error}'
       failed_to_reset_token: 'Lỗi cập nhật mã truy cập: %{error}'
@@ -4799,6 +4761,9 @@ vi:
     password_confirmation_dialog:
       confirmation_required: Bạn cần nhập mật khẩu tài khoản của mình để xác nhận thay đổi này.
       title: Xác nhận mật khẩu của bạn để tiếp tục
+    timer:
+      stop: Stop
+      tracking: Time tracking
     work:
       actions:
         assign_to_me: Assign work package to me
@@ -4815,6 +4780,7 @@ vi:
     access_tokens:
       access_tokens: Mã thông báo truy cập
       description: Mã thông báo của nhà cung cấp được OpenProject phát hành, cho phép các ứng dụng khác truy cập vào nó. Mã thông báo của khách hàng được phát hành bởi các ứng dụng khác, cho phép OpenProject truy cập chúng.
+      expired_on: Expired on %{date}
       headers:
         action: Hành động
         expiration: Hết hạn
@@ -5329,7 +5295,7 @@ vi:
   permission_change_work_package_status_explanation: Cho phép thay đổi trạng thái mà không có quyền Chỉnh sửa gói công việc
   permission_comment_news: Chú thích vào tin mới
   permission_commit_access: Quyền truy cập đọc/ghi vào kho lưu trữ (cam kết)
-  permission_copy_projects: Sao chép dự án
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: Trong các dự án mẫu, quyền này có chức năng phụ, nó cho phép tạo các dự án mới bắt nguồn từ mẫu.
   permission_copy_work_packages: Gói công việc trùng lặp
   permission_create_backup: Tạo bản sao lưu
@@ -5468,7 +5434,7 @@ vi:
     name: OmniAuth SAML / Đăng nhập một lần
   portfolio:
     count:
-      one: 1 danh mục đầu tư
+      one: "%{count} portfolio"
       other: "%{count} danh mục đầu tư"
       zero: 0 danh mục đầu tư
     filters:
@@ -5479,7 +5445,7 @@ vi:
         label: Bộ lọc tên danh mục đầu tư
         placeholder: Tìm kiếm danh mục đầu tư
       sub_items_html:
-        other: "<strong>%{count}</strong> mục phụ"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Danh mục đầu tư đang hoạt động
       archived: Danh mục lưu trữ
@@ -5493,7 +5459,7 @@ vi:
         Nó có thể được sử dụng để làm nổi bật các gói công việc trong bảng.
   program:
     count:
-      one: 1 chương trình
+      one: "%{count} program"
       other: "%{count} chương trình"
       zero: 0 chương trình
     filters:
@@ -5505,7 +5471,7 @@ vi:
       confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Lưu trữ dự án
     count:
-      one: 1 dự án
+      one: "%{count} project"
       other: "%{count} dự án"
       zero: 0 dự án
     destroy:
@@ -5781,7 +5747,7 @@ vi:
     action_title: phản ứng
     add_reaction: Thêm phản ứng
     and_others:
-      other: và %{count} người khác
+      other: and %{count} others
     and_user: và %{user}
     react_with: Phản ứng với %{reaction}
     reaction_by: "%{reaction} bởi"
@@ -5912,7 +5878,7 @@ vi:
         other: 'This role is still attributed to %{count} members:'
       heading_unused: Are you sure you want to delete the role "%{name}"?
       losing_project_access:
-        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
       show_memberships: Show all memberships with this role
@@ -5935,7 +5901,6 @@ vi:
       section_uncheck_all_label: Bỏ gán tất cả quyền %{module}
     permissions_dialog:
       edit_permissions: Edit role permissions
-      implicit_permission: Always granted
       no_permissions: This role does not grant any permissions.
       permission_count:
         other: "%{count} permissions"
@@ -6046,7 +6011,7 @@ vi:
   setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Số dòng khác biệt tối đa được hiển thị
   setting_disable_password_login: Vô hiệu hóa xác thực mật khẩu
-  setting_display_subprojects_work_packages: Hiển thị các gói công việc của dự án con trên các dự án chính theo mặc định
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Định dạng thời lượng
   setting_duration_format_days_and_hours: Ngày và giờ
   setting_duration_format_hours_only: Chỉ giờ
@@ -6428,7 +6393,7 @@ vi:
       section_work_week: tuần làm việc
   sharing:
     count:
-      one: 1 người dùng
+      one: "%{count} user"
       other: "%{count} người dùng"
       zero: 0 người dùng
     denied: Bạn không có quyền chia sẻ %{entities}.
@@ -6626,6 +6591,7 @@ vi:
   text_length_between: Độ dài từ %{min} đến %{max} ký tự.
   text_line_separated: Cho phép nhiều giá trị (mỗi giá trị một dòng).
   text_load_default_configuration: Tải cấu hình mặc định
+  text_markdown_login_required: Log in or send an X-OpenProject-API-Key header to read this document.
   text_no_access_tokens_configurable: Không có mã thông báo truy cập nào có thể được cấu hình.
   text_no_configuration_data: |-
     Vai trò, loại, trạng thái gói công việc và quy trình làm việc chưa được định cấu hình.
@@ -6787,30 +6753,35 @@ vi:
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       start:
-        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
-        inherit_title: Use the same settings as the type
-        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
-        reuse_heading: Reuse existing type configuration
-        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
-        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
-        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        next_heading: What happens next?
         submit: Start
         type:
-          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
           heading: Create a new type
-          lead_html: You are about to create a new type in your instance.
-          step_by_step: You will configure a new type step-by-step in the following pages.
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
         variant:
-          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
           heading: Create a new variant
-          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
-          step_by_step: You will configure this new variant step-by-step in the following pages.
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: Defaults
         details: Details
         form_configuration: Form
-        pdf: PDF generation
+        pdf: Generate PDF
         project_attributes: Project attributes
         projects: Projects
         start: Start
@@ -6925,11 +6896,14 @@ vi:
         tab: Form
         untitled_group: Untitled group
       overview:
+        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
         configuration_mode: Configuration mode
         mode:
           always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
+          inheriting_from_html: Using the same as type (%{source_name})
           manual: Manually configured
+          using_form_html: Using form %{name}
+          using_workflow_html: Using workflow %{name}
         settings: Settings
         tab: Overview
       project_attributes:
@@ -6949,6 +6923,7 @@ vi:
           attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: Remove the type %{type} from %{project}?
@@ -7029,6 +7004,7 @@ vi:
           success: The configuration mode was switched.
           title: Manual configuration
         parent_suffix: " (parent)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
@@ -7119,7 +7095,7 @@ vi:
     authorization_rejected: Bạn không được phép đăng nhập.
     blocked: bị khóa tạm thời
     blocked_num_failed_logins:
-      other: bị khóa tạm thời (%{count} lần đăng nhập không thành công)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Bạn sắp thay đổi trạng thái '%{name}'. Bạn có chắc chắn muốn tiếp tục không?
     deleted: Người dùng đã bị xóa
     department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
@@ -7604,6 +7580,8 @@ vi:
           unknown_in_project: does not exist in this project.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
+          example_category: Documentation
+          example_version: '1.0'
           examples:
             one:
               description: Explain what the new page has to do.
@@ -7618,10 +7596,10 @@ vi:
       dry_run_label: Check the file first, without importing
       file_label: CSV file
       guidance:
-        column_reference: column reference
-        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
-        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
-        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
         title: Before you start
       import_file: Import file
       importing_file: Importing %{filename}
@@ -7668,7 +7646,6 @@ vi:
           notifications: Notifications were not sent for these work packages.
           text_html: Imported from %{filename} on %{date} at %{time}.
           title: "%{work_packages} created"
-          work_packages: work packages
         problems:
           all:
             other: "%{count} problems, all shown."
@@ -7724,7 +7701,7 @@ vi:
         version:
           no_results_title_text: Hiện tại không sẵn có phiên bản nào.
     x_descendants:
-      other: "%{count} gói sản phẩm phụ thuộc"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -7816,12 +7793,11 @@ vi:
         caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
         label: Start with a copy of an existing workflow
         missing: Select the workflow to copy, or start from scratch instead.
-        panel_label: Workflow to copy
       label: Starting point
       scratch:
         caption: Start with a blank workflow and build it manually.
         label: Start from scratch
-      title: Configure a new workflow
+      title: New workflow
     usage:
       dialog:
         button: View dependent types
@@ -7833,7 +7809,7 @@ vi:
       used_by_types:
         other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        other: This workflow is used by %{count} types and variants.
+        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:

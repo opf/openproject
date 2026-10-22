@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,9 @@
 class RolesController < ApplicationController
   include PaginationHelper
   include OpTurbo::ComponentStream
+  include SortableLists::DropRequestValidation
+
+  configure_drop_request list_type: Role::SORTABLE_LIST_TYPE, list_id_scoped: false
 
   layout "admin"
 
@@ -100,7 +102,7 @@ class RolesController < ApplicationController
   end
 
   def drop
-    if valid_drop_request? && @role.move_after_anchor(drop_params[:prev_id], scope: reorderable_roles)
+    if !@role.builtin? && valid_drop_request? && @role.move_after_anchor(drop_params[:prev_id], scope: reorderable_roles)
       head :no_content
     else
       render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
@@ -178,19 +180,6 @@ class RolesController < ApplicationController
 
   def reorderable_roles
     Role.visible.builtin(false)
-  end
-
-  # The raw list_id is checked because permit cannot distinguish absent from
-  # filtered-out values, and prev_id must be a scalar to reach the anchor lookup.
-  def valid_drop_request?
-    !@role.builtin? &&
-      drop_params[:list_type] == Role::SORTABLE_LIST_TYPE &&
-      params[:list_id].blank? &&
-      drop_params.key?(:prev_id)
-  end
-
-  def drop_params
-    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
   end
 
   def new_params

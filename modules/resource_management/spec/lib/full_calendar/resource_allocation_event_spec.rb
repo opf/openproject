@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ RSpec.describe FullCalendar::ResourceAllocationEvent do
   let(:allocation) { build_stubbed(:resource_allocation, entity: work_package) }
   let(:date) { Date.new(2026, 10, 5) }
   let(:scheduled_entry) do
-    ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: 150)
+    ResourceAllocations::ScheduledEntry.new(allocation:, allocated_on: date, minutes: 150)
   end
   let(:visible) { true }
 
