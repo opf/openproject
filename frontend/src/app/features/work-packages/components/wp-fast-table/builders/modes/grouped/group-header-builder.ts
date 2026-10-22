@@ -65,7 +65,6 @@ export class GroupHeaderBuilder {
     }
 
     const leadingIcon = this.leadingIcon(group);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const groupTitle = escape((groupName(group)));
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
