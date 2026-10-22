@@ -27,18 +27,23 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper(data: wrapper_data_attributes) do %>
-  <%= flex_layout(
-        role: :list,
-        aria: { label: t(:label_type_plural) },
-        data: list_data
-      ) do |container| %>
+  <%= render(
+        Primer::Alpha::Stack.new(
+          gap: :normal,
+          mt: 3,
+          role: :list,
+          aria: { label: t(:label_type_plural) },
+          data: list_data
+        )
+      ) do %>
     <% types.each do |root| %>
-      <% container.with_row(
-           id: "sortable-type-#{root.id}",
-           role: :listitem,
-           mt: 3,
-           data: item_data(root)
-         ) do %>
+      <%= render(
+            Primer::Alpha::StackItem.new(
+              id: "sortable-type-#{root.id}",
+              role: :listitem,
+              data: item_data(root)
+            )
+          ) do %>
         <%= render(
               OpPrimer::BorderBoxListComponent.new(
                 container: "op-types-group-#{root.id}",
