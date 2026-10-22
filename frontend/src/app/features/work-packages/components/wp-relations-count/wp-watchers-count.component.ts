@@ -26,7 +26,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject,
 } from '@angular/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -44,11 +44,9 @@ export class WorkPackageWatchersCountComponent extends UntilDestroyedMixin imple
 
   public count = 0;
 
-  constructor(protected apiV3Service:ApiV3Service,
-    protected wpWatcherService:WorkPackageWatchersService,
-    protected cdRef:ChangeDetectorRef) {
-    super();
-  }
+  protected apiV3Service = inject(ApiV3Service);
+  protected wpWatcherService = inject(WorkPackageWatchersService);
+  protected cdRef = inject(ChangeDetectorRef);
 
   ngOnInit():void {
     this
