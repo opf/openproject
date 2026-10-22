@@ -150,26 +150,37 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
-      type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
-      uses_existing = true
-
-      if type.blank?
-        service_call = WorkPackageTypes::CreateService
-                         .new(user: @system_user)
-                         .call(name: issue_type["name"])
-        raise service_call.message unless service_call.success?
-
-        type = service_call.result
-        uses_existing = false
-      end
+      type, uses_existing = find_or_create_type(issue_type)
 
       enable_type(project, type)
       jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
+    end
+
+    def find_or_create_type(issue_type)
+      name = issue_type["name"]
+      type = find_type(name)
+      return [type, true] if type
+
+      lock_key = "jira_import_create_type_#{name.parameterize(separator: '_')}"
+      OpenProject::Mutex.with_advisory_lock(Type, lock_key, transaction: true) do
+        type = find_type(name)
+        return [type, true] if type
+
+        service_call = WorkPackageTypes::CreateService
+                         .new(user: @system_user)
+                         .call(name:)
+        raise service_call.message unless service_call.success?
+
+        [service_call.result, false]
+      end
+    end
+
+    def find_type(name)
+      Type.find_by("LOWER(name) = LOWER(?)", name)
     end
 
     def enable_type(project, type)
