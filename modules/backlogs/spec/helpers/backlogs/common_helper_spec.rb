@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,39 @@ RSpec.describe Backlogs::CommonHelper do
 
     it "checks permissions in the default project when none is given" do
       expect(helper.user_allowed?(:create_sprints)).to be false
+    end
+  end
+
+  describe "#batch_selection_allowed?" do
+    let(:project) { build_stubbed(:project) }
+
+    before do
+      # The helper resolves the actor through `current_user`, which a bare
+      # helper object does not define; the describe above stubs it the same
+      # way.
+      without_partial_double_verification do
+        allow(helper).to receive_messages(current_user:)
+      end
+
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project(*permissions, project:)
+      end
+    end
+
+    context "when the user may manage sprint items" do
+      let(:permissions) { %i[manage_sprint_items] }
+
+      it "offers batch selection" do
+        expect(helper.batch_selection_allowed?(project)).to be true
+      end
+    end
+
+    context "when the user may only view" do
+      let(:permissions) { %i[view_sprints view_work_packages] }
+
+      it "does not offer batch selection" do
+        expect(helper.batch_selection_allowed?(project)).to be false
+      end
     end
   end
 

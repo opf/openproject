@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -29,8 +28,7 @@
 require "spec_helper"
 
 RSpec.describe "Work package timeline navigation",
-               :js,
-               :selenium do
+               :js do
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }
@@ -39,6 +37,7 @@ RSpec.describe "Work package timeline navigation",
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:group_by) { Components::WorkPackages::GroupBy.new }
+  let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:milestone_type) { create(:type, is_milestone: true) }
 
   let(:work_package) do
@@ -131,7 +130,7 @@ RSpec.describe "Work package timeline navigation",
       wp_table.expect_work_package_listed work_package
       wp_table.ensure_work_package_not_listed! work_package2
 
-      # Navigate to the Gantt module agin
+      # Navigate to the Gantt module again
       find(".main-menu--arrow-left-to-project").click
       page.find_test_selector("main-menu-toggler--gantt").click
 
@@ -141,6 +140,10 @@ RSpec.describe "Work package timeline navigation",
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2
       wp_timeline.ensure_work_package_not_listed! work_package
+
+      # The timeline rendered after navigating back still responds
+      find(".wp-row-#{work_package2.id}-timeline").right_click
+      context_menu.expect_options "Add predecessor"
     end
 
     it "can open a context menu in the timeline (Regression #30761)" do

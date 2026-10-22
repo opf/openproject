@@ -39,9 +39,8 @@ module API
         self_link id_attribute: :id,
                   title_getter: ->(*) {}
 
-        property :gitlab_name, as: :login
-        property :gitlab_email, as: :email
-        property :gitlab_avatar_url, as: :avatarUrl
+        property :name, as: :login
+        property :avatar_url
 
         def _type
           "GitlabUser"

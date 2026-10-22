@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,6 +45,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     set_attachments_attributes(attributes)
     claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
+    set_labels_attributes(attributes)
     set_static_attributes(attributes)
 
     model.change_by_system do
@@ -82,6 +82,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
     model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
     model.observed_in_version_ids_replacements = Array(observed_in_ids).map(&:to_i) if observed_in_ids
+  end
+
+  def set_labels_attributes(attributes)
+    label_ids = attributes.delete(:label_ids)
+
+    model.label_id_replacements = label_ids if label_ids
   end
 
   def set_static_attributes(attributes)
@@ -258,7 +264,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     TypeVariant
       .pluck(:default_work_package_description)
       .compact
-      .map(&method(:normalize_whitespace))
+      .map { |desc| normalize_whitespace(desc) }
       .include?(normalize_whitespace(work_package.description))
   end
 

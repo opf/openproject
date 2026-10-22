@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,6 +35,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { PaginationObject } from 'core-app/shared/components/table-pagination/pagination-service';
+import { HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
 
 export class ApiV3QueryPaths extends ApiV3GettableResource<QueryResource> {
   @LazyInject() private queryFilters:QueryFiltersService;
@@ -52,7 +52,7 @@ export class ApiV3QueryPaths extends ApiV3GettableResource<QueryResource> {
    */
   public parameterised(params:object):Observable<QueryResource> {
     return this.halResourceService
-      .get<QueryResource>(this.path, params);
+      .get<QueryResource>(this.path, params as HTTPClientParamMap);
   }
 
   /**

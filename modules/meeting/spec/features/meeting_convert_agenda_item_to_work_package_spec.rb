@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,12 +76,10 @@ RSpec.describe "Convert agenda item to work package", :js do
     page.within_dialog(dialog_title) do
       expect(page).to have_field("Subject", with: "Discuss the roadmap")
       fill_in "Subject", with: "Roadmap planning"
-      click_on "Create"
+      wait_for_turbo_stream { click_on "Create" }
     end
 
-    wait_for_network_idle
-
-    expect(page).to have_no_selector(:dialog, dialog_title, wait: 10)
+    expect(page).to have_no_css("dialog", text: dialog_title, wait: 20)
 
     created_wp = WorkPackage.find_by(subject: "Roadmap planning")
     expect(created_wp).to be_present

@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package show page", :selenium do
+RSpec.describe "Work package show page" do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:grand_parent) do
@@ -85,5 +84,14 @@ RSpec.describe "Work package show page", :selenium do
     # Navigate to Grandparent
     page.find_test_selector("op-wp-breadcrumb--hierarchy-element", text: grand_parent.subject).click
     expect(page).to have_current_path project_work_packages_path(project) + "/#{grand_parent.id}/activity", wait: 10
+  end
+
+  context "as an accessible page" do
+    it "is AXe clean", :js, :selenium do
+      wp_page = Pages::FullWorkPackage.new(work_package)
+      wp_page.visit!
+      wp_page.expect_attributes type: work_package.type.name.upcase
+      expect(page).to be_axe_clean
+    end
   end
 end

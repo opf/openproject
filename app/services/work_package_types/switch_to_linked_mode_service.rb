@@ -22,32 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module WorkPackageTypes
-  # Switches one configuration aspect of a variant to Linked. Serves both the
-  # Independent -> Linked switch and re-pointing an existing link to a different
-  # source ("change source"); both are the same write. The source-graph
-  # invariants (present, global, not-self, acyclic) are the link record's own
-  # validations.
+  # Switches one configuration aspect of a variant to Linked, inheriting it from the type's base
+  # variant.
   class SwitchToLinkedModeService
     def initialize(variant:, aspect:)
       @variant = variant
       @aspect = aspect
     end
 
-    def call(source:)
-      @variant.public_send(:"#{TypeVariant.validated_configuration_aspect(@aspect)}_source=", source)
-
-      if @variant.save
-        ServiceResult.success(result: @variant)
-      else
-        ServiceResult.failure(result: @variant, errors: @variant.errors)
-      end
+    def call
+      @variant.link!(@aspect)
+      ServiceResult.success(result: @variant)
+    rescue ActiveRecord::RecordInvalid
+      ServiceResult.failure(result: @variant, errors: @variant.errors)
     end
 
     private

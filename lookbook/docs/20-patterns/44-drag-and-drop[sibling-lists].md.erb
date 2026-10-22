@@ -1,0 +1,125 @@
+---
+label: Sibling lists
+---
+
+Several lists of one kind under one root, with rows moving between them.
+Backlogs is the reference: an inbox and any number of sprint columns, all
+holding work packages. Everything from the One list tab still applies; this
+tab adds only what siblings need.
+
+<%= embed Patterns::SortableListsPreview, :sibling_lists, panels: %i[source] %>
+
+As on the One list tab, the preview's move URL points at a path that does
+not exist: every drop and every move action rolls back with an error toast.
+
+## Give every list an id
+
+The lists accept the same item type, so each needs an `id` to tell them
+apart; that value is the `list_id` the server receives. Their own `type` is
+the kind of destination the server decodes and may differ between siblings:
+the Backlogs inbox declares `inbox`, every sprint column `sprint`, and both
+accept `work_package`:
+
+```html
+<div data-controller="sortable-lists--list"
+     data-sortable-lists--list-type-value="sprint"
+     data-sortable-lists--list-accepted-type-value="work_package"
+     data-sortable-lists--list-id-value="<%%= sprint.id %>"
+     data-sortable-lists--list-name-value="<%%= sprint.name %>">
+```
+
+A move into another list is the ordinary request with that list's
+`list_type` and `list_id`; the client sends nothing extra to relocate a row.
+On the server a
+change of list is a reparent plus an insert, so run both in one transaction
+and lock both lists: a failed insert must leave the record where it started.
+
+`name` is announced to screen readers when a row arrives from another list
+("moved to Sprint 3"), so it must be the user-facing name.
+
+## Keyboard path between lists
+
+The move menu from the One list tab only reorders within the row's current
+list; its four directions never change the list. A keyboard user still has
+to be able to change list, so the consumer adds its own actions that send
+the same `PUT` with the destination's `list_type` and `list_id` and no
+`prev_id`, landing the row first. Backlogs'
+`WorkPackageCardMenuComponent` shows both shapes: "Move to inbox" is a form
+item submitting `list_type=inbox` directly, while "Move to sprint…" and
+"Move to backlog…" open a dialog to pick the destination and then submit the
+same request. The preview above has no such action, so its cross-list move
+is drag-only.
+
+## Drops on empty space
+
+An empty list is still a drop target, because the list element accepts the
+drop, not its rows. A drop on the empty space of a non-empty list lands at
+the end by default; set `data-sortable-lists--list-drop-position-value="start"`
+on lists that read newest-first, as the Backlogs inbox does.
+
+## Rows that may not leave
+
+Set `data-sortable-lists--item-confined-value="true"` on a row the server
+will reorder in place but refuses to relocate. It stays fully draggable and
+its own list accepts it, so reordering keeps working; every other list
+refuses the drop and a release there leaves the row where it was.
+
+That is different from a row that may not move at all. Backlogs renders a
+work package the user may not sort as a plain row: no `sortable-lists--item`
+controller and no item id, so it neither drags nor anchors its neighbors'
+drops.
+
+## Auto-scrolling columns
+
+Put `sortable-lists--scrollable` on the element that actually scrolls, which
+is rarely the list itself. Backlogs wraps each column of lists in one:
+
+```html
+<div data-controller="sortable-lists--scrollable"
+     data-sortable-lists--scrollable-allowed-axis-value="vertical">
+```
+
+Add the scrollable outlet to the root alongside the other two, with the same
+id scoping:
+
+```html
+data-sortable-lists-sortable-lists--scrollable-outlet="#backlogs_container [data-controller~='sortable-lists--scrollable']"
+```
+
+`allowedAxis` accepts `vertical` (default), `horizontal` or `all`;
+`maxScrollSpeed` accepts `standard` (default) or `fast`.
+
+## Optimistic placement
+
+By default the endpoint streams the re-rendered list back and the morph
+reconciles the row's position. A board that re-renders on every drag pays
+for that with flicker, so the root can ask for an event-only answer:
+
+```html
+<div data-controller="sortable-lists"
+     data-sortable-lists-optimistic-value="true"
+     data-sortable-lists-move-url-template-value="<%%= move_url_template %>">
+```
+
+(plus the outlet selectors from the One list tab.)
+
+This appends `optimistic=true` to the move URL. The endpoint may then
+acknowledge with an event alone and leave the client's placement standing.
+Backlogs is the only surface that opts in today.
+
+The flag is a request, not a promise. Backlogs skips the re-render only for a
+same-list move whose requested anchor is verifiably the persisted one: a
+blank `prev_id` with nothing above the row, or a non-blank one that really is
+the row above. A cross-list move, or an anchor that has meanwhile left the
+list, reloads the frame, because the persisted order and the optimistic order
+have diverged. A failed request still rolls the rows back, unless a
+concurrent morph has already moved them, in which case the fresher server
+state wins.
+
+## Batch selection
+
+Selecting several rows and moving them together is in development
+([AGILE-278](https://community.openproject.org/wp/AGILE-278),
+[AGILE-361](https://community.openproject.org/wp/AGILE-361)). The root's
+`selection_enabled` value and the collection move endpoint it drives are not
+yet a stable contract; this section documents them once they settle.

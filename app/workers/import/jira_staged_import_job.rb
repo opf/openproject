@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,7 +34,7 @@ module Import
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
       if batch.succeeded?
-        # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
+        # happens when jobs are not progressable and can't react to import_aborting by discarding themselves.
         if jira_import.in_state?(:import_aborting)
           jira_import.transition_to!(:import_error)
           return

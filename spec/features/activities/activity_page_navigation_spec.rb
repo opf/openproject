@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -282,7 +281,7 @@ RSpec.describe "Activity page navigation", :js do
         activity_page_path = page.current_path
 
         if is_work_package
-          wp_page = Pages::SplitWorkPackage.new(project_work_package, project)
+          wp_page = Pages::PrimerizedSplitWorkPackage.new(project_work_package, project)
           wp_page.switch_to_tab tab: :activity
           wp_page.wait_for_activity_tab
         end

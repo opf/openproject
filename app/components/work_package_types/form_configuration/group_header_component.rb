@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,25 +32,22 @@ module WorkPackageTypes
     class GroupHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(group:, variant:, ee_available:, first:, last:, edit_mode:, form_model: nil, readonly: false)
+      def initialize(group:, context:, ee_available:, first:, last:, edit_mode:, form_model: nil)
         super
         @group = group
-        @variant = variant
+        @context = context
         @ee_available = ee_available
         @first = first
         @last = last
         @edit_mode = edit_mode
         @form_model = form_model
-        @readonly = readonly
       end
 
       def edit_mode?
         @edit_mode
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, to: :@context
 
       private
 
@@ -76,13 +72,13 @@ module WorkPackageTypes
       end
 
       def edit_path
-        edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+        @context.group_path(:edit, key: @group[:key])
       end
 
       def update_path
         return create_path if temporary_group?
 
-        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+        @context.group_path(key: @group[:key])
       end
 
       def form_method
@@ -90,15 +86,15 @@ module WorkPackageTypes
       end
 
       def cancel_edit_path
-        cancel_edit_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+        @context.group_path(:cancel_edit, key: @group[:key])
       end
 
       def move_path(move_to)
-        move_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key], move_to:)
+        @context.group_path(:move, key: @group[:key], move_to:)
       end
 
       def destroy_path
-        type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+        @context.group_path(key: @group[:key])
       end
 
       def temporary_group?
@@ -106,7 +102,7 @@ module WorkPackageTypes
       end
 
       def create_path
-        type_form_configuration_group_path(**@variant.path_args)
+        @context.group_path
       end
 
       def move_action(menu:, href:, label:, icon:)

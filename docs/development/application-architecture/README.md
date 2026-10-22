@@ -44,7 +44,7 @@ flowchart TD
 
   openproject <-->|"TCP requests"| services
   openproject -->|"HTTPS requests"| integrations
-  loadbalancer <-->|"HTTPS requsts"| integrations
+  loadbalancer <-->|"HTTPS requests"| integrations
   
   subgraph localclients[Local Client / User device]
   direction TB

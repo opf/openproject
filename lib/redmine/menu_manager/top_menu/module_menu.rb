@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Redmine::MenuManager::TopMenu::ModuleMenu
-  def render_module_top_menu_node(item_groups = module_top_menu_item_groups) # rubocop:disable Metrics/AbcSize
+  def render_module_top_menu_node(item_groups = module_top_menu_item_groups)
     unless item_groups.empty?
       render Primer::Alpha::Dialog.new(classes: "op-app-menu--item",
                                        title: I18n.t("label_global_modules"),
@@ -43,7 +42,7 @@ module Redmine::MenuManager::TopMenu::ModuleMenu
                                 "aria-controls": "op-app-header--modules-menu-list",
                                 "aria-label": I18n.t("label_global_modules"))
         dialog.with_header(classes: "op-app-header--modules-menu-header") do
-          render_waffle_menu_logo_icon if show_waffle_icon?
+          render_waffle_menu_logo_icon
         end
 
         dialog.with_body do

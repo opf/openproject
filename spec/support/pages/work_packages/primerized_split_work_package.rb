@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,8 +36,10 @@ module Pages
     end
 
     def switch_to_tab(tab:)
-      in_split_view do
-        page.find_test_selector(tab_selector(tab)).click
+      wait_for_turbo_frame(frame: "content-bodyRight", wait: 20) do
+        in_split_view do
+          page.find_test_selector(tab_selector(tab)).click
+        end
       end
     end
 
@@ -48,21 +49,21 @@ module Pages
     end
 
     def close
+      expect_angular_frontend_initialized
+      wait_for_network_idle
       page.find_test_selector("wp-details-tab-component--close").click
+      expect(page).to have_no_css("#work-package-details-#{work_package.id}", wait: 20)
     end
 
     def expect_tab(tab)
-      within_test_selector(tab_selector(tab)) do |link|
-        link["data-aria-current"] == "page"
-      end
+      expect(page).to have_css(
+        %([data-test-selector="#{tab_selector(tab)}"][aria-current="page"]),
+        wait: 20
+      )
     end
 
     def within_active_tab(&)
       within(".work-packages--details-content", &)
-    end
-
-    def path(tab = "overview")
-      details_notifications_path(work_package.id, tab:)
     end
 
     private

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -204,15 +203,18 @@ module Components
         wait_for_turbo
       end
 
-      def rename_group(from, to)
-        group_key = find_group(from)["data-group-key"]
-        open_group_menu(from)
-        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+      def start_renaming_group(name)
+        invoke_group_action(name, I18n.t("types.edit.form_configuration.rename_group"))
+        expect(page).to have_test_selector("type-form-configuration-group-name-input")
+      end
 
-        fill_group_name(to)
+      def rename_group(from, new_name)
+        start_renaming_group(from)
+
+        fill_group_name(new_name)
         save_group
 
-        expect_group(to, to)
+        expect_group(new_name, new_name)
       end
 
       def remove_group(name)
@@ -264,6 +266,11 @@ module Components
         open_menu("type-form-configuration-query-actions-#{group_key}")
       end
 
+      def close_menu(menu_id)
+        page.find("body").send_keys(:escape)
+        expect(page).to have_no_css("##{menu_id}")
+      end
+
       def invoke_group_action(name, label)
         click_menu_action(-> { open_group_menu(name) }, label)
         wait_for_turbo
@@ -296,19 +303,7 @@ module Components
       end
 
       def open_group_menu(name)
-        menu_id = nil
-
-        3.times do
-          menu_button = menu_button_for(name)
-          menu_id = menu_button[:"aria-controls"]
-          menu_button.click
-
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Capybara::ElementNotFound
-          next
-        end
-
-        raise Capybara::ElementNotFound, "Unable to open menu #{menu_id.inspect}"
+        open_menu_button { menu_button_for(name) }
       end
 
       def menu_button_for(name)
@@ -317,29 +312,31 @@ module Components
       end
 
       def open_menu(button_selector)
-        menu_id = nil
-        menu_button = nil
+        open_menu_button { page.find_test_selector(button_selector) }
+      end
 
-        3.times do
-          menu_button = page.find_test_selector(button_selector)
+      def open_menu_button
+        page.document.synchronize(10) do
+          menu_button = yield
           menu_id = menu_button[:"aria-controls"]
-          menu_button.click
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Capybara::Cuprite::MouseEventFailed
-          menu_button&.trigger("click")
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Capybara::ElementNotFound
-          next
-        end
+          raise Capybara::ElementNotFound, "Menu button has no target" if menu_id.blank?
 
-        raise Capybara::ElementNotFound, "Unable to open menu #{menu_id.inspect}"
+          begin
+            menu_button.click
+          rescue Capybara::Cuprite::MouseEventFailed
+            menu_button.trigger("click")
+          end
+
+          page.find(id: menu_id, visible: :visible, wait: 0)
+          menu_id
+        end
       end
 
       def click_menu_action(open_menu_callback, label)
-        retry_block(args: { tries: 3 }) do
+        page.document.synchronize(10) do
           menu_id = open_menu_callback.call
-          menu = page.find("##{menu_id}", visible: :all)
-          menu.first("[role='menuitem']", text: /\A#{Regexp.escape(label)}\z/, visible: :all).click
+          menu = page.find(id: menu_id, visible: :visible, wait: 0)
+          menu.find("[role='menuitem']", exact_text: label, visible: :visible, wait: 0).click
         end
       end
 

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -55,17 +54,19 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
       return true;
     }
 
+    const row = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
+
+    if (!row.dataset.workPackageId || this.isUnsavedRow(row)) {
+      return true;
+    }
+
     evt.preventDefault();
     evt.stopPropagation();
-
-    // Locate the row from event
-    const element = target.closest<HTMLTableRowElement>(this.SELECTOR)!;
-    const wpId = element.dataset.workPackageId!;
 
     super.openContextMenu(
       component.workPackageTable,
       evt,
-      wpId,
+      row,
       // Set position args to open at element
       { placement: 'bottom-start', reference: target }
     );

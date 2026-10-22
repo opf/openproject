@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,6 +34,44 @@ RSpec.describe Budget do
   let(:type) { create(:type_feature) }
   let(:project) { create(:project_with_types) }
   let(:user) { create(:user) }
+
+  describe "#labor_budget_items" do
+    it "eager-loads the principal for users and placeholder users alike" do
+      budget.save!
+      create(:labor_budget_item, budget:, principal: user, hours: 1)
+      create(:labor_budget_item, budget:, principal: create(:placeholder_user), hours: 2)
+
+      principals = budget.reload.labor_budget_items.map(&:principal)
+
+      expect(principals.map(&:class)).to contain_exactly(User, PlaceholderUser)
+    end
+  end
+
+  describe "validation of labor budget items" do
+    let(:non_member) { create(:user) }
+
+    before do
+      budget.author = user
+    end
+
+    it "reports an invalid new item once" do
+      budget.new_labor_budget_item_attributes = { "0" => { hours: "1", user_id: non_member.id.to_s } }
+
+      expect(budget).not_to be_valid
+      expect(budget.errors.where(:labor_budget_items)).to contain_exactly(have_attributes(type: :invalid))
+    end
+
+    it "reports an invalid existing item once" do
+      login_as create(:admin)
+      budget.save!
+      item = create(:labor_budget_item, budget:, principal: user, hours: 1)
+
+      budget.reload.existing_labor_budget_item_attributes = { item.id.to_s.to_sym => { hours: "1", user_id: non_member.id.to_s } }
+
+      expect(budget).not_to be_valid
+      expect(budget.errors.where(:labor_budget_items)).to contain_exactly(have_attributes(type: :invalid))
+    end
+  end
 
   describe "destroy" do
     let(:work_package) { create(:work_package, project:) }

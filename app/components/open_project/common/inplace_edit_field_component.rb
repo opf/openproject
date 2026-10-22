@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -213,11 +212,21 @@ module OpenProject
         @required = if @system_arguments.key?(:required)
                       @system_arguments[:required]
                     elsif custom_field?
-                      # For custom fields, check the is_required attribute
-                      custom_field&.is_required || false
+                      custom_field_required?
                     else
                       false
                     end
+      end
+
+      ##
+      # Custom fields can be required for two reasons:
+      # 1. The custom field is required globally (CustomField#is_required)
+      # 2. The custom field is marked as required in the form configuration of the type/variant in this project
+      def custom_field_required?
+        return false if custom_field.nil?
+        return custom_field.is_required unless model.respond_to?(:custom_field_required?)
+
+        model.custom_field_required?(custom_field)
       end
 
       def custom_field?

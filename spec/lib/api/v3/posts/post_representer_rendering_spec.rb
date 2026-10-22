@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,6 +64,53 @@ RSpec.describe API::V3::Posts::PostRepresenter, "rendering" do
 
     describe "project" do
       it_behaves_like "has workspace linked"
+    end
+
+    describe "topic" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { :topic }
+        let(:href) { api_v3_paths.post message.id }
+      end
+
+      context "for a reply" do
+        let(:topic) { build_stubbed(:message) }
+        let(:message) do
+          build_stubbed(:message, parent: topic) do |message|
+            allow(message).to receive(:project).and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:link) { :topic }
+          let(:href) { api_v3_paths.post topic.id }
+        end
+      end
+
+      context "for a reply not saved yet" do
+        let(:topic) { build_stubbed(:message) }
+        let(:message) do
+          build(:message, parent: topic).tap do |message|
+            allow(message).to receive(:project).and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has an untitled link" do
+          let(:link) { :topic }
+          let(:href) { api_v3_paths.post topic.id }
+        end
+      end
+
+      context "for a topic not saved yet" do
+        let(:message) do
+          build(:message).tap do |message|
+            allow(message).to receive(:project).and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has no link" do
+          let(:link) { :topic }
+        end
+      end
     end
 
     it_behaves_like "has an untitled action link" do

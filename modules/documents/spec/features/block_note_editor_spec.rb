@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -292,7 +291,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       let(:project) { create(:project, name: "Documented project", types: [create(:type_bug), type]) }
       let(:document) { create(:document, :collaborative, project:) }
       let!(:release_note) do
-        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type], projects: [project])
+        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type])
       end
       let!(:default_status) { create(:status, is_default: true) }
       let!(:default_priority) { create(:priority, is_default: true) }

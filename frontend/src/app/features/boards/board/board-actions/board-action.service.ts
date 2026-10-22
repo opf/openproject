@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -229,6 +228,14 @@ export abstract class BoardActionService {
    */
   headerComponent():ComponentType<unknown>|undefined {
     return undefined;
+  }
+
+  /**
+   * Whether this board type's header needs extra vertical space,
+   * e.g. to display a multi-line title
+   */
+  largeHeader():boolean {
+    return false;
   }
 
   /**

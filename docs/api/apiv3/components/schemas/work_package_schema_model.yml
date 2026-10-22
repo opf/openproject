@@ -54,6 +54,10 @@ properties:
     $ref: './schema_property_model.yml'
   derivedPercentageDone:
     $ref: './schema_property_model.yml'
+  allocatedTime:
+    $ref: './schema_property_model.yml'
+  allocatedPrincipals:
+    $ref: './schema_property_model.yml'
   readonly:
     $ref: './schema_property_model.yml'
   createdAt:

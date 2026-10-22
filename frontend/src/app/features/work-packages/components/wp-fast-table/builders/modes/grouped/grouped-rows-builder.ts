@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,9 +40,10 @@ import { WorkPackageTable } from '../../../wp-fast-table';
 import { tableRowClassName } from '../../rows/single-row-builder';
 import { RowsBuilder } from '../rows-builder';
 import { GroupHeaderBuilder } from './group-header-builder';
+import type { RenderPassOptions } from '../../primary-render-pass';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
-import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
+import type { OccurrenceKey } from '../../../rendered-occurrence-ledger';
 
 export class GroupedRowsBuilder extends RowsBuilder {
   // Injections
@@ -80,7 +80,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     return this.querySpace.collapsedGroups.value || {};
   }
 
-  public buildRows() {
+  public buildRows(options:RenderPassOptions) {
     const builder = new GroupHeaderBuilder(this.injector);
     return new GroupedRenderPass(
       this.injector,
@@ -88,7 +88,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       this.getGroupData(),
       builder,
       this.workPackageTable.colspan,
-    ).render();
+    ).render(options);
   }
 
   /**
@@ -96,8 +96,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
    */
   public refreshExpansionState() {
     const groups = this.getGroupData();
-    const rendered = this.querySpace.tableRendered.value!;
     const builder = new GroupHeaderBuilder(this.injector);
+    const updates = new Map<OccurrenceKey, boolean>();
 
     this.workPackageTable.tableAndTimelineContainer
       .querySelectorAll<HTMLTableRowElement>(`.${rowGroupClassName}`)
@@ -107,30 +107,37 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
         // Refresh the group header
         const newRow = builder.buildGroupRow(group, this.workPackageTable.colspan);
+        const headerKey = oldRow.dataset.occurrenceKey;
+
+        if (headerKey) {
+          newRow.dataset.occurrenceKey = headerKey;
+        }
 
         if (oldRow.parentNode) {
           oldRow.parentNode.replaceChild(newRow, oldRow);
         }
 
+        if (headerKey) {
+          this.workPackageTable.ledger.replaceElement(headerKey, newRow);
+        }
+
         // Set expansion state of contained rows
         const affected = Array.from(this.workPackageTable.tableAndTimelineContainer
-          .querySelectorAll(`.${groupedRowClassName(groupIndex)}`));
+          .querySelectorAll<HTMLElement>(`.${groupedRowClassName(groupIndex)}`));
 
         affected.forEach((el) => el.classList.toggle(collapsedRowClass, !!group.collapsed));
 
-        // Update the hidden section of the rendered state
         affected
           .filter((el) => el.matches(`.${tableRowClassName}`))
           .forEach((el) => {
-          // Get the index of this row
-          const index = getNodeIndex(el);
-
-          // Update the hidden state
-          rendered[index].hidden = !!group.collapsed;
-        });
+            const key = el.dataset.occurrenceKey;
+            if (key) {
+              updates.set(key, !!group.collapsed);
+            }
+          });
       });
 
-    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after group change.');
+    this.workPackageTable.setHidden(updates);
   }
 
   /**
@@ -139,7 +146,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   private getGroupData() {
     return this.groups.map((group:GroupObject, index:number) => {
       group.index = index;
-      if (group._links && group._links.valueLink) {
+      if (group._links?.valueLink) {
         group.href = group._links.valueLink;
       }
       group.identifier = groupIdentifier(group);

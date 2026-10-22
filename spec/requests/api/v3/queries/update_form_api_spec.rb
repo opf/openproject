@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -123,9 +123,7 @@ RSpec.describe "POST /api/v3/queries/form",
 
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
-        cf.type_variants << project.enabled_variants.first
-
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
         cf
       end
 

@@ -22,42 +22,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module CustomFieldsHelper
-  def custom_fields_tabs
-    [
-      {
-        name: "WorkPackageCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :WorkPackageCustomField),
-        label: :label_work_package_plural
-      },
-      {
-        name: "TimeEntryCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :TimeEntryCustomField),
-        label: :label_spent_time
-      },
-      {
-        name: "VersionCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :VersionCustomField),
-        label: :label_version_plural
-      },
-      {
-        name: "GroupCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :GroupCustomField),
-        label: :label_group_plural
-      }
-    ]
-  end
-
   def blank_custom_field_label_tag(name, custom_field)
     label = [h(custom_field.name)]
     label << content_tag("span", " *", class: "required") if custom_field.is_required?
@@ -75,6 +45,16 @@ module CustomFieldsHelper
     case field_format.try(:edit_as)
     when "date"
       angular_component_tag "opce-basic-single-date-picker",
+                            class: "form--text-field-container",
+                            inputs: {
+                              required: custom_field.required?,
+                              id: field_id,
+                              name: field_name,
+                              value:
+                            }
+    when "datetime"
+      angular_component_tag "opce-basic-single-datetime-picker",
+                            class: "form--text-field-container",
                             inputs: {
                               required: custom_field.required?,
                               id: field_id,

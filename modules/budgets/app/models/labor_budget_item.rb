@@ -20,21 +20,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class LaborBudgetItem < ApplicationRecord
+  extend DeprecatedAlias
+
   belongs_to :budget
-  belongs_to :user
   belongs_to :principal, foreign_key: "user_id"
 
-  include ::Costs::DeletedUserFallback
-
   validates :comments, length: { maximum: 255, allow_nil: true }
-  validates :user, presence: true
+  validates :principal, presence: true
   validates :budget, presence: true
   validates :hours, numericality: { allow_nil: false }
   validate :user_is_member_of_budget_project
@@ -50,6 +48,15 @@ class LaborBudgetItem < ApplicationRecord
     visible(args.first || User.current)
   }
 
+  # The item outlives the principal it budgets, so a removed one still reads
+  # back the way a deleted user does.
+  def principal
+    super || (DeletedUser.first if user_id.present?)
+  end
+
+  deprecated_alias :user, :principal
+  deprecated_alias :user=, :principal=
+
   def costs
     amount || calculated_costs
   end
@@ -59,11 +66,24 @@ class LaborBudgetItem < ApplicationRecord
   end
 
   def calculated_costs(fixed_date = budget.fixed_date, project_id = budget.project_id)
-    if user_id && hours && (rate = HourlyRate.at_date_for_user_in_project(fixed_date, user_id, project_id))
-      rate.rate * hours
-    else
-      0.0
+    rate = applicable_rate(fixed_date, project_id)
+    return 0.0 unless rate && hours
+
+    rate.rate * hours
+  end
+
+  def applicable_rate(fixed_date = budget.fixed_date, project_id = budget.project_id)
+    return if user_id.blank?
+
+    applicable_rates.fetch([fixed_date, project_id]) do |key|
+      applicable_rates[key] = HourlyRate.at_date_for_user_in_project(fixed_date, user_id, project_id)
     end
+  end
+
+  # Groups are budgeted at 0.0 by design, so only principals that can hold a
+  # rate at all count as missing one.
+  def missing_rate?(fixed_date = budget.fixed_date, project_id = budget.project_id)
+    principal.is_a?(Costs::HasRates) && applicable_rate(fixed_date, project_id).nil?
   end
 
   def costs_visible_by?(usr)
@@ -73,10 +93,14 @@ class LaborBudgetItem < ApplicationRecord
 
   private
 
+  def applicable_rates
+    @applicable_rates ||= {}
+  end
+
   def user_is_member_of_budget_project
     return if principal.nil? || budget&.project.nil?
 
-    unless Principal.possible_assignee(budget.project).exists?(id: principal.id)
+    unless Member.of_project(budget.project).exists?(user_id: principal.id)
       errors.add(:principal, :not_a_member_of_budget_project)
     end
   end

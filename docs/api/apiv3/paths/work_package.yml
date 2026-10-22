@@ -91,11 +91,14 @@ get:
       example: '2022-01-01T00:00:00Z,PT0S'
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           schema:
             $ref: '../components/schemas/work_package_model.yml'
-      description: OK
+          examples:
+            response:
+              $ref: "../components/examples/work_package_simple_response.yml"
     '404':
       content:
         application/hal+json:
@@ -162,11 +165,14 @@ patch:
             $ref: '../components/examples/work_package_with_meta_validation.yml'
   responses:
     '200':
+      description: OK
       content:
         application/hal+json:
           schema:
             '$ref': '../components/schemas/work_package_model.yml'
-      description: OK
+          examples:
+            response:
+              $ref: "../components/examples/work_package_simple_response.yml"
     '400':
       $ref: '../components/responses/invalid_request_body.yml'
     '403':

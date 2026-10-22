@@ -22,33 +22,34 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Widget::Filters::MultiValues < Widget::Filters::Base
-  def render # rubocop:disable Metrics/AbcSize
-    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: "advanced-filters--filter-value") do
+  option :lazy, optional: true
+
+  def render_filter # rubocop:disable Metrics/AbcSize
+    content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: "advanced-filters--filter-value") do
       select_options = {
         "data-remote-url": url_for(action: "available_values"),
         "data-initially-selected": JSON::dump(Array(filter.values).flatten),
         style: "vertical-align: top;", # FIXME: Do CSS
         name: "values[#{filter_class.underscore_name}][]",
-        "data-loading": @options[:lazy] ? "ajax" : "",
+        "data-loading": @lazy ? "ajax" : "",
         id: "#{filter_class.underscore_name}_arg_1_val",
         class: "form--select filter-value",
         "data-filter-name": filter_class.underscore_name,
         "data-action": "change->reporting--page#selectValueChanged"
       }
-      box_content = "".html_safe
+      box_content = ActiveSupport::SafeBuffer.new
       label = label_tag "#{filter_class.underscore_name}_arg_1_val",
                         "#{h(filter_class.label)} #{I18n.t(:label_filter_value)}",
                         class: "sr-only"
 
       box = content_tag :select, select_options, id: "#{filter_class.underscore_name}_select_1" do
-        render_widget Widget::Filters::Option, filter, to: box_content unless @options[:lazy]
+        render_widget Widget::Filters::Option, filter, to: box_content unless @lazy
       end
       plus = content_tag :a,
                          href: "#",
@@ -67,6 +68,6 @@ class Widget::Filters::MultiValues < Widget::Filters::Base
       content_tag(:span, class: "inline-label") do
         label + box + plus
       end
-    end)
+    end
   end
 end
