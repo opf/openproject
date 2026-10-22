@@ -732,7 +732,9 @@ describe('HalResource', () => {
             promise = resource.$load().then((result:HalResource) => {
               newResult = result;
             });
+          });
 
+          it('should request the property', () => {
             expect(getStub).toHaveBeenCalled();
           });
 
@@ -755,8 +757,10 @@ describe('HalResource', () => {
 
             expect(descriptor).toBeDefined();
 
-            expect(descriptor!.get).toBeDefined();
-            expect(descriptor!.set).toBeDefined();
+            expect(descriptor).toEqual(expect.objectContaining({
+              get: expect.any(Function),
+              set: expect.any(Function),
+            }));
           });
 
           it('should return itself in a promise if already loaded', async () => {
