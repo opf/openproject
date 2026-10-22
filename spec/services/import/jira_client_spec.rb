@@ -198,7 +198,7 @@ RSpec.describe Import::JiraClient do
         .to_return do |request|
           page = CGI.parse(URI(request.uri).query).fetch("page").first.to_i
           { status: 200,
-            body: { options: [option(10_200 + page, "Colour #{page}")] }.to_json,
+            body: { options: [option(10_200 + page, "Color #{page}")] }.to_json,
             headers: { "Content-Type" => "application/json" } }
         end
 

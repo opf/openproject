@@ -227,7 +227,7 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).not_to include("Jo Barnes")
     end
 
-    it "offers global as an italicised option in the project filter" do
+    it "offers global as an italicized option in the project filter" do
       get admin_members_path
 
       expect(response.body).to include(Queries::Members::Filters::ProjectFilter::GLOBAL_VALUE)

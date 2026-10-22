@@ -50,7 +50,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
       expect(rendered_component).to have_test_selector("label-name", text: "Bug")
     end
 
-    it "renders the pluralised usage count" do
+    it "renders the pluralized usage count" do
       expect(rendered_component).to have_test_selector("label-usage", text: "3 work packages")
     end
   end
