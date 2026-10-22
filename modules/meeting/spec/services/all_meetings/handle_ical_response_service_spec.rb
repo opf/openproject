@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -304,7 +303,7 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
       context "when accepting the invitation" do
         let(:partstat) { "ACCEPTED" }
 
-        it "updates the participant's status on the occurence" do
+        it "updates the participant's status on the occurrence" do
           expect { subject }.to change {
             meeting.participants.find_by(user: user).participation_status
           }.from("needs_action").to("accepted")
@@ -449,7 +448,7 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
       end
     end
 
-    context "when responding to the series and the occurence in one mail" do
+    context "when responding to the series and the occurrence in one mail" do
       let(:recurrence_id) { recurring_meeting.start_time + 7.days }
       let!(:meeting) do
         RecurringMeetings::InitOccurrenceService
@@ -512,8 +511,8 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
       end
     end
 
-    context "when responding to the occurence, but the series is already part of the response, " \
-            "eventhough the user is only added to the occurence" do
+    context "when responding to the occurrence, but the series is already part of the response, " \
+            "even though the user is only added to the occurrence" do
       let(:recurrence_id) { recurring_meeting.start_time + 7.days }
       let!(:meeting) do
         RecurringMeetings::InitOccurrenceService

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,7 @@
 #   * Custom field changes (compares customizable_journals with predecessor)
 #   * File link changes (compares storages_file_links_journals with predecessor)
 #   * Target/observed-in version changes (compares work_package_version_journals with predecessor)
+#   * Label changes (compares label_journals with predecessor)
 #   * Cause metadata (system-triggered changes)
 #   * Attribute/data changes (compares work_package_journals columns with immediate predecessor)
 #
@@ -88,6 +88,7 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
         OR EXISTS (#{custom_field_changes_condition_sql})
         OR EXISTS (#{file_link_changes_condition_sql})
         OR EXISTS (#{version_changes_condition_sql})
+        OR EXISTS (#{label_changes_condition_sql})
       SQL
     end
 
@@ -133,6 +134,14 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
       association_changes_condition_sql(
         table: Journal::WorkPackageVersionJournal.table_name,
         join_columns: %w[version_id kind],
+        value_columns: []
+      )
+    end
+
+    def label_changes_condition_sql
+      association_changes_condition_sql(
+        table: Journal::LabelJournal.table_name,
+        join_columns: ["label_id"],
         value_columns: []
       )
     end

@@ -22,23 +22,25 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Automations::Actions::Base
-  attr_reader :values
+class Automations::Actions::Base < ApplicationRecord
+  self.table_name = "automation_actions"
 
   DEFAULT_PRIORITY = 100
 
-  def initialize(values = [])
-    self.values = values
-  end
+  belongs_to :automation, inverse_of: :actions
+  acts_as_list scope: :automation
 
-  def values=(values)
-    @values = Array(values)
+  store_attribute :options, :values
+
+  after_initialize :coerce_persisted_values
+
+  def values
+    Array(super)
   end
 
   def allowed_values
@@ -60,21 +62,15 @@ class Automations::Actions::Base
   end
 
   def human_name
-    WorkPackage.human_attribute_name(self.class.key)
+    WorkPackage.human_attribute_name(key)
   end
 
   def self.key
     raise SubclassResponsibilityError
   end
 
-  def self.all
-    [self]
-  end
-
-  def self.for(key)
-    if key == self.key
-      self
-    end
+  def self.templates
+    [new]
   end
 
   delegate :key, to: :class
@@ -96,10 +92,22 @@ class Automations::Actions::Base
     DEFAULT_PRIORITY
   end
 
+  protected
+
+  def write_raw_values(new_values)
+    write_store_attribute(:options, :values, Array(new_values))
+  end
+
   private
 
   def deconstruct_keys(*)
     { type:, custom_field_based: respond_to?(:custom_field) }
+  end
+
+  def coerce_persisted_values
+    return if new_record? || values.empty?
+
+    self.values = values
   end
 
   def validate_value_required(errors)

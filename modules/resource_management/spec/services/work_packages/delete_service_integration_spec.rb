@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,6 +61,34 @@ RSpec.describe WorkPackages::DeleteService, "ResourceAllocation", type: :model d
       delete
 
       expect(other_allocation.reload).to be_present
+    end
+  end
+
+  describe "updating the schedules" do
+    let(:principal) { create(:user) }
+    let(:other_principal) { create(:user) }
+    let(:child) { create(:work_package, project:, parent: work_package) }
+    let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+    before do
+      create(:resource_allocation, entity: work_package, principal:,
+                                   start_date: Date.new(2026, 1, 12), end_date: Date.new(2026, 1, 16))
+      create(:resource_allocation, entity: child, principal:)
+      create(:resource_allocation, entity: child, principal: other_principal, start_date: Date.new(2026, 1, 7))
+      create(:resource_allocation, entity: work_package, principal: other_principal, state: "canceled",
+                                   start_date: Date.new(2026, 1, 1))
+      create(:resource_allocation, entity: other_work_package, principal: other_principal,
+                                   start_date: Date.new(2026, 1, 2))
+
+      allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service)
+    end
+
+    it "recomputes each principal once, from the earliest start of their deleted allocations" do
+      expect(delete).to be_success
+
+      expect(schedule_service).to have_received(:call).twice
+      expect(schedule_service).to have_received(:call).with(users: [principal], from: Date.new(2026, 1, 5))
+      expect(schedule_service).to have_received(:call).with(users: [other_principal], from: Date.new(2026, 1, 7))
     end
   end
 

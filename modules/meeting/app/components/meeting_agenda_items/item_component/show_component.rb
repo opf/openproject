@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -268,7 +267,7 @@ module MeetingAgendaItems
       menu.with_item(label: t("meeting.copy.to_clipboard"),
                      tag: :"clipboard-copy",
                      content_arguments: { value: url }) do |item|
-        item.with_leading_visual_icon(icon: :copy)
+        item.with_leading_visual_icon(icon: :paste)
       end
     end
 
@@ -324,7 +323,7 @@ module MeetingAgendaItems
 
     ##
     # Find the next occurrence that we can move an item to.
-    # Even if meeting.start_time is in the past, its canonical reccurrence_start_time might be in the future.
+    # Even if meeting.start_time is in the past, its canonical recurrence_start_time might be in the future.
     # (when the meeting has been moved earlier than it recurrence time).
     #
     # In order to find the next valid slot, we need to skip:

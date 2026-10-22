@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,6 +64,17 @@ RSpec.describe Labels::CreateService, type: :model do
 
         expect(result).to be_failure
         expect(result.errors.symbols_for(:name)).to include(:taken)
+      end
+
+      it "fails when the name is taken by an insert racing past validation" do
+        create(:label, name: "bug")
+        allow_any_instance_of(Label).to receive(:valid?).and_return(true) # rubocop:disable RSpec/AnyInstance
+
+        result = described_class.new(user:).call(name: "Bug")
+
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:name)).to include(:taken)
+        expect(Label.count).to eq(1)
       end
 
       context "with a user lacking edit_work_packages in any project" do

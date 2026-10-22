@@ -22,16 +22,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Admin::Settings
   class UserCustomFieldsController < ::Admin::SettingsController
-    include CustomFields::SharedActions
-    include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::SharedActions
+    include ::CustomFields::AttributeHelpTextActions
     include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
@@ -89,7 +88,7 @@ module Admin::Settings
     def list_items; end
 
     def move
-      result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
         move_to: params.expect(:move_to)
       )
 
@@ -105,7 +104,7 @@ module Admin::Settings
     end
 
     def drop
-      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
+      result = ::CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
         target_id: params[:target_id],
         position: params[:position]
       )
@@ -126,7 +125,7 @@ module Admin::Settings
     end
 
     def destroy
-      result = CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
+      result = ::CustomFields::DeleteService.new(user: current_user, model: @custom_field).call
 
       if result.success?
         update_section_via_turbo_stream(user_custom_field_section: @custom_field.user_custom_field_section.reload)

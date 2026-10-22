@@ -61,6 +61,7 @@ fr:
         single: Sélectionner «%{name} »
       remove: Supprimer %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Aucun élément trouvé
       placeholder: Saisir pour rechercher
       project:
@@ -162,6 +163,7 @@ fr:
     button_stop_timer: Arrêter le suivi du temps
     button_uncheck_all: Tout désélectionner
     button_update: Mettre à jour
+    button_view_markdown: View Markdown
     caption_rate_history: Historique des tarifs
     card:
       add_new: Ajouter une nouvelle carte
@@ -359,8 +361,8 @@ fr:
     ical_sharing_modal:
       copy_url_label: Copier l'URL
       description: Vous pouvez utiliser l'URL (iCalendar) pour vous abonner à ce calendrier dans un client externe et afficher les informations mises à jour du lot de travaux à partir de là.
-      ical_generation_error_text: Une erreur s'est produite lors de la génération de l'URL du calendrier.
-      inital_setup_error_message: Une erreur est survenue lors de la récupération des données.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
       title: S'abonner au calendrier
       token_name_description_text: Si vous vous abonnez à ce calendrier à partir de plusieurs appareils, ce nom vous permettra de les distinguer dans votre liste de <a href="%{myAccessTokensUrl}" target="_blank">jetons d'accès</a>.
@@ -552,6 +554,8 @@ fr:
     label_reset: Réinitialiser
     label_resize_project_menu: Redimensionner le menu du projet
     label_save_as: Enregistrer sous
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Rechercher une colonne
     label_select_watcher: Sélectionner un observateur...
     label_selected_filter_list: Filtres sélectionnés
@@ -624,8 +628,8 @@ fr:
     notifications:
       center:
         and_more_users:
-          one: et 1 autre personne
-          other: et %{count} autres personnes
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Il semble que vous êtes à jour.
           no_notification_for_filter: Il semble que vous êtes à jour pour ce filtre.
@@ -828,12 +832,12 @@ fr:
         not_selectable: Sélection inchangée. Cet élément n'est pas pris en compte dans l'ordre de cette liste.
         range_blocked: Sélection inchangée. Cette plage contient un élément qui n'est pas pris en compte dans l'ordre de cette liste.
         range_restarted:
-          one: Impossible d'étendre la plage. 1 élément sélectionné.
-          other: Impossible d'étendre la plage. %{count} éléments sélectionnés.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Sélection inchangée. Dépliez cette liste pour sélectionner cette plage.
         selected:
-          one: 1 élément sélectionné.
-          other: "%{count} éléments sélectionnés."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Fermer la fenêtre modale
@@ -847,9 +851,7 @@ fr:
     text_user_wrote: "%{value} a écrit :"
     text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s) lot(s) de travaux sélectionné(s) ?
     time_entry:
-      stop: Arrêter
       title: Consigner du temps
-      tracking: Suivi du temps
       work_package_required: Nécessite d'abord la sélection d'un lot de travaux.
     timer:
       button_stop: Arrêter le suivi du temps actuel
@@ -884,20 +886,20 @@ fr:
       label_two_factor_authentication: Authentification à deux facteurs
     units:
       child_work_packages:
-        one: un lot de travaux enfant
-        other: "%{count} lots de travaux enfants"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 jour
+        one: "%{count} day"
         other: "%{count} jours"
         zero: 0 jour
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 mot
-        other: "%{count} mots"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: lot de travaux
         other: lots de travaux

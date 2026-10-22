@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ end
 
 # The order of the matchers is relevant, as less specific matcher could exclude more specific matchers.
 # I.e. `/\Afoo_(.*)_bar\z/` must be specified before `/\Afoo_(.*)\z/` and `/\A(.*)_bar\z/`,
-# as only the first matching rule wil be applied.
+# as only the first matching rule will be applied.
 OpenProject::Inflector.rule do |basename, abspath|
   case basename
   when /\Aoauth_(.*)_api\z/

@@ -64,7 +64,7 @@ sv:
       label_add_new: Lägg till ny webhook
       label_edit: Redigera webhook
       label_x_events:
-        one: 1 händelse
+        one: "%{count} event"
         other: "%{count} händelser"
         zero: Inga händelser
       no_results_table: Inga webhooks har definierats ännu.

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,10 +73,10 @@ cs:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Jeden pracovní balíček nebyl v tomto sprintu dokončen.
-                few: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
-                many: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
-                other: V tomto sprintu nebylo dokončeno %{count} pracovních balíčků.
+                one: There is %{count} work package that was not completed in this sprint.
+                few: There are %{count} work packages that were not completed in this sprint.
+                many: There are %{count} work packages that were not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: není aktivní, takže jej nelze uzavřít.
         sprint_goal:
@@ -146,6 +146,10 @@ cs:
       show:
         blankslate_description: Nastavte datum začátku a konce sprintu pro vygenerování Burndown grafu.
         blankslate_title: Nedostupná data pro Burndown
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Zvolte, které typy pracovních balíčků se mají skrýt z backlogu. Položky vybraných typů se v backlogu automaticky nezobrazí, takže zůstane soustředěn na práci, která je pro váš tým důležitá. Například typy jako Epicy nebo Milníky, které jsou řízeny na vyšší úrovni, lze skrýt, aby se backlog soustředil na položky, které lze realizovat.
 
@@ -169,10 +173,10 @@ cs:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        one: Zobrazit ještě 1 položku
-        few: Zobrazit ještě %{count} položek
-        many: Zobrazit ještě %{count} položek
-        other: Zobrazit ještě %{count} položek
+        one: Show %{count} more item
+        few: Show %{count} more items
+        many: Show %{count} more items
+        other: Show %{count} more items
       title: Nevyřízené
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -198,6 +202,7 @@ cs:
     remaining_hours: Zbývající práce
     sharing: Sdílení sprintu
     show_burndown_chart: Graf Burndown
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
@@ -221,6 +226,9 @@ cs:
       shared_sprint_info_banner: Toto je sdílený sprint. Úpravy se odrazí ve všech projektech, které jej používají.
       shared_sprint_warning_banner: Toto je sdílený sprint. Nemáte potřebná oprávnění k jeho úpravě.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
@@ -282,7 +290,6 @@ cs:
       header_backlogs: Modul backlogů
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Kopírovst adresu URL
         copy_work_package_id: Kopírovat ID pracovního balíčku
         move_menu: Přesun na pozici
         move_to_backlog_bucket: Přesunout do sekce backlogu
@@ -312,6 +319,9 @@ cs:
   burndown:
     story_points: Story pointy
     story_points_ideal: Story pointy (ideální)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints

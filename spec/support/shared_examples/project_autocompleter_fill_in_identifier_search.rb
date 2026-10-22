@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Test for a project autocompleter that is filled in directly (instead of
 # being driven through the ng-select autocompleter helpers): searching a
-# project's identifier has to surface the matching projec.
+# project's identifier has to surface the matching project.
 #
 # The including example group has to provide:
 #

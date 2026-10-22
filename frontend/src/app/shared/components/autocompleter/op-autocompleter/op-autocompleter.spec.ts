@@ -151,6 +151,67 @@ describe('autocompleter', () => {
     }
   });
 
+  describe('initial loading', () => {
+    it('should query options without interaction by default', () => {
+      vi.useFakeTimers();
+      try {
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        fixture.detectChanges();
+
+        expect(getOptionsFnSpy).toHaveBeenCalledWith('');
+      }
+      finally {
+        vi.useRealTimers();
+      }
+    });
+
+    describe('with deferFetchUntilOpened', () => {
+      beforeEach(() => {
+        fixture.componentInstance.deferFetchUntilOpened = true;
+      });
+
+      it('should not query options before the dropdown is opened', () => {
+        vi.useFakeTimers();
+        try {
+          fixture.detectChanges();
+          vi.advanceTimersByTime(1000);
+          fixture.detectChanges();
+
+          expect(getOptionsFnSpy).not.toHaveBeenCalled();
+
+          fixture.componentInstance.ngSelectInstance.open();
+          fixture.detectChanges();
+          vi.advanceTimersByTime(0);
+
+          expect(getOptionsFnSpy).toHaveBeenCalledWith('');
+        }
+        finally {
+          vi.useRealTimers();
+        }
+      });
+
+      it('should query options for a term typed while closed', () => {
+        vi.useFakeTimers();
+        try {
+          fixture.detectChanges();
+          vi.advanceTimersByTime(1000);
+          fixture.detectChanges();
+
+          fixture.componentInstance.ngSelectInstance.filter('Workpackage 2');
+          fixture.detectChanges();
+          vi.advanceTimersByTime(0);
+
+          expect(getOptionsFnSpy).toHaveBeenCalledWith('Workpackage 2');
+          expect(getOptionsFnSpy).not.toHaveBeenCalledWith('');
+        }
+        finally {
+          vi.useRealTimers();
+        }
+      });
+    });
+  });
+
   describe('without debounce', () => {
     it('should load items', () => {
       vi.useFakeTimers();

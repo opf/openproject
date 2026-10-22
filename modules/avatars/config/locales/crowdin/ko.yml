@@ -3,16 +3,37 @@ ko:
   are_you_sure_delete_avatar: 아바타를 삭제하시겠습니까?
   avatar_deleted: 아바타가 삭제되었습니다.
   avatars:
-    label_avatar: 아바타
+    background_color_hint: Leave blank for an automatic color.
+    delete_image: Delete image
+    edit_avatar: Edit avatar
+    image_hint: Choose a JPG, PNG, or GIF. Your image is saved when you select Save.
+    image_required: Choose an image, or select a different avatar option.
+    label_avatar_text: Avatar text
+    label_background_color: Background color
     label_gravatar: Gravatar
     label_local_avatar: 사용자 지정 아바타
+    label_option: Avatar option
+    manage_gravatar: Manage your image on Gravatar
+    message_avatar_updated: Avatar changed successfully.
+    preview: Preview
+    randomize_color: Randomize color
     settings:
       enable_gravatars: 사용자 Gravatar 사용
       enable_local_avatars: 사용자 커스텀 Gravatar 사용
       gravatar_default: 기본 Gravatar 이미지
-    text_avatar_gravatar_html: OpenProject는 사용자가 %{gravatar_url}에서 Gravatar를 등록한 경우 해당 Gravatar를 사용하며, 등록된 Gravatar가 없는 경우에는 기본 이미지나 아이콘을 사용합니다.
-    text_avatar_local: 또한 이미지를 클릭하여 Gravatar를 재정의하는 사용자 지정 아바타를 업로드할 수 있습니다. 128×128 픽셀 크기의 이미지를 사용하는 것이 좋습니다.
-    text_avatar_local_only: 또한 이미지를 클릭하여 사용자 지정 아바타를 업로드할 수 있습니다. 128×128 픽셀 크기의 이미지를 사용하는 것이 좋습니다.
+    text_avatar_text: Enter up to two characters. Leave blank to use your name's initials.
+    text_invalid_error: Use only visible characters.
+    text_length_error: Enter up to two characters.
+    types:
+      gravatar:
+        description: The image registered for your email address on Gravatar
+        label: Gravatar
+      image:
+        description: A custom image you can upload to this instance
+        label: Image
+      initials:
+        description: Use your name's initials or override them with up to two characters.
+        label: Initials
   empty_file_error: 유효한 이미지(jpg, png, gif)를 업로드하십시오.
   error_image_size: 이미지가 너무 큽니다.
   error_image_upload: 이미지를 저장하는 중에 오류가 발생했습니다.

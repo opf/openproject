@@ -162,7 +162,7 @@ zh-CN:
       delete_result_1: 从可用的提供商列表中删除提供商。
       delete_result_direct: 此提供商被标记为直接登录提供商。 设置将被删除，用户将不再被重定向到提供商登录。
       delete_result_user_count:
-        one: 目前有一个用户仍在使用此提供商。他们需要被重新邀请或使用其他提供商登录。
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: 目前有 %{count} 个用户仍在使用该提供商。他们需要重新邀请或使用其他提供商登录。
         zero: 目前没有用户正在使用此提供商。无需采取进一步操作。
       input_delete_confirmation_html: 输入提供商名称 %{name} 以确认删除。

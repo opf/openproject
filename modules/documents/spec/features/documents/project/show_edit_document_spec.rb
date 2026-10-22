@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -125,6 +124,41 @@ RSpec.describe "Show/Edit Document View",
       editor.fill_in("This is the new **content**.")
 
       expect(editor.element).to have_content("This is the new content.") # bold is applied
+    end
+  end
+
+  context "on a phone-sized screen", with_settings: { real_time_text_collaboration_enabled: true } do
+    include_context "with mobile screen size", 390, 800
+
+    def rect_of(element)
+      page.evaluate_script("arguments[0].getBoundingClientRect().toJSON()", element)
+    end
+
+    def uncovered?(element)
+      page.evaluate_script(<<~JS, element)
+        (function(element) {
+          const rect = element.getBoundingClientRect();
+          return element.contains(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2));
+        })(arguments[0])
+      JS
+    end
+
+    it "opens the active editors list below its trigger and fully on screen" do
+      visit document_path(document)
+
+      trigger = find_link("1 active editor")
+      open_active_editors_list
+      heading = find("h4", text: "Active editors")
+      editor_name = find(".op-live-users--popover span", exact_text: member.name)
+
+      expect(rect_of(heading)["top"]).to be >= rect_of(trigger)["bottom"]
+      [heading, editor_name].each do |element|
+        rect = rect_of(element)
+        expect(rect["left"]).to be >= 0
+        expect(rect["right"]).to be <= page.evaluate_script("window.innerWidth")
+        expect(rect["bottom"]).to be <= page.evaluate_script("window.innerHeight")
+        expect(uncovered?(element)).to be(true), "#{element.text} is covered by another element"
+      end
     end
   end
 

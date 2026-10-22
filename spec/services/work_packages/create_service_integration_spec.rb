@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -362,6 +361,22 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       it "drops the unnassignable version" do
         expect(new_work_package.target_versions).to be_empty
       end
+    end
+  end
+
+  describe "generating the subject from a pattern containing labels", with_flag: { work_package_labels: true } do
+    let(:type) do
+      create(:type, patterns: { subject: { blueprint: "Labeled: {{labels}}", enabled: true } })
+    end
+    let(:frontend_label) { create(:label, name: "Frontend") }
+    let(:bug_label) { create(:label, name: "Bug") }
+    let(:attributes) do
+      { project:, type:, status: default_status, priority: default_priority, label_ids: [frontend_label.id, bug_label.id] }
+    end
+
+    it "includes the labels assigned on creation" do
+      expect(service_result).to be_success
+      expect(new_work_package.reload.subject).to eq("Labeled: Frontend, Bug")
     end
   end
 

@@ -53,7 +53,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
   readonly http = inject(HttpClient);
   readonly halResourceService = inject(HalResourceService);
 
-  isNew = isNewResource(this.resource as { id:string | null });
+  isNew = isNewResource(this.resource);
 
   url:string;
 
@@ -85,7 +85,7 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
     ];
 
     const type = this.change.value<{ href:string }|null>('type');
-    if (isNewResource(this.resource as { id:string | null }) && type) {
+    if (isNewResource(this.resource) && type) {
       const typeId = idFromLink(type.href);
       filters.push({ name: 'type_id', operator: '=', values: [typeId] });
     }

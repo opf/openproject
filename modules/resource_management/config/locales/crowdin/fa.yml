@@ -114,14 +114,14 @@ fa:
       outside_dates:
         description: تاریخ‌های انتخاب‌شدهٔ منبع، %{resource_dates}، خارج از بازهٔ تاریخ‌های بستهٔ کاری، %{work_package_dates}، هستند.
       overbooking:
-        capacity_summary: "%{available} در دسترس · %{scheduled} زمان‌بندی‌شده"
         description: کاربر انتخاب‌شده، %{user}، در این بازه بیش از ساعات کاری خود تخصیص خواهد یافت.
-        hidden_work: سایر تخصیص‌ها
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% در دسترس برای کار پروژه)"
         schedule_change: تا %{date}، سپس %{schedule}
         schedule_note: این کاربر طبق %{schedule} کار می‌کند.
         submit: تخصیص اضافه‌کاری
         title: آیا می‌خواهید برای کاربر اضافه‌کاری تخصیص دهید؟
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: تخصیص نیرو از کاربر جایگزین %{placeholder}
       submit: تخصیص
       success_message: منبع تخصیص داده شد.
@@ -261,7 +261,8 @@ fa:
       no_work_schedule: برای این کاربر برنامهٔ کاری‌ای تعیین نشده است
       overbooked: این کاربر در بازهٔ انتخاب‌شده بیش‌ازحد تخصیص یافته است.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} زمان‌بندی‌شده، %{available} در دسترس"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: افزودن کاربر
     view_types:

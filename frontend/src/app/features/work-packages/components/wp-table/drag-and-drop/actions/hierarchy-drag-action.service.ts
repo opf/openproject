@@ -26,7 +26,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { PreparedTableDragAction, TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {
@@ -55,8 +55,12 @@ export class HierarchyDragActionService extends TableDragActionService {
     return !!workPackage.changeParent;
   }
 
-  public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    return this.determineParent(el).then((parentId:string|null) => this.relationHierarchyService.changeParent(workPackage, parentId));
+  public async prepareDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<PreparedTableDragAction> {
+    const hierarchy = this.relationHierarchyService;
+    const parentId = await this.determineParent(el);
+    return {
+      persist: async () => { await hierarchy.changeParent(workPackage, parentId, { reportError: false }); },
+    };
   }
 
   /**
@@ -83,7 +87,7 @@ export class HierarchyDragActionService extends TableDragActionService {
 
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
 
-      if (this.isHiearchyRoot(previous, previousWpId)) {
+      if (this.isHierarchyRoot(previous, previousWpId)) {
         const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);
 
         if (droppedIntoCollapsedGroup) {
@@ -133,7 +137,7 @@ export class HierarchyDragActionService extends TableDragActionService {
     return !skipDroppedIntoGroup && inGroup || isRoot;
   }
 
-  private isHiearchyRoot(previous:Element, previousWpId:string):boolean {
+  private isHierarchyRoot(previous:Element, previousWpId:string):boolean {
     return previous.classList.contains(hierarchyRootClass(previousWpId));
   }
 

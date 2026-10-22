@@ -164,7 +164,7 @@ ca:
       delete_result_1: Remove the provider from the list of available providers.
       delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
       delete_result_user_count:
-        one: One user is currently still using this provider. They will need to be re-invited or logging in with another provider.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} users are currently still using this provider. They will need to be re-invited or logging in with another provider."
         zero: No users are currently using this provider. No further action is required.
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

@@ -102,7 +102,7 @@ zh-TW:
     not_recommended: 不推薦
     recommended: 推薦
     x_bcf_issues:
-      one: 一個 BCF 問題
+      one: "%{count} BCF issue"
       other: "%{count} BCF 問題集"
       zero: 無 BCF 問題
   bim:

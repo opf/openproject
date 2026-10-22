@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -220,17 +219,9 @@ module OpenProject::Meeting
       end
     end
 
-    add_api_path :meetings do
-      "#{root}/meetings"
-    end
+    add_api_resource_paths :meeting
 
-    add_api_path :meeting do |id|
-      "#{root}/meetings/#{id}"
-    end
-
-    add_api_path :meeting_content do |id|
-      "#{root}/meeting_contents/#{id}"
-    end
+    add_api_resource_paths :meeting_content, only: :show
 
     add_api_path :meeting_agenda do |id|
       meeting_content(id)
@@ -242,18 +233,6 @@ module OpenProject::Meeting
 
     add_api_path :attachments_by_meeting do |id|
       "#{meeting(id)}/attachments"
-    end
-
-    add_api_path :meeting_schema do
-      "#{root}/meetings/schema"
-    end
-
-    add_api_path :create_meeting_form do
-      "#{root}/meetings/form"
-    end
-
-    add_api_path :meeting_form do |id|
-      "#{root}/meetings/#{id}/form"
     end
 
     add_api_path :meeting_agenda_items do |meeting_id: nil|
@@ -280,6 +259,10 @@ module OpenProject::Meeting
       "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
     end
 
+    add_api_path :meeting_agenda_item_move_to_next_meeting do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/move_to_next_meeting"
+    end
+
     add_api_path :meeting_agenda_item_upvote do |id, meeting_id: nil|
       "#{meeting_agenda_item(id, meeting_id:)}/upvote"
     end
@@ -288,13 +271,7 @@ module OpenProject::Meeting
       "#{meeting_agenda_item(id, meeting_id:)}/downvote"
     end
 
-    add_api_path :meeting_outcomes do
-      "#{root}/meeting_outcomes"
-    end
-
-    add_api_path :meeting_outcome do |id|
-      "#{root}/meeting_outcomes/#{id}"
-    end
+    add_api_resource_paths :meeting_outcome, only: %i[index show]
 
     add_api_path :meeting_agenda_item_outcome do |id, agenda_item_id:, meeting_id: nil|
       "#{meeting_agenda_item_outcomes(agenda_item_id, meeting_id:)}/#{id}"
@@ -316,13 +293,7 @@ module OpenProject::Meeting
       end
     end
 
-    add_api_path :recurring_meetings do
-      "#{root}/recurring_meetings"
-    end
-
-    add_api_path :recurring_meeting do |id|
-      "#{root}/recurring_meetings/#{id}"
-    end
+    add_api_resource_paths :recurring_meeting, only: %i[index show]
 
     add_api_path :recurring_meeting_occurrences_upcoming do |id|
       "#{recurring_meeting(id)}/occurrences/upcoming"

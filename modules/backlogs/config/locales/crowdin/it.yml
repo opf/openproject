@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,8 +73,8 @@ it:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: C'è una macro-attività che non è stata completata in questo sprint.
-                other: Ci sono %{count} macro-attività che non sono state completate in questo sprint.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: non è attivo, quindi non può essere chiuso.
         sprint_goal:
@@ -138,6 +138,10 @@ it:
       show:
         blankslate_description: Imposta la data di inizio e di fine dello sprint per generare un grafico di burndown.
         blankslate_title: Non sono disponibili dati di burndown
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Scegli quali tipi di macro-attività nascondere dal backlog. Gli elementi dei tipi selezionati non compariranno automaticamente nel backlog, mantenendolo concentrato sulle attività rilevanti per il tuo team. Ad esempio, tipi come Epic o Traguardo, gestiti a un livello superiore, possono essere nascosti per mantenere il backlog focalizzato sugli elementi operativi.
 
@@ -161,8 +165,8 @@ it:
       drop_zone_label: Trascina qui per aggiungere questo elemento
       label_actions: Azioni nella Posta in arrivo
       show_more:
-        one: Mostra 1 altro elemento
-        other: Mostra altri %{count} elementi
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Posta in arrivo
     index_subheader_component:
       label_search_by_subject: Cerca macro-attività per oggetto
@@ -186,6 +190,7 @@ it:
     remaining_hours: Lavoro residuo
     sharing: Condivisione dello sprint
     show_burndown_chart: Grafico Burndown
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Macro-attività nello sprint
     sprint_component:
       action_menu:
@@ -209,6 +214,9 @@ it:
       shared_sprint_info_banner: Questo è uno sprint condiviso. Le modifiche saranno applicate a tutti i progetti che lo utilizzano.
       shared_sprint_warning_banner: Questo è uno sprint condiviso. Non hai i permessi necessari per modificarlo.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: Report %{sprint}
@@ -266,7 +274,6 @@ it:
       header_backlogs: Modulo backlog
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copia URL negli appunti
         copy_work_package_id: Copia ID macro-attività
         move_menu: Sposta alla posizione
         move_to_backlog_bucket: Sposta nel bucket del backlog
@@ -296,6 +303,9 @@ it:
   burndown:
     story_points: Punti story
     story_points_ideal: Punti story (ideali)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Più sprint attivi

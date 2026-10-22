@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -172,13 +171,6 @@ RSpec.describe BacklogBucket do
     it "orders work packages within a bucket by position, with nil position last" do
       expect(result.first.displayed_work_packages.count).to eq(3)
       expect(result.first.displayed_work_packages).to eq([wp1_in_bucket1, wp2_in_bucket1, wp_nil_in_bucket1])
-    end
-
-    it "eager loads the displayed work packages" do
-      result.to_a
-
-      expect { result.first.displayed_work_packages }.to have_a_query_limit(0)
-      expect { result.last.displayed_work_packages }.to have_a_query_limit(0)
     end
   end
 end

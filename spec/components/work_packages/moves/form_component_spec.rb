@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -132,6 +131,32 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
 
     it "preserves the selected value" do
       expect(rendered_component).to have_select("observed_in_version_ids[]", selected: version.name)
+    end
+  end
+
+  context "with labels enabled", with_flag: { work_package_labels: true } do
+    let!(:label) { create(:label, name: "Frontend") }
+
+    it "defaults the labels select to '(no change)' and offers the labels" do
+      expect(rendered_component).to have_select("label_ids[]",
+                                                selected: I18n.t(:label_no_change_option),
+                                                with_options: [I18n.t(:label_none), "Frontend"])
+    end
+
+    context "with a selected label" do
+      let(:component) do
+        build_component(selected_values: { label_ids: [label.id.to_s] })
+      end
+
+      it "preserves the selected value" do
+        expect(rendered_component).to have_select("label_ids[]", selected: "Frontend")
+      end
+    end
+  end
+
+  context "with labels disabled", with_flag: { work_package_labels: false } do
+    it "does not render the labels select" do
+      expect(rendered_component).to have_no_select("label_ids[]")
     end
   end
 

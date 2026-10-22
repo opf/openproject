@@ -16,39 +16,15 @@
       justify-content: center
 
     .calendar-time-entry-event
-      user-select: none
-      border: none
-      box-shadow: var(--shadow-floating-small)
-      background: var(--body-background)
-      color: var(--body-font-color)
-      border-radius: 5px
-      padding: 4px
-      line-height: var(--text-body-lineHeight-small)
-      font-size: var(--text-body-size-small)
-
+      +te-time-entry-event
       +te-entry-card
-
-      &.te-entry-card-ongoing
-        +te-entry-card-ongoing
-
-      .fc-event-main
-        padding: 0
 
       &.fc-timegrid-event-short, &.fc-daygrid-block-event
         +te-entry-card-condensed
 
     .calendar-allocation-event
       +te-allocation-event
-      user-select: none
-      color: var(--body-font-color)
-      padding: 4px
-      line-height: var(--text-body-lineHeight-small)
-      font-size: var(--text-body-size-small)
-
       +te-entry-card
-
-      .fc-event-main
-        padding: 0
 
       &.fc-daygrid-block-event
         +te-entry-card-condensed
@@ -63,7 +39,7 @@
 
     // event in the the all day area
     .fc-daygrid-event:not(.calendar-allocation-event)
-      background: var(--body-background) !important
+      background: var(--bgColor-default) !important
 
     .fc-timegrid-more-link
       background: var(--fc-page-bg-color) !important

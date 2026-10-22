@@ -164,7 +164,7 @@ tr:
       delete_result_1: Sağlayıcının adını mevcut sağlayıcılardan kaldır.
       delete_result_direct: Bu sağlayıcı doğrudan oturum açma sağlayıcısı olarak işaretlenmiştir. Ayar kaldırılacak ve kullanıcılar artık oturum açmak için sağlayıcıya yönlendirilmeyecektir.
       delete_result_user_count:
-        one: Bir kullanıcı bu sağlayıcıyı kullanıyor. Tekrar davet edilmesi ya da başka bir kullanıcı ile giriş yapması gerekecek.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} kullanıcı bu sağlayıcıyı kullanıyor. Tekrar davet edilmeleri ya da başka bir kullanıcı ile giriş yapmaları gerekecek."
         zero: Bu sağlayıcıyı hiçbir kullanıcı kullanmıyor. Ek bir işleme gerek yok.
       input_delete_confirmation_html: Silme işlemini onaylamak için sağlayıcı %{name} ismini girin.

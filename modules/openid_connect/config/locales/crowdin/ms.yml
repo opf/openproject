@@ -162,7 +162,7 @@ ms:
       delete_result_1: Alih keluar pembekal daripada senarai pembekal yang tersedia.
       delete_result_direct: Pembekal ini ditandakan sebagai pembekal log masuk langsung. Tetapan akan dialih keluar dan pengguna tidak lagi akan diubah hala ke pembekal untuk log masuk.
       delete_result_user_count:
-        one: Seorang pengguna masih menggunakan penyedia ini pada masa ini. Mereka perlu dijemput semula atau log masuk dengan penyedia lain.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} pengguna pada masa ini masih menggunakan penyedia ini. Mereka perlu dijemput semula atau log masuk dengan penyedia lain."
         zero: Tiada pengguna yang menggunakan penyedia ini pada masa ini. Tiada tindakan lanjut diperlukan.
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

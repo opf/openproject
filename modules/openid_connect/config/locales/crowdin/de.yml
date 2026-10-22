@@ -164,7 +164,7 @@ de:
       delete_result_1: Entfernt diese SSO-Anmeldemöglichkeit aus der Liste der verfügbaren Anbieter.
       delete_result_direct: Dieser SSO-Anbieter wird für den direkten Login verwendet. Die Einstellung wird entfernt und die Benutzer werden nicht mehr automatisch zur Anmeldung an diesen Anbieter weitergeleitet.
       delete_result_user_count:
-        one: Ein Benutzer verwendet derzeit noch diesen Anbieter. Er muss erneut eingeladen werden oder sich bei einem anderen Anbieter anmelden.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} Benutzer verwenden derzeit noch diesen Anbieter. Diese müssen erneut eingeladen werden oder sich bei einem anderen Anbieter anmelden."
         zero: Derzeit verwenden keine Benutzer diesen SSO-Anbieter. Es sind keine weiteren Maßnahmen erforderlich.
       input_delete_confirmation_html: Geben Sie den Namen des SSO-Anbieters %{name} ein, um die Löschung zu bestätigen.

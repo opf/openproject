@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -108,6 +107,197 @@ RSpec.describe "Authentication with an API key",
       end
 
       it_behaves_like "an API key authentication path"
+    end
+  end
+
+  describe "work package Markdown export",
+           with_settings: { login_required: true, session_ttl_enabled?: true, session_ttl: "120" } do
+    let(:work_package) { create(:work_package) }
+    let(:user) do
+      create(:user, member_with_permissions: { work_package.project => %i[view_work_packages] })
+    end
+
+    context "with the key in the X-OpenProject-API-Key header and the .md suffix" do
+      subject(:send_request) do
+        header "X-OpenProject-API-Key", api_key
+        get "/work_packages/#{work_package.id}.md"
+      end
+
+      it_behaves_like "an API key authentication path"
+    end
+
+    context "with the key and Accept: text/markdown" do
+      subject(:send_request) do
+        header "X-OpenProject-API-Key", api_key
+        header "Accept", "text/markdown"
+        get "/work_packages/#{work_package.id}"
+      end
+
+      it_behaves_like "an API key authentication path"
+    end
+
+    it "answers 401 with WWW-Authenticate without credentials" do
+      get "/work_packages/#{work_package.id}.md"
+
+      expect(last_response).to have_http_status(:unauthorized)
+      expect(last_response.headers["WWW-Authenticate"]).to be_present
+      expect(last_response.media_type).to eq("text/markdown")
+      expect(last_response.body).to eq(I18n.t(:text_markdown_login_required))
+    end
+
+    it "answers 401 with WWW-Authenticate for Accept: text/markdown without credentials" do
+      header "Accept", "text/markdown"
+      get "/work_packages/#{work_package.id}"
+
+      expect(last_response).to have_http_status(:unauthorized)
+      expect(last_response.headers["WWW-Authenticate"]).to be_present
+      expect(last_response.media_type).to eq("text/markdown")
+      expect(last_response.body).to eq(I18n.t(:text_markdown_login_required))
+    end
+
+    it "ignores the key on the html format" do
+      header "X-OpenProject-API-Key", api_key
+      get "/work_packages/#{work_package.id}"
+
+      expect(last_response).to be_redirect
+      expect(last_response.location).to include("/login")
+    end
+
+    ["application/json, text/html", "application/xml, text/html"].each do |accept|
+      it "ignores the key when Accept: #{accept} falls back to html" do
+        header "X-OpenProject-API-Key", api_key
+        header "Accept", accept
+        get "/projects/#{work_package.project.identifier}/work_packages/#{work_package.id}/activity"
+
+        expect(last_response).not_to have_http_status(:ok)
+        expect(last_response.media_type).not_to eq("text/html")
+      end
+    end
+
+    it "authenticates the key when Accept prefers text/markdown over text/html" do
+      header "X-OpenProject-API-Key", api_key
+      header "Accept", "text/markdown, text/html"
+      get "/work_packages/#{work_package.id}"
+
+      expect(last_response).to have_http_status(:ok)
+      expect(last_response.media_type).to eq("text/markdown")
+    end
+
+    context "with header-based SSO enabled" do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:auth_source_sso)
+          .and_return({ header: "X-Remote-User", optional: true })
+      end
+
+      it "ignores the SSO header on a key-authenticated request" do
+        header "X-OpenProject-API-Key", api_key
+        header "X-Remote-User", user.login
+        get "/work_packages/#{work_package.id}.md"
+
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.media_type).to eq("text/markdown")
+        expect(last_response.headers["Set-Cookie"]).to be_blank
+      end
+
+      it "ignores an SSO header naming a different user in favour of the key" do
+        header "X-OpenProject-API-Key", api_key
+        header "X-Remote-User", create(:user).login
+        get "/work_packages/#{work_package.id}.md"
+
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).to start_with("# #{work_package.type.name} #{work_package.formatted_id} - ")
+        expect(last_response.headers["Set-Cookie"]).to be_blank
+      end
+    end
+
+    context "with mandatory header-based SSO" do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:auth_source_sso)
+          .and_return({ header: "X-Remote-User", optional: false })
+      end
+
+      it "rejects a key-authenticated request without the SSO header like a keyless one" do
+        header "X-OpenProject-API-Key", api_key
+        get "/work_packages/#{work_package.id}.md"
+
+        expect(last_response).to be_redirect
+        expect(last_response.location).to end_with("/sso")
+        expect(last_response.body).not_to include(work_package.subject)
+      end
+
+      it "rejects a keyless request without the SSO header" do
+        get "/work_packages/#{work_package.id}.md"
+
+        expect(last_response).to be_redirect
+        expect(last_response.location).to end_with("/sso")
+      end
+
+      it "rejects a retried key-authenticated request without the SSO header" do
+        2.times do
+          header "X-OpenProject-API-Key", api_key
+          get "/work_packages/#{work_package.id}.md"
+
+          expect(last_response).to be_redirect
+          expect(last_response.location).to end_with("/sso")
+          expect(last_response.body).not_to include(work_package.subject)
+        end
+      end
+
+      context "with an SSO secret configured" do
+        before do
+          allow(OpenProject::Configuration)
+            .to receive(:auth_source_sso)
+            .and_return({ header: "X-Remote-User", secret: "s3cret", optional: false })
+        end
+
+        it "rejects a retried key-authenticated request with an invalid SSO secret" do
+          2.times do
+            header "X-OpenProject-API-Key", api_key
+            header "X-Remote-User", "#{user.login}:wrong"
+            get "/work_packages/#{work_package.id}.md"
+
+            expect(last_response).to be_redirect
+            expect(last_response.location).to end_with("/sso")
+            expect(last_response.body).not_to include(work_package.subject)
+          end
+        end
+      end
+    end
+
+    it "does not start a session" do
+      header "X-OpenProject-API-Key", api_key
+      get "/work_packages/#{work_package.id}.md"
+
+      expect(last_response).to have_http_status(:ok)
+      expect(last_response.headers["Set-Cookie"]).to be_blank
+    end
+
+    it "serves a key-authenticated request despite an expired session cookie", :skip_csrf do
+      post "/login", username: user.login, password: "adminADMIN!"
+      follow_redirect! while last_response.redirect?
+      expect(last_request.env["rack.session"]["user_id"]).to eq(user.id)
+
+      travel 3.hours
+      header "X-OpenProject-API-Key", api_key
+      get "/work_packages/#{work_package.id}.md"
+
+      expect(last_response).to have_http_status(:ok)
+      expect(last_response.headers["Set-Cookie"]).to be_blank
+    end
+
+    it "expires the session when the key resolves to a user that is not accepted", :skip_csrf do
+      post "/login", username: user.login, password: "adminADMIN!"
+      follow_redirect! while last_response.redirect?
+      allow(User).to receive(:find_by_api_key).and_return(create(:locked_user))
+
+      travel 3.hours
+      header "X-OpenProject-API-Key", api_key
+      get "/work_packages/#{work_package.id}.md"
+
+      expect(last_response).to be_redirect
+      expect(last_response.location).to include("/login")
     end
   end
 

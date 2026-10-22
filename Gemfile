@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.6.1"
+gem "mcp", "~> 1.7.0"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -182,7 +182,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.1.2"
+  gem "dalli", "~> 5.2.2"
   gem "redis", "~> 6.0.0"
 end
 
@@ -205,7 +205,7 @@ gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.232"
+gem "aws-sdk-s3", "~> 1.233"
 
 gem "openproject-token", "~> 8.13.0"
 
@@ -235,13 +235,13 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.97.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.37.0"
 gem "openproject-octicons_helper", "~>19.37.0"
-gem "openproject-primer_view_components", "~>0.93.0"
+gem "openproject-primer_view_components", "~>0.94.0"
 gem "view_component", "~> 4.15.0"
 
 # Lookbook
@@ -259,12 +259,6 @@ gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.4"
 
-# Provider adapters and a model metadata registry for the AI features. Used as
-# transport and as a source of published model capabilities; what a given
-# connection actually offers is tracked per connection, never in RubyLLM's
-# application-wide registry.
-gem "ruby_llm", "~> 1.16"
-
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
 
@@ -275,12 +269,12 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.3"
+  gem "test-prof", "~> 1.6.4"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
-  gem "simplecov", "~> 1.1.1", require: false
+  gem "simplecov", "~> 1.3.2", require: false
   # also add to development group, so 'spec' rake task gets loaded
   gem "rspec-rails", "~> 8.0.4", group: :development
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,6 +35,10 @@ module Workflows
         return dash if role_count.zero?
 
         text(t("workflows.index.roles_count", count: role_count))
+      end
+
+      def button_links
+        [render(RowActionsComponent.new(record:, model_class:, icon:))]
       end
     end
   end

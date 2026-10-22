@@ -24,6 +24,7 @@
 
 ```bash
 bundle install                    # Install Ruby gems
+npm ci --ignore-scripts           # Install root Node packages (JSON linting)
 cd frontend && npm ci && cd ..   # Install Node packages
 bundle exec rails db:migrate      # Setup database
 bin/dev                          # Start all services (Rails, frontend, Good Job worker)

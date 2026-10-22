@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,7 +52,7 @@ RSpec.describe Documents::Admin::DocumentTypes::IndexComponent, type: :component
   it_behaves_like "a sortable-lists list",
                   list_type: "document_type",
                   name: "Document types",
-                  rows_container: ":scope > .op-border-box-table--rows"
+                  rows_container: ":scope > .op-border-box-table__rows"
 
   it "offers adding a document type above the list" do
     expect(rendered_component).to have_test_selector("add-document-type-button")

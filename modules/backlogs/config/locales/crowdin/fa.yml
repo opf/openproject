@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,8 +73,8 @@ fa:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: یک بسته کاری در این اسپرینت تکمیل نشده است.
-                other: "%{count} بسته کاری در این اسپرینت تکمیل نشده‌اند."
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: فعال نیست بنابراین نمی تواند بسته شود
         sprint_goal:
@@ -138,6 +138,10 @@ fa:
       show:
         blankslate_description: برای ایجاد نمودار برن‌داون، تاریخ شروع و پایان اسپرینت را تعیین کنید.
         blankslate_title: داده‌ای برای نمودار برن‌داون موجود نیست
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: واحدها
     excluded_work_package_types_caption: 'انتخاب کنید کدام نوع‌های بسته کاری از بک‌لاگ پنهان شوند. موارد مربوط به نوع‌های انتخاب‌شده به‌صورت خودکار در بک‌لاگ نمایش داده نمی‌شوند تا بک‌لاگ روی کارهای مهم تیم متمرکز بماند. برای مثال، نوع‌هایی مانند Epic یا Milestone که در سطح بالاتری مدیریت می‌شوند، می‌توانند پنهان شوند تا بک‌لاگ روی موارد قابل اقدام متمرکز بماند.
 
@@ -161,8 +165,8 @@ fa:
       drop_zone_label: برای افزودن این مورد، آن را اینجا رها کنید
       label_actions: اقدامات صندوق
       show_more:
-        one: نمایش ۱ مورد دیگر
-        other: نمایش %{count} مورد دیگر
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: صندوق
     index_subheader_component:
       label_search_by_subject: جستجوی بسته‌های کاری بر اساس موضوع
@@ -186,6 +190,7 @@ fa:
     remaining_hours: کار باقی‌مانده
     sharing: اشتراک‌گذاری اسپرینت
     show_burndown_chart: نمودار Burndown
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: بسته‌های کاری درون اسپرینت
     sprint_component:
       action_menu:
@@ -209,6 +214,9 @@ fa:
       shared_sprint_info_banner: این یک اسپرینت اشتراکی است. تغییرات در همه پروژه‌هایی که از آن استفاده می‌کنند اعمال خواهد شد.
       shared_sprint_warning_banner: این یک اسپرینت اشتراکی است. شما مجوزهای لازم برای ویرایش آن را ندارید.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: گزارش
         title: گزارش %{sprint}
@@ -266,7 +274,6 @@ fa:
       header_backlogs: ماژول backlogها
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: کپی URL در کلیپ‌بورد
         copy_work_package_id: کپی شناسه بسته کاری
         move_menu: انتقال به موقعیت
         move_to_backlog_bucket: انتقال به سطل بک‌لاگ
@@ -296,6 +303,9 @@ fa:
   burndown:
     story_points: امتیاز داستان
     story_points_ideal: امتیاز داستان (ایده‌آل)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: چند اسپرینت فعال
