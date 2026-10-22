@@ -1330,7 +1330,7 @@ RSpec.describe(
       let!(:source_member) { create(:user, member_with_roles: { source => role }) }
       let(:only_args) { nil }
 
-      # rubocop:disable RSpec/MultipleExpectations
+      # rubocop:disable-next RSpec/MultipleExpectations
       it "sets attributes only without copying dependencies" do
         expect(subject).to be_success
 
@@ -1368,7 +1368,6 @@ RSpec.describe(
         expect(member.roles)
           .to contain_exactly(new_project_role)
       end
-      # rubocop:enable RSpec/MultipleExpectations
 
       context "with group memberships" do
         let!(:user) { create(:user) }
