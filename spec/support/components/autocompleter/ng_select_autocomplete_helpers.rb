@@ -215,7 +215,7 @@ module Components::Autocompleter
       ##
       # If a specific select_text is given, use that to locate the match,
       # otherwise use the query
-      text = (select_text.presence || query).to_s
+      text = select_text.presence || query.to_s
       dropdown_selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
 
       page.document.synchronize(15) do
