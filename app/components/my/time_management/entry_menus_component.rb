@@ -37,7 +37,7 @@ module My
               allocations: nil
 
       def call
-        render(Primer::Box.new(classes: "sr-only", data: { "my-work-menus": true })) do
+        render(Primer::Box.new(classes: "sr-only", data: { "my-time-management-menus": true })) do
           safe_join(time_entry_menus + allocation_menus)
         end
       end
@@ -58,7 +58,7 @@ module My
       end
 
       def menu_for(event_id, menu)
-        render(Primer::Box.new(data: { "my-work-menu-for": event_id })) { render(menu) }
+        render(Primer::Box.new(data: { "my-time-management-menu-for": event_id })) { render(menu) }
       end
     end
   end

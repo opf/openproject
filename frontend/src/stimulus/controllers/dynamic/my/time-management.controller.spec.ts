@@ -30,22 +30,22 @@ import { type ActionEvent } from '@hotwired/stimulus';
 import { vi, type Mock } from 'vitest';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
-import type MyWorkControllerType from './work.controller';
+import type MyTimeManagementControllerType from './time-management.controller';
 
-describe('My work controller', () => {
+describe('My time management controller', () => {
   let ctx:StimulusTestContext;
-  let MyWorkController:typeof MyWorkControllerType;
+  let MyTimeManagementController:typeof MyTimeManagementControllerType;
   let request:Mock;
-  let myWorkRefresh:Mock;
+  let myTimeRefresh:Mock;
   let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
-    ({ default: MyWorkController } = await import('./work.controller'));
+    ({ default: MyTimeManagementController } = await import('./time-management.controller'));
   });
 
   beforeEach(async () => {
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
-    myWorkRefresh = vi.fn().mockReturnValue('/my/work/refresh?date=2026-06-01');
+    myTimeRefresh = vi.fn().mockReturnValue('/my/time/refresh?date=2026-06-01');
     originalOpenProject = window.OpenProject;
     window.OpenProject = {
       getPluginContext: () => Promise.resolve({
@@ -53,14 +53,14 @@ describe('My work controller', () => {
           turboRequests: { request },
           pathHelperService: {
             timeEntryDialog: () => '/time_entries/dialog',
-            myWorkRefresh,
+            myTimeRefresh,
           },
         },
       }),
     } as unknown as typeof window.OpenProject;
 
     ctx = await setupStimulusTest({
-      controllers: { 'my--work': MyWorkController },
+      controllers: { 'my--time-management': MyTimeManagementController },
     });
   });
 
@@ -74,11 +74,11 @@ describe('My work controller', () => {
   // service wiring without it.
   async function renderListView() {
     await ctx.mount(`
-      <div data-controller="my--work"
-           data-my--work-view-mode-value="list"
-           data-my--work-mode-value="week"></div>
+      <div data-controller="my--time-management"
+           data-my--time-management-view-mode-value="list"
+           data-my--time-management-mode-value="week"></div>
     `);
-    return ctx.getController<MyWorkControllerType>('my--work');
+    return ctx.getController<MyTimeManagementControllerType>('my--time-management');
   }
 
   // The calendar itself needs FullCalendar, which only starts with a target; without one the
@@ -88,13 +88,13 @@ describe('My work controller', () => {
   // tester iframe away, which drops the Vitest browser connection now and then in CI WebKit.
   async function renderCalendarViewInFrame(frameAttributes = '') {
     await ctx.mount(`
-      <turbo-frame id="my-work-view" disabled ${frameAttributes}>
-        <div data-controller="my--work"
-             data-my--work-view-mode-value="calendar"
-             data-my--work-mode-value="week"></div>
+      <turbo-frame id="my-time-management-view" disabled ${frameAttributes}>
+        <div data-controller="my--time-management"
+             data-my--time-management-view-mode-value="calendar"
+             data-my--time-management-mode-value="week"></div>
       </turbo-frame>
     `);
-    const controller = ctx.getController<MyWorkControllerType>('my--work');
+    const controller = ctx.getController<MyTimeManagementControllerType>('my--time-management');
     await waitFor(() => { expect(controller.turboRequests).toBeDefined(); });
 
     return ctx.container.querySelector('turbo-frame')!;
@@ -139,9 +139,9 @@ describe('My work controller', () => {
     });
 
     await waitFor(() => {
-      expect(request).toHaveBeenCalledWith('/my/work/refresh?date=2026-06-01', { method: 'GET' });
+      expect(request).toHaveBeenCalledWith('/my/time/refresh?date=2026-06-01', { method: 'GET' });
     });
-    expect(myWorkRefresh).toHaveBeenCalledWith('2026-06-01', 'list', 'week', 'all');
+    expect(myTimeRefresh).toHaveBeenCalledWith('2026-06-01', 'list', 'week', 'all');
   });
 
   it('brings the calendar back through its frame instead of reloading the page', async () => {
@@ -174,7 +174,7 @@ describe('My work controller', () => {
     } as unknown as typeof window.OpenProject;
 
     await renderListView();
-    const root = ctx.container.querySelector('[data-controller="my--work"]')!;
+    const root = ctx.container.querySelector('[data-controller="my--time-management"]')!;
 
     dialogClosed({
       dialog: { id: 'time-entry-dialog' },
@@ -190,7 +190,7 @@ describe('My work controller', () => {
         turboRequests: { request },
         pathHelperService: {
           timeEntryDialog: () => '/time_entries/dialog',
-          myWorkRefresh,
+          myTimeRefresh,
         },
       },
     });

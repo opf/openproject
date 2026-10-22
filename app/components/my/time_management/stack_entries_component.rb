@@ -43,18 +43,18 @@ module My
 
       def wrapper_data # rubocop:disable Metrics/AbcSize
         {
-          "controller" => "my--work-stack",
-          "my--work-stack-mode-value" => mode,
-          "my--work-stack-time-entries-value" => time_entries_json,
-          "my--work-stack-allocations-value" => allocation_events_json,
-          "my--work-stack-initial-date-value" => date.iso8601,
-          "my--work-stack-today-value" => User.current.today.iso8601,
-          "my--work-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
-          "my--work-stack-locale-value" => I18n.locale,
-          "my--work-stack-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
-          "my--work-stack-working-days-value" => working_days,
-          "my--work-stack-working-hours-value" => working_hours.to_json,
-          "my--work-stack-time-zone-value" => User.current.time_zone.name
+          "controller" => "my--time-management-stack",
+          "my--time-management-stack-mode-value" => mode,
+          "my--time-management-stack-time-entries-value" => time_entries_json,
+          "my--time-management-stack-allocations-value" => allocation_events_json,
+          "my--time-management-stack-initial-date-value" => date.iso8601,
+          "my--time-management-stack-today-value" => User.current.today.iso8601,
+          "my--time-management-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
+          "my--time-management-stack-locale-value" => I18n.locale,
+          "my--time-management-stack-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
+          "my--time-management-stack-working-days-value" => working_days,
+          "my--time-management-stack-working-hours-value" => working_hours.to_json,
+          "my--time-management-stack-time-zone-value" => User.current.time_zone.name
         }
       end
 

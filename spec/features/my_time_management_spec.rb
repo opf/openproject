@@ -92,27 +92,27 @@ RSpec.describe "my time management", :js do
         visit my_time_path(date: "2025-04-09", view_mode: view, mode: "day")
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
 
-        within "turbo-frame#my-work-view" do
-          find_test_selector("my-work-next").click
+        within "turbo-frame#my-time-management-view" do
+          find_test_selector("my-time-management-next").click
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-10")
 
-        within "turbo-frame#my-work-view" do
-          find_test_selector("my-work-previous").click
+        within "turbo-frame#my-time-management-view" do
+          find_test_selector("my-time-management-previous").click
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
 
-        within "turbo-frame#my-work-view" do
-          find_test_selector("my-work-previous").click
+        within "turbo-frame#my-time-management-view" do
+          find_test_selector("my-time-management-previous").click
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-08")
 
-        within "turbo-frame#my-work-view" do
+        within "turbo-frame#my-time-management-view" do
           click_link I18n.t(:label_today_capitalized)
         end
         expect_tracking_title(mode: "Day", view: view.capitalize, date: "2025-04-09")
 
-        within "turbo-frame#my-work-view" do
+        within "turbo-frame#my-time-management-view" do
           click_button "Day"
           click_link "Week", exact: true
         end
@@ -125,7 +125,7 @@ RSpec.describe "my time management", :js do
       expect_tracking_title(mode: "Day", view: "List", date: "2025-04-09")
 
       %w[Calendar Stack List].each do |view|
-        within "turbo-frame#my-work-view" do
+        within "turbo-frame#my-time-management-view" do
           click_link view, exact: true
         end
         expect_tracking_title(mode: "Day", view:, date: "2025-04-09")

@@ -27,7 +27,7 @@
 
 import { vi, type Mock } from 'vitest';
 import { ContextualActionMenu } from 'core-common/contextual-action-menu';
-import { EntryMenus } from './my-work-entry-menus';
+import { EntryMenus } from './my-time-management-entry-menus';
 
 describe('EntryMenus', () => {
   let root:HTMLElement;
@@ -39,8 +39,8 @@ describe('EntryMenus', () => {
     document.body.innerHTML = `
       <div id="root">
         <div class="fc-event" id="card"></div>
-        <div data-my-work-menus>
-          <div data-my-work-menu-for="42"><action-menu><div popover></div></action-menu></div>
+        <div data-my-time-management-menus>
+          <div data-my-time-management-menu-for="42"><action-menu><div popover></div></action-menu></div>
         </div>
       </div>`;
 

@@ -63,8 +63,8 @@ module My
                  tooltip_direction: :e,
                  href: "#",
                  data: {
-                   action: "my--work#newTimeEntry",
-                   "my--work-date-param" => options[:date]
+                   action: "my--time-management#newTimeEntry",
+                   "my--time-management-date-param" => options[:date]
                  },
                  label: t(:button_add_time_entry),
                  aria: { label: t(:button_add_time_entry) }

@@ -32,7 +32,7 @@ import { ContextualActionMenu } from 'core-common/contextual-action-menu';
 // assigning the work package has changed it.
 export const WORK_PACKAGE_UPDATED_EVENT = 'op-dispatched:work-packages:updated';
 
-// Opens the action menu My::Work::EntryMenusComponent rendered for a calendar event at the
+// Opens the action menu My::TimeManagement::EntryMenusComponent rendered for a calendar event at the
 // point the event was clicked.
 export class EntryMenus {
   private readonly presenters = new Map<ActionMenuElement, ContextualActionMenu>();
@@ -41,7 +41,7 @@ export class EntryMenus {
 
   open(eventId:string, event:MouseEvent, invoker:HTMLElement):void {
     const menu = this.root.querySelector<ActionMenuElement>(
-      `[data-my-work-menu-for="${CSS.escape(eventId)}"] action-menu`,
+      `[data-my-time-management-menu-for="${CSS.escape(eventId)}"] action-menu`,
     );
 
     if (!menu) {

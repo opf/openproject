@@ -41,33 +41,35 @@ RSpec.describe My::TimeManagement::SubHeaderComponent, type: :component do
 
   context "with the resource management enterprise feature", with_ee: %i[resource_management] do
     it "offers to filter the entries" do
-      expect(rendered_component).to have_css("#my-work-entries-filter-button", text: "All entries")
+      expect(rendered_component).to have_css("#my-time-management-entries-filter-button", text: "All entries")
       expect(rendered_component).to have_link("Logged time only", href: /entries=logged/)
       expect(rendered_component).to have_link("Allocations only", href: /entries=allocated/)
     end
 
     it "places the filter after the mode switcher" do
-      buttons = rendered_component.css("#my-work-mode-switch-button, #my-work-entries-filter-button").pluck("id")
+      buttons = rendered_component
+        .css("#my-time-management-mode-switch-button, #my-time-management-entries-filter-button")
+        .pluck("id")
 
-      expect(buttons).to eq(%w[my-work-mode-switch-button my-work-entries-filter-button])
+      expect(buttons).to eq(%w[my-time-management-mode-switch-button my-time-management-entries-filter-button])
     end
 
     context "when filtered to allocations" do
       let(:entries) { :allocated }
 
       it "shows the filter that is applied" do
-        expect(rendered_component).to have_css("#my-work-entries-filter-button", text: "Allocations only")
+        expect(rendered_component).to have_css("#my-time-management-entries-filter-button", text: "Allocations only")
       end
 
       it "keeps the filter when moving to another week" do
-        expect(rendered_component).to have_css("[data-test-selector='my-work-next'][href*='entries=allocated']")
+        expect(rendered_component).to have_css("[data-test-selector='my-time-management-next'][href*='entries=allocated']")
       end
     end
   end
 
   context "without the resource management enterprise feature", with_ee: false do
     it "does not offer to filter the entries" do
-      expect(rendered_component).to have_no_css("#my-work-entries-filter-button")
+      expect(rendered_component).to have_no_css("#my-time-management-entries-filter-button")
     end
   end
 end

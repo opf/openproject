@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   widget_wrapper do
     concat render(My::TimeManagement::Widget::SubHeaderComponent.new(mode:, date:, view_mode: :stack))
-    concat content_tag(:div, class: "my-work-stack-view my-work-widget--stack") {
+    concat content_tag(:div, class: "my-time-management-stack-view my-time-management-widget--stack") {
       render(My::TimeManagement::StackEntriesComponent.new(time_entries:, mode:, date:))
     }
   end

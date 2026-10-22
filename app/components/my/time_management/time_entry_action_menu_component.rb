@@ -52,7 +52,7 @@ module My
       end
 
       def menu_id
-        "my-work-time-entry-menu-#{time_entry.id}"
+        "my-time-management-time-entry-menu-#{time_entry.id}"
       end
 
       private

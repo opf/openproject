@@ -43,8 +43,8 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
-import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
-import { EntryMenus, WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
+import { openTimeEntryDialog, reloadMyTimeManagementView } from 'core-stimulus/helpers/time-entry-dialog';
+import { EntryMenus, WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-time-management-entry-menus';
 import {
   remainingAllocations,
   renderAllocationCard,
@@ -55,7 +55,7 @@ interface AdditionalDialogCloseData {
   spent_on?:string;
 }
 
-export default class MyWorkController extends Controller {
+export default class MyTimeManagementController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
   declare turboRequests:TurboRequestsService;
@@ -109,7 +109,7 @@ export default class MyWorkController extends Controller {
   private entryMenus = new EntryMenus(this.element);
   private DEFAULT_TIMED_EVENT_DURATION = '01:00';
   private boundListener = this.dialogCloseListener.bind(this);
-  private reloadView = () => reloadMyWorkView(this.element);
+  private reloadView = () => reloadMyTimeManagementView(this.element);
 
   initialize() {
     useAngularServices(this);
@@ -446,7 +446,7 @@ export default class MyWorkController extends Controller {
     if (dialog.id !== 'time-entry-dialog' || !submitted) { return; }
 
     if (this.viewModeValue === 'calendar') {
-      reloadMyWorkView(this.element);
+      reloadMyTimeManagementView(this.element);
       return;
     }
 
@@ -454,9 +454,9 @@ export default class MyWorkController extends Controller {
     if (this.viewModeValue === 'list') {
       // we don't know what date we clicked, so we need to reload the whole view
       if (additional?.spent_on) {
-        void this.turboRequests.request(this.pathHelperService.myWorkRefresh(additional.spent_on, this.viewModeValue, this.modeValue, this.entriesValue), { method: 'GET' });
+        void this.turboRequests.request(this.pathHelperService.myTimeRefresh(additional.spent_on, this.viewModeValue, this.modeValue, this.entriesValue), { method: 'GET' });
       } else {
-        reloadMyWorkView(this.element);
+        reloadMyTimeManagementView(this.element);
       }
     }
   }

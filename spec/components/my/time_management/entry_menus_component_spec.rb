@@ -53,16 +53,16 @@ RSpec.describe My::TimeManagement::EntryMenusComponent, type: :component do
   end
 
   it "renders the menu of each time entry under the id of its calendar event" do
-    expect(rendered_component).to have_css("[data-my-work-menu-for='#{time_entries.first.id}'] action-menu")
+    expect(rendered_component).to have_css("[data-my-time-management-menu-for='#{time_entries.first.id}'] action-menu")
   end
 
   it "renders the menu of each allocation under the id of its calendar event" do
-    expect(rendered_component).to have_css("[data-my-work-menu-for='#{event_id}'] action-menu")
+    expect(rendered_component).to have_css("[data-my-time-management-menu-for='#{event_id}'] action-menu")
   end
 
   it "keeps the menus out of sight without hiding them" do
-    expect(rendered_component).to have_css("[data-my-work-menus].sr-only")
-    expect(rendered_component).to have_no_css("[data-my-work-menus][hidden]")
+    expect(rendered_component).to have_css("[data-my-time-management-menus].sr-only")
+    expect(rendered_component).to have_no_css("[data-my-time-management-menus][hidden]")
   end
 
   it "offers the links to the work package and project" do
@@ -73,7 +73,7 @@ RSpec.describe My::TimeManagement::EntryMenusComponent, type: :component do
     let(:allocation_minutes) { 120 }
 
     it "renders no menu for it" do
-      expect(rendered_component).to have_no_css("[data-my-work-menu-for='#{event_id}']")
+      expect(rendered_component).to have_no_css("[data-my-time-management-menu-for='#{event_id}']")
     end
   end
 end

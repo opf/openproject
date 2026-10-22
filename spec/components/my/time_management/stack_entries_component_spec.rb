@@ -48,21 +48,21 @@ RSpec.describe My::TimeManagement::StackEntriesComponent, type: :component do
   end
 
   def stack_entries
-    JSON.parse(rendered_component.css("[data-controller='my--work-stack']")
-                 .attr("data-my--work-stack-time-entries-value").value)
+    JSON.parse(rendered_component.css("[data-controller='my--time-management-stack']")
+                 .attr("data-my--time-management-stack-time-entries-value").value)
   end
 
   it "mounts the stack controller with a target to render into" do
     expect(rendered_component).to have_css(
-      "[data-controller='my--work-stack'] [data-my--work-stack-target='stack']"
+      "[data-controller='my--time-management-stack'] [data-my--time-management-stack-target='stack']"
     )
   end
 
   it "exposes the requested date and mode" do
-    wrapper = rendered_component.css("[data-controller='my--work-stack']")
+    wrapper = rendered_component.css("[data-controller='my--time-management-stack']")
 
-    expect(wrapper.attr("data-my--work-stack-initial-date-value").value).to eq("2022-05-04")
-    expect(wrapper.attr("data-my--work-stack-mode-value").value).to eq("week")
+    expect(wrapper.attr("data-my--time-management-stack-initial-date-value").value).to eq("2022-05-04")
+    expect(wrapper.attr("data-my--time-management-stack-mode-value").value).to eq("week")
   end
 
   it "serializes the time entries the same way the calendar view does" do
@@ -109,8 +109,8 @@ RSpec.describe My::TimeManagement::StackEntriesComponent, type: :component do
 
   describe "the scheduled working hours", with_settings: { start_of_week: 1 } do
     def working_hours
-      JSON.parse(rendered_component.css("[data-controller='my--work-stack']")
-                   .attr("data-my--work-stack-working-hours-value").value)
+      JSON.parse(rendered_component.css("[data-controller='my--time-management-stack']")
+                   .attr("data-my--time-management-stack-working-hours-value").value)
     end
 
     # 2022-05-04 is a Wednesday, so the week runs from Monday the 2nd to Sunday the 8th.

@@ -84,7 +84,7 @@ module My
       private
 
       def hidden_work_package
-        render(Primer::Beta::Text.new(color: :muted)) { t("resource_management.my_work.hidden_work_package") }
+        render(Primer::Beta::Text.new(color: :muted)) { t("resource_management.my_time_management.hidden_work_package") }
       end
 
       def allocation

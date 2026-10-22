@@ -43,7 +43,7 @@ module My
       options link_data: {}
 
       def call
-        render(Primer::Alpha::ActionMenu.new(menu_id: "my-work-entries-filter")) do |menu|
+        render(Primer::Alpha::ActionMenu.new(menu_id: "my-time-management-entries-filter")) do |menu|
           menu.with_show_button do |button|
             button.with_leading_visual_icon(icon: ICONS.fetch(current_entries))
             button.with_trailing_action_icon(icon: :"triangle-down")

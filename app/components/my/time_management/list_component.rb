@@ -45,7 +45,7 @@ module My
 
       def wrapper_data
         stimulus_controller_data(
-          "my--work",
+          "my--time-management",
           entries:,
           mode:,
           view_mode: "list"

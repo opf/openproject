@@ -56,7 +56,7 @@ module My
       end
 
       def menu_id
-        "my-work-allocation-menu-#{allocation.scheduled_entry.allocation.id}-#{allocation.allocated_on.iso8601}"
+        "my-time-management-allocation-menu-#{allocation.scheduled_entry.allocation.id}-#{allocation.allocated_on.iso8601}"
       end
 
       private

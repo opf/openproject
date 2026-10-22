@@ -40,8 +40,8 @@ import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 import { render } from 'lit-html';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
-import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
-import { EntryMenus, WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
+import { openTimeEntryDialog, reloadMyTimeManagementView } from 'core-stimulus/helpers/time-entry-dialog';
+import { EntryMenus, WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-time-management-entry-menus';
 import {
   remainingAllocations,
   renderAllocationCard,
@@ -62,7 +62,7 @@ const MS_PER_HOUR = 60 * 60 * 1000;
 // Applied after the scale ratio, so that it stays a constant height on screen.
 const MIN_BAR_HOURS = 0.75;
 
-export default class MyWorkStackController extends Controller {
+export default class MyTimeManagementStackController extends Controller {
   static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
   declare turboRequests:TurboRequestsService;
@@ -105,7 +105,7 @@ export default class MyWorkStackController extends Controller {
   private resizeObserver:ResizeObserver;
   private lastWidth = 0;
   private boundListener = this.dialogCloseListener.bind(this);
-  private reloadView = () => reloadMyWorkView(this.element);
+  private reloadView = () => reloadMyTimeManagementView(this.element);
 
   initialize() {
     useAngularServices(this);
@@ -396,7 +396,7 @@ export default class MyWorkStackController extends Controller {
     const { detail: { dialog, submitted } } = event;
 
     if (dialog.id === 'time-entry-dialog' && submitted) {
-      reloadMyWorkView(this.element);
+      reloadMyTimeManagementView(this.element);
     }
   }
 }

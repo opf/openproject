@@ -45,7 +45,7 @@ module My
 
       def wrapper_data # rubocop:disable Metrics/AbcSize
         stimulus_controller_data(
-          "my--work",
+          "my--time-management",
           allocations: allocation_events_json,
           allow_times: TimeEntry.can_track_start_and_end_time?,
           can_create: User.current.allowed_in_any_project?(:log_own_time),

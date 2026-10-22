@@ -30,7 +30,7 @@
 module My
   module TimeManagement
     class ViewFrameComponent < ApplicationComponent
-      FRAME_ID = "my-work-view"
+      FRAME_ID = "my-time-management-view"
 
       def call
         helpers.turbo_frame_tag(FRAME_ID, data: { turbo_action: "advance" }) do
