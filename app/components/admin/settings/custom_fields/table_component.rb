@@ -57,6 +57,14 @@ module Admin
           headers.map(&:first)
         end
 
+        def mobile_columns
+          super & columns
+        end
+
+        def mobile_labels
+          super & columns
+        end
+
         def headers
           [
             [:name, { caption: CustomField.human_attribute_name(:name) }],

@@ -280,7 +280,7 @@ module Admin::Settings
     # scalar filter drops collection values, so the presence checks below
     # reject them alongside genuinely missing parameters.
     def valid_drop_request?
-      drop_params[:list_type] == "custom_field" &&
+      drop_params[:list_type] == CustomField::SORTABLE_LIST_TYPE &&
         drop_params[:list_id].present? &&
         drop_params.key?(:prev_id)
     end
