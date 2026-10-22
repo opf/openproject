@@ -103,7 +103,7 @@
   // column is as wide as its widest cell in any row, the header included.
   .op-border-box-table--with-actions
     display: grid
-    grid-template-columns: repeat(var(--op-border-box-grid-tracks), minmax(0, 1fr)) max-content
+    grid-template-columns: repeat(var(--op-border-box-grid-tracks), minmax(0, 1fr)) minmax(0, max-content)
 
     > .Box-header,
     > .op-border-box-table--rows,
