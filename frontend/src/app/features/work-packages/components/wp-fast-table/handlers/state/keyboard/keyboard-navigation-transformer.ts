@@ -33,6 +33,7 @@ import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-pa
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { displayClassName, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
+import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { WorkPackageTable } from '../../../wp-fast-table';
@@ -87,6 +88,8 @@ const commandKeys:Record<string, NavKey> = {
   End: 'CtrlEnd',
 };
 
+const pointerEndEvents = ['mouseup', 'click', 'pointerup', 'pointercancel', 'dragend'] as const;
+
 /** Moves focus across the rows and cells of a table with the keyboard, behind `keyboardNavigationEnabled`. */
 export class KeyboardNavigationTransformer implements KeyboardNavigation {
   @LazyInject() public querySpace:IsolatedQuerySpace;
@@ -106,6 +109,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   private focusLeftTable = false;
 
   private capturing = false;
+
+  private pointerActive = false;
 
   private rendered:RenderedRows = { rows: [], groupBy: null };
 
@@ -138,22 +143,29 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const onKeydown = (event:KeyboardEvent) => this.handleKeydown(event);
     const onFocusin = (event:FocusEvent) => {
       this.focusLeftTable = !insideGrid(scrollContainer, event.target as Node);
-      this.adoptFocus(event.target as HTMLElement);
+      const from = event.relatedTarget;
+      this.adoptFocus(event.target as HTMLElement, !insideGrid(scrollContainer, from as Node|null));
     };
     const onFocusout = (event:FocusEvent) => {
       const next = event.relatedTarget ?? event.target;
       this.focusLeftTable = !insideGrid(scrollContainer, next as Node);
     };
     scrollContainer.addEventListener('keydown', onKeydown);
-    const onMousedown = (event:MouseEvent) => this.recordPointerTarget(event.target);
+    const onMousedown = (event:MouseEvent) => {
+      this.pointerActive = true;
+      this.recordPointerTarget(event.target);
+    };
+    const onPointerEnd = () => { this.pointerActive = false; };
     scrollContainer.addEventListener('focusin', onFocusin);
     scrollContainer.addEventListener('focusout', onFocusout);
     scrollContainer.addEventListener('mousedown', onMousedown);
+    pointerEndEvents.forEach((type) => document.addEventListener(type, onPointerEnd));
     onDestroySafely(destroyRef, () => {
       scrollContainer.removeEventListener('keydown', onKeydown);
       scrollContainer.removeEventListener('focusin', onFocusin);
       scrollContainer.removeEventListener('focusout', onFocusout);
       scrollContainer.removeEventListener('mousedown', onMousedown);
+      pointerEndEvents.forEach((type) => document.removeEventListener(type, onPointerEnd));
     });
 
     this.querySpace.tableRendered.values$()
@@ -173,15 +185,10 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public focusPosition(position:FocusPosition):void {
-    const element = this.elementAt(position);
-    if (!element) {
-      return;
+    const element = this.moveFocusTo(position);
+    if (element) {
+      this.scrollIntoView(element);
     }
-
-    this.current = position;
-    paintRovingTabindex(this.table.scrollContainer, element);
-    element.focus({ preventScroll: true });
-    this.scrollIntoView(element);
   }
 
   public recordPosition(position:FocusPosition):void {
@@ -319,7 +326,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     return this.querySpace.query.value?.groupBy?.id ?? null;
   }
 
-  private adoptFocus(target:HTMLElement):void {
+  private adoptFocus(target:HTMLElement, fromOutside:boolean):void {
     if (this.current && this.elementAt(this.current) === target) {
       return;
     }
@@ -328,7 +335,33 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     if (position) {
       this.current = position;
       paintRovingTabindex(this.table.scrollContainer, target);
+      return;
     }
+
+    const enclosing = this.pointerActive || !fromOutside ? null : this.enclosingPositionOf(target);
+    if (enclosing) {
+      this.moveFocusTo(enclosing);
+    }
+  }
+
+  private moveFocusTo(position:FocusPosition):HTMLElement|null {
+    const element = this.elementAt(position);
+    if (!element) {
+      return null;
+    }
+
+    this.current = position;
+    paintRovingTabindex(this.table.scrollContainer, element);
+    element.focus({ preventScroll: true });
+    return element;
+  }
+
+  private enclosingPositionOf(innerControl:HTMLElement):FocusPosition|null {
+    if (innerControl.getAttribute('tabindex') !== '-1' || innerControl.closest(`.${activeFieldContainerClassName}`)) {
+      return null;
+    }
+
+    return this.positionOfCell(innerControl);
   }
 
   private recordPointerTarget(target:EventTarget|null):void {
@@ -336,8 +369,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    const cell = target.closest<HTMLTableCellElement>(`.${navigableCellClassName}`);
-    const position = this.positionOf(cell ?? target.closest('tr'));
+    const position = this.positionOfCell(target);
     if (position) {
       this.current = position;
       this.userPosition = position;
@@ -474,7 +506,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   private clickHeaderControl(cell:HTMLElement|null):boolean {
-    const control = cell?.querySelector<HTMLElement>('a[href]')
+    const control = cell?.querySelector<HTMLElement>('a')
       ?? cell?.querySelector<HTMLElement>('button.wp-table--columns-selection');
     control?.click();
     return !!control;
