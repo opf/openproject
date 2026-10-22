@@ -30,6 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: "layouts/common_head" %>
 </head>
 <%= content_tag :body, data: body_data_attributes({}) do %>
+  <%= render "layouts/theme_bootstrap" %>
   <%= content_tag :main,
                   id: "meeting-presentation-wrapper",
                   data: stimulus_content_data do %>
