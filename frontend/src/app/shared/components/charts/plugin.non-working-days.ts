@@ -36,10 +36,12 @@
 // The non-working days can have a legend and be toggled like any other series. Rather than hand
 // rolling that, a caller stands them in with a dataset carrying no points: chart.js draws nothing
 // for it, but it earns a legend entry and a visibility that the default legend toggles, and this
-// plugin follows it through +datasetIndex+. The painting and its fade still have to be hand rolled,
-// because there is no data for chart.js to animate.
+// plugin follows it through +datasetIndex+. The painting is hand rolled because there is no data
+// for chart.js to draw.
 
-import { Chart, ChartType, Plugin, Scale } from 'chart.js';
+import {
+  Animations, Chart, ChartType, Plugin, Scale,
+} from 'chart.js';
 import moment from 'moment-timezone';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
@@ -69,25 +71,8 @@ export interface Band {
 }
 
 // The end of the fade at which the bands are fully shown. How solid they look at that point is
-// the colour's own business, its alpha included.
+// the color's own business, its alpha included.
 const SHOWN_OPACITY = 1;
-
-interface Fade {
-  from:number;
-  to:number;
-  startedAt:number;
-}
-
-// chart.js eases its hide and show transitions with easeOutQuart.
-export function fadeOpacity({ from, to }:Fade, progress:number):number {
-  const clamped = Math.min(Math.max(progress, 0), 1);
-
-  return from + ((to - from) * (1 - ((1 - clamped) ** 4)));
-}
-
-export function fadeProgress(startedAt:number, now:number, duration:number):number {
-  return duration <= 0 ? 1 : (now - startedAt) / duration;
-}
 
 // An interval covers whole days in +zone+, so it starts at local midnight and runs up to the
 // end of its last day rather than its start. Advancing by a day rather than by 24 hours keeps
@@ -120,6 +105,13 @@ function bandsShown(chart:Chart, options:NonWorkingDaysPluginOptions):boolean {
   return options.datasetIndex === undefined || chart.isDatasetVisible(options.datasetIndex);
 }
 
+interface BandsState {
+  opacity:number;
+  target:number;
+}
+
+const states = new WeakMap<Chart, BandsState>();
+
 // A chart with the animation turned off gets none here either. A scriptable duration is not
 // resolvable outside an element's context, so it counts as off rather than being guessed at.
 function fadeDuration(chart:Chart):number {
@@ -129,41 +121,12 @@ function fadeDuration(chart:Chart):number {
   return typeof duration === 'number' ? duration : 0;
 }
 
-const fades = new WeakMap<Chart, Fade>();
-const fading = new WeakSet<Chart>();
+function fade(chart:Chart, state:BandsState, opacity:number):void {
+  state.target = opacity;
 
-function opacityNow(chart:Chart, fade:Fade):number {
-  return fadeOpacity(fade, fadeProgress(fade.startedAt, Date.now(), fadeDuration(chart)));
-}
-
-// The frames are driven from here rather than from the draw, which chart.js is free to skip
-// while its own animator holds the chart -- a fade scheduled from inside one would then never
-// be asked for another frame, and would sit frozen until the next toggle snapped it to its end.
-function runFade(chart:Chart):void {
-  if (fading.has(chart)) {
-    return;
-  }
-
-  fading.add(chart);
-
-  const step = ():void => {
-    const fade = fades.get(chart);
-
-    if (!chart.ctx || !fade) {
-      fading.delete(chart);
-      return;
-    }
-
-    chart.draw();
-
-    if (fadeProgress(fade.startedAt, Date.now(), fadeDuration(chart)) >= 1) {
-      fading.delete(chart);
-    } else {
-      requestAnimationFrame(step);
-    }
-  };
-
-  requestAnimationFrame(step);
+  new Animations(chart, {
+    opacity: { type: 'number', easing: 'easeOutQuart', duration: fadeDuration(chart) },
+  }).update(state, { opacity });
 }
 
 export const NonWorkingDaysPlugin:Plugin = {
@@ -171,21 +134,14 @@ export const NonWorkingDaysPlugin:Plugin = {
 
   // Toggling runs through an update, so the fade starts here and the draw only paints it.
   afterUpdate(chart:Chart, _args, options:NonWorkingDaysPluginOptions) {
-    const to = bandsShown(chart, options) ? SHOWN_OPACITY : 0;
-    const previous = fades.get(chart);
+    const target = bandsShown(chart, options) ? SHOWN_OPACITY : 0;
+    const state = states.get(chart);
 
-    if (!previous) {
-      fades.set(chart, { from: to, to, startedAt: 0 });
-      return;
+    if (!state) {
+      states.set(chart, { opacity: target, target });
+    } else if (state.target !== target) {
+      fade(chart, state, target);
     }
-
-    if (previous.to === to) {
-      return;
-    }
-
-    // Picks up wherever an interrupted fade had reached, so toggling twice quickly does not jump.
-    fades.set(chart, { from: opacityNow(chart, previous), to, startedAt: Date.now() });
-    runFade(chart);
   },
 
   beforeDatasetsDraw(chart:Chart, _args, options:NonWorkingDaysPluginOptions) {
@@ -196,8 +152,7 @@ export const NonWorkingDaysPlugin:Plugin = {
       return;
     }
 
-    const settled = bandsShown(chart, options) ? SHOWN_OPACITY : 0;
-    const opacity = opacityNow(chart, fades.get(chart) ?? { from: settled, to: settled, startedAt: 0 });
+    const opacity = states.get(chart)?.opacity ?? 0;
 
     if (opacity <= 0) {
       return;
