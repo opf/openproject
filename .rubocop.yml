@@ -100,6 +100,10 @@ Lint/UselessDefaultValueArgument:
 Lint/Void:
   Enabled: false
 
+Lint/UnusedMethodArgument:
+  NotImplementedExceptions:
+    - SubclassResponsibilityError
+
 Metrics/AbcSize:
   Enabled: true
   Exclude:
