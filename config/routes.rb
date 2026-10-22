@@ -33,7 +33,10 @@ Rails.application.routes.draw do
 
   constraints(->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }) do
     get "manifest" => "pwa/manifest#show", as: :pwa_manifest, format: false
+    get "offline" => "pwa/offline#show", as: :pwa_offline, format: false
   end
+
+  get "service-worker" => "pwa/service_worker#show", as: :pwa_service_worker, format: false
 
   # Route for error pages
   get "/404", to: "errors#not_found"
