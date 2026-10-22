@@ -15,7 +15,7 @@
 
 ## Version Requirements
 
-- Node: `^24.15.0` (see `package.json` engines)
+- Node: `^24.22.1` (see `package.json` engines)
 
 ## Setup
 
