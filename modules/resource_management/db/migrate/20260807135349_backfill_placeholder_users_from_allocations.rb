@@ -30,7 +30,7 @@
 class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
   ACTIVE_STATUS = 1 # Principal.statuses[:active]
 
-  # Filters are ANDed and their values are a set, so neither order carries
+  # Filters are combined with AND and their values are a set, so neither order carries
   # meaning — but jsonb compares arrays positionally. Allocations are therefore
   # grouped and matched on this canonical form rather than the raw column.
   CANONICAL_FILTER = <<~SQL.squish

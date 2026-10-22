@@ -22,32 +22,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
-
-RSpec.describe Admin::CustomFields::DeleteButtonComponent, type: :component do
-  let(:custom_field) { build_stubbed(:work_package_custom_field, id: 4242, name: "Field666") }
-
-  it "renders a button to asynchronously open the deletion dialog" do
-    render_inline(described_class.new(custom_field:))
-
-    expect(page).to have_link(href: "/admin/settings/work_package_custom_fields/4242/deletion_dialog")
-    expect(page).to have_css("a[data-controller='async-dialog']")
-    expect(page).to have_element("tool-tip", text: "Delete")
-  end
-
-  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field].each do |type|
-    context "for a #{type.to_s.humanize.downcase}" do
-      let(:custom_field) { build_stubbed(type, id: 4242, name: "Field666") }
-
-      it "has the corresponding link" do
-        render_inline(described_class.new(custom_field:))
-        expect(page).to have_link(href: "/admin/settings/#{type}s/4242/deletion_dialog")
-      end
-    end
-  end
+FactoryBot.define do
+  factory :journal_label_journal, class: "Journal::LabelJournal"
 end

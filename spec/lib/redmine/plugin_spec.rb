@@ -141,7 +141,7 @@ RSpec.describe Redmine::Plugin do
       end.not_to raise_error
     end
 
-    it "allows registering with a version requirement to be the op version as a minumum" do
+    it "allows registering with a version requirement to be the op version as a minimum" do
       expect do
         described_class.register(:foo) { requires_openproject(">= #{OpenProject::VERSION.to_semver}") }
       end.not_to raise_error

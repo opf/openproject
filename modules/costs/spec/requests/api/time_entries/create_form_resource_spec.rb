@@ -220,7 +220,7 @@ RSpec.describe API::V3::TimeEntries::CreateFormAPI, content_type: :json do
       end
     end
 
-    context "without the log_time permisson" do
+    context "without the log_time permission" do
       let(:permissions) { %i[log_own_time view_work_packages] }
 
       it "does not render the user href" do

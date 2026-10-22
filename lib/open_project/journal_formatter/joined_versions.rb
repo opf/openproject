@@ -27,25 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Base for formatters rendering the change to a set of versions referenced by a
-# work package. Each value is the sorted, comma-joined version ids (see
-# JournalChanges); every id is resolved to the version's name, with a
-# placeholder for versions that have been deleted or are no longer visible to
-# the reader.
-class OpenProject::JournalFormatter::JoinedVersions < JournalFormatter::NamedAssociation
+class OpenProject::JournalFormatter::JoinedVersions < OpenProject::JournalFormatter::JoinedAssociation
   private
-
-  def format_values(values, key)
-    klass = class_from_field(key)
-
-    values.map do |value|
-      next if value.blank? || klass.nil?
-
-      value.to_s.split(",")
-           .map { |id| name_or_placeholder(associated_object(klass, id.to_i)) }
-           .join(", ")
-    end
-  end
 
   def name_or_placeholder(object)
     return I18n.t(:label_deleted_version) if object.nil?

@@ -25,4 +25,4 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type RelatedWorkPackagesGroup = Record<string, any>;
+export type RelatedWorkPackagesGroup = Record<string, unknown>;

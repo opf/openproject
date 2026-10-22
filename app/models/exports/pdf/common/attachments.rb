@@ -30,12 +30,19 @@
 require "mini_magick"
 
 module Exports::PDF::Common::Attachments
+  # Deliberately not MiniMagick::Image#resize: that shells out to `mogrify`, which
+  # since ImageMagick 7.1.2-32 writes to a randomised temp name (`<file>-<hex>~`).
+  # ImageMagick derives the coder from that name's extension, so the module policy in
+  # config/imagemagick/policy.xml denies it.
+  # https://github.com/ImageMagick/ImageMagick/issues/8995
   def resize_image(file_path)
     tmp_file = temp_image_file(File.extname(file_path))
 
-    image = MiniMagick::Image.open(file_path)
-    image.resize("x800>")
-    image.write(tmp_file)
+    MiniMagick.convert do |convert|
+      convert << file_path
+      convert.resize("x800>")
+      convert << tmp_file
+    end
 
     tmp_file
   end
@@ -143,7 +150,7 @@ module Exports::PDF::Common::Attachments
   def attachment_by_api_content_src(src)
     return if src.empty?
 
-    # we accept absolut linked images
+    # we accept absolute linked images
     # (but not hot-linked from elsewhere: https://example.com/another_api/attachments/1/somefile.png)
     #
     # #{api_url_helpers.root_path}api/v3/attachments/:id/content (our default api path)

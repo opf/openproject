@@ -108,7 +108,7 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
         expect(page).to have_checked_field("confirm_dangerous_action")
         page.find_button("Delete permanently", disabled: false, wait: 20).click
 
-        # ensure thet processing finished
+        # ensure that processing finished
         expect(page).to have_no_selector(row_selector(one))
 
         expect(project.reload.custom_value_for(calculated_value).value).to be_nil

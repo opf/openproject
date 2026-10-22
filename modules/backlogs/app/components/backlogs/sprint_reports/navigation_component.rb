@@ -27,31 +27,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    class DeleteButtonComponent < ApplicationComponent
-      include ::CustomFields::AdminRoutes
+module Backlogs
+  module SprintReports
+    class NavigationComponent < ApplicationComponent
+      def initialize(sprint:, project:)
+        super
 
-      def initialize(custom_field:, **)
-        @custom_field = custom_field
-        super(**)
+        @sprint = sprint
+        @project = project
       end
 
-      attr_reader :custom_field
+      def render?
+        previous_sprint.present? || next_sprint.present?
+      end
 
-      def call
-        render(
-          Primer::Beta::IconButton.new(
-            tag: :a,
-            href: deletion_dialog_path(custom_field),
-            data: { controller: "async-dialog" },
-            aria: { label: t(:button_delete) },
-            icon: :trash,
-            scheme: :danger,
-            size: :small,
-            test_selector: "op-custom-fields--delete-button"
-          )
-        )
+      delegate :previous_sprint, :next_sprint, to: :neighbors
+
+      private
+
+      def neighbors
+        @neighbors ||= SprintNeighbors.new(sprint: @sprint, project: @project)
       end
     end
   end

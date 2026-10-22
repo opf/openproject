@@ -49,6 +49,7 @@ import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packag
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import {
+  WorkPackageViewHandlerRegistry,
   WorkPackageViewHandlerToken,
   WorkPackageViewOutputs,
 } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -223,8 +224,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     this.cardDragDrop.init(this);
 
     // Register event handlers for the cards
-    const registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
-    if (registry instanceof CardViewHandlerRegistry) {
+    const registry = this.injector.get(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
+    if (registry instanceof WorkPackageViewHandlerRegistry) {
       registry.attachTo(this);
     } else {
       new registry(this.injector).attachTo(this);

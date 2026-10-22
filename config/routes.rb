@@ -357,6 +357,7 @@ Rails.application.routes.draw do
 
     member do
       get :edit_dialog
+      get :deletion_dialog
     end
 
     resource :matrix, only: %i[show update], controller: "workflows/matrix" do
@@ -1056,6 +1057,7 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
+          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
@@ -1070,6 +1072,7 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
+          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text

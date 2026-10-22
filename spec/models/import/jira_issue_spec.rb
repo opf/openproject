@@ -27,33 +27,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared normalization for the array-valued +target_version_ids+ and
-# +observed_in_version_ids+ parameters used by the work package move and
-# bulk-edit forms. It is pulled out of the generic scalar "none"/blank
-# attribute transforms (which are built for scalar values) and normalized
-# here instead.
-module WorkPackages::VersionIdsNormalization
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    private
+RSpec.describe Import::JiraIssue do
+  let(:jira_import) { create(:jira_import, jira: create(:jira), author: create(:user)) }
+  let(:jira_project) { create(:jira_project, jira_import:) }
 
-    # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
-    #   * blank selection  -> nil  (leave existing target_versions untouched)
-    #   * "none" selection -> []   (clear all target_versions)
-    #   * a version id      -> [id]
-    def normalized_target_version_ids(raw)
-      normalized_version_ids(raw)
+  def create_issue(fields)
+    create(:jira_issue, jira_import:, jira_project:, payload: { "fields" => fields })
+  end
+
+  describe ".with_field_set" do
+    subject(:issues) { described_class.with_field_set("resolutiondate") }
+
+    it "returns issues with a value for the given field" do
+      issue = create_issue("resolutiondate" => "2026-09-12T12:18:05.851+0000")
+
+      expect(issues).to contain_exactly(issue)
     end
 
-    # Same magic values as #normalized_target_version_ids, applied to observed_in_version_ids.
-    def normalized_observed_in_version_ids(raw)
-      normalized_version_ids(raw)
+    it "excludes issues with a null value for the field" do
+      create_issue("resolutiondate" => nil)
+
+      expect(issues).to be_empty
     end
 
-    def normalized_version_ids(raw)
-      values = Array(raw).compact_blank
-      values == ["none"] ? [] : values.presence
+    it "excludes issues without the field" do
+      create_issue("summary" => "Unresolved")
+
+      expect(issues).to be_empty
     end
   end
 end
