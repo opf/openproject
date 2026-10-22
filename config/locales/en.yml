@@ -645,10 +645,10 @@ en:
         odd: "must be odd."
         overlapping_range: "overlaps with an existing non-working day range."
         regex_invalid: "could not be validated with the associated regular expression."
-        replacement_workflow_invalid: "The selected replacement must be another available workflow."
-        replacement_workflow_required: "A replacement workflow must be selected before this workflow can be deleted."
         regex_list_invalid: "Lines %{invalid_lines} could not be parsed as regular expression."
         regex_match_failed: "does not match the regular expression %{expression}."
+        replacement_workflow_invalid: "The selected replacement must be another available workflow."
+        replacement_workflow_required: "A replacement workflow must be selected before this workflow can be deleted."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
         smaller_than_or_equal_to_max_value: "must be smaller than or equal to maximum value."
         ssrf_filtered: "violates the SSRF policy of this OpenProject instance."
@@ -4278,7 +4278,7 @@ en:
   label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
   label_my_security: "Security"
-  label_my_work: "My work"
+  label_my_time: "My time"
   label_name: "Name"
   label_never: "Never"
   label_new: "New"
@@ -7473,13 +7473,13 @@ en:
       filter: "Filter by name"
       filter_no_results: "No types match this filter"
       make_default: "Activate in new projects"
+      make_default_notice: "%{name} is now activated in new projects."
       migrated_variants_banner:
         text: >
           Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0.
           They are marked as "%{label}".
           To remove them, make the affected projects use a different variant or type, then delete the migrated variant.
           [Learn more about variants](docs_url).
-      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
       project_variants_count:
@@ -8230,17 +8230,17 @@ en:
       new:
         dialog_title: 'Copy workflow of "%{source}"'
     delete:
-      title: "Delete workflow %{name}?"
-      body_not_in_use: "This workflow will be permanently deleted. This action is not reversible."
       body_in_use:
         one: "This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with."
         other: "This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with."
+      body_not_in_use: "This workflow will be permanently deleted. This action is not reversible."
+      button: "Delete workflow"
+      confirmation_checkbox_label: "I understand that this action is not reversible."
+      no_replacement: "This workflow is in use and cannot be deleted because there is no other workflow to replace it with."
+      replace_caption: "The selected workflow will be applied to all types and variants listed above."
       replace_label: "Replace with workflow"
       replace_placeholder: "Select a workflow"
-      replace_caption: "The selected workflow will be applied to all types and variants listed above."
-      confirmation_checkbox_label: "I understand that this action is not reversible."
-      button: "Delete workflow"
-      no_replacement: "This workflow is in use and cannot be deleted because there is no other workflow to replace it with."
+      title: "Delete workflow %{name}?"
     form:
       copy_from:
         caption: "The new workflow starts with a copy of that workflow's status transitions."
