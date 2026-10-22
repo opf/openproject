@@ -33,7 +33,7 @@ module WorkPackage::StatusTransitions
     if !new_record? && status_id_changed?
       status_was = Status.find_by(id: status_id_was)
       status_new = Status.find_by(id: status_id)
-      if status_was && status_new && status_was.is_closed? && !status_new.is_closed?
+      if status_was && status_new && status_was.closed? && !status_new.closed?
         return true
       end
     end
@@ -45,7 +45,7 @@ module WorkPackage::StatusTransitions
     if !new_record? && status_id_changed?
       status_was = Status.find_by(id: status_id_was)
       status_new = Status.find_by(id: status_id)
-      if status_was && status_new && !status_was.is_closed? && status_new.is_closed?
+      if status_was && status_new && !status_was.closed? && status_new.closed?
         return true
       end
     end
