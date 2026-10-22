@@ -176,7 +176,7 @@ describe('focus position model', () => {
     expect(initialPosition(rows.map((r) => ({ ...r, hidden: true })))).toBeNull();
   });
 
-  it('reconcilePosition keeps the same key, else nearest visible by previous index, else null', () => {
+  it('reconcilePosition keeps the same row, else the row that hides it, else the nearest visible row, else null', () => {
     const rows = buildRows();
 
     expect(reconcilePosition(rows, cell('A', 2), 1)).toEqual(cell('A', 2));
