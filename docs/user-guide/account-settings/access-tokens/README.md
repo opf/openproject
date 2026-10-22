@@ -46,6 +46,8 @@ A new API token will be generated and displayed. Please keep in mind that each t
 
 ![A message confirming successful generation of a new API storage in OpenProject](openproject_account_settings_access_tokens_api_generated.png)
 
+![OpenProject API token list under account settings showing API tokens](openproject_account_settings_access_tokens_api-token_list.png)
+
 ### iCalendar
 
 iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients.
