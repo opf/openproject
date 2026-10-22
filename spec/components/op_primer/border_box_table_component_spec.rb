@@ -292,6 +292,10 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
       expect(table[:style]).to eq("--op-border-box-grid-tracks: 3;")
     end
 
+    it "marks header, body and footer as rowgroups spanning the table's tracks" do
+      expect(rendered_component).to have_css("[role='table'] > [role='rowgroup'].op-border-box-table__rowgroup", count: 3)
+    end
+
     it "lays out the header and body rows on the table's tracks, but not the footer" do
       expect(rendered_component).to have_css(".op-border-box-grid--has-headers.op-border-box-grid--with-actions")
       expect(rendered_component).to have_css(".Box-row.op-border-box-grid--with-actions", count: 2)

@@ -95,6 +95,10 @@ module OpPrimer
       "op-border-box-table--rows"
     end
 
+    def rowgroup_class
+      "op-border-box-table__rowgroup"
+    end
+
     def column_title(name)
       _, header_options = headers.assoc(name)
       header_options&.dig(:caption)

@@ -36,12 +36,12 @@ See COPYRIGHT and LICENSE files for more details.
       aria: { label: mobile_title, colcount: column_count, rowcount: row_count },
       data: container_data,
       style: container_style,
-      list_arguments: { tag: :div, role: :rowgroup, classes: rows_container_class },
+      list_arguments: { tag: :div, role: :rowgroup, classes: [rowgroup_class, rows_container_class] },
       test_selector:
     )
   ) do |component|
 %>
-  <% component.with_header(role: :rowgroup) do %>
+  <% component.with_header(role: :rowgroup, classes: rowgroup_class) do %>
     <%=
       render(
         Primer::BaseComponent.new(
@@ -133,7 +133,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% if has_footer? %>
       <%
-        component.with_footer(role: :rowgroup) do
+        component.with_footer(role: :rowgroup, classes: rowgroup_class) do
           render(
             Primer::BaseComponent.new(tag: :div, color: :muted, classes: grid_class, role: :row, aria: { rowindex: row_count })
           ) do
