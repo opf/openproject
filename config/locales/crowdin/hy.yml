@@ -6877,6 +6877,27 @@ hy:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Compare variants
       blankslate:
@@ -6922,12 +6943,6 @@ hy:
       add_variant: Add a variant to %{name}
       create_type: Ստեղծել տեսակ
       create_variant: Ստեղծել տարատեսակ
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Ավարտել
@@ -6975,8 +6990,10 @@ hy:
           caption: Սահմանեք կաղապար՝ օգտագործելով հղված հատկանիշներ և տեքստ, աշխատանքային փաթեթների վերնագրերն ավտոմատ ստեղծելու համար։ Օգտատերերը չեն կարողանա ձեռքով խմբագրել վերնագրերը։
           label: Ավտոմատ ստեղծվող վերնագրեր
         description:
-          caption: Ավելացրեք տեքստը, որը կավելացվի այս տեսակի բոլոր նոր աշխատանքային փաթեթների նկարագրության դաշտում։
-          label: Կանխադրված նկարագրության տեքստ
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Օգտատերերը կարող են ձեռքով մուտքագրել և խմբագրել աշխատանքային փաթեթների վերնագրերն առանց սահմանափակումների։
           label: Ձեռքով խմբագրվող վերնագրեր
@@ -7013,7 +7030,6 @@ hy:
             label: Անջատված
           section_title: Արտեֆակտի ավտոմատ արտահանում
           unavailable: անհասանելի է, ավտոմատ կառավարվող Nextcloud պահեստ կազմաձևված չէ
-        intro: Ընտրեք, թե հասանելի ձևանմուշներից որոնք եք ցանկանում միացնել այս տեսակի համար։ Ձևանմուշը որոշում է այս տեսակն օգտագործող աշխատանքային փաթեթի արտահանված PDF-ում տեսանելի ձևավորումն ու հատկանիշները։ Ցուցակի առաջին ձևանմուշն ընտրվում է կանխադրված։
         pdf_export_templates:
           actions:
             label_disable_all: Անջատել բոլորը
@@ -7098,7 +7114,6 @@ hy:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        description: Ընտրեք նախագծի հատկանիշները, որոնք ցանկանում եք միացնել աշխատանքային փաթեթի այս տեսակի համար։ Միացված նախագծի հատկանիշները ցուցադրվում են այս տեսակի աշխատանքային փաթեթներում՝ առանձին ներդիրում։ Անհրաժեշտ թույլտվություններ ունեցող օգտատերերը կարող են այնտեղ դիտել և խմբագրել այդ հատկանիշները։
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
@@ -7117,10 +7132,12 @@ hy:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
+          title: Not used in any project yet
         enable_all: Միացնել բոլոր նախագծերի համար
         select_projects: Ընտրել նախագծերը
         select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         tab: Նախագծեր
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7244,11 +7261,11 @@ hy:
       filter: Filter by name
       filter_no_results: No types match this filter
       make_default: Ակտիվացնել նոր նախագծերում
+      make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       migrated_variants_banner:
         text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
 
           '
-      make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
       project_variants_count:

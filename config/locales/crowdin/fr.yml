@@ -6876,6 +6876,27 @@ fr:
   tree_view:
     label_empty_sub_tree: Aucun élément
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Comparer les variantes
       blankslate:
@@ -6921,12 +6942,6 @@ fr:
       add_variant: Ajouter une variante à %{name}
       create_type: Créer un type
       create_variant: Créer une variante
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Définit le nom de cette configuration de %{type}. Les lots de travaux continuent à utiliser %{type} lui-même.
       finish: Terminer
@@ -6974,8 +6989,10 @@ fr:
           caption: Définissez un modèle utilisant des attributs référencés et du texte pour générer automatiquement les sujets des lots de travaux. Les utilisateurs ne pourront pas modifier les sujets manuellement.
           label: Sujets générés automatiquement
         description:
-          caption: Ajoutez le texte qui sera inséré dans le champ « Description » de tous les nouveaux lots de travaux de ce type.
-          label: Texte de description par défaut
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Les utilisateurs peuvent saisir et modifier manuellement les sujets des lots de travaux sans restriction.
           label: Sujets modifiables manuellement
@@ -7012,7 +7029,6 @@ fr:
             label: Désactivé
           section_title: Exportation automatique des artefacts
           unavailable: indisponible, aucun espace de stockage Nextcloud géré automatiquement n'est configuré
-        intro: Sélectionnez les modèles disponibles que vous souhaitez activer pour ce type. Le modèle détermine la conception et les attributs visibles dans le fichier PDF exporté d'un lot de travaux utilisant ce type. Le premier modèle de la liste est sélectionné par défaut.
         pdf_export_templates:
           actions:
             label_disable_all: Désactiver tout
@@ -7097,7 +7113,6 @@ fr:
           manual:
             description: Une fois que vous aurez [créé des attributs de projet](administration_url), ceux-ci apparaîtront ici et pourront être associés à un type.
             title: Aucun attribut de projet n'est disponible
-        description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
         disabled: Désactivé
         exclusions:
           attribute_label: Hériter de %{attribute}
@@ -7116,10 +7131,12 @@ fr:
         empty_state:
           description: Ajouter un projet pour y utiliser cette configuration.
           no_results: Aucun projet correspondant.
+          title: Not used in any project yet
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
         tab: Projets
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7243,11 +7260,11 @@ fr:
       filter: Filter by name
       filter_no_results: No types match this filter
       make_default: Activer dans les nouveaux projets
+      make_default_notice: "%{name} est désormais activé dans les nouveaux projets."
       migrated_variants_banner:
         text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
 
           '
-      make_default_notice: "%{name} est désormais activé dans les nouveaux projets."
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
       project_variants_count:

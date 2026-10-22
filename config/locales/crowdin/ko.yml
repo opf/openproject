@@ -6692,6 +6692,27 @@ ko:
   tree_view:
     label_empty_sub_tree: 항목 없음
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: 변형 비교
       blankslate:
@@ -6736,12 +6757,6 @@ ko:
       add_variant: "%{name}에 변형 추가"
       create_type: 유형 만들기
       create_variant: 변형 만들기
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: 이 구성의 %{type}을(를) 명명합니다. 작업 패키지는 계속해서 %{type} 자체를 사용합니다.
       finish: 완료
@@ -6789,8 +6804,10 @@ ko:
           caption: 참조된 특성과 텍스트를 사용하여 패턴을 정의하고 작업 패키지 제목을 자동으로 생성하세요. 사용자는 제목을 수동으로 편집할 수 없습니다.
           label: 자동으로 생성되는 제목
         description:
-          caption: 이 유형의 모든 신규 작업 패키지의 설명 필드에 추가될 텍스트를 입력하세요.
-          label: 기본 설명 텍스트
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: 사용자가 제한 없이 작업 패키지 제목을 수동으로 입력하고 편집할 수 있습니다.
           label: 수동으로 편집 가능한 제목
@@ -6827,7 +6844,6 @@ ko:
             label: 끄기
           section_title: 자동 아티팩트 내보내기
           unavailable: 사용할 수 없습니다. 자동 관리되는 Nextcloud 저장소가 구성되어 있지 않습니다
-        intro: 사용 가능한 템플릿 중에서 이 유형에 대해 활성화하려는 템플릿을 선택하세요. 템플릿은 이 유형을 사용하여 작업 패키지의 내보낸 PDF에서 표시되는 디자인과 특성을 결정합니다. 목록의 첫 번째 템플릿이 기본적으로 선택됩니다.
         pdf_export_templates:
           actions:
             label_disable_all: 모두 비활성화
@@ -6912,7 +6928,6 @@ ko:
           manual:
             description: "[프로젝트 특성을 생성](administration_url)하면, 해당 특성이 여기에 표시되며 유형에 추가할 수 있습니다."
             title: 사용 가능한 프로젝트 특성 없음
-        description: 이 작업 패키지 유형에 대해 활성화할 프로젝트 특성을 선택하세요. 활성화된 프로젝트 특성은 이 유형의 작업 패키지에서 별도의 탭에 표시됩니다. 필요한 권한을 가진 사용자는 해당 탭에서 이러한 특성을 보고 편집할 수 있습니다.
         disabled: 비활성화됨
         exclusions:
           attribute_label: "%{attribute} 상속"
@@ -6931,10 +6946,12 @@ ko:
         empty_state:
           description: 이 구성을 사용하려면 프로젝트를 추가하세요.
           no_results: 일치하는 프로젝트가 없습니다.
+          title: Not used in any project yet
         enable_all: 모든 프로젝트에 대해 활성화
         select_projects: 프로젝트 선택
         select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
         tab: 프로젝트
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7057,11 +7074,11 @@ ko:
       filter: Filter by name
       filter_no_results: No types match this filter
       make_default: 새로운 프로젝트에서 활성화
+      make_default_notice: "%{name}이(가) 이제 새 프로젝트에서 활성화되었습니다."
       migrated_variants_banner:
         text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
 
           '
-      make_default_notice: "%{name}이(가) 이제 새 프로젝트에서 활성화되었습니다."
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
       project_variants_count:
