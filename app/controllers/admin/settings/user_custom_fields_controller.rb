@@ -41,10 +41,10 @@ module Admin::Settings
     menu_item :user_custom_fields_settings
 
     # rubocop:disable Rails/LexicallyScopedActionFilter
-    before_action :set_sections, only: %i[show index edit update move drop]
+    before_action :set_sections, only: %i[show index edit update]
     before_action :find_custom_field,
                   only: %i(show edit update destroy delete_option deletion_dialog reorder_alphabetical
-                           move drop attribute_help_text update_attribute_help_text list_items)
+                           attribute_help_text update_attribute_help_text list_items)
     before_action :prepare_custom_option_position, only: %i(update create)
     before_action :find_custom_option, only: :delete_option
     before_action :find_or_initialize_attribute_help_text, only: %i[attribute_help_text update_attribute_help_text]
@@ -86,39 +86,6 @@ module Admin::Settings
     def edit; end
 
     def list_items; end
-
-    def move
-      result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(
-        move_to: params.expect(:move_to)
-      )
-
-      if result.success?
-        update_sections_via_turbo_stream(user_custom_field_sections: @user_custom_field_sections)
-      else
-        render_error_flash_message_via_turbo_stream(
-          message: join_flash_messages(result.errors)
-        )
-      end
-
-      respond_with_turbo_streams
-    end
-
-    def drop
-      result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
-        target_id: params[:target_id],
-        position: params[:position]
-      )
-
-      if result.success?
-        drop_success_streams(result)
-      else
-        render_error_flash_message_via_turbo_stream(
-          message: join_flash_messages(result.errors)
-        )
-      end
-
-      respond_with_turbo_streams
-    end
 
     def deletion_dialog
       respond_with_dialog Admin::CustomFields::DeleteDialogComponent.new(custom_field: @custom_field)
@@ -165,13 +132,6 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = UserCustomField.find(params.expect(:id))
-    end
-
-    def drop_success_streams(call)
-      update_section_via_turbo_stream(user_custom_field_section: call.result[:current_section])
-      if call.result[:section_changed]
-        update_section_via_turbo_stream(user_custom_field_section: call.result[:old_section])
-      end
     end
 
     def show_path

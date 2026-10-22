@@ -61,7 +61,9 @@ module Settings
         id_placeholder = "__id__"
         {
           user_custom_field_section: drop_admin_settings_user_custom_field_section_path(id_placeholder)
-                                       .sub(id_placeholder, "{id}")
+                                       .sub(id_placeholder, "{id}"),
+          user_field: drop_admin_settings_user_custom_field_section_field_path(id_placeholder)
+                        .sub(id_placeholder, "{id}")
         }
       end
 
