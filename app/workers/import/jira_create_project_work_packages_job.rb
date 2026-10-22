@@ -254,16 +254,29 @@ module Import
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
       if issue_priority.present?
-        priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
-        uses_existing = true
-        if priority.blank?
-          priority = IssuePriority.create!(name: issue_priority["name"])
-          uses_existing = false
-        end
+        priority, uses_existing = find_or_create_priority(issue_priority)
         jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
         create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
         priority
       end
+    end
+
+    def find_or_create_priority(issue_priority)
+      name = issue_priority["name"]
+      priority = find_priority(name)
+      return [priority, true] if priority
+
+      lock_key = "jira_import_create_priority_#{name.parameterize(separator: '_')}"
+      OpenProject::Mutex.with_advisory_lock(IssuePriority, lock_key, transaction: true) do
+        priority = find_priority(name)
+        return [priority, true] if priority
+
+        [IssuePriority.create!(name:), false]
+      end
+    end
+
+    def find_priority(name)
+      IssuePriority.find_by("LOWER(name) = LOWER(?)", name)
     end
 
     def update_workflows(type)

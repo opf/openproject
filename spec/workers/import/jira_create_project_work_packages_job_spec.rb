@@ -175,6 +175,24 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
         end
       end
 
+      context "when finding or creating a priority" do
+        it "takes a transaction scoped lock when creating a priority" do
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+          expect { create_work_packages }.to change(IssuePriority, :count).by(1)
+          expect(OpenProject::Mutex).to have_received(:with_advisory_lock)
+            .with(IssuePriority, "jira_import_create_priority_highest", transaction: true)
+            .once
+        end
+
+        it "does not lock when the priority already exists" do
+          create(:issue_priority, name: "HIGHEST")
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
+
+          expect { create_work_packages }.to not_change(IssuePriority, :count)
+          expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock).with(IssuePriority, any_args)
+        end
+      end
+
       context "when the issue carries no updated timestamp" do
         let(:jira_issue_payload) { super().tap { |payload| payload["fields"].delete("updated") } }
 
