@@ -165,17 +165,18 @@ RSpec.describe Import::JiraWikiMarkup::Parser do
 
     let(:table) { result.first }
 
-    def cell_kinds(rows) = rows.map { |row| row.map(&:header) }
+    def row_header_flags(row) = row.map(&:header)
+    def header_flags(rows) = rows.map { |row| row_header_flags(row) }
 
     context "with a header row and a data row" do
       let(:lines) { ["||A||B||", "|1|2|"] }
 
       it "takes the header row as the head" do
-        expect(table.header.map(&:header)).to eq([true, true])
+        expect(row_header_flags(table.header)).to eq([true, true])
       end
 
       it "keeps the data row in the body" do
-        expect(cell_kinds(table.rows)).to eq([[false, false]])
+        expect(header_flags(table.rows)).to eq([[false, false]])
       end
 
       it "consumes both lines" do
@@ -191,7 +192,7 @@ RSpec.describe Import::JiraWikiMarkup::Parser do
       end
 
       it "holds only data cells" do
-        expect(cell_kinds(table.rows)).to eq([[false, false]])
+        expect(header_flags(table.rows)).to eq([[false, false]])
       end
     end
 
@@ -199,7 +200,7 @@ RSpec.describe Import::JiraWikiMarkup::Parser do
       let(:lines) { ["||Name|Alice|"] }
 
       it "marks only the leading cell as a header cell" do
-        expect(cell_kinds(table.rows)).to eq([[true, false]])
+        expect(header_flags(table.rows)).to eq([[true, false]])
       end
 
       it "does not mistake the mixed row for a head" do
@@ -211,11 +212,11 @@ RSpec.describe Import::JiraWikiMarkup::Parser do
       let(:lines) { ["||Field||Details||", "||OS||Windows||"] }
 
       it "takes only the first as the head" do
-        expect(table.header.map(&:header)).to eq([true, true])
+        expect(row_header_flags(table.header)).to eq([true, true])
       end
 
       it "keeps the rest as body rows of header cells" do
-        expect(cell_kinds(table.rows)).to eq([[true, true]])
+        expect(header_flags(table.rows)).to eq([[true, true]])
       end
     end
 
