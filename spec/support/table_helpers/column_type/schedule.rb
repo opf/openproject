@@ -33,7 +33,7 @@ module TableHelpers
     #
     # The title of the column is "MTWTFSS" to represent the days of the week.
     #
-    # The Monday is the next occuring Monday meaning the dates can be different
+    # The Monday is the next occurring Monday meaning the dates can be different
     # from one test run to another. To always use the same dates please use
     # `travel_to` with a fixed date.
     #

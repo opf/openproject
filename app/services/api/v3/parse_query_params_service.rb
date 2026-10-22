@@ -186,7 +186,7 @@ module API
       #
       # Examples:
       #   * status => status_id
-      #   * progresssDone => done_ratio
+      #   * progressDone => done_ratio
       #   * assigned => assigned_to
       #   * customField1 => cf_1
       #

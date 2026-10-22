@@ -148,7 +148,7 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueReader do
       end
     end
 
-    context "if file references contain invalid formated values" do
+    context "if file references contain invalid formatted values" do
       let(:viewpoint_ref) { "viewpoint.bcfv" }
       let(:snapshot_ref) { "snapshot.png" }
       let(:markup) do

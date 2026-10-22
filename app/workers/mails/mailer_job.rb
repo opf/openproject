@@ -67,7 +67,7 @@ class Mails::MailerJob < ActionMailer::MailDeliveryJob
   #       total_wait
   #     end
   #
-  # We set attemps to 14 to have it retry for 127715 seconds which is more than
+  # We set attempts to 14 to have it retry for 127715 seconds which is more than
   # 1 day (~= 1 day 11 hours 30 min)
   retry_on StandardError, wait: :polynomially_longer, attempts: 14
 end

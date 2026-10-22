@@ -136,7 +136,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Cases for wp
     // 1. No wp.ancestors in table -> Render them immediately (defer=false)
-    // 2. Parent in table -> defered[parent] = wp
+    // 2. Parent in table -> deferred[parent] = wp
     // 3. Parent not in table BUT a ancestor in table
     // -> deferred[a ancestor] = parent
     // -> deferred[parent] = wp
@@ -229,7 +229,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         this.additionalParents[ancestor.id!] = ancestor;
       }
 
-      // Push the correct ancestor groups for identifiying a hierarchy group
+      // Push the correct ancestor groups for identifying a hierarchy group
       ancestorGroups.push(hierarchyGroupClass(ancestor.id!));
       ancestors.slice(0, index).forEach((previousAncestor) => {
         ancestorGroups.push(hierarchyGroupClass(previousAncestor.id!));

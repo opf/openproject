@@ -541,7 +541,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .substract modifies its instance
+    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .subtract modifies its instance
 
     // right spacing
     // RR: kept both variants for documentation purpose.

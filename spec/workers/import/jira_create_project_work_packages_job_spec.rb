@@ -167,7 +167,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read)
         end
 
-        it "creates work_packge with default priority if it exists" do
+        it "creates work package with default priority if it exists" do
           priority = create(:default_priority)
           create_work_packages
 

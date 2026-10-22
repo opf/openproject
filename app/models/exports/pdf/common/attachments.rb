@@ -150,7 +150,7 @@ module Exports::PDF::Common::Attachments
   def attachment_by_api_content_src(src)
     return if src.empty?
 
-    # we accept absolut linked images
+    # we accept absolute linked images
     # (but not hot-linked from elsewhere: https://example.com/another_api/attachments/1/somefile.png)
     #
     # #{api_url_helpers.root_path}api/v3/attachments/:id/content (our default api path)

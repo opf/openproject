@@ -46,10 +46,10 @@ export class SpotDropModalTeleportationService {
 
   public hasRenderedFiltered$ = this.hasRendered$.pipe(distinctUntilChanged());
 
-  public afterRenderOnce$(appearOrDissapear = true) {
+  public afterRenderOnce$(appearOrDisappear = true) {
     return this.hasRenderedFiltered$
       .pipe(
-        filter(f => f === appearOrDissapear),
+        filter(f => f === appearOrDisappear),
         take(1),
       );
   }
