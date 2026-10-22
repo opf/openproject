@@ -361,8 +361,8 @@ ru:
     ical_sharing_modal:
       copy_url_label: Копировать URL
       description: Вы можете использовать URL-адрес (iCalendar), чтобы подписаться на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда.
-      ical_generation_error_text: Произошла ошибка при генерации URL-адреса календаря.
-      inital_setup_error_message: Произошла ошибка при получении данных.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адрес "%{name}" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку.
       title: Подписаться на календарь
       token_name_description_text: Если Вы подписаны на этот календарь с нескольких устройств, это имя поможет Вам различать их в списке <a href="%{myAccessTokensUrl}" target="_blank">токенов доступа</a>.
@@ -556,6 +556,8 @@ ru:
     label_reset: Сброс
     label_resize_project_menu: Изменить размер меню проекта
     label_save_as: Сохранить как
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Поиск столбца
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры

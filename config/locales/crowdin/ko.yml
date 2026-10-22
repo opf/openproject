@@ -122,6 +122,8 @@ ko:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 클라이언트
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: 사용자 지정된 ID
         customized_type: 사용자 지정된 유형
@@ -132,8 +134,6 @@ ko:
         repository: 리포지토리
       comment:
         commented: 덧글을 달았습니다.
-      custom_action:
-        actions: 작업
       custom_field:
         admin_only: 관리자 전용
         allow_non_open_versions: 비공개 버전 허용
@@ -635,6 +635,8 @@ ko:
         odd: 에 홀수를 입력해 주세요
         overlapping_range: "- 기존 휴무일 범위와 겹칩니다."
         regex_invalid: 관련 정규 표현식으로 유효성을 확인할 수 없습니다.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: "%{invalid_lines} 라인을 정규 표현식으로 구문 분석할 수 없습니다."
         regex_match_failed: "%{expression} 정규 표현식과 일치하지 않습니다."
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
@@ -1090,6 +1092,8 @@ ko:
         other: 작업 패키지 특성 도움말 텍스트
       auth_provider:
         other: 인증 공급자
+      automation:
+        other: Automations
       backup:
         other: 백업
       capability:
@@ -1104,8 +1108,6 @@ ko:
         other: 색상
       comment:
         other: 코멘트
-      custom_action:
-        other: 사용자 지정 작업
       custom_field:
         other: 사용자 지정 필드
       custom_field/hierarchy/item:
@@ -1150,6 +1152,8 @@ ko:
         other: 상태 보고서
       issue_priority:
         other: 우선 순위
+      label:
+        other: Labels
       ldap_auth_source:
         other: LDAP 연결
       mcp_configuration:
@@ -1441,7 +1445,7 @@ ko:
     import:
       title: 가져오기
     info:
-      database_deprecation_html: 'OpenProject 16.0부터, OpenProject를 사용하려면 PostgreSQL 16이 필요합니다. 현재 데이터베이스에서는 해당 설치가 계속 작동되지만, 향후 릴리스에서는 호환되지 않을 수 있습니다. <br/> [모든 설치 방법에 대한 업그레이드 가이드](upgrade_guide)를 준비했습니다. 가이드에 따라 언제든지 다음 릴리스에 앞서 업그레이드를 수행할 수 있습니다.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc 메모리 할당기
@@ -1491,7 +1495,9 @@ ko:
         button_delete_token: 토큰 삭제
         button_save: 구성 저장
         delete_token_confirm: 토큰을 삭제하시겠습니까? 그러면 Jira 연결이 비활성화됩니다.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: 이름
           personal_access_token: 개인 액세스 토큰
           url: Jira 서버/데이터 센터 URL
@@ -2050,6 +2056,8 @@ ko:
         roles:
           other: "%{count} roles selected"
         title: 역할 선택
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: 상태
       statuses_dialog:
         caption: 이 유형과 연결하려는 상태를 추가하거나 제거하세요. 상태를 제거하면 연결된 워크플로도 삭제됩니다.
@@ -2103,7 +2111,7 @@ ko:
     deleted_by_admin: 격리된 '%{filename}'  파일이 관리자에 의해 삭제되었습니다.
     deleted_message: "'%{filename}' 파일에서 바이러스가 발견되었습니다. 이 파일은 삭제되었습니다."
     not_processed_yet_message: 아직 파일의 바이러스 검사가 수행되지 않았으므로 다운로드가 차단되었습니다. 나중에 다시 시도하세요.
-    overridden_by_admin: "'%{filename}' 파일에 대한 격리가 %{user} 님에 의해 제거되었습니다. 이제 이 파일에 액세스할 수 있습니다."
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: 컨테이너
       delete: 격리된 파일 삭제
@@ -3784,6 +3792,7 @@ ko:
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_item: "(삭제된 항목)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: 조직
   label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 부서 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
@@ -4443,7 +4452,7 @@ ko:
       start_tls: STARTTLS
       start_tls_description: 표준 LDAP 포트에 연결한 후 STARTTLS 명령을 보냅니다. 암호화된 연결에 권장됩니다.
     tls_options:
-      tls_certificate_description: LDAP 서버 인증서가 이 시스템의 신뢰 소스에 없으면 여기에서 수동으로 추가할 수 있습니다. PEM X509 인증서 문자열을 입력하세요.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: SSL 인증서 확인
       verify_peer_description_html: '인증서 신뢰 체인의 엄격한 SSL 인증을 활성화합니다. <br> <strong>경고:</strong> 이 옵션을 선택 취소하면 LDAP 서버 인증서의 SSL 인증이 비활성화됩니다. 이렇게 하면 사용자의 연결이 중간자 공격에 노출됩니다.
 
@@ -5579,6 +5588,12 @@ ko:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
       forums:
         no_results_content_text: 새로운 포럼 만들기
@@ -6160,7 +6175,7 @@ ko:
         description_html: '바이러스 백신 스캐너 통합이 작동되어야 하는 모드를 선택하세요. <br/> <ul> <li><strong>%{disabled_option}</strong>: 업로드된 파일은 바이러스 검사를 받지 않습니다.</li> <li><strong>%{socket_option}</strong>: OpenProject와 동일한 서버에서 ClamAV를 설정했으며 스캔 데몬 clamd가 백그라운드에서 실행 중입니다.</li> <li><strong>%{host_option}</strong>: 외부 바이러스 스캔 호스트에 파일을 스트리밍하고 있습니다.</li> </ul>
 
           '
-      remaining_quarantined_files_html: '바이러스 검사가 비활성화되었습니다. %{file_count}개는 격리된 상태로 유지됩니다. 격리된 파일을 검토하려면 다음 링크를 참조하세요: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: '바이러스 검사가 활성화되었습니다. 이전에 업로드되었지만 아직 검사해야 하는 %{file_count}개가 있습니다. 이 프로세스는 백그라운드에서 예약되었습니다. 검사하는 동안 파일에 계속 액세스할 수 있습니다.
@@ -6480,7 +6495,6 @@ ko:
       sentence_connector: 그리고
       skip_last_comma: 'false'
   text_access_token_hint: 액세스 토큰을 사용하여 OpenProject의 리소스에 대한 외부 응용 프로그램 액세스 권한을 부여할 수 있습니다.
-  text_accessibility_hint: 접근성 모드는 시각장애인, 신체장애인, 혹은 시력이 나쁜 사람들을 위해 디자인 되었습니다. 후자를 위해서 중심이 되는 요소는 특별히 하이라이트 됩니다. 이 모드에서는 Backlogs 모듈 사용이 불가능합니다.
   text_analyze: '추가 분석: %{subject}'
   text_are_you_sure: 계속하시겠습니까?
   text_are_you_sure_continue: 계속하시겠습니까?
@@ -6992,6 +7006,9 @@ ko:
 
             '
           title: 이 유형에 대한 변형이 없습니다.
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: "%{project}에서 생성됨"
         delete:
           description: 이 변형을 사용하는 프로젝트는 해당 변형이 삭제되기 전에 아래에서 사용자가 선택하는 변형으로 전환됩니다.
@@ -7023,6 +7040,7 @@ ko:
         confirm: 변환
         text: 이 이름의 글로벌 변형이 이미 있습니다. 다른 이름을 선택해 주세요.
         title: 이 변형에 대한 다른 이름 지정
+      created_by_migration: Migrated
       delete:
         description: 해당 유형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
         description_with_variants: 해당 유형과 모든 변형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
@@ -7036,7 +7054,13 @@ ko:
       duplicate_name: "%{name}의 사본"
       duplicate_notice: "%{name}이(가) 중복되었습니다."
       enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: 새로운 프로젝트에서 활성화
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name}이(가) 이제 새 프로젝트에서 활성화되었습니다."
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
@@ -7706,6 +7730,17 @@ ko:
             other: 워크플로를 %{count}개 역할에 복사했습니다.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

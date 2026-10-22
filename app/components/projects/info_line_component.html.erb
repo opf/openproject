@@ -26,16 +26,27 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(tag: "tr", class: row_css_class) do %>
-  <% columns.each do |column| %>
-    <td class="<%= column_css_class(column) %>">
-      <%= column_value(column) %>
-    </td>
-  <% end %>
+<%=
+  flex_layout(**@system_arguments) do |flex|
+    flex.with_column do
+      if project.archived?
+        render(Primer::Beta::Text.new(font_weight: :bold)) { project.name }
+      else
+        render(Primer::Beta::Link.new(href: project_path(project), font_weight: :bold)) { project.name }
+      end
+    end
 
-  <td class="buttons">
-    <% button_links.each do |link| %>
-      <%= link %>
-    <% end %>
-  </td>
-<% end %>
+    if @show_workspace_type
+      flex.with_column(ml: 2, display: :flex, align_items: :center, test_selector: "project-info-line-workspace-type") do
+        render(Primer::Beta::Octicon.new(icon: workspace_type_icon, size: :xsmall, color: :muted, mr: 1)) +
+          render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { workspace_type_label }
+      end
+    end
+
+    if project.archived?
+      flex.with_column(ml: 2) do
+        render(Primer::Beta::Label.new) { t("project.archive.archived") }
+      end
+    end
+  end
+%>

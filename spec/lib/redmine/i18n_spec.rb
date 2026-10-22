@@ -338,7 +338,7 @@ module OpenProject
 
     describe "#format_date" do
       context "without a date_format setting", with_settings: { date_format: "" } do
-        it "uses the locale formate" do
+        it "uses the locale format" do
           expect(format_date(Time.zone.today))
             .to eql described_class.l(Time.zone.today)
         end
@@ -372,7 +372,7 @@ module OpenProject
       end
     end
 
-    describe "#numer_to_human_size" do
+    describe "#number_to_human_size" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
           it "does not raise an error" do

@@ -27,32 +27,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module CustomFields
-    class DeleteButtonComponent < ApplicationComponent
-      include ::CustomFields::AdminRoutes
+class Projects::InfoLineComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
 
-      def initialize(custom_field:, **)
-        @custom_field = custom_field
-        super(**)
-      end
+  def initialize(project:, show_workspace_type: false, **system_arguments)
+    super
 
-      attr_reader :custom_field
+    @project = project
+    @show_workspace_type = show_workspace_type
 
-      def call
-        render(
-          Primer::Beta::IconButton.new(
-            tag: :a,
-            href: deletion_dialog_path(custom_field),
-            data: { controller: "async-dialog" },
-            aria: { label: t(:button_delete) },
-            icon: :trash,
-            scheme: :danger,
-            size: :small,
-            test_selector: "op-custom-fields--delete-button"
-          )
-        )
-      end
-    end
+    @system_arguments = system_arguments
+    @system_arguments[:align_items] ||= :center
+    @system_arguments[:flex_wrap] ||= :wrap
   end
+
+  private
+
+  attr_reader :project
+
+  def workspace_type_label = I18n.t(:"label_#{project.workspace_type}")
+
+  def workspace_type_icon = helpers.workspace_icon(project.workspace_type)
 end

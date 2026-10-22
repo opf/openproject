@@ -122,6 +122,8 @@ hy:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM հաճախորդներ
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Հարմարեցված օբյեկտի ID
         customized_type: Հարմարեցված օբյեկտի տեսակ
@@ -132,8 +134,6 @@ hy:
         repository: Պահոց
       comment:
         commented: Մեկնաբանված
-      custom_action:
-        actions: Գործողություններ
       custom_field:
         admin_only: Միայն ադմինիստրատորի համար
         allow_non_open_versions: Թույլատրել ոչ բաց տարբերակներ
@@ -635,6 +635,8 @@ hy:
         odd: պետք է լինի կենտ։
         overlapping_range: համընկնում է ոչ աշխատանքային օրերի գործող միջակայքի հետ։
         regex_invalid: չհաջողվեց վավերացնել համապատասխան կանոնավոր արտահայտությամբ։
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: "%{invalid_lines} տողերը հնարավոր չէ վերլուծել որպես կանոնավոր արտահայտություն։"
         regex_match_failed: չի համապատասխանում %{expression} կանոնավոր արտահայտությանը։
         smaller_than_or_equal_to_max_length: պետք է փոքր կամ հավասար լինի առավելագույն երկարությանը։
@@ -1105,6 +1107,9 @@ hy:
       auth_provider:
         one: Նույնականացման մատակարար
         other: Նույնականացման մատակարարներ
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1126,9 +1131,6 @@ hy:
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1195,6 +1197,9 @@ hy:
       issue_priority:
         one: Առաջնահերթություն
         other: Առաջնահերթություններ
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1550,7 +1555,7 @@ hy:
     import:
       title: Ներմուծել
     info:
-      database_deprecation_html: 'Սկսած OpenProject 16.0-ից՝ OpenProject-ն օգտագործելու համար պահանջվում է PostgreSQL 16։ Ձեր տեղակայումը կշարունակի աշխատել ընթացիկ տվյալների բազայով, սակայն ապագա թողարկումներում ակնկալեք անհամատեղելիություն։ <br/> Մենք պատրաստել ենք [տեղակայման բոլոր եղանակների բարելավման ուղեցույցներ](upgrade_guide)։ Դուք կարող եք բարելավումը կատարել ցանկացած ժամանակ՝ դեռ մինչև հաջորդ թողարկումը, հետևելով ուղեցույցներին։
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc հիշողության բաշխիչ
@@ -1600,7 +1605,9 @@ hy:
         button_delete_token: Ջնջել թոքենը
         button_save: Պահպանել կազմաձևումը
         delete_token_confirm: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել թոքենը։ Դա կանջատի Jira-ի միացումը։
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Անվանում
           personal_access_token: Անձնական մուտքի թոքեն
           url: Jira Server/Data Center URL
@@ -2172,6 +2179,8 @@ hy:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Ընտրեք դերեր
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Կարգավիճակ
       statuses_dialog:
         caption: Ավելացրեք կամ հեռացրեք կարգավիճակներ, որոնք ցանկանում եք կապել այս տեսակի հետ։ Կարգավիճակի հեռացումը կջնջի նաև դրա հետ կապված աշխատանքային հոսքը։
@@ -2226,7 +2235,7 @@ hy:
     deleted_by_admin: "'%{filename}' մեկուսացված նիշքը ջնջվել է ադմինիստրատորի կողմից։"
     deleted_message: "'%{filename}' նիշքում հայտնաբերվել է վիրուս։ Նիշքը ջնջվել է։"
     not_processed_yet_message: Ներբեռնումն արգելափակված է, քանի որ նիշքը դեռ չի ստուգվել վիրուսների առկայության համար։ Խնդրում ենք փորձել ավելի ուշ։
-    overridden_by_admin: "'%{filename}' նիշքի մեկուսացումը հեռացվել է %{user}-ի կողմից։ Այժմ նիշքը հասանելի է։"
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Պարունակող օբյեկտ
       delete: Ջնջել մեկուսացված նիշքը
@@ -3938,6 +3947,7 @@ hy:
   label_deleted_custom_field: "(ջնջված հատուկ դաշտ)"
   label_deleted_custom_item: "(ջնջված տարր)"
   label_deleted_custom_option: "(ջնջված ընտրանք)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Կազմակերպություն
   label_departments_description_html: 'Սահմանեք Ձեր ընկերության կառուցվածքը՝ հիերարխիկ կերպով ստեղծելով ստորաբաժանումներ և ենթաստորաբաժանումներ։ Սա թույլ է տալիս արտացոլել հաշվետվողականության կապերը և OpenProject-ում պահպանել Ձեր կազմակերպության հստակ ու կառուցվածքային պատկերը։ Կարող եք նաև ներմուծել առկա կազմակերպական կառուցվածքը [LDAP ստորաբաժանումների համաժամացման](ldap_docs_article) միջոցով։
@@ -4601,7 +4611,7 @@ hy:
       start_tls: STARTTLS
       start_tls_description: Ուղարկում է STARTTLS հրաման՝ ստանդարտ LDAP պորտին միանալուց հետո։ Խորհուրդ է տրվում գաղտնագրված կապերի համար։
     tls_options:
-      tls_certificate_description: Եթե LDAP սերվերի վկայագիրն այս համակարգի վստահության աղբյուրներում չէ, կարող եք այն ձեռքով ավելացնել այստեղ։ Մուտքագրեք PEM X509 վկայագրի տող։
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Ստուգել SSL վկայագիրը
       verify_peer_description_html: 'Միացնում է վկայագրի վստահված շղթայի խիստ SSL ստուգումը։ <br> <strong>Նախազգուշացում՝</strong> Այս ընտրանքի նշումը հանելը անջատում է LDAP սերվերի վկայագրի SSL ստուգումը։ Դա Ձեր կապը ենթարկում է Man in the Middle տիպի հարձակումների վտանգին։
 
@@ -5747,6 +5757,12 @@ hy:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Ներկայումս հասանելի հատուկ դաշտեր չկան։
       forums:
         no_results_content_text: Ստեղծել նոր ֆորում
@@ -6344,7 +6360,7 @@ hy:
         description_html: 'Ընտրեք այն ռեժիմը, որով պետք է աշխատի հակավիրուսային սկաների ինտեգրումը։ <br/> <ul> <li><strong>%{disabled_option}</strong>՝ վերբեռնված նիշքերը վիրուսների առկայության համար չեն սկանավորվում։</li> <li><strong>%{socket_option}</strong>՝ Դուք ClamAV-ը տեղակայել եք OpenProject-ի հետ նույն սերվերում, և clamd սկանավորման դեմոնն աշխատում է ֆոնային ռեժիմում</li> <li><strong>%{host_option}</strong>՝ Դուք նիշքերը հոսքով փոխանցում եք արտաքին վիրուսների սկանավորման հոսթին։</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Վիրուսների սկանավորումն անջատվել է։ %{file_count} մնում են մեկուսացման մեջ։ Մեկուսացված նիշքերը վերանայելու համար խնդրում ենք այցելել այս հղումը՝ %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Վիրուսների սկանավորումը հաջողությամբ միացվել է։ Կան %{file_count}, որոնք վերբեռնվել են ավելի վաղ և դեռ պետք է սկանավորվեն։ Այս գործընթացը պլանավորվել է ֆոնային ռեժիմում։ Նիշքերը կմնան հասանելի սկանավորման ընթացքում։
@@ -6664,7 +6680,6 @@ hy:
       sentence_connector: և
       skip_last_comma: 'false'
   text_access_token_hint: Մուտքի թոքենները թույլ են տալիս Ձեզ արտաքին հավելվածներին տրամադրել OpenProject-ի ռեսուրսների հասանելիությունը։
-  text_accessibility_hint: Մատչելիության ռեժիմը նախատեսված է կույր, շարժողական խնդիրներ ունեցող կամ թույլ տեսողությամբ օգտատերերի համար։ Վերջիններիս համար ֆոկուսում գտնվող տարրերը հատուկ ընդգծվում են։ Խնդրում ենք նկատի ունենալ, որ այս ռեժիմում Բեքլոգների մոդուլը հասանելի չէ։
   text_analyze: Հետագա վերլուծություն՝ %{subject}
   text_are_you_sure: Համոզվա՞ծ եք։
   text_are_you_sure_continue: Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
@@ -7177,6 +7192,9 @@ hy:
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7208,6 +7226,7 @@ hy:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7222,7 +7241,13 @@ hy:
       duplicate_name: "%{name}-ի պատճեն"
       duplicate_notice: "%{name}-ը կրկնօրինակվել է։"
       enabled_in_new_projects: Ակտիվ նոր նախագծերում
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Ակտիվացնել նոր նախագծերում
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
@@ -7912,6 +7937,18 @@ hy:
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

@@ -27,27 +27,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module OpenProject::Projects
+  # @logical_path OpenProject/Projects
+  class InfoLineComponentPreview < ViewComponent::Preview
+    # See the [component documentation](/lookbook/pages/components/projects/project_info_line) for more details.
+    # @param show_workspace_type [Boolean]
+    # @param workspace_type [Symbol] select [project, program, portfolio]
+    # @param archived [Boolean]
+    def playground(show_workspace_type: true, workspace_type: :project, archived: false)
+      project = FactoryBot.build_stubbed(:project, name: "Arcanos Flight Planning", workspace_type:, active: !archived)
 
-RSpec.describe Admin::CustomFields::DeleteButtonComponent, type: :component do
-  let(:custom_field) { build_stubbed(:work_package_custom_field, id: 4242, name: "Field666") }
-
-  it "renders a button to asynchronously open the deletion dialog" do
-    render_inline(described_class.new(custom_field:))
-
-    expect(page).to have_link(href: "/admin/settings/work_package_custom_fields/4242/deletion_dialog")
-    expect(page).to have_css("a[data-controller='async-dialog']")
-    expect(page).to have_element("tool-tip", text: "Delete")
-  end
-
-  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field].each do |type|
-    context "for a #{type.to_s.humanize.downcase}" do
-      let(:custom_field) { build_stubbed(type, id: 4242, name: "Field666") }
-
-      it "has the corresponding link" do
-        render_inline(described_class.new(custom_field:))
-        expect(page).to have_link(href: "/admin/settings/#{type}s/4242/deletion_dialog")
-      end
+      render(Projects::InfoLineComponent.new(project:, show_workspace_type:))
     end
   end
 end

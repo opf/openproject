@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -146,6 +146,10 @@ uk:
       show:
         blankslate_description: Визначте дату початку й завершення спринту, щоб згенерувати діаграму згорання завдань.
         blankslate_title: Немає даних про згорання завдань
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Виберіть, які типи пакетів робіт слід приховати в беклогу. Елементи вибраних типів не відображатимуться в беклогу автоматично, що дає змогу зосередитися на завданнях своєї команди. Наприклад, ви можете приховати такі типи, як епіки чи віхи, якими керують на вищому рівні, щоб переглядати лише ті завдання, з якими можна працювати.
 
@@ -198,6 +202,7 @@ uk:
     remaining_hours: Залишок роботи
     sharing: Спільний доступ до спринту
     show_burndown_chart: Діаграма згорання завдань
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Пакети робіт у межах спринту
     sprint_component:
       action_menu:
@@ -221,6 +226,9 @@ uk:
       shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
       shared_sprint_warning_banner: Це спільний спринт. У вас немає необхідних прав для його редагування.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Звіт
         title: Звіт про %{sprint}
@@ -311,6 +319,9 @@ uk:
   burndown:
     story_points: Сторі-поінти
     story_points_ideal: Сторі-поінти (ідеально)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Кілька активних спринтів

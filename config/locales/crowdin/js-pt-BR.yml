@@ -361,8 +361,8 @@ pt-BR:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Você pode usar a URL (iCalendar) para assinar este calendário em um cliente externo e exibir informações atualizadas do pacote de trabalho a partir dele.
-      ical_generation_error_text: Ocorreu um erro ao gerar o URL do calendário.
-      inital_setup_error_message: Ocorreu um erro ao buscar dados.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: O URL "%{name}" foi copiado com sucesso para sua área de transferência. Cole-o em seu cliente de calendário para concluir a assinatura.
       title: Assinar calendário
       token_name_description_text: Se você assinar este calendário em vários dispositivos, este nome ajudará a diferenciá-los na sua lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acesso</a>.
@@ -554,6 +554,8 @@ pt-BR:
     label_reset: Reiniciar
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Salvar como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Buscar uma coluna
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados

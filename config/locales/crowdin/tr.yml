@@ -122,6 +122,8 @@ tr:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM istemcileri
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Özelleştirilmiş Kimlik
         customized_type: Özelleştirilmiş tür
@@ -132,8 +134,6 @@ tr:
         repository: Depo
       comment:
         commented: Yorumlananlar
-      custom_action:
-        actions: Eylemler
       custom_field:
         admin_only: Yalnızca yönetici
         allow_non_open_versions: Açık olmayan sürümlere izin ver
@@ -639,6 +639,8 @@ tr:
         odd: tek sayı olmalı.
         overlapping_range: mevcut bir çalışma dışı gün aralığı ile çakışır.
         regex_invalid: atanmış düzenli ifadeler ile doğrulanamadı.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: "%{invalid_lines} satırları düzenli ifade olarak ayrıştırılamadı."
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
@@ -1109,6 +1111,9 @@ tr:
       auth_provider:
         one: Kimlik doğrulama sağlayıcısı
         other: Kimlik doğrulama sağlayıcıları
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1130,9 +1135,6 @@ tr:
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1199,6 +1201,9 @@ tr:
       issue_priority:
         one: Öncelik
         other: Öncelik
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1554,7 +1559,7 @@ tr:
     import:
       title: İçeri Aktar
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc bellek ayırıcı
@@ -1604,7 +1609,9 @@ tr:
         button_delete_token: Anahtarı sil
         button_save: Yapılandırmayı kaydet
         delete_token_confirm: Anahtarı silmek istediğinizden emin misiniz? Bu, Jira bağlantısını devre dışı bırakacaktır.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: İsim
           personal_access_token: Kişisel Erişim Anahtarı
           url: Jira Sunucusu/Veri Merkezi URL'si
@@ -2178,6 +2185,8 @@ tr:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -2232,7 +2241,7 @@ tr:
     deleted_by_admin: Karantinaya alınan '%{filename}' dosyası bir yönetici tarafından silindi.
     deleted_message: "'%{filename}' dosyasında bir virüs tespit edildi. Dosya silinmiştir."
     not_processed_yet_message: Dosya henüz virüs taramasından geçmediği için indirme işlemi engellendi. Lütfen daha sonra tekrar deneyin.
-    overridden_by_admin: "'%{filename}' dosyası için karantina %{user} tarafından kaldırıldı. Dosyaya artık erişilebilir."
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Depo
       delete: Karantinaya alınan dosyayı sil
@@ -3948,6 +3957,7 @@ tr:
   label_deleted_custom_field: "(özel alan silindi)"
   label_deleted_custom_item: "(silinmiş öğe)"
   label_deleted_custom_option: "(silinen seçenek)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
@@ -4612,7 +4622,7 @@ tr:
       start_tls: STARTTLS
       start_tls_description: Standart LDAP bağlantı noktasına bağlandıktan sonra bir STARTTLS komutu gönderir. Şifreli bağlantılar için önerilir.
     tls_options:
-      tls_certificate_description: LDAP sunucusu sertifikası bu sistemin güvenilir kaynaklarında yoksa buradan manuel olarak ekleyebilirsiniz. Bir PEM X509 sertifika dizisi girin.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: SSL sertifikasını doğrula
       verify_peer_description_html: 'Sertifika güvenilir zincirinin katı SSL doğrulamasını etkinleştirir. <br> <strong>Uyarı:</strong> Bu seçeneğin işaretini kaldırmak, LDAP sunucu sertifikasının SSL doğrulamasını devre dışı bırakır. Bu, Man in the Middle saldırılarıyla bağlantınızı ortaya çıkarır.
 
@@ -5759,6 +5769,12 @@ tr:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Şu anda kullanılabilir özel alan bulunmamakta.
       forums:
         no_results_content_text: Yeni bir forum oluştur
@@ -6356,7 +6372,7 @@ tr:
         description_html: 'Antivirüs tarayıcı entegrasyonunun çalışması gereken modu seçin. <br/> <ul> <li><strong>%{disabled_option}</strong>: Yüklenen dosyalar virüslere karşı taranmaz.</li> <li><strong>%{socket_option}</strong>: ClamAV''ı OpenProject ile aynı sunucuya kurdunuz ve tarama servisi clamd arka planda çalışıyor</li> <li><strong>%{host_option}</strong>: Dosyaları harici bir virüs tarama servisine aktarıyorsunuz.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Virüs taraması başarıyla etkinleştirildi. Daha önce yüklenen ve hala taranması gereken %{file_count} var. Bu işlem arka planda zamanlandı. Dosyalar tarama sırasında erişilebilir kalacaktır.
@@ -6676,7 +6692,6 @@ tr:
       sentence_connector: ve
       skip_last_comma: yanlış
   text_access_token_hint: Erişim belirteçleri, OpenProject içindeki kaynaklara harici uygulamalar erişimi vermenizi sağlar.
-  text_accessibility_hint: Erişilebilirlik modu, kör, engelli ve ya ciddi görme güçlüğü çeken kullanıcılar için tasarlandı. Bu modda yazı odaklı bileşenler özellikle vurgulanır. Backlogs modülünde bu özelliği henüz kullanamayacağınızı da belirtelim.
   text_analyze: 'Daha fazla analiz: %{subject}'
   text_are_you_sure: Emin misiniz?
   text_are_you_sure_continue: Devam etmek istediğinize emin misiniz?
@@ -7183,6 +7198,9 @@ tr:
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7214,6 +7232,7 @@ tr:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7228,7 +7247,13 @@ tr:
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Yeni tip oluştur
       no_results_title_text: Şu anda hiç tip yok.
@@ -7918,6 +7943,18 @@ tr:
             other: Successfully copied workflow to %{count} roles.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

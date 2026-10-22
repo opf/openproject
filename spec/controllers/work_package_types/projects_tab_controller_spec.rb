@@ -415,7 +415,7 @@ because it's still in use by work packages)
         end
 
         it "re-renders the projects table" do
-          expect(response.body).to include(%(target="#{Projects::TableComponent.wrapper_key}"))
+          expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
         end
       end
     end

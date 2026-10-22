@@ -41,7 +41,7 @@ On the Rails controller you wish to render the dialog, you need to respond to th
 The async-controller stimulus controller will ensure that a loading progress bar will be shown on the top of the page.
 
 ```ruby
-class TestController < ApplicationControler
+class TestController < ApplicationController
   # include the helper module
   include OpTurbo::ComponentStream
 
@@ -56,7 +56,7 @@ end
 For this to work, the `OpTurbo::Streamable` module needs to be included in the modal component, along with the `OpTurbo::ComponentStream` module in the corresponding controller:
 
 ```ruby
-class MyDialogComponent < ApplicationControler
+class MyDialogComponent < ApplicationComponent
   # include the module
   include OpTurbo::Streamable
 
@@ -83,7 +83,7 @@ Assuming the MyDialogComponent template looks like this:
 You can also render the dialog in a manual turbo_stream template:
 
 ```ruby
-class TestController < ApplicationControler
+class TestController < ApplicationController
   # ...
 
   def dialog; end
@@ -154,7 +154,7 @@ In order for the dialog to not be closed, the rendering has to happen with an er
 Referring to the example above (see "Dialogs with separate forms"), a controller which renders validation errors inside a dialog could look like that:
 
 ```ruby
-class TestController < ApplicationControler
+class TestController < ApplicationController
   # include the helper module
   include OpTurbo::ComponentStream
 

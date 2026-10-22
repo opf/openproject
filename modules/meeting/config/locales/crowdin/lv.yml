@@ -679,7 +679,7 @@ lv:
       error_no_next: There is no next occurrence for this meeting.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: The first occurrence of this meeting series is already instantiated.
-      first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: This meeting is part of a recurring meeting series.

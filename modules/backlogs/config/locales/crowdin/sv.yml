@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -138,6 +138,10 @@ sv:
       show:
         blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
         blankslate_title: Inga burndown-data tillgängliga
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Enheter
     excluded_work_package_types_caption: 'Välj vilka arbetspaketstyper som ska döljas från backloggen. Objekt av de valda typerna visas inte automatiskt i backloggen, så att den kan fokusera på det arbete som är relevant för teamet. Till exempel kan typer som epics eller milstolpar, som hanteras på en högre nivå, döljas så att backloggen fokuserar på åtgärdbara objekt.
 
@@ -186,6 +190,7 @@ sv:
     remaining_hours: Återstående arbete
     sharing: Delning av sprintar
     show_burndown_chart: Burndown-diagram
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Arbetspaket i sprinten
     sprint_component:
       action_menu:
@@ -209,6 +214,9 @@ sv:
       shared_sprint_info_banner: Det här är en delad sprint. Ändringar återspeglas i alla projekt som använder den.
       shared_sprint_warning_banner: Det här är en delad sprint. Du har inte de behörigheter som krävs för att redigera den.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Rapport
         title: Rapport för %{sprint}
@@ -295,6 +303,9 @@ sv:
   burndown:
     story_points: Berättelsepoäng
     story_points_ideal: Berättelsepoäng (idealiskt)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Flera aktiva sprintar

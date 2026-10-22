@@ -122,6 +122,8 @@
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Customized ID
         customized_type: Customized type
@@ -132,8 +134,6 @@
         repository: Pakkebrønn
       comment:
         commented: Kommentert
-      custom_action:
-        actions: Handlinger
       custom_field:
         admin_only: Kun administratorer
         allow_non_open_versions: Tillat ikke-åpne versjoner
@@ -635,6 +635,8 @@
         odd: må være oddetall.
         overlapping_range: overlaps with an existing non-working day range.
         regex_invalid: kunne ikke valideres med det tilhørende regulære uttrykket.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: samsvarer ikke med det regulære uttrykket %{expression}.
         smaller_than_or_equal_to_max_length: må være mindre enn eller lik maksimumslengden.
@@ -1105,6 +1107,9 @@
       auth_provider:
         one: Authentication provider
         other: Authentication providers
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1126,9 +1131,6 @@
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1195,6 +1197,9 @@
       issue_priority:
         one: Prioritet
         other: Priorities
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1550,7 +1555,7 @@
     import:
       title: Import
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc minne allokator
@@ -1600,7 +1605,9 @@
         button_delete_token: Delete token
         button_save: Save configuration
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
@@ -2174,6 +2181,8 @@
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -2228,7 +2237,7 @@
     deleted_by_admin: Filen '%{filename}' som var i karantene har blitt slettet av en administrator.
     deleted_message: Et virus ble oppdaget i filen '%{filename}'. Filen har blitt slettet.
     not_processed_yet_message: Nedlasting er blokkert, fordi filen ikke ble skannet for virus ennå. Vennligst prøv igjen senere.
-    overridden_by_admin: Karantene for filen '%{filename}' har blitt opphevet av %{user}. Filen er nå tilgjengelig.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Beholder
       delete: Slett filen i karantene
@@ -3942,6 +3951,7 @@
   label_deleted_custom_field: "(slettet egendefinert felt)"
   label_deleted_custom_item: "(deleted item)"
   label_deleted_custom_option: "(slettet alternativ)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
@@ -4605,7 +4615,7 @@
       start_tls: STARTTLS
       start_tls_description: Sender en STARTTLS-kommando etter å ha koblet til standard LDAP port. Anbefalt for krypterte tilkoblinger.
     tls_options:
-      tls_certificate_description: Hvis LDAP-tjenersertifikatet ikke er i registeret over betrodde kilder i dette systemet, kan du legge det inn manuelt her. Angi en PEM X509 sertifikat-tekst.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Kontroller SSL-sertifikat
       verify_peer_description_html: 'Enables strict SSL verification of the certificate trusted chain. <br> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
 
@@ -5753,6 +5763,12 @@
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Det er ingen egendefinerte felt tilgjengelig.
       forums:
         no_results_content_text: Lag et nytt forum
@@ -6352,7 +6368,7 @@
         description_html: 'Velg modusen for integrasjon av antivirusskanner. <br/> <ul> <li><strong>%{disabled_option}</strong>: Opplastede filer blir ikke skannet for virus.</li> <li><strong>%{socket_option}</strong>: Du har konfigurert ClamAV på samme server som OpenProject og skanningen daemon clamd kjører i bakgrunnen</li> <li><strong>%{host_option}</strong>: Du sender filer til en ekstern virusskanningsvert.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Virusskanning er deaktivert. %{file_count} forblir i karantene. For å gjennomgå filer i karantene, besøk denne lenken: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Virusskanning har blitt aktivert. Det er %{file_count} filer som ble lastet opp tidligere og fortsatt må skannes. Prosessen er planlagt i bakgrunnen. Filene forblir tilgjengelige under skanningen.
@@ -6670,7 +6686,6 @@
       sentence_connector: og
       skip_last_comma: usant
   text_access_token_hint: Tilgang til nøkler tillater deg å gi eksterne applikasjoner tilgang til ressurser i OpenProject.
-  text_accessibility_hint: Tilgjengelighetsmodus er laget for brukere som er blinde, motorisk svekkede eller har dårlige øyne. For de sistnevnte fokuserte elementene er det spesielt uthevet. Vær oppmerksom på at modulen for logger er ikke tilgjengelig i denne modusen.
   text_analyze: 'Videre analyse: %{subject}'
   text_are_you_sure: Er du sikker?
   text_are_you_sure_continue: Er du sikker på at du vil fortsette?
@@ -7183,6 +7198,9 @@
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7214,6 +7232,7 @@
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7228,7 +7247,13 @@
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Lag en ny type
       no_results_title_text: Det finnes for øyeblikket ingen typer.
@@ -7918,6 +7943,18 @@
             other: Successfully copied workflow to %{count} roles.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      title: Delete workflow %{name}?
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      button: Delete workflow
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

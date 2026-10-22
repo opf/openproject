@@ -701,7 +701,7 @@ cs:
       error_no_next: Na této schůzce není žádný další výskyt.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: První výskyt této série schůzek je již vytvořen.
-      first_created: 'První schůzka byla úspěšně vytvořena ze šablony. Všechny budoucí schůzky budou vytvořeny automaticky v čase předchozí události.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Tato schůzka je součástí opakované série schůzek.

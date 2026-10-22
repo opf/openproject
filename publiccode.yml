@@ -151,7 +151,7 @@ description:
     localisedName: OpenProject
     documentation: 'https://www.openproject.org/de/docs/'
     apiDocumentation: 'https://www.openproject.org/de/docs/api'
-    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Mangement Software
+    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Management Software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
       - screenshots/opencode_openproject_2_gantt_chart.png
