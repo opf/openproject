@@ -116,7 +116,7 @@ uk:
         caption: Заголовок
         help_text: Довідковий текст
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: Додаткові дозволені URL-адреси для перенаправлення після входу в систему
         scim_clients: Клієнти SCIM
       calculated_value_error:
         customized_id: Користувацький ідентифікатор
@@ -606,7 +606,7 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: має невідомий шлях «%{path}».
         unremovable: неможливо видалити.
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: Рядки «%{invalid_lines}» не є дійсними URL-адресами HTTP або HTTPS.
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
@@ -1851,10 +1851,10 @@ uk:
               many: "%{count} задач"
               other: "%{count} задачі"
             jobs:
-              one: 1 job
-              few: "%{count} jobs"
-              many: "%{count} jobs"
-              other: "%{count} jobs"
+              one: 1 завдання
+              few: "%{count} завдань"
+              many: "%{count} завдань"
+              other: "%{count} завдань"
             projects:
               one: 1 проєкт
               few: "%{count} проєкти"
@@ -2509,7 +2509,7 @@ uk:
     work_package_id: Робочий пакет
   authentication:
     instructions:
-      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+      additional_form_action_urls: 'Використовуйте цю опцію лише в тому випадку, якщо вхід не вдається через те, що постачальник ідентифікації перенаправляє браузер на інші сервери. Введіть по одній URL-адресі в кожному рядку, наприклад, адресу, яку консоль браузера показує як заблоковану. Під час входу OpenProject дозволяє перенаправлення на хости, що відповідають цим URL-адресам.
 
         '
     login_and_registration: Вхід і реєстрація

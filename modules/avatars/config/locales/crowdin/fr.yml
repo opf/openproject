@@ -13,7 +13,7 @@ fr:
     text_avatar_gravatar_html: OpenProject utilise votre Gravatar si vous en avez créé un sur %{gravatar_url}, ou une image ou une icône par défaut si celle-ci existe.
     text_avatar_local: En cliquant sur l'image, vous pouvez également importer un avatar personnalisé qui remplacera celui de Gravatar. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
     text_avatar_local_only: Vous pouvez importer un avatar personnalisé en cliquant sur l'image. Nous vous recommandons d'utiliser une image de 128 × 128 pixels.
-  empty_file_error: Veuillez importer une image valide (jpg, png, gif)
+  empty_file_error: Veuillez importer une image valide (JPG, PNG, GIF)
   error_image_size: L'image est trop grande.
   error_image_upload: Erreur lors de la sauvegarde de l'image.
   label_avatar: Avatar
