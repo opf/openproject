@@ -3553,6 +3553,7 @@ en:
         caption_html: "The form %{name} is used in the following types and variants."
         title: "Form used in types"
         variant_of: "Variant of %{type}"
+        variant_of_html: "Variant of %{type}"
         variants: "Variants"
       unused: "No type or variant uses this form yet."
       used_by_types:
@@ -8323,6 +8324,7 @@ en:
         caption_html: "The workflow %{name} is used in the following types and variants."
         title: "Workflow used in types"
         variant_of: "Variant of %{type}"
+        variant_of_html: "Variant of %{type}"
         variants: "Variants"
       unused: "No type or variant uses this workflow yet."
       used_by_types:
