@@ -82,7 +82,8 @@ post:
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
       description: |-
-        Returned if the document does not exist or if the user does not have permission to view it.
+        Returned if the document does not exist, if the user does not have permission to view it or if the
+        feature flag `documents_collaboration_token_api` is off.
 
         **Required permission** `view documents` in the project the document belongs to
       headers: {}
@@ -130,6 +131,8 @@ post:
   - Documents
   description: |-
     Creates a short-lived token for the real-time collaboration (Hocuspocus) server for the document.
+
+    The endpoint is only available when the feature flag `documents_collaboration_token_api` is active.
 
     The token is issued for the requesting user. Users who may only view documents receive a read-only token.
     Requests authenticated with a token issued to the collaboration server are rejected.
