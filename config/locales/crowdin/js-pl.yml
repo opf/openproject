@@ -61,6 +61,7 @@ pl:
         single: Wybierz %{name}
       remove: Usuń %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nie znaleziono elementów
       placeholder: Wpisz szukaną frazę
       project:
@@ -162,6 +163,7 @@ pl:
     button_stop_timer: Zatrzymaj zegar
     button_uncheck_all: Odznacz wszystko
     button_update: Aktualizacja
+    button_view_markdown: View Markdown
     caption_rate_history: Historia stawek
     card:
       add_new: Dodaj nową kartę

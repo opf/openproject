@@ -61,6 +61,7 @@ ro:
         single: Selectează "%{name}"
       remove: Elimină ”%{name}”
     autocompleter:
+      create_label: Create label
       notFoundText: Niciun articol găsit
       placeholder: Tastează pentru a căuta
       project:
@@ -162,6 +163,7 @@ ro:
     button_stop_timer: Oprește cronometrul
     button_uncheck_all: Deselectează tot
     button_update: Actualizare
+    button_view_markdown: View Markdown
     caption_rate_history: Istoric cotă
     card:
       add_new: Adaugă card nou

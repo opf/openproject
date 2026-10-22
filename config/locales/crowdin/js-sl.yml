@@ -61,6 +61,7 @@ sl:
         single: Izberi "%{name}"
       remove: Odstrani "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: Ni najdenih elementov
       placeholder: Iskalni niz
       project:
@@ -162,6 +163,7 @@ sl:
     button_stop_timer: Stop timer
     button_uncheck_all: Odznači vse
     button_update: Posodobi
+    button_view_markdown: View Markdown
     caption_rate_history: Zgodovina tečaja
     card:
       add_new: Dodaj nov card

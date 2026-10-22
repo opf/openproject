@@ -61,6 +61,7 @@ ka:
         single: Select "%{name}"
       remove: "%{name}-ის წაშლა"
     autocompleter:
+      create_label: Create label
       notFoundText: ელემენტები ვერ ვიპოვე
       placeholder: მოსაძებნად აკრიფეთ
       project:
@@ -162,6 +163,7 @@ ka:
     button_stop_timer: Stop timer
     button_uncheck_all: ყველა მონიშვნის მოხსნა
     button_update: განახლება
+    button_view_markdown: View Markdown
     caption_rate_history: ტარიფის ისტორია
     card:
       add_new: ახალი ბარათის დამატება

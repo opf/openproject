@@ -61,6 +61,7 @@ ja:
         single: '"%{name}" を選択'
       remove: "%{name} を削除"
     autocompleter:
+      create_label: Create label
       notFoundText: 見つかりませんでした
       placeholder: 検索キーワードを入力
       project:
@@ -162,6 +163,7 @@ ja:
     button_stop_timer: タイマー停止
     button_uncheck_all: 全てを選択解除
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 単価設定(予算とコスト)
     card:
       add_new: 新規カード追加

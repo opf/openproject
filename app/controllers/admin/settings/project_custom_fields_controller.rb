@@ -35,6 +35,9 @@ module Admin::Settings
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::ProjectCustomFields::ComponentStreams
+    include ::SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: "custom_field", list_id_scoped: true
 
     helper_method :delete_option_path
 
@@ -272,21 +275,6 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = ProjectCustomField.find(params.expect(:id))
-    end
-
-    # Ids must be scalar strings: a collection-valued list_id would pick an
-    # arbitrary target section out of an IN lookup, and a collection-valued
-    # prev_id would 500 instead of answering the promised 422. permit's
-    # scalar filter drops collection values, so the presence checks below
-    # reject them alongside genuinely missing parameters.
-    def valid_drop_request?
-      drop_params[:list_type] == CustomField::SORTABLE_LIST_TYPE &&
-        drop_params[:list_id].present? &&
-        drop_params.key?(:prev_id)
-    end
-
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
     end
 
     def render_invalid_drop_request

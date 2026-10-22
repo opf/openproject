@@ -61,6 +61,7 @@ fr:
         single: Sélectionner «%{name} »
       remove: Supprimer %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Aucun élément trouvé
       placeholder: Saisir pour rechercher
       project:
@@ -162,6 +163,7 @@ fr:
     button_stop_timer: Arrêter le suivi du temps
     button_uncheck_all: Tout désélectionner
     button_update: Mettre à jour
+    button_view_markdown: View Markdown
     caption_rate_history: Historique des tarifs
     card:
       add_new: Ajouter une nouvelle carte

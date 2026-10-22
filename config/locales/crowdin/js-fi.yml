@@ -61,6 +61,7 @@ fi:
         single: Select "%{name}"Valitse
       remove: Remove %{name} Poista
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Haku
       project:
@@ -162,6 +163,7 @@ fi:
     button_stop_timer: Stop timer
     button_uncheck_all: Poista valinnat
     button_update: Päivitä
+    button_view_markdown: View Markdown
     caption_rate_history: Tuntihinnan historia
     card:
       add_new: Uusi kortti

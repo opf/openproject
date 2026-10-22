@@ -61,6 +61,7 @@ az:
         single: '"%{name}" seç'
       remove: "%{name} çıxart"
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ az:
     button_stop_timer: Stop timer
     button_uncheck_all: Uncheck all
     button_update: Yeniləmə
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Add new card

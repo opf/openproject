@@ -61,6 +61,7 @@ ar:
         single: Select "%{name}"
       remove: Remove %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ ar:
     button_stop_timer: Stop timer
     button_uncheck_all: إلغاء اختيار الكل
     button_update: التحديث
+    button_view_markdown: View Markdown
     caption_rate_history: تاريخ السعر
     card:
       add_new: Add new card

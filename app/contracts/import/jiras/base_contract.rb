@@ -37,6 +37,8 @@ module Import
       validates :url, presence: true
 
       attribute :personal_access_token
+
+      stored_attribute :exclude_resolution_fields, store: :options
     end
   end
 end

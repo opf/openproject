@@ -61,6 +61,7 @@ eo:
         single: Elekti "%{name}"
       remove: Forigi %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Tajpu por serĉi
       project:
@@ -162,6 +163,7 @@ eo:
     button_stop_timer: Stop timer
     button_uncheck_all: Malelekti ĉion
     button_update: Ĝisdatigi
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Aldoni novan karton

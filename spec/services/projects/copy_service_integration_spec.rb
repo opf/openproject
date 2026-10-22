@@ -437,7 +437,6 @@ RSpec.describe(
           end
         end
       end
-
     end
 
     context "when source project has a non-zero wp_sequence_counter",
@@ -853,6 +852,20 @@ RSpec.describe(
             expect(wp).not_to be_nil
             expect(wp.target_versions).to be_empty
             expect(wp.observed_in_versions).to be_empty
+          end
+        end
+
+        context "with labels" do
+          let(:label) { create(:label) }
+
+          before do
+            create(:labeling, label:, labelable: source_wp)
+          end
+
+          it "copies the labels" do
+            expect(subject).to be_success
+
+            expect(copy_of(source_wp).labels).to contain_exactly(label)
           end
         end
 

@@ -59,6 +59,7 @@ es:
         single: Seleccione "%{name}"
       remove: Elimine "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: No se encontraron elementos
       placeholder: Escriba para buscar
       project:
@@ -160,6 +161,7 @@ es:
     button_stop_timer: Detener temporizador
     button_uncheck_all: Deseleccionar todos
     button_update: Actualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Historial de tasas
     card:
       add_new: Añadir nueva tarjeta

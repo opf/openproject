@@ -65,7 +65,8 @@ Rails.application.routes.draw do
   # Redirect wp short url for work packages to full URL
   get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
-    "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    target = "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    params[:format].to_s.match?(/\A[A-Za-z0-9]+\z/) ? "#{target}.#{params[:format]}" : target
   }, as: :work_package_short
 
   # Add catch method for Rack OmniAuth to allow route helpers
@@ -356,6 +357,7 @@ Rails.application.routes.draw do
 
     member do
       get :edit_dialog
+      get :deletion_dialog
     end
 
     resource :matrix, only: %i[show update], controller: "workflows/matrix" do
@@ -567,6 +569,7 @@ Rails.application.routes.draw do
             end
           end
           resource :categories, only: %i[show update]
+          resource :custom_fields, only: %i[show]
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
           member do
@@ -869,35 +872,6 @@ Rails.application.routes.draw do
         get :test_connection
       end
     end
-
-    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
-      collection do
-        delete :api_key, action: :delete_api_key
-        get :delete_api_key_dialog
-        get :disconnect_dialog
-        post :disconnect
-      end
-
-      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
-        post :create_health_status_report
-      end
-    end
-
-    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
-      collection do
-        get :search, defaults: { format: :turbo_stream }
-        post :refresh
-        patch :defaults, action: :update_defaults
-      end
-
-      member do
-        get :delete_dialog
-      end
-    end
-
-    # Keyed by feature key rather than by record id: the binding is an attribute
-    # of a registered feature, and a feature may not have a row yet.
-    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do

@@ -61,6 +61,7 @@ nl:
         single: Selecteer "%{name}"
       remove: Verwijder %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Geen items gevonden
       placeholder: Typ om te zoeken
       project:
@@ -162,6 +163,7 @@ nl:
     button_stop_timer: Stop timer
     button_uncheck_all: Deselecteer alles
     button_update: Bijwerken
+    button_view_markdown: View Markdown
     caption_rate_history: Tarief geschiedenis
     card:
       add_new: Nieuwe kaart toevoegen

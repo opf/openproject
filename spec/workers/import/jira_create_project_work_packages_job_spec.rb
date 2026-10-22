@@ -31,16 +31,22 @@ require "spec_helper"
 
 # The import only produces valid data with semantic identifiers enabled: Jira project keys are
 # uppercase, which Projects::Identifier rejects in classic mode.
-RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
-               :webmock,
+RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
                with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
   include_context "with a jira demo issue"
+
+  let(:resolution_date_cf) { create(:wp_custom_field, name: "Resolution Date (2)", field_format: "datetime") }
+
+  def stage_5_resolution_date_cf
+    jira_import.update!(system_field_custom_fields: { "resolutiondate" => resolution_date_cf.id })
+  end
 
   describe "#perform" do
     context "when importing a full project with issues and comments" do
       before do
         create_project_role
         create_project
+        stage_5_resolution_date_cf
       end
 
       it "updates the project work package sequence counter to the highest imported sequence number" do
@@ -101,7 +107,11 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                                    "fieldtype" => "jira", "fromString" => nil }], "author_name" => "Pavel Balashou"
                    }] }
         expect(work_package.journals.where(cause: cause2).count).to be 1
-        notes1 = "## Environment\n| Field | Details |\n| --- | --- |\n| Environment | Production |\n| --- | --- |\n| Browser | Chrome 120.0 |\n| --- | --- |\n| OS | Windows 11 |\n| --- | --- |\n| App Version | v3.2.1 |\n| --- | --- |"
+        notes1 = "## Environment\n<table><thead><tr><th>Field</th><th>Details</th></tr></thead>" \
+                 "<tbody><tr><th>Environment</th><th>Production</th></tr>" \
+                 "<tr><th>Browser</th><th>Chrome 120.0</th></tr>" \
+                 "<tr><th>OS</th><th>Windows 11</th></tr>" \
+                 "<tr><th>App Version</th><th>v3.2.1</th></tr></tbody></table>\n"
         expect(work_package.journals.where(notes: notes1).count).to be 1
         cause3 = { "type" => "import",
                    "import_history" => [{
@@ -118,7 +128,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         cause5 = { "type" => "import",
                    "import_history" => [{
                      "items" => [{ "to" => nil, "from" => nil, "field" => "description",
-                                   "toString" => "#  \n# Demo Issue\n## Summary\n\n\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n## Description\n\n\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\n\n\nThe application should display the account preferences page with all user settings loaded correctly.\n## Actual Behavior\n\n\nThe page fails to load and displays the following error:\n```java\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n## Environment\n| Field | Details |\n| --- | --- |\n| Environment | Production |\n| --- | --- |\n| Browser | Chrome 120.0 |\n| --- | --- |\n| OS | Windows 11 |\n| --- | --- |\n| App Version | v3.2.1 |\n| --- | --- |\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n\n\n**High Priority** — Affects all users attempting to access account settings.", "fieldtype" => "jira", "fromString" => "# Demo Issue\n\n\n## Summary\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n\n\n## Description\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n\n\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\nThe application should display the account preferences page with all user settings loaded correctly.\n\n\n## Actual Behavior\nThe page fails to load and displays the following error:\n```\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n\n\n## Environment\n| Field | Details |\n| --- | --- |\n| Environment | Production |\n| --- | --- |\n| Browser | Chrome 120.0 |\n| --- | --- |\n| OS | Windows 11 |\n| --- | --- |\n| App Version | v3.2.1 |\n| --- | --- |\n\n\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n**High Priority** — Affects all users attempting to access account settings." }], "author_name" => "Dominic Bräunlein"
+                                   "toString" => "#  \n# Demo Issue\n## Summary\n\n\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n## Description\n\n\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\n\n\nThe application should display the account preferences page with all user settings loaded correctly.\n## Actual Behavior\n\n\nThe page fails to load and displays the following error:\n```java\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n## Environment\n<table><thead><tr><th>Field</th><th>Details</th></tr></thead><tbody><tr><th>Environment</th><th>Production</th></tr><tr><th>Browser</th><th>Chrome 120.0</th></tr><tr><th>OS</th><th>Windows 11</th></tr><tr><th>App Version</th><th>v3.2.1</th></tr></tbody></table>\n\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n\n\n**High Priority** — Affects all users attempting to access account settings.", "fieldtype" => "jira", "fromString" => "# Demo Issue\n\n\n## Summary\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\n\n\n## Description\nThis issue serves as a **template** and *reference example* for how to write well-structured Jira descriptions.\n\n\n## Steps to Reproduce\n1. Navigate to the application homepage\n1. Log in with valid credentials\n1. Click on the **Settings** icon in the top-right corner\n1. Select *Account Preferences* from the dropdown menu\n1. Observe the unexpected behavior\n\n\n## Expected Behavior\nThe application should display the account preferences page with all user settings loaded correctly.\n\n\n## Actual Behavior\nThe page fails to load and displays the following error:\n```\nError 500: Internal Server Error\nFailed to retrieve user preferences. Please try again later.\n```\n\n\n## Environment\n<table><thead><tr><th>Field</th><th>Details</th></tr></thead><tbody><tr><th>Environment</th><th>Production</th></tr><tr><th>Browser</th><th>Chrome 120.0</th></tr><tr><th>OS</th><th>Windows 11</th></tr><tr><th>App Version</th><th>v3.2.1</th></tr></tbody></table>\n\n\n\n## Attachments / Notes\n- Screenshot of the error has been attached\n- Issue occurs **consistently** — reproduced 5/5 times\n- Related to ticket: [DEMO-101]\n\n\n## Priority & Impact\n**High Priority** — Affects all users attempting to access account settings." }], "author_name" => "Dominic Bräunlein"
                    }] }
         expect(work_package.journals.where(cause: cause5).count).to be 1
       end
@@ -130,9 +140,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
 
       context "when the issue carries no updated timestamp" do
-        let(:jira_issue_payload) do
-          super().tap { |payload| payload["fields"].delete("updated") }
-        end
+        let(:jira_issue_payload) { super().tap { |payload| payload["fields"].delete("updated") } }
 
         it "still replays the changelog and the comments" do
           create_work_packages
@@ -144,9 +152,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
 
       context "if Jira status is done" do
-        let(:jira_issue_payload) do
-          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" }
-        end
+        let(:jira_issue_payload) { super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" } }
 
         it "creates workpackage with closed status" do
           create_work_packages
@@ -157,7 +163,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
 
       context "if priority is nil or hidden in jira filed configuration" do
-        let(:jira_issue_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read) }
+        let(:jira_issue_payload) do
+          JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read)
+        end
 
         it "creates work_packge with default priority if it exists" do
           priority = create(:default_priority)
@@ -341,6 +349,106 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
           work_package = WorkPackage.find("DPPP-6")
           expect(work_package.target_versions).to be_empty
+        end
+      end
+
+      context "with resolution fields" do
+        context "when an issue's resolution is set" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["status"]["name"] = "Done"
+              payload["fields"]["resolution"] = { "name" => "Fixed" }
+            end
+          end
+
+          it "appends the resolution value to the status" do
+            expect { create_work_packages }.to change(Status, :count).by(1)
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.status.name).to eq("Done - Fixed")
+          end
+
+          it "does not add a resolution date field when no issue has the field set" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+          end
+
+          context "when the status with resolution already exists" do
+            let!(:existing_status) { create(:status, name: "Done - Fixed") }
+
+            it "does not create a new status" do
+              expect { create_work_packages }.not_to change(Status, :count)
+
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.status.name).to eq("Done - Fixed")
+            end
+          end
+
+          context "when the import is configured to exclude resolution fields" do
+            let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+            it "ignores the resolution for the status" do
+              expect { create_work_packages }.to change(Status, :count).by(1)
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.status.name).to eq("Done")
+            end
+          end
+        end
+
+        context "when an issue's resolutiondate is set" do
+          let(:jira_issue_payload) do
+            super().tap do |payload|
+              payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+            end
+          end
+
+          it "stores the resolutiondate in a datetime custom field" do
+            create_work_packages
+            work_package = WorkPackage.find("DPPP-6")
+            resolution_date = work_package.send(resolution_date_cf.attribute_getter)
+            expect(resolution_date).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+          end
+
+          context "when only some issues have a resolutiondate" do
+            let!(:jira_issue2) do
+              payload = jira_issue_payload.deep_dup
+              payload["id"] = "10406"
+              payload["key"] = "DPPP-7"
+              payload["fields"]["resolutiondate"] = nil
+              create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+            end
+
+            it "adds the Resolution Date field to all work packages' type" do
+              create_work_packages
+
+              wp_with_date = WorkPackage.find("DPPP-6")
+              wp_without_date = WorkPackage.find("DPPP-7")
+
+              expect(wp_without_date.type.default_variant.custom_field_ids).to include(resolution_date_cf.id)
+              expect(wp_without_date.send(resolution_date_cf.attribute_getter)).to be_nil
+              expect(wp_with_date.send(resolution_date_cf.attribute_getter)).to eq(Time.utc(2026, 9, 12, 12, 18, 5))
+            end
+          end
+
+          context "when the custom field from stage 5 is missing" do
+            before { jira_import.update!(system_field_custom_fields: {}) }
+
+            it "ignores the resolution date field" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+            end
+          end
+
+          context "when the import is configured to exclude resolution fields" do
+            let(:jira) { create(:jira, exclude_resolution_fields: true) }
+
+            it "ignores the field" do
+              create_work_packages
+              work_package = WorkPackage.find("DPPP-6")
+              expect(work_package.type.default_variant.custom_field_ids).not_to include(resolution_date_cf.id)
+            end
+          end
         end
       end
     end

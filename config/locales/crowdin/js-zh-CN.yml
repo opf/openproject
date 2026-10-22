@@ -61,6 +61,7 @@ zh-CN:
         single: 选择“%{name}”
       remove: 删除%{name}
     autocompleter:
+      create_label: Create label
       notFoundText: 没有找到条目
       placeholder: 键入内容进行搜索
       project:
@@ -162,6 +163,7 @@ zh-CN:
     button_stop_timer: 停止计时器
     button_uncheck_all: 全部不选
     button_update: 更新
+    button_view_markdown: View Markdown
     caption_rate_history: 费率历史记录
     card:
       add_new: 添加新卡

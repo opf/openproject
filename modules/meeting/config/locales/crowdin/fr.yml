@@ -24,7 +24,7 @@ fr:
   activerecord:
     attributes:
       meeting:
-        agenda_sorting_mode: Sorting mode
+        agenda_sorting_mode: Mode de tri
         duration: Durée
         end_time: Heure de fin
         location: Lieu
@@ -32,7 +32,7 @@ fr:
         notify: Envoyer les notifications
         participant:
           one: "%{count} Participant"
-          other: "%{count} Participants"
+          other: "%{count} participants"
         participants: Participant(s)
         participants_added: 'Participants ajoutés :'
         participants_attended: Présent(s)
@@ -89,18 +89,18 @@ fr:
         invalid_time_format: 'n''est pas une heure valide. Format requis : HH:MM'
       models:
         meeting_agenda_item:
-          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
-          meeting_is_template: Template agenda items cannot be moved to the next meeting.
-          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
+          meeting_closed: La séance est levée. Les points à l'ordre du jour ne peuvent plus être modifiés.
+          meeting_is_template: Les points de l'ordre du jour figurant dans le modèle ne peuvent pas être reportés à la prochaine réunion.
+          not_in_recurring_series: Le point de l'ordre du jour n'appartient pas à une réunion récurrente.
           section_not_belong_to_meeting: La section n'appartient pas à la même réunion.
           user_invalid: n'est pas un participant valide.
-          vote_based_sorting_required: Voting requires vote-based agenda sorting.
+          vote_based_sorting_required: Le vote nécessite un tri par ordre du jour basé sur le vote.
         meeting_participant:
           user_invalid: n'est pas un participant valide.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
-            one: There is %{count} open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: Il y a %{count} réunions ouvertes dans la série qui ne sont pas couvertes par le nouvel horaire. Modifiez l'horaire pour inclure toutes les réunions existantes.
             other: Il y a %{count} réunions ouvertes dans la série qui ne sont pas couvertes par le nouvel horaire. Modifiez l'horaire pour inclure toutes les réunions existantes.
         recurring_meeting_interim_response:
           not_an_occurrence: n'est pas une heure d'occurrence valide pour cette réunion récurrente
@@ -160,7 +160,7 @@ fr:
   journals:
     cause_descriptions:
       system_update:
-        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
+        meeting_journal_sync: L'historique de la réunion est désormais synchronisé automatiquement avec l'état actuel de la réunion. Les points à l'ordre du jour et les conclusions font désormais partie de cet historique.
   label_add_work_package_to_meeting_dialog_button: Ajouter à la réunion
   label_add_work_package_to_meeting_dialog_title: Sélectionner la réunion
   label_add_work_package_to_meeting_section_label: Section
@@ -169,8 +169,8 @@ fr:
   label_agenda_backlog_clear_title: Effacer le backlog de l'ordre du jour ?
   label_agenda_item_actions: Actions des points de l'ordre du jour
   label_agenda_item_add: Ajouter un point à l'ordre du jour
-  label_agenda_item_add_above: Add item above
-  label_agenda_item_add_below: Add item below
+  label_agenda_item_add_above: Ajouter un élément ci-dessus
+  label_agenda_item_add_below: Ajouter un élément en dessous
   label_agenda_item_add_notes: Ajouter des notes
   label_agenda_item_add_outcome: Ajouter un résultat
   label_agenda_item_convert_to_work_package: Convertir en lot de travaux
@@ -178,7 +178,7 @@ fr:
   label_agenda_item_duplicate: Dupliquer
   label_agenda_item_duplicate_in_next: Dupliquer lors de la prochaine réunion
   label_agenda_item_duplicate_in_next_title: Duplication lors de la prochaine réunion ?
-  label_agenda_item_include_outcomes: Include outcomes
+  label_agenda_item_include_outcomes: Inclure les résultats
   label_agenda_item_move: Déplacer
   label_agenda_item_move_down: Descendre
   label_agenda_item_move_to_backlog: Déplacer vers le backlog
@@ -243,7 +243,7 @@ fr:
   label_meeting_minutes: Compte rendu
   label_meeting_more:
     one: There is %{count} more meeting.
-    other: There are %{count} more meetings.
+    other: Il y a %{count} réunions supplémentaires.
   label_meeting_new: Nouvelle réunion
   label_meeting_new_dynamic: Nouvelle réunion ponctuelle
   label_meeting_new_recurring: Nouvelle réunion récurrente
@@ -346,7 +346,7 @@ fr:
       title: Il n'y a pas de réunions à afficher
     cancel:
       reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
-      reason_label: Reason for cancellation
+      reason_label: Raison de l'annulation
     copied: 'Copié depuis la réunion #%{id}'
     copy:
       agenda: Copier l'ordre du jour
@@ -390,7 +390,7 @@ fr:
         header: 'Annulée : Réunion « %{title} »'
         header_occurrence: 'Annulée : occurrence de la réunion « %{title} »'
         header_series: 'Annulée : série de réunions « %{title} »'
-        reason: Reason for cancellation
+        reason: Raison de l'annulation
         summary: "« %{title} » a été annulé par %{actor}, ou vous avez été supprimé(e) en tant que participant(e)"
         summary_occurrence: Une occurrence de « %{title} » a été annulée par %{actor}, ou vous avez été supprimé(e) en tant que participant(e)
         summary_series: La série de réunions « %{title} » a été annulée par %{actor}, ou vous avez été supprimé(e) en tant que participant(e)

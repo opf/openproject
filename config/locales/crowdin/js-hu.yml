@@ -61,6 +61,7 @@ hu:
         single: '"%{name}" kiválasztása'
       remove: "%{name} törlése"
     autocompleter:
+      create_label: Create label
       notFoundText: Nem található elem
       placeholder: Gépeljen a kereséshez
       project:
@@ -168,6 +169,7 @@ hu:
     button_stop_timer: Időzítő leállítása
     button_uncheck_all: Az összes kijelölés megszüntetése
     button_update: Frissítés
+    button_view_markdown: View Markdown
     caption_rate_history: Díj előzmények
     card:
       add_new: Új kártya hozzáadása

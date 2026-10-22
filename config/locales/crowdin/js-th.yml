@@ -61,6 +61,7 @@ th:
         single: เลือก "%{name}"
       remove: ลบ %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: 'ไม่พบรายการ '
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ th:
     button_stop_timer: Stop timer
     button_uncheck_all: เอาเครื่องหมายออกทั้งหมด
     button_update: ปรับปรุง
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Add new card

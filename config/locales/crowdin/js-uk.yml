@@ -61,6 +61,7 @@ uk:
         single: Виберіть %{name}
       remove: Видалити %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Елементів не знайдено
       placeholder: Введіть для пошуку
       project:
@@ -162,6 +163,7 @@ uk:
     button_stop_timer: Зупинити таймер
     button_uncheck_all: Зняти усі відмітки
     button_update: Оновити
+    button_view_markdown: View Markdown
     caption_rate_history: Історія рейтингу
     card:
       add_new: Додати нову картку
