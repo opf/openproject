@@ -1540,6 +1540,7 @@ en:
         file_too_large: "is too large (maximum size is %{count} MB)."
       instructions:
         accent-color: "Color for links and other decently highlighted elements."
+        export_cover_text_color: "Color of the text on top of the cover background to ensure readability."
         header-bg-color: "Default background color of the app header."
         main-menu-bg-color: "Left side menu's background color."
         main-menu-bg-selected-background: "Background color of menu items when selected."
@@ -1548,7 +1549,6 @@ en:
       tab_branding: "Branding"
       tab_default_colors: "Default colors"
       tab_interface: "Interface"
-      tab_pdf_export_font: "PDF export font"
       tab_pdf_export_styles: "PDF export styles"
       theme_warning:
         confirmation: "I understand that this action cannot be reversed"
@@ -4045,13 +4045,11 @@ en:
   label_current_version: "Current version"
   label_custom_comment: "%{name} comment"
   label_custom_export_cover: "Cover background"
-  label_custom_export_cover_overlay: "Cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
+  label_custom_export_cover_text_color: "Text color for cover background"
+  label_custom_export_font: "Custom Font"
   label_custom_export_font_bold: "Bold"
   label_custom_export_font_bold_italic: "Bold Italic"
-  label_custom_export_font_instructions: >
-    Upload and manage custom TrueType (.ttf) fonts used in your PDF exports.
-    For best results, use matching files from the same font family. If no font is provided, the default NotoSans font will be used.
+  label_custom_export_font_colors: "Custom font colors"
   label_custom_export_font_italic: "Italic"
   label_custom_export_font_regular: "Regular"
   label_custom_export_footer: "Footer image"

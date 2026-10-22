@@ -93,13 +93,6 @@ module CustomStylesHelper
         path: custom_style_path(tab: :pdf_export_styles),
         label: t(:"admin.custom_styles.tab_pdf_export_styles"),
         pdf: true
-      },
-      {
-        name: "pdf_export_font",
-        partial: "custom_styles/pdf_export_font",
-        path: custom_style_path(tab: :pdf_export_font),
-        label: t(:"admin.custom_styles.tab_pdf_export_font"),
-        pdf: true
       }
     ]
   end

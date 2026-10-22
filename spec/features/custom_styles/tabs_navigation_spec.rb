@@ -232,9 +232,11 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
 
       # change export cover text color and redirect to the PDF export styles tab
+      find_test_selector("edit-design-color-export_cover_text_color").click
       fill_in "export_cover_text_color", with: "#333"
-      find_test_selector("text-color-change").click
-      expect(page).to have_css("#export_cover_text_color", value: "#333")
+      find_test_selector("save-design-color-export_cover_text_color").click
+
+      expect(page).to have_css("[name='export_cover_text_color']", value: "#333", visible: :all)
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
     end
   end

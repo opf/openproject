@@ -48,33 +48,24 @@ See COPYRIGHT and LICENSE files for more details.
       <% hexcode = effective_design_color(design_color, current_theme: @current_theme) %>
 
       <% list.with_item do %>
-        <%= flex_layout(
-              align_items: :center,
-              flex_wrap: :wrap,
-              justify_content: :space_between
-            ) do |row| %>
-          <% row.with_column(flex: 1, mr: 3) do %>
-            <%= render(Primer::Beta::Text.new(font_weight: :bold)) { label } %>
-            <% if instruction.present? %>
-              <%= render(Primer::Beta::Text.new(font_size: :small, color: :subtle, ml: 1)) { instruction } %>
-            <% end %>
-          <% end %>
-
-          <% row.with_column do %>
-            <%= render(Colors::SwatchComponent.new(hexcode:, show_value: true)) %>
-          <% end %>
-
-          <% row.with_column(ml: 2) do %>
-            <%= render(
-                  CustomStyles::DesignColorDialogComponent.new(
-                    design_color:,
-                    label:,
-                    instruction:,
-                    hexcode:
-                  )
-                ) %>
-          <% end %>
-        <% end %>
+        <%= render(
+              CustomStyles::ColorListItemComponent.new(
+                label:,
+                instruction:,
+                hexcode:,
+                show_value: true,
+                dialog_arguments: {
+                  variable:,
+                  label:,
+                  instruction:,
+                  value: design_color.hexcode,
+                  placeholder: hexcode,
+                  form_url: update_design_colors_path,
+                  param_name: "design_colors[]#{variable}",
+                  field_data: { variable_name: variable }
+                }
+              )
+            ) %>
       <% end %>
     <% end %>
   <% end %>
