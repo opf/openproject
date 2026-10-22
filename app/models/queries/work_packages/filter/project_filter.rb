@@ -45,7 +45,11 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def type
-    :list
+    :list_optional
+  end
+
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
   end
 
   def self.key
