@@ -457,7 +457,6 @@ RSpec.describe(
       let(:only_args) { all_modules }
       let(:storage1) { source_automatic_project_storage.storage }
       let(:storage2) { source_manual_project_storage.storage }
-      # rubocop:enable RSpec/IndexedLet
 
       shared_let(:source_automatic_project_storage) do
         storage = create(:nextcloud_storage)
@@ -721,10 +720,8 @@ RSpec.describe(
 
         let(:work_package) { create(:work_package, project: source) }
 
-        # rubocop:disable RSpec/IndexedLet
         let(:work_package2) { create(:work_package, project: source) }
         let(:work_package3) { create(:work_package, project: source) }
-        # rubocop:enable RSpec/IndexedLet
 
         it "does not copy work package budgets" do
           budget = create(:budget, project: source)
