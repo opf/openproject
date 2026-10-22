@@ -537,7 +537,7 @@ RSpec.describe(
 
           automatic_project_storage_copy = project_copy.project_storages.find_by(storage: storage1)
           expect(project_copy.project_creation_wizard_artifact_export_storage).to eq(automatic_project_storage_copy.id.to_s)
-          expect(project_copy.project_creation_wizard_artifact_export_storage).not_to eq(source.project_creation_wizard_artifact_export_storage)
+          expect(project_copy.project_creation_wizard_artifact_export_storage).not_to eq(source.project_creation_wizard_artifact_export_storage) # rubocop:disable Layout/LineLength
         end
       end
 
