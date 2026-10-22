@@ -130,6 +130,8 @@ export interface TableHarnessOptions {
   configuration?:WorkPackageTableConfigurationObject;
   /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
   productionDefaults?:boolean;
+  /** Renders the production `thead` and totals row around the results, for navigation that walks them. */
+  productionMarkup?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
   /** Uses the production action registry, including group and hierarchy actions. */
@@ -167,6 +169,12 @@ export interface TableHarness {
   row(workPackageId:string):HTMLTableRowElement;
   /** The relation row of `to` under `from`, located by its occurrence key. */
   relationRow(from:string, to:string, type?:string):HTMLTableRowElement;
+  /** The `thead` row; requires `productionMarkup`. */
+  headerRow():HTMLTableRowElement;
+  /** The header cells in column order, ending with the configuration cell; requires `productionMarkup`. */
+  headerCells():HTMLTableCellElement[];
+  /** The totals row; requires `productionMarkup`. */
+  totalsRow():HTMLTableRowElement;
   timelineRow(workPackageId:string):HTMLElement;
   /** The timeline cell at the position of the given table row; both sides render one element per row. */
   timelineRowOf(row:HTMLElement):HTMLElement;
@@ -214,7 +222,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     .addFieldType(IntegerDisplayField, 'integer', ['Integer']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
-  const dom = options.dom ?? buildDom();
+  const dom = options.dom ?? buildDom({ productionMarkup: options.productionMarkup });
 
   const groupBy = options.groupBy ?? 'status';
   const query = options.query ?? buildQuery(
@@ -225,6 +233,9 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     options.highlightingMode,
   );
   querySpace.query.putValue(query);
+  if (options.productionMarkup) {
+    fillProductionMarkup(dom.wrapper, query);
+  }
   querySpace.groups.putValue((options.groups ?? []).map((group, index) => buildGroup(group, groupBy, index)));
   initializeViewServices(injector, query);
 
@@ -304,6 +315,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return row;
     },
 
+    headerRow() {
+      return productionMarkupElement<HTMLTableRowElement>(dom.wrapper, 'thead tr');
+    },
+
+    headerCells() {
+      return Array.from(productionMarkupElement(dom.wrapper, 'thead tr').querySelectorAll<HTMLTableCellElement>('th'));
+    },
+
+    totalsRow() {
+      return productionMarkupElement<HTMLTableRowElement>(dom.wrapper, 'tr.wp-table--sums-row');
+    },
+
     timelineRow(workPackageId) {
       const row = dom.timelineBody.querySelector<HTMLElement>(`.wp-timeline-cell[data-work-package-id="${workPackageId}"]`);
       if (!row) {
@@ -375,9 +398,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       const builder = new InlineCreateRowBuilder(injector, table);
       table.editing.startEditing(workPackage, builder.classIdentifier(workPackage));
       const [row] = builder.buildEmpty(workPackage);
-      const inlineCreateBody = document.createElement('tbody');
-      inlineCreateBody.append(row);
-      dom.tbody.after(inlineCreateBody);
+      inlineCreateBodyOf(dom).append(row);
       return row;
     },
 
@@ -556,12 +577,55 @@ function relationsStub(relations:RelationFixture[]) {
   };
 }
 
-export function buildDom() {
+function productionMarkupElement<T extends HTMLElement = HTMLElement>(wrapper:HTMLElement, selector:string):T {
+  const element = wrapper.querySelector<T>(selector);
+  if (!element) {
+    throw new Error(`No ${selector} rendered; build the table with productionMarkup`);
+  }
+  return element;
+}
+
+function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource) {
+  const columns = query.columns as unknown as { id:string, name:string }[];
+  const headerCells = columns.map(({ id, name }) => `
+    <th class="wp-table--table-header">
+      <div class="generic-table--sort-header-outer">
+        <span class="generic-table--sort-header"><a href="#" id="${id}">${name}</a></span>
+      </div>
+    </th>`).join('');
+  const configurationCell = `
+    <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th">
+      <button type="button" class="wp-table--columns-selection"></button>
+    </th>`;
+
+  productionMarkupElement(wrapper, 'thead tr').innerHTML = headerCells + configurationCell;
+  productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = columns.map(() => '<td></td>').join('');
+}
+
+function inlineCreateBodyOf(dom:ReturnType<typeof buildDom>):HTMLTableSectionElement {
+  const table = dom.tbody.closest('table')!;
+  const existing = table.querySelector<HTMLTableSectionElement>('tbody[wpInlineCreate]');
+  if (existing) {
+    return existing;
+  }
+
+  const body = document.createElement('tbody');
+  body.setAttribute('wpInlineCreate', '');
+  const totalsBody = table.querySelector(':scope > tbody:has(> tr.wp-table--sums-row)');
+  (totalsBody ?? dom.tbody).after(body);
+  return body;
+}
+
+export function buildDom(options:{ productionMarkup?:boolean } = {}) {
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
     <div class="work-packages-tabletimeline--table-side">
       <div class="work-package-table--container">
-        <table class="work-package-table"><tbody class="work-package--results-tbody"></tbody></table>
+        <table class="work-package-table">
+          ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
+          <tbody class="work-package--results-tbody"></tbody>
+          ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
+        </table>
       </div>
     </div>
     <div class="work-packages-tabletimeline--timeline-side"><div class="wp-table-timeline--body"></div></div>
@@ -572,7 +636,7 @@ export function buildDom() {
     wrapper,
     container: wrapper.querySelector<HTMLElement>('.work-packages-tabletimeline--table-side')!,
     scroll: wrapper.querySelector<HTMLElement>('.work-package-table--container')!,
-    tbody: wrapper.querySelector<HTMLTableSectionElement>('tbody')!,
+    tbody: wrapper.querySelector<HTMLTableSectionElement>('tbody.work-package--results-tbody')!,
     timelineBody: wrapper.querySelector<HTMLElement>('.wp-table-timeline--body')!,
   };
 }
