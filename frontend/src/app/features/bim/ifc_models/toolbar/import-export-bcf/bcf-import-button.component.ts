@@ -32,12 +32,13 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
 
 @Component({
   template: `
-    <a [title]="text.import_hover"
+    <button type="button"
+      [title]="text.import_hover"
       (click)="handleClick()"
       class="button import-bcf-button">
       <op-icon icon-classes="button--icon icon-import" />
       <span class="button--text"> {{text.import}} </span>
-    </a>
+    </button>
   `,
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-import-button',

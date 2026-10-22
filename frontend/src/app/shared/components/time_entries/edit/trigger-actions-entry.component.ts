@@ -41,16 +41,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'opce-time-entry-trigger-actions',
   template: `
-    <a (click)="editTimeEntry()"
+    <button type="button"
+       (click)="editTimeEntry()"
        [title]="text.edit"
-       class="no-decoration-on-hover">
+       class="button--link no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-edit" />
-    </a>
-    <a (click)="deleteTimeEntry()"
+    </button>
+    <button type="button"
+       (click)="deleteTimeEntry()"
        [title]="text.delete"
-       class="no-decoration-on-hover">
+       class="button--link no-decoration-on-hover">
       <op-icon icon-classes="icon-context icon-delete" />
-    </a>
+    </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
