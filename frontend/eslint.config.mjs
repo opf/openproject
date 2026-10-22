@@ -99,6 +99,8 @@ export default defineConfig([
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
 
+      '@typescript-eslint/no-empty-function': 'off',
+
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
 
