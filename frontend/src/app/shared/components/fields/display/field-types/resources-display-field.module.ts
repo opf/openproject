@@ -31,7 +31,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
-    return this.value == null || (Array.isArray(this.value) ? this.value.length === 0 : Object.keys(this.value as Record<string, unknown>).length === 0);
+    return this.value == null || (Array.isArray(this.value) ? this.value.length === 0 : Object.keys(this.value).length === 0);
   }
 
   public get stringValue():string[] {

@@ -75,7 +75,7 @@ export class BoardListsService {
         switchMap(([form, query]) => {
           // When the permission to create public queries is missing, throw an error.
           // Otherwise private queries would be created.
-          if ((form.schema.public as IOPFieldSchema).writable) {
+          if (form.schema.public!.writable) {
             return this
               .apiV3Service
               .queries

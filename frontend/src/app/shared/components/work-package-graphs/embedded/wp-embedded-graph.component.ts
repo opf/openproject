@@ -106,7 +106,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   private updateChartData() {
     const uniqLabels = Array.from(new Set(this.datasets.reduce<(string|null)[]>((array, dataset) => {
-      const groups = (dataset.groups ?? []).map((group) => group.value as string|null);
+      const groups = (dataset.groups ?? []).map((group) => group.value);
       return array.concat(groups);
     }, [])));
 

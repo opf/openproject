@@ -130,7 +130,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       await this.pendingFormUpdate;
     }
 
-    return this.buildPayloadFromChanges() as object;
+    return this.buildPayloadFromChanges();
   }
 
   /**
