@@ -28,22 +28,31 @@
 #++
 
 module WorkPackageTypes
-  module Wizard
-    class StepDescriptionComponent < ApplicationComponent
-      def initialize(step:)
-        super()
-        @step = step
-      end
-
-      def render? = text.present?
-
-      def call
-        render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3)) { text }
-      end
-
-      private
-
-      def text = Steps.description(@step)
+  class AspectDescriptionComponent < ApplicationComponent
+    def initialize(variant:, aspect:, form_mode: :existing)
+      super()
+      @variant = variant
+      @aspect = aspect
+      @form_mode = form_mode
     end
+
+    def call
+      render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3, test_selector: "aspect-description")) { text }
+    end
+
+    private
+
+    def text
+      translation = I18n.t("types.aspect_descriptions.#{translation_key}")
+      translation.is_a?(Hash) ? translation.fetch(kind) : translation
+    end
+
+    def translation_key
+      @aspect == :form_configuration ? "form_configuration.#{@form_mode}" : @aspect
+    end
+
+    def kind = named_variant? ? :variant : :type
+
+    def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
   end
 end
