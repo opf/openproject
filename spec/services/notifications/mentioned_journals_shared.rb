@@ -46,11 +46,7 @@ RSpec.shared_context "with a mentioned work package being updated again" do
 
   let(:recipient) do
     create(:user,
-           preferences: {
-             immediate_reminders: {
-               mentioned: true
-             }
-           },
+           preferences: { immediate_reminders_mentioned: true },
            notification_settings: [
              build(:notification_setting,
                    mentioned: true,

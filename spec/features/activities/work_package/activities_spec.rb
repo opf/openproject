@@ -680,7 +680,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       include Redmine::I18n
 
       context "when sorting set to asc" do
-        let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+        let!(:admin_preferences) { create(:user_preference, user: admin, comments_sorting: :asc) }
 
         context "with #activity- anchor" do
           before do
@@ -763,7 +763,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
 
       context "when sorting set to desc" do
-        let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :desc }) }
+        let!(:admin_preferences) { create(:user_preference, user: admin, comments_sorting: :desc) }
 
         context "with #comment- anchor" do
           before do
@@ -783,7 +783,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     # speed up the polling interval to 1s for the test duration
     context "when sorting set to asc",
             with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
-      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+      let!(:admin_preferences) { create(:user_preference, user: admin, comments_sorting: :asc) }
 
       let(:window_size) { nil }
 
@@ -853,7 +853,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     let!(:comment_two) do
       create(:work_package_journal, user: admin, notes: "Comment 2", journable: work_package, version: 3)
     end
-    let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+    let!(:admin_preferences) { create(:user_preference, user: admin, comments_sorting: :asc) }
 
     before do
       visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_one.id}")

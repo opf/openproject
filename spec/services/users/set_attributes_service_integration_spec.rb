@@ -68,7 +68,8 @@ RSpec.describe Users::SetAttributesService, "Integration", type: :model do
 
     it "does not raise an error" do
       expect(subject).to be_success
-      expect(subject.result.pref.settings).not_to be_key(:watwatwat)
+      expect(subject.result.pref).not_to respond_to(:watwatwat)
+      expect(subject.result.pref.settings).not_to be_key("watwatwat")
     end
   end
 end

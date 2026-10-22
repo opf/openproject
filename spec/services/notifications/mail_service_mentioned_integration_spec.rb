@@ -35,11 +35,7 @@ RSpec.describe Notifications::MailService, "Mentioned integration", type: :model
 
   let(:assignee) do
     create(:user,
-           preferences: {
-             immediate_reminders: {
-               mentioned: true
-             }
-           },
+           preferences: { immediate_reminders_mentioned: true },
            notification_settings: [
              build(:notification_setting,
                    mentioned: true,

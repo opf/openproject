@@ -133,27 +133,61 @@ RSpec.describe UserPreference do
     end
   end
 
-  describe "#daily_reminders" do
+  describe "reminders" do
     context "without reminders being stored" do
       it "uses the defaults" do
-        expect(subject.daily_reminders)
-          .to eql("enabled" => true, "times" => ["08:00:00+00:00"])
+        expect(subject.daily_reminders_enabled).to be(true)
+        expect(subject.daily_reminders_times).to eql(["08:00:00+00:00"])
+        expect(subject.immediate_reminders_mentioned).to be(true)
+        expect(subject.immediate_reminders_personal_reminder).to be(true)
+        expect(subject.pause_reminders_enabled).to be(false)
+        expect(subject.pause_reminders_first_day).to be_nil
+        expect(subject.pause_reminders_last_day).to be_nil
       end
     end
 
     context "with reminders being stored" do
       let(:preferences) do
         {
-          "daily_reminders" => {
-            "enabled" => false,
-            "times" => %w[12:00:00+00:00 18:00:00+00:00 09:00:00+00:00]
-          }
+          "daily_reminders_enabled" => false,
+          "daily_reminders_times" => %w[12:00:00+00:00 18:00:00+00:00 09:00:00+00:00],
+          "immediate_reminders_mentioned" => false,
+          "pause_reminders_enabled" => true,
+          "pause_reminders_first_day" => "2021-10-05",
+          "pause_reminders_last_day" => "2021-10-10"
         }
       end
 
-      it "returns the stored value" do
-        expect(subject.daily_reminders)
-          .to eql(preferences["daily_reminders"])
+      it "returns the stored values" do
+        expect(subject.daily_reminders_enabled).to be(false)
+        expect(subject.daily_reminders_times).to eql(%w[12:00:00+00:00 18:00:00+00:00 09:00:00+00:00])
+        expect(subject.immediate_reminders_mentioned).to be(false)
+        expect(subject.pause_reminders_enabled).to be(true)
+        expect(subject.pause_reminders_first_day).to eql(Date.new(2021, 10, 5))
+        expect(subject.pause_reminders_last_day).to eql(Date.new(2021, 10, 10))
+      end
+    end
+
+    describe "#daily_reminders_times=" do
+      it "drops blank entries" do
+        subject.daily_reminders_times = ["", "09:00:00+00:00", nil]
+        expect(subject.daily_reminders_times).to eql(["09:00:00+00:00"])
+      end
+    end
+
+    describe "#pause_reminders_date_range=" do
+      it "splits the range into first and last day" do
+        subject.pause_reminders_date_range = "2021-10-05 - 2021-10-10"
+
+        expect(subject.pause_reminders_first_day).to eql(Date.new(2021, 10, 5))
+        expect(subject.pause_reminders_last_day).to eql(Date.new(2021, 10, 10))
+      end
+
+      it "clears both days for a blank range" do
+        subject.pause_reminders_date_range = ""
+
+        expect(subject.pause_reminders_first_day).to be_nil
+        expect(subject.pause_reminders_last_day).to be_nil
       end
     end
   end
@@ -193,23 +227,58 @@ RSpec.describe UserPreference do
     end
   end
 
-  describe "[]=" do
+  describe "persistence" do
     let(:user) { create(:user) }
 
-    it 'saves the values on sending "save"' do
-      subject.save
+    it "saves the stored attributes into the settings column" do
+      subject.save!
 
-      value_warn_on_leaving_unsaved = !subject[:warn_on_leaving_unsaved]
-      value_auto_hide_popups = !subject[:auto_hide_popups]
+      subject.warn_on_leaving_unsaved = false
+      subject.auto_hide_popups = false
+      subject.workdays = %w[1 3]
 
-      subject[:warn_on_leaving_unsaved] = value_warn_on_leaving_unsaved
-      subject[:auto_hide_popups] = value_auto_hide_popups
-
-      subject.save
+      subject.save!
       subject.reload
 
-      expect(subject[:warn_on_leaving_unsaved]).to eql(value_warn_on_leaving_unsaved)
-      expect(subject[:auto_hide_popups]).to eql(value_auto_hide_popups)
+      expect(subject.warn_on_leaving_unsaved).to be(false)
+      expect(subject.auto_hide_popups).to be(false)
+      expect(subject.workdays).to eql([1, 3])
+    end
+
+    it "stores structured values as JSON rather than encoded strings" do
+      subject.workdays = [1, 3]
+      subject.save!
+
+      raw = described_class.where(id: subject.id).pick(Arel.sql("jsonb_typeof(settings->'workdays')"))
+      expect(raw).to eq("array")
+    end
+  end
+
+  describe ".user_settable_preferences" do
+    let(:internal_preferences) do
+      %w[dismissed_enterprise_banners whats_new_read_items whats_new_seen_version whats_new_seen_at]
+    end
+
+    it "contains every stored preference except the internal ones, plus the pause date range" do
+      expect(described_class.user_settable_preferences)
+        .to match_array(described_class.stored_attributes[:settings] - internal_preferences + %w[pause_reminders_date_range])
+    end
+  end
+
+  describe "defaults of a new preference" do
+    subject(:preference) { described_class.new }
+
+    it "writes the structured defaults into the settings" do
+      expect(preference.settings).to include(
+        "workdays" => [1, 2, 3, 4, 5],
+        "daily_reminders_enabled" => true,
+        "daily_reminders_times" => ["08:00:00+00:00"],
+        "immediate_reminders_mentioned" => true,
+        "immediate_reminders_personal_reminder" => true,
+        "pause_reminders_enabled" => false,
+        "dismissed_enterprise_banners" => {},
+        "whats_new_read_items" => {}
+      )
     end
   end
 
@@ -444,5 +513,294 @@ RSpec.describe UserPreference do
     it_behaves_like "accepts real and false booleans",
                     :force_dark_theme_contrast=,
                     :force_dark_theme_contrast?
+  end
+
+  describe "validations" do
+    subject(:preference) { build(:user_preference, user:, **attributes) }
+
+    let(:attributes) { {} }
+
+    shared_examples "is valid" do
+      it { is_expected.to be_valid }
+    end
+
+    shared_examples "is invalid" do |attribute, error|
+      it "has a #{error} error on #{attribute}" do
+        preference.validate
+        expect(preference.errors).to be_of_kind(attribute, error)
+      end
+    end
+
+    context "without any values" do
+      it_behaves_like "is valid"
+    end
+
+    context "with an unknown theme" do
+      let(:attributes) { { theme: "neon" } }
+
+      it_behaves_like "is invalid", :theme, :inclusion
+    end
+
+    context "with an invalid order for comments_sorting" do
+      let(:attributes) { { comments_sorting: "up" } }
+
+      it_behaves_like "is invalid", :comments_sorting, :inclusion
+    end
+
+    context "with an unknown diff_type" do
+      let(:attributes) { { diff_type: "unified" } }
+
+      it_behaves_like "is invalid", :diff_type, :inclusion
+    end
+
+    context "with an unknown my_work_view_mode" do
+      let(:attributes) { { my_work_view_mode: "board" } }
+
+      it_behaves_like "is invalid", :my_work_view_mode, :inclusion
+    end
+
+    context "with an unknown my_work_mode" do
+      let(:attributes) { { my_work_mode: "year" } }
+
+      it_behaves_like "is invalid", :my_work_mode, :inclusion
+    end
+
+    context "with an unknown avatar_type" do
+      let(:attributes) { { avatar_type: "photo" } }
+
+      it_behaves_like "is invalid", :avatar_type, :inclusion
+    end
+
+    describe "time_zone" do
+      context "with a full time_zone" do
+        let(:attributes) { { time_zone: "Europe/Paris" } }
+
+        it_behaves_like "is valid"
+      end
+
+      context "without a time_zone but an unassignable default", with_settings: { user_default_timezone: "Nowhere" } do
+        it_behaves_like "is valid"
+      end
+
+      context "with a non ActiveSupport::Timezone timezone" do
+        let(:attributes) { { time_zone: "America/Adak" } }
+
+        it_behaves_like "is invalid", :time_zone, :inclusion
+      end
+
+      context "with a malformed time_zone" do
+        let(:attributes) { { time_zone: "123Brasilia" } }
+
+        it_behaves_like "is invalid", :time_zone, :inclusion
+      end
+
+      context "with a non tzinfo time_zone" do
+        let(:attributes) { { time_zone: "Brasilia" } }
+
+        it_behaves_like "is invalid", :time_zone, :inclusion
+      end
+
+      context "with an unassignable time_zone that is not being changed" do
+        let(:attributes) { { time_zone: "Brasilia" } }
+
+        before { preference.clear_changes_information }
+
+        it_behaves_like "is valid"
+      end
+    end
+
+    describe "date_format" do
+      context "with an allowed date_format" do
+        let(:attributes) { { date_format: "%d.%m.%Y" } }
+
+        it_behaves_like "is valid"
+      end
+
+      context "with an unallowed date_format" do
+        let(:attributes) { { date_format: "%Y foo %m bar %d" } }
+
+        it_behaves_like "is invalid", :date_format, :inclusion
+      end
+
+      context "with an unallowed date_format that is not being changed" do
+        let(:attributes) { { date_format: "%Y foo %m bar %d" } }
+
+        before { preference.clear_changes_information }
+
+        it_behaves_like "is valid"
+      end
+    end
+
+    describe "time_format" do
+      context "with an allowed time_format" do
+        let(:attributes) { { time_format: "%I:%M %p" } }
+
+        it_behaves_like "is valid"
+      end
+
+      context "with an unallowed time_format" do
+        let(:attributes) { { time_format: "%H foo %M" } }
+
+        it_behaves_like "is invalid", :time_format, :inclusion
+      end
+    end
+
+    describe "avatar_color" do
+      context "with a valid avatar_color" do
+        let(:attributes) { { avatar_color: "#AABBCC" } }
+
+        it_behaves_like "is valid"
+      end
+
+      context "with an invalid avatar_color" do
+        let(:attributes) { { avatar_color: "red" } }
+
+        it_behaves_like "is invalid", :avatar_color, :invalid
+      end
+    end
+
+    describe "avatar_text" do
+      [nil, "", "x", "OP", "山田", "本田", "Жя", "𐐀𐐁", "👩🏽‍💻", "👨‍👩‍👧‍👦", "🇯🇵", "🏳️‍🌈", "❤️", "👍🏽", "1️⃣",
+       "éx", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "👩🏽‍❤️‍💋‍👨🏿", "क्षि"].each do |text|
+        context "with avatar_text #{text.inspect}" do
+          let(:attributes) { { avatar_text: text } }
+
+          it_behaves_like "is valid"
+        end
+      end
+
+      context "with only surrounding whitespace" do
+        let(:attributes) { { avatar_text: "\n " } }
+
+        it "clears the text" do
+          expect(preference.avatar_text).to be_nil
+          expect(preference).to be_valid
+        end
+      end
+
+      ["ABC", "本田技", "🚀🚀🚀", "👨‍👩‍👧‍👦🇯🇵a"].each do |text|
+        context "with too much avatar text #{text.inspect}" do
+          let(:attributes) { { avatar_text: text } }
+
+          it_behaves_like "is invalid", :avatar_text, :too_long
+        end
+      end
+
+      ["\u0000", "\u0001", "￾", "￿", "​​", "A‮", "á́́́́", 123, ["x"]].each do |text|
+        context "with invalid avatar_text #{text.inspect}" do
+          let(:attributes) { { avatar_text: text } }
+
+          it "rejects the text" do
+            expect(preference).not_to be_valid
+            expect(preference.errors[:avatar_text]).to be_present
+          end
+        end
+      end
+    end
+
+    describe "workdays" do
+      context "with duplicate workday entries" do
+        let(:attributes) { { workdays: [1, 1] } }
+
+        it_behaves_like "is invalid", :workdays, :no_duplicates
+      end
+
+      context "with non-iso workday entries" do
+        let(:attributes) { { workdays: ["foo", 21345, 2] } }
+
+        it_behaves_like "is invalid", :workdays, :inclusion
+      end
+    end
+
+    describe "daily_reminders_times" do
+      context "with full hours" do
+        let(:attributes) { { daily_reminders_times: %w[00:00:00+00:00 23:00:00+00:00] } }
+
+        it_behaves_like "is valid"
+      end
+
+      context "with an invalid time" do
+        let(:attributes) { { daily_reminders_times: %w[abc 12:00:00+00:00] } }
+
+        it_behaves_like "is invalid", :daily_reminders, :full_hour
+      end
+
+      context "with an hour outside of the day" do
+        let(:attributes) { { daily_reminders_times: %w[25:00:00+00:00] } }
+
+        it_behaves_like "is invalid", :daily_reminders, :full_hour
+      end
+
+      context "with a sub hour time" do
+        let(:attributes) { { daily_reminders_times: %w[12:30:00+00:00] } }
+
+        it_behaves_like "is invalid", :daily_reminders, :full_hour
+      end
+    end
+
+    describe "pause reminders" do
+      context "with enabled false" do
+        let(:attributes) { { pause_reminders_enabled: false } }
+
+        it_behaves_like "is valid"
+      end
+
+      context "with enabled true and a valid range" do
+        let(:attributes) do
+          { pause_reminders_enabled: true, pause_reminders_first_day: "2021-10-05", pause_reminders_last_day: "2021-10-10" }
+        end
+
+        it_behaves_like "is valid"
+      end
+
+      context "with enabled true but no days" do
+        let(:attributes) { { pause_reminders_enabled: true } }
+
+        it_behaves_like "is invalid", :pause_reminders, :blank
+      end
+
+      context "with enabled true but only the first day" do
+        let(:attributes) { { pause_reminders_enabled: true, pause_reminders_first_day: "2021-10-05" } }
+
+        it_behaves_like "is invalid", :pause_reminders, :blank
+      end
+
+      context "with enabled true but only the last day" do
+        let(:attributes) { { pause_reminders_enabled: true, pause_reminders_last_day: "2021-10-05" } }
+
+        it_behaves_like "is invalid", :pause_reminders, :blank
+      end
+
+      context "with enabled true but an unparseable day" do
+        let(:attributes) do
+          { pause_reminders_enabled: true, pause_reminders_first_day: "foo", pause_reminders_last_day: "2021-10-05" }
+        end
+
+        it_behaves_like "is invalid", :pause_reminders, :blank
+      end
+
+      context "with enabled true but the last day before the first day" do
+        let(:attributes) do
+          { pause_reminders_enabled: true, pause_reminders_first_day: "2021-10-10", pause_reminders_last_day: "2021-10-05" }
+        end
+
+        it_behaves_like "is invalid", :pause_reminders, :invalid_range
+      end
+    end
+  end
+
+  describe ".assignable_time_zones" do
+    subject(:time_zones) { described_class.assignable_time_zones }
+
+    it "returns a list of AS::TimeZones" do
+      expect(time_zones)
+        .to(be_all { |tz| tz.is_a?(ActiveSupport::TimeZone) })
+    end
+
+    it "includes only the namesake zone if multiple AS::Timezone map to the same TZInfo" do
+      # In this case 'Edinburgh' and 'Bern' are not included
+      expect(time_zones.select { |tz| %w[Europe/London Europe/Zurich].include? tz.tzinfo.canonical_zone.name })
+        .to contain_exactly(ActiveSupport::TimeZone["London"], ActiveSupport::TimeZone["Zurich"])
+    end
   end
 end

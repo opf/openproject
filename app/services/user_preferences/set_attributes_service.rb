@@ -30,15 +30,7 @@
 module UserPreferences
   class SetAttributesService < ::BaseServices::SetAttributes
     def set_attributes(params)
-      params.each do |k, v|
-        model[k] = v if model.supported_settings_method?(k)
-      end
-    end
-
-    private
-
-    def set_boolean_value(key, value)
-      model[key] = ActiveRecord::Type::Boolean.new.cast(value)
+      model.assign_attributes(params.to_h.stringify_keys.slice(*UserPreference.user_settable_preferences))
     end
   end
 end

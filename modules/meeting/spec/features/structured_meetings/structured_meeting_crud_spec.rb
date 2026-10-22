@@ -42,7 +42,7 @@ RSpec.describe "Meetings CRUD",
            lastname: "First",
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas
                                                     view_work_packages] }).tap do |u|
-      u.pref[:time_zone] = "Etc/UTC"
+      u.pref.time_zone = "Etc/UTC"
 
       u.save!
     end

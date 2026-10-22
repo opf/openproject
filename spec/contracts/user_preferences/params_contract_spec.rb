@@ -48,10 +48,8 @@ RSpec.describe UserPreferences::ParamsContract do
     {
       auto_hide_popups: true,
       comments_sorting: "desc",
-      daily_reminders: {
-        enabled: true,
-        times: %w[08:00:00+00:00 12:00:00+00:00]
-      },
+      daily_reminders_enabled: true,
+      daily_reminders_times: %w[08:00:00+00:00 12:00:00+00:00],
       time_zone: "Brasilia",
       warn_on_leaving_unsaved: true,
       notification_settings:
@@ -176,10 +174,8 @@ RSpec.describe UserPreferences::ParamsContract do
         {
           auto_hide_popups: true,
           comments_sorting: "desc",
-          daily_reminders: {
-            enabled: true,
-            times: %w[08:00:00+00:00 12:00:00+00:00]
-          },
+          daily_reminders_enabled: true,
+          daily_reminders_times: %w[08:00:00+00:00 12:00:00+00:00],
           time_zone: "Brasilia",
           warn_on_leaving_unsaved: true
         }

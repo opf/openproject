@@ -43,23 +43,6 @@ module My
         @update_workdays_url = update_workdays_url
         @update_email_alerts_url = update_email_alerts_url
       end
-
-      def daily_reminders_form_model
-        daily_reminders = @user.pref.daily_reminders
-        My::Reminders::DailyRemindersForm::DailyRemindersFormModel.new(
-          enabled: daily_reminders[:enabled],
-          times: daily_reminders[:times]
-        )
-      end
-
-      def pause_reminders_form_model
-        pause_reminders = @user.pref.pause_reminders
-        My::Reminders::PauseRemindersForm::PauseRemindersFormModel.new(
-          enabled: pause_reminders[:enabled],
-          first_day: pause_reminders[:first_day],
-          last_day: pause_reminders[:last_day]
-        )
-      end
     end
   end
 end

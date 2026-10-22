@@ -63,13 +63,9 @@ RSpec.describe "Reminder email sending",
       :user,
       preferences: {
         time_zone: "Pacific/Honolulu",
-        daily_reminders: {
-          enabled: true,
-          times: [hitting_reminder_slot_for("Pacific/Honolulu", job_run_at)]
-        },
-        immediate_reminders: {
-          mentioned: false
-        }
+        daily_reminders_enabled: true,
+        daily_reminders_times: [hitting_reminder_slot_for("Pacific/Honolulu", job_run_at)],
+        immediate_reminders_mentioned: false
       },
       notification_settings: [
         build(:notification_setting,

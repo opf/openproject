@@ -53,18 +53,50 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe "immediate_reminders" do
-    let(:request_body) do
-      {
-        "immediateReminders" => {
-          "mentioned" => true,
-          "personalReminder" => false
+  describe "immediate reminders" do
+    context "with the flat properties" do
+      let(:request_body) do
+        {
+          "immediateRemindersMentioned" => true,
+          "immediateRemindersPersonalReminder" => false
         }
-      }
+      end
+
+      it "parses both flags" do
+        expect(parsed.immediate_reminders_mentioned).to be(true)
+        expect(parsed.immediate_reminders_personal_reminder).to be(false)
+      end
     end
 
-    it "parses the enabled flag" do
-      expect(parsed.immediate_reminders).to eql({ "mentioned" => true, "personal_reminder" => false })
+    context "with the deprecated immediateReminders object" do
+      let(:request_body) do
+        {
+          "immediateReminders" => {
+            "mentioned" => true,
+            "personalReminder" => false
+          }
+        }
+      end
+
+      it "parses both flags" do
+        expect(parsed.immediate_reminders_mentioned).to be(true)
+        expect(parsed.immediate_reminders_personal_reminder).to be(false)
+      end
+    end
+
+    context "with the deprecated immediateReminders object only containing mentioned" do
+      let(:request_body) do
+        {
+          "immediateReminders" => {
+            "mentioned" => false
+          }
+        }
+      end
+
+      it "leaves the personal reminder untouched" do
+        expect(parsed.immediate_reminders_mentioned).to be(false)
+        expect(parsed.to_h).not_to have_key("immediate_reminders_personal_reminder")
+      end
     end
   end
 
@@ -112,75 +144,103 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe "daily_reminders" do
-    let(:request_body) do
-      {
-        "dailyReminders" => {
-          "enabled" => true,
-          "times" => %w[07:00 15:00 18:00:00+00:00]
+  describe "daily reminders" do
+    context "with the flat properties" do
+      let(:request_body) do
+        {
+          "dailyRemindersEnabled" => true,
+          "dailyRemindersTimes" => %w[07:00 15:00 18:00:00+00:00]
         }
-      }
+      end
+
+      it "parses the times into full iso8601 time format" do
+        expect(parsed.daily_reminders_enabled).to be(true)
+        expect(parsed.daily_reminders_times).to eql(%w[07:00:00+00:00 15:00:00+00:00 18:00:00+00:00])
+      end
     end
 
-    it "parses the times into full iso8601 time format" do
-      expect(parsed.daily_reminders)
-        .to eql({
-                  "enabled" => true,
-                  "times" => %w[07:00:00+00:00 15:00:00+00:00 18:00:00+00:00]
-                })
+    context "with the deprecated dailyReminders object" do
+      let(:request_body) do
+        {
+          "dailyReminders" => {
+            "enabled" => true,
+            "times" => %w[07:00 15:00 18:00:00+00:00]
+          }
+        }
+      end
+
+      it "parses the times into full iso8601 time format" do
+        expect(parsed.daily_reminders_enabled).to be(true)
+        expect(parsed.daily_reminders_times).to eql(%w[07:00:00+00:00 15:00:00+00:00 18:00:00+00:00])
+      end
     end
   end
 
-  describe "pause_reminders" do
-    let(:request_body) do
-      {
-        "pauseReminders" => {
-          "enabled" => true,
-          "firstDay" => first_day,
-          "lastDay" => last_day
+  describe "pause reminders" do
+    context "with the flat properties" do
+      let(:request_body) do
+        {
+          "pauseRemindersEnabled" => true,
+          "pauseRemindersFirstDay" => "2021-10-10",
+          "pauseRemindersLastDay" => "2021-10-20"
         }
-      }
-    end
+      end
 
-    context "with all set" do
-      let(:first_day) { "2021-10-10" }
-      let(:last_day) { "2021-10-20" }
-
-      it "sets both dates" do
-        expect(parsed.pause_reminders)
-          .to eql({
-                    "enabled" => true,
-                    "first_day" => first_day,
-                    "last_day" => last_day
-                  })
+      it "parses the flag and both dates" do
+        expect(parsed.pause_reminders_enabled).to be(true)
+        expect(parsed.pause_reminders_first_day).to eql(Date.new(2021, 10, 10))
+        expect(parsed.pause_reminders_last_day).to eql(Date.new(2021, 10, 20))
       end
     end
 
-    context "with first only set" do
-      let(:first_day) { "2021-10-10" }
-      let(:last_day) { nil }
+    context "with an invalid flat date" do
+      let(:request_body) { { "pauseRemindersFirstDay" => "not a date" } }
 
-      it "uses the first day for the last day" do
-        expect(parsed.pause_reminders)
-          .to eql({
-                    "enabled" => true,
-                    "first_day" => first_day,
-                    "last_day" => first_day
-                  })
+      it "raises a property format error" do
+        expect { parsed }.to raise_error(API::Errors::PropertyFormatError)
       end
     end
 
-    context "with last only set" do
-      let(:first_day) { nil }
-      let(:last_day) { "2021-10-10" }
+    context "with the deprecated pauseReminders object" do
+      let(:request_body) do
+        {
+          "pauseReminders" => {
+            "enabled" => true,
+            "firstDay" => first_day,
+            "lastDay" => last_day
+          }
+        }
+      end
 
-      it "uses the first day for the last day" do
-        expect(parsed.pause_reminders)
-          .to eql({
-                    "enabled" => true,
-                    "first_day" => nil,
-                    "last_day" => last_day
-                  })
+      context "with all set" do
+        let(:first_day) { "2021-10-10" }
+        let(:last_day) { "2021-10-20" }
+
+        it "sets both dates" do
+          expect(parsed.pause_reminders_enabled).to be(true)
+          expect(parsed.pause_reminders_first_day).to eql(first_day)
+          expect(parsed.pause_reminders_last_day).to eql(last_day)
+        end
+      end
+
+      context "with first only set" do
+        let(:first_day) { "2021-10-10" }
+        let(:last_day) { nil }
+
+        it "uses the first day for the last day" do
+          expect(parsed.pause_reminders_first_day).to eql(first_day)
+          expect(parsed.pause_reminders_last_day).to eql(first_day)
+        end
+      end
+
+      context "with last only set" do
+        let(:first_day) { nil }
+        let(:last_day) { "2021-10-10" }
+
+        it "keeps the first day empty" do
+          expect(parsed.pause_reminders_first_day).to be_nil
+          expect(parsed.pause_reminders_last_day).to eql(last_day)
+        end
       end
     end
   end

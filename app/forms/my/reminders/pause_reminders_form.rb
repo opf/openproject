@@ -28,12 +28,10 @@
 #++
 
 class My::Reminders::PauseRemindersForm < ApplicationForm
-  PauseRemindersFormModel = Data.define(:enabled, :first_day, :last_day)
-
   form do |f|
     f.fieldset_group(title: helpers.t("my_account.email_reminders.pause_reminders.title"), mt: 3) do |fg|
       fg.check_box(
-        name: :enabled,
+        name: :pause_reminders_enabled,
         id: "pause-reminders-enabled",
         label: helpers.t("my_account.email_reminders.pause_reminders.enabled"),
         data: {
@@ -42,7 +40,7 @@ class My::Reminders::PauseRemindersForm < ApplicationForm
         }
       ) do |cb|
         cb.nested_form(
-          classes: [{ "d-none" => !model.enabled }],
+          classes: [{ "d-none" => !model.pause_reminders_enabled }],
           data: {
             target_name: "pause-enabled",
             show_when_checked_target: "effect",
@@ -60,11 +58,11 @@ class My::Reminders::PauseRemindersForm < ApplicationForm
   class DateRangeForm < ApplicationForm
     form do |f|
       f.range_date_picker(
-        name: :date_range,
+        name: :pause_reminders_date_range,
         visually_hide_label: true,
         input_width: :small,
         label: helpers.t("my_account.email_reminders.pause_reminders.date_range"),
-        value: [model.first_day, model.last_day].compact_blank.join(" - ")
+        value: [model.pause_reminders_first_day, model.pause_reminders_last_day].compact.map(&:iso8601).join(" - ")
       )
     end
   end

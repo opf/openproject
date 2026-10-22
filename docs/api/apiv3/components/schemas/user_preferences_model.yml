@@ -1,6 +1,76 @@
 # Schema: UserPreferencesModel
 ---
 type: object
+properties:
+  dailyRemindersEnabled:
+    type: boolean
+    description: Whether the user receives daily email reminders.
+  dailyRemindersTimes:
+    type: array
+    items:
+      type: string
+      format: time
+    description: |-
+      The full hours (in the user's time zone) at which daily email reminders are sent.
+      Accepts `HH:MM` and `HH:MM:SS+00:00`; rendered as `HH:MM`.
+  immediateRemindersMentioned:
+    type: boolean
+    description: Whether the user receives an email immediately when mentioned.
+  immediateRemindersPersonalReminder:
+    type: boolean
+    description: Whether the user receives an email immediately for personal reminders.
+  pauseRemindersEnabled:
+    type: boolean
+    description: Whether email reminders are paused between `pauseRemindersFirstDay` and `pauseRemindersLastDay`.
+  pauseRemindersFirstDay:
+    type:
+      - 'string'
+      - 'null'
+    format: date
+    description: The first day email reminders are paused.
+  pauseRemindersLastDay:
+    type:
+      - 'string'
+      - 'null'
+    format: date
+    description: The last day email reminders are paused.
+  dailyReminders:
+    type: object
+    deprecated: true
+    description: |-
+      **Deprecated:** Use `dailyRemindersEnabled` and `dailyRemindersTimes` instead.
+    properties:
+      enabled:
+        type: boolean
+      times:
+        type: array
+        items:
+          type: string
+          format: time
+  immediateReminders:
+    type: object
+    deprecated: true
+    description: |-
+      **Deprecated:** Use `immediateRemindersMentioned` and `immediateRemindersPersonalReminder` instead.
+    properties:
+      mentioned:
+        type: boolean
+      personalReminder:
+        type: boolean
+  pauseReminders:
+    type: object
+    deprecated: true
+    description: |-
+      **Deprecated:** Use `pauseRemindersEnabled`, `pauseRemindersFirstDay` and `pauseRemindersLastDay` instead.
+    properties:
+      enabled:
+        type: boolean
+      firstDay:
+        type: string
+        format: date
+      lastDay:
+        type: string
+        format: date
 example:
   _links:
     self:
@@ -18,6 +88,14 @@ example:
   dateFormat: "%Y-%m-%d"
   timeFormat: "%H:%M"
   warnOnLeavingUnsaved: true
+  dailyRemindersEnabled: true
+  dailyRemindersTimes:
+    - "08:00"
+  immediateRemindersMentioned: true
+  immediateRemindersPersonalReminder: true
+  pauseRemindersEnabled: false
+  pauseRemindersFirstDay: null
+  pauseRemindersLastDay: null
   notifications:
     - watched: false
       involved: true

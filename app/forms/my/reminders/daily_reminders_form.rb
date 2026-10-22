@@ -28,14 +28,12 @@
 #++
 
 class My::Reminders::DailyRemindersForm < ApplicationForm
-  DailyRemindersFormModel = Data.define(:enabled, :times)
-
   form do |f|
     f.fieldset_group(title: helpers.t("my_account.email_reminders.daily_reminders.title"),
                      description: helpers.t("my_account.email_reminders.daily_reminders.description"),
                      mt: 3) do |fg|
       fg.check_box(
-        name: :enabled,
+        name: :daily_reminders_enabled,
         label: helpers.t("my_account.email_reminders.daily_reminders.enabled"),
         data: {
           target_name: "daily-enabled",
@@ -43,7 +41,7 @@ class My::Reminders::DailyRemindersForm < ApplicationForm
         }
       ) do |cb|
         cb.nested_form(
-          classes: [{ "d-none" => !model.enabled }],
+          classes: [{ "d-none" => !model.daily_reminders_enabled }],
           data: {
             target_name: "daily-enabled",
             show_when_checked_target: "effect",
@@ -51,7 +49,7 @@ class My::Reminders::DailyRemindersForm < ApplicationForm
           }
         ) do |times_builder|
           My::Reminders::DailyTimesComponent.new(
-            times: model.times || [],
+            times: model.daily_reminders_times,
             scope: times_builder.object_name
           )
         end

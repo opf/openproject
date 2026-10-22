@@ -35,12 +35,12 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
 
   let(:preference) do
     build_stubbed(:user_preference,
-                  settings: {
-                    "daily_reminders" => {
-                      "enabled" => true,
-                      "times" => %w[07:00:00+00:00 15:00:00+00:00]
-                    }
-                  })
+                  daily_reminders_enabled: true,
+                  daily_reminders_times: %w[07:00:00+00:00 15:00:00+00:00],
+                  immediate_reminders_mentioned: false,
+                  pause_reminders_enabled: true,
+                  pause_reminders_first_day: "2021-10-10",
+                  pause_reminders_last_day: "2021-10-20")
   end
   let(:notification_setting) { build(:notification_setting, start_date: 3, due_date: 3, overdue: 3) }
   let(:user) { build_stubbed(:user, preference:) }
@@ -142,12 +142,77 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
       end
     end
 
-    describe "dailyReminders" do
+    describe "dailyRemindersEnabled" do
+      it_behaves_like "property", :dailyRemindersEnabled do
+        let(:value) { true }
+      end
+    end
+
+    describe "dailyRemindersTimes" do
+      it_behaves_like "property", :dailyRemindersTimes do
+        let(:value) { %w[07:00 15:00] }
+      end
+    end
+
+    describe "immediateRemindersMentioned" do
+      it_behaves_like "property", :immediateRemindersMentioned do
+        let(:value) { false }
+      end
+    end
+
+    describe "immediateRemindersPersonalReminder" do
+      it_behaves_like "property", :immediateRemindersPersonalReminder do
+        let(:value) { true }
+      end
+    end
+
+    describe "pauseRemindersEnabled" do
+      it_behaves_like "property", :pauseRemindersEnabled do
+        let(:value) { true }
+      end
+    end
+
+    describe "pauseRemindersFirstDay" do
+      it_behaves_like "property", :pauseRemindersFirstDay do
+        let(:value) { "2021-10-10" }
+      end
+    end
+
+    describe "pauseRemindersLastDay" do
+      it_behaves_like "property", :pauseRemindersLastDay do
+        let(:value) { "2021-10-20" }
+      end
+    end
+
+    describe "dailyReminders (deprecated)" do
       it_behaves_like "property", :dailyReminders do
         let(:value) do
           {
             "enabled" => true,
             "times" => %w[07:00 15:00]
+          }
+        end
+      end
+    end
+
+    describe "immediateReminders (deprecated)" do
+      it_behaves_like "property", :immediateReminders do
+        let(:value) do
+          {
+            "mentioned" => false,
+            "personalReminder" => true
+          }
+        end
+      end
+    end
+
+    describe "pauseReminders (deprecated)" do
+      it_behaves_like "property", :pauseReminders do
+        let(:value) do
+          {
+            "enabled" => true,
+            "firstDay" => "2021-10-10",
+            "lastDay" => "2021-10-20"
           }
         end
       end

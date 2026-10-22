@@ -60,7 +60,7 @@ module Admin
       end
 
       def time_zone_entries
-        UserPreferences::UpdateContract
+        UserPreference
           .assignable_time_zones
           .group_by { |tz| tz.tzinfo.canonical_zone }
           .map { |canonical_zone, included_zones| time_zone_option(canonical_zone, included_zones) }

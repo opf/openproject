@@ -31,12 +31,12 @@ class My::Reminders::ImmediateRemindersForm < ApplicationForm
   form do |f|
     f.fieldset_group(title: helpers.t("my_account.email_reminders.immediate_reminders.title"), mt: 2) do |fg|
       fg.check_box(
-        name: :mentioned,
+        name: :immediate_reminders_mentioned,
         label: helpers.t("my_account.email_reminders.immediate_reminders.mentioned"),
         data: { test_selector: "immediate-reminder-mentioned" }
       )
       fg.check_box(
-        name: :personal_reminder,
+        name: :immediate_reminders_personal_reminder,
         label: helpers.t("my_account.email_reminders.immediate_reminders.personal_reminder"),
         data: { test_selector: "immediate-reminder-personal_reminder" }
       )

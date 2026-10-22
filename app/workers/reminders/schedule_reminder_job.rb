@@ -72,7 +72,7 @@ module Reminders
 
     def dispatch_immediate_email_notification(notification)
       recipient = notification.recipient
-      return unless recipient.pref.immediate_reminders[:personal_reminder]
+      return unless recipient.pref.immediate_reminders_personal_reminder
 
       Mails::Reminders::NotificationDeliveryJob.perform_later(notification)
     end

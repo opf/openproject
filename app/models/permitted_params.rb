@@ -269,10 +269,13 @@ class PermittedParams
                                    :require_double_click_for_inline_edit,
                                    :warn_on_leaving_unsaved,
                                    :auto_hide_popups,
-                                   immediate_reminders: %i[mentioned personal_reminder],
-                                   daily_reminders: [:enabled, { times: [] }],
-                                   workdays: [],
-                                   pause_reminders: %i[enabled date_range])
+                                   :immediate_reminders_mentioned,
+                                   :immediate_reminders_personal_reminder,
+                                   :daily_reminders_enabled,
+                                   :pause_reminders_enabled,
+                                   :pause_reminders_date_range,
+                                   daily_reminders_times: [],
+                                   workdays: [])
   end
 
   def notification_setting_email_alerts

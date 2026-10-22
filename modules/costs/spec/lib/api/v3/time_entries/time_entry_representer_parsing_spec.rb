@@ -191,7 +191,7 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
         end
 
         it "sets start_time" do
-          user.pref[:time_zone] = "Asia/Tokyo"
+          user.pref.time_zone = "Asia/Tokyo"
 
           time_entry = representer.from_hash(hash)
 
