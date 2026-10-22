@@ -168,17 +168,23 @@ To build the library and generate types and source maps. This will update the `d
 npm run build
 ```
 
-To develop with OpenProject locally
+### Developing with OpenProject locally
+
+By default the OpenProject frontend uses the version from npm. To use this
+folder instead, set `OP_BLOCKNOTE_EXTENSIONS_LOCAL=true` when starting the
+frontend, for example:
 
 ```sh
-npm run build
-npm pack
-cp openproject-op-blocknote-extensions-*.tgz ../../frontend
-cd ../../frontend
-npm i -S op-blocknote-extensions@file:openproject-op-blocknote-extensions-<VERSION>.tgz
+OP_BLOCKNOTE_EXTENSIONS_LOCAL=true bin/dev
 ```
 
-This should make sure that the package is available for OpenProject even if running on a container.
+With Docker, set `OP_BLOCKNOTE_EXTENSIONS_LOCAL=true` in `.env` and restart the
+`frontend` container.
+
+While enabled, `frontend/node_modules/@openproject/op-blocknote-extensions`
+links to this folder's `package.json` and `dist`, and changes here rebuild on
+save. When you unset the variable, the next frontend start runs `npm install` in
+`frontend/` to put the npm version back.
 
 ### Releases
 
