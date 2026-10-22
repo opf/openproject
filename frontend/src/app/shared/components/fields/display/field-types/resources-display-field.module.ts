@@ -54,7 +54,7 @@ export class ResourcesDisplayField extends DisplayField {
     return this.stringValue.join(', ');
   }
 
-  public render(element:HTMLElement, displayText:string):void {
+  public render(element:HTMLElement, _displayText:string):void {
     const values = this.stringValue;
     element.innerHTML = '';
     element.setAttribute('title', values.join(', '));

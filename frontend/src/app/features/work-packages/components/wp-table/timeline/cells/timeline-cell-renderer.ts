@@ -390,7 +390,7 @@ export class TimelineCellRenderer {
     return renderInfo.viewParams.pixelPerDay / 8;
   }
 
-  getPaddingRightForOutgoingRelationLines(renderInfo:RenderInfo):number {
+  getPaddingRightForOutgoingRelationLines(_renderInfo:RenderInfo):number {
     return 0;
   }
 
@@ -398,7 +398,7 @@ export class TimelineCellRenderer {
    * Render the generic cell element, a bar spanning from
    * start to finish date.
    */
-  public render(renderInfo:RenderInfo):HTMLDivElement {
+  public render(_renderInfo:RenderInfo):HTMLDivElement {
     const container = document.createElement('div');
     const bar = document.createElement('div');
     const left = document.createElement('div');

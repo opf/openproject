@@ -285,7 +285,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   // Subclasses shall be able to override the filters with which the
   // allowed values are reduced in the backend.
-  protected allowedValuesFilter(query?:string) {
+  protected allowedValuesFilter(_query?:string) {
     return {};
   }
 

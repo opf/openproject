@@ -66,7 +66,7 @@ export class WpTableConfigurationFiltersTabComponent implements TabComponent, On
       .onReady()
       .then(() => this.filters = this.wpTableFilters.current);
 
-    this.wpTableFilters.changes$().subscribe((filters) => {
+    this.wpTableFilters.changes$().subscribe(() => {
       this.filters = this.wpTableFilters.current;
     });
   }
