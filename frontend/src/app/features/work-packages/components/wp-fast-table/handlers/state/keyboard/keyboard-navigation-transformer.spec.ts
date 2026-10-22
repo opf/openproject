@@ -377,4 +377,86 @@ describe('KeyboardNavigationTransformer', () => {
     expect(second.row('1')).toHaveAttribute('tabindex', '0');
     expect(second.row('2')).toHaveAttribute('tabindex', '-1');
   });
+
+  describe('pointer bookkeeping', () => {
+    const cellIndex = (row:HTMLTableRowElement, selector:string) => navigableCells(row).indexOf(row.querySelector<HTMLTableCellElement>(selector)!);
+
+    it('mousedown on a cell records that row and cell without moving DOM focus', async () => {
+      const table = await mount();
+      const subject = table.row('2').querySelector<HTMLTableCellElement>('td.subject')!;
+
+      fireEvent.mouseDown(subject, { button: 0 });
+
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+      expect(document.body).toHaveFocus();
+      expect(cell(table.row('2'), 1)).toHaveAttribute('tabindex', '0');
+      expect(table.row('1')).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('mousedown on the row outside navigable cells records row focus', async () => {
+      const table = await mount();
+
+      fireEvent.mouseDown(table.row('3'), { button: 0 });
+
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+      expect(document.body).toHaveFocus();
+      expect(table.row('3')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('mousedown on the ID link, hierarchy toggle, relation indicator and group header records the position', async () => {
+      const table = await mount({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+        showHierarchies: true,
+        columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+        relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      });
+      const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
+      const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
+      const link = idCell.querySelector('a') ?? idCell;
+      const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
+      const relation = table.row('1').querySelector<HTMLElement>('td.relationsOfTypeFollows *')!;
+
+      expect(fireEvent.mouseDown(link, { button: 0 })).toBe(true);
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: cellIndex(table.row('1'), 'td.id'), desiredColumn: cellIndex(table.row('1'), 'td.id') });
+
+      navigation(table).recordPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+      const collapsedBefore = hierarchies.collapsed('1');
+      fireEvent.mouseDown(toggle, { button: 0 });
+      expect(navigation(table).position?.key).toBe(wpOccurrenceKey('1'));
+      fireEvent.click(toggle);
+      expect(hierarchies.collapsed('1')).toBe(!collapsedBefore);
+
+      navigation(table).recordPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+      fireEvent.mouseDown(relation, { button: 0 });
+      expect(navigation(table).position).toEqual({
+        key: wpOccurrenceKey('1'),
+        cell: cellIndex(table.row('1'), 'td.relationsOfTypeFollows'),
+        desiredColumn: cellIndex(table.row('1'), 'td.relationsOfTypeFollows'),
+      });
+    });
+
+    it('mousedown on a group header records the group position', async () => {
+      const table = await mount(grouped);
+      const header = table.groupHeader(1);
+
+      fireEvent.mouseDown(header.querySelector('td, th') ?? header, { button: 0 });
+
+      expect(navigation(table).position).toMatchObject({
+        key: table.table.ledger.byElement(header)!.key,
+        groupIdentifier: header.dataset.groupIdentifier,
+      });
+    });
+
+    it('mousedown on the timeline side or the inline-create row changes nothing', async () => {
+      const table = await mount({ timelineVisible: true });
+      const before = { key: wpOccurrenceKey('1'), cell: 0, desiredColumn: 0 };
+      navigation(table).recordPosition(before);
+      const inlineCreate = table.addInlineCreateRow();
+
+      fireEvent.mouseDown(table.timelineRow('2'), { button: 0 });
+      fireEvent.mouseDown(inlineCreate.querySelector('td') ?? inlineCreate, { button: 0 });
+
+      expect(navigation(table).position).toEqual(before);
+    });
+  });
 });

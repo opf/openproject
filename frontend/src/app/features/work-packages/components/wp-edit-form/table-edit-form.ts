@@ -51,6 +51,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -67,6 +68,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   @LazyInject() public editingPortalService:EditingPortalService;
 
   @LazyInject() wpListService:WorkPackagesListService;
+
+  /** The keyboard focus position the first active field was opened from. */
+  public origin:FocusPosition|null = null;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector, this.table.configuration);
@@ -110,6 +114,10 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   }
 
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
+    if (!this.hasActiveFields()) {
+      this.origin = this.table.keyboardNavigation?.position ?? null;
+    }
+
     return this.waitForContainer(fieldName)
       .then((cell) => {
         this.assertActivationActive();
@@ -157,6 +165,10 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       if (focus) {
         this.FocusHelper.focus(cell);
       }
+    }
+
+    if (!this.hasActiveFields()) {
+      this.origin = null;
     }
   }
 
