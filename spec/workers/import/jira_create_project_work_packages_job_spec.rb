@@ -180,7 +180,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob, :webmock,
           allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_call_original
           expect { create_work_packages }.to change(IssuePriority, :count).by(1)
           expect(OpenProject::Mutex).to have_received(:with_advisory_lock)
-            .with(IssuePriority, "jira_import_create_priority_highest", transaction: true)
+            .with(IssuePriority, "jira_import_create_issue_priority_highest", transaction: true)
             .once
         end
 

@@ -152,7 +152,8 @@ module Import
 
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
-      type, uses_existing = find_or_create_type(issue_type)
+      name = issue_type["name"]
+      type, uses_existing = find_or_create_resource(Type, name) { create_new_type(name) }
 
       enable_type(project, type)
       jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
@@ -160,27 +161,13 @@ module Import
       type
     end
 
-    def find_or_create_type(issue_type)
-      name = issue_type["name"]
-      type = find_type(name)
-      return [type, true] if type
+    def create_new_type(name)
+      service_call = WorkPackageTypes::CreateService
+                       .new(user: @system_user)
+                       .call(name:)
+      raise service_call.message unless service_call.success?
 
-      lock_key = "jira_import_create_type_#{name.parameterize(separator: '_')}"
-      OpenProject::Mutex.with_advisory_lock(Type, lock_key, transaction: true) do
-        type = find_type(name)
-        return [type, true] if type
-
-        service_call = WorkPackageTypes::CreateService
-                         .new(user: @system_user)
-                         .call(name:)
-        raise service_call.message unless service_call.success?
-
-        [service_call.result, false]
-      end
-    end
-
-    def find_type(name)
-      Type.find_by("LOWER(name) = LOWER(?)", name)
+      service_call.result
     end
 
     def enable_type(project, type)
@@ -193,36 +180,49 @@ module Import
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
       resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
-      status, uses_existing = find_or_create_status(issue_status, resolution)
+      name = status_name(issue_status, resolution)
+      status, uses_existing = find_or_create_resource(Status, name) do
+        is_closed = issue_status.dig("statusCategory", "key") == "done"
+        Status.create!(name:, is_closed: is_closed)
+      end
 
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
       status
     end
 
-    def find_or_create_status(issue_status, resolution)
-      status_name = status_name(issue_status, resolution)
-      status = find_status(status_name)
-      return [status, true] if status
-
-      status_lock_key = "jira_import_create_status_#{status_name.parameterize(separator: '_')}"
-      OpenProject::Mutex.with_advisory_lock(Status, status_lock_key, transaction: true) do
-        status = find_status(status_name)
-        return [status, true] if status
-
-        is_closed = issue_status.dig("statusCategory", "key") == "done"
-        [Status.create!(name: status_name, is_closed: is_closed), false]
-      end
-    end
-
-    def find_status(status_name)
-      Status.find_by("LOWER(name) = LOWER(?)", status_name)
-    end
-
     def status_name(issue_status, resolution)
       return issue_status["name"] if resolution.blank?
 
       "#{issue_status['name']} - #{resolution['name']}"
+    end
+
+    def create_priority(jira_issue)
+      issue_priority = jira_issue.payload["fields"]["priority"]
+      if issue_priority.present?
+        name = issue_priority["name"]
+        priority, uses_existing = find_or_create_resource(IssuePriority, name) { IssuePriority.create!(name:) }
+        jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
+        create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
+        priority
+      end
+    end
+
+    def find_or_create_resource(klass, name)
+      resource = find_resource(klass, name)
+      return [resource, true] if resource
+
+      lock_key = "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
+      OpenProject::Mutex.with_advisory_lock(klass, lock_key, transaction: true) do
+        resource = find_resource(klass, name)
+        next [resource, true] if resource
+
+        [yield, false]
+      end
+    end
+
+    def find_resource(klass, name)
+      klass.find_by("LOWER(name) = LOWER(?)", name)
     end
 
     def setup_resolution_date_cf(jira_project)
@@ -249,34 +249,6 @@ module Import
       return {} if raw.blank?
 
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
-    end
-
-    def create_priority(jira_issue)
-      issue_priority = jira_issue.payload["fields"]["priority"]
-      if issue_priority.present?
-        priority, uses_existing = find_or_create_priority(issue_priority)
-        jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
-        create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
-        priority
-      end
-    end
-
-    def find_or_create_priority(issue_priority)
-      name = issue_priority["name"]
-      priority = find_priority(name)
-      return [priority, true] if priority
-
-      lock_key = "jira_import_create_priority_#{name.parameterize(separator: '_')}"
-      OpenProject::Mutex.with_advisory_lock(IssuePriority, lock_key, transaction: true) do
-        priority = find_priority(name)
-        return [priority, true] if priority
-
-        [IssuePriority.create!(name:), false]
-      end
-    end
-
-    def find_priority(name)
-      IssuePriority.find_by("LOWER(name) = LOWER(?)", name)
     end
 
     def update_workflows(type)
