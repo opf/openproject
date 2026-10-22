@@ -304,7 +304,7 @@ en:
       embedding: "Embedding"
     pgvector:
       admin_check: "Database extension pgvector enabled (optional)"
-      unavailable_html: "Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)"
+      unavailable: "Semantic search is unavailable because the pgvector extension is not set up in the database. Install pgvector for PostgreSQL and run the database migrations again. [Learn more](docs_url)"
     verdict_states:
       supported: "supported"
       unknown: "not verified"
