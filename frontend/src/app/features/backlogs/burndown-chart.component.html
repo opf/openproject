@@ -1,9 +1,16 @@
 @if (hasChartData()) {
   <div class="position-relative mx-auto op-burndown-chart--canvas">
-    <canvas baseChart
+    <canvas
+      baseChart
+      role="img"
       [data]="lineChartData()"
       [options]="lineChartOptions()"
-      [type]="'line'"></canvas>
+      [type]="'line'"
+      [attr.aria-label]="chartLabel"
+      [attr.aria-describedby]="chartDescriptionId"
+    >
+      <span [id]="chartDescriptionId">{{ chartDescription() }}</span>
+    </canvas>
   </div>
 } @else {
   <op-no-results />

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -138,6 +138,10 @@ pt-PT:
       show:
         blankslate_description: Defina a data de início e de fim do sprint para gerar um gráfico de burndown.
         blankslate_title: Não há dados de burndown disponíveis
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Escolha os tipos de pacotes de trabalho que pretende ocultar do backlog. Os elementos dos tipos selecionados não aparecerão automaticamente no backlog, mantendo o seu foco no trabalho que é importante para a sua equipa. Por exemplo, tipos como Épicos ou Marcos, que são geridos a um nível superior, podem ser ocultados para manter o backlog focado em elementos passíveis de ação.
 
@@ -186,6 +190,7 @@ pt-PT:
     remaining_hours: Trabalho restante
     sharing: Partilha de sprint
     show_burndown_chart: Gráfico de burndown
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Pacotes de trabalho dentro do sprint
     sprint_component:
       action_menu:
@@ -209,6 +214,9 @@ pt-PT:
       shared_sprint_info_banner: É um sprint partilhado. As alterações serão refletidas em todos os projetos que o utilizam.
       shared_sprint_warning_banner: É um sprint partilhado. Não dispõe das permissões necessárias para o editar.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Relatório
         title: "%{sprint} relatório"
@@ -295,6 +303,9 @@ pt-PT:
   burndown:
     story_points: Pontos de história
     story_points_ideal: Pontos de história (ideal)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Vários sprints ativos

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -138,6 +138,10 @@ hy:
       show:
         blankslate_description: Այրման գծապատկեր ստեղծելու համար սահմանեք սպրինտի սկզբի և ավարտի ամսաթիվը։
         blankslate_title: Այրման տվյալներ առկա չեն
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Ընտրեք, թե աշխատանքային փաթեթների որ տեսակները թաքցնել բեքլոգից։ Ընտրված տեսակների տարրերն ավտոմատ կերպով չեն հայտնվի բեքլոգում, ինչը թույլ կտա այն կենտրոնացած պահել Ձեր թիմի համար կարևոր աշխատանքի վրա։ Օրինակ՝ ավելի բարձր մակարդակում կառավարվող տեսակները, ինչպիսիք են Epic-ները կամ Հանգրվանները, կարող են թաքցվել, որպեսզի բեքլոգը կենտրոնացած մնա գործողության ենթակա տարրերի վրա։
 
@@ -186,6 +190,7 @@ hy:
     remaining_hours: Մնացած աշխատանք
     sharing: Սպրինտների համօգտագործում
     show_burndown_chart: Այրման գծապատկեր
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
@@ -209,6 +214,9 @@ hy:
       shared_sprint_info_banner: Սա համօգտագործվող սպրինտ է։ Փոփոխությունները կարտացոլվեն այն օգտագործող բոլոր նախագծերում։
       shared_sprint_warning_banner: Սա համօգտագործվող սպրինտ է։ Դուք չունեք այն խմբագրելու համար անհրաժեշտ թույլտվություններ։
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Հաշվետվություն
         title: "%{sprint}-ի հաշվետվություն"
@@ -295,6 +303,9 @@ hy:
   burndown:
     story_points: Պատմության միավորներ
     story_points_ideal: Պատմության միավորներ (իդեալական)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints

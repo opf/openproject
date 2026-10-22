@@ -93,7 +93,7 @@ module Projects::LifeCycle
     end
 
     def autofocus?(field_name)
-      # let javascipt handle focusing when rendering for preview
+      # let JavaScript handle focusing when rendering for preview
       return false if model.changed?
 
       field_name == autofocus_field_name

@@ -679,7 +679,7 @@ ro:
       error_no_next: Nu există un eveniment următor pentru această reuniune.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Prima apariție a acestei serii de întâlniri este deja instantiă.
-      first_created: 'Prima întâlnire a fost creată cu succes din șablon, toate întâlnirile viitoare vor fi create automat în momentul apariției anterioare.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Această întâlnire face parte dintr-o serie de întâlniri recurente.

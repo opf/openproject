@@ -67,7 +67,7 @@ end
 RSpec.shared_examples "a Border Box Table sortable list" do |row_count:|
   it "keeps #{row_count} rows in the table's rowgroup rather than a list", :aggregate_failures do
     expect(rendered_component)
-      .to have_css("[data-controller~='sortable-lists--list'] > .op-border-box-table--rows[role='rowgroup'] > .Box-row",
+      .to have_css("[data-controller~='sortable-lists--list'] > .op-border-box-table__rows[role='rowgroup'] > .Box-row",
                    count: row_count)
     expect(rendered_component).to have_no_css("[data-controller~='sortable-lists--list'] > ul")
   end

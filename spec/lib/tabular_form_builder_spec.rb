@@ -649,7 +649,7 @@ JJ Abrams</textarea>
       end
 
       context "without ActiveModel and specified label" do
-        # This is a hypotethical resource that does not have an existing translation
+        # This is a hypothetical resource that does not have an existing translation
         # key, therefore stubbing the translation is allowed.
         before do
           allow(I18n).to receive(:t).with(:name, scope: "user").and_return("Name")

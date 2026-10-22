@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -146,6 +146,10 @@ ru:
       show:
         blankslate_description: Установите дату начала и окончания спринта для создания диаграммы выгорания.
         blankslate_title: Нет данных о выгорании
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Выберите типы пакетов работ для скрытия из бэклога. Пакеты работ выбранных типов не будут отображаться в бэклоге автоматически, оставляя при этом основное внимание на работе, имеющей отношение к вашей команде. Например, такие типы, как "Эпик" или "Веха", которым управляется на более высоком уровне, могут быть скрыты, чтобы оставить бэклог сфокусирован на актуальных задачах.
 
@@ -198,6 +202,7 @@ ru:
     remaining_hours: Оставшиеся часы
     sharing: Совместное использование спринта
     show_burndown_chart: Диаграмма выгорания
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Пакеты работ в рамках спринта
     sprint_component:
       action_menu:
@@ -221,6 +226,9 @@ ru:
       shared_sprint_info_banner: Это общий спринт. Изменения будут отражены во всех проектах, использующих его.
       shared_sprint_warning_banner: Это общий спринт. У вас нет необходимых прав для его редактирования.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Отчет
         title: Отчёт %{sprint}
@@ -311,6 +319,9 @@ ru:
   burndown:
     story_points: Стори-поинты
     story_points_ideal: Стори-поинты (идеально)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Несколько активных спринтов

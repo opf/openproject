@@ -76,6 +76,12 @@ main_column :title
 ```
 Note: Ideally, only one main column will be present for each table.
 
+### Action column
+
+When `has_actions?` is true, the action column is not part of the evenly distributed columns. It is as wide as the
+widest action cell in any row, so a single icon button, an action menu or a button with text all fit without
+further configuration. The header and all rows share the same column tracks through CSS subgrid.
+
 ### Footer
 
 Set `has_footer?` to true to add a footer to the table, defining the component/content to be rendered with the `footer` method.

@@ -695,7 +695,7 @@ pl:
       error_no_next: Nie ma następnego wystąpienia tego spotkania.
       error_template_draft: Szablon serii spotkań jest nadal w trybie wersji roboczej.
       first_already_exists: Pierwsze wystąpienie tej serii spotkań jest już tworzone.
-      first_created: 'Pierwsze spotkanie zostało utworzone z szablonu. Wszystkie przyszłe spotkania zostaną utworzone automatycznie o godzinie poprzedniego wystąpienia.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Spotkanie to jest częścią serii spotkań cyklicznych.

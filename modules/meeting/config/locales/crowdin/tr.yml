@@ -659,7 +659,7 @@ tr:
       error_no_next: Bu seri için bir toplantı yoktur.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Bu toplantı serisinin ilk toplantısı zaten oluşturulmuş.
-      first_created: 'Şablondan ilk toplantı oluşturuldu. Gelecek toplantılar önceki gerçekleşenin saatinde oluşturulacak.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Bu toplantı, yinelenen bir toplantı serisinin parçasıdır.

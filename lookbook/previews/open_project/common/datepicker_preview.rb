@@ -66,7 +66,7 @@ module OpenProject
       ##
       # **Range date picker**
       # ---------------------
-      # Range datepicker allow inputing a range (2023-02-09 - 2023-02-14),
+      # Range datepicker allow inputting a range (2023-02-09 - 2023-02-14),
       # and shows the date picker with two months.
       #
       # All date picker are built on the [Flatpickr javascript library](https://flatpickr.js.org/).

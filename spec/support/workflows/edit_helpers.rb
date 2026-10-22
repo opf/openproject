@@ -60,12 +60,17 @@ module Workflows
     end
 
     def choose_workflow_start(name)
-      selected = "[data-test-selector='workflow-start-#{name}']:checked"
+      option = find_test_selector("workflow-start-#{name}")
+      wait_for_size_animation_completion(option)
+      option.click
 
-      retry_block do
-        find_test_selector("workflow-start-#{name}").click
-        raise "The #{name} option did not take the click" unless page.has_css?(selected, visible: :all, wait: 2)
-      end
+      expect(page).to have_css("[data-test-selector='workflow-start-#{name}']:checked", visible: :all)
+    end
+
+    def within_change_workflow_confirm_dialog(&)
+      dialog = find_test_selector("change-workflow-confirm-dialog")
+      wait_for_size_animation_completion(dialog)
+      within(dialog, &)
     end
 
     def run_workflow_start_dialog(start: "scratch")

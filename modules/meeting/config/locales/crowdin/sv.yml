@@ -663,7 +663,7 @@ sv:
       error_no_next: Det finns ingen nästa händelse för detta möte.
       error_template_draft: Mötesseriesmallen är fortfarande i utkastläge.
       first_already_exists: Den första förekomsten av denna mötesserie är existerar redan.
-      first_created: 'Det första mötet har skapats från mallen. Alla framtida möten kommer att skapas automatiskt vid tiden för den föregående händelsen.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Mötet ingår i en återkommande mötesserie.

@@ -49,7 +49,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DateInputComponent,
     expect(rendered_content).to include("change-&gt;inplace-edit#submitForm")
   end
 
-  it "does not add a submit-on-change Stimulus action whe show_action_buttons is false" do
+  it "does not add a submit-on-change Stimulus action when show_action_buttons is false" do
     component_class = described_class
     render_in_view_context(project) do |model|
       primer_form_with(url: "/foo", model:) do |f|

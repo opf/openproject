@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -134,6 +134,10 @@ id:
       show:
         blankslate_description: Set start and end date for the sprint to generate a burndown chart.
         blankslate_title: No burndown data available
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
 
@@ -180,6 +184,7 @@ id:
     remaining_hours: Pekerjaan yang tersisa
     sharing: Sprint sharing
     show_burndown_chart: Burndown chart
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
@@ -203,6 +208,9 @@ id:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
@@ -287,6 +295,9 @@ id:
   burndown:
     story_points: Story points
     story_points_ideal: Story points (ideal)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints

@@ -107,7 +107,7 @@ class CustomValue < ApplicationRecord
 
   ##
   # Custom fields can be required for two reasons:
-  # 1. They are globablly required by an admin in the custom field itself
+  # 1. They are globally required by an admin in the custom field itself
   # 2. The customized object allows defining required state somewhere else
   #    (e.g., work packages use required attributes in the type/variant form configuration)
   def value_required?

@@ -39,6 +39,7 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class CapabilitiesResourceService extends ResourceStoreService<ICapability> {
@@ -58,7 +59,7 @@ export class CapabilitiesResourceService extends ResourceStoreService<ICapabilit
     return this
       .fetchCollection(params)
       .pipe(
-        catchError((error) => {
+        catchError((error:HttpErrorResponse) => {
           this.toastService.addError(error);
           throw error;
         }),

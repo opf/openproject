@@ -30,9 +30,11 @@ import {
   Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
 } from 'chart.js';
 import 'chartjs-adapter-luxon';
+import moment from 'moment-timezone';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import NonWorkingDaysPlugin, {
   NonWorkingInterval, nonWorkingDaysColor,
 } from 'core-app/shared/components/charts/plugin.non-working-days';
@@ -188,6 +190,8 @@ export class BurndownChartComponent {
   readonly timezoneService = inject(TimezoneService);
 
   readonly chartData = input.required<string>();
+  readonly chartDescriptionId = generateId('burndown-chart-description');
+  readonly chartLabel = this.i18n.t('js.burndown_chart.chart_label');
 
   private readonly parsedInput = computed(() => JSON.parse(this.chartData()) as BurndownChartData);
 
@@ -214,6 +218,44 @@ export class BurndownChartComponent {
   readonly lineChartData = computed<ChartData<'line', BurndownPoint[]>>(() => ({
     datasets: this.series().map((series) => this.datasetFor(series)),
   }));
+
+  // Spoken a day at a time, however finely the series are sampled. Each one is reported by the
+  // value it closed at, so an hourly Remaining series says what the day ended on rather than
+  // reading out two dozen numbers, and a series sampled daily already has only that one.
+  readonly chartDescription = computed(() => {
+    const closing = this.closingValuesPerDay();
+    const days = [...new Set(closing.flatMap(({ byDay }) => [...byDay.keys()]))].sort();
+
+    const described = days.map((day, index) => {
+      const values = closing.flatMap(({ label, byDay }) => {
+        const value = byDay.get(day);
+
+        return value === undefined
+          ? []
+          : this.i18n.t('js.burndown_chart.chart_value', { label, value: this.formatValue(value) });
+      });
+
+      return this.i18n.t('js.burndown_chart.chart_day', { day: index + 1, values: values.join(', ') });
+    });
+
+    return this.i18n.t('js.burndown_chart.chart_summary', { days: described.join('; ') });
+  });
+
+  // The series run ascending in x, so writing each point under its day leaves the last one written
+  // -- the value the day closed at -- as the one that stands for it.
+  private closingValuesPerDay():{ label:string, byDay:Map<string, number> }[] {
+    const zone = this.timezoneService.userTimezone();
+
+    return this.series()
+      .filter((series) => series.data.length > 0)
+      .map((series) => {
+        const byDay = new Map<string, number>();
+
+        series.data.forEach((point) => byDay.set(moment.tz(point.x, zone).format('YYYY-MM-DD'), point.y));
+
+        return { label: series.label, byDay };
+      });
+  }
 
   // Both bounds are taken across every series, so that hiding one does not refit the axes to
   // what is left.
@@ -352,5 +394,9 @@ export class BurndownChartComponent {
 
   private datasetRank(datasetIndex:number|undefined):number {
     return seriesRank(this.seriesId(datasetIndex));
+  }
+
+  private formatValue(value:number):string {
+    return new Intl.NumberFormat(this.i18n.locale, { maximumFractionDigits: 2 }).format(value);
   }
 }

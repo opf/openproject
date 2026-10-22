@@ -166,6 +166,12 @@ PATH
     openproject-ldap_groups (1.0.0)
 
 PATH
+  remote: modules/llm
+  specs:
+    openproject-llm (1.0.0)
+      ruby_llm (~> 1.16)
+
+PATH
   remote: modules/meeting
   specs:
     openproject-meeting (1.0.0)
@@ -477,7 +483,7 @@ GEM
       capybara (~> 3.0)
       ferrum (~> 0.18.0)
     daemons (1.4.1)
-    dalli (5.1.4)
+    dalli (5.2.2)
       logger
     date (3.5.1)
     date_validator (0.12.0)
@@ -826,7 +832,7 @@ GEM
     marcel (1.0.4)
     markly (0.19.0)
     matrix (0.4.3)
-    mcp (1.6.1)
+    mcp (1.7.0)
       json_schemer (>= 2.4)
     messagebird-rest (5.0.0)
       jwt (< 4)
@@ -1112,7 +1118,7 @@ GEM
     ostruct (0.6.3)
     ox (2.14.29)
       bigdecimal (>= 3.0)
-    pagy (43.7.0)
+    pagy (43.7.1)
       json
       uri
       yaml
@@ -1629,7 +1635,7 @@ DEPENDENCIES
   csv (~> 3.3)
   cuprite (~> 0.18.0)
   daemons
-  dalli (~> 5.1.2)
+  dalli (~> 5.2.2)
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
   dentaku (~> 3.5)!
@@ -1678,7 +1684,7 @@ DEPENDENCIES
   mail (= 2.9.1)
   markly (~> 0.18)
   matrix (~> 0.4.3)
-  mcp (~> 1.6.1)
+  mcp (~> 1.7.0)
   md_to_pdf!
   meta-tags (~> 2.24.0)
   mini_magick (~> 5.4.0)
@@ -1707,6 +1713,7 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_departments!
   openproject-ldap_groups!
+  openproject-llm!
   openproject-meeting!
   openproject-octicons (~> 19.37.0)
   openproject-octicons_helper (~> 19.37.0)
@@ -1775,7 +1782,6 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.13.0)
-  ruby_llm (~> 1.16)
   rubytree (~> 2.2.2)
   sanitize (~> 7.0.0)
   scimitar (~> 2.13)
@@ -1909,7 +1915,7 @@ CHECKSUMS
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   cuprite (0.18) sha256=32c3203a492f25dbd5a3525716ae09610bcef8936ddd32ff39f34477a98062b2
   daemons (1.4.1) sha256=8fc76d76faec669feb5e455d72f35bd4c46dc6735e28c420afb822fac1fa9a1d
-  dalli (5.1.4) sha256=5772de000b353788f6f34a245f89b5f2bbae61564cb69f41e8490f778e10d980
+  dalli (5.2.2) sha256=23ad7dd2891525b720be39a550eba144bebebfe807d3d51b4582be2997d63f73
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
@@ -2040,7 +2046,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   markly (0.19.0) sha256=cd2c0e86eaf3660ed2a3a94104877f8bd41adda78e7c295c017d03de0d4044ca
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  mcp (1.6.1) sha256=5646140425a85fe39d416c8bd7d612ada8e1e589ff3306d5c010e1ba8656308e
+  mcp (1.7.0) sha256=bdf3261177b948b0777a6f247c57aad5f64c84830c02d126d4bfea188b0cebb7
   md_to_pdf (0.2.7)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.24.0) sha256=3a8a7a1059a3f223d08f5364b9ffac6dd2bbbbbe9cbaf1f466d234d4c43f8ab6
@@ -2093,6 +2099,7 @@ CHECKSUMS
   openproject-job_status (1.0.0)
   openproject-ldap_departments (1.0.0)
   openproject-ldap_groups (1.0.0)
+  openproject-llm (1.0.0)
   openproject-meeting (1.0.0)
   openproject-octicons (19.37.0) sha256=de10a8339edbfbf328f3e5d92ae1f61b99e52dfb3c76d06bce4d5d3d891c0092
   openproject-octicons_helper (19.37.0) sha256=ea8ec70882de05063fc17ecbcd16f4221c91bd53e12cb4c3f225d726e89362ee
@@ -2173,7 +2180,7 @@ CHECKSUMS
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   overviews (1.0.0)
   ox (2.14.29) sha256=206736d5a8dade9dca10cf72022bc157ad6ca3eecaba3853918426ed88e12dc2
-  pagy (43.7.0) sha256=877fd7f531eeb7a406b8046dfafb81b499e2b4352c976ce116e0a4909e82fd3d
+  pagy (43.7.1) sha256=f6f2498132bcbfb08741a3771373c9bb9dd252086a306f0302cb325e1a04202d
   paper_trail (17.0.0) sha256=1c2842061d3874ca7015908e821e2aa14f9b982af2acb2a7974713bf79021c85
   parallel (2.3.0) sha256=f75a3e904101ce6a1ccb6b8dc800cbafd42166d83330192438dcf29395167a6f
   parallel_tests (4.10.1) sha256=df05458c691462b210f7a41fc2651d4e4e8a881e8190e6d1e122c92c07735d70

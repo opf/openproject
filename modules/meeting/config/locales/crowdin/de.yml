@@ -663,7 +663,7 @@ de:
       error_no_next: Es gibt keinen nächsten Termin für diese Serie.
       error_template_draft: Die Vorlage für die Terminserie ist noch ein Entwurf.
       first_already_exists: Das erste Vorkommen dieser Terminserie wurde bereits angelegt.
-      first_created: 'Die erste Besprechung wurde erfolgreich aus der Vorlage erstellt. Weitere werden automatisch zu dem Zeitpunkt erstellt, wenn die vorhergehende Besprechung startet.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Diese Besprechung ist Teil einer Terminserie.

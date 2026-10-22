@@ -151,6 +151,39 @@ RSpec.describe "What's new menu", :js do
     end
   end
 
+  context "when the user first opened the release six days ago" do
+    before do
+      travel_to(6.days.ago) { user.pref.mark_whats_new_seen(release.version_key) }
+      user.pref.save!
+    end
+
+    it "still shows the button without the badge" do
+      visit home_path
+
+      expect(page).to have_test_selector("op-header-whats-new-button")
+      expect(page).to have_no_test_selector("op-header-whats-new-badge", visible: :all)
+    end
+  end
+
+  context "when the user first opened the release eight days ago" do
+    before do
+      travel_to(8.days.ago) { user.pref.mark_whats_new_seen(release.version_key) }
+      user.pref.save!
+    end
+
+    it "shows neither the button nor the user menu link" do
+      visit home_path
+
+      expect(page).to have_test_selector("header-help-button")
+      expect(page).to have_no_test_selector("op-header-whats-new-button", visible: :all)
+
+      find_test_selector("op-app-header--user-menu-button").click
+
+      expect(page).to have_css("#op-app-header--user-menu-list")
+      expect(page).to have_no_test_selector("op-menu--whats-new", visible: :all)
+    end
+  end
+
   context "without items for the current release" do
     let(:items) { [] }
 

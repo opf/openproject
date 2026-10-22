@@ -61,6 +61,7 @@ az:
         single: '"%{name}" seç'
       remove: "%{name} çıxart"
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Type to search
       project:
@@ -162,6 +163,7 @@ az:
     button_stop_timer: Stop timer
     button_uncheck_all: Uncheck all
     button_update: Yeniləmə
+    button_view_markdown: View Markdown
     caption_rate_history: Rate history
     card:
       add_new: Add new card
@@ -359,8 +361,8 @@ az:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -552,6 +554,8 @@ az:
     label_reset: Reset
     label_resize_project_menu: Resize project menu
     label_save_as: Fərqli saxla
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: İzləyici seç...
     label_selected_filter_list: Seçilmiş filtrlər

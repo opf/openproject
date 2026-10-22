@@ -647,7 +647,7 @@ id:
       error_no_next: Tidak ada jadwal acara berikutnya untuk rapat ini.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Rapat pertama dalam rangkaian rapat ini telah dilaksanakan.
-      first_created: 'Rapat pertama telah berhasil dibuat dari templat. Semua rapat berikutnya akan dibuat secara otomatis pada waktu terjadinya acara sebelumnya.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Rapat ini merupakan bagian dari rangkaian rapat yang berkala.
