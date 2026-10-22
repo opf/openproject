@@ -231,6 +231,18 @@ RSpec.describe Sprints::Burndown do
       end
     end
 
+    # The thinnest the plan's capacity can get: one working day, nearly all of it already gone.
+    # The slope that follows is enormous, but it is only ever applied to what is left to run, which
+    # by the day's close is nothing.
+    context "when the sprint starts a second before its only working day ends" do
+      let(:finish_date) { first_monday }
+      let(:sprint_start) { first_monday.in_time_zone.end_of_day - 1.second }
+
+      it "still spends everything on that day rather than running away" do
+        expect(burndown.guideline.map(&:value)).to eq [10.0, 0.0]
+      end
+    end
+
     # The plan buys no capacity on a day nobody works, so the whole value has to be spent by the
     # Friday; the tail is the line already at zero rather than still arriving there.
     context "when the sprint is planned to finish on a non-working day" do
@@ -333,6 +345,28 @@ RSpec.describe Sprints::Burndown do
       let(:now) { at_hour(second_friday + 1.year, 12) }
 
       it { expect(burndown).to be_too_long_to_chart }
+    end
+  end
+
+  # Nothing stops a sprint being started after the date it was planned to finish on. The plan has
+  # no capacity left to spend by then, so there is no decline to draw against it.
+  describe "a sprint started after its planned finish date" do
+    let(:finish_date) { first_monday }
+    let(:started_at) { at_hour(first_tuesday, 9) }
+
+    before { story_pointed(started_at => { story_points: 10 }) }
+
+    it "still measures what is remaining, from the start to now" do
+      expect(burndown.remaining.first.at).to eq started_at
+      expect(burndown.remaining.last.at).to eq now
+    end
+
+    it "holds the guideline at what the sprint opened with, having no day left to spend it over" do
+      expect(burndown.guideline.map(&:value)).to eq [10.0]
+    end
+
+    it "offers no projection, there being no date left to meet" do
+      expect(burndown.projection).to be_empty
     end
   end
 
