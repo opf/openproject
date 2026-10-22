@@ -29,8 +29,6 @@ export interface IEditorWithContent {
   state:string;
   getData():string;
   once(event:'destroy', callback:() => void):void;
-  enableReadOnlyMode(lockId:string):void;
-  disableReadOnlyMode(lockId:string):void;
   data:{
     processor:{ toView(markdown:string):unknown };
     toModel(viewFragment:unknown):unknown;

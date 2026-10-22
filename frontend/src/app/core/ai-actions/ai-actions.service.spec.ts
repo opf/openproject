@@ -27,7 +27,7 @@
 
 import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting, TestRequest } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -65,8 +65,6 @@ class FakeEditor {
 
   inserted:string|null = null;
 
-  readOnlyLocks:string[] = [];
-
   data = {
     processor: { toView: (markdown:string) => ({ markdown }) },
     toModel: (view:{ markdown:string }) => ({ fragment: view.markdown }),
@@ -96,10 +94,6 @@ class FakeEditor {
     this.state = 'destroyed';
     (this.listeners.destroy || []).splice(0).forEach((callback) => callback());
   }
-
-  enableReadOnlyMode(lock:string):void { this.readOnlyLocks.push(lock); }
-
-  disableReadOnlyMode(lock:string):void { this.readOnlyLocks = this.readOnlyLocks.filter((l) => l !== lock); }
 }
 
 const runResource = (id:string, status:string, events:unknown[]) => ({
@@ -150,25 +144,36 @@ describe('AiActionsService', () => {
     throw new Error(`no request for ${urlPart}`);
   };
 
+  const nextRequests = async (urlPart:string, count:number) => {
+    const requests:TestRequest[] = [];
+    for (let attempt = 0; attempt < 50; attempt++) {
+      requests.push(...httpMock.match((req) => req.url.includes(urlPart)));
+      if (requests.length >= count) return requests;
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+    }
+    throw new Error(`fewer than ${count} requests for ${urlPart}`);
+  };
+
   describe('run', () => {
-    it('ignores a second selection while a run is active on the same editor', async () => {
+    it('starts a second selection while a run is active on the same editor', async () => {
       const first = service.run(fixGrammar, editor, existingWorkPackage);
       const second = service.run({ ...fixGrammar, id: 2, label: 'Make concise' }, editor, existingWorkPackage);
 
-      const create = await nextRequest('/api/v3/ai_text_transform_runs');
-      await second;
-      expect(httpMock.match(() => true)).toEqual([]);
-      expect(create.request.body).toMatchObject({ actionId: 1 });
+      const creates = await nextRequests('/api/v3/ai_text_transform_runs', 2);
+      expect(creates.map((create) => create.request.body)).toMatchObject([{ actionId: 1 }, { actionId: 2 }]);
 
-      create.flush(runResource('run-6', 'queued', []), { status: 202, statusText: 'Accepted' });
+      creates[0].flush(runResource('run-6', 'queued', []), { status: 202, statusText: 'Accepted' });
+      creates[1].flush(runResource('run-7', 'queued', []), { status: 202, statusText: 'Accepted' });
       (await nextRequest('run-6?after=0')).flush(runResource('run-6', 'succeeded', [
         { seq: 1, kind: 'completed', payload: { text: 'Done' } },
       ]));
+      (await nextRequest('run-7?after=0')).flush(runResource('run-7', 'succeeded', [
+        { seq: 1, kind: 'completed', payload: { text: 'Concise' } },
+      ]));
 
-      await first;
-      expect(editor.inserted).toBe('Done');
-      expect(editor.readOnlyLocks).toEqual([]);
-      expect(toasts.filter((t) => t.type === 'success')).toHaveLength(1);
+      await Promise.all([first, second]);
+      expect(editor.inserted).toBe('Concise');
+      expect(toasts.filter((t) => t.type === 'success')).toHaveLength(2);
     });
 
     it('leaves the content untouched and reports an error when the run completes without text', async () => {
@@ -181,11 +186,10 @@ describe('AiActionsService', () => {
 
       await promise;
       expect(editor.inserted).toBeNull();
-      expect(editor.readOnlyLocks).toEqual([]);
       expect(toasts).toEqual([{ type: 'error', message: 'js.editor.ai_actions.failed' }]);
     });
 
-    it('unlocks the editor and reports a timeout when a request never answers', async () => {
+    it('reports a timeout when a request never answers', async () => {
       service.requestTimeout = 20;
       const promise = service.run(fixGrammar, editor, existingWorkPackage);
 
@@ -193,7 +197,6 @@ describe('AiActionsService', () => {
 
       await promise;
       expect(editor.inserted).toBeNull();
-      expect(editor.readOnlyLocks).toEqual([]);
       expect(toasts).toEqual([{ type: 'error', message: 'js.editor.ai_actions.timeout' }]);
     });
 
@@ -212,13 +215,25 @@ describe('AiActionsService', () => {
       expect(toasts).toEqual([]);
     });
 
+    it('cancels nothing when the editor is destroyed after the run finished', async () => {
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      (await nextRequest('/api/v3/ai_text_transform_runs')).flush(runResource('run-8', 'queued', []), { status: 202, statusText: 'Accepted' });
+      (await nextRequest('run-8?after=0')).flush(runResource('run-8', 'succeeded', [
+        { seq: 1, kind: 'completed', payload: { text: 'Done' } },
+      ]));
+      await promise;
+
+      editor.destroy();
+      expect(httpMock.match(() => true)).toEqual([]);
+    });
+
     it('replaces the editor content with the completed text once the run succeeds', async () => {
       const promise = service.run(fixGrammar, editor, existingWorkPackage);
 
       const create = await nextRequest('/api/v3/ai_text_transform_runs');
       expect(create.request.method).toBe('POST');
       expect(create.request.body).toEqual({ actionId: 1, content: '# Old text', workPackageId: '123' });
-      expect(editor.readOnlyLocks).toEqual(['ai-actions']);
       create.flush(runResource('run-1', 'queued', []), { status: 202, statusText: 'Accepted' });
 
       const firstPoll = await nextRequest('/api/v3/ai_text_transform_runs/run-1?after=0');
@@ -234,7 +249,6 @@ describe('AiActionsService', () => {
 
       await promise;
       expect(editor.inserted).toBe('Hello world');
-      expect(editor.readOnlyLocks).toEqual([]);
       expect(toasts).toEqual([{ type: 'success', message: 'js.editor.ai_actions.succeeded{"action":"Fix grammar"}' }]);
     });
 
@@ -248,7 +262,6 @@ describe('AiActionsService', () => {
 
       await promise;
       expect(editor.inserted).toBeNull();
-      expect(editor.readOnlyLocks).toEqual([]);
       expect(toasts).toEqual([{ type: 'error', message: 'The AI service did not respond in time.' }]);
     });
 
@@ -262,7 +275,6 @@ describe('AiActionsService', () => {
 
       await promise;
       expect(editor.inserted).toBeNull();
-      expect(editor.readOnlyLocks).toEqual([]);
       expect(toasts).toEqual([{ type: 'error', message: 'This AI action is not active.' }]);
     });
   });

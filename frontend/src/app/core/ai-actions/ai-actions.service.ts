@@ -74,10 +74,10 @@ interface IRunState {
   runId:string|null;
   editorGone:boolean;
   cancelRequested:boolean;
+  finished:boolean;
 }
 
 const TERMINAL_STATUSES = ['succeeded', 'failed', 'cancelled'];
-const READ_ONLY_LOCK = 'ai-actions';
 const MIN_POLL_DELAY = 400;
 const MAX_POLL_DELAY = 1000;
 const RUN_TIMEOUT = 200_000;
@@ -100,8 +100,6 @@ export class AiActionsService {
   delay = (ms:number):Promise<void> => new Promise((resolve) => { setTimeout(resolve, ms); });
 
   requestTimeout = REQUEST_TIMEOUT;
-
-  private busyEditors = new WeakSet<IEditorWithContent>();
 
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
     const path = this.listPath(resource, field);
@@ -129,20 +127,22 @@ export class AiActionsService {
   async run(action:IAiTextTransformAction, editor:IEditorWithContent, resource:IEditorContextResource|undefined):Promise<void> {
     const context = this.runContext(resource);
 
-    if (context === null || this.busyEditors.has(editor)) {
+    if (context === null) {
       return;
     }
 
     this.rememberAction(action);
-    this.busyEditors.add(editor);
     const state:IRunState = {
-      deadline: Date.now() + RUN_TIMEOUT, runId: null, editorGone: false, cancelRequested: false,
+      deadline: Date.now() + RUN_TIMEOUT, runId: null, editorGone: false, cancelRequested: false, finished: false,
     };
     editor.once('destroy', () => {
+      if (state.finished) {
+        return;
+      }
+
       state.editorGone = true;
       void this.cancelRun(state);
     });
-    editor.enableReadOnlyMode(READ_ONLY_LOCK);
     const notice = this.toast.addNotice(this.I18n.t('js.editor.ai_actions.running', { action: action.label }));
 
     try {
@@ -166,11 +166,8 @@ export class AiActionsService {
         this.toast.addError(this.errorMessage(error));
       }
     } finally {
-      this.busyEditors.delete(editor);
+      state.finished = true;
       this.toast.remove(notice);
-      if (!state.editorGone) {
-        editor.disableReadOnlyMode(READ_ONLY_LOCK);
-      }
     }
   }
 
