@@ -29,6 +29,8 @@
 
 module Backlogs
   module CommonHelper
+    include PermittedParamsHelper
+
     def user_allowed?(permission, project: nil)
       current_user.allowed_in_project?(permission, project || self.project)
     end
