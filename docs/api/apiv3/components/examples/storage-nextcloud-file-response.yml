@@ -11,7 +11,9 @@ value:
   createdByName: Darth Vader
   lastModifiedByName: Darth Vader
   location: '/Data/Introducions%20%26%20Tutorials/HOW_TO_TUTORIAL.md'
-  permissions: RGDNVW
+  permissions:
+    - readable
+    - writable
   _links: 
     self: 
       href: '/api/v3/storages/2/files/264'

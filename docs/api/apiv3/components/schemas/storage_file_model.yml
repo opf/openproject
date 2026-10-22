@@ -17,8 +17,13 @@ allOf:
         type: string
         description: Location identification for file in storage
       permissions:
-        type: string
-        description: Permission code for the user accessing the file. Format depends on the file storage provider.
+        type: array
+        items:
+          type: string
+          enum:
+            - readable
+            - writable
+        description: List of permissions for the authenticated user.
       _links:
         type: object
         required:
