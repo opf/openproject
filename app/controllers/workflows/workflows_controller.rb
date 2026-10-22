@@ -34,7 +34,7 @@ module Workflows
     layout "admin"
 
     before_action :require_admin
-    before_action :load_workflow, only: %i[edit edit_dialog update destroy]
+    before_action :load_workflow, only: %i[edit edit_dialog update deletion_dialog destroy]
 
     menu_item :workflows
 
@@ -79,23 +79,48 @@ module Workflows
       end
     end
 
-    def destroy
-      report_destruction
+    def deletion_dialog
+      return render_missing_replacement_error if @workflow.in_use? && @workflow.replacement_targets.none?
 
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.redirect_to(workflows_path) }
-        format.html { redirect_to workflows_path, status: :see_other }
-      end
+      respond_with_dialog delete_dialog
+    end
+
+    def destroy
+      service_call = ::Workflows::DeleteService.new(user: current_user, model: @workflow).call(target: chosen_target)
+
+      return repaint_delete_dialog(service_call) unless service_call.success?
+
+      flash[:notice] = t(:notice_successful_delete)
+      redirect_to_index
     end
 
     private
 
-    def report_destruction
-      if @workflow.destroy
-        flash[:notice] = t(:notice_successful_delete)
-      else
-        flash[:error] = @workflow.errors.full_messages.to_sentence
-      end
+    def redirect_to_index
+      render turbo_stream: turbo_stream.redirect_to(workflows_path)
+    end
+
+    def render_missing_replacement_error
+      render_error_flash_message_via_turbo_stream(message: t("workflows.delete.no_replacement"))
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
+
+    def chosen_target
+      return if params[:target_id].blank?
+
+      @workflow.replacement_targets.find_by(id: params[:target_id])
+    end
+
+    def delete_dialog(validation_message: nil)
+      Workflows::Index::DeleteDialogComponent.new(workflow: @workflow, url: workflow_path(@workflow), validation_message:)
+    end
+
+    def repaint_delete_dialog(service_call)
+      dialog_via_turbo_stream(
+        component: delete_dialog(validation_message: service_call.errors.full_messages.to_sentence),
+        status: :unprocessable_entity
+      )
+      respond_with_turbo_streams
     end
 
     def start_dialog(error: nil)
