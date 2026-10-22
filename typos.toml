@@ -17,6 +17,7 @@ extend-exclude = [
 ]
 
 [default]
+locale = "en-us"
 extend-ignore-re = [
   "code=[A-Za-z0-9]{20,}", # OAuth code in an example request
   "filemane with spaces", # file in the SCM test repository
@@ -56,6 +57,20 @@ extend-ignore-re = [
   "cachable-apiv3-(resource|collection)", # file names; follow-up
   "fourty minutes", # commented-out parser input
   "\\.highlight \\.nd", # Rouge token class
+  "op-header-project-select--no-favourites", # CSS class; follow-up
+  "(::|module |class )Artefact\\b|\\bArtefact::", # PMflex artefact export constants; follow-up
+  "[\"']artefact[\"']|%w\\[[^\\]]*\\bartefact\\b[^\\]]*\\]", # PDF export template id stored in type settings; follow-up
+  "\\bartefact(_spec)?\\.rb|/artefact/", # PMflex artefact export file names; follow-up
+  "</?organisation(Scope)?>", # Nextcloud user query payload
+  "\\), labelled AS \\(|FROM labelled\\b", # CTE alias in a shipped migration
+  "Centre of [Ee]xcellence\\s+in\\s+PM", # name of the EU PM² body
+  "\"Aluminium \\(0\\.4\\)\"", # value shown in the release notes screenshot
+  "(?m)^\\s+favoured:|help_texts\\.views\\.favoured", # i18n key
+  "\\btrialling\\?", # public EnterpriseToken.trialling?; follow-up
+  "\\btrialling\\(", # public BannersService#trialling; follow-up
+  "\\bsignalled(<|\\()", # public APIv3 resource method; follow-up
+  "aria-labelledby", # HTML attribute
+  "4-project-organisation-and-roles", # docs directory, part of public URLs
 ]
 extend-ignore-identifiers-re = [
   "^(with|without)_trailling_slash$", # public SCM adapter API; follow-up
@@ -98,11 +113,25 @@ extend-ignore-identifiers-re = [
   "^wait_thr$", # Open3 convention
   "^wheres$", # Arel API
   "^wil_", # weighted item list
+  "^\\w*(_artefact|artefact_)\\w*$", # PMflex artefact export code, i18n keys and routes; follow-up
+  "^\\w*[a-z]Artefact\\w*$|^Artefact[A-Z]\\w*$", # PMflex artefact export classes; follow-up
+  "^(a|A)uthorisationService$", # public frontend service; follow-up
+  "^labelled_tabular_form_(for|with)$", # public form helpers; follow-up
+  "^server_flavour$", # key in stored LLM connection options; follow-up
+  "^group__bim_modellers$|^(finishing_)?modelling_\\w+$", # BIM seed data keys; follow-up
+  "^(non_)?trialling_features$|^triallingFeatures$", # public enterprise token API; follow-up
+  "^set_favoured$", # page object helper shared by calendar and team planner specs; follow-up
+  "^labour_query\\?*$", # public reporting table method; follow-up
+  "^getEnterPriseEditionUrl$", # public banners service method; follow-up
+  "^localised_(other_)?name$", # methods in a shipped migration
+  "^marshalling_format_version$", # Rails configuration option
+  "(?i)^aria_?labelledby$", # aria-labelledby attribute
   "^will_remove_all_(group|user)_access_priveleges$", # i18n keys
 ]
 
 [default.extend-words]
 anc = "anc" # SQL alias and index names for ancestor
+axe = "axe" # axe-core accessibility engine
 lod = "lod" # level of detail / BIM level of development
 tweek = "tweek" # time_entries column; follow-up
 HELO = "HELO" # SMTP command
