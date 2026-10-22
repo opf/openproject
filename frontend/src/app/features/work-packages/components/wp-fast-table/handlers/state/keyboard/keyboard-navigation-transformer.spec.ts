@@ -33,11 +33,14 @@ import { TextDisplayField } from 'core-app/shared/components/fields/display/fiel
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { buildQuery, buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
 import { buildGroup } from '../../../testing/work-package-fixture';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
-import { totalsRowKey } from './navigable-rows';
+import { headerRowKey, totalsRowKey } from './navigable-rows';
 import { insideGrid, navigableCells } from './roving-tabindex';
 
 class AnchorDisplayField extends TextDisplayField {
@@ -91,6 +94,17 @@ describe('KeyboardNavigationTransformer', () => {
   const cell = (row:HTMLTableRowElement, index:number) => navigableCells(row)[index];
 
   const selectedIds = (table:TableHarness) => table.selection.getSelectedWorkPackageIds().sort();
+
+  const focusFromOutside = (element:HTMLElement) => {
+    const outside = document.createElement('button');
+    document.body.append(outside);
+    try {
+      outside.focus();
+      element.focus();
+    } finally {
+      outside.remove();
+    }
+  };
 
   afterEach(async () => {
     await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
@@ -278,6 +292,20 @@ describe('KeyboardNavigationTransformer', () => {
     expect(buttonClicked).toHaveBeenCalledOnce();
   });
 
+  it('Enter on a non-sortable column header clicks its link without an href', async () => {
+    const table = await mount({ columns: ['id', { id: 'subject', sortable: false }] });
+    const [, subjectHeader] = table.headerCells();
+    const link = subjectHeader.querySelector('a')!;
+    expect(link).not.toHaveAttribute('href');
+    const clicked = vi.fn();
+    link.addEventListener('click', clicked);
+
+    subjectHeader.focus();
+    expect(pressActive('Enter')).toBe(false);
+
+    expect(clicked).toHaveBeenCalledOnce();
+  });
+
   it('Enter on an editable cell opens its inline editor', async () => {
     const table = await mount({ editing: {} });
     const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
@@ -341,6 +369,102 @@ describe('KeyboardNavigationTransformer', () => {
 
     expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: 1, desiredColumn: 1 });
     expect(subjectCell).toHaveFocus();
+  });
+
+  it('focus landing on a header sort link or a body inner control moves to its enclosing cell', async () => {
+    const table = await mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+      showHierarchies: true,
+      columns: ['id', 'subject'],
+    });
+    const subjectHeader = table.headerCells()[1];
+
+    focusFromOutside(within(subjectHeader).getByRole('link'));
+
+    expect(subjectHeader).toHaveFocus();
+    expect(subjectHeader).toHaveAttribute('tabindex', '0');
+    expect(navigation(table).position).toEqual({ key: headerRowKey, cell: 1, desiredColumn: 1 });
+
+    const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
+    const toggleCell = toggle.closest('td')!;
+    focusFromOutside(toggle);
+
+    expect(toggleCell).toHaveFocus();
+    expect(navigation(table).position).toEqual({
+      key: wpOccurrenceKey('1'),
+      cell: navigableCells(table.row('1')).indexOf(toggleCell),
+      desiredColumn: navigableCells(table.row('1')).indexOf(toggleCell),
+    });
+  });
+
+  it('focus moving onto an inner control from inside the table stays there', async () => {
+    const table = await mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+      showHierarchies: true,
+    });
+    const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
+    cell(table.row('2'), 0).focus();
+    const position = navigation(table).position;
+
+    toggle.focus();
+
+    expect(toggle).toHaveFocus();
+    expect(navigation(table).position).toEqual(position);
+  });
+
+  it('focus from a pointer press on an inner control stays there until the press ends', async () => {
+    const table = await mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+      showHierarchies: true,
+    });
+    const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
+    const toggleCell = toggle.closest('td')!;
+    toggle.addEventListener('click', (event) => event.preventDefault());
+
+    expect(fireEvent.mouseDown(toggle, { button: 0 })).toBe(true);
+    toggle.focus();
+    expect(toggle).toHaveFocus();
+
+    fireEvent.mouseUp(toggle, { button: 0 });
+    fireEvent.click(toggle);
+    focusFromOutside(toggle);
+
+    expect(toggleCell).toHaveFocus();
+    expect(navigation(table).position).toEqual({
+      key: wpOccurrenceKey('1'),
+      cell: navigableCells(table.row('1')).indexOf(toggleCell),
+      desiredColumn: navigableCells(table.row('1')).indexOf(toggleCell),
+    });
+  });
+
+  it.each(['pointerUp', 'pointerCancel', 'dragEnd'] as const)('a pointer press ended by %s no longer holds back the redirect', async (end) => {
+    const table = await mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+      showHierarchies: true,
+    });
+    const toggle = table.row('1').querySelector<HTMLElement>('.wp-table--hierarchy-indicator')!;
+
+    fireEvent.mouseDown(toggle, { button: 0 });
+    fireEvent[end](toggle);
+    toggle.focus();
+
+    expect(toggle.closest('td')).toHaveFocus();
+  });
+
+  it('focus inside an open inline editor stays where the editor puts it', async () => {
+    const table = await mount({ editing: {} });
+    table.row('1').querySelector<HTMLTableCellElement>('td.subject')!.focus();
+    pressActive('Enter');
+    const input = await waitFor(() => within(table.row('1')).getByRole('textbox'));
+    const editorControl = document.createElement('span');
+    editorControl.tabIndex = -1;
+    input.after(editorControl);
+
+    input.focus();
+    expect(input).toHaveFocus();
+
+    editorControl.focus();
+    expect(editorControl).toHaveFocus();
   });
 
   it('focus movement never changes selection, anchor or the focus service', async () => {
@@ -506,6 +630,21 @@ describe('KeyboardNavigationTransformer', () => {
         cell: cellIndex(table.row('1'), 'td.relationsOfTypeFollows'),
         desiredColumn: cellIndex(table.row('1'), 'td.relationsOfTypeFollows'),
       });
+    });
+
+    it('closing the context menu opened by right-click on a display field returns focus to its cell', async () => {
+      const table = await mount({ configuration: { contextMenuEnabled: true } });
+      vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
+      let menu:OpContextMenuHandler|undefined;
+      vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation((handler) => { menu = handler; });
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const field = subjectCell.querySelector<HTMLElement>('.inline-edit--display-field')!;
+
+      fireEvent.mouseDown(field, { button: 2 });
+      fireEvent.contextMenu(field);
+      menu!.onClose(true);
+
+      expect(subjectCell).toHaveFocus();
     });
 
     it('mousedown on a group header records the group position', async () => {
