@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { createDiagramBlockConfig, createReactDiagramBlockSpec } from "@blocknote/diagram-block";
 import { describe, expect, test } from "vitest";
+import { diagramStaticSpec } from "../../src/diagramSpec";
 import { storedMarkdown } from "../helpers/storedMarkdown";
 
 describe("diagram", () => {
@@ -35,5 +37,14 @@ describe("diagram", () => {
     ]);
 
     expect(markdown).toBe("```mermaid\ngraph TD\n    A[Start] --> B[Stop]\n```\n");
+  });
+});
+
+describe("diagram spec", () => {
+  test("matches the diagram block of @blocknote/diagram-block", () => {
+    const { code, defining, isolating } = createReactDiagramBlockSpec().implementation.meta ?? {};
+
+    expect(diagramStaticSpec().config).toEqual(createDiagramBlockConfig());
+    expect(diagramStaticSpec().implementation.meta).toEqual({ code, defining, isolating });
   });
 });
