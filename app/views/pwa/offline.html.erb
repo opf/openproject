@@ -48,14 +48,14 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    .op-offline__header {
+    .op-offline--header {
       display: grid;
       place-items: center;
       height: var(--offline-header-height);
       background: var(--offline-header-bg);
     }
 
-    .op-offline__logo { display: block; width: 130px; height: 47px; object-fit: contain; }
+    .op-offline--logo { display: block; width: 130px; height: 47px; object-fit: contain; }
 
     .op-offline {
       display: flex;
@@ -69,21 +69,21 @@
       text-align: center;
     }
 
-    .op-offline__icon { position: relative; width: 32px; height: 32px; }
+    .op-offline--icon { position: relative; width: 32px; height: 32px; }
 
-    .op-offline__icon svg {
+    .op-offline--icon svg {
       position: absolute;
       inset: 0;
       opacity: 1;
       transition: opacity 0.2s ease;
     }
 
-    .op-offline__icon .op-offline__icon-online,
-    [data-state="online"] .op-offline__icon .op-offline__icon-offline { opacity: 0; }
+    .op-offline--icon .op-offline--icon-online,
+    [data-state="online"] .op-offline--icon .op-offline--icon-offline { opacity: 0; }
 
-    [data-state="online"] .op-offline__icon .op-offline__icon-online { opacity: 1; }
+    [data-state="online"] .op-offline--icon .op-offline--icon-online { opacity: 1; }
 
-    .op-offline__headline {
+    .op-offline--headline {
       margin: 16px 0 0;
       font-size: 24px;
       font-weight: 600;
@@ -92,14 +92,14 @@
       text-wrap: balance;
     }
 
-    .op-offline__body {
+    .op-offline--body {
       margin: 8px 0 0;
       font-size: 16px;
       line-height: 1.5;
       text-wrap: pretty;
     }
 
-    .op-offline__button {
+    .op-offline--button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -120,13 +120,13 @@
       cursor: pointer;
     }
 
-    .op-offline__button:hover:not([aria-disabled="true"]) { background-color: var(--offline-button-hover-bg); }
+    .op-offline--button:hover:not([aria-disabled="true"]) { background-color: var(--offline-button-hover-bg); }
 
-    .op-offline__button:active:not([aria-disabled="true"]) { background-color: var(--offline-button-active-bg); }
+    .op-offline--button:active:not([aria-disabled="true"]) { background-color: var(--offline-button-active-bg); }
 
-    .op-offline__button[aria-disabled="true"] { cursor: default; }
+    .op-offline--button[aria-disabled="true"] { cursor: default; }
 
-    .op-offline__button:focus-visible {
+    .op-offline--button:focus-visible {
       outline: 2px solid var(--focus-outlineColor);
       outline-offset: 2px;
     }
@@ -135,7 +135,7 @@
 
     .anim-rotate { animation: rotate-keyframes 1s linear infinite; }
 
-    .op-offline__status {
+    .op-offline--status {
       min-height: 24px;
       margin: 16px 0 0;
       color: var(--offline-fg-muted);
@@ -146,14 +146,14 @@
     @keyframes rotate-keyframes { 100% { transform: rotate(360deg); } }
 
     @media (prefers-reduced-motion: reduce) {
-      .op-offline__icon svg { transition: none; }
+      .op-offline--icon svg { transition: none; }
       .anim-rotate { animation: none; }
     }
   </style>
 </head>
 <body>
-  <header class="op-offline__header">
-    <img class="op-offline__logo" src="<%= pwa_offline_wordmark_data_uri %>" alt="<%= app_title %>">
+  <header class="op-offline--header">
+    <img class="op-offline--logo" src="<%= pwa_offline_wordmark_data_uri %>" alt="<%= app_title %>">
   </header>
 
   <main class="op-offline"
@@ -169,21 +169,21 @@
         data-status-checking="<%= t("pwa.offline.status_checking") %>"
         data-status-still="<%= t("pwa.offline.status_still") %>"
         data-status-restored="<%= t("pwa.offline.status_restored") %>">
-    <div class="op-offline__icon" aria-hidden="true">
-      <svg class="op-offline__icon-offline" data-offline-target="iconOffline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M4 4l16 16"></path></svg>
-      <svg class="op-offline__icon-online" data-offline-target="iconOnline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M9 14l2 2 4-4.5"></path></svg>
+    <div class="op-offline--icon" aria-hidden="true">
+      <svg class="op-offline--icon-offline" data-offline-target="iconOffline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M4 4l16 16"></path></svg>
+      <svg class="op-offline--icon-online" data-offline-target="iconOnline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M9 14l2 2 4-4.5"></path></svg>
     </div>
 
-    <h1 class="op-offline__headline" data-offline-target="headline"><%= t("pwa.offline.headline") %></h1>
+    <h1 class="op-offline--headline" data-offline-target="headline"><%= t("pwa.offline.headline") %></h1>
 
-    <p class="op-offline__body"><%= t("pwa.offline.body", app_title:) %></p>
+    <p class="op-offline--body"><%= t("pwa.offline.body", app_title:) %></p>
 
-    <button type="button" class="op-offline__button" data-offline-target="button">
+    <button type="button" class="op-offline--button" data-offline-target="button">
       <%= render(Primer::Beta::Spinner.new(size: :small, sr_text: nil, style: "box-sizing: content-box; color: currentColor;", wrapper_arguments: { hidden: true, data: { offline_target: "spinner" } })) %>
       <span data-offline-target="label"><%= t("pwa.offline.retry") %></span>
     </button>
 
-    <p class="op-offline__status" data-offline-target="status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <p class="op-offline--status" data-offline-target="status" role="status" aria-live="polite" aria-atomic="true"></p>
   </main>
 
   <%= nonced_javascript_tag type: :module do %>
