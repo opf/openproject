@@ -140,7 +140,7 @@ RSpec.describe "Backlog filter panel", :js do
   end
 
   describe "apply and clear buttons" do
-    def expect_buttons(apply:, clear:)
+    def expect_buttons_enabled(apply:, clear:)
       expect(page).to have_button(I18n.t(:button_apply), disabled: !apply)
       expect(page).to have_button(I18n.t(:button_clear), disabled: !clear)
     end
@@ -150,16 +150,16 @@ RSpec.describe "Backlog filter panel", :js do
 
       # Checking different values will adjust the apply/clear button disabled states
       backlogs_page.within_filter_panel(:sprint) do
-        expect_buttons(apply: false, clear: true)
+        expect_buttons_enabled(apply: false, clear: true)
 
         click_on sprint_a.name, role: "option"
-        expect_buttons(apply: true, clear: true)
+        expect_buttons_enabled(apply: true, clear: true)
 
         click_on sprint_a.name, role: "option"
-        expect_buttons(apply: false, clear: true)
+        expect_buttons_enabled(apply: false, clear: true)
 
         click_on sprint_b.name, role: "option"
-        expect_buttons(apply: true, clear: false)
+        expect_buttons_enabled(apply: true, clear: false)
 
         find("[role='option']", text: sprint_b.name).send_keys(:escape)
       end
@@ -170,7 +170,7 @@ RSpec.describe "Backlog filter panel", :js do
       backlogs_page.within_filter_panel(:sprint) do
         expect(page).to have_element(role: "option", "aria-selected": "true", text: sprint_b.name)
         expect(page).to have_no_element(role: "option", "aria-selected": "true", text: sprint_a.name)
-        expect_buttons(apply: false, clear: true)
+        expect_buttons_enabled(apply: false, clear: true)
       end
     end
   end
