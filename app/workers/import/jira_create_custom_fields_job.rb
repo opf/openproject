@@ -44,6 +44,8 @@ module Import
 
       build_custom_field_registry
       store_custom_field_mapping
+
+      create_system_field_custom_fields
     end
   end
 end

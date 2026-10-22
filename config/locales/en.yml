@@ -1628,7 +1628,9 @@ en:
         button_delete_token: "Delete token"
         button_save: "Save configuration"
         delete_token_confirm: "Are you sure you want to delete the token? This will disable the Jira connection."
+        exclude_resolution_fields_caption: "You can exclude the resolution and resolution date fields from the import for this configuration."
         fields:
+          exclude_resolution_fields: "Exclude resolution fields for this configuration"
           name: "Name"
           personal_access_token: "Personal Access Token"
           url: "Jira Server/Data Center URL"

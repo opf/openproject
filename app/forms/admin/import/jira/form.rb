@@ -113,6 +113,12 @@ module Admin::Import::Jira
         )
       end
 
+      client_form.check_box(
+        name: :exclude_resolution_fields,
+        label: I18n.t("admin.jira.form.fields.exclude_resolution_fields"),
+        caption: I18n.t("admin.jira.form.exclude_resolution_fields_caption")
+      )
+
       client_form.group(layout: :horizontal, mt: 1, mb: 2) do |button_group|
         button_group.submit(
           name: :submit,
