@@ -60,6 +60,13 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     }
   }
 
+  /**
+   * Return the current content. This may be outdated a tiny bit.
+   */
+  public get content() {
+    return this._content;
+  }
+
   // Output notification once ready
   @Output() initializeDone = new EventEmitter<ICKEditorInstance>();
 
@@ -188,13 +195,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
       return this._content;
     }
-  }
-
-  /**
-   * Return the current content. This may be outdated a tiny bit.
-   */
-  public get content() {
-    return this._content;
   }
 
   public get initialized():boolean {
