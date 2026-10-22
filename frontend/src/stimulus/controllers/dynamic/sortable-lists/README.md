@@ -84,6 +84,20 @@ work package open in the details pane. Styles must account for those distinct
 elements and states. Updating the current work package does not change batch
 membership.
 
+The drag states these controllers write — `data-drop-container` on the list,
+`data-dragging` and `data-drop-position` on the item — are styled in
+[drag_and_drop.sass](../../../../global_styles/content/drag_and_drop.sass),
+keyed on the contract attributes rather than on any list's own markup. The
+Angular directives in
+[sortable-lists-engine.ts](../../../../common/drag-and-drop/sortable-lists-engine.ts)
+write the same attributes onto hosts that carry none of those contract
+attributes, and keep their own component styles.
+
+A list that spaces its items apart has to publish the spacing as `--stack-gap`
+for the drop indicator to be laid out in the gap instead of on an item's own
+edge. `Primer::Alpha::Stack` publishes it for every `gap:` it accepts,
+including the `normal` it falls back to when none is given.
+
 Selection gestures announce membership changes, including changes that retain
 the same count. Plain navigation clicks announce only when a wider batch
 collapses. Rejected ranges and range restarts have distinct translation keys.

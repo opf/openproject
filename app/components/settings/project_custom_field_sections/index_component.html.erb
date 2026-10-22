@@ -1,15 +1,11 @@
-<%=
-  component_wrapper(data: wrapper_data_attributes) do
-    if @project_custom_field_sections.any?
-      flex_layout(data: sections_list_data) do |flex|
-        @project_custom_field_sections.each do |section|
-          flex.with_row(
-            data: section_item_data(section)
-          ) do
-            render(row_component_class.new(project_custom_field_section: section, first_and_last:))
-          end
-        end
-      end
-    end
-  end
-%>
+<%= component_wrapper(data: wrapper_data_attributes) do %>
+  <% if @project_custom_field_sections.any? %>
+    <%= render(Primer::Alpha::Stack.new(gap: :normal, mt: 3, data: sections_list_data)) do %>
+      <% @project_custom_field_sections.each do |section| %>
+        <%= render(Primer::Alpha::StackItem.new(data: section_item_data(section))) do %>
+          <%= render(row_component_class.new(project_custom_field_section: section, first_and_last:)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
