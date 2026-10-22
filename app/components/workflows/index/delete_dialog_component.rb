@@ -31,7 +31,6 @@ module Workflows
   module Index
     class DeleteDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
-      include OpPrimer::FormHelpers
       include OpTurbo::Streamable
 
       DIALOG_ID = "workflow-deletion-dialog"

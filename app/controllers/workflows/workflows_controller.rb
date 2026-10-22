@@ -80,6 +80,8 @@ module Workflows
     end
 
     def deletion_dialog
+      return render_missing_replacement_error if @workflow.in_use? && @workflow.replacement_targets.none?
+
       respond_with_dialog delete_dialog
     end
 
@@ -96,6 +98,11 @@ module Workflows
 
     def redirect_to_index
       render turbo_stream: turbo_stream.redirect_to(workflows_path)
+    end
+
+    def render_missing_replacement_error
+      render_error_flash_message_via_turbo_stream(message: t("workflows.delete.no_replacement"))
+      respond_with_turbo_streams(status: :unprocessable_entity)
     end
 
     def chosen_target

@@ -62,7 +62,7 @@ module Workflows
     def repoint_variants(target)
       return if target.nil?
 
-      model.type_variants.update_all(workflow_id: target.id)
+      model.type_variants.update_all(workflow_id: target.id, updated_at: Time.current)
     end
   end
 end
