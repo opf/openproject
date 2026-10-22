@@ -1527,6 +1527,9 @@ en:
       default_colors:
         description: "Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type."
       edit_color: "Edit %{color}"
+      export:
+        description: "Upload and manage custom image files used in your PDF exports."
+        title: "Custom export"
       fonts:
         file_is_invalid: "is not a valid TTF font file."
         file_too_large: "is too large (maximum size is %{count} MB)."
@@ -4016,8 +4019,8 @@ en:
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_comment: "%{name} comment"
-  label_custom_export_cover: "Custom export cover background"
-  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_cover: "Cover background"
+  label_custom_export_cover_overlay: "Cover background overlay"
   label_custom_export_cover_text_color: "Text color"
   label_custom_export_font_bold: "Bold"
   label_custom_export_font_bold_italic: "Bold Italic"
@@ -4026,10 +4029,8 @@ en:
     For best results, use matching files from the same font family. If no font is provided, the default NotoSans font will be used.
   label_custom_export_font_italic: "Italic"
   label_custom_export_font_regular: "Regular"
-  label_custom_export_footer: "Custom export footer image"
-  label_custom_export_images_instructions: >
-    Upload and manage custom image files used in your PDF exports.
-  label_custom_export_logo: "Custom export logo"
+  label_custom_export_footer: "Footer image"
+  label_custom_export_logo: "Logo"
   label_custom_favicon: "Custom favicon"
   label_custom_field_add_no_type: "Add this field to a work package type"
   label_custom_field_default_type: "Empty type"
