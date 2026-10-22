@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,18 +36,14 @@ module Pages
     end
 
     def toolbar
-      find_by_id("toolbar-items")
+      find_by_id("toolbar-items", wait: 20)
     end
 
     def click_share_button
       within toolbar do
-        # The request to the capabilities endpoint determines
-        # whether the "Share" button is rendered or not.
-        # Instead of waiting for an idle network (which may
-        # include waiting for other network requests unrelated to
-        # sharing), waiting for the button to be present makes
-        # the spec a tad faster.
-        click_button("Share", wait: 10)
+        find_button("Share", wait: 10)
+        wait_for_network_idle(timeout: 10)
+        click_button("Share")
       end
     end
 

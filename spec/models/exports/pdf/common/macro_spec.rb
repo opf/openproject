@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,7 +56,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       status_code: "on_track",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 1" }
     )
@@ -66,7 +64,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       name: "Other Project",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 2" }
     )
@@ -86,7 +83,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       name: "Other Project",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 3" }
     )
@@ -177,7 +173,7 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
-    describe "with markdown formating bold" do
+    describe "with markdown formatting bold" do
       let(:markdown) { "**##{work_package.id}**" }
 
       it "contains correct data" do
@@ -185,7 +181,7 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
-    describe "with markdown formating strikethrough" do
+    describe "with markdown formatting strikethrough" do
       let(:markdown) { "~~##{work_package.id}~~" }
 
       it "contains correct data" do
@@ -291,6 +287,43 @@ RSpec.describe Exports::PDF::Common::Macro do
           expect(formatted).not_to include("<mention")
           expect(formatted).not_to include('data-id="0"')
         end
+      end
+    end
+
+    describe "in a task list" do
+      let(:markdown) { "*   [ ] ##{work_package.id}\n    *   [x] Done" }
+
+      it "keeps the task list markers unescaped" do
+        expect(formatted).to eq("- [ ] #{expected_tag}\n  - [x] Done")
+      end
+    end
+  end
+
+  describe "wiki link macro" do
+    let!(:wiki_page) { create(:wiki_page, wiki: create(:wiki, project:), title: "Wiki page") }
+    let(:wiki_url) { "http://#{Setting.host_name}/projects/#{project.identifier}/wiki" }
+
+    describe "to a page" do
+      let(:markdown) { "See [[Wiki page]]" }
+
+      it "renders a Markdown link" do
+        expect(formatted).to eq("See [Wiki page](#{wiki_url}/wiki-page)")
+      end
+    end
+
+    describe "with a title" do
+      let(:markdown) { "See [[Wiki page|the docs]]" }
+
+      it "renders a Markdown link with the title" do
+        expect(formatted).to eq("See [the docs](#{wiki_url}/wiki-page)")
+      end
+    end
+
+    describe "inside a code span" do
+      let(:markdown) { "See `[[Wiki page]]`" }
+
+      it "leaves the code untouched" do
+        expect(formatted).to eq("See `[[Wiki page]]`")
       end
     end
   end
@@ -452,7 +485,7 @@ RSpec.describe Exports::PDF::Common::Macro do
       end
     end
 
-    describe "withh another work package ID and attribute" do
+    describe "with another work package ID and attribute" do
       let(:markdown) { "workPackageValue:#{other_work_package.id}:subject" }
 
       it "outputs the attribute value for the specified work package" do

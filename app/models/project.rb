@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,6 @@ class Project < ApplicationRecord
   include Projects::Storage
   include Projects::EnabledTypes
   include Projects::Versions
-  include Projects::WorkPackageCustomFields
   include Projects::CreationWizard
   include Projects::Identifier
   include Projects::SemanticIdentifier
@@ -91,8 +89,6 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :cost_types_projects, dependent: :delete_all
-  has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
   has_many :persisted_views, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy

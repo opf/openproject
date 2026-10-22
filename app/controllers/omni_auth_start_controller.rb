@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,12 +56,12 @@ class OmniAuthStartController < ApplicationController
   private
 
   def ensure_form_action_appended!(provider)
-    form_action_origin = origin_from_url(provider[:form_action_url])
+    form_action_origins = Array(provider[:form_action_urls]).filter_map { |url| origin_from_url(url) }
 
-    if form_action_origin.nil?
+    if form_action_origins.empty?
       render_incomplete_provider(provider)
     else
-      append_content_security_policy_directives(form_action: [form_action_origin])
+      append_content_security_policy_directives(form_action: form_action_origins)
     end
   end
 
@@ -74,14 +73,14 @@ class OmniAuthStartController < ApplicationController
   def developer_provider(name)
     return if name.to_s != "developer" || Rails.env.production?
 
-    { name: "developer", form_action_url: root_url }
+    { name: "developer", form_action_urls: [root_url] }
   end
 
   def render_incomplete_provider(provider)
     render_error(
       status: 500,
       message: I18n.t(:error_omniauth_provider_incomplete, provider: provider[:display_name].presence || provider[:name]),
-      exception: "OmniAuth provider #{provider[:name].inspect} has no valid :form_action_url"
+      exception: "OmniAuth provider #{provider[:name].inspect} has no valid :form_action_urls"
     )
   end
 

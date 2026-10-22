@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,8 +31,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::TypesController do
   let(:project) do
-    create(:project,
-           work_package_custom_fields: [custom_field_2])
+    create(:project)
   end
   let(:custom_field_1) do
     create(:work_package_custom_field,
@@ -159,7 +157,6 @@ RSpec.describe WorkPackageTypes::TypesController do
         let(:archived_project) do
           create(:project,
                  :archived,
-                 work_package_custom_fields: [custom_field_2],
                  types: [type2])
         end
         let!(:work_package) do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,38 +39,6 @@ module MeetingsHelper
     else
       t("placeholders.default")
     end
-  end
-
-  def render_meeting_journal(model, journal, options = {})
-    return "" if journal.initial?
-
-    journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, id: "change-#{journal.id}", class: "journal"
-  end
-
-  # This renders a journal entry with a header and details
-  def render_journal_details(journal, header_label = :label_updated_time_by, _model = nil, options = {}) # rubocop:disable Metrics/AbcSize
-    profile_wrap = content_tag("div", avatar(journal.user), class: "profile-wrap")
-    journal_link = content_tag("div",
-                               link_to("##{journal.anchor}", anchor: "note-#{journal.anchor}"),
-                               class: "journal-link",
-                               style: "float:right;")
-    anchor_tag = content_tag("a", "", name: "note-#{journal.anchor}")
-    h4 = content_tag("h4",
-                     safe_join([journal_link, authoring(journal.created_at, journal.user, label: header_label), anchor_tag]))
-    header = safe_join([profile_wrap, h4])
-
-    if journal.details.any?
-      details = content_tag("ul", class: "details journal-attributes") do
-        safe_join(journal.details.filter_map do |detail|
-          if (d = journal.render_detail(detail, cache: options[:cache]))
-            content_tag("li", d)
-          end
-        end)
-      end
-    end
-
-    content_tag("div", safe_join([header, details].compact), id: "change-#{journal.id}", class: "journal")
   end
 
   def global_meeting_create_context?

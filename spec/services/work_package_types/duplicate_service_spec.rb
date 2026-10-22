@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -115,23 +114,6 @@ RSpec.describe WorkPackageTypes::DuplicateService do
       copy = service_call.result.reload
 
       expect(copy.project_ids).to contain_exactly(project_a.id, project_b.id)
-    end
-
-    context "when the source's form configuration holds a custom field" do
-      shared_let(:custom_field) { create(:wp_custom_field) }
-
-      before do
-        source.default_variant.attribute_groups = [["custom group", ["custom_field_#{custom_field.id}"]]]
-        source.default_variant.custom_field_ids = [custom_field.id]
-        source.default_variant.save!
-      end
-
-      it "activates that field in the projects the copy is added to" do
-        service_call
-
-        expect(project_a.reload.work_package_custom_field_ids).to include(custom_field.id)
-        expect(project_b.reload.work_package_custom_field_ids).to include(custom_field.id)
-      end
     end
   end
 end

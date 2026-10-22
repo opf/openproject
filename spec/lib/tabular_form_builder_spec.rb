@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require "ostruct"
 
@@ -649,7 +649,7 @@ JJ Abrams</textarea>
       end
 
       context "without ActiveModel and specified label" do
-        # This is a hypotethical resource that does not have an existing translation
+        # This is a hypothetical resource that does not have an existing translation
         # key, therefore stubbing the translation is allowed.
         before do
           allow(I18n).to receive(:t).with(:name, scope: "user").and_return("Name")

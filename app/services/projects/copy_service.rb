@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,7 +76,6 @@ module Projects
       attributes = source_attributes.merge(
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
-        work_package_custom_fields: source_custom_fields,
 
         # clear PIR settings
         project_creation_wizard_artifact_work_package_id: nil
@@ -176,10 +174,6 @@ module Projects
 
     def duplicate_variant(variant)
       variant.dup.tap { it.project = state.project }
-    end
-
-    def source_custom_fields
-      source.work_package_custom_fields
     end
 
     def source_custom_field_attributes

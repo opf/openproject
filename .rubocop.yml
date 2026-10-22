@@ -93,6 +93,10 @@ Lint/SuppressedException:
 Lint/UnderscorePrefixedVariableName:
   Enabled: false
 
+Lint/UselessDefaultValueArgument:
+  AllowedReceivers:
+    - JournalFormatterCache
+
 Lint/Void:
   Enabled: false
 
@@ -142,6 +146,8 @@ Naming/MethodParameterName:
     - cf # custom fields are commonly abbreviated like that
     - to # pairs with `from` for ranges, as in Day.from_range(from:, to:)
     - "on"
+    - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
+    - "if"
 
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
@@ -155,18 +161,14 @@ Naming/VariableNumber:
 
 OpenProject/AddPreviewForViewComponent:
   Include:
-    - app/components/op_turbo/**.rb
-    - app/components/op_primer/**.rb
-    - app/components/open_project/**.rb
-    - app/components/concerns/**.rb
+    - app/components/op_turbo/*.rb
+    - app/components/op_primer/*.rb
+    - app/components/open_project/*.rb
 
 # Specs overwhelmingly hold a type the example created itself and assert against that member's
 # own configuration, which is the shape the cop cannot tell apart from a work package's stored
 # root. Note the gap this leaves: a spec that builds a work package and reads configuration off
 # its `type` is the real bug and is no longer flagged here.
-
-Performance/Casecmp:
-  Enabled: false
 
 # Don't force us to use tag instead of content_tag
 # as this breaks angular elements

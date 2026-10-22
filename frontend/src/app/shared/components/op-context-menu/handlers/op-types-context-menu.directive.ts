@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -75,8 +74,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
         .wpCreate
         .getEmptyForm(this.projectIdentifier)
         .then((form) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          this.buildItems(form.schema.type.allowedValues as TypeResource[]);
+          this.buildItems(form.schema.type!.allowedValues as TypeResource[]);
           this.opContextMenu.show(this, evt);
         });
     } else {

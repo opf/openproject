@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,6 +112,12 @@ module Admin::Import::Jira
           data: { "admin--jira-configuration-form-target": "tokenInput" }
         )
       end
+
+      client_form.check_box(
+        name: :exclude_resolution_fields,
+        label: I18n.t("admin.jira.form.fields.exclude_resolution_fields"),
+        caption: I18n.t("admin.jira.form.exclude_resolution_fields_caption")
+      )
 
       client_form.group(layout: :horizontal, mt: 1, mb: 2) do |button_group|
         button_group.submit(

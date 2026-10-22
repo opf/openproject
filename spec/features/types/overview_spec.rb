@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,7 +44,7 @@ RSpec.describe "The overview of a work package type",
     expect(page).to have_link("Defaults", href: edit_type_defaults_path(type_id: type.id))
     expect(page).to have_link("Variants", href: type_variants_path(type_id: type.id))
     expect(page).to have_link("Form", href: edit_type_form_configuration_path(type_id: type.id))
-    expect(page).to have_link("Workflows", href: edit_type_workflow_path(type_id: type.id))
+    expect(page).to have_link("Workflow", href: edit_type_workflow_path(type_id: type.id))
     expect(page).to have_link("Project attributes", href: edit_type_project_attributes_path(type_id: type.id))
     expect(page).to have_link("Projects", href: edit_type_projects_path(type_id: type.id))
     expect(page).to have_link("Generate PDF", href: edit_type_pdf_export_template_index_path(type_id: type.id))
@@ -57,10 +56,15 @@ RSpec.describe "The overview of a work package type",
     visit type_variant_settings_path(type_id: type.id, variant_id: variant.id)
 
     within("#overview-details") { expect(page).to have_text("Always manual") }
-    within("#overview-workflow") { expect(page).to have_text("Always manual") }
-    within("#overview-form_configuration") { expect(page).to have_text("Always manual") }
+    within("#overview-workflow") do
+      expect(page).to have_link(variant.workflow.name, href: edit_workflow_path(variant.workflow))
+    end
+    within("#overview-form_configuration") do
+      expect(page).to have_link(variant.form_configuration.name,
+                                href: edit_form_configuration_path(variant.form_configuration))
+    end
     within("#overview-defaults") do
-      expect(page).to have_text("Inheriting from Bug")
+      expect(page).to have_text("Using the same as type (Bug)")
       expect(page).to have_link("Bug", href: edit_type_defaults_path(type_id: type.id))
     end
   end
@@ -97,7 +101,7 @@ RSpec.describe "The overview of a work package type",
       visit project_type_variant_settings_path(**owned_in_project)
 
       within("#overview-defaults") do
-        expect(page).to have_text("Inheriting from Bug")
+        expect(page).to have_text("Using the same as type (Bug)")
         expect(page).to have_no_link("Bug")
       end
     end

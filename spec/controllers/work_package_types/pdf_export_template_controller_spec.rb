@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,12 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
+#++
 
 require "spec_helper"
 
@@ -80,8 +78,9 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
       it "reorder a template" do
         first = variant.pdf_export_templates.list.first
-        put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        variant.pdf_export_templates.list[1].id == first.id
+        second = variant.pdf_export_templates.list[1]
+        put_reload :move, { id: first.id, list_type: "pdf_export_templates", list_id: "", prev_id: second.id }
+        expect(variant.pdf_export_templates.list[1].id).to eq(first.id)
       end
 
       it "toggles enabled/disabled for a template" do
@@ -127,9 +126,14 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:forbidden)
       end
 
-      it "refuses drop with a forbidden turbo-stream flash" do
+      it "refuses move with a forbidden turbo-stream flash" do
         first = linked_variant.pdf_export_templates.list.first
-        expect { put_reload :drop, { variant_id: linked_variant.id, id: first.id, position: 2 } }.not_to raise_error
+        second = linked_variant.pdf_export_templates.list[1]
+        expect do
+          put_reload :move,
+                     { variant_id: linked_variant.id, id: first.id, list_type: "pdf_export_templates", list_id: "",
+                       prev_id: second.id }
+        end.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
     end

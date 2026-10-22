@@ -135,7 +135,7 @@ hy:
     error_invalid_backup_code: Անվավեր 2FA պահուստային կոդ
     error_is_enforced_not_active: Կազմաձևման սխալ՝ երկգործոն նույնականացումը պարտադրված է, սակայն ակտիվ ռազմավարություններ չկան։
     error_no_device: Այս օգտատիրոջ համար գրանցված 2FA սարք չի գտնվել, չնայած որ այն պարտադիր է այս համակարգում։
-    error_no_matching_strategy: Այս օգտատիրոջ համար համապատասխան 2FA ռազմավարություն հասանելի չէ։ Խնդրում ենք դիմել Ձեր ադմինիստրատորին։
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: Ադմինիստրատորը պարտադրել է երկգործոն նույնականացում այս համակարգի համար։ Մուտք գործելու համար խնդրում ենք ավելացնել երկգործոն նույնականացման եղանակ։
     label_2fa_disabled: Երկգործոն նույնականացումն ակտիվ չէ

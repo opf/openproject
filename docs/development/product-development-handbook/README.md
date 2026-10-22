@@ -261,7 +261,7 @@ When all features, bugs have been tested successfully, regression testing was pe
 1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
 1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Building phase 1 - 3.
 
-If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned ot the developers/product team for additional changes or specification work
+If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned to the developers/product team for additional changes or specification work
 
 ### 3.2.4 Building phase 4: Documentation
 
@@ -438,7 +438,3 @@ The Learning Goals space is closely related to the Learning section. It includes
 The Opportunity Canvas is intended to quickly validate or invalidate ideas and to identify possible issues early on. As such invalidating an idea through the opportunity canvas is just as valuable as validating an idea (if not even more so).
 
 An Opportunity Canvas may not always be required - especially when a problem is well understood or small in scope.
-
-**References:**
-
-- [Opportunity Canvas Template](https://docs.google.com/document/d/1sgNrEx_PRCwewI9-46mN0qnyzz2AWq_SwFc6gLOcrbI/edit)

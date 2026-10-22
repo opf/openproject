@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -838,7 +837,6 @@ RSpec.describe "API v3 Work package form resource" do
                 let(:params) { valid_params.merge(cf_param) }
 
                 before do
-                  project.work_package_custom_fields << custom_field
                   project.save!
                   work_package.type.default_variant.custom_field_ids |= [custom_field.id]
                   work_package.save!
@@ -858,7 +856,6 @@ RSpec.describe "API v3 Work package form resource" do
                          field_format: "string",
                          name: "Department",
                          is_required: true,
-                         projects: [project],
                          types: [work_package.type])
                 end
 

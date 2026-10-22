@@ -11,6 +11,8 @@ The CollapsibleSection consists of two basic parts: the title and the content be
   - Additional information (optional): Free content, shown at the end of the title row
 - The collapsible content area
 
+The initial state is controlled by the `collapsed` parameter. By default (`collapsed: false`) the section renders open and the user can toggle it between expanded and collapsed. Pass `collapsed: true` to render it collapsed initially, and `collapsed: :locked` to keep the section permanently open and hide the toggle, so the content can never be collapsed.
+
 ## Best practices
 
 **Do**

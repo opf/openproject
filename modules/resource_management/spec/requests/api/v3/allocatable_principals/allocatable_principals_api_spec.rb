@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -123,6 +122,19 @@ RSpec.describe API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI,
 
       it "returns that project's members, and the placeholders regardless" do
         expect(returned_ids).to contain_exactly(user.id, member.id, with_criteria.id)
+      end
+    end
+
+    context "when filtering for the candidates of a placeholder" do
+      let(:send_request) do
+        get api_v3_paths.path_for(:allocatable_principals,
+                                  filters: [{ candidate_of_placeholder: { operator: "=",
+                                                                          values: [with_criteria.id.to_s] } }])
+      end
+
+      it "returns only the users matching the placeholder's criteria" do
+        expect(last_response).to have_http_status(:ok)
+        expect(returned_ids).to contain_exactly(member.id)
       end
     end
   end

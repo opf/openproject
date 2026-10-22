@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,7 +29,7 @@
  * A PortalOutlet that lets multiple components live for the lifetime of the outlet,
  * allowing faster switching and persistent data.
  */
-import { ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal, ComponentType } from '@angular/cdk/portal';
 import {
   ApplicationRef,
   ComponentRef,
@@ -41,7 +40,7 @@ import {
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 
 export interface TabInterface extends TabDefinition {
-  componentClass:new(...args:any[]) => TabComponent;
+  componentClass:ComponentType<TabComponent>;
 }
 
 export interface TabComponent {
@@ -88,7 +87,7 @@ export class TabPortalOutlet {
     // At this point the component has been instantiated, so we move it to the location in the DOM
     // where we want it to be rendered.
     this.outletElement.innerHTML = '';
-    this.outletElement.appendChild(this._getComponentRootNode(instance.componentRef));
+    this.outletElement.appendChild(this.getComponentRootNode(instance.componentRef));
     this.outletElement.dataset.tabName = tab.name;
     this.currentTab = instance;
   }
@@ -144,7 +143,7 @@ export class TabPortalOutlet {
   }
 
   /** Gets the root HTMLElement for an instantiated component. */
-  private _getComponentRootNode(componentRef:ComponentRef<any>):HTMLElement {
-    return (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+  private getComponentRootNode(componentRef:ComponentRef<unknown>):HTMLElement {
+    return (componentRef.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement;
   }
 }

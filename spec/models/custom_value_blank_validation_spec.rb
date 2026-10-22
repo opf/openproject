@@ -16,6 +16,14 @@
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
@@ -64,7 +72,7 @@ RSpec.describe CustomValue, "requiring a field value" do
 
     let(:custom_field) { create(:integer_wp_custom_field, is_for_all: true) }
     let(:type) { create(:type) }
-    let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+    let(:project) { create(:project, types: [type]) }
     let(:work_package) { build(:work_package, project:, type:, status:, priority:) }
 
     def require_on_the_variant

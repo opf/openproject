@@ -22,10 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
 
 require "spec_helper"
 require "rack/test"
@@ -156,7 +156,6 @@ RSpec.describe "POST /api/v3/queries/form",
     describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
         project.enabled_variants.first.custom_field_ids |= [cf.id]
         cf
       end
@@ -214,7 +213,6 @@ RSpec.describe "POST /api/v3/queries/form",
     describe "columns", with_settings: { work_package_multiple_versions: false } do
       let(:custom_field) do
         cf = create(:list_wp_custom_field)
-        project.work_package_custom_fields << cf
         project.enabled_variants.first.custom_field_ids |= [cf.id]
         cf
       end
@@ -747,7 +745,7 @@ RSpec.describe "POST /api/v3/queries/form",
       )
     end
     let!(:type) { create(:type, custom_fields: [custom_field]) }
-    let!(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+    let!(:project) { create(:project, types: [type]) }
 
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)

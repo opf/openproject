@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -74,6 +73,41 @@ describe('Repository navigation controller', () => {
     `);
     return ctx.getController<RepositoryNavigationControllerType>('repository-navigation');
   }
+
+  async function renderWithTag(revision:string) {
+    await ctx.mount(`
+      <div data-controller="repository-navigation">
+        <form data-repository-navigation-target="form">
+          <input data-repository-navigation-target="revision" value="${revision}">
+          <select data-repository-navigation-target="tag">
+            <option value=""></option>
+            <option value="v1.0" selected>v1.0</option>
+          </select>
+        </form>
+        <div data-repository-navigation-target="repoBrowser"></div>
+      </div>
+    `);
+    return ctx.getController<RepositoryNavigationControllerType>('repository-navigation');
+  }
+
+  it('clears the revision box when viewing a tag', async () => {
+    await renderWithTag('v1.0');
+
+    expect(ctx.container.querySelector('input')).toHaveValue('');
+  });
+
+  it('leaves the tag out of the submitted form', async () => {
+    const controller = await renderWithTag('');
+    const tag = ctx.container.querySelector('select')!;
+    const form = ctx.container.querySelector('form')!;
+    let tagDisabledOnSubmit:boolean|undefined;
+    vi.spyOn(form, 'submit').mockImplementation(() => { tagDisabledOnSubmit = tag.disabled; });
+
+    controller.sendForm();
+
+    expect(tagDisabledOnSubmit).toBe(true);
+    expect(tag).toBeEnabled();
+  });
 
   it('binds the declared services after connect', async () => {
     const controller = await renderBrowser();

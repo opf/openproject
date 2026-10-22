@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ require "spec_helper"
 
 RSpec.describe OpenProject::HtmlDiff do
   describe ".from_markdown" do
-    it "hightlights additions with <ins> tags" do
+    it "highlights additions with <ins> tags" do
       from = ""
       to = "Hello, world!"
       expect(described_class.from_markdown(from, to))
@@ -41,7 +40,7 @@ RSpec.describe OpenProject::HtmlDiff do
         HTML
     end
 
-    it "hightlights removals with <del> tags" do
+    it "highlights removals with <del> tags" do
       from = "Hello, world!"
       to = ""
       expect(described_class.from_markdown(from, to))
@@ -50,7 +49,7 @@ RSpec.describe OpenProject::HtmlDiff do
         HTML
     end
 
-    it "hightlights modifications with both <ins> and <del> tags" do
+    it "highlights modifications with both <ins> and <del> tags" do
       from = "Hello, world!"
       to = "Hello, OpenProject!"
       expect(described_class.from_markdown(from, to))

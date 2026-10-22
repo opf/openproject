@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -72,9 +71,9 @@ describe('DragAndDropTransformer', () => {
       workPackages: groupedWorkPackages,
       groups,
       dragAction: {
-        handleDrop: (_workPackage, el) => {
+        prepareDrop: (_workPackage, el) => {
           drops.push(snapshot(harness, el));
-          return dropAction();
+          return Promise.resolve({ persist: async () => { await dropAction(); } });
         },
       },
     });
@@ -111,8 +110,9 @@ describe('DragAndDropTransformer', () => {
   });
 
   it('rebuilds the table from the persisted order', async () => {
+    const rendered = harness.nextRender();
     await harness.drop('1', '2', 'bottom');
-    await harness.nextRender();
+    await rendered;
 
     expect(rowIds()).toEqual(['2', '1', '3', '4']);
     expect(snapshot(harness, harness.row('1'))).toEqual({ group: 'New', previous: '2', next: undefined });
@@ -148,7 +148,7 @@ describe('DragAndDropTransformer', () => {
     expect(success).toBe(false);
     expect(rowIds()).toEqual(['1', '2', '3', '4']);
     expect(snapshot(harness, harness.row('1'))).toEqual({ group: 'New', previous: undefined, next: '2' });
-    expect(handleRawError).toHaveBeenCalledExactlyOnceWith(error);
+    expect(handleRawError).toHaveBeenCalledExactlyOnceWith(error, harness.injector.get(States).workPackages.get('1').value);
   });
 });
 
@@ -176,10 +176,10 @@ describe('DragAndDropTransformer with two tables showing the same work packages'
     const table:TableHarness = await mount({
       ...options,
       dragAction: {
-        handleDrop: (_workPackage, el) => {
+        prepareDrop: (_workPackage, el) => {
           dropped.push(el);
           drops.push(snapshot(table, el));
-          return Promise.resolve();
+          return Promise.resolve({ persist: () => Promise.resolve() });
         },
       },
     });

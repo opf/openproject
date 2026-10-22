@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,12 +57,8 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
   end
 
   def self.instances(context = nil)
-    if context
-      context.all_work_package_custom_fields
-    else
-      WorkPackageCustomField.all
-    end
-      .on_visible_type_and_project(User.current)
+    WorkPackageCustomField
+      .on_visible_type_and_project(User.current, project: context)
       .reject { |cf| cf.field_format == "text" }
       .map { |cf| new(cf) }
   end

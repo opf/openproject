@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -126,7 +125,7 @@ RSpec.describe "Managing file links in work package", :js, :webmock do
   end
 
   it "must enable the user to remove a file link" do
-    within_test_selector("op-tab-content--tab-section", text: "MY STORAGE") do
+    within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
       within(:list_item, text: "jingle.ogg") do
         page.find("span", text: "jingle.ogg").hover
         page.click_on("Remove file link")

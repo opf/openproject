@@ -32,6 +32,10 @@ hu:
         labels: Címkék
       gitlab_pipeline:
         ci_details: CI Részletek
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,13 +65,10 @@ hu:
   attributes:
     commit: Commit
     gitlab: Gitlab azonosító
-    gitlab_avatar_url: Avatar URL
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Merge Request
-    gitlab_name: GitLab név
     gitlab_updated_at: Frissítve ekkor
     gitlab_user_avatar_url: GitLab avatar URL
-    gitlab_username: GitLab felhasználónév
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

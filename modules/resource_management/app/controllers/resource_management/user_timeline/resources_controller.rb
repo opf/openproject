@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ module ResourceManagement
   module UserTimeline
     class ResourcesController < FeedsController
       def index
-        overbooked = overbooked_ranges_by_principal.keys.to_set
+        overbooked = overbooked_principal_ids
         scheduled = scheduled_principal_ids
         preload_user_details
 
@@ -52,6 +51,10 @@ module ResourceManagement
       end
 
       private
+
+      def overbooked_principal_ids
+        availabilities_by_principal.select { |_id, availability| availability.overbooked? }.keys.to_set
+      end
 
       # Eager-load everything the resource cell reads off each user, so rendering
       # the rows stays a fixed number of queries regardless of the user count.

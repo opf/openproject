@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,10 +112,10 @@ RSpec.describe Backlogs::CommonHelper do
     end
 
     context "with bucket_ids and sprint_ids" do
-      let(:params) { { bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json } }
+      let(:params) { { bucket_ids: %w[1 inbox].to_json, sprint_ids: "3".to_json } }
 
       it "includes both in to_h" do
-        expect(helper.backlog_filters.to_h).to eq({ bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json })
+        expect(helper.backlog_filters.to_h).to eq({ bucket_ids: %w[1 inbox].to_json, sprint_ids: "3".to_json })
       end
     end
 
@@ -141,6 +140,14 @@ RSpec.describe Backlogs::CommonHelper do
 
       it "includes it in to_h" do
         expect(helper.backlog_filters.to_h).to eq({ filters: 'status_id = "1"' })
+      end
+    end
+
+    context "with unpermitted params" do
+      let(:params) { { bucket_ids: "1", evil: "true" } }
+
+      it "filters them out" do
+        expect(helper.backlog_filters.to_h).to eq(bucket_ids: "1".to_json)
       end
     end
   end

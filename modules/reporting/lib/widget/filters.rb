@@ -20,15 +20,24 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 # rubocop:disable Metrics/AbcSize
 class Widget::Filters < Widget::Base
-  def render
+  param :subject, reader: false
+
+  attr_reader :engine
+
+  def initialize(...)
+    super
+
+    @engine = @subject.respond_to?(:engine) ? @subject.engine : @subject.class
+  end
+
+  def call
     spacer = content_tag :li, "", class: "advanced-filters--spacer hide-when-print"
 
     add_filter = content_tag :li, id: "add_filter_block",
@@ -61,7 +70,7 @@ class Widget::Filters < Widget::Base
       render_filters + spacer + add_filter
     end
 
-    write content_tag(:div, list)
+    content_tag(:div, list)
   end
 
   def selectables

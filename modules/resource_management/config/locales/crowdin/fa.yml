@@ -3,6 +3,7 @@ fa:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: تخصیص منابع
         user_filter: معیارهای فیلتر
       resource_allocation:
         allocated_hours: ساعت‌ها
@@ -28,6 +29,8 @@ fa:
         allocated_time: تخصیص‌یافته
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: این کاربر جایگزین هنوز در تخصیص منابع استفاده می‌شود. پیش از حذف آن، این تخصیص‌ها را به شخص دیگری واگذار یا حذف کنید.
         resource_allocation:
           attributes:
             end_date:
@@ -104,20 +107,22 @@ fa:
       criteria:
         empty: هیچ معیاری تعیین نشده است.
         label: معیارها
+      deleted_assignee: کاربری که به این تخصیص اختصاص داده شده بود حذف شده است. می‌توانید تخصیص را به همین شکل نگه دارید یا شخص دیگری را انتخاب کنید.
       missing_working_hours:
         none: کاربر انتخاب‌شده برای این تاریخ‌ها هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین فاقد ظرفیت در نظر گرفته می‌شود.
         partial: کاربر انتخاب‌شده برای %{dates} هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین آن روزها فاقد ظرفیت در نظر گرفته می‌شوند.
       outside_dates:
         description: تاریخ‌های انتخاب‌شدهٔ منبع، %{resource_dates}، خارج از بازهٔ تاریخ‌های بستهٔ کاری، %{work_package_dates}، هستند.
       overbooking:
-        capacity_summary: "%{available} در دسترس · %{scheduled} زمان‌بندی‌شده"
         description: کاربر انتخاب‌شده، %{user}، در این بازه بیش از ساعات کاری خود تخصیص خواهد یافت.
-        hidden_work: سایر تخصیص‌ها
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% در دسترس برای کار پروژه)"
         schedule_change: تا %{date}، سپس %{schedule}
         schedule_note: این کاربر طبق %{schedule} کار می‌کند.
         submit: تخصیص اضافه‌کاری
         title: آیا می‌خواهید برای کاربر اضافه‌کاری تخصیص دهید؟
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: تخصیص نیرو از کاربر جایگزین %{placeholder}
       submit: تخصیص
       success_message: منبع تخصیص داده شد.
       title: تخصیص منبع
@@ -168,6 +173,8 @@ fa:
     label_new_resource_planner: برنامه‌ریز منابع جدید
     label_resource_planner: برنامه‌ریز منابع
     label_resource_planner_plural: برنامه‌ریزهای منابع
+    my_work:
+      hidden_work_package: این بسته کاری برای شما قابل مشاهده نیست
     new_view_dialog:
       title: افزودن نما
     public_caption: این نما را برای همهٔ اعضای پروژه عمومی کنید. این کار بر قابلیت مشاهدهٔ بسته‌های کاری اثری ندارد؛ مشاهدهٔ آن‌ها همچنان به مجوزهای هر کاربر بستگی دارد.
@@ -254,7 +261,8 @@ fa:
       no_work_schedule: برای این کاربر برنامهٔ کاری‌ای تعیین نشده است
       overbooked: این کاربر در بازهٔ انتخاب‌شده بیش‌ازحد تخصیص یافته است.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} زمان‌بندی‌شده، %{available} در دسترس"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: افزودن کاربر
     view_types:

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -116,6 +115,10 @@ class FormConfiguration < ApplicationRecord
 
     attribute_group_rows.store(groups)
     remove_instance_variable(:@stored_attribute_groups) if defined?(@stored_attribute_groups)
+
+    # The groups live in their own tables, so saving them leaves this record untouched and
+    # anything cached against its timestamp (the work package schema) would stay stale.
+    touch
   end
 
   def neutral_variant

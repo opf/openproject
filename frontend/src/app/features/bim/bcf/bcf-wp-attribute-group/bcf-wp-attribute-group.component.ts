@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { NgxGalleryComponent, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -135,7 +134,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
   viewpoints:BcfViewpointItem[] = [];
 
-  galleryImages:any[] = [];
+  galleryImages:NgxGalleryImage[] = [];
 
   // Store whether viewing is allowed
   viewAllowed = false;
@@ -171,17 +170,21 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .id(this.workPackage)
       .requireAndStream()
       .pipe(this.untilDestroyed())
-      .subscribe(async (wp) => {
-        this.workPackage = wp;
-
-        if (!this.projectId) {
-          await this.initialize(this.workPackage);
-        }
-
-        if (wp.bcfViewpoints) {
-          this.refreshViewpoints(wp.bcfViewpoints);
-        }
+      .subscribe((wp) => {
+        void this.onWorkPackageChange(wp);
       });
+  }
+
+  private async onWorkPackageChange(wp:WorkPackageResource) {
+    this.workPackage = wp;
+
+    if (!this.projectId) {
+      await this.initialize(this.workPackage);
+    }
+
+    if (wp.bcfViewpoints) {
+      this.refreshViewpoints(wp.bcfViewpoints as unknown as HalLink[]);
+    }
   }
 
   async initialize(workPackage:WorkPackageResource) {
@@ -275,7 +278,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     return [
       {
         icon: 'icon-view-model',
-        onClick: (evt:any, index:number) => {
+        onClick: (evt:Event, index:number) => {
           this.showViewpoint(this.workPackage, index);
           this.gallery.preview.close();
         },
@@ -283,7 +286,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       },
       {
         icon: 'icon-delete',
-        onClick: (evt:any, index:number) => this.deleteViewpoint(this.workPackage, index),
+        onClick: (evt:Event, index:number) => this.deleteViewpoint(this.workPackage, index),
         titleText: this.text.delete_viewpoint,
       },
     ];

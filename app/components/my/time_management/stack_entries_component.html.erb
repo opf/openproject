@@ -1,0 +1,4 @@
+<%= component_wrapper(tag: "div", data: wrapper_data, class: "my-time-management-stack-view--entries") do %>
+  <div class="my-time-management-stack-view--canvas" data-my--time-management-stack-target="stack"></div>
+  <%= render(My::TimeManagement::EntryMenusComponent.new(time_entries:, allocations:)) %>
+<% end %>

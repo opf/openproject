@@ -3,6 +3,7 @@ uk:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Критерії фільтрування
       resource_allocation:
         allocated_hours: Години
@@ -28,6 +29,8 @@ uk:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -116,20 +119,22 @@ uk:
       criteria:
         empty: Критерії не встановлено.
         label: Критерії
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Для вибраного користувача на ці дати не налаштовано робочі години, тому вважається, що він не має завантаження.
         partial: Для вибраного користувача на %{dates} не налаштовано робочі години, тому вважається, що в ці дні він не має завантаження.
       outside_dates:
         description: Вибрані дати ресурсу, %{resource_dates}, виходять за межі термінів виконання пакета робіт, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} доступно · %{scheduled} заплановано"
         description: Вибраному користувачу %{user} у цей період буде призначено більше годин роботи, ніж передбачено його робочим часом.
-        hidden_work: Інші виділення ресурсів
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% доступно для роботи над проєктом)"
         schedule_change: до %{date}, потім %{schedule}
         schedule_note: Цей користувач працює %{schedule}.
         submit: Виділити понаднормовий час
         title: Хочете виділити цьому користувачу понаднормовий час?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Виділити
       success_message: Ресурси виділено.
       title: Виділити ресурс
@@ -180,6 +185,8 @@ uk:
     label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Додати подання
     public_caption: Якщо зробити це подання загальнодоступним, доступ до нього отримають усі учасники проєкту. Це не вплине на видимість пакетів робіт, яка все ще залежить від того, чи є в користувача відповідний дозвіл.
@@ -266,7 +273,8 @@ uk:
       no_work_schedule: Для цього користувача не створено жодного розкладу роботи
       overbooked: На вибраний період цьому користувачу призначено більше годин, ніж доступно.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} заплановано, %{available} доступно"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Додати користувача
     view_types:

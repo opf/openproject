@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -86,7 +85,7 @@ module API
               ::API::V3::WorkPackages::EagerLoading::Principals,
               ::API::V3::WorkPackages::EagerLoading::Checksum,
               ::API::V3::WorkPackages::EagerLoading::CustomValue,
-              ::API::V3::WorkPackages::EagerLoading::CustomAction,
+              ::API::V3::WorkPackages::EagerLoading::Automation,
               # Have the historic attributes last as they require the custom values
               # to be loaded first in order to create the diffs between the current
               # and the historic values without loading the custom fields (Acts::Journalized::Differ).

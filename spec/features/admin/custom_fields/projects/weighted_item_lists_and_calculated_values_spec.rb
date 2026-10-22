@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -104,10 +103,12 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
         open_action_menu(one)
         click_on "Delete"
 
+        expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
         page.find_field("confirm_dangerous_action").click
-        click_on "Delete permanently"
+        expect(page).to have_checked_field("confirm_dangerous_action")
+        page.find_button("Delete permanently", disabled: false, wait: 20).click
 
-        # ensure thet processing finished
+        # ensure that processing finished
         expect(page).to have_no_selector(row_selector(one))
 
         expect(project.reload.custom_value_for(calculated_value).value).to be_nil

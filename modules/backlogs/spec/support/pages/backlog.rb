@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -835,6 +834,19 @@ module Pages
       expect_ng_option(selected_filter, version.name, grouping: grouped_under)
     end
 
+    def apply_shared_with_user_filter(principal, operator: "is (OR)")
+      open_filters
+      set_filter("shared_with_user", "Shared with users", operator, [principal.name])
+      wait_for_network_idle
+    end
+
+    def expect_shared_with_user_option(principal, present: true)
+      open_filters
+      selected_filter = select_filter("shared_with_user", "Shared with users")
+      within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+      expect_ng_option(selected_filter, principal.name, present:)
+    end
+
     def apply_milestone_filter(value)
       open_filters
       if page.has_css?(filter_selector("is_milestone"), wait: 0)
@@ -1066,7 +1078,7 @@ module Pages
     end
 
     def expect_sprint_completing_modal
-      expect(page).to have_css sprint_complete_modal_selector
+      wait_for_size_animation_completion(sprint_complete_modal_selector)
     end
 
     def expect_sprints_to_choose_for_moving_unfinished_work_packages_to(*sprints)

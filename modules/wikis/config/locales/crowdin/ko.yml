@@ -178,7 +178,7 @@ ko:
         all: 모든 위키 페이지
         main: 기본 위키 페이지
       sub_pages_count:
-        other: "%{count}개 하위 페이지"
+        other: "%{count} sub-pages"
     inline_wiki_page_dialog:
       title_add: 기존 위키 페이지 추가
       title_create: 새 위키 페이지 만들기

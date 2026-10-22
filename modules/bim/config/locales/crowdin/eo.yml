@@ -106,7 +106,7 @@ eo:
     not_recommended: not recommended
     recommended: recommended
     x_bcf_issues:
-      one: Unu BCF problemo
+      one: "%{count} BCF issue"
       other: "%{count} BCF problemoj"
       zero: No BCF issues
   bim:

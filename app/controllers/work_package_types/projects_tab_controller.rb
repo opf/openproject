@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,7 @@
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
     include OpTurbo::ComponentStream
+    include PaginationHelper
     include TypeDeactivationErrorMessage
 
     VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
@@ -144,7 +144,6 @@ module WorkPackageTypes
       @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|
         query.where(:type_variant_id, "=", filtered_variant_ids)
         query.where(:name_and_identifier, "~", [project_name_term]) if project_name_term.present?
-        query.select(:name)
         query.order("lft" => "asc")
       end
     end
@@ -277,10 +276,13 @@ module WorkPackageTypes
     end
 
     def projects_table_component
-      ProjectsTab::TableComponent.new(
-        query: @query,
-        params: params.merge(variant: @variant, filtered: requested_filters.any?, url_for_action: :edit)
-      )
+      ProjectsTab::TableComponent.new(rows: paginated_projects, variant: @variant, filtered: requested_filters.any?)
+    end
+
+    def paginated_projects
+      @query.results
+            .includes(project_types: :variant)
+            .paginate(page: page_param, per_page: per_page_param)
     end
 
     def refuse_empty_selection

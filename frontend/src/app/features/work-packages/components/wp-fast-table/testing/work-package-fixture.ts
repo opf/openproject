@@ -20,13 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
+import { RelationsStateValue } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { groupIdentifier } from '../builders/modes/grouped/grouped-rows-helpers';
 
@@ -36,12 +37,26 @@ export interface WorkPackageFixture {
   /** Further resource attributes, e.g. a linked `status` the table groups by. */
   attributes?:Record<string, unknown>;
   ancestors?:WorkPackageFixture[];
+  /** The type name an `ofType` relation row shows as its label; defaults to `Task`. */
+  type?:string;
+  /** Child work packages a `children: true` column expands into child relation rows. */
+  children?:WorkPackageFixture[];
+}
+
+/** A relation `from` → `to` of `type`; seen from `to` it reads as `reverseType` (default `type`). */
+export interface RelationFixture {
+  from:string;
+  to:string;
+  type:string;
+  reverseType?:string;
 }
 
 export interface GroupFixture {
   value:string;
   href:string;
   count:number;
+  /** Sums per attribute; the group ends with a sums row when given. */
+  sums?:GroupObject['sums'];
 }
 
 export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource {
@@ -49,6 +64,8 @@ export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource
   const href = `/api/v3/work_packages/${fixture.id}`;
 
   return {
+    type: { name: fixture.type ?? 'Task' },
+    children: fixture.children?.map(buildWorkPackage),
     ...fixture.attributes,
     id: fixture.id,
     subject,
@@ -61,6 +78,35 @@ export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource
   } as unknown as WorkPackageResource;
 }
 
+export function buildRelations(relations:RelationFixture[]):Map<string, RelationsStateValue> {
+  const byWorkPackage = new Map<string, RelationsStateValue>();
+
+  relations.forEach((fixture, index) => {
+    const id = String(index);
+    const relation = {
+      id,
+      denormalized: (workPackage:{ id:string|null }) => {
+        const outgoing = workPackage.id === fixture.from;
+        const targetId = outgoing ? fixture.to : fixture.from;
+        const relationType = outgoing ? fixture.type : (fixture.reverseType ?? fixture.type);
+        const reverseRelationType = outgoing ? (fixture.reverseType ?? fixture.type) : fixture.type;
+        return {
+          target: { id: targetId, href: `/api/v3/work_packages/${targetId}` },
+          targetId,
+          relationType,
+          reverseRelationType,
+        };
+      },
+    } as unknown as RelationResource;
+
+    [fixture.from, fixture.to].forEach((workPackageId) => {
+      byWorkPackage.set(workPackageId, { ...byWorkPackage.get(workPackageId), [id]: relation });
+    });
+  });
+
+  return byWorkPackage;
+}
+
 export function buildGroup(fixture:GroupFixture, groupBy:string, index:number):GroupObject {
   const group = {
     value: fixture.value,
@@ -68,7 +114,7 @@ export function buildGroup(fixture:GroupFixture, groupBy:string, index:number):G
     collapsed: false,
     index,
     identifier: '',
-    sums: null as unknown as GroupObject['sums'],
+    sums: fixture.sums ?? null as unknown as GroupObject['sums'],
     href: [{ href: fixture.href }],
     _links: {
       valueLink: [{ href: fixture.href }],

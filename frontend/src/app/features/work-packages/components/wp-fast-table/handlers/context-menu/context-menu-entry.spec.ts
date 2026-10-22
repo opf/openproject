@@ -20,29 +20,30 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent, within } from '@testing-library/dom';
+import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
-import { buildTable, TableHarness } from '../../testing/table-harness';
+import { buildTable, TableHarness, type TableHarnessOptions } from '../../testing/table-harness';
 
 describe('Context menu entry', () => {
   let harness:TableHarness;
   let menuTargets:string[][];
   let opened:ReturnType<typeof vi.spyOn>;
 
-  beforeEach(async () => {
+  const mount = async (options:Partial<TableHarnessOptions> = {}, expanded:[string, string][] = []) => {
     harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       configuration: { contextMenuEnabled: true },
+      ...options,
     });
+    expanded.forEach(([workPackageId, columnId]) => harness.expand(workPackageId, columnId));
     await harness.render();
 
     menuTargets = [];
@@ -52,7 +53,9 @@ describe('Context menu entry', () => {
         return [];
       });
     opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
-  });
+  };
+
+  beforeEach(() => mount());
 
   afterEach(() => harness.destroy());
 
@@ -115,16 +118,6 @@ describe('Context menu entry', () => {
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
   });
 
-  it('anchors a following range at the occurrence the keyboard menu was opened on', () => {
-    harness.click('2');
-    const relationRow = harness.addRelationRow('1', '3');
-
-    fireEvent.keyDown(relationRow, { key: 'F10', shiftKey: true, altKey: true });
-    harness.click('3', { shiftKey: true });
-
-    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '3']);
-  });
-
   it('targets only the menu row when it is outside the selection', () => {
     harness.click('2');
 
@@ -132,6 +125,25 @@ describe('Context menu entry', () => {
 
     expect(menuTargets).toEqual([['1']]);
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  describe('with a relation row', () => {
+    beforeEach(async () => {
+      await harness.destroy();
+      await mount({
+        relations: [{ from: '3', to: '1', type: 'follows', reverseType: 'precedes' }],
+        columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      }, [['3', 'relationsOfTypeFollows']]);
+    });
+
+    it('anchors a following range at the occurrence the keyboard menu was opened on', () => {
+      harness.click('2');
+
+      fireEvent.keyDown(harness.relationRow('3', '1'), { key: 'F10', shiftKey: true, altKey: true });
+      harness.click('3', { shiftKey: true });
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '3']);
+    });
   });
 });
 
@@ -179,5 +191,72 @@ describe('Context menu entry from the actions column button', () => {
 
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
     expect(menuTargets).toEqual([['1', '2']]);
+  });
+});
+
+describe('Context menu entry on the inline-create row', () => {
+  let harness:TableHarness;
+  let inlineCreateRow:HTMLTableRowElement;
+  let opened:ReturnType<typeof vi.spyOn>;
+
+  const menuShortcut = { key: 'F10', shiftKey: true, altKey: true };
+
+  const openSubjectEditor = async () => {
+    fireEvent.click(inlineCreateRow.querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
+    await waitFor(() => expect(within(inlineCreateRow).getByRole('textbox')).toHaveFocus());
+
+    return within(inlineCreateRow).getByRole('textbox');
+  };
+
+  beforeEach(async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      configuration: { contextMenuEnabled: true, inlineCreateEnabled: true },
+      editing: {},
+    });
+    await harness.render();
+    inlineCreateRow = harness.addInlineCreateRow();
+    harness.click('2');
+
+    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+  });
+
+  afterEach(() => harness.destroy());
+
+  it('opens no menu and keeps the selection on right-click of a cell', () => {
+    fireEvent.contextMenu(inlineCreateRow.querySelector('td.subject')!);
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('leaves the browser context menu alone on right-click inside the subject editor', async () => {
+    const editor = await openSubjectEditor();
+
+    expect(fireEvent.contextMenu(editor)).toBe(true);
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('opens no menu and keeps the selection on the keyboard menu shortcut', async () => {
+    const editor = await openSubjectEditor();
+
+    expect(fireEvent.keyDown(editor, menuShortcut)).toBe(true);
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('still opens the menu for saved rows', () => {
+    fireEvent.contextMenu(harness.row('1'));
+
+    expect(opened).toHaveBeenCalledTimes(1);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+
+    fireEvent.keyDown(harness.row('2'), menuShortcut);
+
+    expect(opened).toHaveBeenCalledTimes(2);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
   });
 });

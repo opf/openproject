@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,6 +38,33 @@ RSpec.describe AuthProvider do
       provider.update!(available: false)
 
       expect(Setting.omniauth_direct_login_provider).to be_blank
+    end
+  end
+
+  describe "#additional_form_action_urls" do
+    subject(:provider) { build(:oidc_provider) }
+
+    it "splits text into one URL per line and drops blank lines" do
+      provider.additional_form_action_urls = " https://idp.example.com/login \r\n\r\nhttps://broker.example.com\n"
+
+      expect(provider.additional_form_action_urls).to eq %w[https://idp.example.com/login https://broker.example.com]
+    end
+
+    it "accepts a list" do
+      provider.additional_form_action_urls = ["https://idp.example.com", ""]
+
+      expect(provider.additional_form_action_urls).to eq %w[https://idp.example.com]
+    end
+
+    it "defaults to an empty list" do
+      expect(provider.additional_form_action_urls).to eq []
+    end
+
+    it "is an empty list for providers stored without it" do
+      saml_provider = create(:saml_provider)
+      saml_provider.update_column(:options, saml_provider.options.except("additional_form_action_urls"))
+
+      expect(described_class.find(saml_provider.id).additional_form_action_urls).to eq []
     end
   end
 end

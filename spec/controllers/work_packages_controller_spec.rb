@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ RSpec.describe WorkPackagesController do
 
   let(:current_user) { create(:user) }
 
-  def self.requires_permission_in_project(&)
+  def self.requires_permission_in_project(permissions: %i[view_work_packages], &)
     describe "w/o the permission to see the project/work_package" do
       before do
         allow(controller).to receive(:work_package).and_return(nil)
@@ -57,7 +56,7 @@ RSpec.describe WorkPackagesController do
 
     describe "with the permission to see the project " \
              "with having the necessary permissions" do
-      let(:role) { create(:project_role, permissions: [:view_work_packages]) }
+      let(:role) { create(:project_role, permissions:) }
 
       before do
         create(:member, project: work_package.project, principal: current_user, roles: [role])
@@ -288,7 +287,7 @@ RSpec.describe WorkPackagesController do
       allow(exporter).to receive(:new).and_return(exporter_instance)
     end
 
-    requires_permission_in_project do
+    requires_permission_in_project(permissions: %i[view_work_packages export_work_packages]) do
       it "respond with a pdf" do
         pdf_data = "foobar"
         time = DateTime.new(2023, 6, 30, 23, 59)

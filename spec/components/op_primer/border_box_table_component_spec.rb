@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -167,7 +166,7 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
 
     it "indexes body rows consecutively from #{first}" do
-      expect(rendered_component).to have_selector :role, :rowgroup, class: "op-border-box-table--rows" do |rowgroup|
+      expect(rendered_component).to have_selector :role, :rowgroup, class: "op-border-box-table__rows" do |rowgroup|
         (first..last).each do |index|
           expect(rowgroup).to have_selector :row, rowindex: index
         end
@@ -244,6 +243,79 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     end
 
     it_behaves_like "indexing rows", rowcount: 4, first: 2, last: 4, footer: false
+  end
+
+  context "with rows that have no button links" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    before do
+      row_class.define_method(:button_links) { [] }
+    end
+
+    it "still renders an actions cell so that the row fills the grid" do
+      expect(rendered_component).to have_selector :row, class: "Box-row", count: 2 do |row|
+        expect(row).to have_selector :role, :cell, count: 1, class: "op-border-box-grid__row-action", aria: { colindex: 3 }
+      end
+    end
+  end
+
+  context "with rows of different kinds" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+    let(:other_row_class) do
+      Class.new(OpPrimer::BorderBoxRowComponent) do
+        def name = "Other #{model.name}"
+        def description = nil
+      end
+    end
+
+    before do
+      stub_const("OtherBorderBoxRowComponent", other_row_class)
+      special = rows.last
+      table_class.define_method(:row_class_for) { |row| row == special ? OtherBorderBoxRowComponent : row_class }
+    end
+
+    it "renders each row with the row class chosen for it" do
+      expect(rendered_component).to have_selector :row, text: rows.first.name, rowindex: 2
+      expect(rendered_component).to have_selector :row, text: "Other #{rows.last.name}", rowindex: 3
+    end
+  end
+
+  context "with an action column" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+    let(:table) do
+      rendered_component
+      page.find(:role, :table)
+    end
+
+    it "defines the column tracks on the table, counting the main column twice" do
+      expect(table[:class]).to include("op-border-box-table--with-actions")
+      expect(table[:style]).to eq("--op-border-box-grid-tracks: 3;")
+    end
+
+    it "marks header, body and footer as rowgroups spanning the table's tracks" do
+      expect(rendered_component).to have_css("[role='table'] > [role='rowgroup'].op-border-box-table__rowgroup", count: 3)
+    end
+
+    it "lays out the header and body rows on the table's tracks, but not the footer" do
+      expect(rendered_component).to have_css(".op-border-box-grid--has-headers.op-border-box-grid--with-actions")
+      expect(rendered_component).to have_css(".Box-row.op-border-box-grid--with-actions", count: 2)
+      expect(rendered_component).to have_no_css(".Box-footer .op-border-box-grid--with-actions")
+    end
+  end
+
+  context "without an action column" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    before do
+      table_class.define_method(:has_actions?) { false }
+    end
+
+    it "keeps the evenly distributed layout" do
+      rendered_component
+
+      expect(page.find(:role, :table)[:style]).to be_nil
+      expect(rendered_component).to have_no_css(".op-border-box-table--with-actions, .op-border-box-grid--with-actions")
+    end
   end
 
   context "with a page of a paginated collection" do

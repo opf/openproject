@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -183,18 +182,18 @@ RSpec.describe "Sprint index", :js do
     sprints_page.visit!
 
     sprints_page.expect_pagination_range(from: 1, to: 2, total: 4)
-    sprints_page.expect_sprint_present(other_sprint)
-    sprints_page.expect_sprint_present(sprint)
-    sprints_page.expect_sprint_not_present(past_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_present(past_sprint)
+    sprints_page.expect_sprint_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_not_present(sprint)
+    sprints_page.expect_sprint_not_present(other_sprint)
 
     sprints_page.go_to_page!(2)
 
     sprints_page.expect_pagination_range(from: 3, to: 4, total: 4)
-    sprints_page.expect_sprint_present(past_sprint)
-    sprints_page.expect_sprint_present(past_sprint_with_other_name)
-    sprints_page.expect_sprint_not_present(other_sprint)
-    sprints_page.expect_sprint_not_present(sprint)
+    sprints_page.expect_sprint_present(sprint)
+    sprints_page.expect_sprint_present(other_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
   end
 
   context "when there are no sprints" do

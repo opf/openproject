@@ -3,6 +3,7 @@ sv:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Filterkriterier
       resource_allocation:
         allocated_hours: Timmar
@@ -28,6 +29,8 @@ sv:
         allocated_time: Tilldelad
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -104,20 +107,22 @@ sv:
       criteria:
         empty: Inga kriterier angivna.
         label: Kriterier
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Den valda användaren har inga arbetstider angivna för dessa datum och räknas därför som att sakna kapacitet.
         partial: Den valda användaren har inga arbetstider angivna för %{dates}, så dessa dagar räknas som att sakna kapacitet.
       outside_dates:
         description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} tillgängligt · %{scheduled} schemalagt"
         description: Den valda användaren, %{user}, skulle tilldelas mer tid än sina arbetstimmar under den här perioden.
-        hidden_work: Andra tilldelningar
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor} % tillgänglig för projektarbete)"
         schedule_change: till %{date}, därefter %{schedule}
         schedule_note: Den här användaren arbetar %{schedule}.
         submit: Tilldela övertid
         title: Vill du tilldela användaren övertid?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Tilldela
       success_message: Resursen har tilldelats.
       title: Tilldela resurs
@@ -168,6 +173,8 @@ sv:
     label_new_resource_planner: Ny resursplanerare
     label_resource_planner: Resursplanerare
     label_resource_planner_plural: Resursplanerare
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Lägg till vy
     public_caption: Gör den här vyn offentlig för alla projektmedlemmar. Detta påverkar inte synligheten för arbetspaket, som fortfarande beror på varje användares behörigheter.
@@ -254,7 +261,8 @@ sv:
       no_work_schedule: Inget arbetsschema planerat för den här användaren
       overbooked: Den här användaren är övertilldelad under den valda perioden.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} schemalagt, %{available} tillgängligt"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Lägg till användare
     view_types:

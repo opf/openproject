@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -308,7 +307,7 @@ RSpec.describe Query,
       expect(query).not_to be_valid
     end
 
-    it "#hightlighting_mode accepts non-present values" do
+    it "#highlighting_mode accepts non-present values" do
       query.highlighting_mode = nil
       expect(query).to be_valid
 
@@ -316,7 +315,7 @@ RSpec.describe Query,
       expect(query).to be_valid
     end
 
-    it "#hightlighting_mode rejects invalid values" do
+    it "#highlighting_mode rejects invalid values" do
       query.highlighting_mode = "bogus"
       expect(query).not_to be_valid
     end
@@ -389,9 +388,6 @@ RSpec.describe Query,
 
         # rubocop:disable RSpec/MessageSpies -- a spy would also record the call above
         expect(project)
-          .not_to receive(:all_work_package_custom_fields)
-
-        expect(project)
           .not_to receive(:enabled_types)
         # rubocop:enable RSpec/MessageSpies
 
@@ -406,8 +402,7 @@ RSpec.describe Query,
         query.project = project2
 
         allow(project2)
-          .to receive_messages(all_work_package_custom_fields: WorkPackageCustomField.none,
-                               enabled_types: Type.none)
+          .to receive(:enabled_types).and_return(Type.none)
 
         query.displayable_columns
       end
@@ -419,12 +414,9 @@ RSpec.describe Query,
 
         query.project = nil
 
-        empty_wp_relation = double(on_visible_type_and_project: [])
-        # We cannot simply return `WorkPackageCustomField.none` here, as that aliases to `all` and would trigger
-        # its own expectation again. Hence, we must set up a double.
         allow(WorkPackageCustomField)
-          .to receive(:all)
-                .and_return empty_wp_relation
+          .to receive(:on_visible_type_and_project)
+                .and_return []
 
         allow(Type)
           .to receive(:all)
@@ -432,7 +424,7 @@ RSpec.describe Query,
 
         query.displayable_columns
 
-        expect(WorkPackageCustomField).to have_received(:all).once
+        expect(WorkPackageCustomField).to have_received(:on_visible_type_and_project).once
       end
     end
 
@@ -512,7 +504,7 @@ RSpec.describe Query,
 
   describe ".available_columns", with_settings: { work_package_multiple_versions: false } do
     let(:type) { create(:type) }
-    let(:custom_field) { create(:list_wp_custom_field, types: [type], projects: [project]) }
+    let(:custom_field) { create(:list_wp_custom_field, types: [type]) }
 
     before do
       custom_field

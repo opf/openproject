@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -102,6 +101,32 @@ RSpec.describe ResourceAllocations::ListItemComponent, type: :component do
       expect(rendered).to have_no_text("Sarah Smith")
       expect(rendered).to have_no_css("avatar-fallback[data-unique-id='#{member.id}']")
       expect(rendered).to have_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
+    end
+  end
+
+  context "with an allocation of a deleted user" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    let(:allocation) do
+      create(:resource_allocation, entity: work_package, principal: deleted_user, allocated_time: 720)
+    end
+    let(:editable) { true }
+
+    { "visible" => true, "not visible" => false }.each do |visibility_label, visibility|
+      context "when the deleted user is #{visibility_label} to the user" do
+        let(:visible) { visibility }
+
+        it "shows the deleted user with their avatar" do
+          expect(rendered).to have_text(deleted_user.name)
+          expect(rendered).to have_css("avatar-fallback[data-unique-id='#{deleted_user.id}']")
+          expect(rendered).to have_no_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
+        end
+
+        it "offers the edit/delete menu" do
+          expect(rendered).to have_css("action-menu")
+          expect(rendered).to have_css("a[href*='/resource_allocations/#{allocation.id}/edit']", visible: :all)
+        end
+      end
     end
   end
 

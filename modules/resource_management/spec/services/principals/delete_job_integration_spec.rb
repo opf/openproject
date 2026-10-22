@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,6 +54,31 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
 
     it "does not affect unassigned allocations" do
       expect { job }.not_to change { unassigned_allocation.reload.principal_id }
+    end
+  end
+
+  context "with a stored schedule of the principal" do
+    let(:other_user) { create(:user) }
+
+    let!(:principal_working_hours) { create(:user_working_hours, user: principal, valid_from: Date.current - 1.year) }
+    let!(:other_working_hours) { create(:user_working_hours, user: other_user, valid_from: Date.current - 1.year) }
+    let!(:allocation) { create(:resource_allocation, principal:) }
+    let!(:other_allocation) { create(:resource_allocation, principal: other_user) }
+
+    it "removes the principal's schedule" do
+      expect { job }
+        .to change { ResourceAllocations::ScheduledEntry.where(user_id: principal.id).count }
+        .from(be_positive).to(0)
+    end
+
+    it "does not move the schedule to the deleted user placeholder" do
+      job
+
+      expect(ResourceAllocations::ScheduledEntry.where(user: deleted_user)).to be_empty
+    end
+
+    it "keeps the schedules of other users" do
+      expect { job }.not_to change { ResourceAllocations::ScheduledEntry.where(user: other_user).pluck(:id) }
     end
   end
 

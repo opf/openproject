@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -435,36 +434,6 @@ RSpec.describe(
 
               expect(error.error_code).to eq("ERROR_MATHEMATICAL")
             end
-          end
-        end
-      end
-
-      describe "work_package_custom_fields" do
-        context "with disabled work package custom field" do
-          it "is still disabled in the copy" do
-            custom_field = create(:text_wp_custom_field)
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-
-        context "with enabled work package custom field" do
-          it "is still enabled in the copy" do
-            custom_field = create(:text_wp_custom_field, projects: [source])
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([custom_field])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
           end
         end
       end
@@ -886,6 +855,20 @@ RSpec.describe(
           end
         end
 
+        context "with labels" do
+          let(:label) { create(:label) }
+
+          before do
+            create(:labeling, label:, labelable: source_wp)
+          end
+
+          it "copies the labels" do
+            expect(subject).to be_success
+
+            expect(copy_of(source_wp).labels).to contain_exactly(label)
+          end
+        end
+
         context "with attachments" do
           before do
             create(:attachment, container: work_package)
@@ -1202,7 +1185,6 @@ RSpec.describe(
         describe "work package user custom field" do
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
-              source.work_package_custom_fields << cf
               work_package.type.default_variant.custom_field_ids |= [cf.id]
             end
           end

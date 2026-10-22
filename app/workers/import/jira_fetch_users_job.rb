@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -107,20 +106,25 @@ module Import
       collect_mentions_from_node(ast, mention_usernames)
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def collect_mentions_from_node(node, mention_usernames)
-      case node
-      when JiraWikiMarkup::Nodes::Mention
-        mention_usernames << node.username
-      when JiraWikiMarkup::Nodes::List
-        node.items.each { |item| collect_mentions_from_node(item, mention_usernames) }
-      when JiraWikiMarkup::Nodes::ListItem
-        node.children.each { |child| collect_mentions_from_node(child, mention_usernames) }
-        collect_mentions_from_node(node.sublist, mention_usernames) if node.sublist
-      else
-        return unless node.respond_to?(:children)
+      mention_usernames << node.username if node.is_a?(JiraWikiMarkup::Nodes::Mention)
 
-        node.children.each { |child| collect_mentions_from_node(child, mention_usernames) }
+      child_nodes(node).each { |child| collect_mentions_from_node(child, mention_usernames) }
+    end
+
+    # The nodes that do not simply hold :children each nest their content differently.
+    def child_nodes(node)
+      case node
+      when JiraWikiMarkup::Nodes::List
+        node.items
+      when JiraWikiMarkup::Nodes::ListItem
+        [*node.children, node.sublist].compact
+      when JiraWikiMarkup::Nodes::Table
+        [node.header, node.rows].flatten.compact
+      when JiraWikiMarkup::Nodes::MultiLineBlockQuote
+        node.lines.flatten
+      else
+        node.respond_to?(:children) ? node.children : []
       end
     end
 

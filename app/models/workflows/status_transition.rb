@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -138,9 +137,16 @@ class Workflows::StatusTransition < ApplicationRecord
     eligible_roles.order(:builtin, :position)
   end
 
-  def self.selected_roles(role_ids)
+  def self.used_roles(workflow)
+    ordered_eligible_roles.where(id: workflow.status_transitions.select(:role_id))
+  end
+
+  def self.selected_roles(role_ids, workflow:)
     ordered = ordered_eligible_roles
     selected = ordered.where(id: role_ids)
-    selected.any? ? selected : [ordered.first].compact
+    return selected if selected.any?
+
+    used = used_roles(workflow)
+    used.any? ? used : [ordered.first].compact
   end
 end

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects::LifeCycle
   class Form < ApplicationForm
     include BrowserAware
@@ -55,7 +55,6 @@ module Projects::LifeCycle
         placeholder:,
         show_clear_button: show_clear_button?(field_name),
         clear_button_id: "#{field_name}_clear_button",
-        inset: true,
         data: {
           action: "focus->overview--project-life-cycle-form#onHighlightField " \
                   "overview--project-life-cycle-form#previewForm ",
@@ -94,7 +93,7 @@ module Projects::LifeCycle
     end
 
     def autofocus?(field_name)
-      # let javascipt handle focusing when rendering for preview
+      # let JavaScript handle focusing when rendering for preview
       return false if model.changed?
 
       field_name == autofocus_field_name

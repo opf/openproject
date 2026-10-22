@@ -30,7 +30,7 @@
 #++
 
 module GitlabIntegration
-  GitlabStatus = Data.define(:code, :color, :icon, :for_type) do
+  GitlabStatus = Data.define(:code, :hexcode, :icon, :for_type) do
     private_class_method :new
 
     def id = code&.to_s
@@ -39,16 +39,20 @@ module GitlabIntegration
 
     def type = for_type&.to_s
 
-    def self.issue_status(code:, color:, icon:)
-      new(code:, color:, icon:, for_type: :issue)
+    def color
+      Color.new(hexcode:)
     end
 
-    def self.merge_request_status(code:, color:, icon:)
-      new(code:, color:, icon:, for_type: :merge_request)
+    def self.issue_status(code:, hexcode:, icon:)
+      new(code:, hexcode:, icon:, for_type: :issue)
     end
 
-    def self.pipeline_status(code:, color:, icon:)
-      new(code:, color:, icon:, for_type: :pipeline)
+    def self.merge_request_status(code:, hexcode:, icon:)
+      new(code:, hexcode:, icon:, for_type: :merge_request)
+    end
+
+    def self.pipeline_status(code:, hexcode:, icon:)
+      new(code:, hexcode:, icon:, for_type: :pipeline)
     end
   end
 end

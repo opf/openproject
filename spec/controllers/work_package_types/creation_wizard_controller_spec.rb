@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,10 +55,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         end.to change(Type, :count).by(1)
 
         type = Type.find_by!(name: "Critical")
-        expect(response).to redirect_to(
-          type_creation_wizard_path(type, step: :defaults,
-                                          started_form_configuration_id: type.default_variant.form_configuration_id)
-        )
+        expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
       end
 
       context "with invalid params" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -59,6 +58,20 @@ RSpec.describe "CSP form-action for OmniAuth SSO", type: :rails_request do
       expect(response.body).to include(%(action="/auth/#{saml_provider.slug}"))
       expect(response.body).to include('data-controller="omniauth-direct-login"')
       expect(form_action_sources).to include("https://example.com/")
+    end
+  end
+
+  context "with a SAML provider that redirects through other servers", with_ee: %i[sso_auth_providers] do
+    let!(:saml_provider) do
+      create(:saml_provider,
+             additional_form_action_urls: ["https://idp.prod.soloidp.dk/login?authId=1", "https://broker.example.com:8443/"])
+    end
+
+    it "also allows the origins of the additional URLs" do
+      get omniauth_login_path(saml_provider.slug)
+
+      expect(form_action_sources)
+        .to include("https://example.com/", "https://idp.prod.soloidp.dk/", "https://broker.example.com:8443/")
     end
   end
 
