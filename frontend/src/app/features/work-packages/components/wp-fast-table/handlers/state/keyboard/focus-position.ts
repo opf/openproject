@@ -214,33 +214,40 @@ function keyPart(key:string):string {
   return key.slice(key.lastIndexOf(':') + 1);
 }
 
-function findRebound(rows:readonly NavigableRow[], previous:FocusPosition):NavigableRow|undefined {
+function isSameRow(row:NavigableRow, previous:FocusPosition):boolean {
   const { groupIdentifier } = previous;
 
   if (groupIdentifier !== undefined) {
-    const part = keyPart(previous.key);
-    return rows.find((row) => !row.hidden && row.groupIdentifier === groupIdentifier && keyPart(row.key) === part);
+    return row.groupIdentifier === groupIdentifier && keyPart(row.key) === keyPart(previous.key);
   }
 
-  return rows.find((row) => !row.hidden && row.key === previous.key);
+  return row.key === previous.key;
 }
 
-/** Keeps focus on the same row after a re-render, else on the nearest visible row. */
+/** Returns row focus on the visible row closest to the index, the lower one on a tie, or null when none is visible. */
+export function nearestPosition(rows:readonly NavigableRow[], index:number):FocusPosition|null {
+  const nearest = visibleIndexes(rows, false).reduce<number|null>(
+    (best, candidate) => (best === null || Math.abs(candidate - index) < Math.abs(best - index) ? candidate : best),
+    null,
+  );
+
+  return nearest === null ? null : positionOn(rows[nearest], null, null);
+}
+
+/** Keeps focus on the same row after a re-render, on the row that hides it when it is hidden, else on the nearest visible row. */
 export function reconcilePosition(
   rows:readonly NavigableRow[],
   previous:FocusPosition,
   previousIndex:number,
 ):FocusPosition|null {
-  const kept = findRebound(rows, previous);
-  if (kept) {
+  const index = rows.findIndex((row) => isSameRow(row, previous));
+  const kept = rows[index];
+
+  if (kept && !kept.hidden) {
     const cell = previous.cell === null || kept.cellCount === 0 ? null : Math.min(previous.cell, kept.cellCount - 1);
     return positionOn(kept, cell, previous.desiredColumn);
   }
 
-  const nearest = visibleIndexes(rows, false).reduce<number|null>(
-    (best, index) => (best === null || Math.abs(index - previousIndex) < Math.abs(best - previousIndex) ? index : best),
-    null,
-  );
-
-  return nearest === null ? null : positionOn(rows[nearest], null, null);
+  const owner = kept && rows.slice(0, index).reverse().find((row) => !row.hidden);
+  return owner ? positionOn(owner, null, null) : nearestPosition(rows, previousIndex);
 }

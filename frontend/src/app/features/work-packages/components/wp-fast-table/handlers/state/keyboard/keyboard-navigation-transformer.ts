@@ -31,20 +31,22 @@ import { filter } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { displayClassName, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { WorkPackageTable } from '../../../wp-fast-table';
+import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { activateRow } from '../../row/click-handler';
 import {
-  FocusPosition, initialPosition, NavigableRow, NavKey, nextPosition,
+  FocusPosition, initialPosition, NavigableRow, NavKey, nearestPosition, nextPosition, reconcilePosition,
 } from './focus-position';
 import {
   buildNavigableRows, headerRowKey, headerRowOf, rowKindOf, totalsRowKey, totalsRowOf,
 } from './navigable-rows';
-import { navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
+import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
 
 export interface KeyboardNavigation {
   readonly position:FocusPosition|null;
@@ -58,6 +60,13 @@ export interface KeyboardNavigation {
   elementAt(position:FocusPosition):HTMLElement|null;
   /** Handles Enter on a body cell; true when it acted. */
   onCellEnter:(position:FocusPosition) => boolean;
+  /** Records whether focus is inside the table before a mutation replaces or hides its rows. */
+  captureOwnership():void;
+}
+
+interface RenderedRows {
+  rows:NavigableRow[];
+  groupBy:string|null;
 }
 
 const plainKeys:Record<string, NavKey> = {
@@ -84,7 +93,15 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   @LazyInject() public collapsedGroups:WorkPackageViewCollapsedGroupsService;
 
+  @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
+
   private current:FocusPosition|null = null;
+
+  private owned = false;
+
+  private capturing = false;
+
+  private rendered:RenderedRows = { rows: [], groupBy: null };
 
   public onCellEnter = (position:FocusPosition):boolean => {
     const field = this.elementAt(position)?.querySelector<HTMLElement>(`.${displayClassName}.${editableClassName}`);
@@ -129,7 +146,11 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
         filter(() => table.ledger.generation > 0),
         takeUntilDestroyed(destroyRef),
       )
-      .subscribe(() => this.paintAfterRender());
+      .subscribe(() => this.recover(this.requestedPosition()));
+
+    table.rowsRefreshed$
+      .pipe(takeUntilDestroyed(destroyRef))
+      .subscribe(() => this.recover(null));
   }
 
   public get position():FocusPosition|null {
@@ -150,6 +171,20 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   public recordPosition(position:FocusPosition):void {
     this.current = position;
+  }
+
+  public captureOwnership():void {
+    const inside = insideGrid(this.table.scrollContainer, document.activeElement);
+    if (this.capturing || this.table.hasPendingRender) {
+      this.owned ||= inside;
+    } else {
+      this.owned = inside;
+    }
+
+    if (!this.capturing) {
+      this.capturing = true;
+      queueMicrotask(() => { this.capturing = false; });
+    }
   }
 
   public returnFocus(origin:FocusPosition):void {
@@ -176,16 +211,81 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  private paintAfterRender():void {
-    const kept = this.current && this.elementAt(this.current);
-    if (kept) {
-      paintRovingTabindex(this.table.scrollContainer, kept);
+  private requestedPosition():FocusPosition|null {
+    let requested:FocusPosition|null = null;
+    this.wpTableFocus.ifShouldFocus((workPackageId) => {
+      requested = { key: wpOccurrenceKey(workPackageId), cell: null, desiredColumn: null };
+    });
+    return requested;
+  }
+
+  private recover(requested:FocusPosition|null):void {
+    if (this.table.destroyed) {
       return;
     }
 
-    this.current = null;
-    const initial = initialPosition(buildNavigableRows(this.table));
-    paintRovingTabindex(this.table.scrollContainer, initial && this.elementAt(initial));
+    const owned = this.owned;
+    if (!this.table.hasPendingRender) {
+      this.owned = false;
+    }
+    const previous = this.rendered;
+    const rows = buildNavigableRows(this.table);
+    this.rendered = { rows, groupBy: this.groupBy() };
+
+    if (requested && this.elementAt(requested)) {
+      this.focusPosition(requested);
+      return;
+    }
+
+    this.current = this.current && this.reconcile(rows, previous, this.current);
+    if (this.current && owned && this.mayRestoreFocus()) {
+      this.focusPosition(this.current);
+      return;
+    }
+
+    const painted = this.current ?? initialPosition(rows);
+    paintRovingTabindex(this.table.scrollContainer, painted && this.elementAt(painted));
+  }
+
+  private reconcile(rows:NavigableRow[], previous:RenderedRows, position:FocusPosition):FocusPosition|null {
+    if (!rows.some((row) => row.kind !== 'header' && row.kind !== 'totals')) {
+      const header = rows.find((row) => row.kind === 'header');
+      return header ? { key: header.key, cell: null, desiredColumn: null } : null;
+    }
+
+    const previousIndex = previous.rows.findIndex((row) => row.key === position.key);
+    const regrouped = position.groupIdentifier !== undefined && previous.groupBy !== this.rendered.groupBy;
+    return regrouped ? nearestPosition(rows, previousIndex) : reconcilePosition(rows, position, previousIndex);
+  }
+
+  private mayRestoreFocus():boolean {
+    const editing = Object.values(this.table.editing.forms).some((form) => form.hasActiveFields());
+    return !editing && this.focusAtRest();
+  }
+
+  private focusAtRest():boolean {
+    const active = document.activeElement;
+    return !active
+      || active === document.body
+      || !active.isConnected
+      || (insideGrid(this.table.scrollContainer, active) && this.hiddenOrUnlisted(active));
+  }
+
+  private hiddenOrUnlisted(element:Element):boolean {
+    const row = element.closest('tr');
+    if (!row) {
+      return true;
+    }
+
+    if (this.edgeKeyOf(row) !== undefined) {
+      return false;
+    }
+
+    return this.table.ledger.byElement(row)?.hidden ?? true;
+  }
+
+  private groupBy():string|null {
+    return this.querySpace.query.value?.groupBy?.id ?? null;
   }
 
   private adoptFocus(target:HTMLElement):void {

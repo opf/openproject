@@ -122,6 +122,11 @@ export class WorkPackageTable {
     return this.destroyRef.destroyed;
   }
 
+  /** True between scheduling a full render and its frame commit. */
+  public get hasPendingRender():boolean {
+    return this.pendingRender !== null;
+  }
+
   public destroy():void {
     if (this.destroyed) return;
     try {
@@ -201,6 +206,7 @@ export class WorkPackageTable {
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
     if (updates.size === 0) return;
+    this.keyboardNavigation?.captureOwnership();
     this.ledger.setHidden(updates);
     this.publishRendered();
   }
@@ -216,6 +222,7 @@ export class WorkPackageTable {
       return;
     }
 
+    this.keyboardNavigation?.captureOwnership();
     let replaced = 0;
     this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
       const replacement = pass.refresh(occurrence, workPackage);
@@ -244,6 +251,7 @@ export class WorkPackageTable {
   }
 
   private performRenderPass({ timeline }:RenderPassOptions):void {
+    this.keyboardNavigation?.captureOwnership();
     this.editing.reset();
     const promoted = timeline || this.pendingRender?.timeline === true;
     const pending:PendingRender = { pass: this.rowBuilder.buildRows({ timeline: promoted }), timeline: promoted };
@@ -271,6 +279,7 @@ export class WorkPackageTable {
 
   setGroupsCollapseState(newState:Record<string, boolean>) {
     if (this.destroyed) return;
+    this.keyboardNavigation?.captureOwnership();
     this.querySpace.collapsedGroups.putValue(newState);
 
     const t0 = performance.now();

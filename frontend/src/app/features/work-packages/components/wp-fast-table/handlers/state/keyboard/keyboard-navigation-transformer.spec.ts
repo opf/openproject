@@ -32,9 +32,12 @@ import { DisplayFieldService } from 'core-app/shared/components/fields/display/d
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
+import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { buildQuery, buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
+import { buildGroup } from '../../../testing/work-package-fixture';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
+import { totalsRowKey } from './navigable-rows';
 import { insideGrid, navigableCells } from './roving-tabindex';
 
 class AnchorDisplayField extends TextDisplayField {
@@ -82,6 +85,8 @@ describe('KeyboardNavigationTransformer', () => {
   const pressActive = (key:string, init:KeyboardEventInit = {}) => press(document.activeElement!, key, init);
 
   const navigation = (table:TableHarness):KeyboardNavigation => table.table.keyboardNavigation!;
+
+  const resource = (table:TableHarness, id:string) => table.injector.get(States).workPackages.get(id).value!;
 
   const cell = (row:HTMLTableRowElement, index:number) => navigableCells(row)[index];
 
@@ -133,6 +138,17 @@ describe('KeyboardNavigationTransformer', () => {
 
     expect(late).toHaveAttribute('tabindex', '-1');
     expect(late).not.toHaveFocus();
+  });
+
+  it('a refresh while the inline-create button has focus leaves it there', async () => {
+    const table = await mount();
+    table.row('1').focus();
+    const button = within(table.container).getByRole('button', { name: 'Create new work package' });
+    button.focus();
+
+    table.table.refreshRows(resource(table, '2'));
+
+    await waitFor(() => expect(button).toHaveFocus());
   });
 
   it('takes the scroll container and its wrapper out of the Tab order only when enabled', async () => {
@@ -457,6 +473,274 @@ describe('KeyboardNavigationTransformer', () => {
       fireEvent.mouseDown(inlineCreate.querySelector('td') ?? inlineCreate, { button: 0 });
 
       expect(navigation(table).position).toEqual(before);
+    });
+  });
+
+  describe('recovery', () => {
+    it('after a full re-render the same occurrence keeps focus', async () => {
+      const table = await mount();
+      cell(table.row('2'), 1).focus();
+
+      await table.render([{ id: '3' }, { id: '2' }, { id: '1' }]);
+
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+    });
+
+    it('after a re-render that removed the focused row, the nearest visible row gets focus', async () => {
+      const table = await mount();
+      table.row('2').focus();
+
+      await table.render([{ id: '1' }, { id: '3' }]);
+
+      expect(table.row('3')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+    });
+
+    it('a re-render while focus is in another table does not steal focus', async () => {
+      const states = new States();
+      const first = await mount({ states });
+      const second = await mount({ states });
+      first.row('2').focus();
+      second.row('1').focus();
+
+      await first.render();
+
+      expect(second.row('1')).toHaveFocus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+      expect(first.row('2')).toHaveAttribute('tabindex', '0');
+    });
+
+    it('a row refresh re-focuses the replaced cell at the same column', async () => {
+      const table = await mount();
+      const replaced = cell(table.row('2'), 1);
+      replaced.focus();
+
+      table.table.refreshRows(resource(table, '2'));
+
+      expect(replaced).not.toBeInTheDocument();
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+    });
+
+    it('ifShouldFocus wins over the remembered position and becomes it', async () => {
+      const table = await mount();
+      const focusHelper = vi.spyOn(table.injector.get(FocusHelperService), 'focus');
+      cell(table.row('1'), 1).focus();
+
+      table.focus.updateFocus('3', true);
+      await table.render();
+
+      expect(table.row('3')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+      expect(focusHelper).not.toHaveBeenCalled();
+    });
+
+    it('a group header position survives an earlier group disappearing', async () => {
+      const table = await mount(grouped);
+      const identifier = table.groupHeader(1).dataset.groupIdentifier;
+      table.groupHeader(1).focus();
+
+      table.querySpace.groups.putValue([buildGroup({ value: 'In progress', href: inProgressStatus.href, count: 1 }, 'status', 0)]);
+      await table.render([{ id: '3', attributes: { status: inProgressStatus } }]);
+
+      expect(table.groupHeader(0)).toHaveFocus();
+      expect(table.groupHeader(0).dataset.groupIdentifier).toBe(identifier);
+      expect(navigation(table).position).toMatchObject({ key: table.table.ledger.byElement(table.groupHeader(0))!.key, groupIdentifier: identifier });
+    });
+
+    it('a group header position is dropped when groupBy changes', async () => {
+      const table = await mount(grouped);
+      table.groupHeader(1).focus();
+      const bug = { href: '/api/v3/types/1' };
+      const task = { href: '/api/v3/types/2' };
+
+      table.querySpace.query.putValue(buildQuery(['id', 'subject'], 'type', false, false));
+      table.querySpace.groups.putValue([
+        buildGroup({ value: 'Bug', href: bug.href, count: 1 }, 'type', 0),
+        buildGroup({ value: 'Task', href: task.href, count: 2 }, 'type', 1),
+      ]);
+      await table.render([
+        { id: '1', attributes: { type: bug } },
+        { id: '2', attributes: { type: task } },
+        { id: '3', attributes: { type: task } },
+      ]);
+
+      expect(table.row('2')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+    });
+
+    it('collapsing the focused row\'s parent moves focus to the parent', async () => {
+      const table = await mount({
+        workPackages: [
+          { id: '1', children: [{ id: '2' }, { id: '3' }] },
+          { id: '2', ancestors: [{ id: '1' }] },
+          { id: '3', ancestors: [{ id: '1' }] },
+          { id: '4' },
+        ],
+        showHierarchies: true,
+      });
+      table.row('3').focus();
+
+      table.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+
+      await waitFor(() => expect(table.row('3')).not.toBeVisible());
+      expect(table.row('1')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('filtering to zero rows moves focus to the header row', async () => {
+      const table = await mount();
+      cell(table.row('2'), 1).focus();
+
+      await table.render([]);
+
+      expect(table.headerRow()).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: 'header', cell: null, desiredColumn: null });
+    });
+
+    it('leaves focus on a still-connected inner control when another row refreshes', async () => {
+      const table = await mount({}, (harness) => {
+        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
+      });
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      const link = within(subjectCell).getByRole('link');
+      fireEvent.mouseDown(link, { button: 0 });
+      link.focus();
+
+      table.table.refreshRows(resource(table, '2'));
+
+      expect(link).toHaveFocus();
+      expect(subjectCell).toHaveAttribute('tabindex', '0');
+      fireEvent.mouseUp(link, { button: 0 });
+    });
+
+    it('restores to the hiding parent when focus sits on a row a collapse hid without moving focus', async () => {
+      const table = await mount({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }, { id: '3' }],
+        showHierarchies: true,
+      });
+      cell(table.row('2'), 1).focus();
+
+      table.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+
+      await waitFor(() => expect(table.row('2')).not.toBeVisible());
+      expect(table.row('1')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('moves focus off a row the ledger hides while it stays focused and visible', async () => {
+      const table = await mount();
+      table.row('2').focus();
+
+      table.table.setHidden(new Map([[wpOccurrenceKey('2'), true]]));
+
+      expect(table.row('2')).toBeVisible();
+      expect(table.row('1')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('publishes a render when the collapse hides no stamped rows', async () => {
+      const table = await mount(grouped);
+      table.rows().forEach((row) => { delete row.dataset.occurrenceKey; });
+      const header = table.groupHeader(0);
+      header.focus();
+
+      table.table.setGroupsCollapseState({ [header.dataset.groupIdentifier!]: true });
+
+      expect(table.groupHeader(0)).not.toBe(header);
+      expect(table.groupHeader(0)).toHaveFocus();
+    });
+
+    it('reaches the totals row after the sums row renders late', async () => {
+      const table = await mount();
+      const totals = table.totalsRow();
+      const cells = totals.innerHTML;
+      totals.innerHTML = '';
+      await table.render();
+      cell(table.row('3'), 0).focus();
+
+      totals.innerHTML = cells;
+      table.table.notifyRowsRefreshed(totalsRowKey);
+
+      expect(navigableCells(totals).every((totalsCell) => totalsCell.getAttribute('tabindex') === '-1')).toBe(true);
+      expect(pressActive('ArrowDown')).toBe(false);
+      expect(navigableCells(totals)[0]).toHaveFocus();
+    });
+
+    it('keeps focus on the totals row across a sums refresh', async () => {
+      const table = await mount();
+      const totals = table.totalsRow();
+      navigableCells(totals)[1].focus();
+
+      navigation(table).captureOwnership();
+      totals.innerHTML = totals.innerHTML.replaceAll(/ tabindex="[^"]*"/g, '');
+      table.table.notifyRowsRefreshed(totalsRowKey);
+
+      expect(navigableCells(totals)[1]).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: totalsRowKey, cell: 1, desiredColumn: 1 });
+    });
+
+    it('keeps ownership captured during a pending render when a second capture sees body', async () => {
+      const table = await mount();
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      try {
+        table.row('2').focus();
+        table.table.redrawTableAndTimeline();
+        await Promise.resolve();
+        table.row('2').blur();
+        navigation(table).captureOwnership();
+        await Promise.resolve();
+
+        frames.splice(0).forEach((frame) => frame(0));
+
+        expect(table.row('2')).toHaveFocus();
+      } finally {
+        frameSpy.mockRestore();
+      }
+    });
+
+    it('a row refresh between scheduling a full render and its commit leaves focus to the commit', async () => {
+      const table = await mount();
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      try {
+        table.row('2').focus();
+        table.table.redrawTableAndTimeline();
+        await Promise.resolve();
+        table.table.refreshRows(resource(table, '2'));
+        const refreshed = table.row('2');
+
+        frames.splice(0).forEach((frame) => frame(0));
+
+        expect(table.row('2')).not.toBe(refreshed);
+        expect(table.row('2')).toHaveFocus();
+      } finally {
+        frameSpy.mockRestore();
+      }
+    });
+
+    it('a table destroyed before the rAF commit restores nothing and throws nothing', async () => {
+      const table = await mount();
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      try {
+        table.row('2').focus();
+        table.table.redrawTableAndTimeline();
+        table.table.destroy();
+        table.row('2').blur();
+
+        expect(() => frames.splice(0).forEach((frame) => frame(0))).not.toThrow();
+        table.querySpace.tableRendered.putValue(table.querySpace.tableRendered.value);
+
+        expect(document.body).toHaveFocus();
+      } finally {
+        frameSpy.mockRestore();
+      }
     });
   });
 });
