@@ -191,12 +191,21 @@ module Import
 
     def find_or_create_status(issue_status, resolution)
       status_name = status_name(issue_status, resolution)
+      status = find_status(status_name)
+      return [status, true] if status
 
-      status = Status.where("LOWER(name) = LOWER(?)", status_name).first
-      return [status, true] if status.present?
+      status_lock_key = "jira_import_create_status_#{status_name.parameterize(separator: '_')}"
+      OpenProject::Mutex.with_advisory_lock(Status, status_lock_key, transaction: true) do
+        status = find_status(status_name)
+        return [status, true] if status
 
-      is_closed = issue_status.dig("statusCategory", "key") == "done"
-      [Status.create!(name: status_name, is_closed: is_closed), false]
+        is_closed = issue_status.dig("statusCategory", "key") == "done"
+        [Status.create!(name: status_name, is_closed: is_closed), false]
+      end
+    end
+
+    def find_status(status_name)
+      Status.find_by("LOWER(name) = LOWER(?)", status_name)
     end
 
     def status_name(issue_status, resolution)
