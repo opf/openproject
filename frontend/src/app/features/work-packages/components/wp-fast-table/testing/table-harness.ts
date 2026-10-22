@@ -103,6 +103,8 @@ import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-
 import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { internalContextMenuColumn, internalSortColumn } from '../builders/internal-sort-columns';
+import { isNavigableColumn, navigableCellClassName } from '../handlers/state/keyboard/roving-tabindex';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -110,13 +112,16 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 /** A relation column: `relationType` builds an `ofType` column, `children: true` the child relations column. */
 export type RelationColumnSpec = { id:string, relationType:string }|{ id:string, children:true };
 
+/** A plain column whose header renders without a sort link. */
+export interface NonSortableColumnSpec { id:string, sortable:false }
+
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
   providers?:Provider[];
   /** Retains the root so a replacement table can mount with a fresh injector. */
   dom?:ReturnType<typeof buildDom>;
   /** Column ids, or relation column specs that render real relation rows once expanded. */
-  columns?:(string|RelationColumnSpec)[];
+  columns?:(string|RelationColumnSpec|NonSortableColumnSpec)[];
   /** Feeds the relations service, so `ofType` columns find these relations between fixtures. */
   relations?:RelationFixture[];
   /** Loads fixture `children` into the resource cache on render (default); `false` leaves them for `requireAll`. */
@@ -233,8 +238,11 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     options.highlightingMode,
   );
   querySpace.query.putValue(query);
+  const configuration = new WorkPackageTableConfiguration(
+    { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
+  );
   if (options.productionMarkup) {
-    fillProductionMarkup(dom.wrapper, query);
+    fillProductionMarkup(dom.wrapper, query, configuration);
   }
   querySpace.groups.putValue((options.groups ?? []).map((group, index) => buildGroup(group, groupBy, index)));
   initializeViewServices(injector, query);
@@ -246,9 +254,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     dom.tbody,
     dom.timelineBody,
     {} as WorkPackageTimelineTableController,
-    new WorkPackageTableConfiguration(
-      { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
-    ),
+    configuration,
   );
 
   const outputs:WorkPackageViewOutputs = {
@@ -585,21 +591,31 @@ function productionMarkupElement<T extends HTMLElement = HTMLElement>(wrapper:HT
   return element;
 }
 
-function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource) {
-  const columns = query.columns as unknown as { id:string, name:string }[];
-  const headerCells = columns.map(({ id, name }) => `
-    <th class="wp-table--table-header">
+function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configuration:WorkPackageTableConfiguration) {
+  const keyboardNavigationEnabled = configuration.keyboardNavigationEnabled;
+  const tabindex = keyboardNavigationEnabled ? ' tabindex="-1"' : '';
+  const navigable = keyboardNavigationEnabled ? ' wp-table--navigable-cell' : '';
+  const columns = query.columns as unknown as { id:string, name:string, sortable?:boolean }[];
+  const headerCells = columns.map(({ id, name, sortable }) => `
+    <th class="wp-table--table-header${navigable}">
       <div class="generic-table--sort-header-outer">
-        <span class="generic-table--sort-header"><a href="#" id="${id}">${name}</a></span>
+        <span class="generic-table--sort-header">${sortable === false ? `<a${tabindex}>${name}</a>` : `<a href="#" id="${id}"${tabindex}>${name}</a>`}</span>
       </div>
     </th>`).join('');
   const configurationCell = `
-    <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th">
-      <button type="button" class="wp-table--columns-selection"></button>
+    <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th${navigable}">
+      <button type="button" class="wp-table--columns-selection"${tabindex}></button>
     </th>`;
 
   productionMarkupElement(wrapper, 'thead tr').innerHTML = headerCells + configurationCell;
-  productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = columns.map(() => '<td></td>').join('');
+  const augmentedColumns = [
+    ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
+    ...(columns as QueryColumn[]),
+    internalContextMenuColumn,
+  ];
+  productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = augmentedColumns
+    .map((column) => `<td${keyboardNavigationEnabled && isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
+    .join('');
 }
 
 function inlineCreateBodyOf(dom:ReturnType<typeof buildDom>):HTMLTableSectionElement {
@@ -625,6 +641,7 @@ export function buildDom(options:{ productionMarkup?:boolean } = {}) {
           ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
           <tbody class="work-package--results-tbody"></tbody>
           ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
+          ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
         </table>
       </div>
     </div>
@@ -647,7 +664,7 @@ function buildSumsSchema(groups:GroupFixture[]):Record<string, IFieldSchema> {
   return Object.fromEntries(attributes.map((name) => [name, { type: 'Integer', name, writable: false, hasDefault: false }]));
 }
 
-export function buildQuery(columns:(string|RelationColumnSpec)[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean, highlightingMode:HighlightingMode = 'inline'):QueryResource {
+export function buildQuery(columns:(string|RelationColumnSpec|NonSortableColumnSpec)[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean, highlightingMode:HighlightingMode = 'inline'):QueryResource {
   return {
     id: null,
     columns: columns.map(buildColumn),
@@ -662,13 +679,17 @@ export function buildQuery(columns:(string|RelationColumnSpec)[], groupBy:string
   } as unknown as QueryResource;
 }
 
-function buildColumn(column:string|RelationColumnSpec) {
+function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
   if (typeof column === 'string') {
     return { id: column, name: column, _type: 'QueryColumn', href: `/api/v3/queries/columns/${column}` };
   }
 
   const { id } = column;
   const href = `/api/v3/queries/columns/${id}`;
+  if ('sortable' in column) {
+    return { id, name: id, _type: 'QueryColumn', href, sortable: false };
+  }
+
   return 'children' in column
     ? { id, name: id, _type: queryColumnTypes.RELATION_CHILD, href }
     : { id, name: id, _type: queryColumnTypes.RELATION_OF_TYPE, relationType: column.relationType, href };
