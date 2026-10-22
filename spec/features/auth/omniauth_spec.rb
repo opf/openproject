@@ -209,7 +209,7 @@ RSpec.describe "Omniauth authentication" do
     shared_examples "registration with registration by email" do
       it "still automatically activates the omniauth account" do
         visit login_path
-        start_omniauth_developer unless page.has_field?("email")
+        start_omniauth_developer unless page.has_field?("email", exact: true)
 
         SeleniumHubWaiter.wait
         # login form developer strategy
@@ -242,7 +242,7 @@ RSpec.describe "Omniauth authentication" do
             prompt: "login"
           )
 
-          start_omniauth_developer unless page.has_field?("email")
+          start_omniauth_developer unless page.has_field?("email", exact: true)
 
           SeleniumHubWaiter.wait
           fill_in "email", with: user.mail # login form developer strategy

@@ -82,6 +82,7 @@ en:
     omniauth_login: Please login to activate your account.
     signup_title: "Create an account in %{app_title}"
     signup_with_external_account: "Sign up with an external account"
+    username_or_email: "Username or email"
 
   actionview_instancetag_blank_option: "Please select"
 
