@@ -31,7 +31,7 @@ import type { ApiResponseDocument } from "../types";
 
 // Origins accepted in addition to the token's own origin.
 // "file://" lets the OpenProject mobile app connect (its webview sends `Origin: file://`).
-const ALLOWED_ORIGINS = ["file://"];
+const ADDITIONAL_ALLOWED_ORIGINS = ["file://"];
 
 export interface TokenValidationResult {
   decryptedToken: string;
@@ -58,7 +58,7 @@ export async function decryptAndValidateToken(
 
   // Compare the raw header against the allowlist, since `new URL("file://").origin` is "null".
   const tokenOrigin = new URL(tokenResourceUrl).origin;
-  if (requestOrigin && requestOrigin !== tokenOrigin && !ALLOWED_ORIGINS.includes(requestOrigin)) {
+  if (requestOrigin && requestOrigin !== tokenOrigin && !ADDITIONAL_ALLOWED_ORIGINS.includes(requestOrigin)) {
     throw new Error(`Unauthorized: Token origin does not match request origin. Expected ${tokenOrigin}, got ${requestOrigin}.`);
   }
 
