@@ -1,0 +1,11 @@
+---
+fa:
+  js:
+    button_allocate_resource: تخصیص منبع
+    resource_management:
+      create_placeholder_user: ایجاد کاربر فرضی با معیارهای فیلتر
+      hidden_user: کاربر پنهان
+      my_work:
+        finish_by: تا %{date} به پایان برسانید
+        finish_today: امروز به پایان برسانید
+      show_allocations: نمایش تخصیص‌های منابع

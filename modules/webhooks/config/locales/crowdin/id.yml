@@ -62,7 +62,7 @@ id:
       label_add_new: Tambahkan webhook baru
       label_edit: Ubah webhook
       label_x_events:
-        one: 1 acara
+        one: "%{count} event"
         other: "%{count} acara"
         zero: Tidak ada acara
       no_results_table: Belum ada webhook yang ditentukan.

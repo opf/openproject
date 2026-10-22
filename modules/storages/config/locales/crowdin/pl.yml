@@ -424,14 +424,13 @@ pl:
       empty_project_folder_validation: Wybranie folderu jest obowiązkowe w celu kontynuacji.
       existing_manual_folder: Możesz wyznaczyć istniejący folder jako folder główny tego projektu. Uprawnienia nie są jednak zarządzane automatycznie, administrator musi ręcznie upewnić się, że odpowiedni użytkownicy mają dostęp. Wybrany folder może być używany przez wiele projektów.
       host: Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków.
-      managed_project_folders_application_password_caption: 'Włącz automatycznie zarządzane foldery, kopiując tę wartość z: %{provider_type_link}.'
+      managed_project_folders_application_password_caption_html: 'Enable automatic managed folders by copying this value from: [%{integration}](provider_settings).'
       name: Nazwij swój magazyn pamięci, aby użytkownicy mogli je rozróżniać, jeśli występuje ich wiele.
       new_storage_html: Aby uzyskać więcej informacji, przeczytaj naszą dokumentację na temat [konfigurowania integracji magazynu plików %{provider_name}](docs_url).
       nextcloud:
-        application_link_text: aplikacji „Integration OpenProject”
         integration: Administracja Nextcloud / OpenProject
-        oauth_configuration: Skopiuj te wartości z %{application_link_text}.
-        provider_configuration: Przed wykonaniem konfiguracji upewnij się, że masz uprawnienia administracyjne w swoim wystąpieniu Nextcloud oraz zainstalowaną aplikację %{application_link_text}.
+        oauth_configuration_html: Copy these values from [Nextcloud Administration / OpenProject](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in your Nextcloud instance and the [application “Integration OpenProject”](application_link) is installed before doing the setup.
         storage_audience: Identyfikator klienta, który wykorzystuje wystąpienie Nextcloud do komunikowania się z dostawcą tożsamości.
         storage_audience_placeholder: np. nextcloud
         token_exchange_scope: Zakresy, które powinny być wymagane podczas wymiany tokenów, każdy oddzielony spacją.
@@ -440,27 +439,24 @@ pl:
       not_logged_into_storage: Aby wybrać folder projektu, najpierw się zaloguj
       oauth_application_details_html: Wartość kod klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj tę wartości do [ustawień Nextcloud OpenProject Integration](oauth_application_details_link).
       one_drive:
-        application_link_text: Portal Azure
         copy_redirect_uri: Skopiuj identyfikator URI przekierowania
-        documentation_link_text: dokumentacji plików OneDrive
-        drive_id: Skopiuj identyfikator z żądanego dysku, wykonując kroki opisane w %{drive_id_link_text}.
+        drive_id_html: Please copy the ID from the desired drive by following the steps in the [OneDrive file storages documentation](drive_id_guide).
         integration: OneDrive
         missing_client_id_for_redirect_uri: Wprowadź wartości OAuth, aby wygenerować identyfikator URI
         oauth_client_redirect_uri: Skopiuj tę wartość do nowego identyfikatora URI przekierowania sieci Web w sekcji Przekieruj URI.
         oauth_client_secret: Jeśli w sekcji Poświadczenia klienta nie ma tajnego klucza klienta aplikacji, utwórz nowy.
-        oauth_configuration: Skopiuj te wartości z żądanej aplikacji w %{application_link_text}.
-        provider_configuration: Przed przystąpieniem do konfiguracji upewnij się, że masz uprawnienia administracyjne w %{application_link_text} lub skontaktuj się z administratorem z firmy Microsoft. W portalu musisz również zarejestrować aplikację Azure lub użyć istniejącej do uwierzytelniania.
-        tenant_id: Skopiuj identyfikator katalogu (dzierżawcy) z żądanej aplikacji i rejestracje aplikacji w %{application_link_text}.
+        oauth_configuration_html: Copy these values from the desired application in the [Azure portal](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [Azure portal](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        tenant_id_html: Please copy the Directory (tenant) ID from the desired application and App registrations in the [Azure portal](application_link).
         tenant_id_placeholder: Nazwa lub identyfikator UUID
       setting_up_additional_storages: Aby skonfigurować dodatkowe magazyny plików, odwiedź
       setting_up_additional_storages_non_admin: Administratorzy mogą skonfigurować dodatkowe magazyny plików w obszarze Administracja / Magazyny plików.
       setting_up_storages: Aby skonfigurować magazyny plików, odwiedź
       setting_up_storages_non_admin: Administratorzy mogą skonfigurować magazyny plików w obszarze Administracja / Magazyny plików.
       sharepoint:
-        application_link_text: Witryna SharePoint
         integration: Administracja SharePoint/OpenProject
-        oauth_configuration: Skopiuj te wartości z żądanej aplikacji w %{application_link_text}.
-        provider_configuration: Przed przystąpieniem do konfiguracji upewnij się, że masz uprawnienia administracyjne w %{application_link_text} lub skontaktuj się z administratorem z firmy Microsoft. W portalu musisz również zarejestrować aplikację Azure lub użyć istniejącej do uwierzytelniania.
+        oauth_configuration_html: Copy these values from the desired application in the [SharePoint site](application_link).
+        provider_configuration_html: Please make sure you have administration privileges in the [SharePoint site](application_link) or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
       type: 'Upewnij się, że masz uprawnienia administracyjne w swojej instancji Nextcloud oraz zainstalowaną następującą aplikację, przed wykonaniem konfiguracji:'
       type_link_text: "“Integration OpenProject”"
     label_active: Aktywny
@@ -499,7 +495,7 @@ pl:
       connected: Połączono
       connected_no_permissions: Rola użytkownika nie ma uprawnień do magazynów
       not_connectable: Nie można połączyć. Magazyn wymaga logowania poprzez dostawcę SSO, ale użytkownik nie loguje się poprzez SSO.
-      not_connected: Nie połączono. Użytkownik powinien zalogować się do magazynu za pomocą %{link}.
+      not_connected_html: Not connected. The user should login to the storage via the following [link](storage_login).
       not_connected_sso: Jeszcze nie powiązano, usługa SSO powinna je automatycznie powiązać po sprawdzeniu plików.
     members_no_results: Brak członków do wyświetlenia.
     no_results: Brak skonfigurowanych magazynów.

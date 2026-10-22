@@ -68,7 +68,7 @@ lt:
       label_add_new: Pridėti „webhook“
       label_edit: Keisti „webhook“
       label_x_events:
-        one: 1 event
+        one: "%{count} event"
         other: "%{count} events"
         zero: No events
       no_results_table: Dar nenustatytas joks „webhook“.

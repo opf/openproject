@@ -61,6 +61,8 @@ pt-PT:
   attributes:
     budget: Orçamento
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Não existe tarifa horária para %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -106,7 +108,7 @@ pt-PT:
   events:
     budget: Orçamento editado
   help_click_to_edit: Clique aqui para editar.
-  help_currency_format: Formato de valores de moedas exibidos. %n é substituído com o valor da moeda, %u é substituído com a unidade de moeda.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Insira um valor aqui para substituir a taxa por defeito.
   label_budget_available: Orçamento disponível
   label_budget_details: Detalhes do orçamento
