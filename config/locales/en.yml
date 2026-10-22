@@ -7345,10 +7345,12 @@ en:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
+          title: Not used in any project yet
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projects
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7472,13 +7474,13 @@ en:
       filter: "Filter by name"
       filter_no_results: "No types match this filter"
       make_default: "Activate in new projects"
+      make_default_notice: "%{name} is now activated in new projects."
       migrated_variants_banner:
         text: >
           Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0.
           They are marked as "%{label}".
           To remove them, make the affected projects use a different variant or type, then delete the migrated variant.
           [Learn more about variants](docs_url).
-      make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
       project_variants_count:
