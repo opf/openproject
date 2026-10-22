@@ -96,7 +96,7 @@ export function bandFor(interval:NonWorkingInterval, scale:Scale, zone:string):B
   return { left, width: right - left };
 }
 
-// Exported so that the dataset standing in for the bands can wear their colour in the legend.
+// Exported so that the dataset standing in for the bands can wear their color in the legend.
 export function nonWorkingDaysColor():string {
   return getCSSVariable('--bgColor-neutral-muted', '#818b981f');
 }
