@@ -73,7 +73,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     onKeydown: (event:KeyboardEvent) => this.handler.handleUserKeydown(event, true),
     onOpen: () => this.onOpen(),
     onClose: () => this.onClose(),
-    onAfterViewInit: (component:CreateAutocompleterComponent) => this._autocompleterComponent = component,
+    onAfterViewInit: (component:CreateAutocompleterComponent) => { this._autocompleterComponent = component; },
   };
 
   public get selectedOption() {

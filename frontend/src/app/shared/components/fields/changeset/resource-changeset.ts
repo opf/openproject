@@ -391,7 +391,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       return this.cache[key] as Promise<V>;
     }
 
-    return this.cache[key] = request();
+    const promise = request();
+    this.cache[key] = promise;
+    return promise;
   }
 
   protected get minimalPayload():ChangesetPayload {
