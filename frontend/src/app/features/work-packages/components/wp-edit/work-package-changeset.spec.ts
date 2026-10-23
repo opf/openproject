@@ -132,4 +132,22 @@ describe('WorkPackageChangeset labels', () => {
 
     expect(buildPayload()._links.labels).toEqual([]);
   });
+
+  it('sends pending labels even when the reference resource has no labels link', () => {
+    const bare = halResourceService.createHalResourceOfClass(WorkPackageResource, {
+      _type: 'WorkPackage',
+      id: '2',
+      lockVersion: 1,
+      _links: { self: { href: '/api/v3/work_packages/2' } },
+    }) as unknown as WorkPackageResource;
+    changeset = new WorkPackageChangeset(bare);
+
+    const pending = halResourceService.createHalResourceOfType('Label', { id: null, name: 'Needs triage', href: null });
+    changeset.setValue('labels', [pending]);
+
+    const payload = buildPayload();
+
+    expect(payload._links.labels).toEqual([{ href: null, title: 'Needs triage' }]);
+    expect(payload).not.toHaveProperty('labels');
+  });
 });

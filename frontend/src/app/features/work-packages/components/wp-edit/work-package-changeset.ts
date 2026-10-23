@@ -81,10 +81,11 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   private applyPendingLabels(payload:ChangesetPayload):ChangesetPayload {
     const labels = this.changeset.getValue('labels');
 
-    if (!Array.isArray(labels) || !payload._links?.labels || !this.schema.isAttributeEditable('labels')) {
+    if (!Array.isArray(labels) || !this.schema.isAttributeEditable('labels')) {
       return payload;
     }
 
+    delete payload.labels;
     payload._links.labels = (labels as HalResource[])
       .filter((label) => Boolean(label.href) || Boolean(label.name))
       .map((label) => (label.href ? { href: label.href } : { href: null, title: label.name }));
