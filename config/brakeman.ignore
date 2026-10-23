@@ -141,6 +141,26 @@
       "note": "Never called with user input"
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "3ab049e778792fe078e5e6405a5a8f561823ddc421d7486229891f128e2f16ac",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/custom_field/project_specific_values.rb",
+      "line": 104,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "project_specific_value_restrictions.where(:restriction => project_specific_value_restriction).where(\"#{CustomField::ProjectSpecificValueRestriction.table_name}.project_id = reach.id AND #{CustomField::ProjectSpecificValueRestriction.table_name}.#{value_column} = #{value_expression}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomField::ProjectSpecificValues",
+        "method": "listed_in_reach"
+      },
+      "user_input": "value_column",
+      "confidence": "Weak",
+      "note": "static SQL string: table name, column and correlated expression are internal constants; the restriction is bound through where"
+    },
+    {
       "warning_type": "Remote Code Execution",
       "warning_code": 24,
       "fingerprint": "3d0ae98ed047bde3475cd8a4afa84dbc2de8845bef18ca9abf5e25c8673057a9",
@@ -390,6 +410,26 @@
       "user_input": "TypeVariant.effective_source_id_subquery(variant_id, TypeVariant::PROJECT_ATTRIBUTES)",
       "confidence": "Medium",
       "note": "static SQL string: the subquery comes from TypeVariant.effective_source_id_subquery, which binds the variant id and whitelists the aspect"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d57a0a48c5d46dbd8166bf1a8fdc478e6c1936822d634197304f8e2a8c3eb9b9",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/custom_field/project_specific_values.rb",
+      "line": 65,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "restrictable_values.where(\"EXISTS (\\n  SELECT 1 FROM (#{projects.select(:id).to_sql}) reach\\n  WHERE #{list? ? (usable_option_condition) : (usable_item_condition)}\\n)\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomField::ProjectSpecificValues",
+        "method": "usable_values_in_any"
+      },
+      "user_input": "list? ? (usable_option_condition) : (usable_item_condition)",
+      "confidence": "Weak",
+      "note": "static SQL string: the reach is the to_sql of an ActiveRecord relation and the conditions are built from constants inside the concern"
     },
     {
       "warning_type": "SQL Injection",
