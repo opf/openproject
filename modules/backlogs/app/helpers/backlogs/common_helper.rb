@@ -68,12 +68,8 @@ module Backlogs
       backlog_filters.to_h
     end
 
-    def all_sprints_for(project)
-      Sprint.for_project(project).not_completed.order_by_date
-    end
-
     def filtered_sprints_for(project)
-      relation = all_sprints_for(project).includes(:project, :task_boards, :goals)
+      relation = Sprint.assignable(project:).order_by_date.includes(:project, :task_boards, :goals)
       backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
     end
 

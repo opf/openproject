@@ -45,7 +45,7 @@ module Backlogs
 
     def items
       if filter_field == :sprint_ids
-        all_sprints_for(project)
+        Sprint.assignable(project:).order_by_date
       else
         all_buckets_for(project).to_a + [InboxItem.new(id: "inbox", name: I18n.t(:label_inbox))]
       end
