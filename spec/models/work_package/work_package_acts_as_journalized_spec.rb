@@ -1178,6 +1178,38 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on consecutive label deletions within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+      shared_let(:journable) do
+        create(:work_package, journals: { 10.minutes.ago => { user: } })
+      end
+
+      def journalize(cause)
+        Journals::CreateService.new(journable, user).call(cause:)
+      end
+
+      before do
+        journalize(Journal::CausedByLabelDeletion.new(label_ids: [1], label_names: ["A"]))
+      end
+
+      it "aggregates consecutive label deletions into one journal listing every label" do
+        expect { journalize(Journal::CausedByLabelDeletion.new(label_ids: [2], label_names: ["B"])) }
+          .not_to change { journable.journals.count }
+
+        expect(journable.journals.reload.last.cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1, 2], "label_names" => %w[A B])
+      end
+
+      it "does not aggregate an unrelated cause into the label deletion journal" do
+        expect { journalize(Journal::CausedByWorkPackageParentDeletion.new) }
+          .to change { journable.journals.count }.by(1)
+
+        expect(journable.journals.reload[-2].cause)
+          .to eq("type" => "label_deleted", "label_ids" => [1], "label_names" => ["A"])
+        expect(journable.journals.reload.last.cause)
+          .to eq(Journal::CausedByWorkPackageParentDeletion.new.to_hash)
+      end
+    end
+
     context "on a comment within aggregation time after a journal with a meeting cause" do
       let(:meeting_cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
 
