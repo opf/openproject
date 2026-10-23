@@ -29,6 +29,7 @@ import { BlockNoteEditorOptions, BlockNoteSchema, User } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
+import { FailedUploadCleanupExtension } from '../extensions/failed-upload-cleanup';
 import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
@@ -100,6 +101,7 @@ export function OpBlockNoteEditor({
       extensions: [
         ExternalLinkA11yExtension,
         HeadingLinkExtension,
+        ...(attachmentsEnabled ? [FailedUploadCleanupExtension] : []),
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
