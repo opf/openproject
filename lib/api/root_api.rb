@@ -71,6 +71,8 @@ module API
       def authenticate
         User.current = warden.authenticate! scope: authentication_scope
 
+        enforce_oauth_scope
+
         if Setting.login_required? && !logged_in? && !allowed_unauthenticated_route?
           raise ::API::Errors::Unauthenticated
         end
@@ -78,6 +80,21 @@ module API
 
       def allowed_unauthenticated_route?
         false
+      end
+
+      # OAuth access tokens lacking the authentication scope (e.g. `api_v3`) were accepted for a restricted
+      # scope and only grant access to endpoints opting into it via `route_setting :oauth_scopes`.
+      def enforce_oauth_scope
+        access_token = env[OpenProject::Authentication::Strategies::Warden::DoorkeeperOAuth::ACCESS_TOKEN_ENV_KEY]
+        return if access_token.nil?
+        return if access_token.includes_scope?(*accepted_oauth_scopes)
+
+        raise ::API::Errors::InsufficientScope.new(granted_scopes: access_token.scopes.to_a,
+                                                   accepted_scopes: accepted_oauth_scopes)
+      end
+
+      def accepted_oauth_scopes
+        [authentication_scope.to_s, *Array(route.settings[:oauth_scopes]).map(&:to_s)]
       end
 
       def set_localization
@@ -284,6 +301,17 @@ module API
       end
     end
 
+    def self.insufficient_scope_headers
+      lambda do
+        header = OpenProject::Authentication::WWWAuthenticate.response_header(env:,
+                                                                              scope: authentication_scope,
+                                                                              oauth_scopes: accepted_oauth_scopes,
+                                                                              error: "insufficient_scope")
+
+        { "WWW-Authenticate" => header }
+      end
+    end
+
     def self.error_representer(klass, content_type)
       # Have the vars available in the instances via helpers.
       helpers do
@@ -309,6 +337,7 @@ module API
     error_response MultiJSON::ParseError, ::API::Errors::ParseError
 
     error_response ::API::Errors::Unauthenticated, headers: auth_headers, log: false
+    error_response ::API::Errors::InsufficientScope, headers: insufficient_scope_headers, log: false
     error_response ::API::Errors::ErrorBase, rescue_subclasses: true, log: false
 
     # Handle grape validation errors

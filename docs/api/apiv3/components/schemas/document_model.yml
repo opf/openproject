@@ -51,6 +51,18 @@ properties:
             The attachments belonging to the document
 
             **Resource**: []Attachment
+      createCollaborationToken:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Creates a token for the real-time collaboration server
+
+            # Conditions
+
+            **Permission**: view documents
+
+            The document is collaborative and real-time collaboration is enabled.
+          readOnly: true
 example:
   _type: Document
   id: 1
@@ -74,6 +86,9 @@ example:
       href: "/api/v3/documents/1/attachments"
     addAttachment:
       href: "/api/v3/documents/1/attachments"
+      method: post
+    createCollaborationToken:
+      href: "/api/v3/documents/1/collaboration_token"
       method: post
     self:
       href: "/api/v3/documents/1"

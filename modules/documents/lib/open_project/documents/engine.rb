@@ -28,6 +28,8 @@
 #++
 
 module OpenProject::Documents
+  EDIT_DOCUMENTS_OAUTH_SCOPE = "op:resource:documents:edit"
+
   class Engine < ::Rails::Engine
     engine_name :openproject_documents
 
@@ -111,6 +113,10 @@ module OpenProject::Documents
 
     add_api_resource_paths :document, only: %i[index show]
 
+    add_api_path :document_collaboration_token do |id|
+      "#{document(id)}/collaboration_token"
+    end
+
     add_api_path :attachments_by_document do |id|
       "#{document(id)}/attachments"
     end
@@ -121,6 +127,11 @@ module OpenProject::Documents
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Documents::DocumentsAPI
+    end
+
+    config.to_prepare do
+      OpenProject::Authentication.register_restricted_oauth_scope(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE,
+                                                                  restricted_to: OpenProject::Authentication::Scope::API_V3)
     end
 
     # Add documents to allowed search params

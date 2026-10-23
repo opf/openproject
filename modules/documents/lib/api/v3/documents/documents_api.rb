@@ -56,16 +56,18 @@ module API
           route_param :id, type: Integer, desc: "Document ID" do
             helpers do
               def document
-                Document.visible.find(params[:id])
+                @document ||= Document.visible.find(params[:id])
               end
             end
 
+            route_setting :oauth_scopes, [::OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE]
             get do
               ::API::V3::Documents::DocumentRepresenter.new(document,
                                                             current_user:,
                                                             embed_links: true)
             end
 
+            route_setting :oauth_scopes, [::OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE]
             patch do
               doc = document
               request_body = JSON.parse(request.body.read)
@@ -83,6 +85,7 @@ module API
               end
             end
 
+            mount ::API::V3::Documents::CollaborationTokenAPI
             mount ::API::V3::Attachments::AttachmentsByDocumentAPI
           end
         end

@@ -29,25 +29,66 @@
 
 module Documents
   module OAuth
+    ##
+    # Creates a collaboration token for the document.
+    #
+    # When a `previous_token` is given, it is revoked 30 seconds after the new token is created,
+    # so the collaboration server can keep using it until the client has handed the new token over.
+    # The previous token may be expired, but must not be revoked (i.e. must not have been sent before).
     class TokenWithMetadataService < BaseServices::BaseCallable
       include API::V3::Utilities::PathHelper
 
-      attr_reader :user, :document, :project
+      PREVIOUS_TOKEN_REVOCATION_DELAY = 30.seconds
 
-      def initialize(user:, document:, project:)
+      attr_reader :user, :document, :previous_token
+
+      def initialize(user:, document:, previous_token: nil)
         super()
 
         @user = user
         @document = document
-        @project = project
+        @previous_token = previous_token
       end
 
-      def perform # rubocop:disable Metrics/AbcSize
+      def perform
+        precondition_failure = check_preconditions
+        return precondition_failure if precondition_failure
+
+        token_result = nil
+
+        ::Doorkeeper::AccessToken.transaction do
+          token_result = previous_token ? revoke_previous_and_create_token : create_token_with_metadata
+          raise ActiveRecord::Rollback if token_result.failure?
+        end
+
+        token_result
+      end
+
+      def resource_url
+        @resource_url ||= URI.join(
+          OpenProject::StaticRouting::StaticUrlHelpers.new.root_url,
+          api_v3_paths.document(document.id)
+        ).to_s
+      end
+
+      private
+
+      def check_preconditions
+        if !document.collaborative?
+          not_collaborative_result
+        elsif !document.real_time_collaboration_available?
+          collaboration_disabled_result
+        elsif previous_token && previous_access_token.nil?
+          invalid_previous_token_result
+        end
+      end
+
+      def create_token_with_metadata # rubocop:disable Metrics/AbcSize
         token_result = GenerateTokenService.new(user:).call
 
         if token_result.failure?
           Rails.logger.error("Failed to generate OAuth token for document #{document.id}: #{token_result.errors}")
-          return token_result
+          return token_creation_failed_result
         end
 
         access_token = token_result.result
@@ -64,7 +105,7 @@ module Documents
 
         if encrypted_result.failure?
           Rails.logger.error("Failed to encrypt OAuth token payload for document #{document.id}: #{encrypted_result.errors}")
-          return encrypted_result
+          return token_creation_failed_result
         end
 
         ServiceResult.success(
@@ -78,18 +119,73 @@ module Documents
         )
       end
 
-      private
+      def revoke_previous_and_create_token
+        return invalid_previous_token_result if revoke_previous_token.zero?
 
-      def resource_url
-        @resource_url ||= URI.join(
-          OpenProject::StaticRouting::StaticUrlHelpers.new.root_url,
-          api_v3_paths.document(document.id)
-        ).to_s
+        create_token_with_metadata
       end
 
       def readonly
-        @readonly ||= user.allowed_in_project?(:view_documents, project) &&
-          !user.allowed_in_project?(:manage_documents, project)
+        @readonly ||= user.allowed_in_project?(:view_documents, document.project) &&
+          !user.allowed_in_project?(:manage_documents, document.project)
+      end
+
+      def previous_access_token
+        @previous_access_token ||= find_previous_access_token
+      end
+
+      def find_previous_access_token
+        payload = decrypted_payload
+        return if payload.nil?
+        return if payload["resource_url"] != resource_url
+
+        access_token = ::Doorkeeper::AccessToken.by_token(payload["oauth_token"])
+        return unless access_token&.includes_scope?(OpenProject::Documents::EDIT_DOCUMENTS_OAUTH_SCOPE)
+        return if access_token.resource_owner_id != user.id
+        return if access_token.revoked_at.present?
+
+        access_token
+      end
+
+      def decrypted_payload
+        decrypt_result = DecryptTokenService.new(token: previous_token).call
+        return unless decrypt_result.success?
+
+        payload = JSON.parse(decrypt_result.result)
+        payload if payload.is_a?(Hash)
+      rescue JSON::ParserError
+        nil
+      end
+
+      # Doorkeeper considers a token revoked once `revoked_at <= now`, so a value in the
+      # future keeps it valid until then.
+      # Only revokes if not revoked yet, so that concurrent requests cannot both revoke the same token.
+      def revoke_previous_token
+        ::Doorkeeper::AccessToken
+          .where(id: previous_access_token.id, revoked_at: nil)
+          .update_all(revoked_at: PREVIOUS_TOKEN_REVOCATION_DELAY.from_now)
+      end
+
+      def not_collaborative_result
+        typed_failure(:document, :not_collaborative, I18n.t("documents.collaboration_token.errors.not_collaborative"))
+      end
+
+      def collaboration_disabled_result
+        typed_failure(:document, :collaboration_disabled, I18n.t("documents.collaboration_token.errors.collaboration_disabled"))
+      end
+
+      def invalid_previous_token_result
+        typed_failure(:token, :invalid, I18n.t("documents.collaboration_token.errors.invalid_previous_token"))
+      end
+
+      def token_creation_failed_result
+        ServiceResult.failure(message: I18n.t("api_v3.errors.code_500"))
+      end
+
+      def typed_failure(attribute, type, message)
+        ServiceResult
+          .failure(message:)
+          .tap { |result| result.errors.add(attribute, type) }
       end
     end
   end
