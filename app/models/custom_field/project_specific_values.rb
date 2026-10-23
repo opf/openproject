@@ -52,6 +52,13 @@ module CustomField::ProjectSpecificValues
     usable_values_in_any(Project.with_visible_work_packages(user).with_available_custom_fields(id))
   end
 
+  def keep_usable_values(values, project)
+    return values if project_specific_value_restriction.nil?
+
+    usable_ids = usable_values_in(project).pluck(:id).map(&:to_s)
+    values.is_a?(Array) ? values & usable_ids : values.presence_in(usable_ids)
+  end
+
   private
 
   # The restrictions are evaluated per project of the reach, so the rows of different projects
