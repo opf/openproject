@@ -11,10 +11,10 @@ import {
   SearchInput,
   SearchHeader,
   SearchLabel,
-  SearchMessage,
   DropdownList,
   DropdownItem,
 } from './SearchContainer';
+import { SearchMessage } from '../shared/SearchMessage';
 import { Spinner } from '../Spinner';
 
 interface SearchDropdownProps {

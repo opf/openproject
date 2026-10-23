@@ -16,6 +16,9 @@ import {
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
+  OpenProjectMentionMenu,
+  openProjectUserMentionSpec,
+  UserMentionNotificationExtension,
 } from '../lib';
 import './fetchOverride';
 
@@ -25,6 +28,7 @@ const schema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectUserMention: openProjectUserMentionSpec,
   },
 });
 
@@ -44,7 +48,7 @@ function buildSlashMenuItems(editor:EditorType) {
 }
 
 export default function App() {
-  const editor = useCreateBlockNote({ schema });
+  const editor = useCreateBlockNote({ schema, extensions: [UserMentionNotificationExtension] });
 
   const getSlashItems = useCallback(
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -62,6 +66,7 @@ export default function App() {
       />
 
       <OpenProjectHashMenu />
+      <OpenProjectMentionMenu />
     </BlockNoteView>
   );
 }
