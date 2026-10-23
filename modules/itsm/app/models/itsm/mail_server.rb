@@ -35,7 +35,7 @@ module ITSM
     enum :imap_encryption, { tls: "tls", starttls: "starttls" }, prefix: true, validate: true
     enum :smtp_encryption, { tls: "tls", starttls: "starttls" }, prefix: true, validate: true
 
-    normalizes :imap_host, :smtp_host, with: ->(host) { host.strip.downcase }
+    normalizes :imap_host, :smtp_host, with: ->(host) { host.strip.downcase.delete_suffix(".") }
 
     validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 255 }
     validates :imap_host, :smtp_host, presence: true, hostname: true

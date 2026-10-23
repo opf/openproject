@@ -68,8 +68,8 @@ RSpec.describe ITSM::MailServer do
     it { is_expected.not_to be_valid }
   end
 
-  context "with upper case hosts and surrounding whitespace" do
-    let(:imap_host) { " IMAP.Mailbox.org " }
+  context "with upper case hosts, surrounding whitespace and a trailing dot" do
+    let(:imap_host) { " IMAP.Mailbox.org. " }
     let(:smtp_host) { "SMTP.mailbox.org " }
 
     it "normalizes both hosts" do

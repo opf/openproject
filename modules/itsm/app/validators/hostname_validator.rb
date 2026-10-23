@@ -28,17 +28,9 @@
 #++
 
 class HostnameValidator < ActiveModel::EachValidator
-  HOSTNAME = /\A(?=.{1,253}\z)[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?)*\z/
+  HOSTNAME = /\A#{URI::RFC2396_REGEXP::PATTERN::HOSTNAME}\z/
 
   def validate_each(record, attribute, value)
-    return if value.blank?
-
-    record.errors.add(attribute, :invalid) if ip_address?(value) || !value.match?(HOSTNAME)
-  end
-
-  private
-
-  def ip_address?(value)
-    [Resolv::IPv4::Regex, Resolv::IPv6::Regex].any? { |regex| value.match?(regex) }
+    record.errors.add(attribute, :invalid) if value.present? && !value.match?(HOSTNAME)
   end
 end
