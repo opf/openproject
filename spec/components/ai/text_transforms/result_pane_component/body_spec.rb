@@ -74,6 +74,17 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     end
   end
 
+  context "for a new work package of a project" do
+    let(:project) { create(:project, :with_internal_wiki).reload }
+    let(:pane) { AI::TextTransforms::ResultPaneState.new(run:, scope:, request_id: SecureRandom.uuid, project:) }
+
+    before { run.events.build(kind: "text_delta", payload: { "delta" => " [[Release notes]]" }, seq: 2) }
+
+    it "resolves wiki links within the project" do
+      expect(subject).to have_css("a[href^='/projects/#{project.identifier}/wiki/release-notes']", text: "Release notes")
+    end
+  end
+
   context "when stopped" do
     let(:status) { "failed" }
 
