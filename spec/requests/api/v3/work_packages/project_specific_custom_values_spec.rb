@@ -68,7 +68,7 @@ RSpec.describe "API v3 work packages with project-specific custom field values",
         expect(response).to have_http_status(:ok)
         expect(response.body).to be_json_eql(API::V3::URN_UNDISCLOSED.to_json).at_path("_links/#{link_name}/href")
         expect(response.body)
-          .to be_json_eql(I18n.t(:"api_v3.undisclosed.customValue").to_json).at_path("_links/#{link_name}/title")
+          .to be_json_eql(I18n.t(:label_custom_value_no_longer_available).to_json).at_path("_links/#{link_name}/title")
       end
     end
 
