@@ -69,26 +69,33 @@ module WorkPackageTypes
       end
 
       def toggle_required_icon
-        @attribute[:required_for_variant] ? "circle-slash" : "circle"
+        @attribute[:required_for_variant] ? "circle-slash" : "check-circle"
       end
 
       def toggle_required_hint
         t("types.edit.form_configuration.required.globally_hint")
       end
 
-      def toggle_required_item_arguments
-        arguments = {
-          label: toggle_required_label,
-          disabled: required_action_disabled?,
-          test_selector: "type-form-configuration-toggle-required-#{@attribute[:key]}"
-        }
-        return arguments if required_action_disabled?
+      def toggle_required_button_id
+        "type-form-configuration-toggle-required-#{@attribute[:key]}"
+      end
 
-        arguments.merge(
-          tag: :a,
-          href: row_toggle_required_path,
-          content_arguments: { data: { turbo_method: :put, turbo_stream: true } }
-        )
+      def toggle_required_button_arguments
+        arguments = {
+          size: :small,
+          id: toggle_required_button_id,
+          test_selector: toggle_required_button_id
+        }
+
+        if required_action_disabled?
+          arguments.merge(inactive: true, aria: { disabled: true })
+        else
+          arguments.merge(
+            tag: :a,
+            href: row_toggle_required_path,
+            data: { turbo_method: :put, turbo_stream: true }
+          )
+        end
       end
 
       def row_toggle_required_path
