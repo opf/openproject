@@ -52,7 +52,7 @@ RSpec.describe "Administrating memberships via the project settings", :js do
     create(:group, lastname: "A-Team", members: [peter, hannibal])
   end
 
-  shared_let(:manager)   { create(:project_role, name: "Manager", permissions: [:manage_members]) }
+  shared_let(:manager)   { create(:project_role, name: "Manager", permissions: %i[manage_members view_members]) }
   shared_let(:developer) { create(:project_role, name: "Developer") }
 
   let(:member1) { create(:member, principal: peter, project:, roles: [manager]) }
