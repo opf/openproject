@@ -437,18 +437,28 @@ module WorkPackages
     end
 
     def pending_label_error_symbols
-      existing_names = Label.named_any(model.label_name_replacements).pluck(:name).to_set(&:downcase)
+      new_names = new_pending_label_names
+      return [] if new_names.empty?
 
-      model.label_name_replacements
-           .reject { existing_names.include?(it.downcase) }
-           .flat_map { errors_for_new_label(it) }
-           .uniq
+      authorization = label_creation_authorization_errors(new_names.first)
+      (authorization + new_names.flat_map { label_name_errors(it) }).uniq
     end
 
-    def errors_for_new_label(name)
+    def new_pending_label_names
+      existing_names = Label.named_any(model.label_name_replacements).pluck(:name).to_set(&:downcase)
+      model.label_name_replacements.reject { existing_names.include?(it.downcase) }
+    end
+
+    def label_creation_authorization_errors(name)
       contract = Labels::CreateContract.new(Label.new(name:), user)
       contract.validate
-      contract.errors.symbols_for(:name) + contract.errors.symbols_for(:base)
+      contract.errors.symbols_for(:base)
+    end
+
+    def label_name_errors(name)
+      label = Label.new(name:)
+      Label.validators_on(:name).grep_v(ActiveRecord::Validations::UniquenessValidator).each { it.validate(label) }
+      label.errors.symbols_for(:name)
     end
 
     def validate_observed_in_versions_are_assignable
