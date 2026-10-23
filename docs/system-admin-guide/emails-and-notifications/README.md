@@ -103,14 +103,17 @@ Air-gapped instances cannot use browser notifications. Allowing them does no har
 
 ### Subscription lifecycle
 
-Choosing **Do not allow browser notifications** deletes every stored subscription immediately.
+Signing out, a session that expires, and a session revoked under **My account → Session management** suspend the device's subscription. The device then appears as **Signed out** in the user's list of devices. When the user signs in again on that device, the subscription resumes automatically, without a prompt.
 
-A subscription is also removed when:
+A subscription is removed for good when:
 
-- the user signs out,
-- the user's session expires or is revoked under **My account → Session management**,
+- the user selects **Disable on this device**,
+- the user revokes the device from the list,
 - the user is locked or deleted,
-- the push service reports that the endpoint is gone.
+- the push service reports that the endpoint is gone,
+- an administrator chooses **Do not allow browser notifications**, which deletes every stored subscription immediately.
+
+A suspended device that does not sign in again within the session retention window (30 days) is forgotten.
 
 Pausing reminders in **My account** also pauses browser notifications.
 

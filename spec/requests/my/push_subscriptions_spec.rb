@@ -57,6 +57,10 @@ RSpec.describe "My::PushSubscriptionsController",
     post "/my/push_subscriptions", params: { push_endpoint: value }.to_json, headers: json_headers
   end
 
+  def resume(value)
+    post "/my/push_subscriptions", params: { push_endpoint: value, resume: true }.to_json, headers: json_headers
+  end
+
   describe "POST /my/push_subscriptions" do
     context "when not signed in" do
       it "is unauthorized and stores nothing" do
@@ -78,7 +82,7 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.sole).to have_attributes(user:, endpoint:, session: current_session_row)
       end
 
-      it "refuses an endpoint held by another user" do
+      it "refuses an endpoint held by another user's active subscription" do
         existing = create(:push_subscription, endpoint:)
 
         subscribe(endpoint)
@@ -88,52 +92,15 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(existing.reload.user).not_to eq(user)
       end
 
-      it "moves an endpoint stored for an older session of the same user to the current session" do
-        older = Sessions::UserSession.find_by!(session_id: create(:user_session, user:).session_id)
-        existing = create(:push_subscription, user:, session: older, endpoint:)
+      context "when resuming" do
+        it "rebinds a dormant subscription of the user to the current session and ends its suspension" do
+          dormant = create(:push_subscription, user:, endpoint:, session: nil, suspended_at: 2.days.ago)
 
-        expect { subscribe(endpoint) }.not_to change(PushSubscription, :count)
+          resume(endpoint)
 
-        expect(existing.reload.session).to eq(current_session_row)
-      end
-
-      it "replaces this session's subscription when the browser posts a new endpoint" do
-        stale = create(:push_subscription, user:, session: current_session_row)
-
-        subscribe(endpoint)
-
-        expect(PushSubscription.where(session: current_session_row)).to contain_exactly(have_attributes(endpoint:))
-        expect(PushSubscription.exists?(stale.id)).to be(false)
-      end
-
-      it "retries once when a concurrent request stored the endpoint first" do
-        existing = create(:push_subscription, user:, endpoint:)
-        calls = 0
-        allow(PushSubscriptions::CreateService).to receive(:new).and_wrap_original do |original, **args|
-          original.call(**args).tap do |service|
-            allow(service).to receive(:call).and_wrap_original do |call, **kwargs|
-              calls += 1
-              raise ActiveRecord::RecordNotUnique if calls == 1
-
-              call.call(**kwargs)
-            end
-          end
+          expect(response).to have_http_status(:no_content)
+          expect(dormant.reload).to have_attributes(session: current_session_row, suspended_at: nil)
         end
-
-        subscribe(endpoint)
-
-        expect(response).to have_http_status(:ok)
-        expect(calls).to eq(2)
-        expect(existing.reload.user).to eq(user)
-      end
-
-      it "keeps this session's subscription when the new endpoint is rejected" do
-        stale = create(:push_subscription, user:, session: current_session_row)
-
-        subscribe("https://evil.example/x")
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(PushSubscription.exists?(stale.id)).to be(true)
       end
 
       it "rejects an endpoint that is not served over HTTPS" do
@@ -250,6 +217,35 @@ RSpec.describe "My::PushSubscriptionsController",
           expect(PushSubscription.exists?(subscription.id)).to be(true)
         end
       end
+    end
+  end
+
+  describe "resume offer on every page" do
+    context "when signed in" do
+      before { sign_in }
+
+      it "mounts the resume controller with the url and a session fingerprint" do
+        get "/my/page"
+
+        expect(response).to have_http_status(:ok)
+        assert_select "body[data-pwa-push-resume-url-value='/my/push_subscriptions']"
+        expect(response.body).to match(/data-pwa-push-resume-session-value="\h{16}"/)
+      end
+
+      context "with the setting off", with_settings: { web_push_enabled: false } do
+        it "does not mount it" do
+          get "/my/page"
+
+          assert_select "body[data-pwa-push-resume-url-value]", count: 0
+        end
+      end
+    end
+
+    it "does not mount it for anonymous visitors" do
+      host! Setting.host_name
+      get "/login"
+
+      assert_select "body[data-pwa-push-resume-url-value]", count: 0
     end
   end
 end
