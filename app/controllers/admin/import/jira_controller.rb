@@ -27,8 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Import::Jira
-  class InstancesController < ApplicationController
+module Admin::Import
+  class JiraController < ApplicationController
     include OpTurbo::ComponentStream
 
     layout "admin"
@@ -36,7 +36,7 @@ module Admin::Import::Jira
     menu_item :jira_import
 
     before_action :require_admin
-    before_action :set_jira, only: %i[show edit update destroy delete_token]
+    before_action :set_jira, only: %i[show edit update destroy clear_credential]
 
     def index
       @jira_instances = Import::Jira.order(created_at: :desc)
@@ -72,14 +72,42 @@ module Admin::Import::Jira
       redirect_to action: :index, status: :see_other
     end
 
-    def delete_token
-      @jira.update!(personal_access_token: nil)
-      flash[:notice] = t(:"admin.jira.token_deleted")
-      redirect_to edit_admin_import_jira_path(@jira), status: :see_other
+    def clear_credential
+      field = params[:field]
+
+      if %w[personal_access_token basic_auth_password].include?(field)
+        @jira.update!(field => nil)
+        flash[:notice] = t(:"admin.jira.#{field}_deleted")
+      end
+      redirect_to(edit_admin_import_jira_path(@jira), status: :see_other)
     end
 
-    def test
-      test_configuration(params[:url], token_for_test)
+    # rubocop:disable-next Metrics/AbcSize
+    def test_connection
+      url = params["url"]
+
+      unless valid_url?(url)
+        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.invalid_url"))
+      end
+
+      existing_jira_configuration = Import::Jira.find(params.expect(:jira_id)) if params[:jira_id].present?
+      basic_auth_username = params["basic_auth_username"]
+      basic_auth_password = params["basic_auth_password"].presence || existing_jira_configuration&.basic_auth_password
+      personal_access_token = params["personal_access_token"].presence || existing_jira_configuration&.personal_access_token
+      jira_client = Import::JiraClient.new(url:,
+                                           auth_method: params["auth_method"],
+                                           personal_access_token:,
+                                           basic_auth_username:,
+                                           basic_auth_password:)
+
+      server_info = jira_client.server_info
+      jira_user_is_administer = jira_client.mypermissions.dig("permissions", "ADMINISTER", "havePermission")
+
+      unless jira_user_is_administer
+        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.user_is_not_admin"))
+      end
+
+      render_test_result(server_info)
     rescue StandardError => e
       handle_test_error(e)
     ensure
@@ -89,13 +117,23 @@ module Admin::Import::Jira
     private
 
     def set_jira
-      @jira = Import::Jira.find(params[:id])
+      @jira = Import::Jira.find(params.expect(:id))
     end
 
     def jira_params
-      permitted = params.expect(import_jira: %i[name url personal_access_token exclude_resolution_fields])
-      if action_name == "update" && permitted[:personal_access_token].blank?
-        permitted.delete(:personal_access_token)
+      permitted = params.expect(
+        import_jira: %i[name
+                        url
+                        personal_access_token
+                        exclude_resolution_fields
+                        auth_method
+                        basic_auth_username
+                        basic_auth_password]
+      )
+      if action_name == "update"
+        %i[personal_access_token basic_auth_password].each do |credential|
+          permitted.delete(credential) if permitted[credential].blank?
+        end
       end
       permitted
     end
@@ -120,12 +158,6 @@ module Admin::Import::Jira
       uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
     end
 
-    def token_for_test
-      return params[:personal_access_token] if params[:personal_access_token].present?
-
-      Import::Jira.find(params[:id]).personal_access_token if params[:id].present?
-    end
-
     def handle_test_error(error)
       message = case error
                 when Import::JiraClient::SsrfError
@@ -134,6 +166,7 @@ module Admin::Import::Jira
                 when Import::JiraClient::ConnectionError then t(:"admin.jira.test.connection_error", message: error.message)
                 when Import::JiraClient::ParseError then t(:"admin.jira.test.parse_error")
                 when Import::JiraClient::ApiError then t(:"admin.jira.test.api_error", status: error.status)
+                when Import::JiraClient::Error then error.message
                 else
                   handle_unexpected_test_error(error)
                 end
@@ -144,17 +177,6 @@ module Admin::Import::Jira
       Rails.logger.error("Unexpected error testing Jira configuration: #{error.class} - #{error.message}\n" \
                          "#{error.backtrace.join("\n")}")
       "#{t(:"admin.jira.test.error")}: #{error.message}"
-    end
-
-    def test_configuration(url, personal_access_token)
-      if url.blank? || personal_access_token.blank?
-        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.missing_credentials"))
-      end
-      unless valid_url?(url)
-        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.invalid_url"))
-      end
-
-      render_test_result(Import::JiraClient.new(url:, personal_access_token:).server_info)
     end
 
     def render_test_result(response)

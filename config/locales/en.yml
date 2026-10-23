@@ -229,6 +229,9 @@ en:
         organizational_unit: "Organizational unit"
         parent: "Parent group"
       "import/jira":
+        auth_method: "Auth method"
+        basic_auth_password: "Basic auth password"
+        basic_auth_username: "Basic auth username"
         name: "Jira instance name"
         personal_access_token: "Personal access token"
         url: "Jira instance URL"
@@ -1584,11 +1587,14 @@ en:
       actions:
         button_edit: "Edit configuration"
         button_open: "Open runs"
+      api_client:
+        unknown_auth_method: "Unknown authentication method. Please use 'bearer' or 'basic'."
       banner:
         contribution_callout: >
           Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
         description: "This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time."
         title: "Beta - Try it out!"
+      basic_auth_password_deleted: "Basic auth password was successfully deleted."
       blank:
         description: "Configure a Jira host to start importing items from Jira to this OpenProject instance."
         title: "No Jira hosts configured yet"
@@ -1624,18 +1630,30 @@ en:
           description: "Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link)."
           title: "Project-based semantic identifiers must be enabled."
       form:
+        auth_method:
+          basic:
+            caption: "Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy."
+            label: "Basic auth"
+          bearer:
+            caption: "We recommend using this authentication method."
+            label: "Personal access token (PAT)"
         button_add: "Add configuration"
-        button_delete_token: "Delete token"
+        button_delete_basic_auth_password: "Delete basic auth password"
+        button_delete_personal_access_token: "Delete PAT"
         button_save: "Save configuration"
-        delete_token_confirm: "Are you sure you want to delete the token? This will disable the Jira connection."
+        button_test_connection: "Test Connection"
+        delete_basic_auth_password_confirm: "Are you sure you want to delete the basic auth password? This will disable the Jira connection."
+        delete_personal_access_token_confirm: "Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection."
         exclude_resolution_fields_caption: "You can exclude the resolution and resolution date fields from the import for this configuration."
         fields:
+          basic_auth_password: "Password"
+          basic_auth_username: "Username"
           exclude_resolution_fields: "Exclude resolution fields for this configuration"
           name: "Name"
-          personal_access_token: "Personal Access Token"
+          personal_access_token: "Personal access token (PAT)"
           url: "Jira Server/Data Center URL"
         label_testing: "Testing configuration..."
-        test_configuration_caption: "You can test this configuration by [clicking here](test)"
+      personal_access_token_deleted: "Personal access token (PAT) was successfully deleted."
       run:
         actions:
           button_edit: "Edit run"
@@ -1889,17 +1907,18 @@ en:
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
       test:
-        api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and API token."
+        api_error: "Jira API returned error status %{status}. Please check your Jira instance URL and credentials."
+        basic_auth_password_invalid: "Invalid basic auth password. Please check your credentials in the configuration."
+        basic_auth_username_invalid: "Invalid basic auth username. Please check your credentials in the configuration."
         connection_error: "Connection error: %{message}"
         error: "An unexpected error occurred while testing the connection"
         failed: "Connection failed: Unable to retrieve server information"
         invalid_url: "Please provide a valid URL"
-        missing_credentials: "Please provide both URL and Personal Access Token to test the connection"
         parse_error: "Failed to parse the response from the server. The server may not be a valid Jira instance."
+        personal_access_token_invalid: "Invalid personal access token (PAT). Please check your credentials in the configuration."
         success: "Successfully connected to %{server} (version %{version})"
-        token_error: "Invalid API token. Please check your credentials in the configuration."
+        user_is_not_admin: "Credential's owner is not an Administer in Jira"
       title: "Jira Migrator"
-      token_deleted: "Token was successfully deleted."
       user:
         unknown_name: "Unknown"
     journal_aggregation:
