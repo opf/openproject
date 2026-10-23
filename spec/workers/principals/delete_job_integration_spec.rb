@@ -238,6 +238,23 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it { expect(Notification.find_by(id: notification.id)).to be_nil }
     end
 
+    shared_examples_for "push subscription handling" do
+      let!(:subscription) { create(:push_subscription, user: principal) }
+      let!(:other_subscription) { create(:push_subscription) }
+
+      before do
+        job
+      end
+
+      it "removes the principal's push subscriptions" do
+        expect(PushSubscription.find_by(id: subscription.id)).to be_nil
+      end
+
+      it "leaves other users' push subscriptions" do
+        expect(PushSubscription.find_by(id: other_subscription.id)).to eq(other_subscription)
+      end
+    end
+
     shared_examples_for "private query handling" do
       let!(:query) do
         create(:private_query, user: principal, views: create_list(:view_work_packages_table, 1))
@@ -536,6 +553,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
       it_behaves_like "rss token handling"
       it_behaves_like "backup token handling"
       it_behaves_like "notification handling"
+      it_behaves_like "push subscription handling"
       it_behaves_like "private query handling"
       it_behaves_like "persisted view and query handling"
       it_behaves_like "issue category handling"
