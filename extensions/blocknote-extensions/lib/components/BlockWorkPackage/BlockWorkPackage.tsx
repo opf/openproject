@@ -21,6 +21,12 @@ import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selecti
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { useTapActivation } from '../../utils/tapActivation';
+import { useOptionsHost } from '../../utils/optionsHost';
+import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
+import { useOptionsMenu } from '../../hooks/useOptionsMenu';
+import { useSelectionAnnouncement } from '../../hooks/useSelectionAnnouncement';
+import { describeLinkedWorkPackage, unavailableKindOf, workPackageLabel } from '../WorkPackage/description';
+import { useTranslation } from 'react-i18next';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
   ${defaultWpVariables}
@@ -56,6 +62,7 @@ export const BlockWorkPackageComponent = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   editor:BlockNoteEditor<any>;
 }) => {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const [blockEl, setBlockEl] = useState<HTMLDivElement | null>(null);
   // Fetch and cache colors.
@@ -68,7 +75,7 @@ export const BlockWorkPackageComponent = ({
   // and the outline never appears. So we set the outline ourselves.
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
-  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const options = useOptionsMenu();
 
   useEffect(() => {
     if (!isBlockSelected) return;
@@ -76,13 +83,13 @@ export const BlockWorkPackageComponent = ({
     return editor.onSelectionChange(() => hideSafariPhantomSelection(editor));
   }, [isBlockSelected, editor]);
 
-  useSuppressFormattingToolbar(editor, isOptionsOpen);
+  useSuppressFormattingToolbar(editor, options.isOpen);
 
   const tapProps = useTapActivation();
   const toggleOptions = (event?:React.MouseEvent) => {
     event?.stopPropagation();
     selectBlockNode(editor, block.id);
-    setIsOptionsOpen((prev) => !prev);
+    options.toggle(isKeyboardClick(event));
   };
 
   const workPackageResult = useWorkPackage(block.props.wpid);
@@ -100,6 +107,17 @@ export const BlockWorkPackageComponent = ({
   // The stored displayId may be '' (schema default), so ?? is not enough here.
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const displayId = block.props.displayId || String(block.props.wpid);
+
+  const unavailableKind = unavailableKindOf(workPackageResult);
+  const hasOptions = Boolean(block.props.wpid && !workPackageResult.loading && (selectedWorkPackage ?? unavailableKind));
+
+  const optionsHostRef = useOptionsHost(() => {
+    if (hasOptions) options.open(true);
+  });
+
+  useSelectionAnnouncement(cardRef, editor, describeLinkedWorkPackage(t, displayId, selectedWorkPackage, unavailableKind));
+
+  const menuButton = menuButtonProps(workPackageLabel(t, displayId), options.isOpen);
 
   // Read once into state: the registry entry is dropped on unmount, which
   // StrictMode simulates, and a remount must not lose a filled form.
@@ -142,12 +160,13 @@ export const BlockWorkPackageComponent = ({
 
   // Touch is listened for in its own right: a tap another element answers
   // never becomes a mousedown.
+  const { isOpen: isOptionsOpen, close: closeOptions } = options;
   useEffect(() => {
     if (!isOptionsOpen) return;
     const handlePressOutside = (e:Event) => {
       const path = e.composedPath();
       if (cardRef.current && !path.includes(cardRef.current)) {
-        setIsOptionsOpen(false);
+        closeOptions();
       }
     };
     document.addEventListener('mousedown', handlePressOutside);
@@ -156,7 +175,7 @@ export const BlockWorkPackageComponent = ({
       document.removeEventListener('mousedown', handlePressOutside);
       document.removeEventListener('touchstart', handlePressOutside);
     };
-  }, [isOptionsOpen]);
+  }, [isOptionsOpen, closeOptions]);
 
   const handleConvertToInline = (size:InlineWpSize) => {
     if (!block.props.wpid) return;
@@ -175,6 +194,7 @@ export const BlockWorkPackageComponent = ({
 
   const trackBlockElement = (node:HTMLDivElement | null) => {
     if (pendingMode !== undefined || node === null) setBlockEl(node);
+    optionsHostRef(node);
   };
 
   const optionsPopover = (
@@ -185,7 +205,9 @@ export const BlockWorkPackageComponent = ({
       currentBlockSize={cardSize}
       // eslint-disable-next-line react-hooks/refs
       anchorEl={cardRef.current}
-      onClose={() => setIsOptionsOpen(false)}
+      autoFocus={options.takesFocus}
+      onClose={options.close}
+      onRestoreFocus={() => editor.focus()}
       onConvertToInline={handleConvertToInline}
       onConvertToBlock={handleResizeBlock}
       onResizeBlock={handleResizeBlock}
@@ -223,7 +245,6 @@ export const BlockWorkPackageComponent = ({
             {!workPackageResult.loading && (workPackageResult.error ?? workPackageResult.unauthorized) && (
               <UnavailableCardWrapper
                 ref={cardRef}
-                role="button"
                 {...tapProps(toggleOptions)}
               >
                 {workPackageResult.error ? (
@@ -232,6 +253,7 @@ export const BlockWorkPackageComponent = ({
                     headerKey="unavailableWorkPackage.error.header"
                     messageKey="unavailableWorkPackage.error.message"
                     displayId={displayId}
+                    menuButton={menuButton}
                   />
                 ) : (
                   <UnavailableCard
@@ -239,10 +261,11 @@ export const BlockWorkPackageComponent = ({
                     headerKey="unavailableWorkPackage.unauthorized.header"
                     messageKey="unavailableWorkPackage.unauthorized.message"
                     displayId={displayId}
+                    menuButton={menuButton}
                     linkHeader
                   />
                 )}
-                {isOptionsOpen && optionsPopover}
+                {options.isOpen && optionsPopover}
               </UnavailableCardWrapper>
             )}
             {!workPackageResult.loading &&
@@ -256,8 +279,9 @@ export const BlockWorkPackageComponent = ({
                     size={cardSize}
                     linkTitle
                     onActivation={tapProps(toggleOptions)}
+                    menuButton={menuButton}
                   />
-                  {isOptionsOpen && optionsPopover}
+                  {options.isOpen && optionsPopover}
                 </BlockCardWrapper>
               )}
           </>
