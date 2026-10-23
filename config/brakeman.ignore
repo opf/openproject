@@ -234,6 +234,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "8e0d2763735b6666937dc76b8bbdaa705a171f15233979964fcbd09ce228f582",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib_static/plugins/acts_as_searchable/lib/acts_as_searchable.rb",
+      "line": 195,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "CustomValue.select(\"1\").joins(\"LEFT JOIN custom_options\\nON custom_options.custom_field_id = custom_values.custom_field_id\\nAND custom_options.id::VARCHAR = custom_values.value\\nAND #{usable_custom_option_condition(custom_field_ids)}\\n\".squish)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Redmine::Acts::Searchable::InstanceMethods::AddClassMethods",
+        "method": "build_custom_field_condition"
+      },
+      "user_input": "usable_custom_option_condition(custom_field_ids)",
+      "confidence": "Medium",
+      "note": "static SQL string: the condition is built from custom field ids, the quoted table name and CustomField#usable_value_condition, which only uses constants and bound values"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "93744fda90965d5e7e3bddb92e755986a62d2b92fc3a8f646cb753a76e52051a",
       "check_name": "SQL",
       "message": "Possible SQL injection",
