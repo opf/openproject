@@ -365,6 +365,24 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
           let(:path) { cf_path }
           let(:href) { api_v3_paths.custom_field_items(custom_field.id) }
         end
+
+        context "with project-specific values" do
+          let(:custom_field) do
+            create(:"#{format}_wp_custom_field", :project_specific_allowlist, is_required: true)
+          end
+          let(:schema) do
+            instance_double(API::V3::WorkPackages::Schema::SpecificWorkPackageSchema,
+                            project: build_stubbed(:project),
+                            model:,
+                            available_custom_fields: [custom_field],
+                            writable?: schema_writable)
+          end
+
+          it_behaves_like "links to allowed values via collection link" do
+            let(:path) { cf_path }
+            let(:href) { api_v3_paths.custom_field_items(custom_field.id, project: schema.project.id) }
+          end
+        end
       end
     end
 
