@@ -19,6 +19,7 @@ jobs:
     name: Publish
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: read
       id-token: write
