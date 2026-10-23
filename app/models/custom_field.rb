@@ -55,6 +55,9 @@ class CustomField < ApplicationRecord
 
   attr_readonly :field_format
 
+  enum :project_specific_value_restriction, { allow: "allow", block: "block" }, prefix: true, validate: { allow_nil: true }
+  has_many :project_specific_value_restrictions, class_name: "CustomField::ProjectSpecificValueRestriction", dependent: nil
+
   has_many :calculated_value_errors, dependent: :delete_all, inverse_of: "custom_field"
   has_many :comments, class_name: "CustomComment", dependent: :delete_all, inverse_of: "custom_field"
 

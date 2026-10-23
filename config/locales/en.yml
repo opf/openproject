@@ -162,10 +162,13 @@ en:
         min_value: "Minimum value"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
+        project_specific_value_restriction: "Project-specific values"
         regexp: "Regular expression"
         searchable: "Searchable"
         semantic_key: "Semantic meaning"
         visible_on_user_card: "Show on user card"
+      custom_field/project_specific_value_restriction:
+        restriction: "Restriction"
       custom_value:
         value: "Value"
       design_color:
