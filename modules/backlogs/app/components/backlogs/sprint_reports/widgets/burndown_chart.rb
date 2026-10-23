@@ -49,6 +49,10 @@ module Backlogs
           { full_width: true }
         end
 
+        def render?
+          !project.estimation_unit_none?
+        end
+
         private
 
         def burndown
