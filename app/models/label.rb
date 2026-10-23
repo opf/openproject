@@ -61,8 +61,8 @@ class Label < ApplicationRecord
   scope :created_inline, -> { where(created_inline: true) }
 
   scope :never_used, -> {
-    where.not(id: Labeling.select(:label_id))
-      .where.not(id: Journal::LabelJournal.select(:label_id))
+    where("NOT EXISTS (SELECT 1 FROM labelings WHERE labelings.label_id = labels.id)")
+      .where("NOT EXISTS (SELECT 1 FROM label_journals WHERE label_journals.label_id = labels.id)")
   }
 
   normalizes :name, with: -> { it.squish }
