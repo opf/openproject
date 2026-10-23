@@ -32,8 +32,6 @@ module OpenProject
     module InplaceEditFields
       module DisplayFields
         class SelectListComponent < DisplayFieldComponent
-          include CustomFieldsHelper
-
           attr_reader :model, :attribute, :writable
 
           def render_display_value
@@ -59,7 +57,7 @@ module OpenProject
           def formatted_custom_field_values
             return @formatted_custom_field_values if defined?(@formatted_custom_field_values)
 
-            values = custom_field_values.map { |v| format_value(v.value, custom_field) }
+            values = custom_field_values.map(&:formatted_value)
 
             @formatted_custom_field_values = custom_field&.multi_value? ? values.join(", ") : values.first
           end
