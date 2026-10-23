@@ -136,8 +136,8 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.exists?(stale.id)).to be(true)
       end
 
-      it "rejects an endpoint that is not a push service" do
-        subscribe("https://evil.example/x")
+      it "rejects an endpoint that is not served over HTTPS" do
+        subscribe("http://fcm.googleapis.com/fcm/send/abc")
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body["errors"]).to be_present
