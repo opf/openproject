@@ -2119,7 +2119,7 @@ en:
       push_notifications:
         checking: "Checking…"
         description: "Users can choose to install a progressive web app (PWA) version of OpenProject on modern web browsers. If they do so, they are also able to receive native OS-level notifications for activity in OpenProject."
-        hosts_intro: "This instance must reach these hosts over HTTPS. They come from the web_push_service_hosts setting, and subdomains are included:"
+        hosts_intro: "OpenProject sends pushes to whichever push service each user's browser subscribes through. The check below contacts the push services of the major browsers and every service an existing subscription uses:"
         http_status: "HTTP %{code}"
         key_managed_by_environment: "The push signing key is supplied through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To renew it, change the variable."
         key_renewed: "The push signing key was renewed. Every device has to turn browser notifications on again."

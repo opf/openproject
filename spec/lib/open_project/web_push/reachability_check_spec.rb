@@ -37,8 +37,8 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
 
   before { allow(OpenProject::SsrfProtection).to receive(:head).and_return(response) }
 
-  it "returns one result per configured host in order" do
-    expect(results.map(&:host)).to eq(OpenProject::WebPush.push_service_hosts)
+  it "returns one result per probed host in order" do
+    expect(results.map(&:host)).to eq(described_class.hosts)
   end
 
   it "probes the host itself, except where only a sample subdomain answers" do
@@ -106,35 +106,35 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.to_h { [it.host, it.reachable?] })
         .to eq("fcm.googleapis.com" => true,
                "updates.push.services.mozilla.com" => true,
-               "push.apple.com" => false,
-               "notify.windows.com" => true)
+               "web.push.apple.com" => false,
+               "wns2-par02p.notify.windows.com" => true)
     end
   end
 
-  context "with a stored subscription endpoint under a configured host" do
-    before do
-      create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc")
-    end
+  context "with a stored subscription endpoint under a known service" do
+    before { create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc") }
 
     it "probes the stored host instead of the sample" do
-      results
+      expect(results.map(&:host)).to include("wns2-db5p.notify.windows.com")
+      expect(results.map(&:host)).not_to include("wns2-par02p.notify.windows.com")
+    end
 
-      expect(OpenProject::SsrfProtection).to have_received(:head).with("https://wns2-db5p.notify.windows.com/", any_args)
-      expect(OpenProject::SsrfProtection)
-        .not_to have_received(:head).with("https://wns2-par02p.notify.windows.com/", any_args)
+    it "reports it as unresolved rather than inconclusive when it does not resolve" do
+      allow(OpenProject::SsrfProtection).to receive(:head).and_raise(SsrfFilter::UnresolvedHostname.new("x"))
+
+      expect(results.find { it.host == "wns2-db5p.notify.windows.com" }).to have_attributes(reason: :unresolved)
     end
   end
 
-  context "with a stored endpoint whose path contains a configured host name" do
-    before do
-      create(:push_subscription, endpoint: "https://fcm.googleapis.com/x.notify.windows.com/abc")
-    end
+  context "with a stored subscription endpoint at an unknown service" do
+    before { create(:push_subscription, endpoint: "https://push.example.org/sub/abc") }
 
-    it "does not probe it for that host" do
-      results
-
-      expect(OpenProject::SsrfProtection).to have_received(:head).with("https://wns2-par02p.notify.windows.com/", any_args)
-      expect(OpenProject::SsrfProtection).to have_received(:head).with("https://fcm.googleapis.com/", any_args).once
+    it "probes it after the known services" do
+      expect(results.map(&:host)).to eq(%w[fcm.googleapis.com
+                                           updates.push.services.mozilla.com
+                                           web.push.apple.com
+                                           wns2-par02p.notify.windows.com
+                                           push.example.org])
     end
   end
 
@@ -147,19 +147,8 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.to_h { [it.host, it.reason] })
         .to eq("fcm.googleapis.com" => :unresolved,
                "updates.push.services.mozilla.com" => :unresolved,
-               "push.apple.com" => :sample_unresolved,
-               "notify.windows.com" => :sample_unresolved)
-    end
-  end
-
-  context "when a stored host does not resolve" do
-    before do
-      create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc")
-      allow(OpenProject::SsrfProtection).to receive(:head).and_raise(SsrfFilter::UnresolvedHostname.new("x"))
-    end
-
-    it "reports it as unresolved" do
-      expect(results.find { it.host == "notify.windows.com" }).to have_attributes(reason: :unresolved)
+               "web.push.apple.com" => :sample_unresolved,
+               "wns2-par02p.notify.windows.com" => :sample_unresolved)
     end
   end
 end
