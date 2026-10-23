@@ -623,6 +623,14 @@ class WorkPackage < ApplicationRecord
 
   private
 
+  def default_custom_field_value(custom_field)
+    default_value = super
+    return default_value unless custom_field.list? && custom_field.project_specific_value_restriction
+
+    usable_ids = custom_field.usable_values_in(project).pluck(:id).map(&:to_s)
+    custom_field.multi_value? ? default_value & usable_ids : default_value.presence_in(usable_ids)
+  end
+
   def derived_progress_hints
     @derived_progress_hints ||= {}
   end
