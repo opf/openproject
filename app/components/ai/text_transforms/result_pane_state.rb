@@ -30,17 +30,18 @@
 module AI
   module TextTransforms
     class ResultPaneState
-      attr_reader :run, :scope, :request_id, :work_package, :context_ids, :rejection
+      attr_reader :run, :scope, :request_id, :work_package, :project, :context_ids, :rejection
 
       def self.rejected(message:, label:, scope:, request_id:, context_ids: {})
         new(run: nil, scope:, request_id:, label:, context_ids:, rejection: message)
       end
 
-      def initialize(run:, scope:, request_id:, work_package: nil, context_ids: {}, label: nil, rejection: nil)
+      def initialize(run:, scope:, request_id:, work_package: nil, project: nil, context_ids: {}, label: nil, rejection: nil)
         @run = run
         @scope = scope
         @request_id = request_id
         @work_package = work_package
+        @project = project
         @context_ids = context_ids
         @label = label
         @rejection = rejection

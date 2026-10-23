@@ -5521,6 +5521,7 @@ en:
       filled?: "must be filled."
       format?: "is in invalid format."
       greater_or_equal_zero: "must be greater or equal to 0."
+      gt?: "must be greater than %{num}."
       gteq?: "must be greater than or equal to %{num}."
       hash?: "must be a hash."
       included_in?:
@@ -5541,13 +5542,18 @@ en:
           not_unique: "must be unique within the same hierarchy level."
         parent:
           not_descendant: "must be a descendant of the hierarchy root."
+        project_id:
+          with_work_package: "must not be combined with a work package."
         short:
           not_unique: "must be unique within the same hierarchy level."
+        type_id:
+          without_project: "must be given together with a project."
       str?: "must be a string."
       time?: "must be a time."
       type?: "must be %{type}."
       unexpected_key: "is not allowed."
       uri?: "is not a valid URI."
+      uuid_v4?: "must be a UUID (version 4)."
     or: "or"
     rules:
       blueprint: "Pattern blueprint"
