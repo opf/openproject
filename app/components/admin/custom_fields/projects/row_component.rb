@@ -32,6 +32,8 @@ module Admin
   module CustomFields
     module Projects
       class RowComponent < OpPrimer::BorderBoxRowComponent
+        include ::CustomFields::AdminRoutes
+
         alias_method :project, :model
 
         def row_data = { test_selector: "custom-field-projects-row-#{project.id}" }
@@ -61,7 +63,7 @@ module Admin
             Primer::Beta::IconButton.new(
               icon: :"project-symlink",
               tag: :a,
-              href: "#",
+              href: project_values_path(table.custom_field, project),
               scheme: :default,
               aria: { label: I18n.t("custom_fields.admin.projects.configure", project: project.name) },
               tooltip_direction: :w

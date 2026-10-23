@@ -1056,6 +1056,7 @@ Rails.application.routes.draw do
 
           get :list_items
           get :projects
+          get "projects/:project_id", action: :project_values, as: :project_values
 
           get :deletion_dialog
         end
