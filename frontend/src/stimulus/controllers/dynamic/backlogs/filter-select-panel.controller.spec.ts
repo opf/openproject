@@ -91,6 +91,10 @@ describe('Backlogs filter select panel controller', () => {
     it.each([
       { param: JSON.stringify(3), checked: ['3'] },
       { param: JSON.stringify([8, '3', 3, null, { id: 5 }]), checked: ['3', '8'] },
+      { param: JSON.stringify('01'), checked: ['1'] },
+      { param: JSON.stringify(['01', 1, '1']), checked: ['1'] },
+      { param: JSON.stringify(['inbox', 'inbox', '2', 0, 'x']), checked: ['2', 'inbox'] },
+      { param: JSON.stringify('0x1A'), checked: [] },
       { param: '[3', checked: [] },
     ])('treats sprint_ids=$param as applied $checked', async ({ param, checked }) => {
       const { panel } = await mount({ url: `${BASE_URL}?${new URLSearchParams({ sprint_ids: param })}`, checked });

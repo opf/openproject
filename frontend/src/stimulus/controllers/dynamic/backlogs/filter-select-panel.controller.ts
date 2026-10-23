@@ -103,13 +103,15 @@ export default class FilterSelectPanelController extends Controller<SelectPanelE
     }
 
     const ids = (Array.isArray(parsed) ? parsed : [parsed]) as unknown[];
-    return [
-      ...new Set(
-        ids
-          .filter((id) => typeof id === 'string' || typeof id === 'number')
-          .map(String)
-      )
-    ].sort();
+    // Mirrors Backlogs::BacklogFilters.parse_ids on the server, so that e.g. "01" and 1 both become "1"
+    const normalized = ids.flatMap((id) => {
+      if (id === 'inbox') return [id];
+
+      const number = parseInt(String(id), 10);
+      return number ? [String(number)] : [];
+    });
+
+    return [...new Set(normalized)].sort();
   }
 
   private filterString() {
