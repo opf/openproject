@@ -46,6 +46,6 @@ class Labels::CleanupUnusedInlineJob < ApplicationJob
   end
 
   def candidates
-    Label.created_inline.never_used.where(created_at: ..GRACE_PERIOD.ago)
+    Label.created_inline.never_used.where(updated_at: ..GRACE_PERIOD.ago)
   end
 end

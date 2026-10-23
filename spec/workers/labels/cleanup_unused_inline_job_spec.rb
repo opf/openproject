@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
-  let(:label) { create(:label, :created_inline, created_at: 2.days.ago) }
+  let(:label) { create(:label, :created_inline, created_at: 2.days.ago, updated_at: 2.days.ago) }
 
   it "is scheduled nightly" do
     expect(Rails.application.config.good_job.cron[:"Labels::CleanupUnusedInlineJob"])
@@ -51,8 +51,15 @@ RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
     expect(Label.exists?(young.id)).to be(true)
   end
 
+  it "keeps an inline label that was handed out again within the grace period" do
+    recent = create(:label, :created_inline, created_at: 2.days.ago, updated_at: 1.hour.ago)
+
+    expect { described_class.perform_now }.not_to change(Label, :count)
+    expect(Label.exists?(recent.id)).to be(true)
+  end
+
   it "keeps an admin-created label that was never used" do
-    curated = create(:label, created_at: 2.days.ago)
+    curated = create(:label, created_at: 2.days.ago, updated_at: 2.days.ago)
 
     expect { described_class.perform_now }.not_to change(Label, :count)
     expect(Label.exists?(curated.id)).to be(true)

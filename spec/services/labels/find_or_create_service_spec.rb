@@ -73,6 +73,28 @@ RSpec.describe Labels::FindOrCreateService do
     end
   end
 
+  context "when an inline-created label with that name exists" do
+    shared_let(:existing) { create(:label, :created_inline, name: "bug", created_at: 2.days.ago, updated_at: 2.days.ago) }
+
+    let(:name) { "Bug" }
+
+    it "touches an existing inline label so the cleanup grace period restarts" do
+      freeze_time
+
+      expect { call }.to change { existing.reload.updated_at }.to(Time.current)
+    end
+  end
+
+  context "when an admin-created label with that name exists" do
+    shared_let(:existing) { create(:label, name: "bug", updated_at: 2.days.ago) }
+
+    let(:name) { "Bug" }
+
+    it "leaves an admin-created label untouched" do
+      expect { call }.not_to change { existing.reload.updated_at }
+    end
+  end
+
   context "when another request creates the label between lookup and validation" do
     let(:name) { "Bug" }
 
