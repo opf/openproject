@@ -33,15 +33,6 @@ module API
     module Documents
       class CollaborationTokenAPI < ::API::OpenProjectAPI
         resources :collaboration_token do
-          helpers do
-            def request_access_token
-              ::Doorkeeper::OAuth::Token.authenticate(
-                ::Doorkeeper::Grape::AuthorizationDecorator.new(request),
-                *Doorkeeper.configuration.access_token_methods
-              )
-            end
-          end
-
           after_validation do
             authorize_logged_in
             authorize_in_project(:view_documents, project: document.project)
@@ -55,16 +46,13 @@ module API
             call = ::Documents::OAuth::TokenWithMetadataService
               .new(user: current_user,
                    document:,
-                   previous_token: declared_params[:token].presence,
-                   requesting_access_token: request_access_token)
+                   previous_token: declared_params[:token].presence)
               .call
 
             if call.failure?
-              if call.includes_error?(:base, :collaboration_token_not_allowed)
-                raise ::API::Errors::Unauthorized.new(message: call.message)
-              elsif call.includes_error?(:document, :not_collaborative) ||
-                    call.includes_error?(:document, :collaboration_disabled) ||
-                    call.includes_error?(:token, :invalid)
+              if call.includes_error?(:document, :not_collaborative) ||
+                 call.includes_error?(:document, :collaboration_disabled) ||
+                 call.includes_error?(:token, :invalid)
                 raise ::API::Errors::UnprocessableContent.new(call.message)
               end
 

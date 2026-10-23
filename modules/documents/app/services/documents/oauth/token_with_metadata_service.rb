@@ -40,15 +40,14 @@ module Documents
 
       PREVIOUS_TOKEN_REVOCATION_DELAY = 30.seconds
 
-      attr_reader :user, :document, :previous_token, :requesting_access_token
+      attr_reader :user, :document, :previous_token
 
-      def initialize(user:, document:, previous_token: nil, requesting_access_token: nil)
+      def initialize(user:, document:, previous_token: nil)
         super()
 
         @user = user
         @document = document
         @previous_token = previous_token
-        @requesting_access_token = requesting_access_token
       end
 
       def perform
@@ -75,9 +74,7 @@ module Documents
       private
 
       def check_preconditions
-        if EnsureApplicationService.collaboration_token?(requesting_access_token)
-          collaboration_token_not_allowed_result
-        elsif !document.collaborative?
+        if !document.collaborative?
           not_collaborative_result
         elsif !document.real_time_collaboration_available?
           collaboration_disabled_result
@@ -167,11 +164,6 @@ module Documents
         ::Doorkeeper::AccessToken
           .where(id: previous_access_token.id, revoked_at: nil)
           .update_all(revoked_at: PREVIOUS_TOKEN_REVOCATION_DELAY.from_now)
-      end
-
-      def collaboration_token_not_allowed_result
-        typed_failure(:base, :collaboration_token_not_allowed,
-                      I18n.t("documents.collaboration_token.errors.collaboration_token_not_allowed"))
       end
 
       def not_collaborative_result

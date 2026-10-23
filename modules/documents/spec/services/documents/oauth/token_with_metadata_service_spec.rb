@@ -32,9 +32,7 @@ require "spec_helper"
 RSpec.describe Documents::OAuth::TokenWithMetadataService,
                with_settings: { collaborative_editing_hocuspocus_secret: "test_secret_for_encryption",
                                 real_time_text_collaboration_enabled: true } do
-  subject(:service_call) { described_class.new(user:, document:, requesting_access_token:).call }
-
-  let(:requesting_access_token) { nil }
+  subject(:service_call) { described_class.new(user:, document:).call }
 
   let(:project) { create(:project) }
   let(:document) { create(:document, project:) }
@@ -173,23 +171,6 @@ RSpec.describe Documents::OAuth::TokenWithMetadataService,
   context "when real time collaboration is disabled", with_settings: { real_time_text_collaboration_enabled: false } do
     it_behaves_like "fails without creating a token",
                     :document, :collaboration_disabled, "documents.collaboration_token.errors.collaboration_disabled"
-  end
-
-  context "when the requesting access token is a collaboration token" do
-    let!(:requesting_access_token) { Documents::OAuth::GenerateTokenService.new(user:).call.result }
-
-    it_behaves_like "fails without creating a token",
-                    :base, :collaboration_token_not_allowed,
-                    "documents.collaboration_token.errors.collaboration_token_not_allowed"
-  end
-
-  context "when the requesting access token is a regular access token" do
-    let(:requesting_access_token) { create(:oauth_access_token, resource_owner: user) }
-
-    it "returns a new collaboration token" do
-      expect(service_call).to be_success
-      expect(service_call.result[:encrypted_token]).to be_present
-    end
   end
 
   context "with a previous token" do
