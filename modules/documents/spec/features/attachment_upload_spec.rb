@@ -169,6 +169,16 @@ RSpec.describe "Upload attachment to documents",
           expect(editor.element).to have_no_css("img[alt='image.png']")
         end.not_to change { document.attachments.count }
       end
+
+      it "leaves no placeholder behind for a dropped file" do
+        expect do
+          editor.drop_file(image_fixture.path)
+          expect(page).to have_text I18n.t("activerecord.errors.models.attachment.attributes.content_type.not_allowlisted",
+                                           value: "image/png")
+          expect(editor.element).to have_no_css("[data-content-type='image']")
+          expect(editor.element).to have_no_text("Loading...")
+        end.not_to change { document.attachments.count }
+      end
     end
   end
 

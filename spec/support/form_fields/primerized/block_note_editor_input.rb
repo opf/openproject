@@ -163,6 +163,31 @@ module FormFields
         JS
       end
 
+      # Capybara's own `drop` sends no coordinates, and BlockNote places a dropped file
+      # by them, so it would ignore the drop.
+      def drop_file(path)
+        input_id = "block-note-drop-file"
+        page.execute_script(<<~JS, input_id)
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.id = arguments[0];
+          document.body.appendChild(input);
+        JS
+        page.find_by_id(input_id, visible: :all).set(path)
+
+        page.execute_script(<<~JS, element.native, input_id)
+          const input = document.getElementById(arguments[1]);
+          const block = arguments[0].querySelector('.bn-block-content');
+          const { left, top, height } = block.getBoundingClientRect();
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(input.files[0]);
+          input.remove();
+          block.dispatchEvent(new DragEvent('drop', {
+            dataTransfer, clientX: left + 1, clientY: top + height / 2, bubbles: true, cancelable: true
+          }));
+        JS
+      end
+
       def element
         shadow_root.find("div[role='textbox']")
       end
