@@ -64,6 +64,11 @@ module FormFields
         insert_equation("/inline equation", latex)
       end
 
+      def insert_diagram
+        send_keys_to_editor("/diagram")
+        send_keys(:enter)
+      end
+
       def insert_code_block(code, language:)
         send_keys_to_editor("/code block")
         send_keys(:enter)

@@ -26,6 +26,7 @@
 //++
 
 import { renderHook } from '@testing-library/react';
+import { locales as diagramLocales } from '@blocknote/diagram-block';
 import { locales as mathLocales } from '@blocknote/math-block';
 import {
   useBlockNoteLocale,
@@ -50,5 +51,11 @@ describe('useBlockNoteLocale', () => {
     const { result } = renderHook(() => useBlockNoteLocale('de'));
 
     expect(result.current.localeDictionary.math).toBe(mathLocales.de);
+  });
+
+  it('includes the diagram strings of the same locale', () => {
+    const { result } = renderHook(() => useBlockNoteLocale('de'));
+
+    expect(result.current.localeDictionary.diagram).toBe(diagramLocales.de);
   });
 });

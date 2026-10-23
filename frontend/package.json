@@ -78,6 +78,7 @@
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^2.0.0",
     "@blocknote/code-block": "^0.55.0",
     "@blocknote/core": "^0.55.0",
+    "@blocknote/diagram-block": "^0.55.0",
     "@blocknote/mantine": "^0.55.0",
     "@blocknote/math-block": "^0.55.0",
     "@blocknote/react": "^0.55.0",
@@ -152,6 +153,7 @@
     "lodash-es": "^4.17.21",
     "luxon": "^3.7.2",
     "mdx-embed": "^1.1.2",
+    "mermaid": "^11.17.2",
     "mime": "^4.1.0",
     "moment": "^2.31.0",
     "moment-timezone": "^0.6.4",
@@ -214,6 +216,9 @@
       "piscina": "5.3.2"
     },
     "@blocknote/math-block": {
+      "katex": "$katex"
+    },
+    "mermaid": {
       "katex": "$katex"
     }
   },
