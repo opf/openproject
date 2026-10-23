@@ -164,8 +164,8 @@ RSpec.describe Sprints::Velocity do
       end
       let(:sprint) { active_sprint(started_at: start_of_history + 4.weeks) }
 
-      it "leaves them out" do
-        expect(velocity.sprints).to eq [first, sprint]
+      it "places them by their planned dates" do
+        expect(velocity.sprints).to eq [first, stale, sprint]
       end
     end
 

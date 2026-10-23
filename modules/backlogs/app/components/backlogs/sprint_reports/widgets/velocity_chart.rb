@@ -46,8 +46,7 @@ module Backlogs
         end
 
         def render?
-          !sprint.in_planning? &&
-            sprint.date_range_set? &&
+          sprint.date_range_set? &&
             !project.allow_multiple_active_sprints? &&
             user_allowed?(:view_sprints)
         end
