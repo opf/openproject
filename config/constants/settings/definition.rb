@@ -636,13 +636,6 @@ module Settings
         format: :boolean,
         default: true
       },
-      web_push_service_hosts: {
-        description: "Push services a browser may subscribe through. Subdomains are included. " \
-                     "Every host must be reachable over HTTPS from the instance.",
-        format: :array,
-        writable: false,
-        default: %w[fcm.googleapis.com updates.push.services.mozilla.com push.apple.com notify.windows.com]
-      },
       web_push_vapid_private_key: {
         description: "The VAPID private key used to sign browser notification pushes, given as the " \
                      "base64 DER (PKCS#8) encoding of a prime256v1 key. If you leave this unset, OpenProject " \

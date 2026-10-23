@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "resolv"
-
 # Server side of the Web Push protocol with VAPID signing.
 #
 #   browser        --subscribe-------------> push service
@@ -48,7 +46,6 @@ require "resolv"
 # @see https://datatracker.ietf.org/doc/html/rfc8292 VAPID
 module OpenProject::WebPush
   VAPID_CURVE = "prime256v1"
-  HOST_PATTERN = /\A[a-z0-9-]+(\.[a-z0-9-]+)*\z/
 
   class UnreadableKey < StandardError
     def initialize(message = self.class.default_message)
@@ -66,24 +63,6 @@ module OpenProject::WebPush
   end
 
   module_function
-
-  def push_service_hosts
-    Array(Setting.web_push_service_hosts).flat_map { it.to_s.split(/[\s,]+/) }.filter_map do |entry|
-      host = entry.downcase.delete_suffix(".")
-      host if host.match?(HOST_PATTERN)
-    end
-  end
-
-  def push_service_host?(host)
-    host = host.to_s.downcase
-    return false unless host.match?(HOST_PATTERN)
-
-    name = Resolv::DNS::Name.create(host)
-    push_service_hosts.any? do |service|
-      service = Resolv::DNS::Name.create(service)
-      name == service || name.subdomain_of?(service)
-    end
-  end
 
   def enabled?
     OpenProject::FeatureDecisions.progressive_web_app_active? && Setting.web_push_enabled?
