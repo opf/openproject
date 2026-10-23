@@ -32,7 +32,7 @@ require "spec_helper"
 require "rack/test"
 require_relative "../../../../support/shared/collaboration_token_endpoint"
 
-RSpec.describe "API v3 document collaboration token resource", with_flag: { documents_collaboration_token_api: true } do
+RSpec.describe "API v3 document collaboration token resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -43,41 +43,6 @@ RSpec.describe "API v3 document collaboration token resource", with_flag: { docu
 
   describe "POST /api/v3/documents/:id/collaboration_token" do
     it_behaves_like "a guarded collaboration token endpoint"
-
-    context "when the feature flag is inactive", with_flag: { documents_collaboration_token_api: false } do
-      context "when logged in" do
-        before do
-          login_as(current_user)
-        end
-
-        it "responds with 404 and does not create a token" do
-          expect { post_collaboration_token_request }.not_to change(Doorkeeper::AccessToken, :count)
-
-          expect(last_response).to have_http_status(:not_found)
-          expect(last_response.body)
-            .to be_json_eql("urn:openproject-org:api:v3:errors:NotFound".to_json)
-            .at_path("errorIdentifier")
-        end
-
-        context "with an invalid document id" do
-          let(:path) { "#{api_v3_paths.documents}/invalid/collaboration_token" }
-
-          it "responds with 404" do
-            post_collaboration_token_request
-
-            expect(last_response).to have_http_status(:not_found)
-          end
-        end
-      end
-
-      context "when not logged in", with_settings: { login_required: true } do
-        it "responds with 404" do
-          post_collaboration_token_request
-
-          expect(last_response).to have_http_status(:not_found)
-        end
-      end
-    end
 
     context "when logged in with the view_documents permission",
             freeze_time: DateTime.parse("2025-01-04T09:00:00Z") do
