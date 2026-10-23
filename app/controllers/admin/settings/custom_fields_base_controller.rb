@@ -39,7 +39,7 @@ module Admin
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :find_custom_field,
                     only: %i(edit update destroy delete_option reorder_alphabetical attribute_help_text
-                             update_attribute_help_text list_items deletion_dialog drop)
+                             update_attribute_help_text list_items projects deletion_dialog drop)
       before_action :prepare_custom_option_position, only: %i(update create)
       before_action :find_custom_option, only: :delete_option
       before_action :validate_enterprise_token, only: %i(create)
