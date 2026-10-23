@@ -87,7 +87,9 @@ module Labelable
   end
 
   def labels_for_pending_names
-    pending_label_names.map { |name| Label.named(name).first || Label.new(name:) }
+    existing = Label.named_any(pending_label_names).index_by { it.name.downcase }
+
+    pending_label_names.map { |name| existing[name.downcase] || Label.new(name:) }
   end
 
   def validate_label_id_replacements

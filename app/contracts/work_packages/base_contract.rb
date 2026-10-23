@@ -437,8 +437,10 @@ module WorkPackages
     end
 
     def pending_label_error_symbols
+      existing_names = Label.named_any(model.label_name_replacements).pluck(:name).to_set(&:downcase)
+
       model.label_name_replacements
-           .reject { Label.named(it).exists? }
+           .reject { existing_names.include?(it.downcase) }
            .flat_map { errors_for_new_label(it) }
            .uniq
     end
