@@ -7394,12 +7394,12 @@ en:
         rename_group: "Rename section"
         required:
           already_required_globally: "This custom field is required for all types."
-          for_variant: "Required in this type"
+          for_variant: "Required for this type"
           globally: "Required"
           globally_hint: "Change this on the custom field"
-          mark: "Require in this type"
+          mark: "Require for this type"
           not_a_custom_field: "Only a custom field can be made required for a single type."
-          unmark: "Do not require in this type"
+          unmark: "Do not require for this type"
         reset_description: >
           This will reset the attributes to their default group and disable ALL custom fields.
         reset_title: "Reset form"
