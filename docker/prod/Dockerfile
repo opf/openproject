@@ -87,7 +87,7 @@ RUN bash vendor/bundle-install.sh && rm vendor/bundle-install.sh
 
 COPY . .
 
-# Copy lock file again as the updated version was overriden by COPY just now.
+# Copy lock file again as the updated version was overridden by COPY just now.
 # `COPY . .` also restores the CI vendor/bundle cache over the installed bundle, so
 # the superseded gem versions bundle-install.sh pruned are back and need pruning again.
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
@@ -146,8 +146,9 @@ FROM app-runtime AS all-in-one
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV PGDATA=/var/openproject/pgdata
+ENV NODE_OPTIONS=--use-openssl-ca
 
-COPY --from=openproject/hocuspocus:17.9.2 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
+COPY --from=openproject/hocuspocus:17.9.3 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules

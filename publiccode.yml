@@ -7,8 +7,8 @@ name: OpenProject
 applicationSuite: openDesk
 url: 'https://github.com/opf/openproject'
 roadmap: 'https://www.openproject.org/roadmap'
-releaseDate: '2026-10-15'
-softwareVersion: '17.9.2'
+releaseDate: '2026-10-22'
+softwareVersion: '17.9.3'
 developmentStatus: stable
 softwareType: standalone/web
 logo: 'publiccode_logo.svg'
@@ -151,7 +151,7 @@ description:
     localisedName: OpenProject
     documentation: 'https://www.openproject.org/de/docs/'
     apiDocumentation: 'https://www.openproject.org/de/docs/api'
-    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Mangement Software
+    shortDescription: Web-basierte Projekt-Management und Projektportfolio-Management Software
     screenshots:
       - screenshots/opencode_openproject_1_homepage.png
       - screenshots/opencode_openproject_2_gantt_chart.png

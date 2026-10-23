@@ -122,6 +122,8 @@ ko:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 클라이언트
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: 사용자 지정된 ID
         customized_type: 사용자 지정된 유형
@@ -132,8 +134,6 @@ ko:
         repository: 리포지토리
       comment:
         commented: 덧글을 달았습니다.
-      custom_action:
-        actions: 작업
       custom_field:
         admin_only: 관리자 전용
         allow_non_open_versions: 비공개 버전 허용
@@ -637,6 +637,8 @@ ko:
         regex_invalid: 관련 정규 표현식으로 유효성을 확인할 수 없습니다.
         regex_list_invalid: "%{invalid_lines} 라인을 정규 표현식으로 구문 분석할 수 없습니다."
         regex_match_failed: "%{expression} 정규 표현식과 일치하지 않습니다."
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
         smaller_than_or_equal_to_max_value: "- 최대값보다 작거나 같아야 합니다."
         ssrf_filtered: "- 이 OpenProject 인스턴스의 SSRF 정책을 위반합니다."
@@ -1090,6 +1092,8 @@ ko:
         other: 작업 패키지 특성 도움말 텍스트
       auth_provider:
         other: 인증 공급자
+      automation:
+        other: Automations
       backup:
         other: 백업
       capability:
@@ -1104,8 +1108,6 @@ ko:
         other: 색상
       comment:
         other: 코멘트
-      custom_action:
-        other: 사용자 지정 작업
       custom_field:
         other: 사용자 지정 필드
       custom_field/hierarchy/item:
@@ -1150,6 +1152,8 @@ ko:
         other: 상태 보고서
       issue_priority:
         other: 우선 순위
+      label:
+        other: Labels
       ldap_auth_source:
         other: LDAP 연결
       mcp_configuration:
@@ -1441,7 +1445,7 @@ ko:
     import:
       title: 가져오기
     info:
-      database_deprecation_html: 'OpenProject 16.0부터, OpenProject를 사용하려면 PostgreSQL 16이 필요합니다. 현재 데이터베이스에서는 해당 설치가 계속 작동되지만, 향후 릴리스에서는 호환되지 않을 수 있습니다. <br/> [모든 설치 방법에 대한 업그레이드 가이드](upgrade_guide)를 준비했습니다. 가이드에 따라 언제든지 다음 릴리스에 앞서 업그레이드를 수행할 수 있습니다.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc 메모리 할당기
@@ -1491,7 +1495,9 @@ ko:
         button_delete_token: 토큰 삭제
         button_save: 구성 저장
         delete_token_confirm: 토큰을 삭제하시겠습니까? 그러면 Jira 연결이 비활성화됩니다.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: 이름
           personal_access_token: 개인 액세스 토큰
           url: Jira 서버/데이터 센터 URL
@@ -2050,6 +2056,8 @@ ko:
         roles:
           other: "%{count} roles selected"
         title: 역할 선택
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: 상태
       statuses_dialog:
         caption: 이 유형과 연결하려는 상태를 추가하거나 제거하세요. 상태를 제거하면 연결된 워크플로도 삭제됩니다.
@@ -2103,7 +2111,7 @@ ko:
     deleted_by_admin: 격리된 '%{filename}'  파일이 관리자에 의해 삭제되었습니다.
     deleted_message: "'%{filename}' 파일에서 바이러스가 발견되었습니다. 이 파일은 삭제되었습니다."
     not_processed_yet_message: 아직 파일의 바이러스 검사가 수행되지 않았으므로 다운로드가 차단되었습니다. 나중에 다시 시도하세요.
-    overridden_by_admin: "'%{filename}' 파일에 대한 격리가 %{user} 님에 의해 제거되었습니다. 이제 이 파일에 액세스할 수 있습니다."
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: 컨테이너
       delete: 격리된 파일 삭제
@@ -3784,6 +3792,7 @@ ko:
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_item: "(삭제된 항목)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: 조직
   label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 부서 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
@@ -4004,7 +4013,7 @@ ko:
   label_my_avatar: 내 아바타
   label_my_queries: 내 사용자 지정 쿼리
   label_my_security: 보안
-  label_my_work: My work
+  label_my_time: My time
   label_name: 이름
   label_never: 사용 안 함
   label_new: 새로 만들기
@@ -4443,7 +4452,7 @@ ko:
       start_tls: STARTTLS
       start_tls_description: 표준 LDAP 포트에 연결한 후 STARTTLS 명령을 보냅니다. 암호화된 연결에 권장됩니다.
     tls_options:
-      tls_certificate_description: LDAP 서버 인증서가 이 시스템의 신뢰 소스에 없으면 여기에서 수동으로 추가할 수 있습니다. PEM X509 인증서 문자열을 입력하세요.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: SSL 인증서 확인
       verify_peer_description_html: '인증서 신뢰 체인의 엄격한 SSL 인증을 활성화합니다. <br> <strong>경고:</strong> 이 옵션을 선택 취소하면 LDAP 서버 인증서의 SSL 인증이 비활성화됩니다. 이렇게 하면 사용자의 연결이 중간자 공격에 노출됩니다.
 
@@ -5579,6 +5588,12 @@ ko:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: 사용 가능한 사용자 필드가 없습니다.
       forums:
         no_results_content_text: 새로운 포럼 만들기
@@ -5708,6 +5723,18 @@ ko:
       sidebar_content_title: 콘텐츠
       success: 프로젝트 특성이 저장되고 아티팩트 작업 패키지가 생성되었습니다.
       title: 프로젝트 시작 요청
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: 미리 구성된 필터 적용
     configure_view:
@@ -6160,7 +6187,7 @@ ko:
         description_html: '바이러스 백신 스캐너 통합이 작동되어야 하는 모드를 선택하세요. <br/> <ul> <li><strong>%{disabled_option}</strong>: 업로드된 파일은 바이러스 검사를 받지 않습니다.</li> <li><strong>%{socket_option}</strong>: OpenProject와 동일한 서버에서 ClamAV를 설정했으며 스캔 데몬 clamd가 백그라운드에서 실행 중입니다.</li> <li><strong>%{host_option}</strong>: 외부 바이러스 스캔 호스트에 파일을 스트리밍하고 있습니다.</li> </ul>
 
           '
-      remaining_quarantined_files_html: '바이러스 검사가 비활성화되었습니다. %{file_count}개는 격리된 상태로 유지됩니다. 격리된 파일을 검토하려면 다음 링크를 참조하세요: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: '바이러스 검사가 활성화되었습니다. 이전에 업로드되었지만 아직 검사해야 하는 %{file_count}개가 있습니다. 이 프로세스는 백그라운드에서 예약되었습니다. 검사하는 동안 파일에 계속 액세스할 수 있습니다.
@@ -6480,7 +6507,6 @@ ko:
       sentence_connector: 그리고
       skip_last_comma: 'false'
   text_access_token_hint: 액세스 토큰을 사용하여 OpenProject의 리소스에 대한 외부 응용 프로그램 액세스 권한을 부여할 수 있습니다.
-  text_accessibility_hint: 접근성 모드는 시각장애인, 신체장애인, 혹은 시력이 나쁜 사람들을 위해 디자인 되었습니다. 후자를 위해서 중심이 되는 요소는 특별히 하이라이트 됩니다. 이 모드에서는 Backlogs 모듈 사용이 불가능합니다.
   text_analyze: '추가 분석: %{subject}'
   text_are_you_sure: 계속하시겠습니까?
   text_are_you_sure_continue: 계속하시겠습니까?
@@ -6678,6 +6704,27 @@ ko:
   tree_view:
     label_empty_sub_tree: 항목 없음
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: 변형 비교
       blankslate:
@@ -6722,12 +6769,6 @@ ko:
       add_variant: "%{name}에 변형 추가"
       create_type: 유형 만들기
       create_variant: 변형 만들기
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: 이 구성의 %{type}을(를) 명명합니다. 작업 패키지는 계속해서 %{type} 자체를 사용합니다.
       finish: 완료
@@ -6775,8 +6816,10 @@ ko:
           caption: 참조된 특성과 텍스트를 사용하여 패턴을 정의하고 작업 패키지 제목을 자동으로 생성하세요. 사용자는 제목을 수동으로 편집할 수 없습니다.
           label: 자동으로 생성되는 제목
         description:
-          caption: 이 유형의 모든 신규 작업 패키지의 설명 필드에 추가될 텍스트를 입력하세요.
-          label: 기본 설명 텍스트
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: 사용자가 제한 없이 작업 패키지 제목을 수동으로 입력하고 편집할 수 있습니다.
           label: 수동으로 편집 가능한 제목
@@ -6813,7 +6856,6 @@ ko:
             label: 끄기
           section_title: 자동 아티팩트 내보내기
           unavailable: 사용할 수 없습니다. 자동 관리되는 Nextcloud 저장소가 구성되어 있지 않습니다
-        intro: 사용 가능한 템플릿 중에서 이 유형에 대해 활성화하려는 템플릿을 선택하세요. 템플릿은 이 유형을 사용하여 작업 패키지의 내보낸 PDF에서 표시되는 디자인과 특성을 결정합니다. 목록의 첫 번째 템플릿이 기본적으로 선택됩니다.
         pdf_export_templates:
           actions:
             label_disable_all: 모두 비활성화
@@ -6898,7 +6940,6 @@ ko:
           manual:
             description: "[프로젝트 특성을 생성](administration_url)하면, 해당 특성이 여기에 표시되며 유형에 추가할 수 있습니다."
             title: 사용 가능한 프로젝트 특성 없음
-        description: 이 작업 패키지 유형에 대해 활성화할 프로젝트 특성을 선택하세요. 활성화된 프로젝트 특성은 이 유형의 작업 패키지에서 별도의 탭에 표시됩니다. 필요한 권한을 가진 사용자는 해당 탭에서 이러한 특성을 보고 편집할 수 있습니다.
         disabled: 비활성화됨
         exclusions:
           attribute_label: "%{attribute} 상속"
@@ -6917,10 +6958,12 @@ ko:
         empty_state:
           description: 이 구성을 사용하려면 프로젝트를 추가하세요.
           no_results: 일치하는 프로젝트가 없습니다.
+          title: Not used in any project yet
         enable_all: 모든 프로젝트에 대해 활성화
         select_projects: 프로젝트 선택
         select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
         tab: 프로젝트
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -6992,6 +7035,9 @@ ko:
 
             '
           title: 이 유형에 대한 변형이 없습니다.
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: "%{project}에서 생성됨"
         delete:
           description: 이 변형을 사용하는 프로젝트는 해당 변형이 삭제되기 전에 아래에서 사용자가 선택하는 변형으로 전환됩니다.
@@ -7023,6 +7069,7 @@ ko:
         confirm: 변환
         text: 이 이름의 글로벌 변형이 이미 있습니다. 다른 이름을 선택해 주세요.
         title: 이 변형에 대한 다른 이름 지정
+      created_by_migration: Migrated
       delete:
         description: 해당 유형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
         description_with_variants: 해당 유형과 모든 변형이 영구적으로 삭제됩니다. 이 작업은 취소할 수 없습니다.
@@ -7036,8 +7083,14 @@ ko:
       duplicate_name: "%{name}의 사본"
       duplicate_notice: "%{name}이(가) 중복되었습니다."
       enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: 새로운 프로젝트에서 활성화
       make_default_notice: "%{name}이(가) 이제 새 프로젝트에서 활성화되었습니다."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: 새 타입 생성
       no_results_title_text: 타입이 없습니다.
       project_variants_count:
@@ -7706,6 +7759,17 @@ ko:
             other: 워크플로를 %{count}개 역할에 복사했습니다.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

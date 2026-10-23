@@ -101,7 +101,7 @@ RSpec.describe ResourceAllocations::AllocatedTimeFor, with_ee: %i[resource_manag
       it "shows a placeholder instead of the work package" do
         allocate(480, end_date: monday, entity: create(:work_package))
 
-        expect(events.sole).to include("title" => I18n.t("resource_management.my_work.hidden_work_package"))
+        expect(events.sole).to include("title" => I18n.t("resource_management.my_time_management.hidden_work_package"))
         expect(events.sole).not_to have_key("workPackageSubject")
       end
     end

@@ -234,7 +234,7 @@ RSpec.describe "API v3 Grids resource for Board Grids", content_type: :json do
         .at_path("widgets/0/identifier")
     end
 
-    it "perists the changes" do
+    it "persists the changes" do
       expect(manage_board_views_grid.reload.row_count)
         .to eql params["rowCount"]
     end

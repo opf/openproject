@@ -188,9 +188,9 @@ class Repository < ApplicationRecord
   # Returns whether an asynchronous count refresh has been requested.
   def update_required_storage
     if scm.storage_available?
-      oldest_cachable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
+      oldest_cacheable_time = Setting.repository_storage_cache_minutes.to_i.minutes.ago
       if storage_updated_at.nil? ||
-         storage_updated_at < oldest_cachable_time
+         storage_updated_at < oldest_cacheable_time
 
         ::SCM::StorageUpdaterJob.perform_later(self)
         return true

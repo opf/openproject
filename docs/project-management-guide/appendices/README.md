@@ -909,8 +909,8 @@ In addition to the aforementioned code of ethics, every practitioner of the PM²
 - NON-DISCRIMINATION and EQUAL TREATMENT: respect the principle of non-discrimination and, in particular, guarantee equal treatment for members of the public irrespective of nationality, gender, racial or ethnic origin, religion or beliefs, disability, age or sexual orientation.
 - PROPORTIONALITY and CONSISTENCY: ensure that measures taken are proportional to the aim pursued and be consistent in your behaviour.
 - RESPECT and LEADERSHIP: exercise the power of your position with responsibility and promote ethical principles and professional conduct by leadership and example.
-- HONESTY and OPENESS: declare any private interests and openly provide reasons for any decision.
-- TEAMWORK and CONFLICT RESOLUTON: work together to achieve common goals by finding solutions through better mutual understanding.
+- HONESTY and OPENNESS: declare any private interests and openly provide reasons for any decision.
+- TEAMWORK and CONFLICT RESOLUTION: work together to achieve common goals by finding solutions through better mutual understanding.
 - POLITENESS and CLEAR COMMUNICATION: engage colleagues by showing respect and encouraging efficiency through clarity of instructions.
 
 ### F. 2 Personal and Professional Virtues 

@@ -122,6 +122,8 @@ fa:
       auth_provider:
         additional_form_action_urls: نشانی‌های URL مجاز اضافی برای تغییرمسیر هنگام ورود
         scim_clients: کلاینت‌های SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: شناسه سفارشی
         customized_type: نوع سفارشی
@@ -132,8 +134,6 @@ fa:
         repository: مخزن
       comment:
         commented: دارای دیدگاه
-      custom_action:
-        actions: اقدام‌ها
       custom_field:
         admin_only: فقط مدیر
         allow_non_open_versions: اجازه نسخه‌های بازنشده
@@ -637,6 +637,8 @@ fa:
         regex_invalid: با عبارت منظم مرتبط قابل اعتبارسنجی نیست.
         regex_list_invalid: خطوط %{invalid_lines} به‌عنوان عبارت منظم قابل تجزیه نیستند.
         regex_match_failed: با عبارت منظم %{expression} مطابقت ندارد.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: باید کوچک‌تر از یا برابر با حداکثر طول باشد.
         smaller_than_or_equal_to_max_value: باید کمتر از یا مساوی حداکثر مقدار باشد.
         ssrf_filtered: سیاست SSRF این نمونه OpenProject را نقض می‌کند.
@@ -1103,6 +1105,9 @@ fa:
       auth_provider:
         one: ارائه‌دهنده احراز هویت
         other: ارائه‌دهندگان احراز هویت
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: نسخه پشتیبان
         other: نسخه‌های پشتیبان
@@ -1124,9 +1129,6 @@ fa:
       comment:
         one: دیدگاه
         other: دیدگاه‌ها
-      custom_action:
-        one: اقدام سفارشی
-        other: اقدام‌های سفارشی
       custom_field:
         one: فیلد سفارشی
         other: فیلدهای سفارشی
@@ -1193,6 +1195,9 @@ fa:
       issue_priority:
         one: اولویت
         other: اولویت‌ها
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: اتصال LDAP
         other: اتصال‌های LDAP
@@ -1548,7 +1553,7 @@ fa:
     import:
       title: واردکردن
     info:
-      database_deprecation_html: 'از OpenProject 16.0 به بعد، برای استفاده از OpenProject به PostgreSQL 16 نیاز است. نصب شما با پایگاه‌داده فعلی همچنان کار می‌کند، اما در نسخه‌های آینده احتمال ناسازگاری وجود دارد. <br/> برای همه روش‌های نصب [راهنمای ارتقا](upgrade_guide) آماده کرده‌ایم. می‌توانید پیش از انتشار نسخه بعدی، هر زمان با پیروی از راهنماها ارتقا را انجام دهید.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: تخصیص‌دهنده حافظه Jemalloc
@@ -1598,7 +1603,9 @@ fa:
         button_delete_token: حذف توکن
         button_save: ذخیره پیکربندی
         delete_token_confirm: مطمئنید می‌خواهید توکن را حذف کنید؟ این کار اتصال Jira را غیرفعال می‌کند.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: نام
           personal_access_token: توکن دسترسی شخصی
           url: نشانی Jira Server/Data Center
@@ -2172,6 +2179,8 @@ fa:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: انتخاب نقش‌ها
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: وضعیت
       statuses_dialog:
         caption: وضعیت‌هایی را که می‌خواهید به این نوع مرتبط کنید اضافه یا حذف کنید. حذف یک وضعیت، گردش‌کار مرتبط با آن را نیز حذف می‌کند.
@@ -2226,7 +2235,7 @@ fa:
     deleted_by_admin: فایل قرنطینه‌شده '%{filename}' توسط مدیر حذف شده است.
     deleted_message: در فایل '%{filename}' ویروس شناسایی شد. فایل حذف شده است.
     not_processed_yet_message: دانلود مسدود است، زیرا فایل هنوز برای ویروس اسکن نشده است. لطفاً بعداً دوباره تلاش کنید.
-    overridden_by_admin: قرنطینه فایل '%{filename}' توسط %{user} برداشته شد. اکنون فایل قابل دسترسی است.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: کانتینر
       delete: حذف فایل قرنطینه‌شده
@@ -3938,6 +3947,7 @@ fa:
   label_deleted_custom_field: "(فیلد سفارشی حذف‌شده)"
   label_deleted_custom_item: "(مورد حذف‌شده)"
   label_deleted_custom_option: "(گزینه حذف‌شده)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(نسخه حذف‌شده)"
   label_departments: سازمان
   label_departments_description_html: 'ساختار شرکت خود را با ایجاد واحدهای سازمانی و زیرواحدها به‌صورت سلسله‌مراتبی تعریف کنید. این کار امکان بازتاب خطوط گزارش‌دهی و حفظ نمایی شفاف و ساختاریافته از سازمان در OpenProject را فراهم می‌کند. همچنین می‌توانید ساختار سازمانی موجود را از طریق [همگام‌سازی واحدهای سازمانی LDAP](ldap_docs_article) وارد کنید.
@@ -4158,7 +4168,7 @@ fa:
   label_my_avatar: آواتار من
   label_my_queries: Queryهای سفارشی من
   label_my_security: امنیت
-  label_my_work: کارهای من
+  label_my_time: My time
   label_name: نام
   label_never: هرگز
   label_new: جدید
@@ -4600,7 +4610,7 @@ fa:
       start_tls: STARTTLS
       start_tls_description: پس از اتصال به پورت استاندارد LDAP فرمان STARTTLS ارسال می‌کند. روش توصیه‌شده برای اتصال رمزنگاری‌شده.
     tls_options:
-      tls_certificate_description: اگر گواهی سرور LDAP در منابع مورد اعتماد این سیستم نیست، می‌توانید آن را اینجا به‌صورت دستی اضافه کنید. یک رشته گواهی PEM X509 وارد کنید.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: اعتبارسنجی گواهی SSL
       verify_peer_description_html: 'اعتبارسنجی سخت‌گیرانه SSL برای زنجیره مورد اعتماد گواهی را فعال می‌کند. <br> <strong>هشدار:</strong> غیرفعال‌کردن این گزینه، اعتبارسنجی SSL گواهی سرور LDAP را خاموش می‌کند و اتصال شما را در معرض حملات Man in the Middle قرار می‌دهد.
 
@@ -5747,6 +5757,12 @@ fa:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: در حال حاضر هیچ فیلد سفارشی در دسترس نیست.
       forums:
         no_results_content_text: ایجاد انجمن جدید
@@ -5879,6 +5895,18 @@ fa:
       sidebar_content_title: محتوا
       success: ویژگی‌های پروژه ذخیره شدند و بسته کاری آرتیفکت با موفقیت ایجاد شد.
       title: درخواست آغاز پروژه
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: اعمال فیلتر ازپیش‌پیکربندی‌شده
     configure_view:
@@ -6346,7 +6374,7 @@ fa:
         description_html: 'حالت عملکرد یکپارچه‌سازی اسکنر آنتی‌ویروس را انتخاب کنید. <br/> <ul> <li><strong>%{disabled_option}</strong>: فایل‌های بارگذاری‌شده برای ویروس اسکن نمی‌شوند.</li> <li><strong>%{socket_option}</strong>: ClamAV روی همان سرور OpenProject راه‌اندازی شده و Daemon اسکن clamd در پس‌زمینه اجرا می‌شود.</li> <li><strong>%{host_option}</strong>: فایل‌ها برای اسکن به یک Host خارجی ارسال می‌شوند.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'اسکن ویروس غیرفعال شده است. %{file_count} فایل در قرنطینه باقی مانده‌اند. برای بازبینی فایل‌های قرنطینه‌شده این پیوند را ببینید: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'اسکن ویروس با موفقیت فعال شد. %{file_count} فایل قبلاً بارگذاری شده‌اند و هنوز باید اسکن شوند. این فرایند در پس‌زمینه زمان‌بندی شده است. فایل‌ها هنگام اسکن قابل دسترسی می‌مانند.
@@ -6666,7 +6694,6 @@ fa:
       sentence_connector: و
       skip_last_comma: 'false'
   text_access_token_hint: توکن‌های دسترسی به شما اجازه می‌دهند به برنامه‌های خارجی دسترسی به منابع OpenProject بدهید.
-  text_accessibility_hint: حالت دسترس‌پذیری برای کاربران نابینا، دارای محدودیت حرکتی یا کم‌بینا طراحی شده است. برای گروه آخر، عناصر دارای Focus به‌طور ویژه برجسته می‌شوند. توجه داشته باشید ماژول بک‌لاگ‌ها در این حالت در دسترس نیست.
   text_analyze: 'تحلیل بیشتر: %{subject}'
   text_are_you_sure: مطمئنید؟
   text_are_you_sure_continue: مطمئنید می‌خواهید ادامه دهید؟
@@ -6864,6 +6891,27 @@ fa:
   tree_view:
     label_empty_sub_tree: موردی وجود ندارد
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: مقایسه گونه‌ها
       blankslate:
@@ -6909,12 +6957,6 @@ fa:
       add_variant: افزودن یک گونه به %{name}
       create_type: ایجاد نوع
       create_variant: ایجاد گونه
-      descriptions:
-        defaults: انتخاب کنید که اعضای پروژه بتوانند بسته‌های کاری را آزادانه نام‌گذاری کنند یا عنوان‌ها به‌صورت خودکار ایجاد شوند.
-        form_configuration: این‌ها فیلدهایی هستند که عضو پروژه هنگام ایجاد یا ویرایش یک بسته کاری از این نوع می‌بیند.
-        pdf: پیکربندی کنید خروجی‌های PDF بسته‌های کاری این نوع چگونه نمایش داده شوند.
-        project_attributes: می‌توانید مشخص کنید برخی ویژگی‌های پروژه در همه بسته‌های کاری این نوع قابل مشاهده باشند.
-        projects: این نوع در کدام پروژه‌ها در دسترس باشد؟
       fields:
         variant_name_caption: این پیکربندی %{type} را نام‌گذاری می‌کند. بسته‌های کاری همچنان از خود %{type} استفاده می‌کنند.
       finish: پایان
@@ -6962,8 +7004,10 @@ fa:
           caption: با استفاده از ویژگی‌های ارجاعی و متن، الگویی تعریف کنید تا عنوان بسته‌های کاری به‌طور خودکار تولید شود. کاربران نمی‌توانند عنوان را به‌صورت دستی ویرایش کنند.
           label: عنوان‌های تولیدشده خودکار
         description:
-          caption: متنی را اضافه کنید که به فیلد توضیحات همه بسته‌های کاری جدید با این نوع افزوده شود.
-          label: متن توضیحات پیش‌فرض
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: کاربران می‌توانند عنوان بسته کاری را بدون محدودیت به‌صورت دستی وارد و ویرایش کنند.
           label: عنوان‌های قابل ویرایش دستی
@@ -7000,7 +7044,6 @@ fa:
             label: خاموش
           section_title: خروجی خودکار آرتیفکت
           unavailable: در دسترس نیست؛ Storage مدیریت‌شده خودکار Nextcloud پیکربندی نشده است
-        intro: از میان الگوهای موجود، مواردی را که می‌خواهید برای این نوع فعال شوند انتخاب کنید. الگو طراحی و ویژگی‌های قابل مشاهده در PDF خروجی بسته کاری این نوع را تعیین می‌کند. اولین الگوی فهرست به‌طور پیش‌فرض انتخاب می‌شود.
         pdf_export_templates:
           actions:
             label_disable_all: غیرفعال‌کردن همه
@@ -7085,7 +7128,6 @@ fa:
           manual:
             description: پس از اینکه [ویژگی‌های پروژه را ایجاد کنید](administration_url)، آن‌ها در اینجا نمایش داده می‌شوند و می‌توان آن‌ها را به یک نوع افزود.
             title: هیچ ویژگی پروژه‌ای در دسترس نیست
-        description: ویژگی‌های پروژه‌ای را که می‌خواهید برای این نوع بسته کاری فعال شوند انتخاب کنید. ویژگی‌های فعال پروژه در Tab جداگانه‌ای در بسته‌های کاری این نوع نمایش داده می‌شوند. کاربران دارای مجوزهای لازم می‌توانند آن‌ها را مشاهده و ویرایش کنند.
         disabled: غیرفعال
         exclusions:
           attribute_label: به‌ارث‌بردن %{attribute}
@@ -7104,10 +7146,12 @@ fa:
         empty_state:
           description: یک پروژه اضافه کنید تا از این پیکربندی در آن استفاده شود.
           no_results: پروژه منطبقی وجود ندارد.
+          title: Not used in any project yet
         enable_all: فعال‌کردن برای همه پروژه‌ها
         select_projects: انتخاب پروژه‌ها
         select_projects_description: پروژه‌هایی را که می‌خواهید از این نوع استفاده کنند انتخاب کنید.
         tab: پروژه‌ها
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7179,6 +7223,9 @@ fa:
 
             '
           title: هیچ گونه‌ای برای این نوع وجود ندارد
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: ایجادشده در %{project}
         delete:
           description: پروژه‌هایی که از این گونه استفاده می‌کنند، پیش از حذف آن به گونه‌ای که در زیر انتخاب می‌کنید منتقل خواهند شد.
@@ -7210,6 +7257,7 @@ fa:
         confirm: تبدیل
         text: یک گونه سراسری با این نام از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.
         title: نام دیگری برای این گونه انتخاب کنید
+      created_by_migration: Migrated
       delete:
         description: این نوع برای همیشه حذف خواهد شد. این اقدام قابل بازگشت نیست.
         description_with_variants: این نوع و همه گونه‌های آن برای همیشه حذف خواهند شد. این اقدام قابل بازگشت نیست.
@@ -7224,8 +7272,14 @@ fa:
       duplicate_name: کپی %{name}
       duplicate_notice: "%{name} تکثیر شد."
       enabled_in_new_projects: فعال در پروژه‌های جدید
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: فعال در پروژه‌های جدید
       make_default_notice: "%{name} اکنون در پروژه‌های جدید فعال است."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: ایجاد نوع جدید
       no_results_title_text: در حال حاضر هیچ نوعی وجود ندارد.
       project_variants_count:
@@ -7914,6 +7968,18 @@ fa:
             other: گردش‌کار با موفقیت به %{count} نقش کپی شد.
       new:
         dialog_title: کپی گردش کاری «%{source}»
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: گردش کاری جدید با کپی انتقال‌های وضعیت آن گردش کاری شروع می‌شود.

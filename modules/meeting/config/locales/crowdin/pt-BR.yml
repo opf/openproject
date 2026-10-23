@@ -665,7 +665,7 @@ pt-BR:
       error_no_next: Não há uma próxima ocorrência desta reunião.
       error_template_draft: O modelo da série de reuniões ainda está no modo de rascunho.
       first_already_exists: A primeira ocorrência desta série de reuniões já foi agendada.
-      first_created: 'A primeira reunião foi criada com sucesso a partir do modelo. Todas as reuniões subsequentes serão criadas automaticamente no horário da ocorrência anterior.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Esta reunião faz parte de uma série de reuniões recorrentes.

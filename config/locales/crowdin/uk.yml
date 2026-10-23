@@ -120,8 +120,10 @@ uk:
         caption: Заголовок
         help_text: Довідковий текст
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: Додаткові дозволені URL-адреси для перенаправлення після входу в систему
         scim_clients: Клієнти SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Користувацький ідентифікатор
         customized_type: Користувацький тип
@@ -132,8 +134,6 @@ uk:
         repository: Репозиторій
       comment:
         commented: Прокоментовано
-      custom_action:
-        actions: Дії
       custom_field:
         admin_only: Тільки для адміністраторів
         allow_non_open_versions: Дозволити невідкриті версії
@@ -637,6 +637,8 @@ uk:
         regex_invalid: неможливо перевірити з відповідним регулярним виразом.
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
         smaller_than_or_equal_to_max_value: має бути менше або дорівнювати максимальному значенню.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
@@ -653,7 +655,7 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: має невідомий шлях «%{path}».
         unremovable: неможливо видалити.
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: Рядки «%{invalid_lines}» не є дійсними URL-адресами HTTP або HTTPS.
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
@@ -1139,6 +1141,11 @@ uk:
         few: Постачальники послуг автентифікації
         many: Постачальники послуг автентифікації
         other: Постачальники послуг автентифікації
+      automation:
+        one: Automation
+        few: Automations
+        many: Automations
+        other: Automations
       backup:
         one: Резервна копія
         few: Резервні копії
@@ -1174,11 +1181,6 @@ uk:
         few: Коментарі
         many: Коментарі
         other: Коментарі
-      custom_action:
-        one: Користувацька дія
-        few: Користувацькі дії
-        many: Користувацькі дії
-        other: Користувацькі дії
       custom_field:
         one: Користувацьке поле
         few: Користувацькі поля
@@ -1289,6 +1291,11 @@ uk:
         few: Пріоритети
         many: Пріоритети
         other: Пріоритети
+      label:
+        one: Label
+        few: Labels
+        many: Labels
+        other: Labels
       ldap_auth_source:
         one: LDAP-підключення
         few: LDAP-підключення
@@ -1772,7 +1779,7 @@ uk:
     import:
       title: Iмпорт
     info:
-      database_deprecation_html: 'Починаючи з OpenProject 16.0, для використання OpenProject потрібна версія PostgreSQL 16. Ваша конфігурація працюватиме з поточною базою даних, але передбачається несумісність із майбутніми випусками. <br/> Ми підготували [посібники з оновлення для всіх методів встановлення](upgrade_guide). Дотримуючись цих інструкцій, ви можете виконати оновлення до наступного випуску в будь-який час.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Розподіл пам'яті Jemalloc
@@ -1822,7 +1829,9 @@ uk:
         button_delete_token: Видалити маркер
         button_save: Зберегти конфігурацію
         delete_token_confirm: Справді видалити маркер? З’єднання з Jira буде розірвано.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Назва
           personal_access_token: Персональний маркер доступу
           url: URL-адреса Jira Server / Data Center
@@ -2422,6 +2431,8 @@ uk:
           many: "%{count} roles selected"
           other: "%{count} roles selected"
         title: Виберіть ролі
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Статус
       statuses_dialog:
         caption: Додайте або видаліть статуси, які ви хочете пов’язати із цим типом. Вилучення статусу також призведе до видалення пов’язаного з ним робочого процесу.
@@ -2478,7 +2489,7 @@ uk:
     deleted_by_admin: Файл «%{filename}», перенесений у карантин, видалено адміністратором.
     deleted_message: У файлі «%{filename}» виявлено вірус. Файл видалено.
     not_processed_yet_message: Завантаження заблоковано, оскільки файл ще не перевірено на віруси. Повторіть спробу пізніше.
-    overridden_by_admin: Файл «%{filename}», перенесений у карантин, вилучено користувачем %{user}. Доступ до файлу відновлено.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Контейнер
       delete: Видалити файл на карантині
@@ -2664,7 +2675,7 @@ uk:
     work_package_id: Робочий пакет
   authentication:
     instructions:
-      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+      additional_form_action_urls: 'Використовуйте цю опцію лише в тому випадку, якщо вхід не вдається через те, що постачальник ідентифікації перенаправляє браузер на інші сервери. Введіть по одній URL-адресі в кожному рядку, наприклад, адресу, яку консоль браузера показує як заблоковану. Під час входу OpenProject дозволяє перенаправлення на хости, що відповідають цим URL-адресам.
 
         '
     login_and_registration: Вхід і реєстрація
@@ -4258,6 +4269,7 @@ uk:
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_item: "(видалений елемент)"
   label_deleted_custom_option: "(параметр видалення)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(видалена версія)"
   label_departments: Організація
   label_departments_description_html: 'Визначте структуру своєї компанії, створюючи відділи й підвідділи в ієрархічному порядку. Це дасть змогу відобразити лінії підпорядкованості й підтримувати чіткий упорядкований огляд вашої організації в OpenProject. Ви також можете імпортувати наявну організаційну структуру за допомогою [синхронізації відділів з LDAP](ldap_docs_article).
@@ -4478,7 +4490,7 @@ uk:
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
   label_my_security: Безпека
-  label_my_work: My work
+  label_my_time: My time
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -4927,7 +4939,7 @@ uk:
       start_tls: STARTTLS
       start_tls_description: Надсилає команду STARTTLS після підключення до стандартного порту LDAP. Рекомендовано для зашифрованого з’єднання.
     tls_options:
-      tls_certificate_description: Якщо сертифікат сервера LDAP не належить до надійних джерел цієї системи, ви можете додати його вручну тут. Введіть рядок сертифіката PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Перевірити сертифікат SSL
       verify_peer_description_html: 'Вмикає сувору перевірку SSL ланцюжка довірених сертифікатів. <br> <strong>Увага!</strong> Якщо зняти цей прапорець, буде вимкнено перевірку SSL сертифіката сервера LDAP. Через це ваше з’єднання може стати вразливим до MITM-атак.
 
@@ -6094,6 +6106,12 @@ uk:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Наразі немає спеціальних полів.
       forums:
         no_results_content_text: Створити новий форум
@@ -6232,6 +6250,18 @@ uk:
       sidebar_content_title: Зміст
       success: Атрибути проєкту збережено, пакет робіт артефакту успішно створено.
       title: Запит на ініціювання проєкту
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
     configure_view:
@@ -6713,7 +6743,7 @@ uk:
         description_html: 'Виберіть режим, у якому має працювати інтеграція з антивірусним сканером. <br/> <ul> <li><strong>%{disabled_option}</strong>: вивантажені файли не перевіряються на віруси.</li> <li><strong>%{socket_option}</strong>: ви встановили ClamAV на тому ж сервері, що й OpenProject, і демон сканування clamd працює у фоновому режимі</li> <li><strong>%{host_option}</strong>: ви передаєте файли на зовнішній хост для перевірки на віруси.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Перевірку на віруси вимкнено. Залишок файлів на карантині: %{file_count}. Переглянути файли на карантині можна за цим посиланням: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Перевірку на віруси ввімкнено. Потрібно ще перевірити деякі вивантажені раніше файли (%{file_count}). Цей процес заплановано у фоновому режимі. Файли будуть доступні під час перевірки.
@@ -7030,7 +7060,6 @@ uk:
       sentence_connector: і
       skip_last_comma: хибне значення
   text_access_token_hint: Маркери доступу дозволяють надавати зовнішнім програмам доступ до ресурсів у OpenProject.
-  text_accessibility_hint: Режим доступності призначений для користувачів, які є сліпими, з обмеженими можливостями або мають поганий зір. Для останніх спеціально виділені цілеспрямовані елементи. Зауважте, що модуль Backlogs недоступний у цьому режимі.
   text_analyze: 'Подальший аналіз: %{subject}'
   text_are_you_sure: Ви впевненені?
   text_are_you_sure_continue: Хочете продовжити?
@@ -7228,6 +7257,27 @@ uk:
   tree_view:
     label_empty_sub_tree: Немає елементів
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Порівняти варіанти
       blankslate:
@@ -7275,12 +7325,6 @@ uk:
       add_variant: Додати варіант для об’єкта «%{name}»
       create_type: Створити тип
       create_variant: Створити варіант
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Дає назву цій конфігурації типу «%{type}». Пакети робіт і далі використовують тип «%{type}».
       finish: Завершити
@@ -7328,8 +7372,10 @@ uk:
           caption: Визначте шаблон, використовуючи атрибути й текст, щоб теми пакетів робіт генерувались автоматично. Користувачі не зможуть редагувати теми вручну.
           label: Автоматично згенеровані теми
         description:
-          caption: Введіть текст, який додаватиметься в поле опису всіх нових пакетів робіт цього типу.
-          label: Стандартний текст опису
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Користувачі можуть самостійно вводити й редагувати теми пакетів робіт без обмежень.
           label: Теми, які можна редагувати вручну
@@ -7366,7 +7412,6 @@ uk:
             label: Вимкнено
           section_title: Автоматичний експорт артефактів
           unavailable: недоступно, не налаштовано жодного сховища Nextcloud з автоматичним керуванням
-        intro: Виберіть, які шаблони з доступних вам ви хочете ввімкнути для цього типу. Шаблон визначає дизайн і атрибути, що відображаються в експортованому PDF-файлі пакета робіт за допомогою цього типу. Перший шаблон у списку вибирається за замовчуванням.
         pdf_export_templates:
           actions:
             label_disable_all: Вимкнути все
@@ -7451,7 +7496,6 @@ uk:
           manual:
             description: Коли ви [створите атрибути проєкту](administration_url), вони з’являться тут і їх можна буде додати в тип.
             title: Немає доступних атрибутів проєкту
-        description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
         disabled: Вимкнено
         exclusions:
           attribute_label: Успадкувати %{attribute}
@@ -7470,10 +7514,12 @@ uk:
         empty_state:
           description: Додайте проєкт для використання цієї конфігурації.
           no_results: Немає відповідних проєктів.
+          title: Not used in any project yet
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
         tab: Проєкти
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7545,6 +7591,9 @@ uk:
 
             '
           title: Немає варіантів для цього типу
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Створено в проєкті «%{project}»
         delete:
           description: Проєкти, у яких використовується цей варіант, будуть переведені на варіант, який ви виберете нижче, до того, як цей варіант буде видалено.
@@ -7576,6 +7625,7 @@ uk:
         confirm: Перетворити
         text: Глобальний варіант із цією назвою вже існує. Будь ласка, виберіть іншу назву.
         title: Виберіть іншу назву для цього варіанту
+      created_by_migration: Migrated
       delete:
         description: Цей тип буде видалено назавжди. Цю дію неможливо скасувати.
         description_with_variants: Цей тип і всі його варіанти буде видалено назавжди. Цю дію неможливо скасувати.
@@ -7592,8 +7642,14 @@ uk:
       duplicate_name: Копія обʼєкта «%{name}»
       duplicate_notice: Створено дублікат обʼєкта «%{name}».
       enabled_in_new_projects: Активовано в нових проєктах
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Активувати в нових проєктах
       make_default_notice: Обʼєкт «%{name}» тепер активується в нових проєктах.
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Створіть новий тип
       no_results_title_text: Наразі немає типів.
       project_variants_count:
@@ -8320,6 +8376,20 @@ uk:
             other: Робочий процес успішно скопійовано в %{count} ролі.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        few: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        many: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: Новий робочий процес починається з копії переходів статусу цього робочого процесу.

@@ -695,7 +695,7 @@ uk:
       error_no_next: Це одноразова нарада.
       error_template_draft: Шаблон серії нарад усе ще в режимі чернетки.
       first_already_exists: Перша нарада із цієї серії вже відбулася.
-      first_created: 'Першу нараду створено на основі шаблона. Усі наступні наради створюватимуться автоматично в момент початку попередніх.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Ця нарада належить до серії повторюваних нарад.

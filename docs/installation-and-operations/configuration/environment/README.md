@@ -93,7 +93,7 @@ OPENPROJECT_ENTERPRISE_FAIL__FAST=true
 
 OPENPROJECT_ENTERPRISE="{ fail_fast: true }"
 
-# in the old configration.yml it looked like this
+# in the old configuration.yml it looked like this
 
 enterprise:
   fail_fast: true

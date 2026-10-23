@@ -41,7 +41,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def perform_stage(batch, jira_import)
       if batch.succeeded?
-        # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
+        # happens when jobs are not progressable and can't react to import_aborting by discarding themselves.
         if jira_import.in_state?(:import_aborting)
           Rails.logger.warn "Import is aborting, stopping the staged import"
           jira_import.transition_to!(:import_error)

@@ -122,6 +122,8 @@ vi:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: khách hàng SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: ID tùy chỉnh
         customized_type: Loại tùy chỉnh
@@ -132,8 +134,6 @@ vi:
         repository: Kho lưu trữ
       comment:
         commented: Nhận xét
-      custom_action:
-        actions: hành động
       custom_field:
         admin_only: Chỉ dành cho quản trị viên
         allow_non_open_versions: Cho phép các phiên bản không mở
@@ -637,6 +637,8 @@ vi:
         regex_invalid: có thể không được xác nhận với các biểu hiện thường xuyên liên kết.
         regex_list_invalid: Không thể phân tích cú pháp các dòng %{invalid_lines} dưới dạng biểu thức chính quy.
         regex_match_failed: không khớp với biểu thức chính quy %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: phải nhỏ hơn hoặc bằng với chiều dài tối đa
         smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
@@ -1090,6 +1092,8 @@ vi:
         other: Work package attribute help texts
       auth_provider:
         other: Nhà cung cấp xác thực
+      automation:
+        other: Automations
       backup:
         other: Backups
       capability:
@@ -1104,8 +1108,6 @@ vi:
         other: Colors
       comment:
         other: Comments
-      custom_action:
-        other: Custom actions
       custom_field:
         other: Custom fields
       custom_field/hierarchy/item:
@@ -1150,6 +1152,8 @@ vi:
         other: Health reports
       issue_priority:
         other: ưu tiên
+      label:
+        other: Labels
       ldap_auth_source:
         other: LDAP connections
       mcp_configuration:
@@ -1441,7 +1445,7 @@ vi:
     import:
       title: Import
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Bộ cấp phát bộ nhớ Jemalloc
@@ -1491,7 +1495,9 @@ vi:
         button_delete_token: Delete token
         button_save: Save cấu hình
         delete_token_confirm: Are you sure you want to delete the token? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Name
           personal_access_token: Personal Access Token
           url: Jira Server/Data Center URL
@@ -2052,6 +2058,8 @@ vi:
         roles:
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -2105,7 +2113,7 @@ vi:
     deleted_by_admin: Tệp bị cách ly '%{filename}' đã bị quản trị viên xóa.
     deleted_message: Đã phát hiện thấy vi-rút trong tệp '%{filename}'. Tập tin đã bị xóa.
     not_processed_yet_message: Quá trình tải xuống bị chặn do tệp chưa được quét vi-rút. Vui lòng thử lại sau.
-    overridden_by_admin: Việc cách ly tệp '%{filename}' đã bị %{user} xóa. Bây giờ tập tin có thể được truy cập.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: container
       delete: Xóa tập tin bị cách ly
@@ -3786,6 +3794,7 @@ vi:
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_item: "(mục đã bị xóa)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
@@ -4006,7 +4015,7 @@ vi:
   label_my_avatar: Hình đại diện của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
   label_my_security: Security
-  label_my_work: My work
+  label_my_time: My time
   label_name: tên
   label_never: không bao giờ
   label_new: Mới
@@ -4447,7 +4456,7 @@ vi:
       start_tls: BẮT ĐẦU
       start_tls_description: Gửi lệnh STARTTLS sau khi kết nối với cổng LDAP tiêu chuẩn. Được khuyến nghị cho các kết nối được mã hóa.
     tls_options:
-      tls_certificate_description: Nếu chứng chỉ máy chủ LDAP không có trong các nguồn tin cậy của hệ thống này, bạn có thể thêm chứng chỉ đó theo cách thủ công tại đây. Nhập chuỗi chứng chỉ PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Xác minh chứng chỉ SSL
       verify_peer_description_html: 'Cho phép xác minh SSL nghiêm ngặt của chuỗi chứng chỉ tin cậy. <br> <strong>Cảnh báo:</strong> Việc bỏ chọn tùy chọn này sẽ tắt xác minh SSL của chứng chỉ máy chủ LDAP. Điều này làm lộ mối liên hệ của bạn với các cuộc tấn công của Man in the Middle.
 
@@ -5590,6 +5599,12 @@ vi:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Không không có trường tùy chỉnh.
       forums:
         no_results_content_text: Tạo diễn đàn mới
@@ -5719,6 +5734,18 @@ vi:
       sidebar_content_title: Nội dung
       success: Project attributes saved and artefact work package created successfully.
       title: Yêu cầu khởi tạo dự án
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Áp dụng bộ lọc được cấu hình sẵn
     configure_view:
@@ -6179,7 +6206,7 @@ vi:
         description_html: 'Chọn chế độ mà tích hợp trình quét antivirus nên hoạt động. <br/> <ul> <li><strong>%{disabled_option}</strong>: Các tệp tải lên sẽ không được quét virus.</li> <li><strong>%{socket_option}</strong>: Bạn đã thiết lập ClamAV trên cùng một máy chủ với OpenProject và daemon quét clamd đang chạy nền</li> <li><strong>%{host_option}</strong>: Bạn đang truyền tệp đến một máy chủ quét virus bên ngoài.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Quét virus đã bị vô hiệu hóa. Có %{file_count} tệp vẫn còn trong cách ly. Để xem các tệp đã cách ly, vui lòng truy cập liên kết này: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Quét virus đã được kích hoạt thành công. Có %{file_count} đã được tải lên trước đó và vẫn cần được quét. Quá trình này đã được lên lịch ở chế độ nền. Các tập tin sẽ vẫn có thể truy cập được trong quá trình quét.
@@ -6499,7 +6526,6 @@ vi:
       sentence_connector: và
       skip_last_comma: sai
   text_access_token_hint: Mã thông báo truy cập cho phép bạn cấp cho các ứng dụng bên ngoài quyền truy cập vào tài nguyên trong OpenProject.
-  text_accessibility_hint: Chế độ trợ năng được thiết kế dành cho người dùng bị mù, khuyết tật vận động hoặc có thị lực kém. Đối với các yếu tố tập trung sau này được đánh dấu đặc biệt. Xin lưu ý rằng mô-đun Backlogs không khả dụng ở chế độ này.
   text_analyze: 'Phân tích sâu hơn: %{subject}'
   text_are_you_sure: Bạn có chắc không?
   text_are_you_sure_continue: Bạn có chắc chắn muốn tiếp tục không?
@@ -6697,6 +6723,27 @@ vi:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Compare variants
       blankslate:
@@ -6741,12 +6788,6 @@ vi:
       add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
@@ -6794,8 +6835,10 @@ vi:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
           label: Automatically generated subjects
         description:
-          caption: Add the text that will be added to the description field of all new work packages with this type.
-          label: Default description text
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Users can manually enter and edit work package subjects without restrictions.
           label: Manually editable subjects
@@ -6832,7 +6875,6 @@ vi:
             label: 'Off'
           section_title: Automatic artefact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
-        intro: Chọn mẫu nào trong số những mẫu có sẵn mà bạn muốn bật cho loại này. Mẫu xác định thiết kế và các thuộc tính hiển thị trong tệp PDF đã xuất của gói công việc sử dụng loại này. Mẫu đầu tiên trong danh sách được chọn theo mặc định.
         pdf_export_templates:
           actions:
             label_disable_all: Vô hiệu hóa tất cả
@@ -6917,7 +6959,6 @@ vi:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
@@ -6936,10 +6977,12 @@ vi:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
+          title: Not used in any project yet
         enable_all: Kích hoạt cho tất cả các dự án
         select_projects: Chọn dự án
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
         tab: dự án
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7011,6 +7054,9 @@ vi:
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7042,6 +7088,7 @@ vi:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7055,8 +7102,14 @@ vi:
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
       make_default_notice: "%{name} is now activated in new projects."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Tạo loại mới
       no_results_title_text: Hiện tại không có loại nào.
       project_variants_count:
@@ -7725,6 +7778,17 @@ vi:
             other: Successfully copied workflow to %{count} roles.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

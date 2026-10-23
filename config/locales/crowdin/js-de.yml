@@ -361,8 +361,8 @@ de:
     ical_sharing_modal:
       copy_url_label: URL kopieren
       description: Sie können die URL (iCalendar) verwenden, um diesen Kalender in einem externen Client zu abonnieren und aktuelle Arbeitspaket-Informationen von dort aus anzuzeigen.
-      ical_generation_error_text: Beim Generieren der Kalender-URL ist ein Fehler aufgetreten.
-      inital_setup_error_message: Beim Abrufen der Daten ist ein Fehler aufgetreten.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: Die URL "%{name}" wurde erfolgreich in Ihre Zwischenablage kopiert. Fügen Sie sie in Ihren Kalender-Client ein, um das Abonnement abzuschließen.
       title: Kalender abonnieren
       token_name_description_text: Wenn Sie diesen Kalender auf mehreren Geräten abonnieren, wird Ihnen dieser Name helfen, zwischen diesen in der Liste der <a href="%{myAccessTokensUrl}", target="_blank">Zugriffstoken</a> zu unterscheiden.
@@ -554,6 +554,8 @@ de:
     label_reset: Zurücksetzen
     label_resize_project_menu: Größe des Projektmenüs ändern
     label_save_as: Speichern unter
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Spalte suchen
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter

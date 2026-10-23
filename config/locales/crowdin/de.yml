@@ -122,6 +122,8 @@ de:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM-Clients
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Benutzerdefinierte ID
         customized_type: Benutzerdefinierter typ
@@ -132,8 +134,6 @@ de:
         repository: Projektarchiv
       comment:
         commented: Kommentiert
-      custom_action:
-        actions: Aktionen
       custom_field:
         admin_only: Nur für Administratoren
         allow_non_open_versions: Erlaube nicht-offene Versionen
@@ -637,6 +637,8 @@ de:
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden.
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
         smaller_than_or_equal_to_max_value: muss kleiner oder gleich dem maximal erlaubtem Wert sein.
         ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
@@ -1105,6 +1107,9 @@ de:
       auth_provider:
         one: Authentifizierungsanbieter
         other: Authentifizierungsanbieter
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1126,9 +1131,6 @@ de:
       comment:
         one: Kommentar
         other: Kommentare
-      custom_action:
-        one: Benutzerdefinierte Aktion
-        other: Benutzerdefinierte Aktionen
       custom_field:
         one: Benutzerdefiniertes Feld
         other: Benutzerdefinierte Felder
@@ -1195,6 +1197,9 @@ de:
       issue_priority:
         one: Priorität
         other: Prioritäten
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP-Verbindung
         other: LDAP-Verbindungen
@@ -1550,7 +1555,7 @@ de:
     import:
       title: Import
     info:
-      database_deprecation_html: 'Ab OpenProject 16.0 ist PostgreSQL 16 erforderlich, um OpenProject zu verwenden. Ihre Installation bleibt mit Ihrer aktuellen Datenbank funktionsfähig, aber rechnen Sie mit Inkompatibilitäten in zukünftigen Versionen. <br/> Wir haben [Upgrade-Anleitungen für alle Installationsmethoden](upgrade_guide) vorbereitet. Sie können das Upgrade jederzeit vor der nächsten Version durchführen, indem Sie die Anleitungen befolgen.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc Speicher allocator
@@ -1600,7 +1605,9 @@ de:
         button_delete_token: Token löschen
         button_save: Konfiguration speichern
         delete_token_confirm: Sind Sie sicher, dass Sie das Token löschen möchten? Dies wird die Verbindung zu Jira deaktivieren.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Name
           personal_access_token: Persönlicher Zugangs-Token
           url: Jira Server/Datencenter URL
@@ -2174,6 +2181,8 @@ de:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Rollen auswählen
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Status hinzufügen oder entfernen, die Sie mit diesem Typ verknüpfen möchten. Das Entfernen eines Status löscht auch den damit verbundenen Workflow.
@@ -2228,7 +2237,7 @@ de:
     deleted_by_admin: Die unter Quarantäne gestellte Datei '%{filename}' wurde von einem Administrator gelöscht.
     deleted_message: In der Datei '%{filename}' wurde ein Virus entdeckt. Die Datei wurde gelöscht.
     not_processed_yet_message: Das Herunterladen ist blockiert, da die Datei noch nicht auf Viren gescannt wurde. Bitte versuchen Sie es später noch einmal.
-    overridden_by_admin: Die Quarantäne für die Datei '%{filename}' wurde von %{user} entfernt. Auf die Datei kann nun zugegriffen werden.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Container
       delete: Unter Quarantäne gestellte Datei löschen
@@ -3940,6 +3949,7 @@ de:
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_item: "(gelöschter Eintrag)"
   label_deleted_custom_option: "(gelöschte Option)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(gelöschte Version)"
   label_departments: Organisation
   label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
@@ -4160,7 +4170,7 @@ de:
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
   label_my_security: Sicherheit
-  label_my_work: Meine Arbeit
+  label_my_time: My time
   label_name: Name
   label_never: Nie
   label_new: Neu
@@ -4602,7 +4612,7 @@ de:
       start_tls: STARTTLS
       start_tls_description: Sendet einen STARTTLS-Befehl nach der Verbindung zum Standard-LDAP-Port. Empfohlen für verschlüsselte Verbindungen.
     tls_options:
-      tls_certificate_description: Wenn sich das LDAP-Server-Zertifikat nicht in den vertrauenswürdigen Quellen dieses Systems befindet, können Sie es hier manuell hinzufügen. Fügen Sie an dieser Stelle ein oder mehrere PEM X509 Zertifkate ein.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: SSL-Zertifikat überprüfen
       verify_peer_description_html: 'Aktiviert die strikte SSL-Überprüfung der vertrauenswürdigen Zertifikatskette. <br> <strong>Warnung:</strong> Ausstellen dieser Option deaktiviert die SSL-Überprüfung des LDAP-Serverzertifikats. Ihre Verbindung wird anfällig für Man-In-The-Middle (MITM) Angriffe.
 
@@ -5754,6 +5764,12 @@ de:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Derzeit stehen keine benutzerdefinierten Felder zur Verfügung.
       forums:
         no_results_content_text: Neues Forum erstellen
@@ -5886,6 +5902,18 @@ de:
       sidebar_content_title: Inhalt
       success: Projektattribute gespeichert und Artefakt der Anfrage als Arbeitspaket erstellt.
       title: Projektinitiierungsantrag
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
     configure_view:
@@ -6351,7 +6379,7 @@ de:
         description_html: 'Wählen Sie den Betriebsmodus für die Integration des Antiviren-Scanners aus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Hochgeladene Dateien werden nicht auf Viren gescannt.</li> <li><strong>%{socket_option}</strong>: Sie haben ClamAV auf demselben Server wie OpenProject eingerichtet und der Scan-Daemon clamd läuft im Hintergrund</li> <li><strong>%{host_option}</strong>: Sie streamen Dateien an einen externen Virenscanner.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Die Virenprüfung wurde deaktiviert. %{file_count} verbleiben in Quarantäne. Um die unter Quarantäne gestellten Dateien zu überprüfen, besuchen Sie bitte diesen Link: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Die Virenprüfung wurde erfolgreich aktiviert. Es gibt %{file_count} , die bis zum aktuellen Zeitpunkt hochgeladen wurden und noch gescannt werden müssen. Dieser Vorgang wird im Hintergrund ausgeführt. Die Dateien bleiben während des Scans zugänglich.
@@ -6668,7 +6696,6 @@ de:
       sentence_connector: und
       skip_last_comma: 'true'
   text_access_token_hint: Zugangs-Tokens erlauben es externen Applikationen Zugriff auf OpenProject zu erhalten.
-  text_accessibility_hint: Der barrierefreie Modus richtet sich an Benutzer, die motorisch eingeschränkt, blind oder sehbehindert sind. Für letztere werden selektierte Elemente mit einem Rahmen hervorgehoben. Bitte beachten Sie, dass das Backlog-Modul bei aktiviertem barrierefreien Modus nicht verfügbar ist.
   text_analyze: 'Weiter analysieren: %{subject}'
   text_are_you_sure: Sind Sie sicher?
   text_are_you_sure_continue: Sind Sie sicher, dass Sie fortfahren möchten?
@@ -6864,6 +6891,27 @@ de:
   tree_view:
     label_empty_sub_tree: Keine Einträge
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Varianten vergleichen
       blankslate:
@@ -6909,12 +6957,6 @@ de:
       add_variant: Variante zu %{name} hinzufügen
       create_type: Typ erstellen
       create_variant: Variante erstellen
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Ein interner Name für die Variante von %{type}. Arbeitspakete werden in Projekten immer mit dem Namen %{type} angezeigt.
       finish: Beenden
@@ -6962,8 +7004,10 @@ de:
           caption: 'Definieren Sie ein Schema aus referenzierten Attributen und Freitext für die automatische Generierung von Arbeitspakettiteln. Nutzer: innen können diese nicht manuell editieren.'
           label: Automatisch generierte Titel
         description:
-          caption: Fügen Sie den Text ein, der in das Beschreibungsfeld aller neuen Arbeitspakete dieses Typs eingefügt werden soll.
-          label: Standardbeschreibungstext
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: 'Nutzer: innen können die Titel der Arbeitspakete ohne Einschränkungen manuell eingeben und bearbeiten.'
           label: Manuell bearbeitbare Titel
@@ -7002,7 +7046,6 @@ de:
             label: Aus
           section_title: Automatischer Export von Artefakten
           unavailable: Nicht verfügbar, es ist kein automatisch verwalteter Nextcloud-Speicher konfiguriert
-        intro: Wählen Sie aus den verfügbaren Vorlagen diejenige aus, die Sie für diesen Typ aktivieren möchten. Die Vorlage bestimmt das Design und die Attribute, die in der exportierten PDF-Datei eines Arbeitspakets mit diesem Typ sichtbar sind. Die erste Vorlage in der Liste ist standardmäßig ausgewählt.
         pdf_export_templates:
           actions:
             label_disable_all: Alles deaktivieren
@@ -7087,7 +7130,6 @@ de:
           manual:
             description: Sobald Sie [Projektattribute anlegen](administration_url), werden diese hier angezeigt und können einem Typ hinzugefügt werden.
             title: Es sind keine Projektattribute verfügbar
-        description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
         disabled: Deaktiviert
         exclusions:
           attribute_label: "%{attribute} erben"
@@ -7106,10 +7148,12 @@ de:
         empty_state:
           description: Fügen Sie ein Projekt hinzu, das diese Konfiguration verwendet.
           no_results: Keine übereinstimmenden Projekte.
+          title: Not used in any project yet
         enable_all: Für alle Projekte aktivieren
         select_projects: Projekt auswählen
         select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
         tab: Projekte
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7181,6 +7225,9 @@ de:
 
             '
           title: Keine Varianten für diesen Typ vorhanden
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Erstellt in %{project}
         delete:
           description: Die Projekte, die diese Variante verwenden, werden auf die von Ihnen unten ausgewählte Variante umgestellt, bevor die Variante gelöscht wird.
@@ -7212,6 +7259,7 @@ de:
         confirm: Umwandeln
         text: Eine globale Variante mit diesem Namen existiert bereits. Bitte wählen Sie einen anderen Namen.
         title: Wählen Sie einen anderen Namen für diese Variante
+      created_by_migration: Migrated
       delete:
         description: Der Typ wird endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
         description_with_variants: Der Typ und alle seine Varianten werden endgültig gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
@@ -7226,8 +7274,14 @@ de:
       duplicate_name: Kopie von %{name}
       duplicate_notice: "%{name} wurde dupliziert."
       enabled_in_new_projects: Aktiv in neuen Projekten
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: In neuen Projekten aktivieren
       make_default_notice: "%{name} ist nun in neuen Projekten aktiviert."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Neuen Typ erstellen
       no_results_title_text: Derzeit gibt es keine Typen.
       project_variants_count:
@@ -7914,6 +7968,18 @@ de:
             other: Workflow erfolgreich in %{count} Rollen kopiert.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

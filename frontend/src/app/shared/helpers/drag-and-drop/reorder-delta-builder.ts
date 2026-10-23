@@ -420,7 +420,7 @@ function rebuildPositions(
  * @param positions The current positions as loaded from backend / persisted from previous calls
  * @param wpId The work package that got moved
  * @param index The index a work package got moved into
- * @param fromIndex If moved within the order, the previous index used for movement optimzation
+ * @param fromIndex If moved within the order, the previous index used for movement optimization
  */
 export function buildDelta(
   order:string[],

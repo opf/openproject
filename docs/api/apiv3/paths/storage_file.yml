@@ -1,0 +1,45 @@
+# /api/v3/storages/{storage_id}/files/{file_id}
+---
+get:
+  summary: Get a file of a storage.
+  operationId: get_storage_file
+  tags:
+    - File links
+  description: |-
+    Gets a single file from a storage identified by its remote id.
+  parameters:
+    - name: storage_id
+      description: Storage id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+    - name: file_id
+      description: File id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1338
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/storage_file_model.yml'
+          examples:
+            'Nextcloud storage file':
+              $ref: '../components/examples/storage-nextcloud-file-response.yml'
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if either the file storage doesn't exist or there is no file on the identified file storage.

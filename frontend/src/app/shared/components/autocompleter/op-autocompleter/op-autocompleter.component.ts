@@ -130,6 +130,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public fetchDataDirectly?:boolean = false;
 
+  @Input() public deferFetchUntilOpened?:boolean = false;
+
   @Input() public labelRequired?:boolean = true;
 
   @Input() public name?:string;
@@ -291,6 +293,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   public loading$ = new Subject<boolean>();
 
+  private hasBeenOpened = false;
+
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
@@ -403,6 +407,11 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   }
 
   public opened():void {
+    if (this.deferFetchUntilOpened && !this.hasBeenOpened) {
+      this.hasBeenOpened = true;
+      this.typeahead?.next(this.ngSelectInstance.searchTerm ?? '');
+    }
+
     this.repositionDropdown();
     this.open.emit();
   }
@@ -495,6 +504,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     return this.typeahead.pipe(
       filter(() => [this.defaultData, this.url, this.getOptionsFn].some(Boolean)),
+      // Must precede distinctUntilChanged, which would otherwise dedupe the term
+      // replayed by opened() against the suppressed initial one.
+      filter(() => !this.deferFetchUntilOpened || this.hasBeenOpened),
       distinctUntilChanged(),
       tap(() => this.loading$.next(true)),
       debounceTime(this.debounceTimeForCurrentEnvironment),

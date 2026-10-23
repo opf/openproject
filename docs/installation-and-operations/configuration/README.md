@@ -461,7 +461,7 @@ This example in the old `configuration.yml` looked like this:
 auth_source_sso:
   header: X-Remote-User
   # Optional secret to be passed by the header in form
-  # of a colon-separted userinfo string
+  # of a colon-separated userinfo string
   # e.g., X-Remote-User "username:s3cret"
   secret: s3cr3t
   # Uncomment to make the header optional.
@@ -858,7 +858,7 @@ _default: "repositories"_
 Remote git repositories will be checked out here.
 
 ```yaml
-note: to be verified, maybe option was removed, not in environement variables list
+note: to be verified, maybe option was removed, not in environment variables list
 ```
 
 ### APIv3 enable basic auth

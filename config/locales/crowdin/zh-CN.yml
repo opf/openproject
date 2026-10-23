@@ -122,6 +122,8 @@ zh-CN:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 客户端
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: 自定义ID
         customized_type: 自定义类型
@@ -132,8 +134,6 @@ zh-CN:
         repository: 存储库
       comment:
         commented: 评论
-      custom_action:
-        actions: 操作
       custom_field:
         admin_only: 仅管理员
         allow_non_open_versions: 允许非打开版本
@@ -637,6 +637,8 @@ zh-CN:
         regex_invalid: 无法与关联的正则表达式进行验证。
         regex_list_invalid: 行 %{invalid_lines} 无法解析为正则表达式。
         regex_match_failed: 与正则表达式 %{expression}不匹配。
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
         smaller_than_or_equal_to_max_value: 必须小于或等于最大值。
         ssrf_filtered: 违反了此 OpenProject 实例的 SSRF 政策。
@@ -1090,6 +1092,8 @@ zh-CN:
         other: 工作包特性帮助文本
       auth_provider:
         other: 身份验证提供方
+      automation:
+        other: Automations
       backup:
         other: 备份
       capability:
@@ -1104,8 +1108,6 @@ zh-CN:
         other: 颜色
       comment:
         other: 评论
-      custom_action:
-        other: 自定义操作
       custom_field:
         other: 自定义字段
       custom_field/hierarchy/item:
@@ -1150,6 +1152,8 @@ zh-CN:
         other: 健康报告
       issue_priority:
         other: 优先事项
+      label:
+        other: Labels
       ldap_auth_source:
         other: LDAP 连接
       mcp_configuration:
@@ -1441,7 +1445,7 @@ zh-CN:
     import:
       title: 导入
     info:
-      database_deprecation_html: '自 OpenProject 16.0 起，使用 OpenProject 需要搭配 PostgreSQL 16。您的安装仍可使用当前数据库正常运行，但预计在未来版本中将不会兼容。<br/>我们已准备[所有安装方式的升级指南](upgrade_guide)。在下一个版本发布前，您可以随时按照指南执行升级。
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: 使用 jemalloc 内存分配器
@@ -1491,7 +1495,9 @@ zh-CN:
         button_delete_token: 删除令牌
         button_save: 保存配置
         delete_token_confirm: 确定要删除令牌吗？这将禁用 Jira 连接。
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: 名称
           personal_access_token: 个人访问令牌
           url: Jira 服务器/数据中心 URL
@@ -2050,6 +2056,8 @@ zh-CN:
         roles:
           other: "%{count} roles selected"
         title: 选择角色
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: 状态
       statuses_dialog:
         caption: 添加或移除您想要关联到此类型的状态。移除状态也会删除与之关联的工作流。
@@ -2103,7 +2111,7 @@ zh-CN:
     deleted_by_admin: 管理员已删除被隔离的文件 "%{filename}"。
     deleted_message: 在文件 "%{filename}"中检测到病毒。该文件已被删除。
     not_processed_yet_message: 下载被阻止，因为尚未对文件进行病毒扫描。请稍后再试。
-    overridden_by_admin: '%{user}解除了文件 "%{filename}"的隔离。现在可以访问该文件了。'
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: 容器
       delete: 删除被隔离的文件
@@ -3782,6 +3790,7 @@ zh-CN:
   label_deleted_custom_field: "（删除自定义字段）"
   label_deleted_custom_item: "(删除项目)"
   label_deleted_custom_option: "（删除的选项）"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: 组织
   label_departments_description_html: '通过按层级创建部门和子部门来定义公司结构。这样可以反映汇报关系，并在 OpenProject 中保持清晰、结构分明的组织概览。您还可以通过 [LDAP 部门同步](ldap_docs_article)导入现有组织结构。
@@ -4002,7 +4011,7 @@ zh-CN:
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
   label_my_security: 安全性
-  label_my_work: My work
+  label_my_time: My time
   label_name: 名称
   label_never: 永不
   label_new: 新增
@@ -4440,7 +4449,7 @@ zh-CN:
       start_tls: STARTTLS
       start_tls_description: 连接到标准LDAP端口后发送STARTTLS命令。推荐用于加密连接。
     tls_options:
-      tls_certificate_description: 如果LDAP服务器证书不在此系统的信任源中，您可以在此手动添加它。输入PEM X509证书字符串。
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: 验证SSL证书
       verify_peer_description_html: '允许严格的 SSL 验证证书信任链。 <br> <strong>警告:</strong> 取消选中此选项将禁用 SSL 验证 LDAP 服务器证书。这会使您的连接暴露于中间人攻击之下。
 
@@ -5576,6 +5585,12 @@ zh-CN:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: 目前没有可用的自定义字段。
       forums:
         no_results_content_text: 创建新论坛
@@ -5705,6 +5720,18 @@ zh-CN:
       sidebar_content_title: 目录
       success: 项目特性已保存，工件工作包已成功创建。
       title: 项目启动请求
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: 应用预配置筛选器
     configure_view:
@@ -6155,7 +6182,7 @@ zh-CN:
         description_html: '选择防病毒扫描程序集成的运行模式。<br/> <ul> <li><strong>%{disabled_option}</strong>：不对上传的文件进行病毒扫描。</li> <li><strong>%{socket_option}</strong>：您已经在与 OpenProject 相同的服务器上设置了 ClamAV，并且扫描守护程序 clamd 正在后台运行。</li> <li><strong>%{host_option}</strong>：您正在将文件流式传输到外部病毒扫描主机。</li> </ul>
 
           '
-      remaining_quarantined_files_html: '病毒扫描已禁用。%{file_count} 个文件仍在隔离区。要查看被隔离的文件，请访问此链接：%{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: '病毒扫描已成功启用。之前上传的 %{file_count} 仍需扫描。此过程已在后台安排。扫描期间，文件仍可访问。
@@ -6474,7 +6501,6 @@ zh-CN:
       sentence_connector: 和
       skip_last_comma: 非
   text_access_token_hint: 访问令牌允许你授予外部应用程序对 OpenProject 资源的访问权限。
-  text_accessibility_hint: 辅助功能模式设计用于失明、具有行动障碍或视力不佳的用户。为视力不佳的用户特别突出显示关注的元素。请注意，此模式不支持待办清单模块。
   text_analyze: 进一步分析： %{subject}
   text_are_you_sure: 是否确定？
   text_are_you_sure_continue: 确定要继续吗？
@@ -6672,6 +6698,27 @@ zh-CN:
   tree_view:
     label_empty_sub_tree: 没有项目
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: 比较变体
       blankslate:
@@ -6716,12 +6763,6 @@ zh-CN:
       add_variant: 将变体添加到 %{name}
       create_type: 创建类型
       create_variant: 创建变体
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: 对“%{type}”的此配置命名。工作包仍继续使用“%{type}”。
       finish: 完成
@@ -6769,8 +6810,10 @@ zh-CN:
           caption: 使用引用的特性和文本定义模式，以自动生成工作包主题。用户将无法手动编辑主题。
           label: 自动生成的主题
         description:
-          caption: 添加文本，该文本将添加到所有此类型的新工作包的描述字段中。
-          label: 默认描述文本
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: 用户可以不受限制地手动输入和编辑工作包主题。
           label: 可手动编辑的主题
@@ -6807,7 +6850,6 @@ zh-CN:
             label: 关闭
           section_title: 工件自动导出
           unavailable: 不可用，未配置自动管理的 Nextcloud 存储空间
-        intro: 为此类型选择模板。模板决定此类型工作包导出的PDF的设计和可见属性。默认选择列表上的第一个模板。
         pdf_export_templates:
           actions:
             label_disable_all: 全部禁用
@@ -6892,7 +6934,6 @@ zh-CN:
           manual:
             description: 在您[创建项目特性](administration_url)后，这些特性将显示在此处，并且可以添加到类型中。
             title: 没有可用的项目特性
-        description: 选择您希望为此工作包类型启用的项目特性。启用的项目特性将显示在此类型工作包的一个单独的选项卡中；拥有必要权限的用户可以在其中查看和编辑这些特性。
         disabled: 已禁用
         exclusions:
           attribute_label: 继承 %{attribute}
@@ -6911,10 +6952,12 @@ zh-CN:
         empty_state:
           description: 添加一个项目以在其中使用此配置。
           no_results: 没有匹配的项目。
+          title: Not used in any project yet
         enable_all: 对所有项目启用
         select_projects: 选择项目
         select_projects_description: 选择您想要使用此类型的项目。
         tab: 项目
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -6986,6 +7029,9 @@ zh-CN:
 
             '
           title: 此类型不存在变体
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: 在 %{project} 中创建
         delete:
           description: ‌在删除此变体前，使用此变体的所有项目将切换至您在下方选择的变体。
@@ -7017,6 +7063,7 @@ zh-CN:
         confirm: 转换
         text: 使用此名称的全局变体已存在。请使用其他名称。
         title: 为此变体选择其他名称
+      created_by_migration: Migrated
       delete:
         description: 此类型将永久删除。此操作无法撤消。
         description_with_variants: 此类型及其所有变体将永久删除。此操作无法撤消。
@@ -7030,8 +7077,14 @@ zh-CN:
       duplicate_name: "%{name} 的副本"
       duplicate_notice: "%{name} 重复。"
       enabled_in_new_projects: 在新项目中有效
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: 在新项目中激活
       make_default_notice: "%{name} 现已在新项目中激活。"
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: 创建新的类型
       no_results_title_text: 目前没有类型。
       project_variants_count:
@@ -7700,6 +7753,17 @@ zh-CN:
             other: 已成功将工作流复制到 %{count} 个角色。
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

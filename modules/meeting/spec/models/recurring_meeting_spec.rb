@@ -158,6 +158,15 @@ RSpec.describe RecurringMeeting,
         expect(subject.next_occurrence).to be_nil
       end
     end
+
+    it "recomputes the first occurrence after the schedule changes" do
+      expect(subject.first_occurrence).to eq Time.zone.tomorrow + 10.hours
+
+      subject.start_time = Time.zone.tomorrow + 1.day + 10.hours
+      subject.validate
+
+      expect(subject.first_occurrence).to eq Time.zone.tomorrow + 1.day + 10.hours
+    end
   end
 
   describe "working_days schedule" do
