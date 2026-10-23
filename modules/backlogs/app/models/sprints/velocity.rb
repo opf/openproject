@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
+module Sprints
   class Velocity
     SPRINT_COUNT = 7
 
