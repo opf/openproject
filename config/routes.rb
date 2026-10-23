@@ -494,9 +494,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # Demo only (AI-126): AI action menu in the description editor and the result pane.
+  # Demo only (AI-126): the result pane the editor's Assistant button requests.
   namespace :ai do
-    resource :text_transform_menu, only: :show
     resources :text_transform_panes, only: %i[create show destroy], param: :uuid do
       member do
         post :apply

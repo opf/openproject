@@ -67,7 +67,7 @@ module AI
       end
 
       def text
-        completed = events.reverse.find { |event| event.kind == "completed" }
+        completed = events.rfind { |event| event.kind == "completed" }
         return completed.payload["text"].to_s if completed
 
         events.select { |event| event.kind == "text_delta" }.sum("") { |event| event.payload["delta"].to_s }
@@ -96,7 +96,7 @@ module AI
       end
 
       def error_event
-        events.reverse.find { |event| event.kind == "error" }
+        events.rfind { |event| event.kind == "error" }
       end
     end
   end

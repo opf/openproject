@@ -33,7 +33,7 @@ import {
   AI_TEXT_TRANSFORM_APPLY_EVENT,
   AiTextTransformAppliedDetail,
   AiTextTransformApplyDetail,
-} from 'core-stimulus/controllers/dynamic/ai-text-transform-menu.controller';
+} from 'core-app/core/ai-actions/ai-text-transform-events';
 
 const POLL_MIN = 400;
 const POLL_MAX = 1000;
