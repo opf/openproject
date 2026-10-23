@@ -30,12 +30,23 @@
 module Admin
   module Settings
     class WorkPackageCustomFieldsController < CustomFieldsBaseController
+      include PaginationHelper
+
       menu_item :work_package_custom_fields
 
       def index
         super
 
         @project_counts = WorkPackageCustomField.project_counts
+      end
+
+      def projects
+        return render_404 if @custom_field.project_specific_value_restriction.nil?
+
+        @type_ids_by_project_id = @custom_field.type_ids_by_project_id
+        @projects = Project.where(id: @type_ids_by_project_id.keys)
+                           .order(:name)
+                           .paginate(page: page_param, per_page: per_page_param)
       end
 
       protected
