@@ -104,6 +104,13 @@ ul.SegmentedControl,
   svg
     align-self: center
 
+// The StatusButtonComponent overrides the icon color when it’s an IconButton.
+// This makes sure the icon takes the color we set when we use it in the
+// PhaseStatusButton
+.op-phase-status-button
+  svg.Button-visual
+    color: inherit
+
 // Prototypical CKEditor adjustments to better match Primer styles
 .ck-editor-primer-adjusted
   .ck-toolbar

@@ -43,7 +43,7 @@ RSpec.describe Overviews::ProjectPhases::ShowComponent, type: :component do
   current_user { user }
 
   subject(:rendered_component) do
-    render_component(project:)
+    render_component(project:, user:)
   end
 
   it "renders a section" do

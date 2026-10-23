@@ -110,5 +110,37 @@ module OpPrimer
 
       render(component)
     end
+
+    # See the [component documentation](/lookbook/pages/components/status_button) for more details.
+    # @display min_height 100px
+    def icon_only(size: :medium)
+      status = OpPrimer::StatusButtonOption.new(name: "Open",
+                                                color_ref: :open,
+                                                color_namespace: :meeting_status,
+                                                icon: :unlock)
+
+      items = [
+        status,
+        OpPrimer::StatusButtonOption.new(name: "Closed",
+                                         color_ref: :closed,
+                                         color_namespace: :meeting_status,
+                                         icon: :lock)
+      ]
+
+      component = OpPrimer::StatusButtonComponent.new(current_status: status,
+                                                      items: items,
+                                                      readonly: false,
+                                                      button_arguments: {
+                                                        size:,
+                                                        title: "foo",
+                                                        icon_only: true,
+                                                        scheme: :invisible,
+                                                        style: :foreground,
+                                                        icon: :"check-circle",
+                                                        "aria-label": "bar"
+                                                      })
+
+      render(component)
+    end
   end
 end

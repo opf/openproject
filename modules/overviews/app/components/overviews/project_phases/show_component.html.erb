@@ -9,12 +9,13 @@
       section.with_title { t("label_life_cycle_step_plural") }
 
       flex_layout do |details_container|
-        @phases.each_with_index do |life_cycle_step, i|
+        @phases.each_with_index do |phase, i|
           margin = i == @phases.size - 1 ? 0 : 3
           details_container.with_row(mb: margin) do
             render(
               Overviews::ProjectPhases::ItemComponent.new(
-                life_cycle_step
+                phase: phase,
+                user: @user
               )
             )
           end
