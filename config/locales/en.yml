@@ -2825,6 +2825,8 @@ en:
       multi_select:
         all: "Allows the user to assign multiple values to this custom field."
         project: "Allows the user to assign multiple values to this attribute."
+      project_specific_value_restriction:
+        all: "Only the values enabled for a project can be used in its work packages. Values are enabled in the project settings."
       regexp:
         all: "eg. ^[A-Z0-9]+$"
         project: "eg. ^[A-Z0-9]+$"

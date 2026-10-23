@@ -181,6 +181,17 @@ module CustomFields
         )
       end
 
+      if show_project_specific_value_restriction_field?
+        details_form.check_box(
+          name: :project_specific_value_restriction,
+          label: label(:project_specific_value_restriction),
+          caption: instructions(:project_specific_value_restriction),
+          value: "allow",
+          unchecked_value: "",
+          checked: model.project_specific_value_restriction_allow?
+        )
+      end
+
       if show_is_filter_field?
         details_form.check_box(
           name: :is_filter,
@@ -307,6 +318,10 @@ module CustomFields
 
     def show_is_filter_field?
       model.is_a?(WorkPackageCustomField)
+    end
+
+    def show_project_specific_value_restriction_field?
+      model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
     end
 
     def show_is_searchable_field?

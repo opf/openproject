@@ -30,7 +30,7 @@
 require "rails_helper"
 
 format_cases = {
-  WorkPackageCustomField => %w[hierarchy],
+  WorkPackageCustomField => %w[hierarchy list weighted_item_list string],
   TimeEntryCustomField => %w[text date float user version string bool list int],
   VersionCustomField => %w[text date float int user bool string list version],
   GroupCustomField => %w[text date float int bool list string],
@@ -48,6 +48,9 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       custom_field_section_id: ->(model) { model.is_a?(ProjectCustomField) || model.is_a?(UserCustomField) },
       has_comment: ->(model) { model.is_a?(ProjectCustomField) },
       is_filter: ->(model) { model.is_a?(WorkPackageCustomField) },
+      project_specific_value_restriction: lambda { |model|
+        model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+      },
       content_right_to_left: ->(model) { model.is_a?(WorkPackageCustomField) && model.field_format == "text" },
       editable: ->(model) { model.is_a?(UserCustomField) },
       visible_on_user_card: ->(model) { model.is_a?(UserCustomField) },
@@ -134,6 +137,17 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
           end
         end
       end
+    end
+  end
+
+  context "with a WorkPackageCustomField with project-specific values" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+    let(:model) { model_class.new(field_format:, project_specific_value_restriction: "allow") }
+
+    it "renders the project-specific values checkbox checked" do
+      expect(page).to have_checked_field(I18n.t("activerecord.attributes.custom_field.project_specific_value_restriction"),
+                                         with: "allow")
     end
   end
 end
