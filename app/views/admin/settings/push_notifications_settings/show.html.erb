@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.verify_reachability_description") } %>
     <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
     <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4, mb: 0)) do %>
-      <% OpenProject::WebPush.push_service_hosts.each do |host| %>
+      <% OpenProject::WebPush::ReachabilityCheck.hosts.each do |host| %>
         <% result = @reachability&.find { |candidate| candidate.host == host } %>
         <li>
           <code><%= host %></code>

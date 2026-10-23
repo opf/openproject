@@ -88,16 +88,16 @@ The vendor push services (Google, Mozilla, Microsoft, Apple) do see the followin
 
 ### Network requirements
 
-The instance must be able to reach the following hosts over HTTPS:
+The instance must be able to reach, over HTTPS, the push service of every browser your users use. The common ones are:
 
-- `fcm.googleapis.com`
-- `notify.windows.com`
-- `updates.push.services.mozilla.com`
-- `push.apple.com`
+- `fcm.googleapis.com` for Chrome and other Chromium browsers
+- `notify.windows.com` for Edge on Windows
+- `updates.push.services.mozilla.com` for Firefox
+- `push.apple.com` for Safari
 
-Subdomains of these hosts are included. Operators can extend the list with the `OPENPROJECT_WEB__PUSH__SERVICE__HOSTS` environment variable, as a comma separated list of hosts.
+Other browsers bring their own push service. OpenProject contacts whichever one the browser subscribed through.
 
-Click **Verify reachability** to test this from the instance. The results show **Reachable** or **Unreachable** for each host, with a reason for every host that cannot be reached.
+Click **Verify reachability** to test this from the instance. The results cover the services above and every service an existing subscription uses, showing **Reachable** or **Unreachable** for each, with a reason for every one that cannot be reached.
 
 Air-gapped instances cannot use browser notifications. Allowing them does no harm there; nothing is sent until a user turns them on for a device.
 

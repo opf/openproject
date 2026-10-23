@@ -30,7 +30,10 @@
 
 module OpenProject::WebPush
   class ReachabilityCheck
-    SAMPLE_HOSTS = {
+    # The apex of apple and windows does not resolve, so a subdomain that answers stands in for it.
+    KNOWN_SERVICES = {
+      "fcm.googleapis.com" => "fcm.googleapis.com",
+      "updates.push.services.mozilla.com" => "updates.push.services.mozilla.com",
       "push.apple.com" => "web.push.apple.com",
       "notify.windows.com" => "wns2-par02p.notify.windows.com"
     }.freeze
@@ -41,11 +44,16 @@ module OpenProject::WebPush
     end
 
     def self.call = new.call
+    def self.hosts = new.hosts
+
+    def hosts
+      known = KNOWN_SERVICES.map { |service, sample| stored_hosts.find { under?(it, service) } || sample }
+      known + stored_hosts.reject { |host| KNOWN_SERVICES.each_key.any? { under?(host, it) } }
+    end
 
     def call
-      targets = OpenProject::WebPush.push_service_hosts.map { |host| [host, *probe_target(host)] }
-      threads = targets.map do |host, url, sample|
-        Thread.new { Rails.application.executor.wrap { probe(host, url, sample) } }
+      threads = hosts.map do |host|
+        Thread.new { Rails.application.executor.wrap { probe(host) } }
       end
 
       # Waiting on the probes while holding the load interlock would block a code reload,
@@ -55,26 +63,21 @@ module OpenProject::WebPush
 
     private
 
-    def probe_target(host)
-      stored_host = stored_endpoint_host(host)
-      return [probe_url(stored_host), false] if stored_host
-
-      sample_host = SAMPLE_HOSTS[host]
-      [probe_url(sample_host || host), sample_host.present?]
+    def stored_hosts
+      @stored_hosts ||= PushSubscription.endpoint_hosts
     end
 
-    def probe_url(host)
-      URI::HTTPS.build(host:, path: "/").to_s
+    def under?(host, service)
+      host == service || host.end_with?(".#{service}")
     end
 
-    def stored_endpoint_host(host)
-      endpoint = PushSubscription.under_host(host).order(:id).pick(:endpoint)
-      URI(endpoint).host if endpoint
+    def sample?(host)
+      KNOWN_SERVICES.any? { |service, sample| sample == host && service != host } && stored_hosts.exclude?(host)
     end
 
-    def probe(host, url, sample)
+    def probe(host)
       response = OpenProject::SsrfProtection.head(
-        url,
+        URI::HTTPS.build(host:, path: "/").to_s,
         max_redirects: 0,
         allow_unfollowed_redirects: true,
         http_options: { open_timeout: TIMEOUT, read_timeout: TIMEOUT, write_timeout: TIMEOUT }
@@ -83,7 +86,7 @@ module OpenProject::WebPush
     rescue Timeout::Error
       unreachable(host, :timeout)
     rescue SsrfFilter::UnresolvedHostname
-      unreachable(host, sample ? :sample_unresolved : :unresolved)
+      unreachable(host, sample?(host) ? :sample_unresolved : :unresolved)
     rescue SsrfFilter::PrivateIPAddress
       unreachable(host, :private_address)
     rescue SsrfFilter::Error
