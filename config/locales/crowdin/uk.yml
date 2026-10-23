@@ -635,10 +635,10 @@ uk:
         odd: має бути непарним.
         overlapping_range: збігається з наявним діапазоном неробочих днів.
         regex_invalid: неможливо перевірити з відповідним регулярним виразом.
-        replacement_workflow_invalid: The selected replacement must be another available workflow.
-        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
         smaller_than_or_equal_to_max_value: має бути менше або дорівнювати максимальному значенню.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
@@ -4490,7 +4490,7 @@ uk:
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
   label_my_security: Безпека
-  label_my_work: My work
+  label_my_time: My time
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -6250,6 +6250,18 @@ uk:
       sidebar_content_title: Зміст
       success: Атрибути проєкту збережено, пакет робіт артефакту успішно створено.
       title: Запит на ініціювання проєкту
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
     configure_view:
@@ -8365,19 +8377,19 @@ uk:
       new:
         dialog_title: Copy workflow of "%{source}"
     delete:
-      title: Delete workflow %{name}?
-      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
         few: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
         many: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
       replace_placeholder: Select a workflow
-      replace_caption: The selected workflow will be applied to all types and variants listed above.
-      confirmation_checkbox_label: I understand that this action is not reversible.
-      button: Delete workflow
-      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: Новий робочий процес починається з копії переходів статусу цього робочого процесу.

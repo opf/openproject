@@ -635,10 +635,10 @@ zh-TW:
         odd: 必須是奇數
         overlapping_range: overlaps with an existing non-working day range.
         regex_invalid: 不能被相關聯的正則運算式驗證。
-        replacement_workflow_invalid: The selected replacement must be another available workflow.
-        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: "%{invalid_lines} 行無法解析為正規表示式。"
         regex_match_failed: 與正則表達式 %{expression} 不匹配。
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: 必須小於或等於最大長度。
         smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
@@ -4017,7 +4017,7 @@ zh-TW:
   label_my_avatar: 我的大頭貼
   label_my_queries: 我的自訂查詢
   label_my_security: Security
-  label_my_work: My work
+  label_my_time: My time
   label_name: 名稱
   label_never: 無
   label_new: 新增
@@ -5728,6 +5728,18 @@ zh-TW:
       sidebar_content_title: 內容
       success: Project attributes saved and artefact work package created successfully.
       title: 專案啟動請求
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: 套用篩選條件
     configure_view:
@@ -7755,16 +7767,16 @@ zh-TW:
       new:
         dialog_title: Copy workflow of "%{source}"
     delete:
-      title: Delete workflow %{name}?
-      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       body_in_use:
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
       replace_placeholder: Select a workflow
-      replace_caption: The selected workflow will be applied to all types and variants listed above.
-      confirmation_checkbox_label: I understand that this action is not reversible.
-      button: Delete workflow
-      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

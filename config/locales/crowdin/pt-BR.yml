@@ -635,10 +635,10 @@ pt-BR:
         odd: deve ser ímpar.
         overlapping_range: sobrepõe-se a um período já existente de dias não úteis.
         regex_invalid: não pode ser validado com a expressão regular associada.
-        replacement_workflow_invalid: The selected replacement must be another available workflow.
-        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
         smaller_than_or_equal_to_max_value: deve ser menor ou igual ao valor máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
@@ -4172,7 +4172,7 @@ pt-BR:
   label_my_avatar: Meu avatar
   label_my_queries: Minhas consultas personalizadas
   label_my_security: Segurança
-  label_my_work: My work
+  label_my_time: My time
   label_name: Nome
   label_never: Nunca
   label_new: Novo
@@ -5900,6 +5900,18 @@ pt-BR:
       sidebar_content_title: Conteúdo
       success: Atributos do projeto salvos e pacote de trabalho do artefato criado com sucesso.
       title: Solicitação de início de projeto
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Aplicar filtro pré-configurado
     configure_view:
@@ -7945,17 +7957,17 @@ pt-BR:
       new:
         dialog_title: Copy workflow of "%{source}"
     delete:
-      title: Delete workflow %{name}?
-      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
       replace_placeholder: Select a workflow
-      replace_caption: The selected workflow will be applied to all types and variants listed above.
-      confirmation_checkbox_label: I understand that this action is not reversible.
-      button: Delete workflow
-      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.
