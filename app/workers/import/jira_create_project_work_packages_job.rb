@@ -201,9 +201,9 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def create_status(jira_issue)
+      issue_status = jira_issue.payload["fields"]["status"]
       Rails.logger.tagged("jira_object_type:status", "jira_object_id_or_name:#{issue_status['name']}") do
         Rails.logger.debug "Creating status"
-        issue_status = jira_issue.payload["fields"]["status"]
         resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
         status, uses_existing = find_or_create_status(issue_status, resolution)
 
@@ -255,6 +255,7 @@ module Import
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
       return if issue_priority.blank?

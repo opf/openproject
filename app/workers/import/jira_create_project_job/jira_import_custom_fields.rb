@@ -379,7 +379,6 @@ module Import
         custom_field
       end
 
-      # rubocop:disable-next Metrics/AbcSize
       def create_custom_field(jira_field, builder)
         name, field_format = builder.custom_field_settings
         custom_field = create_work_package_custom_field(
@@ -394,7 +393,7 @@ module Import
       end
 
       def create_work_package_custom_field(error_name:, **params)
-        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{name}") do
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{params[:name]}") do
           Rails.logger.debug "Creating custom field"
           service_call = CustomFields::CreateService
             .new(user: @system_user)
