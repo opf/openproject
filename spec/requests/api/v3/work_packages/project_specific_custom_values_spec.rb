@@ -97,6 +97,23 @@ RSpec.describe "API v3 work packages with project-specific custom field values",
     end
   end
 
+  context "when the stored value is disabled after the work package was rendered" do
+    let(:stored_values) { option_a.id.to_s }
+
+    it "renders the value as undisclosed instead of serving the cached representation" do
+      get path
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.custom_option(option_a.id).to_json).at_path("_links/#{link_name}/href")
+
+      CustomFields::ProjectSpecificValues::SetService
+        .new(user: current_user, model: custom_field)
+        .call(project:, value: option_a, enabled: false)
+
+      get path
+      expect(last_response.body).to be_json_eql(API::V3::URN_UNDISCLOSED.to_json).at_path("_links/#{link_name}/href")
+    end
+  end
+
   context "for a multi-select field with stored values of which one is no longer available" do
     let(:multi_value) { true }
     let(:stored_values) { [option_a.id.to_s, option_b.id.to_s] }
