@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { WorkPackage } from '../../openProjectTypes';
-import { linkToWorkPackage } from '../../services/openProjectApi';
+import { linkToWorkPackage } from '../../services/openProjectApi/workPackages';
 import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
 import { defaultWpVariables, menuSurfaceStyles } from './atoms';

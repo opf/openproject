@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
-import { OpenProjectApiError, fetchWorkPackage } from '../services/openProjectApi';
+import { OpenProjectApiError } from '../services/openProjectApi/errors';
+import { fetchWorkPackage } from '../services/openProjectApi/workPackages';
 
 const workPackageCache:Record<number, WorkPackage> = {};
 
