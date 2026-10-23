@@ -59,6 +59,6 @@ module OpenProject::ITSM
       end
     end
 
-    patches %i[Project]
+    include_module "Projects::HelpdeskMailboxes", into: "Project"
   end
 end

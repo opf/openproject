@@ -27,10 +27,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::ITSM::Patches::ProjectPatch
+module Projects::HelpdeskMailboxes
   extend ActiveSupport::Concern
 
   included do
-    has_many :itsm_mailboxes, class_name: "ITSM::Mailbox", inverse_of: :project, dependent: :destroy
+    has_many :helpdesk_mailboxes, class_name: "ITSM::Mailbox", inverse_of: :project, dependent: :destroy
   end
 end
