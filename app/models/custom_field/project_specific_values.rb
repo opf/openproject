@@ -38,8 +38,12 @@ module CustomField::ProjectSpecificValues
              dependent: :delete_all
   end
 
+  def restrictable_values
+    list? ? custom_options : hierarchy_root.descendants
+  end
+
   def usable_values_in(project)
-    values = list? ? custom_options : hierarchy_root.descendants
+    values = restrictable_values
     return values if project_specific_value_restriction.nil?
 
     listed = project_specific_value_restrictions.where(project:, restriction: project_specific_value_restriction)
