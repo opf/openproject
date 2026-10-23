@@ -574,7 +574,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         it_behaves_like "has a titled link" do
           let(:link) { cf_path }
           let(:href) { API::V3::URN_UNDISCLOSED }
-          let(:title) { I18n.t(:"api_v3.undisclosed.customValue") }
+          let(:title) { I18n.t(:label_custom_value_no_longer_available) }
         end
       end
 
