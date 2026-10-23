@@ -30,6 +30,7 @@ import { updateObjectUrlPreview } from 'core-app/shared/helpers/images/object-ur
 import { setInputFiles } from 'core-app/shared/helpers/dom-helpers';
 
 const DRAGGING_OVER = 'FormControl-file-field-drop-zone--dragging-over';
+const DRAGGING_OVER_FORBIDDEN = 'FormControl-file-field-drop-zone--dragging-over-forbidden';
 const HAS_PREVIEW = 'FormControl-file-field-wrap--has-preview';
 
 export default class FileFieldController extends Controller<HTMLElement> {
@@ -53,19 +54,26 @@ export default class FileFieldController extends Controller<HTMLElement> {
 
   dragOver(event:DragEvent):void {
     event.preventDefault();
-    this.dropBoxTarget.classList.add(DRAGGING_OVER);
+
+    const accepted = this.isAcceptedType(event.dataTransfer?.items?.[0]?.type);
+    this.dropBoxTarget.classList.toggle(DRAGGING_OVER, accepted);
+    this.dropBoxTarget.classList.toggle(DRAGGING_OVER_FORBIDDEN, !accepted);
+
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = accepted ? 'copy' : 'none';
+    }
   }
 
   dragLeave():void {
-    this.dropBoxTarget.classList.remove(DRAGGING_OVER);
+    this.dropBoxTarget.classList.remove(DRAGGING_OVER, DRAGGING_OVER_FORBIDDEN);
   }
 
   dropFile(event:DragEvent):void {
     event.preventDefault();
-    this.dropBoxTarget.classList.remove(DRAGGING_OVER);
+    this.dropBoxTarget.classList.remove(DRAGGING_OVER, DRAGGING_OVER_FORBIDDEN);
 
     const file = event.dataTransfer?.files?.[0];
-    if (!file) { return; }
+    if (!file || !this.isAcceptedFile(file)) { return; }
 
     // A drop lands on the drop zone, not the hidden input, but only the input's value gets
     // submitted — so we copy the file onto it. Firing a real 'change' event (instead of calling
@@ -73,6 +81,43 @@ export default class FileFieldController extends Controller<HTMLElement> {
     // listeners on the input, e.g. auto-submit, run as well.
     setInputFiles(this.fileTarget, file);
     this.fileTarget.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  private acceptPatterns():string[] {
+    return this.fileTarget.accept
+      .split(',')
+      .map((pattern) => pattern.trim())
+      .filter(Boolean);
+  }
+
+  // Unlike choosing a file through the native picker, a browser never filters a drag-and-drop
+  // payload against the input's `accept` attribute, so we have to check it ourselves.
+  private isAcceptedFile(file:File):boolean {
+    const patterns = this.acceptPatterns();
+    if (patterns.length === 0) { return true; }
+
+    return patterns.some((pattern) => {
+      if (pattern.startsWith('.')) {
+        return file.name.toLowerCase().endsWith(pattern.toLowerCase());
+      }
+
+      return this.matchesMimePattern(pattern, file.type);
+    });
+  }
+
+  // During dragover the browser only exposes the dragged item's MIME type (guessed from its
+  // extension), never the File itself — the name is withheld until drop. So an accept pattern
+  // that is itself an extension (e.g. ".ttf") can't be checked yet; we stay permissive for those
+  // and let dropFile's isAcceptedFile do the authoritative check once the file is known.
+  private isAcceptedType(type?:string):boolean {
+    const typePatterns = this.acceptPatterns().filter((pattern) => !pattern.startsWith('.'));
+    if (typePatterns.length === 0) { return true; }
+
+    return !!type && typePatterns.some((pattern) => this.matchesMimePattern(pattern, type));
+  }
+
+  private matchesMimePattern(pattern:string, type:string):boolean {
+    return pattern.endsWith('/*') ? type.startsWith(pattern.slice(0, -1)) : type === pattern;
   }
 
   fileChosen():void {

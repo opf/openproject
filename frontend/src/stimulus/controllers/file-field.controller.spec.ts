@@ -32,6 +32,7 @@ import type FileFieldControllerType from './file-field.controller';
 
 const IDENTIFIER = 'file-field';
 const DRAGGING_OVER = 'FormControl-file-field-drop-zone--dragging-over';
+const DRAGGING_OVER_FORBIDDEN = 'FormControl-file-field-drop-zone--dragging-over-forbidden';
 const HAS_PREVIEW = 'FormControl-file-field-wrap--has-preview';
 
 describe('File field controller', () => {
@@ -50,10 +51,11 @@ describe('File field controller', () => {
     ctx.dispose();
   });
 
-  async function mount() {
+  async function mount(accept = '') {
     await ctx.mount(`
       <div data-controller="${IDENTIFIER}">
         <input type="file" hidden
+               accept="${accept}"
                data-${IDENTIFIER}-target="file"
                data-action="change->${IDENTIFIER}#fileChosen">
 
@@ -165,6 +167,88 @@ describe('File field controller', () => {
     await ctx.nextFrame();
 
     expect(changeListener).toHaveBeenCalledOnce();
+  });
+
+  describe('restricting dropped files to the accept attribute', () => {
+    it('ignores a dropped file that does not match an image/* accept pattern', async () => {
+      await mount('image/*');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      await ctx.nextFrame();
+
+      expect(fileInput().files?.length).toEqual(0);
+      expect(target('filename').textContent).toEqual('Upload file');
+    });
+
+    it('accepts a dropped file that matches an exact MIME type in a comma-separated list', async () => {
+      await mount('image/png, image/jpg');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(imageFile());
+
+      dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      await ctx.nextFrame();
+
+      expect(fileInput().files?.[0].name).toEqual('logo.png');
+    });
+
+    it('rejects a dropped file that does not match any exact MIME type in a comma-separated list', async () => {
+      await mount('image/png, image/jpg');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      await ctx.nextFrame();
+
+      expect(fileInput().files?.length).toEqual(0);
+    });
+  });
+
+  describe('previewing whether a dragged-over file will be accepted', () => {
+    it('grays out the drop zone and shows a forbidden cursor while hovering a file that does not match the accept attribute', async () => {
+      await mount('image/*');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      dropBox().dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }));
+
+      expect(dropBox().classList.contains(DRAGGING_OVER)).toBe(false);
+      expect(dropBox().classList.contains(DRAGGING_OVER_FORBIDDEN)).toBe(true);
+    });
+
+    it('highlights the drop zone while hovering a file that matches the accept attribute', async () => {
+      await mount('image/*');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(imageFile());
+
+      dropBox().dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }));
+
+      expect(dropBox().classList.contains(DRAGGING_OVER)).toBe(true);
+      expect(dropBox().classList.contains(DRAGGING_OVER_FORBIDDEN)).toBe(false);
+    });
+
+    it('stays permissive while hovering, since the dragged file\'s name is unknown before drop', async () => {
+      await mount('.ttf');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      dropBox().dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }));
+
+      expect(dropBox().classList.contains(DRAGGING_OVER)).toBe(true);
+      expect(dropBox().classList.contains(DRAGGING_OVER_FORBIDDEN)).toBe(false);
+    });
+
+    it('clears the forbidden styling on drag leave', async () => {
+      await mount('image/*');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+      dropBox().dispatchEvent(new DragEvent('dragover', { bubbles: true, cancelable: true, dataTransfer }));
+
+      dropBox().dispatchEvent(new DragEvent('dragleave', { bubbles: true, cancelable: true }));
+
+      expect(dropBox().classList.contains(DRAGGING_OVER_FORBIDDEN)).toBe(false);
+    });
   });
 
   describe('previewing an image', () => {

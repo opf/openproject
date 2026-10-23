@@ -47,6 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         type: "button",
         class: "FormControl-file-field-drop-zone",
         disabled: @input.disabled?,
+        "aria-label": label,
         data: {
           "file-field-target": "dropBox",
           action: "click->file-field#openFilePicker
