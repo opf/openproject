@@ -77,7 +77,7 @@ You can also add planned labor costs to a budget.
 
 Set the **hours**, **days**, **weeks** or **months** that will be planned for a user on this budget. The system converts the entered duration to hours based on the [number of hours defined per day](../../system-admin-guide/calendars-and-dates/#working-days-and-hours) in the system-wide settings. For example, if your system settings is set to eight hours per work day, entering 6d 2h results in a total of 50h.
 
-Add a **user** from the drop-down list.
+Add a **user** from the drop-down list. You can also select a group or a [placeholder user](../../system-admin-guide/users-permissions/placeholder-users/#hourly-rates), for example if you do not know yet who will do the work.
 
 You can include a **comment** for your planned labor costs if needed.
 

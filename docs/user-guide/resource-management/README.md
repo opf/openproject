@@ -189,7 +189,7 @@ The **Users timeline** groups planned work by user instead of by work package.
 
 > [!TIP]
 >
-> Resource planners do not include placeholder users. 
+> Resource planners do not include placeholder users.
 
 This view helps identify:
 
@@ -268,70 +268,127 @@ Select **Allocate resource** to create a new allocation.
 
 ![Allocation dialog displaying existing allocations for a work package](resource-management-planner-allocation-dialogue.png)
 
-You can allocate work by **User** or **Filter criteria**.
+In the **Allocate resource** dialog, specify:
 
-Select the desired option and then select **Next**.
-
-![Dialog for choosing whether to allocate by user or filter criteria](resource-management-planner-allocation-form-options.png)
-
-### Allocate by user
-
-Allocating work by **User** assigns planned hours to a specific project member.
-
-Specify:
-
-- **Assignee** – select a project member.
+- **Assignee** – select a project member or a [placeholder user](#allocate-to-a-placeholder-user).
 - **Work package** – this field is pre-filled when creating an allocation from a work package.
-- **Allocation dates** – if the selected dates fall outside the work package dates, OpenProject displays a warning.
+- **Dates** – if the selected dates fall outside the planned start and due dates on the work package, OpenProject displays a warning.
 - **Hours** – enter the planned number of hours.
 
 ![Allocation form for assigning planned hours to a user](resource-management-planner-allocation-form-user-option.png)
 
 Select **Allocate**.
 
-The new allocation is immediately displayed in the planner. Allocated hours and utilization are updated automatically. 
+The new allocation is immediately displayed in the planner. Allocated hours and utilization are updated automatically.
+
+The allocated user also sees the allocation on their [My work](../time-and-costs/my-work/#resource-allocations-in-my-work) page. OpenProject distributes the allocated hours over the user's working days within the allocation dates, so they can see how many hours per day they are expected to work on which work package. Time they log on the work package reduces the remaining hours.
 
 > [!TIP]
-> If the selected user is over-allocated, a warning message is displayed.
+> If the selected user would be allocated beyond their working hours, OpenProject asks you to confirm. Select **Allocate overtime** to save the allocation anyway and schedule overtime on the user or **Back** to change it.
 
-### Allocate by filter criteria
+### Allocate to a placeholder user
 
-Allocating work by **Filter criteria** creates a placeholder resource request based on user attributes instead of assigning work to a specific user.
+If you know which skills you need, but have not yet decided who will do the work, allocate the work to a [placeholder user](../../system-admin-guide/users-permissions/placeholder-users/). Placeholder users describe the kind of person you need with [criteria](../../system-admin-guide/users-permissions/placeholder-users/#placeholder-user-criteria), for example a job title or spoken languages.
 
-Specify one or more user attributes as filter criteria. For example, you can request a resource with a specific language, certification or other user attribute. For more information, see the [User attributes](../../system-admin-guide/users-permissions/user-attributes/) guide.
+Select the placeholder user in the **Assignee** field. Its criteria are displayed below the field.
 
-Enter a **Resource filter name** and select **Allocate**.
+![Allocation form with a placeholder user and its criteria](resource-management-planner-allocation-form-placeholder-option.png)
 
-![Allocation form for creating a resource request using filter criteria](resource-management-planner-allocation-form-filter-option.png)
+Only placeholder users with criteria can be selected. The allocation is listed in the [Staffing](#staffing) view until a user is assigned to it.
 
-The allocation is created as an open resource request in the [Staffing](#staffing) view, where it can later be assigned to a project member.
+If no suitable placeholder user exists yet, type its name in the **Assignee** field and select **Create placeholder user with filter criteria**. This option is available if you are allowed to create placeholder users.
 
+![Option to create a placeholder user from the allocation form](resource-management-planner-allocation-create-placeholder-option.png)
+
+In the **Create placeholder user** dialog, enter a **Name**, optionally a **Description**, and add at least one filter. Select **Create**. The new placeholder user is selected as the assignee of the allocation.
+
+![Dialog for creating a placeholder user with criteria](resource-management-create-placeholder-user-dialog.png)
+
+### Edit or delete an allocation
+
+To edit an allocation, open the **Allocation** dialog of the work package and select **Edit** from the **More** menu (...) next to the allocation. You can change the assignee, dates and hours. Select **Save**.
+
+If a user was assigned to the allocation in the [Staffing](#staffing) view, the dialog shows the placeholder user the allocation was staffed from. You can then only select users that match the criteria of this placeholder user.
+
+To delete an allocation, select **Delete** from the **More** menu (...) or in the edit dialog and confirm the deletion.
+
+## Allocations in work packages
+
+If the Resource management module is activated in a project, work packages show two additional attributes in the **Estimates and progress** section:
+
+- **Allocated** – the allocated hours compared to the work of the work package. The bar turns green when exactly the work is allocated and red when more is allocated.
+- **Allocated resources** – the users and placeholder users that work is allocated to.
+
+![Allocated and Allocated resources attributes of a work package](resource-management-work-package-allocation-attributes.png)
+
+Select one of these attributes to open the **Allocation** dialog. It lists all allocations of the work package with their hours. A red warning icon is displayed next to users who are allocated beyond their working hours. If no work is set for the work package, the dialog shows *No work planned on this work package*.
+
+From the **Allocation** dialog you can [create](#allocate-work), [edit or delete](#edit-or-delete-an-allocation) allocations.
+
+You can also create an allocation by selecting **Allocate resource** from the **More** menu of a work package or from the context menu in a work package table.
+
+> [!NOTE]
+> To see allocations you need the **View resource planners** permission. To create, edit or delete them you need the **Allocate user resources** permission.
 
 ## Staffing
 
-The **Staffing** view helps assign open resource requests to suitable project members.
+The **Staffing** view helps you assign users to work that was [allocated to placeholder users](#allocate-to-a-placeholder-user).
 
-Instead of assigning work directly to a specific user, you can first create a resource request based on user attributes or filter criteria. The Staffing view then helps you match these requests with suitable project members based on their availability, skills or other user attributes.
+To open it, select **Staffing** in the Resource management menu. You need the **Assign users to placeholder user allocations** permission.
 
-This is useful when you know which skills or role are required, but have not yet decided who will perform the work.
+The Staffing view lists all allocations in the project that are allocated to a placeholder user and do not have a user assigned yet. It displays:
 
-The Staffing view lists open resource requests that have not yet been assigned to a specific user. It displays:
-
-- resource request
+- resource (the placeholder user)
 - work package
-- requested hours
-- date range
+- dates
+- requested time
 
-![Staffing view listing open resource requests](resource-management-staffing-view.png)
+![Staffing view listing allocations of placeholder users](resource-management-staffing-view.png)
 
-Select the **More** menu (...) to:
+Select the **More** menu (...) and then **Assign user** to open the **Assign** dialog.
 
-- assign a user
-- edit the resource request
-- delete the resource request
+The **Assign** dialog shows the work package, the requested dates and time, and the criteria of the placeholder user. Below, it lists all project members that match the criteria together with their available hours in this period.
 
-![Assign dialog showing matching users for a resource request](resource-management-staffing-assign-form.png)
+![Assign dialog showing matching users for a placeholder user allocation](resource-management-staffing-assign-form.png)
 
-The **Assign** dialog lists all available users matching the selected filter criteria together with their remaining available capacity.
+Select a user and then select **Assign**. If the user would be allocated beyond their working hours, OpenProject asks you to confirm with **Assign anyway**.
 
-Select a user and then select **Assign** to assign the resource request.
+The allocation is now assigned to the user and removed from the Staffing view. The placeholder user stays recorded on the allocation, so you can see what was originally requested.
+
+## Global resource planners
+
+Besides resource planners within a project, you can create **global resource planners**. They let you plan resources and allocations across several projects.
+
+To open them, select **Resource management** from the [global modules](../home/global-modules/) menu.
+
+![Global resource planners overview](resource-management-global-planners.png)
+
+To create a global resource planner, select **+ Resource planner**. The form is the same as for [project resource planners](#create-a-resource-planner).
+
+Global resource planners differ from project resource planners in the following ways:
+
+- Work package views can be filtered by **Project** to choose which projects to plan across. Manually hand-picked views let you add work packages from all projects with the Resource management module activated.
+- The work package views show an additional **Project** column.
+- User views let you add any user you are allowed to see, not only members of one project.
+- When you allocate work, the allocation belongs to the project of the selected work package. Only members of that project can be selected as assignee.
+
+![Work packages list of a global resource planner showing work packages from several projects](resource-management-global-planner-work-packages-list.png)
+
+You only see the projects, users and allocations you are allowed to see.
+
+### Global staffing
+
+The global Resource management menu also contains a **Staffing** view. It lists the open placeholder user allocations of all projects in which you can assign users, grouped by project.
+
+![Global staffing view grouped by project](resource-management-global-staffing.png)
+
+Assigning a user works the same way as in the [project Staffing](#staffing) view. Only members of the allocation's project can be assigned.
+
+### Permissions for global resource planners
+
+Global resource planners use two global permissions:
+
+- **View global resource planners** – allows users to open the global Resource management section, create their own global resource planners and view public ones.
+- **Manage public global resource planners** – allows users to make their global resource planners public and to manage public global resource planners of other users.
+
+For more information, see [Roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
