@@ -63,4 +63,34 @@ describe('RelationsRenderPass', () => {
     expect(childRow.dataset.workPackageId).toBe('3');
     expect(childRow.dataset.occurrenceKey).toBe('relation:children:1:3');
   });
+
+  it('assigns semantic levels to every occurrence', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+    });
+    harness.expand('1', 'relationsOfTypeFollows');
+
+    await harness.render();
+
+    expect(harness.table.ledger.byKey('wp:1')!.level).toBe(1);
+    expect(harness.table.ledger.byKey('relation:ofType:1:2')!.level).toBe(2);
+  });
+
+  it('places a relation row one level below its owner in a hierarchy', async () => {
+    const parent = { id: '1' };
+    harness = buildTable({
+      workPackages: [parent, { id: '2', ancestors: [parent] }, { id: '3' }],
+      relations: [{ from: '2', to: '3', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      showHierarchies: true,
+    });
+    harness.expand('2', 'relationsOfTypeFollows');
+
+    await harness.render();
+
+    expect(harness.table.ledger.byKey('wp:2')!.level).toBe(2);
+    expect(harness.table.ledger.byKey('relation:ofType:2:3')!.level).toBe(3);
+  });
 });

@@ -39,6 +39,7 @@ export interface RenderedOccurrence {
   readonly workPackageId:string|null;
   readonly renderType:'primary'|'relations'|'child_relations';
   readonly hidden:boolean;
+  readonly level:number;
   /** Stable identifier of the group for `group:*:header` and `group:*:sums` occurrences. */
   readonly groupIdentifier?:string;
   element:HTMLTableRowElement|null;
