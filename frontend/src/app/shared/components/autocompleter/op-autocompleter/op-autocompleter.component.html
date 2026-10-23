@@ -15,6 +15,15 @@
         [attr.data-action]="hiddenFieldAction"
         [value]="value">
     }
+    @if (pendingInputName) {
+      @for (value of pendingInputValues; track value) {
+        <input
+          type="hidden"
+          [attr.name]="pendingInputName + '[]'"
+          [attr.data-action]="hiddenFieldAction"
+          [value]="value">
+      }
+    }
   }
   <ng-select
     #ngSelectInstance

@@ -512,6 +512,56 @@ describe('autocompleter', () => {
       expect(getOptionsFnSpy).toHaveBeenCalledWith('Wor');
     });
   });
+
+  describe('hidden inputs for pending items', () => {
+    const model = [{ id: 7, name: 'Existing' }, { name: 'Needs triage' }];
+
+    beforeEach(() => {
+      const component = fixture.componentInstance;
+      component.multiple = true;
+      component.inputName = 'work_package[label_ids]';
+      component.bindLabel = 'name';
+      component.model = model as unknown as typeof component.model;
+    });
+
+    function hiddenInputs() {
+      return fixture.debugElement
+        .queryAll(By.css('input[type=hidden]'))
+        .map((el) => el.nativeElement as HTMLInputElement);
+    }
+
+    it('renders one id input and no empty input for a pending item', () => {
+      fixture.detectChanges();
+
+      const inputs = hiddenInputs();
+
+      expect(inputs.map((i) => [i.name, i.value])).toEqual([['work_package[label_ids][]', '7']]);
+    });
+
+    it('renders pending items under pendingInputName', () => {
+      fixture.componentInstance.pendingInputName = 'work_package[new_label_names]';
+      fixture.detectChanges();
+
+      const inputs = hiddenInputs();
+
+      expect(inputs.map((i) => [i.name, i.value])).toEqual([
+        ['work_package[label_ids][]', '7'],
+        ['work_package[new_label_names][]', 'Needs triage'],
+      ]);
+    });
+
+    it('renders the clear fallback id input next to a lone pending item', () => {
+      const component = fixture.componentInstance;
+      component.pendingInputName = 'work_package[new_label_names]';
+      component.model = [{ name: 'Needs triage' }] as unknown as typeof component.model;
+      fixture.detectChanges();
+
+      expect(hiddenInputs().map((i) => [i.name, i.value])).toEqual([
+        ['work_package[label_ids][]', ''],
+        ['work_package[new_label_names][]', 'Needs triage'],
+      ]);
+    });
+  });
 });
 
 // NG0953 ("Unexpected emit for destroyed OutputRef") comes from ng-select's

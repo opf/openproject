@@ -138,6 +138,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public inputName?:string;
 
+  @Input() public pendingInputName?:string;
+
   @Input() public inputValue?:string|string[];
 
   @Input() public multipleAsSeparateInputs = true;
@@ -395,11 +397,27 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     if (!this.model) {
       return '';
     } else if (Array.isArray(this.model)) {
-      const mappedValues = this.model.map((el) => ((typeof el === 'object' && el !== null) ? el[this.inputBindValue as 'id'] : el) as string);
+      const mappedValues = this.model
+        .map((el) => ((typeof el === 'object' && el !== null) ? el[this.inputBindValue as 'id'] : el) as string|null|undefined)
+        .filter((value):value is string => value !== null && value !== undefined);
       return mappedValues.length > 0 ? mappedValues : [''];
     } else {
       return this.model[this.inputBindValue as 'id'] as string || '';
     }
+  }
+
+  public get pendingInputValues():string[] {
+    if (!this.pendingInputName || !Array.isArray(this.model) || !this.bindLabel) {
+      return [];
+    }
+
+    const bindLabel = this.bindLabel;
+    const names = this.model
+      .filter((el) => typeof el === 'object' && el !== null && (el[this.inputBindValue as 'id'] ?? null) === null)
+      .map((el) => String(el[bindLabel as 'id']))
+      .filter((name) => name !== '');
+
+    return [...new Set(names)];
   }
 
   public repositionDropdown() {
