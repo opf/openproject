@@ -52,6 +52,14 @@ module CustomField::ProjectSpecificValues
     usable_values_in_any(Project.with_visible_work_packages(user).with_available_custom_fields(id))
   end
 
+  def usable_value_id?(project, value_id)
+    return true if project_specific_value_restriction.nil?
+
+    @usable_value_ids ||= {}
+    @usable_value_ids[project.id] ||= usable_values_in(project).pluck(:id).to_set
+    @usable_value_ids[project.id].include?(value_id.to_i)
+  end
+
   def keep_usable_values(values, project)
     return values if project_specific_value_restriction.nil?
 

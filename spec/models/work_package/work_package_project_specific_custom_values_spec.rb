@@ -76,6 +76,10 @@ RSpec.describe WorkPackage, "with project-specific custom field values" do
 
         expect(work_package.valid?(:saving_custom_fields)).to be(true)
       end
+
+      it "is marked as no longer available in the project" do
+        expect(work_package.custom_value_for(custom_field)).not_to be_available_in_project
+      end
     end
   end
 
@@ -123,12 +127,26 @@ RSpec.describe WorkPackage, "with project-specific custom field values" do
         expect(work_package.valid?(:saving_custom_fields)).to be(true)
       end
 
+      it "is marked as no longer available in the project" do
+        expect(work_package.custom_value_for(custom_field)).not_to be_available_in_project
+      end
+
       it "is invalid when changing it to another option that is not allowed" do
         work_package.custom_field_values = { custom_field.id => option_c.id.to_s }
         work_package.activate_custom_field_validations!
         work_package.valid?(:saving_custom_fields)
 
         expect(errors).to eq([:inclusion])
+      end
+    end
+
+    context "with a stored option that is allowed" do
+      let(:work_package) do
+        create(:work_package, project:, type:, custom_values: { custom_field.id => option_a.id.to_s }).reload
+      end
+
+      it "is available in the project" do
+        expect(work_package.custom_value_for(custom_field)).to be_available_in_project
       end
     end
 

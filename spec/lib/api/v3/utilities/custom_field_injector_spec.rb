@@ -481,7 +481,10 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
              available_custom_fields: [custom_field],
              custom_field.attribute_name => value)
     end
-    let(:custom_value) { instance_double(CustomValue, value: raw_value, typed_value:) }
+    let(:custom_value) do
+      instance_double(CustomValue, value: raw_value, typed_value:, available_in_project?: available)
+    end
+    let(:available) { true }
     let(:raw_value) { nil }
     let(:typed_value) { raw_value }
     let(:value) { "" }
@@ -563,6 +566,16 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         let(:link) { cf_path }
         let(:href) { api_v3_paths.custom_option(value.id) }
         let(:title) { value.value }
+      end
+
+      context "when the value is no longer available in the project" do
+        let(:available) { false }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { cf_path }
+          let(:href) { API::V3::URN_UNDISCLOSED }
+          let(:title) { I18n.t(:"api_v3.undisclosed.customValue") }
+        end
       end
 
       context "when value is nil" do
@@ -772,7 +785,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
     let(:represented) do
       double("represented", available_custom_fields: [custom_field])
     end
-    let(:custom_value) { instance_double(CustomValue, value:, typed_value:) }
+    let(:custom_value) { instance_double(CustomValue, value:, typed_value:, available_in_project?: true) }
     let(:value) { "" }
     let(:user) { build_stubbed(:user) }
     let(:typed_value) { value }
@@ -835,6 +848,32 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         modified_class.new(represented, current_user: nil).from_json(json)
 
         expect(represented).to have_received(custom_field.attribute_setter).with(expected)
+      end
+
+      context "for a list custom field" do
+        let(:field_format) { "list" }
+
+        it "keeps the value for an undisclosed link" do
+          json = { cf_path => { href: API::V3::URN_UNDISCLOSED } }.to_json
+
+          allow(represented).to receive(custom_field.attribute_setter)
+          modified_class.new(represented, current_user: nil).from_json(json)
+
+          expect(represented).not_to have_received(custom_field.attribute_setter)
+        end
+
+        context "with multiple values" do
+          let(:custom_field) { build(:custom_field, id: 1, field_format:, multi_value: true, is_required: true) }
+
+          it "keeps an undisclosed link among the values" do
+            json = { cf_path => [{ href: API::V3::URN_UNDISCLOSED }, { href: api_v3_paths.custom_option(3) }] }.to_json
+
+            allow(represented).to receive(custom_field.attribute_setter)
+            modified_class.new(represented, current_user: nil).from_json(json)
+
+            expect(represented).to have_received(custom_field.attribute_setter).with([API::V3::URN_UNDISCLOSED, "3"])
+          end
+        end
       end
     end
   end
