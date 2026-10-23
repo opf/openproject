@@ -156,6 +156,10 @@ export interface TableHarnessOptions {
   timelineVisible?:boolean;
   requireAll?:(ids:string[]) => Promise<WorkPackageResource[]>;
   loadPositions?:() => Promise<QueryOrder>;
+  /** Activates the baseline view service, so rows read their fixtures' `baseline` state. */
+  baseline?:boolean;
+  /** Whole translated strings by key, with `%{name}` interpolation; unlisted keys translate to themselves. */
+  translations?:Record<string, string>;
   /** Runs against the fresh injector before the handler registry attaches, to seed state a predecessor view left behind; resolving a view service here constructs it ahead of the transformers, as production does. */
   beforeAttach?:(injector:Injector) => void;
 }
@@ -516,11 +520,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
         of: () => ({
           ofProperty: (attribute:string) => fieldSchema(attribute, editable),
           mappedName: (attribute:string) => attribute,
+          availableAttributes: ['subject'],
           isAttributeEditable: (attribute:string) => editable && editableFields.includes(attribute),
         }),
       },
     },
-    { provide: I18nService, useValue: { t: (key:string) => key, locale: 'en' } },
+    { provide: I18nService, useValue: { t: translate(options.translations), locale: 'en' } },
     { provide: HalResourceService, useValue: {} },
     {
       provide: HalResourceEditingService,
@@ -557,7 +562,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
-    { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
+    { provide: WorkPackageViewBaselineService, useValue: baselineStub(!!options.baseline) },
     { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined, showSave: () => undefined } },
     { provide: WorkPackageNotificationService, useExisting: HalResourceNotificationService },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
@@ -575,6 +580,19 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
       deps: [IsolatedQuerySpace, Injector],
     },
   ];
+}
+
+function translate(translations:Record<string, string> = {}) {
+  return (key:string, args:Record<string, unknown> = {}) => (translations[key] ?? key)
+    .replace(/%\{(\w+)\}/g, (match, name:string) => (name in args ? String(args[name]) : match));
+}
+
+function baselineStub(active:boolean) {
+  return {
+    isActive: () => active,
+    isChanged: (workPackage:WorkPackageResource, attribute:string) => active
+      && Object.prototype.hasOwnProperty.call(workPackage.attributesByTimestamp?.[0] ?? {}, attribute),
+  };
 }
 
 function relationsStub(relations:RelationFixture[]) {
