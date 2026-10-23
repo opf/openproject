@@ -291,7 +291,7 @@ export class BurndownChartComponent {
           time: { unit: 'day' },
           ticks: {
             color: fontColor,
-            callback: (value:string|number) => this.timezoneService.formattedDate(new Date(Number(value)).toISOString()),
+            callback: (value:string|number) => this.formattedInstant(Number(value), this.timezoneService.getDateFormat()),
           },
           grid: { color: gridColor },
           border: { color: fontColor },
@@ -366,12 +366,23 @@ export class BurndownChartComponent {
   // A day end must be truncated instead: rounding it would land on the following date.
   private formattedTick(timestamp:number):string {
     if (this.parsedInput().step === 'day') {
-      return this.timezoneService.formattedDate(new Date(timestamp).toISOString());
+      return this.formattedInstant(timestamp, this.timezoneService.getDateFormat());
     }
 
     const roundedToMinute = Math.round(timestamp / MINUTE_IN_MS) * MINUTE_IN_MS;
+    const format = `${this.timezoneService.getDateFormat()} ${this.timezoneService.getTimeFormat()}`;
 
-    return this.timezoneService.formattedDatetime(new Date(roundedToMinute).toISOString());
+    return this.formattedInstant(roundedToMinute, format);
+  }
+
+  // Said in the zone the reader picked in OpenProject, which the axis also positions by, so that
+  // a label and the point under it name the same moment however the browser is set.
+  //
+  // TimezoneService#formattedDate cannot do this: it parses through moment without a zone, which
+  // lands on the browser's. That is right for the 'YYYY-MM-DD' strings it is meant for, where
+  // there is no zone to apply, and wrong for an instant.
+  private formattedInstant(timestamp:number, format:string):string {
+    return moment.tz(timestamp, this.timezoneService.userTimezone()).format(format);
   }
 
   // Guideline and projection divide story points across working days, so they are cut to one

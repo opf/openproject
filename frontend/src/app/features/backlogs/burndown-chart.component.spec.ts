@@ -53,12 +53,16 @@ describe('BurndownChartComponent', () => {
   // sets it rather than it being fixed here.
   const timezoneStub = {
     userTimezone: () => zone,
-    formattedDate: (iso:string) => iso,
-    formattedDatetime: (iso:string) => iso,
+    getDateFormat: () => 'MM/DD/YYYY',
+    getTimeFormat: () => 'hh:mm A',
+    // Present so that reaching for either is a visible mistake: both land on the browser's zone
+    // rather than the one picked in OpenProject, which is the divergence this chart had.
+    formattedDate: () => 'BROWSER ZONE',
+    formattedDatetime: () => 'BROWSER ZONE',
   };
 
-  const chartData = (series:unknown[]) => JSON.stringify({
-    step: 'hour',
+  const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
+    step,
     series,
     nonWorkingIntervals: [],
   });
@@ -80,9 +84,29 @@ describe('BurndownChartComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (series:unknown[]) => {
-    fixture.componentRef.setInput('chartData', chartData(series));
+  const renderWith = (series:unknown[], step:'day'|'hour' = 'hour') => {
+    fixture.componentRef.setInput('chartData', chartData(series, step));
     fixture.detectChanges();
+  };
+
+  const seriesWithAPointAt = (iso:string) => [
+    { id: 'remaining', label: 'Story points', data: [{ x: iso, y: 8 }] },
+  ];
+
+  // Both are what chart.js itself calls to put words on the axis and in the tooltip.
+  const axisLabelAt = (timestamp:number):string => {
+    const { scales } = fixture.componentInstance.lineChartOptions();
+    const callback = scales?.x?.ticks?.callback as unknown as (value:number) => string;
+
+    return callback(timestamp);
+  };
+
+  const tooltipTitleAt = (timestamp:number):string => {
+    const { plugins } = fixture.componentInstance.lineChartOptions();
+    const title = plugins?.tooltip?.callbacks?.title as unknown as
+      (items:{ datasetIndex:number, parsed:{ x:number } }[]) => string;
+
+    return title([{ datasetIndex: 0, parsed: { x: timestamp } }]);
   };
 
   const describedBy = (host:HTMLElement) => {
@@ -179,6 +203,41 @@ describe('BurndownChartComponent', () => {
     expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
     expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
     expect(firstDescriptionId).not.toEqual(secondDescriptionId);
+  });
+
+  // The axis places points using the OpenProject zone, so everything naming those points has to
+  // use it too. Where it did not, labels slid against the data for anyone whose browser zone
+  // differed -- a point drawn at one gridline but named for another.
+  describe('naming instants when the browser zone differs', () => {
+    // 18:30Z is the following midnight in Kolkata, and the day before it in UTC.
+    const dayEndInKolkata = Date.parse('2026-10-16T18:29:59.999Z');
+    const midnightInKolkata = Date.parse('2026-10-16T18:30:00.000Z');
+
+    beforeEach(() => {
+      zone = 'Asia/Kolkata';
+    });
+
+    it('labels the axis in the OpenProject zone', () => {
+      renderWith(seriesWithAPointAt('2026-10-16T18:30:00.000Z'));
+
+      expect(axisLabelAt(midnightInKolkata)).toEqual('10/17/2026');
+    });
+
+    it('names an hourly tick in the OpenProject zone, rounded to the hour it closes', () => {
+      renderWith(seriesWithAPointAt('2026-10-16T18:29:59.999Z'));
+
+      expect(tooltipTitleAt(dayEndInKolkata)).toEqual('10/17/2026 12:00 AM');
+    });
+
+    // Truncated to the date it falls on in that zone, which west of Kolkata is still the day
+    // before -- so this says nothing unless the conversion happens.
+    it('names a daily tick by its date in the OpenProject zone', () => {
+      const justPastMidnightInKolkata = Date.parse('2026-10-16T19:00:00.000Z');
+
+      renderWith(seriesWithAPointAt('2026-10-16T19:00:00.000Z'), 'day');
+
+      expect(tooltipTitleAt(justPastMidnightInKolkata)).toEqual('10/17/2026');
+    });
   });
 
   it('does not render chart semantics without data', () => {
