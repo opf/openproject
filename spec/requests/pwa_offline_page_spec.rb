@@ -85,7 +85,7 @@ RSpec.describe "PWA offline page",
     expect(page).to have_css("html[lang='de']")
   end
 
-  it "follows the system colour scheme" do
+  it "follows the system color scheme" do
     get "/offline"
 
     expect(response.body).to include("prefers-color-scheme: dark")

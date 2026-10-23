@@ -120,7 +120,7 @@ class Attachment < ApplicationRecord
   end
 
   # Returns the Content-Type to use when serving this file inline in a browser.
-  # Text files are normalised to text/plain (prevents script execution) with an
+  # Text files are normalized to text/plain (prevents script execution) with an
   # explicit charset. Non-inlineable files get application/octet-stream so the
   # browser is forced to download them.
   def served_content_type
@@ -136,7 +136,7 @@ class Attachment < ApplicationRecord
   # Returns the content type to use when serving the file to a browser.
   # For text files, ensures a charset is always present so browsers don't
   # fall back to ISO-8859-1. Preserves the real MIME subtype (e.g. text/x-ruby)
-  # unlike served_content_type which normalises to text/plain for security.
+  # unlike served_content_type which normalizes to text/plain for security.
   def serving_content_type
     return content_type unless is_text?
 

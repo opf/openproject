@@ -666,7 +666,7 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
           create(:recurring_meeting_historic_schedule, recurring_meeting:, uid: "newer@example.com")
         end
 
-        it "still recognises the older UID" do
+        it "still recognizes the older UID" do
           expect(subject).to be_success
           expect(subject.errors).to be_empty
         end

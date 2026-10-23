@@ -317,7 +317,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:prev_id) { first_item.id }
       let(:optimistic) { "true" }
 
-      it "skips the reload because the requested anchor was honoured", :aggregate_failures do
+      it "skips the reload because the requested anchor was honored", :aggregate_failures do
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dispatchEvent"
         expect(response).not_to have_turbo_stream action: "turbo_frame_reload"

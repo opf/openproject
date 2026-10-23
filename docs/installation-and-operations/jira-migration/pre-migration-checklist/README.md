@@ -65,7 +65,7 @@ For anything on this list your teams actually rely on, decide now how you'll han
 - [ ] For anything you decided to keep from the "what doesn't migrate" review above, export it separately now (e.g. via CSV) before you lose easy access to it.
 - [ ] **Note your Jira priority order (severity ranking) before migrating.** The migrator doesn't preserve priority order, colors, or icons — only the name. Since OpenProject falls back to whichever priority is first in the list when an issue has none set, you'll likely need to manually reorder priorities in OpenProject afterward to match your actual severity ranking.
 - [ ] **Note which issue type is the default per project, if that matters to you.** No migrated type is marked as default, regardless of what was default in Jira — you'll need to set this manually in OpenProject after migration.
-- [ ] **Decide whether to import Jira's resolution fields.** By default, the resolution is appended to the status name (e.g. "Done - Fixed"), which creates an additional status per status/resolution combination and the resulution date is imported as a custom field. If you don't need this, select **Exclude resolution fields for this configuration** in the import configuration to keep your status list lean.
+- [ ] **Decide whether to import Jira's resolution fields.** By default, the resolution is appended to the status name (e.g. "Done - Fixed"), which creates an additional status per status/resolution combination and the resolution date is imported as a custom field. If you don't need this, select **Exclude resolution fields for this configuration** in the import configuration to keep your status list lean.
 
 ## OpenProject-side prerequisites
 

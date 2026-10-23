@@ -73,7 +73,7 @@ const Y_AXIS_HEADROOM = 1.1;
 
 const MINUTE_IN_MS = 60 * 1000;
 
-// Chart.js takes a swatch shape per legend item but the decision to honour it at all is global,
+// Chart.js takes a swatch shape per legend item but the decision to honor it at all is global,
 // hence usePointStyle on the labels.
 const SWATCH_WIDTH = 24;
 
