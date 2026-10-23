@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
+  openEditorAndType,
+  SEARCH_PLACEHOLDER,
   insertInlineWorkPackageViaSlashMenu,
   insertInlineWorkPackageViaHash,
   openInlineWorkPackagePopover,
@@ -142,5 +144,20 @@ describe('Inline chip - selection', () => {
     const chip = page.getByText('#123').first().element().closest('.op-bn-inline-wp')!;
 
     expect(getComputedStyle(chip).userSelect).toBe('none');
+  });
+});
+
+describe('Inline chip - cancel', () => {
+  it('takes the space inserted after the pending chip along', async () => {
+    let editor:{ document:{ content?:unknown[] }[] } | undefined;
+    renderEditor({ onEditor: (instance) => { editor = instance; } });
+    await openEditorAndType('Before /');
+    await userEvent.click(page.getByText('Link existing work package').first());
+    await expect.element(page.getByPlaceholder(SEARCH_PLACEHOLDER)).toBeVisible();
+
+    await userEvent.keyboard('{Escape}');
+
+    await expect.element(page.getByPlaceholder(SEARCH_PLACEHOLDER)).not.toBeInTheDocument();
+    expect(editor!.document[0].content).toEqual([{ type: 'text', text: 'Before ', styles: {} }]);
   });
 });

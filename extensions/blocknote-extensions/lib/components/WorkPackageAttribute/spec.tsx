@@ -9,12 +9,18 @@ import {
 export const openProjectWorkPackageAttributeSpec = createReactInlineContentSpec(
   attributeInlineConfig,
   {
-    render: ({ inlineContent }) => (
+    render: ({ inlineContent, contentRef, editor, updateInlineContent }) => (
       <WorkPackageAttributeChip
-        wpid={inlineContent.props.wpid}
-        displayId={inlineContent.props.displayId || inlineContent.props.wpid}
-        attribute={inlineContent.props.attribute}
-        display={inlineContent.props.display}
+        content={{
+          ...inlineContent.props,
+          displayId: inlineContent.props.displayId || inlineContent.props.wpid,
+        }}
+        editor={editor}
+        contentRef={contentRef}
+        onDisplayChange={(display) => updateInlineContent({
+          type: attributeInlineConfig.type,
+          props: { ...inlineContent.props, display },
+        })}
       />
     ),
 

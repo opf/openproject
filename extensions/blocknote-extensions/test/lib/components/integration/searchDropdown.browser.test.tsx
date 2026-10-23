@@ -4,6 +4,7 @@ import { render } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse, delay } from 'msw';
 import { SearchDropdown } from '../../../../lib/components/Search/SearchDropdown';
+import { SearchContainer } from '../../../../lib/components/Search/SearchContainer';
 import { BlockCard } from '../../../../lib/components/BlockWorkPackage/BlockCard';
 import { mockWorkPackage, mockWorkPackage2 } from '../../../mocks/handlers';
 import { worker } from '../../../mocks/browser';
@@ -217,5 +218,19 @@ describe('SearchDropdown', () => {
 
     const items = page.getByTestId('dropdown-item');
     expect((await items.all()).length).toBeLessThanOrEqual(5);
+  });
+});
+describe('SearchDropdown - highlight', () => {
+  it('marks a single result when the keys move on from the hovered one', async () => {
+    render(<SearchContainer $flipped={false}>{searchDropdown({ autoFocus: true })}</SearchContainer>);
+    await userEvent.type(page.getByRole('searchbox'), 'a');
+    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+
+    await userEvent.hover(page.getByText('Fix login bug'));
+    await userEvent.keyboard('{ArrowDown}');
+
+    const marked = Array.from(document.querySelectorAll('[role="option"]'))
+      .filter((option) => getComputedStyle(option).backgroundColor !== 'rgba(0, 0, 0, 0)');
+    expect(marked).toHaveLength(1);
   });
 });

@@ -1,14 +1,15 @@
 import type { BlockNoteEditor } from '@blocknote/core';
-import { LinkIcon, PlusIcon } from '@primer/octicons-react';
+import { LinkIcon, PlusIcon, TagIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
-import { findPendingInlineChip } from '../utils/inlineChipActions';
+import { findPendingInlineChip, removePendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
 import { canCreateWorkPackages } from '../services/openProjectApi.ts';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
+import { insertPendingAttribute } from './WorkPackageAttribute/pending';
 
 function buildOnSelect(
   editor:AnyEditor,
@@ -44,9 +45,7 @@ function buildOnCancel(
     const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
     if (found) {
       editor.focus();
-      editor.transact((tr) => {
-        tr.delete(found.position, found.position + found.node.nodeSize);
-      });
+      removePendingInlineChip(editor, found);
     }
     clearInlineWpCallbacks(pendingWpid);
   };
@@ -116,7 +115,18 @@ const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+const workPackageAttributeSlashMenu = (editor:BlockNoteEditor<any>) => ({
+  title: i18n.t('slashMenu.attribute.title'),
+  onItemClick: () => insertPendingAttribute(editor),
+  aliases: [...getAliases('attribute')],
+  group: 'OpenProject',
+  icon: <TagIcon size={18} />,
+  subtext: i18n.t('slashMenu.attribute.subtext'),
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getOpenProjectSlashMenuItems = (editor:BlockNoteEditor<any>) => [
   workPackageSlashMenu(editor),
   ...(canCreateWorkPackages() ? [createWorkPackageSlashMenu(editor)] : []),
+  workPackageAttributeSlashMenu(editor),
 ];

@@ -1,6 +1,6 @@
 import i18n from '../services/i18n.ts';
 
-export type SlashMenuFunction = 'link' | 'create';
+export type SlashMenuFunction = 'link' | 'create' | 'attribute';
 
 const aliases:Partial<Record<SlashMenuFunction, string[]>> = {};
 
@@ -11,6 +11,7 @@ export function getAliases(functionName:SlashMenuFunction = 'link'):string[] {
 i18n.on('languageChanged', () => {
   delete aliases.link;
   delete aliases.create;
+  delete aliases.attribute;
 });
 
 function calculateAliases(functionName:SlashMenuFunction):string[] {
