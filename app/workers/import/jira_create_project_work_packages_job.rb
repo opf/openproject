@@ -161,32 +161,24 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
-      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{issue_type['name']}") do
-        Rails.logger.debug "Creating type"
-        type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
-        uses_existing = true
+      name = issue_type["name"]
+      type, uses_existing = find_or_create_resource(Type, name, jira_object_type: "issueType") { create_new_type(name) }
 
-        if type.blank?
-          service_call = WorkPackageTypes::CreateService
-                           .new(user: @system_user)
-                           .call(name: issue_type["name"])
-          unless service_call.success?
-            Rails.logger.error service_call.message
-            raise service_call.message
-          end
+      enable_type(project, type)
+      jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
+      create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
+      type
+    end
 
-          type = service_call.result
-          uses_existing = false
-        end
+    def create_new_type(name)
+      service_call = WorkPackageTypes::CreateService
+                       .new(user: @system_user)
+                       .call(name:)
+      raise service_call.message unless service_call.success?
 
-        enable_type(project, type)
-        jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
-        create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
-        type
-      end
+      service_call.result
     end
 
     def enable_type(project, type)
@@ -199,34 +191,63 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
-      Rails.logger.tagged("jira_object_type:status", "jira_object_id_or_name:#{issue_status['name']}") do
-        Rails.logger.debug "Creating status"
-        resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
-        status, uses_existing = find_or_create_status(issue_status, resolution)
-
-        jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
-        create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
-        status
+      resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
+      name = status_name(issue_status, resolution)
+      status, uses_existing = find_or_create_resource(Status, name, jira_object_type: "status") do
+        is_closed = issue_status.dig("statusCategory", "key") == "done"
+        Status.create!(name:, is_closed:)
       end
-    end
 
-    def find_or_create_status(issue_status, resolution)
-      status_name = status_name(issue_status, resolution)
-
-      status = Status.where("LOWER(name) = LOWER(?)", status_name).first
-      return [status, true] if status.present?
-
-      is_closed = issue_status.dig("statusCategory", "key") == "done"
-      [Status.create!(name: status_name, is_closed: is_closed), false]
+      jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
+      create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
+      status
     end
 
     def status_name(issue_status, resolution)
       return issue_status["name"] if resolution.blank?
 
       "#{issue_status['name']} - #{resolution['name']}"
+    end
+
+    def create_priority(jira_issue)
+      issue_priority = jira_issue.payload["fields"]["priority"]
+      return if issue_priority.blank?
+
+      name = issue_priority["name"]
+      priority, uses_existing = find_or_create_resource(IssuePriority, name, jira_object_type: "priority") do
+        IssuePriority.create!(name:)
+      end
+      jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
+      create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
+      priority
+    end
+
+    def find_or_create_resource(klass, name, jira_object_type:)
+      Rails.logger.tagged("jira_object_type:#{jira_object_type}", "jira_object_id_or_name:#{name}") do
+        resource = find_resource(klass, name)
+        if resource
+          Rails.logger.debug { "Found existing #{klass.name}" }
+          return [resource, true]
+        end
+
+        lock_key = "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
+        OpenProject::Mutex.with_advisory_lock(klass, lock_key, transaction: true) do
+          resource = find_resource(klass, name)
+          if resource
+            Rails.logger.debug { "Found existing #{klass.name}" }
+            next [resource, true]
+          end
+
+          Rails.logger.debug { "Creating #{klass.name}" }
+          [yield, false]
+        end
+      end
+    end
+
+    def find_resource(klass, name)
+      klass.find_by("LOWER(name) = LOWER(?)", name)
     end
 
     def setup_resolution_date_cf(jira_project)
@@ -255,26 +276,6 @@ module Import
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
-    # rubocop:disable-next Metrics/AbcSize
-    def create_priority(jira_issue)
-      issue_priority = jira_issue.payload["fields"]["priority"]
-      return if issue_priority.blank?
-
-      Rails.logger.tagged("jira_object_type:priority", "jira_object_id_or_name:#{issue_priority['name']}") do
-        Rails.logger.debug "Creating priority"
-        priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
-        uses_existing = true
-        if priority.blank?
-          priority = IssuePriority.create!(name: issue_priority["name"])
-          uses_existing = false
-        end
-        jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
-        create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
-        priority
-      end
-    end
-
-    # rubocop:disable-next Metrics/AbcSize
     def update_workflows(type)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
         statuses = Status.all
