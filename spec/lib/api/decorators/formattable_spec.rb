@@ -52,7 +52,7 @@ RSpec.describe API::Decorators::Formattable do
     subject { described_class.new(represented, object:) }
 
     it "passes that to format_text" do
-      # rubocop:disable-next RSpec/SubjectStub,RSpec/MessageSpies
+      # rubocop:disable-next RSpec/SubjectStub, RSpec/MessageSpies
       expect(subject)
         .to receive(:format_text).with(anything, format: :markdown, object:)
         .and_call_original
