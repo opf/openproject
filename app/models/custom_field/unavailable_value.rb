@@ -28,8 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Stands in for a custom field value the current user may not see.
+# Stands in for a custom field value that is not usable in the project of the work package holding it.
 class CustomField::UnavailableValue
+  # Value ids start at 1, so this key never collides with a group of an actual value.
+  GROUP_KEY = "0"
+
   def to_s
     I18n.t(:label_custom_value_no_longer_available)
   end

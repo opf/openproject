@@ -101,9 +101,11 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        Array(key&.split(".")).map { |subkey| disclosed_value(custom_field, items[subkey].first) }
+        Array(key&.split(".")).map { |subkey| custom_field_group_value(subkey, items) }
+      elsif key == CustomField::UnavailableValue::GROUP_KEY
+        [CustomField::UnavailableValue.new]
       else
-        (items[key] || []).map { |item| disclosed_value(custom_field, item) }
+        items[key] || []
       end
     end
   end
@@ -135,11 +137,17 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        Array(key&.split(".")).map.map { |subkey| disclosed_value(custom_field, options[subkey].first) }
+        Array(key&.split(".")).map.map { |subkey| custom_field_group_value(subkey, options) }
       else
-        disclosed_value(custom_field, options[key]&.first)
+        custom_field_group_value(key, options)
       end
     end
+  end
+
+  def custom_field_group_value(key, values_by_key)
+    return CustomField::UnavailableValue.new if key == CustomField::UnavailableValue::GROUP_KEY
+
+    values_by_key[key]&.first
   end
 
   def custom_options_for_keys(custom_field, groups)
@@ -150,26 +158,12 @@ module ::Query::Results::GroupBy
     # If we were to use the keys array with duplicates to find the actual custom options,
     # AR would throw an error as the number of records returned does not match the number
     # of ids searched for.
-    custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
+    option_ids = keys.flatten.uniq - [CustomField::UnavailableValue::GROUP_KEY]
+    custom_field.custom_options.find(option_ids).group_by { |o| o.id.to_s }
   end
 
   def transform_single_custom_field_keys(custom_field, groups)
-    groups.transform_keys { |key| disclosed_value(custom_field, custom_field.cast_value(key)) }
-  end
-
-  # A group spans projects, so its value is shown if the user may see it in any of them.
-  def disclosed_value(custom_field, value)
-    visible_ids = visible_custom_value_ids(custom_field)
-    return value if visible_ids.nil? || value.nil? || visible_ids.include?(value.id)
-
-    CustomField::UnavailableValue.new
-  end
-
-  def visible_custom_value_ids(custom_field)
-    return if custom_field.project_specific_value_restriction.nil?
-
-    @visible_custom_value_ids ||= {}
-    @visible_custom_value_ids[custom_field.id] ||= custom_field.visible_values_for(User.current).pluck(:id).to_set
+    groups.transform_keys { |key| custom_field.cast_value(key) }
   end
 
   def transform_property_keys(groups)

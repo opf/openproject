@@ -67,16 +67,26 @@ module CustomField::ProjectSpecificValues
     values.is_a?(Array) ? values & usable_ids : values.presence_in(usable_ids)
   end
 
+  # SQL condition on whether the value with the id given by value_id_sql is usable in the project
+  # selected (as id) by project_sql. Both may reference columns of the surrounding query.
+  def usable_value_condition(value_id_sql, project_sql)
+    "#{value_id_sql} IN (#{usable_values_in_reach(project_sql).select(:id).to_sql})"
+  end
+
   private
+
+  def usable_values_in_any(projects)
+    usable_values_in_reach(projects.select(:id).to_sql)
+  end
 
   # The restrictions are evaluated per project of the reach, so the rows of different projects
   # never combine into making a value usable that is usable in none of them.
-  def usable_values_in_any(projects)
+  def usable_values_in_reach(reach_sql)
     return restrictable_values if project_specific_value_restriction.nil?
 
     restrictable_values.where(<<~SQL.squish)
       EXISTS (
-        SELECT 1 FROM (#{projects.select(:id).to_sql}) reach
+        SELECT 1 FROM (#{reach_sql}) reach
         WHERE #{list? ? usable_option_condition : usable_item_condition}
       )
     SQL
