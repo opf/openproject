@@ -57,6 +57,10 @@ export class PathHelperService {
     return `${this.staticBase}/attribute_help_texts/${id.toString()}/show_dialog`;
   }
 
+  public documentPath(documentId:string|number):string {
+    return `${this.staticBase}/documents/${documentId.toString()}`;
+  }
+
   public fileLinksPath():string {
     return `${this.api.v3.apiV3Base}/file_links`;
   }

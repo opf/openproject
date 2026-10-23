@@ -52,6 +52,12 @@ import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-n
 import { InAppNotificationRelativeTimeComponent } from './entry/relative-time/in-app-notification-relative-time.component';
 import { InAppNotificationReminderAlertComponent } from './entry/reminder-alert/in-app-notification-reminder-alert.component';
 import { InAppNotificationStatusComponent } from './entry/status/in-app-notification-status.component';
+import {
+  InAppNotificationWorkPackageContentComponent,
+} from './entry/work-package-content/in-app-notification-work-package-content.component';
+import {
+  InAppNotificationDocumentContentComponent,
+} from './entry/document-content/in-app-notification-document-content.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +69,8 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
     InAppNotificationDateAlertComponent,
     InAppNotificationRelativeTimeComponent,
     InAppNotificationReminderAlertComponent,
+    InAppNotificationWorkPackageContentComponent,
+    InAppNotificationDocumentContentComponent,
   ],
   imports: [
     OpSharedModule,
