@@ -68,13 +68,21 @@ module Backlogs
       backlog_filters.to_h
     end
 
+    def all_sprints_for(project)
+      Sprint.for_project(project).not_completed.order_by_date
+    end
+
     def filtered_sprints_for(project)
-      relation = Sprint.assignable(project:).order_by_date.includes(:project, :task_boards, :goals)
+      relation = all_sprints_for(project).includes(:project, :task_boards, :goals)
       backlog_filters.sprint_ids.present? ? relation.where(id: backlog_filters.sprint_ids) : relation
     end
 
+    def all_buckets_for(project)
+      BacklogBucket.for_project(project)
+    end
+
     def filtered_buckets_for(project)
-      relation = BacklogBucket.for_project(project)
+      relation = all_buckets_for(project)
       backlog_filters.bucket_ids.present? ? relation.where(id: backlog_filters.bucket_ids_without_inbox) : relation
     end
 
