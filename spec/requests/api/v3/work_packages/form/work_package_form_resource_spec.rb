@@ -217,6 +217,42 @@ RSpec.describe "API v3 Work package form resource" do
               it "does not persist them" do
                 expect(Labeling.where(labelable: work_package)).not_to exist
               end
+
+              context "with a title for a label that does not exist yet" do
+                let(:params) do
+                  valid_params.merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })
+                end
+
+                it_behaves_like "having no errors"
+
+                it "echoes the pending name back without a href" do
+                  expect(last_response.body)
+                    .to be_json_eql({ href: nil, title: "Needs triage" }.to_json)
+                          .at_path("_embedded/payload/_links/labels/0")
+                end
+
+                it "creates neither the label nor the labeling" do
+                  expect(Label.where(name: "Needs triage")).not_to exist
+                  expect(Labeling.where(labelable: work_package)).not_to exist
+                end
+              end
+
+              context "with a title matching an existing label in different casing" do
+                let(:label) { create(:label, name: "Needs triage") }
+                let(:params) do
+                  valid_params.merge(_links: { labels: [{ href: nil, title: label.name.upcase }] })
+                end
+
+                it "echoes the existing label's href" do
+                  expect(last_response.body)
+                    .to be_json_eql(api_v3_paths.label(label.id).to_json)
+                          .at_path("_embedded/payload/_links/labels/0/href")
+                end
+
+                it "does not create another label" do
+                  expect(Label.count).to eq(1)
+                end
+              end
             end
 
             context "for invalid content" do

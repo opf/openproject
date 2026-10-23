@@ -636,7 +636,7 @@ module API
                              getter: ->(*) {
                                next unless embed_link?(:labels)
 
-                               represented.effective_labels.map do |label|
+                               represented.effective_labels.reject(&:new_record?).map do |label|
                                  ::API::V3::Labels::LabelRepresenter.create(label, current_user:)
                                end
                              },
@@ -652,7 +652,14 @@ module API
                                         title_attribute: :name)
                                    .to_hash
                                end
-                             }
+                             },
+                             setter: ->(fragment:, **) do
+                               with_href, without_href = fragment.partition { |link| link["href"].present? }
+                               represented.label_ids = parse_link_ids_from_fragment(with_href, :label)
+
+                               names = without_href.filter_map { |link| link["title"].presence }
+                               represented.label_names = names if names.any?
+                             end
 
         associated_resource :parent,
                             v3_path: :work_package,

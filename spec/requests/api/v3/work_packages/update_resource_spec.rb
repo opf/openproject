@@ -816,6 +816,65 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
+        context "with a title for a label that does not exist yet" do
+          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+          let(:created_label) { Label.find_by!(name: "Needs triage") }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "creates the label as the current user and assigns it" do
+            expect(created_label.author).to eq(current_user)
+            expect(work_package.reload.labels).to contain_exactly(created_label)
+          end
+
+          it "responds with the href of the created label" do
+            expect(response.body)
+              .to be_json_eql(api_v3_paths.label(created_label.id).to_json)
+                    .at_path("_links/labels/0/href")
+          end
+        end
+
+        context "with a title matching an existing label in different casing" do
+          let!(:label) { create(:label, name: "Needs triage") }
+          let(:label_links) { [{ href: nil, title: "NEEDS TRIAGE" }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "reuses the existing label" do
+            expect(Label.count).to eq(1)
+            expect(work_package.reload.labels).to contain_exactly(label)
+          end
+        end
+
+        context "with a title and another attribute of the same request being invalid" do
+          let(:params) { valid_params.merge(subject: "", _links: { labels: [{ href: nil, title: "Needs triage" }] }) }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:unprocessable_entity) }
+
+          it "does not create the label" do
+            expect(Label.where(name: "Needs triage")).not_to exist
+          end
+        end
+
+        context "with a null href and no title" do
+          let(:label_links) { [{ href: nil }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "creates no label and assigns none" do
+            expect(Label.count).to eq(0)
+            expect(work_package.reload.labels).to be_empty
+          end
+        end
+
         context "for a user having assign_versions but lacking edit_work_packages permission" do
           let(:permissions) { %i[view_work_packages assign_versions] }
 
@@ -831,6 +890,22 @@ RSpec.describe "API v3 Work package resource",
 
           it "does not assign the label" do
             expect(work_package.reload.labels).to be_empty
+          end
+
+          context "with a title for a label that does not exist yet" do
+            let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+
+            it { expect(response).to have_http_status(:unprocessable_entity) }
+
+            it "has a readonly error" do
+              expect(response.body)
+                .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                      .at_path("errorIdentifier")
+            end
+
+            it "does not create the label" do
+              expect(Label.where(name: "Needs triage")).not_to exist
+            end
           end
         end
       end
