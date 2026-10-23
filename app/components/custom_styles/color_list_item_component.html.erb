@@ -26,19 +26,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<p><%= I18n.t(:label_custom_export_font_instructions) %></p>
+<%= flex_layout(align_items: :center, flex_wrap: :wrap, justify_content: :space_between) do |row| %>
+  <% row.with_column(flex: 1, mr: 3) do %>
+    <%= render(Primer::Beta::Text.new(font_weight: :bold)) { color_label } %>
+    <% if instruction.present? %>
+      <%= render(Primer::Beta::Text.new(font_size: :small, color: :subtle, ml: 1)) { instruction } %>
+    <% end %>
+  <% end %>
 
-<%=
-  render(Primer::Beta::Button.new(
-    target: "_blank",
-    data: { turbo: false },
-    tag: :a,
-    href: export_demo_pdf_download_custom_style_path
-  )) do |_c|
-    t("export.demo.button_text")
-  end
-%>
+  <% row.with_column do %>
+    <%= render(Colors::SwatchComponent.new(hexcode:, show_value:)) %>
+  <% end %>
 
-<% export_fonts_fields(@custom_style).each do |font| %>
-  <%= render partial: "custom_styles/uploads/font",  locals: { font: } %>
+  <% row.with_column(ml: 2) do %>
+    <%= render(CustomStyles::DesignColorDialogComponent.new(**dialog_arguments)) %>
+  <% end %>
 <% end %>

@@ -35,7 +35,7 @@ module Primer
         prepend WrappedInput
 
         delegate :builder, :form, :name, :label, :description, :icon, :accept, :preview_url, :preview_class,
-                 :delete_path, to: :@input
+                 :filename, :delete_path, to: :@input
 
         def initialize(input:)
           super()
@@ -49,6 +49,16 @@ module Primer
             src: preview_url,
             data: { "file-field-target": "preview" }
           }.compact
+        end
+
+        # Files that cannot be previewed as an image (e.g. fonts) still need
+        # the replace/delete menu once one is already uploaded.
+        def has_attachment?
+          preview_url.present? || filename.present?
+        end
+
+        def displayed_label
+          filename.presence || label
         end
 
         def field_wrap_arguments
