@@ -42,10 +42,6 @@ module API
             end
           end
 
-          before do
-            guard_feature_flag(:documents_collaboration_token_api)
-          end
-
           after_validation do
             authorize_logged_in
             authorize_in_project(:view_documents, project: document.project)

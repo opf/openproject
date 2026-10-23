@@ -61,8 +61,7 @@ properties:
 
             **Permission**: view documents
 
-            The document is collaborative, real-time collaboration is enabled and the feature flag
-            `documents_collaboration_token_api` is active.
+            The document is collaborative and real-time collaboration is enabled.
           readOnly: true
 example:
   _type: Document
