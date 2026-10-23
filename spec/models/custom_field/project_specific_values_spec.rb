@@ -109,6 +109,51 @@ RSpec.describe CustomField::ProjectSpecificValues do
     end
   end
 
+  shared_examples "showing hierarchical items" do |factory|
+    let(:custom_field) { create(factory, *traits, types: [type]) }
+    let!(:acme) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+    let!(:traffic_lights) { create(:hierarchy_item, parent: acme) }
+    let!(:green) { create(:hierarchy_item, parent: traffic_lights) }
+    let!(:oscorp) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+
+    context "without project-specific restrictions enabled" do
+      let(:traits) { [] }
+
+      it "returns all items below the root" do
+        expect(visible_values).to contain_exactly(acme, traffic_lights, green, oscorp)
+      end
+    end
+
+    context "with an allowlist" do
+      let(:traits) { [:project_specific_allowlist] }
+
+      before do
+        create(:project_specific_value_restriction, project: member_project, hierarchy_item: acme)
+        create(:project_specific_value_restriction, project: other_member_project, hierarchy_item: traffic_lights)
+        create(:project_specific_value_restriction, project: other_member_project, hierarchy_item: green)
+        create(:project_specific_value_restriction, project: foreign_project, hierarchy_item: oscorp)
+      end
+
+      it "returns the items usable in one of the user's projects without combining their restrictions" do
+        expect(visible_values).to contain_exactly(acme)
+      end
+    end
+
+    context "with a blocklist" do
+      let(:traits) { [:project_specific_blocklist] }
+
+      before do
+        create(:project_specific_value_restriction, project: member_project, hierarchy_item: acme)
+        create(:project_specific_value_restriction, project: other_member_project, hierarchy_item: acme)
+        create(:project_specific_value_restriction, project: other_member_project, hierarchy_item: oscorp)
+      end
+
+      it "returns the items not blocked in one of the user's projects" do
+        expect(visible_values).to contain_exactly(oscorp)
+      end
+    end
+  end
+
   describe "#usable_values_in" do
     subject(:usable_values) { custom_field.usable_values_in(project) }
 
@@ -177,6 +222,75 @@ RSpec.describe CustomField::ProjectSpecificValues do
 
     context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
       it_behaves_like "restricting hierarchical items", :weighted_item_list_wp_custom_field
+    end
+  end
+
+  describe "#visible_values_for" do
+    shared_let(:type) { create(:type) }
+    shared_let(:user) { create(:user) }
+    shared_let(:member_project) do
+      create(:project, types: [type], member_with_permissions: { user => %i[view_work_packages] })
+    end
+    shared_let(:other_member_project) do
+      create(:project, types: [type], member_with_permissions: { user => %i[view_work_packages] })
+    end
+    shared_let(:foreign_project) { create(:project, types: [type]) }
+    shared_let(:observed_project) do
+      create(:project, types: [type], member_with_permissions: { user => %i[view_project] })
+    end
+    shared_let(:unconfigured_project) do
+      create(:project, no_types: true, member_with_permissions: { user => %i[view_work_packages] })
+    end
+
+    subject(:visible_values) { custom_field.visible_values_for(user) }
+
+    context "for a list custom field" do
+      let(:custom_field) { create(:list_wp_custom_field, *traits, types: [type], possible_values: %w[A B C D E]) }
+      let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+      let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+      let(:option_c) { custom_field.custom_options.find_by!(value: "C") }
+      let(:option_d) { custom_field.custom_options.find_by!(value: "D") }
+      let(:option_e) { custom_field.custom_options.find_by!(value: "E") }
+
+      context "without project-specific restrictions enabled" do
+        let(:traits) { [] }
+
+        it "returns all options" do
+          expect(visible_values).to contain_exactly(option_a, option_b, option_c, option_d, option_e)
+        end
+      end
+
+      context "with an allowlist" do
+        let(:traits) { [:project_specific_allowlist] }
+
+        before do
+          create(:project_specific_value_restriction, project: member_project, custom_option: option_a)
+          create(:project_specific_value_restriction, project: other_member_project, custom_option: option_b)
+          create(:project_specific_value_restriction, project: foreign_project, custom_option: option_c)
+          create(:project_specific_value_restriction, project: observed_project, custom_option: option_d)
+          create(:project_specific_value_restriction, project: unconfigured_project, custom_option: option_e)
+        end
+
+        it "returns the options allowed in the projects in which the user sees the field on work packages" do
+          expect(visible_values).to contain_exactly(option_a, option_b)
+        end
+
+        context "for an admin" do
+          let(:user) { create(:admin) }
+
+          it "returns all options" do
+            expect(visible_values).to contain_exactly(option_a, option_b, option_c, option_d, option_e)
+          end
+        end
+      end
+    end
+
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      it_behaves_like "showing hierarchical items", :hierarchy_wp_custom_field
+    end
+
+    context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+      it_behaves_like "showing hierarchical items", :weighted_item_list_wp_custom_field
     end
   end
 end

@@ -43,34 +43,66 @@ module CustomField::ProjectSpecificValues
   end
 
   def usable_values_in(project)
-    values = restrictable_values
-    return values if project_specific_value_restriction.nil?
+    usable_values_in_any(Project.where(id: project))
+  end
 
-    listed = project_specific_value_restrictions.where(project:, restriction: project_specific_value_restriction)
+  def visible_values_for(user)
+    return restrictable_values if user.admin?
 
-    if list?
-      usable_options(values, listed.select(:custom_option_id))
-    else
-      usable_items(values, listed.select(:hierarchy_item_id))
-    end
+    usable_values_in_any(Project.allowed_to(user, :view_work_packages).with_available_custom_fields(id))
   end
 
   private
 
-  def usable_options(options, listed_ids)
+  # The restrictions are evaluated per project of the reach, so the rows of different projects
+  # never combine into making a value usable that is usable in none of them.
+  def usable_values_in_any(projects)
+    return restrictable_values if project_specific_value_restriction.nil?
+
+    restrictable_values.where(<<~SQL.squish)
+      EXISTS (
+        SELECT 1 FROM (#{projects.select(:id).to_sql}) reach
+        WHERE #{list? ? usable_option_condition : usable_item_condition}
+      )
+    SQL
+  end
+
+  def usable_option_condition
+    listed = "EXISTS (#{listed_in_reach(:custom_option_id, 'custom_options.id')})"
+
+    project_specific_value_restriction_allow? ? listed : "NOT #{listed}"
+  end
+
+  # An item is only usable if it and all of its ancestors below the hierarchy root are.
+  def usable_item_condition
     if project_specific_value_restriction_allow?
-      options.where(id: listed_ids)
+      <<~SQL.squish
+        NOT EXISTS (
+          SELECT 1 FROM hierarchical_item_hierarchies path
+          JOIN hierarchical_items ancestor ON ancestor.id = path.ancestor_id
+          WHERE path.descendant_id = hierarchical_items.id
+            AND ancestor.parent_id IS NOT NULL
+            AND NOT EXISTS (#{listed_in_reach(:hierarchy_item_id, 'path.ancestor_id')})
+        )
+      SQL
     else
-      options.where.not(id: listed_ids)
+      <<~SQL.squish
+        NOT EXISTS (
+          SELECT 1 FROM hierarchical_item_hierarchies path
+          WHERE path.descendant_id = hierarchical_items.id
+            AND EXISTS (#{listed_in_reach(:hierarchy_item_id, 'path.ancestor_id')})
+        )
+      SQL
     end
   end
 
-  # An item is only usable if it and all of its ancestors are, so every item that is not usable
-  # takes its whole subtree with it.
-  def usable_items(items, listed_ids)
-    unusable = project_specific_value_restriction_allow? ? items.where.not(id: listed_ids) : items.where(id: listed_ids)
-    unusable_subtrees = CustomField::Hierarchy::ItemHierarchy.where(ancestor_id: unusable.select(:id))
+  def listed_in_reach(value_column, value_expression)
+    table = CustomField::ProjectSpecificValueRestriction.table_name
 
-    items.where.not(id: unusable_subtrees.select(:descendant_id))
+    project_specific_value_restrictions
+      .where(restriction: project_specific_value_restriction)
+      .where("#{table}.project_id = reach.id AND #{table}.#{value_column} = #{value_expression}")
+      .select(1)
+      .to_sql
   end
 end
