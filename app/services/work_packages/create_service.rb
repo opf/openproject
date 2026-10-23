@@ -59,7 +59,7 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       # Set attributes service passed, meaning the contract is fulfilled.
       # Avoid running validations again as we might be in a project copy scenario.
       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-      work_package.save(validate: false)
+      return save_failure(result, work_package) unless work_package.save(validate: false)
 
       apply_patterns(work_package)
 
@@ -73,6 +73,12 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       set_user_as_watcher(work_package)
     end
 
+    result
+  end
+
+  def save_failure(result, work_package)
+    result.success = false
+    result.errors = work_package.errors
     result
   end
 

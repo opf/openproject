@@ -307,12 +307,13 @@ RSpec.describe WorkPackage, "labels" do
         expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
       end
 
-      it "raises for a new work package saved without validation" do
+      it "fails a new work package saved without validation" do
         new_work_package = build(:work_package)
         new_work_package.label_name_replacements = ["Brand new"]
 
-        expect { new_work_package.save(validate: false) }
-          .to raise_error(Labelable::PendingLabelCreationFailed)
+        expect(new_work_package.save(validate: false)).to be(false)
+        expect(new_work_package.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect(new_work_package).not_to be_persisted
       end
     end
   end

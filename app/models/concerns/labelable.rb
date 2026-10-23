@@ -30,8 +30,6 @@
 module Labelable
   extend ActiveSupport::Concern
 
-  class PendingLabelCreationFailed < StandardError; end
-
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
     has_many :labels, -> { order(:id) }, through: :labelings
@@ -120,8 +118,6 @@ module Labelable
 
   def abort_label_creation(result)
     errors.add(:labels, result.errors.symbols_for(:name).first || :invalid)
-    raise PendingLabelCreationFailed, errors.full_messages.to_sentence if new_record?
-
     throw :abort
   end
 
