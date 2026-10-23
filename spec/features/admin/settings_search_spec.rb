@@ -136,11 +136,12 @@ RSpec.describe "Searching settings in the administration", :js do
     expect(page).to have_css(".op-setting--highlighted[data-setting-name='ai_text_transform_actions_enabled']")
   end
 
-  it "finds settings by their description" do
+  it "finds settings by their description and shows an excerpt of it" do
     search_for "comma separated"
 
     within_test_selector("op-admin-settings-search") do
       expect(page).to have_link "Objects per page options"
+      expect(page).to have_css(".op-admin-settings-search--excerpt", text: "Multiple values allowed (comma separated)")
       expect(page).to have_no_link "Application title"
     end
   end

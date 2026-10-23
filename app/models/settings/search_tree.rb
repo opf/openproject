@@ -38,6 +38,9 @@ module Settings
   #
   # Entities like work package types are only listed when their name matches
   # a word of the query, as there may be too many to list them all.
+  #
+  # Nodes found by their description get an excerpt of it, showing why they
+  # were found.
   class SearchTree
     Node = Data.define(:key, :label, :description, :href, :children)
     EXAMPLE_ENTITIES = 25
@@ -54,6 +57,9 @@ module Settings
     # a label anyway, and each word runs an ILIKE per entity kind.
     MAX_QUERY_LENGTH = 64
     MAX_QUERY_WORDS = 5
+
+    EXCERPT_LENGTH = 80
+    EXCERPT_LEADING_CONTEXT = 20
 
     # The words of a text, decomposed and compared without accents, as users
     # may type either, like the entity names are matched.
@@ -82,6 +88,11 @@ module Settings
 
     def nodes
       @nodes ||= filter(assemble(@menu), [])
+    end
+
+    def excerpt(node)
+      nodes
+      excerpts[node.key]
     end
 
     private
@@ -246,19 +257,51 @@ module Settings
 
       nodes.filter_map do |node|
         path_words = [*ancestor_words, *self.class.words(node.label)]
-        next node if matches?([*path_words, *self.class.words(node.description)])
+        next node if matches?(path_words) || matches_by_description?(node, path_words)
 
         children = filter(node.children, path_words)
         node.with(children:) if children.any?
       end
     end
 
+    def matches_by_description?(node, path_words)
+      return false unless matches?([*path_words, *self.class.words(node.description)])
+
+      excerpts[node.key] = excerpt_of(node.description, unmatched_query_words(path_words))
+      true
+    end
+
     def matches?(words)
-      query_words.all? { |query_word| words.any? { it.include?(query_word) } }
+      unmatched_query_words(words).empty?
+    end
+
+    def unmatched_query_words(words)
+      query_words.reject { |query_word| words.any? { it.include?(query_word) } }
+    end
+
+    def excerpts
+      @excerpts ||= {}
+    end
+
+    def excerpt_of(text, words)
+      return text if text.length <= EXCERPT_LENGTH
+
+      position = first_word_position(text, words)
+      start = position > EXCERPT_LEADING_CONTEXT ? text.rindex(" ", position - EXCERPT_LEADING_CONTEXT).to_i : 0
+      excerpt = text[start..].strip.truncate(EXCERPT_LENGTH, separator: " ", omission: "…")
+      start.positive? ? "…#{excerpt}" : excerpt
+    end
+
+    def first_word_position(text, words)
+      text.scan(/[\p{L}\p{N}]+/) do
+        match = Regexp.last_match
+        return match.begin(0) if self.class.words(match[0]).any? { |word| words.any? { word.include?(it) } }
+      end
+      0
     end
 
     def plain_text(html)
-      view_context.strip_tags(html)&.squish.presence
+      view_context.strip_tags(html.to_s.gsub(%r{<br\s*/?>|</p>}i, " ")).squish.presence
     end
 
     # The tree depends on the locale, the menu items the admin may see, the

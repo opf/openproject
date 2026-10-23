@@ -40,7 +40,8 @@ RSpec.describe Admin::SettingsSearch::TreeComponent, type: :component do
     ]
   end
   let(:query_words) { ["title"] }
-  let(:tree) { instance_double(Settings::SearchTree, nodes:, query_words:) }
+  let(:excerpt) { nil }
+  let(:tree) { instance_double(Settings::SearchTree, nodes:, query_words:, excerpt:) }
 
   subject(:rendered_component) do
     render_inline(described_class.new(tree:))
@@ -56,6 +57,17 @@ RSpec.describe Admin::SettingsSearch::TreeComponent, type: :component do
   it "highlights the query and expands the hierarchy", :aggregate_failures do
     expect(rendered_component).to have_css(".op-search-highlight", text: "title")
     expect(rendered_component).to have_css("[aria-expanded='true']", text: "System settings")
+  end
+
+  context "with an excerpt of a description" do
+    let(:query_words) { ["header"] }
+    let(:excerpt) { "Shown in the header" }
+
+    it "shows it below the label, highlighting the query", :aggregate_failures do
+      expect(rendered_component).to have_css(".op-admin-settings-search--excerpt", text: "Shown in the header", visible: :all)
+      expect(rendered_component).to have_css(".op-admin-settings-search--excerpt .op-search-highlight", text: "header",
+                                                                                                        visible: :all)
+    end
   end
 
   context "without a query" do

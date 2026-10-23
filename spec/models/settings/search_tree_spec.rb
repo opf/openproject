@@ -196,6 +196,31 @@ RSpec.describe Settings::SearchTree do
       it "keeps the described settings" do
         expect(leaf_labels(tree.nodes)).to include("Objects per page options")
       end
+
+      it "explains the match with an excerpt of the description" do
+        node = find_node(tree.nodes, "System settings", "General", "Objects per page options")
+
+        expect(tree.excerpt(node)).to start_with "Multiple values allowed (comma separated). Note:"
+      end
+    end
+
+    context "with a query matching a long description" do
+      let(:query) { "admin info" }
+
+      it "excerpts the description around the match", :aggregate_failures do
+        excerpt = tree.excerpt(find_node(tree.nodes, "System settings", "General", "Display security badge"))
+
+        expect(excerpt).to start_with("…").and include("Information administration panel")
+        expect(excerpt.length).to be <= Settings::SearchTree::EXCERPT_LENGTH + 1
+      end
+    end
+
+    context "with a query matching a label" do
+      let(:query) { "host name" }
+
+      it "has no excerpt" do
+        expect(tree.excerpt(find_node(tree.nodes, "System settings", "General", "Host name"))).to be_nil
+      end
     end
 
     context "with a query matching nothing" do
