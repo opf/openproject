@@ -28,6 +28,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { BurndownChartComponent } from 'core-app/features/backlogs/burndown-chart.component';
 
 describe('BurndownChartComponent', () => {
@@ -49,16 +50,16 @@ describe('BurndownChartComponent', () => {
     },
   };
 
-  // Only what the chart asks of it. The zone decides which day a point falls on, so each example
-  // sets it rather than it being fixed here.
-  const timezoneStub = {
-    userTimezone: () => zone,
-    getDateFormat: () => 'MM/DD/YYYY',
-    getTimeFormat: () => 'hh:mm A',
-    // Present so that reaching for either is a visible mistake: both land on the browser's zone
-    // rather than the one picked in OpenProject, which is the divergence this chart had.
-    formattedDate: () => 'BROWSER ZONE',
-    formattedDatetime: () => 'BROWSER ZONE',
+  // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
+  // the zone conversion rather than a stand-in for it. The zone decides which day a point falls
+  // on, so each example sets it rather than it being fixed here.
+  const configurationStub = {
+    isTimezoneSet: () => true,
+    timezone: () => zone,
+    dateFormatPresent: () => true,
+    dateFormat: () => 'MM/DD/YYYY',
+    timeFormatPresent: () => true,
+    timeFormat: () => 'hh:mm A',
   };
 
   const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
@@ -76,7 +77,8 @@ describe('BurndownChartComponent', () => {
       imports: [BurndownChartComponent],
       providers: [
         { provide: I18nService, useValue: i18nStub },
-        { provide: TimezoneService, useValue: timezoneStub },
+        { provide: ConfigurationService, useValue: configurationStub },
+        TimezoneService,
       ],
     }).compileComponents();
 
