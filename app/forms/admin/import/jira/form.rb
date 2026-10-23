@@ -164,7 +164,7 @@ module Admin::Import::Jira
         credential_field(basic_group, input_name: :basic_auth_password)
       end
 
-      client_form.check_box(
+      f.check_box(
         name: :exclude_resolution_fields,
         label: I18n.t("admin.jira.form.fields.exclude_resolution_fields"),
         caption: I18n.t("admin.jira.form.exclude_resolution_fields_caption")
@@ -190,7 +190,6 @@ module Admin::Import::Jira
           name: :test_connection,
           label: I18n.t("admin.jira.form.button_test_connection"),
           scheme: :default,
-          href: url_helpers.admin_import_jira_index_path,
           data: { action: "click->admin--jira-configuration-form#testConnection" }
         )
       end

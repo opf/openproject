@@ -30,8 +30,10 @@
 
 class AddBasicAuthUsernameAndPasswordToJiras < ActiveRecord::Migration[8.1]
   def change
-    add_column :jiras, :basic_auth_username, :string
-    add_column :jiras, :basic_auth_password, :string
-    add_column :jiras, :auth_method, :string, default: "bearer", null: false
+    change_table :jiras, bulk: true do |t|
+      t.string :basic_auth_username
+      t.string :basic_auth_password
+      t.string :auth_method, default: "bearer", null: false
+    end
   end
 end

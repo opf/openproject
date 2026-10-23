@@ -76,7 +76,7 @@ module Admin::Import
       field = params[:field]
 
       if %w[personal_access_token basic_auth_password].include?(field)
-        @jira.update_column(field, nil)
+        @jira.update!(field => nil)
         flash[:notice] = t(:"admin.jira.#{field}_deleted")
       end
       redirect_to(edit_admin_import_jira_path(@jira), status: :see_other)
@@ -101,7 +101,7 @@ module Admin::Import
                                            basic_auth_password:)
 
       server_info = jira_client.server_info
-      jira_user_is_administer = jira_client.mypermissions["permissions"].key?("ADMINISTER")
+      jira_user_is_administer = jira_client.mypermissions.dig("permissions", "ADMINISTER", "havePermission")
 
       unless jira_user_is_administer
         return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.user_is_not_admin"))
@@ -130,9 +130,10 @@ module Admin::Import
                         basic_auth_username
                         basic_auth_password]
       )
-      permitted = params.expect(import_jira: %i[name url personal_access_token exclude_resolution_fields])
-      if action_name == "update" && permitted[:personal_access_token].blank?
-        permitted.delete(:personal_access_token)
+      if action_name == "update"
+        %i[personal_access_token basic_auth_password].each do |credential|
+          permitted.delete(credential) if permitted[credential].blank?
+        end
       end
       permitted
     end
