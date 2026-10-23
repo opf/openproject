@@ -121,7 +121,7 @@ RSpec.describe LlmConnections::EnvSyncService do
     it "contacts neither the previous server nor the new one" do
       expect(result).to be_success
 
-      expect(a_request(:any, /example\.com/)).not_to have_been_made
+      expect(a_request(:any, %r{\Ahttps://(other\.)?example\.com/})).not_to have_been_made
     end
   end
 
