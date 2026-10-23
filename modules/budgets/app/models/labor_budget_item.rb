@@ -40,6 +40,8 @@ class LaborBudgetItem < ApplicationRecord
   include ActiveModel::ForbiddenAttributesProtection
   # user_id correctness is ensured in Budget#*_labor_budget_item_attributes=
 
+  attr_accessor :copied_from_id
+
   include Scopes::Scoped
 
   scopes :visible

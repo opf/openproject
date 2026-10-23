@@ -40,6 +40,7 @@ en:
         labor_budget: "Planned labor costs"
         labor_budget_items: "Planned labor costs"
         material_budget: "Planned unit costs"
+        material_budget_items: "Planned unit costs"
         spent: "Spent"
         status: "Status"
         subject: "Subject"

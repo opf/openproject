@@ -67,7 +67,7 @@ RSpec.describe "Upload attachment to budget", :js do
 
     editor.attachments_list.expect_attached("image.png", count: 2)
 
-    click_on "Submit"
+    click_on "Save"
 
     expect(page).to have_content("Image uploaded on creation")
     expect(page).to have_content("Image uploaded the second time")
@@ -101,7 +101,7 @@ RSpec.describe "Upload attachment to budget", :js do
 
     editor.attachments_list.expect_attached("image.png", count: 2)
 
-    click_on "Submit"
+    click_on "Save"
 
     attachments_list.expect_attached("image.png", count: 2)
   end

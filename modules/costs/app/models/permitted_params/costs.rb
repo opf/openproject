@@ -43,8 +43,8 @@ module PermittedParams::Costs
     params.require(:budget).permit(:subject,
                                    :description,
                                    :fixed_date, :base_amount,
-                                   { new_material_budget_item_attributes: %i[units cost_type_id comments amount] },
-                                   { new_labor_budget_item_attributes: %i[hours user_id comments amount] },
+                                   { new_material_budget_item_attributes: %i[units cost_type_id comments amount copied_from_id] },
+                                   { new_labor_budget_item_attributes: %i[hours user_id comments amount copied_from_id] },
                                    { existing_material_budget_item_attributes: %i[units cost_type_id comments amount] },
                                    { existing_labor_budget_item_attributes: %i[hours user_id comments amount] })
   end
