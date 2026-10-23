@@ -39,6 +39,14 @@ module AI
       def label(key)
         I18n.t("ai.text_transform.pane.#{key}")
       end
+
+      def target(name)
+        { ai_text_transform_pane_target: name }
+      end
+
+      def action(**events_by_name)
+        { action: events_by_name.map { |name, event| "#{event}->ai-text-transform-pane##{name}" }.join(" ") }
+      end
     end
   end
 end
