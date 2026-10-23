@@ -27,19 +27,25 @@
 
 import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
+import { type ListTopology } from './drag-and-drop';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
   applySelectionPresentation,
-  listBoundaryItem,
-  liveOrderableKeys,
-  liveOrderableListItems,
-  neighbourItem,
+  liveMovableKeys,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
-  resolveRangeItems,
   type SelectionCandidate,
 } from './selection';
+import {
+  boundaryItemRow,
+  movableItems,
+  neighbourItemRow,
+  rangeBetween,
+  renderList,
+  type RangeResolution,
+  type RenderedList,
+} from './rendered-list';
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isApplePlatform } from 'core-common/platform';
 import { clearSelectionOnEscape } from 'core-common/selection-escape';
@@ -48,16 +54,12 @@ import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
 /**
  * What the orchestrator needs from whatever hosts it.
  */
-export interface SelectionHost {
-  readonly rootElement:HTMLElement;
+export interface SelectionHost extends ListTopology {
   readonly busy:boolean;
   readonly announcementScope:string;
   readonly descriptionId:string;
   // The consumer decides which element inside a row holds the tab stop.
   focusItem(itemElement:HTMLElement):void;
-  // Must be the container moves use, so ranges and moves agree on what a
-  // list's rows are.
-  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
 
 export type ActionScope =
@@ -93,7 +95,7 @@ export class SelectionOrchestrator {
     return this.resolveActionScope(itemElement, 'none');
   }
 
-  // Same, but an unselected orderable card becomes the selection first, so
+  // Same, but an unselected movable card becomes the selection first, so
   // a drag or a menu action on it leaves one consistent state behind.
   selectForAction(itemElement:HTMLElement):ActionScope {
     return this.resolveActionScope(itemElement, 'replace-if-unselected');
@@ -108,8 +110,8 @@ export class SelectionOrchestrator {
   }
 
   private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
-    const candidate = resolveCandidate(this.host.rootElement, itemElement);
-    if (!candidate?.orderable) {
+    const candidate = resolveCandidate(this.host, itemElement);
+    if (!candidate?.movable) {
       return { kind: 'refused', items: [] };
     }
 
@@ -175,7 +177,7 @@ export class SelectionOrchestrator {
 
       // A fixed card cannot join the batch, but must still clear the one
       // behind it.
-      if (candidate.orderable) {
+      if (candidate.movable) {
         this.selection.replace({ type: candidate.type, id: candidate.id }, candidate.listKey);
         this.renderSelection('navigation');
       } else {
@@ -194,7 +196,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (!candidate.orderable) {
+    if (!candidate.movable) {
       this.announceSelection('not_selectable');
       return;
     }
@@ -211,7 +213,7 @@ export class SelectionOrchestrator {
   // Backlogs cards carry tabindex — and at the item otherwise, which keeps
   // it bounded to the row for a host nested deeper than the item.
   private candidateForGesture(target:EventTarget|null):SelectionCandidate|null {
-    const candidate = resolveCandidate(this.host.rootElement, target);
+    const candidate = resolveCandidate(this.host, target);
     if (!candidate) {
       return null;
     }
@@ -266,7 +268,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (!candidate.orderable) {
+    if (!candidate.movable) {
       this.announceSelection('not_selectable');
       return;
     }
@@ -283,19 +285,27 @@ export class SelectionOrchestrator {
   private handleArrow(event:KeyboardEvent, candidate:SelectionCandidate, offset:1|-1):void {
     event.preventDefault();
 
-    const next = neighbourItem(this.host.rootElement, candidate.itemElement, offset);
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const next = rendered ? neighbourItemRow(rendered, candidate.itemElement, offset)?.item : null;
     if (!next) {
       return;
     }
 
-    this.focusAndMaybeExtend(event, next);
+    this.focusAndMaybeExtend(event, next.element);
+  }
+
+  // One snapshot per gesture: the rows of the list that owns the item.
+  private renderedListOf(itemElement:HTMLElement):RenderedList|null {
+    const list = this.host.ownerList(itemElement);
+    return list ? renderList(list.rowsContainer) : null;
   }
 
   // Consumed like an arrow, including in both no-op cases below.
   private handleBoundary(event:KeyboardEvent, candidate:SelectionCandidate, edge:'first'|'last'):void {
     event.preventDefault();
 
-    const target = listBoundaryItem(this.host.rootElement, candidate.itemElement, edge);
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const target = rendered ? boundaryItemRow(rendered, edge)?.item?.element ?? null : null;
     if (!target) {
       return;
     }
@@ -316,12 +326,12 @@ export class SelectionOrchestrator {
       return;
     }
 
-    const candidate = resolveCandidate(this.host.rootElement, target);
+    const candidate = resolveCandidate(this.host, target);
     if (!candidate) {
       return;
     }
 
-    if (candidate.orderable) {
+    if (candidate.movable) {
       this.extendSelectionTo(candidate);
     } else {
       this.announceSelection('not_selectable');
@@ -334,7 +344,8 @@ export class SelectionOrchestrator {
 
   // Confined to the focused card's list, like a range.
   private handleSelectAll(event:KeyboardEvent, candidate:SelectionCandidate):void {
-    const items = liveOrderableListItems(this.host.rootElement, candidate.itemElement)
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const items = (rendered ? movableItems(rendered) : [])
       .filter((item) => item.type === candidate.type);
     // Only consumed once there is something to select: otherwise the
     // browser's own select-all still has to work.
@@ -348,9 +359,9 @@ export class SelectionOrchestrator {
       return;
     }
 
-    // A fixed focused card cannot anchor the batch, so the first orderable
+    // A fixed focused card cannot anchor the batch, so the first movable
     // card of the same list stands in.
-    const anchor:SelectionAnchor = candidate.orderable
+    const anchor:SelectionAnchor = candidate.movable
       ? { type: candidate.type, id: candidate.id, listKey: candidate.listKey }
       : { ...items[0], listKey: candidate.listKey };
 
@@ -407,12 +418,16 @@ export class SelectionOrchestrator {
       return;
     }
 
-    const range = resolveRangeItems(
-      this.host.rootElement,
-      anchor,
-      candidate,
-      this.host.ownerRowsContainer(candidate.itemElement),
-    );
+    // A range never crosses a list: Shift into another list restarts there.
+    if (anchor.listKey !== candidate.listKey) {
+      this.renderRangeRestart(candidate);
+      return;
+    }
+
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const range:RangeResolution = rendered
+      ? rangeBetween(rendered, anchor, candidate.itemElement)
+      : { ok: false, reason: 'unavailable' };
 
     if (range.ok) {
       this.selection.range(range.items);
@@ -420,13 +435,8 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (range.reason === 'crossList') {
-      this.renderRangeRestart(candidate);
-      return;
-    }
-
     // Expanding the list can surface a truncated block, but never makes a
-    // locked card orderable, so the two speak different messages.
+    // locked card movable, so the two speak different messages.
     this.announceSelection(range.reason === 'locked' ? 'range_blocked' : 'range_unavailable');
   }
 
@@ -482,7 +492,7 @@ export class SelectionOrchestrator {
   // Repaints whether or not prune dropped anything: a morph can strip or
   // preserve the marker attribute independently of the model.
   reconcile():void {
-    this.selection.prune(liveOrderableKeys(this.host.rootElement));
+    this.selection.prune(liveMovableKeys(this.host.rootElement));
     this.rebindAnchorList();
     this.renderSelection('selection', true);
   }
@@ -499,7 +509,7 @@ export class SelectionOrchestrator {
     // Matched on type as well as id: ids collide across source tables.
     const element = orderedItemElements(this.host.rootElement)
       .find((item) => resolveItemId(item) === anchor.id && resolveItemType(item) === anchor.type);
-    const candidate = element ? resolveCandidate(this.host.rootElement, element) : null;
+    const candidate = element ? resolveCandidate(this.host, element) : null;
 
     if (candidate) {
       this.selection.rebindAnchor(candidate.listKey);
