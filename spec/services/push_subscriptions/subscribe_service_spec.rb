@@ -72,7 +72,7 @@ RSpec.describe PushSubscriptions::SubscribeService do
     it "keeps this session's subscription when the new endpoint is rejected" do
       stale = create(:push_subscription, user:, session: session_row)
 
-      result = service.call(endpoint: "https://evil.example/x")
+      result = service.call(endpoint: "http://fcm.googleapis.com/fcm/send/abc")
 
       expect(result).to be_failure
       expect(PushSubscription.exists?(stale.id)).to be(true)
