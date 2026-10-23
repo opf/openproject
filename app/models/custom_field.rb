@@ -30,6 +30,7 @@
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
+  include CustomField::ProjectSpecificValues
   include Lists::MoveAfterAnchor
 
   SORTABLE_LIST_TYPE = "custom_field"
@@ -54,9 +55,6 @@ class CustomField < ApplicationRecord
           inverse_of: "custom_field"
 
   attr_readonly :field_format
-
-  enum :project_specific_value_restriction, { allow: "allow", block: "block" }, prefix: true, validate: { allow_nil: true }
-  has_many :project_specific_value_restrictions, class_name: "CustomField::ProjectSpecificValueRestriction", dependent: nil
 
   has_many :calculated_value_errors, dependent: :delete_all, inverse_of: "custom_field"
   has_many :comments, class_name: "CustomComment", dependent: :delete_all, inverse_of: "custom_field"
