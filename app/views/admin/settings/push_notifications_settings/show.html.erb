@@ -1,0 +1,126 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:"menus.admin.push_notifications") -%>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:"menus.admin.push_notifications") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_settings_aggregation_path, text: t(:"menus.admin.mails_and_notifications") },
+       t(:"menus.admin.push_notifications")]
+    )
+  end
+%>
+
+<% if Setting.web_push_enabled? && !OpenProject::WebPush.key_readable? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :danger, mb: 3)) do
+      t("admin.settings.push_notifications.key_unreadable")
+    end
+  %>
+<% end %>
+
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("admin.settings.push_notifications.description") } %>
+
+<div data-controller="show-when-value-selected">
+  <%= settings_primer_form_with(
+        url: admin_settings_push_notifications_path,
+        scope: :settings,
+        method: :patch,
+        id: "browser-notifications-form",
+        data: { turbo: false }
+      ) do |form| %>
+    <%= render Admin::Settings::PushNotificationsSettingForm.new(form) %>
+  <% end %>
+
+  <%= render(
+        OpPrimer::InsetBoxComponent.new(
+          border: false,
+          mt: 4,
+          hidden: !Setting.web_push_enabled?,
+          data: {
+            show_when_value_selected_target: "effect",
+            target_name: "web_push_enabled",
+            value: "true",
+            test_selector: "push-reachability-panel"
+          }
+        )
+      ) do |box| %>
+    <% box.with_title_icon(icon: :globe) %>
+    <% box.with_title(tag: :h2) { t("admin.settings.push_notifications.verify_reachability") } %>
+    <% box.with_action_button(
+         type: :submit,
+         form: "check-reachability-form",
+         data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
+       ) { t("admin.settings.push_notifications.verify_reachability") } %>
+    <% unless OpenProject::WebPush.key_managed_by_environment? %>
+      <% box.with_action_button(
+           tag: :a,
+           scheme: :danger,
+           href: renew_key_dialog_admin_settings_push_notifications_path,
+           data: { controller: "async-dialog" }
+         ) { t("admin.settings.push_notifications.renew_key") } %>
+    <% end %>
+
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.verify_reachability_description") } %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
+    <%= render(Primer::BaseComponent.new(tag: :ul, color: :muted, pl: 4, mb: 0)) do %>
+      <% OpenProject::WebPush::ReachabilityCheck.hosts.each do |host| %>
+        <% result = @reachability&.find { |candidate| candidate.host == host } %>
+        <li>
+          <code><%= host %></code>
+          <% if result&.reachable? %>
+            <%= render(Primer::Beta::Label.new(scheme: :success, ml: 2)) { t("admin.settings.push_notifications.reachable") } %>
+            <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) { t("admin.settings.push_notifications.http_status", code: result.code) } %>
+          <% elsif result %>
+            <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 2)) { t("admin.settings.push_notifications.unreachable") } %>
+            <%= render(Primer::Beta::Text.new(color: :muted, ml: 1)) do %>
+              <%= t("admin.settings.push_notifications.reasons.#{result.reason}", seconds: OpenProject::WebPush::ReachabilityCheck::TIMEOUT) %>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+    <% if OpenProject::WebPush.key_managed_by_environment? %>
+      <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 3, mb: 0)) { t("admin.settings.push_notifications.key_managed_by_environment") } %>
+    <% end %>
+  <% end %>
+
+  <%= render(
+        Primer::Beta::Button.new(type: :submit, scheme: :primary, mt: 4, form: "browser-notifications-form")
+      ) { t(:button_save) } %>
+</div>
+
+<%= primer_form_with(
+      url: check_admin_settings_push_notifications_path,
+      method: :post,
+      id: "check-reachability-form"
+    ) { nil } %>
