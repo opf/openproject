@@ -95,4 +95,13 @@ describe('LabelsAutocompleterComponent', () => {
     expect(fixture.componentInstance.addTag).toBe(false);
     expect(currentUser.hasCapabilities$).not.toHaveBeenCalled();
   });
+
+  it('treats pending and persisted labels with the same name as the same label, ignoring case', () => {
+    const pending = { id: null, name: 'Needs Triage', href: null };
+    const persisted = { id: 9, name: 'needs triage', href: '/api/v3/labels/9' };
+    const other = { id: 10, name: 'Blocked', href: '/api/v3/labels/10' };
+
+    expect(component.compareWith?.(pending, persisted)).toBe(true);
+    expect(component.compareWith?.(pending, other)).toBe(false);
+  });
 });

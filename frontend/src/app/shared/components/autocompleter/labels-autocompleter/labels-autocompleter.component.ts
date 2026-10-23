@@ -35,7 +35,6 @@ import {
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import {
   LabelsAutocompleterTemplateComponent,
@@ -123,7 +122,20 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
-    return compareByAttribute('href', 'name');
+    return (a, b) => {
+      const left = a as Partial<ILabelAutocompleteItem>|null|undefined;
+      const right = b as Partial<ILabelAutocompleteItem>|null|undefined;
+
+      if (!left || !right) {
+        return !left && !right;
+      }
+
+      if (typeof left.name === 'string' && typeof right.name === 'string') {
+        return left.name.toLowerCase() === right.name.toLowerCase();
+      }
+
+      return !!left.href && left.href === right.href;
+    };
   }
 
   protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
