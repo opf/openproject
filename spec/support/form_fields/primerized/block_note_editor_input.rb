@@ -60,6 +60,33 @@ module FormFields
         shadow_root.find("button[aria-label='#{label}']").click
       end
 
+      def insert_table
+        send_keys_to_editor("/table")
+        send_keys(:enter)
+      end
+
+      def open_table_row_menu
+        shadow_root.first("table td, table th").hover
+        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+      end
+
+      def open_table_cell_menu(cell)
+        cell.hover
+        shadow_root.find(".bn-table-cell-handle").click
+      end
+
+      # The colors menu lists the text colors first, then the background colors, with the same names.
+      def pick_table_cell_color(name, background: false)
+        click_table_menu_item("Colors", hover: true)
+        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
+        send_keys(:escape)
+      end
+
+      def click_table_menu_item(text, hover: false)
+        item = shadow_root.find(".bn-menu-item", exact_text: text)
+        hover ? item.hover : item.click
+      end
+
       def create_work_package_form
         page.find("[data-testid='create-wp-modal']")
       end
