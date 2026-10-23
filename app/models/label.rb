@@ -72,6 +72,10 @@ class Label < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
 
+  def self.creatable_by?(user)
+    user.admin? || user.allowed_in_any_project?(:edit_work_packages)
+  end
+
   def self.page_of(label, per_page:)
     (where("LOWER(labels.name) < LOWER(?)", label.name).count / per_page) + 1
   end

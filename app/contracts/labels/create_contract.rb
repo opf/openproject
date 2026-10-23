@@ -34,7 +34,7 @@ module Labels
     private
 
     def user_allowed_to_create
-      unless user.active? && (user.admin? || user.allowed_in_any_project?(:edit_work_packages))
+      unless user.active? && Label.creatable_by?(user)
         errors.add :base, :error_unauthorized
       end
     end

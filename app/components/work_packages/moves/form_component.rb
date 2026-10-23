@@ -125,13 +125,21 @@ module WorkPackages
         available.select { |version| selected_ids.include?(version.id.to_s) }
       end
 
-      def available_labels
-        @available_labels ||= Label.order(Arel.sql("LOWER(name)"))
+      def label_items
+        [none_label_item] + Label.order(Arel.sql("LOWER(name)")).map { { id: it.id, name: it.name } }
       end
+
+      def selected_label_model
+        removal = label_removal_selected? ? [none_label_item] : []
+        existing = Label.where(id: selected_label_ids).order(Arel.sql("LOWER(name)")).map { { id: it.id, name: it.name } }
+        removal + existing + selected_label_names.map { { name: it } }
+      end
+
+      def none_label_item = { id: "none", name: I18n.t(:label_none) }
 
       def selected_label_ids = Array(selected_values[:label_ids]).compact_blank.map(&:to_s)
 
-      def no_label_change_selected? = selected_label_ids.empty?
+      def selected_label_names = Array(selected_values[:label_names]).compact_blank
 
       def label_removal_selected? = selected_label_ids.include?("none")
 

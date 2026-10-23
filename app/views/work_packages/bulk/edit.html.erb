@@ -178,13 +178,21 @@ See COPYRIGHT and LICENSE files for more details.
             <div class="form--field">
               <%= styled_label_tag :work_package_label_ids, WorkPackage.human_attribute_name(:labels) %>
               <div class="form--field-container">
-                <%= styled_select_tag(
-                      "work_package[label_ids][]",
-                      content_tag("option", t(:label_none), value: "none") +
-                      options_from_collection_for_select(Label.order(Arel.sql("LOWER(name)")), :id, :name),
-                      include_blank: t(:label_no_change_option),
-                      multiple: true
-                    ) %>
+                <%= angular_component_tag "opce-autocompleter",
+                                          inputs: {
+                                            multiple: true,
+                                            defaultData: false,
+                                            items: [{ id: "none", name: t(:label_none) }] +
+                                              Label.order(Arel.sql("LOWER(name)")).map { { id: it.id, name: it.name } },
+                                            model: [],
+                                            inputName: "work_package[label_ids][]",
+                                            pendingInputName: "work_package[label_names][]",
+                                            addTag: Label.creatable_by?(current_user),
+                                            addTagText: I18n.t("js.autocompleter.create_label"),
+                                            placeholder: t(:label_no_change_option),
+                                            bindLabel: "name",
+                                            labelForId: "work_package_label_ids"
+                                          } %>
               </div>
             </div>
           <% end %>

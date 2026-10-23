@@ -137,26 +137,41 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
   context "with labels enabled", with_flag: { work_package_labels: true } do
     let!(:label) { create(:label, name: "Frontend") }
 
-    it "defaults the labels select to '(no change)' and offers the labels" do
-      expect(rendered_component).to have_select("label_ids[]",
-                                                selected: I18n.t(:label_no_change_option),
-                                                with_options: [I18n.t(:label_none), "Frontend"])
+    def autocompleter_input(name)
+      rendered_component
+      JSON.parse(page.find("opce-autocompleter", visible: :all)["data-#{name}"])
     end
 
-    context "with a selected label" do
+    it "offers the labels and the none item, with nothing preselected" do
+      expect(autocompleter_input("items"))
+        .to eq([{ "id" => "none", "name" => I18n.t(:label_none) },
+                { "id" => label.id, "name" => "Frontend" }])
+      expect(autocompleter_input("model")).to eq([])
+    end
+
+    context "with a selected label and a typed name" do
       let(:component) do
-        build_component(selected_values: { label_ids: [label.id.to_s] })
+        build_component(selected_values: { label_ids: [label.id.to_s], label_names: ["Brand new"] })
       end
 
-      it "preserves the selected value" do
-        expect(rendered_component).to have_select("label_ids[]", selected: "Frontend")
+      it "preserves both so a refresh does not drop them" do
+        expect(autocompleter_input("model"))
+          .to eq([{ "id" => label.id, "name" => "Frontend" }, { "name" => "Brand new" }])
+      end
+    end
+
+    context "with label removal selected" do
+      let(:component) { build_component(selected_values: { label_ids: ["none"] }) }
+
+      it "preselects the none item" do
+        expect(autocompleter_input("model")).to eq([{ "id" => "none", "name" => I18n.t(:label_none) }])
       end
     end
   end
 
   context "with labels disabled", with_flag: { work_package_labels: false } do
-    it "does not render the labels select" do
-      expect(rendered_component).to have_no_select("label_ids[]")
+    it "does not render the labels autocompleter" do
+      expect(rendered_component).to have_no_css("opce-autocompleter", visible: :all)
     end
   end
 

@@ -139,14 +139,20 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= WorkPackage.human_attribute_name(:labels) %>
                 </label>
                 <div class="form--field-container">
-                  <%= styled_select_tag(
-                        "label_ids[]",
-                        content_tag("option", t(:label_no_change_option), value: "", selected: no_label_change_selected?) +
-                          content_tag("option", t(:label_none), value: "none", selected: label_removal_selected?) +
-                          options_from_collection_for_select(available_labels, :id, :name, selected_label_ids),
-                        id: "label_ids",
-                        multiple: true
-                      ) %>
+                  <%= angular_component_tag "opce-autocompleter",
+                                            inputs: {
+                                              multiple: true,
+                                              defaultData: false,
+                                              items: label_items,
+                                              model: selected_label_model,
+                                              inputName: "label_ids[]",
+                                              pendingInputName: "label_names[]",
+                                              addTag: Label.creatable_by?(current_user),
+                                              addTagText: I18n.t("js.autocompleter.create_label"),
+                                              placeholder: t(:label_no_change_option),
+                                              bindLabel: "name",
+                                              labelForId: "label_ids"
+                                            } %>
                 </div>
               </div>
             <% end %>
