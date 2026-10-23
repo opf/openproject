@@ -229,14 +229,44 @@ describe('BurndownChartComponent', () => {
       expect(tooltipTitleAt(dayEndInKolkata)).toEqual('10/17/2026 12:00 AM');
     });
 
-    // Truncated to the date it falls on in that zone, which west of Kolkata is still the day
-    // before -- so this says nothing unless the conversion happens.
+    // Dated in that zone, which west of Kolkata is still the day before -- so this says nothing
+    // unless the conversion happens.
     it('names a daily tick by its date in the OpenProject zone', () => {
       const justPastMidnightInKolkata = Date.parse('2026-10-16T19:00:00.000Z');
 
       renderWith(seriesWithAPointAt('2026-10-16T19:00:00.000Z'), 'day');
 
       expect(tooltipTitleAt(justPastMidnightInKolkata)).toEqual('10/17/2026');
+    });
+  });
+
+  // A tick sits at the close of the period it carries, which the axis draws on the next gridline
+  // -- a millisecond is less than a pixel. Naming it for the period it covered instead put every
+  // daily point one gridline away from its own tooltip.
+  describe('naming a tick for the boundary it is drawn on', () => {
+    const dayEnd = '2026-10-16T23:59:59.999Z';
+    const hourEnd = '2026-10-16T09:59:59.999Z';
+
+    it('names a day end as the date that follows it', () => {
+      renderWith(seriesWithAPointAt(dayEnd), 'day');
+
+      expect(tooltipTitleAt(Date.parse(dayEnd))).toEqual('10/17/2026');
+    });
+
+    it('names an hour end as the hour it opens', () => {
+      renderWith(seriesWithAPointAt(hourEnd));
+
+      expect(tooltipTitleAt(Date.parse(hourEnd))).toEqual('10/16/2026 10:00 AM');
+    });
+
+    // The interval's own bounds are exact instants rather than period closes, so the rounding
+    // must leave them where they are rather than carrying them to the next day.
+    it('leaves an instant that is genuinely mid-day on its own date', () => {
+      const sprintStart = '2026-10-16T09:00:00.000Z';
+
+      renderWith(seriesWithAPointAt(sprintStart), 'day');
+
+      expect(tooltipTitleAt(Date.parse(sprintStart))).toEqual('10/16/2026');
     });
   });
 

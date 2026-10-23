@@ -361,22 +361,21 @@ export class BurndownChartComponent {
     return dated ? this.formattedTick(Number(dated.parsed.x)) : '';
   }
 
-  // Ticks sit at the end of the period they carry, so 09:59:59.999 is what the 9 o'clock hour
-  // left behind. Naming it 10:00 is what a reader expects. Hours are therefore rounded.
-  // A day end must be truncated instead: rounding it would land on the following date.
+  // Ticks sit at the end of the period they describe, so 09:59:59.999 is what the 9 o'clock hour
+  // left behind and 23:59:59.999 what the day did. The axis draws such a tick on the boundary it
+  // closes, the hour as 10:00, the day as the date that follows.
   private formattedTick(timestamp:number):string {
-    if (this.parsedInput().step === 'day') {
-      return this.formattedInstant(timestamp, this.timezoneService.getDateFormat());
-    }
-
     const roundedToMinute = Math.round(timestamp / MINUTE_IN_MS) * MINUTE_IN_MS;
-    const format = `${this.timezoneService.getDateFormat()} ${this.timezoneService.getTimeFormat()}`;
+    const dateFormat = this.timezoneService.getDateFormat();
+    const format = this.parsedInput().step === 'day'
+      ? dateFormat
+      : `${dateFormat} ${this.timezoneService.getTimeFormat()}`;
 
     return this.formattedInstant(roundedToMinute, format);
   }
 
   // Said in the zone the reader picked in OpenProject, which the axis also positions by, so that
-  // a label and the point under it name the same moment however the browser is set.
+  // a label and the point under it name the same moment, however the browser is set.
   //
   // TimezoneService#formattedDate cannot do this: it parses through moment without a zone, which
   // lands on the browser's. That is right for the 'YYYY-MM-DD' strings it is meant for, where
