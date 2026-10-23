@@ -33,15 +33,11 @@ module Labels
 
     def set_attributes(params)
       super
-      curate_on_edit
+      clear_inline_origin if model.persisted? && model.changed?
     end
 
-    def curate_on_edit
-      return unless model.persisted?
-
-      model.change_by_system do
-        model.created_inline = false
-      end
+    def clear_inline_origin
+      model.change_by_system { model.created_inline = false }
     end
 
     def set_default_attributes(_params)

@@ -57,6 +57,13 @@ RSpec.describe Labels::UpdateService, type: :model do
         expect(result).to be_success
         expect(label.reload).not_to be_created_inline
       end
+
+      it "stays a cleanup candidate when nothing changes" do
+        result = instance.call(name: "Bug")
+
+        expect(result).to be_success
+        expect(label.reload).to be_created_inline
+      end
     end
 
     context "when the new name is already taken in a different case" do
