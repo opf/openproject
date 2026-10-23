@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import { ATTRIBUTE_SCHEMA_HREF, mockAttributeSchema, mockAttributeWorkPackage } from './workPackageAttributes';
 
 export const mockWorkPackage = {
   id: 123,
@@ -303,8 +304,11 @@ export const handlers = [
     })
   ),
 
+  http.get(`http://localhost:3000${ATTRIBUTE_SCHEMA_HREF}`, () => HttpResponse.json(mockAttributeSchema)),
+
   http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
     const raw = String(params.id);
+    if (raw === '321' || raw === 'PROJ-321') return HttpResponse.json(mockAttributeWorkPackage);
     if (raw === '999') return HttpResponse.json(mockCreatedWorkPackage);
     if (raw === '789' || raw === 'DWPS-1') return HttpResponse.json(mockWorkPackageWithSemanticId);
     if (raw === '456') return HttpResponse.json(mockWorkPackage2);
