@@ -68,7 +68,6 @@ module Sprints
 
       Sprint
         .for_project(project)
-        .where.not(status: :in_planning)
         .where("(#{execution_key}) < (SELECT #{execution_key} FROM sprints WHERE sprints.id = ?)", sprint.id)
         .order(Arel.sql(EXECUTION_ORDER.map { "#{it} DESC" }.join(", ")))
         .limit(SPRINT_COUNT - 1)
