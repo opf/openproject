@@ -26,6 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%= helpers.turbo_frame_tag("custom-field-project-values", **frame_arguments) do %>
 <%=
   render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values")) do |box|
     box.with_header do
@@ -37,11 +38,27 @@ See COPYRIGHT and LICENSE files for more details.
         header.with_column do
           safe_join(
             [
-              render(Primer::Beta::Button.new(scheme: :invisible, size: :small)) do |button|
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :invisible,
+                  size: :small,
+                  tag: :a,
+                  href: enable_all_path,
+                  data: { turbo_method: :post }
+                )
+              ) do |button|
                 button.with_leading_visual_icon(icon: :"check-circle")
                 t("custom_fields.admin.projects.enable_all")
               end,
-              render(Primer::Beta::Button.new(scheme: :invisible, size: :small)) do |button|
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :invisible,
+                  size: :small,
+                  tag: :a,
+                  href: disable_all_path,
+                  data: { turbo_method: :post }
+                )
+              ) do |button|
                 button.with_leading_visual_icon(icon: :"x-circle")
                 t("custom_fields.admin.projects.disable_all")
               end
@@ -66,6 +83,8 @@ See COPYRIGHT and LICENSE files for more details.
           line.with_column do
             render(
               Primer::Alpha::ToggleSwitch.new(
+                src: toggle_path(row),
+                csrf_token: helpers.form_authenticity_token,
                 checked: row.enabled,
                 size: :small,
                 aria: { label: row.label }
@@ -77,3 +96,4 @@ See COPYRIGHT and LICENSE files for more details.
     end
   end
 %>
+<% end %>

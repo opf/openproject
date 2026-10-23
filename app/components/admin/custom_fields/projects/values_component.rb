@@ -87,6 +87,34 @@ module Admin
         def indentation(row)
           [row.depth * 3, MAX_INDENTATION].min
         end
+
+        # Toggling a hierarchy item can change other items as well, so the list is reloaded afterwards.
+        def frame_arguments
+          {
+            refresh: :morph,
+            data: {
+              controller: "reload-frame-on-event",
+              reload_frame_on_event_event_name_value: "toggleSwitchSuccess",
+              reload_frame_on_event_url_value: values_path
+            }
+          }
+        end
+
+        def values_path
+          project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        end
+
+        def toggle_path(row)
+          toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, row.id)
+        end
+
+        def enable_all_path
+          enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        end
+
+        def disable_all_path
+          disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+        end
       end
     end
   end

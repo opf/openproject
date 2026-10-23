@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin work package custom field projects", type: :rails_request do
+RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:feature) { create(:type, name: "Feature") }
   shared_let(:epic) { create(:type, name: "Epic") }
@@ -99,6 +99,43 @@ RSpec.describe "Admin work package custom field projects", type: :rails_request 
         get project_values_admin_settings_work_package_custom_field_path(custom_field, other_project)
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    describe "changing the values of a project" do
+      let(:option) { custom_field.custom_options.first }
+      let(:enabled_values) { custom_field.usable_values_in(using_project) }
+      let(:values_path) { project_values_admin_settings_work_package_custom_field_path(custom_field, using_project) }
+
+      it "enables a single value" do
+        post toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, using_project, option.id),
+             params: { value: "1" }
+
+        expect(response).to have_http_status(:ok)
+        expect(enabled_values).to contain_exactly(option)
+      end
+
+      it "does not find a value of another custom field" do
+        other_option = create(:list_wp_custom_field).custom_options.first
+        post toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, using_project, other_option.id),
+             params: { value: "1" }
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "enables all values" do
+        post enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+        expect(response).to redirect_to(values_path)
+        expect(enabled_values).to match_array(custom_field.custom_options)
+      end
+
+      it "disables all values" do
+        create(:project_specific_value_restriction, project: using_project, custom_option: option)
+        post disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+        expect(response).to redirect_to(values_path)
+        expect(enabled_values).to be_empty
       end
     end
 

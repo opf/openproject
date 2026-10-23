@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component do
+  include Rails.application.routes.url_helpers
+
   shared_let(:project) { create(:project) }
 
   subject(:rendered) { render_inline(described_class.new(custom_field:, project:)) }
@@ -47,8 +49,19 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     end
 
     it "offers to enable and to disable all values" do
-      expect(rendered).to have_button(I18n.t("custom_fields.admin.projects.enable_all"))
-      expect(rendered).to have_button(I18n.t("custom_fields.admin.projects.disable_all"))
+      expect(rendered).to have_link(
+        I18n.t("custom_fields.admin.projects.enable_all"),
+        href: enable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+      )
+      expect(rendered).to have_link(
+        I18n.t("custom_fields.admin.projects.disable_all"),
+        href: disable_all_project_values_admin_settings_work_package_custom_field_path(custom_field, project)
+      )
+    end
+
+    it "toggles each value on its own" do
+      expect(row.call(option_a).css("toggle-switch").attr("src").value)
+        .to eq(toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, project, option_a.id))
     end
 
     it "lists the options in order with whether they are enabled in the project" do
