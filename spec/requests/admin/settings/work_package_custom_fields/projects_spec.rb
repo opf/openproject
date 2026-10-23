@@ -78,6 +78,28 @@ RSpec.describe "Admin work package custom field projects", type: :rails_request 
       it "shows the projects tab" do
         expect(page).to have_link(I18n.t(:label_project_plural), href: projects_path)
       end
+
+      it "links each project to the configuration of its values" do
+        values_path = project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+        expect(page).to have_link(href: values_path)
+      end
+    end
+
+    describe "the values of a project" do
+      it "lists the values of the custom field for the project" do
+        get project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+        expect(response).to have_http_status(:ok)
+        expect(page).to have_text("#{custom_field.name} (#{I18n.t(:label_list)}) – #{using_project.name}")
+        expect(page).to have_css("[data-test-selector='custom-field-project-value-#{custom_field.custom_options.first.id}']")
+      end
+
+      it "is not found for a project not using the custom field" do
+        get project_values_admin_settings_work_package_custom_field_path(custom_field, other_project)
+
+        expect(response).to have_http_status(:not_found)
+      end
     end
 
     context "without project-specific values enabled" do

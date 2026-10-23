@@ -49,6 +49,12 @@ module Admin
                            .paginate(page: page_param, per_page: per_page_param)
       end
 
+      def project_values
+        return render_404 if @custom_field.project_specific_value_restriction.nil?
+
+        @project = Project.active.where(id: @custom_field.type_ids_by_project_id.keys).find(params.expect(:project_id))
+      end
+
       protected
 
       def custom_field_class

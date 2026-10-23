@@ -2775,9 +2775,11 @@ en:
       projects:
         configure: "Configure project-specific values for %{project}"
         description: "The following projects use this custom field. A custom field is visible in projects via the types and variants that are enabled for each."
+        disable_all: "Disable all"
         empty_state:
           description: "Add this custom field to the form of a type that is used in a project."
           title: "No project uses this custom field"
+        enable_all: "Enable all"
         enabled_values: "%{count} of %{total}"
         types_column: "Displayed in type"
       role_assignment:
