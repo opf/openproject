@@ -268,3 +268,33 @@ describe('Hierarchy table collapse', () => {
     });
   });
 });
+
+describe('Hierarchy table levels', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('assigns semantic levels to every occurrence', async () => {
+    const outerAncestor = { id: '9' };
+    const innerAncestor = { id: '10', ancestors: [outerAncestor] };
+    harness = buildTable({
+      workPackages: [
+        parent,
+        child,
+        { id: '3', ancestors: [parent, child] },
+        { id: '5', ancestors: [outerAncestor, innerAncestor] },
+      ],
+      showHierarchies: true,
+    });
+
+    await harness.render();
+
+    const levelOf = (key:string) => harness.table.ledger.byKey(key)!.level;
+    expect(levelOf('wp:1')).toBe(1);
+    expect(levelOf('wp:2')).toBe(2);
+    expect(levelOf('wp:3')).toBe(3);
+    expect(levelOf('ancestor:9')).toBe(1);
+    expect(levelOf('ancestor:10')).toBe(2);
+    expect(levelOf('wp:5')).toBe(3);
+  });
+});
