@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= helpers.turbo_frame_tag("custom-field-project-values", **frame_arguments) do %>
 <%=
-  render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values")) do |box|
+  render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values", padding: :condensed)) do |box|
     box.with_header do
       flex_layout(justify_content: :space_between, align_items: :center) do |header|
         header.with_column do
