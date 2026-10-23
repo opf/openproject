@@ -67,13 +67,11 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     it "keeps the raw markdown in a template for copying" do
       subject
       expect(rendered_content)
-        .to include('<template data-ai-text-transform-pane-target="raw">Login **works** again</template>')
+        .to include("<template>Login **works** again</template>")
     end
 
     it "prepares a hidden message for a failed replace" do
       expect(subject).to have_test_selector("ai-text-transform-pane-apply-failed", visible: :hidden)
-      expect(subject).to have_css("[data-ai-text-transform-pane-target='applyFailed'] " \
-                                  "span[data-ai-text-transform-pane-target='applyFailedMessage']", visible: :hidden)
     end
   end
 

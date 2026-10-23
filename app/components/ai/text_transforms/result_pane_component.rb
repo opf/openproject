@@ -53,7 +53,7 @@ module AI
       def wrapper_data
         {
           test_selector: "ai-text-transform-result",
-          controller: "ai-text-transform-pane",
+          controller: STIMULUS_CONTROLLER,
           ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
           **action(close: "keydown.esc", keepInViewport: "resize@window")
         }
