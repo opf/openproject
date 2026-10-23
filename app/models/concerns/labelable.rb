@@ -73,7 +73,7 @@ module Labelable
   def validate_label_id_replacements
     return unless override_labels?
 
-    # Locks the label rows so a concurrent cleanup either skips them or fails this validation instead of the labeling insert.
+    # KEY SHARE keeps the cleanup job from deleting these labels until this save commits.
     missing = label_id_replacements - Label.where(id: label_id_replacements).lock("FOR KEY SHARE").pluck(:id)
 
     errors.add(:labels, :does_not_exist) if missing.any?

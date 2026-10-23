@@ -80,7 +80,7 @@ Rails.application.config.after_initialize do
         class: AI::TextTransformRuns::CleanupJob.name
       },
       "Labels::CleanupUnusedInlineJob": {
-        cron: "37 2 * * *",
+        cron: "37 2 * * *", # runs at 2:37 nightly
         class: Labels::CleanupUnusedInlineJob.name
       }
     }
