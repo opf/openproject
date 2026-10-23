@@ -494,6 +494,15 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :ai do
+    resources :text_transform_panes, only: %i[create show destroy], param: :uuid do
+      member do
+        post :apply
+        post :cancel
+      end
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
     resource :filters, only: %i[show]

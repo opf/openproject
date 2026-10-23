@@ -1,0 +1,138 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(Primer::Beta::BorderBox.new(mt: 5, data: controller_data, test_selector: "ai-text-transform-sandbox")) do |box|
+    box.with_header do |header|
+      header.with_title(tag: :h2) { label(:title) }
+    end
+
+    box.with_body do
+      flex_layout(direction: :column) do |layout|
+        layout.with_row(mb: 3) do
+          render(Primer::Beta::Text.new(tag: :p, color: :muted)) { label(:description) }
+        end
+
+        layout.with_row(mb: 3) do
+          helpers.primer_form_with(url: "#", method: :post, data: form_data) do |f|
+            render(Admin::TextTransformActions::SandboxForm.new(f, types:))
+          end
+        end
+
+        layout.with_row(mb: 3) do
+          flex_layout(align_items: :center) do |controls|
+            controls.with_column(mr: 2) do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  type: :button,
+                  data: target(:execute).merge(action: "ai-text-transform-sandbox#execute")
+                )
+              ) { label(:execute) }
+            end
+            controls.with_column(mr: 3) do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :danger,
+                  type: :button,
+                  disabled: true,
+                  data: target(:cancel).merge(action: "ai-text-transform-sandbox#cancel")
+                )
+              ) { label(:cancel) }
+            end
+            controls.with_column(mr: 2, hidden: true, data: target(:spinner)) do
+              render(Primer::Beta::Spinner.new(size: :small))
+            end
+            controls.with_column(mr: 2) do
+              render(Primer::Beta::Label.new(scheme: :secondary, data: target(:status))) { label(:status_idle) }
+            end
+            controls.with_column do
+              render(Primer::Beta::Text.new(tag: :span, font_family: :mono, color: :muted, data: target(:timer))) { "" }
+            end
+          end
+        end
+
+        layout.with_row(mb: 3) do
+          render(Primer::Box.new(border: true, border_radius: 2, p: 3, bg: :subtle)) do
+            content_tag(
+              :pre,
+              "",
+              class: "text-mono f5",
+              style: "white-space: pre-wrap; margin: 0; min-height: 6rem;",
+              data: target(:output)
+            )
+          end
+        end
+
+        layout.with_row do
+          render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: label(:details_title), size: :xlarge)) do |dialog|
+            dialog.with_show_button(scheme: :default) { label(:details) }
+            dialog.with_header(variant: :large)
+            dialog.with_body do
+              flex_layout(direction: :column) do |details|
+                details.with_row(mb: 3) do
+                  render(Primer::Beta::Heading.new(tag: :h3, font_size: 5, mb: 2)) { label(:run_section) }
+                end
+                details.with_row(mb: 4) do
+                  content_tag(:dl, "", class: "text-mono f6", data: target(:runMeta))
+                end
+                details.with_row(mb: 3) do
+                  render(Primer::Beta::Heading.new(tag: :h3, font_size: 5, mb: 2)) { label(:system_prompt_section) }
+                end
+                details.with_row(mb: 4) do
+                  render(Primer::Box.new(border: true, border_radius: 2, p: 3, bg: :subtle)) do
+                    content_tag(:pre, "", class: "text-mono f6", style: "white-space: pre-wrap; margin: 0;", data: target(:systemPrompt))
+                  end
+                end
+                details.with_row(mb: 3) do
+                  render(Primer::Beta::Heading.new(tag: :h3, font_size: 5, mb: 2)) { label(:events_section) }
+                end
+                details.with_row do
+                  content_tag(:table, class: "text-mono f6 width-full") do
+                    concat(
+                      content_tag(:thead) do
+                        content_tag(:tr) do
+                          safe_join(%i[event_seq event_kind event_payload event_time].map { |key| content_tag(:th, label(key), class: "text-left p-2 border-bottom") })
+                        end
+                      end
+                    )
+                    concat(content_tag(:tbody, "", data: target(:eventsBody)))
+                  end
+                end
+              end
+            end
+            dialog.with_footer(show_divider: true) do
+              render(Primer::Beta::Button.new(data: { close_dialog_id: DIALOG_ID })) { I18n.t(:button_close) }
+            end
+          end
+        end
+      end
+    end
+  end
+%>

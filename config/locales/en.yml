@@ -2181,6 +2181,8 @@ en:
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
+        prototype_only: "Prototype-only UI below:"
+        save_and_stay: "Save and stay"
         select_types: "Select types"
         types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
         usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
@@ -2204,6 +2206,36 @@ en:
         scope_specific_work_package_types:
           one: "%{count} work package type"
           other: "%{count} work package types"
+      sandbox:
+        cancel: "Cancel"
+        content_caption: "The markdown the editor would send. Nothing is saved anywhere; the run and its events are removed after the retention period."
+        content_label: "Text to transform"
+        context_caption: "Without a context only actions scoped \"everywhere\" run. Actions scoped to work package types need a type, and actions that inject the type template need the template of the type variant, which comes from the work package or from the project and type of a new work package."
+        context_label: "Context"
+        context_new_work_package: "New work package (project and type)"
+        context_none: "No context"
+        context_work_package: "Existing work package"
+        description: "Prototype: runs this action against the text below through the execute API and polls the run until it finishes, exactly like the editor will."
+        details: "Run details"
+        details_title: "Run details"
+        event_kind: "Kind"
+        event_payload: "Payload"
+        event_seq: "Seq"
+        event_time: "Received"
+        events_section: "Events, as polled"
+        execute: "Execute"
+        new_work_package_caption: "Mirrors the create form: the project decides which variant of the type applies, and the assistant checks the add permission in the project."
+        project_label: "Project"
+        run_section: "Run"
+        select_project: "Select project"
+        select_work_package: "Select work package"
+        status_idle: "idle"
+        system_prompt_section: "System prompt stored for this run"
+        title: "Sandbox"
+        type_caption: "Type to search; the 20 best matches are listed. Only types enabled in the chosen project are accepted."
+        type_label: "Type"
+        work_package_caption: "Type an id or part of the subject; the 20 most recently updated matches are listed. The work package's project and type decide scope and template, and the assistant checks the edit permission on it."
+        work_package_label: "Work package"
       usage_scopes:
         all_work_package_types: "All work package types"
         everywhere: "Everywhere"
@@ -2258,6 +2290,7 @@ en:
   ai:
     text_transform:
       errors:
+        blocked: "The response was blocked before it finished."
         connection_failed: "The AI service could not be reached."
         not_available: "The AI assistant is not available."
         timeout: "The AI service did not respond in time."
@@ -2265,7 +2298,6 @@ en:
       pane:
         cancel: "Cancel"
         close: "Close"
-        copied: "Copied"
         copy: "Copy"
         discard: "Discard"
         editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
@@ -5489,6 +5521,7 @@ en:
       filled?: "must be filled."
       format?: "is in invalid format."
       greater_or_equal_zero: "must be greater or equal to 0."
+      gt?: "must be greater than %{num}."
       gteq?: "must be greater than or equal to %{num}."
       hash?: "must be a hash."
       included_in?:
@@ -5509,13 +5542,18 @@ en:
           not_unique: "must be unique within the same hierarchy level."
         parent:
           not_descendant: "must be a descendant of the hierarchy root."
+        project_id:
+          with_work_package: "must not be combined with a work package."
         short:
           not_unique: "must be unique within the same hierarchy level."
+        type_id:
+          without_project: "must be given together with a project."
       str?: "must be a string."
       time?: "must be a time."
       type?: "must be %{type}."
       unexpected_key: "is not allowed."
       uri?: "is not a valid URI."
+      uuid_v4?: "must be a UUID (version 4)."
     or: "or"
     rules:
       blueprint: "Pattern blueprint"

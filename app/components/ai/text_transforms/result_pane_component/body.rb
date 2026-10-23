@@ -56,7 +56,7 @@ module AI
         end
 
         def output
-          helpers.format_text(pane.text, object: pane.work_package)
+          helpers.format_text(pane.text, object: pane.work_package, project: pane.project)
         end
       end
     end
