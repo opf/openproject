@@ -32,6 +32,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { uniqueId } from 'lodash-es';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import AverageLinePlugin from './plugin.average-line';
+import { getCSSVariable } from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 
 interface VelocityChartData {
   labels:string[];
@@ -44,10 +45,6 @@ interface VelocityChartData {
 
 const MAX_LABEL_LENGTH = 15;
 const DATASET_COLORS = ['blue', 'green'];
-
-function cssVariable(name:string):string {
-  return getComputedStyle(document.body).getPropertyValue(name).trim();
-}
 
 function truncate(label:string):string {
   return label.length > MAX_LABEL_LENGTH ? `${label.slice(0, MAX_LABEL_LENGTH - 1).trimEnd()}…` : label;
@@ -78,8 +75,8 @@ export class VelocityChartComponent {
       labels,
       datasets: datasets.map((dataset, index) => ({
         ...dataset,
-        backgroundColor: cssVariable(`--display-${DATASET_COLORS[index]}-scale-2`),
-        borderColor: cssVariable(`--display-${DATASET_COLORS[index]}-scale-6`),
+        backgroundColor: getCSSVariable(`--display-${DATASET_COLORS[index]}-scale-2`),
+        borderColor: getCSSVariable(`--display-${DATASET_COLORS[index]}-scale-6`),
         borderWidth: 1,
       })),
     };
@@ -87,8 +84,8 @@ export class VelocityChartComponent {
 
   readonly barChartOptions:Signal<ChartOptions<'bar'>> = computed<ChartOptions<'bar'>>(() => {
     const { average, yAxisTitle } = this.parsedData();
-    const fontColor = cssVariable('--body-font-color');
-    const gridColor = cssVariable('--borderColor-muted');
+    const fontColor = getCSSVariable('--body-font-color');
+    const gridColor = getCSSVariable('--borderColor-muted');
 
     return {
       responsive: true,
@@ -124,7 +121,7 @@ export class VelocityChartComponent {
         averageLine: {
           value: average,
           label: average.toLocaleString(this.i18n.locale, { maximumFractionDigits: 1 }),
-          color: cssVariable('--fgColor-muted'),
+          color: getCSSVariable('--fgColor-muted'),
         },
       },
     };
