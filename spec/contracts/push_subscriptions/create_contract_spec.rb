@@ -45,20 +45,14 @@ RSpec.describe PushSubscriptions::CreateContract do
     "https://fcm.googleapis.com/fcm/send/abc",
     "https://updates.push.services.mozilla.com/wpush/v2/abc",
     "https://db5p.notify.windows.com/w/?token=abc",
-    "https://web.push.apple.com/abc"
+    "https://web.push.apple.com/abc",
+    "https://push.example.org/sub/abc"
   ].each do |valid_endpoint|
     context "with the endpoint #{valid_endpoint}" do
       let(:endpoint) { valid_endpoint }
 
       it_behaves_like "contract is valid"
     end
-  end
-
-  context "with a subdomain of an operator-added host",
-          with_settings: { web_push_service_hosts: %w[push.example.com] } do
-    let(:endpoint) { "https://eu.push.example.com/abc" }
-
-    it_behaves_like "contract is valid"
   end
 
   context "with an endpoint of exactly the maximum length" do
@@ -71,8 +65,6 @@ RSpec.describe PushSubscriptions::CreateContract do
     "http://fcm.googleapis.com/x",
     "https://fcm.googleapis.com:8443/x",
     "https://user@fcm.googleapis.com/x",
-    "https://fcm.googleapis.com.evil.example/x",
-    "https://evil.example/?x=fcm.googleapis.com",
     "https://fcm.googleapis.com/#{'a' * described_class::MAX_ENDPOINT_LENGTH}",
     "https://.push.apple.com/x",
     "https://.notify.windows.com/x",

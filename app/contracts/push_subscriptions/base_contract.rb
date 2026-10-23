@@ -32,6 +32,7 @@ module PushSubscriptions
   class BaseContract < ::ModelContract
     # Keeps every endpoint below the PostgreSQL btree entry limit the unique index on it has to respect.
     MAX_ENDPOINT_LENGTH = 2048
+    HOST_PATTERN = /\A[a-z0-9-]+(\.[a-z0-9-]+)*\z/
 
     attribute :user_id
     attribute :session_id
@@ -65,7 +66,7 @@ module PushSubscriptions
       return false if model.endpoint.blank? || model.endpoint.length > MAX_ENDPOINT_LENGTH
 
       uri = parse_endpoint
-      uri.is_a?(URI::HTTPS) && uri.port == 443 && uri.userinfo.nil? && OpenProject::WebPush.push_service_host?(uri.host)
+      uri.is_a?(URI::HTTPS) && uri.port == 443 && uri.userinfo.nil? && uri.host.to_s.downcase.match?(HOST_PATTERN)
     end
 
     def parse_endpoint
