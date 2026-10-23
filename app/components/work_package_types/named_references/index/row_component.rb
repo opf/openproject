@@ -42,13 +42,15 @@ module WorkPackageTypes
         def types_and_variants
           return dash if variants.empty?
 
-          text(types_and_variants_label)
+          render(TypesDialogComponent.new(record:, model_class:, variants:, label: types_and_variants_label))
         end
 
         def projects
           return dash if project_count.zero?
 
-          text(reference_translate("index.projects_count", count: project_count))
+          render(Primer::Beta::Link.new(href: projects_filter_path)) do
+            reference_translate("index.projects_count", count: project_count)
+          end
         end
 
         def button_links
@@ -91,6 +93,11 @@ module WorkPackageTypes
 
         def project_count
           @project_count ||= variants.flat_map { |variant| variant.projects.map(&:id) }.uniq.size
+        end
+
+        def projects_filter_path
+          filters = [{ type_variant_id: { operator: "=", values: variants.map(&:id) } }].to_json
+          helpers.projects_path(filters:)
         end
 
         def title
