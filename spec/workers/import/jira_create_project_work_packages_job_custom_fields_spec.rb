@@ -1384,4 +1384,61 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
     end
   end
+
+  describe "a custom field an earlier import run had to name with a counter" do
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10254",
+                          payload: {
+                            "id" => "customfield_10254",
+                            "name" => "CF Number",
+                            "schema" => {
+                              "type" => "number",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:float",
+                              "customId" => 10254
+                            }
+                          })
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    # An existing field of an incompatible format cannot be reused, so the first run has to fall
+    # back to the next free name.
+    let!(:incompatible_custom_field) { create(:integer_wp_custom_field, name: "CF Number") }
+
+    let(:second_jira_import) do
+      create(:jira_import, jira:, author:,
+                           projects: [{ "id" => jira_project_id, "key" => jira_project_key,
+                                        "name" => jira_project_name }])
+    end
+
+    def run_second_import
+      second_jira_project = create(:jira_project, jira_import: second_jira_import,
+                                                  origin_id: jira_project_id,
+                                                  payload: jira_project_payload)
+      create(:jira_field, jira_import: second_jira_import,
+                          origin_id: jira_field.origin_id,
+                          payload: jira_field.payload)
+      create(:jira_issue, jira_import: second_jira_import,
+                          origin_id: "10200",
+                          jira_project: second_jira_project,
+                          payload: issue_payload)
+      Import::JiraCreateCustomFieldsJob.perform_now(second_jira_import.id)
+    end
+
+    before { import_project }
+
+    it "names it with the next free counter" do
+      expect(WorkPackageCustomField.pluck(:name)).to contain_exactly("CF Number", "CF Number (2)")
+    end
+
+    it "reuses it on a later import run instead of allocating the next counter" do
+      expect { run_second_import }.not_to change(WorkPackageCustomField, :count)
+      expect(WorkPackageCustomField.pluck(:name)).to contain_exactly("CF Number", "CF Number (2)")
+    end
+  end
 end
