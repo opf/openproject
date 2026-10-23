@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
+  SEARCH_PLACEHOLDER,
   insertInlineWorkPackageViaSlashMenu,
   convertToCompactCard,
   openBlockCardPopover,
@@ -145,5 +146,22 @@ describe('Block card - selection', () => {
     await convertToCompactCard();
 
     expect(page.getByTestId('block-card').element().getAttribute('role')).toBe('button');
+  });
+});
+describe('Block card - insert into an empty line with nested blocks', () => {
+  it('keeps the nested blocks', async () => {
+    renderEditor({
+      initialContent: [{ type: 'paragraph', content: [], children: [{ type: 'paragraph', content: 'Nested' }] }],
+    });
+    await expect.element(page.getByText('Nested')).toBeVisible();
+
+    await userEvent.click(document.querySelector('[data-content-type="paragraph"]')!);
+    await userEvent.keyboard('/');
+    await userEvent.click(page.getByText('Link existing work package').first());
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Fix');
+    await userEvent.click(page.getByText('Fix login bug'));
+
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Nested')).toBeVisible();
   });
 });

@@ -1,4 +1,4 @@
-import type { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
+import type { BlockNoteEditor } from '@blocknote/core';
 import { useSelectedBlocks } from '@blocknote/react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -21,6 +21,7 @@ import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selecti
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { usePressOutside } from '../../hooks/usePressOutside';
+import { blockDragProps } from '../../utils/blockDrag';
 import { useTapActivation } from '../../utils/tapActivation';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
@@ -41,8 +42,6 @@ const UnavailableCardWrapper = styled(BlockCardWrapper)`
   display: block;
   cursor: pointer;
 `;
-
-type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtension>>>;
 
 interface BlockProps {
   id:string;
@@ -133,14 +132,6 @@ export const BlockWorkPackageComponent = ({
     if (restored?.id) editor.setTextCursorPosition(restored.id, 'end');
   };
 
-  // Delegate the drag to the same mechanism the side menu uses internally,
-  // so dragging the block directly behaves identically to dragging via the handle.
-  const handleBlockDragStart = (e:React.DragEvent) => {
-    const sideMenu = editor.extensions.get('sideMenu') as SideMenuInstance | undefined;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    sideMenu?.blockDragStart(e.nativeEvent, block as any);
-  };
-
   usePressOutside(cardRef, isOptionsOpen, () => setIsOptionsOpen(false));
 
   const handleConvertToInline = (size:InlineWpSize) => {
@@ -179,7 +170,7 @@ export const BlockWorkPackageComponent = ({
   );
 
   return (
-    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
+    <Block ref={trackBlockElement} $pending={pendingMode !== undefined} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} {...blockDragProps(editor, block.id)}>
       <div contentEditable={false}>
         {pendingMode === 'create' && blockEl && (
           <CreateWorkPackageModal
