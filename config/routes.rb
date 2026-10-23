@@ -1057,6 +1057,9 @@ Rails.application.routes.draw do
           get :list_items
           get :projects
           get "projects/:project_id", action: :project_values, as: :project_values
+          post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
+          post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
+          post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
 
           get :deletion_dialog
         end

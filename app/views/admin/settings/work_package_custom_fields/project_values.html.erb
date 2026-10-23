@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", @project.name %>
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", @configured_project.name %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new(test_selector: "custom-field-project-values-header")) do |header|
@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
         [
           @custom_field.name,
           render(Primer::Beta::Text.new(color: :muted)) { " (#{label_for_custom_field_format(@custom_field.field_format)})" },
-          " – #{@project.name}"
+          " – #{@configured_project.name}"
         ]
       )
     end
@@ -46,11 +46,11 @@ See COPYRIGHT and LICENSE files for more details.
         { href: admin_settings_work_package_custom_fields_path, text: section_label },
         { href: admin_settings_work_package_custom_fields_path, text: custom_field_page_title },
         { href: projects_admin_settings_work_package_custom_field_path(@custom_field), text: @custom_field.name },
-        @project.name
+        @configured_project.name
       ],
       selected_item_font_weight: :normal
     )
   end
 %>
 
-<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field: @custom_field, project: @project)) %>
+<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field: @custom_field, project: @configured_project)) %>
