@@ -29,7 +29,15 @@
 
 module Import
   class JiraCreateProjectTimeEntriesJob < ProgressableJob
+    include Import::JiraJobUtils
     include Import::JiraProjectIssuesJob
+
+    on_complete do
+      tagged_log("jira_import_id:#{arguments[0]}",
+                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
+        Rails.logger.debug "Creating time entries finished"
+      end
+    end
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
@@ -37,26 +45,30 @@ module Import
     end
 
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      @system_user = User.system
-      jira_project = Import::JiraProject.find(jira_project_id)
-      @project = @jira_import.find_op_leg!(jira_project)
-      @project_role = Role.find_by!(name: "JiraMember")
-      @project_users = {}
+      jira_project = jira_project(jira_project_id)
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{jira_project_key(jira_project_id)}", "jira_object_type:project") do
+        Rails.logger.debug "Creating time entries started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        @system_user = User.system
+        @project = @jira_import.find_op_leg!(jira_project)
+        @project_role = Role.find_by!(name: "JiraMember")
+        @project_users = {}
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraIssue
-          .where(jira_import_id:, jira_project_id:)
-          .select(:id, "payload ->> 'key' AS key", "payload #> '{fields,worklog,worklogs}' AS worklogs"),
-        cursor:
-      )
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraIssue
+            .where(jira_import_id:, jira_project_id:)
+            .select(:id, "payload ->> 'key' AS key", "payload #> '{fields,worklog,worklogs}' AS worklogs"),
+          cursor:
+        )
+      end
     end
 
     def each_iteration(jira_issue, jira_import_id, jira_project_id)
-      Rails.logger.tagged("jira_import_id:#{jira_import_id}",
-                          "jira_project_id:#{jira_project_id}",
-                          "jira_issue_key:#{jira_issue.key}") do
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{jira_project_key(jira_project_id)}",
+                 "jira_issue_key:#{jira_issue.key}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -76,7 +88,8 @@ module Import
       work_package = @jira_import.find_op_leg!(jira_issue)
 
       jira_issue.worklogs.each do |worklog|
-        Rails.logger.tagged("worklog_id:#{worklog['id']}") do
+        Rails.logger.tagged("jira_object_type:worklog", "jira_object_id_or_name:#{worklog['id']}") do
+          Rails.logger.debug "Creating time entry"
           create_time_entry(work_package, worklog)
         end
       end
@@ -100,14 +113,23 @@ module Import
                  spent_on: started_at.to_date,
                  start_time:,
                  time_zone: time_zone.name,
-                 comments: worklog["comment"]&.truncate(TimeEntry::COMMENTS_MAX_LENGTH),
+                 comments: worklog_comment(worklog),
                  created_at: Time.zone.parse(worklog["created"]),
                  updated_at: Time.zone.parse(worklog["updated"])
                )
 
       call.on_failure do
+        Rails.logger.error "Time entry creation failed: #{call.message}"
         raise call.message
       end
+    end
+
+    def worklog_comment(worklog)
+      comment = worklog["comment"]
+      return comment if comment.nil? || comment.length <= TimeEntry::COMMENTS_MAX_LENGTH
+
+      Rails.logger.warn "Shortening the worklog comment from #{comment.length} to #{TimeEntry::COMMENTS_MAX_LENGTH} characters"
+      comment.truncate(TimeEntry::COMMENTS_MAX_LENGTH)
     end
 
     def project_user(jira_user_key)
@@ -121,13 +143,15 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
+      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
+        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
 
-      if jira_user
-        @jira_import.find_op_leg!(jira_user)
-      else
-        Rails.logger.info "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-        DeletedUser.first
+        if jira_user
+          @jira_import.find_op_leg!(jira_user)
+        else
+          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+          DeletedUser.first
+        end
       end
     end
   end

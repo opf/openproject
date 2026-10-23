@@ -134,6 +134,16 @@ RSpec.describe Import::JiraCreateProjectTimeEntriesJob,
 
         expect(work_package.time_entries.sole.comments.length).to eq(TimeEntry::COMMENTS_MAX_LENGTH)
       end
+
+      it "logs that the comment was shortened" do
+        allow(Rails.logger).to receive(:warn)
+
+        create_time_entries
+
+        expect(Rails.logger).to have_received(:warn)
+          .with("Shortening the worklog comment from #{TimeEntry::COMMENTS_MAX_LENGTH + 1} to " \
+                "#{TimeEntry::COMMENTS_MAX_LENGTH} characters")
+      end
     end
 
     context "when the issue has no worklogs" do
