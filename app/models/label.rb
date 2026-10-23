@@ -58,6 +58,13 @@ class Label < ApplicationRecord
     where("LOWER(labels.name) = LOWER(?)", normalize_value_for(:name, name))
   }
 
+  scope :created_inline, -> { where(created_inline: true) }
+
+  scope :never_used, -> {
+    where("NOT EXISTS (SELECT 1 FROM labelings WHERE labelings.label_id = labels.id)")
+      .where("NOT EXISTS (SELECT 1 FROM label_journals WHERE label_journals.label_id = labels.id)")
+  }
+
   normalizes :name, with: -> { it.squish }
 
   validates :name,

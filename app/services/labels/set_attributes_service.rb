@@ -31,6 +31,15 @@ module Labels
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
+    def set_attributes(params)
+      super
+      clear_inline_origin if model.persisted? && model.changed?
+    end
+
+    def clear_inline_origin
+      model.change_by_system { model.created_inline = false }
+    end
+
     def set_default_attributes(_params)
       model.change_by_system do
         model.author = user

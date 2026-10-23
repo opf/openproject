@@ -43,6 +43,11 @@ RSpec.describe Labels::FindOrCreateService do
       expect(call.result).to be_persisted
       expect(call.result.name).to eq("Bug")
       expect(call.result).to be_previously_new_record
+      expect(call.result).to be_created_inline
+    end
+
+    it "books a cleanup run" do
+      expect { call }.to have_enqueued_job(Labels::CleanupUnusedInlineJob)
     end
   end
 
@@ -57,6 +62,7 @@ RSpec.describe Labels::FindOrCreateService do
       expect(call).to be_success
       expect(call.result).to eq(existing)
       expect(call.result).not_to be_previously_new_record
+      expect(call.result).not_to be_created_inline
     end
 
     context "with a name Ruby and Postgres lowercase differently" do
@@ -68,6 +74,32 @@ RSpec.describe Labels::FindOrCreateService do
         expect(call).to be_success
         expect(call.result).to eq(existing)
       end
+    end
+  end
+
+  context "when an inline-created label with that name exists" do
+    shared_let(:existing) { create(:label, :created_inline, name: "bug", created_at: 2.days.ago, updated_at: 2.days.ago) }
+
+    let(:name) { "Bug" }
+
+    it "books no cleanup run" do
+      expect { call }.not_to have_enqueued_job(Labels::CleanupUnusedInlineJob)
+    end
+
+    it "touches an existing inline label so the cleanup grace period restarts" do
+      freeze_time
+
+      expect { call }.to change { existing.reload.updated_at }.to(Time.current)
+    end
+  end
+
+  context "when an admin-created label with that name exists" do
+    shared_let(:existing) { create(:label, name: "bug", updated_at: 2.days.ago) }
+
+    let(:name) { "Bug" }
+
+    it "leaves an admin-created label untouched" do
+      expect { call }.not_to change { existing.reload.updated_at }
     end
   end
 

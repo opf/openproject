@@ -38,7 +38,7 @@ module Labels
 
     def call(name:)
       existing = Label.named(name).first
-      return ServiceResult.success(result: existing) if existing
+      return found(existing) if existing
 
       create(name)
     end
@@ -46,14 +46,21 @@ module Labels
     private
 
     def create(name)
-      call = CreateService.new(user:).call(name:)
-      return call if call.success? || call.errors.symbols_for(:name).exclude?(:taken)
+      call = CreateService.new(user:).call(name:, created_inline: true)
 
-      existing(name)
+      if call.success?
+        CleanupUnusedInlineJob.perform_after_grace
+        call
+      elsif call.errors.symbols_for(:name).include?(:taken)
+        found(Label.named(name).first!)
+      else
+        call
+      end
     end
 
-    def existing(name)
-      ServiceResult.success(result: Label.named(name).first!)
+    def found(label)
+      label.touch if label.created_inline?
+      ServiceResult.success(result: label)
     end
   end
 end
