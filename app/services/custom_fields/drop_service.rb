@@ -93,7 +93,7 @@ module CustomFields
     # for the cross-section branch (reparent already applied before the
     # insert is attempted); `requires_new: true` makes it an effective
     # savepoint even when nested inside a spec's outer transaction.
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity -- validate, lock, and move is one linear flow
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity -- validate, lock, and move is one linear flow
     def perform_anchor_drop(service_call, params)
       source_section = @custom_field.custom_field_section
       target_section = source_section.class.find_by(id: params[:list_id])
@@ -132,7 +132,6 @@ module CustomFields
       }
       service_call
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
     # nil anchors the top; :invalid rejects the move. A valid anchor is a
     # different custom field already ordered in the target section.

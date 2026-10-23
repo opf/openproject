@@ -92,7 +92,7 @@ module EnvData
       key.gsub("_", "__").upcase
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def upsert_settings(ldap, options)
       ldap.host = options["host"]
       ldap.port = options["port"]
@@ -115,7 +115,6 @@ module EnvData
 
       ldap.save!
     end
-    # rubocop:enable Metrics/AbcSize
 
     def update_filters(ldap, filters)
       return if filters.blank? && !LdapGroups::SynchronizedFilter.exists?(ldap_auth_source: ldap)
