@@ -27,13 +27,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::Scopes::InInboxFor
-  extend ActiveSupport::Concern
+module OpenProject::Backlogs::Patches::PermittedParamsPatch
+  def self.included(base)
+    base.prepend InstanceMethods
+  end
 
-  class_methods do
-    def in_inbox_for(project:)
-      in_backlog_for(project:)
-        .where(backlog_bucket: nil)
+  module InstanceMethods
+    def backlog_filters
+      params.permit(:all, :filters, :bucket_ids, :sprint_ids)
     end
   end
 end
