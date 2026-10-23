@@ -31,18 +31,11 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface WpGraphQueryParams {
   id?:string;
-  props?:any;
+  props?:object;
   name?:string;
 }
 
-export interface WpGraphConfiguration {
-  queries:QueryResource[];
-  queryParams:WpGraphQueryParams[];
-  chartType:string;
-  chartOptions:ChartOptions;
-}
-
-export class WpGraphConfiguration implements WpGraphConfiguration {
+export class WpGraphConfiguration {
   public queries:QueryResource[] = [];
 
   constructor(

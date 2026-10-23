@@ -114,7 +114,7 @@ uk:
   events:
     budget: Бюджет відредаговано
   help_click_to_edit: Натисніть тут, щоб редагувати.
-  help_currency_format: Формат відображених валютних значень. %n замінюється на вартість валюти, %u це замінюється грошовою одиницею.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Введіть тут значення, щоб змінити стандартну швидкість.
   label_budget_available: Доступний бюджет
   label_budget_details: Деталі бюджету

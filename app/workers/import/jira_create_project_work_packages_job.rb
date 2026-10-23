@@ -31,6 +31,7 @@ module Import
   class JiraCreateProjectWorkPackagesJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+    include Import::JiraJobUtils
 
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
@@ -39,6 +40,10 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
+      tagged_log("jira_import_id:#{arguments[0]}",
+                 "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
+        Rails.logger.debug "Creating work packages finished"
+      end
     end
 
     def text
@@ -62,33 +67,41 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @system_user = User.system
-      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      jira_project = Import::JiraProject.find(jira_project_id)
+      jira_project = jira_project(jira_project_id)
+      tagged_log("jira_import_id:#{jira_import_id}",
+                 "jira_project_id:#{jira_project.payload['key']}",
+                 "jira_object_type:project") do
+        Rails.logger.debug "Creating work packages started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        jira = @jira_import.jira
+        @jira_id = jira.id
+        @system_user = User.system
+        @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
 
-      @project_role = Role.find_by!(name: "JiraMember")
-      @custom_field_registry = build_custom_field_registry
+        @project_role = Role.find_by!(name: "JiraMember")
+        @custom_field_registry = build_custom_field_registry
 
-      @project = JiraOpenProjectReference.find_by!(
-        jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s
-      ).op_leg
+        @project = JiraOpenProjectReference.find_by!(
+          jira_entity_id: jira_project.id,
+          jira_entity_class: jira_project.class.to_s
+        ).op_leg
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-        cursor: cursor
-      )
+        setup_resolution_date_cf(jira_project)
+
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+          cursor: cursor
+        )
+      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
-                          "jira_issue_key:#{jira_issue_key}") do
+      tagged_log("jira_import_id:#{_jira_import_id}",
+                 "jira_project_id:#{jira_project_key(_jira_project_id)}",
+                 "jira_issue_key:#{jira_issue_key}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
             ActiveRecord::Base.transaction do
@@ -111,8 +124,11 @@ module Import
     private
 
     def new_custom_fields_in_type(jira_issue, type, custom_field_registry)
+      custom_fields = custom_fields_for_issue(custom_field_registry, jira_issue)
+      custom_fields << @resolution_date_cf if @resolution_date_cf
+
       existing_cf_ids = type.default_variant.custom_field_ids
-      custom_fields_for_issue(custom_field_registry, jira_issue).reject { |cf| existing_cf_ids.include?(cf.id) }
+      custom_fields.reject { |cf| existing_cf_ids.include?(cf.id) }
     end
 
     def update_custom_fields_in_type(type, new_custom_fields)
@@ -145,21 +161,10 @@ module Import
       end
     end
 
-    # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
-      type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
-      uses_existing = true
-
-      if type.blank?
-        service_call = WorkPackageTypes::CreateService
-                         .new(user: @system_user)
-                         .call(name: issue_type["name"])
-        raise service_call.message unless service_call.success?
-
-        type = service_call.result
-        uses_existing = false
-      end
+      name = issue_type["name"]
+      type, uses_existing = find_or_create_resource(Type, name, jira_object_type: "issueType") { create_new_type(name) }
 
       enable_type(project, type)
       jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
@@ -167,50 +172,123 @@ module Import
       type
     end
 
+    def create_new_type(name)
+      service_call = WorkPackageTypes::CreateService
+                       .new(user: @system_user)
+                       .call(name:)
+      raise service_call.message unless service_call.success?
+
+      service_call.result
+    end
+
     def enable_type(project, type)
       service_call = Projects::Types::AddService
                        .new(user: @system_user, model: project)
                        .call(variant: type.default_variant)
-      raise service_call.message if service_call.failure?
+      if service_call.failure?
+        Rails.logger.error service_call.message
+        raise service_call.message
+      end
     end
 
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
-      status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
-      uses_existing = true
-      if status.blank?
+      resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
+      name = status_name(issue_status, resolution)
+      status, uses_existing = find_or_create_resource(Status, name, jira_object_type: "status") do
         is_closed = issue_status.dig("statusCategory", "key") == "done"
-        status = Status.create!(name: issue_status["name"], is_closed: is_closed)
-        uses_existing = false
+        Status.create!(name:, is_closed:)
       end
+
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
       status
     end
 
+    def status_name(issue_status, resolution)
+      return issue_status["name"] if resolution.blank?
+
+      "#{issue_status['name']} - #{resolution['name']}"
+    end
+
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
-      if issue_priority.present?
-        priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
-        uses_existing = true
-        if priority.blank?
-          priority = IssuePriority.create!(name: issue_priority["name"])
-          uses_existing = false
+      return if issue_priority.blank?
+
+      name = issue_priority["name"]
+      priority, uses_existing = find_or_create_resource(IssuePriority, name, jira_object_type: "priority") do
+        IssuePriority.create!(name:)
+      end
+      jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
+      create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
+      priority
+    end
+
+    def find_or_create_resource(klass, name, jira_object_type:)
+      Rails.logger.tagged("jira_object_type:#{jira_object_type}", "jira_object_id_or_name:#{name}") do
+        resource = find_resource(klass, name)
+        if resource
+          Rails.logger.debug { "Found existing #{klass.name}" }
+          return [resource, true]
         end
-        jira_priority = Import::JiraPriority.find_by!(origin_id: issue_priority["id"], jira_import_id: @jira_import.id)
-        create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
-        priority
+
+        lock_key = "jira_import_create_#{klass.name.underscore}_#{name.parameterize(separator: '_')}"
+        OpenProject::Mutex.with_advisory_lock(klass, lock_key, transaction: true) do
+          resource = find_resource(klass, name)
+          if resource
+            Rails.logger.debug { "Found existing #{klass.name}" }
+            next [resource, true]
+          end
+
+          Rails.logger.debug { "Creating #{klass.name}" }
+          [yield, false]
+        end
       end
     end
 
+    def find_resource(klass, name)
+      klass.find_by("LOWER(name) = LOWER(?)", name)
+    end
+
+    def setup_resolution_date_cf(jira_project)
+      return if @jira_import.exclude_resolution_fields?
+
+      custom_field = system_field_custom_field("resolutiondate")
+      return unless custom_field
+      return unless has_issues_with_resolution_date?(jira_project)
+
+      @resolution_date_cf = custom_field
+    end
+
+    def has_issues_with_resolution_date?(jira_project)
+      Import::JiraIssue
+        .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
+        .with_field_set("resolutiondate")
+        .exists?
+    end
+
+    def resolution_date_cf_attrs(jira_issue)
+      return {} unless @resolution_date_cf
+
+      raw = jira_issue.payload.dig("fields", "resolutiondate")
+      return {} if raw.blank?
+
+      { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
+    end
+
     def update_workflows(type)
-      statuses = Status.all
-      row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
-      status_params = statuses.to_h { |status| [status.id.to_s, row] }
-      call = Workflows::BulkUpdateService
-                .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
-                .call(status_params)
-      raise call.message if call.failure?
+      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
+        statuses = Status.all
+        row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
+        status_params = statuses.to_h { |status| [status.id.to_s, row] }
+        call = Workflows::BulkUpdateService
+                  .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
+                  .call(status_params)
+        if call.failure?
+          Rails.logger.error call.message
+          raise call.message
+        end
+      end
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -227,6 +305,7 @@ module Import
       [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
 
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue)
+                             .merge(resolution_date_cf_attrs(jira_issue))
 
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
       remaining_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "remainingEstimateSeconds")
@@ -270,7 +349,10 @@ module Import
             skip_semantic_id_allocation: true,
             **custom_field_attrs
           )
-      raise service_call.message unless service_call.success?
+      unless service_call.success?
+        Rails.logger.error service_call.message
+        raise service_call.message
+      end
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
@@ -311,7 +393,8 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        Rails.logger.tagged("comment_created:#{comment['created']}") do
+        Rails.logger.tagged("jira_object_type:comment", "jira_object_id_or_name:#{comment['created']}") do
+          Rails.logger.debug "Adding comment"
           key = comment.dig("author", "key")
           Rails.logger.tagged("author:#{key}") do
             author = find_user(key)
@@ -336,6 +419,7 @@ module Import
       return if service_call.success?
 
       if service_call.errors.find { |error| error.type == :taken }.blank?
+        Rails.logger.error service_call.message
         raise service_call.message
       end
     end
@@ -343,22 +427,24 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-      if jira_user
-        ref = JiraOpenProjectReference.find_by(
-          jira_entity_class: "Import::JiraUser",
-          jira_entity_id: jira_user.id
-        )
-        if ref.present?
-          ref.op_leg
+      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
+        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
+        if jira_user
+          ref = JiraOpenProjectReference.find_by(
+            jira_entity_class: "Import::JiraUser",
+            jira_entity_id: jira_user.id
+          )
+          if ref.present?
+            ref.op_leg
+          else
+            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+            Rails.logger.error log_message
+            raise log_message
+          end
         else
-          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-          Rails.logger.error log_message
-          raise log_message
+          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+          DeletedUser.first
         end
-      else
-        Rails.logger.info "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-        DeletedUser.first
       end
     end
   end

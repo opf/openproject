@@ -222,9 +222,7 @@ module Costs
                   only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
                   label: :caption_rate_history
 
-    add_api_path :cost_entry do |id|
-      "#{root}/cost_entries/#{id}"
-    end
+    add_api_resource_paths :cost_entry, only: :show
 
     add_api_path :cost_entries_by_work_package do |id|
       "#{work_package(id)}/cost_entries"
@@ -234,9 +232,7 @@ module Costs
       "#{work_package(id)}/summarized_costs_by_type"
     end
 
-    add_api_path :cost_type do |id|
-      "#{root}/cost_types/#{id}"
-    end
+    add_api_resource_paths :cost_type, only: :show
 
     # Placeholder users hold rates too, so the collection hangs off the
     # principal rather than the user.

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -134,6 +134,10 @@ ja:
       show:
         blankslate_description: スプリントの開始日と終了日を設定して、バーンダウンチャートを生成します。
         blankslate_title: バーンダウンデータはありません
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'バックログから非表示にするワークパッケージの種類を選択してください。選択した種類のアイテムはバックログに自動的に表示されなくなるため、チームにとって重要な作業に焦点を絞ることができます。たとえば、より上位のレベルで管理される「エピック」や「マイルストーン」といった種類を非表示にすることで、バックログを実行可能なアイテムに集中させることができます。
 
@@ -180,6 +184,7 @@ ja:
     remaining_hours: 残時間
     sharing: スプリントの共有
     show_burndown_chart: バーンダウンチャート
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
@@ -203,6 +208,9 @@ ja:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
@@ -287,6 +295,9 @@ ja:
   burndown:
     story_points: ストーリーポイント
     story_points_ideal: Story points (ideal)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: 複数のアクティブなスプリント

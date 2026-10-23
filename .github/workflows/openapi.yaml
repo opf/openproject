@@ -17,6 +17,7 @@ jobs:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository_owner == 'opf'
     runs-on: [ubuntu-latest]
+    timeout-minutes: 30
     permissions:
       contents: read
     steps:

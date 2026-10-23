@@ -261,7 +261,7 @@ When all features, bugs have been tested successfully, regression testing was pe
 1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
 1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Building phase 1 - 3.
 
-If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned ot the developers/product team for additional changes or specification work
+If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned to the developers/product team for additional changes or specification work
 
 ### 3.2.4 Building phase 4: Documentation
 

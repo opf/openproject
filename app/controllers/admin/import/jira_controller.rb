@@ -125,10 +125,12 @@ module Admin::Import
         import_jira: %i[name
                         url
                         personal_access_token
+                        exclude_resolution_fields
                         auth_method
                         basic_auth_username
                         basic_auth_password]
       )
+      permitted = params.expect(import_jira: %i[name url personal_access_token exclude_resolution_fields])
       if action_name == "update" && permitted[:personal_access_token].blank?
         permitted.delete(:personal_access_token)
       end

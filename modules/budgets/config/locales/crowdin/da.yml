@@ -108,7 +108,7 @@ da:
   events:
     budget: Budget redigeret
   help_click_to_edit: Klik her for at redigere.
-  help_currency_format: Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u is replaced with the currency unit.
   help_override_rate: Angiv en værdi for at tilsidesætte standardsatsen.
   label_budget_available: Tildelt budget
   label_budget_details: Detaljer om budgettet

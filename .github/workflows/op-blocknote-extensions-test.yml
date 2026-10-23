@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
-      - 'extensions/op-blocknote-extensions/**'
+      - 'extensions/blocknote-extensions/**'
       - '.github/workflows/op-blocknote-extensions-test.yml'
 
 permissions:
@@ -11,12 +11,13 @@ permissions:
 
 defaults:
   run:
-    working-directory: ./extensions/op-blocknote-extensions
+    working-directory: ./extensions/blocknote-extensions
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -28,7 +29,7 @@ jobs:
           node-version: '24.18.0'
           package-manager-cache: false
           cache: npm
-          cache-dependency-path: extensions/op-blocknote-extensions/package-lock.json
+          cache-dependency-path: extensions/blocknote-extensions/package-lock.json
 
       - name: Install Dependencies
         id: npm-ci
@@ -41,6 +42,7 @@ jobs:
   tests:
     name: Unit and browser tests
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -52,7 +54,7 @@ jobs:
           node-version: '24.18.0'
           package-manager-cache: false
           cache: npm
-          cache-dependency-path: extensions/op-blocknote-extensions/package-lock.json
+          cache-dependency-path: extensions/blocknote-extensions/package-lock.json
 
       - name: Install Dependencies
         id: npm-ci

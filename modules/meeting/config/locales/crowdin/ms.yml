@@ -649,7 +649,7 @@ ms:
       error_no_next: Tiada kejadian seterusnya untuk mesyuarat ini.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Kejadian pertama siri mesyuarat ini telah pun dibuat seketika.
-      first_created: 'Mesyuarat pertama telah berjaya dibuat daripada templat. Semua mesyuarat akan datang akan dibuat secara automatik pada masa kejadian sebelumnya.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Mesyuarat ini adalah sebahagian daripada siri mesyuarat berulang.

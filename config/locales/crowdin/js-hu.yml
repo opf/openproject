@@ -61,6 +61,7 @@ hu:
         single: '"%{name}" kiválasztása'
       remove: "%{name} törlése"
     autocompleter:
+      create_label: Create label
       notFoundText: Nem található elem
       placeholder: Gépeljen a kereséshez
       project:
@@ -168,6 +169,7 @@ hu:
     button_stop_timer: Időzítő leállítása
     button_uncheck_all: Az összes kijelölés megszüntetése
     button_update: Frissítés
+    button_view_markdown: View Markdown
     caption_rate_history: Díj előzmények
     card:
       add_new: Új kártya hozzáadása
@@ -375,8 +377,8 @@ hu:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Feliratkozás az iCalendars-ra
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -568,6 +570,8 @@ hu:
     label_reset: Visszaállít, reset
     label_resize_project_menu: Resize project menu
     label_save_as: Mentés másként
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Megfigyelők választása...
     label_selected_filter_list: Szűrők választása

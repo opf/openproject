@@ -169,7 +169,7 @@ class Attachment < ApplicationRecord
     is_text? || is_image? || is_movie? || is_pdf?
   end
 
-  # rubocop:disable Naming/PredicateName
+  # rubocop:disable Naming/PredicatePrefix
   def is_plain_text?
     OpenProject::MimeType.plain_text?(content_type)
   end
@@ -200,7 +200,7 @@ class Attachment < ApplicationRecord
   def is_diff?
     is_text? && filename =~ /\.(patch|diff)\z/i
   end
-  # rubocop:enable Naming/PredicateName
+  # rubocop:enable Naming/PredicatePrefix
 
   # Returns true if the file is readable
   delegate :readable?, to: :file

@@ -108,14 +108,14 @@ zh-CN:
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:
-        capacity_summary: "%{available} 可用 - %{scheduled} 预定"
         description: 为所选用户 %{user} 分配的任务将超出其在此期间的工作时数。
-        hidden_work: 其他分配
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule}（%{factor}% 可用于项目工作）"
         schedule_change: 截至 %{date}，然后%{schedule}
         schedule_note: 此用户%{schedule}工作。
         submit: 分配加班时间
         title: 是否要为用户分配加班时间？
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: 分配
       success_message: 资源已分配。
@@ -167,7 +167,7 @@ zh-CN:
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 添加视图
@@ -255,7 +255,8 @@ zh-CN:
       no_work_schedule: 没有为此用户计划的工作时间表
       overbooked: 此用户在所选期间内被超额指定。
       overbooked_tooltip:
-        range: "%{dates}：计划量为 %{scheduled}，可用量为 %{available}"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: 添加用户
     view_types:

@@ -43,20 +43,21 @@ module ResourceManagement
 
       private
 
-      # The overbooked ranges this allocation is part of (the ranges whose forced
-      # work items reference it), used to flag and explain the bar.
-      def overbooked_ranges_for_allocation(allocation)
-        (overbooked_ranges_by_principal[allocation.principal_id] || [])
-          .select { |range| range.items.any? { |item| item.id == allocation.id } }
+      def overbooked?(allocation)
+        availabilities_by_principal[allocation.principal_id]&.overbooked_allocation_ids&.include?(allocation.id) || false
+      end
+
+      def overbooked_dates_of(allocation)
+        availabilities_by_principal[allocation.principal_id]&.overbooked_dates_of(allocation) || []
       end
 
       def overbooked_background_events
-        overbooked_ranges_by_principal.flat_map do |principal_id, ranges|
-          ranges.map do |range|
+        availabilities_by_principal.flat_map do |principal_id, availability|
+          availability.overbooked_dates.sort.slice_when { |previous, current| current != previous + 1 }.map do |run|
             {
               resourceId: principal_id,
-              start: range.start_date.iso8601,
-              end: (range.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
+              start: run.first.iso8601,
+              end: (run.last + 1).iso8601, # FullCalendar treats the end as exclusive
               display: "background",
               classNames: ["op-rm-timeline-overbooked"]
             }
@@ -90,6 +91,10 @@ module ResourceManagement
         end
       end
 
+      def global_non_working_days
+        @global_non_working_days ||= NonWorkingDay.for_dates(visible_range).pluck(:date).to_set
+      end
+
       def working_day_runs(range, calendar)
         runs = []
         run_start = nil
@@ -108,16 +113,15 @@ module ResourceManagement
       end
 
       def event_for(allocation)
-        overbooked_ranges = overbooked_ranges_for_allocation(allocation)
         {
           id: allocation.id,
           resourceId: allocation.principal_id,
           start: allocation.start_date.iso8601,
           end: (allocation.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
           extendedProps: {
-            overbooked: overbooked_ranges.any?,
+            overbooked: overbooked?(allocation),
             editUrl: edit_url_for(allocation),
-            html: render_bar(allocation, overbooked_ranges)
+            html: render_bar(allocation)
           }
         }
       end
@@ -141,10 +145,10 @@ module ResourceManagement
         end
       end
 
-      def render_bar(allocation, overbooked_ranges)
+      def render_bar(allocation)
         ResourcePlannerViews::UserTimeline::AllocationBarComponent
-          .new(allocation:, overbooked_ranges:, visible_work_package_ids:,
-               project_names: (visible_project_names if @project.nil?))
+          .new(allocation:, overbooked: overbooked?(allocation), overbooked_dates: overbooked_dates_of(allocation),
+               visible_work_package_ids:, project_names: (visible_project_names if @project.nil?))
           .render_in(view_context)
       end
 

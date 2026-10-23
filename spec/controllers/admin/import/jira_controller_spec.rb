@@ -37,7 +37,8 @@ RSpec.describe Admin::Import::JiraController do
     {
       "name" => "Test Jira",
       "url" => "https://jira.example.com",
-      "personal_access_token" => "test_token_123"
+      "personal_access_token" => "test_token_123",
+      "exclude_resolution_fields" => false
     }
   end
 

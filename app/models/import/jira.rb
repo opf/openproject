@@ -32,6 +32,7 @@ module Import
     self.table_name = "jiras"
 
     enum :auth_method, { bearer: "bearer", basic: "basic" }, default: :bearer, prefix: true
+    store_attribute :options, :exclude_resolution_fields, :boolean, default: false
 
     has_many :jira_imports, dependent: :destroy
 

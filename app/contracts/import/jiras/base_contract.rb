@@ -40,6 +40,7 @@ module Import
       attribute :auth_method
       attribute :basic_auth_username
       attribute :basic_auth_password
+      stored_attribute :exclude_resolution_fields, store: :options
     end
   end
 end

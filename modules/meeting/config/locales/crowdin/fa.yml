@@ -663,7 +663,7 @@ fa:
       error_no_next: نوبت بعدی برای این جلسه وجود ندارد.
       error_template_draft: الگوی مجموعه جلسات هنوز در حالت پیش‌نویس است.
       first_already_exists: اولین نوبت این مجموعه جلسات قبلاً ایجاد شده است.
-      first_created: 'اولین جلسه با موفقیت از روی الگو ایجاد شد. همه جلسات آینده در زمان نوبت قبلی به‌طور خودکار ایجاد خواهند شد.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: این جلسه بخشی از یک مجموعه جلسات تکرارشونده است.

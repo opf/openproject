@@ -62,7 +62,7 @@ module MeetingSections
     def validate_meeting_existence
       # when creating a meeting agenda item from the work package tab and not selecting a meeting
       # the meeting and therefore the project is not set
-      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existance error
+      # in this case we only want to show the "Meeting can't be blank" error instead of a misleading not existence error
       # the error is added by the models presence validation
       return if model.meeting.nil?
 

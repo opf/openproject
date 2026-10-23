@@ -90,4 +90,9 @@ class Workflow < ApplicationRecord
   end
 
   def project_specific? = project_id.present?
+
+  def in_use? = type_variants.exists?
+
+  # Global workflows are available to every variant, so they are the safe replacements
+  def replacement_targets = self.class.global.in_display_order.where.not(id:)
 end

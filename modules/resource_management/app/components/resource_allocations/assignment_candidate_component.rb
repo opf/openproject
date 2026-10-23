@@ -46,7 +46,9 @@ module ResourceAllocations
     attr_reader :allocation, :user
 
     def fits?
-      overbooked_ranges.empty?
+      return @fits if defined?(@fits)
+
+      @fits = !checkable? || !availability.overbooking_with(allocation).overbooked?
     end
 
     # Capacity is unknown (not zero) for a user without configured working
@@ -55,22 +57,8 @@ module ResourceAllocations
       @capacity_known ||= UserWorkingHours.for_user(user).exists?
     end
 
-    def overbooked_ranges
-      @overbooked_ranges ||= checkable? ? prospective_overbooking : []
-    end
-
     def checkable?
       capacity_known? && allocation.allocated_time.to_i.positive?
-    end
-
-    def prospective_overbooking
-      availability.overbooking_with(
-        start_date: allocation.start_date,
-        end_date: allocation.end_date,
-        minutes: allocation.allocated_time,
-        work_package_id: allocation.entity_id,
-        exclude_id: allocation.id
-      )
     end
 
     def availability

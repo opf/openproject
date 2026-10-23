@@ -97,7 +97,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    */
   private matchingGroup(workPackage:WorkPackageResource) {
     return this.groups.find((group:GroupObject) => {
-      let property = workPackage[groupByProperty(group)] as unknown;
+      let property = workPackage[groupByProperty(group)];
       // explicitly check for undefined as `false` (bool) is a valid value.
       if (property === undefined) {
         property = null;
@@ -164,19 +164,8 @@ export class GroupedRenderPass extends PlainRenderPass {
       console.warn("All rows should have a group, but this one doesn't %O", row);
     }
 
-    let hidden = false;
-    const additionalClasses:string[] = [];
-
+    const { additionalClasses, hidden } = group ? this.groupRowState(group) : { additionalClasses: [], hidden: false };
     const [tr, _] = this.rowBuilder.buildEmpty(row.object);
-
-    if (group) {
-      additionalClasses.push(groupedRowClassName(group.index));
-      hidden = !!group.collapsed;
-
-      if (hidden) {
-        additionalClasses.push(collapsedRowClass);
-      }
-    }
 
     tr.classList.add(...additionalClasses);
     this.appendRow(row.object, tr, additionalClasses, hidden);
@@ -192,6 +181,20 @@ export class GroupedRenderPass extends PlainRenderPass {
 
     const groupClass = groupClassNameFor(group);
     const rowElement = this.sumsBuilder.buildSumsRow(group);
-    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass);
+    const { additionalClasses, hidden } = this.groupRowState(group);
+
+    rowElement.classList.add(...additionalClasses);
+    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden);
+  }
+
+  private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {
+    const hidden = !!group.collapsed;
+    const additionalClasses = [groupedRowClassName(group.index)];
+
+    if (hidden) {
+      additionalClasses.push(collapsedRowClass);
+    }
+
+    return { additionalClasses, hidden };
   }
 }

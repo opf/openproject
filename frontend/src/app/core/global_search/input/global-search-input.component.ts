@@ -433,7 +433,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
    * to mark a direct hit, nor does it reset after a search. We handle this then by selecting the desired element once the
    * search results are back. We then set the marked option to be the selected option.
    *
-   * In order to avoid flickering, a -markable modifyer class is unset/set before/after searching. This will unset the background until we
+   * In order to avoid flickering, a -markable modifier class is unset/set before/after searching. This will unset the background until we
    * have marked the element we wish to.
    */
   private setMarkedOption():void {

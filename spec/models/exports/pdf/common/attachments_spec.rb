@@ -120,6 +120,19 @@ RSpec.describe Exports::PDF::Common::Attachments do
       result = helper.resize_image(png_fixture)
       expect(Marcel::MimeType.for(Pathname.new(result))).to eq("image/png")
     end
+
+    it "does not shell out to mogrify, which the module policy denies" do
+      allow(MiniMagick).to receive(:mogrify).and_call_original
+
+      helper.resize_image(png_fixture)
+
+      expect(MiniMagick).not_to have_received(:mogrify)
+    end
+
+    it "runs ImageMagick with the project policy applied" do
+      expect(MiniMagick.cli_env["MAGICK_CONFIGURE_PATH"])
+        .to eq(Rails.root.join("config/imagemagick").to_s)
+    end
   end
 
   describe "#convert_gif_to_png" do

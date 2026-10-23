@@ -164,6 +164,12 @@ module Admin::Import::Jira
         credential_field(basic_group, input_name: :basic_auth_password)
       end
 
+      client_form.check_box(
+        name: :exclude_resolution_fields,
+        label: I18n.t("admin.jira.form.fields.exclude_resolution_fields"),
+        caption: I18n.t("admin.jira.form.exclude_resolution_fields_caption")
+      )
+
       f.group(layout: :horizontal, mt: 1, mb: 2) do |button_group|
         button_group.submit(
           name: :submit,

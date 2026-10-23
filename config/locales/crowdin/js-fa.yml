@@ -61,6 +61,7 @@ fa:
         single: انتخاب «%{name}»
       remove: حذف %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: موردی یافت نشد
       placeholder: برای جستجو تایپ کنید
       project:
@@ -162,6 +163,7 @@ fa:
     button_stop_timer: توقف تایمر
     button_uncheck_all: لغو انتخاب همه
     button_update: به روز رسانی
+    button_view_markdown: View Markdown
     caption_rate_history: تاریخچه نرخ
     card:
       add_new: افزودن کارت جدید
@@ -359,8 +361,8 @@ fa:
     ical_sharing_modal:
       copy_url_label: کپی URL
       description: می‌توانید از URL (iCalendar) برای اشتراک این تقویم در یک کلاینت خارجی استفاده کنید و اطلاعات به‌روز بسته‌های کاری را از آنجا ببینید.
-      ical_generation_error_text: هنگام تولید URL تقویم خطایی رخ داد.
-      inital_setup_error_message: هنگام دریافت داده خطایی رخ داد.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL «%{name}» با موفقیت در کلیپ‌بورد کپی شد. برای تکمیل اشتراک آن را در کلاینت تقویم خود جای‌گذاری کنید.
       title: اشتراک در تقویم
       token_name_description_text: اگر از چند دستگاه در این تقویم مشترک شوید، این نام کمک می‌کند آن‌ها را در فهرست <a href="%{myAccessTokensUrl}" target="_blank">توکن‌های دسترسی</a> از هم تشخیص دهید.
@@ -552,6 +554,8 @@ fa:
     label_reset: بازنشانی
     label_resize_project_menu: تغییر اندازه منوی پروژه
     label_save_as: ذخیره به‌عنوان
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: جستجوی ستون
     label_select_watcher: انتخاب دنبال‌کننده...
     label_selected_filter_list: فیلترهای انتخاب‌شده
