@@ -41,37 +41,31 @@ module Grids
         t(".title")
       end
 
-      def members_by_role
+      def members_by_role # rubocop:disable Metrics/AbcSize
+        # Sanity check: If we can't view members, we can return immediatly.
+        # This way we don't need to check if current_user is allowed to view_members
+        # multiple times.
+        return [] unless can_view_members?
+
         return @members_by_role if @members_by_role
 
-        counts_by_role = count_members_by_role(member_role_ids)
-
         @members_by_role = ProjectRole
-          .where(id: member_role_ids)
-          .order(name: :asc)
-          .map do |role|
-            total_count = counts_by_role[role.id]
-            principals = members_for_role(role.id).limit(limit).map(&:principal)
+          .joins(:members)
+          .where(members: { project_id: project.id })
+          .group(:id, :name)
+          .count
+          .map do |(id, name), total_count|
+            principals = members_for_role(id).limit(limit).map(&:principal)
 
             {
-              role:,
+              id:,
+              name:,
               members: principals,
               total_count: total_count,
               remaining: [total_count - limit, 0].max,
               has_more: total_count > limit
             }
           end
-      end
-
-      def count_members_by_role(role_ids)
-        project
-          .members
-          .visible(current_user)
-          .joins(:member_roles)
-          .where(member_roles: { role_id: role_ids })
-          .includes(:principal)
-          .group(MemberRole.arel_table[:role_id])
-          .count
       end
 
       def members_for_role(role_id)
@@ -84,19 +78,12 @@ module Grids
           .order(created_at: :desc)
       end
 
-      def member_role_ids
-        MemberRole
-          .where(member_id: project.members.select(:id))
-          .select(:role_id)
-          .distinct
-      end
-
       def can_view_members?
         current_user.allowed_in_project?(:view_members, project)
       end
 
       def can_manage_members?
-        current_user.allowed_in_project?(:manage_members, project)
+        @can_manage_members ||= current_user.allowed_in_project?(:manage_members, project)
       end
     end
   end
