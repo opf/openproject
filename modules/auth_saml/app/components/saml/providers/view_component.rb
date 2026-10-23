@@ -36,5 +36,16 @@ module Saml::Providers
     options :view_mode, :edit_state, :new_mode
 
     alias_method :provider, :model
+
+    def refresh_metadata_action
+      return unless provider.persisted? && provider.metadata_url.present? && !provider.seeded_from_env?
+
+      Primer::Beta::Button.new(
+        tag: :a,
+        href: refresh_metadata_saml_provider_path(provider),
+        mt: 2,
+        data: { turbo_prefetch: false }
+      ).with_content(I18n.t("saml.providers.metadata_refresh.button"))
+    end
   end
 end
