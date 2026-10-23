@@ -31,12 +31,13 @@ module WorkPackageTypes
   module FormConfiguration
     class GroupAttributeRowComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include SortableLists::MoveMenu
+      include AttributeItemData
 
-      def initialize(attribute:, context:, index:, total_count:)
+      def initialize(attribute:, context:, total_count:)
         super
         @attribute = attribute
         @context = context
-        @index = index
         @total_count = total_count
       end
 
@@ -105,16 +106,12 @@ module WorkPackageTypes
 
       private
 
+      def sortable?
+        !readonly? && sortable_attribute?(@attribute)
+      end
+
       def multiple_attributes?
         @total_count > 1
-      end
-
-      def attribute_can_move_up?
-        multiple_attributes? && !@index.zero?
-      end
-
-      def attribute_can_move_down?
-        multiple_attributes? && @index != @total_count - 1
       end
 
       def actions_button_arguments
@@ -128,23 +125,8 @@ module WorkPackageTypes
         }
       end
 
-      def row_move_path(move_to)
-        @context.row_path(:move, row_key: @attribute[:key], move_to:)
-      end
-
       def row_destroy_path
         @context.row_path(row_key: @attribute[:key])
-      end
-
-      def move_action(menu:, href:, label:, icon:)
-        menu.with_item(
-          label:,
-          tag: :a,
-          href:,
-          content_arguments: { data: { turbo_method: :put, turbo_stream: true } }
-        ) do |item|
-          item.with_leading_visual_icon(icon:)
-        end
       end
     end
   end
