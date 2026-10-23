@@ -28,9 +28,8 @@
 #login-form
   margin: 50px auto 0
   padding: 20px
-  width: 511px
+  width: 460px
   word-break: break-word
-  background-color: var(--display-gray-bgColor-muted)
 
   .login-form--footer
     display: flex
@@ -52,83 +51,20 @@
     text-align: center
     font-weight: var(--base-text-weight-semibold)
 
-  &--signin
-    margin-top: var(--base-size-24)
-    text-align: center
-
-  .login-auth-providers h3 span
-    background: var(--body-background)
-
-#content .login-auth-providers.wide
-  width: auto
-  text-align: center
-
-  a.auth-provider
-    float: none
-    display: inline-block
-
 #login-pulldown
   margin-right: 0
 
 // use id selectors to be specific enough to override general content and top-menu definitions
 #content .login-auth-providers
-  width: 471px
+  width: auto
 
 #content .login-auth-providers,
 #nav-login-content .login-auth-providers
-  margin-top: 25px
-
-  h3
-    font-weight: normal
-    font-size: 1rem
-    text-align: center
-    position: relative
-    z-index: 1
-
-    // line behind title
-    // from http://codepen.io/ericrasch/pen/Irlpm
-
-    &:after
-      border-bottom: 2px solid var(--borderColor-default)
-      content: ""
-      // this centers the line to the full width specified
-      margin: 0 auto
-      // positioning must be absolute here, and relative positioning
-      //  must be applied to the parent
-      position: absolute
-      bottom: 5px
-      left: 0
-      right: 0
-      width: 95%
-      z-index: -1
-
-    // also line behind title
-    span
-      // to hide the lines from behind the text, you have to set the
-      // background color the same as the container
-      background: var(--display-gray-bgColor-muted)
-      padding: 0 0.5rem
-
-  .login-auth-provider-list
-    @include prevent-float-collapse
-    margin-top: 1em
-
-    a.auth-provider
-      display: inline-block
-
-  a.auth-provider:hover
-    text-decoration: none
-
-#nav-login-content .login-auth-providers
-  h3
-    span
-      background: var(--overlay-bgColor)
   .login-auth-provider-list
     margin-top: 1em
-    margin-bottom: 10px
 
-#nav-login-content .login-auth-providers.no-pwd
-  margin-top: 0
+#nav-login-content .login-auth-providers .login-auth-provider-list
+  margin-bottom: 10px
 
 .registration-footer
   display: block

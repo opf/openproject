@@ -35,6 +35,7 @@ import { WorkPackageTable } from '../../../wp-fast-table';
 import { WorkPackageTableRow } from '../../../wp-table.interfaces';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { PlainRenderPass } from '../plain/plain-render-pass';
+import { groupOccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import {
   groupClassNameFor,
   GroupHeaderBuilder,
@@ -77,12 +78,11 @@ export class GroupedRenderPass extends PlainRenderPass {
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
         const rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(rowElement, groupClass, [groupRowClass]);
+        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), rowElement, groupClass, [groupRowClass]);
         currentGroup = nextGroup;
       }
 
-      row.group = currentGroup;
-      this.buildSingleRow(row);
+      this.buildSingleRow(row, currentGroup);
     });
 
     // Render the last sums row
@@ -97,7 +97,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    */
   private matchingGroup(workPackage:WorkPackageResource) {
     return this.groups.find((group:GroupObject) => {
-      let property = workPackage[groupByProperty(group)] as unknown;
+      let property = workPackage[groupByProperty(group)];
       // explicitly check for undefined as `false` (bool) is a valid value.
       if (property === undefined) {
         property = null;
@@ -159,28 +159,14 @@ export class GroupedRenderPass extends PlainRenderPass {
   /**
    * Enhance a row from the rowBuilder with group information.
    */
-  private buildSingleRow(row:WorkPackageTableRow):void {
-    const { group } = row;
-
+  private buildSingleRow(row:WorkPackageTableRow, group:GroupObject|null):void {
     if (!group) {
       console.warn("All rows should have a group, but this one doesn't %O", row);
     }
 
-    let hidden = false;
-    const additionalClasses:string[] = [];
-
+    const { additionalClasses, hidden } = group ? this.groupRowState(group) : { additionalClasses: [], hidden: false };
     const [tr, _] = this.rowBuilder.buildEmpty(row.object);
 
-    if (group) {
-      additionalClasses.push(groupedRowClassName(group.index));
-      hidden = !!group.collapsed;
-
-      if (hidden) {
-        additionalClasses.push(collapsedRowClass);
-      }
-    }
-
-    row.element = tr;
     tr.classList.add(...additionalClasses);
     this.appendRow(row.object, tr, additionalClasses, hidden);
   }
@@ -195,6 +181,20 @@ export class GroupedRenderPass extends PlainRenderPass {
 
     const groupClass = groupClassNameFor(group);
     const rowElement = this.sumsBuilder.buildSumsRow(group);
-    this.appendNonWorkPackageRow(rowElement, groupClass);
+    const { additionalClasses, hidden } = this.groupRowState(group);
+
+    rowElement.classList.add(...additionalClasses);
+    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass, additionalClasses, hidden);
+  }
+
+  private groupRowState(group:GroupObject):{ additionalClasses:string[], hidden:boolean } {
+    const hidden = !!group.collapsed;
+    const additionalClasses = [groupedRowClassName(group.index)];
+
+    if (hidden) {
+      additionalClasses.push(collapsedRowClass);
+    }
+
+    return { additionalClasses, hidden };
   }
 }

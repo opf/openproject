@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -241,7 +240,8 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_types,
                      {
                        "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/types": %i[index new create destroy]
+                       "projects/settings/work_packages/types": %i[index new create destroy],
+                       "projects/settings/work_packages/custom_fields": %i[show]
                      },
                      permissible_on: :project,
                      require: :member
@@ -252,6 +252,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/types": %i[index],
+                       "projects/settings/work_packages/custom_fields": %i[show],
                        "projects/settings/work_packages/types/switches": %i[new create],
                        "projects/settings/work_packages/types/switches/impacts": %i[create],
                        "work_package_types/settings_tab": %i[index],
@@ -612,7 +613,7 @@ Rails.application.reloader.to_prepare do
 
       forum.permission :view_messages,
                        { forums: %i[index show],
-                         messages: [:show] },
+                         messages: %i[show replies] },
                        permissible_on: :project,
                        public: true
 

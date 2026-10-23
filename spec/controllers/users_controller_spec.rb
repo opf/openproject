@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -510,7 +509,7 @@ RSpec.describe UsersController do
         expect(affected_user).to be_locked
       end
 
-      context "when trying to modifiy yourself" do
+      context "when trying to modify yourself" do
         let(:affected_user) { acting_user }
 
         it "does not allow changing own status" do
@@ -594,7 +593,7 @@ RSpec.describe UsersController do
         end
       end
 
-      context "when trying to modifiy yourself" do
+      context "when trying to modify yourself" do
         let(:affected_user) { acting_user }
 
         it "does not allow changing own status" do
@@ -648,7 +647,7 @@ RSpec.describe UsersController do
         end
       end
 
-      context "when trying to modifiy yourself" do
+      context "when trying to modify yourself" do
         let(:affected_user) { acting_user }
 
         it "does not allow changing own status" do

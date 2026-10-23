@@ -46,7 +46,7 @@ id:
   documents:
     active_editors: Editor yang aktif
     active_editors_count:
-      other: "%{count} editor aktif"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

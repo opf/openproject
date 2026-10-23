@@ -60,7 +60,7 @@ uk:
 
           '
       label_n_groups_found:
-        one: Знайдено 1 групу за фільтром
+        one: "%{count} group found by the filter"
         other: 'Знайдено груп за фільтром: %{count}'
         zero: Груп за фільтром не знайдено
       plural: Фільтри синхронізації групи LDAP

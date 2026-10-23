@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,16 +51,16 @@ module Components
 
       def open_field
         within_field do
-          # Wait for the display field to be present before clicking.
-          # This is necessary when the field is inside a lazy-loading Turbo Frame,
-          # which may not have loaded yet when this method is called.
-          find(".op-inplace-edit--display-field")
-          # Link and user type custom fields might contain a clickable link inside the edit container.
-          # Use JavaScript to directly trigger the click event on the container to avoid nested links.
-          selector = "op-inplace-edit-field--#{model_class}-#{model.id}--#{attribute.name}"
-          page.execute_script(
-            "document.querySelector('[data-test-selector=\"#{selector}\"] .op-inplace-edit--display-field').click()"
-          )
+          display_field = find(".op-inplace-edit--display-field[data-controller~='inplace-edit']")
+          page.document.synchronize(20) do
+            controller = page.evaluate_script(
+              "window.Stimulus?.getControllerForElementAndIdentifier(arguments[0], 'inplace-edit')",
+              display_field
+            )
+            raise Capybara::ExpectationNotMet, "inplace-edit controller is not connected" unless controller
+          end
+
+          page.execute_script("window.getSelection()?.removeAllRanges(); arguments[0].click()", display_field)
         end
       end
 
@@ -70,7 +69,7 @@ module Components
           dialog.expect_open
         else
           within_field do
-            expect(page).to have_test_selector("op-inplace-edit-field--form")
+            expect(page).to have_test_selector("op-inplace-edit-field--form", wait: 20)
           end
         end
       end

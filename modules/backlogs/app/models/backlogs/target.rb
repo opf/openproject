@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,9 +35,15 @@ module Backlogs
   # on the work package.
   module Target
     # Counterpart of InboxId
-    Inbox = Data.define do
-      def name = I18n.t(:label_inbox)
-    end.new
+    class Inbox
+      class << self
+        def name = I18n.t(:label_inbox)
+
+        def model_name
+          @model_name ||= ActiveModel::Name.new(self, nil, "Inbox")
+        end
+      end
+    end
 
     SprintId = Data.define(:id) do
       def list_type = "sprint"
@@ -94,7 +99,7 @@ module Backlogs
         SprintId[container.id]
       in BacklogBucket
         BucketId[container.id]
-      in Inbox
+      in _ if container == Inbox
         InboxId
       end
     end

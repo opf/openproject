@@ -26,7 +26,6 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Input, HostBinding, OnInit, Output } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { Moment } from 'moment';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
@@ -55,17 +54,21 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
 
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this));
 
-  public get value():HalResource|string {
-    return this.filter.values[0];
+  public get value():string {
+    return this.filter.values[0] as string;
   }
 
   public set value(val) {
-    this.filter.values = [val as string]; // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
+    this.filter.values = [val];
     this.filterChanged.emit(this.filter);
   }
 
   public get valueString() {
-    return this.filter.values[0].toString();
+    return this.filter.values[0]?.toString() ?? '';
+  }
+
+  public get pointInTime():boolean {
+    return ['>d', '<d'].includes(this.filter.operator?.id);
   }
 
   public get lowerBoundary():Moment|null {

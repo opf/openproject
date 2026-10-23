@@ -92,8 +92,8 @@ export class WorkPackageBreadcrumbParentComponent {
     }
 
     this.isSaving = true;
-    this.wpRelationsHierarchy.changeParent(this.workPackage, newParentId)
-      .catch((error:any) => {
+    void this.wpRelationsHierarchy.changeParent(this.workPackage, newParentId)
+      .catch((error:unknown) => {
         this.notificationService.handleRawError(error, this.workPackage);
       })
       .then(() => this.isSaving = false); // Behaves as .finally()
@@ -107,6 +107,6 @@ export class WorkPackageBreadcrumbParentComponent {
   }
 
   public parentLink(parent:WorkPackageResource):string {
-    return this.pathHelper.genericWorkPackagePath(parent.project?.identifier, parent.displayId) + window.location.search;
+    return this.pathHelper.genericWorkPackagePath(parent.project?.identifier as string|null, parent.displayId) + window.location.search;
   }
 }

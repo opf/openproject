@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,6 +63,18 @@ class Type < ApplicationRecord
     else
       none
     end
+  }
+
+  scope :with_name_like, ->(query) {
+    where("types.name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
+  scope :with_own_or_variant_name_like, ->(query) {
+    with_name_like(query).or(where(id: TypeVariant.with_name_like(query).select(:type_id)))
+  }
+
+  scope :with_migrated_variants, -> {
+    where(id: TypeVariant.created_by_migration.select(:type_id))
   }
 
   delegate :to_s, to: :name

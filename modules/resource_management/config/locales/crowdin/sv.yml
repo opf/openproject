@@ -114,14 +114,14 @@ sv:
       outside_dates:
         description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} tillgängligt · %{scheduled} schemalagt"
         description: Den valda användaren, %{user}, skulle tilldelas mer tid än sina arbetstimmar under den här perioden.
-        hidden_work: Andra tilldelningar
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor} % tillgänglig för projektarbete)"
         schedule_change: till %{date}, därefter %{schedule}
         schedule_note: Den här användaren arbetar %{schedule}.
         submit: Tilldela övertid
         title: Vill du tilldela användaren övertid?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: Tilldela
       success_message: Resursen har tilldelats.
@@ -173,7 +173,7 @@ sv:
     label_new_resource_planner: Ny resursplanerare
     label_resource_planner: Resursplanerare
     label_resource_planner_plural: Resursplanerare
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Lägg till vy
@@ -261,7 +261,8 @@ sv:
       no_work_schedule: Inget arbetsschema planerat för den här användaren
       overbooked: Den här användaren är övertilldelad under den valda perioden.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} schemalagt, %{available} tillgängligt"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Lägg till användare
     view_types:

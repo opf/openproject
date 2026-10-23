@@ -1,0 +1,15 @@
+# /api/v3/spec.yml
+---
+get:
+  summary: Get specification (YAML)
+  operationId: get_spec
+  tags:
+    - OpenAPI
+  description: Returns the OpenAPI specification in YAML format.
+  responses:
+    200:
+      description: OpenAPI specification
+      content:
+        application/yaml:
+          schema:
+            $ref: "../components/schemas/spec_model.yml"

@@ -1,0 +1,192 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Admin::Import
+  class JiraController < ApplicationController
+    include OpTurbo::ComponentStream
+
+    layout "admin"
+
+    menu_item :jira_import
+
+    before_action :require_admin
+    before_action :set_jira, only: %i[show edit update destroy clear_credential]
+
+    def index
+      @jira_instances = Import::Jira.order(created_at: :desc)
+    end
+
+    def show
+      @jira_imports = Import::JiraImport.where(jira_id: @jira.id).order(id: :desc)
+    end
+
+    def new
+      @jira = Import::Jira.new
+    end
+
+    def edit; end
+
+    def create
+      result = ::Import::Jiras::CreateService.new(user: User.current).call(jira_params)
+      handle_service_result(result, success_path: -> { admin_import_jira_path(result.result.id) }, failure_view: :new)
+    end
+
+    def update
+      result = ::Import::Jiras::UpdateService.new(user: User.current, model: @jira).call(jira_params)
+      handle_service_result(result, success_path: -> { admin_import_jira_path(result.result.id) }, failure_view: :edit)
+    end
+
+    def destroy
+      if Import::JiraImport.exists?(jira_id: @jira.id)
+        flash[:error] = t(:"admin.jira.errors.cannot_delete_with_imports")
+      else
+        @jira.destroy!
+        flash[:notice] = t(:notice_successful_delete)
+      end
+      redirect_to action: :index, status: :see_other
+    end
+
+    def clear_credential
+      field = params[:field]
+
+      if %w[personal_access_token basic_auth_password].include?(field)
+        @jira.update!(field => nil)
+        flash[:notice] = t(:"admin.jira.#{field}_deleted")
+      end
+      redirect_to(edit_admin_import_jira_path(@jira), status: :see_other)
+    end
+
+    # rubocop:disable-next Metrics/AbcSize
+    def test_connection
+      url = params["url"]
+
+      unless valid_url?(url)
+        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.invalid_url"))
+      end
+
+      existing_jira_configuration = Import::Jira.find(params.expect(:jira_id)) if params[:jira_id].present?
+      basic_auth_username = params["basic_auth_username"]
+      basic_auth_password = params["basic_auth_password"].presence || existing_jira_configuration&.basic_auth_password
+      personal_access_token = params["personal_access_token"].presence || existing_jira_configuration&.personal_access_token
+      jira_client = Import::JiraClient.new(url:,
+                                           auth_method: params["auth_method"],
+                                           personal_access_token:,
+                                           basic_auth_username:,
+                                           basic_auth_password:)
+
+      server_info = jira_client.server_info
+      jira_user_is_administer = jira_client.mypermissions.dig("permissions", "ADMINISTER", "havePermission")
+
+      unless jira_user_is_administer
+        return render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.user_is_not_admin"))
+      end
+
+      render_test_result(server_info)
+    rescue StandardError => e
+      handle_test_error(e)
+    ensure
+      respond_with_turbo_streams
+    end
+
+    private
+
+    def set_jira
+      @jira = Import::Jira.find(params.expect(:id))
+    end
+
+    def jira_params
+      permitted = params.expect(
+        import_jira: %i[name
+                        url
+                        personal_access_token
+                        exclude_resolution_fields
+                        auth_method
+                        basic_auth_username
+                        basic_auth_password]
+      )
+      if action_name == "update"
+        %i[personal_access_token basic_auth_password].each do |credential|
+          permitted.delete(credential) if permitted[credential].blank?
+        end
+      end
+      permitted
+    end
+
+    def handle_service_result(result, success_path:, failure_view:)
+      if result.failure?
+        @jira = result.result
+        stream_form_component { |format| format.html { render failure_view } }
+      else
+        flash[:notice] = t(action_name == "create" ? :notice_successful_create : :notice_successful_update)
+        redirect_to success_path.call
+      end
+    end
+
+    def stream_form_component(&)
+      update_via_turbo_stream(component: Admin::Import::Jira::FormComponent.new(@jira))
+      respond_with_turbo_streams(&)
+    end
+
+    def valid_url?(url)
+      uri = URI.parse(url)
+      uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+    end
+
+    def handle_test_error(error)
+      message = case error
+                when Import::JiraClient::SsrfError
+                  link_translate("admin.jira.client.ssrf_block_doc_link",
+                                 links: { docs_url: %i[sysadmin_docs ssrf_protection] }).prepend("#{error.message} ")
+                when Import::JiraClient::ConnectionError then t(:"admin.jira.test.connection_error", message: error.message)
+                when Import::JiraClient::ParseError then t(:"admin.jira.test.parse_error")
+                when Import::JiraClient::ApiError then t(:"admin.jira.test.api_error", status: error.status)
+                when Import::JiraClient::Error then error.message
+                else
+                  handle_unexpected_test_error(error)
+                end
+      render_error_flash_message_via_turbo_stream(message:)
+    end
+
+    def handle_unexpected_test_error(error)
+      Rails.logger.error("Unexpected error testing Jira configuration: #{error.class} - #{error.message}\n" \
+                         "#{error.backtrace.join("\n")}")
+      "#{t(:"admin.jira.test.error")}: #{error.message}"
+    end
+
+    def render_test_result(response)
+      if response.is_a?(Hash)
+        server = response["serverTitle"] || Import::Jira.model_name
+        version = response["version"] || "?"
+        render_success_flash_message_via_turbo_stream(message: t(:"admin.jira.test.success", server:, version:))
+      else
+        render_error_flash_message_via_turbo_stream(message: t(:"admin.jira.test.failed"))
+      end
+    end
+  end
+end

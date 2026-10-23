@@ -32,13 +32,14 @@ import {
 import {
   Highlighting,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ProjectStatusDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {
-    const code = this.value?.id;
+    const code = (this.value as HalResource|null|undefined)?.id;
 
     const label = document.createElement('span');
-    label.classList.add('Label', ...Highlighting.backgroundMutedClass('project_status', code).split(' '), 'Label--inline');
+    label.classList.add('Label', ...Highlighting.backgroundMutedClass('project_status', String(code)).split(' '), 'Label--inline');
     label.textContent = projectStatusI18n(code, this.I18n);
 
     element.innerHTML = '';

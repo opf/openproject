@@ -30,10 +30,9 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { Injectable, inject } from '@angular/core';
 import {
   ICKEditorContext,
+  ICKEditorInstance,
   ICKEditorStatic,
-  ICKEditorWatchdog,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
-import { Constructor } from '@angular/cdk/schematics';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export type ICKEditorType = 'full'|'constrained';
@@ -50,35 +49,6 @@ export type ICKEditorMacroType = 'none'|'resource'|'wiki'|boolean|string[];
 // What the CKEditor build consumes: false = none, true = all, array = exactly these.
 export type ICKEditorResolvedMacros = boolean|string[];
 
-// Demo only (AI-126, mode B): the CKEditor 5 model and data APIs the selection events use.
-// The wrapper's ICKEditorInstance typing does not declare them.
-interface SelectionCapableEditor {
-  data:{ stringify(fragment:unknown):string; parse(markdown:string):unknown };
-  model:{
-    document:{ selection:{ isCollapsed:boolean; getFirstRange():unknown }; getRoot():unknown };
-    markers:{ get(name:string):{ getRange():unknown }|null };
-    getSelectedContent(selection:unknown):unknown;
-    insertContent(fragment:unknown, range:unknown):void;
-    change(callback:(writer:{
-      addMarker(name:string, options:{ range:unknown; usingOperation:boolean }):void;
-      removeMarker(name:string):void;
-      createRangeIn(element:unknown):unknown;
-    }) => void):void;
-  };
-}
-
-export const AI_SELECTION_MARKER = 'ai-text-transform:selection';
-
-export interface EditorSelectionResult {
-  markdown:string;
-  empty:boolean;
-}
-
-export interface ReplaceSelectionDetail {
-  markdown:string;
-  done:(ok:boolean) => void;
-}
-
 // Wiki-page-link macros, added to any editor when a wiki provider is configured (see resolveMacros).
 const wikiLinkMacros = ['OpMacroWikiPageLinkAddExisting', 'OpMacroWikiPageLinkCreateNew'];
 
@@ -86,7 +56,6 @@ declare global {
   interface Window {
     OPConstrainedEditor:ICKEditorStatic;
     OPClassicEditor:ICKEditorStatic;
-    OPEditorWatchdog:Constructor<ICKEditorWatchdog>;
   }
 }
 
@@ -110,18 +79,16 @@ export class CKEditorSetupService {
    * Create a CKEditor instance of the given type on the wrapper element.
    * Pass a ICKEditorContext object that will be used to decide active plugins.
    *
-   * Returns a Watchdog instance that has access to the editor and monitors its state.
-   *
    * @param {HTMLElement} wrapper
    * @param {ICKEditorContext} context
    * @param {string|null} initialData
-   * @returns {Promise<ICKEditorWatchdog>}
+   * @returns {Promise<ICKEditorInstance>}
    */
   public async create(
     wrapper:HTMLElement,
     context:ICKEditorContext,
     initialData:string|null = null,
-  ):Promise<ICKEditorWatchdog> {
+  ):Promise<ICKEditorInstance> {
     // Load the bundle and the matching locale, if found.
     await this.prefetch;
 
@@ -136,10 +103,9 @@ export class CKEditorSetupService {
     }
     const config = this.createConfig(context, initialData);
 
-    return this
-      .createWatchdog(editorClass, contentWrapper, config)
-      .then((watchdog:ICKEditorWatchdog) => {
-        const { editor } = watchdog;
+    return editorClass
+      .createCustomized(contentWrapper, config)
+      .then((editor:ICKEditorInstance) => {
         const updateLastUpdated = () => {
           const editable = wrapper.querySelector<HTMLElement>('.ck-editor__editable_inline');
           if (!editable) {
@@ -148,7 +114,6 @@ export class CKEditorSetupService {
 
           editable.dataset.lastUpdated = String(new Date().getTime());
         };
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
 
         // Allow custom events on wrapper to set/get data for debugging
@@ -166,71 +131,38 @@ export class CKEditorSetupService {
         wrapper.addEventListener('op:ckeditor:getData', (event:CustomEvent<(data:string) => void>) => {
           event.detail(editor.getData({ trim: false }));
         });
-        this.addSelectionEvents(wrapper, editor as unknown as SelectionCapableEditor);
 
-        return watchdog;
+        return editor;
       });
   }
 
-  // Demo only (AI-126, mode B): the AI menu reads the selected text as markdown and pins it
-  // with a marker, so the result popover can replace exactly that range later even if the
-  // user kept typing meanwhile.
-  private addSelectionEvents(wrapper:HTMLElement, editor:SelectionCapableEditor):void {
-    const clearMarker = () => {
-      if (editor.model.markers.get(AI_SELECTION_MARKER)) {
-        editor.model.change((writer) => writer.removeMarker(AI_SELECTION_MARKER));
+  /**
+   * Call the callback for each unhandled error of the given editor.
+   * The editor keeps running with its content after such an error.
+   *
+   * Returns a function that removes the callback.
+   */
+  public onEditorError(editor:ICKEditorInstance, callback:(error:Error) => void):() => void {
+    // The registry is page-wide, so the static method of either editor class covers all editors.
+    return window.OPClassicEditor.onEditorError(({ error, source }) => {
+      if (source === editor) {
+        callback(error);
       }
-    };
-
-    wrapper.addEventListener('op:ckeditor:getSelection', (event:CustomEvent<(result:EditorSelectionResult) => void>) => {
-      const { selection } = editor.model.document;
-      clearMarker();
-      if (selection.isCollapsed) {
-        event.detail({ markdown: '', empty: true });
-        return;
-      }
-
-      const markdown = editor.data.stringify(editor.model.getSelectedContent(selection));
-      editor.model.change((writer) => {
-        writer.addMarker(AI_SELECTION_MARKER, { range: selection.getFirstRange(), usingOperation: false });
-      });
-      event.detail({ markdown, empty: markdown.trim() === '' });
     });
-
-    wrapper.addEventListener('op:ckeditor:replaceSelection', (event:CustomEvent<ReplaceSelectionDetail>) => {
-      const marker = editor.model.markers.get(AI_SELECTION_MARKER);
-      if (!marker) {
-        event.detail.done(false);
-        return;
-      }
-
-      editor.model.change((writer) => {
-        editor.model.insertContent(editor.data.parse(event.detail.markdown), marker.getRange());
-        writer.removeMarker(AI_SELECTION_MARKER);
-      });
-      event.detail.done(true);
-    });
-
-    // Unlike setData, replacing the root's content with insertContent keeps the undo history.
-    wrapper.addEventListener('op:ckeditor:replaceDocument', (event:CustomEvent<string>) => {
-      clearMarker();
-      editor.model.change((writer) => {
-        editor.model.insertContent(editor.data.parse(event.detail), writer.createRangeIn(editor.model.document.getRoot()));
-      });
-    });
-
-    wrapper.addEventListener('op:ckeditor:clearSelectionMarker', clearMarker);
   }
 
   private createConfig(context:ICKEditorContext, initialData:string|null) {
     const uiLocale = this.loadedLocale;
     const contentLanguage = context.options?.rtl ? 'ar' : 'en';
-    const resolvedContext:ICKEditorContext = { ...context, macros: this.resolveMacros(context.macros) };
+    const macros = this.resolveMacros(context.macros);
+    const resolvedContext:ICKEditorContext = { ...context, macros };
 
     const config = {
       openProject: this.createContext(resolvedContext),
       removePlugins: context.removePlugins,
-      initialData,
+      root: {
+        initialData,
+      },
       ui: {
         poweredBy: {
           side: 'left',
@@ -242,10 +174,7 @@ export class CKEditorSetupService {
       },
       link: {},
       storageKey: context.storageKey,
-      // Constrained editors have no macro dropdown by default; add one when macros are present.
-      ...(context.type === 'constrained' && Array.isArray(resolvedContext.macros)
-        ? { toolbar: { items: this.constrainedToolbarWithMacroList() } }
-        : {}),
+      ...this.toolbarConfig(context, macros),
     };
 
     const allowedLinkProtocols = this.configurationService.allowedLinkProtocols;
@@ -254,29 +183,6 @@ export class CKEditorSetupService {
     }
 
     return config;
-  }
-
-  /**
-   * Build the given editor class with a watchdog around it, returning the watchdog.
-   *
-   * @param editorClass
-   * @param contentWrapper
-   * @param config
-   * @private
-   */
-  private createWatchdog(
-    editorClass:ICKEditorStatic,
-    contentWrapper:HTMLElement,
-    config:unknown,
-  ):Promise<ICKEditorWatchdog> {
-    const watchdog = new window.OPEditorWatchdog();
-
-    watchdog.setCreator(() => editorClass.createCustomized(contentWrapper, config));
-    watchdog.setDestructor((editor) => editor.destroy());
-
-    return watchdog
-      .create(contentWrapper, {})
-      .then(() => watchdog);
   }
 
   /**
@@ -314,17 +220,38 @@ export class CKEditorSetupService {
     };
   }
 
-  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
-  private constrainedToolbarWithMacroList():string[] {
-    const items = [...(window.OPConstrainedEditor.defaultConfig?.toolbar?.items ?? [])];
+  private toolbarConfig(context:ICKEditorContext, macros:ICKEditorResolvedMacros):{ toolbar?:{ items:string[] } } {
+    const additionalItems = context.additionalToolbarItems ?? [];
+    // Constrained editors have no macro dropdown by default; add one when macros are present.
+    const withMacroList = context.type === 'constrained' && Array.isArray(macros);
 
-    if (!items.includes('macroList')) {
-      const anchor = items.indexOf('blockQuote');
-      const insertAt = anchor === -1 ? items.length : anchor + 1;
-      items.splice(insertAt, 0, '|', 'macroList');
+    if (!withMacroList && additionalItems.length === 0) {
+      return {};
     }
 
-    return items;
+    const items = withMacroList ? this.constrainedToolbarWithMacroList() : this.defaultToolbarItems(context.type);
+
+    return { toolbar: { items: this.insertAfterBlockQuote(items, additionalItems) } };
+  }
+
+  private defaultToolbarItems(type:ICKEditorType):string[] {
+    const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
+
+    return [...(editorClass.defaultConfig?.toolbar?.items ?? [])];
+  }
+
+  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
+  private constrainedToolbarWithMacroList():string[] {
+    const items = this.defaultToolbarItems('constrained');
+
+    return items.includes('macroList') ? items : this.insertAfterBlockQuote(items, ['|', 'macroList']);
+  }
+
+  private insertAfterBlockQuote(items:string[], newItems:string[]):string[] {
+    const anchor = items.indexOf('blockQuote');
+    const insertAt = anchor === -1 ? items.length : anchor + 1;
+
+    return [...items.slice(0, insertAt), ...newItems, ...items.slice(insertAt)];
   }
 
   // Expand macro tokens and add/withhold the wiki macros based on `wikisAvailable`.

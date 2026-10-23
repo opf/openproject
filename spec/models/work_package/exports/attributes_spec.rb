@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,6 +61,24 @@ RSpec.describe WorkPackage::Exports::Attributes do
         it "is visible" do
           expect(exporter.allowed_to_view_attribute?(work_package, :project_phase)).to be(true)
         end
+      end
+    end
+
+    describe "parent" do
+      it "is visible when the user can see the parent" do
+        child = create(:work_package, project:, parent: create(:work_package, project:))
+
+        expect(exporter.allowed_to_view_attribute?(child, :parent)).to be(true)
+      end
+
+      it "is hidden when the parent lives in a project the user cannot see" do
+        child = create(:work_package, project:, parent: create(:work_package))
+
+        expect(exporter.allowed_to_view_attribute?(child, :parent)).to be(false)
+      end
+
+      it "is allowed on a work package without a parent" do
+        expect(exporter.allowed_to_view_attribute?(work_package, :parent)).to be(true)
       end
     end
   end

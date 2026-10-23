@@ -48,8 +48,8 @@ fa:
   documents:
     active_editors: ویرایشگران فعال
     active_editors_count:
-      one: ۱ ویرایشگر فعال
-      other: "%{count} ویرایشگر فعال"
+      one: "%{count} active editor"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:

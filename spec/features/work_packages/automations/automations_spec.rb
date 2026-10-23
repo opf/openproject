@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -572,18 +571,19 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
              name: "Timestamps Query",
              project:,
              user:,
-             timestamps: ["P-1d", "PT0S"])
+             timestamps: [(work_package.created_at - 1.day).iso8601, "PT0S"])
     end
 
     before do
       create(:automation, :with_button_trigger,
-             actions: [Automations::Actions::AssignedTo.new(value: nil)],
+             actions: [Automations::Actions::AssignedTo.new],
              name: "Unassign")
     end
 
     it "executes the custom action (Regression#49588)" do
       login_as(user)
       wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(work_package)
       wp_page = wp_table.open_full_screen_by_link(work_package)
 
       wp_page.ensure_page_loaded
@@ -617,7 +617,7 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
           with_settings: { work_packages_identifier: "semantic" } do
     let!(:unassign_ca) do
       create(:automation, :with_button_trigger,
-             actions: [Automations::Actions::AssignedTo.new(nil)],
+             actions: [Automations::Actions::AssignedTo.new],
              name: "Unassign")
     end
 
@@ -627,7 +627,7 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
              project: project,
              roles: [role])
       create(:automation, :with_button_trigger,
-             actions: [Automations::Actions::Responsible.new("current_user")],
+             actions: [Automations::Actions::Responsible.new(values: ["current_user"])],
              name: "Be responsible")
     end
 

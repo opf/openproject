@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,12 +36,14 @@ module API
 
           # type_variant is part of the key on top of type: the configuration in force changes
           # when the project resolves the family to a different variant, which touches neither
-          # the project's nor the type's timestamp.
-          cached_representer key_parts: %i[project type type_variant],
+          # the project's nor the type's timestamp. form_configuration is a record of its own,
+          # shared between variants, so editing it touches neither of the above either.
+          cached_representer key_parts: %i[project type type_variant form_configuration],
                              dependencies: -> {
                                all_permissions_granted_to_user_under_project +
                                  [Setting.work_package_done_ratio,
-                                  Setting::WorkPackageMultipleVersions.active?]
+                                  Setting::WorkPackageMultipleVersions.active?,
+                                  OpenProject::FeatureDecisions.work_package_labels_active?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -279,6 +280,12 @@ module API
                                    required: false,
                                    href_callback: ->(*) { assignee_user_autocompleter }
 
+          schema_with_allowed_link :labels,
+                                   type: "[]Label",
+                                   required: false,
+                                   show_if: ->(*) { OpenProject::FeatureDecisions.work_package_labels_active? },
+                                   href_callback: ->(*) { labels_autocompleter }
+
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
                                          link_factory: ->(type) {
@@ -445,6 +452,7 @@ module API
              I18n.locale,
              represented.project,
              represented.type_variant,
+             represented.form_configuration,
              represented.available_custom_fields.sort_by(&:id)]
               .flatten
               .compact
@@ -458,6 +466,12 @@ module API
               .flatten
               .uniq
               .sort
+          end
+
+          def labels_autocompleter
+            project_id = represented.work_package&.project_id
+
+            api_v3_paths.labels_by_workspace(project_id) if project_id
           end
 
           def assignee_user_autocompleter

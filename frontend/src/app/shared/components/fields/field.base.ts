@@ -27,22 +27,19 @@
 
 import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-export interface IFieldSchema {
-  type:string;
-  writable:boolean;
-  allowedValues?:any;
-  required?:boolean;
-  hasDefault:boolean;
+export interface IFieldSchema extends Omit<IOPFieldSchema, 'name'|'options'> {
   name:string;
-  options?:any;
+  options?:IOPFieldSchema['options'];
   placeholder?:string;
 }
 
 export class Field extends UntilDestroyedMixin {
   public static type:string;
 
-  public resource:any;
+  public resource:HalResource;
 
   public name:string;
 
@@ -54,7 +51,7 @@ export class Field extends UntilDestroyedMixin {
     return this.schema.name || this.name;
   }
 
-  public get value() {
+  public get value():unknown {
     return this.resource[this.name];
   }
 
@@ -74,7 +71,7 @@ export class Field extends UntilDestroyedMixin {
     return this.schema.hasDefault;
   }
 
-  public get options():boolean {
+  public get options():IFieldSchema['options'] {
     return this.schema.options;
   }
 

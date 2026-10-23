@@ -47,7 +47,7 @@ module AI
       end
 
       def label(key)
-        I18n.t("ai.text_transform.popover.#{key}")
+        I18n.t("ai.text_transform.pane.#{key}")
       end
     end
   end

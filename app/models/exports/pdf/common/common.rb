@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,6 +33,37 @@ module Exports::PDF::Common::Common
   include ActionView::Helpers::NumberHelper
   include CustomFieldsHelper
   include OpenProject::TextFormatting
+
+  # Languages supported by the hyphenation library https://rubygems.org/gems/text-hyphen
+  # The labels are the language names in the language itself (NOT to be put I18n)
+  HYPHENATION_LANGUAGES = {
+    "ca" => "Català",
+    "da" => "Dansk",
+    "de" => "Deutsch",
+    "et" => "Eesti",
+    "en" => "English",
+    "es" => "Español",
+    "eu" => "Euskara",
+    "fr" => "Français",
+    "ga" => "Gaeilge",
+    "hr" => "Hrvatski",
+    "id" => "Indonesia",
+    "ia" => "Interlingua",
+    "it" => "Italiano",
+    "hu" => "Magyar",
+    "ms" => "Melayu",
+    "nl" => "Nederlands",
+    "no" => "Norsk",
+    "pl" => "Polski",
+    "pt" => "Português",
+    "sk" => "Slovenčina",
+    "fi" => "Suomi",
+    "sv" => "Svenska",
+    "is" => "Ísland",
+    "cs" => "Čeština",
+    "mn" => "Монгол",
+    "ru" => "Русский"
+  }.freeze
 
   private
 
@@ -315,7 +345,8 @@ module Exports::PDF::Common::Common
   end
 
   def hyphenation_language
-    options[:hyphenation_language] if hyphenation_enabled
+    language = options[:hyphenation_language]
+    language if hyphenation_enabled && HYPHENATION_LANGUAGES.key?(language)
   end
 
   def build_pdf_filename(base)

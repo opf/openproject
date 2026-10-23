@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,7 +76,7 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(variant.reload.projects).to contain_exactly(blocked)
-      expect(response.body).to include("projects-table")
+      expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
       expect(response.body).to include(I18n.t("types.edit.projects.enable_all"))
     end
 

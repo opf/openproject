@@ -61,6 +61,7 @@ ru:
         single: Выберите "%{name}"
       remove: Удалить %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Элементов не найдено
       placeholder: Введите для поиска
       project:
@@ -162,6 +163,7 @@ ru:
     button_stop_timer: Остановить таймер
     button_uncheck_all: Снять все отметки
     button_update: Обновление
+    button_view_markdown: View Markdown
     caption_rate_history: История оценок
     card:
       add_new: Добавить новую карту
@@ -202,6 +204,7 @@ ru:
     description_subwork_package: 'Дочерний пакет работ #%{id}'
     editor:
       ckeditor_error: Произошла ошибка в CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
       macro:
         attribute_reference:
@@ -358,8 +361,8 @@ ru:
     ical_sharing_modal:
       copy_url_label: Копировать URL
       description: Вы можете использовать URL-адрес (iCalendar), чтобы подписаться на этот календарь во внешнем клиенте и просматривать информацию о рабочем пакете отсюда.
-      ical_generation_error_text: Произошла ошибка при генерации URL-адреса календаря.
-      inital_setup_error_message: Произошла ошибка при получении данных.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адрес "%{name}" был успешно скопирован в ваш буфер обмена. Вставьте его в свой клиент календаря, чтобы завершить подписку.
       title: Подписаться на календарь
       token_name_description_text: Если Вы подписаны на этот календарь с нескольких устройств, это имя поможет Вам различать их в списке <a href="%{myAccessTokensUrl}" target="_blank">токенов доступа</a>.
@@ -553,6 +556,8 @@ ru:
     label_reset: Сброс
     label_resize_project_menu: Изменить размер меню проекта
     label_save_as: Сохранить как
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Поиск столбца
     label_select_watcher: Выберите наблюдателя...
     label_selected_filter_list: Выбранные фильтры
@@ -625,10 +630,10 @@ ru:
     notifications:
       center:
         and_more_users:
-          one: и еще 1
-          few: и %{count} других
-          many: и %{count} других
-          other: и %{count} других
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Похоже, вы все сделали.
           no_notification_for_filter: Похоже, что для этого фильтра у Вас уже все готово.
@@ -724,6 +729,7 @@ ru:
     placeholders:
       default: "-"
       description: 'Описание: Нажмите для редактирования...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Пожалуйста, выберите
       subject: Введите тему здесь
@@ -830,16 +836,16 @@ ru:
         not_selectable: Выборка не изменилась. Этот элемент не принимает участия в сортировке этого списка.
         range_blocked: Выборка не изменилась. Этот диапазон содержит элемент, который не принимает участия в сортировке этого списка.
         range_restarted:
-          one: Не удалось расширить диапазон. Выбран 1 элемент.
+          one: Could not extend the range. %{count} item selected.
           few: Could not extend the range. %{count} items selected.
           many: Could not extend the range. %{count} items selected.
-          other: Не удалось расширить диапазон. Выбрано %{count} элементов.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
         selected:
-          one: 1 элемент выбран.
-          few: "%{count} элемента выбрано."
-          many: "%{count} элементов выбрано."
-          other: "%{count} элементов выбрано."
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Закрыть диалоговое окно
@@ -853,9 +859,7 @@ ru:
     text_user_wrote: "%{value} написал:"
     text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные пакеты работ?
     time_entry:
-      stop: Стоп
       title: Журналировать время
-      tracking: Учет времени
       work_package_required: Сначала необходимо выбрать пакет работ.
     timer:
       button_stop: Остановить текущий таймер
@@ -890,24 +894,24 @@ ru:
       label_two_factor_authentication: Двухфакторная аутентификация
     units:
       child_work_packages:
-        one: пакет работ с одним дочерним
-        few: пакетов работ с %{count} дочерними
-        many: пакет работ с %{count} дочерними
-        other: пакет работ с %{count} дочерними
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: День
+        one: "%{count} day"
         other: "%{count} дней"
         zero: 0 дней
       hour:
-        one: 1 ч
+        one: "%{count} h"
         other: "%{count} ч"
         zero: 0 ч
       hour_string: "%{hours} ч"
       word:
-        one: 1 слово
-        few: "%{count} слов"
-        many: "%{count} слов"
-        other: "%{count} слов"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: пакет работ
         few: пакетов работ

@@ -30,15 +30,16 @@ import { HttpHeaders, HttpParams } from '@angular/common/http';
 export type HTTPSupportedMethods = 'get'|'post'|'put'|'patch'|'delete';
 
 export interface HTTPClientOptions {
-  body?:any;
+  body?:unknown;
   headers?:HTTPClientHeaders;
-  observe?:any;
+  observe?:'body';
   params?:HTTPClientParams;
   reportProgress?:boolean;
   withCredentials?:boolean;
-  responseType:any;
+  responseType:'json';
 }
 
-export type HTTPClientParamMap = Record<string, any>;
-export type HTTPClientHeaders = HttpHeaders|HTTPClientParamMap;
+export type HTTPClientParamValue = string|number|boolean|readonly (string|number|boolean)[];
+export type HTTPClientParamMap = Record<string, HTTPClientParamValue>;
+export type HTTPClientHeaders = HttpHeaders|Record<string, string|string[]>;
 export type HTTPClientParams = HttpParams|HTTPClientParamMap;

@@ -22,10 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
+
 module DevelopmentData
   class CustomFieldsSeeder < Seeder
     def seed_data!
@@ -39,7 +40,7 @@ module DevelopmentData
     end
 
     def all_cfs
-      %w(string text date list multilist int intrange float floatrange bool user version)
+      %w(string text date datetime list multilist int intrange float floatrange bool user version)
     end
 
     def create_types!(cfs)

@@ -27,17 +27,21 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface CustomActionResourceLinks {
-  self():Promise<CustomActionResource>;
-  executeImmediately(payload:any):Promise<WorkPackageResource>;
+  self:CallableHalLink<CustomActionResource>;
+  executeImmediately:CallableHalLink<WorkPackageResource>;
 }
 
 export interface CustomActionResourceEmbedded {
   description:string;
 }
 
-export class CustomActionResource extends HalResource {
-}
+export class CustomActionResource extends HalResource implements CustomActionResourceLinks, CustomActionResourceEmbedded {
+  public self:CallableHalLink<CustomActionResource>;
 
-export interface CustomActionResource extends CustomActionResourceLinks, CustomActionResourceEmbedded {}
+  public executeImmediately:CallableHalLink<WorkPackageResource>;
+
+  public description:string;
+}

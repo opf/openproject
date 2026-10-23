@@ -86,7 +86,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
 
   private form:QueryFormResource;
 
-  private loadingPromise:PromiseLike<any>;
+  private loadingPromise:PromiseLike<unknown>;
 
   override readonly placement = 'bottom-end';
 
@@ -132,11 +132,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
     }
   }
 
-  private allowQueryAction(event:Event, action:any) {
+  private allowQueryAction(event:Event, action:string) {
     return this.allowAction(event, 'query', action);
   }
 
-  private allowWorkPackageAction(event:Event, action:any) {
+  private allowWorkPackageAction(event:Event, action:string) {
     return this.allowAction(event, 'work_packages', action);
   }
 
@@ -148,7 +148,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
     return false;
   }
 
-  private allowAction(event:Event, modelName:string, action:any) {
+  private allowAction(event:Event, modelName:string, action:string) {
     if (this.authorisationService.can(modelName, action)) {
       return true;
     }
@@ -349,7 +349,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
       {
         // Settings modal
         hidden: !this.query.results.customFields || this.hideTableOptions,
-        href: this.query.results.customFields?.href,
+        href: this.query.results.customFields?.href as string|undefined,
         linkText: this.query.results.customFields?.name,
         icon: 'icon-custom-fields',
         onClick: () => false,

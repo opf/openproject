@@ -26,17 +26,21 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ChangesetPayload, ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
-  public setValue(key:string, val:any) {
+  public setValue(key:string, val:unknown) {
     super.setValue(key, val);
 
     if (key === 'project' || key === 'type') {
-      this.updateForm();
+      void this.updateForm().then(() => {
+        document.dispatchEvent(
+          new CustomEvent('work-package-form-updated', { detail: { key } }),
+        );
+      });
     }
 
     // Emit event to notify Stimulus controller in activities tab in order to update the activities list
@@ -47,7 +51,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     );
   }
 
-  protected applyChanges(payload:any):any {
+  protected applyChanges(payload:ChangesetPayload):ChangesetPayload {
     // Explicitly delete the description if it was not set by the user.
     // if it was set by the user, #applyChanges will set it again.
     // Otherwise, the backend will set it for us.
@@ -56,7 +60,6 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     // Explicitly not send the subject, if the subject was not editable.
     // In this case a generated template is rendered in the subject and
     // must not get submitted.
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (!this.schema.isAttributeEditable('subject')) {
       delete (payload as { subject?:string }).subject;
     }
@@ -78,7 +81,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     // Special handling for taking over the description and
     // the subject to the pristine resource.
     if (key === 'description' && isNewResource(this.pristineResource)) {
-      this.pristineResource.description = val;
+      this.pristineResource.description = val as api.v3.Formattable;
       return;
     }
 
@@ -95,7 +98,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
    * If loaded, return the form schema, which provides better information on writable status
    * and contains available values.
    */
-  public get schema():SchemaResource {
+  public get schema():ISchemaProxy {
     if (this.form$.hasValue()) {
       return WorkPackageSchemaProxy.create(super.schema, this.projectedResource);
     }

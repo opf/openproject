@@ -106,7 +106,7 @@ sv:
     not_recommended: rekommenderas inte
     recommended: rekommenderad
     x_bcf_issues:
-      one: Ett BCF-ärende
+      one: "%{count} BCF issue"
       other: "%{count} BCF-ärenden"
       zero: Inga BCF-problem
   bim:

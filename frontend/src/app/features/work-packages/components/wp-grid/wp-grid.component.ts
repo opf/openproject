@@ -25,11 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, OnInit, DestroyRef, inject } from '@angular/core';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { CardViewOrientation } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { HighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
@@ -72,6 +73,8 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
   standalone: false,
 })
 export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly wpTableHighlight = inject(WorkPackageViewHighlightingService);
   readonly wpTableSortBy = inject(WorkPackageViewSortByService);
   readonly wpList = inject(WorkPackagesListService);
@@ -102,12 +105,14 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
     this.dragInto = this.configuration.dragAndDropEnabled;
     this.canDragOutOf = () => this.configuration.dragAndDropEnabled;
 
-    this.wpTableHighlight.onReady().then(() => this.highlightingModeChanged());
+    void this.wpTableHighlight.onReady().then(() => {
+      if (!this.destroyRef.destroyed) this.highlightingModeChanged();
+    });
 
     this.wpTableHighlight
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(this.destroyRef),
         distinctUntilChanged(),
       )
       .subscribe(() => this.highlightingModeChanged());

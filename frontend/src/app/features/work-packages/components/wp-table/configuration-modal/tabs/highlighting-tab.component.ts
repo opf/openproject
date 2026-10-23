@@ -60,7 +60,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
   public availableInlineHighlightedAttributes:HalResource[] = [];
 
-  public selectedAttributes:any[] = [];
+  public selectedAttributes:HalResource[] = [];
 
   public availableRowHighlightedAttributes:{ name:string; value:HighlightingMode }[] = [];
 
@@ -120,7 +120,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
   public get availableHighlightedAttributes():HalResource[] {
     const { schema } = this.querySpace.queryForm.value!;
-    return schema.highlightedAttributes.allowedValues;
+    return schema.highlightedAttributes!.allowedValues as HalResource[];
   }
 
   public onOpen(component:unknown) {

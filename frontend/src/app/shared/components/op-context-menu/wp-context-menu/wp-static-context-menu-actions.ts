@@ -47,7 +47,7 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
   },
   {
     key: 'duplicate',
-    icon: 'icon-copy',
+    icon: 'icon-duplicate',
     link: 'copy',
   },
   {
@@ -69,6 +69,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'generate_pdf',
     icon: 'icon-export-pdf-with-descriptions',
     turboRequest: true,
+  },
+  {
+    key: 'view_markdown',
+    link: 'markdown',
+    icon: 'icon-file-text',
   },
   {
     key: 'export-atom',

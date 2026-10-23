@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,6 +48,33 @@ RSpec.describe TimeEntries::TimeEntryFormComponent, type: :component do
 
     it "still submits the work package" do
       expect(rendered_component).to have_field("time_entry[entity_id]", with: work_package.id.to_s, type: :hidden)
+    end
+  end
+
+  describe "time fields layout" do
+    let(:time_fields_row) { page.find(".FormControl-horizontalGroup") }
+
+    before { rendered_component }
+
+    context "when start and end times can be tracked", with_settings: { allow_tracking_start_and_end_times: true } do
+      it "shows start time, finish time and hours in one row below the date" do
+        expect(time_fields_row).to have_field("time_entry[start_time]")
+        expect(time_fields_row).to have_field("time_entry[end_time]")
+        expect(time_fields_row).to have_field("time_entry[hours_display]")
+
+        expect(time_fields_row).to have_no_css("opce-basic-single-date-picker")
+        expect(rendered_component).to have_css("opce-basic-single-date-picker")
+      end
+    end
+
+    context "when start and end times cannot be tracked", with_settings: { allow_tracking_start_and_end_times: false } do
+      it "shows the date and hours in one row" do
+        expect(time_fields_row).to have_css("opce-basic-single-date-picker")
+        expect(time_fields_row).to have_field("time_entry[hours_display]")
+
+        expect(rendered_component).to have_no_field("time_entry[start_time]")
+        expect(rendered_component).to have_no_field("time_entry[end_time]")
+      end
     end
   end
 end

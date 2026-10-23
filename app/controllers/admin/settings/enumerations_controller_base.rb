@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,16 +22,18 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Admin
   module Settings
     class EnumerationsControllerBase < ApplicationController
       include OpTurbo::ComponentStream
+      include SortableLists::DropRequestValidation
+
+      configure_drop_request list_type_method: :sortable_list_type, list_id_scoped: false
 
       before_action :require_admin
       before_action :find_enumeration, only: %i[edit update destroy move reassign]
@@ -118,22 +120,6 @@ module Admin
         return false unless valid_drop_request?
 
         @enumeration.move_after_anchor(drop_params[:prev_id], scope: enumeration_class.all)
-      end
-
-      def valid_drop_request?
-        drop_params[:list_type] == sortable_list_type &&
-          unscoped_list_id? &&
-          drop_params.key?(:prev_id)
-      end
-
-      # Enumeration lists carry no list id. The raw param is checked because
-      # permit cannot tell an absent value from a filtered-out array or hash.
-      def unscoped_list_id?
-        params[:list_id].nil? || params[:list_id] == ""
-      end
-
-      def drop_params
-        @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
       end
 
       def sortable_list_type

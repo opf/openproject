@@ -91,7 +91,7 @@ describe('ReorderDeltaBuilder', () => {
     });
   });
 
-  it('has no problems inserting in the beginning old sort oder (1..n)', () => {
+  it('has no problems inserting in the beginning old sort order (1..n)', () => {
     const positions = {
       2: 1,
       3: 2,
@@ -111,7 +111,7 @@ describe('ReorderDeltaBuilder', () => {
     expect(delta['1']).toEqual(-8191);
   });
 
-  it('has no problems inserting in the middle of old sort oder (1..n)', () => {
+  it('has no problems inserting in the middle of old sort order (1..n)', () => {
     const positions = {
       1: 0,
       2: 1,

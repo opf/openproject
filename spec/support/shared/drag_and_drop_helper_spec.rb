@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def start_dragging(from, offset_x: nil, offset_y: nil)
-  scroll_to_element(from)
+def start_dragging(from, offset_x: nil, offset_y: nil, scroll: true)
+  scroll_to_element(from) if scroll
   page
     .driver
     .browser
@@ -105,6 +104,7 @@ def drag_by_pixel(element:, by_x:, by_y:)
     .action
     .move_to(element.native)
     .click_and_hold(element.native)
+    .pause(duration: 0.2)
     .perform
 
   page
@@ -112,6 +112,7 @@ def drag_by_pixel(element:, by_x:, by_y:)
     .browser
     .action
     .move_by(by_x, by_y)
+    .pause(duration: 0.2)
     .release
     .perform
 end

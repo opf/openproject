@@ -177,9 +177,13 @@ fr:
       cost_types:
         for_all_projects_hint: Ce type de coût est activé dans tous les projets.
         heading: Types de coûts
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: Ce type de coût ne peut pas être désactivé, car des coûts ont déjà été enregistrés pour celui-ci dans ce projet.
         none_active: Aucun type de coût n'est actuellement actif dans ce projet.
       time_and_costs: Temps et coûts
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:
@@ -242,7 +246,7 @@ fr:
   label_status_finished: Terminé
   label_time: Heure 
   label_time_entry_activity_form_description: Les modifications apportées à cette activité de saisie de temps seront répercutées dans tous les projets où elle est activée.
-  label_time_entry_custom_field_plural: Time entry custom fields
+  label_time_entry_custom_field_plural: Champs personnalisés de saisie de temps
   label_time_entry_restrictions: Limites
   label_today_capitalized: Aujourd'hui
   label_units: Unités de coût

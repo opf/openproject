@@ -34,6 +34,7 @@ import { DisplayFieldService } from 'core-app/shared/components/fields/display/d
 import { groupedRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class GroupSumsBuilder extends SingleRowBuilder {
   @LazyInject() readonly querySpace:IsolatedQuerySpace;
@@ -55,10 +56,10 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     return tr;
   }
 
-  public renderColumns(sums:Record<string, any>, tr:HTMLTableRowElement) {
+  public renderColumns(sums:GroupObject['sums'], tr:HTMLTableRowElement) {
     this.augmentedColumns.forEach((column, i:number) => {
       const td = document.createElement('td');
-      const div = this.renderContent(sums, column.id, this.sumsSchema[column.id]);
+      const div = this.renderContent(sums, column.id, this.sumsSchema[column.id] as IFieldSchema);
 
       if (i === 0) {
         this.appendFirstLabel(div);
@@ -84,7 +85,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     return this.schemaCache.state(href).value!;
   }
 
-  private renderContent(sums:any, name:string, fieldSchema:IFieldSchema) {
+  private renderContent(sums:GroupObject['sums'], name:string, fieldSchema:IFieldSchema) {
     const div = document.createElement('div');
     div.classList.add('wp-table--sum-container', name);
 
@@ -95,7 +96,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
     }
 
     const field = this.displayFieldService.getField(
-      sums,
+      sums as unknown as HalResource,
       name,
       fieldSchema,
       { injector: this.injector, container: 'table', options: {} },

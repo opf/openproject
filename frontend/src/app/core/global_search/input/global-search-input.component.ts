@@ -27,12 +27,9 @@
 
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { first, map, switchMap, tap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import {
-  Highlighting,
-} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { insideOrSelf } from 'core-app/shared/directives/focus/contain-helpers';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -230,10 +227,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.pathHelperService.workPackagePath(id);
   }
 
-  public highlighting(property:string, id:string):string {
-    return Highlighting.inlineClass(property, id);
-  }
-
   public search(_$event:SearchResultItems):void {
     this.currentValue = this.searchTerm;
   }
@@ -282,16 +275,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  public statusHighlighting(statusId:string):string {
-    return Highlighting.inlineClass('status', statusId);
-  }
-
   public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
     this.selectedItem = item;
     if (item instanceof WorkPackageResource) {
       window.location.href = this.wpPath(item.displayId);
     } else if (item) {
-      this.searchInScope(item.projectScope);
+      this.searchInScope((item as SearchOptionItem).projectScope);
     }
   }
 
@@ -387,7 +376,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   private searchResultsToOptions(results:WorkPackageResource[], query:string) {
     const searchOptions = this.detailedSearchOptions();
     // If we have a direct hit, we choose it to be the selected element.
-    this.selectedItem = results.find((wp) => wp.id?.toString() === query) || searchOptions[0];
+    this.selectedItem = results.find((wp) => wp.id?.toString() === query) ?? searchOptions[0];
 
     if (this.selectedItem instanceof WorkPackageResource) {
       void announce(this.I18n.t('js.global_search.direct_hit_available'), { politeness: 'polite' });
@@ -444,7 +433,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
    * to mark a direct hit, nor does it reset after a search. We handle this then by selecting the desired element once the
    * search results are back. We then set the marked option to be the selected option.
    *
-   * In order to avoid flickering, a -markable modifyer class is unset/set before/after searching. This will unset the background until we
+   * In order to avoid flickering, a -markable modifier class is unset/set before/after searching. This will unset the background until we
    * have marked the element we wish to.
    */
   private setMarkedOption():void {
@@ -483,7 +472,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   private get currentScope():string {
     const params = new URLSearchParams(window.location.search);
-    const serviceScope = params.get('scope') || '';
+    const serviceScope = params.get('scope') ?? '';
     return (serviceScope === '') ? 'current_project_and_all_descendants' : serviceScope;
   }
 
