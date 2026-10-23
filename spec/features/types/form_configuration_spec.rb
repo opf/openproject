@@ -329,21 +329,12 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(persisted_group_order).not_to include("b) > 20.000 / 30.000 Nutzende")
       end
 
-      it "shows only the edit action for query rows and opens the editor" do
+      it "edits query rows directly from their pencil button" do
         form.add_query_group("Subtasks", :children)
 
-        menu_id = form.open_query_menu("Subtasks")
-        menu_selector = "##{menu_id}"
-
-        expect(page).to have_selector(menu_selector, text: I18n.t("types.edit.form_configuration.edit_query"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_top"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_up"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("button_delete"))
-
-        within menu_selector do
-          click_button I18n.t("types.edit.form_configuration.edit_query")
+        within form.find_group("Subtasks") do
+          expect(page).to have_no_button(accessible_name: I18n.t("types.edit.form_configuration.row_actions"))
+          click_on accessible_name: I18n.t("types.edit.form_configuration.edit_query")
         end
 
         expect(page).to have_css(".wp-table--configuration-modal")
@@ -522,7 +513,7 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_text(I18n.t("button_delete"))
       end
 
-      expect(page).to have_no_test_selector("type-form-configuration-query-actions-Subtasks")
+      expect(page).to have_no_button(accessible_name: I18n.t("types.edit.form_configuration.edit_query"))
     end
   end
 

@@ -166,7 +166,7 @@ module ::TypesHelper
   def query_to_query_props(group)
     return nil unless group.group_type == :query
 
-    query = group.attributes
+    query = group.attributes&.dup
     return nil if query.blank?
 
     # Reduce the query to its valid subset to avoid errors loading the form
@@ -188,15 +188,26 @@ module ::TypesHelper
     required_keys = variant.required_attributes.map(&:to_s)
 
     variant.attribute_groups.map do |group|
-      {
-        key: group.key,
-        type: group.group_type,
-        name: group.translated_key,
-        element_key: exclusion_element_key(group),
-        attributes: active_group_attributes_map(group, available, inactive, required_keys:),
-        query: query_to_query_props(group)
-      }
+      group_form_map(group, attributes: active_group_attributes_map(group, available, inactive, required_keys:))
     end
+  end
+
+  def group_form_map(group, attributes: nil)
+    {
+      key: group.key,
+      type: group.group_type,
+      name: group.translated_key,
+      element_key: exclusion_element_key(group),
+      attributes:,
+      query_summary: query_summary_rows(group),
+      query: query_to_query_props(group)
+    }
+  end
+
+  def query_summary_rows(group)
+    return nil unless group.group_type == :query
+
+    WorkPackageTypes::FormConfiguration::QuerySummary.new(group.attributes).rows
   end
 
   # The key a query group is excluded by. Attribute groups have none, their rows carry their own,

@@ -32,19 +32,52 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::FormConfiguration::GroupQueryRowComponent, type: :component do
   include_context "with variant scope"
 
-  let(:group) { { key: "query-1", name: "Related", type: :query } }
+  let(:group) do
+    { key: "query-1", name: "Related", type: :query,
+      query_summary: [{ label: "Relation type", values: ["Children"] }] }
+  end
 
   it "renders the edit-query action when EE and editable" do
     render_inline(described_class.new(group:, ee_available: true))
 
-    expect(page).to have_test_selector("type-form-configuration-query-actions-query-1")
+    expect(page).to have_button(accessible_name: "Edit query")
   end
 
-  it "omits the actions menu when readonly", :aggregate_failures do
+  it "carries the editor query on its stream target" do
+    render_inline(described_class.new(group: group.merge(query: '{"filters":[]}'), ee_available: true))
+
+    expect(page).to have_element(:div, id: "work-package-types-form-configuration-group-query-row-component-query-1") do |row|
+      expect(row["data-group-query"]).to eq('{"filters":[]}')
+    end
+  end
+
+  it "omits the editor query for a group whose query was deleted" do
+    render_inline(described_class.new(group:, ee_available: true))
+
+    expect(page).to have_element(:div, id: "work-package-types-form-configuration-group-query-row-component-query-1") do |row|
+      expect(row["data-group-query"]).to be_nil
+    end
+  end
+
+  it "omits the edit-query action when readonly", :aggregate_failures do
     render_inline(described_class.new(group:, ee_available: true, readonly: true))
 
-    expect(page).to have_no_test_selector("type-form-configuration-query-actions-query-1")
+    expect(page).to have_no_button(accessible_name: "Edit query")
     expect(page).to have_text("Related work packages table")
+  end
+
+  [true, false].each do |ee_available|
+    [true, false].each do |readonly|
+      it "preserves the label and summary with EE #{ee_available} and readonly #{readonly}" do
+        render_inline(described_class.new(group:, ee_available:, readonly:))
+        expect(page).to have_text("Related work packages table")
+        expect(page).to have_element(:dt, text: "Relation type")
+        expect(page).to have_element(:dd, text: "Children")
+        if ee_available && !readonly
+          expect(page).to have_button("Related work packages table")
+        end
+      end
+    end
   end
 
   describe "the exclusion toggle" do
