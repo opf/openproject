@@ -101,9 +101,9 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        Array(key&.split(".")).map { |subkey| items[subkey].first }
+        Array(key&.split(".")).map { |subkey| disclosed_value(custom_field, items[subkey].first) }
       else
-        items[key] || []
+        (items[key] || []).map { |item| disclosed_value(custom_field, item) }
       end
     end
   end
@@ -135,9 +135,9 @@ module ::Query::Results::GroupBy
 
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        Array(key&.split(".")).map.map { |subkey| options[subkey].first }
+        Array(key&.split(".")).map.map { |subkey| disclosed_value(custom_field, options[subkey].first) }
       else
-        options[key]&.first
+        disclosed_value(custom_field, options[key]&.first)
       end
     end
   end
@@ -154,7 +154,22 @@ module ::Query::Results::GroupBy
   end
 
   def transform_single_custom_field_keys(custom_field, groups)
-    groups.transform_keys { |key| custom_field.cast_value(key) }
+    groups.transform_keys { |key| disclosed_value(custom_field, custom_field.cast_value(key)) }
+  end
+
+  # A group spans projects, so its value is shown if the user may see it in any of them.
+  def disclosed_value(custom_field, value)
+    visible_ids = visible_custom_value_ids(custom_field)
+    return value if visible_ids.nil? || value.nil? || visible_ids.include?(value.id)
+
+    CustomField::UnavailableValue.new
+  end
+
+  def visible_custom_value_ids(custom_field)
+    return if custom_field.project_specific_value_restriction.nil?
+
+    @visible_custom_value_ids ||= {}
+    @visible_custom_value_ids[custom_field.id] ||= custom_field.visible_values_for(User.current).pluck(:id).to_set
   end
 
   def transform_property_keys(groups)
