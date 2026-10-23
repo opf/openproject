@@ -48,6 +48,7 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { tableBlockSpec } from '../blocks/table';
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -63,6 +64,7 @@ export interface OpBlockNoteEditorProps {
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
+    table: tableBlockSpec,
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
   },
   inlineContentSpecs: {
