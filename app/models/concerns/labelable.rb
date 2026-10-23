@@ -30,39 +30,51 @@
 module Labelable
   extend ActiveSupport::Concern
 
+  class PendingLabelCreationFailed < StandardError; end
+
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
     has_many :labels, -> { order(:id) }, through: :labelings
 
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
 
+    before_save :create_pending_labels
     after_save :persist_label_associations
 
     validate :validate_label_id_replacements
   end
 
-  attr_reader :label_id_replacements
+  attr_reader :label_id_replacements, :label_name_replacements
+  attr_accessor :label_names_user
 
   def label_id_replacements=(new_labels)
     @label_id_replacements = new_labels.nil? ? nil : normalize_label_ids(new_labels)
   end
 
-  def override_labels? = !label_id_replacements.nil?
+  def label_name_replacements=(names)
+    @label_name_replacements = names.nil? ? nil : normalize_label_names(names)
+  end
+
+  def override_labels? = !label_id_replacements.nil? || !label_name_replacements.nil?
 
   def effective_labels
     return labels unless override_labels?
 
-    Label.where(id: label_id_replacements).order(:id)
+    Label.where(id: pending_label_ids).order(:id).to_a + labels_for_pending_names
   end
 
   def label_changes
     return {} unless override_labels?
-    return {} if label_id_replacements.sort == label_ids.sort
+    return {} if pending_label_ids.sort == label_ids.sort && pending_label_names.empty?
 
-    { "labels" => [label_ids, label_id_replacements] }
+    { "labels" => [label_ids, pending_label_ids + pending_label_names] }
   end
 
   private
+
+  def pending_label_ids = Array(label_id_replacements)
+
+  def pending_label_names = Array(label_name_replacements)
 
   def normalize_label_ids(new_labels)
     Array.wrap(new_labels)
@@ -70,16 +82,49 @@ module Labelable
          .uniq
   end
 
+  def normalize_label_names(names)
+    Array.wrap(names).map { it.to_s.squish }.compact_blank.uniq(&:downcase)
+  end
+
+  def labels_for_pending_names
+    pending_label_names.map { |name| Label.named(name).first || Label.new(name:) }
+  end
+
   def validate_label_id_replacements
     return unless override_labels?
 
-    missing = label_id_replacements - Label.where(id: label_id_replacements).pluck(:id)
+    missing = pending_label_ids - Label.where(id: pending_label_ids).pluck(:id)
 
     errors.add(:labels, :does_not_exist) if missing.any?
   end
 
+  def create_pending_labels
+    return if pending_label_names.empty?
+
+    self.label_id_replacements = pending_label_ids | find_or_create_pending_labels
+    self.label_name_replacements = nil
+  end
+
+  def find_or_create_pending_labels
+    service = Labels::FindOrCreateService.new(user: label_names_user || User.current)
+
+    pending_label_names.map do |name|
+      result = service.call(name:)
+      abort_label_creation(result) unless result.success?
+
+      result.result.id
+    end
+  end
+
+  def abort_label_creation(result)
+    errors.add(:labels, result.errors.symbols_for(:name).first || :invalid)
+    raise PendingLabelCreationFailed, errors.full_messages.to_sentence if new_record?
+
+    throw :abort
+  end
+
   def persist_label_associations
-    replace_labels(label_id_replacements) if override_labels?
+    replace_labels(pending_label_ids) if override_labels?
 
     self.label_id_replacements = nil
   end

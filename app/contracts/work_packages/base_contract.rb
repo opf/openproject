@@ -136,7 +136,9 @@ module WorkPackages
 
     attribute :budget
 
-    attribute :labels
+    attribute :labels do
+      validate_pending_labels
+    end
 
     validates :subject,
               presence: true,
@@ -425,6 +427,26 @@ module WorkPackages
       validate_version_ids_assignable(model.target_version_ids_replacements,
                                       :target_versions,
                                       assignable_target_versions)
+    end
+
+    def validate_pending_labels
+      return if model.label_name_replacements.blank?
+      return unless writable?(:labels)
+
+      pending_label_error_symbols.each { errors.add(:labels, it) }
+    end
+
+    def pending_label_error_symbols
+      model.label_name_replacements
+           .reject { Label.named(it).exists? }
+           .flat_map { errors_for_new_label(it) }
+           .uniq
+    end
+
+    def errors_for_new_label(name)
+      contract = Labels::CreateContract.new(Label.new(name:), user)
+      contract.validate
+      contract.errors.symbols_for(:name) + contract.errors.symbols_for(:base)
     end
 
     def validate_observed_in_versions_are_assignable
