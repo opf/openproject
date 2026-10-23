@@ -29,11 +29,11 @@ da:
         warning_progress_calculation_mode_change_from_field_to_status_html: Hvis du skifter beregningen af fremdrift fra arbejdsbaseret til statusbaseret, går alle eksisterende værdier for <i>% færdigt</i> tabt og erstattes af de værdier, der er knyttet til hver status. Eksisterende værdier for <i>Resterende arbejde</i> kan også blive genberegnet, så de afspejler ændringen. Handlingen kan ikke fortrydes.
         warning_progress_calculation_mode_change_from_status_to_field_html: Hvis du skifter beregningen af fremdrift fra statusbaseret til arbejdsbaseret, kan feltet <i>% færdigt</i> redigeres frit. Hvis du vælger at angive værdier for <i>Arbejde</i> eller <i>Resterende arbejde</i>, bliver de også knyttet til <i>% færdigt</i>. Ændrer du <i>Resterende arbejde</i>, kan det derefter opdatere <i>% færdigt</i>.
       working_days:
-        add_non_working_day: Ikke-arbejdsdag
-        already_added_error: Der findes allerede en ikke-arbejdsdag på denne dato. Der kan kun oprettes én ikke-arbejdsdag pr. dato.
+        add_non_working_day: Arbejdsfri dag
+        already_added_error: Der findes allerede en arbejdsfri dag på denne dato. Der kan kun oprettes én arbejdsfri dag pr. dato.
         calendar:
-          empty_state_description: Der er ikke defineret nogen særlige ikke-arbejdsdage i år. Klik på "+ Ikke-arbejdsdag" nedenfor for at tilføje en dato.
-          empty_state_header: Ikke-arbejdsdage
+          empty_state_description: Der er ikke defineret nogen særlige arbejdsfrie dage i år. Klik på "+ Arbejdsfri dag" nedenfor for at tilføje en dato.
+          empty_state_header: Arbejdsfrie dage
           new_date: "(ny)"
     ajax:
       hide: Gem
@@ -532,7 +532,7 @@ da:
     label_please_wait: Vent et øjeblik
     label_press_enter_to_save: Tryk på Enter for at gemme.
     label_previous: Foregående
-    label_project: Prjoekt
+    label_project: Projekt
     label_project_plural: Projekter
     label_public_query: Offentlig
     label_quote_comment: Citér denne kommentar
@@ -1005,13 +1005,13 @@ da:
         percentCompleteAlternative: Fremdrift
         percentageDone: Procentdel udført
         priority: Prioritet
-        projectName: Prjoekt
+        projectName: Projekt
         remainingTime: Resterende arbejde
         remainingWork: Resterende arbejde
         remainingWorkAlternative: Resterende timer
         responsible: Ansvarlig
         spentTime: Anvendt tid
-        startDate: Start dato
+        startDate: Startdato
         status: Status
         subject: Emne
         subproject: Underprojekt
@@ -1108,7 +1108,7 @@ da:
           manually: Manuelt
           warning: Du mister din tidligere sortering, når du slår automatisk sortering til.
       tabs:
-        activity: Aktivivtet
+        activity: Aktivitet
         files: Filer
         overview: Overblik
         project_attributes: Projektattributter
