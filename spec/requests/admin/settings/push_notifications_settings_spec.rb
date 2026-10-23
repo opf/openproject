@@ -41,58 +41,59 @@ RSpec.describe "Push Notifications Settings",
 
   describe "GET /admin/settings/push_notifications" do
     context "with the feature flag on", with_flag: { progressive_web_app: true } do
-      it "shows the intro and the two options and keeps the reachability panel hidden by default" do
+      it "shows the intro, allows browser notifications by default and shows the reachability panel" do
         get "/admin/settings/push_notifications"
 
         expect(response).to have_http_status(:ok)
         expect(page).to have_text(I18n.t("admin.settings.push_notifications.description"))
-        expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_true))
-        expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_false))
+        expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_true))
+        expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_false))
         expect(page).to have_button(I18n.t(:button_save))
-        expect(page).to have_test_selector("push-reachability-panel", visible: :hidden)
-        expect(page).to have_no_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
-        expect(page).to have_no_link(I18n.t("admin.settings.push_notifications.renew_key"))
+        expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
+        expect(page).to have_text(I18n.t("admin.settings.push_notifications.hosts_intro"))
+        expect(page).to have_text("fcm.googleapis.com")
+        expect(page).to have_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
+        expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.reachable"))
+        expect(page).to have_link(I18n.t("admin.settings.push_notifications.renew_key"),
+                                  href: "/admin/settings/push_notifications/renew_key_dialog")
+        expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
       end
 
-      context "with browser notifications allowed", with_settings: { web_push_enabled: true } do
-        it "checks the allow option and shows the reachability panel" do
+      context "with browser notifications disallowed", with_settings: { web_push_enabled: false } do
+        it "checks the disallow option and hides the reachability panel" do
           get "/admin/settings/push_notifications"
 
-          expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_true))
-          expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
-          expect(page).to have_text(I18n.t("admin.settings.push_notifications.hosts_intro"))
-          expect(page).to have_text("fcm.googleapis.com")
-          expect(page).to have_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
-          expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.reachable"))
-          expect(page).to have_link(I18n.t("admin.settings.push_notifications.renew_key"),
-                                    href: "/admin/settings/push_notifications/renew_key_dialog")
-          expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
+          expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_false))
+          expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_true))
+          expect(page).to have_test_selector("push-reachability-panel", visible: :hidden)
+          expect(page).to have_no_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
+          expect(page).to have_no_link(I18n.t("admin.settings.push_notifications.renew_key"))
         end
+      end
 
-        context "when the key is managed through the environment",
-                :settings_reset,
-                with_env: { "OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY" => Base64.strict_encode64(
-                  OpenSSL::PKey::EC.generate("prime256v1").private_to_der
-                ) } do
-          before { reset(:web_push_vapid_private_key) }
+      context "when the key is managed through the environment",
+              :settings_reset,
+              with_env: { "OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY" => Base64.strict_encode64(
+                OpenSSL::PKey::EC.generate("prime256v1").private_to_der
+              ) } do
+        before { reset(:web_push_vapid_private_key) }
 
-          it "explains the renewal instead of offering to renew" do
-            get "/admin/settings/push_notifications"
+        it "explains the renewal instead of offering to renew" do
+          get "/admin/settings/push_notifications"
 
-            expect(page).to have_text(I18n.t("admin.settings.push_notifications.key_managed_by_environment"))
-            expect(page).to have_no_link(I18n.t("admin.settings.push_notifications.renew_key"))
-          end
+          expect(page).to have_text(I18n.t("admin.settings.push_notifications.key_managed_by_environment"))
+          expect(page).to have_no_link(I18n.t("admin.settings.push_notifications.renew_key"))
         end
+      end
 
-        context "when the key is unreadable" do
-          before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
+      context "when the key is unreadable" do
+        before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
 
-          it "shows the danger banner with the renew link" do
-            get "/admin/settings/push_notifications"
+        it "shows the danger banner with the renew link" do
+          get "/admin/settings/push_notifications"
 
-            expect(page).to have_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
-            expect(page).to have_link(I18n.t("admin.settings.push_notifications.renew_key"))
-          end
+          expect(page).to have_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
+          expect(page).to have_link(I18n.t("admin.settings.push_notifications.renew_key"))
         end
       end
 
@@ -157,7 +158,7 @@ RSpec.describe "Push Notifications Settings",
       [
         OpenProject::WebPush::ReachabilityCheck::Result.new(host: "fcm.googleapis.com", reachable: true,
                                                             reason: nil, code: "404"),
-        OpenProject::WebPush::ReachabilityCheck::Result.new(host: "push.apple.com", reachable: false,
+        OpenProject::WebPush::ReachabilityCheck::Result.new(host: "web.push.apple.com", reachable: false,
                                                             reason: :unresolved, code: nil)
       ]
     end
