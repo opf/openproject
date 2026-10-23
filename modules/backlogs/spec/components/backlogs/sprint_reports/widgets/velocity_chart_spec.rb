@@ -38,7 +38,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
   let(:sprint) { build_stubbed(:sprint, :active, project:, name: "Sprint 2") }
 
   let(:velocity) do
-    instance_double(Backlogs::Velocity,
+    instance_double(Sprints::Velocity,
                     sprints: [previous_sprint, sprint],
                     committed: [21.4, 13.0],
                     completed: [20.0, 8.6],
@@ -48,7 +48,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
 
   current_user { user }
 
-  before { allow(Backlogs::Velocity).to receive(:new).with(sprint, project).and_return(velocity) }
+  before { allow(Sprints::Velocity).to receive(:new).with(sprint, project).and_return(velocity) }
 
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
@@ -98,7 +98,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
 
   context "with a whole-numbered average" do
     let(:velocity) do
-      instance_double(Backlogs::Velocity,
+      instance_double(Sprints::Velocity,
                       sprints: [sprint], committed: [10.0], completed: [8.0], velocity: 8.0, average: 8.0)
     end
 

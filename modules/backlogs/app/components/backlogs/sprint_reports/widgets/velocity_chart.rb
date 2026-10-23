@@ -82,7 +82,7 @@ module Backlogs
         private
 
         def velocity
-          @velocity ||= Backlogs::Velocity.new(sprint, project)
+          @velocity ||= ::Sprints::Velocity.new(sprint, project)
         end
 
         def datasets

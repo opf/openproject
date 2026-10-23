@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Backlogs::Velocity do
+RSpec.describe Sprints::Velocity do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
   let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
