@@ -52,7 +52,12 @@ module Admin
       end
 
       def label(node)
-        highlight_text_by_terms(node.label, @tree.query_words)
+        label = highlight_text_by_terms(node.label, @tree.query_words)
+        excerpt = @tree.excerpt(node)
+        return label unless excerpt
+
+        safe_join([label, content_tag(:span, highlight_text_by_terms(excerpt, @tree.query_words),
+                                      class: "op-admin-settings-search--excerpt")])
       end
 
       def node_data(node)
