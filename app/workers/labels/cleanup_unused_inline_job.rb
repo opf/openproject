@@ -28,18 +28,33 @@
 #++
 
 class Labels::CleanupUnusedInlineJob < ApplicationJob
-  GRACE_PERIOD = 1.day
+  include JobConcurrency
+
+  GRACE_PERIOD = 15.minutes
+  MIN_WAIT = 1.minute
 
   queue_with_priority :low
+  good_job_control_concurrency_with(enqueue_limit: 1, key: name)
+
+  def self.perform_after_grace(from: Time.current)
+    set(wait_until: [from + GRACE_PERIOD, MIN_WAIT.from_now].max).perform_later
+  end
 
   def perform
     Label.transaction do
       ids = candidate_ids
       Label.never_used.where(id: ids).delete_all if ids.any?
     end
+
+    schedule_next_run
   end
 
   private
+
+  def schedule_next_run
+    oldest = Label.created_inline.never_used.minimum(:updated_at)
+    self.class.perform_after_grace(from: oldest) if oldest
+  end
 
   def candidate_ids
     candidates.lock("FOR UPDATE SKIP LOCKED").pluck(:id)

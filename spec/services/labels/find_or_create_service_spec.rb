@@ -45,6 +45,10 @@ RSpec.describe Labels::FindOrCreateService do
       expect(call.result).to be_previously_new_record
       expect(call.result).to be_created_inline
     end
+
+    it "books a cleanup run" do
+      expect { call }.to have_enqueued_job(Labels::CleanupUnusedInlineJob)
+    end
   end
 
   context "when a label with the same name in different casing exists" do
@@ -77,6 +81,10 @@ RSpec.describe Labels::FindOrCreateService do
     shared_let(:existing) { create(:label, :created_inline, name: "bug", created_at: 2.days.ago, updated_at: 2.days.ago) }
 
     let(:name) { "Bug" }
+
+    it "books no cleanup run" do
+      expect { call }.not_to have_enqueued_job(Labels::CleanupUnusedInlineJob)
+    end
 
     it "touches an existing inline label so the cleanup grace period restarts" do
       freeze_time

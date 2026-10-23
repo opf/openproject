@@ -37,6 +37,21 @@ RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
       .to include(cron: "37 2 * * *", class: described_class.name)
   end
 
+  it "collapses repeated bookings into one pending run", with_good_job: described_class do
+    2.times { described_class.perform_after_grace }
+
+    expect(GoodJob::Job.where(concurrency_key: described_class.name).count).to eq(1)
+  end
+
+  describe ".perform_after_grace" do
+    it "enqueues a run once the grace period has passed" do
+      freeze_time
+
+      expect { described_class.perform_after_grace }
+        .to have_enqueued_job(described_class).at(described_class::GRACE_PERIOD.from_now)
+    end
+  end
+
   it "deletes an inline label older than the grace period that was never used" do
     label
 
@@ -45,17 +60,42 @@ RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
   end
 
   it "keeps an inline label younger than the grace period" do
-    young = create(:label, :created_inline, created_at: 1.hour.ago)
+    young = create(:label, :created_inline, created_at: 5.minutes.ago, updated_at: 5.minutes.ago)
 
     expect { described_class.perform_now }.not_to change(Label, :count)
     expect(Label.exists?(young.id)).to be(true)
   end
 
   it "keeps an inline label that was handed out again within the grace period" do
-    recent = create(:label, :created_inline, created_at: 2.days.ago, updated_at: 1.hour.ago)
+    recent = create(:label, :created_inline, created_at: 2.days.ago, updated_at: 5.minutes.ago)
 
     expect { described_class.perform_now }.not_to change(Label, :count)
     expect(Label.exists?(recent.id)).to be(true)
+  end
+
+  it "books the next run for when the oldest remaining inline label leaves its grace period" do
+    freeze_time
+    create(:label, :created_inline, updated_at: 5.minutes.ago)
+    create(:label, :created_inline, updated_at: 10.minutes.ago)
+
+    expect { described_class.perform_now }
+      .to have_enqueued_job(described_class).at(5.minutes.from_now)
+  end
+
+  it "waits before retrying a label it could not lock" do
+    freeze_time
+    label
+    job = described_class.new
+    allow(job).to receive(:candidate_ids).and_return([])
+
+    expect { job.perform_now }
+      .to have_enqueued_job(described_class).at(described_class::MIN_WAIT.from_now)
+  end
+
+  it "books no further run when no unused inline label remains" do
+    label
+
+    expect { described_class.perform_now }.not_to have_enqueued_job(described_class)
   end
 
   it "keeps an admin-created label that was never used" do

@@ -47,9 +47,15 @@ module Labels
 
     def create(name)
       call = CreateService.new(user:).call(name:, created_inline: true)
-      return call if call.success? || call.errors.symbols_for(:name).exclude?(:taken)
 
-      found(Label.named(name).first!)
+      if call.success?
+        CleanupUnusedInlineJob.perform_after_grace
+        call
+      elsif call.errors.symbols_for(:name).include?(:taken)
+        found(Label.named(name).first!)
+      else
+        call
+      end
     end
 
     def found(label)
