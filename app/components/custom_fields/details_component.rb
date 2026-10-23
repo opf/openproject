@@ -54,6 +54,32 @@ module CustomFields
       model.new_record? ? :post : :put
     end
 
+    def confirm_disabling_project_specific_values?
+      custom_field.persisted? && custom_field.project_specific_value_restriction_allow?
+    end
+
+    def form_row_arguments
+      return {} unless confirm_disabling_project_specific_values?
+
+      { data: { controller: "checkbox-confirmation" } }
+    end
+
+    def disable_project_specific_values_dialog
+      render(
+        Primer::OpenProject::DangerDialog.new(
+          id: "disable-project-specific-values-dialog",
+          title: t("custom_fields.disable_project_specific_values.title"),
+          confirm_button_text: t("custom_fields.disable_project_specific_values.button"),
+          data: { checkbox_confirmation_target: "dialog" }
+        )
+      ) do |dialog|
+        dialog.with_confirmation_message do |message|
+          message.with_heading(tag: :h2) { t("custom_fields.disable_project_specific_values.heading") }
+          message.with_description_content(t("custom_fields.disable_project_specific_values.description"))
+        end
+      end
+    end
+
     def enterprise_addon_key
       ENTERPRISE_GUARDED.dig(custom_field.field_format, :key)
     end
