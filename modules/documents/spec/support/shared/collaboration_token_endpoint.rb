@@ -190,6 +190,24 @@ RSpec.shared_examples_for "a guarded collaboration token endpoint" do
     end
   end
 
+  context "when anonymous with the view_documents permission in a public project",
+          with_settings: { login_required: false } do
+    let(:project) { create(:public_project) }
+
+    before do
+      create(:anonymous_role, permissions: %i(view_documents))
+      login_as User.anonymous
+    end
+
+    it "responds with 403 and does not create a token" do
+      request_body
+
+      expect { post_collaboration_token_request }.not_to change(Doorkeeper::AccessToken, :count)
+
+      expect_api_error(403, "MissingPermission")
+    end
+  end
+
   context "when authenticated with a session" do
     let(:session_data) do
       ActiveSupport::HashWithIndifferentAccess.new(user_id: current_user.id, updated_at: Time.current)
