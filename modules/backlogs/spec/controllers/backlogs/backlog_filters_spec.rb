@@ -170,6 +170,20 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
         expect(filters.sprint_ids).to eq([1, 2])
       end
     end
+
+    context "when sprint_ids contain inbox" do
+      let(:params) { { sprint_ids: %w[1 inbox].to_json } }
+
+      it "drops inbox" do
+        expect(filters.sprint_ids).to eq([1])
+      end
+    end
+
+    context "when sprint_ids only contain inbox" do
+      let(:params) { { sprint_ids: "inbox".to_json } }
+
+      it { expect(filters.sprint_ids).to be_nil }
+    end
   end
 
   describe "#show_all?" do

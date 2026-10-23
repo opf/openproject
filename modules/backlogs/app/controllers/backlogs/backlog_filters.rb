@@ -31,18 +31,18 @@ module Backlogs
   BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
     def self.from_params(params)
       new(
-        bucket_ids: parse_ids(params[:bucket_ids]).presence,
+        bucket_ids: parse_ids(params[:bucket_ids], allow_inbox: true).presence,
         sprint_ids: parse_ids(params[:sprint_ids]).presence,
         show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false,
         filters_string: params[:filters].presence
       )
     end
 
-    def self.parse_ids(ids)
+    def self.parse_ids(ids, allow_inbox: false)
       return [] if ids.blank?
 
       Array(JSON.parse(ids))
-        .filter_map { |id| id == "inbox" ? "inbox" : id.to_s.to_i.nonzero? }
+        .filter_map { |id| allow_inbox && id == "inbox" ? id : id.to_s.to_i.nonzero? }
         .uniq
     rescue JSON::ParserError
       []
