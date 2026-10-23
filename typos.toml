@@ -71,6 +71,7 @@ extend-ignore-re = [
   "\\bsignalled(<|\\()", # public APIv3 resource method; follow-up
   "aria-labelledby", # HTML attribute
   "4-project-organisation-and-roles", # docs directory, part of public URLs
+  "(?m)^keywords: .*\\bfavourite\\b", # search keyword for British spelling
 ]
 extend-ignore-identifiers-re = [
   "^(with|without)_trailling_slash$", # public SCM adapter API; follow-up
