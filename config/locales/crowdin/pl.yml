@@ -635,10 +635,10 @@ pl:
         odd: musi być nieparzyste.
         overlapping_range: pokrywa się z istniejącym zakresem dni wolnych od pracy.
         regex_invalid: nie może być zastosowany z zastosowanym wyrażeniem regularnym.
-        replacement_workflow_invalid: The selected replacement must be another available workflow.
-        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Nie można przeanalizować %{invalid_lines} wierszy jako wyrażenia regularnego.
         regex_match_failed: nie pasuje do wyrażenia regularnego %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej długości.
         smaller_than_or_equal_to_max_value: musi być równy wartości maksymalnej lub mniejszy.
         ssrf_filtered: narusza zasady tego wystąpienia OpenProject dotyczące SSRF.
@@ -4480,7 +4480,7 @@ pl:
   label_my_avatar: Mój awatar
   label_my_queries: Moje zapytania niestandardowe
   label_my_security: Zabezpieczenia
-  label_my_work: My work
+  label_my_time: My time
   label_name: Nazwa
   label_never: Nigdy
   label_new: Nowy
@@ -6246,6 +6246,18 @@ pl:
       sidebar_content_title: Zawartość
       success: Atrybuty projektu zostały zapisane, a pakiet roboczy artefaktu został utworzony.
       title: Żądanie zainicjowania projektu
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Zastosuj wstępny filtr
     configure_view:
@@ -7230,6 +7242,27 @@ pl:
   tree_view:
     label_empty_sub_tree: Brak elementów
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Compare variants
       blankslate:
@@ -7277,12 +7310,6 @@ pl:
       add_variant: Dodaj wariant do %{name}
       create_type: Utwórz typ
       create_variant: Utwórz wariant
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Nazywa tę konfigurację %{type}. Pakiety robocze nadal używają samego %{type}.
       finish: Zakończ
@@ -7330,8 +7357,10 @@ pl:
           caption: Zdefiniuj wzorzec za pomocą wywoływanych atrybutów i tekstu, aby automatycznie generować tematy pakietów roboczych. Użytkownicy nie będą mogli ręcznie edytować tematów.
           label: Automatycznie generowane tematy
         description:
-          caption: Dodaj tekst, który będzie dodawany do pola opisu wszystkich nowych pakietów roboczych tego typu.
-          label: Domyślny tekst opisu
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Użytkownicy mogą bez ograniczeń ręcznie wprowadzać i edytować tematy pakietów roboczych.
           label: Ręcznie edytowane tematy
@@ -7368,7 +7397,6 @@ pl:
             label: Wył.
           section_title: Automatyczny eksport artefaktów
           unavailable: niedostępne, nie skonfigurowano żadnego automatycznie zarządzanego magazynu Nextcloud
-        intro: Wybierz spośród dostępnych szablony, które chcesz włączyć dla tego typu. Szablon określa wygląd i atrybuty widoczne w wyeksportowanym pliku PDF pakietu roboczego używającego tego typu. Domyślnie wybrany jest pierwszy szablon z listy.
         pdf_export_templates:
           actions:
             label_disable_all: Wyłącz wszystkie
@@ -7453,7 +7481,6 @@ pl:
           manual:
             description: Po [utworzeniu atrybutów projektu](administration_url) będą one widoczne w tym miejscu i będzie można je dodać do typu.
             title: Brak dostępnych atrybutów projektu
-        description: Wybierz atrybuty projektu, które chcesz włączyć dla tego typu pakietu roboczego. Włączone atrybuty projektu są wyświetlane w osobnej karcie w pakietach roboczych tego typu. Użytkownicy z niezbędnymi uprawnieniami mogą tam przeglądać i edytować owe atrybuty.
         disabled: Wyłączono
         exclusions:
           attribute_label: Dziedzicz %{attribute}
@@ -7472,10 +7499,12 @@ pl:
         empty_state:
           description: Dodaj projekt, aby użyć tam tej konfiguracji.
           no_results: Brak pasujących projektów.
+          title: Not used in any project yet
         enable_all: Włącz dla wszystkich projektów
         select_projects: Wybierz projekty
         select_projects_description: Wybierz projekty, w których chcesz używać tego typu.
         tab: Projekty
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7601,11 +7630,11 @@ pl:
       filter: Filter by name
       filter_no_results: No types match this filter
       make_default: Aktywuj w nowych projektach
+      make_default_notice: "%{name} aktywowano teraz w nowych projektach."
       migrated_variants_banner:
         text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
 
           '
-      make_default_notice: "%{name} aktywowano teraz w nowych projektach."
       no_results_content_text: Utwórz nowy typ
       no_results_title_text: Nie ma jeszcze żadnych typów.
       project_variants_count:
@@ -8333,19 +8362,19 @@ pl:
       new:
         dialog_title: Copy workflow of "%{source}"
     delete:
-      title: Delete workflow %{name}?
-      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
         few: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
         many: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
       replace_placeholder: Select a workflow
-      replace_caption: The selected workflow will be applied to all types and variants listed above.
-      confirmation_checkbox_label: I understand that this action is not reversible.
-      button: Delete workflow
-      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

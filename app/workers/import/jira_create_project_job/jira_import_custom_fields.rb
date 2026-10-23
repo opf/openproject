@@ -368,6 +368,9 @@ module Import
       end
 
       def reuse_custom_field(custom_field, jira_field)
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{custom_field.name}") do
+          Rails.logger.debug "Reusing custom field"
+        end
         unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
                                                         op_entity_class: custom_field.class.to_s,
                                                         jira_import_id: @jira_import.id)
@@ -390,12 +393,17 @@ module Import
       end
 
       def create_work_package_custom_field(error_name:, **params)
-        service_call = CustomFields::CreateService
-          .new(user: @system_user)
-          .call(type: "WorkPackageCustomField", is_required: false, is_for_all: false, **params)
-        return service_call.result if service_call.success?
+        Rails.logger.tagged("jira_object_type:customField", "jira_object_id_or_name:#{params[:name]}") do
+          Rails.logger.debug "Creating custom field"
+          service_call = CustomFields::CreateService
+            .new(user: @system_user)
+            .call(type: "WorkPackageCustomField", is_required: false, is_for_all: false, **params)
+          return service_call.result if service_call.success?
 
-        raise I18n.t("admin.jira.errors.custom_field_creation_failed", name: error_name, message: service_call.message)
+          message = I18n.t("admin.jira.errors.custom_field_creation_failed", name: error_name, message: service_call.message)
+          Rails.logger.error message
+          raise message
+        end
       end
 
       def find_or_create_system_field_custom_field(field, name:, field_format:)

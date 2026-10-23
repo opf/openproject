@@ -635,10 +635,10 @@ sv:
         odd: måste vara udda.
         overlapping_range: överlappar ett befintligt intervall med arbetsfria dagar.
         regex_invalid: kunde inte valideras med det associerade reguljära uttrycket.
-        replacement_workflow_invalid: The selected replacement must be another available workflow.
-        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         regex_list_invalid: Raderna %{invalid_lines} kunde inte tolkas som reguljära uttryck.
         regex_match_failed: matchar inte det reguljära uttrycket %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal längd.
         smaller_than_or_equal_to_max_value: måste vara mindre än eller lika med det högsta värdet.
         ssrf_filtered: bryter mot SSRF-policyn för den här OpenProject-instansen.
@@ -4170,7 +4170,7 @@ sv:
   label_my_avatar: Min avatar
   label_my_queries: Min anpassade frågor
   label_my_security: Säkerhet
-  label_my_work: My work
+  label_my_time: My time
   label_name: Namn
   label_never: Aldrig
   label_new: Ny
@@ -5895,6 +5895,18 @@ sv:
       sidebar_content_title: Innehåll
       success: Projektattributen har sparats och artefaktens arbetspaket har skapats.
       title: Begäran om projektinitiering
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Använd förkonfigurerade filter
     configure_view:
@@ -6863,6 +6875,27 @@ sv:
   tree_view:
     label_empty_sub_tree: Inga objekt
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Jämför varianter
       blankslate:
@@ -6908,12 +6941,6 @@ sv:
       add_variant: Lägg till en variant till %{name}
       create_type: Skapa typ
       create_variant: Skapa variant
-      descriptions:
-        defaults: Välj om projektmedlemmar ska kunna namnge arbetspaket fritt eller om titlarna ska skapas automatiskt.
-        form_configuration: Detta är fälten som en projektmedlem ser när ett arbetspaket av den här typen skapas eller redigeras.
-        pdf: Ange hur PDF-exporter av arbetspaket av den här typen ska se ut.
-        project_attributes: Du kan välja att visa vissa projektattribut i alla arbetspaket av den här typen.
-        projects: I vilka projekt ska den här typen vara tillgänglig?
       fields:
         variant_name_caption: Ger denna konfiguration av %{type} ett namn. Arbetspaketen fortsätter att använda själva %{type}.
       finish: Slutför
@@ -6961,8 +6988,10 @@ sv:
           caption: Definiera ett mönster med refererade attribut och text för att automatiskt generera arbetspaketsrubriker. Användare kan inte redigera rubrikerna manuellt.
           label: Automatiskt genererade rubriker
         description:
-          caption: Lägg till den text som ska läggas till i beskrivningsfältet för alla nya arbetspaket av den här typen.
-          label: Standardtext för beskrivning
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Användare kan ange och redigera arbetspaketsrubriker manuellt utan begränsningar.
           label: Manuellt redigerbara rubriker
@@ -6999,7 +7028,6 @@ sv:
             label: Av
           section_title: Automatisk artefaktexport
           unavailable: inte tillgänglig, ingen automatiskt hanterad Nextcloud-lagring är konfigurerad
-        intro: Välj vilka av de tillgängliga mallarna du vill aktivera för den här typen. Mallen bestämmer utformningen och vilka attribut som visas i den exporterade PDF-filen för ett arbetspaket av denna typ. Den första mallen i listan väljs som standard.
         pdf_export_templates:
           actions:
             label_disable_all: Inaktivera alla
@@ -7084,7 +7112,6 @@ sv:
           manual:
             description: När du har [skapat projektattribut](administration_url) visas de här och kan läggas till i en typ.
             title: Inga projektattribut tillgängliga
-        description: Välj de projektattribut som du vill aktivera för den här arbetspaketstypen. Aktiverade projektattribut visas på en separat flik i arbetspaket av den här typen. Användare med nödvändiga behörigheter kan visa och redigera attributen där.
         disabled: Inaktiverad
         exclusions:
           attribute_label: Ärv %{attribute}
@@ -7103,10 +7130,12 @@ sv:
         empty_state:
           description: Lägg till ett projekt för att använda den här konfigurationen där.
           no_results: Inga matchande projekt.
+          title: Not used in any project yet
         enable_all: Aktivera för alla projekt
         select_projects: Välj projekt
         select_projects_description: Välj de projekt där du vill använda den här typen.
         tab: Projekt
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7230,11 +7259,11 @@ sv:
       filter: Filter by name
       filter_no_results: No types match this filter
       make_default: Aktivera i nya projekt
+      make_default_notice: "%{name} aktiveras nu i nya projekt."
       migrated_variants_banner:
         text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
 
           '
-      make_default_notice: "%{name} aktiveras nu i nya projekt."
       no_results_content_text: Skapa ny typ
       no_results_title_text: Det finns för närvarande inga typer.
       project_variants_count:
@@ -7924,17 +7953,17 @@ sv:
       new:
         dialog_title: Kopiera arbetsflödet för ”%{source}”
     delete:
-      title: Delete workflow %{name}?
-      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
       body_in_use:
         one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
         other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
       replace_label: Replace with workflow
       replace_placeholder: Select a workflow
-      replace_caption: The selected workflow will be applied to all types and variants listed above.
-      confirmation_checkbox_label: I understand that this action is not reversible.
-      button: Delete workflow
-      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: Det nya arbetsflödet börjar som en kopia av det valda arbetsflödets statusövergångar.

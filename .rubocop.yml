@@ -20,7 +20,6 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: 3.4
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
@@ -99,6 +98,10 @@ Lint/UselessDefaultValueArgument:
 
 Lint/Void:
   Enabled: false
+
+Lint/UnusedMethodArgument:
+  NotImplementedExceptions:
+    - SubclassResponsibilityError
 
 Metrics/AbcSize:
   Enabled: true

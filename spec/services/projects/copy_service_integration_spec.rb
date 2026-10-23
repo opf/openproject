@@ -457,7 +457,6 @@ RSpec.describe(
       let(:only_args) { all_modules }
       let(:storage1) { source_automatic_project_storage.storage }
       let(:storage2) { source_manual_project_storage.storage }
-      # rubocop:enable RSpec/IndexedLet
 
       shared_let(:source_automatic_project_storage) do
         storage = create(:nextcloud_storage)
@@ -538,7 +537,9 @@ RSpec.describe(
 
           automatic_project_storage_copy = project_copy.project_storages.find_by(storage: storage1)
           expect(project_copy.project_creation_wizard_artifact_export_storage).to eq(automatic_project_storage_copy.id.to_s)
-          expect(project_copy.project_creation_wizard_artifact_export_storage).not_to eq(source.project_creation_wizard_artifact_export_storage)
+          expect(project_copy.project_creation_wizard_artifact_export_storage).not_to(
+            eq(source.project_creation_wizard_artifact_export_storage)
+          )
         end
       end
 
@@ -721,10 +722,8 @@ RSpec.describe(
 
         let(:work_package) { create(:work_package, project: source) }
 
-        # rubocop:disable RSpec/IndexedLet
         let(:work_package2) { create(:work_package, project: source) }
         let(:work_package3) { create(:work_package, project: source) }
-        # rubocop:enable RSpec/IndexedLet
 
         it "does not copy work package budgets" do
           budget = create(:budget, project: source)
@@ -1333,7 +1332,7 @@ RSpec.describe(
       let!(:source_member) { create(:user, member_with_roles: { source => role }) }
       let(:only_args) { nil }
 
-      # rubocop:disable RSpec/MultipleExpectations
+      # rubocop:disable-next RSpec/MultipleExpectations
       it "sets attributes only without copying dependencies" do
         expect(subject).to be_success
 
@@ -1371,7 +1370,6 @@ RSpec.describe(
         expect(member.roles)
           .to contain_exactly(new_project_role)
       end
-      # rubocop:enable RSpec/MultipleExpectations
 
       context "with group memberships" do
         let!(:user) { create(:user) }

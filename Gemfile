@@ -345,6 +345,7 @@ group :development, :test do
 
   # Tracing and profiling gems
   gem "flamegraph", require: false
+  gem "memory_profiler", require: false
   gem "rack-mini-profiler", require: false
   gem "ruby-prof", require: false
   gem "stackprof", require: false
