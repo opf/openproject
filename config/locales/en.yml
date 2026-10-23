@@ -2298,8 +2298,6 @@ en:
       pane:
         cancel: "Cancel"
         close: "Close"
-        context_description: "Work package description"
-        context_selection: "Selected text"
         copied: "Copied"
         copy: "Copy"
         discard: "Discard"

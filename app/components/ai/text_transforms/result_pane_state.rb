@@ -22,19 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): what the result pane shows for a run, derived from the run's event log.
     class ResultPaneState
-      SCOPES = %w[document selection].freeze
-      REQUEST_ID = /\A[0-9a-f-]{36}\z/
-
       attr_reader :run, :scope, :request_id, :work_package, :context_ids, :rejection
 
       def self.rejected(message:, label:, scope:, request_id:, context_ids: {})
@@ -43,38 +38,31 @@ module AI
 
       def initialize(run:, scope:, request_id:, work_package: nil, context_ids: {}, label: nil, rejection: nil)
         @run = run
-        @context_ids = context_ids
-        @scope = SCOPES.include?(scope.to_s) ? scope.to_s : "document"
-        @request_id = REQUEST_ID.match?(request_id.to_s) ? request_id.to_s : nil
+        @scope = scope
+        @request_id = request_id
         @work_package = work_package
+        @context_ids = context_ids
         @label = label
         @rejection = rejection
       end
 
       def label
-        @label || run&.action&.label.to_s
+        (@label || run&.action&.label).to_s
       end
 
       def state
-        return "failed" if rejection
-
-        case run.status
-        when "succeeded" then "done"
-        when "failed" then error_event&.payload&.dig("reason") == "blocked" ? "stopped" : "failed"
-        when "cancelled" then "cancelled"
-        else "generating"
-        end
+        @state ||= run ? run_state : "failed"
       end
 
       def text
-        completed = events.rfind { |event| event.kind == "completed" }
-        return completed.payload["text"].to_s if completed
-
-        events.select { |event| event.kind == "text_delta" }.sum("") { |event| event.payload["delta"].to_s }
+        @text ||= completed_event ? completed_event.payload["text"].to_s : streamed_text
       end
 
       def error_message
-        rejection || error_event&.payload&.dig("message") || run&.error_message
+        rejection.presence ||
+          error_event&.payload&.dig("message").presence ||
+          run&.error_message.presence ||
+          I18n.t("ai.text_transform.errors.upstream_error")
       end
 
       def last_seq
@@ -85,18 +73,37 @@ module AI
         run&.uuid || "rejected"
       end
 
-      def selection?
-        scope == "selection"
-      end
-
       private
 
       def events
-        @events ||= run ? run.events.order(:seq).to_a : []
+        @events ||= run ? run.events.sort_by(&:seq) : []
+      end
+
+      def run_state
+        case run.status
+        when "succeeded" then "done"
+        when "failed" then blocked? ? "stopped" : "failed"
+        when "cancelled" then "cancelled"
+        else "generating"
+        end
+      end
+
+      def completed_event
+        events.reverse_each.find { |event| event.kind == "completed" }
+      end
+
+      def streamed_text
+        events.select { |event| event.kind == "text_delta" }.map { |event| event.payload["delta"] }.join
       end
 
       def error_event
-        events.rfind { |event| event.kind == "error" }
+        return @error_event if defined?(@error_event)
+
+        @error_event = events.reverse_each.find { |event| event.kind == "error" }
+      end
+
+      def blocked?
+        error_event&.payload&.dig("reason") == "blocked"
       end
     end
   end

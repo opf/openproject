@@ -22,23 +22,24 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): the AI result pane, a Primer::Beta::BorderBox composition the server
-    # renders on demand and updates section by section while the run streams in. Dragging and
-    # resizing are feature code in its Stimulus controller.
     class ResultPaneComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include ResultPaneHelpers
 
-      EDGES = %w[left right bottom-left bottom-right].freeze
+      RESIZE_HANDLES = {
+        "left" => :"op-resizer-vertical-lines",
+        "right" => :"op-resizer-vertical-lines",
+        "bottom-left" => :"op-resizer-bottom-right",
+        "bottom-right" => :"op-resizer-bottom-right"
+      }.freeze
 
       def initialize(pane:)
         super()
@@ -48,22 +49,6 @@ module AI
       private
 
       attr_reader :pane
-
-      def section(name)
-        render(ResultPaneSectionComponent.new(section: name, pane:))
-      end
-
-      def wrapper_data
-        {
-          controller: "ai-text-transform-pane",
-          ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
-          ai_text_transform_pane_editor_gone_value: label(:editor_gone),
-          ai_text_transform_pane_selection_gone_value: label(:selection_gone),
-          ai_text_transform_pane_copied_value: label(:copied),
-          ai_text_transform_pane_copy_value: label(:copy),
-          test_selector: "ai-text-transform-result"
-        }
-      end
     end
   end
 end

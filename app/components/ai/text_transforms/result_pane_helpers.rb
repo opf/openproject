@@ -22,29 +22,19 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): data attributes, form ids and labels the result pane parts share.
     module ResultPaneHelpers
       CLOSE_FORM_ID = "ai-text-transform-pane-close"
       APPLY_FORM_ID = "ai-text-transform-pane-apply"
       RETRY_FORM_ID = "ai-text-transform-pane-retry"
 
       private
-
-      def target(name)
-        { ai_text_transform_pane_target: name }
-      end
-
-      def action(name, event: "click")
-        { action: "#{event}->ai-text-transform-pane##{name}" }
-      end
 
       def label(key)
         I18n.t("ai.text_transform.pane.#{key}")
