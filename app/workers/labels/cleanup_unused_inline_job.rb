@@ -34,12 +34,16 @@ class Labels::CleanupUnusedInlineJob < ApplicationJob
 
   def perform
     Label.transaction do
-      ids = candidates.lock("FOR UPDATE SKIP LOCKED").pluck(:id)
-      Label.where(id: ids).delete_all if ids.any?
+      ids = candidate_ids
+      Label.never_used.where(id: ids).delete_all if ids.any?
     end
   end
 
   private
+
+  def candidate_ids
+    candidates.lock("FOR UPDATE SKIP LOCKED").pluck(:id)
+  end
 
   def candidates
     Label.created_inline.never_used.where(created_at: ..GRACE_PERIOD.ago)

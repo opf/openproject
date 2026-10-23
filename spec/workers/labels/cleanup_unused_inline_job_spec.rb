@@ -64,6 +64,17 @@ RSpec.describe Labels::CleanupUnusedInlineJob, type: :job do
     expect { described_class.perform_now }.not_to change(Label, :count)
   end
 
+  it "keeps a label that gets used between candidate selection and deletion" do
+    label
+    job = described_class.new
+    allow(job).to receive(:candidate_ids).and_wrap_original do |original|
+      original.call.tap { create(:labeling, label:) }
+    end
+
+    expect { job.perform_now }.not_to change(Label, :count)
+    expect(Labeling.where(label:)).to exist
+  end
+
   describe "labels added to and removed from a work package" do
     shared_let(:user) { create(:admin) }
     shared_let(:work_package) do
