@@ -27,6 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper do %>
+  <%= content_tag(:span, nil, hidden: true, data: state_data) %>
+  <%= form(id: CLOSE_FORM_ID, url: helpers.ai_text_transform_pane_path(pane.uuid), method: :delete) %>
+  <%= form(id: APPLY_FORM_ID, url: helpers.apply_ai_text_transform_pane_path(pane.uuid), method: :post) if state == "done" %>
+  <%= form(id: RETRY_FORM_ID, url: helpers.ai_text_transform_panes_path, method: :post, fields: form_params.merge(retry_of: pane.uuid)) if retryable? %>
   <%=
     flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
       bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(beginDrag: :pointerdown)) do
@@ -40,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
               render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
             end
             footer.with_column do
-              render(Primer::Beta::Button.new) { label(:cancel) }
+              render(Primer::Beta::Button.new(data: action(close: :click))) { label(:cancel) }
             end
           end
         when "done"
@@ -49,21 +53,21 @@ See COPYRIGHT and LICENSE files for more details.
               render(Primer::Beta::ClipboardCopyButton.new(scheme: :invisible, value: pane.text, "aria-label": label(:copy)))
             end
             footer.with_column(mr: 2) do
-              render(Primer::Beta::Button.new) { label(:discard) }
+              render(Primer::Beta::Button.new(data: action(close: :click))) { label(:discard) }
             end
             footer.with_column do
-              render(Primer::Beta::Button.new(scheme: :primary)) { label(:replace) }
+              render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: APPLY_FORM_ID)) { label(:replace) }
             end
           end
         else
           flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
             if pane.run
               footer.with_column(mr: 2) do
-                render(Primer::Beta::Button.new) { label(:try_again) }
+                render(Primer::Beta::Button.new(type: :submit, form: RETRY_FORM_ID)) { label(:try_again) }
               end
             end
             footer.with_column do
-              render(Primer::Beta::Button.new) { label(:close) }
+              render(Primer::Beta::Button.new(data: action(close: :click))) { label(:close) }
             end
           end
         end

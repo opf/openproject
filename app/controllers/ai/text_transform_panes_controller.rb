@@ -117,7 +117,9 @@ module AI
 
     def start_run
       action, content = run_source
-      call = AI::TextTransforms::CreateRun.new(user: current_user, action:, context:, content:).call
+      # Demo only (AI-100 demo branch): ?ai_demo_fault= makes the run end blocked or failed.
+      demo_fault = params.fetch(:demo_fault, nil).presence_in(AI::TextTransforms::DemoFaultGateway::FAULTS)
+      call = AI::TextTransforms::CreateRun.new(user: current_user, action:, context:, content:, demo_fault:).call
       call.success? ? pane_for(call.result) : rejected_pane(call.errors, action)
     end
 
