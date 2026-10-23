@@ -688,6 +688,8 @@ components:
   examples:
     ActivityResponse:
       $ref: "./components/examples/activity_response.yml"
+    ConfigurationResponse:
+      $ref: "./components/examples/configuration-response.yml"
     DateAlertNotification:
       $ref: "./components/examples/date_alert_notification.yml"
     GridSimpleCollectionResponse:
