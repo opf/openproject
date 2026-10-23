@@ -651,6 +651,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         describe "#labels" do
           shared_let(:existing_label) { create(:label) }
           shared_let(:new_label) { create(:label) }
+          let(:label_names) { nil }
 
           before do
             work_packages.each { |wp| create(:labeling, label: existing_label, labelable: wp) }
@@ -658,7 +659,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             put :update,
                 params: {
                   ids: work_package_ids,
-                  work_package: { label_ids: }
+                  work_package: { label_ids:, label_names: }.compact
                 }
           end
 
@@ -695,6 +696,37 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
             it "keeps the labels on every selected work package" do
               expect(subject).to contain_exactly([existing_label.id])
+            end
+          end
+
+          context "with a new label name" do
+            let(:label_ids) { [""] }
+            let(:label_names) { ["Brand new"] }
+
+            it "creates one label and attaches it to every selected work package" do
+              created = Label.find_by!(name: "Brand new")
+              expect(Label.where(name: "Brand new").count).to eq(1)
+              expect(subject).to contain_exactly([created.id])
+            end
+          end
+
+          context "with a new label name and an existing label selected" do
+            let(:label_ids) { [new_label.id.to_s] }
+            let(:label_names) { ["Brand new"] }
+
+            it "attaches both to every selected work package" do
+              created = Label.find_by!(name: "Brand new")
+              expect(subject.map(&:sort)).to contain_exactly([new_label.id, created.id].sort)
+            end
+          end
+
+          context "with none selected together with a new name" do
+            let(:label_ids) { ["none"] }
+            let(:label_names) { ["Brand new"] }
+
+            it "clears the labels and creates no label" do
+              expect(subject).to contain_exactly([])
+              expect(Label.where(name: "Brand new")).not_to exist
             end
           end
         end

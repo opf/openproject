@@ -374,6 +374,7 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
       context "with labels" do
         let(:existing_label) { create(:label) }
         let(:new_label) { create(:label) }
+        let(:label_names) { nil }
 
         before do
           create(:labeling, label: existing_label, labelable: work_package)
@@ -381,8 +382,9 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           post :create,
                params: {
                  ids: [work_package.id],
-                 label_ids:
-               }
+                 label_ids:,
+                 label_names:
+               }.compact
         end
 
         subject { work_package.reload.labels }
@@ -416,6 +418,16 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
 
           it "keeps the work package's labels" do
             expect(subject).to contain_exactly(existing_label)
+          end
+        end
+
+        context "when a new label name is given" do
+          let(:label_ids) { [""] }
+          let(:label_names) { ["Brand new"] }
+
+          it "creates the label and replaces the work package's labels" do
+            expect(subject.map(&:name)).to contain_exactly("Brand new")
+            expect(Label.where(name: "Brand new").count).to eq(1)
           end
         end
       end
@@ -523,6 +535,15 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
 
             it "applies the selected labels to the copy" do
               expect(subject).to contain_exactly(new_label)
+            end
+          end
+
+          context "when a new label name is given" do
+            let(:label_params) { { label_names: ["Brand new"] } }
+
+            it "gives the copy the new label and leaves the source unchanged" do
+              expect(subject.map(&:name)).to contain_exactly("Brand new")
+              expect(work_package.reload.labels).to contain_exactly(existing_label)
             end
           end
         end

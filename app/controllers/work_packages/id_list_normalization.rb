@@ -42,9 +42,18 @@ module WorkPackages::IdListNormalization
     private
 
     def extract_normalized_id_lists(attributes)
-      ID_LIST_ATTRIBUTES
+      id_lists = ID_LIST_ATTRIBUTES
         .index_with { |key| normalized_id_list(attributes.delete(key)) }
         .compact
+
+      id_lists.merge(normalized_label_names(attributes.delete(:label_names), id_lists[:label_ids]))
+    end
+
+    def normalized_label_names(raw, label_ids)
+      names = Array(raw).compact_blank
+      return {} if names.empty? || label_ids == []
+
+      { label_names: names, label_ids: label_ids || [] }
     end
 
     def normalized_id_list(raw)

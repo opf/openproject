@@ -563,6 +563,7 @@ class PermittedParams
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
           { label_ids: [] },
+          { label_names: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -593,6 +594,7 @@ class PermittedParams
           { target_version_ids: [] },
           { observed_in_version_ids: [] },
           { label_ids: [] },
+          { label_names: [] },
           :priority_id
         ],
         oauth_application: [
