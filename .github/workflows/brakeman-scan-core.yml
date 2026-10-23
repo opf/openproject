@@ -21,6 +21,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Brakeman Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       RUBY_GC_HEAP_INIT_SLOTS: 100000
     steps:
