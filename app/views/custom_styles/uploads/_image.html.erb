@@ -26,47 +26,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= image[:label] %></legend>
-      <p class="form--field-instructions"><%= image[:instructions] %></p>
-      <% if image[:present] %>
-        <%= tag("img", src: image[:source], class: image[:img_class]) %>
-      <% end %>
-      <div class="grid-block">
-        <div class="form--field -required">
-          <div class="attachment_field form--field-container -vertical -shrink">
-            <div class="form--file-container">
-              <%= f.file_field image[:field], required: true, class: "attachment_choose_file", accept: image[:accept], size: "15" %>
-            </div>
-          </div>
-        </div>
-      </div>
-      <%= render(
-            Primer::Beta::Button.new(
-              type: :submit
-            )
-          ) do |button| %>
-        <% button.with_leading_visual_icon(icon: image[:present] ? :upload : :plus) %>
-        <%= t(image[:present] ? :button_replace : :button_upload) %>
-      <% end %>
-      <% if image[:present] %>
-        <%= render(
-              Primer::Beta::Button.new(
-                tag: :a,
-                scheme: :danger,
-                href: image[:delete_path],
-                data: {
-                  turbo_method: :delete,
-                  test_selector: "delete-custom-style-image-#{image[:field]}"
-                }
-              )
-            ) do |button| %>
-          <% button.with_leading_visual_icon(icon: :trash) %>
-          <%= t(:button_delete) %>
-        <% end %>
-      <% end %>
-    </fieldset>
-  </section>
-<% end %>
+<%=
+  primer_form_with(
+    model: @custom_style,
+    url: custom_style_path,
+    multipart: true,
+    data: { controller: "auto-submit" }
+  ) do |f|
+    render_inline_form(f) do |form|
+      form.file_field(
+        name: image[:field],
+        label: image[:label],
+        description: image[:instructions],
+        accept: image[:accept],
+        preview_url: (image[:source] if image[:present]),
+        preview_class: image[:img_class],
+        required: true,
+        auto_submit: true,
+        delete_path: (image[:delete_path] if image[:present]),
+        delete_button_arguments: {
+          data: {
+            turbo_method: :delete,
+            test_selector: "delete-custom-style-image-#{image[:field]}"
+          }
+        }
+      )
+    end
+  end
+%>
