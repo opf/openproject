@@ -41,8 +41,7 @@ describe('Inline chip - copy/paste independence', () => {
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
     await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
-    const statusBadges = page.getByText('In Progress');
-    expect((await statusBadges.all()).length).toBe(1);
+    await expect.poll(async () => (await page.getByText('In Progress').all()).length).toBe(1);
   });
 
   it('resizing the copy does not affect the original', async () => {
