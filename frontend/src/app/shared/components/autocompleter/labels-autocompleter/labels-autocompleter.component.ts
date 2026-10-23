@@ -27,8 +27,8 @@
 
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { keyBy } from 'lodash-es';
-import { BehaviorSubject, firstValueFrom, Observable, of, throwError } from 'rxjs';
-import { catchError, finalize, map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import {
   OpAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -36,7 +36,6 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import {
   LabelsAutocompleterTemplateComponent,
@@ -45,7 +44,7 @@ import {
 export const labelsAutocompleterSelector = 'op-labels-autocompleter';
 
 export interface ILabelAutocompleteItem {
-  id:string|number;
+  id:string|number|null;
   name:string;
   href:string|null;
 }
@@ -67,11 +66,7 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
 
   addTagText = this.I18n.t('js.autocompleter.create_label');
 
-  readonly halNotification = inject(HalResourceNotificationService);
-
   readonly currentUserService = inject(CurrentUserService);
-
-  private creatingLabel = false;
 
   private readonly projectId$ = new BehaviorSubject<string|undefined>(undefined);
 
@@ -118,28 +113,13 @@ export class LabelsAutocompleterComponent extends OpAutocompleterComponent<ILabe
       );
   }
 
-  public createLabel(searchTerm:string):Promise<ILabelAutocompleteItem>|undefined {
+  public createLabel(searchTerm:string):ILabelAutocompleteItem|undefined {
     const name = searchTerm.trim();
-    if (!name || this.creatingLabel) {
+    if (!name) {
       return undefined;
     }
 
-    this.creatingLabel = true;
-
-    return firstValueFrom(
-      this
-        .http
-        .post<IApiLabel>(this.apiV3Service.labels.toString(), { name })
-        .pipe(
-          map((label) => ({ id: label.id, name: label.name, href: label._links.self.href })),
-          catchError((error:unknown) => {
-            this.halNotification.handleRawError(error);
-
-            return throwError(() => error);
-          }),
-          finalize(() => { this.creatingLabel = false; }),
-        ),
-    );
+    return { id: null, name, href: null };
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
