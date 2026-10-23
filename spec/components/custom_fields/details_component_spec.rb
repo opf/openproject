@@ -63,6 +63,28 @@ RSpec.describe CustomFields::DetailsComponent, type: :component do
     end
   end
 
+  describe "the confirmation for disabling project-specific values" do
+    let(:confirmation) { rendered.css("[data-controller~='checkbox-confirmation']") }
+
+    context "when project-specific values are enabled" do
+      let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
+
+      it "asks for confirmation before disabling them" do
+        expect(confirmation.css("input[data-checkbox-confirmation-target='checkbox']")).to be_present
+        expect(confirmation.css("dialog[data-checkbox-confirmation-target='dialog']")).to be_present
+      end
+    end
+
+    context "when project-specific values are not enabled" do
+      let(:custom_field) { create(:list_wp_custom_field) }
+
+      it "does not ask for confirmation" do
+        expect(confirmation).to be_empty
+        expect(rendered.css("dialog#disable-project-specific-values-dialog")).to be_empty
+      end
+    end
+  end
+
   describe "for a project custom field" do
     let(:custom_field) { create(:list_project_custom_field, possible_values: []) }
 

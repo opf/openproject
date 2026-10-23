@@ -2795,6 +2795,11 @@ en:
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     contained_in_type: "Contained in type"
+    disable_project_specific_values:
+      button: "Disable"
+      description: "All values enabled for individual projects will be removed. Every project will be able to use all values again."
+      heading: "Disable project-specific values?"
+      title: "Disable project-specific values"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:

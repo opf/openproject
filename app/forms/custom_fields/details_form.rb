@@ -188,7 +188,8 @@ module CustomFields
           caption: instructions(:project_specific_value_restriction),
           value: "allow",
           unchecked_value: "",
-          checked: model.project_specific_value_restriction_allow?
+          checked: model.project_specific_value_restriction_allow?,
+          data: { checkbox_confirmation_target: "checkbox" }
         )
       end
 
