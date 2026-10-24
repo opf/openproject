@@ -50,6 +50,7 @@ jobs:
         # allows to ssh to the instance using our GitHub ssh key
         admins: "crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard,@collaborators/push"
         compose_files: docker-compose.pullpreview.yml
+        compose_options: --no-build
         pre_script: docker/pullpreview/inspect-runtime.sh
         provider: hetzner
         region: fsn1
