@@ -103,6 +103,20 @@ RSpec.describe "Work package table treegrid semantics", :js do
       expect(page).to have_selector(:element, class: "work-packages-tabletimeline--timeline-side",
                                               aria: { hidden: true }, visible: :all)
     end
+
+    it "keeps the positions while the inline create row is open and after it is cancelled" do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_order(child, parent)
+      wp_table.expect_row_positions(rowcount: 5, rows: [1, 2, 3, 4, 5])
+
+      wp_table.click_inline_create
+      expect(wp_table.creation_row).to match_selector(:row, aria: { rowindex: 5 })
+      wp_table.expect_row_positions(rowcount: 5, rows: [1, 2, 3, 4, 5])
+
+      wp_table.press_keys(:escape)
+      expect(page).to have_button("Create new work package")
+      wp_table.expect_row_positions(rowcount: 5, rows: [1, 2, 3, 4, 5])
+    end
   end
 
   context "in grouped mode" do
@@ -199,6 +213,32 @@ RSpec.describe "Work package table treegrid semantics", :js do
       expect(wp_table.treegrid).to have_selector(:row, /\bSum\b/, aria: { level: 2, selected: nil, expanded: nil }, count: 2)
       expect(wp_table.treegrid).to have_selector(:gridcell, accessible_description: "Sum", minimum: 2)
       expect(wp_table.treegrid).to have_selector(:gridcell, accessible_description: "Total sum")
+      expect_axe_clean_table
+    end
+  end
+
+  context "in grouped mode across pages", with_settings: { per_page_options: "3" } do
+    let(:foo) { create(:category, project:, name: "Foo") }
+    let(:bar) { create(:category, project:, name: "Bar") }
+    let!(:alpha) { create(:work_package, project:, category: foo, subject: "Alpha in foo", estimated_hours: 1) }
+    let!(:bravo) { create(:work_package, project:, category: foo, subject: "Bravo in foo", estimated_hours: 2) }
+    let!(:charlie) { create(:work_package, project:, category: bar, subject: "Charlie in bar", estimated_hours: 4) }
+    let!(:delta) { create(:work_package, project:, category: foo, subject: "Delta in foo", estimated_hours: 8) }
+    let!(:echo) { create(:work_package, project:, category: foo, subject: "Echo in foo", estimated_hours: 16) }
+    let!(:query) do
+      create(:query, user:, project:, column_names: %w[id subject estimated_hours],
+                     sort_criteria: [%w[subject asc]], group_by: "category", show_hierarchies: false,
+                     display_sums: true)
+    end
+
+    it "continues the numbering on the next page and keeps the gap for the members of the other page" do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_order(charlie, alpha, bravo)
+      wp_table.expect_row_positions(rowcount: 12, rows: [1, 2, 3, 4, 5, 6, 7, 10, 11, 12])
+
+      within(".op-pagination--pages") { click_on "2", exact: true }
+      wp_table.expect_work_package_order(delta, echo)
+      wp_table.expect_row_positions(rowcount: 12, rows: [1, 5, 8, 9, 10, 11, 12])
       expect_axe_clean_table
     end
   end
