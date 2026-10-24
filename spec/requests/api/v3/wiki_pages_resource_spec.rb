@@ -119,6 +119,11 @@ RSpec.describe "API v3 wiki_pages resource" do
         .at_path("id")
     end
 
+    it "returns the last update as an ISO 8601 timestamp" do
+      expect(Time.iso8601(JSON.parse(subject.body).fetch("updatedAt")))
+        .to be_within(1.second).of(wiki_page.updated_at)
+    end
+
     context "when lacking permissions" do
       let(:permissions) { [] }
 

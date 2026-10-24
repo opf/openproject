@@ -33,6 +33,7 @@ module API
       class WikiPageRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
+        include API::Decorators::DateProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
 
