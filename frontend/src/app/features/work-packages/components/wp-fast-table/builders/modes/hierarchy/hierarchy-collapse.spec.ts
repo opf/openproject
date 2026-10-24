@@ -30,6 +30,7 @@ import { buildTable, TableHarness } from '../../../testing/table-harness';
 import { WorkPackageFixture } from '../../../testing/work-package-fixture';
 import { States } from 'core-app/core/states/states.service';
 import { hierarchyGroupClass } from '../../../helpers/wp-table-hierarchy-helpers';
+import { indicatorCollapsedClass } from './single-hierarchy-row-builder';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 
 const parent = { id: '1' };
@@ -156,6 +157,55 @@ describe('Hierarchy table collapse', () => {
       await waitFor(() => expect(harness.row('2')).not.toBeVisible());
       expect(harness.querySpace.tableRendered.value).toHaveLength(harness.table.ledger.size);
       expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+  });
+
+  describe('when a collapse lands on a queued render', () => {
+    const collapsed = {
+      committed: true, ledgerHidden: true, display: 'none', indicatorCollapsed: true,
+    };
+
+    const childState = () => {
+      const before = harness.row('2');
+      return () => ({
+        committed: harness.row('2') !== before,
+        ledgerHidden: harness.table.ledger.byWorkPackageId('2')[0].hidden,
+        display: getComputedStyle(harness.row('2')).display,
+        indicatorCollapsed: within(harness.row('1')).getByRole('button').classList.contains(indicatorCollapsedClass),
+      });
+    };
+
+    const collapseDuringQueuedRender = async <T>(redraw:() => void, state:() => T) => {
+      const release = harness.holdFrames();
+      redraw();
+      harness.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+      const published = harness.atNextPublication(state);
+      release();
+      return { published: await published, final: state() };
+    };
+
+    it('commits a collapsed parent with its children hidden', async () => {
+      await renderHierarchy([parent, child]);
+
+      expect(await collapseDuringQueuedRender(() => harness.table.redrawTable(), childState()))
+        .toEqual({ published: collapsed, final: collapsed });
+    });
+
+    it('commits hidden timeline cells when the queued render includes the timeline', async () => {
+      harness = buildTable({ workPackages: [parent, child], showHierarchies: true, timelineVisible: true });
+      await harness.render();
+      const timelineCell = () => harness.timelineRowOf(harness.row('2'));
+      const timelineBefore = timelineCell();
+      const tableState = childState();
+      const state = () => ({
+        ...tableState(),
+        timelineCommitted: timelineCell() !== timelineBefore,
+        timelineDisplay: getComputedStyle(timelineCell()).display,
+      });
+      const expected = { ...collapsed, timelineCommitted: true, timelineDisplay: 'none' };
+
+      expect(await collapseDuringQueuedRender(() => harness.table.redrawTableAndTimeline(), state))
+        .toEqual({ published: expected, final: expected });
     });
   });
 
