@@ -33,6 +33,10 @@ import { nextTask } from 'core-common/testing/timing';
 import { States } from 'core-app/core/states/states.service';
 import { groupOccurrenceKey } from '../rendered-occurrence-ledger';
 import { buildWorkPackage } from '../testing/work-package-fixture';
+import { Subject } from 'rxjs';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import type { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -198,6 +202,43 @@ describe('TableRowPositions', () => {
       harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2', ancestors: [{ id: '4' }, parent] }));
       await nextTask();
       expect(harness.row('2').querySelector('.wp-table--hierarchy-span')).toHaveAttribute('data-indentation', '65px');
+      harness.expectNoRowPositions();
+    });
+
+    it('keeps positions withdrawn when the collection is recaptured after a row moved', async () => {
+      await mountHierarchy();
+      harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2' }));
+      await waitFor(() => harness.expectNoRowPositions());
+      harness.table.rowPositions!.recapture();
+      harness.expectNoRowPositions();
+    });
+
+    it('does not label a row that moved while the post-drop collection was loading', async () => {
+      await mountHierarchy();
+      harness.querySpace.query.value!.id = '10';
+      const current = harness.querySpace.results.value!;
+      const loaded = new Subject<QueryResource>();
+      const load = vi.fn(() => loaded);
+      Object.assign(harness.injector.get(WorkPackagesListService), {
+        loadQueryFromExisting: load,
+        getPaginationInfo: () => ({ pageSize: 20, offset: 1 }),
+      });
+      vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'prepareMove')
+        .mockResolvedValue({ order: ['3', '1', '2'], persist: () => Promise.resolve() });
+      const rendered = harness.nextRender();
+      expect(await harness.drop('3', '1', 'top')).toBe(true);
+      await rendered;
+      await waitFor(() => expect(load).toHaveBeenCalled());
+      harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2' }));
+      await nextTask();
+      harness.expectNoRowPositions();
+      loaded.next({ results: {
+        ...current,
+        elements: ['3', '1', '2'].map((id) => current.elements.find((wp) => wp.id === id)!),
+        rowPositions: { 3: { position: 1, parent: null }, 1: { position: 2, parent: null }, 2: { position: 3, parent: '1' } },
+      } } as unknown as QueryResource);
+      await nextTask();
+      expect(harness.row('2').querySelector('.wp-table--hierarchy-span')).toHaveAttribute('data-indentation', '25px');
       harness.expectNoRowPositions();
     });
 

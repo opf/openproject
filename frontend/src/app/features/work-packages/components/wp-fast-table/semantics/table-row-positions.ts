@@ -110,9 +110,22 @@ export class TableRowPositions {
     return draftAgrees(body, rows, positionGroups) ? { source, body } : null;
   }
 
+  /** Re-derives positions for the rows on screen after the results collection changed without a render. */
+  public recapture():void {
+    if (this.table.hasPendingRender) return;
+    this.revalidate();
+    this.paint();
+  }
+
   /** Re-derives the committed positions after a row re-rendered from a newer resource, withdrawing them if its ancestry moved. */
   public refreshed():void {
     if (this.snapshot) this.revalidate();
+  }
+
+  /** Commits a render's positions, recapturing them if the results changed while the render was pending. */
+  public commitRendered(captured:CapturedRowPositions|null, draft:RenderDraft):void {
+    const current = this.table.querySpace.results.value;
+    this.commit(captured?.source === current ? captured : this.capture(draft));
   }
 
   public commit(snapshot:CapturedRowPositions|null):void {

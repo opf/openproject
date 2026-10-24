@@ -29,7 +29,7 @@ import { createEnvironmentInjector, EnvironmentInjector, Injector, Provider } fr
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { waitFor } from '@testing-library/dom';
-import { of, Subject } from 'rxjs';
+import { of, Subject, throwError } from 'rxjs';
 import * as Turbo from '@hotwired/turbo';
 import { nextTask } from 'core-common/testing/timing';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -463,10 +463,14 @@ describe('accepted table drag persistence lifetime', () => {
   describe('with row positions', () => {
     const positions = ['1', '2', '3', '4', '5', '6'];
 
-    it('stays withdrawn through a switch to manual sorting until a matching collection arrives', async () => {
+    it('restores positions from the refetched collection after a switch to manual sorting', async () => {
       await mount('default', true, true);
       table.expectRowPositions(positions, '6');
-      const rebuilt = table.nextRender();
+      const current = table.querySpace.results.value!;
+      const reordered = ['2', '1', '3'].map((id) => current.elements.find((wp) => wp.id === id)!);
+      const reloaded = { ...current, elements: reordered } as WorkPackageCollectionResource;
+      const load = vi.spyOn(table.injector.get(WorkPackagesListService), 'loadQueryFromExisting')
+        .mockReturnValue(of({ results: reloaded } as QueryResource));
       const dropping = table.drop('1', '2', 'bottom');
       await expectCalls(['order']);
       expect(table.rowIds()).toEqual(['2', '1', '3']);
@@ -477,12 +481,48 @@ describe('accepted table drag persistence lifetime', () => {
       querySaved.next(original);
       expect(await dropping).toBe(true);
       expect(original.sortBy).toEqual([manualSort]);
+      await waitFor(() => expect(load).toHaveBeenCalled());
+
+      const settled = table.rows();
+      await waitFor(() => table.expectRowPositions(positions, '6'));
+      expect(table.rows()).toEqual(settled);
+      expect(table.querySpace.results.value).toBe(reloaded);
+      expect(load).toHaveBeenCalledExactlyOnceWith(original, { pageSize: 50, offset: 1 }, '9');
+    });
+
+    it('stays withdrawn when the refetched collection is in another order', async () => {
+      await mount('default', true, true);
+      const current = table.querySpace.results.value!;
+      const load = vi.spyOn(table.injector.get(WorkPackagesListService), 'loadQueryFromExisting')
+        .mockReturnValue(of({ results: { ...current } } as QueryResource));
+      const dropping = table.drop('1', '2', 'bottom');
+      await expectCalls(['order']);
+      orderSaved.resolve('now');
+      await expectCalls(['order', 'query']);
+      querySaved.next(original);
+      expect(await dropping).toBe(true);
+      await waitFor(() => expect(load).toHaveBeenCalled());
+      await nextTask();
+      expect(table.rowIds()).toEqual(['2', '1', '3']);
+      expect(table.querySpace.results.value).toBe(current);
+      table.expectNoRowPositions();
+    });
+
+    it('stays withdrawn when the collection cannot be refetched', async () => {
+      await mount('default', true, true);
+      vi.spyOn(table.injector.get(WorkPackagesListService), 'loadQueryFromExisting')
+        .mockReturnValue(throwError(() => new Error('offline')));
+      const rebuilt = table.nextRender();
+      const dropping = table.drop('1', '2', 'bottom');
+      await expectCalls(['order']);
+      orderSaved.resolve('now');
+      await expectCalls(['order', 'query']);
+      querySaved.next(original);
+      expect(await dropping).toBe(true);
       await rebuilt;
+      await nextTask();
       expect(table.rowIds()).toEqual(['2', '1', '3']);
       table.expectNoRowPositions();
-
-      await table.render(['2', '1', '3'].map((id) => ({ id, attributes: { status: id === '1' ? status1 : status2 } })));
-      table.expectRowPositions(positions, '6');
     });
 
     it('stays withdrawn when the saved order remains visible after query saving fails', async () => {

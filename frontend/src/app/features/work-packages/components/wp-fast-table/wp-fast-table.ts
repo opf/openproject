@@ -297,7 +297,7 @@ export class WorkPackageTable {
       this.timelineBody.replaceChildren(timelinePass.timelineBody);
     }
     this.ledger.commit(pass.draft);
-    this.rowPositions?.commit(pending.positions);
+    this.rowPositions?.commitRendered(pending.positions, pass.draft);
     this.lastRenderPass = pass;
     this.publishRendered();
   }

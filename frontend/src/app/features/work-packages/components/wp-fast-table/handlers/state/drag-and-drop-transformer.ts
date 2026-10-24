@@ -46,6 +46,7 @@ import { collapsedGroupClass } from 'core-app/features/work-packages/components/
 import { reorderById, type Edge } from 'core-common/drag-and-drop/reorder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { firstValueFrom } from 'rxjs';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 export class DragAndDropTransformer {
   @LazyInject() private readonly states:States;
@@ -259,6 +260,17 @@ export class DragAndDropTransformer {
           actionService.onNewOrder([...ids]);
         };
         const reportUiFailure = (error:unknown) => notification.handleRawError(error, workPackage);
+        const reloadResults = async () => {
+          const query = querySpace.query.value;
+          if (!isCurrent() || !query || !isPersistedResource(query) || querySpace.groups.value?.length) return;
+          const projectIdentifier = query.project?.href?.split('/').pop();
+          const { results } = await firstValueFrom(listService.loadQueryFromExisting(query, listService.getPaginationInfo(), projectIdentifier));
+          const rendered = table.originalRows;
+          if (!isCurrent() || results.elements.length !== rendered.length
+            || results.elements.some((element, index) => element.id !== rendered[index])) return;
+          querySpace.results.putValue(results);
+          table.rowPositions?.recapture();
+        };
 
         // Acceptance begins at the first write: navigation cannot cancel later phases.
         await preparedOrder.persist();
@@ -271,7 +283,13 @@ export class DragAndDropTransformer {
           await preparedQuery.persist();
         }
         complete(true);
-        recoverIfCurrent();
+        if (isCurrent()) {
+          void refreshLiveView(preparedOrder.order)
+            .then(
+              () => reloadResults().catch(() => undefined),
+              reportUiFailure,
+            );
+        }
       } catch (error:unknown) {
         recoverIfCurrent();
         notification.handleRawError(error, workPackage);
