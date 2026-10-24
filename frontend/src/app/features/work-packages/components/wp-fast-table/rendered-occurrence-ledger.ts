@@ -131,6 +131,10 @@ export class RenderedOccurrenceLedger {
     return this.records.length;
   }
 
+  get occurrences():readonly RenderedOccurrence[] {
+    return this.records;
+  }
+
   beginRender(withTimeline = false):RenderDraft {
     return new Draft(withTimeline);
   }
