@@ -333,6 +333,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
     end
 
+    it "rejects a dimension count the vector index cannot store" do
+      patch llm_feature_binding_path(:semantic_search),
+            params: { llm_feature_binding: { model_id: "bge-m3",
+                                             dimensions: WorkPackageEmbedding::DIMENSIONS.next.to_s } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "semantic_search")&.dimensions).to be_nil
+    end
+
     it "ignores vector settings sent to a chat feature" do
       patch llm_feature_binding_path(:description_assistant),
             params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "1024" } }
