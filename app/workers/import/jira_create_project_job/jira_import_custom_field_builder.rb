@@ -119,7 +119,7 @@ module Import
         "text" => "text",
         "number" => "float",
         "date" => "date",
-        "datetime" => "date", # TODO: loss of precision
+        "datetime" => "datetime",
         "option" => "list",
         "user" => "user",
         "any" => "string"
@@ -449,9 +449,9 @@ module Import
         result.success? ? result.value! : nil
       end
 
-      # Fallback for scalar formats (string, float, date, link). Hash values
-      # (e.g. cascading selects without enterprise) are converted to a readable
-      # "Parent - Child" string instead of their Ruby Hash#to_s representation.
+      # Fallback for scalar formats. Hash values (e.g. cascading selects without
+      # enterprise) are converted to a readable "Parent - Child" string instead of
+      # their Ruby Hash#to_s representation.
       def convert_fallback_value(raw_value)
         return raw_value unless raw_value.is_a?(Hash)
 
