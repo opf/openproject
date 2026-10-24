@@ -102,7 +102,7 @@ ko:
     not_recommended: 추천하지 않음
     recommended: 추천
     x_bcf_issues:
-      one: '1개 BCF 이슈 '
+      one: "%{count} BCF issue"
       other: "%{count}개 BCF 이슈"
       zero: BCF 이슈 없음
   bim:

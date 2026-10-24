@@ -106,7 +106,7 @@ ka:
     not_recommended: not recommended
     recommended: რეკომენდებულია
     x_bcf_issues:
-      one: 1 BCF პრობლემა
+      one: "%{count} BCF issue"
       other: "%{count} BCF issues"
       zero: BCF-ის პრობლემების გარეშე
   bim:

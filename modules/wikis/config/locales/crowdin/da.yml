@@ -184,7 +184,7 @@ da:
         all: Alle wikisider
         main: Primære wikisider
       sub_pages_count:
-        one: 1 underside
+        one: "%{count} underside"
         other: "%{count} undersider"
     inline_wiki_page_dialog:
       title_add: Tilføj eksisterende wikiside

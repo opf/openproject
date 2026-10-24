@@ -64,7 +64,7 @@ el:
       label_add_new: Προσθήκη νέου webhook
       label_edit: Επεξεργασία webhook
       label_x_events:
-        one: 1 event
+        one: "%{count} event"
         other: "%{count} events"
         zero: No events
       no_results_table: Δεν έχουν οριστεί webhooks ακόμη.
