@@ -219,6 +219,9 @@ fa:
         organizational_unit: واحد سازمانی
         parent: گروه والد
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: نام نمونهٔ جیرا
         personal_access_token: توکن دسترسی شخصی
         url: نشانی نمونه Jira
@@ -466,7 +469,7 @@ fa:
         header_look_and_feel: ظاهر
         impaired: حالت دسترسی
         increase_contrast: افزایش کنتراست
-        increase_contrast_caption: حالت کنتراست بالا را برای حالت رنگ انتخاب‌شده فعال می‌کند.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: افزایش کنتراست پوسته
         mode_guideline: برخی حالت‌ها برای دسترس‌پذیری و خوانایی، رنگ‌های سفارشی پوسته را بازنویسی می‌کنند. برای پشتیبانی کامل از پوسته سفارشی، حالت روشن را انتخاب کنید.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -1479,7 +1482,7 @@ fa:
             description: سربرگ برنامه سیاه خواهد بود. پیشنهاد می‌کنیم از لوگوی سفید با پس‌زمینه شفاف استفاده کنید.
             name: لوگوی حالت تیره
           light:
-            description: مطمئن شوید لوگوی بارگذاری‌شده با رنگ انتخاب‌شده برای سربرگ برنامه کنتراست کافی دارد.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: لوگوی حالت روشن
           light_high_contrast:
             description: سربرگ برنامه خاکستری خواهد بود. پیشنهاد می‌کنیم از لوگوی سیاه با پس‌زمینه شفاف استفاده کنید.
@@ -1561,12 +1564,15 @@ fa:
       actions:
         button_edit: ویرایش پیکربندی
         button_open: بازکردن اجراها
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'لطفاً با بازخورد و اهدای خصوصی داده به بهبود Jira Migrator کمک کنید. می‌توانید به [جامعه توسعه](link) Jira Migrator بپیوندید.
 
           '
         description: این Jira Migrator در حال حاضر نسخه Beta است. فعلاً فقط Jira Server/Data Center نسخه‌های 10.x و 11.x پشتیبانی می‌شوند و نمونه‌های Cloud در این زمان پشتیبانی نمی‌شوند.
         title: Beta - امتحانش کنید!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: برای شروع واردکردن موارد از Jira به این نمونه OpenProject، یک میزبان Jira پیکربندی کنید.
         title: هنوز هیچ میزبان Jira پیکربندی نشده است
@@ -1599,18 +1605,30 @@ fa:
           description: Jira از شناسه Issue شامل کلید پروژه و شماره ترتیبی (PRJ-123) استفاده می‌کند. OpenProject نیز از آن پشتیبانی می‌کند، اما باید [اینجا](link) فعال شود.
           title: شناسه‌های معنایی مبتنی بر پروژه باید فعال باشند.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: افزودن پیکربندی
-        button_delete_token: حذف توکن
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: ذخیره پیکربندی
-        delete_token_confirm: مطمئنید می‌خواهید توکن را حذف کنید؟ این کار اتصال Jira را غیرفعال می‌کند.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: نام
-          personal_access_token: توکن دسترسی شخصی
+          personal_access_token: Personal access token (PAT)
           url: نشانی Jira Server/Data Center
         label_testing: در حال آزمایش پیکربندی...
-        test_configuration_caption: می‌توانید با [کلیک اینجا](test) این پیکربندی را آزمایش کنید
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: ویرایش اجرا
@@ -1863,17 +1881,18 @@ fa:
               rest_line_text: در حال دریافت پیوست‌های %{projects_number} پروژه دیگر
               title: دریافت پیوست‌ها
       test:
-        api_error: Jira API وضعیت خطای %{status} برگرداند. لطفاً نشانی نمونه Jira و توکن API را بررسی کنید.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'خطای اتصال: %{message}'
         error: هنگام آزمایش اتصال یک خطای غیرمنتظره رخ داد
         failed: 'اتصال ناموفق بود: دریافت اطلاعات سرور ممکن نیست'
         invalid_url: لطفاً یک نشانی معتبر وارد کنید
-        missing_credentials: برای آزمایش اتصال، هم نشانی و هم Personal Access Token را وارد کنید
         parse_error: تجزیه پاسخ سرور ناموفق بود. ممکن است سرور یک نمونه معتبر Jira نباشد.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: اتصال به %{server} با موفقیت برقرار شد (نسخه %{version})
-        token_error: توکن API نامعتبر است. لطفاً اعتبارنامه‌های موجود در پیکربندی را بررسی کنید.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: مهاجرت‌دهنده Jira
-      token_deleted: توکن با موفقیت حذف شد.
       user:
         unknown_name: نامشخص
     journal_aggregation:
@@ -2134,7 +2153,7 @@ fa:
         types_caption: انواع بسته کاری‌ای را اضافه کنید که این عملیات باید برای آن‌ها در دسترس باشد. همه گونه‌های موجود به‌طور خودکار شامل خواهند شد.
         usage_scope_caption: 'می‌توانید محل نمایش این عملیات را محدود کنید: همه‌جا (از جمله دیدگاه‌ها، ویکی‌ها و فیلدهای سفارشی)، برای همه انواع بسته کاری، یا فقط برای انواع مشخصی از بسته کاری.'
       index:
-        description: عملیات تبدیل متن، قابلیت‌های مبتنی بر مدل زبانی بزرگ (LLM) را برای نوشتن، سازمان‌دهی و بازبینی متن در هر جایی که ویرایشگر متن غنی استفاده می‌شود، مانند توضیحات بسته کاری، دیدگاه‌ها و صفحه‌های ویکی، در اختیار کاربران می‌گذارد. می‌توانید با پرامپت‌ها و دستورهای خود، عملیات جدید بسازید.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: عملیات
         label_aria_add_action: افزودن عملیات تبدیل متن
       index_component:
@@ -3595,7 +3614,7 @@ fa:
       summary:
         failure: برخی بررسی‌ها ناموفق بودند و سیستم مطابق انتظار کار نمی‌کند.
         success: همه اتصال‌ها و سیستم‌ها مطابق انتظار کار می‌کنند.
-        warning: برخی بررسی‌ها هشدار داده‌اند. این ممکن است به رفتار غیرمنتظره منجر شود.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: ناموفق
@@ -3604,7 +3623,7 @@ fa:
         warning: هشدار
   help_texts:
     views:
-      favoured: این نما را به‌عنوان موردعلاقه علامت بزنید و به نوار کناری نماهای ذخیره‌شده در سمت چپ اضافه کنید.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} همیشه به یک پروژه متصل هستند. اینجا فقط می‌توانید پروژه‌هایی را انتخاب کنید که ماژول %{plural} در آن‌ها فعال است. پس از ایجاد یک %{singular} می‌توانید بسته‌های کاری پروژه‌های دیگر را به آن اضافه کنید.\n"
       public: این نما را منتشر کنید تا کاربران دیگر به آن دسترسی داشته باشند. کاربران دارای مجوز «مدیریت نماهای عمومی» می‌توانند Query عمومی را تغییر یا حذف کنند. این کار بر قابلیت مشاهده نتایج بسته کاری در آن نما اثر نمی‌گذارد و بسته به مجوزها، کاربران ممکن است نتایج متفاوتی ببینند.
   homescreen:
@@ -5435,8 +5454,8 @@ fa:
         label: فهرست مطالب
     page_nr_footer: صفحه %{page} از %{total}
     template_artefact:
-      caption: جزئیات بسته کاری در قالب یک آرتیفکت PMflex Render شده است.
-      label: آرتیفکت PMflex
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: همه ویژگی‌های موجود در فرم فعلی با استفاده از الگوی پیش‌فرض.
       label: ویژگی‌ها و توضیحات
@@ -5743,11 +5762,11 @@ fa:
           no_status_when_submitted: فعال‌سازی درخواست آغاز پروژه ناموفق بود، زیرا نوع بسته کاری %{type} حداقل به یک وضعیت مرتبط نیاز دارد. لطفاً حداقل یک گردش‌کار وضعیت برای این نوع بسته کاری فعال کنید.
           no_work_package_type: فعال‌سازی درخواست آغاز پروژه ناموفق بود، زیرا حداقل به یک نوع بسته کاری فعال نیاز دارد و این پروژه هیچ نوعی ندارد. لطفاً حداقل یک نوع بسته کاری به این پروژه اضافه کنید.
         export:
-          description_attachment_export: آرتیفکت تولیدشده به‌عنوان پیوست PDF در بسته کاری آرتیفکت ذخیره خواهد شد.
-          description_file_link_export: بسته کاری آرتیفکت یک پیوند فایل به PDF ذخیره‌شده در Storage خارجی خواهد داشت. این قابلیت به یک Storage فایل فعال با پوشه‌های پروژه مدیریت‌شده خودکار نیاز دارد. در حال حاضر فقط Storageهای فایل Nextcloud پشتیبانی می‌شوند.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: انتخاب کنید کدام‌یک از Storageهای خارجی پیکربندی‌شده استفاده شود.
           external_file_storage: Storage فایل خارجی
-          label_artifact_export: خروجی آرتیفکت
+          label_artifact_export: Artifact export
           label_attachment_export: ذخیره به‌عنوان پیوست فایل بسته کاری
           label_file_link_export: بارگذاری فایل در Storage خارجی و افزودن پیوند فایل به بسته کاری
           pdf_file_storage: Storage فایل PDF
@@ -5886,14 +5905,14 @@ fa:
     status:
       button_edit: ویرایش وضعیت
     wizard:
-      create_artifact_storage_error: ذخیره آرتیفکت در Storage فایل ناموفق بود
-      create_artifact_work_package_error: ایجاد بسته کاری آرتیفکت ناموفق بود
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: این پروژه هیچ ویژگی پروژه‌ای فعالی برای جادوگر ندارد. لطفاً دست‌کم یکی را در <a href="%{link}">تنظیمات پروژه</a> فعال کنید.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها
       sidebar_content_title: محتوا
-      success: ویژگی‌های پروژه ذخیره شدند و بسته کاری آرتیفکت با موفقیت ایجاد شد.
+      success: Project attributes saved and artifact work package created successfully.
       title: درخواست آغاز پروژه
   pwa:
     offline:
@@ -6477,12 +6496,12 @@ fa:
         confirmation_message: Wizard درخواست آغاز پروژه دیگر برای پروژه‌های جدید مبتنی بر این الگو در دسترس نخواهد بود. مدیران و مالکان پروژه باید اطلاعات مربوط را در نمای کلی پروژه به‌صورت دستی پیکربندی و تکمیل کنند.
         heading: این درخواست آغاز پروژه غیرفعال شود؟
         title: غیرفعال‌کردن درخواست آغاز پروژه
-      header_description: 'OpenProject می‌تواند Wizard گام‌به‌گامی ایجاد کند تا مدیران پروژه درخواست آغاز پروژه را تکمیل کنند. می‌توانید تعیین کنید کدام ویژگی‌های پروژه شامل شوند و در نتیجه یک آرتیفکت PDF ایجاد کنید.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: نام آرتیفکت
-        artifact_name_caption: نامی را برای این آرتیفکت انتخاب کنید که چارچوب مدیریت پروژه شما توصیه می‌کند.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Wizard ایجاد پروژه
           project_initiation_request: درخواست آغاز پروژه
@@ -6502,8 +6521,8 @@ fa:
           شما یک درخواست آغاز پروژه برای **%{project_name}** ارسال کردید. این درخواست اکنون منتظر بازبینی است.
           برای دسترسی به بسته کاری درخواست خود، روی پیوند زیر کلیک کنید.
         confirmation_email_text: متن ایمیل تأیید
-        description: هنگامی که کاربر درخواست آغاز پروژه را ارسال می‌کند، بسته کاری جدیدی با آرتیفکت درخواست به‌صورت فایل PDF پیوست ایجاد می‌شود. تنظیمات زیر نوع، وضعیت و مسئول انجام این بسته کاری را تعریف می‌کنند.
-        description_template: "**این بسته کاری پس از تکمیل گردش‌کار %{wizard_name} به‌طور خودکار ایجاد شد.** یک آرتیفکت PDF شامل همه اطلاعات ارسال‌شده تولید و برای مرجع و اهداف Audit به این بسته کاری پیوست شده است. اگر لازم است مراحل آغاز را به‌روزرسانی یا دوباره اجرا کنید، هر زمان می‌توانید از پیوند زیر Wizard را دوباره باز کنید:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: ارسال ایمیل تأیید به کاربری که درخواست آغاز پروژه را ارسال کرده است
         status_when_submitted: وضعیت هنگام ارسال
         status_when_submitted_caption: وضعیتی که بسته کاری تولیدشده پس از ارسال درخواست به آن منتقل می‌شود.
@@ -6511,7 +6530,7 @@ fa:
         work_package_comment_caption: مسئول انجام انتخاب‌شده بالا به‌طور خودکار در دیدگاه با @ اشاره خواهد شد.
         work_package_comment_default: یک درخواست آغاز پروژه برای **%{project_name}** ارسال شده و منتظر بازبینی است.
         work_package_type: نوع بسته کاری
-        work_package_type_caption: نوع بسته کاری‌ای که برای ذخیره آرتیفکت تکمیل‌شده استفاده می‌شود.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: بازکردن Wizard ایجاد پروژه
         project_initiation_request: بازکردن درخواست آغاز پروژه
@@ -7036,13 +7055,13 @@ fa:
           file_link:
             caption: PDF تولیدشده در Storage مدیریت‌شده خودکار Nextcloud مربوط به پروژه بارگذاری و از بسته کاری به آن پیوند داده می‌شود. بسته‌های کاری پروژه‌های بدون چنین Storageای نادیده گرفته می‌شوند.
             label: بارگذاری فایل در Storage خارجی و افزودن پیوند فایل به بسته کاری
-          intro: هر بار وضعیت یک بسته کاری از این نوع تغییر کرد، به‌طور خودکار یک آرتیفکت PDF تولید کنید.
-          invalid_mode: حالت خروجی آرتیفکت نامعتبر است.
-          label: خروجی خودکار آرتیفکت
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: هیچ PDFای به‌طور خودکار تولید نمی‌شود.
             label: خاموش
-          section_title: خروجی خودکار آرتیفکت
+          section_title: Automatic artifact export
           unavailable: در دسترس نیست؛ Storage مدیریت‌شده خودکار Nextcloud پیکربندی نشده است
         pdf_export_templates:
           actions:
@@ -7421,7 +7440,7 @@ fa:
       deletion_warning: مطمئنید می‌خواهید این Session را لغو کنید؟ در این دستگاه از سیستم خارج خواهید شد.
       device: دستگاه / سیستم‌عامل
       expires: انقضا
-      instructions: از طریق دستگاه‌های زیر وارد حساب خود هستید. Sessionهایی را که نمی‌شناسید یا مربوط به دستگاه‌های تحت کنترل شما نیستند لغو کنید.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: آخرین اتصال
       may_not_delete_current: نمی‌توانید Session فعلی خود را حذف کنید.
       session_name: "%{browser_name} %{browser_version} روی %{os_name}"

@@ -61,7 +61,7 @@ ms:
         item_2:
           name: Pengurus BIM
         item_3:
-          name: Pemodel BIM
+          name: BIM Modelers
         item_4:
           name: Ketua Koordinator BIM
         item_5:
@@ -475,17 +475,17 @@ ms:
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
-                  subject: Pemodelan model BIM awal
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Matlamat
+                    # Goal
 
-                    *   Pemodelan model BIM awal
-                    *   Mencipta model BIM untuk seluruh pasukan projek
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Deskripsi
+                    # Description
 
-                    *   Berdasarkan data yang dikumpulkan daripada pelanggan, model awal akan dimodelkan
-                    *   Model tersebut akan dimodelkan mengikut matriks LOD dan mengandungi maklumat yang diperlukan
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
                   subject: Semakan model awal dalaman dan pembetulan
@@ -502,23 +502,23 @@ ms:
                   subject: Menghantar model BIM awal
                   description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_4:
-              subject: Pemodelan, kitaran pertama
+              subject: Modeling, first cycle
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
               children:
                 item_0:
                   subject: Merujuk model BIM luaran
                   description: |-
-                    # Matlamat
+                    # Goal
 
-                    *   Mempunyai asas untuk membangunkan model dalaman/ menawarkan jawapan
-                    *   Menggunakan model luaran untuk menghasilkan model dalaman
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Deskripsi
+                    # Description
 
-                    *   Model luaran akan dirujuk dalam platform BIM, kemudian digunakan untuk pemodelan dalaman
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
                     *   ...
                 item_1:
-                  subject: Pemodelan model BIM
+                  subject: Modeling the BIM model
                   description: |-
                     # Matlamat
 
@@ -566,19 +566,19 @@ ms:
                   subject: Koordinasi penyelesaian, kitaran pertama
                   description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_6:
-              subject: Pemodelan & koordinasi, kitaran kedua
+              subject: Modeling & coordinating, second cycle
               description: "## Matlamat\r\n\r\n*   ...\r\n\r\n## Deskripsi\r\n\r\n* \\  ..."
             item_7:
-              subject: Pemodelan & koordinasi, kitaran ...
+              subject: Modeling & coordinating, ... cycle
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_8:
-              subject: Pemodelan & koordinasi, kitaran (n-th minus 1)
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Matlamat\r\n\r\n*   ...\r\n\r\n## Deskripsi\r\n\r\n* \\  ..."
             item_9:
-              subject: Pemodelan & koordinasikan kitaran n-th
+              subject: Modeling & coordinating n-th cycle
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_10:
-              subject: Penyelesaian pemodelan & koordinasi, kitaran n-th
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Jenis ini adalah induk secara hierarki bagi jenis &quot;Konflik&quot; dan &quot;Permintaan&quot;, oleh itu mewakili catatan umum.
             item_11:
               subject: Guna model untuk fasa pembinaan
