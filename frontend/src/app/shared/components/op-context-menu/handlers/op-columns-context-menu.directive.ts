@@ -40,6 +40,8 @@ import { WpTableConfigurationModalComponent } from 'core-app/features/work-packa
 import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { computePosition, ComputePositionReturn, flip, shift } from '@floating-ui/dom';
+import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive({
   selector: '[opColumnsContextMenu]',
@@ -61,6 +63,8 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
 
+  private origin:FocusPosition|null = null;
+
   public text = {
     confirmDelete: {
       text: this.I18n.t('js.work_packages.table_configuration.sorting_mode.warning'),
@@ -73,7 +77,17 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
       return;
     }
     this.buildItems();
+    this.origin = this.table.keyboardNavigation?.positionOfCell(this.element) ?? null;
     this.opContextMenu.show(this, evt);
+  }
+
+  public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
+    if (this.origin && (reason === 'escape' || reason === 'action')) {
+      this.table.keyboardNavigation?.returnFocusFromMenu(this.origin);
+      return;
+    }
+
+    super.onClose(focus);
   }
 
   public get locals() {

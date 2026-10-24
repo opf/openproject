@@ -46,6 +46,10 @@ export const companionContextMenuWindowMs = 500;
 const keyboardOpens = new WeakMap<WorkPackageTable, { row:HTMLElement, at:number }>();
 const forgetOnTeardown = new WeakSet<WorkPackageTable>();
 
+export function forgetKeyboardMenuOpen(table:WorkPackageTable):void {
+  keyboardOpens.delete(table);
+}
+
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
   @LazyInject() public opContextMenu:OPContextMenuService;
@@ -93,7 +97,7 @@ export abstract class ContextMenuHandler implements TableEventHandler {
   }
 
   protected forgetKeyboardOpen(table:WorkPackageTable):void {
-    keyboardOpens.delete(table);
+    forgetKeyboardMenuOpen(table);
   }
 
   /** True once for the first `contextmenu` on `target` within the window after a keyboard open of its row; clears the record. */

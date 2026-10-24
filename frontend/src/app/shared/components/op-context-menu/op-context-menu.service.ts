@@ -29,6 +29,7 @@ import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, ComponentType, DomPortalOutlet } from '@angular/cdk/portal';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import {
+  OpContextMenuCloseReason,
   OpContextMenuLocalsMap,
   OpContextMenuLocalsToken,
 } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -60,6 +61,7 @@ export class OPContextMenuService {
     const hostElement = this.portalHostElement = document.createElement('div');
     hostElement.classList.add('op-context-menu--overlay');
     document.body.appendChild(hostElement);
+    hostElement.addEventListener('contextmenu', (evt) => evt.preventDefault());
 
     this.bodyPortalHost = new DomPortalOutlet(
       hostElement,
@@ -70,7 +72,10 @@ export class OPContextMenuService {
     // Listen to keyups on window to close context menus
     window.addEventListener('keydown', (evt) => {
       if (this.active && evt.key === 'Escape') {
-        this.close(true);
+        // Escape may cancel a pending open; a click outside may not, as the opening click itself bubbles to the wrapper.
+        this.openSeq += 1;
+        this.isOpening = false;
+        this.close(true, 'escape');
       }
 
       return true;
@@ -81,13 +86,13 @@ export class OPContextMenuService {
       // Listen to any click and close the active context menu
       wrapper.addEventListener('click', (evt:Event) => {
         if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
-          this.close();
+          this.close(false, 'outside');
         }
       });
       // Listen if it scrolles then close the active context menu
       wrapper.addEventListener('scroll', (evt:Event) => {
         if (this.active && !this.portalHostElement.contains(evt.target as Element)) {
-          this.close();
+          this.close(false, 'scroll');
         }
       }, true);
     }
@@ -152,7 +157,7 @@ export class OPContextMenuService {
   /**
    * Closes all currently open context menus.
    */
-  public close(focus = false):void {
+  public close(focus = false, reason?:OpContextMenuCloseReason):void {
     if (this.isOpening) {
       return;
     }
@@ -160,7 +165,7 @@ export class OPContextMenuService {
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
     this.portalHostElement.style.display = 'none';
-    this.active?.onClose(focus);
+    this.active?.onClose(focus, reason);
     this.active = null;
   }
 

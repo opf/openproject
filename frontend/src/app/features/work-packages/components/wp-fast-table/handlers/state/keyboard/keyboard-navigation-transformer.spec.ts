@@ -571,6 +571,81 @@ describe('KeyboardNavigationTransformer', () => {
     expect(input).toHaveFocus();
   });
 
+  describe('returnFocusFromMenu', () => {
+    const origin = { key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 };
+
+    const visitMenu = (table:TableHarness) => {
+      const menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      cell(table.row('2'), 1).focus();
+      menuItem.focus();
+      return menuItem;
+    };
+
+    it('focuses the origin again after focus visited the menu portal', async () => {
+      const table = await mount();
+      visitMenu(table).remove();
+
+      navigation(table).returnFocus(origin);
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu(origin);
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('restores the origin after a full render the menu action started', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const rendered = table.nextRender();
+      table.table.redrawTable();
+      menuItem.remove();
+
+      navigation(table).returnFocusFromMenu(origin);
+      await rendered;
+
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
+    it('leaves focus on a control outside the table', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      const input = document.createElement('input');
+      document.body.append(input);
+      try {
+        menuItem.remove();
+        input.focus();
+
+        navigation(table).returnFocusFromMenu(origin);
+
+        expect(input).toHaveFocus();
+      } finally {
+        input.remove();
+      }
+    });
+
+    it('keeps focus outside the table for later returns when the user moved elsewhere meanwhile', async () => {
+      const table = await mount();
+      visitMenu(table).remove();
+      const moved = { key: wpOccurrenceKey('3'), cell: 1, desiredColumn: 1 };
+      navigation(table).recordPosition(moved);
+
+      navigation(table).returnFocusFromMenu(origin);
+      navigation(table).returnFocus(moved);
+
+      expect(document.body).toHaveFocus();
+    });
+
+    it('does nothing after the table is destroyed', async () => {
+      const table = await mount();
+      const keyboardNavigation = navigation(table);
+      visitMenu(table).remove();
+      await table.destroy();
+
+      expect(() => keyboardNavigation.returnFocusFromMenu(origin)).not.toThrow();
+      expect(document.body).toHaveFocus();
+    });
+  });
+
   it('consumes Home on the first cell without moving', async () => {
     const table = await mount();
     cell(table.row('1'), 0).focus();

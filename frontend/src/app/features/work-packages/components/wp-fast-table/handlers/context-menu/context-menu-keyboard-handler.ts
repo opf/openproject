@@ -73,7 +73,6 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
       return false;
     }
 
-    this.noteKeyboardOpen(component.workPackageTable, row);
     super.openContextMenu(
       component.workPackageTable,
       evt,
@@ -81,6 +80,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
       // Set position args to open at element
       { placement: 'bottom-start', reference: target }
     );
+    this.noteKeyboardOpen(component.workPackageTable, row);
 
     return false;
   }

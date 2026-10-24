@@ -62,6 +62,8 @@ export interface KeyboardNavigation {
   recordPosition(position:FocusPosition):void;
   /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control. */
   returnFocus(origin:FocusPosition):void;
+  /** Returns focus to `origin` after a menu closed, though focus visited the menu portal; same userPosition guard as returnFocus, and never takes focus from a control outside the table. */
+  returnFocusFromMenu(origin:FocusPosition):void;
   /** The position of the navigable cell or row enclosing `cell`, or null when it is not a rendered occurrence. */
   positionOfCell(cell:HTMLElement):FocusPosition|null;
   /** The row or cell element at the position, or null when it is not rendered. */
@@ -221,17 +223,38 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public returnFocus(origin:FocusPosition):void {
+    this.restoreFocus(origin);
+  }
+
+  public returnFocusFromMenu(origin:FocusPosition):void {
+    if (this.table.destroyed || !this.focusAtRest()) {
+      return;
+    }
+
+    const focusLeftTable = this.focusLeftTable;
+    this.focusLeftTable = false;
+    if (this.restoreFocus(origin)) {
+      this.owned = true;
+    } else {
+      this.focusLeftTable = focusLeftTable;
+    }
+  }
+
+  private restoreFocus(origin:FocusPosition):boolean {
     const user = this.userPosition;
     if (user && (user.key !== origin.key || user.cell !== origin.cell)) {
-      return;
+      return false;
     }
 
     const rows = buildNavigableRows(this.table);
     const originIndex = rows.findIndex((row) => row.key === origin.key);
     const target = originIndex === -1 ? this.current : reconcilePosition(rows, origin, originIndex);
-    if (target && this.mayRestoreFocus()) {
-      this.focusPosition(target);
+    if (!target || !this.mayRestoreFocus()) {
+      return false;
     }
+
+    this.focusPosition(target);
+    return true;
   }
 
   public positionOfCell(cell:Element):FocusPosition|null {

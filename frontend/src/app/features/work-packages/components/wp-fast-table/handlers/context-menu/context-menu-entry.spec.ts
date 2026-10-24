@@ -26,13 +26,17 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
+import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
 import { buildTable, TableHarness, type TableHarnessOptions } from '../../testing/table-harness';
 import { wpOccurrenceKey } from '../../rendered-occurrence-ledger';
 import { headerRowKey, totalsRowKey } from '../state/keyboard/navigable-rows';
+import { navigableCells } from '../state/keyboard/roving-tabindex';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
 
 describe('Context menu entry', () => {
@@ -619,6 +623,318 @@ describe('Context menu keyboard chords', () => {
       Object.keys(chords).forEach((chord) => press(chord, inlineCreateRow));
 
       expect(opened).not.toHaveBeenCalled();
+    });
+  });
+});
+
+describe('Context menu focus return', () => {
+  let harness:TableHarness;
+  let menu:OPContextMenuService;
+  let unregister:() => void;
+  let action:() => void;
+  let page:HTMLElement;
+
+  const nextFrame = () => new Promise<void>((resolve) => { requestAnimationFrame(() => resolve()); });
+
+  const mount = async (options:Partial<TableHarnessOptions> = {}) => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
+      columns: ['id', 'subject', 'status'],
+      productionMarkup: true,
+      providers: [OPContextMenuService],
+      ...options,
+      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true, ...options.configuration },
+    });
+    await harness.render();
+
+    page = document.createElement('div');
+    page.id = 'wrapper';
+    page.textContent = 'Blank page';
+    document.body.append(page);
+    menu = harness.injector.get(OPContextMenuService);
+    unregister = registerContextMenu(menu);
+    action = () => undefined;
+    vi.spyOn(harness.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+      .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
+    vi.spyOn(WorkPackageTableContextMenu.prototype, 'triggerContextMenuAction').mockImplementation(() => action());
+  };
+
+  const cellOf = (workPackageId:string, index:number) => navigableCells(harness.row(workPackageId))[index];
+
+  const resource = (id:string) => harness.injector.get(States).workPackages.get(id).value!;
+
+  const openFromKeyboard = async (target:HTMLElement) => {
+    target.focus();
+    fireEvent.keyDown(target, { key: 'F10', shiftKey: true });
+    return waitFor(() => {
+      const item = document.querySelector<HTMLElement>('.op-context-menu--overlay .menu-item')!;
+      expect(item).toHaveFocus();
+      return item;
+    });
+  };
+
+  const openOnCell = (workPackageId:string, index:number) => {
+    harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey(workPackageId), cell: index, desiredColumn: index });
+    return openFromKeyboard(cellOf(workPackageId, index));
+  };
+
+  const clickAction = async () => {
+    const item = await waitFor(() => within(document.querySelector<HTMLElement>('.op-context-menu--overlay')!)
+      .getByRole('menuitem', { name: 'Test action' }));
+    fireEvent.click(item);
+  };
+
+  afterEach(async () => {
+    await nextFrame();
+    await nextFrame();
+    await nextFrame();
+    menu.close();
+    unregister();
+    page.remove();
+    vi.restoreAllMocks();
+    await harness.destroy();
+  });
+
+  describe('on a capability-on table', () => {
+    beforeEach(() => mount());
+
+    it('row menu: an action that re-renders the row returns focus to the origin cell, not the body', async () => {
+      action = () => harness.table.refreshRows(resource('2'));
+      await openOnCell('2', 2);
+
+      await clickAction();
+
+      expect(menu.active).toBeNull();
+      expect(cellOf('2', 2)).toHaveFocus();
+    });
+
+    it('Escape close returns to a row origin', async () => {
+      harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+      await openFromKeyboard(harness.row('2'));
+
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+      expect(menu.active).toBeNull();
+      expect(harness.row('2')).toHaveFocus();
+    });
+
+    it('Escape close returns to a cell origin', async () => {
+      await openOnCell('2', 1);
+
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+      expect(cellOf('2', 1)).toHaveFocus();
+    });
+
+    it('Escape immediately after opening closes the menu, returns focus and keeps the selection', async () => {
+      harness.click('2');
+      harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+      fireEvent.keyDown(cellOf('2', 1), { key: 'F10', shiftKey: true });
+
+      fireEvent.keyDown(cellOf('2', 1), { key: 'Escape' });
+
+      expect(menu.active).toBeNull();
+      await nextFrame();
+      await nextFrame();
+      await nextFrame();
+      expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull();
+      expect(cellOf('2', 1)).toHaveFocus();
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    });
+
+    it('a click outside closes a right-click menu without pulling focus into the table', async () => {
+      fireEvent.contextMenu(cellOf('2', 1));
+      await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+
+      fireEvent.click(page);
+
+      expect(menu.active).toBeNull();
+      expect(document.body).toHaveFocus();
+    });
+
+    it('a scroll closes a keyboard-opened menu without moving focus or scrolling', async () => {
+      await openOnCell('2', 1);
+      const scrolled = vi.spyOn(Element.prototype, 'scrollIntoView');
+
+      fireEvent.scroll(page);
+
+      expect(menu.active).toBeNull();
+      expect(document.body).toHaveFocus();
+      expect(scrolled).not.toHaveBeenCalled();
+    });
+
+    it('origin row removed by the action: focus lands on the reconciled neighbor', async () => {
+      action = () => { void harness.render([{ id: '1' }, { id: '3' }]); };
+      await openOnCell('2', 1);
+
+      const rendered = harness.nextRender();
+      await clickAction();
+      await rendered;
+
+      await waitFor(() => expect(harness.row('3')).toHaveFocus());
+    });
+
+    it('a newer external owner keeps focus', async () => {
+      const input = document.createElement('input');
+      document.body.append(input);
+      try {
+        action = () => input.focus();
+        await openOnCell('2', 1);
+
+        await clickAction();
+
+        expect(input).toHaveFocus();
+      } finally {
+        input.remove();
+      }
+    });
+
+    it('pointer moved to another row while the menu was open: no return, not even when a pending render commits', async () => {
+      await openOnCell('2', 1);
+
+      fireEvent.mouseDown(cellOf('3', 1), { button: 0 });
+      const rendered = harness.render();
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+      await rendered;
+
+      expect(cellOf('3', 1)).not.toHaveFocus();
+      expect(cellOf('2', 1)).not.toHaveFocus();
+      expect(document.body).toHaveFocus();
+    });
+
+    it('teardown with a menu open: close after destroy does not throw', async () => {
+      await openOnCell('2', 1);
+
+      await harness.destroy();
+
+      expect(() => menu.close(true)).not.toThrow();
+      expect(menu.active).toBeNull();
+      expect(document.body).toHaveFocus();
+    });
+
+    describe.each([
+      ['Shift+F10', { key: 'F10', shiftKey: true }],
+      ['Menu', { key: 'ContextMenu' }],
+      ['Shift+Alt+F10', { key: 'F10', shiftKey: true, altKey: true }],
+    ] as [string, KeyboardEventInit][])('holding %s', (_name, chord) => {
+      it('opens one menu without errors and moves focus into it', async () => {
+        const errors:unknown[] = [];
+        const collect = (event:ErrorEvent) => errors.push(event.error);
+        window.addEventListener('error', collect);
+        const shown = vi.spyOn(menu, 'show');
+        try {
+          harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('2'), cell: 1, desiredColumn: 1 });
+          cellOf('2', 1).focus();
+
+          fireEvent.keyDown(cellOf('2', 1), chord);
+          fireEvent.keyDown(cellOf('2', 1), { ...chord, repeat: true });
+
+          await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+          expect(shown).toHaveBeenCalledTimes(1);
+          expect(document.querySelectorAll('.op-context-menu--overlay .dropdown')).toHaveLength(1);
+          expect(errors).toEqual([]);
+        } finally {
+          window.removeEventListener('error', collect);
+        }
+      });
+    });
+
+    describe('companion contextmenu after a keyboard-opened menu closed', () => {
+      let clock:number;
+      let shown:ReturnType<typeof vi.spyOn>;
+
+      beforeEach(() => {
+        clock = 1000;
+        vi.spyOn(performance, 'now').mockImplementation(() => clock);
+        shown = vi.spyOn(menu, 'show');
+      });
+
+      const rightClickWithinWindow = () => {
+        clock += 100;
+        return fireEvent.contextMenu(harness.row('2'));
+      };
+
+      it('opens a bare same-row contextmenu after an Escape close', async () => {
+        harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+        await openFromKeyboard(harness.row('2'));
+        fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+        expect(rightClickWithinWindow()).toBe(false);
+
+        expect(shown).toHaveBeenCalledTimes(2);
+        expect(menu.active).not.toBeNull();
+      });
+
+      it('opens a bare same-row contextmenu after an action close', async () => {
+        harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+        await openFromKeyboard(harness.row('2'));
+        await clickAction();
+
+        rightClickWithinWindow();
+
+        expect(shown).toHaveBeenCalledTimes(2);
+        expect(menu.active).not.toBeNull();
+      });
+
+      it('still swallows the companion of a keyboard open that replaces an open menu', async () => {
+        fireEvent.contextMenu(cellOf('1', 1));
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+
+        fireEvent.keyDown(harness.row('2'), { key: 'F10', shiftKey: true });
+
+        expect(rightClickWithinWindow()).toBe(false);
+        expect(shown).toHaveBeenCalledTimes(2);
+      });
+    });
+
+    it('Escape with a menu open closes only the menu; the selection survives', async () => {
+      harness.click('1');
+      harness.click('2', { shiftKey: true });
+      await openOnCell('2', 1);
+
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+      expect(menu.active).toBeNull();
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+      expect(cellOf('2', 1)).toHaveFocus();
+    });
+  });
+
+  describe('with a hierarchy', () => {
+    beforeEach(() => mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }, { id: '3' }],
+      showHierarchies: true,
+    }));
+
+    it('origin hidden by a collapse: focus lands on the row hiding it', async () => {
+      action = () => harness.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+      await openOnCell('2', 1);
+
+      await clickAction();
+
+      await waitFor(() => expect(harness.row('1')).toHaveFocus());
+    });
+  });
+
+  describe('on a capability-off table', () => {
+    beforeEach(() => mount({ productionMarkup: false, configuration: { keyboardNavigationEnabled: false } }));
+
+    it('menu close behaves as before: an action leaves focus alone, Escape focuses the trigger', async () => {
+      const openByRightClick = () => {
+        fireEvent.contextMenu(harness.row('2'));
+        return waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+      };
+      await openByRightClick();
+      await clickAction();
+
+      expect(document.body).toHaveFocus();
+
+      await openByRightClick();
+      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+
+      expect(harness.table.keyboardNavigation).toBeNull();
+      expect(menu.active).toBeNull();
+      expect(harness.row('2')).toHaveFocus();
     });
   });
 });
