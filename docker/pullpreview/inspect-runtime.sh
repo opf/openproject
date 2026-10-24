@@ -19,7 +19,13 @@ done
 
 if database_state=$(docker exec app-db-1 psql -U app -d app -qtAX -c "SELECT to_regclass('public.schema_migrations') IS NOT NULL" 2>/dev/null); then
   case "${database_state}" in
-    t) echo 'database_schema_present=yes' ;;
+    t)
+      echo 'database_schema_present=yes'
+      echo '::group::Applied migration versions'
+      docker exec app-db-1 psql -U app -d app -qtAX -c 'SELECT version FROM schema_migrations ORDER BY version' 2>/dev/null |
+        grep -E '^[0-9]{1,14}$' || true
+      echo '::endgroup::'
+      ;;
     f) echo 'database_schema_present=no' ;;
     *) echo 'database_schema_present=unknown' ;;
   esac
