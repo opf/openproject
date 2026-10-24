@@ -1106,6 +1106,21 @@ describe('KeyboardNavigationTransformer', () => {
       expect(selectedIds(table)).toEqual(['1', '2', '3']);
     });
 
+    it.each([
+      ['Ctrl+D', { code: 'KeyD', ctrlKey: true }],
+      ['Meta+D', { code: 'KeyD', metaKey: true }],
+    ])('leave %s to the browser on a capability-on table', async (_chord, init) => {
+      const table = await mount();
+      table.row('1').focus();
+      expect(pressActive(' ', { shiftKey: true })).toBe(false);
+      expect(selectedIds(table)).toEqual(['1']);
+
+      expect(pressActive('d', init)).toBe(true);
+
+      expect(selectedIds(table)).toEqual(['1']);
+      expect(table.row('1')).toHaveFocus();
+    });
+
     it('still select all through the legacy registration on a capability-off table', async () => {
       const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
       const selectAll = vi.spyOn(table.selection, 'selectAll');
