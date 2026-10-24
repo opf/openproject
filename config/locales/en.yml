@@ -162,10 +162,13 @@ en:
         min_value: "Minimum value"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
+        project_specific_value_restriction: "Project-specific values"
         regexp: "Regular expression"
         searchable: "Searchable"
         semantic_key: "Semantic meaning"
         visible_on_user_card: "Show on user card"
+      custom_field/project_specific_value_restriction:
+        restriction: "Restriction"
       custom_value:
         value: "Value"
       design_color:
@@ -707,6 +710,8 @@ en:
               invalid: "Formula is invalid."
               invalid_tokens: "Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed."
               not_allowed_custom_fields_referenced: "The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other."
+            project_specific_value_restriction:
+              not_supported: "is only available for work package custom fields of the formats list, hierarchy and weighted item list."
             required:
               cannot_be_true: "cannot be set to true."
           previous_custom_field_recalculation_unprocessed: "The recalculation of previous changes for this custom field have not been applied yet, please try again in a few minutes."
