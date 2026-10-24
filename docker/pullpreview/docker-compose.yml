@@ -38,8 +38,10 @@ services:
       - frontend
       - backend
     depends_on:
-      - web
-      - hocuspocus
+      web:
+        condition: service_healthy
+      hocuspocus:
+        condition: service_started
     environment:
       - "PULLPREVIEW_PUBLIC_DNS=${PULLPREVIEW_PUBLIC_DNS}"
     ports:
@@ -51,6 +53,11 @@ services:
 
   db:
     image: postgres:17
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "app", "-d", "app"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
     environment:
       POSTGRES_USER: app
       POSTGRES_PASSWORD: p4ssw0rd
@@ -64,23 +71,39 @@ services:
 
   web:
     <<: *defaults
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "--max-time", "5", "http://localhost:8080/health_checks/web"]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 90s
     expose:
       - "8080"
     command: "./docker/prod/web"
     depends_on:
-      - db
-      - worker
+      seeder:
+        condition: service_completed_successfully
+
+  seeder:
+    <<: *defaults
+    restart: "no"
+    command: "./docker/prod/seeder --set attachment_max_size=262144,host_name=${PULLPREVIEW_PUBLIC_DNS}"
+    depends_on:
+      db:
+        condition: service_healthy
 
   worker:
     <<: *defaults
-    command: "./docker/prod/worker --seed --set attachment_max_size=262144,host_name=${PULLPREVIEW_PUBLIC_DNS}"
+    command: "./docker/prod/worker"
     depends_on:
-      - db
+      seeder:
+        condition: service_completed_successfully
 
   hocuspocus:
     image: openproject/hocuspocus:latest
     depends_on:
-      - web
+      web:
+        condition: service_healthy
     networks:
       - frontend
       - backend
