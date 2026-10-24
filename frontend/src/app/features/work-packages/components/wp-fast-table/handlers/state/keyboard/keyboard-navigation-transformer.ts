@@ -35,6 +35,8 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { displayClassName, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { isApplePlatform } from 'core-common/platform';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
@@ -48,6 +50,8 @@ import {
 import {
   buildNavigableRows, headerRowKey, headerRowOf, totalsRowKey, totalsRowOf,
 } from './navigable-rows';
+import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
+import { KeyboardSelection, selectionChord } from './keyboard-selection';
 import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
 
 export interface KeyboardNavigation {
@@ -101,6 +105,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
+  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
+
   private current:FocusPosition|null = null;
 
   private userPosition:FocusPosition|null = null;
@@ -114,6 +120,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   private pointerActive = false;
 
   private rendered:RenderedRows = { rows: [], groupBy: null };
+
+  private selecting!:KeyboardSelection;
 
   public onCellEnter = (position:FocusPosition):boolean => {
     const field = this.elementAt(position)?.querySelector<HTMLElement>(`.${displayClassName}.${editableClassName}`);
@@ -131,6 +139,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     const { destroyRef, scrollContainer } = table;
     table.keyboardNavigation = this;
+    this.selecting = new KeyboardSelection(table, this.wpTableSelection);
     const removedFromTabOrder = [scrollContainer, table.tableAndTimelineContainer]
       .filter((container, index, containers) => containers.indexOf(container) === index && !container.hasAttribute('tabindex'));
     removedFromTabOrder.forEach((container) => container.setAttribute('tabindex', '-1'));
@@ -416,7 +425,11 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    if (!position || this.ignored(event) || event.target !== this.elementAt(position)) {
+    if (!position || event.target !== this.elementAt(position)) {
+      return;
+    }
+
+    if (this.handleSelectionChord(position, event) || this.ignored(event)) {
       return;
     }
 
@@ -426,6 +439,42 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     if (handled) {
       event.preventDefault();
+    }
+  }
+
+  private handleSelectionChord(position:FocusPosition, event:KeyboardEvent):boolean {
+    const chord = selectionChord(event, isApplePlatform());
+    switch (chord) {
+      case null:
+        return false;
+      case 'toggle':
+        if (this.selecting.occurrenceAt(position)) {
+          event.preventDefault();
+          if (!event.repeat) {
+            this.selecting.toggle(position);
+          }
+        }
+        return true;
+      case 'selectAll':
+        if (selectableOccurrences(this.table.renderedRows).length > 0) {
+          event.preventDefault();
+          if (!event.repeat) {
+            this.selecting.selectAll(position);
+          }
+        }
+        return true;
+      default:
+        event.preventDefault();
+        this.extendSelection(position, event);
+        return true;
+    }
+  }
+
+  private extendSelection(position:FocusPosition, event:KeyboardEvent):void {
+    this.navigate(position, event);
+    const arrived = this.current;
+    if (arrived && (arrived.key !== position.key || arrived.cell !== position.cell)) {
+      this.selecting.extendTo(arrived);
     }
   }
 

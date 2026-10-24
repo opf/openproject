@@ -97,19 +97,20 @@ export class SelectionTransformer {
       )
       .subscribe(() => this.paintRows());
 
-    const unregisterSelectAll = registerWorkPackageSelectAll({
-      root: table.tableAndTimelineContainer,
-      focusSelector: '.wp-table--row',
-      occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
-      rendered: () => table.renderedRows,
-      selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
-    });
+    if (!table.configuration.keyboardNavigationEnabled) {
+      onDestroySafely(destroyRef, registerWorkPackageSelectAll({
+        root: table.tableAndTimelineContainer,
+        focusSelector: '.wp-table--row',
+        occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
+        rendered: () => table.renderedRows,
+        selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
+      }));
+    }
     const unregisterDeselectAll = registerWorkPackageDeselectAll({
       root: table.tableAndTimelineContainer,
       hasState: () => this.wpTableSelection.hasSelectionState,
       clear: () => selectionGesture(table, 'selection', () => this.wpTableSelection.reset()),
     });
-    onDestroySafely(destroyRef, unregisterSelectAll);
     onDestroySafely(destroyRef, unregisterDeselectAll);
   }
 

@@ -27,6 +27,7 @@
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { userEvent } from 'vitest/browser';
+import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
@@ -69,6 +70,7 @@ const grouped:Partial<TableHarnessOptions> = {
 };
 
 describe('KeyboardNavigationTransformer', () => {
+  usePlatform();
   const harnesses:TableHarness[] = [];
 
   const mount = async (options:Partial<TableHarnessOptions> = {}, beforeRender?:(table:TableHarness) => void) => {
@@ -352,15 +354,16 @@ describe('KeyboardNavigationTransformer', () => {
   });
 
   it.each([
-    ['Alt', { altKey: true }],
-    ['composition', { isComposing: true }],
-    ['Ctrl', { ctrlKey: true }],
-    ['Shift', { shiftKey: true }],
-  ])('keys with %s are not handled', async (_name, init) => {
+    ['Alt', 'ArrowDown', { altKey: true }],
+    ['composition', 'ArrowDown', { isComposing: true }],
+    ['Ctrl', 'ArrowDown', { ctrlKey: true }],
+    ['Shift', 'PageDown', { shiftKey: true }],
+    ['Shift', 'End', { shiftKey: true }],
+  ])('keys with %s (%s) are not handled', async (_name, key, init) => {
     const table = await mount();
     table.row('2').focus();
 
-    expect(pressActive('ArrowDown', init)).toBe(true);
+    expect(pressActive(key, init)).toBe(true);
 
     expect(table.row('2')).toHaveFocus();
     expect(navigation(table).position?.key).toBe(wpOccurrenceKey('2'));
@@ -977,6 +980,65 @@ describe('KeyboardNavigationTransformer', () => {
       } finally {
         frameSpy.mockRestore();
       }
+    });
+  });
+
+  describe('selection chords', () => {
+    it('fire only on the roving stop', async () => {
+      const table = await mount({}, (harness) => {
+        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
+      });
+      const subjectCell = table.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+      subjectCell.focus();
+      const link = within(subjectCell).getByRole('link');
+
+      expect(press(link, ' ', { shiftKey: true })).toBe(true);
+      expect(press(link, 'ArrowDown', { shiftKey: true })).toBe(true);
+
+      expect(selectedIds(table)).toEqual([]);
+      expect(subjectCell).toHaveFocus();
+    });
+
+    it('leave Shift+ArrowLeft and Shift+ArrowRight unconsumed and in place', async () => {
+      const table = await mount();
+      table.row('1').focus();
+
+      expect(pressActive('ArrowRight', { shiftKey: true })).toBe(true);
+      expect(pressActive('ArrowLeft', { shiftKey: true })).toBe(true);
+
+      expect(table.row('1')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('leave Tab handling unchanged with Shift held', async () => {
+      const table = await mount();
+      table.row('2').focus();
+
+      expect(pressActive('Tab', { shiftKey: true })).toBe(true);
+
+      expect(table.row('2')).toHaveAttribute('tabindex', '0');
+      expect(selectedIds(table)).toEqual([]);
+    });
+
+    it('handle Ctrl+A once on a capability-on table', async () => {
+      const table = await mount();
+      const selectAll = vi.spyOn(table.selection, 'selectAll');
+      table.row('1').focus();
+
+      expect(pressActive('a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectAll).toHaveBeenCalledTimes(1);
+      expect(selectedIds(table)).toEqual(['1', '2', '3']);
+    });
+
+    it('still select all through the legacy registration on a capability-off table', async () => {
+      const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
+      const selectAll = vi.spyOn(table.selection, 'selectAll');
+
+      expect(press(table.row('1'), 'a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectAll).toHaveBeenCalledTimes(1);
+      expect(selectedIds(table)).toEqual(['1', '2', '3']);
     });
   });
 });
