@@ -50,6 +50,7 @@ module CustomFields
 
         delete_outdated_restrictions(listed_ids)
         insert_restrictions(listed_ids - restrictions.pluck(value_column))
+        invalidate_cached_work_packages
 
         service_call
       end
@@ -68,6 +69,11 @@ module CustomFields
         return unusable_ids if model.list?
 
         unusable_ids.select { |id| parent_ids[id] == model.hierarchy_root.id || usable_ids.include?(parent_ids[id]) }
+      end
+
+      # Cached work package representations are keyed by the custom fields they render.
+      def invalidate_cached_work_packages
+        model.touch
       end
 
       def delete_outdated_restrictions(listed_ids)

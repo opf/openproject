@@ -44,7 +44,7 @@ class CustomValue::HierarchyStrategy < CustomValue::ARObjectStrategy
 
     parent = custom_field.hierarchy_root
 
-    if persistence_service.descendant_of?(item:, parent:).failure?
+    if persistence_service.descendant_of?(item:, parent:).failure? || !usable_in_project?
       :inclusion
     end
   end

@@ -2365,6 +2365,7 @@ en:
 
     undisclosed:
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      customValue: Value no longer available
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
       parent: Undisclosed - The parent is invisible because of lacking permissions.

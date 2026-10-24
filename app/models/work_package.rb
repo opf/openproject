@@ -623,6 +623,10 @@ class WorkPackage < ApplicationRecord
 
   private
 
+  def default_custom_field_value(custom_field)
+    custom_field.keep_usable_values(super, project)
+  end
+
   def derived_progress_hints
     @derived_progress_hints ||= {}
   end

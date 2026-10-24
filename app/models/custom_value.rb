@@ -78,6 +78,12 @@ class CustomValue < ApplicationRecord
       || value_is_same_as_default?
   end
 
+  def available_in_project?
+    return true if custom_field.project_specific_value_restriction.nil? || customized.nil? || value.blank?
+
+    custom_field.usable_value_id?(customized.project, value)
+  end
+
   def activate_custom_field_in_customized_project
     return if default? || value.blank?
 

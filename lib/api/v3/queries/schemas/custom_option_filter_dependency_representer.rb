@@ -36,7 +36,7 @@ module API
                                          has_default: false,
                                          required: true,
                                          values_callback: ->(*) {
-                                           represented.custom_field.custom_options
+                                           represented.visible_custom_options
                                          },
                                          value_representer: CustomOptions::CustomOptionRepresenter,
                                          link_factory: ->(value) {
