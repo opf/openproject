@@ -28,14 +28,16 @@
 import { Component, Injector, NO_ERRORS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
 import { config, of } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
+import { QUERY_SORT_BY_ASC, QUERY_SORT_BY_DESC, QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
@@ -376,5 +378,274 @@ describe('WorkPackagesTableComponent physical columns', () => {
     expect(element.querySelectorAll('thead th')).toHaveLength(queryColumns + 2);
     expect(element.querySelectorAll('colgroup col')).toHaveLength(queryColumns + 2 + 1);
     expect(component.numTableColumns).toBe(queryColumns + 2 + 1);
+  });
+});
+
+/** Shows an enabled and a capability-off table on one page. */
+@Component({
+  template: '@for (configuration of configurations; track $index) { <wp-table [configuration]="configuration" /> }',
+  standalone: false,
+})
+class TwoTablesStandInComponent {
+  private readonly disabled:Record<string, boolean> = { ...new ListViewStandInComponent().configuration };
+
+  configurations = [{ ...this.disabled, keyboardNavigationEnabled: true }, this.disabled];
+}
+
+describe('WorkPackagesTableComponent treegrid structure', () => {
+  const translations = {
+    'js.label_work_package_plural': 'Work packages',
+    'js.label_sorting': 'Sorting',
+    'js.toolbar.settings.configure_view': 'Configure view',
+    'js.work_packages.table.summary': 'Table with rows of work package and columns of work package attributes.',
+    'js.work_packages.table.grid_actions_header': 'Actions',
+    'js.work_packages.table.grid_baseline_header': 'Comparison status',
+    'js.work_packages.table.sorted_by': 'Sorted by %{criteria}.',
+    'js.work_packages.table.sort_criterion_ascending': '%{column} ascending',
+    'js.work_packages.table.sort_criterion_descending': '%{column} descending',
+    'js.work_packages.table.sorted_manually': 'Sorted manually.',
+  };
+  const enabled = { keyboardNavigationEnabled: true };
+  let baselineActive:boolean;
+  let querySpace:IsolatedQuerySpace;
+  let states:States;
+  let fixture:ComponentFixture<ListViewStandInComponent|TwoTablesStandInComponent>;
+
+  beforeEach(async () => {
+    baselineActive = false;
+    await TestBed.configureTestingModule({
+      declarations: [WorkPackagesTableComponent, ListViewStandInComponent, TwoTablesStandInComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [], translations }),
+        WorkPackageViewSumService,
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baselineActive, isChanged: () => false, live$: () => of(null) } },
+      ],
+    }).compileComponents();
+
+    const injector = TestBed.inject(Injector);
+    injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    querySpace = TestBed.inject(IsolatedQuerySpace);
+    states = TestBed.inject(States);
+    const query = buildQuery(['id', 'subject'], null, false, false);
+    querySpace.query.putValue(query);
+    querySpace.groups.putValue([]);
+    initializeViewServices(injector, query);
+    TestBed.inject(WorkPackageViewSumService).initialize(query);
+    putResults([]);
+  });
+
+  afterEach(() => {
+    (fixture?.nativeElement as HTMLElement|undefined)?.remove();
+  });
+
+  function putResults(fixtures:WorkPackageFixture[]) {
+    const resources = fixtures.map(buildWorkPackage);
+    resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+    querySpace.results.putValue({ elements: resources, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+  }
+
+  function tables():WorkPackagesTableComponent[] {
+    return fixture.debugElement.queryAll(By.directive(WorkPackagesTableComponent))
+      .map((debug) => debug.componentInstance as WorkPackagesTableComponent);
+  }
+
+  function registerTables() {
+    fixture.debugElement.queryAll(By.directive(WorkPackagesTableComponent)).forEach((debug) => {
+      const component = debug.componentInstance as WorkPackagesTableComponent;
+      if (component.workPackageTable) return;
+      const timelineBody = document.createElement('div');
+      (debug.nativeElement as HTMLElement).querySelector('.work-packages-tabletimeline--timeline-side')!.appendChild(timelineBody);
+      component.registerTimeline({} as WorkPackageTimelineTableController, timelineBody);
+    });
+  }
+
+  async function render(fixtures:WorkPackageFixture[]) {
+    querySpace.tableRendered.clear();
+    putResults(fixtures);
+    querySpace.initialized.putValue(null);
+    await waitFor(() => expect(querySpace.tableRendered.value?.filter(({ workPackageId }) => workPackageId !== null))
+      .toHaveLength(fixtures.length));
+  }
+
+  async function mount(configuration:Record<string, boolean>, fixtures:WorkPackageFixture[] = [{ id: '1' }, { id: '2' }]) {
+    const listView = TestBed.createComponent(ListViewStandInComponent);
+    fixture = listView;
+    listView.componentInstance.configuration = { ...listView.componentInstance.configuration, ...configuration };
+    document.body.appendChild(listView.nativeElement as HTMLElement);
+    listView.detectChanges();
+    registerTables();
+    await render(fixtures);
+    return tables()[0];
+  }
+
+  async function replaceTable(configuration:Record<string, boolean>) {
+    const listView = fixture as ComponentFixture<ListViewStandInComponent>;
+    listView.componentInstance.showTable.set(false);
+    listView.detectChanges();
+    listView.componentInstance.configuration = { ...new ListViewStandInComponent().configuration, ...configuration };
+    listView.componentInstance.showTable.set(true);
+    listView.detectChanges();
+    registerTables();
+    await render([{ id: '1' }]);
+  }
+
+  function sortBy(...criteria:[string, string][]) {
+    TestBed.inject(WorkPackageViewSortByService).update(criteria.map(([column, direction]) => ({
+      column: { id: column, name: column, href: `/api/v3/queries/columns/${column}` },
+      direction: { href: direction },
+    }) as unknown as QuerySortByResource));
+  }
+
+  function headerRow():HTMLElement {
+    return screen.getByRole('treegrid').querySelector('thead tr')!;
+  }
+
+  function referencedIds(root:ParentNode):string[] {
+    return Array.from(root.querySelectorAll('[aria-describedby], [aria-labelledby]'))
+      .flatMap((element) => [element.getAttribute('aria-describedby'), element.getAttribute('aria-labelledby')])
+      .flatMap((value) => value?.split(/\s+/) ?? []);
+  }
+
+  describe('naming', () => {
+    it('names the enabled table and drops the legacy caption', async () => {
+      await mount(enabled);
+      const grid = screen.getByRole('treegrid', { name: 'Work packages' });
+
+      expect(grid).toHaveAttribute('aria-multiselectable', 'true');
+      expect(within(grid).queryByText(translations['js.work_packages.table.summary'])).not.toBeInTheDocument();
+    });
+
+    it('keeps the legacy caption and native table on a capability-off table', async () => {
+      await mount({});
+      const table = screen.getByRole('table');
+
+      expect(table).not.toHaveAttribute('role');
+      expect(table).not.toHaveAttribute('aria-multiselectable');
+      expect(table).not.toHaveAttribute('aria-label');
+      expect(table).not.toHaveAttribute('aria-describedby');
+      expect(within(table).getByText(translations['js.work_packages.table.summary'])).toBeInTheDocument();
+      expect(table.querySelector('#wp-table-sort-summary')).toBeInTheDocument();
+      expect(table.querySelector('thead')).not.toHaveAttribute('role');
+      expect(table.querySelector('thead tr')).not.toHaveAttribute('role');
+      expect(table.querySelector('thead tr')).not.toHaveAttribute('aria-level');
+      table.querySelectorAll('thead th').forEach((header) => {
+        expect(header).not.toHaveAttribute('role');
+        expect(header).not.toHaveAttribute('aria-sort');
+      });
+    });
+  });
+
+  describe('header structure', () => {
+    it('exposes a level 1 header row inside a rowgroup', async () => {
+      await mount(enabled);
+
+      expect(headerRow().parentElement).toHaveAttribute('role', 'rowgroup');
+      expect(headerRow()).toHaveAttribute('role', 'row');
+      expect(headerRow()).toHaveAttribute('aria-level', '1');
+      expect(headerRow()).not.toHaveAttribute('aria-selected');
+      expect(headerRow()).not.toHaveAttribute('aria-expanded');
+    });
+
+    it('names the drag, baseline, query and actions column headers', async () => {
+      baselineActive = true;
+      await mount({ ...enabled, dragAndDropEnabled: true, actionsColumnEnabled: true });
+      const headers = within(headerRow()).getAllByRole('columnheader');
+
+      expect(headers).toHaveLength(5);
+      ['Sorting', 'Comparison status', 'id', 'subject', 'Actions'].forEach((name, index) => {
+        expect(headers[index]).toHaveAccessibleName(name);
+      });
+    });
+
+    it('names the trailing header after the configuration control', async () => {
+      await mount({ ...enabled, columnMenuEnabled: true });
+
+      expect(within(headerRow()).getAllByRole('columnheader').at(-1)).toHaveAccessibleName('Configure view');
+    });
+  });
+
+  describe('sorting', () => {
+    function sortStates():(string|null)[] {
+      return within(headerRow()).getAllByRole('columnheader').map((header) => header.getAttribute('aria-sort'));
+    }
+
+    it('marks only the primary criterion and describes all criteria in order', async () => {
+      await mount(enabled);
+
+      sortBy(['subject', QUERY_SORT_BY_ASC], ['id', QUERY_SORT_BY_DESC]);
+      expect(sortStates()).toEqual([null, 'ascending']);
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted by subject ascending and id descending.');
+
+      sortBy(['id', QUERY_SORT_BY_DESC], ['subject', QUERY_SORT_BY_ASC]);
+      expect(sortStates()).toEqual(['descending', null]);
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted by id descending and subject ascending.');
+    });
+
+    it('describes a primary criterion whose column is not displayed', async () => {
+      await mount(enabled);
+
+      sortBy(['status', QUERY_SORT_BY_ASC], ['id', QUERY_SORT_BY_ASC], ['subject', QUERY_SORT_BY_DESC]);
+
+      expect(sortStates()).toEqual([null, null]);
+      expect(screen.getByRole('treegrid'))
+        .toHaveAccessibleDescription('Sorted by status ascending, id ascending, and subject descending.');
+    });
+
+    it('describes manual sorting', async () => {
+      await mount(enabled);
+
+      sortBy(['manualSorting', QUERY_SORT_BY_ASC]);
+
+      expect(sortStates()).toEqual([null, null]);
+      expect(screen.getByRole('treegrid')).toHaveAccessibleDescription('Sorted manually.');
+    });
+  });
+
+  describe('instances', () => {
+    it('clears treegrid semantics when a capability-off table replaces an enabled one', async () => {
+      const previous = await mount(enabled);
+      sortBy(['subject', QUERY_SORT_BY_ASC]);
+      const previousId = previous.workPackageTable.domId;
+
+      await replaceTable({});
+
+      expect(screen.queryByRole('treegrid')).not.toBeInTheDocument();
+      expect(screen.getByRole('table')).not.toHaveAttribute('role');
+      expect(document.querySelector(`[id^="${previousId}"]`)).not.toBeInTheDocument();
+      expect(referencedIds(document).filter((id) => id.startsWith(previousId))).toEqual([]);
+    });
+
+    it('keeps a capability-off table beside an enabled one native, with unique references', async () => {
+      fixture = TestBed.createComponent(TwoTablesStandInComponent);
+      document.body.appendChild(fixture.nativeElement as HTMLElement);
+      fixture.detectChanges();
+      registerTables();
+      await render([{ id: '1' }]);
+      sortBy(['subject', QUERY_SORT_BY_ASC]);
+
+      const [grid] = screen.getAllByRole('treegrid');
+      const [table] = screen.getAllByRole('table');
+      await waitFor(() => [grid, table].forEach((element) => {
+        expect(element.querySelectorAll('tr.wp-table--row[data-work-package-id="1"]')).toHaveLength(1);
+      }));
+      expect(screen.getAllByRole('treegrid')).toHaveLength(1);
+      expect(grid).toHaveAccessibleDescription('Sorted by subject ascending.');
+      expect(table).not.toHaveAttribute('aria-describedby');
+      expect(table.querySelectorAll('thead, tbody, tr, th, td')).not.toHaveLength(0);
+      table.querySelectorAll('thead, tbody, tr, th, td').forEach((element) => {
+        expect(element).not.toHaveAttribute('role');
+        expect(element).not.toHaveAttribute('aria-level');
+      });
+      table.querySelectorAll('thead, tbody, tr').forEach((element) => {
+        expect(element).not.toHaveAttribute('aria-selected');
+        expect(element).not.toHaveAttribute('aria-expanded');
+        expect(element).not.toHaveAttribute('aria-hidden');
+      });
+
+      const references = referencedIds(document);
+      expect(references).not.toHaveLength(0);
+      references.forEach((id) => expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1));
+    });
   });
 });
