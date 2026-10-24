@@ -102,18 +102,16 @@ module Components
     end
 
     def expect_global_scope_marked
-      expect(page)
-        .to have_css('.global-search--project-scope[title="all_projects"]', wait: 10)
+      expect_selected_scope("all_projects")
     end
 
     def expect_in_project_and_subproject_scope_marked
-      expect(page)
-        .to have_css('.global-search--project-scope[title="current_project_and_all_descendants"]', wait: 10)
+      expect_selected_scope("current_project_and_all_descendants")
     end
 
     def expect_scope(text)
       expect(page)
-        .to have_css(".global-search--project-scope", text:, wait: 10)
+        .to have_css(".global-search--project-scope-select option", text:, visible: :all, wait: 10)
     end
 
     def expect_work_package_marked(work_package)
@@ -136,12 +134,17 @@ module Components
     end
 
     def submit_in_scope(scope)
-      scope_selector = ".global-search--project-scope[title=\"#{scope}\"]"
+      page.find(".global-search--tabs")
+        .click_button(I18n.t("js.label_work_package_plural"), exact: true)
+      page.find(".global-search--project-scope-select")
+        .find("option[value='#{scope}']").select_option
+      page.find_by_id("top-menu-search-button").click
+      SeleniumHubWaiter.wait
+      expect(page).to have_no_css(".global-search .ng-dropdown-panel", visible: :visible)
+    end
 
-      page.document.synchronize(20) do
-        page.find(scope_selector, wait: 0).ancestor("a").click if page.has_css?(scope_selector, wait: 0)
-        raise Capybara::ElementNotFound if page.has_css?(".global-search .ng-dropdown-panel", visible: :visible, wait: 0)
-      end
+    def expect_selected_scope(scope)
+      expect(page.find(".global-search--project-scope-select").value).to eq(scope)
     end
 
     def find_work_package(work_package)
@@ -149,7 +152,7 @@ module Components
     end
 
     def find_option(text)
-      find(".global-search .op-autocompleter--wp-subject", text:, wait: 10)
+      find(".global-search .global-search--result-title", text:, wait: 10)
     end
 
     def cancel

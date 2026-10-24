@@ -27,6 +27,7 @@
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalSource } from 'core-app/features/hal/interfaces';
+import { of } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 import { WikiPageResource } from 'core-app/features/hal/resources/wiki-page-resource';
@@ -34,6 +35,7 @@ import {
   GlobalSearchInputComponent,
   lastUpdatedRange,
   searchResultMatchesType,
+  searchResultTypeFromFilter,
 } from './global-search-input.component';
 
 describe('lastUpdatedRange', () => {
@@ -91,6 +93,19 @@ describe('searchResultMatchesType', () => {
     expect(searchResultMatchesType('meetings', wikiPage)).toBe(false);
     expect(searchResultMatchesType('wiki_pages', wikiPage)).toBe(true);
     expect(searchResultMatchesType('wiki_pages', meeting)).toBe(false);
+  });
+});
+
+describe('searchResultTypeFromFilter', () => {
+  it('preserves the selected resource type from the search results page', () => {
+    expect(searchResultTypeFromFilter('work_packages')).toBe('work_packages');
+    expect(searchResultTypeFromFilter('meetings')).toBe('meetings');
+    expect(searchResultTypeFromFilter('wiki_pages')).toBe('wiki_pages');
+  });
+
+  it('uses all resource types without a supported search filter', () => {
+    expect(searchResultTypeFromFilter(null)).toBe('all');
+    expect(searchResultTypeFromFilter('projects')).toBe('all');
   });
 });
 
@@ -203,5 +218,23 @@ describe('GlobalSearchInputComponent#onFocusOut', () => {
     );
 
     expect(setOpenCalled).toBe(false);
+  });
+});
+
+describe('GlobalSearchInputComponent#onEnterBeforeResultsLoaded', () => {
+  it('submits in the explicitly selected project scope', () => {
+    const submittedScopes:string[] = [];
+    const context = {
+      markable$: of(false),
+      selectedItem: undefined,
+      selectedProjectScope: 'all_projects',
+      searchInScope: (scope:string):void => { submittedScopes.push(scope); },
+    };
+
+    GlobalSearchInputComponent.prototype.onEnterBeforeResultsLoaded.call(
+      context as unknown as GlobalSearchInputComponent,
+    );
+
+    expect(submittedScopes).toEqual(['all_projects']);
   });
 });

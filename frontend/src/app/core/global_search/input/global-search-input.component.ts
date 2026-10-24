@@ -104,6 +104,12 @@ export function searchResultMatchesType(resultType:SearchResultType, item:Global
     || (resultType === 'wiki_pages' && item instanceof WikiPageResource);
 }
 
+export function searchResultTypeFromFilter(filter:string|null):SearchResultType {
+  return filter === 'work_packages' || filter === 'meetings' || filter === 'wiki_pages'
+    ? filter
+    : 'all';
+}
+
 type GlobalSearchItem = GlobalSearchResult;
 
 @Component({
@@ -244,6 +250,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     populateInputsFromDataset(this);
+    this.activeResultType = searchResultTypeFromFilter(new URLSearchParams(window.location.search).get('filter'));
     this.selectedProjectScope = this.currentProjectService.path
       ? this.currentScope
       : 'all_projects';
@@ -373,7 +380,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
       if (this.selectedItem) {
         this.followSelectedItem();
       } else {
-        this.searchInScope(this.currentScope);
+        this.searchInScope(this.selectedProjectScope);
       }
     });
   }

@@ -31,8 +31,10 @@ import {
   commentDiscussionIconData,
   graphIconData,
   opViewListIconData,
+  searchIconData,
   starIconData,
   SVGData,
+  triangleDownIconData,
   xIconData,
 } from '@openproject/octicons-angular';
 
@@ -44,5 +46,7 @@ export const ICON_MAP:Record<string, SVGData> = {
   book: bookIconData,
   'comment-discussion': commentDiscussionIconData,
   'op-view-list': opViewListIconData,
+  search: searchIconData,
+  'triangle-down': triangleDownIconData,
   // TODO add more icons
 };
