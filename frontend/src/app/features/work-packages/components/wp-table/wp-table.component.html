@@ -20,7 +20,7 @@
             @if (configuration.columnMenuEnabled) {
               <col>
             }
-            @if (!configuration.columnMenuEnabled) {
+            @if (!configuration.columnMenuEnabled && trailingColumnRendered) {
               <col data-highlight="false">
             }
           </colgroup>

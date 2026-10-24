@@ -56,6 +56,7 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { BaselineColumnBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/baseline/baseline-column-builder';
 import { ShareCellbuilder } from '../share-cell-builder';
+import { renderedColumns } from '../rendered-columns';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -109,14 +110,28 @@ export class SingleRowBuilder {
    * Returns the current set of columns, augmented by the internal columns
    * we add for buttons and timeline.
    */
-  private buildAugmentedColumns():QueryColumn[] {
+  protected buildAugmentedColumns():QueryColumn[] {
+    const { configuration } = this.workPackageTable;
+    const baselineActive = this.wpTableBaseline.isActive();
+
+    if (keyboardNavigationEnabled(configuration)) {
+      const rendered = renderedColumns(configuration, baselineActive);
+
+      return [
+        ...(rendered.drag ? [internalSortColumn] : []),
+        ...(rendered.baseline ? [internalBaselineColumn] : []),
+        ...this.columns,
+        ...(rendered.trailing ? [internalContextMenuColumn] : []),
+      ];
+    }
+
     const columns = [...this.columns, internalContextMenuColumn];
 
-    if (this.wpTableBaseline.isActive()) {
+    if (baselineActive) {
       columns.unshift(internalBaselineColumn);
     }
 
-    if (this.workPackageTable.configuration.dragAndDropEnabled) {
+    if (configuration.dragAndDropEnabled) {
       columns.unshift(internalSortColumn);
     }
 
