@@ -60,9 +60,10 @@ RSpec.describe "API v3 wiki_pages resource" do
     let!(:matching_page) { create(:wiki_page, wiki:, title: "Release plan", text: "Launch checklist") }
     let!(:non_matching_page) { create(:wiki_page, wiki:, title: "Retrospective", text: "Team notes") }
     let!(:invisible_page) { create(:wiki_page, wiki: other_wiki, title: "Release plan") }
+    let(:filters) { [{ search: { operator: "**", values: [search_term] } }] }
 
     before do
-      get path, filters: [{ search: { operator: "**", values: [search_term] } }].to_json
+      get path, filters: filters.to_json
     end
 
     context "when the title matches" do
@@ -78,6 +79,19 @@ RSpec.describe "API v3 wiki_pages resource" do
       let(:search_term) { "launch checklist" }
 
       it "searches the page body" do
+        expect(JSON.parse(subject.body).dig("_embedded", "elements").pluck("id")).to eq([matching_page.id])
+      end
+    end
+
+    context "when filtering by the last update" do
+      let!(:non_matching_page) { create(:wiki_page, wiki:, title: "Release archive", updated_at: 3.days.ago) }
+      let(:search_term) { "release" }
+      let(:filters) do
+        super() + [{ updatedAt: { operator: "<>d", values: [2.days.ago.iso8601, ""] } }]
+      end
+
+      it "returns only recently updated matching visible wiki pages" do
+        expect(subject).to have_http_status(:ok)
         expect(JSON.parse(subject.body).dig("_embedded", "elements").pluck("id")).to eq([matching_page.id])
       end
     end

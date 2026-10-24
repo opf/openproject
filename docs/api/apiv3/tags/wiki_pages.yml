@@ -23,4 +23,5 @@ description: |-
   | :--------------: | ------------------------------------------- | -----------           | ------------------------------------ | -------------------- |
   | id               | Identifier of this wiki page                | Integer               | x > 0                                | READ                 |
   | title            | The wiki page's title                       | String                | not null                             | READ                 |
+  | updatedAt        | Time of the most recent change              | DateTime              | not null                             | READ                 |
 name: Wiki Pages
