@@ -139,4 +139,41 @@ describe('Grouped table collapse', () => {
     expect(harness.table.ledger.byElement(header)?.key).toBe(groupOccurrenceKey(0, 'header'));
     expect(harness.table.ledger.keyAt(0)).toBe(firstKey);
   });
+
+  describe('when a toggle lands on a queued render', () => {
+    const memberState = (before:HTMLElement) => () => ({
+      committed: harness.row('1') !== before,
+      ledgerHidden: harness.table.ledger.byWorkPackageId('1')[0].hidden,
+      display: getComputedStyle(harness.row('1')).display,
+      expander: within(harness.groupHeader(0)).queryByText('js.label_expand') ? 'expand' : 'collapse',
+    });
+
+    const toggleDuringQueuedRender = async () => {
+      const state = memberState(harness.row('1'));
+      const release = harness.holdFrames();
+      harness.table.redrawTable();
+      toggleGroup(0);
+      const published = harness.atNextPublication(state);
+      release();
+      return { published: await published, final: state() };
+    };
+
+    it('commits a collapsed group with its rows hidden', async () => {
+      const collapsed = {
+        committed: true, ledgerHidden: true, display: 'none', expander: 'expand',
+      };
+
+      expect(await toggleDuringQueuedRender()).toEqual({ published: collapsed, final: collapsed });
+    });
+
+    it('commits an expanded group with its rows shown', async () => {
+      toggleGroup(0);
+      await waitFor(() => expect(harness.row('1')).not.toBeVisible());
+      const expanded = {
+        committed: true, ledgerHidden: false, display: 'table-row', expander: 'collapse',
+      };
+
+      expect(await toggleDuringQueuedRender()).toEqual({ published: expanded, final: expanded });
+    });
+  });
 });

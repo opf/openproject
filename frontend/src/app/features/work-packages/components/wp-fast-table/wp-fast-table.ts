@@ -190,9 +190,16 @@ export class WorkPackageTable {
 
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
+    this.rebuildPendingRender();
     if (updates.size === 0) return;
     this.ledger.setHidden(updates);
     this.publishRendered();
+  }
+
+  private rebuildPendingRender():void {
+    if (this.pendingRender) {
+      this.performRenderPass({ timeline: this.pendingRender.timeline });
+    }
   }
 
   /**

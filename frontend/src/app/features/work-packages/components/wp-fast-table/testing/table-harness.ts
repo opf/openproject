@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of, Subject } from 'rxjs';
-import { skip, take } from 'rxjs/operators';
+import { map, skip, take } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -161,6 +161,10 @@ export interface TableHarness {
   render(workPackages?:WorkPackageFixture[]):Promise<RenderedWorkPackage[]>;
   /** Resolves with the next completed table render. */
   nextRender():Promise<RenderedWorkPackage[]>;
+  /** Resolves with `read()` evaluated inside the next `tableRendered` publication. */
+  atNextPublication<T>(read:() => T):Promise<T>;
+  /** Queues the table's frame callbacks until the returned release runs them, so a test can act between a render's build and its commit. */
+  holdFrames():() => void;
   /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
   /** The primary row of a work package, never one of its relation rows. */
@@ -283,6 +287,20 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     nextRender,
+
+    atNextPublication(read) {
+      return firstValueFrom(querySpace.tableRendered.values$().pipe(skip(1), take(1), map(read)));
+    },
+
+    holdFrames() {
+      const held:(() => void)[] = [];
+      const frame = table.uiWork.frame.bind(table.uiWork);
+      table.uiWork.frame = (callback) => { held.push(callback); };
+      return () => {
+        table.uiWork.frame = frame;
+        held.splice(0).forEach((callback) => callback());
+      };
+    },
 
     rows() {
       return Array.from(dom.tbody.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row'));
