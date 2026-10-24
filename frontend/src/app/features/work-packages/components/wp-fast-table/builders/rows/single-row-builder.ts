@@ -88,7 +88,7 @@ export class SingleRowBuilder {
   protected contextLinkBuilder = new TableActionRenderer(this.injector, this.workPackageTable.configuration);
 
   // Baseline column builder
-  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector);
+  protected baselineColumnBuilder = new BaselineColumnBuilder(this.injector, this.workPackageTable.configuration);
 
   // Build the augmented columns set to render with
   protected readonly augmentedColumns:QueryColumn[] = this.buildAugmentedColumns();
@@ -241,7 +241,7 @@ export class SingleRowBuilder {
       // But only do that, if the column existed before. Sometimes, e.g. when lacking permissions
       // the column was not correctly created (with the intended classes). This code then
       // increases the robustness.
-      if ((column.id.startsWith('__internal') || this.isColumnBeingEdited(workPackage, column)) && oldTd) {
+      if ((this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column)) && oldTd) {
         newCells.push(oldTd);
         return;
       }
@@ -256,6 +256,14 @@ export class SingleRowBuilder {
 
     row.prepend(...newCells);
     return row;
+  }
+
+  private retainsOnRefresh(column:QueryColumn):boolean {
+    if (column.id === internalBaselineColumn.id && keyboardNavigationEnabled(this.workPackageTable.configuration)) {
+      return false;
+    }
+
+    return column.id.startsWith('__internal');
   }
 
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {

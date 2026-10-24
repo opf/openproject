@@ -33,6 +33,9 @@ import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-pa
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import { WorkPackageFixture } from '../testing/work-package-fixture';
+import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { navigableCellClassName } from '../handlers/state/keyboard/roving-tabindex';
 import { groupOccurrenceKey, placeholderOccurrenceKey, relationOccurrenceKey, wpOccurrenceKey } from '../rendered-occurrence-ledger';
 
 const newStatus = { href: '/api/v3/statuses/1' };
@@ -357,6 +360,22 @@ describe('TreegridSemantics', () => {
     expectExposed(harness.relationRow('1', '3'));
     expect(harness.relationRow('1', '3')).toHaveAttribute('aria-level', '2');
     expectHidden(harness.row('2'));
+  });
+
+  it('keeps the cell role on drag handles that replace the first cell', async () => {
+    let resolvePositions:(positions:QueryOrder) => void = () => undefined;
+    mount({ configuration: { dragAndDropEnabled: true } });
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor')
+      .mockReturnValue(new Promise<QueryOrder>((resolve) => { resolvePositions = resolve; }));
+    await harness.render();
+    const placeholderCell = harness.row('1').cells[0];
+
+    resolvePositions({ 1: 0, 2: 1, 3: 2 });
+
+    await waitFor(() => expect(harness.row('1').cells[0]).not.toBe(placeholderCell));
+    expect(harness.row('1').cells[0]).toHaveClass('wp-table--sort-td');
+    expect(harness.row('1').cells[0]).toHaveAttribute('role', 'gridcell');
+    expect(harness.row('1').cells[0]).not.toHaveClass(navigableCellClassName);
   });
 
   describe('when a collapse lands on a queued render', () => {
