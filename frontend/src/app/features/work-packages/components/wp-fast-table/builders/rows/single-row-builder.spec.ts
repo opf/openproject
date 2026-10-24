@@ -28,8 +28,10 @@
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
 import { buildTable, TableHarness } from '../../testing/table-harness';
+import { buildWorkPackage } from '../../testing/work-package-fixture';
 import { SingleRowBuilder } from './single-row-builder';
 
 describe('SingleRowBuilder with two tables showing the same work package', () => {
@@ -118,5 +120,102 @@ describe('SingleRowBuilder physical columns', () => {
 
     expect(harness.row('1').cells).toHaveLength(3 + 1 + 1);
     expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(3 + 1 + 1 + 1);
+  });
+});
+
+describe('SingleRowBuilder baseline status text', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  const labels = {
+    added: 'Added to view within the comparison time period',
+    removed: 'Removed from view within the comparison time period',
+    updated: 'Modified within the comparison time period',
+  };
+
+  const mount = async (keyboardNavigationEnabled:boolean) => {
+    harness = buildTable({
+      workPackages: [{ id: '1', baseline: 'added' }, { id: '2', baseline: 'removed' }, { id: '3', baseline: 'updated' }, { id: '4' }],
+      baseline: true,
+      translations: {
+        'js.work_packages.baseline.addition_label': labels.added,
+        'js.work_packages.baseline.removal_label': labels.removed,
+        'js.work_packages.baseline.modification_label': labels.updated,
+      },
+      configuration: { keyboardNavigationEnabled },
+    });
+    await harness.render();
+  };
+
+  const baselineCell = (workPackageId:string) => harness.row(workPackageId).querySelector<HTMLTableCellElement>('td.op-table-baseline--column-cell')!;
+
+  it.each([
+    ['1', 'added'],
+    ['2', 'removed'],
+    ['3', 'updated'],
+  ] as const)('names row %s with its %s status', async (workPackageId, state) => {
+    await mount(true);
+
+    expect(harness.row(workPackageId)).toHaveAccessibleName(expect.stringContaining(labels[state]));
+  });
+
+  it('adds no status text to unchanged rows', async () => {
+    await mount(true);
+
+    expect(baselineCell('4')).toBeEmptyDOMElement();
+    Object.values(labels).forEach((label) => {
+      expect(harness.row('4')).not.toHaveAccessibleName(expect.stringContaining(label));
+    });
+  });
+
+  it('rebuilds icon and status text together when the baseline state changes', async () => {
+    await mount(true);
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', baseline: 'removed' }));
+
+    expect(baselineCell('1').querySelector('.op-table-baseline--icon-removed')).toBeInTheDocument();
+    expect(baselineCell('1').querySelector('.op-table-baseline--icon-added')).not.toBeInTheDocument();
+    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining(labels.removed));
+    expect(harness.row('1')).not.toHaveAccessibleName(expect.stringContaining(labels.added));
+    expect(baselineCell('1')).toHaveAttribute('role', 'gridcell');
+  });
+
+  it('keeps the baseline cell of a capability-off table on refresh', async () => {
+    await mount(false);
+    const cell = baselineCell('1');
+
+    harness.table.refreshRows(buildWorkPackage({ id: '1', baseline: 'removed' }));
+
+    expect(baselineCell('1')).toBe(cell);
+    expect(within(cell).queryByText(labels.added)).not.toBeInTheDocument();
+  });
+});
+
+describe('SingleRowBuilder refresh with an active editor', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('retains the editor cell with its role, the row level and selection', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      editing: {},
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    harness.click('1');
+    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    subjectCell.focus();
+    fireEvent.keyDown(subjectCell, { key: 'Enter' });
+    await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    expect(within(harness.row('1')).getByRole('textbox').closest('td')).toBe(subjectCell);
+
+    harness.table.refreshRows(harness.injector.get(States).workPackages.get('1').value!);
+
+    expect(within(harness.row('1')).getByRole('textbox').closest('td')).toBe(subjectCell);
+    expect(subjectCell).toHaveAttribute('role', 'gridcell');
+    expect(harness.row('1')).toHaveAttribute('aria-level', '1');
+    expect(harness.row('1')).toHaveAttribute('aria-selected', 'true');
   });
 });
