@@ -27,6 +27,7 @@
 
 import { DestroyRef, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
+import { uniqueId } from 'lodash-es';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { TableUiWork } from './table-ui-work';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -48,6 +49,7 @@ import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurre
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
+import { TreegridSemantics } from './semantics/treegrid-semantics';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
@@ -64,6 +66,8 @@ export class WorkPackageTable {
   @LazyInject() I18n!:I18nService;
 
   @LazyInject() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
+
+  public readonly domId = uniqueId('wp-table-');
 
   public originalRows:string[] = [];
 
@@ -93,6 +97,8 @@ export class WorkPackageTable {
   public readonly ledger = new RenderedOccurrenceLedger();
 
   public keyboardNavigation:KeyboardNavigation|null = null;
+
+  public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
 
   private readonly rowsRefreshedSubject = new Subject<string>();
 
@@ -205,10 +211,17 @@ export class WorkPackageTable {
 
   public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
     if (this.destroyed) return;
+    this.rebuildPendingRenderForSemantics();
     if (updates.size === 0) return;
     this.keyboardNavigation?.captureOwnership();
     this.ledger.setHidden(updates);
     this.publishRendered();
+  }
+
+  private rebuildPendingRenderForSemantics():void {
+    if (this.semantics && this.pendingRender) {
+      this.performRenderPass({ timeline: this.pendingRender.timeline });
+    }
   }
 
   /**
@@ -233,6 +246,7 @@ export class WorkPackageTable {
     });
 
     if (replaced > 0) {
+      this.semantics?.paintWorkPackage(workPackage.id!);
       this.notifyRowsRefreshed(workPackage.id!);
     }
   }
@@ -274,6 +288,7 @@ export class WorkPackageTable {
   }
 
   private publishRendered():void {
+    this.semantics?.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 

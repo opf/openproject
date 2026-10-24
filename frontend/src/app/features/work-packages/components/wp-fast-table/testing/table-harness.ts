@@ -156,6 +156,10 @@ export interface TableHarnessOptions {
   timelineVisible?:boolean;
   requireAll?:(ids:string[]) => Promise<WorkPackageResource[]>;
   loadPositions?:() => Promise<QueryOrder>;
+  /** Activates the baseline view service, so rows read their fixtures' `baseline` state. */
+  baseline?:boolean;
+  /** Whole translated strings by key, with `%{name}` interpolation; unlisted keys translate to themselves. */
+  translations?:Record<string, string>;
   /** Runs against the fresh injector before the handler registry attaches, to seed state a predecessor view left behind; resolving a view service here constructs it ahead of the transformers, as production does. */
   beforeAttach?:(injector:Injector) => void;
 }
@@ -445,17 +449,24 @@ export class FakeDragAndDropService {
   }
 }
 
-/** Stands in for the Angular editing portal: a plain input driven by the production field handler. */
+/** Stands in for the Angular editing portal: a plain input, labelled with its field and error messages like the portal, driven by the production field handler. */
 class FakeEditingPortalService {
   create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const wrapper = document.createElement('div');
     wrapper.className = activeFieldContainerClassName;
+    const label = document.createElement('label');
+    label.className = 'sr-only';
     const input = document.createElement('input');
     input.className = activeFieldClassName;
-    wrapper.appendChild(input);
+    wrapper.append(label, input);
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
-    const markErrors = () => wrapper.classList.toggle('-error', handler.isErrorenous);
+    input.id = handler.htmlId;
+    label.htmlFor = handler.htmlId;
+    const markErrors = () => {
+      wrapper.classList.toggle('-error', handler.isErrorenous);
+      label.textContent = `${handler.fieldLabel} ${handler.errorMessageOnLabel()}`.trim();
+    };
     markErrors();
     handler.errorsChanged$.subscribe(markErrors);
     let unregister:() => void = () => undefined;
@@ -516,11 +527,12 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
         of: () => ({
           ofProperty: (attribute:string) => fieldSchema(attribute, editable),
           mappedName: (attribute:string) => attribute,
+          availableAttributes: ['subject'],
           isAttributeEditable: (attribute:string) => editable && editableFields.includes(attribute),
         }),
       },
     },
-    { provide: I18nService, useValue: { t: (key:string) => key, locale: 'en' } },
+    { provide: I18nService, useValue: { t: translate(options.translations), locale: 'en' } },
     { provide: HalResourceService, useValue: {} },
     {
       provide: HalResourceEditingService,
@@ -557,7 +569,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
-    { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
+    { provide: WorkPackageViewBaselineService, useValue: baselineStub(!!options.baseline) },
     { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined, showSave: () => undefined } },
     { provide: WorkPackageNotificationService, useExisting: HalResourceNotificationService },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
@@ -575,6 +587,19 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
       deps: [IsolatedQuerySpace, Injector],
     },
   ];
+}
+
+function translate(translations:Record<string, string> = {}) {
+  return (key:string, args:Record<string, unknown> = {}) => (translations[key] ?? key)
+    .replace(/%\{(\w+)\}/g, (match, name:string) => (name in args ? String(args[name]) : match));
+}
+
+function baselineStub(active:boolean) {
+  return {
+    isActive: () => active,
+    isChanged: (workPackage:WorkPackageResource, attribute:string) => active
+      && Object.prototype.hasOwnProperty.call(workPackage.attributesByTimestamp?.[0] ?? {}, attribute),
+  };
 }
 
 function relationsStub(relations:RelationFixture[]) {

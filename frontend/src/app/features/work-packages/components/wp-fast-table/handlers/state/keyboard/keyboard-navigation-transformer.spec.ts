@@ -41,6 +41,7 @@ import { buildGroup } from '../../../testing/work-package-fixture';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
+import { expandedOf } from '../../../helpers/row-expansion';
 import { insideGrid, navigableCells } from './roving-tabindex';
 
 class AnchorDisplayField extends TextDisplayField {
@@ -231,6 +232,26 @@ describe('KeyboardNavigationTransformer', () => {
     expect(hierarchies.collapsed('1')).toBe(false);
     await waitFor(() => expect(table.row('2')).toBeVisible());
     expect(table.row('1')).toHaveFocus();
+  });
+
+  it('reports no expansion for a hierarchy parent without a rendered indicator', async () => {
+    const table = await mount({
+      workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
+      columns: ['id'],
+      showHierarchies: true,
+    });
+    const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
+    const occurrence = table.table.ledger.byKey(wpOccurrenceKey('1'))!;
+    hierarchies.collapse('1');
+    table.row('1').focus();
+
+    expect(expandedOf(table.table, hierarchies, occurrence, 'workPackage')).toBeNull();
+    expect(pressActive('ArrowRight')).toBe(false);
+    expect(hierarchies.collapsed('1')).toBe(true);
+    expect(cell(table.row('1'), 0)).toHaveFocus();
+    expect(pressActive('ArrowLeft')).toBe(false);
+    expect(table.row('1')).toHaveFocus();
+    expect(hierarchies.collapsed('1')).toBe(true);
   });
 
   it('ArrowLeft on an expanded group header collapses it', async () => {

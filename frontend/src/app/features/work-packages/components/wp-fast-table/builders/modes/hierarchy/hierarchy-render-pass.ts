@@ -296,6 +296,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       workPackageId: workPackage.id!,
       renderType: 'primary',
       hidden,
+      level: workPackage.getAncestors().length + 1,
     };
   }
 }
