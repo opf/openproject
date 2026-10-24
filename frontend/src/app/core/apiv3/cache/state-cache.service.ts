@@ -33,7 +33,6 @@ import {
 import {
   combineLatest,
   firstValueFrom,
-  forkJoin,
   Observable,
 } from 'rxjs';
 import {

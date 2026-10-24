@@ -452,7 +452,7 @@ export class UrlParamsHelperService {
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
     const href = filter.filter ? filter.filter.href : (filter._links as { filter:HalLink }).filter.href;
 
-    return idFromLink(href as string);
+    return idFromLink(href);
   }
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource):string[] {
@@ -468,7 +468,7 @@ export class UrlParamsHelperService {
     }
     const { href } = (filter._links as { operator:HalLink }).operator;
 
-    return idFromLink(href as string);
+    return idFromLink(href);
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {

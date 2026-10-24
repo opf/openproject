@@ -44,7 +44,7 @@ export class CollectionResource<T = HalResource> extends HalResource {
    */
   public updateElements():Promise<unknown> {
     if (this.href) {
-      return this.$load().then((collection:this) => this.elements = collection.elements);
+      return this.$load().then((collection:this) => { this.elements = collection.elements; });
     }
     return Promise.resolve();
   }
