@@ -79,7 +79,7 @@ export class ApiV3NotificationsPaths
   public unread(additional?:ApiV3ListParameters):Observable<IHALCollection<INotification>> {
     const unreadFilter:ApiV3ListFilter = ['readIAN', '=', false];
     const filters = [
-      ...(additional?.filters ? additional.filters : []),
+      ...(additional?.filters ?? []),
       unreadFilter,
     ];
     const params:ApiV3ListParameters = {
@@ -116,5 +116,21 @@ export class ApiV3NotificationsPaths
         responseType: 'json',
       },
     );
+  }
+
+  /**
+   * Mark the given notifications as unread
+   */
+  public markAsUnreadByIds(ids:ID[]):Observable<unknown> {
+    return this
+      .http
+      .post(
+        `${this.path}/unread_ian${listParamsString({ filters: [['id', '=', ids.map((id) => id.toString())]] })}`,
+        {},
+        {
+          withCredentials: true,
+          responseType: 'json',
+        },
+      );
   }
 }

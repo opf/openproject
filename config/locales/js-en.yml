@@ -680,6 +680,7 @@ en:
         mark_all_read: "Mark all as read"
         mark_all_read_confirmation: "This will mark all notifications in this view as read. Are you sure you want to do this?"
         mark_as_read: "Mark as read"
+        mark_as_unread: "Mark as unread"
         new_notifications:
           link_text: "Click here to load them."
           message: "There are new notifications."
@@ -702,6 +703,7 @@ en:
         commented: "Commented"
         created: "Created"
         dateAlert: "Date alert"
+        marked_as_unread: "Marked as unread"
         mentioned: "Mentioned"
         prioritized: "Prioritized"
         processed: "Processed"

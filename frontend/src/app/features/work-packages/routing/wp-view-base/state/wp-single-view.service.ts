@@ -42,6 +42,7 @@ import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
   notificationsMarkedRead,
+  notificationsMarkedUnread,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import {
@@ -50,6 +51,8 @@ import {
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { Query } from '@datorama/akita';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 @EffectHandler
@@ -57,6 +60,7 @@ export class WpSingleViewService {
   readonly actions$ = inject(ActionsService);
   readonly currentUser$ = inject(CurrentUserService);
   private resourceService = inject(InAppNotificationsResourceService);
+  private apiV3Service = inject(ApiV3Service);
 
   id = 'WorkPackage Activity Store';
 
@@ -128,6 +132,14 @@ export class WpSingleViewService {
       });
   }
 
+  markAsUnread(workPackageId:string):Observable<unknown> {
+    return this
+      .apiV3Service
+      .work_packages
+      .id(workPackageId)
+      .markUnread();
+  }
+
   reload() {
     this
       .currentUser$
@@ -145,6 +157,14 @@ export class WpSingleViewService {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead() {
+    this.reload();
+  }
+
+  /**
+   * Reload after notifications were successfully marked as unread
+   */
+  @EffectCallback(notificationsMarkedUnread)
+  private reloadOnNotificationUnread() {
     this.reload();
   }
 

@@ -1,11 +1,27 @@
-<button
-  (click)="markAllBelongingNotificationsAsRead()"
-  [attr.title]="text.mark_as_read"
-  class="button">
+@if (hasUnreadNotifications$ | async) {
+  <button
+    (click)="markAllBelongingNotificationsAsRead()"
+    [attr.title]="text.mark_as_read"
+    data-test-selector="mark-notification-read-button"
+    class="button">
 
-  <svg
-    read-icon
-    class="button--icon"
-    size="small"
-  ></svg>
-</button>
+    <svg
+      read-icon
+      class="button--icon"
+      size="small"
+    ></svg>
+  </button>
+} @else {
+  <button
+    (click)="markAsUnread()"
+    [attr.title]="text.mark_as_unread"
+    data-test-selector="mark-notification-unread-button"
+    class="button">
+
+    <svg
+      mail-icon
+      class="button--icon"
+      size="small"
+    ></svg>
+  </button>
+}

@@ -48,6 +48,16 @@ export const notificationsMarkedRead = action(
   props<{ origin:string, notifications:ID[], all:boolean }>(),
 );
 
+export const markNotificationsAsUnread = action(
+  '[IAN] Mark notifications as unread',
+  props<{ origin:string, notifications:ID[] }>(),
+);
+
+export const notificationsMarkedUnread = action(
+  '[IAN] Notifications were marked as unread',
+  props<{ origin:string, notifications:ID[] }>(),
+);
+
 export const notificationCountIncreased = action(
   '[IAN] The backend sent a notification count that was higher than the last known',
   props<{ origin:string, count:number }>(),
