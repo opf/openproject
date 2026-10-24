@@ -66,7 +66,8 @@ module API
                                params:,
                                project: query.project,
                                groups: generate_groups,
-                               sums: generate_total_sums)
+                               sums: generate_total_sums,
+                               row_positions: generate_row_positions(results_scope))
       end
 
       attr_accessor :query,
@@ -104,6 +105,13 @@ module API
         end
       end
 
+      def generate_row_positions(results_scope)
+        return unless query.show_hierarchies
+        return if results_scope.count > ::WorkPackage::HierarchyRowPositions::MAX_RESULTS
+
+        ::WorkPackage::HierarchyRowPositions.new(results_scope, current_user)
+      end
+
       def generate_total_sums
         return unless query.display_sums?
 
@@ -138,7 +146,7 @@ module API
         end
       end
 
-      def collection_representer(work_packages, params:, project:, groups:, sums:)
+      def collection_representer(work_packages, params:, project:, groups:, sums:, row_positions:)
         resulting_params = calculate_resulting_params(params)
 
         if resulting_params[:select]
@@ -158,6 +166,7 @@ module API
             per_page: resulting_params[:pageSize],
             groups:,
             total_sums: sums,
+            row_positions:,
             embed_schemas: true,
             current_user:,
             timestamps: query.timestamps,

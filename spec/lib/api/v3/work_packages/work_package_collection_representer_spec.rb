@@ -45,6 +45,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:query_params) { {} }
   let(:groups) { nil }
   let(:total_sums) { nil }
+  let(:row_positions) { nil }
   let(:project) { nil }
 
   let(:page_parameter) { nil }
@@ -65,6 +66,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       project:,
       groups:,
       total_sums:,
+      row_positions:,
       page: page_parameter,
       per_page: page_size_parameter,
       current_user: user,
@@ -261,6 +263,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   it "does not render sums" do
     expect(collection).not_to have_json_path("totalSums")
+  end
+
+  it "does not render row positions" do
+    expect(collection).not_to have_json_path("rowCount")
+    expect(collection).not_to have_json_path("rowPositions")
   end
 
   it "has a schemas link" do
@@ -482,6 +489,31 @@ RSpec.describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       }
 
       expect(collection).to be_json_eql(expected.to_json).at_path("_links/sumsSchema")
+    end
+  end
+
+  context "when passing row positions" do
+    let(:row_positions) { instance_double(WorkPackage::HierarchyRowPositions, count: 7) }
+    let(:entries) do
+      work_packages.each_with_index.to_h { |wp, index| [wp.id.to_s, { position: index + 2, parent: nil }] }
+    end
+
+    before do
+      allow(row_positions).to receive(:entries_for).with(work_packages.map(&:id)).and_return(entries)
+    end
+
+    it "renders the row count and the entries for the represented work packages" do
+      expect(collection).to be_json_eql(7.to_json).at_path("rowCount")
+      expect(collection).to be_json_eql(entries.to_json).at_path("rowPositions")
+    end
+
+    context "without entries for the represented work packages" do
+      let(:entries) { nil }
+
+      it "renders neither property" do
+        expect(collection).not_to have_json_path("rowCount")
+        expect(collection).not_to have_json_path("rowPositions")
+      end
     end
   end
 

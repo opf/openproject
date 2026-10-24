@@ -82,6 +82,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
                :project,
                :groups,
                :total_sums,
+               :row_positions,
                :page,
                :per_page,
                :embed_schemas,
@@ -94,6 +95,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
                      project:,
                      groups:,
                      total_sums:,
+                     row_positions:,
                      page:,
                      per_page:,
                      embed_schemas:,
@@ -106,6 +108,7 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
               project,
               groups,
               total_sums,
+              row_positions,
               page,
               per_page,
               embed_schemas,
@@ -278,6 +281,36 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
 
             expect(subject.total_sums)
               .to eq(expected)
+          end
+        end
+      end
+
+      describe "row_positions" do
+        context "with query.show_hierarchies being false" do
+          it "is nil" do
+            query.show_hierarchies = false
+
+            expect(subject.row_positions)
+              .to be_nil
+          end
+        end
+
+        context "with query.show_hierarchies being true" do
+          it "numbers the results for the user" do
+            query.show_hierarchies = true
+
+            expect(subject.row_positions)
+              .to be_a(WorkPackage::HierarchyRowPositions)
+          end
+        end
+
+        context "with more results than the cap" do
+          it "is nil" do
+            query.show_hierarchies = true
+            stub_const("WorkPackage::HierarchyRowPositions::MAX_RESULTS", 0)
+
+            expect(subject.row_positions)
+              .to be_nil
           end
         end
       end

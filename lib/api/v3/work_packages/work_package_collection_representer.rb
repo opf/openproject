@@ -39,6 +39,7 @@ module API
                        groups:,
                        total_sums:,
                        current_user:,
+                       row_positions: nil,
                        query_params: {},
                        project: nil,
                        page: nil,
@@ -48,6 +49,7 @@ module API
                        query: nil)
           @project = project
           @total_sums = total_sums
+          @row_positions = row_positions
           @embed_schemas = embed_schemas
           @timestamps = timestamps
           @query = query
@@ -152,6 +154,16 @@ module API
                      ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(total_sums, current_user)
                    end
                  },
+                 render_nil: false
+
+        property :row_count,
+                 exec_context: :decorator,
+                 getter: ->(*) { row_positions.count if row_position_entries },
+                 render_nil: false
+
+        property :row_positions,
+                 exec_context: :decorator,
+                 getter: ->(*) { row_position_entries },
                  render_nil: false
 
         def current_user_allowed_to_add_work_packages?
@@ -304,12 +316,19 @@ module API
                                 mime_type: "application/atom+xml"
         end
 
+        def row_position_entries
+          return @row_position_entries if defined?(@row_position_entries)
+
+          @row_position_entries = row_positions&.entries_for(represented.map(&:id))
+        end
+
         def timestamps_active?
           timestamps.present? && timestamps.any?(&:historic?)
         end
 
         attr_reader :project,
                     :total_sums,
+                    :row_positions,
                     :embed_schemas
 
         private

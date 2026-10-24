@@ -7,6 +7,38 @@ allOf:
       - _links
       - _embedded
     properties:
+      rowCount:
+        type: integer
+        minimum: 0
+        readOnly: true
+        description: |-
+          Number of table rows the whole collection renders in hierarchy mode: every element across all pages plus
+          every visible ancestor shown for context, each counted once.
+
+          Only present when `showHierarchies` is set and the collection has at most 10,000 elements.
+      rowPositions:
+        type: object
+        readOnly: true
+        description: |-
+          Row of each element on this page, and of each visible ancestor those elements are shown under, in the
+          collection's hierarchy order. Rows are ordered depth first; sibling subtrees follow the earliest position in
+          the collection's sort order of any element they contain. Keys are work package ids. `position` counts from
+          1 across all pages; `parent` is the id of the nearest visible ancestor, or `null` for a root.
+
+          Present whenever `rowCount` is.
+        additionalProperties:
+          type: object
+          required:
+            - position
+            - parent
+          properties:
+            position:
+              type: integer
+              minimum: 1
+            parent:
+              type:
+                - "string"
+                - "null"
       _links:
         type: object
         required:
