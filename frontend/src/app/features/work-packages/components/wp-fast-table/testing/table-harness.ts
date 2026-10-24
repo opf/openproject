@@ -117,6 +117,9 @@ export type RelationColumnSpec = { id:string, relationType:string }|{ id:string,
 export interface NonSortableColumnSpec { id:string, sortable:false }
 
 export interface TableHarnessOptions {
+  pagination?:{ offset:number; pageSize:number; total:number };
+  /** Self link of the results collection; defaults to the global work packages collection. */
+  collectionHref?:string;
   workPackages:WorkPackageFixture[];
   providers?:Provider[];
   /** Retains the root so a replacement table can mount with a fresh injector. */
@@ -178,6 +181,10 @@ export interface TableHarness {
   nextRender():Promise<RenderedWorkPackage[]>;
   /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
+  /** Asserts the `aria-rowindex` of every table row in document order and the table's `aria-rowcount`; requires `productionMarkup`. */
+  expectRowPositions(indices:string[], count:string):void;
+  /** Asserts that neither the table nor any of its rows carries a position. */
+  expectNoRowPositions():void;
   /** The primary row of a work package, never one of its relation rows. */
   row(workPackageId:string):HTMLTableRowElement;
   /** The relation row of `to` under `from`, located by its occurrence key. */
@@ -301,7 +308,16 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       }
 
       const rendered = nextRender();
-      querySpace.results.putValue({ elements: resources, sumsSchema: { href: sumsSchemaHref } } as WorkPackageCollectionResource);
+      querySpace.results.putValue({
+        elements: resources,
+        groups: querySpace.groups.value ?? [],
+        href: options.collectionHref ?? '/api/v3/work_packages',
+        count: resources.length,
+        total: options.pagination?.total ?? resources.length,
+        pageSize: options.pagination?.pageSize ?? Math.max(resources.length, 1),
+        offset: options.pagination?.offset ?? 1,
+        sumsSchema: { href: sumsSchemaHref },
+      } as WorkPackageCollectionResource);
       querySpace.initialized.putValue(null);
 
       return rendered;
@@ -311,6 +327,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     rows() {
       return Array.from(dom.tbody.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row'));
+    },
+
+    expectRowPositions(indices, count) {
+      const element = dom.tbody.closest('table')!;
+      expect(Array.from(element.rows).map((row) => row.getAttribute('aria-rowindex'))).toEqual(indices);
+      expect(element).toHaveAttribute('aria-rowcount', count);
+    },
+
+    expectNoRowPositions() {
+      const element = dom.tbody.closest('table')!;
+      expect(element).not.toHaveAttribute('aria-rowcount');
+      Array.from(element.rows).forEach((row) => expect(row).not.toHaveAttribute('aria-rowindex'));
     },
 
     row(workPackageId) {
@@ -338,7 +366,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     totalsRow() {
-      return productionMarkupElement<HTMLTableRowElement>(dom.wrapper, 'tr.wp-table--sums-row');
+      return productionMarkupElement<HTMLTableRowElement>(dom.wrapper, '.work-package-table > tbody:not(.work-package--results-tbody) > tr.wp-table--sums-row');
     },
 
     timelineRow(workPackageId) {
@@ -510,7 +538,10 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
           requireAll: options.requireAll ?? ((ids:string[]) => Promise.resolve(
             ids.map((id) => states.workPackages.get(id).value!).filter(Boolean),
           )),
-          cache: { current: (_id:string, fallback:unknown) => fallback },
+          cache: {
+            current: (_id:string, fallback:unknown) => fallback,
+            state: (id:string) => states.workPackages.get(id),
+          },
           id: (id:string) => ({
             get: () => of(states.workPackages.get(id).value),
             requireAndStream: () => of(states.workPackages.get(id).value),

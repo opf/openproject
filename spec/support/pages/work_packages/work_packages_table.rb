@@ -371,6 +371,27 @@ module Pages
       expect(page).to have_css(":focus")
     end
 
+    # @return [Capybara::Node::Element] The work package table exposed as a treegrid.
+    def treegrid
+      find(:table, role: "treegrid", accessible_name: "Work packages")
+    end
+
+    # Expects the table's `aria-rowcount` and the `aria-rowindex` of every
+    # visible row, in document order from the header row down.
+    #
+    # @param rowcount [Integer] The expected `aria-rowcount` of the table.
+    # @param rows [Array<Integer>] The expected `aria-rowindex` of each exposed row.
+    def expect_row_positions(rowcount:, rows:)
+      wait_for { treegrid.all(:row).pluck("aria-rowindex") }.to eq(rows.map(&:to_s))
+      expect(treegrid).to match_selector(:table, aria: { rowcount: })
+    end
+
+    # Expects the table and all of its rows, hidden ones included, to carry no row position.
+    def expect_no_row_positions
+      expect(treegrid).to match_selector(:table, aria: { rowcount: nil })
+      expect(treegrid).to have_no_selector(:element, "tr", "aria-rowindex": /./, visible: :all)
+    end
+
     # Returns the row element for the specified work package.
     #
     # @param work_package [WorkPackage] The work package object.

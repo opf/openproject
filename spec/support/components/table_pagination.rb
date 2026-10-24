@@ -40,6 +40,18 @@ module Components
       end
     end
 
+    def go_to_page(number)
+      within_pagination do
+        within(".op-pagination--pages") { click_on number.to_s }
+      end
+    end
+
+    def select_per_page(number)
+      within_pagination do
+        within(".op-pagination--options") { click_on number.to_s }
+      end
+    end
+
     def expect_no_per_page_options
       within_pagination do
         expect(page)
