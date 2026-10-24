@@ -265,6 +265,7 @@ RSpec.shared_examples "work package contract" do
 
       after do
         work_package.label_id_replacements = nil
+        work_package.label_name_replacements = nil
       end
 
       before do
@@ -272,6 +273,52 @@ RSpec.shared_examples "work package contract" do
       end
 
       it_behaves_like "contract is valid"
+
+      context "with a pending name the user may create" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = ["Brand new"]
+        end
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "with a pending name that is too long" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = ["x" * 300]
+        end
+
+        it_behaves_like "contract is invalid", labels: :too_long
+      end
+
+      context "with several pending names the user may create" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = ["First", "Second", "Third"]
+          allow(Labels::CreateContract).to receive(:new).and_call_original
+        end
+
+        it "checks the permission to create labels once" do
+          contract.validate
+
+          expect(Labels::CreateContract).to have_received(:new).once
+        end
+      end
+
+      context "with a pending name that already exists in different casing" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          create(:label, name: "Existing")
+          work_package.label_name_replacements = ["EXISTING"]
+        end
+
+        it_behaves_like "contract is valid"
+      end
     end
 
     describe "ignore_non_working_days" do

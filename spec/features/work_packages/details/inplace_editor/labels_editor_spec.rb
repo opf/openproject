@@ -61,11 +61,29 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       field.autocomplete_selector.send_keys(:return)
 
       field.expect_selected_values(label.name, new_label_name)
+      expect(Label.named(new_label_name)).to be_empty
+
       field.submit_by_dashboard
 
       field.expect_state_text(new_label_name)
-      expect(Label.named(new_label_name)).to be_present
+      expect(Label.named(new_label_name).count).to eq(1)
       expect(work_package.reload.labels.map(&:name)).to contain_exactly(label.name, new_label_name)
+    end
+
+    it "does not create a label when the edit with a new label is cancelled" do
+      new_label_name = "Urgent"
+
+      field.activate!
+      field.autocomplete(new_label_name, select: false)
+      field.autocomplete_selector.send_keys(:return)
+      field.expect_selected_values(label.name, new_label_name)
+
+      field.cancel_by_escape
+
+      field.expect_inactive!
+      field.expect_state_text(label.name)
+      expect(Label.named(new_label_name)).to be_empty
+      expect(work_package.reload.labels).to contain_exactly(label)
     end
 
     it "offers no create option for an existing name in a different case" do
@@ -159,12 +177,13 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
         field.autocomplete_selector.send_keys(:return)
 
         field.expect_selected_values(new_label_name)
+        expect(Label.named(new_label_name)).to be_empty
 
         work_package_page.set_attributes({ subject: "Work package with a new label" })
         work_package_page.save!
         work_package_page.expect_and_dismiss_toaster(message: "Successful creation.")
 
-        expect(Label.named(new_label_name)).to be_present
+        expect(Label.named(new_label_name).count).to eq(1)
         expect(WorkPackage.last.labels.map(&:name)).to contain_exactly(new_label_name)
       end
     end

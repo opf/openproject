@@ -2398,6 +2398,19 @@ RSpec.describe WorkPackages::SetAttributesService,
       expect(work_package.label_id_replacements).to be_nil
     end
 
+    it "extracts label_names into name replacements and remembers the user" do
+      instance.call(label_names: ["Foo", " bar "])
+
+      expect(work_package.label_name_replacements).to eq %w[Foo bar]
+      expect(work_package.label_names_user).to eq user
+    end
+
+    it "leaves name replacements nil when not passed" do
+      instance.call(subject: "foo")
+
+      expect(work_package.label_name_replacements).to be_nil
+    end
+
     it "sets empty array as override (does not set to nil)" do
       instance.call(label_ids: [])
 

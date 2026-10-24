@@ -86,8 +86,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def set_labels_attributes(attributes)
     label_ids = attributes.delete(:label_ids)
+    label_names = attributes.delete(:label_names)
 
     model.label_id_replacements = label_ids if label_ids
+
+    if label_names
+      model.label_name_replacements = label_names
+      model.label_names_user = user
+    end
   end
 
   def set_static_attributes(attributes)

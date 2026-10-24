@@ -197,4 +197,124 @@ RSpec.describe WorkPackage, "labels" do
       end
     end
   end
+
+  describe "#label_name_replacements=" do
+    before { work_package.reload }
+
+    def persisted_label_ids = Labeling.where(labelable: work_package).pluck(:label_id)
+
+    it "squishes names and drops blanks" do
+      work_package.label_name_replacements = ["  New   name ", "", nil, "   "]
+
+      expect(work_package.label_name_replacements).to eq(["New name"])
+    end
+
+    it "drops case-insensitive duplicates, keeping the first spelling" do
+      work_package.label_name_replacements = ["Urgent", "urgent", "URGENT", "Other"]
+
+      expect(work_package.label_name_replacements).to eq(%w[Urgent Other])
+    end
+
+    it "stays nil when assigned nil" do
+      work_package.label_name_replacements = nil
+
+      expect(work_package.label_name_replacements).to be_nil
+      expect(work_package).not_to be_override_labels
+    end
+
+    context "with names only" do
+      before { work_package.label_name_replacements = ["Brand new", "APPLE"] }
+
+      it "overrides the labels" do
+        expect(work_package).to be_override_labels
+      end
+
+      it "resolves existing names case-insensitively and builds unsaved labels for new ones" do
+        labels = work_package.effective_labels
+
+        expect(labels).to include(lower_label)
+        new_label = labels.find { it.name == "Brand new" }
+        expect(new_label).to be_new_record
+        expect(Label.where(name: "Brand new")).not_to exist
+      end
+
+      it "reports the pending names as a change" do
+        expect(work_package.label_changes)
+          .to eq("labels" => [[lower_label.id, higher_label.id], ["Brand new", "APPLE"]])
+      end
+
+      it "is valid" do
+        expect(work_package).to be_valid
+      end
+    end
+
+    describe "saving" do
+      let(:user) { create(:admin) }
+
+      it "creates a new label authored by the acting user and attaches it" do
+        work_package.label_name_replacements = ["Brand new"]
+        User.execute_as(user) { work_package.save! }
+
+        created = Label.find_by!(name: "Brand new")
+        expect(created.author).to eq(user)
+        expect(persisted_label_ids).to contain_exactly(created.id)
+        expect(work_package.label_name_replacements).to be_nil
+      end
+
+      it "reuses an existing label whose name differs in casing" do
+        work_package.label_name_replacements = ["ZEBRA"]
+
+        work_package.label_names_user = user
+
+        expect { work_package.save! }.not_to change(Label, :count)
+        expect(persisted_label_ids).to contain_exactly(higher_label.id)
+      end
+
+      it "combines ids and names" do
+        work_package.label_id_replacements = [lower_label.id]
+        work_package.label_name_replacements = ["Brand new"]
+        work_package.label_names_user = user
+        work_package.save!
+
+        expect(persisted_label_ids).to contain_exactly(lower_label.id, Label.find_by!(name: "Brand new").id)
+      end
+
+      it "records the new label in the journal" do
+        work_package.label_name_replacements = ["Brand new"]
+        work_package.label_names_user = user
+        work_package.save!
+
+        created = Label.find_by!(name: "Brand new")
+        expect(work_package.journals.last.label_journals.pluck(:label_id)).to include(created.id)
+      end
+    end
+
+    describe "when the label cannot be created" do
+      let(:failure) do
+        ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
+      end
+
+      before do
+        service = instance_double(Labels::FindOrCreateService, call: failure)
+        allow(Labels::FindOrCreateService).to receive(:new).and_return(service)
+      end
+
+      it "fails a persisted work package save without touching the labelings" do
+        work_package.label_name_replacements = ["Brand new"]
+
+        expect(work_package.save).to be(false)
+        expect(work_package.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
+      end
+
+      it "fails a new work package saved without validation" do
+        new_work_package = build(:work_package)
+        new_work_package.label_name_replacements = ["Brand new"]
+
+        expect(new_work_package.save(validate: false)).to be(false)
+        expect(new_work_package.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect(new_work_package).not_to be_persisted
+      end
+    end
+  end
 end

@@ -141,6 +141,10 @@ properties:
         description: |-
           List of labels attached to the work package
 
+          An entry whose `href` is `null` and whose `title` is a non-blank name creates that label when the work package
+          is saved, or reuses an existing label with the same name (case-insensitive). The form endpoint echoes such
+          entries back without creating anything.
+
           **Resource**: Collection of Label
       parent:
         allOf:

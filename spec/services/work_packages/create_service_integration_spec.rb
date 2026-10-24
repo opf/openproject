@@ -303,6 +303,28 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
+  describe "when a pending label cannot be created", with_flag: { work_package_labels: true } do
+    let(:role) do
+      create(:project_role,
+             permissions: %i[view_work_packages add_work_packages edit_work_packages])
+    end
+    let(:attributes) { { subject: "Labelled", project:, label_names: ["Brand new"] } }
+    let(:failure) do
+      ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
+    end
+
+    before do
+      service = instance_double(Labels::FindOrCreateService, call: failure)
+      allow(Labels::FindOrCreateService).to receive(:new).and_return(service)
+    end
+
+    it "fails with a labels error and persists nothing" do
+      expect(service_result).to be_failure
+      expect(service_result.errors.symbols_for(:labels)).to contain_exactly(:blank)
+      expect(WorkPackage.where(subject: "Labelled")).not_to exist
+    end
+  end
+
   describe "versions, target versions and observed in versions" do
     let!(:version1) { create(:version, project:) }
     let!(:version2) { create(:version, project:) }

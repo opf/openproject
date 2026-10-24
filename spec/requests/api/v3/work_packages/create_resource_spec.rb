@@ -296,6 +296,66 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    describe "labels", with_flag: :work_package_labels do
+      let(:extra_permissions) { %i[edit_work_packages] }
+      let(:parameters) do
+        super().deep_merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })
+      end
+      let(:created_work_package) { WorkPackage.find_by(subject: "new work packages") }
+
+      context "with a title for a label that does not exist yet" do
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "creates the label and assigns it" do
+          label = Label.find_by!(name: "Needs triage")
+
+          expect(created_work_package.labels).to contain_exactly(label)
+        end
+      end
+
+      context "for a user who may add work packages but not create labels" do
+        let(:extra_permissions) { [] }
+
+        it "returns 422" do
+          expect(last_response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "reports the labels as unauthorized" do
+          expect(last_response.body)
+            .to be_json_eql("Labels #{I18n.t('activerecord.errors.messages.error_unauthorized')}".to_json)
+                  .at_path("message")
+        end
+
+        it "creates neither the work package nor the label" do
+          expect(created_work_package).to be_nil
+          expect(Label.count).to eq(0)
+        end
+      end
+    end
+
+    describe "labels that cannot be created after validation", with_flag: :work_package_labels do
+      let(:extra_permissions) { %i[edit_work_packages] }
+      let(:parameters) do
+        super().deep_merge(_links: { labels: [{ href: nil, title: "Needs triage" }] })
+      end
+
+      let(:label_creation_failure) do
+        ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
+      end
+      let(:other_user) do
+        allow(Labels::FindOrCreateService).to receive(:new)
+          .and_return(instance_double(Labels::FindOrCreateService, call: label_creation_failure))
+        nil
+      end
+
+      it "returns 422 without creating the work package" do
+        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(WorkPackage.find_by(subject: "new work packages")).to be_nil
+      end
+    end
+
     describe "targetVersions" do
       let(:target_version) { create(:version, project:) }
       let(:extra_permissions) { %i[assign_versions] }

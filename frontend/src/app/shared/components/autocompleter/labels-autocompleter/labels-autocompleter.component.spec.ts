@@ -28,25 +28,21 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { of } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { LabelsAutocompleterComponent } from './labels-autocompleter.component';
 
 describe('LabelsAutocompleterComponent', () => {
   let component:LabelsAutocompleterComponent;
-  let httpMock:HttpTestingController;
-  let halNotification:{ handleRawError:ReturnType<typeof vi.fn> };
   let currentUser:{ hasCapabilities$:ReturnType<typeof vi.fn> };
 
   const i18nStub = { t: (key:string) => key };
 
   beforeEach(async () => {
-    halNotification = { handleRawError: vi.fn() };
     currentUser = { hasCapabilities$: vi.fn(() => of(true)) };
 
     await TestBed.configureTestingModule({
@@ -58,68 +54,19 @@ describe('LabelsAutocompleterComponent', () => {
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
         { provide: I18nService, useValue: i18nStub },
-        { provide: HalResourceNotificationService, useValue: halNotification },
         { provide: CurrentUserService, useValue: currentUser },
       ],
     }).compileComponents();
 
     component = TestBed.createComponent(LabelsAutocompleterComponent).componentInstance;
-    httpMock = TestBed.inject(HttpTestingController);
   });
-
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  function pendingRequest() {
-    return httpMock.expectOne((req) => req.method === 'POST' && req.url.endsWith('/labels'));
-  }
 
   it('does not offer to create a blank term', () => {
     expect(component.createLabel('   ')).toBeUndefined();
   });
 
-  it('resolves with the created label on success', async () => {
-    const promise = component.createLabel('Urgent');
-
-    pendingRequest().flush({ id: 5, name: 'Urgent', _links: { self: { href: '/api/v3/labels/5' } } });
-
-    await expect(promise).resolves.toEqual({ id: 5, name: 'Urgent', href: '/api/v3/labels/5' });
-  });
-
-  it('delegates errors to the generic handler and rejects', async () => {
-    const promise = component.createLabel('Urgent');
-
-    pendingRequest().flush({ _type: 'Error' }, { status: 422, statusText: 'Unprocessable Entity' });
-
-    await expect(promise).rejects.toBeTruthy();
-    expect(halNotification.handleRawError).toHaveBeenCalled();
-  });
-
-  it('ignores a second call while a request is in flight, then allows a retry', async () => {
-    const first = component.createLabel('Urgent');
-    const second = component.createLabel('Urgent');
-
-    expect(second).toBeUndefined();
-
-    pendingRequest().flush({ id: 5, name: 'Urgent', _links: { self: { href: '/api/v3/labels/5' } } });
-    await first;
-
-    const retry = component.createLabel('Urgent');
-    expect(retry).toBeDefined();
-    pendingRequest().flush({ id: 5, name: 'Urgent', _links: { self: { href: '/api/v3/labels/5' } } });
-    await retry;
-  });
-
-  it('resets the in-flight flag after an error so a retry can be sent', async () => {
-    const first = component.createLabel('Urgent');
-    pendingRequest().flush({ _type: 'Error' }, { status: 500, statusText: 'Internal Server Error' });
-    await expect(first).rejects.toBeTruthy();
-
-    const retry = component.createLabel('Urgent');
-    expect(retry).toBeDefined();
-    pendingRequest().flush({ id: 5, name: 'Urgent', _links: { self: { href: '/api/v3/labels/5' } } });
-    await retry;
+  it('returns a pending label with no href for a trimmed term', () => {
+    expect(component.createLabel('  Needs triage ')).toEqual({ id: null, name: 'Needs triage', href: null });
   });
 
   it('enables addTag once the project grants work_packages/update, without throwing change-detection errors', () => {
@@ -147,5 +94,14 @@ describe('LabelsAutocompleterComponent', () => {
 
     expect(fixture.componentInstance.addTag).toBe(false);
     expect(currentUser.hasCapabilities$).not.toHaveBeenCalled();
+  });
+
+  it('treats pending and persisted labels with the same name as the same label, ignoring case', () => {
+    const pending = { id: null, name: 'Needs Triage', href: null };
+    const persisted = { id: 9, name: 'needs triage', href: '/api/v3/labels/9' };
+    const other = { id: 10, name: 'Blocked', href: '/api/v3/labels/10' };
+
+    expect(component.compareWith?.(pending, persisted)).toBe(true);
+    expect(component.compareWith?.(pending, other)).toBe(false);
   });
 });
