@@ -761,7 +761,7 @@ GEM
     jmespath (1.6.2)
     job-iteration (1.15.1)
       activejob (>= 7.1)
-    json (2.21.2)
+    json (3.1.0)
     json-jwt (1.17.2)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -1426,8 +1426,8 @@ GEM
       ruby_llm-schema (~> 0)
       zeitwerk (~> 2)
     ruby_llm-schema (0.4.0)
-    rubytree (2.2.2)
-      json (~> 2.0, >= 2.21.2)
+    rubytree (2.2.3)
+      json (>= 2.21.2, < 4)
     rubyzip (3.4.1)
     safety_net_attestation (0.5.0)
       jwt (>= 2.0, < 4.0)
@@ -1785,7 +1785,7 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.13.0)
-  rubytree (~> 2.2.2)
+  rubytree (~> 2.2.3)
   sanitize (~> 7.0.0)
   scimitar (~> 2.13)
   selenium-devtools
@@ -2028,7 +2028,7 @@ CHECKSUMS
   iso8601 (0.13.0) sha256=298c2b15b7be5fa95a1372813d36a2257656cd8e906dfbc1f5cb409851425aa2
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
   job-iteration (1.15.1) sha256=4232e9a54f7521a7aa084b0c1e35ddc5da4f6db1de432ae4fb5649904a90b1a5
-  json (2.21.2) sha256=1f1d3b7cf2b3ba1a69beca0bb6db13d5438b80bff3cd54cdaaa620b9b07c1c6a
+  json (3.1.0) sha256=3ce7ccf8fde58960177a3a756c31f292a4c1e1dedee884547096a5b0604e3bd8
   json-jwt (1.17.2) sha256=97e37c1c3e22e9e1d74a1c0d77319c5cdc8a636226e5dbb1664b0b34eddcf1c9
   json-schema (6.2.1) sha256=c0bf6113d772348bfd159fb096950beeb1e1e25aaeea50b676bd45191d8dbdf3
   json_schemer (2.5.0) sha256=2f01fb4cce721a4e08dd068fc2030cffd0702a7f333f1ea2be6e8991f00ae396
@@ -2291,7 +2291,7 @@ CHECKSUMS
   ruby-vips (2.3.0) sha256=e685ec02c13969912debbd98019e50492e12989282da5f37d05f5471442f5374
   ruby_llm (1.16.0) sha256=26bd5310cf2ce55f74a60f8aae0b0d0327b586ff4532c84828103c3b2b905a18
   ruby_llm-schema (0.4.0) sha256=e930f5a5316f9301bff3fb7fe572e44727d05bb8e50621001bbb49a47d63b8da
-  rubytree (2.2.2) sha256=61e845fdcaf731602ab03aa4dfde35f3907f5453ec10cf4dfc5a0ac0111bd52d
+  rubytree (2.2.3) sha256=e007c42d04374b31e21ccee85d756cce0ced708131251a8d0f6c84dc9e1cbdf7
   rubyzip (3.4.1) sha256=0a79e745b5c25872ebd148457df5665da8530ed8626c993b01457128f173ca02
   safety_net_attestation (0.5.0) sha256=c8cd01dd550dbe8553862918af6355a04672db11d218ec96104ce3955293f2aa
   sanitize (7.0.0) sha256=269d1b9d7326e69307723af5643ec032ff86ad616e72a3b36d301ac75a273984
