@@ -68,6 +68,12 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
+  protected buildAugmentedColumns():QueryColumn[] {
+    const columns = super.buildAugmentedColumns();
+
+    return columns.includes(internalContextMenuColumn) ? columns : [...columns, internalContextMenuColumn];
+  }
+
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLTableCellElement|null {
     switch (column.id) {
       case internalContextMenuColumn.id:

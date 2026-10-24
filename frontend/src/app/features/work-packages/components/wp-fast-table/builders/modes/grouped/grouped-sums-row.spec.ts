@@ -28,6 +28,7 @@
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { groupOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { buildTable, TableHarness } from '../../../testing/table-harness';
+import { GroupSumsBuilder } from './group-sums-builder';
 
 const newStatus = { href: '/api/v3/statuses/1' };
 const inProgressStatus = { href: '/api/v3/statuses/2' };
@@ -127,5 +128,52 @@ describe('Grouped table sums rows', () => {
     expect(identifier).toBeTruthy();
     expect(harness.table.ledger.byKey(groupOccurrenceKey(1, 'header'))?.groupIdentifier).toBe(identifier);
     expect(harness.table.ledger.byKey(groupOccurrenceKey(1, 'sums'))?.groupIdentifier).toBe(identifier);
+  });
+});
+
+describe('Grouped table sums physical columns', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  const mount = async (configuration:Record<string, boolean>, baseline:boolean) => {
+    harness = buildTable({
+      workPackages: [
+        { id: '1', attributes: { status: newStatus } },
+        { id: '2', attributes: { status: newStatus } },
+      ],
+      groups: [{ value: 'New', href: newStatus.href, count: 2, sums: { storyPoints: 13 } }],
+      columns: ['id', 'subject'],
+      configuration,
+      baseline,
+    });
+    await harness.render();
+  };
+
+  const spannedColumns = (row:HTMLTableRowElement) => Array.from(row.cells)
+    .reduce((total, cell) => total + cell.colSpan, 0);
+
+  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+    describe.each([true, false])('and baseline %s', (baseline) => {
+      it.each([true, false])('spans the same columns in sums and totals rows with a trailing column %s', async (trailing) => {
+        await mount({
+          keyboardNavigationEnabled: true,
+          dragAndDropEnabled: drag,
+          columnMenuEnabled: trailing,
+        }, baseline);
+        const expected = 2 + Number(drag) + Number(baseline) + Number(trailing);
+        const totals = document.createElement('tr');
+        new GroupSumsBuilder(harness.injector, harness.table).renderColumns({ storyPoints: 34 }, totals);
+
+        expect(spannedColumns(harness.row('2').nextElementSibling as HTMLTableRowElement)).toBe(expected);
+        expect(spannedColumns(totals)).toBe(expected);
+      });
+    });
+  });
+
+  it('keeps the trailing sums cell of a capability-off table', async () => {
+    await mount({ dragAndDropEnabled: true, columnMenuEnabled: false, actionsColumnEnabled: false }, true);
+
+    expect((harness.row('2').nextElementSibling as HTMLTableRowElement).cells).toHaveLength(2 + 1 + 1 + 1);
   });
 });
