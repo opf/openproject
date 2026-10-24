@@ -2265,7 +2265,6 @@ en:
       pane:
         cancel: "Cancel"
         close: "Close"
-        copied: "Copied"
         copy: "Copy"
         discard: "Discard"
         editor_gone: "The editor is no longer open, so the text cannot be replaced. You can still copy it."
