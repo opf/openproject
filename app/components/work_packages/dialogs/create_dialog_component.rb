@@ -47,5 +47,9 @@ module WorkPackages::Dialogs
       @refresh_url = refresh_url
       @keep_open_on_success = keep_open_on_success
     end
+
+    def dialog_title
+      I18n.t(:label_work_package_new)
+    end
   end
 end

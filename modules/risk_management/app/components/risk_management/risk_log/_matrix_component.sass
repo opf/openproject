@@ -1,0 +1,295 @@
+.op-risk-log-dashboard
+  display: grid
+  gap: var(--base-size-16)
+  margin-bottom: var(--base-size-24)
+
+  &--primary
+    grid-template-columns: minmax(0, 1fr)
+
+  &--secondary
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+
+.op-risk-metrics
+  display: grid
+  gap: var(--base-size-16)
+  grid-template-columns: repeat(4, minmax(0, 1fr))
+  margin-bottom: var(--base-size-24)
+
+  &__link
+    border-radius: var(--borderRadius-medium)
+    display: block
+    padding: var(--base-size-8) 0
+
+    &[aria-current="page"]
+      outline: var(--borderWidth-thin) solid var(--borderColor-accent-emphasis)
+      outline-offset: var(--base-size-4)
+
+.op-risk-top-risks
+  min-width: 0
+
+  &__list
+    display: grid
+    gap: var(--base-size-16)
+    list-style: none
+    margin: 0
+    padding: 0
+
+  &__header
+    align-items: center
+    display: flex
+    gap: var(--base-size-8)
+    margin-bottom: var(--base-size-4)
+
+  &__value
+    align-items: center
+    display: flex
+    flex-wrap: wrap
+    gap: var(--base-size-8)
+    justify-content: space-between
+    margin-bottom: var(--base-size-4)
+
+  &__details
+    align-items: center
+    display: flex
+    flex-wrap: wrap
+    gap: var(--base-size-8)
+    margin-bottom: var(--base-size-8)
+
+.op-risk-coverage
+  min-width: 0
+
+  &__items
+    display: grid
+    gap: var(--base-size-16)
+
+  &__header
+    align-items: center
+    display: flex
+    flex-wrap: wrap
+    gap: var(--base-size-8)
+    justify-content: space-between
+    margin-bottom: var(--base-size-4)
+
+.op-risk-attention
+  min-width: 0
+
+  &__list
+    display: grid
+    gap: var(--base-size-8)
+    list-style: none
+    margin: 0
+    padding: 0
+
+  &__link
+    align-items: center
+    border-radius: var(--borderRadius-medium)
+    display: flex
+    gap: var(--base-size-8)
+    padding: var(--base-size-8)
+    text-decoration: none
+
+    &:hover
+      background-color: var(--bgColor-muted)
+
+    &[aria-current="page"]
+      background-color: var(--bgColor-accent-muted)
+
+.op-risk-response
+  min-width: 0
+
+  &__chart
+    height: 25rem
+    width: 100%
+
+.op-risk-log-list-heading
+  align-items: center
+  display: flex
+  flex-wrap: wrap
+  gap: var(--base-size-8)
+  justify-content: space-between
+  margin-bottom: var(--base-size-16)
+
+.op-risk-summary
+  min-width: 0
+
+  &__header
+    align-items: center
+    display: flex
+    gap: var(--base-size-8)
+    justify-content: space-between
+
+  &__section + &__section
+    margin-top: var(--base-size-16)
+
+  &__activities
+    display: grid
+    gap: var(--base-size-8)
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+
+  &__activity
+    border-radius: var(--borderRadius-medium)
+    display: flex
+    flex-direction: column
+    min-width: 0
+    padding: var(--base-size-8)
+
+    &:hover
+      background-color: var(--bgColor-muted)
+
+    &[aria-current="page"]
+      background-color: var(--bgColor-accent-muted)
+      outline: var(--borderWidth-thin) solid var(--borderColor-accent-emphasis)
+
+  &__category-chart
+    height: 18rem
+    width: 100%
+
+  &__development-chart
+    height: 18rem
+    width: 100%
+
+  &__response-legend
+    display: flex
+    flex-wrap: wrap
+    gap: var(--base-size-4)
+    margin-top: var(--base-size-8)
+
+.op-risk-matrix
+  min-width: 0
+
+  &__scroll-container
+    overflow-x: auto
+    text-align: center
+
+  &__table
+    border-collapse: separate
+    border-spacing: var(--base-size-4)
+    table-layout: fixed
+    margin-inline: auto
+    max-width: 44rem
+    width: 100%
+
+    td
+      padding: 0
+
+  &__corner,
+  &__impact-axis,
+  &__likelihood-axis,
+  &__column-label,
+  &__row-label
+    color: var(--fgColor-muted)
+    font-size: var(--text-body-size-small)
+    font-weight: var(--base-text-weight-normal)
+    padding: var(--base-size-4)
+
+  &__row-label
+    min-width: 6rem
+    text-align: right
+
+  &__impact-axis,
+  &__likelihood-axis
+    color: var(--fgColor-default)
+    font-weight: var(--base-text-weight-semibold)
+
+  &__impact-axis
+    text-align: center
+
+  &__likelihood-axis
+    min-width: var(--base-size-20)
+    padding: var(--base-size-8) 0
+    text-align: right
+    vertical-align: middle
+
+    span
+      display: inline-block
+      transform: rotate(180deg)
+      writing-mode: vertical-rl
+
+  &__axis-label
+    border-radius: var(--borderRadius-small)
+    color: var(--fgColor-muted)
+    display: inline-block
+    padding: var(--base-size-2) var(--base-size-4)
+
+    &:hover
+      background-color: var(--bgColor-muted)
+      color: var(--fgColor-accent)
+
+    &--selected
+      background-color: var(--bgColor-accent-muted)
+      color: var(--fgColor-accent)
+      font-weight: var(--base-text-weight-semibold)
+
+  &__column-label
+    min-width: 4.5rem
+    text-align: center
+
+  &__cell
+    align-items: center
+    aspect-ratio: 1.6
+    border: var(--borderWidth-thin) solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    color: var(--fgColor-default)
+    display: flex
+    justify-content: center
+    min-height: 3rem
+    text-decoration: none
+    width: 100%
+
+    &:hover
+      border-color: var(--borderColor-accent-emphasis)
+      box-shadow: var(--shadow-resting-small)
+
+    &:focus-visible
+      outline: var(--borderWidth-thick) solid var(--borderColor-accent-emphasis)
+      outline-offset: var(--base-size-2)
+
+    &--selected
+      outline: var(--borderWidth-thick) solid var(--borderColor-accent-emphasis)
+      outline-offset: calc(-1 * var(--borderWidth-thick))
+
+    &--success
+      background: var(--bgColor-success-muted)
+
+    &--attention
+      background: var(--bgColor-attention-muted)
+
+    &--severe
+      background: var(--bgColor-severe-muted)
+
+    &--danger
+      background: var(--bgColor-danger-muted)
+
+  @media screen and (max-width: 600px)
+    &__table
+      min-width: 38rem
+
+.op-risk-plan-layout
+  display: grid
+  gap: var(--base-size-16)
+  grid-template-columns: minmax(0, 2fr) minmax(16rem, 1fr)
+
+.op-risk-workflow
+  min-width: 0
+
+@media screen and (max-width: 1000px)
+  .op-risk-log-dashboard--primary,
+  .op-risk-log-dashboard--secondary
+    grid-template-columns: minmax(0, 1fr)
+
+  .op-risk-metrics
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+
+  .op-risk-matrix
+    max-width: none
+    width: 100%
+
+  .op-risk-plan-layout
+    grid-template-columns: minmax(0, 1fr)
+
+@media screen and (max-width: 600px)
+  .op-risk-metrics
+    grid-template-columns: minmax(0, 1fr)
+
+  .op-risk-summary__activities
+    grid-template-columns: minmax(0, 1fr)

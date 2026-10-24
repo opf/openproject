@@ -1,0 +1,35 @@
+<%= render Grids::WidgetBoxComponent.new(
+      key: "risks-requiring-attention",
+      title: t("risk_management.risk_log.dashboard.attention.title"),
+      turbo_enabled: false,
+      full_width: true,
+      classes: "op-risk-attention"
+    ) do %>
+  <% if @items.empty? %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) do %>
+      <%= t("risk_management.risk_log.dashboard.attention.empty") %>
+    <% end %>
+  <% else %>
+    <ul class="op-risk-attention__list">
+    <% @items.each do |key, item| %>
+      <li>
+        <%= render Primer::Beta::Link.new(
+              href: item_path(key), classes: "op-risk-attention__link",
+              aria: { current: selected?(key) ? "page" : nil }
+            ) do %>
+          <%= render Primer::Beta::Octicon.new(
+                icon: :alert, color: item[:count].positive? ? :attention : :muted,
+                aria: { hidden: true }
+              ) %>
+          <%= render(Primer::Beta::Text.new(tag: :span)) do %>
+            <%= t("risk_management.risk_log.dashboard.attention.#{key}", count: item[:count]) %>
+          <% end %>
+          <%= render Primer::Beta::Counter.new(
+                count: item[:count], scheme: item[:count].positive? ? :primary : :secondary
+              ) %>
+        <% end %>
+      </li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>
