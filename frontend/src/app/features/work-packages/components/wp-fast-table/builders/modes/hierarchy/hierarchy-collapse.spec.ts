@@ -328,3 +328,72 @@ describe('Hierarchy table levels', () => {
     expect(levelOf('wp:5')).toBe(3);
   });
 });
+
+describe('Hierarchy indicator text', () => {
+  const harnesses:TableHarness[] = [];
+
+  afterEach(async () => {
+    await Promise.all(harnesses.splice(0).map((table) => table.destroy()));
+  });
+
+  const mount = async (keyboardNavigationEnabled:boolean) => {
+    const harness = buildTable({
+      workPackages: [parent, child, { id: '3', ancestors: [parent, child] }],
+      showHierarchies: true,
+      translations: {
+        'js.work_packages.hierarchy.children_expanded': 'Hierarchy level %{level}, expanded.',
+        'js.work_packages.hierarchy.children_collapsed': 'Hierarchy level %{level}, collapsed.',
+        'js.work_packages.hierarchy.leaf': 'Work package leaf at level %{level}.',
+      },
+      configuration: { keyboardNavigationEnabled },
+    });
+    harnesses.push(harness);
+    await harness.render();
+    return harness;
+  };
+
+  const indicator = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('.wp-table--hierarchy-span')!;
+  const subjectCell = (harness:TableHarness, workPackageId:string) => harness.row(workPackageId).querySelector<HTMLElement>('td.subject')!;
+  const levelText = (level:string|null) => new RegExp(`(Hierarchy level|leaf at level) ${level}[,.]`);
+
+  const geometry = (harness:TableHarness, workPackageId:string) => ({
+    width: indicator(harness, workPackageId).style.width,
+    indentation: indicator(harness, workPackageId).dataset.indentation,
+    minWidth: subjectCell(harness, workPackageId).style.minWidth,
+    containerWidth: subjectCell(harness, workPackageId).querySelector<HTMLElement>('.wp-table--cell-container')?.style.width,
+  });
+
+  it('reads the row level on an enabled table, also after a refresh', async () => {
+    const harness = await mount(true);
+
+    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining('Hierarchy level 1,'));
+    ['1', '2', '3'].forEach((id) => {
+      expect(indicator(harness, id)).toHaveTextContent(levelText(harness.row(id).getAttribute('aria-level')));
+    });
+    expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 3.');
+
+    ['1', '2', '3'].forEach((id) => harness.table.refreshRows(harness.injector.get(States).workPackages.get(id).value!));
+
+    expect(indicator(harness, '1')).toHaveTextContent('Hierarchy level 1,');
+    expect(indicator(harness, '2')).toHaveTextContent('Hierarchy level 2,');
+    expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 3.');
+  });
+
+  it('keeps the zero-based text of a capability-off table', async () => {
+    const harness = await mount(false);
+
+    expect(indicator(harness, '1')).toHaveTextContent('Hierarchy level 0,');
+    expect(indicator(harness, '2')).toHaveTextContent('Hierarchy level 1,');
+    expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 2.');
+  });
+
+  it('indents an enabled table exactly like a capability-off table', async () => {
+    const enabled = await mount(true);
+    const disabled = await mount(false);
+
+    ['1', '2', '3'].forEach((id) => {
+      expect(geometry(enabled, id)).toEqual(geometry(disabled, id));
+    });
+    expect(geometry(enabled, '3').containerWidth).toBeTruthy();
+  });
+});
