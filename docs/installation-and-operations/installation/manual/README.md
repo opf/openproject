@@ -106,19 +106,19 @@ Please be aware that the actual installation of a specific Ruby version takes so
 ```
 
 We suggest you install the version we require in [.ruby-version](https://github.com/opf/openproject/blob/dev/.ruby-version).
-Read the first line e.g. `4.0.7` and install that version.
+Read the first line e.g. `4.0.9` and install that version.
 
 ```shell
-[openproject@host] rbenv install 4.0.7
+[openproject@host] rbenv install 4.0.9
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 4.0.7
+[openproject@host] rbenv global 4.0.9
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```text
-ruby 4.0.7 (2026-09-15 revision 229531a6cf) +PRISM [arm64-darwin25]
+ruby 4.0.9 (2026-09-15 revision 229531a6cf) +PRISM [arm64-darwin25]
 ```
 
 ## Installation of Node
