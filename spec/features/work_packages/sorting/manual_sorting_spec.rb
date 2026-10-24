@@ -156,6 +156,34 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_page.expect_no_parent
     end
 
+    context "when reordering siblings without changing their parent" do
+      let(:work_package5) { create(:work_package, subject: "WP5", project:, parent: work_package1) }
+      let(:work_package6) { create(:work_package, subject: "WP6", project:, parent: work_package1) }
+
+      before do
+        work_package5
+        work_package6
+        wp_table.visit!
+        wp_table.expect_work_package_order(work_package1, work_package2, work_package3, work_package4,
+                                           work_package5, work_package6)
+      end
+
+      it "keeps the new order and its row positions once each drop settles" do
+        wp_table.drag_and_drop_work_package from: 5, to: 4
+        wp_table.expect_and_dismiss_toaster message: "Successful creation."
+        wp_table.expect_work_package_order(work_package1, work_package2, work_package3, work_package4,
+                                           work_package6, work_package5)
+
+        wp_table.drag_and_drop_work_package from: 5, to: 4
+        loading_indicator_saveguard
+        wp_table.expect_work_package_order(work_package1, work_package2, work_package3, work_package4,
+                                           work_package5, work_package6)
+        wp_table.expect_row_positions(rowcount: 8, rows: [1, 2, 3, 4, 5, 6, 7, 8])
+        wp_table.expect_work_package_order(work_package1, work_package2, work_package3, work_package4,
+                                           work_package5, work_package6)
+      end
+    end
+
     context "when dragging an element partly out of the hierarchy" do
       let(:work_package5) do
         create(:work_package, subject: "WP5", project:, parent: work_package1)
@@ -376,7 +404,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
     end
 
-    it "exposes row positions again once a drop has reloaded the query" do
+    it "exposes row positions again once a drop settles" do
       wp_table.expect_row_positions(rowcount: 6, rows: [1, 2, 3, 4, 5, 6])
 
       wp_table.drag_and_drop_work_package from: 1, to: 3
@@ -388,9 +416,6 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.drag_and_drop_work_package from: 0, to: 2
       wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
       expect_query_order(query, [work_package3.id, work_package1.id, work_package2.id])
-
-      wp_table.visit_query query
-      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
       wp_table.expect_row_positions(rowcount: 6, rows: [1, 2, 3, 4, 5, 6])
     end
 
