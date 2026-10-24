@@ -43,6 +43,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 import { hierarchyOrder } from './hierarchy-order';
+import { describesRows } from '../../../semantics/table-row-positions';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
   @LazyInject() querySpace:IsolatedQuerySpace;
@@ -87,9 +88,10 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   protected doRender() {
     const results = this.workPackageTable.originalRows.map((wpId) => this.workPackageTable.originalRowIndex[wpId].object);
     const ancestors = new Map(results.flatMap((wp) => wp.getAncestors()).map((ancestor) => [ancestor.id!, ancestor]));
+    const source = this.querySpace.results.value;
     const order = hierarchyOrder(
       results.map((wp) => ({ id: wp.id!, ancestorIds: wp.getAncestors().map((ancestor) => ancestor.id!) })),
-      this.querySpace.results.value?.rowPositions,
+      source && describesRows(source, this.workPackageTable.originalRows) ? source.rowPositions : undefined,
     );
 
     order.forEach((id) => {

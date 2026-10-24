@@ -250,6 +250,7 @@ export class WorkPackageTable {
     });
 
     if (replaced > 0) {
+      this.rowPositions?.refreshed();
       this.semantics?.paintWorkPackage(workPackage.id!);
       this.notifyRowsRefreshed(workPackage.id!);
     }

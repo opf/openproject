@@ -31,11 +31,13 @@ import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-pa
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import type { GroupObject, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import type { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { States } from 'core-app/core/states/states.service';
 import { groupOccurrenceKey, placeholderOccurrenceKey, wpOccurrenceKey, type RenderDraft, type RenderedOccurrence } from '../rendered-occurrence-ledger';
 import type { WorkPackageTable } from '../wp-fast-table';
 import { isEmptyResultsRow, isExposedRow, isInlineCreateRow, isTotalsRow } from '../helpers/structural-rows';
-import { bodyRowPositions, draftAgrees, type BodyRowPositions, type PositionGroup } from './body-row-positions';
+import { bodyRowPositions, draftAgrees, hierarchyRowPositions, type BodyRowPositions, type PositionGroup } from './body-row-positions';
 
 export interface CapturedRowPositions {
   readonly source:WorkPackageCollectionResource;
@@ -46,6 +48,12 @@ export interface CapturedRowPositions {
 const UNSCOPED_COLLECTION_HREF = /\/api\/v3\/(?:(?:projects|workspaces)\/[^/]+\/)?work_packages(?:\?|$)/;
 
 type ProjectedRowKind = 'ledger'|'skipped'|'empty'|'totals'|'create'|'foreign';
+
+export function describesRows(source:WorkPackageCollectionResource, rows:readonly string[]):boolean {
+  return source.count === rows.length
+    && source.elements.length === rows.length
+    && source.elements.every((wp, index) => wp.id === rows[index]);
+}
 
 function setIfChanged(element:Element, name:string, value:string|null):void {
   if (value === null) {
@@ -64,6 +72,8 @@ export class TableRowPositions {
 
   @LazyInject(WorkPackageViewBaselineService) private readonly baseline:WorkPackageViewBaselineService;
 
+  @LazyInject(States) private readonly states:States;
+
   public readonly injector:Injector = this.table.injector;
 
   private snapshot:CapturedRowPositions|null = null;
@@ -72,7 +82,9 @@ export class TableRowPositions {
 
   public capture(draft:RenderDraft):CapturedRowPositions|null {
     const source = this.table.querySpace.results.value;
-    if (!source || this.withdrawnByMode() || !this.matchesRenderedRows(source)) return null;
+    if (!source || this.withdrawnByMode()) return null;
+    if (!describesRows(source, this.table.originalRows)) return null;
+    if (this.hierarchies.isEnabled) return this.captureHierarchy(source, draft);
 
     const groups = this.table.querySpace.groups.value ?? [];
     if (groups.length > 0 && !this.trustsGroupedAggregates(source, groups)) return null;
@@ -98,6 +110,11 @@ export class TableRowPositions {
     return draftAgrees(body, rows, positionGroups) ? { source, body } : null;
   }
 
+  /** Re-derives the committed positions after a row re-rendered from a newer resource, withdrawing them if its ancestry moved. */
+  public refreshed():void {
+    if (this.snapshot) this.revalidate();
+  }
+
   public commit(snapshot:CapturedRowPositions|null):void {
     this.snapshot = snapshot;
   }
@@ -116,17 +133,34 @@ export class TableRowPositions {
     });
   }
 
-  private withdrawnByMode():boolean {
-    if (this.hierarchies.isEnabled) return true;
-    return (this.columns.hasRelationColumns() || this.columns.hasChildRelationsColumn())
-      && Object.keys(this.relationColumns.current).length > 0;
+  private revalidate():void {
+    const draft = this.table.lastRenderPass?.draft;
+    this.commit(draft ? this.capture(draft) : null);
   }
 
-  private matchesRenderedRows(source:WorkPackageCollectionResource):boolean {
-    const { originalRows } = this.table;
-    return source.count === originalRows.length
-      && source.elements.length === originalRows.length
-      && source.elements.every((wp, index) => wp.id === originalRows[index]);
+  private captureHierarchy(source:WorkPackageCollectionResource, draft:RenderDraft):CapturedRowPositions|null {
+    const { rowCount, rowPositions } = source;
+    if (rowCount === undefined || !rowPositions) return null;
+
+    const occurrences = draft.occurrences.filter((occurrence) => occurrence.key !== placeholderOccurrenceKey());
+    if (occurrences.some((occurrence) => occurrence.workPackageId === null || occurrence.workPackage === null)) return null;
+
+    const body = hierarchyRowPositions(rowCount, rowPositions, occurrences.map((occurrence) => ({
+      key: occurrence.key,
+      workPackageId: occurrence.workPackageId!,
+      ancestorIds: occurrence.key === wpOccurrenceKey(occurrence.workPackageId!) ? this.renderedAncestorIds(occurrence.workPackage!) : null,
+    })));
+    return body ? { source, body } : null;
+  }
+
+  /** Rows re-render from the work package cache, so the cached resource describes the row on screen, not the draft's. */
+  private renderedAncestorIds(drafted:WorkPackageResource):string[] {
+    return this.states.workPackages.get(drafted.id!).getValueOr(drafted).getAncestors().map((ancestor) => ancestor.id!);
+  }
+
+  private withdrawnByMode():boolean {
+    return (this.columns.hasRelationColumns() || this.columns.hasChildRelationsColumn())
+      && Object.keys(this.relationColumns.current).length > 0;
   }
 
   private trustsGroupedAggregates(source:WorkPackageCollectionResource, groups:GroupObject[]):boolean {

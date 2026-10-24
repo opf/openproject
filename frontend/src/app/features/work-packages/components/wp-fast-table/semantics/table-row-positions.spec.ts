@@ -27,6 +27,7 @@
 
 import { buildTable, TableHarness, TableHarnessOptions } from '../testing/table-harness';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { waitFor } from '@testing-library/dom';
 import { nextTask } from 'core-common/testing/timing';
 import { States } from 'core-app/core/states/states.service';
@@ -131,6 +132,91 @@ describe('TableRowPositions', () => {
     await mount({ showHierarchies: true });
     expect(table()).not.toHaveAttribute('aria-rowcount');
     expect(harness.row('21')).not.toHaveAttribute('aria-rowindex');
+  });
+
+  describe('in hierarchy mode', () => {
+    const parent = { id: '1' };
+    const child = { id: '2', ancestors: [parent] };
+    const other = { id: '3' };
+    const entries = {
+      1: { position: 1, parent: null },
+      2: { position: 2, parent: '1' },
+      3: { position: 3, parent: null },
+    };
+    const mountHierarchy = (options:Partial<TableHarnessOptions> = {}) => mount({
+      workPackages: [child, other, parent],
+      showHierarchies: true,
+      pagination: { offset: 1, pageSize: 20, total: 3 },
+      rowPositions: { count: 3, entries },
+      ...options,
+    });
+
+    it('publishes the positions the collection carries', async () => {
+      await mountHierarchy();
+      harness.expectRowPositions(['1', '2', '3', '4', '5', '6'], '6');
+    });
+
+    it('keeps query-wide positions of a later page, gaps included', async () => {
+      await mountHierarchy({
+        workPackages: [{ id: '5', ancestors: [parent] }],
+        pagination: { offset: 2, pageSize: 1, total: 8 },
+        rowPositions: { count: 9, entries: { 1: { position: 1, parent: null }, 5: { position: 7, parent: '1' } } },
+      });
+      harness.expectRowPositions(['1', '2', '8', '11', '12'], '12');
+    });
+
+    it('withdraws positions without row metadata', async () => {
+      await mountHierarchy({ rowPositions: undefined });
+      harness.expectNoRowPositions();
+    });
+
+    it('withdraws positions when a rendered parent disagrees with the collection', async () => {
+      await mountHierarchy({ rowPositions: { count: 3, entries: { ...entries, 2: { position: 2, parent: null } } } });
+      harness.expectNoRowPositions();
+    });
+
+    it('withdraws positions when a rendered row has no entry', async () => {
+      await mountHierarchy({ rowPositions: { count: 3, entries: { 1: entries[1], 2: entries[2] } } });
+      harness.expectNoRowPositions();
+    });
+
+    it('renders a reorder without a new collection in its new order and withdraws positions', async () => {
+      await mountHierarchy();
+      harness.table.initialSetup(['3', '1', '2'].map((id) => harness.table.originalRowIndex[id].object));
+      await waitFor(() => expect(harness.rowIds()).toEqual(['3', '1', '2']));
+      harness.expectNoRowPositions();
+    });
+
+    it('withdraws positions when a refreshed row moves to another parent', async () => {
+      await mountHierarchy();
+      harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2' }));
+      await waitFor(() => harness.expectNoRowPositions());
+    });
+
+    it('withdraws positions when a refreshed row moves above its parent', async () => {
+      await mountHierarchy();
+      harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2', ancestors: [{ id: '4' }, parent] }));
+      await nextTask();
+      expect(harness.row('2').querySelector('.wp-table--hierarchy-span')).toHaveAttribute('data-indentation', '65px');
+      harness.expectNoRowPositions();
+    });
+
+    it('keeps positions when a refreshed row keeps its parent', async () => {
+      await mountHierarchy();
+      harness.injector.get(States).workPackages.get('2').putValue(buildWorkPackage({ id: '2', ancestors: [parent] }));
+      await nextTask();
+      harness.expectRowPositions(['1', '2', '3', '4', '5', '6'], '6');
+    });
+
+    it('keeps positions and the count when a parent collapses', async () => {
+      await mountHierarchy();
+      harness.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.row('2')).toHaveAttribute('aria-rowindex', '3');
+      expect(harness.row('1')).toHaveAttribute('aria-rowindex', '2');
+      expect(harness.row('3')).toHaveAttribute('aria-rowindex', '4');
+      expect(table()).toHaveAttribute('aria-rowcount', '6');
+    });
   });
 
   it('does not activate capability-off consumers', async () => {

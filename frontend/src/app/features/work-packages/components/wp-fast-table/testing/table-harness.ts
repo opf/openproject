@@ -46,7 +46,7 @@ import { States } from 'core-app/core/states/states.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { RowPositionEntry, WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { InlineCreateRowBuilder } from 'core-app/features/work-packages/components/wp-inline-create/inline-create-row-builder';
@@ -118,6 +118,8 @@ export interface NonSortableColumnSpec { id:string, sortable:false }
 
 export interface TableHarnessOptions {
   pagination?:{ offset:number; pageSize:number; total:number };
+  /** Hierarchy row metadata of the results collection, as the API returns it. */
+  rowPositions?:{ count:number; entries:Record<string, RowPositionEntry> };
   /** Self link of the results collection; defaults to the global work packages collection. */
   collectionHref?:string;
   workPackages:WorkPackageFixture[];
@@ -316,6 +318,8 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
         total: options.pagination?.total ?? resources.length,
         pageSize: options.pagination?.pageSize ?? Math.max(resources.length, 1),
         offset: options.pagination?.offset ?? 1,
+        rowCount: options.rowPositions?.count,
+        rowPositions: options.rowPositions?.entries,
         sumsSchema: { href: sumsSchemaHref },
       } as WorkPackageCollectionResource);
       querySpace.initialized.putValue(null);

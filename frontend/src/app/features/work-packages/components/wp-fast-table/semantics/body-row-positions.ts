@@ -25,6 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { RowPositionEntry } from 'core-app/features/hal/resources/wp-collection-resource';
+import { hierarchyAgrees } from '../builders/modes/hierarchy/hierarchy-order';
+
 export interface BodyRowPositions {
   readonly count:number;
   readonly ordinals:ReadonlyMap<string, number>;
@@ -167,4 +170,33 @@ export function draftAgrees(body:BodyRowPositions, rows:readonly DraftRow[], gro
     previous = ordinal;
   }
   return true;
+}
+
+export interface HierarchyDraftRow {
+  readonly key:string;
+  readonly workPackageId:string;
+  /** Visible ancestors of a result row, root first; `null` for a contextual ancestor, whose edges its descendants vouch for. */
+  readonly ancestorIds:readonly string[]|null;
+}
+
+export function hierarchyRowPositions(
+  count:number,
+  entries:Readonly<Record<string, RowPositionEntry>>,
+  rows:readonly HierarchyDraftRow[],
+):BodyRowPositions|null {
+  if (!Number.isSafeInteger(count) || count < 0) return null;
+
+  const results = rows.flatMap(({ workPackageId, ancestorIds }) => (ancestorIds ? [{ id: workPackageId, ancestorIds }] : []));
+  if (!hierarchyAgrees(results, entries)) return null;
+
+  const ordinals = new Map<string, number>();
+  let previous = 0;
+  for (const { key, workPackageId } of rows) {
+    if (!Object.hasOwn(entries, workPackageId)) return null;
+    const { position } = entries[workPackageId];
+    if (!Number.isSafeInteger(position) || position <= previous || position > count) return null;
+    ordinals.set(key, position);
+    previous = position;
+  }
+  return { count, ordinals };
 }

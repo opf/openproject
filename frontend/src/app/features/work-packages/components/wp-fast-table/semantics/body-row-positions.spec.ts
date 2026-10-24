@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { bodyRowPositions, draftAgrees, PositionWindow } from './body-row-positions';
+import { bodyRowPositions, draftAgrees, PositionWindow, hierarchyRowPositions } from './body-row-positions';
 
 const groups = [
   { headerKey: 'G', sumsKey: 'G-sum', count: 4, hasSums: true },
@@ -130,5 +130,34 @@ describe('draftAgrees', () => {
 
   it('rejects unknown keys', () => {
     expect(draftAgrees(grouped(), [structural('G'), member('X')], groups)).toBe(false);
+  });
+});
+
+describe('hierarchyRowPositions', () => {
+  const rows = [
+    { key: 'ancestor:1', workPackageId: '1', ancestorIds: null },
+    { key: 'wp:2', workPackageId: '2', ancestorIds: ['1'] },
+  ];
+  const entries = { 1: { position: 3, parent: null }, 2: { position: 5, parent: '1' } };
+
+  it('keys the collection positions by occurrence', () => {
+    expect(hierarchyRowPositions(9, entries, rows)).toEqual({ count: 9, ordinals: new Map([['ancestor:1', 3], ['wp:2', 5]]) });
+  });
+
+  it.each([
+    ['a negative count', -1, entries],
+    ['a fractional count', 9.5, entries],
+    ['a missing entry', 9, { 1: entries[1] }],
+    ['a disagreeing parent', 9, { ...entries, 2: { position: 5, parent: null } }],
+    ['a position beyond the count', 4, entries],
+    ['positions out of rendered order', 9, { 1: { position: 5, parent: null }, 2: { position: 3, parent: '1' } }],
+    ['a zero position', 9, { 1: { position: 0, parent: null }, 2: entries[2] }],
+  ])('rejects %s', (_name, count, given) => {
+    expect(hierarchyRowPositions(count, given, rows)).toBeNull();
+  });
+
+  it('rejects a result whose ancestry disagrees above its parent', () => {
+    const nested = [rows[0], { key: 'wp:2', workPackageId: '2', ancestorIds: ['4', '1'] }];
+    expect(hierarchyRowPositions(9, entries, nested)).toBeNull();
   });
 });
