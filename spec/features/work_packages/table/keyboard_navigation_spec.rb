@@ -77,14 +77,14 @@ RSpec.describe "Work package table keyboard navigation", :js do
       click_on "Sort ascending"
     end
     expect(page).to have_css(".generic-table--sort-header #subject.asc")
-    wp_table.expect_work_package_order(sibling, parent, child)
+    wp_table.expect_work_package_order(parent, child, sibling)
 
     # The column menu drops focus to body after an action until DREAM-894.
     wp_table.tab_into_table
     wp_table.expect_focus_on_column_header("Subject")
 
     wp_table.press_keys(:down)
-    wp_table.expect_focus_on_cell(sibling, :subject)
+    wp_table.expect_focus_on_cell(parent, :subject)
 
     wp_table.press_keys(%i[shift tab])
     wp_table.expect_focus_outside_table

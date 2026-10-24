@@ -26,6 +26,7 @@
 //++
 
 import { buildTable, TableHarness } from '../../../testing/table-harness';
+import { hierarchyOrder } from './hierarchy-order';
 
 describe('Hierarchy ordering across query windows', () => {
   let harness:TableHarness;
@@ -41,15 +42,47 @@ describe('Hierarchy ordering across query windows', () => {
     expect(harness.rowIds()).toEqual(['1', '2', '3']);
   });
 
-  it('currently defers the child when its parent is in the same window', async () => {
+  it('renders a parent before a child that precedes it in the results', async () => {
     harness = buildTable({ workPackages: [child, other, parent], showHierarchies: true });
     await harness.render();
-    expect(harness.rowIds()).toEqual(['3', '1', '2']);
+    expect(harness.rowIds()).toEqual(['1', '2', '3']);
   });
 
   it('keeps a child under an earlier parent', async () => {
     harness = buildTable({ workPackages: [parent, other, child], showHierarchies: true });
     await harness.render();
     expect(harness.rowIds()).toEqual(['1', '2', '3']);
+  });
+});
+
+describe('hierarchyOrder', () => {
+  const node = (id:string, ...ancestorIds:string[]) => ({ id, ancestorIds });
+
+  it.each([
+    ['flat results', [node('a'), node('b')], ['a', 'b']],
+    ['a child before its parent', [node('c', 'p'), node('o'), node('p')], ['p', 'c', 'o']],
+    ['a contextual parent', [node('c', 'p'), node('o')], ['p', 'c', 'o']],
+    ['nested contextual ancestors', [node('g', 'r', 'm'), node('r2')], ['r', 'm', 'g', 'r2']],
+    ['siblings under a shared contextual parent', [node('c1', 'p'), node('o'), node('c2', 'p')], ['p', 'c1', 'c2', 'o']],
+    ['a parent ranked before its children', [node('p'), node('o'), node('c', 'p')], ['p', 'c', 'o']],
+  ])('orders %s depth first by earliest rank', (_name, results, expected) => {
+    expect(hierarchyOrder(results)).toEqual(expected);
+  });
+
+  it('follows server positions over the page rank', () => {
+    const results = [node('y'), node('x2', 'x')];
+    const positions = {
+      x: { position: 1, parent: null },
+      x2: { position: 3, parent: 'x' },
+      y: { position: 5, parent: null },
+    };
+    expect(hierarchyOrder(results, positions)).toEqual(['x', 'x2', 'y']);
+  });
+
+  it.each([
+    ['an entry is missing', { x: { position: 1, parent: null }, x2: { position: 3, parent: 'x' } }],
+    ['a parent disagrees', { x: { position: 1, parent: null }, x2: { position: 3, parent: null }, y: { position: 5, parent: null } }],
+  ])('falls back to the page rank when %s', (_name, positions) => {
+    expect(hierarchyOrder([node('y'), node('x2', 'x')], positions)).toEqual(['y', 'x', 'x2']);
   });
 });

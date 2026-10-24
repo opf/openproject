@@ -50,9 +50,18 @@ export class WorkPackageCollectionResource extends CollectionResource<WorkPackag
 
   public totalSums?:Record<string, number>;
 
+  public rowCount?:number;
+
+  public rowPositions?:Record<string, RowPositionEntry>;
+
   public sumsSchema?:SchemaResource;
 
   public representations:HalResource[];
+}
+
+export interface RowPositionEntry {
+  position:number;
+  parent:string|null;
 }
 
 /**
