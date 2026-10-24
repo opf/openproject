@@ -50,7 +50,7 @@ import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
 import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
-import { TreegridSemantics } from './semantics/treegrid-semantics';
+import { paintSectionExposure, TreegridSemantics } from './semantics/treegrid-semantics';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
@@ -258,6 +258,13 @@ export class WorkPackageTable {
   public notifyRowsRefreshed(key:string):void {
     this.rowPositions?.paint();
     this.rowsRefreshedSubject.next(key);
+  }
+
+  /** Re-exposes a structural section whose rows changed outside the render pass. */
+  public reconcileSection(section:HTMLTableSectionElement):void {
+    if (!this.semantics) return;
+    paintSectionExposure(section);
+    this.rowPositions?.paint();
   }
 
   /**
