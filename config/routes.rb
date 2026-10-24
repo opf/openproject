@@ -898,6 +898,10 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resource :settings_search, only: [] do
+      get :tree
+    end
+
     namespace :settings do
       resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]

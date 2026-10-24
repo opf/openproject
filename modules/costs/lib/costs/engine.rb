@@ -193,6 +193,59 @@ module Costs
       ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
+    initializer "costs.settings_pages" do
+      ::Settings::Pages.draw do
+        page :time, menu_item: :costs_settings, label: :label_time do
+          setting :allow_tracking_start_and_end_times
+          setting :enforce_tracking_start_and_end_times
+          setting :time_entries_max_hours_per_entry
+          setting :time_entries_max_hours_per_day
+          setting :time_entries_prohibit_logging_on_non_working_days
+          setting :time_entries_limit_to_user_working_hours
+          setting :time_entries_prohibit_logging_for_past_months
+          setting :time_entries_past_month_grace_days
+        end
+
+        page :costs,
+             menu_item: :costs_settings,
+             label: :label_costs,
+             url: { controller: "/admin/costs_settings", action: :show } do
+          setting :costs_currency
+          setting :costs_currency_format
+        end
+
+        page :cost_types, menu_item: :cost_types do
+          link :new, label: :button_add_cost_type, url: -> { new_admin_cost_type_path }
+        end
+
+        page :time_entry_activities, menu_item: :time_entry_activities do
+          link :new,
+               label: -> { "#{t(:button_add)}: #{TimeEntryActivity.model_name.human}" },
+               url: -> { new_admin_settings_time_entry_activity_path }
+        end
+      end
+
+      ::Settings::EntityKinds.draw do
+        kind :cost_types,
+             menu_item: :cost_types,
+             scope: -> { CostType.order(:name) },
+             url: ->(cost_type) { edit_admin_cost_type_path(cost_type) } do
+          %i[name unit unit_plural default for_all_projects].each do |name|
+            attribute name, label: -> { CostType.human_attribute_name(name) }, field: "cost_type[#{name}]"
+          end
+        end
+
+        kind :time_entry_activities,
+             menu_item: :time_entry_activities,
+             scope: -> { TimeEntryActivity.shared.order(:position) },
+             url: ->(activity) { edit_admin_settings_time_entry_activity_path(activity) } do
+          %i[name active].each do |name|
+            attribute name, label: -> { TimeEntryActivity.human_attribute_name(name) }, field: "enumeration[#{name}]"
+          end
+        end
+      end
+    end
+
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
     replace_principal_references "CostEntry" => %i[logged_by_id user_id]

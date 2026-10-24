@@ -33,6 +33,32 @@ module OpenProject::LdapDepartments
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "ldap_departments.settings_search" do
+      ::Settings::Pages.draw do
+        page :ldap_departments, menu_item: :plugin_ldap_departments do
+          link :new,
+               label: :"ldap_departments.synchronized_trees.add_new",
+               url: -> { new_ldap_departments_synchronized_tree_path },
+               if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
+        end
+      end
+
+      ::Settings::EntityKinds.draw do
+        kind :ldap_synchronized_trees,
+             menu_item: :plugin_ldap_departments,
+             scope: -> { LdapDepartments::SynchronizedTree.order(:name) },
+             url: ->(tree) { edit_ldap_departments_synchronized_tree_path(tree_id: tree.id) },
+             if: -> { EnterpriseToken.allows_to?(:ldap_groups) } do
+          %i[name ldap_auth_source_id base_dn structure_filter_string ou_name_attribute guid_attribute user_filter_string
+             sync_users].each do |name|
+            attribute name,
+                      label: -> { LdapDepartments::SynchronizedTree.human_attribute_name(name) },
+                      field: "synchronized_tree[#{name}]"
+          end
+        end
+      end
+    end
+
     register "openproject-ldap_departments",
              author_url: "https://github.com/opf/openproject",
              bundled: true,

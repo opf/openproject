@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
     flex_layout(align_items: :center, justify_content: :space_between) do |container|
       container.with_column do
         render(Primer::Beta::Link.new(href: admin_departments_path, underline: false, color: :default)) do
-          render(Primer::Beta::Heading.new(tag: :h4)) { organization_name }
+          render(Primer::Beta::Heading.new(tag: :h4, data: { setting_name: "organization_name" })) { organization_name }
         end
       end
 

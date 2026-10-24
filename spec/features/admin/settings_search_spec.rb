@@ -1,0 +1,174 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+
+require "spec_helper"
+
+RSpec.describe "Searching settings in the administration", :js do
+  current_user { create(:admin) }
+
+  before do
+    visit admin_settings_working_days_and_hours_path
+  end
+
+  # Typing character by character fetches the tree for every prefix, and a late response may replace
+  # the tree while a result is being clicked. Entering the query at once only fetches the final tree.
+  def search_for(query)
+    expect(page).to have_css(".op-admin-settings-search filterable-tree-view[data-catalyst]", wait: 20)
+    input = find_test_selector("op-admin-settings-search--filter")
+    page.execute_script(<<~JS, input, query)
+      arguments[0].value = arguments[1];
+      arguments[0].dispatchEvent(new Event("input", { bubbles: true }));
+    JS
+    expect(page).to have_css(".op-admin-settings-search filterable-tree-view a", wait: 20)
+  end
+
+  it "shows the results instead of the admin menu while searching" do
+    within("#menu-sidebar") do
+      expect(page).to have_link "Date and time formats"
+
+      search_for "host name"
+
+      expect(page).to have_link "Host name"
+      expect(page).to have_no_link "Date and time formats"
+
+      find_test_selector("op-admin-settings-search--filter").send_keys(:escape)
+
+      expect(page).to have_link "Date and time formats"
+      expect(page).to have_no_link "Host name"
+    end
+  end
+
+  it "focuses the search on the admin overview" do
+    visit admin_index_path
+
+    expect(page).to have_field "Search settings", focused: true
+  end
+
+  it "filters the settings tree and highlights the selected setting" do
+    search_for "host name"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Host name"
+      expect(page).to have_no_link "Application title"
+
+      click_on "Host name"
+    end
+
+    expect(page).to have_current_path admin_settings_general_path, wait: 20
+    expect(page).to have_css(".op-setting--highlighted", text: "Host name")
+  end
+
+  it "highlights settings submitted in fields named otherwise" do
+    search_for "github webhook secret"
+
+    within_test_selector("op-admin-settings-search") { click_on "Webhook secret" }
+
+    expect(page).to have_css(".op-setting--highlighted", text: "Webhook secret", wait: 20)
+  end
+
+  it "lists actions such as adding an LDAP connection" do
+    search_for "ldap new"
+
+    within_test_selector("op-admin-settings-search") { click_on "New LDAP connection" }
+
+    expect(page).to have_current_path new_ldap_auth_source_path, wait: 20
+  end
+
+  it "ignores punctuation and word order" do
+    search_for "registration self"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Self-registration"
+      expect(page).to have_no_link "Application title"
+    end
+  end
+
+  it "lists all settings below a matching menu item or tab" do
+    search_for "passwords"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Minimum length"
+      expect(page).to have_no_link "Application title"
+    end
+  end
+
+  it "combines words matching a tab and a setting" do
+    search_for "passwords minimum"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Minimum length"
+      expect(page).to have_no_link "Enable password reset"
+    end
+  end
+
+  it "highlights settings not changed through a form field", with_flag: { ai_text_transform_actions: true } do
+    search_for "text transform"
+
+    within_test_selector("op-admin-settings-search") { click_on "Enable text transform actions" }
+
+    expect(page).to have_current_path admin_text_transform_actions_path, wait: 20
+    expect(page).to have_css(".op-setting--highlighted[data-setting-name='ai_text_transform_actions_enabled']")
+  end
+
+  it "finds settings by their description and shows an excerpt of it" do
+    search_for "comma separated"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Objects per page options"
+      expect(page).to have_css(".op-admin-settings-search--excerpt", text: "Multiple values allowed (comma separated)")
+      expect(page).to have_no_link "Application title"
+    end
+  end
+
+  context "with entities" do
+    shared_let(:feature) { create(:type, name: "Feature") }
+    shared_let(:role) { create(:project_role, name: "Developer") }
+
+    it "finds an attribute of an entity by its name and highlights the field" do
+      search_for "feature color"
+
+      within_test_selector("op-admin-settings-search") do
+        expect(page).to have_link "Feature"
+        click_on "Color"
+      end
+
+      expect(page).to have_current_path edit_type_details_path(feature), wait: 20
+      expect(page).to have_css(".op-setting--highlighted", text: "Color")
+    end
+
+    it "finds a permission of a role and highlights its check box" do
+      search_for "developer edit work packages"
+
+      within_test_selector("op-admin-settings-search") { click_on "Edit work packages" }
+
+      expect(page).to have_current_path edit_role_path(role), wait: 20
+      expect(page).to have_css(".op-setting--highlighted", text: "Edit work packages")
+    end
+  end
+end

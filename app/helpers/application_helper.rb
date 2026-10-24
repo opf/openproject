@@ -289,7 +289,8 @@ module ApplicationHelper
     service_worker = pwa_service_worker_attributes
 
     {
-      controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
+      controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links",
+                   "highlight-target-element highlight-setting",
                    service_worker[:controller],
                    stimulus_body_controller].compact.join(" "),
       relative_url_root: root_path,
