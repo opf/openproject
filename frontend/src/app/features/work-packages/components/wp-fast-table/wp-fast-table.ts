@@ -49,11 +49,13 @@ import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurre
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
+import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
 import { TreegridSemantics } from './semantics/treegrid-semantics';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
   readonly timeline:boolean;
+  readonly positions:CapturedRowPositions|null;
 }
 
 export class WorkPackageTable {
@@ -99,6 +101,8 @@ export class WorkPackageTable {
   public keyboardNavigation:KeyboardNavigation|null = null;
 
   public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
+
+  public readonly rowPositions:TableRowPositions|null = this.configuration.keyboardNavigationEnabled ? new TableRowPositions(this) : null;
 
   private readonly rowsRefreshedSubject = new Subject<string>();
 
@@ -252,6 +256,7 @@ export class WorkPackageTable {
   }
 
   public notifyRowsRefreshed(key:string):void {
+    this.rowPositions?.paint();
     this.rowsRefreshedSubject.next(key);
   }
 
@@ -268,7 +273,8 @@ export class WorkPackageTable {
     this.keyboardNavigation?.captureOwnership();
     this.editing.reset();
     const promoted = timeline || this.pendingRender?.timeline === true;
-    const pending:PendingRender = { pass: this.rowBuilder.buildRows({ timeline: promoted }), timeline: promoted };
+    const pass = this.rowBuilder.buildRows({ timeline: promoted });
+    const pending:PendingRender = { pass, timeline: promoted, positions: this.rowPositions?.capture(pass.draft) ?? null };
     this.pendingRender = pending;
     this.uiWork.frame(() => this.commitRender(pending));
   }
@@ -283,12 +289,14 @@ export class WorkPackageTable {
       this.timelineBody.replaceChildren(timelinePass.timelineBody);
     }
     this.ledger.commit(pass.draft);
+    this.rowPositions?.commit(pending.positions);
     this.lastRenderPass = pass;
     this.publishRendered();
   }
 
   private publishRendered():void {
     this.semantics?.paint();
+    this.rowPositions?.paint();
     this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 
