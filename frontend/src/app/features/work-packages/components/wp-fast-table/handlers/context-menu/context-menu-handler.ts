@@ -33,6 +33,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
+import { selectionGesture } from '../state/selection-feedback';
 import { PositionArgs } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
@@ -66,7 +67,9 @@ export abstract class ContextMenuHandler implements TableEventHandler {
 
   protected openContextMenu(table:WorkPackageTable, evt:Event, row:HTMLElement, positionArgs:PositionArgs = {}):void {
     const workPackageId = row.dataset.workPackageId!;
-    this.selectionGestures.handleContextMenu(workPackageId, table.renderedRows, row.dataset.classIdentifier);
+    selectionGesture(table, 'navigation', () => {
+      this.selectionGestures.handleContextMenu(workPackageId, table.renderedRows, row.dataset.classIdentifier);
+    });
 
     const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, evt.target as HTMLElement, positionArgs, table);
     this.opContextMenu.show(handler, evt);

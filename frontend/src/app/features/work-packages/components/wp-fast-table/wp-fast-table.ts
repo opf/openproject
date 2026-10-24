@@ -49,6 +49,7 @@ import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurre
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import type { WorkPackageTableRow } from './wp-table.interfaces';
 import type { KeyboardNavigation } from './handlers/state/keyboard/keyboard-navigation-transformer';
+import type { TableSelectionFeedback } from './handlers/state/selection-feedback';
 import { TableRowPositions, type CapturedRowPositions } from './semantics/table-row-positions';
 import { paintSectionExposure, TreegridSemantics } from './semantics/treegrid-semantics';
 
@@ -99,6 +100,8 @@ export class WorkPackageTable {
   public readonly ledger = new RenderedOccurrenceLedger();
 
   public keyboardNavigation:KeyboardNavigation|null = null;
+
+  public selectionFeedback:TableSelectionFeedback|null = null;
 
   public readonly semantics:TreegridSemantics|null = this.configuration.keyboardNavigationEnabled ? new TreegridSemantics(this) : null;
 
