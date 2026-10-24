@@ -32,3 +32,35 @@ if database_state=$(docker exec app-db-1 psql -U app -d app -qtAX -c "SELECT to_
 else
   echo 'database_metadata_available=no'
 fi
+
+empty_state=$(docker exec -i app-db-1 psql -U app -d app -qtAX <<'SQL' 2>/dev/null
+CREATE OR REPLACE FUNCTION pg_temp.application_tables_empty() RETURNS boolean LANGUAGE plpgsql AS $$
+DECLARE item record; populated boolean;
+BEGIN
+  FOR item IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename NOT IN ('schema_migrations', 'ar_internal_metadata') LOOP
+    EXECUTE format('SELECT EXISTS (SELECT 1 FROM public.%I LIMIT 1)', item.tablename) INTO populated;
+    IF populated THEN RETURN false; END IF;
+  END LOOP;
+  RETURN true;
+END;
+$$;
+SELECT pg_temp.application_tables_empty();
+SQL
+) || empty_state=unknown
+case "${empty_state}" in
+  *t) echo 'application_tables_empty=yes' ;;
+  *f) echo 'application_tables_empty=no' ;;
+  *) echo 'application_tables_empty=unknown' ;;
+esac
+
+diagnosis_db="pp24891_check_$(date +%s)"
+if docker exec app-db-1 createdb -U app "${diagnosis_db}" 2>/dev/null; then
+  trap 'docker exec app-db-1 dropdb -U app "${diagnosis_db}" >/dev/null 2>&1' EXIT
+  if schema_result=$(docker run --rm --entrypoint cat app-web /app/db/structure.sql |
+      docker exec -i app-db-1 psql -U app -d "${diagnosis_db}" --single-transaction --set ON_ERROR_STOP=1 --set VERBOSITY=sqlstate 2>&1); then
+    echo 'isolated_schema_load=success'
+  else
+    echo 'isolated_schema_load=failure'
+    printf '%s\n' "${schema_result}" | grep -oE 'ERROR:  [A-Z0-9]{5}|ERROR: [A-Z0-9]{5}' | sort -u || true
+  fi
+fi
