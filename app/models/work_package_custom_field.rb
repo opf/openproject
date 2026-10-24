@@ -59,8 +59,16 @@ class WorkPackageCustomField < CustomField
            source: :customized,
            source_type: "WorkPackage"
 
+  enum :semantic_key, { day_part: "day_part" }, prefix: true
+
+  validates :semantic_key, uniqueness: { scope: :type }, allow_nil: true
+
   scopes :visible,
          :on_visible_type_and_project
+
+  def self.for_semantic_key(semantic_key)
+    find_by(semantic_key:)
+  end
 
   scope :usable_as_automation, -> {
     where.not(field_format: %w[hierarchy weighted_item_list])

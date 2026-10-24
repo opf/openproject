@@ -35,6 +35,11 @@
             <li class="toolbar-item">
               <wp-reminder-button [workPackage]="workPackage" />
             </li>
+            @if (displayAddToPlannerButton) {
+              <li class="toolbar-item">
+                <wp-add-to-planner-button [workPackage]="workPackage" />
+              </li>
+            }
           }
           @if ((displayNotificationsButton$ | async)) {
             <li class="toolbar-item">

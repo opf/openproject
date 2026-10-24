@@ -390,6 +390,9 @@ import {
   WorkPackageReminderButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-reminder-button/wp-reminder-button.component';
 import {
+  WorkPackageAddToPlannerButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/wp-add-to-planner-button/wp-add-to-planner-button.component';
+import {
   WorkPackageReminderModalComponent,
 } from 'core-app/features/work-packages/components/wp-reminder-modal/wp-reminder.modal';
 import {
@@ -608,6 +611,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageReminderButtonComponent,
+    WorkPackageAddToPlannerButtonComponent,
     WorkPackageReminderContextMenuDirective,
     WorkPackageShareButtonComponent,
     WorkPackageSubjectComponent,

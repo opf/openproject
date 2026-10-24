@@ -56,6 +56,8 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   public displayShareButton$:false|Observable<boolean> = false;
   public displayReminderButton$:Observable<boolean> = of(false);
 
+  public displayAddToPlannerButton = this.configurationService.activeFeatureFlags.includes('planner');
+
   public text = {
     button_more: this.I18n.t('js.button_more'),
   };
