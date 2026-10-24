@@ -449,17 +449,24 @@ export class FakeDragAndDropService {
   }
 }
 
-/** Stands in for the Angular editing portal: a plain input driven by the production field handler. */
+/** Stands in for the Angular editing portal: a plain input, labelled with its field and error messages like the portal, driven by the production field handler. */
 class FakeEditingPortalService {
   create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const wrapper = document.createElement('div');
     wrapper.className = activeFieldContainerClassName;
+    const label = document.createElement('label');
+    label.className = 'sr-only';
     const input = document.createElement('input');
     input.className = activeFieldClassName;
-    wrapper.appendChild(input);
+    wrapper.append(label, input);
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
-    const markErrors = () => wrapper.classList.toggle('-error', handler.isErrorenous);
+    input.id = handler.htmlId;
+    label.htmlFor = handler.htmlId;
+    const markErrors = () => {
+      wrapper.classList.toggle('-error', handler.isErrorenous);
+      label.textContent = `${handler.fieldLabel} ${handler.errorMessageOnLabel()}`.trim();
+    };
     markErrors();
     handler.errorsChanged$.subscribe(markErrors);
     let unregister:() => void = () => undefined;
