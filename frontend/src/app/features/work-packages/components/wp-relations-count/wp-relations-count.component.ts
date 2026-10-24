@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -46,11 +46,9 @@ export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin impl
 
   public count = 0;
 
-  constructor(protected apiV3Service:ApiV3Service,
-    protected wpRelations:WorkPackageRelationsService,
-    protected cdRef:ChangeDetectorRef) {
-    super();
-  }
+  protected apiV3Service = inject(ApiV3Service);
+  protected wpRelations = inject(WorkPackageRelationsService);
+  protected cdRef = inject(ChangeDetectorRef);
 
   ngOnInit():void {
     this.wpRelations.require(this.wpId.toString());

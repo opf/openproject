@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable, of } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -36,10 +36,8 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
   providedIn: 'root',
 })
 export class PermissionsService {
-  constructor(
-    private apiV3Service:ApiV3Service,
-    private currentProjectService:CurrentProjectService,
-  ) { }
+  private apiV3Service = inject(ApiV3Service);
+  private currentProjectService = inject(CurrentProjectService);
 
   canInviteUsersToProject(projectId = this.currentProjectService.id!):Observable<boolean> {
     // TODO: Remove/Fix this typing issue
