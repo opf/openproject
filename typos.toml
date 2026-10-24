@@ -90,7 +90,6 @@ extend-ignore-identifiers-re = [
   "^isLoggedInAndHasCapabalities\\$?$", # public service method; follow-up
   "^iterate_user_statusses$", # public helper; follow-up
   "^loading_indicator_saveguard$", # spec helper used across modules; follow-up
-  "^mesage_type$", # ServiceResult kwarg typo raises ArgumentError; follow-up bug
   "^no_role_assigment$", # i18n key
   "^notice_annoucement_active$", # public helper; follow-up
   "^notifiation_message$", # spec sets the wrong attribute, so the assertion is vacuous; follow-up
