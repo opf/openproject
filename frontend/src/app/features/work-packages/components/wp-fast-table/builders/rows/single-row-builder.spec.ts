@@ -30,6 +30,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { nextFrame } from 'core-common/testing/timing';
 import { buildTable, TableHarness } from '../../testing/table-harness';
+import { SingleRowBuilder } from './single-row-builder';
 
 describe('SingleRowBuilder with two tables showing the same work package', () => {
   const harnesses:TableHarness[] = [];
@@ -71,5 +72,51 @@ describe('SingleRowBuilder with two tables showing the same work package', () =>
 
     expect(subjectCell(second)).toBe(editedCell);
     expect(subjectCell(first)).toBe(otherCell);
+  });
+});
+
+describe('SingleRowBuilder physical columns', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  const spannedColumns = (row:HTMLTableRowElement) => Array.from(row.cells)
+    .reduce((total, cell) => total + cell.colSpan, 0);
+
+  const mount = async (configuration:Record<string, boolean>, baseline:boolean) => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      configuration,
+      baseline,
+    });
+    harness.expand('1', 'relationsOfTypeFollows');
+    await harness.render();
+  };
+
+  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+    describe.each([true, false])('and baseline %s', (baseline) => {
+      it.each([true, false])('spans the same columns in every row with a trailing column %s', async (trailing) => {
+        await mount({
+          keyboardNavigationEnabled: true,
+          dragAndDropEnabled: drag,
+          columnMenuEnabled: trailing,
+        }, baseline);
+        const expected = 3 + Number(drag) + Number(baseline) + Number(trailing);
+
+        expect(spannedColumns(harness.row('1'))).toBe(expected);
+        expect(spannedColumns(harness.row('2'))).toBe(expected);
+        expect(spannedColumns(harness.relationRow('1', '2'))).toBe(expected);
+        expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(expected);
+      });
+    });
+  });
+
+  it('keeps the augmented columns of a capability-off table', async () => {
+    await mount({ dragAndDropEnabled: true, columnMenuEnabled: false, actionsColumnEnabled: false }, true);
+
+    expect(harness.row('1').cells).toHaveLength(3 + 1 + 1);
+    expect(new SingleRowBuilder(harness.injector, harness.table).placeholderRow.cells[0].colSpan).toBe(3 + 1 + 1 + 1);
   });
 });

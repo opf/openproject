@@ -52,6 +52,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { States } from 'core-app/core/states/states.service';
+import { renderedColumns } from 'core-app/features/work-packages/components/wp-fast-table/builders/rendered-columns';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
@@ -133,6 +134,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public numTableColumns:number;
 
+  public trailingColumnRendered = true;
+
   public timelineVisible:boolean;
 
   public manualSortEnabled:boolean;
@@ -197,15 +200,21 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.baselineEnabled = this.wpTableBaseline.isActive();
       this.limitedResults = this.manualSortEnabled && results.total > results.count;
 
-      // Total columns = all available columns + id + context menu
-      this.numTableColumns = this.columns.length + 2;
+      if (this.configuration.keyboardNavigationEnabled) {
+        const rendered = renderedColumns(this.configuration, this.baselineEnabled);
+        this.trailingColumnRendered = rendered.trailing;
+        this.numTableColumns = rendered.count(this.columns.length);
+      } else {
+        // Total columns = all available columns + id + context menu
+        this.numTableColumns = this.columns.length + 2;
 
-      if (this.manualSortEnabled) {
-        this.numTableColumns += 1;
-      }
+        if (this.manualSortEnabled) {
+          this.numTableColumns += 1;
+        }
 
-      if (this.baselineEnabled) {
-        this.numTableColumns += 1;
+        if (this.baselineEnabled) {
+          this.numTableColumns += 1;
+        }
       }
 
       if (this.workPackageTable) {

@@ -57,7 +57,7 @@ import { WorkPackagesTableComponent } from './wp-table.component';
 class ListViewStandInComponent {
   showTable = signal(true);
 
-  configuration = {
+  configuration:Record<string, boolean> = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     contextMenuEnabled: false,
@@ -292,4 +292,89 @@ describe('WorkPackagesTableComponent lifecycle', () => {
     expect(tableSide.scrollTop).toBeCloseTo(90, 0);
   });
 
+});
+
+describe('WorkPackagesTableComponent physical columns', () => {
+  const queryColumns = 2;
+  let mounted:HTMLElement|undefined;
+
+  afterEach(() => {
+    mounted?.remove();
+    mounted = undefined;
+  });
+
+  async function mount(configuration:Record<string, boolean>, baseline:boolean) {
+    await TestBed.configureTestingModule({
+      declarations: [WorkPackagesTableComponent, ListViewStandInComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        WorkPackageViewSumService,
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => baseline, isChanged: () => false, live$: () => of(null) } },
+      ],
+    }).compileComponents();
+
+    const injector = TestBed.inject(Injector);
+    injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    const states = TestBed.inject(States);
+    const query = buildQuery(['id', 'subject'], null, false, false);
+    querySpace.query.putValue(query);
+    querySpace.groups.putValue([]);
+    initializeViewServices(injector, query);
+    TestBed.inject(WorkPackageViewSumService).initialize(query);
+    querySpace.results.putValue({ elements: [], count: 0, total: 0 } as unknown as WorkPackageCollectionResource);
+
+    const fixture = TestBed.createComponent(ListViewStandInComponent);
+    fixture.componentInstance.configuration = { ...fixture.componentInstance.configuration, ...configuration };
+    mounted = fixture.nativeElement as HTMLElement;
+    document.body.appendChild(mounted);
+    fixture.detectChanges();
+
+    const debug = fixture.debugElement.query(By.directive(WorkPackagesTableComponent));
+    const element = debug.nativeElement as HTMLElement;
+    const timelineBody = document.createElement('div');
+    element.querySelector('.work-packages-tabletimeline--timeline-side')!.appendChild(timelineBody);
+    (debug.componentInstance as WorkPackagesTableComponent)
+      .registerTimeline({} as WorkPackageTimelineTableController, timelineBody);
+
+    const resources = [buildWorkPackage({ id: '1' }), buildWorkPackage({ id: '2' })];
+    resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+    querySpace.results.putValue({ elements: resources, count: resources.length, total: resources.length } as unknown as WorkPackageCollectionResource);
+    querySpace.initialized.putValue(null);
+    await waitFor(() => expect(element.querySelectorAll('tr.wp-table--row[data-work-package-id]')).toHaveLength(2));
+
+    return { fixture, element, component: debug.componentInstance as WorkPackagesTableComponent };
+  }
+
+  const spannedColumns = (row:HTMLTableRowElement) => Array.from(row.cells)
+    .reduce((total, cell) => total + cell.colSpan, 0);
+
+  describe.each([true, false])('on an enabled table with drag and drop %s', (drag) => {
+    describe.each([true, false])('and baseline %s', (baseline) => {
+      it.each([true, false])('renders the same columns in header, colgroup and rows with a trailing column %s', async (trailing) => {
+        const { element, component } = await mount({
+          keyboardNavigationEnabled: true,
+          dragAndDropEnabled: drag,
+          actionsColumnEnabled: trailing,
+        }, baseline);
+        const expected = queryColumns + Number(drag) + Number(baseline) + Number(trailing);
+
+        expect(element.querySelectorAll('thead th')).toHaveLength(expected);
+        expect(element.querySelectorAll('colgroup col')).toHaveLength(expected);
+        element.querySelectorAll<HTMLTableRowElement>('tr.wp-table--row[data-work-package-id]')
+          .forEach((row) => expect(spannedColumns(row)).toBe(expected));
+        expect(component.numTableColumns).toBe(expected);
+        expect(component.workPackageTable.colspan).toBe(expected);
+      });
+    });
+  });
+
+  it('keeps the column arithmetic of a capability-off table', async () => {
+    const { element, component } = await mount({ dragAndDropEnabled: true }, true);
+
+    expect(element.querySelectorAll('thead th')).toHaveLength(queryColumns + 2);
+    expect(element.querySelectorAll('colgroup col')).toHaveLength(queryColumns + 2 + 1);
+    expect(component.numTableColumns).toBe(queryColumns + 2 + 1);
+  });
 });
