@@ -119,6 +119,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
     it "exposes group levels and removes collapsed members from the accessibility tree" do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(alpha, bravo, charlie)
+      wp_table.expect_row_positions(rowcount: 10, rows: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
       expect(wp_table.treegrid).to have_selector(:row, "Foo", aria: { level: 1, expanded: true, selected: nil })
       expect(wp_table.treegrid).to have_selector(:row, "Alpha in foo", aria: { level: 2, selected: false, expanded: nil })
@@ -141,12 +142,14 @@ RSpec.describe "Work package table treegrid semantics", :js do
       expect(foo_members.first).to match_selector(:element, aria: { selected: true }, visible: :hidden)
       [*foo_members, foo_sum].each { |row| expect_excluded_from_accessibility_tree(row) }
       expect(wp_table.treegrid).to have_selector(:row, "Charlie in bar", aria: { level: 2 })
+      wp_table.expect_row_positions(rowcount: 10, rows: [1, 2, 3, 4, 5, 9, 10])
       expect_axe_clean_table
 
       wp_table.treegrid.find(:row, "Foo", aria: { expanded: false }).find(".expander").click
       expect(wp_table.treegrid).to have_selector(:row, "Foo", aria: { level: 1, expanded: true })
       expect(wp_table.treegrid).to have_selector(:row, "Alpha in foo", aria: { level: 2, selected: true })
       [*foo_members, foo_sum].each { |row| expect_exposed_at_level(row, 2) }
+      wp_table.expect_row_positions(rowcount: 10, rows: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
       expect_axe_clean_table
     end
 
@@ -212,6 +215,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
     it "exposes levels and expansion and removes collapsed descendants from the accessibility tree" do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(parent, child, grandchild, sibling)
+      wp_table.expect_no_row_positions
 
       expect(wp_table.treegrid).to have_selector(:row, "Alpha parent", aria: { level: 1, expanded: true, selected: false })
       expect(wp_table.treegrid).to have_selector(:row, "Bravo child", aria: { level: 2, expanded: true, selected: false })
@@ -285,6 +289,7 @@ RSpec.describe "Work package table treegrid semantics", :js do
 
       expect(wp_table.treegrid).to have_selector(:row, "No work packages to display.", aria: { level: 1, selected: nil })
       expect(wp_table.treegrid).to have_selector(:row, "Create new work package", aria: { level: 1, selected: nil })
+      wp_table.expect_row_positions(rowcount: 3, rows: [1, 2, 3])
       expect_focus_on_header_row
       expect_axe_clean_table
 
