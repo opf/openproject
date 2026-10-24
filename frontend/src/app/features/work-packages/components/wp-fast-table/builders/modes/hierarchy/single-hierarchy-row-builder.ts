@@ -38,6 +38,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -172,6 +173,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   private buildHierarchyIndicator(workPackage:WorkPackageResource, row:HTMLTableRowElement, level:number):HTMLElement {
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id!);
+    const tabindex = keyboardNavigationEnabled(this.workPackageTable.configuration) ? '-1' : '0';
     const indicatorWidth = `${hierarchyBaseIndentation + (hierarchyIndentation * level)}px`;
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
@@ -180,7 +182,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     if (this.parentsWithVisibleChildren[workPackage.id!]) {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
-            <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
+            <a href tabindex="${tabindex}" role="button" class="wp-table--hierarchy-indicator ${className}">
               <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded sr-only">${this.text.expanded(
     level,
@@ -192,7 +194,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
         `;
     } else {
       hierarchyIndicator.innerHTML = `
-            <span tabindex="0" class="wp-table--leaf-indicator">
+            <span tabindex="${tabindex}" class="wp-table--leaf-indicator">
               <span class="sr-only">${this.text.leaf(level)}</span>
             </span>
         `;

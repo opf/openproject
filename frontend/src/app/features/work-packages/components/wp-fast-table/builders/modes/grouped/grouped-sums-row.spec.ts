@@ -26,6 +26,7 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { groupOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { buildTable, TableHarness } from '../../../testing/table-harness';
 
 const newStatus = { href: '/api/v3/statuses/1' };
@@ -118,5 +119,13 @@ describe('Grouped table sums rows', () => {
     expect(sumLabels()[1]).toBeVisible();
     expect(sumsTimelineRow(0)).toBeVisible();
     expect(sumsTimelineRow(1)).toBeVisible();
+  });
+
+  it('tags group header and sums occurrences with the group identifier', () => {
+    const identifier = harness.groupHeader(1).dataset.groupIdentifier;
+
+    expect(identifier).toBeTruthy();
+    expect(harness.table.ledger.byKey(groupOccurrenceKey(1, 'header'))?.groupIdentifier).toBe(identifier);
+    expect(harness.table.ledger.byKey(groupOccurrenceKey(1, 'sums'))?.groupIdentifier).toBe(identifier);
   });
 });

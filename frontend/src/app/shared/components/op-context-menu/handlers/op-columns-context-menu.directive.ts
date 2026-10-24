@@ -96,7 +96,9 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   }
 
   protected get afterFocusOn() {
-    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)!;
+    return this.element.querySelector<HTMLElement>(`#${this.column.id}`)
+      ?? this.element.closest<HTMLElement>('th')
+      ?? this.element;
   }
 
   private buildItems() {

@@ -52,7 +52,8 @@
                 <th
                   [attr.aria-label]="column.name"
                   [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
-                  class="wp-table--table-header">
+                  class="wp-table--table-header"
+                  [class.wp-table--navigable-cell]="configuration.keyboardNavigationEnabled">
                   <sortHeader [headerColumn]="column"
                     [locale]="column.custom_field && column.custom_field.name_locale || locale"
                     [table]="workPackageTable"
@@ -63,10 +64,10 @@
               }
               @if (configuration.columnMenuEnabled || configuration.actionsColumnEnabled) {
                 <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
-                  >
+                  [class.wp-table--navigable-cell]="configuration.keyboardNavigationEnabled">
                   @if (configuration.columnMenuEnabled) {
                     <div class="generic-table--sort-header-outer">
-                      <wp-table-config-menu />
+                      <wp-table-config-menu [keyboardNavigationEnabled]="configuration.keyboardNavigationEnabled" />
                     </div>
                   }
                 </th>
