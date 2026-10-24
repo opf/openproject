@@ -57,7 +57,6 @@ import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { delegate, DelegateEvent } from '@knowledgecode/delegate';
-import { paintSectionExposure } from '../wp-fast-table/semantics/treegrid-semantics';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -236,7 +235,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   public addWorkPackageRow() {
-    this.wpCreate
+    void this.wpCreate
       .createOrContinueWorkPackage(this.projectIdentifier)
       .then((change:WorkPackageChangeset) => {
         const wp = this.currentWorkPackage = change.projectedResource;
@@ -348,7 +347,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   private reconcileExposure():void {
     if (this.treegrid) {
-      paintSectionExposure(this.element);
+      this.table.reconcileSection(this.element);
     }
   }
 }
