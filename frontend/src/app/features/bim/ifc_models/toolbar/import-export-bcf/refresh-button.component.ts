@@ -30,11 +30,12 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   template: `
-    <a [title]="text.refresh_hover"
+    <button type="button"
+       [title]="text.refresh_hover"
        class="button refresh-button"
        (click)="refresh()">
       <op-icon icon-classes="button--icon icon-workflow" />
-    </a>
+    </button>
   `,
   selector: 'op-refresh-button',
   changeDetection: ChangeDetectionStrategy.OnPush,

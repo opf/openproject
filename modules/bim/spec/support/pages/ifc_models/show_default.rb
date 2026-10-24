@@ -104,18 +104,18 @@ module Pages
       end
 
       def page_shows_a_refresh_button(visible)
-        expect(page).to have_conditional_selector(visible, ".toolbar-item a.refresh-button")
+        expect(page).to have_conditional_selector(visible, :button, I18n.t("js.bcf.refresh_work_package"))
       end
 
       def click_refresh_button
-        page.find(".toolbar-item a.refresh-button").click
+        click_on I18n.t("js.bcf.refresh_work_package")
       end
 
       def switch_view(value)
         retry_block do
-          page.find_by_id("bcf-view-toggle-button").click
+          click_on "bcf-view-toggle-button"
           within("#bcf-view-context-menu") do
-            page.find(".menu-item", text: value, exact_text: true).click
+            click_on value, exact: true
           end
         end
       end
