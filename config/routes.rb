@@ -1599,6 +1599,11 @@ Rails.application.routes.draw do
   if OpenProject::Configuration.lookbook_enabled?
     mount Primer::ViewComponents::Engine, at: "/"
     mount Lookbook::Engine, at: "/lookbook"
+
+    scope "storybook", controller: "storybook_previews", as: "storybook" do
+      get "assets", action: :assets
+      get "previews/*path", action: :previews
+    end
   end
 
   if Rails.env.development?
