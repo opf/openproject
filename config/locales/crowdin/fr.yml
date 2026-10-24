@@ -1542,7 +1542,7 @@ fr:
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
-            title: Create 'JiraMember' project role
+            title: Créer un rôle de projet 'JiraMember'
           JiraCreateProjectVersionsJob:
             title: Create versions for '%{jira_project_name}'
           JiraCreateProjectWorkPackageAttachmentsJob:

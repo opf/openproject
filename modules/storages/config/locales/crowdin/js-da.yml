@@ -2,106 +2,106 @@
 da:
   js:
     storages:
-      authentication_error: Authentication with %{storageType} failed
-      choose_location: Choose location
-      drop_files: Drop files here to upload them to %{name}.
-      drop_or_click_files: Drop files here or click to upload them to %{name}.
+      authentication_error: Godkendelsen hos %{storageType} mislykkedes
+      choose_location: Vælg placering
+      drop_files: Slip filer her for at overføre dem til %{name}.
+      drop_or_click_files: Slip filer her, eller klik for at overføre dem til %{name}.
       file_links:
-        already_linked_directory: This directory is already linked to this work package.
-        already_linked_file: This file is already linked to this work package.
-        download: Download %{fileName}
-        empty: 'Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+        already_linked_directory: Mappen er allerede linket til arbejdspakken.
+        already_linked_file: Filen er allerede linket til arbejdspakken.
+        download: Hent %{fileName}
+        empty: 'Der er i øjeblikket ingen filer linket til arbejdspakken. Begynd at linke filer med handlingen nedenfor eller fra %{storageType}.
 
           '
-        link_uploaded_file_error: 'An error occurred linking the recently uploaded file ''%{fileName}'' to the work package %{workPackageId}.
+        link_uploaded_file_error: 'Der opstod en fejl, da den netop overførte fil ''%{fileName}'' skulle linkes til arbejdspakken %{workPackageId}.
 
           '
-        open: Open file on storage
-        open_location: Open file in location
-        remove: Remove file link
-        remove_confirmation: 'Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
+        open: Åbn filen i lageret
+        open_location: Åbn filens placering
+        remove: Fjern fil-link
+        remove_confirmation: 'Er du sikker på, at du vil fjerne linket mellem filen og arbejdspakken? Det påvirker ikke den oprindelige fil, men fjerner kun forbindelsen til arbejdspakken.
 
           '
-        remove_short: Remove link
-        select: Select files
+        remove_short: Fjern link
+        select: Vælg filer
         select_all: Vælg alle
         selection:
-          zero: Select files to link
-          one: Link 1 file
-          other: Link %{count} files
+          zero: Vælg filer, der skal linkes
+          one: Link 1 fil
+          other: Link %{count} filer
         success_create:
-          one: Successfully created 1 file link.
-          other: Successfully created %{count} file links.
+          one: 1 fil-link er oprettet.
+          other: "%{count} fil-links er oprettet."
         tooltip:
-          not_found: This file cannot be found.
-          not_logged_in: Please log in to the storage to access this file.
-          view_not_allowed: You have no permission to see this file.
+          not_found: Filen blev ikke fundet.
+          not_logged_in: Log ind på lageret for at få adgang til filen.
+          view_not_allowed: Du har ikke tilladelse til at se filen.
         upload_error:
-          403: 'Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          403: 'Din fil (%{fileName}) kunne ikke overføres på grund af begrænsninger i systemet. Kontakt din administrator for at få flere oplysninger.
 
             '
-          413: 'Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          413: 'Din fil (%{fileName}) er større, end OpenProject kan overføre til %{storageType}. Du kan overføre den direkte til %{storageType} først og derefter linke filen.
 
             '
-          507: 'Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+          507: 'Din fil (%{fileName}) er større, end lagerets kvote tillader. Kontakt din administrator for at få kvoten ændret.
 
             '
-          default: 'Your file (%{fileName}) could not be uploaded.
+          default: 'Din fil (%{fileName}) kunne ikke overføres.
 
             '
           detail:
-            nextcloud: 'Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            nextcloud: 'Tjek, at den nyeste version af Nextcloud-appen "OpenProject Integration" er installeret, og kontakt din administrator for at få flere oplysninger.
 
               '
       files:
-        already_existing_body: 'A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        already_existing_body: 'Der findes allerede en fil med navnet "%{fileName}" på den placering, hvor du forsøger at overføre filen. Hvad vil du gøre?
 
           '
-        already_existing_header: This file already exists
-        cannot_create_folder: Failed to create folder. Avoid using special characters and symbols and make sure the folder does not exist already.
-        directory_not_writeable: You do not have permission to add files to this folder.
-        dragging_folder: The upload to %{storageType} does not support folders.
-        dragging_many_files: The upload to %{storageType} supports only one file at once.
-        empty_folder: This folder is empty.
-        empty_folder_location_hint: Click the button below to upload the file to this location.
-        file_not_selectable_location: Selecting a file is not possible in the process of choosing a location.
-        managed_project_folder_no_access: 'You have no access yet to the managed project folder. Please wait a bit and try again.
+        already_existing_header: Filen findes allerede
+        cannot_create_folder: Mappen kunne ikke oprettes. Undgå specialtegn og symboler, og sørg for, at mappen ikke allerede findes.
+        directory_not_writeable: Du har ikke tilladelse til at tilføje filer til mappen.
+        dragging_folder: Overførsel til %{storageType} understøtter ikke mapper.
+        dragging_many_files: Overførsel til %{storageType} understøtter kun én fil ad gangen.
+        empty_folder: Mappen er tom.
+        empty_folder_location_hint: Klik på knappen nedenfor for at overføre filen til denne placering.
+        file_not_selectable_location: Du kan ikke vælge en fil, mens du vælger en placering.
+        managed_project_folder_no_access: 'Du har endnu ikke adgang til den administrerede projektmappe. Vent lidt, og prøv igen.
 
           '
-        managed_project_folder_not_available: 'The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+        managed_project_folder_not_available: 'Den automatisk administrerede projektmappe blev endnu ikke fundet. Vent lidt, genindlæs siden for at hente de nyeste data, og prøv igen.
 
           '
-        project_folder_no_access: 'You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
+        project_folder_no_access: 'Du har ikke adgang til projektmappen. Kontakt din administrator for at få adgang, eller overfør filen til en anden placering.
 
           '
-        upload_keep_both: Keep both
-        upload_replace: Replace
+        upload_keep_both: Behold begge
+        upload_replace: Erstat
       information:
-        authentication_error: The request to %{storageType} could not be authenticated, that's an error.
-        connection_error: 'Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+        authentication_error: 'Der opstod en fejl: Forespørgslen til %{storageType} kunne ikke godkendes.'
+        connection_error: 'Nogle indstillinger i %{storageType} virker ikke. Kontakt din administrator for %{storageType}.
 
           '
-        live_data_error: Error fetching file details
-        live_data_error_description: 'Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
+        live_data_error: Fejl ved hentning af filoplysninger
+        live_data_error_description: 'Nogle data fra %{storageType} kunne ikke hentes. Prøv at genindlæse siden, eller kontakt din administrator for %{storageType}.
 
           '
-        no_file_links: In order to link files to this work package please do it via %{storageType}.
-        not_logged_in: 'To add a link, see or upload files related to this work package, please login to %{storageType}.
+        no_file_links: Link filer til arbejdspakken via %{storageType}.
+        not_logged_in: 'Log ind på %{storageType} for at tilføje et link til eller se og overføre filer, der hører til arbejdspakken.
 
           '
-        suggest_logout: You can try whether logging out and back in fixes this problem.
-        suggest_relink: You can try whether re-linking your account via the login button below fixes this problem.
-      link_existing_files: Link existing files
-      link_files_in_storage: Link files in %{storageType}
-      login: "%{storageType} login"
-      login_to: Login to %{storageType}
-      new_folder: New folder
-      no_connection: No %{storageType} connection
-      open_storage: Open %{storageType}
-      select_location: Select location
+        suggest_logout: Du kan prøve, om det løser problemet at logge ud og ind igen.
+        suggest_relink: Du kan prøve, om det løser problemet at forbinde din konto igen med login-knappen nedenfor.
+      link_existing_files: Link eksisterende filer
+      link_files_in_storage: Link filer i %{storageType}
+      login: Login til %{storageType}
+      login_to: Log ind på %{storageType}
+      new_folder: Ny mappe
+      no_connection: Ingen forbindelse til %{storageType}
+      open_storage: Åbn %{storageType}
+      select_location: Vælg placering
       types:
-        default: Storage
+        default: Lager
         nextcloud: Nextcloud
         one_drive: OneDrive
         sharepoint: SharePoint
-      upload_files: Upload files
+      upload_files: Overfør filer

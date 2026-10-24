@@ -27,7 +27,7 @@ da:
     label_hours: timer
     myTimeTracking:
       noSpecificTime: Intet specifikt tidspunkt
-    text_are_you_sure: Sikker?
+    text_are_you_sure: Er du sikker?
     work_packages:
       properties:
         overallCosts: Samlede omkostninger

@@ -1,28 +1,28 @@
 ---
 da:
-  are_you_sure_delete_avatar: Sikker på, at den personlige avatar skal slettes?
-  avatar_deleted: Avatar slettet.
+  are_you_sure_delete_avatar: Er du sikker på, at du vil slette din avatar?
+  avatar_deleted: Avataren er slettet.
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Tilpasset avatar
     settings:
-      enable_gravatars: Aktivér bruger-gravatarer
+      enable_gravatars: Aktivér Gravatar for brugere
       enable_local_avatars: Aktivér tilpassede avatarer
-      gravatar_default: Standard gravatar-billede
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-  empty_file_error: Upload et gyldigt billede (jpg, png, gif)
+      gravatar_default: Standardbillede fra Gravatar
+    text_avatar_gravatar_html: OpenProject bruger din Gravatar, hvis du har registreret en på %{gravatar_url}, ellers et standardbillede eller -ikon, hvis det findes.
+    text_avatar_local: Du kan også overføre en egen avatar, der tilsidesætter Gravataren, ved at klikke på billedet. Vi anbefaler et billede på 128 × 128 pixel.
+    text_avatar_local_only: Du kan overføre en egen avatar ved at klikke på billedet. Vi anbefaler et billede på 128 × 128 pixel.
+  empty_file_error: Overfør et gyldigt billede (jpg, png, gif)
   error_image_size: Billedet er for stort.
   error_image_upload: Fejl under lagring af billedet.
   label_avatar: Avatar
   label_avatar_plural: Avatarer
   label_choose_avatar: Vælg avatar fra fil
   label_current_avatar: Aktuel avatar
-  message_avatar_uploaded: Avatar skiftet.
+  message_avatar_uploaded: Avataren er ændret.
   plugin_openproject_avatars:
-    description: This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+    description: Pluginnet lader OpenProject-brugere overføre et billede, der bruges som avatar, eller bruge registrerede billeder fra Gravatar.
     name: Avatarer
-  unable_to_delete_avatar: Avatar kunne ikke slettes.
+  unable_to_delete_avatar: Avataren kunne ikke slettes.
   wrong_file_format: Gyldige formater er jpg, png, gif

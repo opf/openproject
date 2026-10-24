@@ -24,11 +24,11 @@ da:
   activerecord:
     models:
       deploy_status_check:
-        one: Deployment status check
-        other: Deployment status checks
+        one: Kontrol af udrulningsstatus
+        other: Kontroller af udrulningsstatus
       deploy_target:
-        one: Deployment target
-        other: Deployment targets
+        one: Udrulningsmål
+        other: Udrulningsmål
       github_check_run:
         one: GitHub check run
         other: GitHub check runs
@@ -36,28 +36,28 @@ da:
         one: GitHub pull request
         other: GitHub pull requests
       github_user:
-        one: GitHub user
-        other: GitHub users
+        one: GitHub-bruger
+        other: GitHub-brugere
   attributes:
     additions_count: Antal tilføjelser
     changed_files_count: Ændrede filer
     comments_count: Antal kommentarer
     deletions_count: Antal sletninger
     github: GitHub-identifikator
-    github_app_owner_avatar_url: URL til Ejeravatar
+    github_app_owner_avatar_url: URL til ejerens avatar
     github_avatar_url: Avatar-URL
-    github_html_url: URL til pull-anmodning
+    github_html_url: URL til pull request
     github_login: GitHub-login
     github_updated_at: Opdateret
     host: Vært
     labels: Etiketter
-    repository: Repo
-    review_comments_count: Antal anmeldelseskommentarer
+    repository: Repository
+    review_comments_count: Antal kommentarer i review
   button_add_deploy_target: Tilføj udrulningsmål
   label_deploy_target: Udrulningsmål
   label_deploy_target_new: Nyt udrulningsmål
   label_deploy_target_plural: Udrulningsmål
-  label_github_comment_user: GitHub-initiator (actor)
+  label_github_comment_user: GitHub-aktør
   label_github_integration: GitHub-integration
   label_github_webhook_secret: Webhook-hemmelighed
   notice_deploy_target_created: Udrulningsmål oprettet
@@ -65,7 +65,7 @@ da:
   permission_introspection: Læs kørende OpenProject-kerneversion og build SHA
   permission_show_github_content: Vis GitHub indhold
   plugin_openproject_github_integration:
-    description: Integrates OpenProject and GitHub for a better workflow
+    description: Integrerer OpenProject og GitHub for en bedre arbejdsgang
     name: OpenProject GitHub Integration
   project_module_github: GitHub
   text_deploy_target_api_key_info: 'En OpenProject [API-nøgle](docs_url) tilhørende en bruger med den globale introspektionstilladelse.
@@ -74,13 +74,13 @@ da:
   text_deploy_target_type_info: 'Indtil videre understøttes kun OpenProject selv.
 
     '
-  text_github_comment_user_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-anmodninger. Når indstillet, afvises anmodninger godkendt med anden brugers legitimationsoplysninger. Denne bruger sender også automatiserede kommentarer om udrulningsstatus på arbejdspakker. Standard er systembrugeren, når ikke indstillet.
+  text_github_comment_user_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-forespørgsler. Når den er angivet, afvises forespørgsler, der er godkendt med andre brugeres legitimationsoplysninger. Brugeren skriver også de automatiske kommentarer om udrulningsstatus på arbejdspakker. Er der ikke angivet nogen, bruges systembrugeren.
 
     '
-  text_github_webhook_secret_info: 'Et hemmeligt token delt med GitHub, når webhook''en opsættes. Når indstillet, bekræfter OpenProject X-Hub-Signature-256-headeren på hver indgående anmodning og afviser payloads, som ikke matcher. Lad stå tom for at overspringe bekræftelsen (anbefales ikke!).
+  text_github_webhook_secret_info: 'Et hemmeligt token, der deles med GitHub, når webhooken sættes op. Når det er angivet, kontrollerer OpenProject headeren X-Hub-Signature-256 i hver indgående forespørgsel og afviser payloads, der ikke stemmer. Lad feltet stå tomt for at springe kontrollen over (anbefales ikke).
 
     '
-  text_github_webhook_secret_missing_warning: 'Ingen webhook-hemmelighed opsat. Alle anmodning til GitHub webhook-endepunktet accepteres uden bekræftelse, hvilket kan tillade uautoriserede aktører at forfalske begivenheder. Det anbefales kraftigt at opsætte en hemmelighed.
+  text_github_webhook_secret_missing_warning: 'Der er ikke konfigureret nogen webhook-hemmelighed. Alle forespørgsler til GitHubs webhook-endepunkt accepteres uden kontrol, så uautoriserede aktører kan forfalske hændelser. Det anbefales kraftigt at angive en hemmelighed.
 
     '
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+  text_pull_request_deployed_to: "%{pr_link} udrullet til %{deploy_target_link}"

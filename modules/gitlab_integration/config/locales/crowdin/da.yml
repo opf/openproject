@@ -33,63 +33,63 @@ da:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: 'skal være et række hashes med nøgler: color, title'
+              invalid_schema: 'skal være en liste af hashes med nøglerne: color, title'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: 'skal være et række hashes med nøgler: color, title'
+              invalid_schema: 'skal være en liste af hashes med nøglerne: color, title'
     models:
       gitlab_issue:
-        one: GitLab issue
-        other: GitLab issues
+        one: GitLab-issue
+        other: GitLab-issues
       gitlab_merge_request:
         one: GitLab merge request
         other: GitLab merge requests
       gitlab_pipeline:
-        one: GitLab pipeline
-        other: GitLab pipelines
+        one: GitLab-pipeline
+        other: GitLab-pipelines
       gitlab_user:
-        one: GitLab user
-        other: GitLab users
+        one: GitLab-bruger
+        other: GitLab-brugere
   attributes:
     commit: Commit
-    gitlab: GitLab-identifikator
+    gitlab: GitLab-id
     gitlab_avatar_url: Avatar-URL
     gitlab_email: GitLab e-mail
     gitlab_html_url: GitLab HTML-URL
-    gitlab_merge_request: Fletteanmodning
+    gitlab_merge_request: Merge request
     gitlab_name: GitLab-navn
-    gitlab_updated_at: Opdateret pr.
-    gitlab_user_avatar_url: GitLab-avatar URL
+    gitlab_updated_at: Opdateret
+    gitlab_user_avatar_url: GitLab-avatar-URL
     gitlab_username: GitLab-brugernavn
   gitlab_integration:
-    issue_closed_referenced_comment: "**Problematik lukket:** Problematik %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) er blevet lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_opened_referenced_comment: "**Problematik åbnet:** Problematik %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) er blevet åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Emne Reopens:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) er blevet genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**MR lukket:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**MR flettet:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet flettet af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_opened_comment: "**MR åbnet:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**MR genåbnet:** Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) er blevet genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Refereret i commit:** [%{gitlab_user}](%{gitlab_user_url}) refererede til denne WP i en Commit-note [%{commit_id}](%{commit_url}) på [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_issue_commented_comment: "**Kommenteret i problematik:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne WP i Problematik %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_referenced_comment: "**Refereret i prohlematik:** [%{gitlab_user}](%{gitlab_user_url}) refererede denne WP i Problematik %{issue_number} [%{issue_title}](%{issue_url}) på [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_mr_commented_comment: "**Kommenteret i MR:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne WP i Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) på [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_referenced_comment: "**Refereret i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererede til denne WP i Fletteanmodning %{mr_number} [%{mr_title}](%{mr_url}) på [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_snippet_referenced_comment: "**Refereret i Snippet:** [%{gitlab_user}](%{gitlab_user_url}) refererede denn WP i Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) på [%{repository}](%{repository_url}): %{snippet_note}\n"
-    push_multiple_commits_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Pushed i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) kl. %{commit_timestamp}: %{commit_note}\n"
-  label_gitlab_actor: GitHub-initiator (actor)
-  label_gitlab_integration: GitLab-Integration
+    issue_closed_referenced_comment: "**Issue lukket:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Issue åbnet:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Issue genåbnet:** Issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}) er genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**MR lukket:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er lukket af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR flettet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er flettet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR åbnet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er åbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR genåbnet:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}) er genåbnet af [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Henvist til i commit:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i en commit-note [%{commit_id}](%{commit_url}) i [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Kommenteret i issue:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne arbejdspakke i issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Henvist til i issue:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i issue %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Kommenteret i MR:** [%{gitlab_user}](%{gitlab_user_url}) kommenterede denne arbejdspakke i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Henvist til i MR:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Henvist til i snippet:** [%{gitlab_user}](%{gitlab_user_url}) henviste til denne arbejdspakke i snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) i [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Pushet i MR:** [%{gitlab_user}](%{gitlab_user_url}) pushede flere commits [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Pushet i MR:** [%{gitlab_user}](%{gitlab_user_url}) pushede [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Pushet i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushede [%{commit_number}](%{commit_url}) til [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitLab-aktør
+  label_gitlab_integration: GitLab-integration
   label_gitlab_webhook_secret: Webhook-hemmelighed
-  permission_show_gitlab_content: Vis GitHub-indhold
+  permission_show_gitlab_content: Vis GitLab-indhold
   project_module_gitlab: GitLab
-  text_gitlab_actor_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-anmodninger. Når angivet, afvises anmodninger godkendt med anden brugers legitimationsoplysninger. Denne bruger sender også automatiserede kommentarer om arbejdspakker. Standard er systembrugeren, når ikke angivet.
+  text_gitlab_actor_info: 'Den OpenProject-bruger, hvis API-nøgle skal bruges til at godkende indgående webhook-forespørgsler. Når den er angivet, afvises forespørgsler, der er godkendt med andre brugeres legitimationsoplysninger. Brugeren skriver også de automatiske kommentarer på arbejdspakker. Er der ikke angivet nogen, bruges systembrugeren.
 
     '
-  text_gitlab_webhook_secret_info: 'Et hemmeligt token delt med GitHub, når webhook''en opsættes. Når angivet, bekræfter OpenProject X-Hub-Signature-256-headeren på hver indgående anmodning og afviser payloads, som ikke matcher. Lad stå tom for at overspringe bekræftelsen (anbefales ikke!).
+  text_gitlab_webhook_secret_info: 'Et hemmeligt token, der deles med GitLab, når webhooken sættes op. Når det er angivet, kontrollerer OpenProject headeren X-Gitlab-Token i hver indgående forespørgsel og afviser payloads, der ikke stemmer. Lad feltet stå tomt for at springe kontrollen over (anbefales ikke).
 
     '
-  text_gitlab_webhook_secret_missing_warning: 'Ingen webhook-hemmelighed opsat. Alle anmodning til GitHub webhook-endepunktet accepteres uden bekræftelse, hvilket kan tillade uautoriserede aktører at forfalske begivenheder. Det anbefales kraftigt at opsætte en hemmelighed.
+  text_gitlab_webhook_secret_missing_warning: 'Der er ikke konfigureret nogen webhook-hemmelighed. Alle forespørgsler til GitLabs webhook-endepunkt accepteres uden kontrol, så uautoriserede aktører kan forfalske hændelser. Det anbefales kraftigt at angive en hemmelighed.
 
     '

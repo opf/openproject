@@ -4,7 +4,7 @@ da:
     attributes:
       bim/bcf/issue:
         bcf_comment: BCF-kommentar
-        bim_snippet: BIM-uddrag
+        bim_snippet: BIM-kodestykke
         reference_links: Referencelinks
         stage: Fase
         status_id: Status
@@ -39,19 +39,19 @@ da:
               invalid_ifc_file: Den angivne fil er ikke en gyldig IFC-fil.
     models:
       bim/bcf/comment:
-        one: BCF comment
-        other: BCF comments
+        one: BCF-kommentar
+        other: BCF-kommentarer
       bim/bcf/issue:
-        one: BCF issue
-        other: BCF issues
+        one: BCF-sag
+        other: BCF-sager
       bim/bcf/viewpoint:
-        one: BCF viewpoint
-        other: BCF viewpoints
+        one: BCF-synsvinkel
+        other: BCF-synsvinkler
       bim/ifc_models/ifc_model:
-        one: IFC model
-        other: IFC models
+        one: IFC-model
+        other: IFC-modeller
   attributes:
-    bcf_thumbnail: BCF øjebliksbillede
+    bcf_thumbnail: BCF-øjebliksbillede
   bcf:
     bcf_xml:
       export: Eksportér
@@ -80,38 +80,38 @@ da:
         no_type_provided: Ingen type angivet
         non_members_found: Ikke-projektmedlemmer fundet
         num_issues_found: "%{x_bcf_issues} er indeholdt i BCF-XML-filen, deres detaljer er angivet nedenfor."
-        perform_description: Vil du importere eller opdatere de problemer, der er nævnt ovenfor?
+        perform_description: Vil du importere eller opdatere de sager, der er vist ovenfor?
         replace_with_system_user: Erstat dem med "System"-brugeren
         unknown_emails_found: Ukendte e-mailadresser fundet
         unknown_property: Ukendt egenskab
-        what_to_do: Hvad vil du lave?
+        what_to_do: Hvad vil du gøre?
         work_package_has_newer_changes: Forældet! Dette emne blev ikke opdateret, da de seneste ændringer på serveren var nyere end "ModifiedDate" for det importerede emne. Kommentarer til emnet blev dog importeret.
       import_canceled: BCF-XML-import annulleret.
       import_failed: 'Kan ikke importere BCF-fil: %{error}'
       import_failed_unsupported_bcf_version: 'Kunne ikke læse BCF- filen: BCF- versionen understøttes ikke. Kontroller, at versionen er mindst %{minimal_version} eller højere.'
-      import_successful: Importeret %{count} BCF-problemer
+      import_successful: "%{count} BCF-sager er importeret"
       import_title: Importér
       import_update_comment: "(Opdateret i BCF-import)"
-      type_not_active: Problemtypen er ikke aktiveret for dette projekt.
+      type_not_active: Typen er ikke aktiveret i dette projekt.
       xml_file: BCF XML-fil
     exceptions:
       file_invalid: BCF-fil ugyldig
-    issues: Problemer
+    issues: Sager
     label_bcf: BCF
-    label_bcf_issue_associated: BCF-problem forbundet med
-    label_imported_failed: Mislykket import af BCF-emner
-    label_imported_successfully: Importerede BCF-emner med succes
+    label_bcf_issue_associated: Tilknyttet BCF-sag
+    label_imported_failed: Mislykkede importer af BCF-sager
+    label_imported_successfully: Importerede BCF-sager
     new_badge: Ny
-    no_viewpoints: Ingen synspunkter
+    no_viewpoints: Ingen synsvinkler
     not_recommended: ikke anbefalet
-    recommended: Anbefalet
+    recommended: anbefalet
     x_bcf_issues:
       one: Et BCF- problem
       other: "%{count} BCF sager"
-      zero: Ingen BCF-problemer
+      zero: Ingen BCF-sager
   bim:
-    error_direct_upload_failed: Direkte upload mislykkedes.
-    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
+    error_direct_upload_failed: Den direkte overførsel mislykkedes.
+    error_direct_upload_file_too_large: IFC-modellen er for stor (den maksimale størrelse er %{size} byte).
     label_bim: BIM
   export:
     format:
@@ -125,21 +125,21 @@ da:
     conversion_status:
       completed: Udført
       error: Fejl
-      label: Bearbejder
+      label: Behandles?
       pending: Afventer
-      processing: Bearbejder
+      processing: Behandles
     flash_messages:
-      upload_successful: Uploaden lykkedes. Den vil nu blive behandlet og være klar til brug om et par minutter.
+      upload_successful: Overførslen lykkedes. Filen behandles nu og er klar til brug om et par minutter.
     label_default_ifc_models: Standard IFC-modeller
     label_edit_defaults: Rediger standarder
     label_ifc_models: IFC-modeller
     label_new_ifc_model: Ny IFC-model
     label_show_defaults: Vis standarder
     no_defaults_warning:
-      check_1: Tjek, at du har uploadet mindst én IFC-model.
+      check_1: Tjek, at du har overført mindst én IFC-model.
       check_2: Kontroller, at mindst én IFC-model er indstillet til "Standard".
       title: Ingen IFC-model blev indstillet som standard for dette projekt.
-    no_results: Der er ikke uploadet nogen IFC-modeller i dette projekt.
+    no_results: Der er ikke overført nogen IFC-modeller i dette projekt.
     processing_notice:
       processing_default: 'Følgende standard IFC-modeller er stadig under behandling og er derfor ikke tilgængelige endnu:'
   oauth:
@@ -147,16 +147,16 @@ da:
       bcf_v2_1: Fuld adgang til BCF v2.1 API'en
       bcf_v2_1_text: Applikationen får fuld læse- og skriveadgang til OpenProject BCF API v2.1 for at udføre handlinger på dine vegne.
   permission_delete_bcf: Slet BCF sager
-  permission_manage_bcf: Import og administrer BCF-problemer
+  permission_manage_bcf: Importér og administrer BCF-sager
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+    Giver mulighed for at administrere BCF-sager, herunder masseimport og -opdateringer.
+    BCF-import knytter filens metadata til projektets ressourcer og kan oprette eller opdatere arbejdspakker
+    og kommentarer med forfatter og tidsstempel fra den importerede fil og handler dermed reelt på vegne af brugerne.
   permission_manage_ifc_models: Importer og administrer IFC-modeller
-  permission_view_ifc_models: Se IFC-modeller
-  permission_view_linked_issues: Vis BCF-problemer
+  permission_view_ifc_models: Vis IFC-modeller
+  permission_view_linked_issues: Vis BCF-sager
   plugin_openproject_bim:
-    description: This OpenProject plugin introduces BIM and BCF functionality.
+    description: OpenProject-pluginnet tilføjer funktioner til BIM og BCF.
     name: OpenProject BIM and BCF functionality
   project_module_bcf: BCF
   project_module_bim: BCF

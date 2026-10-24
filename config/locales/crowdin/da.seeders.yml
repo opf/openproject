@@ -38,61 +38,61 @@ da:
         item_0:
           name: PM2 Orange
         item_1:
-          name: PM2 Red
+          name: PM2 Rød
         item_2:
           name: PM2 Magenta
         item_3:
-          name: PM2 Green Yellow
+          name: PM2 Gulgrøn
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Læser af projektliste
         item_1:
-          name: Project query editor
+          name: Redaktør af projektliste
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Redaktør af arbejdspakker
         item_1:
-          name: Work package commenter
+          name: Kommentator af arbejdspakker
         item_2:
-          name: Work package viewer
+          name: Læser af arbejdspakker
       project_roles:
         item_0:
           name: Ikke medlem
         item_1:
-          name: Anonymt
+          name: Anonym
         item_2:
           name: Medlem
         item_3:
           name: Læser
         item_4:
-          name: Projektadmin
+          name: Projektadministrator
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Personale- og projektadministrator
         item_1:
-          name: Standard global role
+          name: Global standardrolle
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Ret grammatik
         item_1:
-          label: Make concise
+          label: Gør kortere
         item_2:
-          label: Translate to English
+          label: Oversæt til engelsk
         item_3:
-          label: Sort into template
+          label: Sortér efter skabelon
     standard:
       project_phases:
         item_0:
-          name: Initiating
+          name: Igangsættelse
         item_1:
-          name: Planlæg
-          start_gate: Ready for Planning
+          name: Planlægning
+          start_gate: Klar til planlægning
         item_2:
-          name: Executing
-          start_gate: Ready for Executing
+          name: Udførelse
+          start_gate: Klar til udførelse
         item_3:
-          name: Closing
-          start_gate: Ready for Closing
+          name: Afslutning
+          start_gate: Klar til afslutning
       priorities:
         item_0:
           name: Lav
@@ -104,31 +104,31 @@ da:
           name: Straks
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Marketing og kommunikation
         item_1:
-          name: Public Relations
+          name: PR
         item_2:
-          name: Design & Content
+          name: Design og indhold
         item_3:
-          name: Events & Operations
+          name: Events og drift
         item_4:
-          name: Web & IT
+          name: Web og IT
         item_5:
-          name: Finance & Administration
+          name: Økonomi og administration
         item_6:
-          name: Quality Assurance
+          name: Kvalitetssikring
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: This is a short summary of the goals of this demo project.
+          name: Demoprojekt
+          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er sat helt op.
+          description: Dette er en kort opsummering af målene for dette demoprojekt.
           news:
             item_0:
-              title: Velkommen til demo-projektet
+              title: Velkommen til dit demoprojekt
               summary: |
                 Vi er glade for deltagelsen.
                 I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
-              description: De faktiske nyheder
+              description: Selve nyheden
           categories:
             item_0: Kategori 1 (skal ændres i Projektindstillinger)
           queries:
@@ -142,20 +142,20 @@ da:
               name: Teamplanlægger
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tavle
             basic:
-              name: Basic board
+              name: Grundlæggende tavle
               lists:
                 item_0:
-                  name: Wish list
+                  name: Ønskeliste
                 item_1:
-                  name: Short list
+                  name: Kortliste
                 item_2:
-                  name: Priority list for today
+                  name: Prioriteret liste for i dag
                 item_3:
                   name: Aldrig
             parent_child:
-              name: Work breakdown structure
+              name: Arbejdsnedbrydningsstruktur
           project-overview:
             widgets:
               item_0:
@@ -163,23 +163,23 @@ da:
                   name: Velkommen
               item_1:
                 options:
-                  name: At komme gang
+                  name: Kom godt i gang
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Lær de vigtigste funktioner at kende med vores [rundvisning]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Prøv følgende trin:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Invitér nye medlemmer til dit projekt*: &rightarrow; Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-project/members) i projektnavigationen.
+                    2. *Se arbejdet i dit projekt*: &rightarrow; Gå til [Arbejdspakker]({{opSetting:base_url}}/projects/demo-project/work_packages) i projektnavigationen.
+                    3. *Opret en ny arbejdspakke*: &rightarrow; Gå til [Arbejdspakker &rightarrow; Opret]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Opret og opdater en projektplan*: &rightarrow; Gå til [Projektplan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) i projektnavigationen.
+                    5. *Aktivér flere moduler*: &rightarrow; Gå til [Projektindstillinger &rightarrow; Moduler]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Udfør dine opgaver i projektet*: &rightarrow; Gå til [Arbejdspakker &rightarrow; Opgaver]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Arbejdspakker
@@ -188,63 +188,63 @@ da:
                   name: Milepæle
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Projektstart
             item_1:
-              subject: Organize open source conference
+              subject: Arrangér open source-konference
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Fastlæg dato og sted for konferencen
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Send invitation til talere
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Kontakt sponsorer
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Lav sponsorbrochure og uddelingsmateriale
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Invitér deltagere til konferencen
                 item_2:
-                  subject: Setup conference website
+                  subject: Opret konferencens websted
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Test og kvalitetssikr konferencens websted
             item_3:
-              subject: Conference
+              subject: Konference
             item_4:
-              subject: Follow-up tasks
+              subject: Opfølgende opgaver
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Læg præsentationer på webstedet
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Fest for konferencens støtter :-)
                   description: |-
-                    *   [ ] Beer
+                    *   [ ] Øl
                     *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Musik
+                    *   [ ] Endnu mere øl
             item_5:
-              subject: End of project
+              subject: Projektafslutning
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _I denne wiki kan I sammen oprette og redigere sider og undersider til en projektwiki._
 
-            **You can:**
+            **Du kan:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Indsætte tekst og billeder, også ved at kopiere og indsætte fra andre dokumenter
+            * Oprette et sidehierarki med overordnede sider
+            * Føje wikisider til projektmenuen
+            * Bruge makroer til at indsætte fx indholdsfortegnelser, lister over arbejdspakker eller Gantt-diagrammer
+            * Indsætte wikisider i andre tekstfelter, fx på projektets oversigtsside
+            * Indsætte links til andre dokumenter
+            * Se ændringshistorikken
+            * Vise siden som Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Flere oplysninger: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
-          name: Scrum project
-          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er fuldt opsat.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: Scrum-projekt
+          status_explanation: Alle opgaver følger tidsplanen. De involverede kender deres opgaver. Systemet er sat helt op.
+          description: Dette er en kort opsummering af målene for dette Scrum-demoprojekt.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Velkommen til dit Scrum-demoprojekt
               summary: |
                 Vi er glade for deltagelsen.
                 I dette modul kan man kommunikere projektnyheder til sine teammedlemmer.
@@ -258,51 +258,51 @@ da:
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Sprintplanlægningsmøde
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Dokumentér emnerne til sprintplanlægningsmødet her_
 
-                  * Time boxed (8 h)
+                  * Tidsafgrænset (8 t)
                   * Input: Product Backlog
                   * Output: Sprint Backlog
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Opdelt i to yderligere tidsrum på 4 t:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                      * Product Owner præsenterer [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) og prioriteterne for teamet og forklarer sprintmålet, som teamet skal være enigt i. Sammen prioriterer de de emner fra Product Backlog, som teamet tager sig af i den næste sprint. Teamet forpligter sig til den aftalte levering.
+                      * Teamet planlægger selvstændigt (uden Product Owner) i detaljer og nedbryder opgaverne fra de aftalte krav til en samlet [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Daily Scrum meeting
+                  ### Daily Scrum-møde
 
-                  _Please document here topics to the Daily Scrum meeting_
+                  _Dokumentér emnerne til Daily Scrum-mødet her_
 
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
+                  * Kort, dagligt statusmøde i teamet.
+                  * Tidsafgrænset (højst 15 min).
+                  * Stand-up-møde, hvor følgende emner fra [opgavetavlen](##sprint:scrum_project__version__sprint_1) drøftes.
+                      * Hvad planlægger jeg at gøre inden næste Daily Scrum?
+                      * Hvad har blokeret mit arbejde (forhindringer)?
+                  * Scrum Master leder mødet og noterer [forhindringer i sprinten](##sprint:scrum_project__version__sprint_1).
+                  * Product Owner kan deltage for at holde sig orienteret.
 
-                  ### Sprint Review meeting
+                  ### Sprint Review-møde
 
-                  _Please document here topics to the Sprint Review meeting_
+                  _Dokumentér emnerne til Sprint Review-mødet her_
 
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                  * Tidsafgrænset (4 t).
+                  * Højst en times forberedelse pr. person.
+                  * Teamet viser Product Owner og andre interesserede, hvad der er nået i denne sprint.
+                  * Vigtigt: ingen attrapper og ingen PowerPoint! Kun færdig produktfunktionalitet (increments) skal demonstreres.
+                  * Feedback fra Product Owner, interessenter og andre er ønsket og indgår i det videre arbejde.
+                  * Ud fra de demonstrerede funktioner beslutter Product Owner, om dette increment skal i drift eller udvikles videre. Det giver mulighed for et tidligt ROI.
 
 
                   ### Sprint Retrospective
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Dokumentér emnerne til Sprint Retrospective-mødet her_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Tidsafgrænset (3 t).
+                  * Efter Sprint Review, ledes af Scrum Master.
+                  * Teamet drøfter sprinten: hvad gik godt, og hvad skal forbedres for at være mere produktive i næste sprint eller have det endnu sjovere.
             item_3:
               name: Sprint 2
           categories:
@@ -318,16 +318,16 @@ da:
               name: Opgaver
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tavle
             basic:
-              name: Opgaveoversigt
+              name: Opgavetavle
               lists:
                 item_0:
-                  name: Wish list
+                  name: Ønskeliste
                 item_1:
-                  name: Short list
+                  name: Kortliste
                 item_2:
-                  name: Priority list for today
+                  name: Prioriteret liste for i dag
                 item_3:
                   name: Aldrig
           project-overview:
@@ -337,22 +337,22 @@ da:
                   name: Velkommen
               item_1:
                 options:
-                  name: At komme gang
+                  name: Kom godt i gang
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi er glade for, at du er med! Vi foreslår, at du prøver et par ting for at komme i gang med OpenProject.
 
-                    _Try the following steps:_
+                    _Prøv følgende trin:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invitér nye medlemmer til dit projekt*: &rightarrow; Gå til [Medlemmer]({{opSetting:base_url}}/projects/your-scrum-project/members) i projektnavigationen.
+                    2. *Se din Product Backlog og dine Sprint Backlogs*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i projektnavigationen.
+                    3. *Se din opgavetavle*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klik på højrepilen ved en sprint &rightarrow; Vælg [Opgavetavle](##sprint:scrum_project__version__sprint_1).
+                    4. *Opret en ny arbejdspakke*: &rightarrow; Gå til [Arbejdspakker &rightarrow; Opret]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Opret og opdater en projektplan*: &rightarrow; Gå til [Projektplan](##query:scrum_project__query__project_plan) i projektnavigationen.
+                    6. *Opret en sprintwiki*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs), og åbn sprintwikien fra rullemenuen til højre i en sprint. Du kan tilpasse [wikiskabelonen]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) efter behov.
+                    7. *Aktivér flere moduler*: &rightarrow; Gå til [Projektindstillinger &rightarrow; Moduler]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Her finder du vores [brugervejledninger](https://www.openproject.org/docs/user-guide/).
+                    Sig til, hvis du har spørgsmål eller brug for hjælp. Kontakt os: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Arbejdspakker
@@ -361,101 +361,101 @@ da:
                   name: Projektplan
           work_packages:
             item_0:
-              subject: New login screen
+              subject: Ny loginskærm
             item_1:
-              subject: Password reset does not send email
+              subject: Nulstilling af adgangskode sender ikke e-mail
             item_2:
-              subject: New website
+              subject: Nyt websted
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Tilmeldingsformular til nyhedsbrev
                 item_1:
-                  subject: Implement product tour
+                  subject: Implementér produktrundvisning
                 item_2:
-                  subject: New landing page
+                  subject: Ny landingsside
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Lav wireframes til ny landingsside
             item_3:
-              subject: Contact form
+              subject: Kontaktformular
             item_4:
-              subject: Feature carousel
+              subject: Funktionskarrusel
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Tag skærmbilleder til funktionsrundvisning
             item_5:
-              subject: Wrong hover color
+              subject: Forkert farve ved hover
             item_6:
-              subject: SSL certificate
+              subject: SSL-certifikat
             item_7:
-              subject: Set-up Staging environment
+              subject: Opsæt testmiljø (staging)
             item_8:
-              subject: Choose a content management system
+              subject: Vælg et CMS
             item_9:
-              subject: Website navigation structure
+              subject: Webstedets navigationsstruktur
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Udarbejd navigationskoncept til webstedet.
             item_10:
-              subject: Internal link structure
+              subject: Intern linkstruktur
             item_11:
-              subject: Develop v1.0
+              subject: Udvikl v1.0
             item_12:
               subject: Release v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Udvikl v1.1
             item_14:
               subject: Release v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Udvikl v2.0
             item_16:
               subject: Release v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Sprintplanlægningsmøde
 
-            _Please document here topics to the Sprint planning meeting_
+            _Dokumentér emnerne til sprintplanlægningsmødet her_
 
-            * Time boxed (8 h)
+            * Tidsafgrænset (8 t)
             * Input: Product Backlog
             * Output: Sprint Backlog
 
-            * Divided into two additional time boxes of 4 h:
+            * Opdelt i to yderligere tidsrum på 4 t:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * Product Owner præsenterer [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) og prioriteterne for teamet og forklarer sprintmålet, som teamet skal være enigt i. Sammen prioriterer de de emner fra Product Backlog, som teamet tager sig af i den næste sprint. Teamet forpligter sig til den aftalte levering.
+                * Teamet planlægger selvstændigt (uden Product Owner) i detaljer og nedbryder opgaverne fra de aftalte krav til en samlet [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-            ### Daily Scrum meeting
+            ### Daily Scrum-møde
 
-            _Please document here topics to the Daily Scrum meeting_
+            _Dokumentér emnerne til Daily Scrum-mødet her_
 
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
+            * Kort, dagligt statusmøde i teamet.
+            * Tidsafgrænset (højst 15 min).
+            * Stand-up-møde, hvor følgende emner fra opgavetavlen drøftes.
+                * Hvad planlægger jeg at gøre inden næste Daily Scrum?
+                * Hvad har blokeret mit arbejde (forhindringer)?
+            * Scrum Master leder mødet og noterer forhindringer i sprinten.
+            * Product Owner kan deltage for at holde sig orienteret.
 
-            ### Sprint Review meeting
+            ### Sprint Review-møde
 
-            _Please document here topics to the Sprint Review meeting_
+            _Dokumentér emnerne til Sprint Review-mødet her_
 
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+            * Tidsafgrænset (4 t).
+            * Højst en times forberedelse pr. person.
+            * Teamet viser Product Owner og andre interesserede, hvad der er nået i denne sprint.
+            * Vigtigt: ingen attrapper og ingen PowerPoint! Kun færdig produktfunktionalitet (increments) skal demonstreres.
+            * Feedback fra Product Owner, interessenter og andre er ønsket og indgår i det videre arbejde.
+            * Ud fra de demonstrerede funktioner beslutter Product Owner, om dette increment skal i drift eller udvikles videre. Det giver mulighed for et tidligt ROI.
 
 
             ### Sprint Retrospective
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _Dokumentér emnerne til Sprint Retrospective-mødet her_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Tidsafgrænset (3 t).
+            * Efter Sprint Review, ledes af Scrum Master.
+            * Teamet drøfter sprinten: hvad gik godt, og hvad skal forbedres for at være mere produktive i næste sprint eller have det endnu sjovere.
       statuses:
         item_0:
           name: Ny
@@ -466,11 +466,11 @@ da:
         item_3:
           name: Bekræftet
         item_4:
-          name: Skal skemalægges
+          name: Skal planlægges
         item_5:
           name: Planlagt
         item_6:
-          name: Igangværende
+          name: I gang
         item_7:
           name: Udviklet
         item_8:
@@ -487,13 +487,13 @@ da:
           name: Afvist
       time_entry_activities:
         item_0:
-          name: Håndtering
+          name: Ledelse
         item_1:
           name: Specifikation
         item_2:
           name: Udvikling
         item_3:
-          name: Afprøver
+          name: Test
         item_4:
           name: Support
         item_5:
@@ -504,44 +504,44 @@ da:
         item_1:
           name: Milepæl
         item_2:
-          name: Summary task
+          name: Sammenfattende opgave
         item_3:
           name: Funktion
         item_4:
-          name: Episk
+          name: Epic
         item_5:
-          name: Brugerhistorik
+          name: User story
         item_6:
           name: Fejl
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Underordnede af epic: user stories og fejl'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Underordnede af user story: opgaver'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: User stories og fejl
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Opgaver
       welcome:
-        title: Welcome to OpenProject!
+        title: Velkommen til OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject er det førende open source-program til projektstyring. Det understøtter klassisk, agil og hybrid projektstyring og giver dig fuld kontrol over dine data.
 
-          Core features and use cases:
+          Kernefunktioner og anvendelser:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Styring af projektporteføljer](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Projektplanlægning og tidsplaner](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Opgavestyring og sagsopfølgning](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile tavler (Scrum og Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Kravstyring og release-planlægning](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Tids- og omkostningsregistrering, budgetter](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Samarbejde og dokumentation i teams](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Velkommen til fremtidens projektstyring.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Til administratorer: Du kan ændre denne velkomsttekst [her]({{opSetting:base_url}}/admin/settings/general).
