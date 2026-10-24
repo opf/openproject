@@ -94,9 +94,13 @@
             </tr>
           </thead>
           @if (!isEmbedded && query && results.count === 0) {
-            <tbody class="work-package--empty-tbody">
-              <tr id="empty-row-notification">
-                <td [attr.colspan]="numTableColumns">
+            <tbody class="work-package--empty-tbody"
+              [attr.role]="configuration.keyboardNavigationEnabled ? 'rowgroup' : null">
+              <tr id="empty-row-notification"
+                [attr.role]="configuration.keyboardNavigationEnabled ? 'row' : null"
+                [attr.aria-level]="configuration.keyboardNavigationEnabled ? 1 : null">
+                <td [attr.colspan]="numTableColumns"
+                  [attr.role]="configuration.keyboardNavigationEnabled ? 'gridcell' : null">
                   <span>
                     <op-icon icon-classes="icon-info1 icon-context" />
                     <span>
