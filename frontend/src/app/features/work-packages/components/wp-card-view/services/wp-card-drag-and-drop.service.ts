@@ -398,7 +398,9 @@ export class WorkPackageCardDragAndDropService {
       return true;
     } catch (e) {
       this.notificationService.handleRawError(e, workPackage);
-      if (!membershipPersisted && this.stillAt(revision, after)) {
+      if (membershipPersisted) {
+        this.cardView.orderSaveFailed.emit();
+      } else if (this.stillAt(revision, after)) {
         this.applyLocalOrder(before);
       }
       return membershipPersisted;

@@ -178,6 +178,7 @@ describe('WorkPackageCardDragAndDropService', () => {
     cdRef:{ detectChanges:ReturnType<typeof vi.fn> };
     cardView:{ updateRenderedCardsValues:ReturnType<typeof vi.fn> };
     onMoved:{ emit:ReturnType<typeof vi.fn> };
+    orderSaveFailed:{ emit:ReturnType<typeof vi.fn> };
     workPackageAddedHandler:ReturnType<typeof vi.fn>;
     orderIsMembership:boolean;
     resolvedListId:string;
@@ -218,6 +219,7 @@ describe('WorkPackageCardDragAndDropService', () => {
       cdRef: { detectChanges: vi.fn() },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
+      orderSaveFailed: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue({ membershipPersisted: false }),
       orderIsMembership: false,
       resolvedListId: LIST_ID,
@@ -528,6 +530,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(cardView.orderSaveFailed.emit).not.toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(false);
     });
 
@@ -547,6 +550,7 @@ describe('WorkPackageCardDragAndDropService', () => {
 
       expect(idsOf(service.workPackages)).toEqual(['p', 'x', 'q']);
       expect(notificationStub.handleRawError).toHaveBeenCalledWith(addError, expect.anything());
+      expect(cardView.orderSaveFailed.emit).toHaveBeenCalled();
       expect(complete).toHaveBeenCalledWith(true);
     });
 
@@ -1067,6 +1071,7 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
       cdRef: { detectChanges: () => { listHost.resync(); fixture.detectChanges(); } },
       cardView: { updateRenderedCardsValues: vi.fn() },
       onMoved: { emit: vi.fn() },
+      orderSaveFailed: { emit: vi.fn() },
       workPackageAddedHandler: vi.fn().mockResolvedValue(true),
       resolvedListId: listHost.listId(),
     } as unknown as WorkPackageCardViewComponent);
