@@ -44,6 +44,8 @@ export class WorkPackageIdDisplayField extends IdDisplayField {
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
 
+  public readonly labelsOwnContent = true;
+
   public get valueString():string {
     return (this.resource.displayId as string|undefined) ?? (this.value as string|number|null|undefined)?.toString() ?? '';
   }
@@ -58,6 +60,7 @@ export class WorkPackageIdDisplayField extends IdDisplayField {
       displayText,
       this.valueString,
     );
+    link.setAttribute('aria-label', `${this.displayName} ${this.valueString}`);
 
     element.appendChild(link);
   }

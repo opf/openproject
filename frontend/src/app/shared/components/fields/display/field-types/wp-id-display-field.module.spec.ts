@@ -73,7 +73,7 @@ describe('WorkPackageIdDisplayField', () => {
       options: {},
     } as unknown as DisplayFieldContext);
 
-    field.apply(resource, { type: 'Integer' } as IFieldSchema);
+    field.apply(resource, { type: 'Integer', name: 'ID' } as IFieldSchema);
   }
 
   describe('valueString', () => {
@@ -113,6 +113,15 @@ describe('WorkPackageIdDisplayField', () => {
 
       expect(link).toBeTruthy();
       expect(link!.href).toContain('/work_packages/PROJ-7');
+    });
+
+    it('labels the link with the attribute name and id', () => {
+      buildField({ id: '42', displayId: 'PROJ-7' });
+
+      const container = document.createElement('span');
+      field.render(container, 'PROJ-7');
+
+      expect(container.querySelector('a')!.getAttribute('aria-label')).toEqual('ID PROJ-7');
     });
 
     it('keeps the numeric id in data-work-package-id for selection', () => {
