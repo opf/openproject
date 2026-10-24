@@ -510,7 +510,10 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
           requireAll: options.requireAll ?? ((ids:string[]) => Promise.resolve(
             ids.map((id) => states.workPackages.get(id).value!).filter(Boolean),
           )),
-          cache: { current: (_id:string, fallback:unknown) => fallback },
+          cache: {
+            current: (_id:string, fallback:unknown) => fallback,
+            state: (id:string) => states.workPackages.get(id),
+          },
           id: (id:string) => ({
             get: () => of(states.workPackages.get(id).value),
             requireAndStream: () => of(states.workPackages.get(id).value),
