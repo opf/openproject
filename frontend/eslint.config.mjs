@@ -201,6 +201,8 @@ export default defineConfig([
 
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+      // Test harnesses expose `expect*` helpers that wrap several assertions
+      'vitest/expect-expect': ['error', { assertFunctionNames: ['expect', '*.expect*'] }],
     },
   },
   {
