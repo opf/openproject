@@ -269,6 +269,36 @@ describe('Hierarchy table collapse', () => {
   });
 });
 
+describe('Hierarchy table collapse on a keyboard-enabled table', () => {
+  let harness:TableHarness;
+
+  afterEach(() => harness.destroy());
+
+  it('projects the collapse onto row expansion and hidden state', async () => {
+    harness = buildTable({
+      workPackages: [parent, child, { id: '3', ancestors: [parent, child] }, { id: '4' }],
+      showHierarchies: true,
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true');
+    expect(harness.row('3')).not.toHaveAttribute('aria-expanded');
+
+    fireEvent.click(within(harness.row('1')).getByRole('button'));
+
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'false'));
+    expect(harness.row('2')).toHaveAttribute('aria-hidden', 'true');
+    expect(harness.row('3')).toHaveAttribute('aria-hidden', 'true');
+    expect(harness.row('4')).not.toHaveAttribute('aria-hidden');
+
+    fireEvent.click(within(harness.row('1')).getByRole('button'));
+
+    await waitFor(() => expect(harness.row('1')).toHaveAttribute('aria-expanded', 'true'));
+    expect(harness.row('2')).not.toHaveAttribute('aria-hidden');
+    expect(harness.row('3')).not.toHaveAttribute('aria-hidden');
+  });
+});
+
 describe('Hierarchy table levels', () => {
   let harness:TableHarness;
 
