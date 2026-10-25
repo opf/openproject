@@ -105,17 +105,21 @@ export interface DisabledButtonPlaceholder {
   icon:string;
 }
 
-export function listMatchesChange(
+export function listNeedsReload(
   actionHref:string|null|undefined,
   rendered:{ id:string|null }[],
   workPackageId:string,
   change:ChangeItem,
 ):boolean {
-  const belongsHere = !!actionHref && [change.to]
-    .flat()
-    .some((resource) => (resource as HalResource|undefined)?.href === actionHref);
+  if (!actionHref) {
+    return false;
+  }
 
-  return belongsHere === rendered.some((wp) => wp.id === workPackageId);
+  const hrefsOf = (value:unknown) => [value].flat().map((resource) => (resource as HalResource|undefined)?.href);
+  const belongsHere = hrefsOf(change.to).includes(actionHref);
+  const affected = belongsHere || hrefsOf(change.from).includes(actionHref);
+
+  return affected && belongsHere !== rendered.some((wp) => wp.id === workPackageId);
 }
 
 @Component({
@@ -212,9 +216,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Initially focus the list */
   public initiallyFocused = false;
 
+  private readonly savingWorkPackageIds = new Set<string>();
+
   /** Editing handler to be passed into card component */
   public workPackageAddedHandler = async (workPackage:WorkPackageResource):Promise<WorkPackageAddedResult> => {
-    await this.addWorkPackage(workPackage);
+    this.savingWorkPackageIds.add(workPackage.id!);
+    try {
+      await this.addWorkPackage(workPackage);
+    } finally {
+      this.savingWorkPackageIds.delete(workPackage.id!);
+    }
 
     return { membershipPersisted: this.board.isAction };
   };
@@ -529,19 +540,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
           return attribute && changes ? { id: event.id, value: changes[attribute] } : undefined;
         }),
         filter((change):change is { id:string, value:ChangeItem } => !!change),
-        // Drag and drop has already moved the card optimistically
-        filter(({ id, value }) => !listMatchesChange(this.actionResource?.href, this.cardDragDrop.workPackages ?? [], id, value)),
-        filter(({ value }) => {
-          // Compare the from and to values from the committed changes
-          // with the current actionResource. Multi value attributes
-          // contribute the values of each of their versions.
-          const current = this.actionResource?.href;
-          const changed = [value.to, value.from]
-            .flat()
-            .map((resource) => (resource as HalResource|undefined)?.href);
-
-          return !!current && changed.includes(current);
-        }),
+        filter(({ id }) => !this.savingWorkPackageIds.has(id)),
+        filter(({ id, value }) => listNeedsReload(this.actionResource?.href, this.cardDragDrop.workPackages ?? [], id, value)),
+        this.untilDestroyed(),
       )
       .subscribe(() => {
         this.updateQuery(true);

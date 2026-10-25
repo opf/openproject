@@ -52,7 +52,6 @@ export class CausedUpdatesService {
   }
 
   private cacheValue(query:QueryResource) {
-    // The href of a board list query carries its params, the one of a polled query does not
     return `${query.updatedAt}${query.id}`;
   }
 }

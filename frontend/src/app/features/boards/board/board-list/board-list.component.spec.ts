@@ -27,34 +27,42 @@
 //++
 
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
-import { listMatchesChange } from './board-list.component';
+import { listNeedsReload } from './board-list.component';
 
-describe('listMatchesChange', () => {
+describe('listNeedsReload', () => {
   const newStatus = '/api/v3/statuses/1';
   const inProgress = '/api/v3/statuses/7';
   const toInProgress:ChangeItem = { from: { href: newStatus }, to: { href: inProgress } };
   const cards = (...ids:string[]) => ids.map((id) => ({ id }));
 
-  it('is true when the card was already moved into the target list', () => {
-    expect(listMatchesChange(inProgress, cards('1', '42'), '42', toInProgress)).toBe(true);
+  it('is false when the card was already moved into the target list', () => {
+    expect(listNeedsReload(inProgress, cards('1', '42'), '42', toInProgress)).toBe(false);
   });
 
-  it('is true when the card was already removed from the source list', () => {
-    expect(listMatchesChange(newStatus, cards('1'), '42', toInProgress)).toBe(true);
+  it('is false when the card was already removed from the source list', () => {
+    expect(listNeedsReload(newStatus, cards('1'), '42', toInProgress)).toBe(false);
   });
 
-  it('is false when the target list does not show the card yet', () => {
-    expect(listMatchesChange(inProgress, cards('1'), '42', toInProgress)).toBe(false);
+  it('is true when the target list does not show the card yet', () => {
+    expect(listNeedsReload(inProgress, cards('1'), '42', toInProgress)).toBe(true);
   });
 
-  it('is false when the source list still shows the card', () => {
-    expect(listMatchesChange(newStatus, cards('1', '42'), '42', toInProgress)).toBe(false);
+  it('is true when the source list still shows the card', () => {
+    expect(listNeedsReload(newStatus, cards('1', '42'), '42', toInProgress)).toBe(true);
+  });
+
+  it('is false for a list the change does not touch', () => {
+    expect(listNeedsReload('/api/v3/statuses/3', cards('1'), '42', toInProgress)).toBe(false);
+  });
+
+  it('is false without an action resource', () => {
+    expect(listNeedsReload(undefined, cards('1'), '42', toInProgress)).toBe(false);
   });
 
   it('handles multi value attributes', () => {
     const versions:ChangeItem = { from: [], to: [{ href: '/api/v3/versions/1' }, { href: '/api/v3/versions/2' }] };
 
-    expect(listMatchesChange('/api/v3/versions/2', cards('42'), '42', versions)).toBe(true);
-    expect(listMatchesChange('/api/v3/versions/2', cards(), '42', versions)).toBe(false);
+    expect(listNeedsReload('/api/v3/versions/2', cards('42'), '42', versions)).toBe(false);
+    expect(listNeedsReload('/api/v3/versions/2', cards(), '42', versions)).toBe(true);
   });
 });
