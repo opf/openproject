@@ -7,7 +7,7 @@
     "PROFILES": "squashtm"
   },
   "runServices": [
-    "squashtm", "squashtm-db",
+    "squashtm", "squashtm-db", "squashtm-seed",
     "postgresql", "openproject",
   ],
   "service": "openproject",

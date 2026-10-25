@@ -1,12 +1,28 @@
 volumes:
   squashtm_db_data:
 services:
+  squashtm-seed:
+    image: alpine:3.22
+    restart: on-failure
+    depends_on:
+      squashtm:
+        condition: service_healthy
+    environment:
+      OPENPROJECT_DOCKER_DEV_TLD: ${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
+      CURL_CA_BUNDLE: /tls/ca-certificates.crt
+    volumes:
+      - ./:/seed:ro
+      - cacert:/tls:ro
+    command:
+      - sh
+      - -c
+      - apk add --no-cache bash curl jq && exec bash /seed/seed.sh
+
   squashtm:
     image: squashtest/squash
     restart: unless-stopped
     environment:
-
-      SERVER_SERVLET_CONTEXT_PATH: /
+      JAVA_TOOL_OPTIONS: "-Dsquash.rest-api.disallow-basic-authentication=false"
       SPRING_PROFILES_ACTIVE: postgresql
       SPRING_DATASOURCE_URL: jdbc:postgresql://squashtm-db:5432/squashtm
       SPRING_DATASOURCE_USERNAME: ${SQUASH_DB_USER:-squashtm}
@@ -20,6 +36,12 @@ services:
     depends_on:
       squashtm-db:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -q -O - http://localhost:8080/squash/isSquashAlive  | grep -q 'Alive' || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   squashtm-db:
     image: postgres:17

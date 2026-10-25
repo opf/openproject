@@ -7,7 +7,7 @@
     "PROFILES": "squashtm keycloak"
   },
   "runServices": [
-    "squashtm", "squashtm-db",
+    "squashtm", "squashtm-db", "squashtm-seed",
     "postgresql", "openproject",
     "keycloak", "keycloak-db", "keycloak_client_setup"
   ],

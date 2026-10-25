@@ -1,0 +1,10 @@
+{
+  "_type": "test-case",
+  "name": "Login with valid credentials",
+  "reference": "TC-001",
+  "importance": "HIGH",
+  "steps": [
+    { "_type": "action-step", "action": "Open the login page", "expected_result": "The login form is displayed" },
+    { "_type": "action-step", "action": "Enter valid credentials and click Sign in", "expected_result": "The dashboard is displayed" }
+  ]
+}
