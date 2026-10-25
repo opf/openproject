@@ -1,11 +1,23 @@
 // @vitest-environment jsdom
 
-import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
+import { describe, it, expect, beforeAll, beforeEach, afterAll, vi } from 'vitest';
 import { getOpenProjectSlashMenuItems } from '../../../lib/components/SlashMenu';
 import { probeCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
 import i18n from '../../../lib/services/i18n';
 
 const setLang = async (lang:string) => i18n.changeLanguage(lang);
+
+const germanSlashMenu = {
+  slashMenu: {
+    title: 'Vorhandenes Arbeitspaket verlinken',
+    aliases: {
+      'workpackage': 'Arbeitspaket',
+      'work package': 'Arbeitspaket',
+      'wp': 'ap',
+      'link': 'verlinken',
+    },
+  },
+};
 
 function answerPermissionProbeWith(status:number):Promise<boolean> {
   vi.stubGlobal('fetch', () => Promise.resolve({
@@ -20,6 +32,10 @@ function answerPermissionProbeWith(status:number):Promise<boolean> {
 describe('getOpenProjectSlashMenuItems', () => {
   const linkItem = () => getOpenProjectSlashMenuItems({} as any)[0];
   const createItem = () => getOpenProjectSlashMenuItems({} as any)[1];
+
+  beforeAll(() => {
+    i18n.addResourceBundle('de', 'translation', germanSlashMenu, true, true);
+  });
 
   beforeEach(() => answerPermissionProbeWith(200));
 
