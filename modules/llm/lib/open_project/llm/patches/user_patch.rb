@@ -31,6 +31,9 @@ module OpenProject::Llm::Patches
   module UserPatch
     def self.included(base)
       base.class_eval do
+        # Personal assistants. The database removes their skills and chats.
+        has_many :ai_assistants, class_name: "AI::Assistant", foreign_key: :principal_id, inverse_of: :principal,
+                                 dependent: :delete_all
         # Chats are private to their user. The database removes their messages and proposals.
         has_many :ai_assistant_chats, class_name: "AI::AssistantChat", dependent: :delete_all
       end

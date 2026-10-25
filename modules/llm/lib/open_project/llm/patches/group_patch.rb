@@ -28,11 +28,12 @@
 #++
 
 module OpenProject::Llm::Patches
-  module PrincipalPatch
+  module GroupPatch
     def self.included(base)
       base.class_eval do
-        # Personal and group assistants. The database removes their skills, runs and chats.
-        has_many :ai_assistants, class_name: "AI::Assistant", inverse_of: :principal, dependent: :delete_all
+        # The database removes their skills and chats.
+        has_many :ai_assistants, class_name: "AI::Assistant", foreign_key: :principal_id, inverse_of: :principal,
+                                 dependent: :delete_all
       end
     end
   end

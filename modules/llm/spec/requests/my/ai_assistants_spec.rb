@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper" require_module_spec_helper
+require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: { ai_assistance: true } do
   let(:user) { create(:user, global_permissions: %i[manage_own_ai_assistants]) }

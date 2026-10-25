@@ -29,7 +29,7 @@
 #++
 
 module BasicData::Llm
-  class AiAssistantSeeder < ModelSeeder
+  class AiAssistantSeeder < BasicData::ModelSeeder
     self.model_class = AI::Assistant
     self.seed_data_model_key = "ai_assistants"
     self.attribute_names_for_lookups = %i[name principal_id]

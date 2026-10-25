@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper" require_module_spec_helper
+require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_flag: { ai_assistance: true } do
   include_context "with an available LLM for AI Assistance"
@@ -159,7 +160,7 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
       get "#{base}/poll", params: { chat_id: chat.id, reference: "0" }, as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Count work packages (open: true, project_id: #{project.id})")
+      expect(response.body).to include("Search work packages (open: true, project_id: #{project.id})")
       expect(response.body).to include(%(data-poll-for-changes-reference-value="1"))
       expect(response.body).not_to include(AI::Assistance::ChatFormComponent.wrapper_key)
     end

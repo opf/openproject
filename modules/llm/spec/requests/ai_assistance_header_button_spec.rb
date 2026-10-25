@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper" require_module_spec_helper
+require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe "AI Assistance button in the app header", type: :rails_request do
   include_context "with an available LLM for AI Assistance"

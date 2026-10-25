@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper" require_module_spec_helper
+require "rails_helper"
+require_module_spec_helper
 
 RSpec.describe AI::Assistance::ProposalItemComponent, type: :component do
   let(:message) { create(:ai_assistant_chat_message) }

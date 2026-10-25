@@ -88,7 +88,7 @@ module OpenProject::Llm
       end
     end
 
-    patches %i[Principal User]
+    patches %i[Group User]
 
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
                               "ai_assistance" => "AIAssistance",

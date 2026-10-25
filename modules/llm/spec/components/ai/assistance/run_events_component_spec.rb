@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper" require_module_spec_helper
+require "rails_helper"
+require_module_spec_helper
 
 RSpec.describe AI::Assistance::RunEventsComponent, type: :component do
   subject(:rendered) { render_inline(described_class.new(events:)) }

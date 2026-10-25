@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper" require_module_spec_helper
+require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe BasicData::Llm::AiAssistantSeeder do
   include_context "with basic seed data"

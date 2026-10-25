@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper" require_module_spec_helper
+require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_flag: { ai_assistance: true } do
   shared_let(:admin) { create(:admin) }

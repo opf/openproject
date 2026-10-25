@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper" require_module_spec_helper
+require "rails_helper"
+require_module_spec_helper
 
 RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assistance: true } do
   include_context "with an available LLM for AI Assistance"

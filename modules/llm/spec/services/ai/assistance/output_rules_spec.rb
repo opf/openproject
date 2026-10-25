@@ -28,7 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper" require_module_spec_helper
+require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe AI::Assistance::OutputRules do
   subject(:rules) { described_class.new(skill, locale: "de").to_s }
