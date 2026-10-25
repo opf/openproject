@@ -61,7 +61,7 @@ da:
         item_2:
           name: BIM-ledere
         item_3:
-          name: BIM Modelers
+          name: BIM-modellører
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:
@@ -511,17 +511,17 @@ da:
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
               children:
                 item_0:
-                  subject: Modeling initial BIM model
+                  subject: Modellering af indledende BIM-model
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Modeling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   Modellering af den indledende BIM-model
+                    *   Oprettelse af en BIM-model til hele projektteamet
 
-                    # Description
+                    # Beskrivelse
 
-                    *   According to the gathered data from the customer, the initial model will be modeled
-                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   Den indledende model modelleres ud fra de data, der er indsamlet hos kunden
+                    *   Modellen skal modelleres efter LOD-matricerne og indeholde de nødvendige oplysninger
                     *   ...
                 item_1:
                   subject: Indledende, intern modelkontrol og revision
@@ -538,23 +538,23 @@ da:
                   subject: Indsendelse af indledende BIM-model
                   description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_4:
-              subject: Modeling, first cycle
+              subject: Modellering, første cyklus
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
               children:
                 item_0:
                   subject: Henvisning til eksterne BIM-modeller
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   Et grundlag for at udvikle den interne model / give svar
+                    *   Brug af den eksterne model til at udvikle den interne model
 
-                    # Description
+                    # Beskrivelse
 
-                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   Der henvises til den eksterne model på BIM-platformen, og den bruges dermed til at modellere den interne model
                     *   ...
                 item_1:
-                  subject: Modeling the BIM model
+                  subject: Modellering af BIM-modellen
                   description: |-
                     # Mål
 
@@ -602,19 +602,19 @@ da:
                   subject: Efterbehandlingskoordinering, første cyklus
                   description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_6:
-              subject: Modeling & coordinating, second cycle
+              subject: Modellering og koordinering, anden cyklus
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_7:
-              subject: Modeling & coordinating, ... cycle
+              subject: Modellering og koordinering, ... cyklus
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_8:
-              subject: Modeling & coordinating, (n-th minus 1) cycle
+              subject: Modellering og koordinering, (n-te minus 1) cyklus
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_9:
-              subject: Modeling & coordinating n-th cycle
+              subject: Modellering og koordinering, n-te cyklus
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_10:
-              subject: Finishing modeling & coordinating, n-th cycle
+              subject: Afsluttende modellering og koordinering, n-te cyklus
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_11:
               subject: Brug modellen til byggefasen

@@ -52,11 +52,11 @@ da:
           one: "%{count} arbejdspakke valgt."
           other: "%{count} arbejdspakker valgt."
     burndown_chart:
-      chart_day: 'Day %{day}: %{values}'
-      chart_label: Burndown chart
-      chart_summary: 'Burndown chart data: %{days}.'
+      chart_day: 'Dag %{day}: %{values}'
+      chart_label: Burndown-diagram
+      chart_summary: 'Data i burndown-diagrammet: %{days}.'
       chart_value: "%{label}: %{value}"
-      non_working_day: Non-working day
+      non_working_day: Arbejdsfri dag
       story_points: Story points
     created_resolved:
       work_packages: Arbejdspakker

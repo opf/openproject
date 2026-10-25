@@ -73,8 +73,8 @@ da:
             run_checks: Kør kontroller nu
           last_check: 'Seneste kontrol: %{datetime}'
           no_health_report: Der er ingen rapport
-          no_health_report_description: Kør kontrollerne nu for at få en fuld tilstandsrapport for wiki-udbyderen.
-          title: Tilstandsrapport
+          no_health_report_description: Kør kontrollerne nu for at få en fuld driftsstatusrapport for wiki-udbyderen.
+          title: Driftsstatusrapport
       internal_provider_form:
         checkbox_caption: Tillad projekter at bruge projektwikier ud over eksterne wiki-udbydere
         checkbox_label: Slå OpenProjects projektwikier til
@@ -96,9 +96,9 @@ da:
       side_panel:
         health_status_component:
           last_check: 'Seneste kontrol: %{datetime}'
-          open_report: Åbn hele tilstandsrapporten
+          open_report: Åbn hele driftsstatusrapporten
           run_checks: Kør kontroller nu
-          title: Tilstandsrapport
+          title: Driftsstatusrapport
       wiki_provider_list_component:
         label_creation_time: Oprettet
         label_name: Navn

@@ -136,9 +136,9 @@ da:
       title: Vil du slette backlog-gruppen?
     burndown_chart:
       series:
-        guideline: Guideline
-        projection: Remaining story points (projection)
-        remaining: Remaining story points
+        guideline: Ideallinje
+        projection: Resterende story points (prognose)
+        remaining: Resterende story points
       show:
         blankslate_description: Angiv start- og slutdato for sprinten for at generere et burndown-diagram.
         blankslate_title: Ingen burndown-data tilgængelige

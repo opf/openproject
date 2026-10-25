@@ -219,9 +219,9 @@ da:
         organizational_unit: Organisatorisk enhed
         parent: Overordnet gruppe
       import/jira:
-        auth_method: Auth method
-        basic_auth_password: Basic auth password
-        basic_auth_username: Basic auth username
+        auth_method: Godkendelsesmetode
+        basic_auth_password: Adgangskode til basic auth
+        basic_auth_username: Brugernavn til basic auth
         name: Navn på Jira-installation
         personal_access_token: Personligt adgangstoken
         url: URL til Jira-installation
@@ -469,7 +469,7 @@ da:
         header_look_and_feel: Udseende
         impaired: Tilgængelighedstilstand
         increase_contrast: Øg kontrasten
-        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
+        increase_contrast_caption: Slår tilstand med høj kontrast til for den valgte farvetilstand.
         increase_theme_contrast: Øg temaets kontrast
         mode_guideline: Nogle tilstande overskriver tilpassede temafarver af hensyn til tilgængelighed og læsbarhed. Vælg Lys tilstand for fuld understøttelse af tilpassede temaer.
         require_double_click_for_inline_edit: Kræv dobbeltklik for at redigere felter
@@ -1195,8 +1195,8 @@ da:
         one: Brugerdefineret felt for grupper
         other: Brugerdefinerede felter for grupper
       health_report:
-        one: Tilstandsrapport
-        other: Tilstandsrapporter
+        one: Driftsstatusrapport
+        other: Driftsstatusrapporter
       issue_priority:
         one: Prioritet
         other: Prioriteter
@@ -1484,7 +1484,7 @@ da:
             description: Programmets sidehoved bliver sort. Vi anbefaler et hvidt logo på gennemsigtig baggrund.
             name: Logo til mørk tilstand
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header color selected.
+            description: Sørg for at overføre et logo med tilstrækkelig kontrast til den valgte farve i programmets sidehoved.
             name: Logo til lys tilstand
           light_high_contrast:
             description: Programmets sidehoved bliver gråt. Vi anbefaler et sort logo på gennemsigtig baggrund.
@@ -1567,14 +1567,14 @@ da:
         button_edit: Rediger konfiguration
         button_open: Åbn importkørsler
       api_client:
-        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
+        unknown_auth_method: Ukendt godkendelsesmetode. Brug 'bearer' eller 'basic'.
       banner:
         contribution_callout: 'Hjælp os med at forbedre Jira-migreringen med din feedback og ved at donere private data. Du kan [blive en del af udviklingsfællesskabet](link) bag Jira-migreringen.
 
           '
         description: Jira-migreringen er i beta. Vi understøtter i øjeblikket kun Jira Server/Data Center version 10.x og 11.x. Cloud-installationer understøttes ikke endnu.
         title: Beta – prøv det!
-      basic_auth_password_deleted: Basic auth password was successfully deleted.
+      basic_auth_password_deleted: Adgangskoden til basic auth er slettet.
       blank:
         description: Konfigurer en Jira-vært for at begynde at importere elementer fra Jira til denne OpenProject-installation.
         title: Der er endnu ikke konfigureret nogen Jira-værter
@@ -1609,28 +1609,28 @@ da:
       form:
         auth_method:
           basic:
-            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            caption: Brug basic auth, hvis du bruger Jira Server version 8, eller hvis installationen er konfigureret bag en proxy.
             label: Basic auth
           bearer:
-            caption: We recommend using this authentication method.
-            label: Personal access token (PAT)
+            caption: Vi anbefaler denne godkendelsesmetode.
+            label: Personligt adgangstoken (PAT)
         button_add: Tilføj konfiguration
-        button_delete_basic_auth_password: Delete basic auth password
-        button_delete_personal_access_token: Delete PAT
+        button_delete_basic_auth_password: Slet adgangskode til basic auth
+        button_delete_personal_access_token: Slet PAT
         button_save: Gem konfiguration
-        button_test_connection: Test Connection
-        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
-        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        button_test_connection: Test forbindelse
+        delete_basic_auth_password_confirm: Er du sikker på, at du vil slette adgangskoden til basic auth? Forbindelsen til Jira bliver slået fra.
+        delete_personal_access_token_confirm: Er du sikker på, at du vil slette det personlige adgangstoken (PAT)? Forbindelsen til Jira bliver slået fra.
         exclude_resolution_fields_caption: Du kan udelade felterne for løsning og løsningsdato fra importen for denne konfiguration.
         fields:
-          basic_auth_password: Password
-          basic_auth_username: Username
+          basic_auth_password: Adgangskode
+          basic_auth_username: Brugernavn
           exclude_resolution_fields: Udelad løsningsfelter for denne konfiguration
           name: Navn
-          personal_access_token: Personal access token (PAT)
+          personal_access_token: Personligt adgangstoken (PAT)
           url: URL til Jira Server/Data Center
         label_testing: Tester konfigurationen …
-      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
+      personal_access_token_deleted: Det personlige adgangstoken (PAT) er slettet.
       run:
         actions:
           button_edit: Rediger importkørsel
@@ -1883,17 +1883,17 @@ da:
               rest_line_text: Henter vedhæftede filer for %{projects_number} projekter mere
               title: Hent vedhæftede filer
       test:
-        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
-        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
-        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
+        api_error: Jiras API returnerede fejlstatus %{status}. Kontrollér URL'en til din Jira-installation og legitimationsoplysningerne.
+        basic_auth_password_invalid: Ugyldig adgangskode til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
+        basic_auth_username_invalid: Ugyldigt brugernavn til basic auth. Kontrollér legitimationsoplysningerne i konfigurationen.
         connection_error: 'Forbindelsesfejl: %{message}'
         error: Der opstod en uventet fejl under test af forbindelsen
         failed: 'Forbindelsen mislykkedes: Serveroplysningerne kunne ikke hentes'
         invalid_url: Angiv en gyldig URL
         parse_error: Svaret fra serveren kunne ikke fortolkes. Serveren er måske ikke en gyldig Jira-installation.
-        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
+        personal_access_token_invalid: Ugyldigt personligt adgangstoken (PAT). Kontrollér legitimationsoplysningerne i konfigurationen.
         success: Forbundet til %{server} (version %{version})
-        user_is_not_admin: Credential's owner is not an Administer in Jira
+        user_is_not_admin: Ejeren af legitimationsoplysningerne er ikke administrator i Jira
       title: Jira-migrering
       user:
         unknown_name: Ukendt
@@ -2155,7 +2155,7 @@ da:
         types_caption: Tilføj de arbejdspakketyper, som handlingen skal være tilgængelig for. Alle tilgængelige varianter medtages automatisk.
         usage_scope_caption: 'Du kan begrænse, hvor handlingen er synlig: overalt (også i kommentarer, wikier og brugerdefinerede felter), for alle arbejdspakketyper eller for bestemte arbejdspakketyper.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Handlinger til tekstomskrivning giver brugerne LLM-baserede handlinger til at skrive, ordne og gennemse tekst overalt, hvor editoren til formateret tekst bruges, fx i beskrivelser af arbejdspakker, kommentarer og wikisider. Du opretter nye handlinger med dine egne prompts og instruktioner.
         label_add_action: Handling
         label_aria_add_action: Tilføj handling til tekstomskrivning
       index_component:
@@ -2571,7 +2571,7 @@ da:
   button_manage_roles: Administrer roller
   button_move: Flyt
   button_move_and_follow: Flyt og følg
-  button_next: Next
+  button_next: Næste
   button_print: Udskriv
   button_publish: Gør offentlig
   button_quote: Citer
@@ -3618,7 +3618,7 @@ da:
       summary:
         failure: Nogle kontroller mislykkedes, og systemet fungerer ikke som forventet.
         success: Alle forbindelser og systemer fungerer som forventet.
-        warning: Some checks returned a warning. This can lead to unexpected behavior.
+        warning: Nogle kontroller gav en advarsel. Det kan føre til uventet adfærd.
     result_component:
       status:
         failed: Mislykkedes
@@ -3627,7 +3627,7 @@ da:
         warning: Advarsel
   help_texts:
     views:
-      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
+      favoured: Markér visningen som favorit, og føj den til sidepanelet med gemte visninger til venstre.
       project: "%{plural} hører altid til et projekt. Du kan kun vælge projekter, hvor modulet %{plural} er aktivt. Når du har oprettet en %{singular}, kan du tilføje arbejdspakker fra andre projekter.\n"
       public: Offentliggør visningen, så andre brugere kan få adgang til den. Brugere med tilladelsen 'Administrer offentlige visninger' kan ændre eller fjerne offentlige visninger. Det påvirker ikke, hvilke arbejdspakker der kan ses i visningen, og afhængigt af deres tilladelser kan brugerne se forskellige resultater.
   homescreen:
@@ -4718,7 +4718,7 @@ da:
         email_notification_settings: Indstillinger for notifikationer om lager via e-mail
         healthy:
           solved_at: løst
-          subject: Lageret "%{name}" fungerer igen!
+          subject: Lageret "%{name}" er i orden igen!
           summary: Problemet med din lagerintegration %{storage_name} er nu løst
         plaintext:
           healthy:
@@ -5457,8 +5457,8 @@ da:
         label: Indholdsfortegnelse
     page_nr_footer: Side %{page} af %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artifact.
-      label: PMflex Artifact
+      caption: Arbejdspakkens detaljer vist som et PMflex-artefakt.
+      label: PMflex-artefakt
     template_attributes:
       caption: Alle attributter i den aktuelle formular med standardskabelonen.
       label: Attributter og beskrivelse
@@ -5765,11 +5765,11 @@ da:
           no_status_when_submitted: Anmodning om projektinitiering kunne ikke aktiveres, fordi arbejdspakketypen %{type} skal have mindst én tilknyttet status. Aktivér mindst én statusarbejdsgang for arbejdspakketypen.
           no_work_package_type: Anmodning om projektinitiering kunne ikke aktiveres, fordi den kræver mindst én aktiv arbejdspakketype, og projektet har ingen. Føj mindst én arbejdspakketype til projektet.
         export:
-          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
-          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Det dannede artefakt gemmes som en vedhæftet PDF på artefaktets arbejdspakke.
+          description_file_link_export: Artefaktets arbejdspakke får et fil-link til en PDF i et eksternt fillager. Det kræver et fungerende fillager med automatisk administrerede projektmapper til dette projekt. I øjeblikket understøttes kun Nextcloud-fillagre.
           description_file_storage_selection: Vælg, hvilket af de konfigurerede eksterne fillagre der skal bruges.
           external_file_storage: Eksternt fillager
-          label_artifact_export: Artifact export
+          label_artifact_export: Eksport af artefakt
           label_attachment_export: Gem som vedhæftet fil på arbejdspakken
           label_file_link_export: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
           pdf_file_storage: Fillager til PDF
@@ -5908,14 +5908,14 @@ da:
     status:
       button_edit: Rediger status
     wizard:
-      create_artifact_storage_error: Failed to store artifact in file storage
-      create_artifact_work_package_error: Failed to create artifact work package
+      create_artifact_storage_error: Artefaktet kunne ikke gemmes i fillageret
+      create_artifact_work_package_error: Artefaktets arbejdspakke kunne ikke oprettes
       no_custom_fields_html: Projektet har ingen projektattributter aktiveret til guiden. Aktivér mindst én i <a href="%{link}">projektindstillingerne</a>.
       no_help_text: Der er ikke defineret nogen hjælpetekst til attributten.
       progress_label: "%{current} af %{total}"
       sections: Afsnit
       sidebar_content_title: Indhold
-      success: Project attributes saved and artifact work package created successfully.
+      success: Projektattributterne er gemt, og artefaktets arbejdspakke er oprettet.
       title: Anmodning om projektinitiering
   pwa:
     offline:
@@ -6493,12 +6493,12 @@ da:
         confirmation_message: Guiden til anmodning om projektinitiering vil ikke længere være tilgængelig for nye projekter, der bygger på denne skabelon. Projektledere og projektejere skal selv konfigurere og udfylde de relevante oplysninger i projektoversigten.
         heading: Vil du deaktivere denne anmodning om projektinitiering?
         title: Deaktiver anmodning om projektinitiering
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject kan danne en trinvis guide, der hjælper projektledere med at udfylde en anmodning om projektinitiering. Du kan vælge, hvilke projektattributter der skal med, og få dannet et PDF-artefakt som resultat.
 
         '
       name:
-        artifact_name: Artifact name
-        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
+        artifact_name: Artefaktets navn
+        artifact_name_caption: Vælg det navn for artefaktet, som jeres projektmodel anbefaler.
         options:
           project_creation_wizard: Guide til oprettelse af projekt
           project_initiation_request: Anmodning om projektinitiering
@@ -6518,8 +6518,8 @@ da:
           Du har indsendt en anmodning om projektinitiering for **%{project_name}**. Den afventer nu gennemsyn.
           Klik på linket nedenfor for at gå til arbejdspakken med din anmodning.
         confirmation_email_text: Tekst i e-mailen med bekræftelse
-        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Når en bruger indsender en anmodning om projektinitiering, oprettes en ny arbejdspakke med anmodningens artefakt vedhæftet som PDF-fil. Indstillingerne nedenfor bestemmer type, status og tildelt for den nye arbejdspakke.
+        description_template: "**Arbejdspakken blev oprettet automatisk, da arbejdsgangen %{wizard_name} blev fuldført.** Der er dannet et PDF-artefakt med alle indsendte oplysninger, og det er vedhæftet arbejdspakken til reference og revision. Hvis du har brug for at opdatere eller gennemgå initieringstrinene igen, kan du altid åbne guiden igen via linket nedenfor:\n"
         send_confirmation_email: Send en e-mail med bekræftelse til den bruger, der indsendte anmodningen om projektinitiering
         status_when_submitted: Status ved indsendelse
         status_when_submitted_caption: Den status, som den dannede arbejdspakke skifter til, når anmodningen er indsendt.
@@ -6527,7 +6527,7 @@ da:
         work_package_comment_caption: Den tildelte, der er valgt ovenfor, bliver automatisk @omtalt i kommentaren.
         work_package_comment_default: En anmodning om projektinitiering for **%{project_name}** er indsendt og afventer gennemsyn.
         work_package_type: Arbejdspakketype
-        work_package_type_caption: The work package type that should be used to store the completed artifact.
+        work_package_type_caption: Den arbejdspakketype, der skal bruges til at gemme det færdige artefakt.
       wizard_status_button:
         project_creation_wizard: Åbn guiden til oprettelse af projekt
         project_initiation_request: Åbn anmodning om projektinitiering
@@ -7050,13 +7050,13 @@ da:
           file_link:
             caption: Den dannede PDF overføres til projektets automatisk administrerede Nextcloud-lager og linkes fra arbejdspakken. Arbejdspakker i projekter uden et sådant lager springes over.
             label: Overfør filen til eksternt fillager, og tilføj et fil-link til arbejdspakken
-          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artifact export mode.
-          label: Automatic artifact export
+          intro: Dan automatisk et PDF-artefakt af arbejdspakker af denne type, hver gang deres status ændres.
+          invalid_mode: Ugyldig tilstand for automatisk eksport af artefakter.
+          label: Automatisk eksport af artefakter
           off_mode:
             caption: Der dannes ingen PDF automatisk.
             label: Fra
-          section_title: Automatic artifact export
+          section_title: Automatisk eksport af artefakter
           unavailable: ikke tilgængelig, fordi der ikke er konfigureret noget automatisk administreret Nextcloud-lager
         pdf_export_templates:
           actions:
@@ -7435,7 +7435,7 @@ da:
       deletion_warning: Er du sikker på, at du vil tilbagekalde sessionen? Du bliver logget ud på denne enhed.
       device: Enhed/styresystem
       expires: Udløber
-      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
+      instructions: Du er logget ind på din konto fra følgende enheder. Tilbagekald sessioner, som du ikke kender, eller som kommer fra enheder, som du ikke har kontrol over.
       last_connection: Seneste session
       may_not_delete_current: Du kan ikke slette din aktuelle session.
       session_name: "%{browser_name} %{browser_version} på %{os_name}"
