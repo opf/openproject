@@ -464,7 +464,7 @@ RSpec.describe "Recurring meetings show",
       it "defaults to 15 past meetings when no limit parameter is provided" do
         get project_recurring_meeting_path(project, recurring_meeting, direction: "past")
 
-        expect(page).to have_css(".op-border-box-table--rows [role='row']", count: 15)
+        expect(page).to have_css(".op-border-box-table__rows [role='row']", count: 15)
         expect(page).to have_css("#recurring-meetings-footer-component")
       end
     end

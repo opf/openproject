@@ -647,7 +647,7 @@ vi:
       error_no_next: Không có sự xuất hiện tiếp theo cho cuộc họp này.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Lần xuất hiện đầu tiên của chuỗi cuộc họp này đã được khởi tạo.
-      first_created: 'Cuộc họp đầu tiên đã được tạo thành công từ mẫu. Tất cả các cuộc họp trong tương lai sẽ được tạo tự động tại thời điểm diễn ra trước đó.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Cuộc họp này là một phần của chuỗi cuộc họp định kỳ.

@@ -37,7 +37,7 @@ class WorkPackages::BulkController < ApplicationController
   include QueriesHelper
 
   include WorkPackages::BulkErrorMessage
-  include WorkPackages::VersionIdsNormalization
+  include WorkPackages::IdListNormalization
   include OpTurbo::ComponentStream
 
   def delete_dialog
@@ -192,18 +192,8 @@ class WorkPackages::BulkController < ApplicationController
     attributes = permitted_params.update_work_package
     attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
     attributes = attributes_with_normalized_parent_id(attributes)
-    # target_version_ids and observed_in_version_ids are array params and must not be
-    # run through the generic transform below (which is built for scalar "none"/blank
-    # magic values), so pull them out, normalize them separately, and merge the result back in.
-    version_ids = attributes_with_normalized_version_ids(attributes)
-    transform_attributes(attributes).merge(version_ids)
-  end
-
-  def attributes_with_normalized_version_ids(attributes)
-    {
-      target_version_ids: normalized_target_version_ids(attributes.delete(:target_version_ids)),
-      observed_in_version_ids: normalized_observed_in_version_ids(attributes.delete(:observed_in_version_ids))
-    }.compact
+    id_lists = extract_normalized_id_lists(attributes)
+    transform_attributes(attributes).merge(id_lists)
   end
 
   def attributes_with_normalized_parent_id(attributes)

@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -131,9 +131,17 @@ zh-TW:
       details: 待辦事項桶「%{name}」將被刪除，所有工作包將移至待辦事項收件匣。不會刪除任何工作包。
       title: 刪除積壓桶？
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: 設定衝刺的開始和結束日期，以產生燃盡圖表。
         blankslate_title: 沒有可用的燃盡圖資料
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: 單位
     excluded_work_package_types_caption: '選擇要從待辦清單中隱藏哪些工作包類型。所選類型的項目將不會自動出現在待辦清單中，使待辦清單能專注於對您的團隊至關重要的工作。例如，可將「史詩」或「里程碑」這類在更高層級管理的類型隱藏起來，讓待辦清單專注於可執行的項目。
 
@@ -180,6 +188,7 @@ zh-TW:
     remaining_hours: 剩餘工時
     sharing: 共用衝刺
     show_burndown_chart: 未完成圖
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: 衝刺中的工作包
     sprint_component:
       action_menu:
@@ -203,6 +212,9 @@ zh-TW:
       shared_sprint_info_banner: 這是個共用衝刺。所做的修改將會反映在所有使用此衝刺的專案中。
       shared_sprint_warning_banner: 這是個共享的衝刺。您沒有編輯它的必要權限。
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: 報告
         title: "%{sprint} 報告"
@@ -284,9 +296,9 @@ zh-TW:
       update_service:
         invalid_target_type: list_type 必須為以下其中一種：帶有 list_id 的 backlog_bucket、帶有 list_id 的 sprint，或不帶有 list_id 的 inbox。
         missing_target: 必須包含 list_type 或 list_id。
-  burndown:
-    story_points: 故事點
-    story_points_ideal: 理想估算故事點數
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: 多個正在進行的衝刺

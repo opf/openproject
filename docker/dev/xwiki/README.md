@@ -6,7 +6,7 @@ A minimal setup guide for using a local XWiki inside a docker stack. The example
 
 - Up the docker stack with `docker compose --project-directory docker/dev/xwiki/ up -d`
 - Go to https://xwiki.local
-- Wait for initialisation to succeed
+- Wait for initialization to succeed
 - Create admin user
 - Select XWiki standard flavor and install it — **this is highly recommended** as many XWiki
   features and the OpenProject plugin depend on it

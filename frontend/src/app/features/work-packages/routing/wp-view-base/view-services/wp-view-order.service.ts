@@ -70,7 +70,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   /**
    * Move an item in the list
    *
-   * Rejects an index it cannot honour before touching `order`: a negative
+   * Rejects an index it cannot honor before touching `order`: a negative
    * `fromIndex` or `toIndex` would splice from the END of the list, silently
    * displacing an unrelated work package and persisting a position for it.
    */

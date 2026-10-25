@@ -30,7 +30,7 @@
 MCP.configure do |config|
   config.exception_reporter = lambda do |exception, server_context|
     cause = exception.cause
-    message = "Unhandled exception occured during MCP request: #{exception}"
+    message = "Unhandled exception occurred during MCP request: #{exception}"
     message += if cause
                  ", caused by #{cause} at #{cause.backtrace.first}"
                else

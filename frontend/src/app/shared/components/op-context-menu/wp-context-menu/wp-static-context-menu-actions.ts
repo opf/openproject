@@ -71,6 +71,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     turboRequest: true,
   },
   {
+    key: 'view_markdown',
+    link: 'markdown',
+    icon: 'icon-file-text',
+  },
+  {
     key: 'export-atom',
     link: 'atom',
   },

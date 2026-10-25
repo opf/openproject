@@ -1435,10 +1435,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "markdown" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "markdown" }
+        let(:href) { "/work_packages/#{work_package.id}.md" }
+        let(:title) { "Markdown version" }
+      end
+
+      it "has the Markdown media type" do
+        expect(subject).to be_json_eql("text/markdown".to_json).at_path("_links/markdown/type")
+      end
+    end
+
     # The HAL contract surface stays numeric in semantic mode so clients
     # can correlate work packages by comparing href strings (one
     # resource's `self` === another's `parent`, etc.). Auxiliary
-    # endpoints (`pdf`, `generate_pdf`, `atom`) follow the same convention.
+    # endpoints (`pdf`, `generate_pdf`, `atom`, `markdown`) follow the same convention.
     context "with semantic identifier mode active",
             with_settings: { work_packages_identifier: "semantic", feeds_enabled?: true } do
       let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-7", project: workspace) }
@@ -1462,6 +1474,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it "atom href stays numeric" do
         expect(subject).to be_json_eql("/work_packages/#{work_package.id}.atom".to_json)
                              .at_path("_links/atom/href")
+      end
+
+      it "markdown href stays numeric" do
+        expect(subject).to be_json_eql("/work_packages/#{work_package.id}.md".to_json)
+                             .at_path("_links/markdown/href")
       end
     end
 
@@ -1596,7 +1613,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     describe "customActions" do
       it "has a collection of customActions" do
         unassign_action = build_stubbed(:automation, :with_button_trigger,
-                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
           .to receive(:automations)
@@ -1711,7 +1728,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     describe "customActions" do
       it "has an array of customActions" do
         unassign_action = build_stubbed(:automation, :with_button_trigger,
-                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
           .to receive(:automations)

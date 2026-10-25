@@ -137,15 +137,15 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 24.18.0
+[openproject@host] nodenv install 24.22.1
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 24.18.0
+[openproject@host] nodenv global 24.22.1
 ```
 
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```text
-v24.18.0
+v24.22.1
 ```
 
 ## Installation of OpenProject
@@ -386,9 +386,12 @@ For general information and a list of all plug-ins known to us, refer to to the 
 OpenProject plug-ins are separated in ruby gems. You can install them by listing them in a file called `Gemfile.plugins`. An example `Gemfile.plugins` file looks like this:
 
 ```ruby
-# Required by backlogs
-gem "openproject-meeting", git: "https://github.com/finnlabs/openproject-meeting.git", :tag => "v4.2.2"
+group :opf_plugins do
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "dev"
+end
 ```
+
+Do not list plugins that already ship with OpenProject (see `Gemfile.modules`), as listing the same gem twice causes a `Bundler::GemfileError`.
 
 If you have modified the `Gemfile.plugin` file, always repeat the following steps of the OpenProject installation:
 

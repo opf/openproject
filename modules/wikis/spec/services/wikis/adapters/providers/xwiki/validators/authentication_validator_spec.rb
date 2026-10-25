@@ -75,7 +75,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that a connection error occured" do
+      it "indicates that a connection error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_connection_error)
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that an authorization error occured" do
+      it "indicates that an authorization error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_unauthorized)
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that an unexpected error occured" do
+      it "indicates that an unexpected error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_request_error)
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Validators::AuthenticationVali
 
       it { is_expected.to be_failure }
 
-      it "indicates that an unexpected error occured" do
+      it "indicates that an unexpected error occurred" do
         expect(validation_result[:user_bound_request].code).to eq(:xwiki_oauth_request_error)
       end
     end

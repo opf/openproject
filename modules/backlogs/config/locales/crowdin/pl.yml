@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -143,9 +143,17 @@ pl:
       details: Kategoria backlogu „%{name}” zostanie usunięta, a wszystkie pakiety robocze zostaną przeniesione do skrzynki odbiorczej backlogu. Nie zostanie usunięty żaden pakiet roboczy.
       title: Usunąć kategorię backlogu?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Ustaw datę rozpoczęcia i zakończenia sprintu, aby wygenerować wykres spalania.
         blankslate_title: Brak dostępnych danych spalania
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Wybierz typy pakietów roboczych do ukrycia w backlogu. Elementy wybranych typów nie pojawią się automatycznie w backlogu, dzięki czemu bcklog skupiać się będzie się na pracy, która ma znaczenie dla Twojego zespołu. Na przykład typy takie jak Wydarzenia lub Kamienie milowe, zarządzane na wyższym poziomie, mogą być ukryte w celu utrzymania koncentracji backlogu na pozycjach umożliwiających działanie.
 
@@ -198,6 +206,7 @@ pl:
     remaining_hours: Pozostała praca
     sharing: Udostępnianie sprintu
     show_burndown_chart: Wykres spalania (burndown)
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Pakiety robocze w ramach sprintu
     sprint_component:
       action_menu:
@@ -221,6 +230,9 @@ pl:
       shared_sprint_info_banner: To jest udostępniony sprint. Wprowadzone zmiany zostaną uwzględnione we wszystkich projektach, w których jest on używany.
       shared_sprint_warning_banner: Jest to udostępniony sprint. Nie masz uprawnień niezbędnych do jego edycji.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Raport
         title: Raport dotyczący %{sprint}
@@ -308,9 +320,9 @@ pl:
       update_service:
         invalid_target_type: 'Atrybut list_type musi mieć jedną z następujących wartości: backlog_bucket z list_id, sprint z list_id lub inbox bez list_id.'
         missing_target: Atrybut list_type lub list_id muszą być obecne.
-  burndown:
-    story_points: Punkty historii
-    story_points_ideal: Punkty historii (idealne)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Wiele aktywnych sprintów

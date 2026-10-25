@@ -70,7 +70,7 @@ See COPYRIGHT and LICENSE files for more details.
           if eligible_roles.any?
             flex.with_column(ml: 2) do
               render(
-                Primer::Alpha::SelectPanel.new(
+                Workflows::RoleSelectPanelComponent.new(
                   select_variant: :multiple,
                   fetch_strategy: :local,
                   title: t("admin.workflows.role_selector.title"),
@@ -88,12 +88,23 @@ See COPYRIGHT and LICENSE files for more details.
                     t("admin.workflows.role_selector.no_role")
                   end
                 end
-                eligible_roles.each do |available_role|
-                  panel.with_item(
-                    label: available_role.name,
-                    active: roles.include?(available_role),
-                    item_id: available_role.id
-                  )
+                role_groups.each_with_index do |available_roles, index|
+                  next if available_roles.empty?
+
+                  used = index.zero?
+                  panel.with_divider(
+                    data: { "admin--workflow-role-select-target": "groupHeading", role_group: index }
+                  ) do
+                    t("admin.workflows.role_selector.#{used ? 'with_transitions' : 'without_transitions'}")
+                  end
+                  available_roles.each do |available_role|
+                    panel.with_item(
+                      label: available_role.name,
+                      active: roles.include?(available_role),
+                      item_id: available_role.id,
+                      data: { filter_string: available_role.name, role_group: index }
+                    )
+                  end
                 end
                 panel.with_footer(show_divider: true) do
                   render(

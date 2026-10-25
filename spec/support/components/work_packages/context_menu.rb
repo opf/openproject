@@ -58,8 +58,18 @@ module Components
       def close_if_open
         return unless page.has_selector?(:menu, work_package_context_menu_label, wait: 0)
 
-        find("body").send_keys :escape
+        press_escape
         expect_closed
+      end
+
+      # Cuprite's send_keys clicks the receiving element first, and a click at
+      # the body center lands on whichever menu item happens to lie there.
+      def press_escape
+        if using_cuprite?
+          page.driver.browser.keyboard.type(:escape)
+        else
+          page.driver.browser.action.send_keys(:escape).perform
+        end
       end
 
       def expect_closed

@@ -9,6 +9,7 @@ jobs:
   setup:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:
@@ -89,7 +90,7 @@ jobs:
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
           echo "Updating combined translations"
-          git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
+          git ls-files -m -o | grep -E 'crowdin/.*\.(yml|ts)$' | xargs git add
           git diff --staged --name-only
           if ! git diff --staged --exit-code --quiet; then
             git commit -m "update locales from crowdin [ci skip]"

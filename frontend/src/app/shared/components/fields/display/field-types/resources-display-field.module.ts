@@ -38,9 +38,9 @@ export class ResourcesDisplayField extends DisplayField {
     const cf = this.resource[this.name] as { elements?:HalResource[], map?:HalResource[]['map'], name?:string }|null|undefined;
     if (this.schema && cf) {
       if (cf.elements) {
-        return cf.elements.map((e:any) => e.name);
+        return cf.elements.map((e) => e.name);
       } if (cf.map) {
-        return cf.map((e:any) => e.name);
+        return cf.map((e) => e.name);
       } if (cf.name) {
         return [cf.name];
       }
@@ -48,6 +48,10 @@ export class ResourcesDisplayField extends DisplayField {
     }
 
     return [];
+  }
+
+  public get valueString():string {
+    return this.stringValue.join(', ');
   }
 
   public render(element:HTMLElement, displayText:string):void {
@@ -66,7 +70,7 @@ export class ResourcesDisplayField extends DisplayField {
    * Renders at most the first two values, followed by a badge indicating
    * the total count.
    */
-  protected renderValues(values:any[], element:HTMLElement) {
+  protected renderValues(values:unknown[], element:HTMLElement) {
     const content = document.createDocumentFragment();
     const abridged = this.optionDiv(this.valueAbridged(values));
 
@@ -98,7 +102,7 @@ export class ResourcesDisplayField extends DisplayField {
   /**
    * Return the first two joined values, if any.
    */
-  protected valueAbridged(values:any[]) {
+  protected valueAbridged(values:unknown[]) {
     const valueForDisplay = take(values, 2);
 
     if (values.length > 2) {

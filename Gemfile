@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.6.1"
+gem "mcp", "~> 1.7.0"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -182,7 +182,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.1.2"
+  gem "dalli", "~> 5.2.2"
   gem "redis", "~> 6.0.0"
 end
 
@@ -258,12 +258,6 @@ gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.4"
-
-# Provider adapters and a model metadata registry for the AI features. Used as
-# transport and as a source of published model capabilities; what a given
-# connection actually offers is tracked per connection, never in RubyLLM's
-# application-wide registry.
-gem "ruby_llm", "~> 1.16"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -351,6 +345,7 @@ group :development, :test do
 
   # Tracing and profiling gems
   gem "flamegraph", require: false
+  gem "memory_profiler", require: false
   gem "rack-mini-profiler", require: false
   gem "ruby-prof", require: false
   gem "stackprof", require: false

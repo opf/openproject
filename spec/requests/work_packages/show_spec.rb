@@ -41,6 +41,14 @@ RSpec.describe "GET work package show", type: :rails_request do
       expected_path = "/projects/#{project.identifier}/work_packages/#{work_package.display_id}/#{tab}"
       expect(response.body).to include(%(<link rel="canonical" href="http://test.host#{expected_path}">))
     end
+
+    it "advertises the markdown version" do
+      href = "http://test.host/work_packages/#{work_package.to_param}.md"
+      expect(response.body).to include(
+        %(<link rel="alternate" type="text/markdown" title="Markdown version" href="#{href}" />)
+      )
+      expect(response.body).not_to match(%r{text/markdown[^>]*key=})
+    end
   end
 
   context "when accessed via the project-scoped URL" do

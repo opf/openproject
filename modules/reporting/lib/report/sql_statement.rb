@@ -98,7 +98,7 @@ class Report::SqlStatement
 
   ##
   # Generates the SQL query.
-  # Code looks ugly in exchange for pretty output (so one does unterstand those).
+  # Code looks ugly in exchange for pretty output (so one does understand those).
   #
   # @return [String] The query
   def to_s

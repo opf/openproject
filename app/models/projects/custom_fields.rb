@@ -65,9 +65,9 @@ module Projects::CustomFields
     # Note:
     #
     # The UI allows the enabled attributes only via the project_custom_field_project_mappings.
-    # The API still provides the old behaviour where all the custom fields are available regardless
-    # of the enabled mapping. Once the api behaviour is aligned to the UI behaviour, this method
-    # can be removed in favour of the available_custom_fields.
+    # The API still provides the old behavior where all the custom fields are available regardless
+    # of the enabled mapping. Once the api behavior is aligned to the UI behavior, this method
+    # can be removed in favor of the available_custom_fields.
     # As a future improvement a flag `via_api=true` can be set on the project when the
     # modification happens via the api, then set the available_custom_fields accordingly. This allows
     # the extension to be completely removed from the acts_as_customizable plugin.

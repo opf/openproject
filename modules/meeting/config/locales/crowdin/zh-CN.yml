@@ -651,7 +651,7 @@ zh-CN:
       error_no_next: 此会议没有下一个发生时间。
       error_template_draft: 会议系列模板仍处于草稿模式。
       first_already_exists: 此会议系列的第一次发生已经被实例化。
-      first_created: '第一次会议已成功从模板创建。所有未来的会议将会在上一次发生的时间自动创建。
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: 本次会议是定期会议系列的一部分。

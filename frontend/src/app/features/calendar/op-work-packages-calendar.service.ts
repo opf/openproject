@@ -414,8 +414,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQueryProps():boolean {
-    // Initialise with current query props
-    // If the filters are empty, they still need to be initialised (with empty props)
+    // Initialize with current query props
+    // If the filters are empty, they still need to be initialized (with empty props)
     return (this.areFiltersEmpty || this.urlParams.query_props) as boolean;
   }
 

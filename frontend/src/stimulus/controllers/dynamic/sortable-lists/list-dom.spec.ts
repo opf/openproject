@@ -476,17 +476,17 @@ describe('itemMobility', () => {
     expect(itemMobility(itemWith())).toBe('free');
   });
 
-  it.each(['fixed', 'confined', 'free'])('reads the recognised value %s', (value) => {
+  it.each(['fixed', 'confined', 'free'])('reads the recognized value %s', (value) => {
     expect(itemMobility(itemWith(value))).toBe(value);
   });
 
   // A typo must not hand the user a draggable, selectable card that only
   // fails once the request comes back.
-  it('falls back to fixed for an unrecognised value', () => {
+  it('falls back to fixed for an unrecognized value', () => {
     expect(itemMobility(itemWith('movable'))).toBe('fixed');
   });
 
-  it('treats an empty attribute as unrecognised', () => {
+  it('treats an empty attribute as unrecognized', () => {
     expect(itemMobility(itemWith(''))).toBe('fixed');
   });
 
@@ -631,7 +631,7 @@ describe('directional move helpers', () => {
       ul.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
     const at = (ul:HTMLElement, id:string) => ({ itemElement: byId(ul, id), rowsContainer: ul });
 
-    it('disables one-step moves whose neighbouring row is the divider', () => {
+    it('disables one-step moves whose neighboring row is the divider', () => {
       const ul = dividedContainer();
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'b'), direction: 'down' })).toBeUndefined();
       expect(resolveDirectionalPreviousItemId({ ...at(ul, 'c'), direction: 'up' })).toBeUndefined();
@@ -720,13 +720,13 @@ describe('resolveItemPosition', () => {
 
 describe('resolveItemLabel', () => {
   it('reads the label from the row item element and returns null without one', () => {
-    const labelled = document.createElement('li');
-    labelled.setAttribute('data-sortable-lists--item-id-value', '1');
-    labelled.setAttribute('data-sortable-lists--item-label-value', 'Story one');
+    const labeled = document.createElement('li');
+    labeled.setAttribute('data-sortable-lists--item-id-value', '1');
+    labeled.setAttribute('data-sortable-lists--item-label-value', 'Story one');
     const bare = document.createElement('li');
     bare.setAttribute('data-sortable-lists--item-id-value', '2');
 
-    expect(resolveItemLabel(labelled)).toEqual('Story one');
+    expect(resolveItemLabel(labeled)).toEqual('Story one');
     expect(resolveItemLabel(bare)).toBeNull();
   });
 });

@@ -154,7 +154,7 @@ RSpec.describe "Roles index", :js do
       expect_roles_listed("Alpha global")
     end
 
-    # A move is relative to the neighbouring rows, and a filtered list hides them.
+    # A move is relative to the neighboring rows, and a filtered list hides them.
     it "takes away reordering while a filter is active" do
       visit roles_path
 

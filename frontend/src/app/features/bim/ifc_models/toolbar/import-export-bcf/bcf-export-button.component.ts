@@ -95,7 +95,7 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
       });
   }
 
-  public showDelayedExport(event:any) {
+  public showDelayedExport(event:Event) {
     this.requestExport(this.exportLink);
 
     event.preventDefault();

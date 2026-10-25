@@ -663,7 +663,7 @@ nl:
       error_no_next: Er is geen volgende gebeurtenis voor deze vergadering.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: De eerste gebeurtenis van deze vergaderreeks is al geïnitieerd.
-      first_created: 'De eerste vergadering is succesvol aangemaakt vanuit het sjabloon. Alle toekomstige vergaderingen worden automatisch aangemaakt op het moment van de vorige vergadering.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Deze vergadering is onderdeel van een herhalende vergaderreeks.

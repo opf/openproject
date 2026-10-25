@@ -26,7 +26,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Box.new(test_selector: "op-header-whats-new-skeleton")) do %>
+<%= render(Primer::Box.new(pb: 3, test_selector: "op-header-whats-new-skeleton")) do %>
   <%= render(Primer::Box.new(display: :flex, justify_content: :space_between, px: 3, pt: 3, pb: 2)) do %>
     <%= render(Primer::Alpha::SkeletonBox.new(width: "40%", height: "20px")) %>
     <%= render(Primer::Alpha::SkeletonBox.new(width: "30%", height: "20px")) %>

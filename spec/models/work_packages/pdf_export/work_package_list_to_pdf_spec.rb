@@ -456,6 +456,32 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       end
     end
 
+    describe "with hyphenation" do
+      let(:options) do
+        { pdf_export_type: "report", long_text_fields: "description", hyphenation: "1", hyphenation_language: }
+      end
+
+      before { allow(Hyphen).to receive(:new).and_call_original }
+
+      context "with a supported language" do
+        let(:hyphenation_language) { "de" }
+
+        it "hyphenates with that language" do
+          export_pdf
+          expect(Hyphen).to have_received(:new).with("de", true).at_least(:once)
+        end
+      end
+
+      context "with an unsupported language" do
+        let(:hyphenation_language) { "not-a-language" }
+
+        it "exports without hyphenation" do
+          export_pdf
+          expect(Hyphen).not_to have_received(:new)
+        end
+      end
+    end
+
     describe "with no long text fields" do
       let(:options) { { pdf_export_type: "report", long_text_fields: "" } }
       let(:long_text_fields) { [] }

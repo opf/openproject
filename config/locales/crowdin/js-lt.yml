@@ -61,6 +61,7 @@ lt:
         single: Pažymėti „%{name}“
       remove: Pašalinti %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nieko nerasta
       placeholder: Paieškai pradėkite rinkti tekstą
       project:
@@ -162,6 +163,7 @@ lt:
     button_stop_timer: Stop timer
     button_uncheck_all: Atžymėti visus
     button_update: Atnaujinti
+    button_view_markdown: View Markdown
     caption_rate_history: Koeficiento istorija
     card:
       add_new: Pridėti naują kortelę
@@ -359,8 +361,8 @@ lt:
     ical_sharing_modal:
       copy_url_label: Kopijuoti URL
       description: Jūs galite naudoti URL (iCalendar), kad prenumeruotumėte šį kalendorių išoriniame kliente ir žiūrėti naujausią darbo paketų informaciją.
-      ical_generation_error_text: Kuriant kalendoriaus URL įvyko klaida.
-      inital_setup_error_message: Gaunant duomenis įvyko klaida.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL „%{name}“ buvo sėkmingai nukopijuotas į jūsų iškarpinę. Įkelkite jį į jūsų kalendoriaus klientą, kad baigtumėte prenumeratą.
       title: Prenumeruoti kalendorių
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -552,6 +554,8 @@ lt:
     label_reset: Atstatyti
     label_resize_project_menu: Resize project menu
     label_save_as: Įrašyti kaip
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Ieškoti stulpelio
     label_select_watcher: Parinkti stebėtoją...
     label_selected_filter_list: Parinkti filtrus
