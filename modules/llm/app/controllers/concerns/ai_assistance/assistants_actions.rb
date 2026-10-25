@@ -96,6 +96,6 @@ module AIAssistance::AssistantsActions
   end
 
   def find_assistant
-    @assistant = assistant_scope.find(params[:id])
+    @assistant = assistant_scope.find(params.expect(:id))
   end
 end

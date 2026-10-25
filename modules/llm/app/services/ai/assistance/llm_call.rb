@@ -47,20 +47,11 @@ module AI
       # llm: a ready Llm::Runtime::Resolution.
       # tools: RubyLLM tools, built with #tool_calls.
       def ask(llm:, system:, message:, schema:, history: [], temperature: nil, tools: [])
-        log(:info, "asking model=#{llm.model_id} system=#{system.size}c message=#{message.size}c " \
-                   "turns=#{history.size} tools=#{tools.size}")
-        log(:debug, "system prompt:\n#{system}\nmessage:\n#{message}")
-        record.log_event(:request, model: llm.model_id, temperature:, system:, message:, tools: tools.size)
+        log_request(llm:, system:, message:, history:, temperature:, tools:)
 
         started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         answer = build_chat(llm:, system:, history:, temperature:, tools:).with_schema(schema).ask(message)
-        seconds = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1)
-
-        content = answer.respond_to?(:content) ? answer.content : answer
-        log(:info, "answered in #{seconds}s after #{tool_calls.count} tool calls")
-        log(:debug, "answer:\n#{content.inspect}")
-        record.log_event(:answer, seconds:, tool_calls: tool_calls.count,
-                                  content: content.is_a?(String) ? content : JSON.pretty_generate(content))
+        log_answer(answer, (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1))
 
         Llm::StructuredOutput.parse!(answer)
       end
@@ -82,6 +73,21 @@ module AI
       end
 
       private
+
+      def log_request(llm:, system:, message:, history:, temperature:, tools:)
+        log(:info, "asking model=#{llm.model_id} system=#{system.size}c message=#{message.size}c " \
+                   "turns=#{history.size} tools=#{tools.size}")
+        log(:debug, "system prompt:\n#{system}\nmessage:\n#{message}")
+        record.log_event(:request, model: llm.model_id, temperature:, system:, message:, tools: tools.size)
+      end
+
+      def log_answer(answer, seconds)
+        content = answer.respond_to?(:content) ? answer.content : answer
+        log(:info, "answered in #{seconds}s after #{tool_calls.count} tool calls")
+        log(:debug, "answer:\n#{content.inspect}")
+        record.log_event(:answer, seconds:, tool_calls: tool_calls.count,
+                                  content: content.is_a?(String) ? content : JSON.pretty_generate(content))
+      end
 
       def build_chat(llm:, system:, history:, temperature:, tools:)
         chat = llm.chat.with_instructions(system)

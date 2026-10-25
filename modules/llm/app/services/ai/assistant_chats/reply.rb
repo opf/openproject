@@ -68,14 +68,19 @@ module AI
       def skill = chat.skill
 
       def ask(correction: [])
-        raise Llm::Errors::NotReady, llm.status unless llm.ready?
-
-        raise Llm::Errors::NotReady, "no system prompt" if system_prompt.blank?
-
-        turns = earlier_turns.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] }
+        ensure_ready!
         *history, (_, question) = turns + correction
         llm_call.ask(llm:, system: "#{system_prompt}\n\nContext (JSON):\n#{context_json}",
                      message: question.to_s, schema: answer_format.schema, temperature: TEMPERATURE, tools:, history:)
+      end
+
+      def ensure_ready!
+        raise Llm::Errors::NotReady, llm.status unless llm.ready?
+        raise Llm::Errors::NotReady, "no system prompt" if system_prompt.blank?
+      end
+
+      def turns
+        earlier_turns.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] }
       end
 
       # The reason for each proposal, when the answer has proposals and none of them qualifies.
@@ -104,13 +109,19 @@ module AI
       # A start is a fixed request. An earlier answer comes with its proposals, so that the
       # model knows what it proposed.
       def turn_text(turn)
-        return I18n.t("ai_assistance.chat.start_request", locale: message.locale) if turn.from_start?
+        return start_request_text if turn.from_start?
         return turn.content.to_s if turn.from_user? || turn.proposals.empty?
 
-        lines = turn.proposals.map do |proposal|
-          "- #{proposal.text.presence || proposal.change_actions.pluck('key').join(', ')} (#{proposal.state})"
-        end
+        lines = turn.proposals.map { |proposal| proposal_line(proposal) }
         [turn.content.presence, "Proposals:\n#{lines.join("\n")}"].compact.join("\n\n")
+      end
+
+      def start_request_text
+        I18n.t("ai_assistance.chat.start_request", locale: message.locale)
+      end
+
+      def proposal_line(proposal)
+        "- #{proposal.text.presence || proposal.change_actions.pluck('key').join(', ')} (#{proposal.state})"
       end
 
       # Off a work package, the user and the project of the page, and nothing to change.

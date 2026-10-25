@@ -68,19 +68,38 @@ module AI
       end
 
       def work_package_data
+        work_package_fields.merge(work_package_state, work_package_people, work_package_dates)
+      end
+
+      def work_package_fields
         {
           id: work_package.formatted_id,
           type: work_package.type&.name,
-          status: work_package.status&.name,
-          closed: work_package.closed?,
           subject: work_package.subject,
-          description: work_package.description.to_s.truncate(MAX_TEXT * 3),
-          start_date: work_package.start_date,
-          due_date: work_package.due_date,
+          description: work_package.description.to_s.truncate(MAX_TEXT * 3)
+        }
+      end
+
+      def work_package_state
+        {
+          status: work_package.status&.name,
+          default_status: work_package.status&.is_default? || false,
+          closed: work_package.closed?
+        }
+      end
+
+      def work_package_people
+        {
           priority: work_package.priority&.name,
           assignee: work_package.assigned_to&.name,
-          responsible: work_package.responsible&.name,
-          default_status: work_package.status&.is_default? || false,
+          responsible: work_package.responsible&.name
+        }
+      end
+
+      def work_package_dates
+        {
+          start_date: work_package.start_date,
+          due_date: work_package.due_date,
           last_activity_at: visibility.last_activity_at&.iso8601
         }
       end
@@ -111,17 +130,22 @@ module AI
       def meetings_data
         return [] unless defined?(::Meeting)
 
-        meetings = ::Meeting.visible(user).not_templated.where(id: related_meeting_ids)
-                            .reorder(start_time: :desc).limit(MAX_MEETINGS)
-                            .includes(sections: { agenda_items: %i[outcomes work_package] })
-                            .to_a
+        meetings = related_meetings
         visible_ids = visible_agenda_work_package_ids(meetings)
+        meetings.map { |meeting| meeting_data(meeting, visible_ids) }
+      end
 
-        meetings.map do |meeting|
-          items = meeting.sections.sort_by(&:position).flat_map(&:agenda_items).first(MAX_AGENDA_ITEMS)
-          { title: meeting.title, start_time: meeting.start_time&.iso8601, state: meeting.state,
-            agenda: items.map { |item| agenda_item_data(item, visible_ids) } }
-        end
+      def related_meetings
+        ::Meeting.visible(user).not_templated.where(id: related_meeting_ids)
+                 .reorder(start_time: :desc).limit(MAX_MEETINGS)
+                 .includes(sections: { agenda_items: %i[outcomes work_package] })
+                 .to_a
+      end
+
+      def meeting_data(meeting, visible_ids)
+        items = meeting.sections.sort_by(&:position).flat_map(&:agenda_items).first(MAX_AGENDA_ITEMS)
+        { title: meeting.title, start_time: meeting.start_time&.iso8601, state: meeting.state,
+          agenda: items.map { |item| agenda_item_data(item, visible_ids) } }
       end
 
       def related_meeting_ids
@@ -155,16 +179,19 @@ module AI
       end
 
       def comments_data
-        # The jobs run as the user, so User.current is the user here.
-        work_package.journals.internal_visible.where.not(notes: [nil, ""])
-                        .includes(:user)
-                        .reorder(created_at: :desc)
-                        .limit(MAX_COMMENTS)
-                        .reverse
-                        .map do |journal|
+        recent_comments.map do |journal|
           { author: journal.user&.name, at: journal.created_at.iso8601,
             internal: journal.internal?, text: journal.notes.truncate(MAX_TEXT) }
         end
+      end
+
+      # The jobs run as the user, so User.current is the user here.
+      def recent_comments
+        work_package.journals.internal_visible.where.not(notes: [nil, ""])
+                    .includes(:user)
+                    .reorder(created_at: :desc)
+                    .limit(MAX_COMMENTS)
+                    .reverse
       end
     end
   end

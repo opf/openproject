@@ -63,15 +63,13 @@ module AI
         data = event["data"]
         case event["kind"]
         when "request"
-          I18n.t("ai_assistance.events.request", model: data["model"],
-                                                 system: data["system"].to_s.size, message: data["message"].to_s.size)
+          request_summary(data)
         when "answer"
           answer_summary(data)
         when "tool_call"
           tool_call_summary(data)
         when "stored"
-          I18n.t("ai_assistance.events.stored", stored: data["stored"], findings: data["findings"],
-                                                dropped: Array(data["dropped"]).size)
+          stored_summary(data)
         when "failure"
           I18n.t("ai_assistance.events.failure", error: data["error"].to_s.demodulize)
         else
@@ -88,8 +86,7 @@ module AI
         data = event["data"]
         case event["kind"]
         when "request"
-          { I18n.t("ai_assistance.events.system_prompt") => data["system"],
-            I18n.t("ai_assistance.events.message") => pretty_json(data["message"]) }
+          request_blocks(data)
         when "answer"
           { I18n.t("ai_assistance.events.raw_answer") => data["content"] }
         when "tool_call"
@@ -97,16 +94,39 @@ module AI
         when "thought"
           { I18n.t("ai_assistance.events.thought_text") => data["text"] }
         when "stored"
-          dropped = Array(data["dropped"])
-          dropped.any? ? { I18n.t("ai_assistance.events.dropped") => JSON.pretty_generate(dropped) } : {}
+          stored_blocks(data)
         when "failure"
-          User.current.admin? ? { I18n.t("ai_assistance.events.error") => data["message"] } : {}
+          failure_blocks(data)
         else
           {}
         end.compact_blank
       end
 
       private
+
+      def request_summary(data)
+        I18n.t("ai_assistance.events.request", model: data["model"],
+                                               system: data["system"].to_s.size, message: data["message"].to_s.size)
+      end
+
+      def stored_summary(data)
+        I18n.t("ai_assistance.events.stored", stored: data["stored"], findings: data["findings"],
+                                              dropped: Array(data["dropped"]).size)
+      end
+
+      def request_blocks(data)
+        { I18n.t("ai_assistance.events.system_prompt") => data["system"],
+          I18n.t("ai_assistance.events.message") => pretty_json(data["message"]) }
+      end
+
+      def stored_blocks(data)
+        dropped = Array(data["dropped"])
+        dropped.any? ? { I18n.t("ai_assistance.events.dropped") => JSON.pretty_generate(dropped) } : {}
+      end
+
+      def failure_blocks(data)
+        User.current.admin? ? { I18n.t("ai_assistance.events.error") => data["message"] } : {}
+      end
 
       def tool_call_blocks(data)
         { I18n.t("ai_assistance.events.arguments") => JSON.pretty_generate(data["arguments"] || {}),

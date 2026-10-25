@@ -29,8 +29,12 @@
   ++#
 %>
 
-<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title:, size: :xlarge,
-                                     data: { test_selector: "ai-assistance-chat-dialog", "keep-open-on-submit": true })) do |dialog| %>
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: DIALOG_ID, title:, size: :xlarge,
+        data: { test_selector: "ai-assistance-chat-dialog", "keep-open-on-submit": true }
+      )
+    ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
     <%= render(AI::Assistance::ChatComponent.new(place:, skill:, chat:, read_only:)) %>

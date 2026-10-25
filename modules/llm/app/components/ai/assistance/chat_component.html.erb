@@ -61,10 +61,14 @@
           <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { t("ai_assistance.chat.failed") } %>
         <% elsif message.done? && message.content.present? %>
           <div class="op-uc-container"><%= helpers.format_text(message.content) %></div>
-          <%= render(Primer::Beta::ClipboardCopyButton.new(id: "ai-assistance-copy-#{message.id}", value: message.content,
-                                                           aria: { label: t("ai_assistance.chat.copy") },
-                                                           scheme: :invisible, size: :small,
-                                                           data: { test_selector: "ai-assistance-chat-copy" })) %>
+          <%= render(
+                Primer::Beta::ClipboardCopyButton.new(
+                  id: "ai-assistance-copy-#{message.id}", value: message.content,
+                  aria: { label: t("ai_assistance.chat.copy") },
+                  scheme: :invisible, size: :small,
+                  data: { test_selector: "ai-assistance-chat-copy" }
+                )
+              ) %>
         <% end %>
         <% if message.proposals.any? %>
           <%= render(Primer::Beta::BorderBox.new(mt: 2, data: { test_selector: "ai-assistance-proposals" })) do |box| %>

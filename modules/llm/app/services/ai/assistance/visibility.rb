@@ -50,14 +50,11 @@ module AI
       # to a work package the user can see.
       def relations
         @relations ||= begin
-          all = Relation.of_work_package(work_package).includes(from: :status, to: :status).to_a
-          visible_ids = WorkPackage.visible(user)
-                                   .where(id: all.map { |relation| relation.other_work_package(work_package).id })
-                                   .pluck(:id)
-          all.filter_map do |relation|
-            other = relation.other_work_package(work_package)
-            [relation.relation_type_for(work_package), other] if visible_ids.include?(other.id)
+          related = Relation.of_work_package(work_package).includes(from: :status, to: :status).map do |relation|
+            [relation.relation_type_for(work_package), relation.other_work_package(work_package)]
           end
+          visible_ids = visible_ids_of(related.map { |_type, other| other.id })
+          related.select { |_type, other| visible_ids.include?(other.id) }
         end
       end
 
@@ -77,6 +74,10 @@ module AI
       end
 
       private
+
+      def visible_ids_of(ids)
+        WorkPackage.visible(user).where(id: ids).pluck(:id)
+      end
 
       def pull_request_sources
         sources = []

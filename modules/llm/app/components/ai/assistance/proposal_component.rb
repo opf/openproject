@@ -51,17 +51,7 @@ module AI
 
       # Text fields as a diff; other fields as "old → new" with readable names.
       def changes
-        proposal.change_actions.map do |action|
-          key = action["key"]
-          new_value = action["values"].first.to_s
-          if key == "comment"
-            { label: label(key), html: helpers.format_text(new_value) }
-          elsif AI::Assistance::ChangeOptions::TEXT_KEYS.include?(key)
-            { label: label(key), html: diff(key, current_value(key), new_value) }
-          else
-            { label: label(key), from: current_label(key), to: new_label(key, new_value) }
-          end
-        end
+        proposal.change_actions.map { |action| change(action["key"], action["values"].first.to_s) }
       end
 
       delegate :lost_references, to: :proposal
@@ -72,6 +62,16 @@ module AI
       end
 
       private
+
+      def change(key, new_value)
+        if key == "comment"
+          { label: label(key), html: helpers.format_text(new_value) }
+        elsif AI::Assistance::ChangeOptions::TEXT_KEYS.include?(key)
+          { label: label(key), html: diff(key, current_value(key), new_value) }
+        else
+          { label: label(key), from: current_label(key), to: new_label(key, new_value) }
+        end
+      end
 
       def label(key)
         I18n.t("ai_assistance.apply.label.#{key}", default: WorkPackage.human_attribute_name(key))

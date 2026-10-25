@@ -85,10 +85,12 @@ module AI
     end
 
     def valid_change_set?
-      change_set.is_a?(Hash) &&
-        change_set["target"] == "self" &&
-        change_set["actions"].is_a?(Array) && change_set["actions"].any? &&
-        change_set["actions"].all? { |a| a.is_a?(Hash) && a["key"].is_a?(String) && a["values"].is_a?(Array) }
+      change_set.is_a?(Hash) && change_set["target"] == "self" && valid_change_actions?(change_set["actions"])
+    end
+
+    def valid_change_actions?(actions)
+      actions.is_a?(Array) && actions.any? &&
+        actions.all? { |a| a.is_a?(Hash) && a["key"].is_a?(String) && a["values"].is_a?(Array) }
     end
   end
 end

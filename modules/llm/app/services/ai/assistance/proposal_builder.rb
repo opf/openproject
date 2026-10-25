@@ -40,9 +40,7 @@ module AI
 
       def build(raw_changes)
         actions = Array(raw_changes).each_with_object({}) do |raw, result|
-          raw = raw.to_h.stringify_keys
-          key = raw["field"].to_s
-          value = @change_options.resolve(key, key == "subject" ? raw["value"].to_s.truncate(255) : raw["value"])
+          key, value = resolved_change(raw.to_h.stringify_keys)
           next if value.nil? || result.key?(key) || value == current_value(key)
 
           result[key] = value
@@ -67,6 +65,11 @@ module AI
       end
 
       private
+
+      def resolved_change(raw)
+        key = raw["field"].to_s
+        [key, @change_options.resolve(key, key == "subject" ? raw["value"].to_s.truncate(255) : raw["value"])]
+      end
 
       def current_value(key)
         work_package = @change_options.work_package

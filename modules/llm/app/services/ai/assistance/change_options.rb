@@ -72,7 +72,7 @@ module AI
 
         if TEXT_KEYS.include?(key) then answer
         elsif DATE_KEYS.include?(key) then iso_date(answer)
-        else options(key).find { |_id, name| name.casecmp?(answer) }&.first&.to_s
+        else option_id(key, answer)
         end
       end
 
@@ -94,6 +94,10 @@ module AI
       end
 
       private
+
+      def option_id(key, name)
+        options(key).find { |_id, option_name| option_name.casecmp?(name) }&.first&.to_s
+      end
 
       def options(key)
         @options ||= {}

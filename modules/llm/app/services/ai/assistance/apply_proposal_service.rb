@@ -45,11 +45,7 @@ module AI
         error = precondition_error
         return failure(error) if error
 
-        work_package = proposal.proposal_work_package.reload
-        # A comment alone conflicts with nothing, so it skips the version check.
-        work_package.lock_version = proposal.base_lock_version unless proposal.comment_only?
-        work_package.journal_cause = proposal.proposal_journal_cause
-
+        work_package = prepared_work_package
         result = Automations::UpdateWorkPackageService
                    .new(action: Automation.new(name: "AI Assistance", actions:), user:, strict: true)
                    .call(work_package:)
@@ -62,6 +58,14 @@ module AI
       end
 
       private
+
+      def prepared_work_package
+        proposal.proposal_work_package.reload.tap do |work_package|
+          # A comment alone conflicts with nothing, so it skips the version check.
+          work_package.lock_version = proposal.base_lock_version unless proposal.comment_only?
+          work_package.journal_cause = proposal.proposal_journal_cause
+        end
+      end
 
       def precondition_error
         if proposal.proposal_user != user || !allowed_change_set? then :not_allowed

@@ -107,10 +107,10 @@ en:
           instructions: "Prompt"
       inactive: "Inactive"
       index:
+        actions: "Actions for %{assistant}"
         add: "Assistant"
         description: "Assistants group the skills of the AI Assistance menu. Each run uses the permissions of the user who starts it."
         empty: "There are no assistants yet."
-        actions: "Actions for %{assistant}"
         owner_kinds:
           group: "Group"
           user: "User"
@@ -121,9 +121,8 @@ en:
       new:
         title: "New assistant"
       skills:
-        add: "Add skill"
         actions: "Actions for %{skill}"
-        copied: "The copy is inactive. Switch it on when it is ready."
+        add: "Add skill"
         answers_at_once_caption: "Opening the skill starts a new chat, and the skill answers its instructions at once. Off opens an empty chat for the user's own questions."
         conditions:
           all: "All"
@@ -145,17 +144,18 @@ en:
           role_ids: "Roles of the user in the project"
           status_ids: "Statuses"
           type_ids: "Types"
+        copied: "The copy is inactive. Switch it on when it is ready."
         delete_confirm: "Delete this skill and every run of it?"
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
         icon_default: "Default"
+        label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
+        no_prompt_not_offered: "No skill prompt: not offered"
         offered_on:
           everywhere: "Everywhere"
           everywhere_caption: "On a work package as above. On other pages without proposals, with the project of the page as context. It cannot be limited to types or statuses."
           work_packages: "Work packages"
           work_packages_caption: "Only on work packages."
-        label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
-        no_prompt_not_offered: "No skill prompt: not offered"
         prompt_caption: "What the model does in this skill. Without it, the skill is not offered."
         prompt_preview: "Show the full system prompt"
         prompt_preview_caption: "The assistant prompt, this skill prompt, and the output rules that OpenProject adds for the skill type, its proposals and the MCP tools. It changes while you type, and the tool rule follows the checkbox above."
@@ -343,13 +343,12 @@ en:
     chat:
       answering: "%{assistant} is writing an answer…"
       chat_about_this: "Chat about this"
-      tool_step: "%{tool} (%{arguments})"
       copy: "Copy the answer"
       empty_answer: "(The model gave no answer.)"
       empty_description: "Ask about this work package. The answer can propose changes, and you decide whether to apply them."
-      empty_description_read_only: "Ask about this work package."
       empty_description_generic: "Ask about anything you can see in OpenProject, for example work packages, projects or people."
       empty_description_project: "Ask about the project %{project}, or about anything else you can see in OpenProject."
+      empty_description_read_only: "Ask about this work package."
       empty_title: "Chat about this work package"
       empty_title_generic: "Ask OpenProject"
       errors:
@@ -365,6 +364,7 @@ en:
       send: "Send"
       start_request: "Apply your instructions to this work package, as it is now."
       started: "%{user} started %{skill}"
+      tool_step: "%{tool} (%{arguments})"
       working_on: "%{assistant} is working on %{id}…"
     events:
       answer: "The model answered in %{seconds} s."
@@ -376,8 +376,8 @@ en:
       late: "The model answered after the time limit. The answer was not kept."
       message: "message"
       raw_answer: "answer"
-      result: "result"
       request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."
+      result: "result"
       show: "Show %{what}"
       stored: "Stored %{stored} of %{findings} proposals; %{dropped} dropped because they had no evidence or no valid change."
       system_prompt: "prompt"
@@ -389,10 +389,10 @@ en:
       tool_call_refused: "Refused the tool %{name}: the limit of tool calls is reached."
       tool_call_repeated: "Called the tool %{name} again with the same arguments. Sent the earlier result."
     history:
-      empty: "You did not use AI Assistance on this work package yet."
       answers:
         one: "1 answer"
         other: "%{count} answers"
+      empty: "You did not use AI Assistance on this work package yet."
       title: "History"
     proposal:
       applied: "Applied"

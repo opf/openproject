@@ -53,7 +53,7 @@ RSpec.describe AI::Assistant do
   it "allows several variants of one skill type on an assistant" do
     skill = create(:ai_assistant_skill)
     variant = build(:ai_assistant_skill, assistant: skill.assistant, skill_key: skill.skill_key,
-                                             label: "Check scope")
+                                         label: "Check scope")
 
     expect(variant).to be_valid
   end

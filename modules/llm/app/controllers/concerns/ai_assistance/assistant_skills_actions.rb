@@ -93,11 +93,11 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def find_assistant
-    @assistant = assistant_scope.find(params[:ai_assistant_id])
+    @assistant = assistant_scope.find(params.expect(:ai_assistant_id))
   end
 
   def find_skill
-    @skill = @assistant.skills.find(params[:id])
+    @skill = @assistant.skills.find(params.expect(:id))
   end
 
   def skill_params
