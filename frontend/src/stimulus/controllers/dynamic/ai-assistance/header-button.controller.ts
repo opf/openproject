@@ -29,7 +29,7 @@ import { Controller } from '@hotwired/stimulus';
 import type { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import type { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
-import { WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
+import { WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-time-management-entry-menus';
 
 // The AI Assistance button in the app header. It shows the menu for the place in the URL: the
 // work package that is open (full view, or the split view of a list, a board or a calendar),
