@@ -8,6 +8,9 @@
     "url": "git+https://github.com/opf/openproject.git",
     "directory": "extensions/blocknote-extensions"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "publishConfig": {
     "access": "public",
     "provenance": true
