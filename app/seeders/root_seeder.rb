@@ -163,11 +163,12 @@ class RootSeeder < Seeder
     DemoDataSeeder.new(seed_data).seed!
   end
 
-  # The COMMS developers' workloads and the Refresh work package demo, on the demo data.
+  # The COMMS developers' workloads, the Refresh work package demo and custom actions, on the demo data.
   def seed_ai_demo_data
     print_status "*** Seeding the AI Assistance demo"
     DevelopmentData::WorkloadsSeeder.new(seed_data).seed!
     DevelopmentData::RefreshCaseSeeder.new(seed_data).seed!
+    DevelopmentData::CustomActionsSeeder.new(seed_data).seed!
   end
 
   def seed_env_data

@@ -278,6 +278,20 @@ development_workloads:
       - "[dev] Mark notifications as read in bulk"
       - "[dev] Add meeting reminders to calendars"
 
+# Custom actions (automations with a button) on the work packages of the AI Assistance demo.
+# A reference in the action values stands for the id of that record.
+development_custom_actions:
+  - name: Put on hold
+    actions:
+      status: :default_status_on_hold
+  - name: Escalate
+    actions:
+      priority: :default_priority_high
+      comment: "Escalated: needs attention this week."
+  - name: Assign to me
+    actions:
+      assigned_to: current_user
+
 # Sample AI assistants of the development data, for the owners that the basic data does
 # not cover: a team and the admin user. The global one is the basic data's OPAssistant.
 development_ai_assistants:
