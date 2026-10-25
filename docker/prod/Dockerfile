@@ -1,4 +1,4 @@
-ARG RUBY_VERSION="4.0.7"
+ARG RUBY_VERSION="4.0.9"
 ARG DEBIAN_BASE="trixie"
 # Add SBOM scan context for intermediate steps
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true

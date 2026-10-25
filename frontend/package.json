@@ -62,9 +62,9 @@
     "wscat": "^6.1.0"
   },
   "dependencies": {
-    "@angular/animations": "^22.0.7",
-    "@angular/cdk": "^22.2.3",
-    "@angular/cli": "^22.2.3",
+    "@angular/animations": "^22.2.3",
+    "@angular/cdk": "^22.2.4",
+    "@angular/cli": "^22.2.4",
     "@angular/common": "^22.2.3",
     "@angular/compiler": "^22.2.3",
     "@angular/compiler-cli": "^22.2.3",
@@ -72,7 +72,7 @@
     "@angular/elements": "^22.2.3",
     "@angular/forms": "^22.2.3",
     "@angular/platform-browser": "^22.2.3",
-    "@angular/platform-browser-dynamic": "^22.0.7",
+    "@angular/platform-browser-dynamic": "^22.2.3",
     "@angular/router": "^22.2.3",
     "@appsignal/javascript": "^1.6.1",
     "@appsignal/plugin-breadcrumbs-console": "^1.1.37",

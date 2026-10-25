@@ -19,7 +19,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up Ruby
-        uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1
+        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
       - name: Run RuboCop
         uses: reviewdog/action-rubocop@b6d5e953a5fc0bf3ab65254e77730ea2174d6d6d # v2
         with:

@@ -85,11 +85,19 @@ jobs:
           NODE
           }
 
+          packages_file="$GITHUB_WORKSPACE/reports/packages.txt"
+          lockfiles_file="$GITHUB_WORKSPACE/reports/lockfiles.txt"
+          : > "$packages_file"
+          : > "$lockfiles_file"
+
           run_for_package() {
             local name="$1"
             local directory="$2"
-            local before_report="$GITHUB_WORKSPACE/reports/npm-audit-${name}-before.json"
-            local after_report="$GITHUB_WORKSPACE/reports/npm-audit-${name}-after.json"
+            local report_name="${name//\//-}"
+            local before_report="$GITHUB_WORKSPACE/reports/npm-audit-${report_name}-before.json"
+            local after_report="$GITHUB_WORKSPACE/reports/npm-audit-${report_name}-after.json"
+
+            printf '%s\t%s\n' "$name" "$directory" >> "$packages_file"
 
             echo "::group::npm audit before fix (${name})"
             set +e
@@ -121,7 +129,23 @@ jobs:
           run_for_package root .
           run_for_package frontend frontend
 
-          if git diff --quiet -- package.json package-lock.json frontend/package.json frontend/package-lock.json; then
+          shopt -s nullglob
+          for package_json in extensions/*/package.json; do
+            directory=$(dirname "$package_json")
+            run_for_package "$directory" "$directory"
+          done
+
+          while IFS=$'\t' read -r _ directory; do
+            for file in package.json package-lock.json; do
+              if [[ -f "$directory/$file" ]]; then
+                printf '%s\n' "$directory/$file" >> "$lockfiles_file"
+              fi
+            done
+          done < "$packages_file"
+
+          mapfile -t lockfiles < "$lockfiles_file"
+
+          if git diff --quiet -- "${lockfiles[@]}"; then
             echo "has_changes=false" >> "$GITHUB_OUTPUT"
             echo "npm audit fix produced no package or lockfile changes."
           else
@@ -131,7 +155,10 @@ jobs:
 
       - name: Show diff
         if: steps.audit_fix.outputs.has_changes == 'true'
-        run: git diff -- package.json package-lock.json frontend/package.json frontend/package-lock.json
+        run: |
+          set -euo pipefail
+          mapfile -t lockfiles < reports/lockfiles.txt
+          git diff -- "${lockfiles[@]}"
 
       - name: Create pull request
         if: steps.audit_fix.outputs.has_changes == 'true'
@@ -162,10 +189,14 @@ jobs:
           node <<'NODE' >> "$pr_body_file"
           const fs = require('fs');
 
-          const reports = [
-            ['root', 'reports/npm-audit-root-before.json'],
-            ['frontend', 'reports/npm-audit-frontend-before.json']
-          ];
+          const reports = fs.readFileSync('reports/packages.txt', 'utf8')
+            .trim()
+            .split('\n')
+            .filter(Boolean)
+            .map((line) => {
+              const label = line.split('\t')[0];
+              return [label, `reports/npm-audit-${label.replaceAll('/', '-')}-before.json`];
+            });
           let foundPackages = false;
 
           for (const [label, reportPath] of reports) {
@@ -210,7 +241,8 @@ jobs:
           temp_branch="$BRANCH_PREFIX-$(date "+%Y%m%d%H%M%S")"
 
           git switch -c "$temp_branch"
-          git add package.json package-lock.json frontend/package.json frontend/package-lock.json
+          mapfile -t lockfiles < reports/lockfiles.txt
+          git add -- "${lockfiles[@]}"
           git commit -m "Run npm audit fix"
           gh auth setup-git
           git push origin "$temp_branch"
