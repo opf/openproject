@@ -387,16 +387,16 @@ da:
           sp_unexpected_content: Der blev fundet uventet indhold i SharePoint-dokumentbiblioteket.
           unknown_error: Forbindelsen kunne ikke valideres. Der opstod en ukendt fejl. Se serverens log for flere oplysninger.
       label_error: Fejl
-      label_healthy: Fungerer
+      label_healthy: I orden
       label_pending: Afventer
       no_report: Der er ingen rapport
-      no_report_description: Kør kontrollerne nu for at få en fuld tilstandsrapport for fillageret.
-      open_report: Åbn hele tilstandsrapporten
+      no_report_description: Kør kontrollerne nu for at få en fuld driftsstatusrapport for fillageret.
+      open_report: Åbn hele driftsstatusrapporten
       project_folders:
         subtitle: Automatisk administrerede projektmapper
       since: siden %{datetime}
       synced: 'Seneste synkronisering: %{datetime}'
-      title: Tilstandsrapport
+      title: Driftsstatusrapport
     health_email_notifications:
       description_disabled: Administratorer får ikke besked via e-mail, når der er vigtige opdateringer.
       description_enabled: Administratorer får besked via e-mail, når der er vigtige opdateringer.
@@ -514,7 +514,7 @@ da:
         subtitle: Du sendes videre
         title: Opsætningen af integrationen er fuldført
       timeout:
-        link_text: tilstanden for opsætningen af fillageret
+        link_text: driftsstatus for opsætningen af fillageret
         subtitle: OpenProject kunne ikke give dig adgang til projektmappen inden for den forventede tid. Prøv igen.<br><br> Hvis problemet fortsætter, så kontakt din OpenProject-administrator, så vedkommende kan tjekke %{storages_health_link}.
       waiting:
         subtitle: Et øjeblik, det kan tage lidt tid...

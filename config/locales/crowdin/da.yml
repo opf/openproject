@@ -1132,8 +1132,8 @@ da:
         one: Brugerdefineret felt for grupper
         other: Brugerdefinerede felter for grupper
       health_report:
-        one: Tilstandsrapport
-        other: Tilstandsrapporter
+        one: Driftsstatusrapport
+        other: Driftsstatusrapporter
       issue_priority:
         one: Prioritet
         other: Prioriteter
@@ -2369,7 +2369,7 @@ da:
   button_manage_roles: Administrer roller
   button_move: Flyt
   button_move_and_follow: Flyt og følg
-  button_next: Next
+  button_next: Næste
   button_print: Udskriv
   button_publish: Gør offentlig
   button_quote: Citer
@@ -4320,7 +4320,7 @@ da:
         email_notification_settings: Indstillinger for notifikationer om lager via e-mail
         healthy:
           solved_at: løst
-          subject: Lageret "%{name}" fungerer igen!
+          subject: Lageret "%{name}" er i orden igen!
           summary: Problemet med din lagerintegration %{storage_name} er nu løst
         plaintext:
           healthy:

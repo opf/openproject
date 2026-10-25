@@ -3,313 +3,313 @@ da:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
-        allocated_time: Allocated time
-        date_range: Dates
-        end_date: Finish date
-        entity: Entity
-        filter_name: Resource filter name
-        principal: Assignee
-        start_date: Start date
-        state: State
-        user_filter: User filter
+        allocated_hours: Timer
+        allocated_time: Fordelt tid
+        date_range: Datoer
+        end_date: Slutdato
+        entity: Enhed
+        filter_name: Navn på ressourcefilter
+        principal: Tildelt
+        start_date: Startdato
+        state: Tilstand
+        user_filter: Brugerfilter
       resource_planner:
-        date_range: Dates
-        default_view_class_name: Default view
-        end_date: Finish date
-        favorite: Favorite
-        name: Name
-        public: Public
-        start_date: Start date
+        date_range: Datoer
+        default_view_class_name: Standardvisning
+        end_date: Slutdato
+        favorite: Favorit
+        name: Navn
+        public: Offentlig
+        start_date: Startdato
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
+              greater_than_start_date: skal ligge efter startdatoen.
         resource_planner:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
-              required_with_start_date: must be set when a start date is set.
+              greater_than_start_date: skal ligge efter startdatoen.
+              required_with_start_date: skal angives, når der er angivet en startdato.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: skal angives, når der er angivet en slutdato.
         resource_work_package_list:
           attributes:
             query:
-              must_be_work_package_query: must be a work package query.
+              must_be_work_package_query: skal være en visning af arbejdspakker.
     models:
       resource_allocation:
-        one: Resource Allocation
-        other: Resource Allocations
+        one: Ressourcefordeling
+        other: Ressourcefordelinger
       resource_planner:
-        one: Resource Planner
-        other: Resource Planners
+        one: Ressourceplanlægger
+        other: Ressourceplanlæggere
       resource_user_card:
-        one: User card
-        other: User cards
+        one: Brugerkort
+        other: Brugerkort
       resource_user_timeline:
-        one: User timeline
-        other: User timelines
+        one: Tidslinje for brugere
+        other: Tidslinjer for brugere
       resource_work_package_list:
-        one: Work packages list
-        other: Work packages lists
+        one: Liste over arbejdspakker
+        other: Lister over arbejdspakker
       resource_work_package_timeline:
-        one: Work packages timeline
-        other: Work packages timelines
-  button_next: Next
+        one: Tidslinje for arbejdspakker
+        other: Tidslinjer for arbejdspakker
+  button_next: Næste
   ee:
     features:
-      resource_management: Resource management
+      resource_management: Ressourcestyring
     upsell:
       resource_management:
-        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
-        title: Resource management
-  label_resource_management: Resource management
-  permission_allocate_user_resources: Allocate user resources
-  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
-  permission_manage_public_resource_planners: Manage public resource planners
-  permission_manage_public_resource_planners_explanation: Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
-  permission_view_resource_planners: View resource planners
-  permission_view_resource_planners_explanation: Allows users to access resource planners. It allows them to create and manage their own resource planners and view public resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+        description: Planlæg og fordel dit teams arbejdsbyrde med ressourceplanlæggere. Fordel personer på arbejdspakker, følg kapaciteten over tid, og se over- og underbooking med det samme.
+        title: Ressourcestyring
+  label_resource_management: Ressourcestyring
+  permission_allocate_user_resources: Fordel brugerressourcer
+  permission_allocate_user_resources_explanation: Giver mulighed for at oprette, opdatere og slette ressourcefordelinger i en ressourceplanlægger. Det omfatter at tildele brugere (eller brugerfiltre) til en planlægger og at justere den fordelte tid og datoperioden.
+  permission_assign_users_to_generic_allocations: Tildel brugere til generiske fordelinger
+  permission_assign_users_to_generic_allocations_explanation: Giver mulighed for at bruge visningen Bemanding til at tildele rigtige brugere til generiske (filterbaserede) ressourcefordelinger, der endnu ikke har en bruger. Det giver ikke mulighed for at oprette eller redigere fordelinger.
+  permission_manage_public_resource_planners: Administrer offentlige ressourceplanlæggere
+  permission_manage_public_resource_planners_explanation: Giver mulighed for at oprette og administrere offentlige ressourceplanlæggere og for at se, oprette, administrere og offentliggøre egne ressourceplanlæggere. Det giver ikke adgang til at se ressourceplanlæggere, som andre brugere har oprettet, og som ikke er delt offentligt.
+  permission_view_resource_planners: Vis ressourceplanlæggere
+  permission_view_resource_planners_explanation: Giver adgang til ressourceplanlæggere. Brugeren kan oprette og administrere egne ressourceplanlæggere og se offentlige ressourceplanlæggere. Det giver ikke adgang til at se ressourceplanlæggere, som andre brugere har oprettet, og som ikke er delt offentligt.
   plugin_openproject_resource_management:
-    description: Provides resource management and capacity planning.
+    description: Giver ressourcestyring og kapacitetsplanlægning.
     name: OpenProject Resource Management
-  project_module_resource_management: Resource management
+  project_module_resource_management: Ressourcestyring
   resource_management:
     action:
-      delete: Delete
-      edit: Edit
-      favorite: Add to favorites
-      make_private: Make private
-      make_public: Make public
-      unfavorite: Remove from favorites
+      delete: Slet
+      edit: Rediger
+      favorite: Føj til favoritter
+      make_private: Gør privat
+      make_public: Gør offentlig
+      unfavorite: Fjern fra favoritter
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Angiv filterkriterier ud fra brugerattributter for at oprette en pladsholder-ressource.
+          label: Filterkriterier
+        label: Fordelingstype
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Fordel timer til en bestemt bruger.
+          label: Bruger
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: Den valgte bruger har ingen arbejdstid konfigureret på disse datoer og regnes derfor for at have ingen kapacitet.
+        partial: Den valgte bruger har ingen arbejdstid konfigureret for %{dates}, så disse dage regnes som dage uden kapacitet.
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: De valgte ressourcedatoer, %{resource_dates}, ligger uden for arbejdspakkens datoer, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} til rådighed · %{scheduled} planlagt"
+        description: Den valgte bruger, %{user}, ville blive fordelt ud over sin arbejdstid i perioden.
+        hidden_work: Andre fordelinger
+        schedule_availability: "%{schedule} (%{factor} % til rådighed for projektarbejde)"
+        schedule_change: til %{date}, derefter %{schedule}
+        schedule_note: Brugeren arbejder %{schedule}.
+        submit: Fordel overtid
+        title: Vil du fordele overtid til brugeren?
+      submit: Fordel
+      success_message: Ressourcen er fordelt.
+      title: Fordel ressource
     allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
+      hours: "%{value} t"
+      no_work: Der er ikke planlagt noget arbejde på arbejdspakken
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours} til rådighed"
+      confirm_overtime: Tildel alligevel
+      filter_criteria: Filterkriterier
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: Intet projektmedlem matcher filterkriterierne for fordelingen.
+        title: Ingen medlemmer matcher
+      no_schedule: Brugeren har ingen arbejdsplan, så vi kan ikke afgøre, om fordelingen passer.
+      overbooked_detail: Brugeren har %{available} til rådighed i perioden, og arbejdspakken kræver %{requested}.
+      requested_for: Ønsket til
+      select_user: Vælg en bruger, der skal tildeles.
+      submit: Tildel
+      title: Tildel %{filter_name}
     blankslate:
-      desc: Create a resource planner to start planning capacity for this project.
-      title: No resource planners yet
+      desc: Opret en ressourceplanlægger for at begynde at planlægge kapaciteten i projektet.
+      title: Der er endnu ingen ressourceplanlæggere
     configure_view_dialog:
-      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      delete_confirmation: Er du sikker på, at du vil slette visningen? Det kan ikke fortrydes.
       filter_mode:
         automatic:
-          caption: An automatically-generated list that displays items that meet criteria you define.
-          label: Automatically filtered
-        label: Item selection
+          caption: En automatisk dannet liste med de elementer, der opfylder de kriterier, som du fastlægger.
+          label: Filtreret automatisk
+        label: Valg af elementer
         manual:
-          caption: A custom list of items you manually add and remove. Filtering is not possible.
-          label: Manually hand-picked
-      title: Configure view
+          caption: En egen liste med elementer, som du selv tilføjer og fjerner. Filtrering er ikke mulig.
+          label: Udvalgt manuelt
+      title: Konfigurer visning
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
-    favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
-    label_edit_resource_planner: Edit resource planner
-    label_new_resource_planner: New resource planner
-    label_resource_planner: Resource planner
-    label_resource_planner_plural: Resource planners
+      submit: Gem
+      success_message: Ressourcefordelingen er opdateret.
+      title: Rediger fordeling
+    favorite_caption: Gør visningen til en favorit for at føje den til den øverste del af sidepanelet.
+    label_edit_resource_planner: Rediger ressourceplanlægger
+    label_new_resource_planner: Ny ressourceplanlægger
+    label_resource_planner: Ressourceplanlægger
+    label_resource_planner_plural: Ressourceplanlæggere
     new_view_dialog:
-      title: Add View
-    public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
+      title: Tilføj visning
+    public_caption: Gør visningen offentlig for alle medlemmer af projektet. Det påvirker ikke synligheden af arbejdspakker, som stadig afhænger af hver brugers tilladelser.
     show:
-      placeholder: The detailed view for this resource planner is coming soon.
+      placeholder: Den detaljerede visning af ressourceplanlæggeren kommer snart.
     sidebar:
-      private: Private
-      public: Public
+      private: Privat
+      public: Offentlig
     staffing:
-      assign: Assign user
+      assign: Tildel bruger
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: Alle generiske fordelinger i projektet har fået tildelt en bruger.
+        title: Intet at bemande
       columns:
-        dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
-    sub_views: Views in this resource planner
+        dates: Datoer
+        requested_time: Ønsket tid
+        resource: Ressource
+        work_package: Arbejdspakke
+      context_menu_label: Handlinger for fordeling
+      delete_confirmation: Er du sikker på, at du vil slette fordelingen?
+      menu_item: Bemanding
+      starts_in_past: Fordelingen er allerede startet og har stadig ingen tildelt.
+      success_message: Brugeren er tildelt.
+      title: Bemanding
+    sub_views: Visninger i denne ressourceplanlægger
     timeframe:
-      full: From %{start} to %{end}
+      full: Fra %{start} til %{end}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: Dag
+        month: Måned
+        week: Kalenderuge
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: Næste periode
+        previous: Forrige periode
+        today: I dag
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: Tilføj
+        allocate: Fordel
+        settings: Konfigurer visning
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: Fordel arbejdspakke
+      blank: Brugeren har ingen fordelte arbejdspakker.
       other_work_packages:
-        one: 1 other work package
-        other: "%{count} other work packages"
-      title: Utilization
+        one: 1 anden arbejdspakke
+        other: "%{count} andre arbejdspakker"
+      title: Udnyttelse
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: Tilføj bruger
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: Der er endnu ingen brugere, der matcher visningens filtre.
+        manual_description: Der er endnu ikke føjet nogen brugere til visningen.
+        title: Ingen brugere at vise
       card:
-        multi_value_more: "+%{count} more"
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        multi_value_more: "+%{count} mere"
+        remove: Fjern bruger
+        remove_confirmation: Vil du fjerne brugeren fra visningen?
       fields:
-        drag_area_label: Displayed fields
-        input_caption: Select the fields that will be displayed in the user card for this view
-        input_label: Fields
-        input_placeholder: Add a field
-        working_times: Working times
+        drag_area_label: Viste felter
+        input_caption: Vælg de felter, der skal vises på brugerkortet i denne visning
+        input_label: Felter
+        input_placeholder: Tilføj et felt
+        working_times: Arbejdstider
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: Ressource
+        settings: Konfigurer visning
       utilization:
-        label: Utilization
+        label: Udnyttelse
       working_hours:
-        blank: No working hours configured
-        schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        blank: Ingen arbejdstid konfigureret
+        schedule_availability_compact: "%{schedule} (%{factor} % til rådighed)"
+        schedule_change_compact: til %{date}, %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: Tilføj bruger
+        configure_view: Konfigurer visning
+        description: Der er endnu ingen brugere, der matcher visningens filtre.
+        manual_description: Føj brugere til visningen for at se deres fordeling over tid.
+        title: Ingen brugere at vise
+      no_work_schedule: Der er ikke planlagt nogen arbejdsplan for brugeren
+      overbooked: Brugeren er overbooket i den valgte periode.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} planlagt, %{available} til rådighed"
       subheader:
-        add_user: Add user
+        add_user: Tilføj bruger
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Opret en visning ud fra brugere, og se deres detaljer og fordeling i en liste med brugerkort
+        label: Liste med brugerkort
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: Opret en visning ud fra brugere, og se deres fordelinger over tid på en tidslinje
+        label: Tidslinje for brugere
       resource_work_package_list:
-        caption: Create a view based on work packages and see its details and allocation in a list
-        label: Work packages list
+        caption: Opret en visning ud fra arbejdspakker, og se deres detaljer og fordeling i en liste
+        label: Liste over arbejdspakker
       resource_work_package_timeline:
-        caption: Create a view based on work packages and see their allocations over time on a timeline
-        label: Work packages timeline
+        caption: Opret en visning ud fra arbejdspakker, og se deres fordelinger over tid på en tidslinje
+        label: Tidslinje for arbejdspakker
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Opret en visning ud fra brugere, og se deres detaljer og fordeling i en liste med brugerkort
+        label: Liste med brugerkort
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Fordel ressource
+      context_menu_label: Handlinger for fordeling
+      delete_confirmation: Er du sikker på, at du vil slette fordelingen? Det kan ikke fortrydes.
+      delete_success: Ressourcefordelingen er slettet.
+      hidden_user: Skjult bruger
+      overbooked: Brugeren er fordelt ud over sin arbejdstid i perioden.
+      title: Fordeling
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: Tilføj arbejdspakke
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} bruger"
+          other: "%{count} brugere"
+        unassigned: Ikke tildelt
       allocation_placeholder: "—"
       blank:
-        description: There are no work packages matching this view's filters yet.
-        title: No work packages to display
+        description: Der er endnu ingen arbejdspakker, der matcher visningens filtre.
+        title: Ingen arbejdspakker at vise
       columns:
-        allocated_members: Allocated members
-        allocation: Allocation
-        dates: Dates
+        allocated_members: Fordelte medlemmer
+        allocation: Fordeling
+        dates: Datoer
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
-        label: More actions
-        move: Move
-        move_down: Move down
-        move_to_bottom: Move to bottom
-        move_to_top: Move to top
-        move_up: Move up
-        remove: Remove
-        remove_confirmation: Remove this work package from the view?
-        see_allocation: See allocation
-      mobile_title: Work packages
-      query_name: 'Resource management work packages: %{name}'
+        add_filter_criteria: Tilføj filterkriterier
+        add_user_group: Tilføj brugergruppe
+        edit_total_work: Rediger samlet arbejde
+        label: Flere handlinger
+        move: Flyt
+        move_down: Flyt ned
+        move_to_bottom: Flyt nederst
+        move_to_top: Flyt øverst
+        move_up: Flyt op
+        remove: Fjern
+        remove_confirmation: Vil du fjerne arbejdspakken fra visningen?
+        see_allocation: Se fordeling
+      mobile_title: Arbejdspakker
+      query_name: 'Arbejdspakker i ressourcestyring: %{name}'
       subheader:
-        add: Add
-        add_work_package: Add work package
-        allocate: Allocate
-        settings: Configure view
+        add: Tilføj
+        add_work_package: Tilføj arbejdspakke
+        allocate: Fordel
+        settings: Konfigurer visning
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} medlem af projektet matcher fordelingens filterkriterier."
+          other: "%{count} medlemmer af projektet matcher fordelingens filterkriterier."
       blank:
-        add_work_package: Add work package
-        configure_view: Configure view
-        description: There are no work packages matching this view's filters yet.
-        manual_description: Add work packages to this view to plan their allocation over time.
-        title: No work packages to display
-      query_name: 'Resource management work package timeline: %{name}'
+        add_work_package: Tilføj arbejdspakke
+        configure_view: Konfigurer visning
+        description: Der er endnu ingen arbejdspakker, der matcher visningens filtre.
+        manual_description: Føj arbejdspakker til visningen for at planlægge deres fordeling over tid.
+        title: Ingen arbejdspakker at vise
+      query_name: 'Tidslinje for arbejdspakker i ressourcestyring: %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: Tilføj arbejdspakke

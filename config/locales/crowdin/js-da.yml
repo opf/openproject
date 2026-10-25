@@ -371,7 +371,7 @@ da:
       clear_selection: Ryd valg
       include_subprojects: Medtag alle underprojekter
       no_results: Ingen projekter matcher dine søgekriterier.
-      search_placeholder: Search projects...
+      search_placeholder: Søg efter projekter...
       selected_filter:
         all: Alle projekter
         selected: Kun valgte
@@ -646,11 +646,11 @@ da:
       date_alerts:
         milestone_date: Milepælsdato
         overdue: Forfalden
-        overdue_since: for %{difference_in_days}.
-        property_is: is in %{difference_in_days}.
-        property_is_deleted: is deleted.
-        property_today: is today.
-        property_was: was %{difference_in_days} ago.
+        overdue_since: i %{difference_in_days}.
+        property_is: er om %{difference_in_days}.
+        property_is_deleted: er slettet.
+        property_today: er i dag.
+        property_was: var for %{difference_in_days} siden.
       no_unread: Ingen ulæste notifikationer
       reasons:
         assigned: Tildelt
@@ -708,15 +708,15 @@ da:
         network_off: Der er et netværksproblem.
         network_on: Netværket er tilbage. Vi prøver igen.
       waiting_title:
-        timeout: Timeout
+        timeout: Tidsgrænse overskredet
     pagination:
       no_other_page: Du er på den eneste side.
-      page_navigation: Pagination navigation
+      page_navigation: Sidenavigation
       pages:
         page_number: Side %{number}
         show_per_page: Vis %{number} pr. side
       pages_skipped: Sider sprunget over.
-      per_page_navigation: Items per page selection
+      per_page_navigation: Valg af antal pr. side
     placeholders:
       default: "-"
       description: 'Beskrivelse: Klik for at redigere...'
@@ -746,7 +746,7 @@ da:
       add_new_relation: Opret ny relation
       add_parent: Tilføj eksisterende overordnet
       add_predecessor: Tilføj forgænger
-      add_successor: Add successor
+      add_successor: Tilføj efterfølger
       change_parent: Skift overordnet
       create_new: Opret ny
       group_by_relation_type: Gruppér efter relationstype
@@ -916,7 +916,7 @@ da:
         removal_label: Fjernet fra visningen i sammenligningsperioden
       bulk_actions:
         delete: Slet valgte
-        duplicate: Bulk duplicate
+        duplicate: Dupliker valgte
         edit: Rediger valgte
         move: Skift projekt for valgte
       button_clear: Ryd
@@ -946,7 +946,7 @@ da:
       description_options_hide: Skjul muligheder
       description_options_show: Vis muligheder
       duplicate:
-        title: Duplicate work package
+        title: Dupliker arbejdspakke
       edit_attribute: "%{attribute}: Rediger"
       faulty_query:
         description: Visningen er fejlbehæftet og kunne ikke behandles.
@@ -1069,7 +1069,7 @@ da:
         is_parent: Arbejdspakkens datoer udledes automatisk af dens underordnede. Aktivér 'Manuel planlægning' for at angive datoerne.
         is_switched_from_manual_to_automatic: Arbejdspakkens datoer skal måske beregnes igen, efter at du har skiftet fra manuel til automatisk planlægning, fordi den har relationer til andre arbejdspakker.
       sharing:
-        show_all_users: Show all users with whom the work package has been shared with
+        show_all_users: Vis alle brugere, som arbejdspakken er delt med
         title: Del arbejdspakke
       table:
         configure_button: Konfigurer tabellen med arbejdspakker

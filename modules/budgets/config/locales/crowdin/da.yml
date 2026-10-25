@@ -64,7 +64,7 @@ da:
     widgets:
       budget_by_cost_type:
         blankslate:
-          description: Få overblik over budgetter og omkostninger, så du nemt kan følge projektets tilstand
+          description: Få overblik over budgetter og omkostninger, så du nemt kan følge, hvordan det går med projektet
           heading: Kom i gang med projektøkonomien
         blankslate_zero:
           description: Tilføj detaljer om det planlagte budget for at se data her
