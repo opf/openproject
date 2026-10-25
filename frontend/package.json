@@ -4,6 +4,10 @@
   "license": "GPLv3",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^24.22.1",
+    "npm": "^11.12.0"
+  },
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^22.0.0",
     "@angular/build": "22.1.9",
