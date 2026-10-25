@@ -22,14 +22,15 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpPrimer
   class InsetBoxComponent < Primer::Component
+    include OpPrimer::ComponentHelpers
+
     DEFAULT_SCHEME = :default
     SCHEME_MAPPINGS = {
       DEFAULT_SCHEME => { bg: :inset },
@@ -56,11 +57,23 @@ module OpPrimer
       }
     }
 
+    renders_one :clipboard_copy_button, lambda { |**system_arguments|
+      system_arguments[:scheme] ||= :invisible
+      system_arguments[:size] = :small
+      system_arguments[:ml] = 2
+      Primer::Beta::ClipboardCopyButton.new(**system_arguments)
+    }
+
     def initialize(border: true, scheme: DEFAULT_SCHEME, **system_arguments)
       super()
       @border = border
       @scheme_arguments = SCHEME_MAPPINGS[fetch_or_fallback(SCHEME_MAPPINGS.keys, scheme, DEFAULT_SCHEME)]
       @system_arguments = system_arguments
+
+      @system_arguments[:classes] = class_names(
+        @system_arguments[:classes],
+        "op-inset-box"
+      )
     end
   end
 end

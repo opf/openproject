@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -49,14 +48,18 @@ export default class MainToggleController extends Controller {
   }
 
   toggleNavigation(e:Event) {
-    this.mainMenuService?.toggleNavigation(e);
+    if (!this.mainMenuService) return;
+
+    e.stopPropagation();
+    e.preventDefault();
+    this.mainMenuService.toggle();
   }
 
   private async connectMenuService() {
     try {
       const { injector } = await this.pluginContext;
       this.mainMenuService = injector.get(MainMenuToggleService);
-      this.mainMenuService.initializeMenu();
+      this.mainMenuService.syncWithPage();
     } catch {
       // Keep swallowing injector failures, as the previous chain did — the
       // toggle then stays inert instead of erroring on every page.

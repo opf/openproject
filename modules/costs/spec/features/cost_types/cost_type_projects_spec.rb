@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -67,6 +66,15 @@ RSpec.describe "Cost type projects activation", :js do
 
     expect(page).to have_no_text(project.name)
     expect(CostTypesProject.where(cost_type:, project:)).not_to exist
+  end
+
+  it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+    let(:target_project) { create(:project, name: "Searched Cost Project", identifier: "searched-cost-project") }
+    let(:control_project) { create(:project, name: "Unrelated Cost Project", identifier: "unrelated-cost-project") }
+
+    before do
+      click_on "Add projects"
+    end
   end
 
   it "shows an error in the dialog when no project is selected" do

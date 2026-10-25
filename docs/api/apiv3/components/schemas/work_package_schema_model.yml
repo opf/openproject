@@ -4,7 +4,7 @@ type: object
 description: |-
   A schema for a work package. This schema defines the attributes of a work package.
   
-  TODO: Incomplete, needs to be updated with the real behaviour of schemas (when does which attribute appear?).
+  TODO: Incomplete, needs to be updated with the real behavior of schemas (when does which attribute appear?).
 properties:
   _type:
     type: string
@@ -53,6 +53,10 @@ properties:
   percentageDone:
     $ref: './schema_property_model.yml'
   derivedPercentageDone:
+    $ref: './schema_property_model.yml'
+  allocatedTime:
+    $ref: './schema_property_model.yml'
+  allocatedPrincipals:
     $ref: './schema_property_model.yml'
   readonly:
     $ref: './schema_property_model.yml'

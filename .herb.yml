@@ -1,0 +1,138 @@
+# This file configures Herb for your project and team.
+# Settings here take precedence over individual editor preferences.
+#
+# Herb is a suite of tools for HTML+ERB templates including:
+# - Linter: Validates templates and enforces best practices
+# - Formatter: Auto-formats templates with intelligent indentation
+# - Language Server: Provides IDE support (VS Code, Zed, Neovim, etc.)
+#
+# Website: https://herb-tools.dev
+# Configuration: https://herb-tools.dev/configuration
+# GitHub Repo: https://github.com/marcoroth/herb
+#
+
+version: 0.11.0
+
+framework: actionview
+
+files:
+  # Additional patterns beyond the defaults (**.html, **.rhtml, **.html.erb, etc.)
+  # include:
+  #   - '**/*.xml.erb'
+  #   - 'custom/**/*.html'
+
+  # Patterns to exclude (can exclude defaults too)
+  exclude:
+    - 'coverage/**/*'
+    - 'extensions/*/node_modules/**/*'
+    - 'frontend/**/*'
+    - 'modules/*/frontend/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
+
+linter:
+  enabled: true
+
+  # # Additional patterns beyond the defaults for linting
+  # include:
+  #   - '**/*.xml.erb'
+  #
+  # # Patterns to exclude from linting
+  # exclude:
+  #   - 'app/views/admin/**/*'
+
+  rules:
+    # The canonical copyright header opens with `<%#--` and closes with `++#%>`.
+    erb-require-whitespace-inside-tags:
+      enabled: false
+
+    # 0.11 rejects the `href="#"` placeholders of the legacy static markup.
+    html-anchor-require-href:
+      exclude:
+        - 'lookbook/previews/open_project/deprecated/**/*'
+        # Legacy `link_to "#"` toggles, to be turned into buttons.
+        - 'app/components/members/role_form_component.html.erb'
+        - 'app/views/admin/departments/_memberships.html.erb'
+        - 'app/views/groups/_memberships.html.erb'
+        - 'app/views/individual_principals/_memberships.html.erb'
+        - 'app/views/repositories/_dir_list_content.html.erb'
+        - 'modules/two_factor_authentication/app/views/two_factor_authentication/authentication/request_otp.html.erb'
+
+    # Previews render inside the preview layout and cannot reach its `<head>`.
+    html-head-only-elements:
+      exclude:
+        - 'lookbook/previews/**/*'
+
+    # Inline JavaScript in a `nonced_javascript_tag` block is read as text.
+    html-no-unescaped-entities:
+      exclude:
+        - 'app/views/layouts/base.html.erb'
+        - 'modules/recaptcha/app/views/recaptcha/request/perform.html.erb'
+
+    # Disabled until their offenses are fixed.
+    actionview-no-silent-helper:
+      enabled: false
+    actionview-no-silent-render:
+      enabled: false
+    actionview-prefer-collection-render:
+      enabled: false
+    erb-no-duplicate-branch-elements:
+      enabled: false
+    erb-no-instance-variables-in-partials:
+      enabled: false
+    # Its suggested fix is what erb-prefer-direct-output rejects.
+    erb-no-interpolated-class-names:
+      enabled: false
+    erb-no-method-definitions:
+      enabled: false
+    erb-no-unsafe-raw:
+      enabled: false
+    erb-no-unused-expressions:
+      enabled: false
+    html-no-nested-forms:
+      enabled: false
+    html-require-script-nonce:
+      enabled: false
+    ujs-prefer-turbo-method:
+      enabled: false
+
+  #   erb-no-extra-newline:
+  #     enabled: false
+  #
+  #   # Rules can have 'include', 'only', and 'exclude' patterns
+  #   some-rule:
+  #     # Additional patterns to check (additive, ignored when 'only' is present)
+  #     include:
+  #       - 'app/components/**/*'
+  #     # Don't apply this rule to files matching these patterns
+  #     exclude:
+  #       - 'app/views/admin/**/*'
+  #
+  #   another-rule:
+  #     # Only apply this rule to files matching these patterns (overrides all 'include')
+  #     only:
+  #       - 'app/views/**/*'
+  #     # Exclude still applies even with 'only'
+  #     exclude:
+  #       - 'app/views/admin/**/*'
+
+formatter:
+  enabled: false
+  indentWidth: 2
+  maxLineLength: 80
+
+  # # Additional patterns beyond the defaults for formatting
+  # include:
+  #   - '**/*.xml.erb'
+  #
+  # # Patterns to exclude from formatting
+  # exclude:
+  #   - 'app/views/admin/**/*'
+
+  # # Rewriters modify templates during formatting
+  # rewriter:
+  #   # Pre-format rewriters (modify AST before formatting)
+  #   pre:
+  #     - tailwind-class-sorter
+  #   # Post-format rewriters (modify formatted output string)
+  #   post: []

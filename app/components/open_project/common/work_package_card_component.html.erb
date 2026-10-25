@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -20,12 +20,11 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++# %>
+++#%>
 
 <%= grid_layout("op-work-package-card", **@system_arguments) do |grid| %>
   <% if show_drag_handle %>
@@ -56,7 +55,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(
             Primer::Beta::Text.new(
               tag: :span,
-              classes: "op-work-package-card--priority __hl_inline_priority_#{work_package.priority.id} __hl_inline__small_dot no-wrap"
+              classes: class_names(
+                "op-work-package-card--priority",
+                "__hl_dot_small",
+                "no-wrap",
+                helpers.hl_dot_class("priority", work_package.priority)
+              )
             )
           ) do %>
         <span class="op-work-package-card--priority-name"><%= work_package.priority.name %></span>
@@ -90,7 +94,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% if show_parent? %>
           <% flex.with_row(classes: "ellipsis") do %>
             <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
-              <%= "#{t('.parent')}: " %>
+              <%= t(".parent") %>:
               <% if parent_visible? %>
                 <%= render(
                       Primer::Beta::Link.new(

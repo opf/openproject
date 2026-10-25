@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -93,6 +92,36 @@ RSpec.describe Primer::OpenProject::Forms::DatePicker, type: :forms do
     it "defaults placeholder to an empty string" do
       expect(rendered_form).to have_element "opce-basic-single-date-picker",
                                             "data-placeholder": "".to_json
+    end
+  end
+
+  describe "single datetime picker" do
+    def render_form
+      render_in_view_context(model) do |model|
+        primer_form_with(url: "/foo", model:) do |f|
+          render_inline_form(f) do |form|
+            form.single_datetime_picker(
+              name: :some_datetime,
+              label: "Some datetime",
+              datepicker_options: { value: "2026-10-01T12:30:00Z" }
+            )
+          end
+        end
+      end
+    end
+
+    subject(:rendered_form) do
+      render_form
+      page
+    end
+
+    it "renders the single datetime picker angular component" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker"
+    end
+
+    it "passes the value as a data attribute" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
+                                            "data-value": "2026-10-01T12:30:00Z".to_json
     end
   end
 

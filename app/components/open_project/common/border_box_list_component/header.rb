@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -150,7 +149,8 @@ module OpenProject
                     :interactive,
                     :collapsed,
                     :collapsible,
-                    :show_drag_handle
+                    :show_drag_handle,
+                    :drag_handle_arguments
 
         alias_method :show_drag_handle?, :show_drag_handle
 
@@ -177,6 +177,7 @@ module OpenProject
         #   with a toggle button.
         # @param show_drag_handle [Boolean] whether the header renders a leading
         #   drag handle. Defaults to `false`.
+        # @param drag_handle_arguments [Hash] forwarded to `Primer::OpenProject::DragHandle`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
           title: nil,
@@ -190,6 +191,7 @@ module OpenProject
           collapsed: false,
           collapsible: false,
           show_drag_handle: false,
+          drag_handle_arguments: {},
           **system_arguments
         )
           super()
@@ -206,6 +208,7 @@ module OpenProject
           @collapsed = collapsed
           @collapsible = collapsible
           @show_drag_handle = show_drag_handle
+          @drag_handle_arguments = drag_handle_arguments
           @system_arguments = system_arguments
         end
 

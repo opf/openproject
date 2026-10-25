@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -129,16 +128,16 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
         stub_request(:get, download_attachment_url).to_return(
           status: 302, body: "Redirect body.", headers: { "Location" => "https://login.example.com" }
         )
-        allow(Rails.logger).to receive(:error)
+        allow(Rails.logger).to receive(:warn)
       end
 
-      it "logs the error with context details" do
+      it "logs a warning with context details and continues the import" do
         create_work_package_attachments
 
         # rubocop:disable-next Layout/LineLength
-        expect(Rails.logger).to have_received(:error).with(
+        expect(Rails.logger).to have_received(:warn).with(
           a_string_including(
-            "Error during jira import attachment creation. Error: Jira API returned error status 302.",
+            "Could not create jira import attachment, skipping it. Error: Jira API returned error status 302.",
             "STATUS: 302 RESPONSE_BODY: Redirect body. RESPONSE_HEADERS: {\"location\" => [\"https://login.example.com\"]}.",
             "Jira Project: {\"identifier\" => \"DPPP\"}",
             "Jira Issue: {\"identifier\" => \"DPPP-6\"}.",

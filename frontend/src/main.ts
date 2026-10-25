@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,7 +35,6 @@ import { environment } from './environments/environment';
 import { configureErrorReporter } from 'core-app/core/errors/configure-reporter';
 import { initializeGlobalListeners } from 'core-app/core/setup/globals/global-listeners';
 import { getMetaElement } from 'core-app/core/setup/globals/global-helpers';
-import 'core-elements/block-note-element';
 
 import 'core-app/core/setup/init-vendors';
 import 'core-app/core/setup/init-globals';
@@ -69,6 +67,6 @@ void initializeLocale()
   .then(() => {
     initializeGlobalListeners();
 
-    // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
+    // Due to the behavior of the Edge browser we need to wait for 'DOM ready'
     void platformBrowser().bootstrapModule(OpenProjectModule, { applicationProviders: [provideZonelessChangeDetection()], });
   });

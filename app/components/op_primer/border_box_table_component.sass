@@ -21,7 +21,7 @@
 // Drag-and-drop states for tables wiring up sortable-lists. Scoped to the rows
 // container so they cannot restyle rows of unrelated dragula lists, and inert on
 // tables that are not sortable since nothing sets these attributes there.
-.op-border-box-table--rows
+.op-border-box-table__rows
   --op-border-box-table-drop-gap-border-width: 2px
   --op-border-box-table-drop-gap-height: 8px
 
@@ -99,9 +99,26 @@
     &__row-label
       display: none
 
+  // The table owns the column tracks and every row takes them over as a subgrid, so the action
+  // column is as wide as its widest cell in any row, the header included.
+  .op-border-box-table--with-actions
+    display: grid
+    grid-template-columns: repeat(var(--op-border-box-grid-tracks), minmax(0, 1fr)) minmax(0, max-content)
+
+    > .op-border-box-table__rowgroup
+      grid-column: 1 / -1
+      display: grid
+      grid-template-columns: subgrid
+
+      > *
+        grid-column: 1 / -1
+
+    .op-border-box-grid--with-actions
+      grid-template-columns: subgrid
+
 @media screen and (max-width: $breakpoint-md)
   .op-border-box-grid
-    grid-template-columns: 1fr auto
+    grid-template-columns: minmax(0, 1fr) auto
     grid-auto-flow: row
 
     &--has-headers

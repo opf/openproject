@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -236,7 +235,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_no_css(".op-border-box-list-header--heading-line .Truncate")
     end
 
-    it "keeps the list labelled by a header that contains the title text" do
+    it "keeps the list labeled by a header that contains the title text" do
       rendered = render_inline(
         described_class.new(container: "hdr-breadcrumbs-label")
       ) do |list|
@@ -1322,5 +1321,16 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(page).to have_css("ul > li", count: 1)
       expect(page).to have_no_css("ul [data-empty-list-item]")
     end
+  end
+
+  it "forwards drag handle arguments to the handle only" do
+    rendered = render_inline(described_class.new(container: "sortable-header")) do |list|
+      list.with_header(title: "Types", show_drag_handle: true,
+                       drag_handle_arguments: { data: { sortable_lists__item_target: "handle" } })
+    end
+
+    expect(rendered).to have_css(".DragHandle[data-sortable-lists--item-target='handle']")
+    expect(rendered).to have_no_css(".Box-header[data-sortable-lists--item-target]")
+    expect(rendered).to have_no_css("[drag_handle_arguments]")
   end
 end

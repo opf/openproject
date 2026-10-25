@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -103,7 +102,20 @@ class CustomValue < ApplicationRecord
   end
 
   def validate_presence_of_required_value
-    errors.add(:value, :blank) if custom_field.required? && !strategy.value_present?
+    errors.add(:value, :blank) if value_required? && !strategy.value_present?
+  end
+
+  ##
+  # Custom fields can be required for two reasons:
+  # 1. They are globally required by an admin in the custom field itself
+  # 2. The customized object allows defining required state somewhere else
+  #    (e.g., work packages use required attributes in the type/variant form configuration)
+  def value_required?
+    if customized
+      customized.custom_field_required?(custom_field)
+    else
+      custom_field.required?
+    end
   end
 
   def validate_format_of_value

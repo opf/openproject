@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,6 +31,7 @@ require "will_paginate"
 
 module PaginationHelper
   SHOW_MORE_DEFAULT_LIMIT = 5
+  SHOW_MORE_PAST_DEFAULT_LIMIT = 15
   SHOW_MORE_DEFAULT_INCREMENT = 20
   SHOW_MORE_MAX_LIMIT = 1000
 
@@ -107,8 +107,8 @@ module PaginationHelper
 
   ##
   # Paginate an AR relation for the "show more" pagination functionality
-  def show_more_pagination(paginator, limit: nil)
-    paginator.paginate(page: 1, per_page: show_more_limit_param(limit:))
+  def show_more_pagination(paginator, limit: nil, initial_limit: SHOW_MORE_DEFAULT_LIMIT)
+    paginator.paginate(page: 1, per_page: show_more_limit_param(limit:, initial_limit:))
   end
 
   private

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,10 @@
 module WorkPackageTypes
   module FormConfigurationComponentStreams
     extend ActiveSupport::Concern
+
+    included do
+      helper_method :form_editor_context
+    end
 
     private
 
@@ -50,7 +53,7 @@ module WorkPackageTypes
 
       update_via_turbo_stream(
         component: WorkPackageTypes::FormConfiguration::MainContentComponent.new(
-          variant: @variant,
+          context: form_editor_context,
           group_components:,
           ee_available:
         )
@@ -60,8 +63,8 @@ module WorkPackageTypes
     def update_inactive_attributes_via_turbo_stream
       replace_via_turbo_stream(
         component: WorkPackageTypes::FormConfiguration::InactiveAttributesListComponent.new(
-          inactive_attributes: form_configuration_groups(@variant)[:inactives],
-          variant: @variant
+          inactive_attributes: form_configuration_groups(form_editor_context)[:inactives],
+          context: form_editor_context
         ),
         target: "type-form-configuration-inactive-container"
       )
@@ -77,7 +80,7 @@ module WorkPackageTypes
 
         WorkPackageTypes::FormConfiguration::GroupComponent.new(
           group:,
-          variant: @variant,
+          context: form_editor_context,
           ee_available:,
           first: index.zero?,
           last: index == groups.length - 1,
@@ -88,7 +91,12 @@ module WorkPackageTypes
     end
 
     def active_groups_for_form
-      form_configuration_groups(@variant)[:actives].reject { |group| group[:key].to_s == "__empty" }
+      form_configuration_groups(form_editor_context)[:actives].reject { |group| group[:key].to_s == "__empty" }
+    end
+
+    def form_editor_context
+      @form_editor_context ||= WorkPackageTypes::FormConfiguration::EditorContext
+                                 .for_variant(@variant, scope_project: variant_scope_project)
     end
   end
 end

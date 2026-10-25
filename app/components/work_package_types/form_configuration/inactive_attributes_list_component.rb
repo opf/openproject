@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,9 +32,9 @@ module WorkPackageTypes
     class InactiveAttributesListComponent < ApplicationComponent
       include OpTurbo::Streamable
 
-      def initialize(variant:, inactive_attributes:)
+      def initialize(context:, inactive_attributes:)
         super
-        @variant = variant
+        @context = context
         @inactive_attributes = inactive_attributes
       end
 
@@ -59,8 +58,7 @@ module WorkPackageTypes
           attr_is_cf: attribute[:is_cf],
           "draggable-id": attribute[:key],
           "draggable-type": "attribute",
-          "drop-url": drop_type_form_configuration_row_path(type_id: @variant.type_id, variant_id: @variant.id,
-                                                            row_key: attribute[:key])
+          "drop-url": @context.row_path(:drop, row_key: attribute[:key])
         }
       end
     end

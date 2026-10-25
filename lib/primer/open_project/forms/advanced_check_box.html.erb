@@ -3,21 +3,20 @@
     <div class="FormControl-advanced-checkbox-content">
       <%= builder.check_box(@input.name, @input.input_arguments, checked_value, unchecked_value) %>
       <div>
-        <div class="FormControl-advanced-checkbox-label-text"><%= @input.label %></div>
+        <div class="FormControl-advanced-checkbox-label-text">
+          <% if @input.leading_icon.present? %>
+            <%= render(Primer::Beta::Octicon.new(icon: @input.leading_icon, classes: "FormControl-advanced-checkbox-icon", "aria-hidden": true)) %>
+          <% end %>
+          <span><%= @input.label %></span>
+        </div>
         <% if @input.form_control? %>
           <div class="mt-1">
             <%= render(Caption.new(input: @input)) %>
           </div>
         <% end %>
       </div>
-      <% if @input.icon.present? %>
-        <%=
-          inline_svg_tag(
-            @input.icon,
-            class: "FormControl-advanced-checkbox-icon",
-            aria_hidden: true
-          )
-        %>
+      <% if @input.trailing_image.present? %>
+        <%= inline_svg_tag(@input.trailing_image, class: "FormControl-advanced-checkbox-icon", aria_hidden: true) %>
       <% end %>
     </div>
   <% end %>

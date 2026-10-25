@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -53,6 +52,10 @@ module OpPrimer
       raise SubclassResponsibilityError
     end
 
+    def default_button_style
+      :background_muted
+    end
+
     def disabled?
       @disabled
     end
@@ -70,10 +73,11 @@ module OpPrimer
 
     def button_arguments
       title = @button_arguments.fetch(:title) { default_button_title }
+      style = @button_arguments.fetch(:style) { default_button_style }
 
       {
         title:,
-        classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, :background)),
+        classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, style)),
         disabled: disabled?,
         aria: {
           label: title
@@ -83,10 +87,14 @@ module OpPrimer
 
     def highlight_class_name(status, style)
       case style
-      when :inline
-        helpers.hl_inline_class(status.color_namespace, status.color_ref)
+      when :dot
+        helpers.hl_dot_class(status.color_namespace, status.color_ref)
+      when :foreground
+        helpers.hl_foreground_class(status.color_namespace, status.color_ref)
       when :background
         helpers.hl_background_class(status.color_namespace, status.color_ref)
+      when :background_muted
+        helpers.hl_background_muted_class(status.color_namespace, status.color_ref)
       end
     end
   end

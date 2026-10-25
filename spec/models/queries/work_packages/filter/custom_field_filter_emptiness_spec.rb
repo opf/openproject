@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
     described_class.create!(name: custom_field.column_name, operator:, values: [], context: query)
   end
 
-  let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+  let(:project) { create(:project, types: [type]) }
   let(:type) { create(:type_task, custom_fields: [custom_field]) }
 
   let!(:wp_with_value) { create(:work_package, type:, project:, custom_values: { custom_field.id => "foo" }) }

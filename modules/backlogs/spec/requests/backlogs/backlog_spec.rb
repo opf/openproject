@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -77,6 +76,12 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response.body).to include('data-controller="backlogs--list-refresh backlogs--split-view-sync sortable-lists"')
       expect(response.body).to include(
         %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
+      )
+      expect(response.body).to include(
+        %(data-sortable-lists-collection-move-url-value="/projects/#{project.identifier}/backlogs/work_packages/move")
+      )
+      expect(response.body).to include(
+        'data-sortable-lists-move-announcement-scope-value="js.backlogs.announcements"'
       )
       expect(response.body).to include(
         "data-sortable-lists-sortable-lists--list-outlet=" \
@@ -154,6 +159,43 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
           expect(response.body).to include(%(data-test-selector="backlog-bucket-#{backlog_bucket.id}"))
           expect(response.body).to include('data-sortable-lists--list-type-value="backlog_bucket"')
           expect(response.body).to include(%(data-sortable-lists--list-id-value="#{backlog_bucket.id}"))
+        end
+      end
+
+      context "when a bucket filter hides the inbox" do
+        shared_let(:backlog_bucket) { create(:backlog_bucket, project:) }
+
+        it "still renders the shared selection description" do
+          get "/projects/#{project.identifier}/backlogs/backlog",
+              params: { bucket_ids: backlog_bucket.id.to_s.to_json },
+              headers: { "Turbo-Frame" => "backlogs_container" }
+
+          expect(response).to have_http_status(:ok)
+          # The inbox itself is filtered out...
+          expect(response.body).not_to include(%(id="inbox_project_#{project.id}"))
+          # ...but the shared description survives for the lists that remain.
+          expect(response.body).to include(%(id="#{Backlogs::SelectionDescriptionComponent::DESCRIPTION_ID}"))
+        end
+      end
+
+      # With every card fixed, opting in would only cost the viewer their
+      # Space, arrow, Home/End and Ctrl/Cmd+A keys.
+      context "when the user cannot manage sprint items" do
+        shared_let(:viewer_role) do
+          create(:project_role, permissions: %i[view_sprints view_work_packages])
+        end
+        shared_let(:viewer) { create(:user, member_with_roles: { project => viewer_role }) }
+
+        current_user { viewer }
+
+        # A full page load, not a frame request: the sortable root and its
+        # selection values live on the wrapper in show.html.erb, which a
+        # Turbo-Frame request never renders.
+        it "does not enable batch selection" do
+          get "/projects/#{project.identifier}/backlogs/backlog"
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('data-sortable-lists-selection-enabled-value="false"')
         end
       end
     end

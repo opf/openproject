@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -33,7 +32,7 @@ FactoryBot.define do
     ignore_non_working_days { false }
     # The following properties are not actually valid.
     # They were added when the default value (also 0) was removed and too many
-    # tests relied on this behaviour for it to be fixed right away.
+    # tests relied on this behavior for it to be fixed right away.
     subject { "abc" }
     type_id { 0 }
     project_id { 0 }

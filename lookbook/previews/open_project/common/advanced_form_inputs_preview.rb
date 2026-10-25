@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,7 +48,7 @@ module OpenProject
       # and the previous value is silently preserved.
       #
       # Pass `include_hidden: true` to emit a hidden sentinel field before the
-      # checkboxes. This mirrors the behaviour of Rails' own `check_box` helper
+      # checkboxes. This mirrors the behavior of Rails' own `check_box` helper
       # and ensures the key is always present in params — as an empty array when
       # nothing is checked — so the server can save the empty selection correctly.
       def check_box_group_with_include_hidden

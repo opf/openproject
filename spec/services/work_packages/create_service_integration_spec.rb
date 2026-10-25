@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -365,14 +364,29 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
-  describe "generating the subject from a pattern when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "generating the subject from a pattern containing labels", with_flag: { work_package_labels: true } do
+    let(:type) do
+      create(:type, patterns: { subject: { blueprint: "Labeled: {{labels}}", enabled: true } })
+    end
+    let(:frontend_label) { create(:label, name: "Frontend") }
+    let(:bug_label) { create(:label, name: "Bug") }
+    let(:attributes) do
+      { project:, type:, status: default_status, priority: default_priority, label_ids: [frontend_label.id, bug_label.id] }
+    end
+
+    it "includes the labels assigned on creation" do
+      expect(service_result).to be_success
+      expect(new_work_package.reload.subject).to eq("Labeled: Frontend, Bug")
+    end
+  end
+
+  describe "generating the subject from a pattern when the project resolves the type to a variant" do
     let(:family_root) do
       create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
     end
     let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+        link_configuration(named, aspect: TypeVariant::DEFAULTS)
       end
     end
     let(:project) { create(:project, types: [variant, default_type]) }

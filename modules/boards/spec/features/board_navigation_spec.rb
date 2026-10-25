@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -82,7 +81,7 @@ RSpec.describe "Work Package boards spec",
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     expect(page).to have_current_path /details\/#{wp.id}/
@@ -139,7 +138,7 @@ RSpec.describe "Work Package boards spec",
     expect(wp.subject).to eq "Task 1"
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
     split_view.switch_to_tab tab: :relations
     expect(page).to have_current_path /details\/#{wp.id}\/relations/
@@ -170,7 +169,7 @@ RSpec.describe "Work Package boards spec",
     expect(wp.subject).to eq "Task 1"
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     page.driver.refresh
@@ -195,7 +194,7 @@ RSpec.describe "Work Package boards spec",
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     # Go to full view of WP

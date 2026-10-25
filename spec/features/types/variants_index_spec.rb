@@ -22,20 +22,28 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package variants index", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package variants index", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:feature_type) { create(:type, name: "Feature") }
   shared_let(:zeta_variant) { create(:type_variant, type: bug_type, variant_name: "Zeta variant") }
   shared_let(:alfa_variant) { create(:type_variant, type: bug_type, variant_name: "Alpha variant") }
+
+  let(:index_page) { Pages::Types::Index.new }
+
+  let(:banner_text) do
+    I18n.t("types.index.migrated_variants_banner.text",
+           label: I18n.t("types.index.created_by_migration"))
+        .sub(/\[.+\z/m, "")
+        .squish
+  end
 
   before { login_as(admin) }
 
@@ -45,11 +53,10 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(page).to have_text(bug_type.name)
     expect(page).to have_text(feature_type.name)
 
-    expect(page).to have_css("[data-draggable-id='#{bug_type.id}'] .DragHandle", visible: :all)
-    expect(page).to have_css("[data-draggable-id='#{feature_type.id}'] .DragHandle", visible: :all)
-
-    variant_row = page.find(".Box-row", text: alfa_variant.variant_name, visible: :all)
-    expect(variant_row).to have_no_css(".DragHandle", visible: :all)
+    [bug_type, feature_type].each do |type|
+      expect(index_page.type_group(type))
+        .to have_button(accessible_name: "Drag to reorder", count: 1, visible: :all)
+    end
   end
 
   it "links a type's header to its settings page" do
@@ -63,18 +70,18 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
     expect(page).to have_link(
       alfa_variant.variant_name,
-      href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+      href: type_variant_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
     )
   end
 
   it "counts a type's named variants in a badge on its header" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    index_page.within_type_header(bug_type) do
       expect(page).to have_css(".Counter", text: "2")
     end
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    index_page.within_type_header(feature_type) do
       expect(page).to have_no_css(".Counter")
     end
   end
@@ -84,11 +91,11 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
     visit types_path
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    index_page.within_type_header(feature_type) do
       expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    index_page.within_type_header(bug_type) do
       expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
   end
@@ -96,11 +103,10 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   it "offers configure, move and delete on a type" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      expect(page).to have_link(I18n.t(:button_configure))
-      expect(page).to have_button(I18n.t(:button_move))
-      expect(page).to have_button(I18n.t(:button_delete))
+    index_page.within_actions_menu(bug_type) do |menu|
+      expect(menu).to have_selector(:menuitem, "Configure")
+      expect(menu).to have_selector(:menuitem, "Move", exact: true)
+      expect(menu).to have_selector(:menuitem, "Delete")
     end
   end
 
@@ -112,7 +118,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
       expect(page).to have_link(
         I18n.t(:button_configure),
-        href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+        href: type_variant_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
       )
       expect(page).to have_button(I18n.t(:button_delete))
     end
@@ -136,23 +142,24 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   it "adds a variant to a type from the group's add-variant row" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}']") do
+    within(index_page.type_group(bug_type)) do
       click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
 
     expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
     click_on I18n.t(:button_continue)
 
-    expect(bug_type.reload.variants.non_default_variants.pluck(:variant_name))
+    wait_for { bug_type.reload.variants.non_default_variants.pluck(:variant_name) }
       .to contain_exactly("Alpha variant", "Zeta variant", "Hardware")
   end
 
   it "returns to the index when the add-variant wizard is cancelled" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}']") do
+    within(index_page.type_group(bug_type)) do
       click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
 
@@ -166,25 +173,20 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   it "duplicates a type from its action menu" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t(:button_duplicate)
-    end
+    index_page.within_actions_menu(bug_type) { |menu| menu.find(:menuitem, "Duplicate").click }
 
     expect(page).to have_text(I18n.t("types.index.duplicate_notice", name: bug_type.name))
     expect(page).to have_text(I18n.t("types.index.duplicate_name", name: bug_type.name))
     expect(Type.exists?(name: I18n.t("types.index.duplicate_name", name: bug_type.name))).to be(true)
   end
 
+  # Native HTML5 drag and drop needs CDP drag interception on Cuprite (AGILE-335)
   it "reorders types via drag and drop", :selenium do
     visit types_path
 
     expect(bug_type.position).to be < feature_type.position
 
-    drag_handle = page.find("[data-draggable-id='#{feature_type.id}'] .DragHandle")
-    target = page.find("[data-draggable-id='#{bug_type.id}']")
-
-    drag_n_drop_element(from: drag_handle, to: target)
+    wait_for_turbo_stream { index_page.drag(feature_type, before: bug_type) }
 
     wait_for { feature_type.reload.position }.to be < bug_type.reload.position
   end
@@ -194,13 +196,9 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
     expect(bug_type.position).to be < feature_type.position
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t(:button_move)
-      click_on I18n.t(:label_sort_highest)
-    end
+    index_page.move(feature_type, "Move to top")
 
-    expect(page).to have_text(I18n.t(:notice_successful_update))
+    expect(page).to have_text("Successful update.")
     expect(feature_type.reload.position).to be < bug_type.reload.position
   end
 
@@ -217,7 +215,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
         click_on I18n.t(:button_delete)
       end
 
-      within("##{WorkPackageTypes::Types::DeletionDialogComponent::DIALOG_ID}") do
+      within("##{WorkPackageTypes::Types::VariantDeletionDialogComponent::DIALOG_ID}") do
         select alfa_variant.composite_name, from: I18n.t("projects.settings.types.switch.target_label")
         click_on I18n.t(:button_delete)
       end
@@ -226,5 +224,139 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       expect { zeta_variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(project.project_types.find_by(type: bug_type).variant).to eq(alfa_variant)
     end
+  end
+
+  it "filters the listed types by name" do
+    visit types_path
+
+    expect(page).to have_text(bug_type.name)
+
+    index_page.filter_by_name("Feature")
+
+    expect(page).to have_text(feature_type.name)
+    expect(page).to have_no_text(bug_type.name)
+  end
+
+  it "leaves the search field alone while the list reloads" do
+    visit types_path
+
+    index_page.filter_by_name("Feature")
+
+    expect(page).to have_no_text(bug_type.name)
+    expect(page).to have_css("input[name='query']:focus")
+  end
+
+  it "takes the move actions away while the name filter is on" do
+    visit types_path
+
+    index_page.filter_by_name("Feature")
+
+    expect(page).to have_no_text(bug_type.name)
+
+    index_page.within_actions_menu(feature_type) do
+      expect(page).to have_selector(:menuitem, I18n.t(:button_delete), exact: true)
+      expect(page).to have_no_selector(:menuitem, I18n.t(:button_move), exact: true)
+    end
+
+    expect(index_page.type_group(feature_type))
+      .to have_no_selector(:button, accessible_name: I18n.t("drag_handle.button_drag"))
+  end
+
+  it "says so when the name filter matches no type" do
+    visit types_path
+
+    index_page.filter_by_name("Nothing by this name")
+
+    expect(page).to have_text(I18n.t("types.index.filter_no_results"))
+  end
+
+  it "labels a variant a migration created" do
+    converted = create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+
+    visit types_path(expand: bug_type.id)
+
+    within(".Box-row", text: converted.variant_name) do
+      expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
+    end
+
+    within(".Box-row", text: alfa_variant.variant_name) do
+      expect(page).to have_no_css(".Label--attention")
+    end
+  end
+
+  it "finds a type by one of its variant names, listing the matching variants only" do
+    visit types_path
+
+    index_page.filter_by_name(zeta_variant.variant_name)
+
+    expect(page).to have_text(bug_type.name)
+    expect(page).to have_no_text(feature_type.name)
+    expect(page).to have_link(
+      zeta_variant.variant_name,
+      href: type_variant_settings_path(type_id: bug_type.id, variant_id: zeta_variant.id)
+    )
+    expect(page).to have_no_text(alfa_variant.variant_name)
+  end
+
+  it "lists every variant of a type the name filter matches by its own name" do
+    visit types_path
+
+    index_page.filter_by_name(bug_type.name)
+
+    expect(page).to have_text(zeta_variant.variant_name)
+    expect(page).to have_text(alfa_variant.variant_name)
+  end
+
+  describe "the migration filter" do
+    shared_let(:converted) do
+      create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+    end
+
+    def filter_migrated
+      within_test_selector("types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+    end
+
+    it "narrows the list to the variants a migration created" do
+      visit types_path
+
+      filter_migrated
+
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(zeta_variant.variant_name)
+      expect(page).to have_no_text(feature_type.name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+    end
+
+    it "carries the filter into a type's project-specific variants" do
+      project = create(:project, types: [bug_type])
+      create(:project_owned_type_variant, type: bug_type, project:, variant_name: "Owned",
+                                          created_by_migration: true)
+      create(:project_owned_type_variant, type: bug_type, project:, variant_name: "Authored")
+
+      visit types_path
+
+      filter_migrated
+
+      expect(page).to have_link(I18n.t("types.index.project_variants_count", count: 1),
+                                href: type_variants_path(type_id: bug_type.id, created_by_migration: "t"))
+    end
+  end
+
+  it "explains on a banner what the migrated variants are" do
+    create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+
+    visit types_path
+
+    expect(page).to have_test_selector("migrated-variants-banner", text: banner_text)
+  end
+
+  it "leaves the banner and the migration filter out when no variant came from a migration" do
+    visit types_path
+
+    expect(page).to have_no_test_selector("migrated-variants-banner")
+    expect(page).to have_no_test_selector("types-migration-filter")
   end
 end

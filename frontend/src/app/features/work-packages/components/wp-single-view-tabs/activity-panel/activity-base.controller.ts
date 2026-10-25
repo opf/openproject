@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectorRef, Directive, OnInit, inject } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -43,7 +41,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   readonly apiV3Service = inject(ApiV3Service);
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly storeService = inject(WpSingleViewService);
   readonly browserDetector = inject(BrowserDetector);
   readonly deviceService = inject(DeviceService);

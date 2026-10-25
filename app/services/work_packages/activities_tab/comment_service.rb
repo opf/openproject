@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 module WorkPackages
   module ActivitiesTab
     # Builds and runs the service behind a comment write, resolving the note body
-    # (mentions are sanitised only for internal comments) and coercing the request
+    # (mentions are sanitized only for internal comments) and coercing the request
     # flags. Callers handle the returned ServiceResult; this owns how a comment is
     # written.
     class CommentService

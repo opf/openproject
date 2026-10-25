@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,13 +22,12 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class Budgets::ActualMaterialBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Budgets::ActualMaterialBudgetItemsComponent < ApplicationComponent
   options :budget, :project
 
   def by_work_package_and_cost_entry
@@ -36,7 +35,8 @@ class Budgets::ActualMaterialBudgetItemsComponent < ApplicationComponent # ruboc
       .cost_entries
       .visible(User.current)
       .includes(:cost_type)
-      .group_by(&:work_package)
+      .where(entity_type: "WorkPackage")
+      .group_by(&:entity)
       .each do |work_package, cost_entries|
         consolidate_cost_entries(cost_entries).each do |c|
           yield work_package, c

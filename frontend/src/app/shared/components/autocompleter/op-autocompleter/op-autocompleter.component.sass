@@ -1,58 +1,43 @@
-@import '../../global_styles/openproject/variables'
+@import "helpers"
 
 .op-autocompleter
-  &--option-wrapper
+  &--wp-wrapper
     padding: 5px 5px
     line-height: 15px
     min-height: 25px  // line-height + padding
     word-break: break-word
-    display: grid
-    grid-template-columns: auto 1fr
-    grid-template-rows: 1fr 1fr
 
-  &--option-principal
-    margin-right: 5px
-    float: left
-    grid-column-start: 1
-    grid-column-end: 2
-    grid-row-start: 1
-    grid-row-end: 3
-
-  &--option-principal-fallback
-    background-color: var(--bgColor-neutral-muted)
-    border-color: var(--borderColor-default)
-    color: var(--fgColor-muted)
-
-  &--wp-content
-    display: grid
-    grid-template-columns: 50% 1fr auto
-    grid-template-areas: "project idlink status"
-    font-size: 0.8rem
-    padding: 1px 0 5px 0
-
-  &--wp-project
-    grid-area: project
-    display: inline-block
-    overflow: hidden
+  &--wp-line
+    display: flex
+    flex-wrap: nowrap
+    gap: var(--base-size-8)
+    font-size: var(--text-body-size-small)
     white-space: nowrap
-    text-overflow: ellipsis
+    overflow: hidden
+    margin-bottom: var(--base-size-4)
 
   &--wp-id
-    grid-area: idlink
-    font-style: italic
-    margin: 0 0.5rem
+    color: var(--fgColor-muted)
+    font-size: var(--text-body-size-small)
+    white-space: nowrap
 
   &--wp-status
-    grid-area: status
+    display: inline-flex
+    align-items: center
     overflow: hidden
-    font-style: italic
+
+  &--wp-project
+    flex-shrink: 1
+    min-width: 0
+    max-width: 100%
+    @include text-shortener
 
   &--wp-subject
     font-weight: var(--base-text-weight-bold)
     display: inline-block
-    overflow: hidden
-    white-space: nowrap
-    text-overflow: ellipsis
+    white-space: normal
+    overflow-wrap: break-word
+    line-height: 1.5
 
   &__option-principal-email
     color: var(--fgColor-muted)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -96,7 +95,7 @@ class WikiPage < ApplicationRecord
   end
 
   # Using a hook will not allow us to retry the call
-  # rubocop:disable Rails/ActiveRecordOverride
+  # rubocop:disable-next Rails/ActiveRecordOverride
   def destroy
     super
   rescue ActiveRecord::StaleObjectError
@@ -105,7 +104,6 @@ class WikiPage < ApplicationRecord
     reload
     super
   end
-  # rubocop:enable Rails/ActiveRecordOverride
 
   def delete_wiki_menu_item
     menu_item&.destroy

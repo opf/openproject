@@ -1,14 +1,13 @@
 @if (resource) {
   <div class="op-subtask-board-header">
     <h2 class="editable-toolbar-title--fixed">
-      <small [textContent]="text.workPackage"></small>
+      <small class="op-subtask-board-header--work-package-type"
+            [ngClass]="typeHighlightingClass"
+            [textContent]="resource.type.name">
+      </small>
       <br/>
-      <span class="op-subtask-board-header--work-package-type"
-        [ngClass]="typeHighlightingClass"
-        [textContent]="resource.type.name">
-      </span>
       <a [href]="pathHelper.workPackagePath(idFromLink(resource.href))"
-        [textContent]="resource.subjectWithId()"
+        [textContent]="resource.subjectWithId(55)"
         target="_blank">
       </a>
     </h2>

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -51,8 +50,8 @@ RSpec.describe ResourceAllocations::CreateContract do
       expect(contract.writable?(:entity)).to be(true)
     end
 
-    it "allows principal, state, dates, allocated_time, and user_filter" do
-      %i[principal principal_explicit state start_date end_date allocated_time user_filter].each do |attr|
+    it "allows principal, placeholder_user, state, dates and allocated_time" do
+      %i[principal placeholder_user state start_date end_date allocated_time].each do |attr|
         expect(contract.writable?(attr)).to be(true), "expected #{attr} to be writable"
       end
     end

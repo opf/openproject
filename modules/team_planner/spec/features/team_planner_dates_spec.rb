@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe "Team planner working days",
   context "with week days defined" do
     let!(:week_days) { week_with_saturday_and_sunday_as_weekend }
 
-    it 'hides sat and sun in the "Work week" view andd renders sat and sun as non working in the "1-week" view' do
+    it 'hides sat and sun in the "Work week" view and renders sat and sun as non working in the "1-week" view' do
       team_planner.visit!
 
       team_planner.wait_for_loaded

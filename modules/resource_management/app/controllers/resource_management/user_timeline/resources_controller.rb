@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ module ResourceManagement
   module UserTimeline
     class ResourcesController < FeedsController
       def index
-        overbooked = overbooked_ranges_by_principal.keys.to_set
+        overbooked = overbooked_principal_ids
         scheduled = scheduled_principal_ids
         preload_user_details
 
@@ -53,6 +52,10 @@ module ResourceManagement
 
       private
 
+      def overbooked_principal_ids
+        availabilities_by_principal.select { |_id, availability| availability.overbooked? }.keys.to_set
+      end
+
       # Eager-load everything the resource cell reads off each user, so rendering
       # the rows stays a fixed number of queries regardless of the user count.
       def preload_user_details
@@ -63,17 +66,9 @@ module ResourceManagement
 
       def render_cell(user, overbooked:, schedule_missing:)
         ResourcePlannerViews::UserTimeline::ResourceCellComponent
-          .new(user:, overbooked:, schedule_missing:, job_title_field:,
+          .new(user:, overbooked:, schedule_missing:,
                project: @project, resource_planner: @resource_planner, view: @view)
           .render_in(view_context)
-      end
-
-      # The "job title" custom field is the same for every user, so resolve it
-      # once per request rather than per cell.
-      def job_title_field
-        return @job_title_field if defined?(@job_title_field)
-
-        @job_title_field = UserCustomField.for_semantic_key(:job_title)
       end
     end
   end
