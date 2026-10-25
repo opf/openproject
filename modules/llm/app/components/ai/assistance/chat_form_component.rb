@@ -52,6 +52,19 @@ module AI
         chat&.pending?
       end
 
+      # A skill that answers at once shows only its answer, until the user chooses to chat about it.
+      def collapsed?
+        !skill.chat? && chat.present? && chat.messages.none?(&:from_user?)
+      end
+
+      def wrapper_data
+        collapsed? ? { controller: "ai-assistance--chat-form" } : {}
+      end
+
+      def chat_control_arguments
+        collapsed? ? { classes: "d-none", data: { "ai-assistance--chat-form-target": "control" } } : {}
+      end
+
       def send_path
         url_helpers.messages_ai_assistance_chat_path(place.url_params)
       end

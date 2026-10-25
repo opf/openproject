@@ -29,7 +29,7 @@
   ++#
 %>
 
-<%= component_wrapper(class: "width-full") do %>
+<%= component_wrapper(class: "width-full", data: wrapper_data) do %>
   <% if read_only %>
     <%= render(Primer::Box.new(display: :flex, align_items: :center, data: { test_selector: "ai-assistance-chat-read-only" })) do %>
       <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, flex: 1)) { t("ai_assistance.chat.not_offered") } %>
@@ -41,12 +41,23 @@
       <% if chat %>
         <%= hidden_field_tag :chat_id, chat.id %>
       <% end %>
-      <%= render(Primer::Alpha::TextArea.new(name: :content, label: t("ai_assistance.chat.question"), visually_hide_label: true,
-                                             placeholder:,
-                                             rows: 2, full_width: true, disabled: pending?)) %>
-      <%= render(Primer::Box.new(display: :flex, align_items: :center, mt: 2)) do %>
+      <%= render(Primer::Box.new(mb: 2, **chat_control_arguments)) do %>
+        <%= render(Primer::Alpha::TextArea.new(name: :content, label: t("ai_assistance.chat.question"), visually_hide_label: true,
+                                               placeholder:,
+                                               rows: 2, full_width: true, disabled: pending?)) %>
+      <% end %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center)) do %>
+        <% if collapsed? %>
+          <%= render(Primer::Beta::Button.new(type: :button, disabled: pending?,
+                                              data: { "ai-assistance--chat-form-target": "openButton",
+                                                      action: "ai-assistance--chat-form#open",
+                                                      test_selector: "ai-assistance-chat-about" })) do |button| %>
+            <% button.with_leading_visual_icon(icon: :"comment-discussion") %>
+            <%= t("ai_assistance.chat.chat_about_this") %>
+          <% end %>
+        <% end %>
         <%= render(Primer::Beta::Button.new(type: :submit, scheme: :invisible, formaction: new_chat_path, formnovalidate: true,
-                                            data: { test_selector: "ai-assistance-new-chat" })) do |button| %>
+                                            **chat_control_arguments.deep_merge(data: { test_selector: "ai-assistance-new-chat" }))) do |button| %>
           <% button.with_leading_visual_icon(icon: :plus) %>
           <%= t("ai_assistance.chat.new") %>
         <% end %>
@@ -59,7 +70,8 @@
         <% end %>
         <%= render(Primer::Box.new(flex: 1)) %>
         <%= render(Primer::Beta::Button.new(type: :button, mr: 2, data: { close_dialog_id: dialog_id })) { t(:button_close) } %>
-        <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, disabled: pending?, data: { test_selector: "ai-assistance-chat-send" })) do |button| %>
+        <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, disabled: pending?,
+                                            **chat_control_arguments.deep_merge(data: { test_selector: "ai-assistance-chat-send" }))) do |button| %>
           <% button.with_leading_visual_icon(icon: :"paper-airplane") %>
           <%= t("ai_assistance.chat.send") %>
         <% end %>

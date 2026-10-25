@@ -57,6 +57,30 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
       expect(chat.messages.map(&:role)).to eq(%w[start assistant])
     end
 
+    it "hides the question field behind a Chat about this button" do
+      request
+
+      expect(response.body).to have_turbo_stream(action: "dialog") do
+        assert_select "[data-test-selector='ai-assistance-chat-about']"
+        assert_select "[data-ai-assistance--chat-form-target='control'] textarea[name='content']"
+        assert_select "[data-test-selector='ai-assistance-chat-send'].d-none"
+      end
+    end
+
+    it "shows the question field once the user asked about the answer" do
+      request
+      chat = AI::AssistantChat.for(user, AI::Assistance::Place.new(work_package:)).sole
+      chat.messages.update_all(status: "done")
+      create(:ai_assistant_chat_message, chat:, role: "user", content: "Why?")
+
+      get base, params: { **place, skill_id: skill.id }, as: :turbo_stream
+
+      expect(response.body).to have_turbo_stream(action: "dialog") do
+        assert_select "[data-test-selector='ai-assistance-chat-about']", count: 0
+        assert_select "[data-test-selector='ai-assistance-chat-send']:not(.d-none)"
+      end
+    end
+
     context "when the last start of the skill is still answering" do
       it "opens that chat and starts nothing new" do
         post "#{base}/start", params: { **place, skill_id: skill.id }, as: :turbo_stream

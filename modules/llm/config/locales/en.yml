@@ -342,6 +342,7 @@ en:
     button: "AI Assistance"
     chat:
       answering: "%{assistant} is writing an answer…"
+      chat_about_this: "Chat about this"
       tool_step: "%{tool} (%{arguments})"
       copy: "Copy the answer"
       empty_answer: "(The model gave no answer.)"
