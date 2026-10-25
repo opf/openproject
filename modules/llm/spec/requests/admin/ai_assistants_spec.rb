@@ -40,7 +40,7 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
   current_user { admin }
 
   describe "GET /admin/ai_assistants" do
-    it "lists one section per assistant, global first, with its owner linked and its skills" do
+    it "lists one section per global and group assistant, global first, with its owner linked and its skills" do
       skill = create(:ai_assistant_skill, assistant: global_assistant, label: "Check it", offered_on: "everywhere")
       group = create(:group, lastname: "Release team")
       create(:ai_assistant, name: "Team helper", principal: group)
@@ -49,13 +49,12 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
 
       expect(response).to have_http_status(:ok)
       page = response.parsed_body
-      expect(page.css("[data-test-selector='ai-assistant-section']").size).to eq(3)
+      expect(page.css("[data-test-selector='ai-assistant-section']").size).to eq(2)
       expect(response.body.index("QA assistance")).to be < response.body.index("Team helper")
-      expect(response.body.index("Team helper")).to be < response.body.index("My helper")
+      expect(response.body).not_to include("My helper")
       owners = page.css("[data-test-selector='ai-assistant-owner']")
-      expect(owners.map { it.text.squish }).to eq(["Global", "Release team", "Ada Owner"])
+      expect(owners.map { it.text.squish }).to eq(["Global", "Release team"])
       expect(owners[1].at_css("a")["href"]).to eq(show_group_path(group))
-      expect(owners[2].at_css("a")["href"]).to eq(user_path(owner))
       expect(page.at_css("a[href='#{edit_admin_ai_assistant_skill_path(global_assistant, skill)}']").text).to include("Check it")
     end
 
@@ -97,26 +96,26 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
       expect(copy).to have_attributes(label: "Check it (copy)", icon: "bug", active: false, prompt: skill.prompt)
       expect(copy.position).to be > skill.position
     end
-
-    it "keeps the owner of a personal assistant" do
-      post copy_admin_ai_assistant_path(personal_assistant)
-
-      expect(AI::Assistant.find_by!(name: "My helper (copy)").principal).to eq(owner)
-    end
   end
 
   describe "a personal assistant" do
-    it "can be edited with a model, and keeps its owner" do
+    let!(:skill) { create(:ai_assistant_skill, assistant: personal_assistant) }
+
+    it "is not found, as it belongs to its user only" do
       get edit_admin_ai_assistant_path(personal_assistant)
+      expect(response).to have_http_status(:not_found)
 
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("personal assistant of Ada Owner", "ai_assistant[model_id]")
+      patch admin_ai_assistant_path(personal_assistant), params: { ai_assistant: { name: "Renamed" } }
+      expect(response).to have_http_status(:not_found)
 
-      patch admin_ai_assistant_path(personal_assistant),
-            params: { ai_assistant: { name: "Renamed", model_id: "test-model", active: "0" } }
+      post copy_admin_ai_assistant_path(personal_assistant)
+      expect(response).to have_http_status(:not_found)
 
-      expect(personal_assistant.reload).to have_attributes(name: "Renamed", model_id: "test-model",
-                                                           active: false, principal: owner)
+      get edit_admin_ai_assistant_skill_path(personal_assistant, skill)
+      expect(response).to have_http_status(:not_found)
+
+      expect(personal_assistant.reload.name).to eq("My helper")
+      expect(AI::Assistant.where(name: "My helper (copy)")).not_to exist
     end
   end
 

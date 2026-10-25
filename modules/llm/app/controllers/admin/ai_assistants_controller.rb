@@ -41,9 +41,9 @@ module Admin
 
     private
 
-    # All assistants, global and owned.
+    # Global and group assistants. Personal ones belong to their users only.
     def assistant_scope
-      AI::Assistant.includes(:principal)
+      AI::Assistant.global.or(AI::Assistant.for_groups).includes(:principal)
     end
 
     # An admin creates a global assistant, or one for a group. The owner never changes.

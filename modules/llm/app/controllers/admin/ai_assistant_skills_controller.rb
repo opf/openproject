@@ -42,7 +42,7 @@ module Admin
     private
 
     def assistant_scope
-      AI::Assistant.all
+      AI::Assistant.global.or(AI::Assistant.for_groups)
     end
   end
 end

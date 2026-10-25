@@ -95,7 +95,6 @@ en:
         confirm: "Delete this assistant, its skills and every run of them?"
       edit:
         group_banner: "This assistant belongs to the group %{group}. It shows only in the AI Assistance menu of the group's members."
-        personal_banner: "This is a personal assistant of %{user}. It shows only in their AI Assistance menu."
       form:
         instructions_caption: "Shared by every skill of this assistant, before the skill prompt: for example who the assistant helps and what their work is about."
         model_caption: "Empty uses the default chat model of the LLM connection."

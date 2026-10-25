@@ -63,13 +63,9 @@
   end
 %>
 
-<% if pages.admin? && @assistant.owned? %>
-  <%= render(Primer::Alpha::Banner.new(mb: 4, icon: @assistant.group? ? :people : :person)) do %>
-    <% if @assistant.group? %>
-      <%= t("admin.ai_assistants.edit.group_banner", group: @assistant.principal.name) %>
-    <% else %>
-      <%= t("admin.ai_assistants.edit.personal_banner", user: @assistant.principal.name) %>
-    <% end %>
+<% if pages.admin? && @assistant.group? %>
+  <%= render(Primer::Alpha::Banner.new(mb: 4, icon: :people)) do %>
+    <%= t("admin.ai_assistants.edit.group_banner", group: @assistant.principal.name) %>
   <% end %>
 <% end %>
 
