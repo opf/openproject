@@ -78,8 +78,6 @@ class Principal < ApplicationRecord
 
   has_many :persisted_views, inverse_of: :principal, dependent: :nullify
   has_many :persisted_queries, inverse_of: :principal, dependent: :nullify
-  # Personal and group assistants. The database removes their skills, runs and chats.
-  has_many :ai_assistants, class_name: "AI::Assistant", inverse_of: :principal, dependent: :delete_all
 
   has_paper_trail
 

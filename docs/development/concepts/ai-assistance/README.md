@@ -70,7 +70,7 @@ The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`
 
 The work package context (JSON) follows the system prompt. The message is the user's question, with the last 20 turns before it. An earlier answer is sent with a short list of its proposals and their state, so the model knows what it proposed.
 
-The skill page shows the full system prompt under the skill prompt field. It changes while the admin types (`ai-assistance--prompt-preview`), and its tool rule follows "Use OpenProject MCP tools". The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OPAssistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
+The skill page shows the full system prompt under the skill prompt field. It changes while the admin types (`ai-assistance--prompt-preview`), and its tool rule follows "Use OpenProject MCP tools". The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OPAssistant" with its instructions and two skills (`modules/llm/app/seeders/common.yml`): Refresh work package and Chat.
 
 ## Skills
 
@@ -104,7 +104,7 @@ A user can create their own assistants with their own skills at **My account →
 - **Menu:** a personal assistant shows only in its owner's menu, after the global assistants. When the owner loses the permission, the assistant stays, but it is not offered (`AI::Assistant#usable?`).
 - **Model:** `Llm::Runtime` resolves the model of the `:ai_assistance` feature, with the assistant's model as the override. An assistant model that the connection does not offer is ignored. Without an assistant model, the feature binding applies, then the connection default. A personal assistant has no model of its own. Only an admin can set a model, also on a personal assistant.
 - **Admin:** the admin list shows all assistants with their owner, and filters by owner (Global, Groups, Personal). The admin edits, deactivates and deletes personal assistants on the same pages.
-- **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `app/views/ai_assistants/` and `app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
+- **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `modules/llm/app/views/ai_assistants/` and `modules/llm/app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
 
 ## Skill conditions
 
@@ -224,16 +224,15 @@ Steps 21–26 replace runs with conversations. For review, they are best folded 
 
 Steps 1 and 2 are useful on their own and can merge first.
 
-## Split into a plugin
+## Module
 
-The code is built so that it can move into a module (`modules/ai_assistance`) without a rewrite. The header button already uses the plugin extension points: a view hook, a dynamic Stimulus controller (module controllers stay in the core `dynamic/` tree), and Angular services through the plugin context. The core files that a split must move or replace:
+The code is in the `openproject-llm` module (`modules/llm`), with the LLM connection it uses. The header button uses the plugin extension points: a view hook, a dynamic Stimulus controller (module controllers stay in the core `dynamic/` tree), and Angular services through the plugin context. The engine holds the feature flag, the LLM feature, the routes, the menus, the permissions, the inflections, the hook and the `Principal` and `User` associations. The basic data seeder is `BasicData::Llm::AiAssistantSeeder`, with its data and the role permission in `modules/llm/app/seeders/common.yml`.
 
-- `config/initializers/ai_assistance.rb` (loads the hook listener): goes into the engine's `config.to_prepare`.
-- `config/initializers/feature_decisions.rb`, `llm_features.rb`, `permissions.rb`, `menus.rb`, `zeitwerk.rb`, `config/routes.rb`, `config/locales/en.yml`: the AI Assistance entries go into the engine's `register` block, initializers, routes and locale file.
-- `app/models/principal.rb`, `app/models/user.rb` (associations): engine patches.
-- `app/models/journal.rb`, `lib/open_project/journal_formatter/cause.rb` (the `assistant_chat` cause): stay in core, as the meeting cause types do.
-- The Automations actions (Subject, Description, Comment, strict mode) and the MCP tool changes: stay in core as their own pull requests.
-- The seeders (`basic_data_seeder.rb`, `development_people_seeder.rb`, `common.yml`, `standard.yml`): module seeders or patches.
+These parts stay in core:
+
+- `app/models/journal.rb`, `lib/open_project/journal_formatter/cause.rb` (the `assistant_chat` cause), as the meeting cause types do.
+- The Automations actions (Subject, Description, Comment, strict mode) and the MCP tool changes, as their own pull requests.
+- The development data of the demo (`DevelopmentData::AiAssistantsSeeder`, the team, the workloads and the Refresh case, data in `standard.yml`), which the core seeders call.
 
 ## Follow-ups
 

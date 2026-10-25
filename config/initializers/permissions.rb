@@ -49,15 +49,6 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      contract_actions: { programs: %i[create] }
 
-      map.permission :manage_own_ai_assistants,
-                     {
-                       "my/ai_assistants": %i[index new create edit update destroy copy],
-                       "my/ai_assistant_skills": %i[new create edit update destroy copy]
-                     },
-                     permissible_on: :global,
-                     require: :loggedin,
-                     visible: -> { OpenProject::FeatureDecisions.ai_assistance_active? }
-
       map.permission :archive_project,
                      {
                        "projects/archive": %i[create dialog]
@@ -377,14 +368,6 @@ Rails.application.reloader.to_prepare do
                      require: :member,
                      dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[update] }
-
-      wpt.permission :use_ai_assistance,
-                     {
-                       "ai_assistance/menus": %i[show],
-                       "ai_assistance/chats": %i[show create start rerun send_message poll history apply dismiss]
-                     },
-                     permissible_on: %i[work_package project],
-                     dependencies: :view_work_packages
 
       wpt.permission :move_work_packages,
                      { "work_packages/moves": %i[new create] },

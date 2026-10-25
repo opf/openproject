@@ -46,9 +46,59 @@ module OpenProject::Llm
            caption: :"menus.admin.llm_connection",
            parent: :ai,
            before: :mcp_configurations
+
+      menu :admin_menu,
+           :ai_assistants,
+           { controller: "/admin/ai_assistants", action: :index },
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_assistance_active? },
+           caption: :"menus.admin.ai_assistants",
+           parent: :ai,
+           before: :text_transform_actions
+
+      menu :my_menu,
+           :ai_assistants,
+           { controller: "/my/ai_assistants", action: "index" },
+           caption: :"my_account.ai_assistants.title",
+           icon: "sparkle",
+           if: ->(*) {
+             OpenProject::FeatureDecisions.ai_assistance_active? &&
+               User.current.allowed_globally?(:manage_own_ai_assistants)
+           },
+           before: :notifications
+
+      project_module nil do
+        permission :manage_own_ai_assistants,
+                   {
+                     "my/ai_assistants": %i[index new create edit update destroy copy],
+                     "my/ai_assistant_skills": %i[new create edit update destroy copy]
+                   },
+                   permissible_on: :global,
+                   require: :loggedin,
+                   visible: -> { OpenProject::FeatureDecisions.ai_assistance_active? }
+      end
+
+      project_module :work_package_tracking do
+        permission :use_ai_assistance,
+                   {
+                     "ai_assistance/menus": %i[show],
+                     "ai_assistance/chats": %i[show create start rerun send_message poll history apply dismiss]
+                   },
+                   permissible_on: %i[work_package project],
+                   dependencies: :view_work_packages
+      end
     end
 
-    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders")
+    patches %i[Principal User]
+
+    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
+                              "ai_assistance" => "AIAssistance",
+                              "ai_assistants_controller" => "AIAssistantsController",
+                              "ai_assistant_skills_controller" => "AIAssistantSkillsController",
+                              "ai_assistance_header_button" => "AIAssistanceHeaderButton")
+
+    config.to_prepare do
+      OpenProject::Llm::Hooks::AIAssistanceHeaderButton
+    end
 
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.

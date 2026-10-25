@@ -32,7 +32,7 @@ module DevelopmentData
   # Sample AI assistants of the development data, one for each kind of owner: global,
   # a department (its direct members see it) and a user. A sample without a principal
   # reference is global.
-  class AiAssistantsSeeder < BasicData::AiAssistantSeeder
+  class AiAssistantsSeeder < BasicData::Llm::AiAssistantSeeder
     self.seed_data_model_key = "development_ai_assistants"
     self.attribute_names_for_required_references = %w[principal]
 

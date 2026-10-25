@@ -319,7 +319,6 @@ project_roles:
     position: 3
     permissions:
       - :view_work_packages
-      - :use_ai_assistance
       - :export_work_packages
       - :add_work_packages
       - :move_work_packages
@@ -479,17 +478,3 @@ ai_text_transform_actions:
       6. Every section of the template has italic instruction text (lines starting with _). This instruction text must appear in your output for every section, whether the section received content or not. Content is added below the instruction text.
       7. Do not invent content. If the user did not mention something, keep only the section heading and instruction text.
       8. Every section heading from the template must appear in your output.
-ai_assistants:
-  - reference: :default_ai_assistant_op
-    t_name: OPAssistant
-    t_description: Answers questions about OpenProject, on any page.
-    t_instructions: You help the users of OpenProject, a project management tool. Use the context you get and the tools. When they do not answer a question, say so.
-    position: 1
-    skills:
-      - skill_key: conversation
-        answers_at_once: false
-        offered_on: everywhere
-        proposal_scope: comment_only
-        prompt: |-
-          Answer the user's questions. On a work package, they are about that work package: its subject, description, status, dates, comments, relations and descendants. On other pages, they are about the project of the page, or about anything the user can see in OpenProject.
-          Keep the answers short.
