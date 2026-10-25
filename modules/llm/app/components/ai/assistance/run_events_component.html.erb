@@ -29,9 +29,9 @@
   ++#
 %>
 
-<%= render(Primer::Beta::Details.new(mt: 4, data: { test_selector: "ai-assistance-run-events" })) do |details| %>
-  <% details.with_summary(button: false) do %>
-    <%= render(Primer::Beta::Text.new(font_weight: :bold)) { t("ai_assistance.events.title") } %>
+<%= render(Primer::Beta::Details.new(mt: 2, data: { test_selector: "ai-assistance-run-events" })) do |details| %>
+  <% details.with_summary(button: false, color: :muted, font_size: :small) do %>
+    <%= t("ai_assistance.events.title") %>
   <% end %>
   <% details.with_body do %>
     <div class="mt-2">
