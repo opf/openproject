@@ -1,6 +1,6 @@
 <%=
-component_wrapper do
-  flex_layout(data: wrapper_data_attributes) do |flex|
+component_wrapper(data: wrapper_data_attributes) do
+  flex_layout do |flex|
     flex.with_row do
       render(Primer::OpenProject::SubHeader.new) do |subheader|
         subheader.with_action_button(
@@ -21,12 +21,12 @@ component_wrapper do
         OpenProject::Common::BorderBoxListComponent.new(
           container: "#{wrapper_key}-box",
           position: :relative,
-          data: drop_target_config
+          data: list_data
         )
       ) do |list|
         list.with_header(
           title_tag: :h3,
-          title: enumeration_class.model_name.human(count: :other)
+          title: enumeration_title
         )
 
         list.with_empty_state(
@@ -36,8 +36,8 @@ component_wrapper do
         )
 
         enumerations.each do |enumeration|
-          list.with_item(test_selector: "enumeration-row-#{enumeration.id}", data: draggable_item_config(enumeration)) do
-            render(item_component_class.new(enumeration: enumeration, max_position: max_position))
+          list.with_item(test_selector: "enumeration-row-#{enumeration.id}", data: item_data(enumeration)) do
+            render(item_component_class.new(enumeration:))
           end
         end
       end

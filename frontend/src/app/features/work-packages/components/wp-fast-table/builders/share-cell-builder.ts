@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,18 +32,12 @@ import { tdClassName } from './cell-builder';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
-import {
-  WorkPackageShareModalComponent,
-} from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export class ShareCellbuilder {
   @LazyInject(IsolatedQuerySpace) isolatedQuerySpace:IsolatedQuerySpace;
 
   @LazyInject(PrincipalRendererService) principalRenderer:PrincipalRendererService;
-
-  @LazyInject(OpModalService) opModalService:OpModalService;
 
   @LazyInject(I18nService) I18n:I18nService;
 
@@ -74,12 +67,7 @@ export class ShareCellbuilder {
 
       td.setAttribute('title', this.I18n.t('js.work_packages.sharing.show_all_users'));
     }
-    td.addEventListener('click', this.showShareModal.bind(this, workPackage));
 
     return td;
-  }
-
-  private showShareModal(workPackage:WorkPackageResource) {
-    this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage }, false, true);
   }
 }

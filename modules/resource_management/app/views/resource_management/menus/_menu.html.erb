@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -36,7 +35,13 @@ See COPYRIGHT and LICENSE files for more details.
   static entry (e.g. Staffing); planner entries highlight via the `id` param.
 %>
 <% if EnterpriseToken.allows_to?(:resource_management) %>
-  <% menu_src = menu_project_resource_planners_path(@project, **params.permit(:id), origin_controller: params[:controller]) %>
+  <%#
+    This partial is registered on a menu item, so it renders in the view context
+    of whichever controller serves the page -- not only the ones mixing in
+    `PlannerRoutes`. Hence the route helpers directly.
+  %>
+  <% menu_params = { **params.permit(:id), origin_controller: params[:controller] } %>
+  <% menu_src = @project ? menu_project_resource_planners_path(@project, **menu_params) : menu_resource_planners_path(**menu_params) %>
   <%= turbo_frame_tag "resource_planners_sidemenu",
                       src: menu_src,
                       target: "_top",

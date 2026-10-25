@@ -8,7 +8,7 @@ keywords: my account, account settings, change language
 
 # Access tokens
 
-To view and manage your OpenProject access tokens navigate to **Account settings** and choose **Access tokens** from the menu. Access tokens allow you to grant external applications access to resources in OpenProject. 
+To view and manage your OpenProject access tokens navigate to **Account settings** and choose **Access tokens** from the menu. Access tokens allow you to grant external applications access to resources in OpenProject.
 
 ![Access tokens overview in OpenProject account settings](openproject_account_settings_access_tokens.png)
 
@@ -24,21 +24,32 @@ API tokens allow third-party applications to communicate with this OpenProject i
 
 ![Access tokens in OpenProject account settings](openproject_account_settings_access_tokens_api.png)
 
-To create a new API Token, click the **+ API Token**, name the token in the form that opens and click _Create_ button. 
+To create a new API Token, click the **+ API Token**, name the token in the form that opens, choose an expiration and click _Create_ button.
 
 ![Name and create a new API token in OpenProject](openproject_account_settings_access_tokens_api_create_new.png)
 
-A new API token will be generated and displayed. Please keep in mind that each token will only be displayed once when it is created, so it's important to copy and safely save it. Should you lose this information, you CAN delete old tokens and generate new ones. 
+Under **Expiration** you can choose how long the token stays valid:
+
+- **7, 30, 60 or 90 days**: the token expires at the end of the selected day. 30 days is preselected.
+- **Custom date**: pick any date in the future. The token stays valid until the end of that day.
+- **No expiration**: the token stays valid until you delete it.
 
 > [!TIP]
-> We recommend using each token only for one purpose (e.g. a single application), so that you know exactly what needs to be replaced, should you need to delete it. 
+> We recommend letting tokens expire. If a token is ever leaked, it can only be used until its expiration date.
+
+Once a token has expired, OpenProject rejects every request that uses it, just like a deleted token. The list of API tokens shows the expiration date of each token and marks expired tokens with **Expired on** and the date. You can delete an expired token and create a new one.
+
+A new API token will be generated and displayed. Please keep in mind that each token will only be displayed once when it is created, so it's important to copy and safely save it. Should you lose this information, you CAN delete old tokens and generate new ones.
+
+> [!TIP]
+> We recommend using each token only for one purpose (e.g. a single application), so that you know exactly what needs to be replaced, should you need to delete it.
 
 ![A message confirming successful generation of a new API storage in OpenProject](openproject_account_settings_access_tokens_api_generated.png)
 
 ### iCalendar
 
 iCalendar tokens allow users to subscribe to OpenProject calendars and view up-to-date work package information from external clients.
-This list will be empty if you have no calendar subscriptions yet. 
+This list will be empty if you have no calendar subscriptions yet.
 
 ![OpenProject calendar list under account settings showing no calendars were subscribed to yet](openproject_account_settings_access_tokens_calendar_list.png)
 
@@ -56,11 +67,11 @@ You will then see a message informing you that the the token und the iCal URL ar
 
 ### iCalendar for meetings
 
-iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients. 
+iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients.
 
-This list will be empty if you have no calendar subscriptions yet. Once you subscribe to a meetings calendar, a list of all the iCalendar meeting tokens will appear here. 
+This list will be empty if you have no calendar subscriptions yet. Once you subscribe to a meetings calendar, a list of all the iCalendar meeting tokens will appear here.
 
-To subscribe click the **Subscribe to calendar** button directly in your account settings or in the [meetings module](../../meetings/#subscribe-to-meetings). 
+To subscribe click the **Subscribe to calendar** button directly in your account settings or in the [meetings module](../../meetings/#subscribe-to-meetings).
 
 ![A "subscribe to calendar" button to subscribe to OpenProject meetings under account settings](openproject_account_settings_access_tokens_subscribe_button.png)
 
@@ -68,14 +79,14 @@ You can then name the subscription meeting token and click **Create subscription
 
 ![Form to create a new iCal subscription token for meetings in OpenProject account settings](openproject_account_settings_access_tokens_subscribe_meetings_form.png)
 
-You will then see the newly generated token. 
+You will then see the newly generated token.
 
 > [!IMPORTANT]
-> This is the only time that it will be displayed. Make sure that you copy it and safely save it. 
+> This is the only time that it will be displayed. Make sure that you copy it and safely save it.
 
 ![A newly generated iCal meeting subscription token in OpenProject account settings](openproject_account_settings_access_tokens_subscribe_meetings_form_confirmation.png)
 
-To delete an iCal meeting token under Account settings click the _Delete_ icon next to the respective token name. 
+To delete an iCal meeting token under Account settings click the _Delete_ icon next to the respective token name.
 
 ![Delete icon to remove a meeting iCal token under OpenProject account settings](openproject_account_settings_access_tokens_meetings_delete.png)
 
@@ -85,7 +96,7 @@ OAuth tokens allow third-party applications to connect with this OpenProject ins
 
 OAuth tokens are not created directly in OpenProject. Instead, the authorization process is started from the external application. During setup, you will be redirected to OpenProject to confirm access and then returned to the external application to complete the connection.
 
-If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. 
+If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up.
 
 Once integrations exist, their tokens will appear here. You can revoke access at any time by selecting the **Delete** icon. Removing a token immediately removes the external application’s permission to act on your behalf, meaning it can no longer make API calls in your name. If you want to use the integration again, you will need to authorize it again.
 
@@ -95,7 +106,7 @@ Once integrations exist, their tokens will appear here. You can revoke access at
 
 RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader.  You can only have one active RSS token.
 
-Create a new token by clicking the **RSS token** button. 
+Create a new token by clicking the **RSS token** button.
 
 ![OpenProject RSS token under account settings](openproject_account_settings_access_tokens_rss.png)
 This will create your token and trigger a message showing you the access token.
@@ -109,7 +120,7 @@ Once an  RSS token was created, you will see the details here and will be able t
 
 ![Delete RSS token icon under OpenProject account settings](openproject_account_settings_access_tokens_rss_delete.png)
 
-## Client tokens 
+## Client tokens
 
 Client tokens are generated by external applications and enable OpenProject to connect to them.
 

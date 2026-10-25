@@ -109,7 +109,7 @@ RSpec.describe API::V3::GitlabIssues::GitlabIssueRepresenter do
     it_behaves_like "has a titled link" do
       let(:link) { "gitlabUser" }
       let(:href) { api_v3_paths.gitlab_user(gitlab_user.id) }
-      let(:title) { gitlab_user.gitlab_name }
+      let(:title) { gitlab_user.name }
     end
   end
 

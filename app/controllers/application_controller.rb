@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -35,10 +34,19 @@ require "doorkeeper/dashboard_helper"
 
 class ApplicationController < ActionController::Base
   class_attribute :_model_scope
-  class_attribute :accept_key_auth_actions
+  class_attribute :accept_rss_key_auth_actions
+  class_attribute :accept_api_key_auth_actions
 
   helper_method :render_to_string
   helper_method :gon
+
+  def self.accept_rss_key_auth(*actions)
+    self.accept_rss_key_auth_actions = actions.flatten.map(&:to_s)
+  end
+
+  def self.accept_api_key_auth(*actions)
+    self.accept_api_key_auth_actions = actions.flatten.map(&:to_s)
+  end
 
   protected
 
@@ -50,6 +58,7 @@ class ApplicationController < ActionController::Base
   include Accounts::UserLogin
   include Accounts::Authorization
   include Accounts::EnterpriseGuard
+  include Accounts::FeatureFlagGuard
   include Accounts::SessionLifetime
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
@@ -319,13 +328,12 @@ class ApplicationController < ActionController::Base
     render template: "common/feed", layout: false, content_type: "application/atom+xml"
   end
 
-  def self.accept_key_auth(*actions)
-    actions = actions.flatten.map(&:to_s)
-    self.accept_key_auth_actions = actions
+  def accept_rss_key_auth_actions
+    self.class.accept_rss_key_auth_actions || []
   end
 
-  def accept_key_auth_actions
-    self.class.accept_key_auth_actions || []
+  def accept_api_key_auth_actions
+    self.class.accept_api_key_auth_actions || []
   end
 
   # Returns a string that can be used as filename value in Content-Disposition header
@@ -339,6 +347,14 @@ class ApplicationController < ActionController::Base
     else
       %w(xml json).include? params[:format]
     end
+  end
+
+  def api_key_auth_format?
+    api_request?
+  end
+
+  def api_key_authenticated?
+    @api_key_authenticated == true
   end
 
   # Returns the API key present in the request
@@ -380,7 +396,7 @@ class ApplicationController < ActionController::Base
         return view_paths.find_template(default_template_name(action_name), "api")
       rescue ::ActionView::MissingTemplate
         # the api template was not found
-        # fallback to the default behaviour
+        # fallback to the default behavior
       end
     end
     super
@@ -417,10 +433,6 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
-  end
-
-  def session_expired?
-    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params

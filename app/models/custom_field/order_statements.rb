@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module CustomField::OrderStatements
   ORDER_JOIN_METHOD_BY_FIELD_FORMAT = OpenProject::MultiKeyHash.expand(
-    %w[string date bool link] => :join_for_order_by_string_sql,
+    %w[string date datetime bool link] => :join_for_order_by_string_sql,
     "int" => :join_for_order_by_int_sql,
     "float" => :join_for_order_by_float_sql,
     "calculated_value" => :join_for_order_by_calculated_value_sql,

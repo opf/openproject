@@ -20,14 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { debounce } from 'lodash-es';
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import type { Editor as CodeMirrorEditor } from 'codemirror';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -35,7 +34,6 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import {
   ICKEditorContext,
   ICKEditorInstance,
-  ICKEditorWatchdog,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/components/ckeditor/codemirror-loader.service';
@@ -91,8 +89,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef<HTMLDivElement>;
 
   // CKEditor instance once initialized
-  public watchdog:ICKEditorWatchdog;
-
   public ckEditorInstance:ICKEditorInstance;
 
   public error:string|null = null;
@@ -103,7 +99,13 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
   private _content = '';
 
+  private removeEditorErrorListener?:() => void;
+
+  // Set after an unhandled editor error; the source mode then opens read-only.
+  private editorFailed = false;
+
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
   private readonly Notifications = inject(ToastService);
   private readonly I18n = inject(I18nService);
   private readonly configurationService = inject(ConfigurationService);
@@ -112,6 +114,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
   public text = {
     errorTitle: this.I18n.t('js.editor.ckeditor_error'),
+    errorReload: this.I18n.t('js.editor.ckeditor_error_reload'),
   };
 
   // Codemirror instance, initialized lazily when running source mode
@@ -213,11 +216,10 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   ngOnDestroy() {
-    try {
-      this.watchdog?.destroy();
-    } catch (e) {
+    this.removeEditorErrorListener?.();
+    this.ckEditorInstance?.destroy().catch((e:unknown) => {
       console.error('Failed to destroy CKEditor instance:', e);
-    }
+    });
   }
 
   private initializeEditor() {
@@ -230,9 +232,8 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
       .catch((error:string) => {
         throw (error);
       })
-      .then((watchdog:ICKEditorWatchdog) => {
-        this.setupWatchdog(watchdog);
-        const editor = watchdog.editor;
+      .then((editor:ICKEditorInstance) => {
+        this.setupErrorHandling(editor);
         this.ckEditorInstance = editor;
 
         // Switch mode
@@ -250,13 +251,13 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
         // Emit global dragend events for other drop zones to react.
         // This is needed, as CKEditor does not bubble any drag events
-        const model = watchdog.editor.model;
+        const model = editor.model;
         model.document.on('change', this.debouncedEmitter);
         model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
         model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
 
-        this.initializeDone.emit(watchdog.editor);
-        return watchdog.editor;
+        this.initializeDone.emit(editor);
+        return editor;
       });
   }
 
@@ -301,7 +302,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
         // current limitation:
         // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
         setTimeout(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (!editor.ui.focusTracker.isFocused) {
             this.editorBlur.emit();
           } else {
@@ -344,6 +344,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
             smartIndent: true,
             value: current,
             mode: resolvedMode,
+            readOnly: this.editorFailed,
           },
         );
 
@@ -354,17 +355,21 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   /**
-   * Listen to some of the error events of the watchdog to provide the
-   * user with some information on what went wrong.
+   * Listen to unhandled errors of the editor and ask the user to reload.
+   * After such an error, the editor state may be inconsistent. The editor
+   * and the source mode become read-only, so the user can still copy the
+   * content but cannot change it any further.
    *
-   * @param watchdog
+   * @param editor
    * @private
    */
-  private setupWatchdog(watchdog:ICKEditorWatchdog) {
-    this.watchdog = watchdog;
-
-    watchdog.on('error', (_, { error }) => {
-      this.error = error.message;
+  private setupErrorHandling(editor:ICKEditorInstance) {
+    this.removeEditorErrorListener = this.ckEditorSetup.onEditorError(editor, () => {
+      this.editorFailed = true;
+      editor.enableReadOnlyMode('op-ckeditor-error');
+      this.codeMirrorInstance?.setOption('readOnly', true);
+      this.error = this.text.errorReload;
+      this.cdRef.markForCheck();
     });
   }
 }

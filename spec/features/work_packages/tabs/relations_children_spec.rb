@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 require "support/edit_fields/edit_field"
@@ -17,8 +44,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
   shared_let(:project) do
     create(:project,
-           types: [type_task, type_risk, type_milestone],
-           work_package_custom_fields: [normal_cf, required_cf])
+           types: [type_task, type_risk, type_milestone])
   end
 
   shared_let(:work_package) { create(:work_package, type: type_task, project:, subject: "Parent") }
@@ -67,7 +93,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
     end
 
     context "when being on the split screen" do
-      let(:wp_split_page) { Pages::SplitWorkPackage.new(work_package, project) }
+      let(:wp_split_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
       it "can render the page correctly after creation (regression #60629)" do
         wp_split_page.visit_tab!("relations")
@@ -187,8 +213,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
     before do
       all_possible_custom_fields.each do |cf|
-        project.enabled_variants.first.custom_fields << cf
-        project.work_package_custom_fields << cf
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
       end
     end
 

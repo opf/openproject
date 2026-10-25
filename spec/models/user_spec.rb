@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -837,8 +836,8 @@ RSpec.describe User do
 
     context "default admin account exists with changed password" do
       before do
-        default_admin.update_attribute :password, "dafaultAdminPwd"
-        default_admin.update_attribute :password_confirmation, "dafaultAdminPwd"
+        default_admin.update_attribute :password, "defaultAdminPwd"
+        default_admin.update_attribute :password_confirmation, "defaultAdminPwd"
         default_admin.save
       end
 
@@ -985,6 +984,78 @@ RSpec.describe User do
       it "returns the utc ActiveSupport::TimeZone" do
         expect(user.time_zone)
           .to eql ActiveSupport::TimeZone["Etc/UTC"]
+      end
+    end
+  end
+
+  describe "#date_format" do
+    context "when the prefs change" do
+      let(:user) { create(:user) }
+
+      it "returns the new format after a reload" do
+        expect(user.date_format).to eql ""
+
+        user.pref.update!(settings: { "date_format" => "%d-%m-%Y" })
+
+        expect(user.date_format).to eql ""
+
+        expect(user.reload.date_format).to eql "%d-%m-%Y"
+      end
+    end
+
+    context "with global setting", with_settings: { date_format: "%Y-%m-%d" } do
+      let(:user) { build(:user, preferences:) }
+
+      context "without a preference" do
+        let(:preferences) { {} }
+
+        it "returns the setting value" do
+          expect(user.date_format).to eql "%Y-%m-%d"
+        end
+      end
+
+      context "with a preference set" do
+        let(:preferences) { { "date_format" => "%d.%m.%Y" } }
+
+        it "returns the preference value" do
+          expect(user.date_format).to eql "%d.%m.%Y"
+        end
+      end
+    end
+  end
+
+  describe "#time_format" do
+    context "when the prefs change" do
+      let(:user) { create(:user) }
+
+      it "returns the new format after a reload" do
+        expect(user.time_format).to eql ""
+
+        user.pref.update!(settings: { "time_format" => "%H×%M" })
+
+        expect(user.time_format).to eql ""
+
+        expect(user.reload.time_format).to eql "%H×%M"
+      end
+    end
+
+    context "with global setting", with_settings: { time_format: "%Hh%M" } do
+      let(:user) { build(:user, preferences:) }
+
+      context "without a preference" do
+        let(:preferences) { {} }
+
+        it "returns the setting value" do
+          expect(user.time_format).to eql "%Hh%M"
+        end
+      end
+
+      context "with a preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(user.time_format).to eql "%H:%M"
+        end
       end
     end
   end

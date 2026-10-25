@@ -18,12 +18,13 @@
 **ALWAYS verify versions before building:**
 - Ruby: `4.0.9` (see `.ruby-version`)
 - Node: `^24.22.1` (see `package.json` engines)
-- Bundler: `4.0.20` (see `BUNDLED WITH` in `Gemfile.lock`)
+- Bundler: `4.0.21` (see `BUNDLED WITH` in `Gemfile.lock`)
 
 ### Local Development Setup
 
 ```bash
 bundle install                    # Install Ruby gems
+npm ci --ignore-scripts           # Install root Node packages (JSON linting)
 cd frontend && npm ci && cd ..   # Install Node packages
 bundle exec rails db:migrate      # Setup database
 bin/dev                          # Start all services (Rails, frontend, Good Job worker)
@@ -67,6 +68,7 @@ bin/dirty-rubocop --uncommitted                  # Check only uncommitted change
 
 # JavaScript/TypeScript
 cd frontend && npx eslint src/ && cd ..
+cd frontend && npm run typecheck && cd ..        # Typecheck application and spec sources
 
 # ERB Templates
 erb_lint {files}

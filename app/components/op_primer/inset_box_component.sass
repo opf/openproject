@@ -1,0 +1,16 @@
+.op-inset-box
+  &--title-container
+    display: flex
+    align-items: center
+    gap: var(--base-size-8, 8px)
+    margin-bottom: var(--base-size-8, 8px)
+
+  &--body
+    display: grid
+    grid-template-areas: "content clip_board_copy" "actions actions"
+    grid-template-columns: 1fr auto
+    grid-template-rows: auto auto auto
+    align-items: center
+
+    &--clip_board_copy
+      align-self: flex-start

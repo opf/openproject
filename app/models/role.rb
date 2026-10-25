@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,9 +64,12 @@ class Role < ApplicationRecord
     end
   end
 
-  has_many :workflows, dependent: :delete_all do
+  has_many :workflow_status_transitions,
+           class_name: "Workflows::StatusTransition",
+           inverse_of: :role,
+           dependent: :delete_all do
     def copy_from_role(source_role)
-      Workflow.copy(nil, source_role, nil, proxy_association.owner)
+      Workflows::StatusTransition.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
 
@@ -156,6 +158,10 @@ class Role < ApplicationRecord
     builtin != NON_BUILTIN
   end
 
+  def visible?
+    HIDDEN_ROLE_TYPES.exclude?(type)
+  end
+
   # Return true if the role is a project member role
   def member?
     !builtin?
@@ -180,7 +186,7 @@ class Role < ApplicationRecord
   end
 
   def deletable?
-    members.none? && !builtin?
+    !builtin?
   end
 
   private

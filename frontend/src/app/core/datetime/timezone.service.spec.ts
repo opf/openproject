@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,10 +38,14 @@ describe('TimezoneService', () => {
   const DATE = '2013-02-08';
   let timezoneService:TimezoneService;
 
-  const compile = (timezone?:string) => {
+  const compile = (timezone?:string, formats:{ date?:string, time?:string } = {}) => {
     const ConfigurationServiceStub = {
       isTimezoneSet: () => !!timezone,
       timezone: () => timezone,
+      dateFormatPresent: () => !!formats.date,
+      dateFormat: () => formats.date,
+      timeFormatPresent: () => !!formats.time,
+      timeFormat: () => formats.time,
     };
 
     if (!timezone) {
@@ -103,6 +106,60 @@ describe('TimezoneService', () => {
       it('has local time zone', () => {
         expect(timezoneService.configurationService.timezone()).toEqual('America/Vancouver');
       });
+    });
+  });
+
+  describe('#formattedDatetimeAsDate', () => {
+    beforeEach(() => {
+      compile('Asia/Kolkata', { date: 'DD.MM.YYYY', time: 'HH:mm' });
+    });
+
+    it('dates an instant by the user time zone, not by UTC', () => {
+      // Half past midnight in Kolkata, still the previous day everywhere west of it.
+      expect(timezoneService.formattedDatetimeAsDate('2026-10-16T19:00:00Z')).toEqual('17.10.2026');
+    });
+
+    // The trap this exists for: formattedDate parses without a zone, so it answers for whichever
+    // one the browser happens to be in.
+    it('differs from formattedDate, which does not apply the zone', () => {
+      const instant = '2026-10-16T19:00:00Z';
+
+      expect(timezoneService.formattedDatetimeAsDate(instant))
+        .not.toEqual(timezoneService.formattedDate(instant));
+    });
+  });
+
+  describe('#parseFormattedDatetime', () => {
+    beforeEach(() => {
+      compile('Europe/Berlin', { date: 'DD.MM.YYYY', time: 'HH:mm' });
+    });
+
+    it('parses the user format in the user time zone and returns UTC', () => {
+      expect(timezoneService.parseFormattedDatetime('01.10.2026 14:30')).toEqual('2026-10-01T12:30:00Z');
+    });
+
+    it('returns null for text not matching the user format', () => {
+      expect(timezoneService.parseFormattedDatetime('2026-10-01 14:30')).toBeNull();
+    });
+  });
+
+  describe('#uses24HourClock', () => {
+    it('is true for a 24 hour time format', () => {
+      compile('Europe/Berlin', { time: 'HH:mm' });
+
+      expect(timezoneService.uses24HourClock()).toBe(true);
+    });
+
+    it('is false for a time format with a meridiem', () => {
+      compile('Europe/Berlin', { time: 'hh:mm a' });
+
+      expect(timezoneService.uses24HourClock()).toBe(false);
+    });
+
+    it('expands the locale time format when none is configured', () => {
+      compile('Europe/Berlin');
+
+      expect(timezoneService.uses24HourClock()).toBe(!/[aA]/.test(moment.localeData().longDateFormat('LT')));
     });
   });
 });

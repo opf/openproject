@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,14 +28,12 @@
 import { FormsModule } from '@angular/forms';
 import { Injector, NgModule, inject } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import { NgOptionHighlightDirective } from '@ng-select/ng-option-highlight';
 import { DynamicModule } from 'ng-dynamic-component';
-import { UIRouterModule } from '@uirouter/angular';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import {
@@ -90,18 +87,15 @@ import { PrimerIconButtonComponent } from './components/primer/icon-button.compo
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
   const currentProject = injector.get(CurrentProjectService);
-  const uiRouterGlobals = injector.get(UIRouterGlobals);
 
   (window.ErrorReporter).addHook(() => ({
     project: currentProject.identifier || 'global',
-    'router state': uiRouterGlobals.current.name || 'unknown',
+    'router state': window.location.pathname,
   }));
 }
 
 @NgModule({
   imports: [
-    // UI router components (NOT routes!)
-    UIRouterModule,
     // Angular browser + common module
     CommonModule,
     // Angular Forms
@@ -133,7 +127,6 @@ export function bootstrapModule(injector:Injector):void {
   exports: [
     // Re-export all commonly used
     // modules to DRY
-    UIRouterModule,
     CommonModule,
     FormsModule,
     PortalModule,

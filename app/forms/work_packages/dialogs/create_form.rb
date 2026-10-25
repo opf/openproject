@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,25 +22,28 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module WorkPackages::Dialogs
   class CreateForm < ApplicationForm
     include CustomFields::CustomFieldRendering
 
-    attr_reader :work_package, :wrapper_id, :contract
+    attr_reader :work_package, :dialog_id, :contract
 
-    def initialize(work_package:, wrapper_id:)
+    def initialize(work_package:, dialog_id:)
       super()
 
       @work_package = work_package
       @schema = API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
-      @wrapper_id = wrapper_id
+      @dialog_id = dialog_id
       @contract = WorkPackages::CreateContract.new(work_package, User.current)
+    end
+
+    def wrapper_id
+      "##{dialog_id}"
     end
 
     form do |f|
@@ -67,7 +70,7 @@ module WorkPackages::Dialogs
           .map do |value, label|
           select.option(label:,
                         value:,
-                        classes: "__hl_inline_type_#{value}",
+                        classes: "__hl_uppercase __hl_foreground __hl_type_#{value}",
                         selected: work_package.type_id == value)
         end
       end
@@ -103,7 +106,7 @@ module WorkPackages::Dialogs
     end
 
     def additional_custom_field_input_arguments
-      { wrapper_id: }
+      { wrapper_id:, dialog_id:, required: true }
     end
 
     def autofocus_subject?
@@ -113,7 +116,9 @@ module WorkPackages::Dialogs
     private
 
     def custom_fields
-      @custom_fields ||= work_package.available_custom_fields.select(&:required?)
+      @custom_fields ||= work_package.available_custom_fields.select do |custom_field|
+        work_package.custom_field_required?(custom_field)
+      end
     end
 
     def writable_attributes

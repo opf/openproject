@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -141,7 +140,7 @@ RSpec.describe PermittedParams do
   describe "#reply" do
     let(:attribute) { :reply }
     let(:hash) do
-      %w(content subject).index_with("value")
+      %w(content).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -410,27 +409,6 @@ RSpec.describe PermittedParams do
     end
   end
 
-  describe "#projects_type_ids" do
-    let(:attribute) { :projects_type_ids }
-    let(:hash_key) { "project" }
-
-    let(:hash) do
-      { "type_ids" => ["1", "", "2"] }
-    end
-
-    let(:expected_permitted) do
-      [1, 2]
-    end
-
-    include_context "with prepare params comparison"
-
-    it do
-      actual = described_class.new(params, user).send(attribute)
-
-      expect(actual).to eq(expected_permitted)
-    end
-  end
-
   describe "#color" do
     let(:attribute) { :color }
 
@@ -463,8 +441,8 @@ RSpec.describe PermittedParams do
     it_behaves_like "allows params"
   end
 
-  describe "#custom_action" do
-    let(:attribute) { :custom_action }
+  describe "#automation" do
+    let(:attribute) { :automation }
     let(:hash) do
       {
         "name" => "blubs",
@@ -750,26 +728,6 @@ RSpec.describe PermittedParams do
                                 "type_id" => nil,
                                 "project_id" => nil)
       end
-    end
-  end
-
-  describe "#time_entry_activities_project" do
-    let(:attribute) { :time_entry_activities_project }
-    let(:hash) do
-      [
-        { "activity_id" => "5", "active" => "0" },
-        { "activity_id" => "6", "active" => "1" }
-      ]
-    end
-    let(:expected_permitted) do
-      [
-        ActionController::Parameters.new("activity_id" => "5", "active" => "0").permit!,
-        ActionController::Parameters.new("activity_id" => "6", "active" => "1").permit!
-      ]
-    end
-
-    it_behaves_like "allows params" do
-      subject { described_class.new(params, user).send(attribute) }
     end
   end
 

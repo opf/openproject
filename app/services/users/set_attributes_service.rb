@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ module Users
         .call(pref)
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def assign_name_attributes_from_mail(params)
       placeholder = placeholder_name(params[:mail])
 
@@ -72,7 +71,6 @@ module Users
       model.firstname = model.firstname.presence || placeholder.first
       model.lastname = model.lastname.presence || placeholder.last
     end
-    # rubocop:enable Metrics/AbcSize
 
     def assign_default_language
       model.language = model.language.presence || Setting.default_language

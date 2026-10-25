@@ -1,5 +1,5 @@
 ---
-openapi: 3.1.2
+openapi: 3.2.0
 
 info:
   description: |-
@@ -197,6 +197,14 @@ paths:
     "$ref": "./paths/activity_attachments_prepare.yml"
   "/api/v3/activities/{id}/emoji_reactions":
     "$ref": "./paths/activity_emoji_reactions.yml"
+  "/api/v3/ai_text_transform_actions":
+    "$ref": "./paths/ai_text_transform_actions.yml"
+  "/api/v3/ai_text_transform_runs":
+    "$ref": "./paths/ai_text_transform_runs.yml"
+  "/api/v3/ai_text_transform_runs/{id}":
+    "$ref": "./paths/ai_text_transform_run.yml"
+  "/api/v3/ai_text_transform_runs/{id}/cancel":
+    "$ref": "./paths/ai_text_transform_run_cancel.yml"
   "/api/v3/attachments":
     "$ref": "./paths/attachments.yml"
   "/api/v3/attachments/prepare":
@@ -209,8 +217,8 @@ paths:
     "$ref": "./paths/budget.yml"
   "/api/v3/capabilities":
     "$ref": "./paths/capabilities.yml"
-  "/api/v3/capabilities/context/global":
-    "$ref": "./paths/capabilities_context_global.yml"
+  "/api/v3/capabilities/contexts/global":
+    "$ref": "./paths/capabilities_contexts_global.yml"
   "/api/v3/capabilities/{id}":
     "$ref": "./paths/capability.yml"
   "/api/v3/categories/{id}":
@@ -247,12 +255,6 @@ paths:
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
     "$ref": "./paths/document.yml"
-  "/api/v3/example/form":
-    "$ref": "./paths/example_form.yml"
-  "/api/v3/example/schema":
-    "$ref": "./paths/example_schema.yml"
-  "/api/v3/examples":
-    "$ref": "./paths/examples.yml"
   "/api/v3/file_links/{id}":
     "$ref": "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
@@ -275,6 +277,10 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/labels":
+    "$ref": "./paths/labels.yml"
+  "/api/v3/labels/{id}":
+    "$ref": "./paths/label.yml"
   "/api/v3/meetings":
     "$ref": "./paths/meetings.yml"
   "/api/v3/meetings/{id}":
@@ -287,6 +293,16 @@ paths:
     "$ref": "./paths/meeting_agenda_items.yml"
   "/api/v3/meeting_agenda_items/{id}":
     "$ref": "./paths/meeting_agenda_item.yml"
+  "/api/v3/meeting_agenda_items/{id}/move_to_next_meeting":
+    "$ref": "./paths/meeting_agenda_item_move_to_next_meeting.yml"
+  "/api/v3/meeting_agenda_items/{id}/upvote":
+    "$ref": "./paths/meeting_agenda_item_upvote.yml"
+  "/api/v3/meeting_agenda_items/{id}/downvote":
+    "$ref": "./paths/meeting_agenda_item_downvote.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{id}/upvote":
+    "$ref": "./paths/meeting_agenda_item_upvote_by_meeting.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{id}/downvote":
+    "$ref": "./paths/meeting_agenda_item_downvote_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes":
     "$ref": "./paths/meeting_agenda_item_outcomes.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes/{id}":
@@ -349,6 +365,8 @@ paths:
     "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
+  "/api/v3/openapi.json":
+    "$ref": "./paths/openapi.yml"
   "/api/v3/placeholder_users":
     "$ref": "./paths/placeholder_users.yml"
   "/api/v3/placeholder_users/{id}":
@@ -367,6 +385,10 @@ paths:
     "$ref": "./paths/post_attachments_prepare.yml"
   "/api/v3/principals":
     "$ref": "./paths/principals.yml"
+  "/api/v3/principals/{id}/hourly_rates":
+    "$ref": "./paths/principal_hourly_rates.yml"
+  "/api/v3/principals/{id}/hourly_rates/{rate_id}":
+    "$ref": "./paths/principal_hourly_rate.yml"
   "/api/v3/priorities":
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
@@ -433,6 +455,8 @@ paths:
     "$ref": "./paths/project_favorite.yml"
   "/api/v3/projects/{id}/configuration":
     "$ref": "./paths/project_configuration.yml"
+  "/api/v3/projects/{id}/ai_text_transform_actions":
+    "$ref": "./paths/ai_text_transform_actions_by_project.yml"
   "/api/v3/queries":
     "$ref": "./paths/queries.yml"
   "/api/v3/queries/available_projects":
@@ -487,10 +511,6 @@ paths:
     "$ref": "./paths/relations.yml"
   "/api/v3/relations/{id}":
     "$ref": "./paths/relation.yml"
-  "/api/v3/render/markdown":
-    "$ref": "./paths/render_markdown.yml"
-  "/api/v3/render/plain":
-    "$ref": "./paths/render_plain.yml"
   "/api/v3/revisions/{id}":
     "$ref": "./paths/revision.yml"
   "/api/v3/reminders":
@@ -501,6 +521,10 @@ paths:
     "$ref": "./paths/roles.yml"
   "/api/v3/roles/{id}":
     "$ref": "./paths/role.yml"
+  "/api/v3/spec.json":
+    "$ref": "./paths/spec-json.yml"
+  "/api/v3/spec.yml":
+    "$ref": "./paths/spec.yml"
   "/api/v3/sprints":
     "$ref": "./paths/sprints.yml"
   "/api/v3/sprints/{id}":
@@ -515,6 +539,8 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{storage_id}/files/{file_id}":
+    "$ref": "./paths/storage_file.yml"
   "/api/v3/storages/{id}/files/prepare_upload":
     "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/folders":
@@ -527,8 +553,8 @@ paths:
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
-  "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entry_activity.yml"
+  "/api/v3/time_entries/activities/{id}":
+    "$ref": "./paths/time_entry_activities.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
@@ -559,7 +585,7 @@ paths:
     "$ref": "./paths/user_working_hours.yml"
   "/api/v3/users/{id}/working_hours/{working_hours_id}":
     "$ref": "./paths/user_working_hours_record.yml"
-  "/api/v3/values/schema/{id}":
+  "/api/v3/values/schemas/{id}":
     "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
@@ -589,18 +615,14 @@ paths:
     "$ref": "./paths/wiki_page_attachments_prepare.yml"
   "/api/v3/work_packages":
     "$ref": "./paths/work_packages.yml"
-  "/api/v3/work_packages/form":
-    "$ref": "./paths/work_packages_form.yml"
-  "/api/v3/work_packages/schemas":
-    "$ref": "./paths/work_packages_schemas.yml"
-  "/api/v3/work_packages/schemas/{identifier}":
-    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/work_packages/{id}":
     "$ref": "./paths/work_package.yml"
   "/api/v3/work_packages/{id}/activities":
     "$ref": "./paths/work_package_activities.yml"
   "/api/v3/work_packages/{id}/activities_emoji_reactions":
     "$ref": "./paths/work_package_activities_emoji_reactions.yml"
+  "/api/v3/work_packages/{id}/ai_text_transform_actions":
+    "$ref": "./paths/ai_text_transform_actions_by_work_package.yml"
   "/api/v3/work_packages/{id}/attachments":
     "$ref": "./paths/work_package_attachments.yml"
   "/api/v3/work_packages/{id}/attachments/prepare":
@@ -621,14 +643,22 @@ paths:
     "$ref": "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
     "$ref": "./paths/work_package_relations.yml"
-  "/api/v3/work_packages/{work_package_id}/reminders":
+  "/api/v3/work_packages/{id}/reminders":
     "$ref": "./paths/work_package_reminders.yml"
   "/api/v3/work_packages/{id}/watchers":
     "$ref": "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
+  "/api/v3/work_packages/form":
+    "$ref": "./paths/work_packages_form.yml"
+  "/api/v3/work_packages/schemas":
+    "$ref": "./paths/work_packages_schemas.yml"
+  "/api/v3/work_packages/schemas/{identifier}":
+    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/workspaces":
     "$ref": "./paths/workspaces.yml"
+  "/api/v3/workspaces/{id}":
+    "$ref": "./paths/workspace.yml"
   "/api/v3/workspaces/{id}/available_assignees":
     "$ref": "./paths/workspace_available_assignees.yml"
   "/api/v3/workspaces/{id}/categories":
@@ -637,9 +667,9 @@ paths:
     "$ref": "./paths/workspace_favorite.yml"
   "/api/v3/workspaces/{id}/queries/default":
     "$ref": "./paths/workspace_queries_default.yml"
-  "/api/v3/workspace/{id}/queries/filter_instance_schemas":
+  "/api/v3/workspaces/{id}/queries/filter_instance_schemas":
     "$ref": "./paths/workspace_queries_filter_instance_schemas.yml"
-  "/api/v3/workspace/{id}/queries/schema":
+  "/api/v3/workspaces/{id}/queries/schema":
     "$ref": "./paths/workspace_queries_schema.yml"
   "/api/v3/workspaces/{id}/types":
     "$ref": "./paths/workspace_types.yml"
@@ -649,6 +679,8 @@ paths:
     "$ref": "./paths/workspace_work_packages_form.yml"
   "/api/v3/workspaces/{id}/versions":
     "$ref": "./paths/workspace_versions.yml"
+  "/api/v3/workspaces/{id}/labels":
+    "$ref": "./paths/workspace_labels.yml"
   "/api/v3/workspaces/schema":
     "$ref": "./paths/workspaces_schema.yml"
 
@@ -672,6 +704,8 @@ components:
       $ref: "./components/examples/hierarchy_item_collection_response.yml"
     HierarchyItemResponse:
       $ref: "./components/examples/hierarchy_item_response.yml"
+    LabelCollection:
+      $ref: "./components/examples/label_collection.yml"
     MeetingCollectionSimpleResponse:
       $ref: "./components/examples/meeting_collection_simple_response.yml"
     MeetingSimpleResponse:
@@ -742,6 +776,8 @@ components:
       $ref: "./components/examples/storage-nextcloud-response.yml"
     StorageCreateFolderRequestBody:
       $ref: "./components/examples/storage-create-folder-request-body.yml"
+    StorageNextcloudFileResponse:
+      $ref: "./components/examples/storage-nextcloud-file-response.yml"
     StorageNextcloudResponseForCreation:
       $ref: "./components/examples/storage-nextcloud-response-for-creation.yml"
     StorageNextcloudUnauthorizedResponse:
@@ -790,8 +826,14 @@ components:
       $ref: "./components/examples/work_package_create_valid.yml"
     WorkPackageEditSubject:
       $ref: "./components/examples/work_package_edit_subject.yml"
+    WorkPackageSimpleResponse:
+      $ref: "./components/examples/work_package_simple_response.yml"
     WorkPackageWithMetaValidation:
       $ref: "./components/examples/work_package_with_meta_validation.yml"
+    WorkspaceArchiveRequest:
+      $ref: "./components/examples/workspace_archive_request.yml"
+    WorkspaceUpdateInformationRequest:
+      $ref: "./components/examples/workspace_update_information_request.yml"
 
   responses:
     InvalidQuery:
@@ -808,6 +850,14 @@ components:
       "$ref": "./components/schemas/activity_model.yml"
     ActivityCommentWriteModel:
       "$ref": "./components/schemas/activity_comment_write_model.yml"
+    AITextTransformActionModel:
+      "$ref": "./components/schemas/ai_text_transform_action_model.yml"
+    AITextTransformActionCollectionModel:
+      "$ref": "./components/schemas/ai_text_transform_action_collection_model.yml"
+    AITextTransformRunModel:
+      "$ref": "./components/schemas/ai_text_transform_run_model.yml"
+    AITextTransformRunWriteModel:
+      "$ref": "./components/schemas/ai_text_transform_run_write_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
     AttachmentPrepareUploadWriteModel:
@@ -916,6 +966,16 @@ components:
       "$ref": "./components/schemas/hierarchy_item_collection_model.yml"
     HierarchyItemReadModel:
       "$ref": "./components/schemas/hierarchy_item_read_model.yml"
+    HourlyRateCollectionModel:
+      "$ref": "./components/schemas/hourly_rate_collection_model.yml"
+    HourlyRateModel:
+      "$ref": "./components/schemas/hourly_rate_model.yml"
+    LabelCollectionModel:
+      "$ref": "./components/schemas/label_collection_model.yml"
+    LabelModel:
+      "$ref": "./components/schemas/label_model.yml"
+    LabelWriteModel:
+      "$ref": "./components/schemas/label_write_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -952,8 +1012,6 @@ components:
       "$ref": "./components/schemas/meeting_section_collection_model.yml"
     MeetingWriteModel:
       "$ref": "./components/schemas/meeting_write_model.yml"
-    MarkdownModel:
-      "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:
       "$ref": "./components/schemas/membership_collection_model.yml"
     MembershipFormModel:
@@ -994,8 +1052,6 @@ components:
       "$ref": "./components/schemas/placeholder_user_create_model.yml"
     PlaceholderUserModel:
       "$ref": "./components/schemas/placeholder_user_model.yml"
-    Plain_TextModel:
-      "$ref": "./components/schemas/plain_text_model.yml"
     PortfolioCollectionModel:
       "$ref": "./components/schemas/portfolio_collection_model.yml"
     PortfolioModel:
@@ -1088,6 +1144,8 @@ components:
       "$ref": "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Workspace_QueriesModel:
       "$ref": "./components/schemas/schema_for_workspace_queries_model.yml"
+    SpecificationModel:
+      "$ref": "./components/schemas/spec_model.yml"
     SprintCollectionModel:
       "$ref": "./components/schemas/sprint_collection_model.yml"
     SprintModel:
@@ -1198,7 +1256,9 @@ components:
       "$ref": "./components/schemas/work_packages_model.yml"
     WorkspaceCollectionModel:
       "$ref": "./components/schemas/workspace_collection_model.yml"
-    Workspaces_schemaModel:
+    WorkspacePatchModel:
+      "$ref": "./components/schemas/workspace_patch_model.yml"
+    WorkspacesSchemaModel:
       "$ref": "./components/schemas/workspaces_schema_model.yml"
   securitySchemes:
     BasicAuth:
@@ -1213,6 +1273,7 @@ tags:
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"
   - "$ref": "./tags/activities.yml"
+  - "$ref": "./tags/ai.yml"
   - "$ref": "./tags/attachments.yml"
   - "$ref": "./tags/budgets.yml"
   - "$ref": "./tags/categories.yml"
@@ -1225,6 +1286,8 @@ tags:
   - "$ref": "./tags/grids.yml"
   - "$ref": "./tags/groups.yml"
   - "$ref": "./tags/help_texts.yml"
+  - "$ref": "./tags/hourly_rates.yml"
+  - "$ref": "./tags/labels.yml"
   - "$ref": "./tags/memberships.yml"
   - "$ref": "./tags/news.yml"
   - "$ref": "./tags/notifications.yml"
@@ -1244,7 +1307,6 @@ tags:
   - "$ref": "./tags/query_sort_bys.yml"
   - "$ref": "./tags/query_filter_instance_schema.yml"
   - "$ref": "./tags/relations.yml"
-  - "$ref": "./tags/previewing.yml"
   - "$ref": "./tags/revisions.yml"
   - "$ref": "./tags/roles.yml"
   - "$ref": "./tags/root.yml"

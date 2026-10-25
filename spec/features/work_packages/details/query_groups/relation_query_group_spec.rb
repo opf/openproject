@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,7 +57,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
     end
   end
 
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }

@@ -66,7 +66,7 @@ example:
             title: Saturday
       - _type: Day
         date: '2022-05-01'
-        name: Sunday (Labour day)
+        name: Sunday (Labor day)
         working: false
         _links:
           self:
@@ -75,7 +75,7 @@ example:
             - href: /api/v3/days/week/7
               title: Sunday
             - href: /api/v3/days/non_working/2022-05-01
-              title: Labour day
+              title: Labor day
           weekday:
             href: /api/v3/days/week/7
             title: Sunday

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -79,6 +78,13 @@ RSpec.describe CustomField do
   end
 
   describe "#valid?" do
+    it "allows an existing field whose registered format is currently unavailable" do
+      field.save!
+      allow(OpenProject::CustomFieldFormat).to receive(:available_formats).and_return([])
+
+      expect(field).to be_valid
+    end
+
     describe "WITH a text field WITH minimum length blank" do
       before do
         field.field_format = "text"
@@ -467,7 +473,7 @@ RSpec.describe CustomField do
         end
       end
 
-      context "for a custom field bound to role assigment" do
+      context "for a custom field bound to role assignment" do
         let(:project_role) { build_stubbed(:project_role) }
         let(:field) { build(:project_custom_field, :user, role_id: project_role.id) }
 
@@ -877,7 +883,11 @@ RSpec.describe CustomField do
         it "handles custom field with format #{field_format}" do
           field = build(:custom_field, field_format:)
 
-          input = field_format == "date" ? "2025.10.27" : "1"
+          input = case field_format
+                  when "date" then "2025.10.27"
+                  when "datetime" then "2025-10-27T12:30:00Z"
+                  else "1"
+                  end
 
           if field_format == "empty"
             expect(field.cast_value(input)).to be_nil

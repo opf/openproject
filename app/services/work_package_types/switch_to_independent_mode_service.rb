@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,6 @@ module WorkPackageTypes
     # Column-backed aspects assign blank values, association-backed aspects delete their rows.
     EMPTY_CONFIGURATION = {
       TypeVariant::DEFAULTS => ->(variant) { variant.update!(patterns: {}, default_work_package_description: nil) },
-      TypeVariant::WORKFLOWS => ->(variant) { variant.own_workflows.destroy_all },
       TypeVariant::PROJECT_ATTRIBUTES => ->(variant) { variant.own_project_custom_field_type_mappings.delete_all }
     }.freeze
 
@@ -86,15 +84,8 @@ module WorkPackageTypes
       ServiceResult.failure(result: variant, errors: variant.errors)
     end
 
-    # Owning an aspect is the absence of a source, so severing is a nullifying update rather
-    # than a delete. The exclusions go with it: they describe what was dropped from what was
-    # inherited, and nothing is inherited any more.
     def sever_link
-      aspect_column = TypeVariant.validated_configuration_aspect(aspect)
-      attributes = { "#{aspect_column}_source_id" => nil }
-      attributes["#{aspect_column}_excluded_elements"] = [] if TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
-
-      variant.update!(attributes)
+      variant.unlink!(aspect)
 
       ServiceResult.success(result: variant)
     rescue ActiveRecord::RecordInvalid

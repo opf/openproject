@@ -29,7 +29,7 @@
 // `#content-wrapper .fc …` and carry id specificity, so the rules competing with
 // them use `!important` rather than chaining `#content-wrapper` here. It is uglier
 // but keeps this file scoped to a single class, the same trade-off as
-// modules/costs/app/components/my/time_tracking/calendar_component.sass.
+// app/components/my/time_management/calendar_component.sass.
 .op-rm-timeline-view
   display: flex
   flex-direction: column
@@ -106,7 +106,7 @@
   // Header columns mirror the body shading: grey when no work package is active in
   // the column, white otherwise, today's highlight kept for inactive columns. The
   // active class is toggled by the controller from the loaded bands, since
-  // FullCalendar does not colour the header from event data. The active rule comes
+  // FullCalendar does not color the header from event data. The active rule comes
   // last so it outranks the equal-specificity today rule.
   .fc-timeline-header .fc-timeline-slot-label
     background: rgb(205 205 205 / 20%) !important
@@ -136,9 +136,9 @@
     box-shadow: 1px 1px 5px rgb(0 0 0 / 15%)
     color: var(--fgColor-default, #1f2328)
 
-    // The user-timeline bar carries its work package's status colour on the top
+    // The user-timeline bar carries its work package's status color on the top
     // edge (`--rm-status-color` set inline per bar; muted when the status has no
-    // colour). Overbooking overrides this with the danger border below.
+    // color). Overbooking overrides this with the danger border below.
     &_status
       border-top: 1px solid var(--rm-status-color, var(--borderColor-muted, #d8dee4))
 
@@ -149,6 +149,19 @@
     &--label
       flex: 0 1 auto
       min-inline-size: 0
+      overflow: hidden
+      text-overflow: ellipsis
+
+      // Stands in for a work package in a project the viewer cannot open.
+      &.-undisclosed
+        font-style: italic
+        color: var(--fgColor-muted, #59636e)
+
+    // On a global planner the bar names the project its work package sits in.
+    &--project
+      flex: 0 0 auto
+      color: var(--fgColor-muted, #59636e)
+      max-inline-size: 40%
       overflow: hidden
       text-overflow: ellipsis
 
@@ -180,3 +193,10 @@
   // warning icon itself (with its tooltip) is rendered into the bar markup.
   .resource-allocation--overbooked .op-rm-timeline-bar
     border-top: 3px solid var(--borderColor-danger-emphasis, #cf222e)
+
+.op-rm-allocated-time--bar
+  flex-shrink: 0
+  inline-size: 12rem
+
+.op-rm-show-allocations
+  cursor: pointer

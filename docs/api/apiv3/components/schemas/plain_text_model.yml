@@ -1,5 +1,0 @@
-# Schema: Plain_TextModel
----
-type: string
-format: html
-example: "<p>Hello world! This *is* plain text!</p>"

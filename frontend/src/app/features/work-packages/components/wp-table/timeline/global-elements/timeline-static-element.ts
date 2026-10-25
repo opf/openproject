@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,7 +35,7 @@ export abstract class TimelineStaticElement {
 
   /**
    * Render the static element according to the current ViewParameters
-   * @param vp Current timeline view paraemters
+   * @param vp Current timeline view parameters
    * @returns {HTMLElement} The finished static element
    */
   public render(vp:TimelineViewParameters):HTMLElement {

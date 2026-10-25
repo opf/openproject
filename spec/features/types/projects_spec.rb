@@ -22,15 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -84,7 +83,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect_listed(on_hardware)
   end
 
@@ -181,7 +180,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
   end
 
   it "adds a parent with its sub-projects when one of them is already on the variant" do
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects_including_sub_items(parent)
 
@@ -221,7 +220,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     outside = create(:project, name: "Shipyard")
     inside = create(:project, name: "Annex", parent: outside)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects(outside, include_sub_items: false)
 
@@ -240,7 +239,7 @@ RSpec.describe "Work package type projects tab", :js, with_flag: { type_variants
     visit edit_type_projects_path(type_id: type.id)
     expect(page).to have_test_selector("quick-filter-select-panel-button")
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect(page).to have_no_test_selector("quick-filter-select-panel-button")
     expect(page).to have_test_selector("type-projects-add-button")
   end

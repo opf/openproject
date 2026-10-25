@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ module WorkPackageTypes
       subject_form.rich_text_area(
         name: :default_work_package_description,
         label: I18n.t("types.edit.defaults.description.label"),
-        caption: I18n.t("types.edit.defaults.description.caption"),
+        caption: description_caption,
         disabled: readonly?,
         rich_text_options: { showAttachments: false }
       )
@@ -93,6 +92,10 @@ module WorkPackageTypes
     private
 
     def readonly? = @builder.options[:readonly] == true
+
+    def description_caption
+      I18n.t("types.edit.defaults.description.caption.#{model.named_variant? ? :variant : :type}")
+    end
 
     def subject_configuration_manual?
       model.subject_configuration == :manual

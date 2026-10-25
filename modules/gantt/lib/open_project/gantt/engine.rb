@@ -1,4 +1,6 @@
-# -- copyright
+# frozen_string_literal: true
+
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -20,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module OpenProject::Gantt
   class Engine < ::Rails::Engine
@@ -38,13 +39,18 @@ module OpenProject::Gantt
              settings: {} do
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.map do |ac_map|
-          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95)
+          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95, &:enabled_by_default!)
         end
 
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
           add.controller_actions << "gantt/gantt/index"
           add.controller_actions << "gantt/gantt/menu"
+          add.controller_actions << "gantt/gantt/split_view"
           add.controller_actions << "gantt/menus/show"
+        end
+
+        OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
+          add.controller_actions << "gantt/gantt/split_create"
         end
       end
 
