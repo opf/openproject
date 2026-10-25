@@ -30,22 +30,25 @@
 
 module AI
   module Assistance
-    # The AI Assistance menu in the app header (see HeaderButtonComponent): an icon button with
-    # one section per assistant, headed by its name, and the user's history at the end. Empty
-    # renders only the frame.
+    # The AI Assistance menu in the work package toolbars: one section per assistant, headed by
+    # its name, and the user's history at the end. The split view shows it as an icon button.
+    # Empty renders only the frame.
     class MenuButtonComponent < ApplicationComponent
       FRAME_ID = "wp-ai-assistance-menu"
 
       attr_reader :place, :skills
 
-      def initialize(place:, skills: [], empty: false)
+      def initialize(place:, skills: [], compact: false, empty: false)
         super
         @place = place
         @skills = skills
+        @compact = compact
         @empty = empty
       end
 
       def empty? = @empty
+
+      def compact? = @compact
 
       # Personal assistants first, then group, then global ones. The order inside each kind is kept.
       def skills_by_assistant

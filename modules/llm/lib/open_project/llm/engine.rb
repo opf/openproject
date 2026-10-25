@@ -93,12 +93,7 @@ module OpenProject::Llm
     class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
                               "ai_assistance" => "AIAssistance",
                               "ai_assistants_controller" => "AIAssistantsController",
-                              "ai_assistant_skills_controller" => "AIAssistantSkillsController",
-                              "ai_assistance_header_button" => "AIAssistanceHeaderButton")
-
-    config.to_prepare do
-      OpenProject::Llm::Hooks::AIAssistanceHeaderButton
-    end
+                              "ai_assistant_skills_controller" => "AIAssistantSkillsController")
 
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.

@@ -32,14 +32,21 @@
 <%= content_tag("turbo-frame", id: FRAME_ID) do %>
   <% unless empty? %>
     <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end, size: :medium_portrait, data: { test_selector: "wp-ai-assistance-menu" })) do |menu| %>
-      <% menu.with_show_button(
-           icon: :sparkle,
-           scheme: :invisible,
-           classes: "op-app-header--primer-button",
-           "aria-label": t("ai_assistance.button"),
-           tooltip_direction: :s,
-           data: { test_selector: "wp-ai-assistance-button" }
-         ) %>
+      <% if compact? %>
+        <% menu.with_show_button(
+             icon: :sparkle,
+             scheme: :default,
+             "aria-label": t("ai_assistance.button"),
+             tooltip_direction: :s,
+             data: { test_selector: "wp-ai-assistance-button" }
+           ) %>
+      <% else %>
+        <% menu.with_show_button(scheme: :default, data: { test_selector: "wp-ai-assistance-button" }) do |button| %>
+          <% button.with_leading_visual_icon(icon: :sparkle) %>
+          <% button.with_trailing_action_icon(icon: :"triangle-down") %>
+          <%= t("ai_assistance.button") %>
+        <% end %>
+      <% end %>
       <% skills_by_assistant.each do |assistant, assistant_skills| %>
         <% menu.with_group(data: { test_selector: "wp-ai-assistance-group" }) do |group| %>
           <% group.with_heading(title: heading_title(assistant)) %>

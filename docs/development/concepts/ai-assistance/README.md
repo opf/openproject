@@ -38,7 +38,7 @@ flowchart LR
   AU --> WP["Work package<br/>+ journal cause"]
 ```
 
-1. The app header has an AI Assistance icon button (`AI::Assistance::HeaderButtonComponent`, rendered by the `view_layouts_base_top_menu` hook). Its Stimulus controller (`ai-assistance--header-button`) reads the work package id from the URL: a split view (`…/details/:id`, also on boards and calendars) first, then the full view (`…/work_packages/:id`). It loads `WorkPackages::AIAssistance::MenusController#show` for that id into a turbo frame, and hides the button on other pages. A user without the permission gets an empty frame, and so does a work package that the user cannot see.
+1. The work package toolbars have an "AI Assistance" dropdown: a labelled button in the full view, and an icon button in the split view. The Angular component `op-wp-ai-assistance-slot` loads `AIAssistance::MenusController#show` for the work package into a turbo frame. A user without the permission gets an empty frame, and so does a work package that the user cannot see. After a proposal changed the work package, the component reloads it, so the next inline edit does not conflict.
 2. The menu frame renders one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
 3. A skill that answers at once posts to `ChatsController#start`: a new chat that starts with a start message (role `start`). `#rerun` adds another start to the same chat. Any other skill opens `ChatsController#show`, an empty chat for the user's own question.
 4. `AI::AssistantChats::SendMessageService` stores the question or the start and a pending answer, and `ReplyJob` answers as the user. The dialog polls `#poll` until the answer is done or failed.
@@ -226,7 +226,7 @@ Steps 1 and 2 are useful on their own and can merge first.
 
 ## Module
 
-The code is in the `openproject-llm` module (`modules/llm`), with the LLM connection it uses. The header button uses the plugin extension points: a view hook, a dynamic Stimulus controller (module controllers stay in the core `dynamic/` tree), and Angular services through the plugin context. The engine holds the feature flag, the LLM feature, the routes, the menus, the permissions, the inflections, the hook and the `Principal` and `User` associations. The basic data seeder is `BasicData::Llm::AiAssistantSeeder`, with its data and the role permission in `modules/llm/app/seeders/common.yml`.
+The code is in the `openproject-llm` module (`modules/llm`), with the LLM connection it uses. The toolbar dropdown is a core Angular component, because the work package toolbars have no plugin extension point. The engine holds the feature flag, the LLM feature, the routes, the menus, the permissions, the inflections and the `Group` and `User` associations. The basic data seeder is `BasicData::Llm::AiAssistantSeeder`, with its data and the role permission in `modules/llm/app/seeders/common.yml`.
 
 These parts stay in core:
 

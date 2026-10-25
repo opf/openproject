@@ -31,16 +31,17 @@
 class AIAssistance::MenusController < ApplicationController
   include AIAssistance::Scoped
 
-  # The header loads the menu into a turbo frame on every page. A place the user cannot see
-  # or use gives an empty frame, not an error inside the header: the header asks for any
-  # id in the URL.
+  # The work package toolbars load the menu into a turbo frame. A place the user cannot see
+  # or use gives an empty frame, not an error inside the toolbar.
   skip_before_action :find_place
   skip_before_action :authorize_place
   authorization_checked! :show
   before_action :find_place_or_render_empty
 
   def show
-    render AI::Assistance::MenuButtonComponent.new(place: @place, skills: available_skills), layout: false
+    render AI::Assistance::MenuButtonComponent.new(place: @place, skills: available_skills,
+                                                   compact: params[:compact] == "true"),
+           layout: false
   end
 
   private

@@ -45,18 +45,27 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
   current_user { user }
 
   describe "GET show" do
-    it "renders the menu button in the frame" do
+    it "renders the labelled menu button in the frame" do
       get "/ai_assistance/menu", params: { work_package_id: work_package.id }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('<turbo-frame id="wp-ai-assistance-menu">')
-      expect(response.body).to include("AI Assistance")
+      button = response.parsed_body.at_css("[data-test-selector='wp-ai-assistance-button']")
+      expect(button.text.squish).to eq("AI Assistance")
+    end
+
+    it "renders an icon button for the split view" do
+      get "/ai_assistance/menu", params: { work_package_id: work_package.id, compact: "true" }
+
+      button = response.parsed_body.at_css("[data-test-selector='wp-ai-assistance-button']")
+      expect(button.text.squish).to be_empty
+      expect(response.parsed_body.at_css("tool-tip[for='#{button['id']}']").text.squish).to eq("AI Assistance")
     end
 
     context "with a work package that the user cannot see" do
       let(:hidden_work_package) { create(:work_package) }
 
-      it "renders an empty frame instead of an error, because the header asks for any id in the URL" do
+      it "renders an empty frame instead of an error inside the toolbar" do
         get "/ai_assistance/menu", params: { work_package_id: hidden_work_package.id }
 
         expect(response).to have_http_status(:ok)
