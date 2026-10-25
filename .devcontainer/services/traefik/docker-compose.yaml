@@ -46,7 +46,8 @@ services:
       retries: 3
       start_period: 10s
     networks:
-      default:
+      openproject:
+        ipv4_address: 172.30.0.10
         aliases:
           - traefik.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
           - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}

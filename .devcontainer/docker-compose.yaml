@@ -1,3 +1,9 @@
+networks:
+  openproject:
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
 include:
   - services/keycloak/docker-compose.yaml
   - services/stepca/docker-compose.yaml
@@ -30,6 +36,9 @@ services:
       context: ../
       dockerfile: .devcontainer/Dockerfile
     command: sleep infinity
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.21
     volumes:
       - ../:/home/dev/openproject
       - /tmp/.X11-unix:/tmp/.X11-unix
@@ -48,6 +57,7 @@ services:
       OPENPROJECT_HTTPS: true
       OPENPROJECT_CLI_PROXY: "https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}"
       OPENPROJECT_DB_URL: postgres://openproject:openproject@postgresql:5432/openproject
+      OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: 172.30.0.10
       OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: Keycloak
       OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
       OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}
@@ -61,6 +71,9 @@ services:
     image: postgres:17.11
     restart: always
     shm_size: 128mb
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.20
     environment:
       POSTGRES_USER: openproject
       POSTGRES_PASSWORD: openproject

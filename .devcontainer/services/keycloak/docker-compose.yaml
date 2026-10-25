@@ -30,6 +30,9 @@ services:
       OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: openproject
       OPENPROJECT_OPENID__CONNECT_KEYCLOAK_REDIRECT_URI: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-localhost}/auth/keycloak/callback
     entrypoint: [ "/usr/local/bin/keycloak-create-client.sh" ]
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.32
     volumes:
       - ./keycloak-create-client.sh:/usr/local/bin/keycloak-create-client.sh:ro
       - cacert:/tls:ro
@@ -39,6 +42,9 @@ services:
       - keycloak
     image: quay.io/keycloak/keycloak:26.8
     restart: unless-stopped
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.30
     healthcheck:
       test:
         - CMD
@@ -86,6 +92,9 @@ services:
       - keycloak
     image: postgres:17.11
     restart: unless-stopped
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.31
     environment:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: keycloak

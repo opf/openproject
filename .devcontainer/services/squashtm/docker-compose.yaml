@@ -4,6 +4,9 @@ services:
   squashtm-seed:
     image: alpine:3.22
     restart: on-failure
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.42
     depends_on:
       squashtm:
         condition: service_healthy
@@ -21,6 +24,9 @@ services:
   squashtm:
     image: squashtest/squash
     restart: unless-stopped
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.40
     environment:
       JAVA_TOOL_OPTIONS: "-Dsquash.rest-api.disallow-basic-authentication=false"
       SPRING_PROFILES_ACTIVE: postgresql
@@ -45,6 +51,9 @@ services:
 
   squashtm-db:
     image: postgres:17
+    networks:
+      openproject:
+        ipv4_address: 172.30.0.41
     environment:
       POSTGRES_DB: squashtm
       POSTGRES_USER: ${SQUASH_DB_USER:-squashtm}
