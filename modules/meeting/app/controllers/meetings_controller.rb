@@ -238,7 +238,7 @@ class MeetingsController < ApplicationController
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     Meetings::DeleteService
-      .new(model: @meeting, user: User.current)
+      .new(model: @meeting, user: User.current, cancellation_reason: params[:cancellation_reason])
       .call
       .on_success { flash[:notice] = recurring ? I18n.t(:notice_successful_cancel) : I18n.t(:notice_successful_delete) }
       .on_failure { |call| flash[:error] = call.message }

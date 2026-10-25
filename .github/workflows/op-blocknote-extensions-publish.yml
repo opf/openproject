@@ -3,22 +3,23 @@ name: "BlockNote extensions / Publish to npm"
 on:
   push:
     branches:
-      - dev
+      - release-op-blocknote-extensions
     paths:
-      - 'extensions/op-blocknote-extensions/package.json'
+      - 'extensions/blocknote-extensions/package.json'
 
 permissions:
   contents: read
 
 defaults:
   run:
-    working-directory: ./extensions/op-blocknote-extensions
+    working-directory: ./extensions/blocknote-extensions
 
 jobs:
   publish:
     name: Publish
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: read
       id-token: write
@@ -30,7 +31,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: '24.18.0'
+          node-version: '24.22.1'
           registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
 

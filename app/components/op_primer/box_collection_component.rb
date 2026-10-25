@@ -28,7 +28,7 @@
 #++
 
 module OpPrimer
-  class BoxCollectionComponent < Primer::Component
+  class BoxCollectionComponent < Primer::Component # rubocop:disable OpenProject/AddPreviewForViewComponent
     def initialize(**)
       super
 

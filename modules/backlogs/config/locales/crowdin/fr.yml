@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,8 +73,8 @@ fr:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: There is %{count} work package that was not completed in this sprint.
-                other: There are %{count} work packages that were not completed in this sprint.
+                one: Il y a un lot de travail, le « %{count} », qui n'a pas été mené à bien au cours de ce sprint.
+                other: Il y a %{count} lots de travail qui n'ont pas été menés à bien au cours de ce sprint.
             status:
               not_active: n'est pas actif et ne peut donc pas être fermé.
         sprint_goal:
@@ -135,9 +135,17 @@ fr:
       details: Le bucket de backlog « %{name} » sera supprimé et tous les lots de travaux seront déplacés vers la boîte de réception du backlog. Aucun lot de travaux ne sera supprimé.
       title: Supprimer le bucket de backlog ?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Définissez les dates de début et de fin du sprint afin de générer un graphique burndown.
         blankslate_title: Aucune donnée de burndown disponible
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Unités
     excluded_work_package_types_caption: 'Choisissez les types de lots de travaux à masquer dans le backlog. Les éléments des types sélectionnés n''apparaîtront pas automatiquement dans le backlog, ce qui permet de le concentrer sur le travail pertinent pour votre équipe. Par exemple, des types comme les epics ou les jalons, gérés à un niveau supérieur, peuvent être masqués afin de conserver dans le backlog les éléments sur lesquels l''équipe peut agir.
 
@@ -161,8 +169,8 @@ fr:
       drop_zone_label: Déposez ici pour ajouter cet élément
       label_actions: Actions de la boîte de réception
       show_more:
-        one: Show %{count} more item
-        other: Show %{count} more items
+        one: Afficher %{count} d'autres articles
+        other: Afficher %{count} d'autres articles
       title: Boîte de réception
     index_subheader_component:
       label_search_by_subject: Rechercher des lots de travaux par objet
@@ -186,6 +194,7 @@ fr:
     remaining_hours: Travail restant
     sharing: Partage de sprint
     show_burndown_chart: Graphique burndown
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Lots de travaux du sprint
     sprint_component:
       action_menu:
@@ -209,6 +218,9 @@ fr:
       shared_sprint_info_banner: Il s'agit d'un sprint partagé. Les modifications seront répercutées dans tous les projets qui l'utilisent.
       shared_sprint_warning_banner: Il s'agit d'un sprint partagé. Vous ne disposez pas des autorisations nécessaires pour le modifier.
     sprint_reports:
+      navigation_component:
+        next: Suivante
+        previous: Précédent
       page_header_component:
         breadcrumb: Rapport
         title: Rapport de %{sprint}
@@ -292,9 +304,9 @@ fr:
       update_service:
         invalid_target_type: 'list_type doit être l''une des valeurs suivantes : backlog_bucket avec un list_id, sprint avec un list_id ou inbox sans list_id.'
         missing_target: list_type ou list_id doit être présent.
-  burndown:
-    story_points: Story points
-    story_points_ideal: Story points (idéal)
+  created_resolved:
+    wp_created: Créé
+    wp_resolved: Résolu
   ee:
     features:
       multiple_active_sprints: Plusieurs sprints actifs

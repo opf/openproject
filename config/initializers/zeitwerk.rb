@@ -38,7 +38,7 @@ end
 
 # The order of the matchers is relevant, as less specific matcher could exclude more specific matchers.
 # I.e. `/\Afoo_(.*)_bar\z/` must be specified before `/\Afoo_(.*)\z/` and `/\A(.*)_bar\z/`,
-# as only the first matching rule wil be applied.
+# as only the first matching rule will be applied.
 OpenProject::Inflector.rule do |basename, abspath|
   case basename
   when /\Aoauth_(.*)_api\z/

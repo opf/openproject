@@ -69,6 +69,21 @@ RSpec.describe ResourceAllocations::AssignService, type: :model do
     expect(allocation).to be_filter_based
   end
 
+  describe "updating the schedule" do
+    let(:schedule_service) { instance_spy(ResourceAllocations::UpdateScheduleService) }
+
+    before do
+      matching_user
+      allow(ResourceAllocations::UpdateScheduleService).to receive(:new).and_return(schedule_service)
+    end
+
+    it "recomputes the assigned user's schedule from the start date" do
+      service_call
+
+      expect(schedule_service).to have_received(:call).once.with(users: [matching_user], from: allocation.start_date)
+    end
+  end
+
   context "when the selected user does not match the filter" do
     let(:non_matching_user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 

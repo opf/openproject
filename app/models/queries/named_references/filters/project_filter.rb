@@ -39,7 +39,7 @@ class Queries::NamedReferences::Filters::ProjectFilter < Queries::Filters::Base
     used_in = member_exists_sql("applications.project_id IN (:project_ids)",
                                 extra_joins: "JOIN project_types applications ON applications.variant_id = members.id")
 
-    honouring_negation(conditions(used_in).join(" OR "), { project_ids: integer_values })
+    honoring_negation(conditions(used_in).join(" OR "), { project_ids: integer_values })
   end
 
   private

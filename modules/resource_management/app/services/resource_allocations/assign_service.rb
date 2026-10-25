@@ -29,6 +29,8 @@
 
 module ResourceAllocations
   class AssignService < ::BaseServices::Update
+    include UpdatesSchedule
+
     private
 
     def default_contract_class

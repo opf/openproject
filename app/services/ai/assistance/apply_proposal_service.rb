@@ -79,9 +79,11 @@ module AI
       end
 
       def actions
+        templates = Automations::Register.actions.flat_map(&:templates).index_by(&:key)
         proposal.change_actions.map do |change_action|
-          klass = Automations::Register.actions.lazy.filter_map { |a| a.for(change_action["key"].to_sym) }.first
-          klass.new(change_action["values"])
+          action = templates.fetch(change_action["key"].to_sym).dup
+          action.values = change_action["values"]
+          action
         end
       end
 

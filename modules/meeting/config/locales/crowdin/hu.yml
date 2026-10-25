@@ -89,6 +89,9 @@ hu:
         invalid_time_format: 'nem egy érvényes időpont. Előírt formátum: óó:pp'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ hu:
     blankslate:
       desc: You can create a new meeting or change filter criteria
       title: Nincsenek megjelenítendő találkozók
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: "#%{id} megbeszélésből másolva"
     copy:
       agenda: Napirend másolása
@@ -384,6 +390,7 @@ hu:
         header: 'Elmarad: „%{title} ” című megbeszélés'
         header_occurrence: 'Elmarad: „%{title} ” című megbeszélés előfordulás'
         header_series: 'Elmarad: „%{title} ” című megbeszélés sorozat'
+        reason: Reason for cancellation
         summary: A „%{title}” című megbeszélést a %{actor} törölte, vagy Önt eltávolították a résztvevők közül
         summary_occurrence: Egy „%{title}” című megbeszélés előfordulást a %{actor} törölte, vagy Önt eltávolították a résztvevők közül
         summary_series: A „%{title}” megbeszélés sorozatot a %{actor} törölte, vagy Önt eltávolították a résztvevők közül
@@ -656,7 +663,7 @@ hu:
       error_no_next: Ennek a megbeszélésnek nincs következő időpontja.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Az első megbeszélés már megtörtént.
-      first_created: 'Az első megbeszélés sikeresen létrehozásra került a sablonból. Az összes jövőbeli megbeszélés automatikusan létrehozásra kerül az előző megbeszélés időpontjában.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Ez a megbeszélés egy ismétlődő megbeszélés része.

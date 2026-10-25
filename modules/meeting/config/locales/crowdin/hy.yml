@@ -89,6 +89,9 @@ hy:
         invalid_time_format: վավեր ժամ չէ։ Պահանջվող ձևաչափը՝ HH:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Բաժինը չի պատկանում նույն հանդիպմանը։
           user_invalid: վավեր մասնակից չէ։
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ hy:
     blankslate:
       desc: Դուք կարող եք ստեղծել նոր հանդիպում կամ փոփոխել զտիչի չափանիշները
       title: Ցուցադրելու հանդիպումներ չկան
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Պատճենվել է #%{id} հանդիպումից'
     copy:
       agenda: Պատճենել օրակարգը
@@ -384,6 +390,7 @@ hy:
         header: Չեղարկված՝ '%{title}' հանդիպումը
         header_occurrence: Չեղարկված՝ '%{title}' հանդիպման կրկնությունը
         header_series: Չեղարկված՝ '%{title}' հանդիպումների շարքը
+        reason: Reason for cancellation
         summary: "'%{title}'-ը չեղարկվել է %{actor}-ի կողմից, կամ Դուք հեռացվել եք որպես մասնակից"
         summary_occurrence: "'%{title}'-ի կրկնությունը չեղարկվել է %{actor}-ի կողմից, կամ Դուք հեռացվել եք որպես մասնակից"
         summary_series: "'%{title}' հանդիպումների շարքը չեղարկվել է %{actor}-ի կողմից, կամ Դուք հեռացվել եք որպես մասնակից"
@@ -652,7 +659,7 @@ hy:
       error_no_next: Այս հանդիպման համար հաջորդ կրկնություն չկա։
       error_template_draft: Հանդիպումների շարքի ձևանմուշը դեռևս սևագիր ռեժիմում է։
       first_already_exists: Այս հանդիպումների շարքի առաջին կրկնությունն արդեն ստեղծված է։
-      first_created: 'Առաջին հանդիպումը հաջողությամբ ստեղծվել է ձևանմուշից։ Բոլոր ապագա հանդիպումներն ավտոմատ կերպով կստեղծվեն նախորդ կրկնության պահին։
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Այս հանդիպումը կրկնվող հանդիպումների շարքի մաս է։

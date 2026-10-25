@@ -31,6 +31,9 @@ module Admin
   class TextTransformActionsController < ::ApplicationController
     include OpTurbo::ComponentStream
     include AI::TextTransformActionsFeature
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: AI::TextTransformAction::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     before_action :require_admin
     before_action :require_ai_text_transform_actions_feature
@@ -179,18 +182,6 @@ module Admin
     def stream_form_component(&)
       update_via_turbo_stream(component: Admin::TextTransformActions::FormComponent.new(@text_transform_action))
       respond_with_turbo_streams(&)
-    end
-
-    # The raw list_id is checked because permit cannot distinguish absent from
-    # filtered-out values, and prev_id must be a scalar to reach the anchor lookup.
-    def valid_drop_request?
-      drop_params[:list_type] == AI::TextTransformAction::SORTABLE_LIST_TYPE &&
-        params[:list_id].blank? &&
-        drop_params.key?(:prev_id)
-    end
-
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
     end
   end
 end

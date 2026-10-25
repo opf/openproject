@@ -60,7 +60,7 @@ RSpec.describe "Authentication Stages" do
 
   def expect_not_logged_in
     visit my_account_path
-    wait_for_netowrk_idle
+    wait_for_network_idle
 
     expect(page).to have_no_test_selector "my-account-form"
   end

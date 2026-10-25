@@ -215,13 +215,13 @@ module OpenProject::Bim::BcfXml
     def replace_comments
       markup_node.xpath("./Comment").remove
 
-      Nokogiri::XML::Builder.with(markup_node, &method(:comments))
+      Nokogiri::XML::Builder.with(markup_node) { |xml| comments(xml) }
     end
 
     def replace_viewpoints
       markup_node.xpath("./Viewpoints").remove
 
-      Nokogiri::XML::Builder.with(markup_node, &method(:viewpoints))
+      Nokogiri::XML::Builder.with(markup_node) { |xml| viewpoints(xml) }
     end
 
     ##

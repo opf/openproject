@@ -147,7 +147,7 @@ RSpec.describe "Work package activity tab comment editor",
       wp_page.wait_for_activity_tab
     end
 
-    it "has the rich text editor aria labelled" do
+    it "has the rich text editor aria labeled" do
       activity_tab.add_comment(text: "Sample text", save: false)
 
       activity_tab.expect_focus_on_editor

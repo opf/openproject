@@ -67,14 +67,6 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
                                   description: "Enables project settings for the unit of velocity, effort and capacity. " \
                                                "See AGILE-198 for details."
 
-OpenProject::FeatureDecisions.add :ai_assistance,
-                                  description: "Enables the AI Assistance menu on work packages, " \
-                                               "with skills such as Refresh work package."
-
-OpenProject::FeatureDecisions.add :llm_connection,
-                                  description: "Enables the administration page connecting OpenProject to an " \
-                                               "OpenAI-API-compatible LLM server, and the AI features built on it."
-
-OpenProject::FeatureDecisions.add :semantic_search,
-                                  description: "Enables the semantic search AI feature, which indexes work packages " \
-                                               "as embeddings so they can be found by meaning rather than by keyword."
+OpenProject::FeatureDecisions.add :progressive_web_app,
+                                  description: "Lets OpenProject be installed as a desktop application (PWA). " \
+                                               "See the SE-647 epic for details."

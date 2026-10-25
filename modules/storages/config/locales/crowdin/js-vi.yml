@@ -26,7 +26,8 @@ vi:
         select: Chọn tập tin
         select_all: Chọn tất cả
         selection:
-          zero: Chọn tập tin để liên kết
+          none: Select files to link
+          one: Link %{count} file
           other: Link %{count} files
         success_create:
           other: Successfully created %{count} file links.

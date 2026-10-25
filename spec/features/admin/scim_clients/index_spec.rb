@@ -38,7 +38,7 @@ RSpec.describe "Listing SCIM clients", :js, :selenium, driver: :firefox_de do
     it "renders an enterprise banner and no table" do
       visit admin_scim_clients_path
 
-      expect(page).to be_axe_clean.within("#content")
+      expect(page).to be_axe_clean
 
       expect(page).to have_enterprise_banner(:corporate)
       expect(page).to have_no_test_selector("Admin::ScimClients::TableComponent")

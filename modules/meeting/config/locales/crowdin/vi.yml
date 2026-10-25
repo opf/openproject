@@ -88,6 +88,9 @@ vi:
         invalid_time_format: 'không phải giờ hợp lệ. Yêu cầu định dạng: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -329,6 +332,9 @@ vi:
     blankslate:
       desc: Bạn có thể tạo cuộc họp mới hoặc thay đổi tiêu chí lọc
       title: Không có cuộc họp nào để hiển thị
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Sao chép từ Cuộc họp #%{id}'
     copy:
       agenda: Sao chép chương trình làm việc
@@ -372,6 +378,7 @@ vi:
         header: 'Đã hủy: Cuộc họp ''%{title}'''
         header_occurrence: 'Đã hủy: Cuộc họp diễn ra ''%{title}'''
         header_series: 'Đã hủy: Chuỗi cuộc họp ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' đã bị hủy bởi ' %{actor}' hoặc bạn đã bị loại khỏi danh sách người tham gia"
         summary_occurrence: Sự kiện '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
         summary_series: Chuỗi cuộc họp '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
@@ -640,7 +647,7 @@ vi:
       error_no_next: Không có sự xuất hiện tiếp theo cho cuộc họp này.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Lần xuất hiện đầu tiên của chuỗi cuộc họp này đã được khởi tạo.
-      first_created: 'Cuộc họp đầu tiên đã được tạo thành công từ mẫu. Tất cả các cuộc họp trong tương lai sẽ được tạo tự động tại thời điểm diễn ra trước đó.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Cuộc họp này là một phần của chuỗi cuộc họp định kỳ.

@@ -91,6 +91,9 @@ pl:
         invalid_time_format: 'nie jest prawidłowy. Wymagany format to: GG:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Sekcja nie należy do tego samego spotkania.
           user_invalid: nie jest prawidłowym uczestnikiem.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -365,6 +368,9 @@ pl:
     blankslate:
       desc: Możesz utworzyć nowe spotkanie lub zmienić kryteria filtrowania
       title: Nie ma żadnych spotkań do wyświetlenia
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Skopiowano ze spotkania #%{id}'
     copy:
       agenda: Kopiuj agendę spotkania
@@ -408,6 +414,7 @@ pl:
         header: 'Anulowano: spotkanie „%{title}”'
         header_occurrence: 'Anulowano: wystąpienie spotkania „%{title}”'
         header_series: 'Anulowano: serię spotkań „%{title}”'
+        reason: Reason for cancellation
         summary: "„%{title}” anulował użytkownik %{actor} lub usunięto Cię jako uczestnika"
         summary_occurrence: Wystąpienie „%{title}” zostało anulowane przez użytkownika %{actor} lub usunięto Cię jako uczestnika
         summary_series: Seria spotkań „%{title}” została anulowana przez użytkownika %{actor} lub usunięto Cię jako uczestnika
@@ -688,7 +695,7 @@ pl:
       error_no_next: Nie ma następnego wystąpienia tego spotkania.
       error_template_draft: Szablon serii spotkań jest nadal w trybie wersji roboczej.
       first_already_exists: Pierwsze wystąpienie tej serii spotkań jest już tworzone.
-      first_created: 'Pierwsze spotkanie zostało utworzone z szablonu. Wszystkie przyszłe spotkania zostaną utworzone automatycznie o godzinie poprzedniego wystąpienia.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Spotkanie to jest częścią serii spotkań cyklicznych.

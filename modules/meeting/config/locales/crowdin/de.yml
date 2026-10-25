@@ -89,6 +89,9 @@ de:
         invalid_time_format: 'ist keine gültige Zeit. Erforderliches Format: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Die Sektion gehört nicht zur gleichen Besprechung.
           user_invalid: ist kein gültiger Teilnehmer.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ de:
     blankslate:
       desc: Sie können eine neue Besprechung erstellen oder Filterkriterien ändern
       title: Es sind keine Besprechungen vorhanden
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Kopiert von Meeting #%{id}'
     copy:
       agenda: Tagesordnung kopieren
@@ -384,6 +390,7 @@ de:
         header: 'Abgesagt: Besprechung ''%{title}'''
         header_occurrence: 'Abgesagt: Wiederkehrende Besprechung ''%{title}'''
         header_series: 'Abgesagt: Terminserie ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' wurde von %{actor} abgesagt, oder Sie wurden als Teilnehmer entfernt"
         summary_occurrence: Eine Besprechung der Terminserie '%{title}' wurde von %{actor} abgesagt, oder Sie wurden als Teilnehmer entfernt
         summary_series: Terminserie '%{title}' wurde von %{actor} gelöscht, oder Sie wurden als Teilnehmer entfernt
@@ -656,7 +663,7 @@ de:
       error_no_next: Es gibt keinen nächsten Termin für diese Serie.
       error_template_draft: Die Vorlage für die Terminserie ist noch ein Entwurf.
       first_already_exists: Das erste Vorkommen dieser Terminserie wurde bereits angelegt.
-      first_created: 'Die erste Besprechung wurde erfolgreich aus der Vorlage erstellt. Weitere werden automatisch zu dem Zeitpunkt erstellt, wenn die vorhergehende Besprechung startet.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Diese Besprechung ist Teil einer Terminserie.

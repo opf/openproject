@@ -37,6 +37,7 @@ RSpec.describe "Work package timeline navigation",
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:group_by) { Components::WorkPackages::GroupBy.new }
+  let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:milestone_type) { create(:type, is_milestone: true) }
 
   let(:work_package) do
@@ -129,7 +130,7 @@ RSpec.describe "Work package timeline navigation",
       wp_table.expect_work_package_listed work_package
       wp_table.ensure_work_package_not_listed! work_package2
 
-      # Navigate to the Gantt module agin
+      # Navigate to the Gantt module again
       find(".main-menu--arrow-left-to-project").click
       page.find_test_selector("main-menu-toggler--gantt").click
 
@@ -139,6 +140,10 @@ RSpec.describe "Work package timeline navigation",
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2
       wp_timeline.ensure_work_package_not_listed! work_package
+
+      # The timeline rendered after navigating back still responds
+      find(".wp-row-#{work_package2.id}-timeline").right_click
+      context_menu.expect_options "Add predecessor"
     end
 
     it "can open a context menu in the timeline (Regression #30761)" do

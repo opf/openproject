@@ -91,7 +91,7 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
     it "repaints the project list anyway" do
       link_projects(addable, blocked)
 
-      expect(response.body).to include("projects-table")
+      expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
     end
 
     it "reports the refusal" do

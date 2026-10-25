@@ -26,10 +26,8 @@ sl:
         select: Select files
         select_all: Izberi vse
         selection:
-          zero: Select files to link
+          none: Select files to link
           one: Link %{count} file
-          two: Link %{count} files
-          few: Link %{count} files
           other: Link %{count} files
         success_create:
           one: Successfully created %{count} file link.

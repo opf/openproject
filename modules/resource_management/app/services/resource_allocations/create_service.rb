@@ -29,5 +29,6 @@
 
 module ResourceAllocations
   class CreateService < ::BaseServices::Create
+    include UpdatesSchedule
   end
 end

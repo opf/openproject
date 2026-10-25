@@ -88,6 +88,9 @@ id:
         invalid_time_format: bukanlah waktu yang valid. Format seharusnya; JJ:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -329,6 +332,9 @@ id:
     blankslate:
       desc: Anda dapat membuat pertemuan baru atau mengubah kriteria filter
       title: Tidak ada rapat yang ditampilkan
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Disalin dari Meeting #%{id}'
     copy:
       agenda: Salin agenda
@@ -372,6 +378,7 @@ id:
         header: 'Dibatalkan: Rapat ''%{title}'''
         header_occurrence: 'Dibatalkan: Rapat terjadwal ''%{title}'''
         header_series: 'Dibatalkan: Seri rapat ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
@@ -640,7 +647,7 @@ id:
       error_no_next: Tidak ada jadwal acara berikutnya untuk rapat ini.
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Rapat pertama dalam rangkaian rapat ini telah dilaksanakan.
-      first_created: 'Rapat pertama telah berhasil dibuat dari templat. Semua rapat berikutnya akan dibuat secara otomatis pada waktu terjadinya acara sebelumnya.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Rapat ini merupakan bagian dari rangkaian rapat yang berkala.

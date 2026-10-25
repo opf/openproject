@@ -61,6 +61,7 @@ ko:
         single: '"%{name}" 선택'
       remove: "%{name} 삭제"
     autocompleter:
+      create_label: Create label
       notFoundText: 항목 없음
       placeholder: 검색할 유형
       project:
@@ -162,6 +163,7 @@ ko:
     button_stop_timer: 타이머 중지
     button_uncheck_all: 모두 선택 취소
     button_update: 업데이트
+    button_view_markdown: View Markdown
     caption_rate_history: 요금 기록
     card:
       add_new: 새로운 카드를 추가하다
@@ -359,8 +361,8 @@ ko:
     ical_sharing_modal:
       copy_url_label: URL 복사
       description: URL(iCalendar)을 사용하여 외부 클라이언트에서 이 캘린더를 구독하고 여기에서 최신 작업 패키지 정보를 볼 수 있습니다.
-      ical_generation_error_text: 캘린더 URL을 생성하는 중에 오류가 발생했습니다.
-      inital_setup_error_message: 데이터를 가져오는 중에 오류가 발생했습니다.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" URL이 클립보드에 복사되었습니다. 구독을 완료하려면 캘린더 클라이언트에 붙여넣으세요.'
       title: 캘린더 구독
       token_name_description_text: 여러 장치에서 이 캘린더를 구독하는 경우 이 이름은 <a href="%{myAccessTokensUrl}" target="_blank">액세스 토큰</a> 목록에서 장치를 구분하는 데 도움이 됩니다.
@@ -552,6 +554,8 @@ ko:
     label_reset: 재설정
     label_resize_project_menu: 프로젝트 메뉴 크기 조정
     label_save_as: 다른 이름으로 저장
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: 열 검색
     label_select_watcher: 주시하는 사람을 선택
     label_selected_filter_list: 선택된 필터

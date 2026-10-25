@@ -26,7 +26,8 @@ ms:
         select: Pilih fail
         select_all: Pilih semua
         selection:
-          zero: Pilih fail untuk dipautkan
+          none: Select files to link
+          one: Link %{count} file
           other: Link %{count} files
         success_create:
           other: Successfully created %{count} file links.

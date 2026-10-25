@@ -36,7 +36,7 @@ module Boards
 
       return create_queries_results.find(&:failure?) if create_queries_results.any?(&:failure?)
 
-      set_attributes(params.merge(query_ids: create_queries_results.map(&:result).map(&:id)))
+      set_attributes(params.merge(query_ids: create_queries_results.map { |result| result.result.id }))
     end
 
     private

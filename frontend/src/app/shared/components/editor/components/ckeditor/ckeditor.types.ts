@@ -47,6 +47,11 @@ export interface CKEditorDomEventData {
   keyCode:number;
 }
 
+export interface CKEditorFocusTracker {
+  isFocused:boolean;
+  on(event:string, callback:(evt:unknown, name:string, value:boolean) => void):void;
+}
+
 export interface ICKEditorInstance {
   id:string;
 
@@ -79,13 +84,18 @@ export interface ICKEditorInstance {
       document:Document
     }
   };
-  config:any;
-  ui:any;
+  config:{
+    get(name:'autosave'):{ save(editor:ICKEditorInstance):void };
+  };
+  ui:{
+    focusTracker:CKEditorFocusTracker;
+    view:{ toolbar:{ element:HTMLElement } };
+  };
   element:HTMLElement;
 }
 
 export interface ICKEditorStatic {
-  create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  create(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 
   createCustomized(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 

@@ -292,7 +292,7 @@ module Authentication
     end
 
     ##
-    # Indicates whether OmniAuth::Strategies::Delevoper strategy is used.
+    # Indicates whether OmniAuth::Strategies::Developer strategy is used.
     # https://github.com/omniauth/omniauth/blob/0bcfd5b25bf946422cd4d9c40c4f514121ac04d6/lib/omniauth/strategies/developer.rb
     # if true:
     #   identity_url should not be set and

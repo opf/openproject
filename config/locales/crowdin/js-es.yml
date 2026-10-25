@@ -59,6 +59,7 @@ es:
         single: Seleccione "%{name}"
       remove: Elimine "%{name}"
     autocompleter:
+      create_label: Create label
       notFoundText: No se encontraron elementos
       placeholder: Escriba para buscar
       project:
@@ -160,6 +161,7 @@ es:
     button_stop_timer: Detener temporizador
     button_uncheck_all: Deseleccionar todos
     button_update: Actualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Historial de tasas
     card:
       add_new: Añadir nueva tarjeta
@@ -357,8 +359,8 @@ es:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Puede utilizar la URL (iCalendar) para suscribirse a este calendario en un cliente externo y ver desde allí la información actualizada de los paquetes de trabajo.
-      ical_generation_error_text: Se ha producido un error al generar la URL del calendario.
-      inital_setup_error_message: Se ha producido un error al obtener los datos.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: La URL «%{name}» se ha copiado correctamente en su portapapeles. Péguela en su cliente de calendario para completar la suscripción.
       title: Suscribirse al calendario
       token_name_description_text: Si se suscribe a este calendario desde varios dispositivos, este nombre le ayudará a distinguirlos en su lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acceso</a>.
@@ -550,6 +552,8 @@ es:
     label_reset: Reiniciar
     label_resize_project_menu: Cambiar el tamaño del menú del proyecto
     label_save_as: Guardad como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Buscar una columna
     label_select_watcher: Selecciona un observador...
     label_selected_filter_list: Filtros seleccionados

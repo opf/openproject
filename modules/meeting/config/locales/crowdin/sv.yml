@@ -89,6 +89,9 @@ sv:
         invalid_time_format: är inte en giltig tid. Använd formatet HH:MM
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Avsnittet tillhör inte samma möte.
           user_invalid: är inte en giltig deltagare.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ sv:
     blankslate:
       desc: Du kan skapa ett nytt möte eller ändra filtervillkoren
       title: Det finns inga möten att visa
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Kopierat från möte #%{id}'
     copy:
       agenda: Kopiera agenda
@@ -384,6 +390,7 @@ sv:
         header: 'Inställt: Möte ''%{title}'''
         header_occurrence: 'Inställt: Mötesförekomst ''%{title}'''
         header_series: 'Inställt: Mötesserie ''%{title}'''
+        reason: Reason for cancellation
         summary: '"%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare'
         summary_occurrence: En förekomst av "%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare
         summary_series: Mötesserien "%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare
@@ -656,7 +663,7 @@ sv:
       error_no_next: Det finns ingen nästa händelse för detta möte.
       error_template_draft: Mötesseriesmallen är fortfarande i utkastläge.
       first_already_exists: Den första förekomsten av denna mötesserie är existerar redan.
-      first_created: 'Det första mötet har skapats från mallen. Alla framtida möten kommer att skapas automatiskt vid tiden för den föregående händelsen.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Mötet ingår i en återkommande mötesserie.

@@ -26,7 +26,7 @@ pt-BR:
         select: Selecionar arquivos
         select_all: Selecionar tudo
         selection:
-          zero: Selecione arquivos para vincular
+          none: Select files to link
           one: Link %{count} file
           other: Link %{count} files
         success_create:

@@ -339,26 +339,11 @@ module OpenProject::Storages
                uncacheable: true
     end
 
-    # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)
-    # and the return value is a string.
-    add_api_path :storages do
-      "#{root}/storages"
-    end
-
-    add_api_path :project_storages do
-      "#{root}/project_storages"
-    end
-
-    add_api_path :project_storage do |id|
-      "#{project_storages}/#{id}"
-    end
+    add_api_resource_paths :storage, only: %i[index show]
+    add_api_resource_paths :project_storage, only: %i[index show]
 
     add_api_path :project_storage_open do |id|
       "#{project_storage(id)}/open"
-    end
-
-    add_api_path :storage do |storage_id|
-      "#{storages}/#{storage_id}"
     end
 
     add_api_path :storage_open do |storage_id|
@@ -389,9 +374,7 @@ module OpenProject::Storages
       "#{work_package(work_package_id)}/file_links"
     end
 
-    add_api_path :file_link do |file_link_id|
-      "#{root}/file_links/#{file_link_id}"
-    end
+    add_api_resource_paths :file_link, only: :show
 
     add_api_path :file_link_download do |file_link_id|
       "#{file_link(file_link_id)}/download"

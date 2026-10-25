@@ -118,7 +118,7 @@ class Report::Walker
     result ||= query.result.tap { |r| sort(r) }
     if result.row?
       if result.final_row?
-        subresults = query.table.with_gaps_for(:column, result).map(&method(:walk_cell))
+        subresults = query.table.with_gaps_for(:column, result).map { |cell| walk_cell(cell) }
         for_final_row.call result, subresults
       else
         subresults = result.map { |r| body(r) }
@@ -126,7 +126,7 @@ class Report::Walker
       end
     else
       # you only get here if no rows are defined
-      result.each_direct_result.map(&method(:walk_cell))
+      result.each_direct_result.map { |cell| walk_cell(cell) }
     end
   end
 end

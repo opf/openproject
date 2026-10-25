@@ -89,6 +89,9 @@ pt-PT:
         invalid_time_format: 'não é uma hora válida. Formato exigido: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: A secção não pertence à mesma reunião.
           user_invalid: não é um participante válido.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -341,6 +344,9 @@ pt-PT:
     blankslate:
       desc: Pode criar uma nova reunião ou alterar os critérios de filtragem
       title: Não há reuniões para apresentar
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 'Copiado da reunião #%{id}'
     copy:
       agenda: Copiar agenda
@@ -384,6 +390,7 @@ pt-PT:
         header: 'Cancelada: Reunião "%{title}"'
         header_occurrence: 'Cancelada: ocorrência de reunião "%{title}"'
         header_series: 'Cancelada: série de reuniões "%{title}"'
+        reason: Reason for cancellation
         summary: "'%{title}' foi cancelado por %{actor}, ou foi removido como participante"
         summary_occurrence: Uma ocorrência de '%{title}' foi cancelada por %{actor}, ou foi removido como participante
         summary_series: A série de reuniões '%{title}' foi cancelada por %{actor}, ou foi removido como participante
@@ -656,7 +663,7 @@ pt-PT:
       error_no_next: Esta reunião não tem data prevista para a sua próxima ocorrência.
       error_template_draft: O modelo da série de reuniões ainda está no modo rascunho.
       first_already_exists: A primeira ocorrência desta série de reuniões já está instanciada.
-      first_created: 'A primeira reunião foi criada com êxito a partir do modelo. Todas as reuniões futuras serão criadas automaticamente na altura da ocorrência anterior.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: Esta reunião faz parte de uma série de reuniões recorrentes.

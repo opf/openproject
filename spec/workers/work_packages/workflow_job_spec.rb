@@ -55,14 +55,14 @@ RSpec.describe WorkPackages::WorkflowJob do
   subject(:perform) { described_class.new.perform(journal, changes) }
 
   context "when the status changes from an existing value" do
-    it "invokes both the creation-wizard reupload and the type artefact export" do
+    it "invokes both the creation-wizard reupload and the type artifact export" do
       perform
 
       expect(reupload_service).to have_received(:call!).with(changes:)
       expect(type_export_service).to have_received(:call!).with(changes:)
     end
 
-    it "acts as the journal's user so generated artefacts are attributed to them" do
+    it "acts as the journal's user so generated artifacts are attributed to them" do
       current_user_during_call = nil
       allow(type_export_service).to receive(:call!) { current_user_during_call = User.current }
 

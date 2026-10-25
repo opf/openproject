@@ -42,6 +42,10 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
     end
   end
 
+  def self.mentionable_users(users, _journal)
+    users
+  end
+
   def self.supports_ian?(_reason)
     true
   end

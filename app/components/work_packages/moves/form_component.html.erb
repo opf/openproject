@@ -133,6 +133,23 @@ See COPYRIGHT and LICENSE files for more details.
                     ) %>
               </div>
             </div>
+            <% if OpenProject::FeatureDecisions.work_package_labels_active? %>
+              <div class="form--field">
+                <label class="form--label" for="label_ids">
+                  <%= WorkPackage.human_attribute_name(:labels) %>
+                </label>
+                <div class="form--field-container">
+                  <%= styled_select_tag(
+                        "label_ids[]",
+                        content_tag("option", t(:label_no_change_option), value: "", selected: no_label_change_selected?) +
+                          content_tag("option", t(:label_none), value: "none", selected: label_removal_selected?) +
+                          options_from_collection_for_select(available_labels, :id, :name, selected_label_ids),
+                        id: "label_ids",
+                        multiple: true
+                      ) %>
+                </div>
+              </div>
+            <% end %>
             <div class="form--field">
               <label class="form--label" for="priority_id"><%= WorkPackage.human_attribute_name(:priority) %></label>
               <div class="form--field-container">

@@ -694,7 +694,7 @@ describe('Sortable lists item controller', () => {
     });
   });
 
-  it('adds a text/html link flavour when the item has a label', () => {
+  it('adds a text/html link flavor when the item has a label', () => {
     const element = document.createElement('article');
 
     connectedControllerFor(element, {
@@ -728,7 +728,7 @@ describe('Sortable lists item controller', () => {
     );
   });
 
-  it('keeps a non-web URL out of the text/html flavour', () => {
+  it('keeps a non-web URL out of the text/html flavor', () => {
     const element = document.createElement('article');
 
     connectedControllerFor(element, {
@@ -1615,7 +1615,7 @@ describe('Sortable lists item controller', () => {
     });
 
     // A fixed row is still an ordered participant: it anchors drops for its
-    // orderable neighbours, so its drop target must stay registered.
+    // orderable neighbors, so its drop target must stay registered.
     it('still registers a drop target when the item is fixed', async () => {
       const item = await renderItem({ mobility: 'fixed' });
 

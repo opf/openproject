@@ -176,7 +176,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     work_package.values_at(*fields).one?(&:present?)
   end
 
-  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable-next Metrics/AbcSize
   def update_derivable_date_attribute
     case derivable_date_attribute
     when :duration
@@ -196,7 +196,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       work_package.start_date = days.start_date(work_package.due_date, work_package.duration)
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def invalid_duration?
     return false if work_package.duration.nil?
@@ -264,7 +263,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     TypeVariant
       .pluck(:default_work_package_description)
       .compact
-      .map(&method(:normalize_whitespace))
+      .map { |desc| normalize_whitespace(desc) }
       .include?(normalize_whitespace(work_package.description))
   end
 

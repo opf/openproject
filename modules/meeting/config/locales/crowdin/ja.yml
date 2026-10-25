@@ -88,6 +88,9 @@ ja:
         invalid_time_format: '有効な時間ではありません。必要なフォーマット: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: Section does not belong to the same meeting.
           user_invalid: is not a valid participant.
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -329,6 +332,9 @@ ja:
     blankslate:
       desc: 新しい会議を作成したりフィルタ条件を変更することができます
       title: 表示する会議がありません
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: 会議#%{id} からコピーしました
     copy:
       agenda: 議題をコピー
@@ -372,6 +378,7 @@ ja:
         header: キャンセルされました：会議「%{title}」
         header_occurrence: 'キャンセル: 会議発生''%{title}'''
         header_series: 'キャンセル: 一連の会議 ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
@@ -638,7 +645,7 @@ ja:
       error_no_next: 次回の開催はありません。
       error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: この一連の会議の最初の発生は既にサイト化されています。
-      first_created: '最初の会議がテンプレートから正常に作成されました。今後作成される会議はすべて、前回の開催時に自動的に作成されます。
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: この会議は、定期的に開催される一連の会議の一環である。

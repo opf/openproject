@@ -108,6 +108,8 @@ ldap_encryption_documentation:
 manual_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/manual/
   label: Manual installation
+mobile_app_play_store:
+  href: https://play.google.com/store/apps/details?id=org.openproject.app
 multiple_versions_documentation:
   href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions
 newsletter:
@@ -222,6 +224,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#c-jwt-from-identity-provider
   ssrf_protection:
     href: https://www.openproject.org/docs/installation-and-operations/configuration/ssrf-protection/
+  types:
+    href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-types/
 terms_of_service:
   href: https://www.openproject.org/terms-of-service/
 text_formatting:

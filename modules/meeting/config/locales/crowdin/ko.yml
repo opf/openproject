@@ -88,6 +88,9 @@ ko:
         invalid_time_format: '은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM'
       models:
         meeting_agenda_item:
+          meeting_closed: The meeting is closed. Its agenda items can no longer be moved.
+          meeting_is_template: Template agenda items cannot be moved to the next meeting.
+          not_in_recurring_series: The agenda item does not belong to a recurring meeting.
           section_not_belong_to_meeting: 섹션이 같은 미팅에 속하지 않습니다.
           user_invalid: "- 유효한 참가자가 아닙니다."
           vote_based_sorting_required: Voting requires vote-based agenda sorting.
@@ -329,6 +332,9 @@ ko:
     blankslate:
       desc: 새 미팅을 만들거나 필터 기준을 변경할 수 있습니다
       title: 표시할 미팅이 없습니다
+    cancel:
+      reason_caption: This will be included in the cancellation email sent to participants when notifications are enabled.
+      reason_label: Reason for cancellation
     copied: '미팅 #%{id}에서 복사됨'
     copy:
       agenda: 의제 복사
@@ -372,6 +378,7 @@ ko:
         header: '취소됨: 미팅 ''%{title}'''
         header_occurrence: '취소됨: 미팅 항목 ''%{title}'''
         header_series: '취소됨: 미팅 시리즈 ''%{title}'''
+        reason: Reason for cancellation
         summary: "'%{title}'이(가) %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
         summary_occurrence: "'%{title}' 항목이 %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
         summary_series: "'%{title}' 미팅 시리즈가 %{actor} 님에 의해 취소되었거나, 참가자에서 회원님이 제거되었습니다"
@@ -638,7 +645,7 @@ ko:
       error_no_next: 이 미팅의 다음 항목이 없습니다.
       error_template_draft: 미팅 시리즈 템플릿이 아직 초안 모드에 있습니다.
       first_already_exists: 이 미팅 시리즈의 첫 번째 항목은 이미 인스턴스화되었습니다.
-      first_created: '첫 번째 미팅이 템플릿에서 성공적으로 생성되었습니다. 향후 모든 미팅은 이전 항목이 발생한 시점에 자동으로 생성됩니다.
+      first_created: 'The first meeting has been successfully created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
       infoline: 이 미팅은 반복 미팅 시리즈의 일부입니다.

@@ -38,7 +38,7 @@ FactoryBot.define do
       member_with_permissions { {} }
 
       # example:
-      #   member_wih_roles: {
+      #   member_with_roles: {
       #     user => role1,
       #     other_user => [role2, role3]
       #   }
@@ -50,7 +50,7 @@ FactoryBot.define do
     sequence(:name) { |n| "My Project No. #{n}" }
     sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "MPN#{n}" : "myproject_no_#{n}" }
 
-    # Use this trait for specs that exercise semantic-mode behaviour.
+    # Use this trait for specs that exercise semantic-mode behavior.
     # Produces a deterministic uppercase identifier that satisfies
     # Projects::Identifier's semantic format constraints
     # (\A[A-Z][A-Z0-9_]*\z, max 10 chars).

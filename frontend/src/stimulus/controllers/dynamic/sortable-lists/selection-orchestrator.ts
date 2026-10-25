@@ -33,7 +33,7 @@ import {
   listBoundaryItem,
   liveOrderableKeys,
   liveOrderableListItems,
-  neighbourItem,
+  neighborItem,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
@@ -283,7 +283,7 @@ export class SelectionOrchestrator {
   private handleArrow(event:KeyboardEvent, candidate:SelectionCandidate, offset:1|-1):void {
     event.preventDefault();
 
-    const next = neighbourItem(this.host.rootElement, candidate.itemElement, offset);
+    const next = neighborItem(this.host.rootElement, candidate.itemElement, offset);
     if (!next) {
       return;
     }

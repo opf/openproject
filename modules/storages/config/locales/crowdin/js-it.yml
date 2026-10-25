@@ -26,7 +26,7 @@ it:
         select: Seleziona file
         select_all: Seleziona tutto
         selection:
-          zero: Seleziona i file da collegare
+          none: Select files to link
           one: Link %{count} file
           other: Link %{count} files
         success_create:

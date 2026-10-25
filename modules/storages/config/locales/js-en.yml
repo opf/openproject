@@ -25,9 +25,9 @@ en:
         select: "Select files"
         select_all: "Select all"
         selection:
+          none: "Select files to link"
           one: "Link %{count} file"
           other: "Link %{count} files"
-          zero: "Select files to link"
         success_create:
           one: "Successfully created %{count} file link."
           other: "Successfully created %{count} file links."

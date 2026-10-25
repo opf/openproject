@@ -1,0 +1,144 @@
+# /api/v3/workspaces/{id}
+---
+get:
+  summary: Get workspace
+  operationId: get_workspace
+  tags:
+    - Workspace
+  description: |-
+    Returns a single workspace identified by its id. As workspaces are the generic term for a number of resources like
+    projects and portfolios, the returned entity will be either of those resources.
+  parameters:
+    - name: id
+      schema:
+        type: string
+      in: path
+      required: true
+      description: The workspace id
+      example: '1337'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            oneOf:
+              - $ref: '../components/schemas/portfolio_model.yml'
+              - $ref: '../components/schemas/program_model.yml'
+              - $ref: '../components/schemas/project_model.yml'
+    '404':
+      description: |-
+        Returned if the workspace was not found by its id or the user has not the permissions to see it. The permission
+        has any user that is either an instance admin or a member of the workspace.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+            
+patch:
+  summary: Update workspace
+  operationId: update_workspace
+  tags:
+    - Workspace
+  description: |-
+    Updates a single workspace identified by its id.
+    
+    It can be used to archive/reactivate a workspace, sending only the `active` attribute.
+    
+    It can be used to edit the workspace information and or the workspace attributes, which both require a different
+    set of permissions.
+  parameters:
+    - name: id
+      schema:
+        type: string
+      in: path
+      required: true
+      description: The workspace id
+      example: '1337'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/workspace_patch_model.yml'
+        examples:
+          "archive workspace":
+            $ref: '../components/examples/workspace_archive_request.yml'
+          "update workspace information":
+            $ref: '../components/examples/workspace_update_information_request.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            oneOf:
+              - $ref: '../components/schemas/portfolio_model.yml'
+              - $ref: '../components/schemas/program_model.yml'
+              - $ref: '../components/schemas/project_model.yml'
+    '404':
+      description: |-
+        Returned if the workspace was not found by its id or the user has not the permissions to see it. The permission
+        has any user that is either an instance admin or a member of the workspace.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+
+delete:
+  summary: Delete workspace
+  operationId: delete_workspace
+  tags:
+    - Workspace
+  description: Deletes a workspace identified by its id.
+  parameters:
+    - name: id
+      schema:
+        type: string
+      in: path
+      required: true
+      description: The workspace id
+      example: '1337'
+  responses:
+    '204':
+      description: Returned if the workspace was successfully deleted.
+    '403':
+      description: |-
+        Returned if the user has no permission to delete the workspace. Only instance admins are allowed to delete
+        workspaces.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+    '404':
+      description: |-
+        Returned if the workspace was not found by its id or the user has not the permissions to see it. The permission
+        has any user that is either an instance admin or a member of the workspace.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+            

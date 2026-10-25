@@ -504,7 +504,7 @@ class User < Principal
 
   ##
   # Finds all users with the mail address matching the given mail
-  # Includes searching for suffixes from +Setting.mail_suffix_separtors+.
+  # Includes searching for suffixes from +Setting.mail_suffix_separators+.
   #
   # For example:
   #  - With Setting.mail_suffix_separators = '+'

@@ -235,7 +235,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_no_css(".op-border-box-list-header--heading-line .Truncate")
     end
 
-    it "keeps the list labelled by a header that contains the title text" do
+    it "keeps the list labeled by a header that contains the title text" do
       rendered = render_inline(
         described_class.new(container: "hdr-breadcrumbs-label")
       ) do |list|
