@@ -1,0 +1,32 @@
+{
+  "name": "OpenProject with SquashTM and Keycloak",
+  "dockerComposeFile": [
+    "../docker-compose.yaml"
+  ],
+  "containerEnv": {
+    "PROFILES": "squashtm keycloak"
+  },
+  "runServices": [
+    "squashtm", "squashtm-db",
+    "postgresql", "openproject",
+    "keycloak", "keycloak-db", "keycloak_client_setup"
+  ],
+  "service": "openproject",
+  "workspaceFolder": "/home/dev/openproject",
+  "containerUser": "dev",
+  "updateRemoteUserUID": true,
+  "updateContentCommand": "/home/dev/openproject/.devcontainer/update.sh",
+  "postStartCommand": "/home/dev/openproject/.devcontainer/start.sh",
+  "forwardPorts": [
+    "3000/tcp",
+    "4200/tcp"
+  ],
+  "portsAttributes": {
+    "3000/tcp": {
+      "label": "Backend"
+    },
+    "4200/tcp": {
+      "label": "Frontend"
+    }
+  }
+}
