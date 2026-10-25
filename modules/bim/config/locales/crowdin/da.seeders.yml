@@ -61,7 +61,7 @@ da:
         item_2:
           name: BIM-ledere
         item_3:
-          name: BIM-Modelbyggere
+          name: BIM-modellører
         item_4:
           name: Ledende BIM-koordinatorer
         item_5:
@@ -515,14 +515,14 @@ da:
                   description: |-
                     # Mål
 
-                    * Modellering af den oprindelige BIM-model
-                    * Oprettelse af en BIM-model for hele projektteamet
+                    *   Modellering af den indledende BIM-model
+                    *   Oprettelse af en BIM-model til hele projektteamet
 
                     # Beskrivelse
 
-                    * Ifølge de indsamlede data fra kunden vil den oprindelige model blive modelleret
-                    * Modellen skal modelleres i henhold til LOD-matricerne og indeholde de nødvendige oplysninger
-                    * ...
+                    *   Den indledende model modelleres ud fra de data, der er indsamlet hos kunden
+                    *   Modellen skal modelleres efter LOD-matricerne og indeholde de nødvendige oplysninger
+                    *   ...
                 item_1:
                   subject: Indledende, intern modelkontrol og revision
                   description: |-
@@ -546,13 +546,13 @@ da:
                   description: |-
                     # Mål
 
-                    * At have et grundlag for at udvikle den interne model/ tilbyde svar
-                    * At bruge den eksterne model til at udvikle den interne model
+                    *   Et grundlag for at udvikle den interne model / give svar
+                    *   Brug af den eksterne model til at udvikle den interne model
 
                     # Beskrivelse
 
-                    * Den eksterne model vil blive refereret i BIM-platformen og dermed brugt til modellering af den interne model
-                    * ...
+                    *   Der henvises til den eksterne model på BIM-platformen, og den bruges dermed til at modellere den interne model
+                    *   ...
                 item_1:
                   subject: Modellering af BIM-modellen
                   description: |-
@@ -611,10 +611,10 @@ da:
               subject: Modellering og koordinering, (n-te minus 1) cyklus
               description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_9:
-              subject: Modellering og koordinering af n-te cyklus
+              subject: Modellering og koordinering, n-te cyklus
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_10:
-              subject: Færdiggørelse af modellering og koordinering, n'te cyklus
+              subject: Afsluttende modellering og koordinering, n-te cyklus
               description: Denne type er hierarkisk overordnet typerne &quot;Clash&quot; og &quot;Request&quot;, og repræsenterer således en generel note.
             item_11:
               subject: Brug modellen til byggefasen

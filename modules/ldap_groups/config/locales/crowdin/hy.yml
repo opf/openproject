@@ -56,7 +56,7 @@ hy:
 
           '
       label_n_groups_found:
-        one: Զտիչով գտնվել է 1 խումբ
+        one: "%{count} group found by the filter"
         other: Զտիչով գտնվել է %{count} խումբ
         zero: Զտիչով խմբեր չեն գտնվել
       plural: LDAP խմբերի համաժամացման զտիչներ
@@ -91,7 +91,7 @@ hy:
       plural: Համաժամացված LDAP խմբեր
       singular: Համաժամացված LDAP խումբ
       upsell:
-        description: Օգտվեք համաժամացված LDAP խմբերի առավելություններից՝ օգտատերերին կառավարելու, նրանց թույլտվությունները փոփոխելու և խմբերի միջև օգտատերերի կառավարումը հեշտացնելու համար։
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP խմբերի անդամակցությունների համաժամացում։
     name: OpenProject LDAP խմբեր

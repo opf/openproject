@@ -54,7 +54,7 @@ ko:
 
           '
       label_n_groups_found:
-        one: 필터로 1개 그룹 찾음
+        one: "%{count} group found by the filter"
         other: 필터로 %{count}개 그룹 찾음
         zero: 필터로 그룹 찾지 못함
       plural: LDAP 그룹 동기화 필터
@@ -89,7 +89,7 @@ ko:
       plural: 동기화된 LDAP 그룹
       singular: 동기화된 LDAP 그룹
       upsell:
-        description: 동기화된 LDAP 그룹을 활용하여 사용자를 관리하고 사용자의 권한을 변경하고 그룹 전체에서 사용자 관리를 용이하게 하세요.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP 그룹 멤버십 동기화.
     name: OpenProject LDAP 그룹

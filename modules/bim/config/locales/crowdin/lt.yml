@@ -114,7 +114,7 @@ lt:
     not_recommended: nerekomenduojama
     recommended: rekomenduojama
     x_bcf_issues:
-      one: Viena BCF problema
+      one: "%{count} BCF issue"
       other: "%{count} BCF problemos"
       zero: Nėra BCF trūkumų
   bim:

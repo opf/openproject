@@ -50,7 +50,7 @@ tr:
       openid_connect/user_token:
         one: OpenID Connect token
         other: OpenID Connect tokens
-  logout_warning: 'Çıkış yaptınız. Gönderdiğiniz herhangi bir formun içeriği kaybolabilir. Lütfen giriş yapın].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -79,9 +79,9 @@ tr:
       display_name: Sağlayıcının adı. Bu, oturum açma düğmesi olarak ve sağlayıcılar listesinde görüntülenecektir.
       endpoint_url: OpenID Connect sağlayıcısı tarafından size verilen uç nokta URL'si
       group_regexes: Satır başına bir düzenli ifade kalıbı. Bunun nasıl yapılacağı hakkında daha fazla bilgi için lütfen [belgeleri](docs_url) okuyun.
-      group_regexes_detail: İsteğe bağlı olarak, gruplar talebinden grup adlarını eşleştirmek için düzenli ifadeler kullanarak kalıplar tanımlayın. Örneğin, <code>^Level1/Level2/([\w/]+)$</code> gibi bir kalıp girilmesi, "Level1/Level2/GroupName/SubGroup" içeren bir yanıttan "Groupname/SubGroup" grubunu çıkaracaktır. Hiçbir kalıp eşleşmezse, grup yok sayılır. Tüm grupları tam grup adlarını kullanarak senkronize etmek için boş bırakın.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Düzenli ifade kalıbınızı örnek OIDC kullanıcı bilgilerine karşı test etmek için 'Kalıbı test et' seçeneğine tıklayın.
-      group_sync: Grup üyeliği bilgilerini kimlik sağlayıcısından otomatik olarak alın ve senkronize edin.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Kullanıcının üyesi olduğu grup adlarını belirtmesi beklenen talebin adını belirtin.
       limit_self_registration: Etkinleştirilirse, kullanıcılar yalnızca sağlayıcı tarafındaki yapılandırma izin veriyorsa bu sağlayıcıyı kullanarak kaydolabilir.
       mapping_admin: 'Yönetici durumu için kullanılmak üzere userinfo yanıtında özel bir eşleme sağlayın. Bir boolean özniteliğinin döndürülmesini bekler.
@@ -104,7 +104,7 @@ tr:
       oidc_information: Bu değerler OpenID Connect sağlayıcısını yapılandırmak için gereklidir.
       post_logout_redirect_uri: OpenID Connect sağlayıcısının bir oturum kapatma isteğinden sonra yeniden yönlendirmesi gereken URL.
       scope: Özel kapsamlar talep etmek istiyorsanız, buraya boşluklarla ayrılmış bir veya birden fazla kapsam değeri ekleyebilirsiniz. Daha fazla bilgi için [OpenID Connect belgelerine](docs_url) bakın.
-      tenant: Lütfen öntanımlı müşteriyi kendinizinkiyle değiştirin, mümkünse. Bu <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri"> belgeye bakın</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: OpenID sağlayıcıları
     providers:
       client_details_description: OpenProject'in bir OIDC istemcisi olarak yapılandırma ayrıntıları
@@ -164,7 +164,7 @@ tr:
       delete_result_1: Sağlayıcının adını mevcut sağlayıcılardan kaldır.
       delete_result_direct: Bu sağlayıcı doğrudan oturum açma sağlayıcısı olarak işaretlenmiştir. Ayar kaldırılacak ve kullanıcılar artık oturum açmak için sağlayıcıya yönlendirilmeyecektir.
       delete_result_user_count:
-        one: Bir kullanıcı bu sağlayıcıyı kullanıyor. Tekrar davet edilmesi ya da başka bir kullanıcı ile giriş yapması gerekecek.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} kullanıcı bu sağlayıcıyı kullanıyor. Tekrar davet edilmeleri ya da başka bir kullanıcı ile giriş yapmaları gerekecek."
         zero: Bu sağlayıcıyı hiçbir kullanıcı kullanmıyor. Ek bir işleme gerek yok.
       input_delete_confirmation_html: Silme işlemini onaylamak için sağlayıcı %{name} ismini girin.
