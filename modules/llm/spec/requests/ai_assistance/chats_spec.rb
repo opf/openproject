@@ -57,10 +57,23 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
       expect(chat.messages.map(&:role)).to eq(%w[start assistant])
     end
 
-    it "hides the question field behind a Chat about this button" do
+    it "offers neither Chat about this nor Run again while the skill is answering" do
       request
 
       expect(response.body).to have_turbo_stream(action: "dialog") do
+        assert_select "[data-test-selector='ai-assistance-chat-about']", count: 0
+        assert_select "[data-test-selector='ai-assistance-rerun']", count: 0
+      end
+    end
+
+    it "hides the question field behind a Chat about this button once the skill answered" do
+      request
+      AI::AssistantChat.for(user, AI::Assistance::Place.new(work_package:)).sole.messages.update_all(status: "done")
+
+      get base, params: { **place, skill_id: skill.id }, as: :turbo_stream
+
+      expect(response.body).to have_turbo_stream(action: "dialog") do
+        assert_select "[data-test-selector='ai-assistance-rerun']"
         assert_select "[data-test-selector='ai-assistance-chat-about']"
         assert_select "[data-ai-assistance--chat-form-target='control'] textarea[name='content']"
         assert_select "[data-test-selector='ai-assistance-chat-send'].d-none"

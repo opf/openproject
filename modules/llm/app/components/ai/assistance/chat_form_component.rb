@@ -80,7 +80,7 @@ module AI
       end
 
       def rerun?
-        chat.present? && !skill.chat?
+        chat.present? && !skill.chat? && !pending?
       end
 
       def rerun_path

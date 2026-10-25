@@ -47,8 +47,8 @@
                                                rows: 2, full_width: true, disabled: pending?)) %>
       <% end %>
       <%= render(Primer::Box.new(display: :flex, align_items: :center)) do %>
-        <% if collapsed? %>
-          <%= render(Primer::Beta::Button.new(type: :button, disabled: pending?,
+        <% if collapsed? && !pending? %>
+          <%= render(Primer::Beta::Button.new(type: :button,
                                               data: { "ai-assistance--chat-form-target": "openButton",
                                                       action: "ai-assistance--chat-form#open",
                                                       test_selector: "ai-assistance-chat-about" })) do |button| %>
@@ -63,7 +63,7 @@
         <% end %>
         <% if rerun? %>
           <%= render(Primer::Beta::Button.new(type: :submit, scheme: :invisible, formaction: rerun_path, formnovalidate: true,
-                                              disabled: pending?, data: { test_selector: "ai-assistance-rerun" })) do |button| %>
+                                              data: { test_selector: "ai-assistance-rerun" })) do |button| %>
             <% button.with_leading_visual_icon(icon: :sync) %>
             <%= t("ai_assistance.chat.rerun") %>
           <% end %>
