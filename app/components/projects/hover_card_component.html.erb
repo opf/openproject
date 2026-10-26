@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
       flex.with_row(mb: 1) do
         render(Primer::Beta::Breadcrumbs.new) do |breadcrumbs|
           breadcrumb_items.each_with_index do |item, i|
-            breadcrumbs.with_item(href: item[:href], font_weight: i == breadcrumb_items.size - 1 ? :bold : nil) do
+            breadcrumbs.with_item(href: item[:href], font_size: :small, font_weight: i == breadcrumb_items.size - 1 ? :bold : nil) do
               render(Primer::Beta::Truncate.new) do |truncate|
                 truncate.with_item(max_width: 135) { item[:text] }
               end
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     flex.with_row(mb: 1) do
-      render(Primer::Beta::Text.new(tag: :h3)) { @name }
+      render(Primer::Beta::Text.new(tag: :h3, font_size: 5)) { @name }
     end
 
     flex.with_row(flex_layout: true, align_items: :center) do |row|

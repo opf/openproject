@@ -1,7 +1,7 @@
 module OpenProject::Projects
   # @logical_path OpenProject/Projects
   class HoverCardComponentPreview < ViewComponent::Preview
-    def playground
+    def no_hierarchy
       user = FactoryBot.build_stubbed(:admin)
       project = FactoryBot.build_stubbed(:project, :with_status)
       render(::Projects::HoverCardComponent.new(project:, user:))
