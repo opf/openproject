@@ -26,6 +26,7 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { userEvent } from 'vitest/browser';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -151,6 +152,31 @@ describe('Context menu entry', () => {
 
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '3']);
     });
+  });
+});
+
+describe('Context menu origin during a row-control walk', () => {
+  it('returns Escape to the walk origin row', async () => {
+    const harness = buildTable({
+      workPackages: [{ id: '1' }],
+      productionMarkup: true,
+      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    const link = document.createElement('a');
+    link.href = '#';
+    navigableCells(harness.row('1'))[0].append(link);
+    harness.table.keyboardNavigation!.focusPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    await userEvent.tab();
+    const menu = new WorkPackageTableContextMenu(harness.injector, '1', link, {}, harness.table);
+    const menuButton = document.body.appendChild(document.createElement('button'));
+    menuButton.focus();
+    menuButton.remove();
+
+    menu.onClose(true, 'escape');
+
+    expect(harness.row('1')).toHaveFocus();
+    await harness.destroy();
   });
 });
 

@@ -67,6 +67,7 @@ export interface KeyboardNavigation {
   returnFocusFromMenu(origin:FocusPosition):void;
   /** The position of the navigable cell or row enclosing `cell`, or null when it is not a rendered occurrence. */
   positionOfCell(cell:HTMLElement):FocusPosition|null;
+  originForControl(control:HTMLElement):FocusPosition|null;
   /** The row or cell element at the position, or null when it is not rendered. */
   elementAt(position:FocusPosition):HTMLElement|null;
   /** Records whether focus is inside the table before a mutation replaces or hides its rows. */
@@ -75,6 +76,8 @@ export interface KeyboardNavigation {
   adoptOverlay(overlay:HTMLElement):void;
   engageEditor?(handler:EditFieldHandler):void;
   repaintCurrentPosition():void;
+  navigateFrom(position:FocusPosition, event:KeyboardEvent):boolean;
+  scrollControlIntoView(control:HTMLElement):void;
 }
 
 interface RenderedRows {
@@ -170,24 +173,35 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const onFocusin = (event:FocusEvent) => {
       const target = event.target as Node;
       this.focusLeftTable = !insideGrid(scrollContainer, target) && !table.editing.owns(target);
+      if (this.current && this.elementAt(this.current) === target) {
+        this.interaction.clearWalk();
+      }
       const from = event.relatedTarget;
       this.interaction.engageFocusedEditor(event.target);
+      if (table.editing.gridFieldOwning(from as Node|null)) {
+        this.interaction.preparePaint();
+      }
       this.adoptFocus(event.target as HTMLElement, !insideGrid(scrollContainer, from as Node|null));
     };
     const onFocusout = (event:FocusEvent) => {
       const next = event.relatedTarget ?? event.target;
       this.focusLeftTable = !insideGrid(scrollContainer, next as Node) && !table.editing.owns(next as Node);
+      if (this.focusLeftTable) this.interaction.clearWalk();
     };
     const onDocumentFocusin = (event:FocusEvent) => {
       const target = event.target as Node;
       const related = event.relatedTarget as Node|null;
       if (table.editing.owns(target) || table.editing.owns(related)) {
-        this.focusLeftTable = !table.editing.owns(target);
+        this.focusLeftTable = !insideGrid(scrollContainer, target) && !table.editing.owns(target);
+      }
+      if (!insideGrid(scrollContainer, target) && table.editing.gridFieldOwning(related)) {
+        this.interaction.preparePaint();
       }
     };
     scrollContainer.addEventListener('keydown', onKeydown);
     const onMousedown = (event:MouseEvent) => {
       this.pointerActive = true;
+      this.interaction.clearWalk();
       this.recordPointerTarget(event.target);
     };
     const onPointerEnd = () => { this.pointerActive = false; };
@@ -231,6 +245,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public recordPosition(position:FocusPosition):void {
+    this.interaction.clearWalk();
     this.current = position;
     this.userPosition = position;
   }
@@ -299,6 +314,10 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     return this.positionOf(cell.closest<HTMLElement>(`.${navigableCellClassName}`) ?? cell.closest('tr'));
   }
 
+  public originForControl(control:HTMLElement):FocusPosition|null {
+    return this.interaction.originForControl(control);
+  }
+
   public elementAt(position:FocusPosition):HTMLElement|null {
     const row = this.rowElement(position.key);
     if (!row || position.cell === null) {
@@ -360,6 +379,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
+    this.interaction.clearWalk();
     this.current = this.current && this.reconcile(rows, previous, this.current);
     if (this.current && owned && this.mayRestoreFocus()) {
       this.focusPosition(this.current);
@@ -418,11 +438,13 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   private adoptFocus(target:HTMLElement, fromOutside:boolean):void {
     if (this.current && this.elementAt(this.current) === target) {
+      this.interaction.clearWalk();
       return;
     }
 
     const position = this.positionOf(target);
     if (position) {
+      this.interaction.clearWalk();
       this.current = position;
       this.userPosition = position;
       this.paintRoving(target);
@@ -441,6 +463,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return null;
     }
 
+    this.interaction.clearWalk();
     this.current = position;
     this.paintRoving(element);
     element.focus({ preventScroll: true });
@@ -462,6 +485,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     const position = this.positionOfCell(target);
     if (position) {
+      this.interaction.clearWalk();
       this.current = position;
       this.userPosition = position;
       this.paintRoving(this.elementAt(position));
@@ -504,7 +528,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     const position = this.current;
     if (position && event.key === 'Tab' && event.target === this.elementAt(position)) {
-      this.paintRoving(event.target as HTMLElement);
+      this.interaction.tabFromOrigin(event, position);
       return;
     }
 
