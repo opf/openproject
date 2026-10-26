@@ -9,6 +9,7 @@ on:
       - "packaging/**"
       - ".pkgr.yml"
       - "extensions/blocknote-extensions/**"
+      - "extensions/op-blocknote-hocuspocus/**"
 
 jobs:
   danger:

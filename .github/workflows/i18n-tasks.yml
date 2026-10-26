@@ -9,6 +9,7 @@ on:
       - "docs/**"
       - "help/**"
       - "extensions/blocknote-extensions/**"
+      - "extensions/op-blocknote-hocuspocus/**"
   pull_request:
     types: [opened, reopened, synchronize]
     paths-ignore:
@@ -17,6 +18,7 @@ on:
       - "packaging/**"
       - ".pkgr.yml"
       - "extensions/blocknote-extensions/**"
+      - "extensions/op-blocknote-hocuspocus/**"
 
 permissions:
   contents: read
