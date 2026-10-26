@@ -168,7 +168,7 @@ RSpec.describe "Work package type projects tab", :js do
   def add_projects(project, include_sub_items:)
     find_test_selector("type-projects-add-button").click
 
-    within("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}") do
+    within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
       check I18n.t("filterable_tree_view.include_sub_items") if include_sub_items
       find("[role='treeitem'][data-node-id='#{project.id}']").click
       click_link_or_button I18n.t(:button_add)
@@ -186,7 +186,7 @@ RSpec.describe "Work package type projects tab", :js do
 
     expect_flash(message: I18n.t(:notice_successful_update))
 
-    expect(page).to have_no_css("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}", visible: :visible)
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
 
     within "#project-table" do
       expect(page).to have_text(parent.name)
@@ -206,7 +206,7 @@ RSpec.describe "Work package type projects tab", :js do
       click_link_or_button "Cancel"
     end
 
-    within("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}") do
+    within_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID) do
       expect(page).to have_css("[role='treeitem'][data-node-id='#{on_firmware.id}'][aria-checked='true']")
       click_link_or_button "Add"
     end
@@ -217,7 +217,7 @@ RSpec.describe "Work package type projects tab", :js do
 
     expect_flash(message: I18n.t(:notice_successful_update))
     expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID)
-    expect(page).to have_no_css("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}", visible: :visible)
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID)
     within("#project-table") { expect(page).to have_text(on_firmware.name) }
 
     expect(on_firmware.reload.type_variant(type)).to eq(hardware)

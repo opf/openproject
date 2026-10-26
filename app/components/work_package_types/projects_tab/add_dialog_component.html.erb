@@ -27,7 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(
-      Primer::Alpha::Dialog.new(id: dialog_id, title:, size: :medium_portrait, data: { keep_open_on_submit: true })
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        test_selector: dialog_id,
+        title:,
+        size: :medium_portrait,
+        data: { keep_open_on_submit: true }
+      )
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
