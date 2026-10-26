@@ -108,11 +108,11 @@ export class AiActionsService {
   }
 
   private listPath(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
-    if (resource?._type !== 'WorkPackage' || field !== 'description') {
-      return null;
+    if (resource?._type === 'WorkPackage' && field === 'description') {
+      return this.workPackageListPath(resource);
     }
 
-    return this.workPackageListPath(resource);
+    return this.pathHelper.api.v3.aiTextTransformActions();
   }
 
   private workPackageListPath(workPackage:IEditorContextResource):string|null {
