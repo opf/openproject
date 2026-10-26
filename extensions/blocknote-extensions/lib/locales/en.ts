@@ -55,6 +55,7 @@ export const en = {
       'dropdownAriaLabel': 'Work package search results',
       'noResults': 'No results',
       'error': 'Error. Unable to load content.',
+      'createWorkPackage': 'Create new work package',
     },
     'unavailableWorkPackage': {
       'loading': {

@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
     dialog.with_body do
       primer_form_with(**form_arguments) do |form_builder|
         render_inline_form(form_builder) do |form|
-          form.text_field(**color_field_arguments)
+          form.color_field(**color_field_arguments)
         end
       end
     end

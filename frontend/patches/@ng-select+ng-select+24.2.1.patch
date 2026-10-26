@@ -1,8 +1,8 @@
 diff --git a/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs b/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
-index 2b02d0d..bd8e2af 100644
+index b2b2d6d..86facac 100644
 --- a/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
 +++ b/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
-@@ -3530,7 +3530,7 @@ var NgSelectComponent = class NgSelectComponent {
+@@ -3531,7 +3531,7 @@ var NgSelectComponent = class NgSelectComponent {
  		};
  		this.trackByOption = (index, item) => {
  			if (this.trackByFn()) return this.trackByFn()(item.value);
@@ -11,7 +11,7 @@ index 2b02d0d..bd8e2af 100644
  		};
  		this._onChange = (_) => {};
  		this._onTouched = () => {};
-@@ -4014,6 +4014,9 @@ var NgSelectComponent = class NgSelectComponent {
+@@ -4015,6 +4015,9 @@ var NgSelectComponent = class NgSelectComponent {
  	}
  	_changeSearch(searchTerm) {
  		this._searchTerm.set(searchTerm);
