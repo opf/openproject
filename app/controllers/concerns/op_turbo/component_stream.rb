@@ -194,6 +194,16 @@ module OpTurbo
         .render_in(view_context)
     end
 
+    # Appends a component to `<body>`, for elements that live outside the page
+    # layout. Turbo replaces a direct child of `<body>` with the same id.
+    def append_to_body_via_turbo_stream(component:)
+      turbo_streams << lambda {
+        OpTurbo::StreamComponent
+          .new(action: :append, target: nil, targets: "body", template: component.render_in(view_context))
+          .render_in(view_context)
+      }
+    end
+
     def turbo_streams
       @turbo_streams ||= []
     end
