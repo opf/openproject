@@ -1683,6 +1683,8 @@ en:
         jobs:
           JiraCreateCustomFieldsJob:
             title: "Create custom fields"
+          JiraCreateLabelsJob:
+            title: "Create labels"
           JiraCreateProjectJob:
             title: "Create project '%{jira_project_name}'"
           JiraCreateProjectRoleJob:

@@ -276,6 +276,28 @@ module Import
       { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).iso8601 }
     end
 
+    def label_attrs(jira_issue)
+      names = Array(jira_issue.payload.dig("fields", "labels")).filter_map { it.to_s.squish.presence }
+      issue_labels = names.index_with { find_label(it) }
+      log_missing_labels(issue_labels)
+
+      label_ids = issue_labels.values.compact.map(&:id)
+      label_ids.any? ? { label_ids: } : {}
+    end
+
+    def log_missing_labels(issue_labels)
+      missing = issue_labels.filter_map { |name, label| name if label.nil? }
+      return if missing.empty?
+
+      Rails.logger.warn("Skipping jira labels without an OpenProject label: #{missing.join(', ')}")
+    end
+
+    def find_label(name) = labels_by_name[name.downcase]
+
+    def labels_by_name
+      @labels_by_name ||= Hash.new { |cache, name| cache[name] = Label.named(name).first }
+    end
+
     def update_workflows(type)
       Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
         statuses = Status.all
@@ -347,6 +369,7 @@ module Import
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
             skip_semantic_id_allocation: true,
+            **label_attrs(jira_issue),
             **custom_field_attrs
           )
       unless service_call.success?
