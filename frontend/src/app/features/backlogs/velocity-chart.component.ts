@@ -26,18 +26,19 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { ChartData, ChartOptions, Plugin } from 'chart.js';
+import { Chart, ChartData, ChartOptions, LegendItem, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { uniqueId } from 'lodash-es';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import AverageLinePlugin from './plugin.average-line';
+import AverageLinePlugin, { AVERAGE_LINE_DASH, isAverageLineVisible, toggleAverageLine } from './plugin.average-line';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
 interface VelocityChartData {
   labels:string[];
   datasets:{ label:string, data:number[] }[];
   average:number|null;
+  averageLabel:string;
   yAxisTitle:string;
   summary:string;
   sprintColumnTitle:string;
@@ -45,6 +46,7 @@ interface VelocityChartData {
 
 const MAX_LABEL_LENGTH = 15;
 const DATASET_COLORS = ['blue', 'green'];
+const LEGEND_SYMBOL_WIDTH = 40;
 
 function truncate(label:string):string {
   return label.length > MAX_LABEL_LENGTH ? `${label.slice(0, MAX_LABEL_LENGTH - 1).trimEnd()}…` : label;
@@ -83,9 +85,19 @@ export class VelocityChartComponent {
   });
 
   readonly barChartOptions:Signal<ChartOptions<'bar'>> = computed<ChartOptions<'bar'>>(() => {
-    const { average, yAxisTitle } = this.parsedData();
+    const { average, averageLabel, yAxisTitle } = this.parsedData();
     const fontColor = getCSSVariable('--body-font-color');
     const gridColor = getCSSVariable('--borderColor-muted');
+    const averageColor = getCSSVariable('--fgColor-muted');
+    const averageLegendItems = (chart:Chart):LegendItem[] => (average === null ? [] : [{
+      text: averageLabel,
+      hidden: !isAverageLineVisible(chart),
+      pointStyle: 'line',
+      strokeStyle: averageColor,
+      lineDash: AVERAGE_LINE_DASH,
+      lineWidth: 1,
+      fontColor,
+    }]);
 
     return {
       responsive: true,
@@ -111,7 +123,24 @@ export class VelocityChartComponent {
       },
       plugins: {
         'primer-colors': { enabled: false },
-        legend: { position: 'bottom' },
+        legend: {
+          position: 'bottom',
+          onClick(event, item, legend) {
+            if (item.datasetIndex === undefined) {
+              toggleAverageLine(legend.chart);
+            } else {
+              Chart.defaults.plugins.legend.onClick.call(this, event, item, legend);
+            }
+          },
+          labels: {
+            usePointStyle: true,
+            pointStyleWidth: LEGEND_SYMBOL_WIDTH,
+            generateLabels: (chart) => [
+              ...Chart.defaults.plugins.legend.labels.generateLabels(chart).map((item) => ({ ...item, pointStyle: 'rect' as const })),
+              ...averageLegendItems(chart),
+            ],
+          },
+        },
         datalabels: {
           anchor: 'end',
           align: 'start',
@@ -121,7 +150,7 @@ export class VelocityChartComponent {
         averageLine: average === null ? {} : {
           value: average,
           label: average.toLocaleString(this.i18n.locale, { maximumFractionDigits: 1 }),
-          color: getCSSVariable('--fgColor-muted'),
+          color: averageColor,
         },
       },
     };

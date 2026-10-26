@@ -56,6 +56,7 @@ module Backlogs
             labels: velocity.sprints.map(&:name),
             datasets:,
             average: velocity.average&.round(1),
+            averageLabel: t(".average_legend"),
             yAxisTitle: t(".y_axis_title"),
             summary:,
             sprintColumnTitle: Sprint.model_name.human

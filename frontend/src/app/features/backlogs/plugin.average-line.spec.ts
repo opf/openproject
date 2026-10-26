@@ -26,7 +26,7 @@
 //++
 
 import type { Chart } from 'chart.js';
-import AverageLinePlugin, { AverageLinePluginOptions } from './plugin.average-line';
+import AverageLinePlugin, { AverageLinePluginOptions, isAverageLineVisible, toggleAverageLine } from './plugin.average-line';
 
 describe('AverageLinePlugin', () => {
   let ctx:Record<string, unknown> & {
@@ -40,6 +40,7 @@ describe('AverageLinePlugin', () => {
     fillText:ReturnType<typeof vi.fn>;
   };
   let getPixelForValue:ReturnType<typeof vi.fn>;
+  let update:ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     ctx = {
@@ -53,6 +54,7 @@ describe('AverageLinePlugin', () => {
       fillText: vi.fn(),
     };
     getPixelForValue = vi.fn().mockReturnValue(120);
+    update = vi.fn();
   });
 
   const chartStub = (withYScale = true) => ({
@@ -60,6 +62,7 @@ describe('AverageLinePlugin', () => {
     chartArea: { left: 40, right: 400, top: 10, bottom: 250 },
     scales: withYScale ? { y: { getPixelForValue, right: 36 } } : {},
     options: { font: { family: 'sans-serif', size: 12 } },
+    update,
   } as unknown as Chart);
 
   const draw = (options:AverageLinePluginOptions, chart = chartStub()) => {
@@ -107,6 +110,46 @@ describe('AverageLinePlugin', () => {
 
     expect(ctx.fillText).toHaveBeenCalledWith('7', 28, 120);
     expect(ctx.strokeStyle).toBe('gray');
+  });
+
+  describe('toggling', () => {
+    it('is visible by default', () => {
+      expect(isAverageLineVisible(chartStub())).toBe(true);
+    });
+
+    it('draws nothing once hidden', () => {
+      const chart = chartStub();
+      toggleAverageLine(chart);
+
+      draw({ value: 7 }, chart);
+
+      expect(isAverageLineVisible(chart)).toBe(false);
+      expect(ctx.stroke).not.toHaveBeenCalled();
+      expect(ctx.fillText).not.toHaveBeenCalled();
+    });
+
+    it('draws again when toggled back', () => {
+      const chart = chartStub();
+      toggleAverageLine(chart);
+      toggleAverageLine(chart);
+
+      draw({ value: 7 }, chart);
+
+      expect(isAverageLineVisible(chart)).toBe(true);
+      expect(ctx.stroke).toHaveBeenCalledTimes(1);
+    });
+
+    it('redraws the chart', () => {
+      toggleAverageLine(chartStub());
+
+      expect(update).toHaveBeenCalledTimes(1);
+    });
+
+    it('hides the line only on the toggled chart', () => {
+      toggleAverageLine(chartStub());
+
+      expect(isAverageLineVisible(chartStub())).toBe(true);
+    });
   });
 
   it('restores the canvas state after drawing', () => {

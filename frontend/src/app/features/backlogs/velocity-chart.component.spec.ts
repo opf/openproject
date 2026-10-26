@@ -26,9 +26,11 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { BaseChartDirective } from 'ng2-charts';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { VelocityChartComponent } from './velocity-chart.component';
-import AverageLinePlugin from './plugin.average-line';
+import AverageLinePlugin, { isAverageLineVisible } from './plugin.average-line';
 
 describe('VelocityChartComponent', () => {
   let fixture:ComponentFixture<VelocityChartComponent>;
@@ -60,6 +62,7 @@ describe('VelocityChartComponent', () => {
         { label: 'Completed', data: [20, 9] },
       ],
       average: 14.5,
+      averageLabel: 'Average',
       yAxisTitle: 'Story points',
       summary: 'Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.5 SP.',
       sprintColumnTitle: 'Sprint',
@@ -155,14 +158,62 @@ describe('VelocityChartComponent', () => {
     expect(options().plugins!.averageLine).toEqual({ value: 14.5, label: '14,5', color: '#666666' });
   });
 
-  it('draws no average line without an average', () => {
+  const withoutAverage = () => {
     fixture.componentRef.setInput('chartData', JSON.stringify({
       ...fixture.componentInstance.parsedData(),
       average: null,
     }));
     fixture.detectChanges();
+  };
+
+  it('draws no average line without an average', () => {
+    withoutAverage();
 
     expect(options().plugins!.averageLine).toEqual({});
+  });
+
+  describe('legend', () => {
+    const chart = () => fixture.debugElement.query(By.directive(BaseChartDirective)).injector.get(BaseChartDirective).chart!;
+    const legendItems = () => chart().legend!.legendItems!;
+
+    it('shows the datasets as boxes followed by the dashed average line', () => {
+      expect(legendItems().map(({ text, pointStyle }) => [text, pointStyle])).toEqual([
+        ['Committed', 'rect'],
+        ['Completed', 'rect'],
+        ['Average', 'line'],
+      ]);
+      expect(legendItems()[2]).toEqual(expect.objectContaining({ strokeStyle: '#666666', lineDash: [4, 4] }));
+    });
+
+    it('leaves out the average line without an average', () => {
+      withoutAverage();
+      chart().update();
+
+      expect(legendItems().map(({ text }) => text)).toEqual(['Committed', 'Completed']);
+    });
+
+    it('still toggles datasets on click', () => {
+      const legend = chart().legend!;
+      legend.options.onClick.call(legend, {} as never, legendItems()[0], legend);
+
+      expect(chart().isDatasetVisible(0)).toBe(false);
+    });
+
+    it('toggles the average line on click', () => {
+      const legend = chart().legend!;
+      const clickAverage = () => legend.options.onClick.call(legend, {} as never, legendItems()[2], legend);
+
+      clickAverage();
+
+      expect(isAverageLineVisible(chart())).toBe(false);
+      expect(legendItems()[2].hidden).toBe(true);
+      expect([0, 1].map((index) => chart().isDatasetVisible(index))).toEqual([true, true]);
+
+      clickAverage();
+
+      expect(isAverageLineVisible(chart())).toBe(true);
+      expect(legendItems()[2].hidden).toBe(false);
+    });
   });
 
   it('titles the y axis', () => {

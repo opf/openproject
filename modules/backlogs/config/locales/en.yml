@@ -260,6 +260,7 @@ en:
           average:
             one: "Average of last sprint:"
             other: "Average of last %{count} sprints:"
+          average_legend: "Average"
           committed: "Committed"
           completed: "Completed"
           story_points: "%{value} SP"

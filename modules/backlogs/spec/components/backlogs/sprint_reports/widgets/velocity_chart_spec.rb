@@ -76,6 +76,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
     expect(chart_data["average"]).to eq 14.3
   end
 
+  it "passes the legend label of the average line" do
+    expect(chart_data["averageLabel"]).to eq "Average"
+  end
+
   it "passes the axis title" do
     expect(chart_data["yAxisTitle"]).to eq "Story points"
   end

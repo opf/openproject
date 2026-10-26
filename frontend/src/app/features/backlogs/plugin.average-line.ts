@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChartType, Plugin } from 'chart.js';
+import { Chart, ChartType, Plugin } from 'chart.js';
 import { toFont } from 'chart.js/helpers';
 
 export interface AverageLinePluginOptions {
@@ -41,14 +41,30 @@ declare module 'chart.js' {
   }
 }
 
+export const AVERAGE_LINE_DASH = [4, 4];
 const LABEL_PADDING = 8;
+
+const chartsWithHiddenLine = new WeakSet<Chart>();
+
+export function isAverageLineVisible(chart:Chart):boolean {
+  return !chartsWithHiddenLine.has(chart);
+}
+
+export function toggleAverageLine(chart:Chart):void {
+  if (isAverageLineVisible(chart)) {
+    chartsWithHiddenLine.add(chart);
+  } else {
+    chartsWithHiddenLine.delete(chart);
+  }
+  chart.update();
+}
 
 const AverageLinePlugin:Plugin<ChartType, AverageLinePluginOptions> = {
   id: 'averageLine',
 
   beforeDatasetsDraw(chart, _args, options) {
     const yScale = chart.scales.y;
-    if (options.value === undefined || !yScale) {
+    if (options.value === undefined || !yScale || !isAverageLineVisible(chart)) {
       return;
     }
 
@@ -60,7 +76,7 @@ const AverageLinePlugin:Plugin<ChartType, AverageLinePluginOptions> = {
 
     ctx.strokeStyle = color;
     ctx.lineWidth = 1;
-    ctx.setLineDash([4, 4]);
+    ctx.setLineDash(AVERAGE_LINE_DASH);
     ctx.beginPath();
     ctx.moveTo(chartArea.left, y);
     ctx.lineTo(chartArea.right, y);
