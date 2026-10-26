@@ -29,26 +29,24 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", @configured_project.name %>
 
 <%=
-  render(Primer::OpenProject::PageHeader.new(test_selector: "custom-field-project-values-header")) do |header|
-    header.with_title do
-      safe_join(
-        [
-          @custom_field.name,
-          render(Primer::Beta::Text.new(color: :muted)) { " (#{label_for_custom_field_format(@custom_field.field_format)})" },
-          " – #{@configured_project.name}"
-        ]
-      )
-    end
+  render(
+    Admin::CustomFields::EditFormHeaderComponent.new(
+      custom_field: @custom_field,
+      selected: :projects,
+      section_label:,
+      page_title: custom_field_page_title,
+      project: @configured_project
+    )
+  )
+%>
 
-    header.with_breadcrumbs(
-      [
-        { href: admin_index_path, text: t(:label_administration) },
-        { href: admin_settings_work_package_custom_fields_path, text: section_label },
-        { href: admin_settings_work_package_custom_fields_path, text: custom_field_page_title },
-        { href: projects_admin_settings_work_package_custom_field_path(@custom_field), text: @custom_field.name },
-        @configured_project.name
-      ],
-      selected_item_font_weight: :normal
+<%=
+  render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do
+    link_translate(
+      "custom_fields.admin.projects.editing_values_notice",
+      i18n_args: { project: @configured_project.name },
+      links: { project_url: project_path(@configured_project) },
+      external: false
     )
   end
 %>

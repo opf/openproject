@@ -49,8 +49,19 @@ module Admin
           [
             [:name, { caption: Project.model_name.human }],
             [:types, { caption: I18n.t("custom_fields.admin.projects.types_column") }],
-            [:project_specific_values, { caption: CustomField.human_attribute_name(:project_specific_value_restriction) }]
-          ]
+            if project_specific_values?
+              [:project_specific_values,
+               { caption: CustomField.human_attribute_name(:project_specific_value_restriction) }]
+            end
+          ].compact
+        end
+
+        def skip_column?(column)
+          column == :project_specific_values && !project_specific_values?
+        end
+
+        def project_specific_values?
+          custom_field.project_specific_value_restriction.present?
         end
 
         def types_of(project)
@@ -61,7 +72,7 @@ module Admin
           @value_count ||= custom_field.restrictable_values.count
         end
 
-        def has_actions? = true
+        def has_actions? = project_specific_values?
 
         def mobile_title = I18n.t(:label_project_plural)
 

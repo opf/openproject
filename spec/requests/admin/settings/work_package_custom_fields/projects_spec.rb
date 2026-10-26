@@ -79,6 +79,10 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(page).to have_link(I18n.t(:label_project_plural), href: projects_path)
       end
 
+      it "links each project name to the project" do
+        expect(page).to have_link(using_project.name, href: project_path(using_project))
+      end
+
       it "links each project to the configuration of its values" do
         values_path = project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
 
@@ -91,7 +95,7 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         get project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
 
         expect(response).to have_http_status(:ok)
-        expect(page).to have_text("#{custom_field.name} (#{I18n.t(:label_list)}) – #{using_project.name}")
+        expect(page).to have_text("#{Project.model_name.human}: #{using_project.name}")
         expect(page).to have_css("[data-test-selector='custom-field-project-value-#{custom_field.custom_options.first.id}']")
       end
 
@@ -142,8 +146,19 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
     context "without project-specific values enabled" do
       let(:custom_field) { create(:list_wp_custom_field, types: [feature]) }
 
-      it "is not found" do
+      it "lists the projects without their project-specific values" do
         get projects_path
+
+        expect(response).to have_http_status(:ok)
+        expect(page).to have_link(using_project.name, href: project_path(using_project))
+        expect(page).to have_no_text(CustomField.human_attribute_name(:project_specific_value_restriction))
+        expect(page).to have_no_link(
+          href: project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+        )
+      end
+
+      it "does not find the values of a project" do
+        get project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
 
         expect(response).to have_http_status(:not_found)
       end
