@@ -131,6 +131,10 @@ zh-CN:
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
       title: 是否删除积压工作存储桶？
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
         blankslate_title: 没有可用的燃尽数据
@@ -292,9 +296,6 @@ zh-CN:
       update_service:
         invalid_target_type: list_type 必须是下列一项：带有 list_id 的 backlog_bucket、带有 list_id 的 sprint，或者不带 list_id 的 inbox。
         missing_target: list_type 或 list_id 必须存在。
-  burndown:
-    story_points: 故事点
-    story_points_ideal: 故事点（理想）
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

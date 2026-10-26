@@ -88,7 +88,7 @@ zh-CN:
       plural: 同步的 LDAP 组
       singular: 同步LDAP组
       upsell:
-        description: 利用同步的 LDAP 组来管理用户、更改其权限并促进跨组的用户管理。
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: LDAP 组成员同步。
     name: OpenProject LDAP 组

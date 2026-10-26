@@ -129,7 +129,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
           }
         end
 
-        it "only honours targetVersions" do
+        it "only honors targetVersions" do
           expect(subject.target_version_ids).to eq([other_version.id.to_s])
         end
       end

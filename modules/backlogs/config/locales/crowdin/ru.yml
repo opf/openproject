@@ -143,6 +143,10 @@ ru:
       details: Раздел бэклога '%{name}' будет удален и все пакеты работ будут перемещены во входящие бэклога. Пакеты работ не будут удалены.
       title: Удалить раздел бэклога?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Установите дату начала и окончания спринта для создания диаграммы выгорания.
         blankslate_title: Нет данных о выгорании
@@ -316,9 +320,6 @@ ru:
       update_service:
         invalid_target_type: 'list_type должен быть одним из следующих: backlog_bucket с list_id, sprint с list_id, inbox без list_id.'
         missing_target: list_type или list_id должны присутствовать.
-  burndown:
-    story_points: Стори-поинты
-    story_points_ideal: Стори-поинты (идеально)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

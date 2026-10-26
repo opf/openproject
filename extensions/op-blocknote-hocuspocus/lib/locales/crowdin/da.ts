@@ -1,5 +1,5 @@
 export const en = {
   translation: {
-    'placeholder': 'Placeholder'
+    'placeholder': "Pladsholder"
   }
 };

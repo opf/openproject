@@ -219,6 +219,9 @@ ko:
         organizational_unit: 조직 단위
         parent: 부모 그룹
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Jira 인스턴스 이름
         personal_access_token: 개인 액세스 토큰
         url: Jira 인스턴스 URL
@@ -466,7 +469,7 @@ ko:
         header_look_and_feel: 모양 및 느낌
         impaired: 액세스 모드
         increase_contrast: 대비 증가
-        increase_contrast_caption: 선택한 색상 모드에 대한 고대비 모드를 활성화합니다.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: 테마 대비 증가
         mode_guideline: 일부 모드에서는 접근성과 가독성을 위해 사용자 지정 테마 색상을 덮어씁니다. 전체 사용자 지정 테마 지원을 위해서는 라이트 모드를 선택하세요.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -1371,7 +1374,7 @@ ko:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1453,12 +1456,15 @@ ko:
       actions:
         button_edit: 구성 편집
         button_open: 실행 열기
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: '피드백 및 개인 데이터 기부를 통해 Jira Migator를 개선할 수 있도록 도와주세요. Jira Migator의 [개발 커뮤니티에 참여](link)할 수 있습니다.
 
           '
         description: 이 Jira Migrator는 현재 베타 버전입니다. Jira Server/Data Center 버전 10.x 및 11.x만 현재 지원되며, Cloud 인스턴스는 현재 지원되지 않습니다.
         title: 베타 - 사용해 보세요!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Jira에서 이 OpenProject 인스턴스로 항목 가져오기를 시작하려면 Jira 호스트를 구성합니다.
         title: 아직 구성된 Jira 호스트 없음
@@ -1491,18 +1497,30 @@ ko:
           description: Jira는 프로젝트 키와 시퀀스 번호(PRJ-123)로 구성된 이슈 식별자를 사용합니다. OpenProject에서도 이를 지원하지만 [여기](link)에서 활성화해야 합니다.
           title: 프로젝트 기반 시맨틱 식별자를 활성화해야 합니다.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: 구성 추가
-        button_delete_token: 토큰 삭제
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: 구성 저장
-        delete_token_confirm: 토큰을 삭제하시겠습니까? 그러면 Jira 연결이 비활성화됩니다.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: 이름
-          personal_access_token: 개인 액세스 토큰
+          personal_access_token: Personal access token (PAT)
           url: Jira 서버/데이터 센터 URL
         label_testing: 구성 테스트 중...
-        test_configuration_caption: "[여기를 클릭](test)하여 이 구성을 테스트할 수 있습니다"
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: 실행 편집
@@ -1747,17 +1765,18 @@ ko:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira API가 오류 상태 %{status}을(를) 반환했습니다. Jira 인스턴스 URL 및 API 토큰을 확인하세요.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: '연결 오류: %{message}'
         error: 연결을 테스트하는 동안 예기치 않은 오류가 발생했습니다
         failed: '연결 실패: 서버 정보를 검색할 수 없습니다'
         invalid_url: 유효한 URL을 제공하세요
-        missing_credentials: URL과 개인 액세스 토큰을 모두 제공하여 연결을 테스트하세요
         parse_error: 서버에서 응답을 구문 분석하지 못했습니다. 서버가 유효한 Jira 인스턴스가 아닐 수 있습니다.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: "%{server}(버전 %{version})에 연결되었습니다"
-        token_error: 잘못된 API 토큰입니다. 구성에서 자격 증명을 확인하세요.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
-      token_deleted: 토큰이 삭제되었습니다.
       user:
         unknown_name: 알 수 없음
     journal_aggregation:
@@ -2013,7 +2032,7 @@ ko:
         types_caption: 이 작업이 사용 가능해야 하는 작업 패키지 유형을 추가하세요. 사용 가능한 모든 변형이 자동으로 포함됩니다.
         usage_scope_caption: '이 작업이 표시되는 위치를 제한할 수 있습니다: 모든 위치(코멘트, 위키 및 사용자 지정 필드 포함), 모든 작업 패키지 유형 또는 특정 작업 패키지 유형에 대한 위치.'
       index:
-        description: 텍스트 변환 작업은 작업 패키지 설명, 코멘트, 위키 페이지 등 서식 있는 텍스트 편집기가 사용되는 모든 위치에서 텍스트를 작성, 구성, 검토할 수 있도록 사용자에게 LLM 기반 작업을 제공합니다. 사용자는 고유한 프롬프트와 지침을 사용하여 새로운 작업을 생성할 수 있습니다.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: 작업
         label_aria_add_action: 텍스트 변환 작업 추가
       index_component:
@@ -3440,7 +3459,7 @@ ko:
       summary:
         failure: 일부 검사가 실패했으며 시스템이 예상대로 작동되지 않습니다.
         success: 모든 연결과 시스템이 예상대로 작동 중입니다.
-        warning: 일부 검사에서 경고가 반환되었습니다. 이로 인해 예상치 못한 동작이 발생할 수 있습니다.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: 실패함
@@ -3449,7 +3468,7 @@ ko:
         warning: 경고
   help_texts:
     views:
-      favoured: 이 보기를 즐겨찾기로 표시하고 왼쪽의 저장된 보기 사이드바에 추가하세요.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural}은(는) 항상 프로젝트에 연결됩니다. %{plural} 모듈이 활성화된 프로젝트만 선택할 수 있습니다. %{singular}을(를) 생성한 후 다른 프로젝트의 작업 패키지를 여기에 추가할 수 있습니다.\n"
       public: 다른 사용자가 이 보기에 액세스할 수 있도록 하려면 이 보기를 게시하십시오. '공용 보기 관리' 권한을 가진 사용자는 공용 쿼리를 수정 또는 제거할 수 있습니다. 이는 해당 보기에서 작업 패키지 결과의 표시 여부에 영향을 주지 않기 때문에 사용자의 권한에 따라 다른 결과가 표시될 수 있습니다.
   homescreen:
@@ -5270,8 +5289,8 @@ ko:
         label: 목차
     page_nr_footer: "%{page}/%{total}페이지"
     template_artefact:
-      caption: PMflex 아티팩트로 렌더링된 작업 패키지 세부 정보입니다.
-      label: PMflex 아티팩트
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: 기본 템플릿을 사용하는 현재 양식에 있는 모든 특성입니다.
       label: 특성 및 설명
@@ -5574,11 +5593,11 @@ ko:
           no_status_when_submitted: 작업 패키지 유형 %{type}에는 연결된 상태가 하나 이상 필요하므로 프로젝트 시작 요청을 활성화하지 못했습니다. 이 작업 패키지 유형에 대한 상태 워크플로를 하나 이상 활성화하세요.
           no_work_package_type: 프로젝트 시작 요청을 사용하려면 활성 작업 패키지 유형이 하나 이상 필요하지만 이 프로젝트에는 하나도 없기 때문에 프로젝트 시작 요청을 활성화하지 못했습니다. 이 프로젝트에 작업 패키지 유형을 하나 이상 추가하세요.
         export:
-          description_attachment_export: 생성된 아티팩트는 아티팩트 작업 패키지에 대한 PDF 첨부 파일로 저장됩니다.
-          description_file_link_export: 아티팩트 작업 패키지에는 외부 파일 저장소에 저장된 PDF에 대한 파일 링크가 있습니다. 이 프로젝트에 대해 자동으로 관리되는 프로젝트 폴더가 있는 작업 파일 저장소가 필요합니다. 현재는 Nextcloud 파일 저장소만 지원됩니다.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: 구성된 외부 파일 저장소 중 어떤 저장소를 사용할지 선택합니다.
           external_file_storage: 외부 파일 저장소
-          label_artifact_export: 아티팩트 내보내기
+          label_artifact_export: Artifact export
           label_attachment_export: 작업 패키지 첨부 파일로 저장
           label_file_link_export: 외부 파일 저장소에 파일을 업로드하고 작업 패키지에 파일 링크 추가
           pdf_file_storage: PDF 파일 저장소
@@ -5714,14 +5733,14 @@ ko:
     status:
       button_edit: 상태 편집
     wizard:
-      create_artifact_storage_error: 파일 저장소에 아티팩트를 저장하지 못했습니다
-      create_artifact_work_package_error: 아티팩트 작업 패키지를 만들지 못했습니다
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: 이 프로젝트에는 마법사에 대해 활성화된 프로젝트 특성이 없습니다. <a href="%{link}">프로젝트 설정</a>에서 하나 이상의 특성을 활성화하세요.
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
       sidebar_content_title: 콘텐츠
-      success: 프로젝트 특성이 저장되고 아티팩트 작업 패키지가 생성되었습니다.
+      success: Project attributes saved and artifact work package created successfully.
       title: 프로젝트 시작 요청
   pwa:
     offline:
@@ -6290,12 +6309,12 @@ ko:
         confirmation_message: 이 템플릿을 기반으로 하는 새 프로젝트에는 시작 요청 마법사를 더 이상 사용할 수 없습니다. 프로젝트 관리자와 프로젝트 소유자는 프로젝트 개요에서 관련 정보를 수동으로 구성하고 작성해야 합니다.
         heading: 이 프로젝트 시작 요청을 비활성화하시겠습니까?
         title: 프로젝트 시작 요청 비활성화
-      header_description: 'OpenProject는 프로젝트 관리자가 프로젝트 시작 요청을 작성하는 데 도움이 되는 단계별 마법사를 생성할 수 있습니다. 어떤 프로젝트 특성을 포함할지 선택하고 PDF 아티팩트를 결과로 생성할 수 있습니다.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: 아티팩트 이름
-        artifact_name_caption: 프로젝트 관리 프레임워크에서 권장하는 이 아티팩트의 이름을 선택하세요.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: 프로젝트 생성 마법사
           project_initiation_request: 프로젝트 시작 요청
@@ -6315,8 +6334,8 @@ ko:
           **%{project_name}**에 대한 프로젝트 시작 요청을 제출하셨습니다. 이제 검토를 기다리고 있습니다.
           요청이 포함된 작업 패키지에 액세스하려면 아래 링크를 클릭하세요.
         confirmation_email_text: 확인 이메일 텍스트
-        description: 사용자가 프로젝트 시작 요청을 제출하면 요청 아티팩트가 PDF 파일로 첨부된 새 작업 패키지가 생성됩니다. 아래 설정은 이 새 작업 패키지의 유형, 상태 및 담당자를 정의합니다.
-        description_template: "**이 작업 패키지는 %{wizard_name} 워크플로를 완료하면 자동으로 생성됩니다.** 제출된 모든 정보가 포함된 PDF 아티팩트가 생성되어 참조 및 감사 목적으로 이 작업 패키지에 첨부되었습니다. 시작 단계를 업데이트하거나 다시 실행해야 하는 경우 아래 링크를 사용하여 언제든지 마법사를 다시 열 수 있습니다.\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: 프로젝트 시작 요청을 제출한 사용자에게 확인 이메일 보내기
         status_when_submitted: 제출 시 상태
         status_when_submitted_caption: 요청이 제출되면 생성된 작업 패키지가 전환되는 상태입니다.
@@ -6324,7 +6343,7 @@ ko:
         work_package_comment_caption: 위에서 선택한 담당자가 코멘트에서 자동으로 @멘션됩니다.
         work_package_comment_default: "%{project_name}**에 대한 프로젝트 시작 요청이 제출되어 검토를 기다리고 있습니다."
         work_package_type: 작업 패키지 유형
-        work_package_type_caption: 완료된 아티팩트를 저장하는 데 사용할 작업 패키지 유형입니다.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: 프로젝트 생성 마법사 열기
         project_initiation_request: 프로젝트 시작 요청 열기
@@ -6848,13 +6867,13 @@ ko:
           file_link:
             caption: 생성된 PDF는 프로젝트의 자동 관리 Nextcloud 저장소에 업로드되며, 작업 패키지에서 연결됩니다. 해당 저장소가 없는 프로젝트의 작업 패키지는 건너뜁니다.
             label: 외부 파일 저장소에 파일을 업로드하고 작업 패키지에 파일 링크 추가
-          intro: 이 유형의 작업 패키지 상태가 변경될 때마다 해당 작업 패키지에 대한 PDF 아티팩트를 자동으로 생성합니다.
-          invalid_mode: 유효하지 않은 아티팩트 내보내기 모드입니다.
-          label: 자동 아티팩트 내보내기
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: PDF가 자동으로 생성되지 않습니다.
             label: 끄기
-          section_title: 자동 아티팩트 내보내기
+          section_title: Automatic artifact export
           unavailable: 사용할 수 없습니다. 자동 관리되는 Nextcloud 저장소가 구성되어 있지 않습니다
         pdf_export_templates:
           actions:
@@ -7229,7 +7248,7 @@ ko:
       deletion_warning: 이 세션을 취소하시겠습니까? 이 장치에서 로그아웃됩니다.
       device: 장치/OS
       expires: 만료
-      instructions: 다음 장치를 통해 계정에 로그인했습니다. 사용자가 알지 못하는 세션이나 제어하지 않는 장치에서 로그인한 세션은 취소하세요.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: 마지막 연결
       may_not_delete_current: 현재 세션을 삭제할 수 없습니다.
       session_name: "%{os_name}의 %{browser_name} %{browser_version}"

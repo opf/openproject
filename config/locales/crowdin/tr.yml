@@ -219,6 +219,9 @@ tr:
         organizational_unit: Organizasyonel birim
         parent: Parent group
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Jira instance name
         personal_access_token: Personal access token
         url: Jira instance URL
@@ -466,7 +469,7 @@ tr:
         header_look_and_feel: Görünüm ve his
         impaired: Erişilebilirlik modu
         increase_contrast: Kontrastı artır
-        increase_contrast_caption: Seçilen renk modu için yüksek kontrast modunu etkinleştirir.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Tema kontrastını artırın
         mode_guideline: Bazı modlar, erişilebilirlik ve okunabilirlik için özel tema renklerinin üzerine yazacaktır. Tam özel tema desteği için lütfen Aydınlık modunu seçin.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -1485,7 +1488,7 @@ tr:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1567,12 +1570,15 @@ tr:
       actions:
         button_edit: Edit configuration
         button_open: Open runs
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
           '
         description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - Try it out!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
         title: Henüz yapılandırılmış Jira ana bilgisayarı yok
@@ -1605,18 +1611,30 @@ tr:
           description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
           title: Project-based semantic identifiers must be enabled.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Yapılandırma ekle
-        button_delete_token: Anahtarı sil
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Yapılandırmayı kaydet
-        delete_token_confirm: Anahtarı silmek istediğinizden emin misiniz? Bu, Jira bağlantısını devre dışı bırakacaktır.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: İsim
-          personal_access_token: Kişisel Erişim Anahtarı
+          personal_access_token: Personal access token (PAT)
           url: Jira Sunucusu/Veri Merkezi URL'si
         label_testing: Yapılandırma test ediliyor...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Edit run
@@ -1869,17 +1887,18 @@ tr:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Bağlantı hatası: %{message}'
         error: Bağlantı test edilirken beklenmeyen bir hata oluştu
         failed: 'Bağlantı başarısız oldu: Sunucu bilgileri alınamıyor'
         invalid_url: Lütfen geçerli bir URL giriniz
-        missing_credentials: Please provide both URL and Personal Access Token to test the connection
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: "%{server} adresine başarıyla bağlandı (sürüm %{version})"
-        token_error: Invalid API token. Please check your credentials in the configuration.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
-      token_deleted: Anahtar başarıyla silindi.
       user:
         unknown_name: Unknown
     journal_aggregation:
@@ -2140,7 +2159,7 @@ tr:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Action
         label_aria_add_action: Add text transform action
       index_component:
@@ -3605,7 +3624,7 @@ tr:
       summary:
         failure: Some checks failed and the system does not work as expected.
         success: All connections and systems are working as expected.
-        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Failed
@@ -3614,7 +3633,7 @@ tr:
         warning: Warning
   help_texts:
     views:
-      favoured: Bu görünümü favori olarak işaretleyin ve soldaki kaydedilmiş görünümler kenar çubuğuna ekleyin.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.\n"
       public: Diğer kullanıcıların görünümünüze erişmesine izin vererek bu görünümü yayınlayın. 'Genel görünümleri yönet' iznine sahip kullanıcılar genel sorguyu değiştirebilir veya kaldırabilir. Bu, iş paketi sonuçlarının görünürlüğünü bu görünümde etkilemez ve izinlerine bağlı olarak, kullanıcılar farklı sonuçlar görebilir.
   homescreen:
@@ -5447,8 +5466,8 @@ tr:
         label: Table of contents
     page_nr_footer: Sayfa %{page} / %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Nitelikler ve açıklama
@@ -5755,11 +5774,11 @@ tr:
           no_status_when_submitted: "%{type} iş paketi türü kendisiyle ilişkilendirilmiş en az bir durum gerektirdiğinden proje başlatma talebi etkinleştirilemedi. Lütfen bu iş paketi türü için en az bir durum iş akışını etkinleştirin."
           no_work_package_type: Proje başlatma isteği etkinleştirilemedi, en az bir iş paketi türü gerekiyor. Lütfen bu projeye en az bir iş paketi türü ekleyin.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Yapılandırılmış harici dosya depolarından hangisinin kullanılacağını seçin.
           external_file_storage: Harici dosya depolama
-          label_artifact_export: Artefact export
+          label_artifact_export: Artifact export
           label_attachment_export: İş paketi dosyası eki olarak kaydet
           label_file_link_export: Dosyayı harici dosya depolama alanına yükleyin ve dosya bağlantısını iş paketine ekleyin
           pdf_file_storage: PDF dosya depolama
@@ -5898,14 +5917,14 @@ tr:
     status:
       button_edit: Durumu düzenle
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Bu özniteliğin tanımlanmış bir yardım metni yoktur.
       progress_label: "%{current} / %{total}"
       sections: Bölümler
       sidebar_content_title: İçerik
-      success: Project attributes saved and artefact work package created successfully.
+      success: Project attributes saved and artifact work package created successfully.
       title: Proje başlatma talebi
   pwa:
     offline:
@@ -6487,12 +6506,12 @@ tr:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Proje oluşturma sihirbazı
           project_initiation_request: Proje başlatma talebi
@@ -6512,8 +6531,8 @@ tr:
           **%{project_name}** için bir proje başlatma talebi gönderdiniz. Şu anda incelenmeyi bekliyor.
           Talebinizi içeren iş paketine erişmek için aşağıdaki bağlantıya tıklayın.
         confirmation_email_text: Onay e-posta metni
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Teslim edildiğinde durum
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -6521,7 +6540,7 @@ tr:
         work_package_comment_caption: Yukarıda seçilen atanan kişi yorumda otomatik olarak @bahsedilecektir.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -7040,13 +7059,13 @@ tr:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artefact export
+          section_title: Automatic artifact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
         pdf_export_templates:
           actions:
@@ -7425,7 +7444,7 @@ tr:
       deletion_warning: Bu oturumu iptal etmek istediğinizden emin misiniz? Bu cihazda oturumunuz kapatılacaktır.
       device: Cihaz / İşletim Sistemi
       expires: Bitiş tarihi
-      instructions: Hesabınıza aşağıdaki cihazlar üzerinden giriş yaptınız. Tanımadığınız veya kontrol etmediğiniz cihazlardan yapılan oturumları iptal edin.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Son bağlantı
       may_not_delete_current: Şuanki oturumunuzu silemezsiniz.
       session_name: "%{os_name} üzerinde %{browser_name} %{browser_version}"

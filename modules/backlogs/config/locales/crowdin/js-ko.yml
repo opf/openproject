@@ -49,13 +49,13 @@ ko:
         range_unavailable: 선택 항목이 변경되지 않았습니다. 이 목록을 확장하여 해당 범위를 선택하세요.
         selected:
           other: "%{count} work packages selected."
-    burndown:
+    burndown_chart:
       chart_day: 'Day %{day}: %{values}'
       chart_label: Burndown chart
       chart_summary: 'Burndown chart data: %{days}.'
       chart_value: "%{label}: %{value}"
-      day: 일
-      points: 포인트
+      non_working_day: Non-working day
+      story_points: Story points
     created_resolved:
       work_packages: Work packages
     work_packages:

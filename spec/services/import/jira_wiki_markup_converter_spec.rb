@@ -1285,7 +1285,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     context "with a titled panel in the middle of a line" do
       let(:input) { "text {panel:title=T}body{panel} more" }
 
-      it "emphasises the title above the content" do
+      it "emphasizes the title above the content" do
         expect(result).to eq("text **T**\nbody more")
       end
     end
@@ -1309,7 +1309,7 @@ RSpec.describe Import::JiraWikiMarkupConverter do
     context "with markup in the title" do
       let(:input) { "|a|{panel:title=*T*}\nx\n{panel}|" }
 
-      it "emphasises the title once, since Jira does not parse it as markup" do
+      it "emphasizes the title once, since Jira does not parse it as markup" do
         expect(result).to eq("<table><tbody><tr><td>a</td><td><strong>*T*</strong><br>x</td></tr></tbody></table>\n")
       end
     end

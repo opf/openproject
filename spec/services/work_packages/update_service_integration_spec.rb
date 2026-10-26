@@ -2111,7 +2111,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
     it "removes the parent successfully and reschedules the parent" do
       # Unload the `ancestor_hierarchies` association so that we don't validate the associated
-      # records. `closure_tree`'s behaviour is to reload the associations after save, even if they
+      # records. `closure_tree`'s behavior is to reload the associations after save, even if they
       # weren't loaded, see: https://github.com/ClosureTree/closure_tree/blob/
       # 509f6dfa58da18bb4bff6ded0469263216579a90/lib/closure_tree/hierarchy_maintenance.rb#L44-L45
       #

@@ -143,6 +143,10 @@ pl:
       details: Kategoria backlogu „%{name}” zostanie usunięta, a wszystkie pakiety robocze zostaną przeniesione do skrzynki odbiorczej backlogu. Nie zostanie usunięty żaden pakiet roboczy.
       title: Usunąć kategorię backlogu?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Ustaw datę rozpoczęcia i zakończenia sprintu, aby wygenerować wykres spalania.
         blankslate_title: Brak dostępnych danych spalania
@@ -316,9 +320,6 @@ pl:
       update_service:
         invalid_target_type: 'Atrybut list_type musi mieć jedną z następujących wartości: backlog_bucket z list_id, sprint z list_id lub inbox bez list_id.'
         missing_target: Atrybut list_type lub list_id muszą być obecne.
-  burndown:
-    story_points: Punkty historii
-    story_points_ideal: Punkty historii (idealne)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

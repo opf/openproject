@@ -1,5 +1,5 @@
 // True when the primary pointer can hover (desktop mouse) rather than a touch
-// screen like iOS - used to branch touch-specific behaviour.
+// screen like iOS - used to branch touch-specific behavior.
 export function supportsHover():boolean {
   return (
     typeof window !== 'undefined' &&

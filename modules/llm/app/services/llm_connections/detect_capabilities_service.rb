@@ -56,7 +56,7 @@ module LlmConnections
       ServiceResult.success(result: record(model_id, result))
     end
 
-    # Pre-colours the model list after a connect, without spending a request per
+    # Pre-colors the model list after a connect, without spending a request per
     # model. Everything not probed stays unknown, which never blocks.
     #
     # @return [ServiceResult] carrying the verdicts that were recorded

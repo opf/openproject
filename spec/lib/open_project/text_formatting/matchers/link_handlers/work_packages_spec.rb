@@ -34,7 +34,7 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
   include_context "expected markdown modules"
 
   # Boilerplate for the typical "current user can view a WP in this project"
-  # setup. Consumers must define `:project`; `author` is realised eagerly via
+  # setup. Consumers must define `:project`; `author` is realized eagerly via
   # the stubbed `User.current` so role/membership creation runs once per
   # example.
   shared_context "with author signed in" do
@@ -82,8 +82,8 @@ RSpec.describe OpenProject::TextFormatting::Matchers::LinkHandlers::WorkPackages
       let(:project) { create(:project, identifier: "MACROPROJ") }
 
       it "falls back to the numeric label and href (no DB error)" do
-        # Realise project + author so format_text has a current user, but
-        # do not realise work_package — render a `#N` reference whose id
+        # Realize project + author so format_text has a current user, but
+        # do not realize work_package — render a `#N` reference whose id
         # has no matching record.
         project
         author

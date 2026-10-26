@@ -52,7 +52,7 @@ describe('BudgetByCostTypeComponent', () => {
   });
 
   const renderWith = (datasets:unknown[]) => {
-    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets }));
+    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labor'], datasets }));
     fixture.detectChanges();
   };
 
@@ -62,7 +62,7 @@ describe('BudgetByCostTypeComponent', () => {
       opacity,
       caretX: 50,
       caretY: 40,
-      dataPoints: [{ label: 'Labour', parsed: 10 }],
+      dataPoints: [{ label: 'Labor', parsed: 10 }],
       labelColors: [{ backgroundColor: '#123456' }],
     },
   } as unknown as PieTooltipContext);
@@ -101,7 +101,7 @@ describe('BudgetByCostTypeComponent', () => {
 
     const popover = element.querySelector<HTMLElement>('anchored-position')!;
     expect(popover.matches(':popover-open')).toBe(true);
-    expect(within(popover).getByText('Labour')).toBeInTheDocument();
+    expect(within(popover).getByText('Labor')).toBeInTheDocument();
     expect(document.body.querySelector(':scope > anchored-position')).toBeNull();
   });
 });

@@ -57,7 +57,7 @@ RSpec.describe Workflows::MatrixContext do
       expect(described_class.new(workflow:, tab: "assignee").tab).to eq("assignee")
     end
 
-    it "falls back to the always tab for anything unrecognised" do
+    it "falls back to the always tab for anything unrecognized" do
       expect(described_class.new(workflow:, tab: "bogus").tab).to eq("always")
     end
   end

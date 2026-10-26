@@ -1,122 +1,122 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': 'Link existing work package',
-      'subtext': 'Add a dynamic link to a single work package',
+      'title': "Link eksisterende arbejdspakke",
+      'subtext': "Tilføj et dynamisk link til én arbejdspakke",
       'create': {
-        'title': 'Create new work package',
-        'subtext': 'Create a work package and link it here'
+        'title': "Opret ny arbejdspakke",
+        'subtext': "Opret en arbejdspakke, og link til den her"
       },
       'aliases': {
-        'workpackage': 'workpackage',
-        'work package': 'work package',
-        'wp': 'wp',
+        'workpackage': "arbejdspakke",
+        'work package': "arbejdspakker",
+        'wp': "ap",
         'link': 'link',
-        'create': 'create'
+        'create': "opret"
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Opret arbejdspakke"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
-      'creating': 'Creating…',
-      'selectPlaceholder': 'Please select…',
-      'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
-      'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
-      'deselect': 'Remove selection',
-      'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
-      'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
-      'projectPlaceholder': 'Select a project…',
-      'loadFailed': 'The work package form could not be loaded: {{message}}',
-      'notAllowed': 'You are not allowed to create work packages.',
-      'validationFailed': 'Please correct the highlighted fields below.',
-      'requiredField': 'This field is required.',
-      'notANumber': 'Please enter a number.',
-      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
-      'unsupportedField': '"{{field}}" cannot be set here.',
-      'unsupportedRequired': 'This work package requires a field that cannot be set here.',
-      'createInOpenProject': 'Create it in OpenProject'
+      'title': "Opret ny arbejdspakke",
+      'close': "Luk",
+      'cancel': "Annuller",
+      'create': "Opret",
+      'creating': "Opretter …",
+      'selectPlaceholder': "Vælg …",
+      'searchPlaceholder': "Skriv for at søge …",
+      'loading': "Indlæser …",
+      'noResults': "Ingen resultater",
+      'filterBy': "Filtrér listen",
+      'allValues': "Alle",
+      'favorites': "Favoritter",
+      'clear': "Ryd",
+      'deselect': "Fjern markering",
+      'removeValue': "Fjern {{value}}",
+      'openOptions': "Vis valgmuligheder",
+      'closeOptions': "Skjul valgmuligheder",
+      'subjectPlaceholder': "Skriv emnet her",
+      'subjectClipped': "Den markerede tekst var for lang og er afkortet til de første {{limit}} tegn.",
+      'projectPlaceholder': "Vælg et projekt …",
+      'loadFailed': "Formularen til arbejdspakken kunne ikke indlæses: {{message}}",
+      'notAllowed': "Du har ikke tilladelse til at oprette arbejdspakker.",
+      'validationFailed': "Ret de fremhævede felter nedenfor.",
+      'requiredField': "Feltet er påkrævet.",
+      'notANumber': "Angiv et tal.",
+      'notAWholeNumber': "Angiv et helt tal uden decimaltegn.",
+      'unsupportedField': "\"{{field}}\" kan ikke angives her.",
+      'unsupportedRequired': "Arbejdspakken kræver et felt, der ikke kan angives her.",
+      'createInOpenProject': "Opret den i OpenProject"
     },
     'search': {
-      'label': 'Link existing work package',
-      'placeholder': 'Search by work package ID or subject',
-      'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
-      'error': 'Error. Unable to load content.'
+      'label': "Link eksisterende arbejdspakke",
+      'placeholder': "Søg efter arbejdspakkens id eller emne",
+      'dropdownAriaLabel': "Søgeresultater for arbejdspakker",
+      'noResults': "Ingen resultater",
+      'error': "Fejl. Indholdet kunne ikke indlæses."
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': 'Loading',
-        'message': 'Please wait'
+        'header': "Indlæser",
+        'message': "Vent et øjeblik"
       },
       'unauthorized': {
-        'header': 'Linked work package unavailable',
-        'message': 'You do not have permission to see this',
-        'short_message': 'Work package unavailable: no permission'
+        'header': "Den linkede arbejdspakke er ikke tilgængelig",
+        'message': "Du har ikke tilladelse til at se den",
+        'short_message': "Arbejdspakken er ikke tilgængelig: ingen tilladelse"
       },
       'error': {
-        'header': 'Error',
-        'message': 'Could not load work package',
-        'short_message': 'Unavailable: error'
+        'header': "Fejl",
+        'message': "Arbejdspakken kunne ikke indlæses",
+        'short_message': "Ikke tilgængelig: fejl"
       }
     },
     'options': {
-      'openInNewTab': 'Open in new tab',
-      'open': 'Open',
-      'changeSize': 'Change size',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
-      'openAriaLabel': 'Open work package {{id}} in new tab',
-      'inlineSizeLabel': 'Inline size',
-      'blockSizeLabel': 'Block size',
-      'chipAriaLabel': 'Work package {{id}}'
+      'openInNewTab': "Åbn i ny fane",
+      'open': "Åbn",
+      'changeSize': "Skift størrelse",
+      'remove': "Fjern",
+      'removeAriaLabel': "Fjern arbejdspakke",
+      'openAriaLabel': "Åbn arbejdspakke {{id}} i ny fane",
+      'inlineSizeLabel': "Størrelse i linjen",
+      'blockSizeLabel': "Størrelse som blok",
+      'chipAriaLabel': "Arbejdspakke {{id}}"
     },
     'preview': {
-      'showAriaLabel': 'Show details of work package {{id}}'
+      'showAriaLabel': "Vis detaljer om arbejdspakke {{id}}"
     },
     'sizes': {
       'xxs': {
-        'label': 'Tiny',
-        'desc': 'Identifier'
+        'label': "Mini",
+        'desc': "Id"
       },
       'xs': {
-        'label': 'Compact',
-        'desc': 'Type, Identifier, Subject'
+        'label': "Kompakt",
+        'desc': "Type, id, emne"
       },
       's': {
-        'label': 'Regular',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "Normal",
+        'desc': "Status, type, id, emne"
       },
       'm': {
-        'label': 'Compact card',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "Kompakt kort",
+        'desc': "Status, type, id, emne"
       },
       'l': {
-        'label': 'Regular card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project'
+        'label': "Normalt kort",
+        'desc': "Id, emne, type, status, overordnet, projekt"
       },
       'xl': {
-        'label': 'Full card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project, Description'
+        'label': "Fuldt kort",
+        'desc': "Id, emne, type, status, overordnet, projekt, beskrivelse"
       }
     },
     'hashMenu': {
-      'typeToSearch': 'Type to search work packages…'
+      'typeToSearch': "Skriv for at søge efter arbejdspakker …"
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Indlæser"
     }
   }
 };

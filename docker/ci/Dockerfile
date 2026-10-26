@@ -2,7 +2,7 @@
 ARG RUBY_VERSION
 FROM ruby:${RUBY_VERSION}-trixie
 
-ENV NODE_VERSION="24.18.0"
+ENV NODE_VERSION="24.22.1"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BUNDLE_WITHOUT="development:production:docker"
 

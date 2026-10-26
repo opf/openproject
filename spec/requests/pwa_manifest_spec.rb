@@ -93,7 +93,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       )
     end
 
-    it "paints the window in the default header colour" do
+    it "paints the window in the default header color" do
       expect(manifest).to include("theme_color" => "#1A67A3")
     end
 
@@ -107,7 +107,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(csp["script-src"]).to include(a_string_starting_with("'nonce-"))
     end
 
-    # Chrome silently declines to install when an icon is missing or mis-sized.
+    # Chrome silently declines to install when an icon is missing or wrongly sized.
     it "names icons that exist at the size they declare" do
       icons = manifest["icons"]
       expect(icons.map { it.values_at("sizes", "purpose") })
@@ -123,7 +123,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
   end
 
-  context "with a custom header colour" do
+  context "with a custom header color" do
     before do
       create(:custom_style)
       DesignColor.create!(variable: "header-bg-color", hexcode: "#123456")
@@ -183,14 +183,14 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(response).to have_http_status(:ok)
     end
 
-    it "paints the title bar in the header colour for a light preference" do
+    it "paints the title bar in the header color for a light preference" do
       sign_in_with_theme("light")
 
       expect(page).to have_css(%(#{tags}[content="#1A67A3"]), count: 1, visible: :all)
       expect(page).to have_no_css("#{tags}[media]", visible: :all)
     end
 
-    it "paints the title bar in the dark header colour for a dark preference" do
+    it "paints the title bar in the dark header color for a dark preference" do
       sign_in_with_theme("dark")
 
       expect(page).to have_css(%(#{tags}[content="#010409"]), count: 1, visible: :all)
@@ -212,13 +212,13 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
                                   ])
     end
 
-    it "paints the title bar in the high contrast header colour for a light preference with more contrast" do
+    it "paints the title bar in the high contrast header color for a light preference with more contrast" do
       sign_in_with_theme("light", increase_theme_contrast: true)
 
       expect(page).to have_css(%(#{tags}[content="#eff2f5"]), count: 1, visible: :all)
     end
 
-    it "uses the high contrast light colour when syncing with the OS and forcing light contrast" do
+    it "uses the high contrast light color when syncing with the OS and forcing light contrast" do
       sign_in_with_theme("sync_with_os", force_light_theme_contrast: true)
 
       expect(rendered_tags).to eq([
@@ -227,7 +227,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
                                   ])
     end
 
-    it "paints the title bar in a custom header colour", with_ee: %i[define_custom_style] do
+    it "paints the title bar in a custom header color", with_ee: %i[define_custom_style] do
       create(:custom_style)
       DesignColor.create!(variable: "header-bg-color", hexcode: "#123456")
 

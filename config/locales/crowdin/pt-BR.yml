@@ -219,6 +219,9 @@ pt-BR:
         organizational_unit: Unidade organizacional
         parent: Grupo principal
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Nome da instância Jira
         personal_access_token: Token de acesso de pessoal
         url: URL da instância Jira
@@ -466,7 +469,7 @@ pt-BR:
         header_look_and_feel: Aparência e comportamento
         impaired: Modo de acessibilidade
         increase_contrast: Aumentar contraste
-        increase_contrast_caption: Habilita o modo de alto contraste para o modo de cor selecionado.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Aumentar contraste do tema
         mode_guideline: Alguns modos substituirão as cores personalizadas do tema para melhorar acessibilidade e legibilidade. Selecione o modo Claro para suporte total ao tema personalizado.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -1481,7 +1484,7 @@ pt-BR:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1563,12 +1566,15 @@ pt-BR:
       actions:
         button_edit: Editar configuração
         button_open: Execuções abertas
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Ajude-nos a melhorar o Migrador do Jira com seu feedback e doações de dados privados. Você pode participar da [comunidade de desenvolvimento](link) do Migrador do Jira.
 
           '
         description: Este Migrador do Jira está atualmente em beta. No momento, oferecemos suporte apenas às versões 10.x e 11.x do Jira Server/Data Center. Instâncias Cloud ainda não são compatíveis.
         title: Beta - Experimente!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Configure um host do Jira para começar a importar itens do Jira para esta instância do OpenProject.
         title: Nenhum host do Jira configurado até o momento
@@ -1601,18 +1607,30 @@ pt-BR:
           description: O Jira usa identificadores de issue compostos por uma chave de projeto e um número sequencial (PRJ-123). O OpenProject também oferece suporte a isso, mas precisa ser ativado [aqui](link).
           title: Os identificadores semânticos baseados em projeto devem estar ativados.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Adicionar configuração
-        button_delete_token: Excluir token
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Salvar configuração
-        delete_token_confirm: Tem certeza de que deseja excluir o token? Isso desativará a conexão com o Jira.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Nome
-          personal_access_token: Token de acesso pessoal
+          personal_access_token: Personal access token (PAT)
           url: URL do Jira Server/Data Center
         label_testing: Testando configuração...
-        test_configuration_caption: Você pode testar essa configuração [clicando aqui](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Editar execução
@@ -1865,17 +1883,18 @@ pt-BR:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: A API do Jira retornou o status de erro %{status}. Verifique o URL da sua instância do Jira e o token da API.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Erro de conexão: %{message}'
         error: Ocorreu um erro inesperado ao testar a conexão
         failed: 'Falha na conexão: não foi possível recuperar as informações do servidor'
         invalid_url: Forneça um URL válido
-        missing_credentials: Forneça tanto o URL quanto o Token de Acesso Pessoal para testar a conexão
         parse_error: Falha ao interpretar a resposta do servidor. O servidor pode não ser uma instância válida do Jira.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Conectado com sucesso a %{server} (versão %{version})
-        token_error: Token da API inválido. Verifique suas credenciais na configuração.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Migrador do Jira
-      token_deleted: Token excluído com sucesso.
       user:
         unknown_name: Desconhecido
     journal_aggregation:
@@ -2136,7 +2155,7 @@ pt-BR:
         types_caption: Adicione os tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão incluídas automaticamente.
         usage_scope_caption: 'Você pode limitar onde esta ação ficará visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacote de trabalho ou para tipos de pacote de trabalho específicos.'
       index:
-        description: As ações de transformação de texto oferecem aos usuários ações baseadas em LLM para escrever, organizar e revisar textos onde quer que o editor de texto formatado seja usado, como nas descrições de pacotes de trabalho, comentários e páginas wiki. Você pode criar novas ações usando seus próprios prompts e instruções.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Ação
         label_aria_add_action: Adicionar ação de transformação de texto
       index_component:
@@ -3599,7 +3618,7 @@ pt-BR:
       summary:
         failure: Algumas verificações falharam e o sistema não está funcionando como esperado.
         success: Todas as conexões e sistemas estão funcionando como esperado.
-        warning: Algumas verificações retornaram um aviso. Isso pode levar a comportamentos inesperados.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Falhou
@@ -3608,7 +3627,7 @@ pt-BR:
         warning: Aviso
   help_texts:
     views:
-      favoured: Marcar esta exibição como favorita e adicionar à barra lateral de exibições salvas à esquerda.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} sempre estão anexados a um projeto. Você só pode selecionar projetos aqui que o módulo %{plural} está ativo. Depois de criar um %{singular} você pode adicionar pacotes de trabalho de outros projetos a ele.\n"
       public: Publique esta exibição, permitindo que outros usuários acessem sua visualização. Usuários com a permissão de 'Gerenciar exibições públicas' podem modificar ou remover a consulta pública. Isto não afeta a visibilidade dos resultados do pacote de trabalho nesta exibição e, dependendo de suas permissões, os usuários podem ver resultados diferentes.
   homescreen:
@@ -5440,8 +5459,8 @@ pt-BR:
         label: Tabela de conteúdos
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
-      caption: Detalhes do pacote de trabalho renderizados como um artefato PMflex.
-      label: Artefato PMflex
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Todos os atributos do formulário atual, com base no modelo padrão.
       label: Atributos e descrição
@@ -5748,11 +5767,11 @@ pt-BR:
           no_status_when_submitted: Falha ao ativar a solicitação de início de projeto, pois o tipo de pacote de trabalho %{type} precisa ter pelo menos um status associado. Habilite pelo menos um fluxo de trabalho de status para este tipo de pacote de trabalho.
           no_work_package_type: Falha ao ativar a solicitação de início de projeto, pois é necessário ter pelo menos um tipo de pacote de trabalho ativo, e este projeto não possui nenhum. Adicione pelo menos um tipo de pacote de trabalho a este projeto.
         export:
-          description_attachment_export: O artefato gerado será salvo como um anexo PDF no pacote de trabalho do artefato.
-          description_file_link_export: O pacote de trabalho do artefato incluirá um link para um PDF armazenado em um armazenamento de arquivos externo. É necessário que o armazenamento ofereça gerenciamento automático de pastas por projeto. Atualmente, apenas armazenamentos Nextcloud são compatíveis.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Selecione qual dos armazenamentos de arquivos externos configurados deve ser utilizado.
           external_file_storage: Armazenamento de arquivos externo
-          label_artifact_export: Exportação de artefato
+          label_artifact_export: Artifact export
           label_attachment_export: Salvar como anexo de pacote de trabalho
           label_file_link_export: Carregar arquivo no armazenamento externo e adicionar link do arquivo ao pacote de trabalho
           pdf_file_storage: Armazenamento de arquivos PDF
@@ -5891,14 +5910,14 @@ pt-BR:
     status:
       button_edit: Editar status
     wizard:
-      create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
-      create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: Este projeto não tem atributos de projeto habilitados para o assistente. Habilite pelo menos um atributo nas <a href="%{link}">configurações do projeto</a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
       sidebar_content_title: Conteúdo
-      success: Atributos do projeto salvos e pacote de trabalho do artefato criado com sucesso.
+      success: Project attributes saved and artifact work package created successfully.
       title: Solicitação de início de projeto
   pwa:
     offline:
@@ -6474,12 +6493,12 @@ pt-BR:
         confirmation_message: O assistente de solicitação de início não estará mais disponível para novos projetos com base neste modelo. Os gerentes e responsáveis pelo projeto precisarão configurar manualmente e preencher as informações relevantes na visão geral do projeto.
         heading: Desativar esta solicitação de início de projeto?
         title: Desativar solicitação de início de projeto
-      header_description: 'O OpenProject pode gerar um assistente guiado para auxiliar os gerentes de projeto no preenchimento de uma solicitação de início de projeto. É possível selecionar quais atributos do projeto devem ser incluídos e gerar um artefato em PDF como resultado.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Nome do artefato
-        artifact_name_caption: Escolha o nome deste artefato conforme recomendado pelo seu framework de gerenciamento de projetos.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Assistente de criação de projeto
           project_initiation_request: Solicitação de início de projeto
@@ -6499,8 +6518,8 @@ pt-BR:
           Você enviou uma solicitação de início de projeto para **%{project_name}**. Ela agora aguarda revisão.
           Clique no link abaixo para acessar o pacote de trabalho com a sua solicitação.
         confirmation_email_text: Texto do e-mail de confirmação
-        description: Quando um usuário envia uma solicitação de início de projeto, um novo pacote de trabalho será criado com o artefato da solicitação anexado como arquivo PDF. As configurações abaixo definem o tipo, o status e o responsável por este novo pacote de trabalho.
-        description_template: "**Este pacote de trabalho foi criado automaticamente ao concluir o fluxo de trabalho %{wizard_name}.** Um artefato em PDF contendo todas as informações enviadas foi gerado e anexado a este pacote de trabalho para referência e auditoria. Se for necessário atualizar ou refazer as etapas de início, você pode reabrir o assistente a qualquer momento usando o link abaixo:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Enviar e-mail de confirmação para o usuário que enviou a solicitação de início de projeto
         status_when_submitted: Status ao enviar
         status_when_submitted_caption: O status para o qual o pacote de trabalho gerado será alterado assim que a solicitação for enviada.
@@ -6508,7 +6527,7 @@ pt-BR:
         work_package_comment_caption: O responsável selecionado acima será automaticamente @mencionado no comentário.
         work_package_comment_default: Uma solicitação de início de projeto para **%{project_name}** foi enviada e está aguardando revisão.
         work_package_type: Tipo de pacote de trabalho
-        work_package_type_caption: O tipo de pacote de trabalho que deve ser usado para armazenar o artefato concluído.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Abrir assistente de criação de projeto
         project_initiation_request: Abrir solicitação de início de projeto
@@ -7024,13 +7043,13 @@ pt-BR:
           file_link:
             caption: O PDF gerado foi carregado no armazenamento Nextcloud gerenciado automaticamente pelo projeto e vinculado ao pacote de trabalho. Os pacotes de trabalho de projetos sem esse tipo de armazenamento serão ignorados.
             label: Carregar arquivo no armazenamento externo e adicionar link do arquivo ao pacote de trabalho
-          intro: Gerar automaticamente um artefato PDF de um pacote de trabalho deste tipo sempre que seu status for alterado.
-          invalid_mode: Modo de exportação de artefato inválido.
-          label: Exportação automática de artefato
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: Nenhum PDF é gerado automaticamente.
             label: Desativado
-          section_title: Exportação automática de artefato
+          section_title: Automatic artifact export
           unavailable: indisponível, nenhum armazenamento Nextcloud gerenciado automaticamente está configurado
         pdf_export_templates:
           actions:
@@ -7409,7 +7428,7 @@ pt-BR:
       deletion_warning: Tem certeza de que deseja revogar esta sessão? Você será desconectado neste dispositivo.
       device: Dispositivo / OS
       expires: Expira
-      instructions: Você está conectado à sua conta nos seguintes dispositivos. Revogue as sessões que você não reconhecer ou que estejam em dispositivos que você não controla.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Último acesso
       may_not_delete_current: Você não pode excluir a sessão atual.
       session_name: "%{browser_name} %{browser_version} em %{os_name}"

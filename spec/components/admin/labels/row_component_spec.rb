@@ -50,7 +50,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
       expect(rendered_component).to have_test_selector("label-name", text: "Bug")
     end
 
-    it "links the pluralised usage count to the work package table filtered by the label" do
+    it "links the pluralized usage count to the work package table filtered by the label" do
       query_props = { f: [{ n: "label", o: "=", v: [record.id.to_s] }] }.to_json
 
       expect(rendered_component).to have_link("3 work packages", href: work_packages_path(query_props:), target: "_blank")

@@ -396,7 +396,7 @@ class ApplicationController < ActionController::Base
         return view_paths.find_template(default_template_name(action_name), "api")
       rescue ::ActionView::MissingTemplate
         # the api template was not found
-        # fallback to the default behaviour
+        # fallback to the default behavior
       end
     end
     super

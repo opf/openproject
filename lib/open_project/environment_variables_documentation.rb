@@ -56,7 +56,7 @@ module OpenProject
 
     # `real_time_text_collaboration_enabled` derives its default from the two
     # hocuspocus settings, `default_projects_modules` from that one - as values, so
-    # a configured instance documents itself. Mapped to the override neutralising
+    # a configured instance documents itself. Mapped to the override neutralizing
     # each; `docs:env_vars` refuses to run while any is set.
     DERIVED_DEFAULT_INPUTS = {
       collaborative_editing_hocuspocus_url: "OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=",

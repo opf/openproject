@@ -238,7 +238,7 @@ export default class FiltersFormController extends Controller {
     this.registerAngularPickerWithMultiInput(target, 'opce-basic-single-datetime-picker');
   }
 
-  // angular_component_tag serialises @Input() bindings as JSON in data-* attributes, so the
+  // angular_component_tag serializes @Input() bindings as JSON in data-* attributes, so the
   // Angular date picker wrapper's data-name holds a JSON-encoded value that primer-multi-input
   // cannot use to identify its child fields.  date_picker.html.erb therefore also sets
   // data-multi-input-name as a plain string with the intended field name.

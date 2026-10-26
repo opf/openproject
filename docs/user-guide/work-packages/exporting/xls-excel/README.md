@@ -32,7 +32,7 @@ If you activate the **Include descriptions** option, an additional column will b
 
 If you activate the **Include relations** option, each work package is repeated in a separate row for every relation it has. Work packages without relations are exported in a single row.
 
-Every row is extended by the columns **Relation type**, **Lag** and **Description** of the relation, followed by the selected columns of the related work package. Hierarchy relations are included as well and are labelled _parent of_ and _child of_.
+Every row is extended by the columns **Relation type**, **Lag** and **Description** of the relation, followed by the selected columns of the related work package. Hierarchy relations are included as well and are labeled _parent of_ and _child of_.
 
 ![OpenProject_work_package_export_excel_relations](openproject_export_excel_with_relations.png)
 

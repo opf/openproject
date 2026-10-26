@@ -638,7 +638,7 @@ RSpec.describe "Open the Meetings tab",
           expect(page.find(".op-meeting-agenda-item--presenter")).to have_text(user.name)
         end
 
-        context "when testing section selection behaviour" do
+        context "when testing section selection behavior" do
           shared_let(:meeting_without_sections) { create(:meeting, project:, start_time: 1.hour.from_now) }
           shared_let(:recurring_meeting) do
             create(:recurring_meeting, project:)

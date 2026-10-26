@@ -44,7 +44,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
     custom_field_index_page.click_to_create_new_custom_field("Hierarchy")
 
-    hierarchy_name = "Stormtrooper Organisation"
+    hierarchy_name = "Stormtrooper Organization"
     fill_in "Name", with: hierarchy_name
     click_on "Save"
 
@@ -63,7 +63,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     expect(page).to have_css(".PageHeader-title", text: hierarchy_name)
 
     # Now, that was the wrong name, so I can change it to the correct one
-    hierarchy_name = "Imperial Organisation"
+    hierarchy_name = "Imperial Organization"
     fill_in "Name", with: "", fill_options: { clear: :backspace }
     fill_in "Name", with: hierarchy_name
     click_on "Save"

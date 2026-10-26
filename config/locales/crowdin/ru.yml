@@ -219,6 +219,9 @@ ru:
         organizational_unit: Подразделение организации
         parent: Родительская группа
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Имя экземпляра Jira
         personal_access_token: Персональный токен доступа
         url: URL-адрес экземпляра Jira
@@ -466,7 +469,7 @@ ru:
         header_look_and_feel: Оформление
         impaired: Режим отображения для людей с ограниченными возможностями
         increase_contrast: Увеличить контраст
-        increase_contrast_caption: Включает режим высокой контрастности для выбранного цветового режима.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Увеличить контрастность темы
         mode_guideline: Некоторые режимы перезаписывают цвета пользовательских тем для обеспечения доступности и читаемости. Пожалуйста, выберите светлый режим для полной поддержки пользовательских тем.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -1701,7 +1704,7 @@ ru:
             description: Заголовок приложения будет черным. Мы рекомендуем белый логотип на прозрачном фоне.
             name: Логотип в темном режиме
           light:
-            description: Убедитесь, что вы загрузили логотип, который достаточно контрастирует с выбранным цветом заголовка приложения.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Логотип в светлом режиме
           light_high_contrast:
             description: Заголовок приложения будет серым. Мы рекомендуем черный логотип на прозрачном фоне.
@@ -1783,12 +1786,15 @@ ru:
       actions:
         button_edit: Редактировать конфигурацию
         button_open: Открыть запуск
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Пожалуйста, помогите нам улучшить Jira Migrator с помощью Ваших отзывов и частных пожертвований данных. Вы можете [присоединиться к сообществу разработчиков](link) Jira Migrator.
 
           '
         description: Этот мигратор Jira в настоящее время находится в бета-версии. В настоящее время мы поддерживаем только Jira Server/Data Center версии 10. и 11.x. Облачные экземпляры в данный момент не поддерживаются.
         title: Бета-версия - попробовать!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Настройте хост Jira, чтобы начать импортировать элементы из Jira в этот экземпляр OpenProject.
         title: Хосты Jira еще не настроены
@@ -1821,18 +1827,30 @@ ru:
           description: В Jira используются идентификаторы задач, состоящие из ключа проекта и порядкового номера (PRJ-123). OpenProject также поддерживает эту функцию, однако её необходимо включить [здесь](link).
           title: Семантические идентификаторы на основе проекта должны быть включены.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Добавить конфигурацию
-        button_delete_token: Удалить токен
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Сохранить конфигурацию
-        delete_token_confirm: Вы уверены, что хотите удалить токен? Это отключит подключение к Jira.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Имя
-          personal_access_token: Персональный токен доступа
+          personal_access_token: Personal access token (PAT)
           url: URL сервера/центра обработки данных Jira
         label_testing: Тестирование конфигурации...
-        test_configuration_caption: Вы можете протестировать эту конфигурацию, [нажав здесь](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Редактировать запуск
@@ -2101,17 +2119,18 @@ ru:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira API вернул статус ошибки %{status}. Пожалуйста, проверьте ваш экземпляр Jira URL и API токен.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Ошибка соединения: %{message}'
         error: Во время тестирования соединения произошла непредвиденная ошибка
         failed: 'Соединение не удалось: Невозможно получить информацию о сервере'
         invalid_url: Укажите корректный URL
-        missing_credentials: Пожалуйста, укажите URL и персональный токен доступа, чтобы проверить соединение
         parse_error: Не удалось разобрать ответ от сервера. Возможно, сервер не является действующим экземпляром Jira.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Успешное подключение к %{server} (версия %{version})
-        token_error: Неверный API токен. Пожалуйста, проверьте свои учетные данные в конфигурации.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Мигратор Jira
-      token_deleted: Токен был успешно удален.
       user:
         unknown_name: Неизвестен
     journal_aggregation:
@@ -2378,7 +2397,7 @@ ru:
         types_caption: Добавьте типы пакетов работ, для которых должно быть доступно данное действие. Все доступные варианты будут включены автоматически.
         usage_scope_caption: 'Вы можете ограничить область видимости этого действия: везде (включая комментарии, Вики и настраиваемые поля), для всех типов пакетов работ или для определенных типов пакетов работ.'
       index:
-        description: Действия по преобразованию текста предоставляют пользователям возможности на базе больших языковых моделей для написания, систематизации и проверки текста везде, где используется редактор форматированного текста, например в описаниях пакетов работ, комментариях и на страницах вики. Вы можете создавать новые действия, используя собственные подсказки и инструкции.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Действие
         label_aria_add_action: Добавить действие «Преобразование текста»
       index_component:
@@ -3913,7 +3932,7 @@ ru:
       summary:
         failure: Некоторые проверки не удались, и система работает не так, как ожидалось.
         success: Все соединения и системы работают, как и ожидалось.
-        warning: Некоторые проверки вернули предупреждение. Это может привести к неожиданному поведению.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Ошибка
@@ -3922,7 +3941,7 @@ ru:
         warning: Предупреждение
   help_texts:
     views:
-      favoured: Отметить это представление как избранное и добавить в панель сохранённых представлений слева.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} всегда прикреплены к проекту. Вы можете выбрать только проекты, в которых активен модуль %{plural} . После создания %{singular} вы можете добавлять к нему пакеты работ из других проектов.\n"
       public: Опубликуйте это представление, позволив другим пользователям получить доступ к вашему представлению. Пользователи с разрешением "Управление общедоступными представлениями" могут изменять или удалять общедоступный запрос. Это не влияет на видимость результатов рабочего пакета в этом представлении, и в зависимости от их разрешений пользователи могут видеть разные результаты.
   homescreen:
@@ -5778,8 +5797,8 @@ ru:
         label: Содержание
     page_nr_footer: Страница %{page} из %{total}
     template_artefact:
-      caption: Сведения о пакете работ, представлены в виде артефакта PMflex.
-      label: Артефакт PMflex
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Все атрибуты, присутствующие в текущей форме используют шаблон по умолчанию.
       label: Атрибуты и описание
@@ -6088,11 +6107,11 @@ ru:
           no_status_when_submitted: Не удалось включить запрос на инициирование проекта, поскольку тип пакета работ %{type} требует наличия хотя бы одного связанного с ним статуса. Пожалуйста, включите хотя бы один рабочий процесс со статусом для этого типа пакета работ.
           no_work_package_type: Не удалось включить запрос на инициирование проекта, поскольку для этого требуется хотя бы один активный тип пакета работ, а в данном проекте его нет. Пожалуйста, добавьте хотя бы один тип пакета работ в этот проект.
         export:
-          description_attachment_export: Сгенерированный артефакт будет сохранен в виде PDF приложения к пакету работ артефакта.
-          description_file_link_export: Пакет работ артефакта будет иметь ссылку на файл PDF на внешнем файловом хранилище. Требует рабочего хранилища файлов с автоматически управляемыми папками проекта для этого проекта. В настоящее время поддерживается только файловые хранилища Nextcloud.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Выберите, какое из настроенных внешних файловых хранилищ должно использоваться.
           external_file_storage: Внешнее хранилище файлов
-          label_artifact_export: Экспорт артефакта
+          label_artifact_export: Artifact export
           label_attachment_export: Сохраните как вложение файла в пакете работ
           label_file_link_export: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
           pdf_file_storage: Хранилище файлов PDF
@@ -6237,14 +6256,14 @@ ru:
     status:
       button_edit: Редактировать статус
     wizard:
-      create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
-      create_artifact_work_package_error: Не удалось создать пакет работ артефакта
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: Для данного проекта не включены атрибуты проекта, необходимые для работы мастера. Пожалуйста, включите хотя бы один из них в <a href="%{link}">настройках проекта</a>.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
       sidebar_content_title: Содержимое
-      success: Атрибуты проекта сохранены, пакет работ артефакта создан успешно.
+      success: Project attributes saved and artifact work package created successfully.
       title: Запрос на инициализацию проекта
   pwa:
     offline:
@@ -6830,12 +6849,12 @@ ru:
         confirmation_message: Мастер запроса инициации больше не будет доступен для новых проектов, основанных на этом шаблоне. Менеджерам и руководителям проектов придется вручную настраивать и заполнять соответствующую информацию в обзоре проекта.
         heading: Отключить запрос на инициирование этого проекта?
         title: Отключить запрос на инициализацию проекта
-      header_description: 'OpenProject может сгенерировать пошаговый мастер, чтобы помочь менеджерам проектов заполнить запрос на запуск проекта. Вы можете выбрать, какие атрибуты проекта должны быть включены и создать артефакт в PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Название артефакта
-        artifact_name_caption: Выберите название для этого артефакта, рекомендованное вашей методологией управления проектами.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Мастер создания проекта
           project_initiation_request: Запрос на инициализацию проекта
@@ -6855,8 +6874,8 @@ ru:
           Вы подали запрос на инициирование проекта **%{project_name}**. Сейчас он ожидает рассмотрения.
           Щелкните по ссылке ниже, чтобы получить доступ к пакету работ с Вашим запросом.
         confirmation_email_text: Текст письма подтверждения
-        description: Когда пользователь отправляет запрос на запуск проекта, создается новый пакет работ с приложением — артефактом запроса в формате PDF. Приведенные ниже настройки определяют тип, статус и ответственное лицо для этого нового рабочего пакета.
-        description_template: "**Этот пакет работ был автоматически создан по завершении рабочего процесса %{wizard_name}.** Артефакт в формате PDF, содержащий всю предоставленную информацию, был создан и прикреплен к этому пакету работ для справки и аудита. Если Вам необходимо обновить или повторно выполнить шаги запуска проекта, Вы можете в любой момент снова открыть мастер, воспользовавшись приведенной ниже ссылкой:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Отправить подтверждение по электронной почте пользователю, подавшему запрос на инициирование проекта
         status_when_submitted: Статус на момент подачи
         status_when_submitted_caption: Статус, в который перейдет созданный пакет работ после отправки запроса.
@@ -6864,7 +6883,7 @@ ru:
         work_package_comment_caption: Выбранный выше адресат будет автоматически @указан в комментарии.
         work_package_comment_default: Запрос на инициализацию проекта **%{project_name}** был отправлен и ожидает рассмотрения.
         work_package_type: Тип пакета работ
-        work_package_type_caption: Тип пакета работ, который следует использовать для хранения готового артефакта.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Открыть мастер создания проекта
         project_initiation_request: Открыть запрос на инициализацию проекта
@@ -7385,13 +7404,13 @@ ru:
           file_link:
             caption: Сгенерированный PDF-файл загружается в хранилище Nextcloud, управляемое автоматически в рамках проекта, и ссылка на него добавляется в пакет работ. Пакеты работ в проектах, не имеющих такого хранилища, пропускаются.
             label: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
-          intro: Автоматически создавать PDF-документ по пакету работ данного типа при каждом изменении его статуса.
-          invalid_mode: Недопустимый режим экспорта артефактов.
-          label: Автоматический экспорт артефактов
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: PDF-файл не создается автоматически.
             label: Выключено
-          section_title: Автоматический экспорт артефактов
+          section_title: Automatic artifact export
           unavailable: недоступно, не настроено ни одного хранилища Nextcloud с автоматическим администрированием
         pdf_export_templates:
           actions:
@@ -7778,7 +7797,7 @@ ru:
       deletion_warning: Вы уверены, что хотите отменить эту сессию? Вы выйдите на этом устройстве.
       device: Устройство / ОС
       expires: Срок действия
-      instructions: Вы вошли в свою учетную запись через следующие устройства. Отмените сеансы, которые вы не узнаете или устройства, которые вы не контролируете.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Последнее соединение
       may_not_delete_current: Вы не можете удалить ваш текущий сеанс.
       session_name: "%{browser_name} %{browser_version} на %{os_name}"

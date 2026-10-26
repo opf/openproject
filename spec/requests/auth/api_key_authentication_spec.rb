@@ -200,7 +200,7 @@ RSpec.describe "Authentication with an API key",
         expect(last_response.headers["Set-Cookie"]).to be_blank
       end
 
-      it "ignores an SSO header naming a different user in favour of the key" do
+      it "ignores an SSO header naming a different user in favor of the key" do
         header "X-OpenProject-API-Key", api_key
         header "X-Remote-User", create(:user).login
         get "/work_packages/#{work_package.id}.md"
