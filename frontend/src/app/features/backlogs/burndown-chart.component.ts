@@ -25,99 +25,27 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import {
-  Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
-} from 'chart.js';
-import 'chartjs-adapter-luxon';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChartOptions, TooltipItem } from 'chart.js';
 import moment from 'moment-timezone';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import { generateId } from 'core-app/shared/helpers/dom-helpers';
-import NonWorkingDaysPlugin, {
-  NonWorkingInterval, nonWorkingDaysColor,
-} from 'core-app/shared/components/charts/plugin.non-working-days';
+import NonWorkingDaysPlugin, { nonWorkingDaysColor } from 'core-app/shared/components/charts/plugin.non-working-days';
 import 'core-app/shared/components/charts/interaction.series-at-x';
-import { formattedTick, timeChartOptions } from 'core-app/shared/components/charts/options.time-chart';
+import {
+  NON_WORKING_KEY, NonWorkingKey, SeriesChartComponent, SeriesStyle,
+} from 'core-app/shared/components/charts/component.series-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
-interface BurndownPoint {
-  x:string;
-  y:number;
-}
+type SeriesKey = 'remaining'|'guideline'|'projection';
 
-// The non-working days are one of these too, standing in for the bands a plugin paints. It brings
-// no points, so chart.js draws nothing for it, but it earns the legend entry and the visibility
-// that make it behave like the rest.
-type SeriesKey = 'remaining'|'guideline'|'projection'|'non-working-days';
-
-const NON_WORKING_KEY = 'non-working-days' satisfies SeriesKey;
-
-interface BurndownSeries {
-  id:SeriesKey;
-  label:string;
-  data:BurndownPoint[];
-}
-
-type BurndownDataset = ChartDataset<'line', BurndownPoint[]>;
-
-interface ChartedRange {
-  from:string;
-  to:string;
-}
-
-interface BurndownChartData {
-  step:'day'|'hour';
-  range:ChartedRange;
-  series:BurndownSeries[];
-  nonWorkingIntervals:NonWorkingInterval[];
-}
-
-// Keeps the tallest step clear of the top of the plot area.
-const Y_AXIS_HEADROOM = 1.1;
-
-// Chart.js takes a swatch shape per legend item but the decision to honor it at all is global,
-// hence usePointStyle on the labels.
-const SWATCH_WIDTH = 24;
-
-interface SeriesColor {
-  border:string;
-  background?:string;
-}
-
-interface SeriesStyle {
-  swatch:PointStyle;
-  borderDash:number[];
-  borderWidth:number;
-  order?:number;
-  stepped?:'after';
-  fill?:boolean;
-  pointRadius?:number;
-  pointHitRadius?:number;
-  pointHoverRadius?:number;
-  // Read on demand rather than held as a value: the colors come off the document, which at import
-  // time has no stylesheet resolved yet for them to freeze against. Being a call does not make them
-  // follow a theme switched afterwards -- that waits for the datasets to be built again.
-  color?:() => SeriesColor;
-}
-
-// True of every line, and overridable by any of them: the points are never drawn, but they stay
-// wide enough to be found by a cursor that is not exactly on one.
-const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
-  pointRadius: 0,
-  pointHitRadius: 8,
-};
-
-// Everything that tells the series apart, so that a line and its swatch cannot drift.
-//
 // ORDER IS SIGNIFICANT: the legend and the tooltip read in the order these are declared, which
 // is the order a reader meets them -- what is left, where that is heading, the days nothing was
 // expected on, and what was planned. Reordering this list reorders both.
 // It is not the order the lines are drawn in: datasets are drawn from the highest `order` down,
 // so that the filled remaining area sits under the lines, which runs the other way.
-const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
+const SERIES_STYLE:Record<SeriesKey|NonWorkingKey, SeriesStyle> = {
   remaining: {
     swatch: 'rect',
     borderDash: [],
@@ -153,23 +81,6 @@ const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
   },
 };
 
-function seriesRank(key:SeriesKey|undefined):number {
-  const readingOrder = Object.keys(SERIES_STYLE);
-  const rank = readingOrder.indexOf(key ?? '');
-
-  return rank === -1 ? readingOrder.length : rank;
-}
-
-function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
-  if (key === undefined) {
-    return {};
-  }
-
-  const { swatch, borderDash, borderWidth } = SERIES_STYLE[key];
-
-  return { pointStyle: swatch, lineDash: borderDash, lineWidth: borderWidth };
-}
-
 // The projection continues the remaining series, so the two share a color.
 function remainingColor():string {
   return getCSSVariable('--display-red-scale-6', '#c50d28');
@@ -190,39 +101,15 @@ function guidelineColor():string {
   providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BurndownChartComponent {
-  readonly i18n = inject(I18nService);
-  readonly timezoneService = inject(TimezoneService);
-
-  readonly chartData = input.required<string>();
+export class BurndownChartComponent extends SeriesChartComponent<SeriesKey> {
   readonly chartDescriptionId = generateId('burndown-chart-description');
   readonly chartLabel = this.i18n.t('js.burndown_chart.chart_label');
 
-  private readonly parsedInput = computed(() => JSON.parse(this.chartData()) as BurndownChartData);
+  protected readonly seriesStyle = SERIES_STYLE;
 
-  // The non-working days join the series they are drawn among, without data points but present, so that the legend and
-  // its toggle reach them through chart.js.
-  private readonly series = computed<BurndownSeries[]>(() => {
-    const { series, nonWorkingIntervals } = this.parsedInput();
+  protected readonly yAxisTitle = this.i18n.t('js.burndown_chart.story_points');
 
-    if (nonWorkingIntervals.length === 0) {
-      return series;
-    }
-
-    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.sprint_charts.non_working_day'), data: [] }];
-  });
-
-  private readonly nonWorkingDatasetIndex = computed(() => {
-    const index = this.series().findIndex((series) => series.id === NON_WORKING_KEY);
-
-    return index === -1 ? undefined : index;
-  });
-
-  readonly hasChartData = computed(() => this.series().some((series) => series.data.length > 0));
-
-  readonly lineChartData = computed<ChartData<'line', BurndownPoint[]>>(() => ({
-    datasets: this.series().map((series) => this.datasetFor(series)),
-  }));
+  protected readonly interaction:ChartOptions<'line'>['interaction'] = { mode: 'series-at-x', intersect: false };
 
   // Spoken a day at a time, however finely the series are sampled. Each one is reported by the
   // value it closed at, so an hourly Remaining series says what the day ended on rather than
@@ -262,108 +149,16 @@ export class BurndownChartComponent {
       });
   }
 
-  private readonly chartedRange = computed(() => {
-    const { from, to } = this.parsedInput().range;
-
-    return { min: Date.parse(from), max: Date.parse(to) };
-  });
-
-  private readonly yAxisMaximum = computed(() => {
-    const values = this.series().flatMap((series) => series.data.map((point) => point.y));
-
-    return values.length === 0 ? undefined : Math.max(...values) * Y_AXIS_HEADROOM;
-  });
-
-  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => {
-    // The axis positions the series and the non-working days are painted between two of its
-    // instants, so both have to agree on where a day begins and ends.
-    const zone = this.timezoneService.userTimezone();
-
-    return {
-      ...timeChartOptions({
-        zone,
-        range: this.chartedRange(),
-        yTitle: this.i18n.t('js.burndown_chart.story_points'),
-        suggestedMax: this.yAxisMaximum(),
-        formatDate: (iso) => this.timezoneService.formattedDatetimeAsDate(iso),
-      }),
-      interaction: { mode: 'series-at-x', intersect: false },
-      plugins: {
-        // Registered globally by the other charts, it would otherwise reassign the colors
-        // this chart sets deliberately, on every layout.
-        'primer-colors': { enabled: false },
-        'non-working-days': {
-          intervals: this.parsedInput().nonWorkingIntervals,
-          zone,
-          datasetIndex: this.nonWorkingDatasetIndex(),
-        },
-        legend: {
-          position: 'bottom',
-          labels: {
-            usePointStyle: true,
-            pointStyleWidth: SWATCH_WIDTH,
-            generateLabels: (chart) => this.legendLabels(chart),
-          },
-        },
-        tooltip: {
-          itemSort: (a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex),
-          callbacks: {
-            title: (items) => this.tooltipTitle(items),
-            label: (item) => this.tooltipLabel(item),
-          },
-        },
-      },
-    };
-  });
-
-  // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
-  // property under its own name.
-  private datasetFor(series:BurndownSeries):BurndownDataset {
-    const { swatch: _swatch, color, ...dataset } = SERIES_STYLE[series.id];
-    const datasetColor = color?.();
-
-    return {
-      label: series.label,
-      data: series.data,
-      ...SERIES_DEFAULTS,
-      ...dataset,
-      borderColor: datasetColor?.border,
-      backgroundColor: datasetColor?.background,
-    };
-  }
-
   // For ongoing sprints, the remaining data series does not cover the whole of the graph.
   // There is a junction where the projection series takes over.
   // The tooltip's title is taken from remaining as long as possible and will only fall back
   // to projection. That way, the finer granularity is offered as long as it is available.
   // The remaining series has the finest granularity of all the data series (by hour - sometimes by day).
-  private tooltipTitle(items:TooltipItem<'line'>[]):string {
-    const itemFor = (id:BurndownSeries['id']) => items.find((item) => this.seriesId(item.datasetIndex) === id);
+  protected override tooltipTitle(items:TooltipItem<'line'>[]):string {
+    const itemFor = (id:SeriesKey) => items.find((item) => this.seriesId(item.datasetIndex) === id);
     const dated = itemFor('remaining') ?? itemFor('projection') ?? items.at(0);
 
-    return dated ? formattedTick(Number(dated.parsed.x), this.parsedInput().step, this.timezoneService) : '';
-  }
-
-  // Guideline and projection divide story points across working days, so they are cut to one
-  // decimal. Remaining only ever holds whole story points, which this leaves as they are.
-  private tooltipLabel(item:TooltipItem<'line'>):string {
-    const value = (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
-
-    return `${item.dataset.label ?? ''}: ${value}`;
-  }
-
-  private legendLabels(chart:Chart):LegendItem[] {
-    return Chart.defaults.plugins.legend.labels.generateLabels(chart)
-      .map((label) => ({ ...label, ...legendStyle(this.seriesId(label.datasetIndex)) }))
-      .sort((a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex));
-  }
-
-  private seriesId(datasetIndex:number|undefined):SeriesKey|undefined {
-    return datasetIndex === undefined ? undefined : this.series()[datasetIndex]?.id;
-  }
-
-  private datasetRank(datasetIndex:number|undefined):number {
-    return seriesRank(this.seriesId(datasetIndex));
+    return dated ? this.formattedTick(dated) : '';
   }
 
   private formatValue(value:number):string {
