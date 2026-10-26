@@ -8,6 +8,7 @@ on:
       - "help/**"
       - "packaging/**"
       - ".pkgr.yml"
+      - "extensions/blocknote-extensions/**"
 
 jobs:
   danger:
