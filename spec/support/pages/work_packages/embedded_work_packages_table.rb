@@ -37,9 +37,22 @@ module Pages
 
     attr_reader :container
 
-    def initialize(container, project = nil)
+    def initialize(container, project = nil, entry_control: nil, table_name: nil)
       super(project)
       @container = container
+      @entry_control = entry_control
+      @table_name = table_name
+    end
+
+    def table_name
+      @table_name || super
+    end
+
+    def tab_into_table
+      return super unless @entry_control
+
+      @entry_control.call.execute_script("this.focus()")
+      press_keys(:tab)
     end
 
     def table_container

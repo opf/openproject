@@ -376,7 +376,7 @@ module Pages
     # Expects focus to rest on an element outside the table's grid (header,
     # rows and totals), and not on the document body.
     def expect_focus_outside_table
-      expect(page).to have_no_css(
+      expect(table_container).to have_no_css(
         "thead :focus, thead:focus, tr.wp-table--row:focus, tr.wp-table--row :focus, tr.wp-table--sums-row :focus, " \
         "tr.wp-table--group-header:focus, tr.wp-table--group-header :focus"
       )
@@ -385,7 +385,15 @@ module Pages
 
     # @return [Capybara::Node::Element] The work package table exposed as a treegrid.
     def treegrid
-      find(:table, role: "treegrid", accessible_name: "Work packages")
+      container.find(:table, role: "treegrid", accessible_name: table_name, exact: true)
+    end
+
+    def container
+      page
+    end
+
+    def table_name
+      I18n.t("js.label_work_package_plural")
     end
 
     # Expects the table's `aria-rowcount` and the `aria-rowindex` of every
@@ -511,10 +519,6 @@ module Pages
     end
 
     protected
-
-    def container
-      page
-    end
 
     def work_package_field(work_package, key)
       row = work_package.nil? ? ".wp-inline-create-row" : row_selector(work_package)
