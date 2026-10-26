@@ -103,6 +103,7 @@ describe('AverageLinePlugin', () => {
     expect(ctx.textBaseline).toBe('middle');
     expect(ctx.fillStyle).toBe('red');
     expect(ctx.font).toContain('sans-serif');
+    expect(ctx.font).toContain('bold');
   });
 
   it('falls back to the raw value and a neutral color', () => {
@@ -110,6 +111,14 @@ describe('AverageLinePlugin', () => {
 
     expect(ctx.fillText).toHaveBeenCalledWith('7', 28, 120);
     expect(ctx.strokeStyle).toBe('gray');
+    expect(ctx.fillStyle).toBe('gray');
+  });
+
+  it('colors the label separately from the line', () => {
+    draw({ value: 7, color: 'red', labelColor: 'black' });
+
+    expect(ctx.strokeStyle).toBe('red');
+    expect(ctx.fillStyle).toBe('black');
   });
 
   describe('toggling', () => {

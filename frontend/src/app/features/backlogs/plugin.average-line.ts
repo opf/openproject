@@ -32,6 +32,7 @@ export interface AverageLinePluginOptions {
   value?:number;
   label?:string;
   color?:string;
+  labelColor?:string;
 }
 
 declare module 'chart.js' {
@@ -82,8 +83,8 @@ const AverageLinePlugin:Plugin<ChartType, AverageLinePluginOptions> = {
     ctx.lineTo(chartArea.right, y);
     ctx.stroke();
 
-    ctx.fillStyle = color;
-    ctx.font = toFont(chart.options.font ?? {}).string;
+    ctx.fillStyle = options.labelColor ?? color;
+    ctx.font = toFont({ weight: 'bold' }, chart.options.font).string;
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.fillText(options.label ?? String(options.value), yScale.right - LABEL_PADDING, y);

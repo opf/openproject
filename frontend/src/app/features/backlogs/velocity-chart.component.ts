@@ -151,6 +151,7 @@ export class VelocityChartComponent {
           value: average,
           label: average.toLocaleString(this.i18n.locale, { maximumFractionDigits: 1 }),
           color: averageColor,
+          labelColor: fontColor,
         },
       },
     };

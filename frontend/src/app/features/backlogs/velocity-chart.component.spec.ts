@@ -155,7 +155,11 @@ describe('VelocityChartComponent', () => {
   });
 
   it('configures the average line with a locale-formatted label', () => {
-    expect(options().plugins!.averageLine).toEqual({ value: 14.5, label: '14,5', color: '#666666' });
+    expect(options().plugins!.averageLine).toEqual(expect.objectContaining({ value: 14.5, label: '14,5', color: '#666666' }));
+  });
+
+  it('colors the average label like the values in the bars', () => {
+    expect(options().plugins!.averageLine!.labelColor).toBe(options().plugins!.datalabels!.color);
   });
 
   const withoutAverage = () => {
