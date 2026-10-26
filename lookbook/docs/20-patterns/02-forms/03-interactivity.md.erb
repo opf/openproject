@@ -96,7 +96,7 @@ The form preview mechanism can be applied to any form by binding the `form-previ
 
 ### Customizing the triggering mechanism:
 
-In some cases we might want to further customize the triggering behaviour, for example when using a date range picker input field. For date range pickers we want to trigger the form preview only when the both the start and end dates are chosen and the datepicker is closed. The solution is to create a form specific controller that will inherit from the `FormPreviewController` controller, and it decides if the `submit` action needs to be called.
+In some cases we might want to further customize the triggering behavior, for example when using a date range picker input field. For date range pickers we want to trigger the form preview only when the both the start and end dates are chosen and the datepicker is closed. The solution is to create a form specific controller that will inherit from the `FormPreviewController` controller, and it decides if the `submit` action needs to be called.
 
 1. The form specific controller handles the input changes on the form. It also calls the `submit()` function from the parent controller when the date range picker is not visible anymore.
 

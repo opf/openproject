@@ -444,7 +444,7 @@ RSpec.describe "Work package sharing",
     end
 
     it "shows an error message when inviting an existing locked user" do
-      skip "This behavios is broken by loading the user through the visible scope, don't know yet how to fix it"
+      skip "This behavior is broken by loading the user through the visible scope, don't know yet how to fix it"
 
       share_modal.expect_shared_count_of(6)
 

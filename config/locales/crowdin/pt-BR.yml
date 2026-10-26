@@ -122,6 +122,8 @@ pt-BR:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clientes SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: ID personalizado
         customized_type: Tipo personalizado
@@ -132,8 +134,6 @@ pt-BR:
         repository: Repositório
       comment:
         commented: Comentado
-      custom_action:
-        actions: Ações
       custom_field:
         admin_only: Apenas administrador
         allow_non_open_versions: Permitir versões não abertas
@@ -219,6 +219,9 @@ pt-BR:
         organizational_unit: Unidade organizacional
         parent: Grupo principal
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Nome da instância Jira
         personal_access_token: Token de acesso de pessoal
         url: URL da instância Jira
@@ -466,7 +469,7 @@ pt-BR:
         header_look_and_feel: Aparência e comportamento
         impaired: Modo de acessibilidade
         increase_contrast: Aumentar contraste
-        increase_contrast_caption: Habilita o modo de alto contraste para o modo de cor selecionado.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Aumentar contraste do tema
         mode_guideline: Alguns modos substituirão as cores personalizadas do tema para melhorar acessibilidade e legibilidade. Selecione o modo Claro para suporte total ao tema personalizado.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -637,6 +640,8 @@ pt-BR:
         regex_invalid: não pode ser validado com a expressão regular associada.
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
         smaller_than_or_equal_to_max_value: deve ser menor ou igual ao valor máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
@@ -1105,6 +1110,9 @@ pt-BR:
       auth_provider:
         one: Provedor de autenticação
         other: Provedores de autenticação
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1126,9 +1134,6 @@ pt-BR:
       comment:
         one: Comentário
         other: Comentários
-      custom_action:
-        one: Ação personalizada
-        other: Ações personalizadas
       custom_field:
         one: Campo personalizado
         other: Campos personalizados
@@ -1195,6 +1200,9 @@ pt-BR:
       issue_priority:
         one: Prioridade
         other: Prioridades
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: Conexão LDAP
         other: Conexões LDAP
@@ -1476,7 +1484,7 @@ pt-BR:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1550,7 +1558,7 @@ pt-BR:
     import:
       title: Importar
     info:
-      database_deprecation_html: 'A partir do OpenProject 16.0, é necessário usar o PostgreSQL 16. Sua instalação atual continuará funcionando, mas futuras versões podem não ser compatíveis com o banco de dados atual. <br/> Preparamos [guias de atualização para todos os métodos de instalação](upgrade_guide), que você pode seguir a qualquer momento antes do próximo lançamento.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Alocador de memória Jemalloc
@@ -1558,12 +1566,15 @@ pt-BR:
       actions:
         button_edit: Editar configuração
         button_open: Execuções abertas
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Ajude-nos a melhorar o Migrador do Jira com seu feedback e doações de dados privados. Você pode participar da [comunidade de desenvolvimento](link) do Migrador do Jira.
 
           '
         description: Este Migrador do Jira está atualmente em beta. No momento, oferecemos suporte apenas às versões 10.x e 11.x do Jira Server/Data Center. Instâncias Cloud ainda não são compatíveis.
         title: Beta - Experimente!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Configure um host do Jira para começar a importar itens do Jira para esta instância do OpenProject.
         title: Nenhum host do Jira configurado até o momento
@@ -1596,16 +1607,30 @@ pt-BR:
           description: O Jira usa identificadores de issue compostos por uma chave de projeto e um número sequencial (PRJ-123). O OpenProject também oferece suporte a isso, mas precisa ser ativado [aqui](link).
           title: Os identificadores semânticos baseados em projeto devem estar ativados.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Adicionar configuração
-        button_delete_token: Excluir token
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Salvar configuração
-        delete_token_confirm: Tem certeza de que deseja excluir o token? Isso desativará a conexão com o Jira.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Nome
-          personal_access_token: Token de acesso pessoal
+          personal_access_token: Personal access token (PAT)
           url: URL do Jira Server/Data Center
         label_testing: Testando configuração...
-        test_configuration_caption: Você pode testar essa configuração [clicando aqui](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Editar execução
@@ -1858,17 +1883,18 @@ pt-BR:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: A API do Jira retornou o status de erro %{status}. Verifique o URL da sua instância do Jira e o token da API.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Erro de conexão: %{message}'
         error: Ocorreu um erro inesperado ao testar a conexão
         failed: 'Falha na conexão: não foi possível recuperar as informações do servidor'
         invalid_url: Forneça um URL válido
-        missing_credentials: Forneça tanto o URL quanto o Token de Acesso Pessoal para testar a conexão
         parse_error: Falha ao interpretar a resposta do servidor. O servidor pode não ser uma instância válida do Jira.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Conectado com sucesso a %{server} (versão %{version})
-        token_error: Token da API inválido. Verifique suas credenciais na configuração.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Migrador do Jira
-      token_deleted: Token excluído com sucesso.
       user:
         unknown_name: Desconhecido
     journal_aggregation:
@@ -2129,7 +2155,7 @@ pt-BR:
         types_caption: Adicione os tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão incluídas automaticamente.
         usage_scope_caption: 'Você pode limitar onde esta ação ficará visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacote de trabalho ou para tipos de pacote de trabalho específicos.'
       index:
-        description: As ações de transformação de texto oferecem aos usuários ações baseadas em LLM para escrever, organizar e revisar textos onde quer que o editor de texto formatado seja usado, como nas descrições de pacotes de trabalho, comentários e páginas wiki. Você pode criar novas ações usando seus próprios prompts e instruções.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Ação
         label_aria_add_action: Adicionar ação de transformação de texto
       index_component:
@@ -2174,6 +2200,8 @@ pt-BR:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Selecionar funções
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Adicione ou remova os status que deseja associar a este tipo. Remover um status também excluirá o fluxo de trabalho associado a ele.
@@ -2228,7 +2256,7 @@ pt-BR:
     deleted_by_admin: O arquivo em quarentena '%{filename}' foi excluído por um administrador.
     deleted_message: Foi detectado um vírus no arquivo '%{filename}'. O arquivo foi excluído.
     not_processed_yet_message: O download está bloqueado, pois o arquivo ainda não foi verificado quanto a vírus. Tente novamente mais tarde.
-    overridden_by_admin: A quarentena do arquivo '%{filename}' foi removida por %{user}. Agora o arquivo pode ser acessado.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Contêiner
       delete: Excluir a arquivo em quarentena
@@ -3590,7 +3618,7 @@ pt-BR:
       summary:
         failure: Algumas verificações falharam e o sistema não está funcionando como esperado.
         success: Todas as conexões e sistemas estão funcionando como esperado.
-        warning: Algumas verificações retornaram um aviso. Isso pode levar a comportamentos inesperados.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Falhou
@@ -3599,7 +3627,7 @@ pt-BR:
         warning: Aviso
   help_texts:
     views:
-      favoured: Marcar esta exibição como favorita e adicionar à barra lateral de exibições salvas à esquerda.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} sempre estão anexados a um projeto. Você só pode selecionar projetos aqui que o módulo %{plural} está ativo. Depois de criar um %{singular} você pode adicionar pacotes de trabalho de outros projetos a ele.\n"
       public: Publique esta exibição, permitindo que outros usuários acessem sua visualização. Usuários com a permissão de 'Gerenciar exibições públicas' podem modificar ou remover a consulta pública. Isto não afeta a visibilidade dos resultados do pacote de trabalho nesta exibição e, dependendo de suas permissões, os usuários podem ver resultados diferentes.
   homescreen:
@@ -3942,6 +3970,7 @@ pt-BR:
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_item: "(item excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organização
   label_departments_description_html: 'Defina a estrutura da sua empresa criando departamentos e subdepartamentos de forma hierárquica. Isso permite refletir as linhas de reporte e manter uma visão clara e estruturada da sua organização no OpenProject. Você também pode importar uma estrutura organizacional existente por meio da [sincronização de departamento LDAP](ldap_docs_article).
@@ -4162,7 +4191,7 @@ pt-BR:
   label_my_avatar: Meu avatar
   label_my_queries: Minhas consultas personalizadas
   label_my_security: Segurança
-  label_my_work: My work
+  label_my_time: My time
   label_name: Nome
   label_never: Nunca
   label_new: Novo
@@ -4605,7 +4634,7 @@ pt-BR:
       start_tls: STARTTLS
       start_tls_description: Envia um comando STARTTLS depois de se conectar à porta LDAP padrão. Recomendado para conexões criptografadas.
     tls_options:
-      tls_certificate_description: Se o certificado do servidor LDAP não estiver nas fontes de confiança deste sistema, você poderá adicioná-lo manualmente. Digite uma cadeia de caracteres de certificado PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Verificar certificado SSL
       verify_peer_description_html: 'Ativa a verificação rigorosa da cadeia de confiança do certificado SSL. <br> <strong>Aviso:</strong> Desmarcar esta opção desativa a verificação SSL do certificado do servidor LDAP, expondo sua conexão a ataques do tipo Man-in-the-Middle.
 
@@ -5430,8 +5459,8 @@ pt-BR:
         label: Tabela de conteúdos
     page_nr_footer: Página %{page} de %{total}
     template_artefact:
-      caption: Detalhes do pacote de trabalho renderizados como um artefato PMflex.
-      label: Artefato PMflex
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Todos os atributos do formulário atual, com base no modelo padrão.
       label: Atributos e descrição
@@ -5738,11 +5767,11 @@ pt-BR:
           no_status_when_submitted: Falha ao ativar a solicitação de início de projeto, pois o tipo de pacote de trabalho %{type} precisa ter pelo menos um status associado. Habilite pelo menos um fluxo de trabalho de status para este tipo de pacote de trabalho.
           no_work_package_type: Falha ao ativar a solicitação de início de projeto, pois é necessário ter pelo menos um tipo de pacote de trabalho ativo, e este projeto não possui nenhum. Adicione pelo menos um tipo de pacote de trabalho a este projeto.
         export:
-          description_attachment_export: O artefato gerado será salvo como um anexo PDF no pacote de trabalho do artefato.
-          description_file_link_export: O pacote de trabalho do artefato incluirá um link para um PDF armazenado em um armazenamento de arquivos externo. É necessário que o armazenamento ofereça gerenciamento automático de pastas por projeto. Atualmente, apenas armazenamentos Nextcloud são compatíveis.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Selecione qual dos armazenamentos de arquivos externos configurados deve ser utilizado.
           external_file_storage: Armazenamento de arquivos externo
-          label_artifact_export: Exportação de artefato
+          label_artifact_export: Artifact export
           label_attachment_export: Salvar como anexo de pacote de trabalho
           label_file_link_export: Carregar arquivo no armazenamento externo e adicionar link do arquivo ao pacote de trabalho
           pdf_file_storage: Armazenamento de arquivos PDF
@@ -5752,6 +5781,12 @@ pt-BR:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Não há campos personalizados disponíveis.
       forums:
         no_results_content_text: Criar um novo fórum
@@ -5875,15 +5910,27 @@ pt-BR:
     status:
       button_edit: Editar status
     wizard:
-      create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
-      create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: Este projeto não tem atributos de projeto habilitados para o assistente. Habilite pelo menos um atributo nas <a href="%{link}">configurações do projeto</a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
       sidebar_content_title: Conteúdo
-      success: Atributos do projeto salvos e pacote de trabalho do artefato criado com sucesso.
+      success: Project attributes saved and artifact work package created successfully.
       title: Solicitação de início de projeto
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Aplicar filtro pré-configurado
     configure_view:
@@ -6343,7 +6390,7 @@ pt-BR:
         description_html: 'Selecione como deseja configurar a verificação de vírus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Os arquivos carregados não serão verificados quanto a vírus.</li> <li><strong>%{socket_option}</strong>: O ClamAV está configurado no mesmo servidor que o OpenProject, com o daemon clamd de verificação em execução em segundo plano</li> <li><strong>%{host_option}</strong>: Os arquivos serão enviados para um host externo para verificação de vírus.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'A verificação de vírus foi desativada. %{file_count} permanece(m) em quarentena. Para revisar os arquivos em quarentena, visite este link: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'A verificação de vírus foi ativada com sucesso. Há %{file_count} arquivos que foram carregados anteriormente e ainda precisam ser verificados. Este processo foi agendado em segundo plano. Os arquivos permanecerão acessíveis durante a verificação.
@@ -6446,12 +6493,12 @@ pt-BR:
         confirmation_message: O assistente de solicitação de início não estará mais disponível para novos projetos com base neste modelo. Os gerentes e responsáveis pelo projeto precisarão configurar manualmente e preencher as informações relevantes na visão geral do projeto.
         heading: Desativar esta solicitação de início de projeto?
         title: Desativar solicitação de início de projeto
-      header_description: 'O OpenProject pode gerar um assistente guiado para auxiliar os gerentes de projeto no preenchimento de uma solicitação de início de projeto. É possível selecionar quais atributos do projeto devem ser incluídos e gerar um artefato em PDF como resultado.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Nome do artefato
-        artifact_name_caption: Escolha o nome deste artefato conforme recomendado pelo seu framework de gerenciamento de projetos.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Assistente de criação de projeto
           project_initiation_request: Solicitação de início de projeto
@@ -6471,8 +6518,8 @@ pt-BR:
           Você enviou uma solicitação de início de projeto para **%{project_name}**. Ela agora aguarda revisão.
           Clique no link abaixo para acessar o pacote de trabalho com a sua solicitação.
         confirmation_email_text: Texto do e-mail de confirmação
-        description: Quando um usuário envia uma solicitação de início de projeto, um novo pacote de trabalho será criado com o artefato da solicitação anexado como arquivo PDF. As configurações abaixo definem o tipo, o status e o responsável por este novo pacote de trabalho.
-        description_template: "**Este pacote de trabalho foi criado automaticamente ao concluir o fluxo de trabalho %{wizard_name}.** Um artefato em PDF contendo todas as informações enviadas foi gerado e anexado a este pacote de trabalho para referência e auditoria. Se for necessário atualizar ou refazer as etapas de início, você pode reabrir o assistente a qualquer momento usando o link abaixo:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Enviar e-mail de confirmação para o usuário que enviou a solicitação de início de projeto
         status_when_submitted: Status ao enviar
         status_when_submitted_caption: O status para o qual o pacote de trabalho gerado será alterado assim que a solicitação for enviada.
@@ -6480,7 +6527,7 @@ pt-BR:
         work_package_comment_caption: O responsável selecionado acima será automaticamente @mencionado no comentário.
         work_package_comment_default: Uma solicitação de início de projeto para **%{project_name}** foi enviada e está aguardando revisão.
         work_package_type: Tipo de pacote de trabalho
-        work_package_type_caption: O tipo de pacote de trabalho que deve ser usado para armazenar o artefato concluído.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Abrir assistente de criação de projeto
         project_initiation_request: Abrir solicitação de início de projeto
@@ -6660,7 +6707,6 @@ pt-BR:
       sentence_connector: e
       skip_last_comma: falso
   text_access_token_hint: Tokens de acesso permitem que você conceda acesso de aplicativos externos a recursos no OpenProject.
-  text_accessibility_hint: O modo de acessibilidade foi projetado para usuários cegos, deficientes físicos ou que possuem uma visão ruim. Para este último, os elementos em foco são especialmente destacados. Observe que o módulo Backlogs não está disponível neste modo.
   text_analyze: 'Analisar mais: %{subject}'
   text_are_you_sure: Você tem certeza?
   text_are_you_sure_continue: Tem certeza de que deseja continuar?
@@ -6852,6 +6898,27 @@ pt-BR:
   tree_view:
     label_empty_sub_tree: Sem itens
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Comparar variantes
       blankslate:
@@ -6897,12 +6964,6 @@ pt-BR:
       add_variant: Adicionar uma variante a %{name}
       create_type: Criar tipo
       create_variant: Criar variante
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Dá um nome a esta configuração de %{type}. Os pacotes de trabalho continuam usando o próprio %{type}.
       finish: Concluir
@@ -6950,8 +7011,10 @@ pt-BR:
           caption: Defina um padrão usando atributos referenciados e texto para gerar automaticamente os assuntos dos pacotes de trabalho. Os usuários não poderão editar os assuntos manualmente.
           label: Tópicos gerados automaticamente
         description:
-          caption: Adicione o texto que será incluído no campo de descrição de todos os novos pacotes de trabalho com este tipo.
-          label: Texto de descrição padrão
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Os usuários podem inserir e editar manualmente os assuntos dos pacotes de trabalho sem restrições.
           label: Assuntos editáveis manualmente
@@ -6980,15 +7043,14 @@ pt-BR:
           file_link:
             caption: O PDF gerado foi carregado no armazenamento Nextcloud gerenciado automaticamente pelo projeto e vinculado ao pacote de trabalho. Os pacotes de trabalho de projetos sem esse tipo de armazenamento serão ignorados.
             label: Carregar arquivo no armazenamento externo e adicionar link do arquivo ao pacote de trabalho
-          intro: Gerar automaticamente um artefato PDF de um pacote de trabalho deste tipo sempre que seu status for alterado.
-          invalid_mode: Modo de exportação de artefato inválido.
-          label: Exportação automática de artefato
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: Nenhum PDF é gerado automaticamente.
             label: Desativado
-          section_title: Exportação automática de artefato
+          section_title: Automatic artifact export
           unavailable: indisponível, nenhum armazenamento Nextcloud gerenciado automaticamente está configurado
-        intro: Selecione quais modelos disponíveis você deseja ativar para este tipo. O modelo define o design e os atributos visíveis no PDF exportado de um pacote de trabalho desse tipo. O primeiro modelo da lista é selecionado por padrão.
         pdf_export_templates:
           actions:
             label_disable_all: Desabilitar todos
@@ -7073,7 +7135,6 @@ pt-BR:
           manual:
             description: Depois que você [criar atributos de projeto](administration_url), eles ficarão visíveis aqui e poderão ser adicionados a um tipo.
             title: Nenhum atributo de projeto disponível
-        description: Selecione os atributos do projeto que deseja habilitar para este tipo de pacote de trabalho. Os atributos do projeto habilitados são exibidos em uma guia separada nos pacotes de trabalho deste tipo. Usuários com as permissões necessárias podem visualizar e editar esses atributos nessa guia.
         disabled: Desativado
         exclusions:
           attribute_label: Herdar %{attribute}
@@ -7092,10 +7153,12 @@ pt-BR:
         empty_state:
           description: Adicione um projeto para usar esta configuração nele.
           no_results: Não existem projetos correspondentes.
+          title: Not used in any project yet
         enable_all: Habilitar para todos os projetos
         select_projects: Selecionar projetos
         select_projects_description: Selecione os projetos nos quais deseja usar esse tipo.
         tab: Projetos
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7167,6 +7230,9 @@ pt-BR:
 
             '
           title: Não existem variantes para este tipo
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Criado em %{project}
         delete:
           description: Os projetos que usam esta variante serão alterados para a variante escolhida abaixo antes que esta variante seja excluída.
@@ -7198,6 +7264,7 @@ pt-BR:
         confirm: Converter
         text: Já existe uma variante global com este nome. Escolha um nome diferente.
         title: Escolha outro nome para esta variante
+      created_by_migration: Migrated
       delete:
         description: O tipo será excluído permanentemente. Esta ação não pode ser desfeita.
         description_with_variants: O tipo e todas as suas variantes serão excluídos permanentemente. Esta ação não pode ser desfeita.
@@ -7212,8 +7279,14 @@ pt-BR:
       duplicate_name: Cópia de %{name}
       duplicate_notice: "%{name} foi duplicado."
       enabled_in_new_projects: Ativo em novos projetos
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Ativar em novos projetos
       make_default_notice: "%{name} agora está ativado em novos projetos."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Criar um novo tipo
       no_results_title_text: Atualmente, não há nenhum tipo.
       project_variants_count:
@@ -7355,7 +7428,7 @@ pt-BR:
       deletion_warning: Tem certeza de que deseja revogar esta sessão? Você será desconectado neste dispositivo.
       device: Dispositivo / OS
       expires: Expira
-      instructions: Você está conectado à sua conta nos seguintes dispositivos. Revogue as sessões que você não reconhecer ou que estejam em dispositivos que você não controla.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Último acesso
       may_not_delete_current: Você não pode excluir a sessão atual.
       session_name: "%{browser_name} %{browser_version} em %{os_name}"
@@ -7902,6 +7975,18 @@ pt-BR:
             other: Fluxo de trabalho copiado com sucesso para %{count} funções.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

@@ -82,7 +82,7 @@ RSpec.describe "A read-only work package card in Backlogs",
     backlogs_page.drag_work_package(rejected_wp, before: movable_wp)
     backlogs_page.expect_sprint_items_in_order(sprint, items: [rejected_wp, movable_wp])
 
-    # Dropping a movable neighbour against it proves the read-only card is
+    # Dropping a movable neighbor against it proves the read-only card is
     # also still a drop target: confining its drag must not carve a dead zone
     # out of the list.
     backlogs_page.drag_work_package(movable_wp, before: rejected_wp)

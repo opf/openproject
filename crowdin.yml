@@ -32,7 +32,7 @@ files: [
     "translation": "/modules/**/config/locales/crowdin/%two_letters_code%.seeders.yml"
   },
   {
-    "source": "/extensions/op-blocknote-extensions/lib/locales/en.ts",
-    "translation": "/extensions/op-blocknote-extensions/lib/locales/crowdin/%two_letters_code%.ts"
+    "source": "/extensions/**/lib/locales/en.ts",
+    "translation": "/extensions/**/lib/locales/crowdin/%two_letters_code%.ts"
   },
 ]

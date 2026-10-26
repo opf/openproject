@@ -35,7 +35,7 @@ module WorkPackageTypes
       subject_form.rich_text_area(
         name: :default_work_package_description,
         label: I18n.t("types.edit.defaults.description.label"),
-        caption: I18n.t("types.edit.defaults.description.caption"),
+        caption: description_caption,
         disabled: readonly?,
         rich_text_options: { showAttachments: false }
       )
@@ -92,6 +92,10 @@ module WorkPackageTypes
     private
 
     def readonly? = @builder.options[:readonly] == true
+
+    def description_caption
+      I18n.t("types.edit.defaults.description.caption.#{model.named_variant? ? :variant : :type}")
+    end
 
     def subject_configuration_manual?
       model.subject_configuration == :manual

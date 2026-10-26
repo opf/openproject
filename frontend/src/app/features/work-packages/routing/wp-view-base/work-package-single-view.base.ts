@@ -201,7 +201,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.displayNotificationsButton$ = this.storeService.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id!);
 
-    // Set authorisation data
+    // Set authorization data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
     // Preselect this work package for future list operations
@@ -228,8 +228,9 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
+    const tab = this.i18n.t(`js.work_packages.tabs.${tabName}`);
     this.focusAnchorLabel = this.i18n.t('js.label_work_package_details_you_are_here', {
-      tab: this.i18n.t(`js.work_packages.tabs.${tabName}`),
+      tab,
       type: this.workPackage.type.name,
       subject: this.workPackage.subject,
     });

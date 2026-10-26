@@ -217,8 +217,8 @@ paths:
     "$ref": "./paths/budget.yml"
   "/api/v3/capabilities":
     "$ref": "./paths/capabilities.yml"
-  "/api/v3/capabilities/context/global":
-    "$ref": "./paths/capabilities_context_global.yml"
+  "/api/v3/capabilities/contexts/global":
+    "$ref": "./paths/capabilities_contexts_global.yml"
   "/api/v3/capabilities/{id}":
     "$ref": "./paths/capability.yml"
   "/api/v3/categories/{id}":
@@ -255,12 +255,6 @@ paths:
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
     "$ref": "./paths/document.yml"
-  "/api/v3/example/form":
-    "$ref": "./paths/example_form.yml"
-  "/api/v3/example/schema":
-    "$ref": "./paths/example_schema.yml"
-  "/api/v3/examples":
-    "$ref": "./paths/examples.yml"
   "/api/v3/file_links/{id}":
     "$ref": "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
@@ -371,6 +365,8 @@ paths:
     "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
+  "/api/v3/openapi.json":
+    "$ref": "./paths/openapi.yml"
   "/api/v3/placeholder_users":
     "$ref": "./paths/placeholder_users.yml"
   "/api/v3/placeholder_users/{id}":
@@ -525,6 +521,10 @@ paths:
     "$ref": "./paths/roles.yml"
   "/api/v3/roles/{id}":
     "$ref": "./paths/role.yml"
+  "/api/v3/spec.json":
+    "$ref": "./paths/spec-json.yml"
+  "/api/v3/spec.yml":
+    "$ref": "./paths/spec.yml"
   "/api/v3/sprints":
     "$ref": "./paths/sprints.yml"
   "/api/v3/sprints/{id}":
@@ -539,6 +539,8 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{storage_id}/files/{file_id}":
+    "$ref": "./paths/storage_file.yml"
   "/api/v3/storages/{id}/files/prepare_upload":
     "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/folders":
@@ -551,8 +553,8 @@ paths:
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
-  "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entry_activity.yml"
+  "/api/v3/time_entries/activities/{id}":
+    "$ref": "./paths/time_entry_activities.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
@@ -583,7 +585,7 @@ paths:
     "$ref": "./paths/user_working_hours.yml"
   "/api/v3/users/{id}/working_hours/{working_hours_id}":
     "$ref": "./paths/user_working_hours_record.yml"
-  "/api/v3/values/schema/{id}":
+  "/api/v3/values/schemas/{id}":
     "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
@@ -613,12 +615,6 @@ paths:
     "$ref": "./paths/wiki_page_attachments_prepare.yml"
   "/api/v3/work_packages":
     "$ref": "./paths/work_packages.yml"
-  "/api/v3/work_packages/form":
-    "$ref": "./paths/work_packages_form.yml"
-  "/api/v3/work_packages/schemas":
-    "$ref": "./paths/work_packages_schemas.yml"
-  "/api/v3/work_packages/schemas/{identifier}":
-    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/work_packages/{id}":
     "$ref": "./paths/work_package.yml"
   "/api/v3/work_packages/{id}/activities":
@@ -647,14 +643,22 @@ paths:
     "$ref": "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
     "$ref": "./paths/work_package_relations.yml"
-  "/api/v3/work_packages/{work_package_id}/reminders":
+  "/api/v3/work_packages/{id}/reminders":
     "$ref": "./paths/work_package_reminders.yml"
   "/api/v3/work_packages/{id}/watchers":
     "$ref": "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
+  "/api/v3/work_packages/form":
+    "$ref": "./paths/work_packages_form.yml"
+  "/api/v3/work_packages/schemas":
+    "$ref": "./paths/work_packages_schemas.yml"
+  "/api/v3/work_packages/schemas/{identifier}":
+    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/workspaces":
     "$ref": "./paths/workspaces.yml"
+  "/api/v3/workspaces/{id}":
+    "$ref": "./paths/workspace.yml"
   "/api/v3/workspaces/{id}/available_assignees":
     "$ref": "./paths/workspace_available_assignees.yml"
   "/api/v3/workspaces/{id}/categories":
@@ -663,9 +667,9 @@ paths:
     "$ref": "./paths/workspace_favorite.yml"
   "/api/v3/workspaces/{id}/queries/default":
     "$ref": "./paths/workspace_queries_default.yml"
-  "/api/v3/workspace/{id}/queries/filter_instance_schemas":
+  "/api/v3/workspaces/{id}/queries/filter_instance_schemas":
     "$ref": "./paths/workspace_queries_filter_instance_schemas.yml"
-  "/api/v3/workspace/{id}/queries/schema":
+  "/api/v3/workspaces/{id}/queries/schema":
     "$ref": "./paths/workspace_queries_schema.yml"
   "/api/v3/workspaces/{id}/types":
     "$ref": "./paths/workspace_types.yml"
@@ -772,6 +776,8 @@ components:
       $ref: "./components/examples/storage-nextcloud-response.yml"
     StorageCreateFolderRequestBody:
       $ref: "./components/examples/storage-create-folder-request-body.yml"
+    StorageNextcloudFileResponse:
+      $ref: "./components/examples/storage-nextcloud-file-response.yml"
     StorageNextcloudResponseForCreation:
       $ref: "./components/examples/storage-nextcloud-response-for-creation.yml"
     StorageNextcloudUnauthorizedResponse:
@@ -820,8 +826,14 @@ components:
       $ref: "./components/examples/work_package_create_valid.yml"
     WorkPackageEditSubject:
       $ref: "./components/examples/work_package_edit_subject.yml"
+    WorkPackageSimpleResponse:
+      $ref: "./components/examples/work_package_simple_response.yml"
     WorkPackageWithMetaValidation:
       $ref: "./components/examples/work_package_with_meta_validation.yml"
+    WorkspaceArchiveRequest:
+      $ref: "./components/examples/workspace_archive_request.yml"
+    WorkspaceUpdateInformationRequest:
+      $ref: "./components/examples/workspace_update_information_request.yml"
 
   responses:
     InvalidQuery:
@@ -1132,6 +1144,8 @@ components:
       "$ref": "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Workspace_QueriesModel:
       "$ref": "./components/schemas/schema_for_workspace_queries_model.yml"
+    SpecificationModel:
+      "$ref": "./components/schemas/spec_model.yml"
     SprintCollectionModel:
       "$ref": "./components/schemas/sprint_collection_model.yml"
     SprintModel:
@@ -1242,7 +1256,9 @@ components:
       "$ref": "./components/schemas/work_packages_model.yml"
     WorkspaceCollectionModel:
       "$ref": "./components/schemas/workspace_collection_model.yml"
-    Workspaces_schemaModel:
+    WorkspacePatchModel:
+      "$ref": "./components/schemas/workspace_patch_model.yml"
+    WorkspacesSchemaModel:
       "$ref": "./components/schemas/workspaces_schema_model.yml"
   securitySchemes:
     BasicAuth:

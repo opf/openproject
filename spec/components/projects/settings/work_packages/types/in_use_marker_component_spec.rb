@@ -40,7 +40,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::InUseMarkerComponent, ty
     expect(rendered_component).to have_css(".octicon-check-circle-fill")
   end
 
-  it "sets the words in the colour that means so" do
+  it "sets the words in the color that means so" do
     expect(rendered_component).to have_css(".color-fg-success", text: "Variant in this project")
   end
 

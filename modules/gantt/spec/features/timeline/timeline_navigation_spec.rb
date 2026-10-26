@@ -130,7 +130,7 @@ RSpec.describe "Work package timeline navigation",
       wp_table.expect_work_package_listed work_package
       wp_table.ensure_work_package_not_listed! work_package2
 
-      # Navigate to the Gantt module agin
+      # Navigate to the Gantt module again
       find(".main-menu--arrow-left-to-project").click
       page.find_test_selector("main-menu-toggler--gantt").click
 

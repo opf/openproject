@@ -103,9 +103,9 @@
     border-bottom-right-radius: 0
 
   // Drop container: the whole list outlines while a sortable item hovers it,
-  // signalling the item will land inside this list. A refused container (a
+  // signaling the item will land inside this list. A refused container (a
   // confined item hovering a foreign list) mutes the outline to a danger tone
-  // instead, signalling the item will not land here.
+  // instead, signaling the item will not land here.
   &[data-drop-container]
     outline: var(--borderWidth-thick) solid var(--fgColor-accent)
     outline-offset: calc(var(--borderWidth-thick) * -1)
@@ -278,7 +278,7 @@
       bottom: calc(var(--op-border-box-list-drop-gap-height) / -2)
 
 // Empty-state wrapper. With a drop target label, an overlay covers the
-// blankslate while a sortable item hovers the list, labelling it as a drop
+// blankslate while a sortable item hovers the list, labeling it as a drop
 // zone. Hidden via visibility so it is unreachable while inactive; the
 // visibility delay keeps the overlay shown until the fade-out finishes.
 .op-border-box-list-empty-state

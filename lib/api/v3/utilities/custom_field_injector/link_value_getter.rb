@@ -36,7 +36,7 @@ module API
 
               # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
               # because we need to generate a link even if the id does not belong to an existing
-              # object (that behaviour is only required for form payloads)
+              # object (that behavior is only required for form payloads)
               values = Methods.link_value_getter_values represented, custom_field
 
               if custom_field.multi_value?

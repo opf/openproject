@@ -88,7 +88,7 @@ it:
       plural: Gruppi LDAP sincronizzati
       singular: Gruppo LDAP sincronizzato
       upsell:
-        description: Sfrutta i gruppi LDAP sincronizzati per gestire gli utenti, modificare le loro autorizzazioni e semplificare la gestione degli utenti tra i gruppi.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Sincronizzazione dei membri del gruppo LDAP.
     name: Gruppi OpenProject LDAP

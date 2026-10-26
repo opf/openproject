@@ -3,12 +3,12 @@ sidebar_navigation:
   title: Generate PDF
   priority: 400
 description: Configure PDF exports for a work package type in OpenProject.
-keywords: work package PDF, PDF export, work package types, PDF templates, PMflex Artefact, automatic artefact export
+keywords: work package PDF, PDF export, work package types, PDF templates, PMflex Artifact, automatic artifact export
 ---
 
 # Configure PDF exports for work package types
 
-Under **Administration → Work packages → Types**, select a work package type and open the **Generate PDF** tab to configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artefact export.
+Under **Administration → Work packages → Types**, select a work package type and open the **Generate PDF** tab to configure how a single work package of this type is exported as a PDF. The tab contains two sections: the available export templates and the automatic artifact export.
 
 ## Activate templates for PDF exports
 
@@ -31,7 +31,7 @@ The following templates are available:
 
 - **Attributes and description** – Work package attributes present in the current form together with the description.
 - **Contract** – Work package details formatted according to the standard German contract form.
-- **PMflex Artefact** – Work package details rendered as a PMflex Artefact.
+- **PMflex Artifact** – Work package details rendered as a PMflex Artifact.
 
 ### Configure a PDF export template
 
@@ -45,11 +45,11 @@ Click **Save** to apply your changes.
 
 Click **Reset to default** to restore the default settings for this template, or **Cancel** to leave the configuration page without saving your changes. 
 
-## Automatic artefact export
+## Automatic artifact export
 
-![Generate PDF tab under work package types settings in OpenProject administration, showing automatic artefact export options](openproject_system_guide_work_package_types_pdf_tab_options.png)
+![Generate PDF tab under work package types settings in OpenProject administration, showing automatic artifact export options](openproject_system_guide_work_package_types_pdf_tab_options.png)
 
-In addition to exporting on demand, OpenProject can generate a PMflex Artefact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
+In addition to exporting on demand, OpenProject can generate a PMflex Artifact PDF automatically whenever the status of a work package of this type changes. Select one of the following options:
 
 - **Off** - no PDF is generated automatically. This is the default.
 - **Save as work package file attachment** - the generated PDF is saved as a file attachment to the work package. The new attachment is also recorded in the work package Activity.
@@ -58,4 +58,4 @@ In addition to exporting on demand, OpenProject can generate a PMflex Artefact P
 The selection is saved immediately.
 
 > [!NOTE]
-> The automatic export always uses the PMflex Artefact template, regardless of which templates are enabled for manual exports above.
+> The automatic export always uses the PMflex Artifact template, regardless of which templates are enabled for manual exports above.

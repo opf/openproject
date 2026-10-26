@@ -36,7 +36,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
-  # The picker is an autocompleter, so its options are serialised into the
+  # The picker is an autocompleter, so its options are serialized into the
   # element rather than rendered as markup.
   def offered_models(feature_key)
     items = page.find("form[action='#{llm_feature_binding_path(feature_key)}'] opce-autocompleter")["data-items"]

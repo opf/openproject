@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -131,9 +131,17 @@ zh-CN:
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
       title: 是否删除积压工作存储桶？
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
         blankslate_title: 没有可用的燃尽数据
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: '选择要从积压工作中隐藏的工作包类型。所选类型的项目不会自动出现在积压工作中，从而聚焦于对您团队真正重要的工作。例如，可以隐藏长篇故事或里程碑等在更高级别管理的类型，使积压工作聚焦于可执行的项目。
 
@@ -180,6 +188,7 @@ zh-CN:
     remaining_hours: 剩余工时
     sharing: 冲刺共享
     show_burndown_chart: 燃尽图
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: 冲刺内的工作包
     sprint_component:
       action_menu:
@@ -203,6 +212,9 @@ zh-CN:
       shared_sprint_info_banner: 这是共享冲刺。所做的修改将反映在所有使用该冲刺的项目中。
       shared_sprint_warning_banner: 这是共享冲刺。您没有编辑该冲刺的必要权限。
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: 报告
         title: "%{sprint}报告"
@@ -284,9 +296,9 @@ zh-CN:
       update_service:
         invalid_target_type: list_type 必须是下列一项：带有 list_id 的 backlog_bucket、带有 list_id 的 sprint，或者不带 list_id 的 inbox。
         missing_target: list_type 或 list_id 必须存在。
-  burndown:
-    story_points: 故事点
-    story_points_ideal: 故事点（理想）
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: 多个处于有效状态的冲刺

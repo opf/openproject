@@ -122,6 +122,8 @@ tr:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM istemcileri
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Özelleştirilmiş Kimlik
         customized_type: Özelleştirilmiş tür
@@ -132,8 +134,6 @@ tr:
         repository: Depo
       comment:
         commented: Yorumlananlar
-      custom_action:
-        actions: Eylemler
       custom_field:
         admin_only: Yalnızca yönetici
         allow_non_open_versions: Açık olmayan sürümlere izin ver
@@ -219,6 +219,9 @@ tr:
         organizational_unit: Organizasyonel birim
         parent: Parent group
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Jira instance name
         personal_access_token: Personal access token
         url: Jira instance URL
@@ -466,7 +469,7 @@ tr:
         header_look_and_feel: Görünüm ve his
         impaired: Erişilebilirlik modu
         increase_contrast: Kontrastı artır
-        increase_contrast_caption: Seçilen renk modu için yüksek kontrast modunu etkinleştirir.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Tema kontrastını artırın
         mode_guideline: Bazı modlar, erişilebilirlik ve okunabilirlik için özel tema renklerinin üzerine yazacaktır. Tam özel tema desteği için lütfen Aydınlık modunu seçin.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -641,6 +644,8 @@ tr:
         regex_invalid: atanmış düzenli ifadeler ile doğrulanamadı.
         regex_list_invalid: "%{invalid_lines} satırları düzenli ifade olarak ayrıştırılamadı."
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
         smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
@@ -1109,6 +1114,9 @@ tr:
       auth_provider:
         one: Kimlik doğrulama sağlayıcısı
         other: Kimlik doğrulama sağlayıcıları
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1130,9 +1138,6 @@ tr:
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1199,6 +1204,9 @@ tr:
       issue_priority:
         one: Öncelik
         other: Öncelik
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1480,7 +1488,7 @@ tr:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1554,7 +1562,7 @@ tr:
     import:
       title: İçeri Aktar
     info:
-      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatability in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc bellek ayırıcı
@@ -1562,12 +1570,15 @@ tr:
       actions:
         button_edit: Edit configuration
         button_open: Open runs
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
           '
         description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
         title: Beta - Try it out!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
         title: Henüz yapılandırılmış Jira ana bilgisayarı yok
@@ -1600,16 +1611,30 @@ tr:
           description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
           title: Project-based semantic identifiers must be enabled.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Yapılandırma ekle
-        button_delete_token: Anahtarı sil
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Yapılandırmayı kaydet
-        delete_token_confirm: Anahtarı silmek istediğinizden emin misiniz? Bu, Jira bağlantısını devre dışı bırakacaktır.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: İsim
-          personal_access_token: Kişisel Erişim Anahtarı
+          personal_access_token: Personal access token (PAT)
           url: Jira Sunucusu/Veri Merkezi URL'si
         label_testing: Yapılandırma test ediliyor...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Edit run
@@ -1862,17 +1887,18 @@ tr:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and API token.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Bağlantı hatası: %{message}'
         error: Bağlantı test edilirken beklenmeyen bir hata oluştu
         failed: 'Bağlantı başarısız oldu: Sunucu bilgileri alınamıyor'
         invalid_url: Lütfen geçerli bir URL giriniz
-        missing_credentials: Please provide both URL and Personal Access Token to test the connection
         parse_error: Failed to parse the response from the server. The server may not be a valid Jira instance.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: "%{server} adresine başarıyla bağlandı (sürüm %{version})"
-        token_error: Invalid API token. Please check your credentials in the configuration.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira Migrator
-      token_deleted: Anahtar başarıyla silindi.
       user:
         unknown_name: Unknown
     journal_aggregation:
@@ -2133,7 +2159,7 @@ tr:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Action
         label_aria_add_action: Add text transform action
       index_component:
@@ -2178,6 +2204,8 @@ tr:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Select roles
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Status
       statuses_dialog:
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
@@ -2232,7 +2260,7 @@ tr:
     deleted_by_admin: Karantinaya alınan '%{filename}' dosyası bir yönetici tarafından silindi.
     deleted_message: "'%{filename}' dosyasında bir virüs tespit edildi. Dosya silinmiştir."
     not_processed_yet_message: Dosya henüz virüs taramasından geçmediği için indirme işlemi engellendi. Lütfen daha sonra tekrar deneyin.
-    overridden_by_admin: "'%{filename}' dosyası için karantina %{user} tarafından kaldırıldı. Dosyaya artık erişilebilir."
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Depo
       delete: Karantinaya alınan dosyayı sil
@@ -3596,7 +3624,7 @@ tr:
       summary:
         failure: Some checks failed and the system does not work as expected.
         success: All connections and systems are working as expected.
-        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Failed
@@ -3605,7 +3633,7 @@ tr:
         warning: Warning
   help_texts:
     views:
-      favoured: Bu görünümü favori olarak işaretleyin ve soldaki kaydedilmiş görünümler kenar çubuğuna ekleyin.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.\n"
       public: Diğer kullanıcıların görünümünüze erişmesine izin vererek bu görünümü yayınlayın. 'Genel görünümleri yönet' iznine sahip kullanıcılar genel sorguyu değiştirebilir veya kaldırabilir. Bu, iş paketi sonuçlarının görünürlüğünü bu görünümde etkilemez ve izinlerine bağlı olarak, kullanıcılar farklı sonuçlar görebilir.
   homescreen:
@@ -3948,6 +3976,7 @@ tr:
   label_deleted_custom_field: "(özel alan silindi)"
   label_deleted_custom_item: "(silinmiş öğe)"
   label_deleted_custom_option: "(silinen seçenek)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Organization
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
@@ -4168,7 +4197,7 @@ tr:
   label_my_avatar: Avatarım
   label_my_queries: Özel sorgularım
   label_my_security: Security
-  label_my_work: My work
+  label_my_time: My time
   label_name: İsim
   label_never: Hiçbir zaman
   label_new: Yeni
@@ -4612,7 +4641,7 @@ tr:
       start_tls: STARTTLS
       start_tls_description: Standart LDAP bağlantı noktasına bağlandıktan sonra bir STARTTLS komutu gönderir. Şifreli bağlantılar için önerilir.
     tls_options:
-      tls_certificate_description: LDAP sunucusu sertifikası bu sistemin güvenilir kaynaklarında yoksa buradan manuel olarak ekleyebilirsiniz. Bir PEM X509 sertifika dizisi girin.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: SSL sertifikasını doğrula
       verify_peer_description_html: 'Sertifika güvenilir zincirinin katı SSL doğrulamasını etkinleştirir. <br> <strong>Uyarı:</strong> Bu seçeneğin işaretini kaldırmak, LDAP sunucu sertifikasının SSL doğrulamasını devre dışı bırakır. Bu, Man in the Middle saldırılarıyla bağlantınızı ortaya çıkarır.
 
@@ -5437,8 +5466,8 @@ tr:
         label: Table of contents
     page_nr_footer: Sayfa %{page} / %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Nitelikler ve açıklama
@@ -5745,11 +5774,11 @@ tr:
           no_status_when_submitted: "%{type} iş paketi türü kendisiyle ilişkilendirilmiş en az bir durum gerektirdiğinden proje başlatma talebi etkinleştirilemedi. Lütfen bu iş paketi türü için en az bir durum iş akışını etkinleştirin."
           no_work_package_type: Proje başlatma isteği etkinleştirilemedi, en az bir iş paketi türü gerekiyor. Lütfen bu projeye en az bir iş paketi türü ekleyin.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Yapılandırılmış harici dosya depolarından hangisinin kullanılacağını seçin.
           external_file_storage: Harici dosya depolama
-          label_artifact_export: Artefact export
+          label_artifact_export: Artifact export
           label_attachment_export: İş paketi dosyası eki olarak kaydet
           label_file_link_export: Dosyayı harici dosya depolama alanına yükleyin ve dosya bağlantısını iş paketine ekleyin
           pdf_file_storage: PDF dosya depolama
@@ -5759,6 +5788,12 @@ tr:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Şu anda kullanılabilir özel alan bulunmamakta.
       forums:
         no_results_content_text: Yeni bir forum oluştur
@@ -5882,15 +5917,27 @@ tr:
     status:
       button_edit: Durumu düzenle
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Bu özniteliğin tanımlanmış bir yardım metni yoktur.
       progress_label: "%{current} / %{total}"
       sections: Bölümler
       sidebar_content_title: İçerik
-      success: Project attributes saved and artefact work package created successfully.
+      success: Project attributes saved and artifact work package created successfully.
       title: Proje başlatma talebi
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Önceden yapılandırılmış filtre uygula
     configure_view:
@@ -6356,7 +6403,7 @@ tr:
         description_html: 'Antivirüs tarayıcı entegrasyonunun çalışması gereken modu seçin. <br/> <ul> <li><strong>%{disabled_option}</strong>: Yüklenen dosyalar virüslere karşı taranmaz.</li> <li><strong>%{socket_option}</strong>: ClamAV''ı OpenProject ile aynı sunucuya kurdunuz ve tarama servisi clamd arka planda çalışıyor</li> <li><strong>%{host_option}</strong>: Dosyaları harici bir virüs tarama servisine aktarıyorsunuz.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Virüs taraması başarıyla etkinleştirildi. Daha önce yüklenen ve hala taranması gereken %{file_count} var. Bu işlem arka planda zamanlandı. Dosyalar tarama sırasında erişilebilir kalacaktır.
@@ -6459,12 +6506,12 @@ tr:
         confirmation_message: The initiation request wizard will no longer be available to new projects based on this template. Project managers and project owners will need to manually configure and fill out the relevant information in the Project overview.
         heading: Disable this project initiation request?
         title: Disable project initiation request
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Proje oluşturma sihirbazı
           project_initiation_request: Proje başlatma talebi
@@ -6484,8 +6531,8 @@ tr:
           **%{project_name}** için bir proje başlatma talebi gönderdiniz. Şu anda incelenmeyi bekliyor.
           Talebinizi içeren iş paketine erişmek için aşağıdaki bağlantıya tıklayın.
         confirmation_email_text: Onay e-posta metni
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Send confirmation email to the user who submitted the project initiation request
         status_when_submitted: Teslim edildiğinde durum
         status_when_submitted_caption: The status the generated work package will transition to once the request is submitted.
@@ -6493,7 +6540,7 @@ tr:
         work_package_comment_caption: Yukarıda seçilen atanan kişi yorumda otomatik olarak @bahsedilecektir.
         work_package_comment_default: A project initiation request for **%{project_name}** was submitted and is awaiting review.
         work_package_type: Work package type
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Open project creation wizard
         project_initiation_request: Open project initiation request
@@ -6676,7 +6723,6 @@ tr:
       sentence_connector: ve
       skip_last_comma: yanlış
   text_access_token_hint: Erişim belirteçleri, OpenProject içindeki kaynaklara harici uygulamalar erişimi vermenizi sağlar.
-  text_accessibility_hint: Erişilebilirlik modu, kör, engelli ve ya ciddi görme güçlüğü çeken kullanıcılar için tasarlandı. Bu modda yazı odaklı bileşenler özellikle vurgulanır. Backlogs modülünde bu özelliği henüz kullanamayacağınızı da belirtelim.
   text_analyze: 'Daha fazla analiz: %{subject}'
   text_are_you_sure: Emin misiniz?
   text_are_you_sure_continue: Devam etmek istediğinize emin misiniz?
@@ -6868,6 +6914,27 @@ tr:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Compare variants
       blankslate:
@@ -6913,12 +6980,6 @@ tr:
       add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
@@ -6966,8 +7027,10 @@ tr:
           caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
           label: Automatically generated subjects
         description:
-          caption: Add the text that will be added to the description field of all new work packages with this type.
-          label: Default description text
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Users can manually enter and edit work package subjects without restrictions.
           label: Manually editable subjects
@@ -6996,15 +7059,14 @@ tr:
           file_link:
             caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
             label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: No PDF is generated automatically.
             label: 'Off'
-          section_title: Automatic artefact export
+          section_title: Automatic artifact export
           unavailable: unavailable, no automatically-managed Nextcloud storage is configured
-        intro: Select which templates from those that are available you would like to enable for this type. The template determines the design and attributes visible in the exported PDF of a work package using this type. The first template on the list is selected by default.
         pdf_export_templates:
           actions:
             label_disable_all: Tümünü devre dışı bırak
@@ -7089,7 +7151,6 @@ tr:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
@@ -7108,10 +7169,12 @@ tr:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
+          title: Not used in any project yet
         enable_all: Tüm projeler için etkinleştir
         select_projects: Projeleri seçin
         select_projects_description: Bu türü kullanmak istediğiniz projeleri seçin.
         tab: Projeler
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7183,6 +7246,9 @@ tr:
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7214,6 +7280,7 @@ tr:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7228,8 +7295,14 @@ tr:
       duplicate_name: Copy of %{name}
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: Active in new projects
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Activate in new projects
       make_default_notice: "%{name} is now activated in new projects."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Yeni tip oluştur
       no_results_title_text: Şu anda hiç tip yok.
       project_variants_count:
@@ -7371,7 +7444,7 @@ tr:
       deletion_warning: Bu oturumu iptal etmek istediğinizden emin misiniz? Bu cihazda oturumunuz kapatılacaktır.
       device: Cihaz / İşletim Sistemi
       expires: Bitiş tarihi
-      instructions: Hesabınıza aşağıdaki cihazlar üzerinden giriş yaptınız. Tanımadığınız veya kontrol etmediğiniz cihazlardan yapılan oturumları iptal edin.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Son bağlantı
       may_not_delete_current: Şuanki oturumunuzu silemezsiniz.
       session_name: "%{os_name} üzerinde %{browser_name} %{browser_version}"
@@ -7918,6 +7991,18 @@ tr:
             other: Successfully copied workflow to %{count} roles.
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

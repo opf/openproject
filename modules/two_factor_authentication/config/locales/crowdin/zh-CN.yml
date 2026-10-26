@@ -130,7 +130,7 @@ zh-CN:
     error_invalid_backup_code: 2FA 备份代码无效
     error_is_enforced_not_active: 配置错误：已强制执行双因子认证，但不存在活动策略。
     error_no_device: 尽管此实例需要，但没有为该用户找到注册的 2FA 设备。
-    error_no_matching_strategy: 没有匹配的 2FA 策略可供此用户使用。请联系您的管理员。
+    error_no_matching_strategy: No matching 2FA strategy available for this user. Please contact your administrator.
     forced_registration:
       required_to_add_device: 管理员已为此实例强制执行双重身份验证。要登录，请添加双重身份验证方法。
     label_2fa_disabled: " 双因子认证未激活"

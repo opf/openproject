@@ -303,7 +303,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.49"
+  gem "selenium-webdriver", "~> 4.51"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -311,7 +311,7 @@ group :test do
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
   gem "vcr"
   # Mock backend requests (for ruby tests)
-  gem "webmock", "~> 3.26", require: false
+  gem "webmock", "~> 3.29", require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem "puffing-billy", "~> 4.0.0"
@@ -345,6 +345,7 @@ group :development, :test do
 
   # Tracing and profiling gems
   gem "flamegraph", require: false
+  gem "memory_profiler", require: false
   gem "rack-mini-profiler", require: false
   gem "ruby-prof", require: false
   gem "stackprof", require: false

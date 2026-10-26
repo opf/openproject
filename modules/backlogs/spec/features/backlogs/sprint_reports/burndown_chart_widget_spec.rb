@@ -59,6 +59,10 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
       visit_sprint_report(sprint)
 
       expect(page).to have_element(:"opce-burndown-chart")
+      canvas = find("opce-burndown-chart canvas[role='img']", wait: 20, aria: { label: "Burndown chart" })
+
+      description_id = canvas["aria-describedby"]
+      expect(canvas.find("##{description_id}", visible: :all).text(:all)).to include("Burndown chart data")
     end
   end
 

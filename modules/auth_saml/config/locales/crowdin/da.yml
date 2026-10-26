@@ -3,27 +3,27 @@ da:
   activerecord:
     attributes:
       saml/provider:
-        allowed_clock_drift: Allowed clock drift
+        allowed_clock_drift: Tilladt tidsforskydning
         assertion_consumer_service_url: ACS (Assertion consumer service) URL
         authn_requests_signed: Signér SAML AuthnRequests
         certificate: Certifikat brugt af OpenProject til SAML-anmodninger
-        digest_method: Digest algoritme
+        digest_method: Digest-algoritme
         display_name: Navn
         format: Format
         icon: Tilpasset ikon
-        identifier: ID
-        idp_cert: Identitetsudbyders offentlige certifikat
-        idp_entity_id: Identity provider entity ID
-        idp_slo_service_url: IdP(Identity provider) logud endpoint
-        idp_sso_service_url: Identitetsudbyder login endpoint
+        identifier: Id
+        idp_cert: Identitetsudbyderens offentlige certifikat
+        idp_entity_id: Identitetsudbyderens entitets-id
+        idp_slo_service_url: Identitetsudbyderens logud-endepunkt
+        idp_sso_service_url: Identitetsudbyderens login-endepunkt
         limit_self_registration: Begræns selvregistrering
-        metadata_url: Identitetsudbydermetadata-URL
-        name_identifier_format: Navnidentifikatorformat
+        metadata_url: URL til identitetsudbyderens metadata
+        name_identifier_format: Format for navne-id
         private_key: Tilsvarende privat nøgle til OpenProject SAML-anmodninger
         scope: Omfang
         secret: Hemmelighed
-        signature_method: Signatur algoritme
-        sp_entity_id: Tjenesteentitets-ID
+        signature_method: Signaturalgoritme
+        sp_entity_id: Tjenestens entitets-id
         want_assertions_encrypted: Kræv krypterede svar
         want_assertions_signed: Kræv signerede svar
     errors:
@@ -35,21 +35,21 @@ da:
           unmatched_private_key: tilhører ikke det givne certifikat
     models:
       saml/provider:
-        one: SAML provider
-        other: SAML providers
+        one: SAML-udbyder
+        other: SAML-udbydere
   saml:
-    delete_heading: Slet SAML-udbyder?
+    delete_heading: Vil du slette SAML-udbyderen?
     delete_title: Slet SAML-udbyder
     info:
       description: 'Brug disse parametre til at opsætte identitetsudbyderforbindelsen til OpenProject.
 
         '
-      title: SAML-protokolopsætnningsparametre
+      title: Parametre til konfiguration af SAML-protokollen
     instructions:
-      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+      allowed_clock_drift: 'Tolerance i sekunder, der bruges ved validering af tidsstemplerne i identitetsudbyderens svar. Brøkdele af et sekund accepteres. Brug kun indstillingen, hvis det vides, at uret i OpenProject og hos identitetsudbyderen ikke går ens, og hold værdien så lav som muligt (standard: 0).
 
         '
-      authn_requests_signed: 'Hvis markeret, vil OpenProject signere SAML AuthnRequest''en. Et signeringscertifikat og en privat nøgle vil skulle angives i felterne nedenfor.
+      authn_requests_signed: 'Når feltet er markeret, signerer OpenProject SAML-AuthnRequesten. Du skal så angive et signeringscertifikat og en privat nøgle i felterne nedenfor.
 
         '
       certificate: 'Angiv det X509 PEM-formaterede certifikat brugt af OpenProject til signering af SAML-anmodninger.
@@ -58,31 +58,31 @@ da:
       digest_method: 'Vælg digest-algoritmen til brug for SAML-anmodningssigneringen udført af OpenProject (Standard: %{default_option}).
 
         '
-      display_name: 'Udbydernavnet. Dette vises som login-knappen samt på udbyderlisten.
+      display_name: 'Udbyderens navn. Det vises på login-knappen og i listen over udbydere.
 
         '
       documentation_link: 'Se vores [dokumentation om opsætning af SAML-udbydere](docs_url) for mere information om disse opsætningsmuligheder.
 
         '
-      icon: 'Angiv alternativt en offentlig URL til en ikongrafik, der vil fremgå ved siden af udbyderens navn.
+      icon: 'Angiv eventuelt en offentlig URL til et ikon, der vises ved siden af udbyderens navn.
 
         '
       idp_cert: 'Angiv det X509 PEM-formaterede offentlige certifikat fra identitetsudbyderen. Flere certifikater kan angives ved at adskille dem med en ny linje.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Valgfrit: Nyttigt, når metadata-URL''en peger på en samlet federationsfil med mange poster. Angiv entitets-id''et for din institutions identitetsudbyder. Lad feltet stå tomt ved metadata-URL''er med kun én entitet.
 
         '
-      idp_slo_service_url: 'URL''en til identitetsudbyder-udlogningsendepunktet.
+      idp_slo_service_url: 'URL''en til identitetsudbyderens logud-endepunkt.
 
         '
       idp_sso_service_url: 'URL''en til identitetsudbyderens login-endepunkt.
 
         '
-      limit_self_registration: 'Hvis aktiveret, kan brugere kun registrere sig vha. denne udbyder, hvis selv-registreringsindstillingen tillader dette.
+      limit_self_registration: 'Når indstillingen er slået til, kan brugere kun registrere sig via denne udbyder, hvis indstillingen for selvregistrering tillader det.
 
         '
-      mapping: 'Opsæt kortlægningen mellem SAML-svar og brugerattributter i OpenProject. Der kan opsættes flere attributnavne at kigge efter. OpenProject vælger den første tilgængelige attribut fra SAML-svar.
+      mapping: 'Konfigurer tilknytningen mellem SAML-svaret og brugerattributterne i OpenProject. Du kan angive flere attributnavne, der skal søges efter. OpenProject vælger den første tilgængelige attribut i SAML-svaret.
 
         '
       mapping_firstname: 'SAML-attributter fra svaret brugt til fornavnet.
@@ -94,34 +94,34 @@ da:
       mapping_login: 'SAML-attributter fra svaret brugt til login.
 
         '
-      mapping_mail: 'SAML-attributter fra svaret brugt til brugere-mailadressen.
+      mapping_mail: 'SAML-attributter fra svaret, der bruges til brugerens e-mailadresse.
 
         '
-      mapping_uid: 'SAML-attributten til brug for det interne bruger-ID. Lad feltet stå tomt for brug af navn_id-attributten i stedet
+      mapping_uid: 'SAML-attribut, der skal bruges til det interne bruger-id. Lad feltet stå tomt for i stedet at bruge attributten name_id
 
         '
       metadata_for_idp: 'Disse oplysninger kan blive udbedt af SAML-identitetsudbyderen.
 
         '
-      metadata_none: 'Identitetsudbyderen har ikke et metadata-endepunkt eller XML-download mulighed. Dette opsættes manuelt.
+      metadata_none: 'Identitetsudbyderen har hverken et metadata-endepunkt eller XML, der kan hentes. Du kan konfigurere den manuelt.
 
         '
       metadata_url: 'Identitetsudbyderen leverer en metadata-URL.
 
         '
-      metadata_xml: 'Identitetsudbyderen leverer en metadata-XML download.
+      metadata_xml: 'Identitetsudbyderen tilbyder metadata-XML, der kan hentes.
 
         '
-      name_identifier_format: 'Opsæt navneidentifkatorformatet til brug for SAML-udsagnet.
+      name_identifier_format: 'Angiv formatet for navne-id''et, der skal bruges i SAML-assertion.
 
         '
-      private_key: 'Angiv den private X509 PEM-formaterede nøgle for ovenstående certifikat. Dette skal være en RSA-privatnøgle.
+      private_key: 'Angiv den X509 PEM-formaterede private nøgle til certifikatet ovenfor. Det skal være en privat RSA-nøgle.
 
         '
-      request_uid: 'SAML-attribut til anmodning om det interne bruger-ID. Som standard bruges navn_id til dette felt.
+      request_uid: 'SAML-attribut, der skal anmodes om til det interne bruger-id. Som standard bruges name_id til feltet.
 
         '
-      requested_attributes: 'Disse attributter føjes til SAML anmodningens-XML''en for kommunikere til identitetsudbyderen, hvilke attributterne OpenProject kræver.
+      requested_attributes: 'Attributterne føjes til XML''en i SAML-anmodningen for at vise identitetsudbyderen, hvilke attributter OpenProject kræver.
 
         '
       requested_format: 'Formatet på den ønskede attribut. Dette bruges til at angive formatet på attributten i SAML-anmodningen. Se [dokumentation for opsætning af anmodede attributter](docs_url) for mere information.
@@ -130,13 +130,13 @@ da:
       signature_method: 'Vælg signaturalgoritmen til brug for SAML-anmodningssigneringen udført af OpenProject (Standard: %{default_option}).
 
         '
-      sp_entity_id: 'Entitets-ID for tjenesteudbyderen (SP). Sommetider også kaldet Audience. Dette er OpenProject-instansens unikke klientidentifikator.
+      sp_entity_id: 'Tjenesteudbyderens (SP) entitets-id. Kaldes også Audience. Det er OpenProject-installationens entydige klient-id.
 
         '
       sp_metadata_endpoint: 'Dette er URL''en, hvor OpenProject SAML-metadataene er tilgængelige. Brug den evt. til opsætning af identitetsudbyderen.
 
         '
-      want_assertions_encrypted: 'Hvis aktiveret, kræves det, at identitetsudbyderen krypterer udsagnssvaret vha. det certifikatpar, man leverer.
+      want_assertions_encrypted: 'Når indstillingen er slået til, skal identitetsudbyderen kryptere assertion-svaret med det certifikatpar, du angiver.
 
         '
       want_assertions_signed: 'Hvis markeret, vil OpenProject kræve signerede svar fra identitetsudbyderen vha. dennes eget certifikatnøglepar. OpenProject vil bekræfte signaturen mod certifikatet fra basisopsætningsafsnittet.
@@ -144,64 +144,64 @@ da:
         '
     menu_title: SAML-udbydere
     metadata_parser:
-      error: 'Mislykkedes at hente identitetsudbydermetadata: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      error: 'Identitetsudbyderens metadata kunne ikke hentes: %{error}'
+      federation_metadata: 'Metadata-URL''en peger på en samlet federationsfil (mange identitetsudbydere). Brug din institutions direkte metadata-URL, eller angiv entitets-id''et for din institutions IdP i metadataformularen, og prøv igen.
 
         '
       invalid_url: Den angivne metadata-URL er ugyldig. Angiv en HTTP(S)-URL.
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: Metadatafilen overskrider den maksimalt tilladte størrelse.
       success: Opsætningen er opdateret vha. identitetsudbyderens metadata.
     providers:
-      attribute_mapping: Attribut kortlægning
-      attribute_mapping_text: 'Flg. felter kontrollerer, hvilke af SAML-identitetsudbyderens leverede attributter, som bruges til at angive brugerattributter i OpenProject
+      attribute_mapping: Tilknytning af attributter
+      attribute_mapping_text: 'Følgende felter styrer, hvilke attributter fra SAML-identitetsudbyderen der bruges til brugerattributterne i OpenProject
 
         '
       label_add_new: Ny SAML-identitetsudbyder
       label_automatic_configuration: Automatisk opsætning
-      label_configuration_details: Identitetsudbyder endepunkter og certifikater
-      label_configuration_encryption: Signaturer og Kryptering
-      label_edit: Redigér SAML-identitetsudbyder %{name}
-      label_empty_description: Tilføj en udbyder for at se denne her.
+      label_configuration_details: Identitetsudbyderens endepunkter og certifikater
+      label_configuration_encryption: Signaturer og kryptering
+      label_edit: Rediger SAML-identitetsudbyderen %{name}
+      label_empty_description: Tilføj en udbyder for at se den her.
       label_empty_title: Ingen SAML-udbydere opsat endnu.
-      label_mapping: Kortlægning
+      label_mapping: Tilknytning
       label_metadata: Metadata
       label_metadata_endpoint: OpenProject metadata-endepunkt
       label_openproject_information: OpenProject-information
       label_requested_attribute_for: 'Anmodet attribut til: %{attribute}'
-      label_uid: Internt bruger-ID
+      label_uid: Internt bruger-id
       metadata:
         dialog: 'Dette er URL''en, hvor OpenProject SAML-metadataene er tilgængelige. Brug den evt. til opsætning af identitetsudbyderen:'
       no_results_table: Ingen SAML-identitetsudbydere defineret endnu.
-      notice_created: A new SAML identity provider was successfully created.
+      notice_created: Der er oprettet en ny SAML-identitetsudbyder.
       plural: SAML-identitetsudbydere
       request_attributes:
         format: Attributformat
-        legend: 'Disse attributter føjes til SAML XML-metadata for overfor den identificere udbyder at angive, hvilke attributter OpenProject kræver. Man skal muligvis stadig eksplicit opsætte sin identitetsudbyder for at sende disse attributter. Tjek relevante IdP-dokumentation.
+        legend: 'Attributterne føjes til SAML-metadataene i XML for at vise identitetsudbyderen, hvilke attributter OpenProject kræver. Du skal muligvis stadig konfigurere identitetsudbyderen til at sende attributterne. Se dokumentationen til din IdP.
 
           '
         name: Anmodet attributnøgle
         title: Anmodede attributter
       requested_attributes: Anmodede attributter
       section_headers:
-        attributes: Egenskaber
+        attributes: Attributter
         configuration: Primær opsætning
       section_texts:
         configuration: Opsæt endepunkts-URL'erne for identitetsudbyderen, certifikaterne og yderligere SAML-indstillinger.
-        configuration_metadata: Denne information er forudfyldt med de leverede metadata. I de fleste tilfælde kræver de ikke redigering.
+        configuration_metadata: Oplysningerne er udfyldt på forhånd ud fra de angivne metadata. I de fleste tilfælde skal de ikke redigeres.
         display_name: Opsæt visningsnavnet på SAML-udbyderen.
         encryption: Opsæt udsagnssignaturer og kryptering for SAML-anmodninger og -svar.
-        encryption_form: Man ønsker muligvis at kryptere udsagnssvaret eller få anmodninger fra OpenProject signeret.
-        mapping: Justér manuelt kortlægningen mellem SAML-svar og brugerattributter i OpenProject.
-        metadata: Forudfyld opsætning vha. en metadata-URL eller ved at indsætte metadata-XML
-        metadata_form: Hvis identitetsudbyderen har et metadata-endepunkt eller XML-download, tilføj det nedenfor for at forudfylde opsætningen.
+        encryption_form: Du kan eventuelt kryptere assertion-svaret eller lade OpenProject signere anmodningerne.
+        mapping: Juster tilknytningen mellem SAML-svaret og brugerattributterne i OpenProject manuelt.
+        metadata: Udfyld konfigurationen på forhånd med en metadata-URL eller ved at indsætte metadata-XML
+        metadata_form: Hvis identitetsudbyderen har et metadata-endepunkt eller en XML-fil, som du kan hente, så tilføj det nedenfor for at udfylde konfigurationen på forhånd.
         metadata_form_banner: 'Redigering af metadata kan tilsidesætte eksisterende værdier i andre afsnit. '
         requested_attributes: Definér det sæt attributter, der skal anmodes om i SAML-anmodningen sendt til identitetsudbyderen.
-      seeded_from_env: Denne udbyder blev seeded fra miljøopsætningnen. Den kan ikke redigeres.
+      seeded_from_env: Udbyderen er oprettet ud fra miljøkonfigurationen. Den kan ikke redigeres.
       singular: SAML-identitetsudbyder
       upsell:
         description: Forbind OpenProject til en SAML-identitetsudbyder
-        title: Single Sign-On (SSO) med SAML
+        title: Single sign-on (SSO) med SAML
     settings:
-      metadata_none: Metadata haves ikke
+      metadata_none: Jeg har ikke metadata
       metadata_url: Metadata-URL
       metadata_xml: Metadata-XML

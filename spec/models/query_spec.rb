@@ -307,7 +307,7 @@ RSpec.describe Query,
       expect(query).not_to be_valid
     end
 
-    it "#hightlighting_mode accepts non-present values" do
+    it "#highlighting_mode accepts non-present values" do
       query.highlighting_mode = nil
       expect(query).to be_valid
 
@@ -315,7 +315,7 @@ RSpec.describe Query,
       expect(query).to be_valid
     end
 
-    it "#hightlighting_mode rejects invalid values" do
+    it "#highlighting_mode rejects invalid values" do
       query.highlighting_mode = "bogus"
       expect(query).not_to be_valid
     end

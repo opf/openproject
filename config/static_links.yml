@@ -108,6 +108,8 @@ ldap_encryption_documentation:
 manual_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/manual/
   label: Manual installation
+mobile_app_play_store:
+  href: https://play.google.com/store/apps/details?id=org.openproject.app
 multiple_versions_documentation:
   href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions
 newsletter:

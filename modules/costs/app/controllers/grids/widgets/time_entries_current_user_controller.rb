@@ -39,7 +39,7 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
   private
 
   def mode
-    requested = (params[:mode].presence || User.current.pref.my_work_mode).to_s.to_sym
+    requested = (params[:mode].presence || User.current.pref.my_time_management_mode).to_s.to_sym
 
     %i[day workweek week].include?(requested) ? requested : :workweek
   end
@@ -48,9 +48,9 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
     return if params[:mode].blank?
 
     preference = User.current.pref
-    return if preference.my_work_mode == mode.to_s
+    return if preference.my_time_management_mode == mode.to_s
 
-    preference.update(my_work_mode: mode.to_s)
+    preference.update(my_time_management_mode: mode.to_s)
   end
 
   def date

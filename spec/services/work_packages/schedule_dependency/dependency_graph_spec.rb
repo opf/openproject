@@ -100,7 +100,7 @@ RSpec.describe WorkPackages::ScheduleDependency::DependencyGraph do
       let(:wp1_dependency) { WorkPackages::ScheduleDependency::Dependency.new(wp1, schedule_dependency) }
       let(:dependencies) { [wp1_dependency] }
 
-      it "avoids infinite recursion and returns false when given itsef as a dependency" do
+      it "avoids infinite recursion and returns false when given itself as a dependency" do
         dependency_graph = described_class.new(dependencies)
 
         expect(dependency_graph.depends_on?(wp1, wp1_dependency)).to be(false)

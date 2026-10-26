@@ -162,7 +162,7 @@ namespace :redmine do
               apop=1                   use APOP authentication (default: false)
               delete_unprocessed=1     delete messages that could not be processed
                                        successfully from the server (default
-                                       behaviour is to leave them on the server)
+                                       behavior is to leave them on the server)
       #{'      '}
             See redmine:email:receive_imap for more options and examples.
     END_DESC

@@ -71,6 +71,52 @@ describe("OpenProjectApi", () => {
       ).rejects.toThrowError("Unauthorized: Token origin does not match request origin.");
     });
 
+    test("when the origin is a prefix of the one in the token", async () => {
+      await expect(() =>
+        new OpenProjectApi().onAuthenticate({
+          token: "Yjo1x80JGIjrK8J6IDOuRn5kIOGvaAUw8C1so+dJJq7cgkllf3dQnw6d8bgiKbHXw8ZaMYE4IyOI1KQgX2ZRmx1mKBkxtb/fc7eCpGyTKGTA2Y1r/q7VJYiJZlpX7gx3nu569joEl/k=--mUkLaPiK0E82vGT9--gj1ZnTNlydL9j+Xw8+YFAA==",
+          documentName: "https://test.api/api/v3/documents/1",
+          requestHeaders: new Headers({
+            origin: "https://test.ap",
+          }),
+        } as unknown as onAuthenticatePayload)
+      ).rejects.toThrowError("Unauthorized: Token origin does not match request origin.");
+    });
+
+    test("when the origin exactly matches the one in the token", async () => {
+      const data = {
+        context: {},
+        connectionConfig: {},
+        token: "Yjo1x80JGIjrK8J6IDOuRn5kIOGvaAUw8C1so+dJJq7cgkllf3dQnw6d8bgiKbHXw8ZaMYE4IyOI1KQgX2ZRmx1mKBkxtb/fc7eCpGyTKGTA2Y1r/q7VJYiJZlpX7gx3nu569joEl/k=--mUkLaPiK0E82vGT9--gj1ZnTNlydL9j+Xw8+YFAA==",
+        documentName: "https://test.api/api/v3/documents/1",
+        requestHeaders: new Headers({
+          origin: "https://test.api",
+        }),
+      } as unknown as onAuthenticatePayload;
+
+      await new OpenProjectApi().onAuthenticate(data);
+
+      expect(data.context.resourceUrl).toEqual("https://test.api/api/v3/documents/1");
+      expect(data.context.token).toEqual("some_token_value");
+    });
+
+    test("when the origin is file:// (mobile app) accept the connection", async () => {
+      const data = {
+        context: {},
+        connectionConfig: {},
+        token: "Yjo1x80JGIjrK8J6IDOuRn5kIOGvaAUw8C1so+dJJq7cgkllf3dQnw6d8bgiKbHXw8ZaMYE4IyOI1KQgX2ZRmx1mKBkxtb/fc7eCpGyTKGTA2Y1r/q7VJYiJZlpX7gx3nu569joEl/k=--mUkLaPiK0E82vGT9--gj1ZnTNlydL9j+Xw8+YFAA==",
+        documentName: "https://test.api/api/v3/documents/1",
+        requestHeaders: new Headers({
+          origin: "file://",
+        }),
+      } as unknown as onAuthenticatePayload;
+
+      await new OpenProjectApi().onAuthenticate(data);
+
+      expect(data.context.resourceUrl).toEqual("https://test.api/api/v3/documents/1");
+      expect(data.context.token).toEqual("some_token_value");
+    });
+
     test("when the resourceUrl does not match the one in the token", async () => {
       await expect(() =>
         new OpenProjectApi().onAuthenticate({
@@ -85,7 +131,7 @@ describe("OpenProjectApi", () => {
       server.events.on('request:end', ({ request }) => {
         authHeader = request.headers.get("Authorization") || "";
       });
-      server.use(http.get('https://test.api/api/v3/documents/1', () => { return HttpResponse.json({id: 42}, {status: 401})}));
+      server.use(http.get('https://test.api/api/v3/documents/1', () => { return HttpResponse.json({id: 42}, {status: 401});}));
 
       await expect(() =>
         new OpenProjectApi().onAuthenticate({
@@ -122,7 +168,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const data = {
@@ -150,7 +196,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const data = {
@@ -235,7 +281,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const targetDoc = new Y.Doc();

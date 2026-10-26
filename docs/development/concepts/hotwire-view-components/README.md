@@ -145,7 +145,7 @@ class JournalController < ApplicationController
   end
 
   def create
-    journal = Journal.create(journal_params) # in real life this is done through a service obviosuly ;)
+    journal = Journal.create(journal_params) # in real life this is done through a service obviously ;)
 
     if journal.errors.empty?
       # append the new model to the index component
@@ -155,7 +155,7 @@ class JournalController < ApplicationController
         target_component: JournalIndexComponent.new(work_package: @work_package)
       )
       # Note: the target_component does not get rendered
-      # the instatiation is just required for the turbo-stream generation
+      # the instantiation is just required for the turbo-stream generation
 
       # you can use multiple turbo_stream methods in one controller action
       # e.g. update the new component to render an initial form

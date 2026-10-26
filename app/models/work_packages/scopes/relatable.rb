@@ -332,7 +332,7 @@ module WorkPackages::Scopes
         unions.join(" UNION ")
       end
 
-      # rubocop:disable Metrics/PerceivedComplexity
+      # rubocop:disable-next Metrics/PerceivedComplexity
       def existing_relation_of_type_lateral(relation_type, ignored_relation: nil, limit_direction: false)
         canonical_type = Relation.canonical_type(relation_type)
 
@@ -365,15 +365,14 @@ module WorkPackages::Scopes
             relations
           WHERE (relations.#{direction2} = related.id AND relations.relation_type = :relation_type)
             AND NOT related.from_#{direction2}
-            #{direction_limit ? "AND NOT #{direction_limit}" : ''}
-            #{ignored_relation&.id ? " AND NOT relations.id = #{ignored_relation.id}" : ''}
+            #{"AND NOT #{direction_limit}" if direction_limit}
+            #{" AND NOT relations.id = #{ignored_relation.id}" if ignored_relation&.id}
         SQL
 
         ::OpenProject::SqlSanitization
           .sanitize sql,
                     relation_type: canonical_type
       end
-      # rubocop:enable Metrics/PerceivedComplexity
 
       def existing_hierarchy_lateral(with_descendants: true)
         <<~SQL.squish

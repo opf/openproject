@@ -177,7 +177,7 @@ RSpec.describe "random password generation", :js do
         user_page.change_password(old_password, "password")
         user_page.expect_password_weak_error_message
 
-        # Successfuly when both lowercase and uppercase
+        # Successfully when both lowercase and uppercase
         user_page.change_password(old_password, "Password")
         user_page.expect_password_updated_message
       end
