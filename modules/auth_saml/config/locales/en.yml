@@ -153,9 +153,10 @@ en:
         button: "Refresh metadata"
         current_value: "Current value"
         description: "Review the configuration fetched from your identity provider. Changes are saved only when you apply them."
-        expired: "This metadata preview has expired or the provider has changed. Refresh the metadata again to review the latest configuration."
+        expired: "This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration."
         new_value: "New value"
         no_changes: "The metadata matches the current configuration."
+        provider_changed: "The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration."
         side_panel_description: "You can check if the configuration fetched from your identity provider has changed."
         title: "Review metadata changes"
 

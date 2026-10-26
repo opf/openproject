@@ -111,12 +111,12 @@ module Saml
     end
 
     def apply_metadata
-      options = metadata_verifier.verified(params[:metadata_token], purpose: metadata_token_purpose)
+      preview = metadata_verifier.verified(params[:metadata_token], purpose: metadata_token_purpose)
 
-      if options
-        apply_metadata_options(options)
+      if (error = metadata_preview_error(preview))
+        flash[:error] = error
       else
-        flash[:error] = I18n.t("saml.providers.metadata_refresh.expired")
+        apply_metadata_options(preview["options"])
       end
 
       redirect_to saml_provider_path(@provider)
@@ -161,10 +161,21 @@ module Saml
         key != "last_metadata_update" && value != @provider.options_in_database[key]
       end
       @metadata_token = metadata_verifier.generate(
-        @metadata_changes.merge("last_metadata_update" => @provider.last_metadata_update),
+        {
+          "provider_version" => @provider.cache_key_with_version,
+          "options" => @metadata_changes.merge("last_metadata_update" => @provider.last_metadata_update)
+        },
         purpose: metadata_token_purpose,
         expires_in: 15.minutes
       )
+    end
+
+    def metadata_preview_error(preview)
+      if preview.nil?
+        I18n.t("saml.providers.metadata_refresh.expired")
+      elsif preview["provider_version"] != @provider.cache_key_with_version
+        I18n.t("saml.providers.metadata_refresh.provider_changed")
+      end
     end
 
     def apply_metadata_options(options)
@@ -186,7 +197,7 @@ module Saml
     end
 
     def metadata_token_purpose
-      @provider.cache_key_with_version
+      "apply_metadata/#{@provider.id}"
     end
 
     def successful_save_response

@@ -178,7 +178,7 @@ RSpec.describe "SAML metadata refresh", :skip_csrf, :webmock,
 
     post apply_metadata_saml_provider_path(provider), params: { metadata_token: token }
 
-    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.expired"))
+    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.provider_changed"))
     expect(provider.reload.idp_sso_service_url).to eq("https://example.com/changed")
   end
 
