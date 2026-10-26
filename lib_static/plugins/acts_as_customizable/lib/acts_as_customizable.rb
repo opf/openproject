@@ -110,8 +110,8 @@ module Redmine
         # The role of this method is to provide flexibility on enabling just a subset of
         # available_custom_fields on the UI while enabling all_available_custom_fields via the api.
         # A good example is the Project's attributes, the UI allows the enabled attributes only,
-        # and the Projects API still provides the old behaviour where all the custom fields are available.
-        # Once the api behaviour is aligned to the UI behaviour, this method can be removed in favor of
+        # and the Projects API still provides the old behavior where all the custom fields are available.
+        # Once the api behavior is aligned to the UI behavior, this method can be removed in favor of
         # the available_custom_fields method.
         def all_available_custom_fields
           @all_available_custom_fields ||= available_custom_fields

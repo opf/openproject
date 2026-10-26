@@ -30,7 +30,7 @@
         <% elsif step_editor %>
           <%= within_step_frame do %>
             <%= reuse_mode_section %>
-            <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: current_step)) %>
+            <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: editor_record, aspect: current_step)) %>
             <%= primer_form_with(**step_form_options) do |f| %>
               <%= render(step_editor.editor(f)) %>
             <% end %>
@@ -38,7 +38,7 @@
         <% else %>
           <%# Self-persisting editor: this form only advances to the next step on submit. %>
           <% if current_step == :projects %>
-            <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: current_step)) %>
+            <%= render(WorkPackageTypes::AspectDescriptionComponent.new(variant: editor_record, aspect: current_step)) %>
           <% end %>
           <%= render(step_body) %>
           <%= primer_form_with(

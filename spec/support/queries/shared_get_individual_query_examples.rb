@@ -59,7 +59,7 @@ RSpec.shared_examples_for "GET individual query" do
       .at_path("_links/self/href")
   end
 
-  it "embedds the query results" do
+  it "embeds the query results" do
     expect(last_response.body)
       .to be_json_eql("WorkPackageCollection".to_json)
       .at_path("_embedded/results/_type")

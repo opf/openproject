@@ -79,7 +79,7 @@ export class WorkPackageTableConfiguration {
   constructor(providedConfig:WorkPackageTableConfigurationObject) {
     Object.entries(providedConfig).forEach(([k, value]) => {
       const key = (k as keyof WorkPackageTableConfiguration);
-      (this as any)[key] = value;
+      (this as Record<string, unknown>)[key] = value;
     });
   }
 }

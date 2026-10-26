@@ -188,7 +188,7 @@ RSpec.describe "Configuring the variants a project owns",
       expect(project.owned_type_variants.last.variant_name).to eq("Internal")
     end
 
-    # The owner comes from the route. A body naming another project must not be honoured.
+    # The owner comes from the route. A body naming another project must not be honored.
     it "ignores an owner named in the request body" do
       post creation_wizard_project_type_variants_path(project_id: project, type_id: type.id),
            params: { type_variant: { variant_name: "Injected", project_id: stranger.id } }

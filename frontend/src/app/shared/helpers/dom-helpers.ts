@@ -299,3 +299,15 @@ export function setInputFiles(input:HTMLInputElement, file:File):void {
   transfer.items.add(file);
   input.files = transfer.files;
 }
+
+/**
+ * Reads a CSS custom property off the document body, so that a value defined by the stylesheet
+ * and by the theme in force can be used where only a plain string will do -- a canvas fill, say.
+ *
+ * @param variable the custom property, including its leading dashes.
+ * @param fallback returned when the property is not set, as it is not in a document that has yet
+ *   to be styled.
+ */
+export function getCSSVariable(variable:string, fallback = ''):string {
+  return getComputedStyle(document.body).getPropertyValue(variable).trim() || fallback;
+}

@@ -114,5 +114,9 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
     it "renders the burndown chart widget fourth" do
       expect(widget_boxes[3]).to have_css("opce-burndown-chart")
     end
+
+    it "renders the created vs resolved widget fifth" do
+      expect(widget_boxes[4]).to have_css("opce-created-resolved-chart")
+    end
   end
 end

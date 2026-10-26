@@ -122,6 +122,8 @@ hy:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM հաճախորդներ
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Հարմարեցված օբյեկտի ID
         customized_type: Հարմարեցված օբյեկտի տեսակ
@@ -132,8 +134,6 @@ hy:
         repository: Պահոց
       comment:
         commented: Մեկնաբանված
-      custom_action:
-        actions: Գործողություններ
       custom_field:
         admin_only: Միայն ադմինիստրատորի համար
         allow_non_open_versions: Թույլատրել ոչ բաց տարբերակներ
@@ -219,6 +219,9 @@ hy:
         organizational_unit: Կազմակերպական միավոր
         parent: Ծնող խումբ
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Jira համակարգի անվանում
         personal_access_token: Անձնական մուտքի թոքեն
         url: Jira համակարգի URL
@@ -466,7 +469,7 @@ hy:
         header_look_and_feel: Տեսք և ոճ
         impaired: Մատչելիության ռեժիմ
         increase_contrast: Բարձրացնել հակադրությունը
-        increase_contrast_caption: Միացնում է բարձր հակադրության ռեժիմը ընտրված գունային ռեժիմի համար։
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Բարձրացնել թեմայի հակադրությունը
         mode_guideline: Որոշ ռեժիմներ կվերագրեն հատուկ թեմայի գույները՝ մատչելիության և ընթեռնելիության համար։ Խնդրում ենք ընտրել բաց ռեժիմը՝ հատուկ թեմայի լիարժեք աջակցության համար։
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -637,6 +640,8 @@ hy:
         regex_invalid: չհաջողվեց վավերացնել համապատասխան կանոնավոր արտահայտությամբ։
         regex_list_invalid: "%{invalid_lines} տողերը հնարավոր չէ վերլուծել որպես կանոնավոր արտահայտություն։"
         regex_match_failed: չի համապատասխանում %{expression} կանոնավոր արտահայտությանը։
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: պետք է փոքր կամ հավասար լինի առավելագույն երկարությանը։
         smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: խախտում է այս OpenProject համակարգի SSRF քաղաքականությունը։
@@ -1105,6 +1110,9 @@ hy:
       auth_provider:
         one: Նույնականացման մատակարար
         other: Նույնականացման մատակարարներ
+      automation:
+        one: Automation
+        other: Automations
       backup:
         one: Backup
         other: Backups
@@ -1126,9 +1134,6 @@ hy:
       comment:
         one: Comment
         other: Comments
-      custom_action:
-        one: Custom action
-        other: Custom actions
       custom_field:
         one: Custom field
         other: Custom fields
@@ -1195,6 +1200,9 @@ hy:
       issue_priority:
         one: Առաջնահերթություն
         other: Առաջնահերթություններ
+      label:
+        one: Label
+        other: Labels
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1476,7 +1484,7 @@ hy:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1550,7 +1558,7 @@ hy:
     import:
       title: Ներմուծել
     info:
-      database_deprecation_html: 'Սկսած OpenProject 16.0-ից՝ OpenProject-ն օգտագործելու համար պահանջվում է PostgreSQL 16։ Ձեր տեղակայումը կշարունակի աշխատել ընթացիկ տվյալների բազայով, սակայն ապագա թողարկումներում ակնկալեք անհամատեղելիություն։ <br/> Մենք պատրաստել ենք [տեղակայման բոլոր եղանակների բարելավման ուղեցույցներ](upgrade_guide)։ Դուք կարող եք բարելավումը կատարել ցանկացած ժամանակ՝ դեռ մինչև հաջորդ թողարկումը, հետևելով ուղեցույցներին։
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Jemalloc հիշողության բաշխիչ
@@ -1558,12 +1566,15 @@ hy:
       actions:
         button_edit: Խմբագրել կազմաձևումը
         button_open: Բացել գործարկումները
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Խնդրում ենք օգնել մեզ բարելավել Jira Migrator-ը Ձեր արձագանքներով և մասնավոր տվյալների նվիրաբերմամբ։ Դուք կարող եք միանալ Jira Migrator-ի [մշակման համայնքին](link)։
 
           '
         description: Այս Jira Migrator-ը ներկայումս բետա փուլում է։ Ներկայումս աջակցվում են միայն Jira Server/Data Center 10.x և 11.x տարբերակները։ Cloud համակարգերն այս պահին չեն աջակցվում։
         title: Բետա - Փորձեք այն։
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Կազմաձևեք Jira հոսթ՝ Jira-ից այս OpenProject համակարգ տարրերի ներմուծումը սկսելու համար։
         title: Դեռ Jira հոսթեր կազմաձևված չեն
@@ -1596,16 +1607,30 @@ hy:
           description: Jira-ն օգտագործում է խնդիրների նույնացուցիչներ, որոնք բաղկացած են նախագծի բանալիից և հերթական համարից (PRJ-123)։ OpenProject-ը նույնպես աջակցում է դրանց, սակայն այն պետք է միացվի [այստեղ](link)։
           title: Նախագծի հիմքով իմաստային նույնացուցիչները պետք է միացված լինեն։
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Ավելացնել կազմաձևում
-        button_delete_token: Ջնջել թոքենը
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Պահպանել կազմաձևումը
-        delete_token_confirm: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել թոքենը։ Դա կանջատի Jira-ի միացումը։
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Անվանում
-          personal_access_token: Անձնական մուտքի թոքեն
+          personal_access_token: Personal access token (PAT)
           url: Jira Server/Data Center URL
         label_testing: Կազմաձևման փորձարկում...
-        test_configuration_caption: Դուք կարող եք փորձարկել այս կազմաձևումը՝ [սեղմելով այստեղ](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Խմբագրել գործարկումը
@@ -1858,17 +1883,18 @@ hy:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira API-ն վերադարձրել է %{status} սխալի կարգավիճակ։ Խնդրում ենք ստուգել Ձեր Jira համակարգի URL-ը և API թոքենը։
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: Կապի սխալ՝ %{message}
         error: Կապը ստուգելիս անսպասելի սխալ է տեղի ունեցել
         failed: Կապը ձախողվեց՝ հնարավոր չէ ստանալ սերվերի տեղեկությունները
         invalid_url: Խնդրում ենք տրամադրել վավեր URL
-        missing_credentials: Կապը ստուգելու համար խնդրում ենք տրամադրել և՛ URL-ը, և՛ անձնական մուտքի թոքենը
         parse_error: Չհաջողվեց վերլուծել սերվերի պատասխանը։ Հնարավոր է՝ սերվերը վավեր Jira համակարգ չէ։
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Հաջողությամբ միացվել է %{server}-ին (տարբերակ %{version})
-        token_error: Անվավեր API թոքեն։ Խնդրում ենք ստուգել Ձեր հավատարմագրերը կազմաձևման մեջ։
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira միգրացիոն գործիք
-      token_deleted: Թոքենը հաջողությամբ ջնջվել է։
       user:
         unknown_name: Անհայտ
     journal_aggregation:
@@ -2127,7 +2153,7 @@ hy:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Action
         label_aria_add_action: Add text transform action
       index_component:
@@ -2172,6 +2198,8 @@ hy:
           one: "%{count} role selected"
           other: "%{count} roles selected"
         title: Ընտրեք դերեր
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Կարգավիճակ
       statuses_dialog:
         caption: Ավելացրեք կամ հեռացրեք կարգավիճակներ, որոնք ցանկանում եք կապել այս տեսակի հետ։ Կարգավիճակի հեռացումը կջնջի նաև դրա հետ կապված աշխատանքային հոսքը։
@@ -2226,7 +2254,7 @@ hy:
     deleted_by_admin: "'%{filename}' մեկուսացված նիշքը ջնջվել է ադմինիստրատորի կողմից։"
     deleted_message: "'%{filename}' նիշքում հայտնաբերվել է վիրուս։ Նիշքը ջնջվել է։"
     not_processed_yet_message: Ներբեռնումն արգելափակված է, քանի որ նիշքը դեռ չի ստուգվել վիրուսների առկայության համար։ Խնդրում ենք փորձել ավելի ուշ։
-    overridden_by_admin: "'%{filename}' նիշքի մեկուսացումը հեռացվել է %{user}-ի կողմից։ Այժմ նիշքը հասանելի է։"
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Պարունակող օբյեկտ
       delete: Ջնջել մեկուսացված նիշքը
@@ -3586,7 +3614,7 @@ hy:
       summary:
         failure: Որոշ ստուգումներ ձախողվել են, և համակարգը չի աշխատում սպասվածի պես։
         success: Բոլոր կապերն ու համակարգերն աշխատում են սպասվածի պես։
-        warning: Որոշ ստուգումներ վերադարձրել են նախազգուշացում։ Սա կարող է հանգեցնել անսպասելի վարքագծի։
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Ձախողված
@@ -3595,7 +3623,7 @@ hy:
         warning: Նախազգուշացում
   help_texts:
     views:
-      favoured: Նշեք այս տեսքը որպես ընտրանի և ավելացրեք ձախ կողմում գտնվող պահպանված տեսքերի կողային վահանակում։
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} միշտ կապված են նախագծի հետ։ Այստեղ Դուք կարող եք ընտրել միայն այն նախագծերը, որտեղ %{plural} մոդուլն ակտիվ է։ %{singular} ստեղծելուց հետո Դուք կարող եք դրան ավելացնել այլ նախագծերի աշխատանքային փաթեթներ։\n"
       public: Հրապարակեք այս տեսքը՝ թույլ տալով այլ օգտատերերին մուտք գործել Ձեր տեսքին։ 'Կառավարել հանրային տեսքերը' թույլտվություն ունեցող օգտատերերը կարող են փոփոխել կամ հեռացնել հանրային հարցումը։ Սա չի ազդում այդ տեսքում աշխատանքային փաթեթների արդյունքների տեսանելիության վրա, և կախված իրենց թույլտվություններից՝ օգտատերերը կարող են տեսնել տարբեր արդյունքներ։
   homescreen:
@@ -3938,6 +3966,7 @@ hy:
   label_deleted_custom_field: "(ջնջված հատուկ դաշտ)"
   label_deleted_custom_item: "(ջնջված տարր)"
   label_deleted_custom_option: "(ջնջված ընտրանք)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(deleted version)"
   label_departments: Կազմակերպություն
   label_departments_description_html: 'Սահմանեք Ձեր ընկերության կառուցվածքը՝ հիերարխիկ կերպով ստեղծելով ստորաբաժանումներ և ենթաստորաբաժանումներ։ Սա թույլ է տալիս արտացոլել հաշվետվողականության կապերը և OpenProject-ում պահպանել Ձեր կազմակերպության հստակ ու կառուցվածքային պատկերը։ Կարող եք նաև ներմուծել առկա կազմակերպական կառուցվածքը [LDAP ստորաբաժանումների համաժամացման](ldap_docs_article) միջոցով։
@@ -4158,7 +4187,7 @@ hy:
   label_my_avatar: Իմ ավատարը
   label_my_queries: Իմ հատուկ հարցումները
   label_my_security: Անվտանգություն
-  label_my_work: My work
+  label_my_time: My time
   label_name: Անվանում
   label_never: Երբեք
   label_new: Նոր
@@ -4601,7 +4630,7 @@ hy:
       start_tls: STARTTLS
       start_tls_description: Ուղարկում է STARTTLS հրաման՝ ստանդարտ LDAP պորտին միանալուց հետո։ Խորհուրդ է տրվում գաղտնագրված կապերի համար։
     tls_options:
-      tls_certificate_description: Եթե LDAP սերվերի վկայագիրն այս համակարգի վստահության աղբյուրներում չէ, կարող եք այն ձեռքով ավելացնել այստեղ։ Մուտքագրեք PEM X509 վկայագրի տող։
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Ստուգել SSL վկայագիրը
       verify_peer_description_html: 'Միացնում է վկայագրի վստահված շղթայի խիստ SSL ստուգումը։ <br> <strong>Նախազգուշացում՝</strong> Այս ընտրանքի նշումը հանելը անջատում է LDAP սերվերի վկայագրի SSL ստուգումը։ Դա Ձեր կապը ենթարկում է Man in the Middle տիպի հարձակումների վտանգին։
 
@@ -5425,8 +5454,8 @@ hy:
         label: Բովանդակության ցանկ
     page_nr_footer: Էջ %{page} %{total}-ից
     template_artefact:
-      caption: Աշխատանքային փաթեթի մանրամասները՝ ներկայացված որպես PMflex արտեֆակտ։
-      label: PMflex արտեֆակտ
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: All the attributes present in the current form using the default template.
       label: Հատկանիշներ և նկարագրություն
@@ -5733,11 +5762,11 @@ hy:
           no_status_when_submitted: Չհաջողվեց միացնել նախագծի նախաձեռնման հայտը, քանի որ %{type} աշխատանքային փաթեթի տեսակը պահանջում է առնվազն մեկ առնչվող կարգավիճակ։ Խնդրում ենք միացնել առնվազն մեկ կարգավիճակի աշխատանքային հոսք այս աշխատանքային փաթեթի տեսակի համար։
           no_work_package_type: Չհաջողվեց միացնել նախագծի նախաձեռնման հայտը, քանի որ այն պահանջում է առնվազն մեկ ակտիվ աշխատանքային փաթեթի տեսակ, իսկ այս նախագիծը չունի այդպիսին։ Խնդրում ենք այս նախագծին ավելացնել առնվազն մեկ աշխատանքային փաթեթի տեսակ։
         export:
-          description_attachment_export: Ստեղծված արտեֆակտը կպահպանվի որպես PDF կցորդ արտեֆակտի աշխատանքային փաթեթին։
-          description_file_link_export: Արտեֆակտի աշխատանքային փաթեթը կունենա նիշքի հղում դեպի արտաքին նիշքերի պահեստում պահվող PDF։ Պահանջում է այս նախագծի համար ավտոմատ կերպով կառավարվող նախագծի պանակներով աշխատող նիշքերի պահեստ։ Այս պահին աջակցվում են միայն Nextcloud նիշքերի պահեստները։
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Ընտրեք, թե կազմաձևված արտաքին նիշքերի պահեստներից որը պետք է օգտագործվի։
           external_file_storage: Արտաքին նիշքերի պահեստ
-          label_artifact_export: Արտեֆակտի արտահանում
+          label_artifact_export: Artifact export
           label_attachment_export: Պահպանել որպես աշխատանքային փաթեթի նիշքային կցորդ
           label_file_link_export: Վերբեռնել նիշքն արտաքին նիշքերի պահեստ և ավելացնել նիշքի հղումն աշխատանքային փաթեթին
           pdf_file_storage: PDF-ի նիշքերի պահեստ
@@ -5747,6 +5776,12 @@ hy:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Ներկայումս հասանելի հատուկ դաշտեր չկան։
       forums:
         no_results_content_text: Ստեղծել նոր ֆորում
@@ -5870,15 +5905,27 @@ hy:
     status:
       button_edit: Խմբագրել կարգավիճակը
     wizard:
-      create_artifact_storage_error: Չհաջողվեց պահել արտեֆակտը նիշքերի պահեստում
-      create_artifact_work_package_error: Չհաջողվեց ստեղծել արտեֆակտի աշխատանքային փաթեթը
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Այս հատկանիշի համար օգնության տեքստ սահմանված չէ։
       progress_label: "%{current}-ը %{total}-ից"
       sections: Բաժիններ
       sidebar_content_title: Բովանդակություն
-      success: Նախագծի հատկանիշները պահպանվել են, և արտեֆակտի աշխատանքային փաթեթը հաջողությամբ ստեղծվել է։
+      success: Project attributes saved and artifact work package created successfully.
       title: Նախագծի նախաձեռնման հայտ
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Կիրառել նախապես կազմաձևված զտիչը
     configure_view:
@@ -6344,7 +6391,7 @@ hy:
         description_html: 'Ընտրեք այն ռեժիմը, որով պետք է աշխատի հակավիրուսային սկաների ինտեգրումը։ <br/> <ul> <li><strong>%{disabled_option}</strong>՝ վերբեռնված նիշքերը վիրուսների առկայության համար չեն սկանավորվում։</li> <li><strong>%{socket_option}</strong>՝ Դուք ClamAV-ը տեղակայել եք OpenProject-ի հետ նույն սերվերում, և clamd սկանավորման դեմոնն աշխատում է ֆոնային ռեժիմում</li> <li><strong>%{host_option}</strong>՝ Դուք նիշքերը հոսքով փոխանցում եք արտաքին վիրուսների սկանավորման հոսթին։</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Վիրուսների սկանավորումն անջատվել է։ %{file_count} մնում են մեկուսացման մեջ։ Մեկուսացված նիշքերը վերանայելու համար խնդրում ենք այցելել այս հղումը՝ %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Վիրուսների սկանավորումը հաջողությամբ միացվել է։ Կան %{file_count}, որոնք վերբեռնվել են ավելի վաղ և դեռ պետք է սկանավորվեն։ Այս գործընթացը պլանավորվել է ֆոնային ռեժիմում։ Նիշքերը կմնան հասանելի սկանավորման ընթացքում։
@@ -6447,12 +6494,12 @@ hy:
         confirmation_message: Նախաձեռնման հայտի օգնականն այլևս հասանելի չի լինի այս ձևանմուշի հիման վրա ստեղծված նոր նախագծերի համար։ Նախագծերի կառավարիչները և նախագծերի սեփականատերերը պետք է ձեռքով կազմաձևեն և լրացնեն համապատասխան տեղեկությունները Նախագծի ընդհանուր տեսքում։
         heading: Անջատե՞լ նախագծի այս նախաձեռնման հայտը։
         title: Անջատել նախագծի նախաձեռնման հայտը
-      header_description: 'OpenProject-ը կարող է ստեղծել քայլ առ քայլ օգնական, որը կօգնի նախագծերի կառավարիչներին լրացնել նախագծի նախաձեռնման հայտը։ Դուք կարող եք ընտրել, թե նախագծի որ հատկանիշները պետք է ներառվեն, և արդյունքում ստեղծել PDF արտեֆակտ։
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Արտեֆակտի անվանում
-        artifact_name_caption: Ընտրեք այս արտեֆակտի այն անվանումը, որը խորհուրդ է տալիս Ձեր նախագծերի կառավարման մեթոդաբանությունը։
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Նախագծի ստեղծման օգնական
           project_initiation_request: Նախագծի նախաձեռնման հայտ
@@ -6472,8 +6519,8 @@ hy:
           Դուք ներկայացրել եք նախագծի նախաձեռնման հայտ **%{project_name}**-ի համար։ Այն այժմ սպասում է վերանայման։
           Սեղմեք ստորև գտնվող հղումը՝ Ձեր հայտով աշխատանքային փաթեթին հասանելիություն ստանալու համար։
         confirmation_email_text: Հաստատման էլ. նամակի տեքստ
-        description: Երբ օգտատերը ներկայացնում է նախագծի նախաձեռնման հայտ, կստեղծվի նոր աշխատանքային փաթեթ՝ որպես PDF նիշք կցված հայտի արտեֆակտով։ Ստորև բերված կարգավորումները սահմանում են այս նոր աշխատանքային փաթեթի տեսակը, կարգավիճակը և պատասխանատուն։
-        description_template: "**Այս աշխատանքային փաթեթն ինքնաշխատ ստեղծվել է %{wizard_name} աշխատանքային հոսքի ավարտից հետո։** Բոլոր ներկայացված տեղեկությունները պարունակող PDF արտեֆակտը ստեղծվել և կցվել է այս աշխատանքային փաթեթին՝ տեղեկատվական և աուդիտի նպատակներով։ Եթե անհրաժեշտ է թարմացնել կամ կրկին գործարկել նախաձեռնման քայլերը, կարող եք ցանկացած պահի կրկին բացել օգնականը՝ օգտագործելով ստորև բերված հղումը՝\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Ուղարկել հաստատման նամակ նախագծի նախաձեռնման հայտը ներկայացրած օգտատիրոջը
         status_when_submitted: Կարգավիճակ ներկայացնելիս
         status_when_submitted_caption: Կարգավիճակը, որին կանցնի ստեղծված աշխատանքային փաթեթը, երբ հայտը ներկայացվի։
@@ -6481,7 +6528,7 @@ hy:
         work_package_comment_caption: Վերևում ընտրված պատասխանատուն ավտոմատ կերպով @-ով կհիշատակվի մեկնաբանության մեջ։
         work_package_comment_default: "**%{project_name}**-ի համար ներկայացվել է նախագծի նախաձեռնման հայտ, որը սպասում է վերանայման։"
         work_package_type: Աշխատանքային փաթեթի տեսակ
-        work_package_type_caption: Աշխատանքային փաթեթի տեսակը, որը պետք է օգտագործվի ավարտված արտեֆակտը պահելու համար։
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Բացել նախագծի ստեղծման օգնականը
         project_initiation_request: Բացել նախագծի նախաձեռնման հայտը
@@ -6664,7 +6711,6 @@ hy:
       sentence_connector: և
       skip_last_comma: 'false'
   text_access_token_hint: Մուտքի թոքենները թույլ են տալիս Ձեզ արտաքին հավելվածներին տրամադրել OpenProject-ի ռեսուրսների հասանելիությունը։
-  text_accessibility_hint: Մատչելիության ռեժիմը նախատեսված է կույր, շարժողական խնդիրներ ունեցող կամ թույլ տեսողությամբ օգտատերերի համար։ Վերջիններիս համար ֆոկուսում գտնվող տարրերը հատուկ ընդգծվում են։ Խնդրում ենք նկատի ունենալ, որ այս ռեժիմում Բեքլոգների մոդուլը հասանելի չէ։
   text_analyze: Հետագա վերլուծություն՝ %{subject}
   text_are_you_sure: Համոզվա՞ծ եք։
   text_are_you_sure_continue: Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
@@ -6862,6 +6908,27 @@ hy:
   tree_view:
     label_empty_sub_tree: No items
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Compare variants
       blankslate:
@@ -6907,12 +6974,6 @@ hy:
       add_variant: Add a variant to %{name}
       create_type: Ստեղծել տեսակ
       create_variant: Ստեղծել տարատեսակ
-      descriptions:
-        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
-        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
-        pdf: Configure how PDF exports of work packages of this type should look.
-        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
-        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Ավարտել
@@ -6960,8 +7021,10 @@ hy:
           caption: Սահմանեք կաղապար՝ օգտագործելով հղված հատկանիշներ և տեքստ, աշխատանքային փաթեթների վերնագրերն ավտոմատ ստեղծելու համար։ Օգտատերերը չեն կարողանա ձեռքով խմբագրել վերնագրերը։
           label: Ավտոմատ ստեղծվող վերնագրեր
         description:
-          caption: Ավելացրեք տեքստը, որը կավելացվի այս տեսակի բոլոր նոր աշխատանքային փաթեթների նկարագրության դաշտում։
-          label: Կանխադրված նկարագրության տեքստ
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Օգտատերերը կարող են ձեռքով մուտքագրել և խմբագրել աշխատանքային փաթեթների վերնագրերն առանց սահմանափակումների։
           label: Ձեռքով խմբագրվող վերնագրեր
@@ -6990,15 +7053,14 @@ hy:
           file_link:
             caption: Ստեղծված PDF-ը վերբեռնվում է նախագծի ավտոմատ կառավարվող Nextcloud պահեստ և հղվում աշխատանքային փաթեթից։ Այդպիսի պահեստ չունեցող նախագծերի աշխատանքային փաթեթները բաց են թողնվում։
             label: Վերբեռնել նիշքն արտաքին նիշքերի պահեստ և ավելացնել նիշքի հղումն աշխատանքային փաթեթին
-          intro: Ավտոմատ կերպով ստեղծել այս տեսակի աշխատանքային փաթեթի PDF արտեֆակտ ամեն անգամ, երբ դրա կարգավիճակը փոխվում է։
-          invalid_mode: Արտեֆակտի արտահանման անվավեր ռեժիմ։
-          label: Արտեֆակտի ավտոմատ արտահանում
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: PDF ավտոմատ կերպով չի ստեղծվում։
             label: Անջատված
-          section_title: Արտեֆակտի ավտոմատ արտահանում
+          section_title: Automatic artifact export
           unavailable: անհասանելի է, ավտոմատ կառավարվող Nextcloud պահեստ կազմաձևված չէ
-        intro: Ընտրեք, թե հասանելի ձևանմուշներից որոնք եք ցանկանում միացնել այս տեսակի համար։ Ձևանմուշը որոշում է այս տեսակն օգտագործող աշխատանքային փաթեթի արտահանված PDF-ում տեսանելի ձևավորումն ու հատկանիշները։ Ցուցակի առաջին ձևանմուշն ընտրվում է կանխադրված։
         pdf_export_templates:
           actions:
             label_disable_all: Անջատել բոլորը
@@ -7083,7 +7145,6 @@ hy:
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
             title: No project attributes available
-        description: Ընտրեք նախագծի հատկանիշները, որոնք ցանկանում եք միացնել աշխատանքային փաթեթի այս տեսակի համար։ Միացված նախագծի հատկանիշները ցուցադրվում են այս տեսակի աշխատանքային փաթեթներում՝ առանձին ներդիրում։ Անհրաժեշտ թույլտվություններ ունեցող օգտատերերը կարող են այնտեղ դիտել և խմբագրել այդ հատկանիշները։
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
@@ -7102,10 +7163,12 @@ hy:
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
+          title: Not used in any project yet
         enable_all: Միացնել բոլոր նախագծերի համար
         select_projects: Ընտրել նախագծերը
         select_projects_description: Ընտրեք նախագծերը, որոնցում ցանկանում եք օգտագործել այս տեսակը։
         tab: Նախագծեր
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7177,6 +7240,9 @@ hy:
 
             '
           title: No variants exist for this type
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Created in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
@@ -7208,6 +7274,7 @@ hy:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      created_by_migration: Migrated
       delete:
         description: The type will be deleted permanently. This action cannot be undone.
         description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
@@ -7222,8 +7289,14 @@ hy:
       duplicate_name: "%{name}-ի պատճեն"
       duplicate_notice: "%{name}-ը կրկնօրինակվել է։"
       enabled_in_new_projects: Ակտիվ նոր նախագծերում
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Ակտիվացնել նոր նախագծերում
       make_default_notice: "%{name}-ը այժմ ակտիվացված է նոր նախագծերում։"
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Ստեղծել նոր տեսակ
       no_results_title_text: Ներկայումս տեսակներ չկան։
       project_variants_count:
@@ -7365,7 +7438,7 @@ hy:
       deletion_warning: Համոզվա՞ծ եք, որ ցանկանում եք հետ կանչել այս աշխատաշրջանը։ Դուք դուրս կգաք համակարգից այս սարքում։
       device: Սարք / ՕՀ
       expires: Վավեր է մինչև
-      instructions: Դուք մուտք եք գործել Ձեր հաշիվ հետևյալ սարքերի միջոցով։ Հետ կանչեք այն աշխատաշրջանները, որոնք չեք ճանաչում կամ որոնք Ձեր վերահսկողությունից դուրս գտնվող սարքերից են։
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Վերջին միացում
       may_not_delete_current: Դուք չեք կարող ջնջել Ձեր ընթացիկ աշխատաշրջանը։
       session_name: "%{browser_name} %{browser_version} %{os_name}-ի վրա"
@@ -7912,6 +7985,18 @@ hy:
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
       new:
         dialog_title: Copy workflow of "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: The new workflow starts with a copy of that workflow's status transitions.

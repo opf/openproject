@@ -30,6 +30,9 @@
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "custom_field"
 
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 

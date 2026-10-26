@@ -45,7 +45,7 @@
 # that wouldn't match the filter still resolves.
 #
 # Internally, the activities feed is a single Journal relation paginated by
-# pagy at the database level. Only the page slice is materialised — eager-loaded
+# pagy at the database level. Only the page slice is materialized — eager-loaded
 # and wrapped — keeping per-request cost independent of total history size.
 #
 # @param work_package [WorkPackage] The work package to paginate activities for

@@ -113,7 +113,7 @@ RSpec.describe "Work package type variants tab", :js do
       expect(page).to have_test_selector("migrated-variants-banner", text: banner_text)
     end
 
-    it "labels them, leaving the authored ones unlabelled" do
+    it "labels them, leaving the authored ones unlabeled" do
       within(".Box-row", text: converted.variant_name) do
         expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
       end

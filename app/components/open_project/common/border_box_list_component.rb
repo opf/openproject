@@ -271,9 +271,8 @@ module OpenProject
       end
 
       def render?
-        # rubocop:disable Style/InverseMethods -- `none?` is StringInquirer#none?, not Enumerable#none?
+        # rubocop:disable-next Style/InverseMethods -- `none?` is StringInquirer#none?, not Enumerable#none?
         header? || items.any? || (empty_state? && !empty_state_behavior.none?) || footer?
-        # rubocop:enable Style/InverseMethods
       end
 
       private

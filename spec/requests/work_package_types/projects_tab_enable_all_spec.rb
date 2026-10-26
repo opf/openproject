@@ -76,7 +76,7 @@ RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(variant.reload.projects).to contain_exactly(blocked)
-      expect(response.body).to include("projects-table")
+      expect(response.body).to include(%(target="#{WorkPackageTypes::ProjectsTab::TableComponent.wrapper_key}"))
       expect(response.body).to include(I18n.t("types.edit.projects.enable_all"))
     end
 

@@ -113,7 +113,7 @@ RSpec.describe OpPrimer::InsetBoxComponent, type: :component do
       expect(rendered).to have_css(".octicon-link + h3", text: "Inherited configuration")
     end
 
-    it "honours a custom heading tag" do
+    it "honors a custom heading tag" do
       rendered = render_inline(described_class.new) do |box|
         box.with_title(tag: :h2) { "Dependents" }
       end

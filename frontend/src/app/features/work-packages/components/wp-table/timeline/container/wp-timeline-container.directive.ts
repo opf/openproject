@@ -376,7 +376,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'follows',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -391,7 +391,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
             relationType: 'precedes',
           });
         })
-        .catch((error:any) => this.notificationService.handleRawError(error, end));
+        .catch((error:unknown) => this.notificationService.handleRawError(error, end));
     });
   }
 
@@ -541,7 +541,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .substract modifies its instance
+    newParams.dateDisplayStart.subtract(currentParams.dayCountForMarginLeft, 'days'); // .subtract modifies its instance
 
     // right spacing
     // RR: kept both variants for documentation purpose.

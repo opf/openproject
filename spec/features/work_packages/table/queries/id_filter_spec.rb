@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package filtering by id", :js, :selenium do
+RSpec.describe "Work package filtering by id", :js do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
