@@ -1049,6 +1049,44 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
+  describe "a field whose first value appears on a later issue of an already imported type" do
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10275",
+                          payload: {
+                            "id" => "customfield_10275",
+                            "name" => "CF Text",
+                            "schema" => {
+                              "type" => "string",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:textarea",
+                              "customId" => 10275
+                            }
+                          })
+    end
+    let!(:jira_issue_without_value) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10199",
+                          jira_project:,
+                          payload: issue_payload.deep_dup.tap do |payload|
+                            payload["key"] = "DYX-3"
+                            payload["fields"]["summary"] = "Issue without the text value"
+                            payload["fields"].delete("customfield_10275")
+                          end)
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    before { import_project }
+
+    it "sets the field's value on the issue that introduced it" do
+      expect(cf_value("CF Text")).to include("**bold**")
+    end
+  end
+
   describe "all custom field types in a single import run", with_ee: [:custom_field_hierarchies] do
     # Registers all field types at once and verifies the correct number of
     # OP custom fields are created:
