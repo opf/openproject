@@ -4,6 +4,7 @@
       <table
         class="keyboard-accessible-list generic-table work-package-table"
         data-controller="table-highlighting"
+        [attr.id]="workPackageTable?.domId ?? null"
         [class.op-table-baseline]="baselineEnabled"
         [attr.role]="configuration.keyboardNavigationEnabled ? 'treegrid' : null"
         [attr.aria-multiselectable]="configuration.keyboardNavigationEnabled ? 'true' : null"

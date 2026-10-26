@@ -392,6 +392,11 @@ module Pages
       page
     end
 
+    # @return [String] A CSS selector matching only this table, for scoping axe scans.
+    def axe_scope
+      "##{table_container.find('table.work-package-table[id]')[:id]}"
+    end
+
     def table_name
       I18n.t("js.label_work_package_plural")
     end
