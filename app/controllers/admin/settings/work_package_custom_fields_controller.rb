@@ -37,6 +37,8 @@ module Admin
       PROJECT_VALUES_ACTIONS = %i[project_values toggle_project_value enable_all_project_values
                                   disable_all_project_values].freeze
 
+      # Redeclaring :find_custom_field by name would drop the base controller's callback for its own actions.
+      before_action(only: [:projects, *PROJECT_VALUES_ACTIONS]) { find_custom_field }
       before_action :require_project_specific_values, only: PROJECT_VALUES_ACTIONS
       before_action :find_project_using_custom_field, only: PROJECT_VALUES_ACTIONS
 
