@@ -41,7 +41,7 @@ module OpenProject::Projects
     def with_icon(with_icon: true)
       project = FactoryBot.build_stubbed(:project, :with_status)
 
-      render(Projects::StatusBadgeComponent.new(project:, with_icon: true))
+      render(Projects::StatusBadgeComponent.new(project:, with_icon:))
     end
   end
 end
