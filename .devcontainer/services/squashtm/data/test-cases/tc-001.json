@@ -2,6 +2,7 @@
   "_type": "test-case",
   "name": "Login with valid credentials",
   "reference": "TC-001",
+  "description": "<p>Checks that a registered user can sign in with a valid login and password and lands on the dashboard.</p>",
   "importance": "HIGH",
   "steps": [
     { "_type": "action-step", "action": "Open the login page", "expected_result": "The login form is displayed" },

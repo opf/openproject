@@ -20,6 +20,9 @@ services:
       keycloak_client_setup:
         required: false
         condition: service_completed_successfully
+      squashtm-seed:
+        required: false
+        condition: service_completed_successfully
     labels:
       - "traefik.enable=true"
 

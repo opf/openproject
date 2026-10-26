@@ -64,11 +64,29 @@ echo "Project: $PROJECT_ID"
 
 # Test cases
 TC_IDS=()
+declare -A TC_ID_BY_REFERENCE
 for FILE in data/test-cases/*.json; do
   ID=$(jq --argjson id "$PROJECT_ID" '.parent = {_type: "project", id: $id}' "$FILE" \
     | "${CURL[@]}" -X POST "$API/test-cases" -d @- | jq -r .id)
   TC_IDS+=("$ID")
+  TC_ID_BY_REFERENCE[$(jq -r .reference "$FILE")]=$ID
   echo "Test case: $ID ($FILE)"
+done
+
+# Requirements, verified by the test cases listed in "verified_by" (test case references)
+for FILE in data/requirements/*.json; do
+  ID=$(jq --argjson id "$PROJECT_ID" 'del(.verified_by) | .parent = {_type: "project", id: $id}' "$FILE" \
+    | "${CURL[@]}" -X POST "$API/requirements" -d @- | jq -r .id)
+  echo "Requirement: $ID ($FILE)"
+
+  COVERING_IDS=()
+  for REFERENCE in $(jq -r '.verified_by[]' "$FILE"); do
+    COVERING_IDS+=("${TC_ID_BY_REFERENCE[$REFERENCE]}")
+  done
+  if (( ${#COVERING_IDS[@]} > 0 )); then
+    "${CURL[@]}" -X POST "$API/requirements/$ID/coverages/$(IFS=,; echo "${COVERING_IDS[*]}")" > /dev/null
+    echo "Coverage: requirement $ID verified by ${COVERING_IDS[*]}"
+  fi
 done
 
 # Campaign

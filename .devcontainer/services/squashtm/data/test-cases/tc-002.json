@@ -2,6 +2,7 @@
   "_type": "test-case",
   "name": "Login with wrong password is rejected",
   "reference": "TC-002",
+  "description": "<p>Checks that signing in with a wrong password is rejected and <strong>no session</strong> is created.</p>",
   "importance": "MEDIUM",
   "steps": [
     { "_type": "action-step", "action": "Open the login page", "expected_result": "The login form is displayed" },
