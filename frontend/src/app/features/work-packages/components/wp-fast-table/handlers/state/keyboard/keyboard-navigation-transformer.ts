@@ -53,6 +53,7 @@ import {
 import { selectableOccurrences } from 'core-app/features/work-packages/routing/wp-view-base/view-services/rendered-occurrences';
 import { KeyboardSelection, selectionChord } from './keyboard-selection';
 import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 
 export interface KeyboardNavigation {
   readonly position:FocusPosition|null;
@@ -61,7 +62,7 @@ export interface KeyboardNavigation {
   /** Remembers the position without painting or focusing it. */
   recordPosition(position:FocusPosition):void;
   /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control; true when it focused. */
-  returnFocus(origin:FocusPosition):boolean;
+  returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean;
   /** Returns focus to `origin` after a menu closed, though focus visited the menu portal; same userPosition guard as returnFocus, and never takes focus from a control outside the table. */
   returnFocusFromMenu(origin:FocusPosition):void;
   /** The position of the navigable cell or row enclosing `cell`, or null when it is not a rendered occurrence. */
@@ -154,13 +155,21 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
     const onKeydown = (event:KeyboardEvent) => this.handleKeydown(event);
     const onFocusin = (event:FocusEvent) => {
-      this.focusLeftTable = !insideGrid(scrollContainer, event.target as Node);
+      const target = event.target as Node;
+      this.focusLeftTable = !insideGrid(scrollContainer, target) && !table.editing.owns(target);
       const from = event.relatedTarget;
       this.adoptFocus(event.target as HTMLElement, !insideGrid(scrollContainer, from as Node|null));
     };
     const onFocusout = (event:FocusEvent) => {
       const next = event.relatedTarget ?? event.target;
-      this.focusLeftTable = !insideGrid(scrollContainer, next as Node);
+      this.focusLeftTable = !insideGrid(scrollContainer, next as Node) && !table.editing.owns(next as Node);
+    };
+    const onDocumentFocusin = (event:FocusEvent) => {
+      const target = event.target as Node;
+      const related = event.relatedTarget as Node|null;
+      if (table.editing.owns(target) || table.editing.owns(related)) {
+        this.focusLeftTable = !table.editing.owns(target);
+      }
     };
     scrollContainer.addEventListener('keydown', onKeydown);
     const onMousedown = (event:MouseEvent) => {
@@ -171,12 +180,14 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     scrollContainer.addEventListener('focusin', onFocusin);
     scrollContainer.addEventListener('focusout', onFocusout);
     scrollContainer.addEventListener('mousedown', onMousedown);
+    document.addEventListener('focusin', onDocumentFocusin);
     pointerEndEvents.forEach((type) => document.addEventListener(type, onPointerEnd));
     onDestroySafely(destroyRef, () => {
       scrollContainer.removeEventListener('keydown', onKeydown);
       scrollContainer.removeEventListener('focusin', onFocusin);
       scrollContainer.removeEventListener('focusout', onFocusout);
       scrollContainer.removeEventListener('mousedown', onMousedown);
+      document.removeEventListener('focusin', onDocumentFocusin);
       pointerEndEvents.forEach((type) => document.removeEventListener(type, onPointerEnd));
     });
 
@@ -236,7 +247,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  public returnFocus(origin:FocusPosition):boolean {
+  public returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean {
     const user = this.userPosition;
     if (user && (user.key !== origin.key || user.cell !== origin.cell)) {
       return false;
@@ -245,7 +256,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const rows = buildNavigableRows(this.table);
     const originIndex = rows.findIndex((row) => row.key === origin.key);
     const target = originIndex === -1 ? this.current : reconcilePosition(rows, origin, originIndex);
-    if (!target || !this.mayRestoreFocus()) {
+    if (!target || !this.mayRestoreFocus(closing)) {
       return false;
     }
 
@@ -325,16 +336,17 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     return regrouped ? nearestPosition(rows, previousIndex) : reconcilePosition(rows, position, previousIndex);
   }
 
-  private mayRestoreFocus():boolean {
-    const editing = Object.values(this.table.editing.forms).some((form) => form.hasActiveFields());
-    return !editing && !this.focusLeftTable && this.focusAtRest();
+  private mayRestoreFocus(closing?:EditFieldHandler):boolean {
+    const editing = this.table.editing.owns(document.activeElement);
+    return !editing && !this.focusLeftTable && this.focusAtRest(closing);
   }
 
-  private focusAtRest():boolean {
+  private focusAtRest(closing?:EditFieldHandler):boolean {
     const active = document.activeElement;
     return !active
       || active === document.body
       || !active.isConnected
+      || !!closing?.owns(active)
       || (insideGrid(this.table.scrollContainer, active) && this.hiddenOrUnlisted(active));
   }
 

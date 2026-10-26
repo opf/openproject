@@ -104,6 +104,42 @@ describe('WorkPackageTable lifecycle', () => {
   });
 
 
+  it('keeps a second table ownership and focus intact when an editor table is destroyed', async () => {
+    const options:TableHarnessOptions = {
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+      configuration: { keyboardNavigationEnabled: true },
+    };
+    const first = await mount(options);
+    const second = await mount(options);
+    const firstWp = first.injector.get(States).workPackages.get('1').value!;
+    const secondWp = second.injector.get(States).workPackages.get('1').value!;
+    first.table.editing.startEditing(firstWp, first.row('1').dataset.classIdentifier!);
+    second.table.editing.startEditing(secondWp, second.row('1').dataset.classIdentifier!);
+    const firstHandler = await first.table.editing.forms['1'].activate('subject');
+    const secondHandler = await second.table.editing.forms['1'].activate('subject');
+    const firstOverlay = document.body.appendChild(document.createElement('button'));
+    const secondOverlay = document.body.appendChild(document.createElement('button'));
+    firstHandler!.registerOverlay(firstOverlay);
+    secondHandler!.registerOverlay(secondOverlay);
+    const secondOwner = second.table.editing.ownerId;
+    const secondRoving = second.row('1');
+    secondRoving.focus();
+    const removeListener = vi.spyOn(document, 'removeEventListener');
+
+    first.table.destroy();
+
+    expect(second.table.editing.owns(secondOverlay)).toBe(true);
+    expect(second.table.editing.owns(firstOverlay)).toBe(false);
+    expect(secondOverlay.dataset.wpTableEditor).toBe(secondOwner);
+    expect(secondRoving).toHaveAttribute('tabindex', '0');
+    expect(secondRoving).toHaveFocus();
+    expect(removeListener).toHaveBeenCalledWith('focusin', expect.any(Function));
+    firstOverlay.remove();
+    secondOverlay.remove();
+  });
+
   it('owns a native lifetime independently of its services', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }] });
     const shared = harness.querySpace.tableRendered.value;

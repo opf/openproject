@@ -30,6 +30,27 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 export abstract class EditFieldHandler extends UntilDestroyedMixin {
+  private readonly registeredOverlays = new Set<HTMLElement>();
+
+  public overlayMarker:((overlay:HTMLElement) => void)|null = null;
+
+  public readonly element?:HTMLElement;
+
+  public get overlays():ReadonlySet<HTMLElement> {
+    return this.registeredOverlays;
+  }
+
+  public registerOverlay(element:HTMLElement):() => void {
+    this.registeredOverlays.add(element);
+    this.overlayMarker?.(element);
+    return () => this.registeredOverlays.delete(element);
+  }
+
+  public owns(node:Node|null):boolean {
+    return !!node && (this.element?.contains(node) === true
+      || Array.from(this.registeredOverlays).some((overlay) => overlay.contains(node)));
+  }
+
   /**
    * Whether the handler belongs to a larger edit mode form
    * e.g., WP-create
@@ -121,7 +142,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
    * In an edit mode, we can't derive from a submit event whether the user pressed enter
    * (and on what field he did that).
    */
-  public abstract handleUserKeydown(event:KeyboardEvent, onlyCancel?:boolean):void;
+  public abstract handleUserKeydown(event:KeyboardEvent, onlyCancel?:boolean):void|Promise<boolean|void>;
 
   /**
    * Cancel edit

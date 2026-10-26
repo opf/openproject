@@ -116,11 +116,19 @@ describe('EditingPortalService table ownership', () => {
     expect(cleanupReport.mock.calls).toEqual(throwing ? [['UI cleanup failed', blurError]] : []);
   });
 
-  it('still blurs live modal focus outside the field element', async () => {
+  it('still blurs registered live modal focus outside the field element', async () => {
     const handler = await form.activate('subject') as HalResourceEditFieldHandler;
+    handler.registerOverlay(external);
     external.focus();
     handler.deactivate(false);
     expect(external).not.toHaveFocus();
+  });
+
+  it('preserves unregistered foreign focus when an editor closes', async () => {
+    const handler = await form.activate('subject') as HalResourceEditFieldHandler;
+    external.focus();
+    handler.deactivate(false);
+    expect(external).toHaveFocus();
   });
 
   it('keeps replacement focus when a retired handler submit finishes', async () => {
@@ -182,10 +190,10 @@ describe('EditingPortalService table ownership', () => {
     expect(form.activeFields).toEqual({});
   });
 
-  it('preserves non-table handler blur after its form closes', () => {
+  it('preserves foreign focus after a non-table handler form closes', () => {
     const handler = new HalResourceEditFieldHandler(harness.injector, form, 'subject', form.change.schema.ofProperty('subject'), form.findContainer('subject')!, harness.injector.get(PathHelperService), []);
     external.focus();
     handler.deactivate(false);
-    expect(external).not.toHaveFocus();
+    expect(external).toHaveFocus();
   });
 });

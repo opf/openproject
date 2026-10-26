@@ -157,6 +157,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
         );
       })
       .then((field) => {
+        field.overlayMarker = (overlay) => {
+          this.table.editing.markOverlay(overlay);
+        };
         if (this.table.destroyed) {
           field.deactivate(false);
           throw new EditActivationCancelled();
