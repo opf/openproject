@@ -144,6 +144,17 @@ describe('KeyboardNavigationTransformer', () => {
     expect(insideGrid(table.table.scrollContainer, document.activeElement)).toBe(false);
   });
 
+  it.each([
+    ['header row', (table:TableHarness) => table.headerRow()],
+    ['header cell', (table:TableHarness) => table.headerCells()[0]],
+  ])('Tab from the %s leaves the table natively', async (_, origin) => {
+    const table = await mount();
+    origin(table).focus();
+
+    expect(pressActive('Tab')).toBe(true);
+    expect(origin(table)).toHaveFocus();
+  });
+
   it('Shift+Tab from a row sweeps late controls too', async () => {
     const table = await mount();
     const late = document.createElement('span');

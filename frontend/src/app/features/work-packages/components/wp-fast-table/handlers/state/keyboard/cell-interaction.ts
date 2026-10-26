@@ -33,6 +33,8 @@ import { activeFieldContainerClassName } from 'core-app/shared/components/fields
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { navigableCells } from './roving-tabindex';
+import { headerRowKey } from './navigable-rows';
+import type { ActiveTableField } from '../../../wp-table-editing';
 
 const controlSelector = 'a[href], button, input, select, textarea, [role="button"]';
 const editorTabStopSelector = 'a[href], button, input, select, textarea, [tabindex]';
@@ -141,22 +143,71 @@ export class CellInteraction {
   }
 
   public handleInnerKeydown(event:KeyboardEvent):boolean {
-    if (event.key !== 'Tab') return false;
     const active = this.table.editing.gridFieldOwning(event.target as Node);
-    if (!active) return false;
+    if (active) {
+      if (event.key !== 'Tab') return false;
+      return this.handleEditorTab(event, active.handler, active.form);
+    }
 
-    const tabbables = this.editorTabStops(active.handler).filter((element) => element.tabIndex >= 0);
+    if (event.key !== 'Tab' && event.key !== 'Escape' && !this.isNavigationKey(event)) return false;
+    const target = event.target as HTMLElement;
+    const origin = event.key === 'Tab'
+      ? this.tabWalkOrigin ?? this.navigation.positionOfCell(target)
+      : this.tabWalkOrigin;
+    if (!origin) return false;
+
+    this.navigation.repaintCurrentPosition();
+    const targets = this.walkFrom(origin);
+    const index = targets.indexOf(target);
+    if (index === -1) return false;
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.navigation.focusPosition(origin);
+      return true;
+    }
+
+    if (this.isNavigationKey(event)) {
+      event.preventDefault();
+      this.navigation.focusPosition(origin);
+      this.navigation.navigateFrom(origin, event);
+      return true;
+    }
+
+    this.tabWalkOrigin = origin;
+    if (event.shiftKey) {
+      event.preventDefault();
+      const previous = index > 0 ? targets[index - 1] : this.navigation.elementAt(origin);
+      previous?.focus({ preventScroll: true });
+      if (previous) this.navigation.scrollControlIntoView(previous);
+      return true;
+    }
+
+    if (index === targets.length - 1) return false;
+
+    event.preventDefault();
+    const next = targets[index + 1];
+    next.focus({ preventScroll: true });
+    this.navigation.scrollControlIntoView(next);
+    return true;
+  }
+
+  private handleEditorTab(event:KeyboardEvent, handler:EditFieldHandler, form:ActiveTableField['form']):boolean {
+    const container = handler.element;
+    if (!container?.contains(event.target as Node)) return false;
+
+    const tabbables = this.editorTabStops(handler).filter((element) => container.contains(element) && element.tabIndex >= 0);
     const index = tabbables.indexOf(event.target as HTMLElement);
     const boundary = event.shiftKey ? index === 0 : index === tabbables.length - 1;
     if (!boundary) return false;
 
-    const origin = active.form.originFor(active.handler.fieldName)
-      ?? this.navigation.positionOfCell(active.handler.element!)
+    const origin = form.originFor(handler.fieldName)
+      ?? this.navigation.positionOfCell(handler.element!)
       ?? this.navigation.position;
     if (!origin) return false;
 
     event.preventDefault();
-    this.park(active.handler);
+    this.park(handler);
     this.navigation.focusPosition(origin);
     return true;
   }
@@ -192,8 +243,30 @@ export class CellInteraction {
     return candidates.find((element) => rendered(element) && enabled(element)) ?? overlay;
   }
 
-  public tabFromOrigin(_event:KeyboardEvent, _origin:FocusPosition):boolean {
-    return false;
+  public tabFromOrigin(event:KeyboardEvent, origin:FocusPosition):void {
+    this.navigation.repaintCurrentPosition();
+    if (event.shiftKey) return;
+
+    const targets = this.walkFrom(origin);
+    if (targets.length === 0) return;
+
+    event.preventDefault();
+    this.tabWalkOrigin = origin;
+    targets[0].focus({ preventScroll: true });
+    this.navigation.scrollControlIntoView(targets[0]);
+  }
+
+  private walkFrom(origin:FocusPosition):HTMLElement[] {
+    const element = this.navigation.elementAt(origin);
+    const row = element?.closest<HTMLTableRowElement>('tr');
+    if (!row || origin.key === headerRowKey) return [];
+    if (origin.cell === null) return rowControls(row, this.table);
+
+    return navigableCells(row).slice(origin.cell).flatMap((cell) => cellTargets(cell, this.table));
+  }
+
+  private isNavigationKey(event:KeyboardEvent):boolean {
+    return !event.shiftKey && !event.altKey && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown'].includes(event.key);
   }
 
   public originForControl(control:HTMLElement):FocusPosition|null {

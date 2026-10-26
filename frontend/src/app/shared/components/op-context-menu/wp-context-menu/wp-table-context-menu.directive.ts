@@ -47,7 +47,7 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
     additionalPositionArgs:PositionArgs,
     protected table:WorkPackageTable) {
     super(injector, workPackageId, element, additionalPositionArgs, true);
-    this.origin = table.keyboardNavigation?.positionOfCell(element) ?? null;
+    this.origin = table.keyboardNavigation?.originForControl(element) ?? table.keyboardNavigation?.positionOfCell(element) ?? null;
   }
 
   public override onClose(focus = true, reason?:OpContextMenuCloseReason):void {
@@ -82,11 +82,11 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
         break;
 
       case 'hierarchy-indent':
-        this.wpViewIndentation.indent(this.workPackage);
+        void this.wpViewIndentation.indent(this.workPackage);
         break;
 
       case 'hierarchy-outdent':
-        this.wpViewIndentation.outdent(this.workPackage);
+        void this.wpViewIndentation.outdent(this.workPackage);
         break;
 
       default:
