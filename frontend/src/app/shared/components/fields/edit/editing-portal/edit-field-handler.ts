@@ -34,6 +34,10 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
 
   public overlayMarker:((overlay:HTMLElement) => void)|null = null;
 
+  public allowsAutofocus():boolean {
+    return true;
+  }
+
   public readonly element?:HTMLElement;
 
   public get overlays():ReadonlySet<HTMLElement> {
