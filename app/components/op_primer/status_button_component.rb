@@ -84,7 +84,7 @@ module OpPrimer
         aria: {
           label: title
         }
-      }.compact.deep_merge(@button_arguments)
+      }.compact.deep_merge(@button_arguments.except(:classes))
     end
 
     def highlight_class_name(status, style)
