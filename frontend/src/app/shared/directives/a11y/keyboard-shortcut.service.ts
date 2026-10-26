@@ -138,12 +138,12 @@ export class KeyboardShortcutService {
   }
 
   focusItemOffset(offset:number):void {
-    const list = document.querySelector(accessibleListSelector);
+    const list = document.activeElement?.closest(accessibleListSelector) ?? document.querySelector(accessibleListSelector);
     if (!list) {
       return;
     }
 
-    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody > tr'))
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('tbody.work-package--results-tbody > tr:not(.wp-table--sums-row)'))
       .filter((row) => row.checkVisibility());
     const current = document.activeElement?.closest<HTMLElement>('tr') ?? null;
     const index = current ? rows.indexOf(current) : -1;
