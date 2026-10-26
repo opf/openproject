@@ -106,7 +106,7 @@ describe('roving tabindex', () => {
       expect(late).toHaveAttribute('tabindex', '-1');
     });
 
-    it('leaves the inline-create button and an open editor input alone', async () => {
+    it('leaves the inline-create button and an engaged editor input alone', async () => {
       const table = await mount(true);
       const editor = document.createElement('div');
       editor.className = 'inline-edit--active-field';
@@ -115,7 +115,7 @@ describe('roving tabindex', () => {
       table.row('1').querySelector('td.subject')!.appendChild(editor);
       const button = within(table.container).getByRole('button', { name: 'Create new work package' });
 
-      paintRovingTabindex(table.table.scrollContainer, table.row('2'));
+      paintRovingTabindex(table.table.scrollContainer, table.row('2'), editor);
 
       expect(input).not.toHaveAttribute('tabindex', '-1');
       expect(button).not.toHaveAttribute('tabindex');
@@ -320,6 +320,28 @@ describe('roving tabindex', () => {
       expect(tabbables(table.container)).toEqual([target]);
       expect(table.row('1')).toHaveAttribute('tabindex', '-1');
       expect(table.headerRow()).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('exempts only the exact engaged inner editor', async () => {
+      const table = await mount(true);
+      const outer = document.createElement('div');
+      const engaged = document.createElement('div');
+      engaged.className = 'inline-edit--active-field';
+      const input = document.createElement('input');
+      const lateLink = document.createElement('a');
+      lateLink.href = '#';
+      input.tabIndex = 0;
+      engaged.append(input);
+      outer.append(engaged, lateLink);
+      table.row('1').append(outer);
+
+      paintRovingTabindex(table.container, table.row('1'), engaged);
+      expect(input).toHaveAttribute('tabindex', '0');
+      expect(lateLink).toHaveAttribute('tabindex', '-1');
+
+      paintRovingTabindex(table.container, table.row('1'));
+      expect(input).toHaveAttribute('tabindex', '-1');
+      expect(lateLink).toHaveAttribute('tabindex', '-1');
     });
 
     it('marks nothing when no element is focused', async () => {

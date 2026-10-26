@@ -40,6 +40,7 @@ import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/wo
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { ApplicationRef, DestroyableInjector, Injector } from '@angular/core';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { userEvent } from 'vitest/browser';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
@@ -616,6 +617,20 @@ describe('TableEditForm focus return', () => {
     expect(subjectCell()).not.toHaveFocus();
   });
 
+  it('focuses the invalid field of its own row, not an earlier parked invalid field', async () => {
+    await mount();
+    const first = await openEditor('1');
+    first.setErrors(['Required']);
+    await userEvent.tab();
+    expect(subjectCell('1')).toHaveFocus();
+    const second = await openEditor('2');
+    second.setErrors(['Required']);
+
+    (harness.table.editing.forms['2'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(within(subjectCell('2')).getByRole('textbox')).toHaveFocus();
+  });
+
   it('leaves focus alone when the user moved to another row before the validation error', async () => {
     const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
     await mount({ editing: { save: () => save.promise } });
@@ -631,6 +646,25 @@ describe('TableEditForm focus return', () => {
     (harness.table.editing.forms['1'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
 
     expect(subjectCell('2')).toHaveFocus();
+    save.resolve({ resource: harness.table.editing.forms['1'].resource, wasNew: false });
+    await submission.catch(() => undefined);
+  });
+
+  it('focuses a parked invalid field when another field of the row submits', async () => {
+    const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
+    await mount({ columns: ['id', 'subject', 'location'], editing: { fields: ['subject', 'location'], save: () => save.promise } });
+    const first = await openEditor('1');
+    await userEvent.tab();
+    expect(subjectCell('1')).toHaveFocus();
+    const second = await openEditor('1', 'location');
+    const submit = vi.spyOn(harness.table.editing.forms['1'], 'submit');
+    const submission = second.handleUserSubmit();
+    await waitFor(() => expect(submit).toHaveBeenCalled());
+    first.setErrors(['Required']);
+
+    (harness.table.editing.forms['1'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(within(subjectCell('1')).getByRole('textbox')).toHaveFocus();
     save.resolve({ resource: harness.table.editing.forms['1'].resource, wasNew: false });
     await submission.catch(() => undefined);
   });
@@ -674,7 +708,7 @@ describe('TableEditForm focus return', () => {
     await submission.catch(() => undefined);
   });
 
-  it('leaves a newer row focused when validation opens a field without an origin', async () => {
+  it('leaves a newer row focused and parks the field that validation opens without an origin', async () => {
     const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
     await mount({ columns: ['id', 'subject', 'location'], editing: { fields: ['subject', 'location'], save: () => save.promise } });
     const handler = await openEditor('1');
@@ -691,6 +725,7 @@ describe('TableEditForm focus return', () => {
     (form as unknown as { focusOnFirstError():void }).focusOnFirstError();
 
     expect(subjectCell('2')).toHaveFocus();
+    expect(within(harness.row('1').querySelector('td.location')!).getByRole('textbox')).toHaveAttribute('tabindex', '-1');
     save.resolve({ resource: form.resource, wasNew: false });
     await submission.catch(() => undefined);
   });

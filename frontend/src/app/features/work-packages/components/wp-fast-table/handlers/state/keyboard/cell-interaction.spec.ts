@@ -26,6 +26,7 @@
 //++
 
 import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { userEvent } from 'vitest/browser';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { navigableCells } from './roving-tabindex';
@@ -186,6 +187,119 @@ describe('CellInteraction', () => {
 
     expect(table.row('1')).not.toBeVisible();
     expect(navigableCells(table.groupHeader(0))[0]).toHaveFocus();
+  });
+
+  it('parks an editor at the Tab boundary and re-engages the same instance', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const handler = table.table.editing.forms['1'].activeFields.subject;
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    input.value = 'Parked draft';
+    input.focus();
+
+    await userEvent.tab();
+
+    expect(cell).toHaveFocus();
+    expect(input).toHaveAttribute('tabindex', '-1');
+    expect(input).toHaveValue('Parked draft');
+    expect(table.table.keyboardNavigation!.position).toEqual(positionOf(table, cell));
+
+    fireEvent.keyDown(cell, { key: 'Enter' });
+
+    expect(table.table.editing.forms['1'].activeFields.subject).toBe(handler);
+    expect(within(cell).getByRole('textbox')).toBe(input);
+    expect(input).toHaveFocus();
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+    expect(input).toHaveValue('Parked draft');
+  });
+
+  it('parks on Shift+Tab from the first input inside the editor form', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    expect(input.closest('form')).toHaveAttribute('tabindex', '-1');
+    input.value = 'Parked draft';
+    input.focus();
+
+    await userEvent.tab({ shift: true });
+
+    expect(cell).toHaveFocus();
+    expect(input).toHaveAttribute('tabindex', '-1');
+    expect(input).toHaveValue('Parked draft');
+  });
+
+  it('keeps inline-create editor Tab native during a grid repaint', async () => {
+    const table = await mount();
+    const row = table.addInlineCreateRow();
+    const form = Object.values(table.table.editing.forms)[0];
+    const handler = await form.activate('subject');
+    handler!.focus();
+    const input = within(row).getByRole('textbox');
+
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+    await userEvent.tab();
+
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+    expect(table.row('1')).toHaveAttribute('tabindex', '0');
+
+    const overlay = document.body.appendChild(document.createElement('button'));
+    handler!.registerOverlay(overlay);
+    overlay.focus();
+    expect(fireEvent.keyDown(overlay, { key: 'Tab' })).toBe(true);
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+    overlay.remove();
+  });
+
+  it('re-engages a parked invalid field before validation focus', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const form = table.table.editing.forms['1'];
+    const handler = form.activeFields.subject;
+    const input = within(cell).getByRole<HTMLInputElement>('textbox');
+    input.focus();
+    await userEvent.tab();
+    expect(cell).toHaveFocus();
+    handler.setErrors(['Required']);
+
+    (form as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(input).toHaveFocus();
+    expect(input).not.toHaveAttribute('tabindex', '-1');
+    await userEvent.tab();
+    expect(cell).toHaveFocus();
+  });
+
+  it('applies P2 from an owned body-portaled overlay', async () => {
+    const table = await mount();
+    const cell = navigableCells(table.row('1'))[1];
+    table.table.keyboardNavigation!.focusPosition(positionOf(table, cell));
+    fireEvent.keyDown(cell, { key: 'Enter' });
+    await waitFor(() => expect(table.table.editing.forms['1'].activeFields.subject).toBeDefined());
+    const handler = table.table.editing.forms['1'].activeFields.subject;
+    const overlay = document.body.appendChild(document.createElement('button'));
+    overlay.textContent = 'Close editor';
+    overlay.style.width = '100px';
+    overlay.style.height = '20px';
+    handler.registerOverlay(overlay);
+    overlay.focus();
+    expect(overlay.checkVisibility()).toBe(true);
+
+    fireEvent.keyDown(overlay, { key: 'Tab' });
+
+    expect(cell).toHaveFocus();
+    expect(within(cell).getByRole('textbox')).toHaveAttribute('tabindex', '-1');
+    overlay.remove();
   });
 
   it('uses the occurrence key when recording re-entry origin', async () => {
