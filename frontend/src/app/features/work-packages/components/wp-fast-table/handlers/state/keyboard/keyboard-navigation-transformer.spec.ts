@@ -338,6 +338,29 @@ describe('KeyboardNavigationTransformer', () => {
     expect(selectedIds(table)).toEqual([]);
   });
 
+  it('F2 on a work package row keeps the selection', async () => {
+    const table = await mount();
+    table.click('1');
+    table.click('3', { ctrlKey: true });
+    table.row('2').focus();
+
+    expect(pressActive('F2')).toBe(true);
+
+    expect(selectedIds(table)).toEqual(['1', '3']);
+    expect(table.row('2')).toHaveFocus();
+  });
+
+  it('F2 on a group header leaves it expanded', async () => {
+    const table = await mount(grouped);
+    const collapsedGroups = table.injector.get(WorkPackageViewCollapsedGroupsService);
+    const identifier = table.groupHeader(0).dataset.groupIdentifier!;
+    table.groupHeader(0).focus();
+
+    expect(pressActive('F2')).toBe(true);
+
+    expect(collapsedGroups.config.state[identifier]).toBeFalsy();
+  });
+
   it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
     const table = await mount();
     const [idHeader, , configurationHeader] = table.headerCells();

@@ -32,7 +32,6 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { displayClassName, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { isApplePlatform } from 'core-common/platform';
@@ -41,7 +40,6 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import type { WorkPackageTable } from '../../../wp-fast-table';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import type { TableEventComponent } from '../../table-handler-registry';
-import { activateTableField } from '../../cell/edit-cell-handler';
 import { activateRow } from '../../row/click-handler';
 import { rowKindOf } from '../../../helpers/row-expansion';
 import {
@@ -54,6 +52,7 @@ import { selectableOccurrences } from 'core-app/features/work-packages/routing/w
 import { KeyboardSelection, selectionChord } from './keyboard-selection';
 import { insideGrid, navigableCellClassName, navigableCells, paintRovingTabindex } from './roving-tabindex';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { CellInteraction } from './cell-interaction';
 
 export interface KeyboardNavigation {
   readonly position:FocusPosition|null;
@@ -70,8 +69,6 @@ export interface KeyboardNavigation {
   positionOfCell(cell:HTMLElement):FocusPosition|null;
   /** The row or cell element at the position, or null when it is not rendered. */
   elementAt(position:FocusPosition):HTMLElement|null;
-  /** Handles Enter on a body cell; true when it acted. */
-  onCellEnter:(position:FocusPosition) => boolean;
   /** Records whether focus is inside the table before a mutation replaces or hides its rows. */
   captureOwnership():void;
   /** Keeps the return path open when an editor registers an overlay that already holds focus. */
@@ -135,10 +132,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
 
   private selecting!:KeyboardSelection;
 
-  public onCellEnter = (position:FocusPosition):boolean => {
-    const field = this.elementAt(position)?.querySelector<HTMLElement>(`.${displayClassName}.${editableClassName}`);
-    return !!field && activateTableField(this.table, field);
-  };
+  private interaction!:CellInteraction;
 
   constructor(
     public readonly injector:Injector,
@@ -152,6 +146,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const { destroyRef, scrollContainer } = table;
     table.keyboardNavigation = this;
     this.selecting = new KeyboardSelection(table, this.wpTableSelection);
+    this.interaction = new CellInteraction(table);
     const removedFromTabOrder = [scrollContainer, table.tableAndTimelineContainer]
       .filter((container, index, containers) => containers.indexOf(container) === index && !container.hasAttribute('tabindex'));
     removedFromTabOrder.forEach((container) => container.setAttribute('tabindex', '-1'));
@@ -233,6 +228,10 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       position: { key: wpOccurrenceKey(workPackageId), cell: null, desiredColumn: null },
       requestedFrom: this.userPosition,
     };
+  }
+
+  public engageEditor(handler:EditFieldHandler):void {
+    this.interaction.engageEditor(handler);
   }
 
   public captureOwnership():void {
@@ -503,8 +502,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       return;
     }
 
-    const handled = event.key === 'Enter'
-      ? this.activate(position)
+    const handled = event.key === 'Enter' || event.key === 'F2'
+      ? this.activate(position, event.key)
       : this.navigate(position, event);
 
     if (handled) {
@@ -557,6 +556,14 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
       || (command && !(event.key in commandKeys));
   }
 
+  public navigateFrom(position:FocusPosition, event:KeyboardEvent):boolean {
+    return this.navigate(position, event);
+  }
+
+  public scrollControlIntoView(control:HTMLElement):void {
+    this.scrollIntoView(control);
+  }
+
   private navigate(position:FocusPosition, event:KeyboardEvent):boolean {
     const key = (event.ctrlKey || event.metaKey ? commandKeys : plainKeys)[event.key];
     if (!key) {
@@ -592,15 +599,24 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
   }
 
-  private activate(position:FocusPosition):boolean {
+  private activate(position:FocusPosition, key:'Enter'|'F2'):boolean {
     if (position.cell !== null) {
-      return position.key === headerRowKey
-        ? this.clickHeaderControl(this.elementAt(position))
-        : this.onCellEnter(position);
+      if (position.key === headerRowKey) {
+        return key === 'Enter' && this.clickHeaderControl(this.elementAt(position));
+      }
+
+      const occurrence = this.table.ledger.byKey(position.key);
+      if (occurrence && rowKindOf(occurrence) === 'groupHeader' && key === 'Enter') {
+        this.collapsedGroups.toggleGroupCollapseState(occurrence.groupIdentifier ?? '');
+        this.focusPosition(position);
+        return true;
+      }
+
+      return this.interaction.enter(position, key);
     }
 
     const occurrence = this.table.ledger.byKey(position.key);
-    if (!occurrence) {
+    if (!occurrence || key === 'F2') {
       return false;
     }
 

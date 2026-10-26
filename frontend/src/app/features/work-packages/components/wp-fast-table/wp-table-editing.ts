@@ -68,6 +68,10 @@ export class WorkPackageTableEditingContext {
     return this.activeTableFields().filter(({ handler }) => insideGrid(this.table.scrollContainer, handler.element ?? null));
   }
 
+  public fieldForCell(cell:HTMLElement):ActiveTableField|null {
+    return this.activeGridFields().find(({ handler }) => cell.contains(handler.element ?? null)) ?? null;
+  }
+
   public fieldOwning(node:Node|null):ActiveTableField|null {
     return this.activeTableFields().find(({ handler }) => handler.owns(node)) ?? null;
   }
