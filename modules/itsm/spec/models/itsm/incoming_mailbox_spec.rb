@@ -140,4 +140,61 @@ RSpec.describe ITSM::IncomingMailbox do
       expect(described_class).not_to exist(mailbox.id)
     end
   end
+
+  it "logs in to IMAP with its credentials" do
+    imap = instance_double(Net::IMAP, login: nil)
+
+    mailbox.imap_authentication.call(imap)
+
+    expect(imap).to have_received(:login).with("support@example.com", "imap-password")
+  end
+
+  describe "#fetch_succeeded!", :freeze_time do
+    subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures: 3, last_error: "unreachable") }
+
+    it "records the check and schedules the next one" do
+      mailbox.fetch_succeeded!
+
+      expect(mailbox.reload).to have_attributes(last_fetched_at: Time.current,
+                                                next_fetch_at: 15.minutes.from_now,
+                                                consecutive_failures: 0,
+                                                last_error: nil)
+    end
+  end
+
+  describe "#fetch_failed!", :freeze_time do
+    subject(:mailbox) { create(:itsm_incoming_mailbox, consecutive_failures:, last_fetched_at: 1.day.ago) }
+
+    let(:consecutive_failures) { 0 }
+
+    it "records the failure and retries later" do
+      mailbox.fetch_failed!(:unreachable)
+
+      expect(mailbox.reload).to have_attributes(consecutive_failures: 1,
+                                                last_error: "unreachable",
+                                                next_fetch_at: 30.minutes.from_now,
+                                                last_fetched_at: 1.day.ago)
+    end
+
+    context "with many failures in a row" do
+      let(:consecutive_failures) { 10 }
+
+      it "retries at most every 6 hours" do
+        mailbox.fetch_failed!(:unreachable)
+
+        expect(mailbox.reload.next_fetch_at).to eq(6.hours.from_now)
+      end
+    end
+  end
+
+  describe ".due_for_fetch", :freeze_time do
+    let!(:never_fetched) { create(:itsm_incoming_mailbox, next_fetch_at: nil) }
+    let!(:due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.ago) }
+    let!(:not_yet_due) { create(:itsm_incoming_mailbox, next_fetch_at: 1.minute.from_now) }
+    let!(:paused) { create(:itsm_incoming_mailbox, active: false, next_fetch_at: nil) }
+
+    it "returns the active mailboxes whose next check is due" do
+      expect(described_class.due_for_fetch).to contain_exactly(never_fetched, due)
+    end
+  end
 end

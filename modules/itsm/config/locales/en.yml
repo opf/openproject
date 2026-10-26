@@ -36,6 +36,18 @@ en:
         sender_email: Sender email
         sender_name: Sender name
         username: Username
+    errors:
+      models:
+        itsm/incoming_mailbox:
+          attributes:
+            base:
+              address_not_allowed: "The mail server is on a network address that OpenProject is not allowed to connect to."
+              authentication_failed: "The mail server rejected the username or password."
+              fetch_in_progress: "The mailbox is already being checked."
+              inactive: "The mailbox is paused."
+              server_error: "The mail server returned an error."
+              tls_failed: "No secure connection to the mail server could be established. Check its certificate."
+              unreachable: "The mail server could not be reached."
     models:
       itsm/email_message:
         one: Email message
