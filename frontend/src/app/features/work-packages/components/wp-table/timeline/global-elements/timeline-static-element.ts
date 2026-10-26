@@ -30,9 +30,6 @@ import { TimelineViewParameters } from '../wp-timeline';
 export const timelineStaticElementCssClassname = 'wp-timeline--static-element';
 
 export abstract class TimelineStaticElement {
-  constructor() {
-  }
-
   /**
    * Render the static element according to the current ViewParameters
    * @param vp Current timeline view parameters

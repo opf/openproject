@@ -106,7 +106,6 @@ let elementId = 0;
  * @returns {string} The newly generated element ID.
  */
 export function generateId(prefix = 'el'):string {
-  // eslint-disable-next-line no-plusplus
   return `${prefix}-${idSalt}-${elementId++}`;
 }
 
