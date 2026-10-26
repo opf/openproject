@@ -2792,8 +2792,12 @@ en:
       notice:
         remember_items_and_projects: "Remember to set items for this custom field, and to make sure it is used in at least one project."
       projects:
+        changes_heading: "Important changes"
+        changes_text: >
+          Starting version 18.0, custom fields are no longer enabled or disabled at a project level.
+          They are included in forms, which are then used in different types and variants. The
+          following list shows projects that use types or variants using forms including this custom field.
         configure: "Configure project-specific values for %{project}"
-        description: "The following projects use this custom field. A custom field is visible in projects via the types and variants that are enabled for each."
         disable_all: "Disable all"
         editing_values_notice: "You are currently editing the list of values visible for this custom field in the project [%{project}](project_url)."
         empty_state:
@@ -2801,6 +2805,7 @@ en:
           title: "No project uses this custom field"
         enable_all: "Enable all"
         enabled_values: "%{count} of %{total}"
+        filter: "Filter by text"
         types_column: "Displayed in type"
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.

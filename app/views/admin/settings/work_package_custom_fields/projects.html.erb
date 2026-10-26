@@ -39,14 +39,52 @@ See COPYRIGHT and LICENSE files for more details.
   )
 %>
 
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("custom_fields.admin.projects.description") } %>
-
 <%=
-  render(
-    Admin::CustomFields::Projects::TableComponent.new(
-      rows: @projects,
-      custom_field: @custom_field,
-      type_ids_by_project_id: @type_ids_by_project_id
-    )
-  )
+  form_tag(
+    projects_admin_settings_work_package_custom_field_path(@custom_field),
+    method: :get,
+    data: { controller: "auto-submit", "auto-submit-delay-value": 300,
+            turbo_frame: Admin::CustomFields::Projects::TableComponent::FRAME_ID,
+            turbo_action: "replace" }
+  ) do
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_filter_input(
+        name: "query",
+        value: @query,
+        label: t("custom_fields.admin.projects.filter"),
+        placeholder: t("custom_fields.admin.projects.filter"),
+        leading_visual: { icon: :search, size: :small },
+        data: { action: "input->auto-submit#submit" }
+      )
+    end
+  end
 %>
+
+<%= render(OpPrimer::InsetBoxComponent.new(mb: 3)) do |box| %>
+  <% box.with_title_icon(icon: :info) %>
+  <% box.with_title(tag: :h3) { t("custom_fields.admin.projects.changes_heading") } %>
+  <% box.with_action_button(
+       tag: :a,
+       href: OpenProject::Static::Links.url_for(:sysadmin_docs, :form_configuration),
+       target: "_blank",
+       rel: "noopener",
+       data: { allow_external_link: true }
+     ) do |button|
+       button.with_trailing_visual_icon(icon: :"link-external")
+       t(:label_learn_more)
+     end %>
+
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 0)) { t("custom_fields.admin.projects.changes_text") } %>
+<% end %>
+
+<%= turbo_frame_tag(Admin::CustomFields::Projects::TableComponent::FRAME_ID, target: "_top") do %>
+  <%=
+    render(
+      Admin::CustomFields::Projects::TableComponent.new(
+        rows: @projects,
+        custom_field: @custom_field,
+        type_ids_by_project_id: @type_ids_by_project_id
+      )
+    )
+  %>
+<% end %>

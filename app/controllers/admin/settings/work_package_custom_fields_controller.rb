@@ -47,10 +47,11 @@ module Admin
       end
 
       def projects
+        @query = params[:query].presence
         @type_ids_by_project_id = @custom_field.type_ids_by_project_id
-        @projects = Project.where(id: @type_ids_by_project_id.keys)
-                           .order(:name)
-                           .paginate(page: page_param, per_page: per_page_param)
+        @projects = projects_using_custom_field.order(:name).paginate(page: page_param, per_page: per_page_param)
+
+        render layout: false if turbo_frame_request?
       end
 
       def project_values; end
@@ -84,6 +85,13 @@ module Admin
         @configured_project = Project.active
                                      .where(id: @custom_field.type_ids_by_project_id.keys)
                                      .find(params.expect(:project_id))
+      end
+
+      def projects_using_custom_field
+        projects = Project.where(id: @type_ids_by_project_id.keys)
+        return projects unless @query
+
+        projects.where(Project.arel_table[:name].matches("%#{Project.sanitize_sql_like(@query)}%"))
       end
 
       def update_all_project_values(service_class)

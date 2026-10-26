@@ -75,6 +75,15 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(page).to have_no_text("Other project")
       end
 
+      it "filters the projects by name" do
+        create(:project, name: "Another using project", types: [feature])
+
+        get projects_path, params: { query: "another" }
+
+        expect(page).to have_link("Another using project")
+        expect(page).to have_no_link(using_project.name)
+      end
+
       it "shows the projects tab" do
         expect(page).to have_link(I18n.t(:label_project_plural), href: projects_path)
       end

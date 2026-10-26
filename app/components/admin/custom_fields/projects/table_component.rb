@@ -32,6 +32,8 @@ module Admin
   module CustomFields
     module Projects
       class TableComponent < OpPrimer::BorderBoxTableComponent
+        FRAME_ID = "custom-field-projects-list"
+
         columns :name, :types, :project_specific_values
         main_column :name
         mobile_labels :types, :project_specific_values
