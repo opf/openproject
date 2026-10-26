@@ -73,7 +73,7 @@ module Queries
           private
 
           def visible_items
-            custom_field.visible_values_for(::User.current)
+            custom_field.visible_values_for(::User.current, within: projects_of_query)
           end
         end
       end

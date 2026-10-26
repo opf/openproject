@@ -46,10 +46,13 @@ module CustomField::ProjectSpecificValues
     usable_values_in_any(Project.where(id: project))
   end
 
-  def visible_values_for(user)
+  def visible_values_for(user, within: nil)
     return restrictable_values if user.admin?
 
-    usable_values_in_any(Project.with_visible_work_packages(user).with_available_custom_fields(id))
+    projects = Project.with_visible_work_packages(user)
+    projects = projects.where(id: within) if within
+
+    usable_values_in_any(projects.with_available_custom_fields(id))
   end
 
   def usable_value_id?(project, value_id)

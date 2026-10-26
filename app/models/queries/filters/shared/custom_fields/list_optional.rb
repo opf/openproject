@@ -55,7 +55,7 @@ module Queries::Filters::Shared
       end
 
       def visible_custom_options
-        custom_field.visible_values_for(::User.current)
+        custom_field.visible_values_for(::User.current, within: projects_of_query)
       end
 
       def ar_object_filter?
