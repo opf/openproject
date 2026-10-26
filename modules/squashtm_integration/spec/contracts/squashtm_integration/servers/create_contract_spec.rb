@@ -29,11 +29,24 @@ require "spec_helper"
 RSpec.describe SquashTMIntegration::Servers::CreateContract do
   let(:server) { build(:squashtm_server) }
   let(:user) { build_stubbed(:admin) }
+  let(:connection_check) { instance_double(SquashTMIntegration::ConnectionCheck, call: nil) }
 
   subject(:contract) { described_class.new(server, user) }
 
+  before do
+    allow(SquashTMIntegration::ConnectionCheck).to receive(:new).and_return(connection_check)
+  end
+
   it "is valid for an admin" do
     expect(contract).to be_valid
+    expect(connection_check).to have_received(:call)
+  end
+
+  it "is invalid when the connection check fails" do
+    allow(connection_check).to receive(:call) { |errors| errors.add(:base_url, :cannot_be_connected_to) }
+
+    expect(contract).not_to be_valid
+    expect(contract.errors.details[:base_url].pluck(:error)).to eq([:cannot_be_connected_to])
   end
 
   context "for a non-admin" do
@@ -71,6 +84,7 @@ RSpec.describe SquashTMIntegration::Servers::CreateContract do
 
     expect(contract).not_to be_valid
     expect(contract.errors.details[:base_url].pluck(:error)).to include(:url_not_secure_context)
+    expect(SquashTMIntegration::ConnectionCheck).not_to have_received(:new)
   end
 
   it "requires an API token" do

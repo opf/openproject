@@ -39,6 +39,20 @@ module SquashTMIntegration
       validates :base_url, url: true, unless: -> { base_url.blank? || errors.include?(:base_url) }
       validates :base_url, secure_context_uri: true, unless: -> { base_url.blank? || errors.include?(:base_url) }
       validates :api_token, presence: true
+
+      validate :server_reachable, if: :connection_changed?
+
+      private
+
+      def connection_changed?
+        model.base_url_changed? || model.api_token_changed?
+      end
+
+      def server_reachable
+        return if errors.any?
+
+        ConnectionCheck.new(base_url: model.base_url, api_token: model.api_token).call(errors)
+      end
     end
   end
 end
