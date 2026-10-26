@@ -149,6 +149,16 @@ RSpec.describe "Work package table keyboard navigation", :js do
     expect(wp_table.table_container).to have_css("#{wp_table.row_selector(child)} .wp-table-context-menu-icon")
   end
 
+  it "moves between rows with j and k from cell focus" do
+    wp_table.focus_cell_by_keyboard(child, :subject)
+
+    wp_table.press_keys("j")
+    wp_table.expect_focus_on_row(sibling)
+
+    wp_table.press_keys("k", "k")
+    wp_table.expect_focus_on_row(parent)
+  end
+
   it "jumps to the last row with End and to the header row with Home" do
     wp_table.focus_row_by_keyboard(child)
 
@@ -211,6 +221,22 @@ RSpec.describe "Work package table keyboard navigation", :js do
 
     def expect_focus_on_group_header(name)
       expect(wp_table.table_container).to have_css("tr.wp-table--group-header", text: name, focused: true)
+    end
+
+    it "skips the rows of a collapsed group with j and k" do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_order(child, parent, sibling)
+
+      wp_table.focus_row_by_keyboard(child)
+      wp_table.press_keys(:up, :left)
+      expect(page).to have_no_css(wp_table.row_selector(child))
+      expect_focus_on_group_header("Group one")
+
+      wp_table.press_keys("j")
+      expect_focus_on_group_header("Group two")
+
+      wp_table.press_keys("k")
+      expect_focus_on_group_header("Group one")
     end
 
     it "collapses and expands a group from its header with Left, Right and Enter" do
