@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -73,6 +75,10 @@ module OpenProject
       debug_log("Released advisory lock", lock_name)
 
       result
+    end
+
+    def advisory_lock_name(name)
+      "op_#{name}"
     end
 
     def debug_log(action, lock_name)
