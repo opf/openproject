@@ -36,4 +36,14 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :projects, only: %i[] do
+    namespace :settings do
+      resource :squashtm,
+               controller: "/squashtm_integration/project_settings/project_links",
+               only: %i[show update destroy] do
+        get :destroy_dialog
+      end
+    end
+  end
 end
