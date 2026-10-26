@@ -1,0 +1,42 @@
+---
+en:
+  activerecord:
+    attributes:
+      squashtm_integration/project_link:
+        project: "Project"
+        squashtm_project: "SquashTM project"
+      squashtm_integration/server:
+        api_token: "API token"
+        base_url: "SquashTM URL"
+      squashtm_integration/work_package_link:
+        squashtm_requirement: "SquashTM requirement"
+        work_package: "Work package"
+    errors:
+      models:
+        squashtm_integration/project_link:
+          attributes:
+            base:
+              squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
+            project_id:
+              taken: "is already linked to a SquashTM project."
+            squashtm_project_id:
+              not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
+              squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
+        squashtm_integration/server:
+          attributes:
+            base:
+              singleton: "Only one SquashTM server can be configured."
+        squashtm_integration/work_package_link:
+          attributes:
+            base:
+              squashtm_project_not_linked: "This project is not linked to a SquashTM project."
+              squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
+            squashtm_requirement_id:
+              not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
+              squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
+            work_package_id:
+              taken: "is already linked to a SquashTM requirement."
+  permission_manage_squashtm_integration: "Manage SquashTM integration"
+  permission_manage_squashtm_links: "Manage SquashTM requirement links"
+  permission_view_squashtm_test_results: "View SquashTM test results"
+  project_module_squashtm: "SquashTM"
