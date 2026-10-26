@@ -2818,7 +2818,10 @@ en:
           description: "Add this custom field to the form of a type that is used in a project."
           title: "No project uses this custom field"
         enable_all: "Enable all"
-        enabled_values: "%{count} of %{total}"
+        enabled_values:
+          all: "All"
+          none: "None"
+          some: "%{count} of %{total}"
         filter: "Filter by text"
         filter_no_results:
           description: "Change the filters to see more projects."
