@@ -32,6 +32,12 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CKEditorSetupService, ICKEditorType } from './ckeditor-setup.service';
 import type { ICKEditorInstance } from './ckeditor.types';
+import autosavePackage from '@ckeditor/ckeditor5-autosave/package.json';
+import corePackage from '@ckeditor/ckeditor5-core/package.json';
+import editorDecoupledPackage from '@ckeditor/ckeditor5-editor-decoupled/package.json';
+import enginePackage from '@ckeditor/ckeditor5-engine/package.json';
+import linkPackage from '@ckeditor/ckeditor5-link/package.json';
+import utilsPackage from '@ckeditor/ckeditor5-utils/package.json';
 
 describe('CKEditorSetupService with the vendored editor', () => {
   let service:CKEditorSetupService;
@@ -88,5 +94,16 @@ describe('CKEditorSetupService with the vendored editor', () => {
     await created.destroy();
     expect(created.state).toBe('destroyed');
     editor = undefined;
+  });
+
+  it.each([
+    autosavePackage,
+    corePackage,
+    editorDecoupledPackage,
+    enginePackage,
+    linkPackage,
+    utilsPackage,
+  ])('bundles the CKEditor version that $name declares types for', ({ version }) => {
+    expect(globalThis.CKEDITOR_VERSION).toBe(version);
   });
 });
