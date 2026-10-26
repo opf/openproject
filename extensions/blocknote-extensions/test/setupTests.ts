@@ -2,7 +2,7 @@ import { beforeAll, afterAll, beforeEach } from 'vitest';
 import { page } from 'vitest/browser';
 import { worker } from './mocks/browser';
 import { initializeOpBlockNoteExtensions } from '../lib';
-import { clearWorkPackageCache } from '../lib/hooks/useWorkPackage';
+import { clearWorkPackageCache } from '../lib/services/workPackageLoader';
 import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
 import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
