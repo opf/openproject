@@ -34,15 +34,6 @@ en:
           off_track: 'Off track'
           on_track: 'On track'
           title: 'Status'
-        project_phase_status:
-          title:
-            open: 'Open'
-            in_progress: 'In progress'
-            completed: 'Completed'
-          description:
-            open: 'Re-opening a phase will also open all future phases.'
-            in_progress: 'Marking a phase as complete will complete all previous phases.'
-            completed: 'Marking a phase as complete will complete all previous phases.'
         project_timeline:
           accessible_date_range: "%{start} to %{end}"
           accessible_gate: "Phase gate %{name}: %{date}"

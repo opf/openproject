@@ -32,7 +32,6 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
   include OpTurbo::Streamable
   include OpPrimer::ComponentHelpers
   include Primer::ClassNameHelper
-  include ProjectPhaseStatusHelper
 
   attr_reader :phase, :user
 
@@ -76,5 +75,19 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
         aria: { current: (true if status == @status) }
       }
     )
+  end
+
+  ##
+  # @param status_code [String | Symbol | nil] Project Phase Status code
+  # @return [String] the localized name.
+  def project_phase_status_name(status_code)
+    I18n.t(status_code, scope: "projects.phase_status.title")
+  end
+
+  ##
+  # @param status_code [String | Symbol | nil] Project Phase Status code
+  # @return [String] the localized description.
+  def project_phase_status_description(status_code)
+    I18n.t(status_code, scope: "projects.phase_status.description")
   end
 end
