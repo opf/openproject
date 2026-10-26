@@ -72,8 +72,10 @@ module Projects
 
     def destroy_all_work_packages
       model.work_packages.each do |wp|
-        wp.reload
-        wp.destroy
+        WorkPackage.with_short_hierarchy_lock do
+          wp.reload
+          wp.destroy
+        end
       rescue ActiveRecord::RecordNotFound
         # Everything fine, we wanted to delete it anyway
       end
