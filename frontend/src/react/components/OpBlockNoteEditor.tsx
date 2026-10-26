@@ -26,6 +26,7 @@
 //++
 
 import { BlockNoteEditorOptions, BlockNoteSchema, combineByGroup, User } from '@blocknote/core';
+import { createCodeBlockSpec } from '../extensions/code-block';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
@@ -33,6 +34,7 @@ import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
+import { syntaxHighlighter } from '@blocknote/code-block';
 import { createReactInlineMathSpec, createReactMathBlockSpec, getMathSlashMenuItems } from '@blocknote/math-block';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -64,6 +66,7 @@ export interface OpBlockNoteEditorProps {
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
+    codeBlock: createCodeBlockSpec(),
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
     mathBlock: createReactMathBlockSpec(),
   },
@@ -105,6 +108,7 @@ export function OpBlockNoteEditor({
         HeadingLinkExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
+        syntaxHighlighter,
       ],
     };
 
