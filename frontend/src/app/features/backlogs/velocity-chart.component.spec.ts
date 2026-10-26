@@ -155,6 +155,16 @@ describe('VelocityChartComponent', () => {
     expect(options().plugins!.averageLine).toEqual({ value: 14.5, label: '14,5', color: '#666666' });
   });
 
+  it('draws no average line without an average', () => {
+    fixture.componentRef.setInput('chartData', JSON.stringify({
+      ...fixture.componentInstance.parsedData(),
+      average: null,
+    }));
+    fixture.detectChanges();
+
+    expect(options().plugins!.averageLine).toEqual({});
+  });
+
   it('titles the y axis', () => {
     const yScale = options().scales!.y as { title:{ display:boolean, text:string } };
 

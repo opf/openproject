@@ -53,17 +53,20 @@ module Sprints
 
     def velocity = completed.last
 
-    def average = completed.sum.fdiv(completed.size)
-
-    private
+    def average
+      preceding = completed[...-1]
+      preceding.sum.fdiv(preceding.size) if preceding.any?
+    end
 
     def preceding_sprints
-      ids = Sprint.for_project(project).visible.order_by_date.pluck(:id)
-      position = ids.index(sprint.id)
-      return [] unless position
-
-      Sprint.find(ids.first(position).last(SPRINT_COUNT - 1))
+      @preceding_sprints ||= begin
+        ids = Sprint.for_project(project).visible.order_by_date.pluck(:id)
+        position = ids.index(sprint.id)
+        position ? Sprint.find(ids.first(position).last(SPRINT_COUNT - 1)) : []
+      end
     end
+
+    private
 
     def breakdowns
       @breakdowns ||= sprints.map { Sprints::WorkPackageBreakdown.new(sprint: it, project:) }

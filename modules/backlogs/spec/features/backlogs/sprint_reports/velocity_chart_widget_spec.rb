@@ -76,24 +76,25 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
     visit project_backlogs_sprint_report_path(project, sprint)
   end
 
-  it "renders the velocity of the active sprint and the average" do
+  it "renders the velocity of the active sprint and the average of the preceding sprints" do
     visit_sprint_report(sprint)
 
     expect(page).to have_text("Velocity chart")
 
     within("#backlogs-sprint-reports-widgets-velocity-chart-box") do
       expect(page).to have_text("Sprint 2: 5 SP")
-      expect(page).to have_text("Average of last 2 sprints: 4 SP")
+      expect(page).to have_text("Average of last sprint: 3 SP")
       expect(page).to have_css("opce-velocity-chart canvas")
     end
   end
 
-  it "renders only the sprints up to the viewed completed sprint" do
+  it "renders no average for the first sprint" do
     visit_sprint_report(previous_sprint)
 
     within("#backlogs-sprint-reports-widgets-velocity-chart-box") do
       expect(page).to have_text("Sprint 1: 3 SP")
-      expect(page).to have_text("Average of last sprint: 3 SP")
+      expect(page).to have_css("opce-velocity-chart canvas")
+      expect(page).to have_no_text("Average")
     end
   end
 

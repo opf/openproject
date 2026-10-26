@@ -36,9 +36,11 @@ See COPYRIGHT and LICENSE files for more details.
             <%= velocity_label %>
             <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { formatted_velocity } %>
           <% end %>
-          <%= render(Primer::Beta::Text.new) do %>
-            <%= average_label %>
-            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { formatted_average } %>
+          <% if average? %>
+            <%= render(Primer::Beta::Text.new) do %>
+              <%= average_label %>
+              <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { formatted_average } %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>

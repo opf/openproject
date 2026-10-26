@@ -100,6 +100,10 @@ RSpec.describe Sprints::Velocity do
       it "contains the six latest preceding sprints followed by the viewed sprint" do
         expect(velocity.sprints).to eq [*previous_sprints.last(6), sprint]
       end
+
+      it "lists the six latest as preceding sprints" do
+        expect(velocity.preceding_sprints).to eq previous_sprints.last(6)
+      end
     end
 
     context "with sprints created in a different order than they ran" do
@@ -297,8 +301,20 @@ RSpec.describe Sprints::Velocity do
       expect(velocity.velocity).to eq 3.0
     end
 
-    it "averages the completed story points of all displayed sprints" do
-      expect(velocity.average).to eq 6.0
+    it "averages the completed story points of the preceding sprints" do
+      expect(velocity.average).to eq 7.5
+    end
+  end
+
+  describe "#average without preceding sprints" do
+    let(:sprint) { active_sprint(started_at: start_of_history) }
+
+    before do
+      create_story(time: start_of_history, sprint:, story_points: 3, status: closed_status)
+    end
+
+    it "is nil" do
+      expect(velocity.average).to be_nil
     end
   end
 end

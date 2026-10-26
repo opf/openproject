@@ -40,6 +40,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
   let(:velocity) do
     instance_double(Sprints::Velocity,
                     sprints: [previous_sprint, sprint],
+                    preceding_sprints: [previous_sprint],
                     committed: [21.4, 13.0],
                     completed: [20.0, 8.6],
                     velocity: 8.6,
@@ -92,18 +93,52 @@ RSpec.describe Backlogs::SprintReports::Widgets::VelocityChart, type: :component
     expect(rendered_component).to have_text("Sprint 2: 9 SP", normalize_ws: true)
   end
 
-  it "summarizes the average with the actual number of sprints" do
-    expect(rendered_component).to have_text("Average of last 2 sprints: 14.3 SP", normalize_ws: true)
+  it "summarizes the average with the number of preceding sprints" do
+    expect(rendered_component).to have_text("Average of last sprint: 14.3 SP", normalize_ws: true)
   end
 
   context "with a whole-numbered average" do
+    let(:first_sprint) { build_stubbed(:sprint, project:, name: "Sprint 0") }
     let(:velocity) do
       instance_double(Sprints::Velocity,
-                      sprints: [sprint], committed: [10.0], completed: [8.0], velocity: 8.0, average: 8.0)
+                      sprints: [first_sprint, previous_sprint, sprint],
+                      preceding_sprints: [first_sprint, previous_sprint],
+                      committed: [10.0, 10.0, 10.0],
+                      completed: [7.0, 9.0, 8.0],
+                      velocity: 8.0,
+                      average: 8.0)
     end
 
     it "omits the decimal" do
-      expect(rendered_component).to have_text("Average of last sprint: 8 SP", normalize_ws: true)
+      expect(rendered_component).to have_text("Average of last 2 sprints: 8 SP", normalize_ws: true)
+    end
+  end
+
+  context "without preceding sprints" do
+    let(:velocity) do
+      instance_double(Sprints::Velocity,
+                      sprints: [sprint],
+                      preceding_sprints: [],
+                      committed: [13.0],
+                      completed: [8.6],
+                      velocity: 8.6,
+                      average: nil)
+    end
+
+    it "summarizes the velocity of the viewed sprint" do
+      expect(rendered_component).to have_text("Sprint 2: 9 SP", normalize_ws: true)
+    end
+
+    it "does not summarize an average" do
+      expect(rendered_component).to have_no_text("Average")
+    end
+
+    it "passes no average" do
+      expect(chart_data["average"]).to be_nil
+    end
+
+    it "leaves the average out of the accessible summary" do
+      expect(chart_data["summary"]).to eq "Bar chart of committed and completed story points of the last sprint."
     end
   end
 

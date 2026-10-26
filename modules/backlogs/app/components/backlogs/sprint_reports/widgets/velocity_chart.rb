@@ -55,9 +55,9 @@ module Backlogs
           {
             labels: velocity.sprints.map(&:name),
             datasets:,
-            average: velocity.average.round(1),
+            average: velocity.average&.round(1),
             yAxisTitle: t(".y_axis_title"),
-            summary: t(".summary", count: velocity.sprints.size, average: formatted_average),
+            summary:,
             sprintColumnTitle: Sprint.model_name.human
           }.to_json
         end
@@ -66,8 +66,12 @@ module Backlogs
           t(".velocity", sprint: sprint.name)
         end
 
+        def average?
+          !velocity.average.nil?
+        end
+
         def average_label
-          t(".average", count: velocity.sprints.size)
+          t(".average", count: velocity.preceding_sprints.size)
         end
 
         def formatted_velocity
@@ -89,6 +93,11 @@ module Backlogs
             { label: t(".committed"), data: velocity.committed.map(&:round) },
             { label: t(".completed"), data: velocity.completed.map(&:round) }
           ]
+        end
+
+        def summary
+          chart = t(".summary", count: velocity.sprints.size)
+          average? ? "#{chart} #{t('.summary_average', average: formatted_average)}" : chart
         end
 
         def story_points(value)

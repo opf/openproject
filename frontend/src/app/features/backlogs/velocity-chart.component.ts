@@ -37,7 +37,7 @@ import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 interface VelocityChartData {
   labels:string[];
   datasets:{ label:string, data:number[] }[];
-  average:number;
+  average:number|null;
   yAxisTitle:string;
   summary:string;
   sprintColumnTitle:string;
@@ -118,7 +118,7 @@ export class VelocityChartComponent {
           color: fontColor,
           font: { weight: 'bold' },
         },
-        averageLine: {
+        averageLine: average === null ? {} : {
           value: average,
           label: average.toLocaleString(this.i18n.locale, { maximumFractionDigits: 1 }),
           color: getCSSVariable('--fgColor-muted'),
