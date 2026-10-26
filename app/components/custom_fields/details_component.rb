@@ -61,7 +61,7 @@ module CustomFields
     def form_row_arguments
       return {} unless confirm_disabling_project_specific_values?
 
-      { data: { controller: "checkbox-confirmation" } }
+      { data: { controller: "input-confirmation", input_confirmation_trigger_value: "checked" } }
     end
 
     def disable_project_specific_values_dialog
@@ -71,7 +71,7 @@ module CustomFields
           title: t("custom_fields.disable_project_specific_values.title"),
           confirm_button_text: t("custom_fields.disable_project_specific_values.button"),
           cancel_button_text: t(:button_close),
-          data: { checkbox_confirmation_target: "dialog" }
+          data: { input_confirmation_target: "dialog" }
         )
       ) do |dialog|
         dialog.with_confirmation_message do |message|

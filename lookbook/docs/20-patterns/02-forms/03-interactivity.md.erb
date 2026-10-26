@@ -69,22 +69,22 @@ Important data inputs:
 - data: `{ target_name: "abc"}` or `data-target-name="abc"` allows you to define multiple sets of cause/effect handlers
 - If you want the target to be visibly blocked, not hidden, then use `data: { set_visibility: "true" }`. By default, the field will be hidden and removed from DOM computation.
 
-## Confirming checkbox changes
+## Confirming checkbox and radio button changes
 
-Some checkboxes have consequences that cannot be undone once the form is saved, for example disabling a setting removes all data configured for it. To ask for confirmation right when the checkbox is changed, use the Stimulus controller `checkbox-confirmation` together with a [Danger dialog](/lookbook/pages/components/dialogs/danger_dialog).
+Some checkboxes and radio buttons have consequences that cannot be undone once the form is saved, for example disabling a setting removes all data configured for it. To ask for confirmation right when the input is changed, use the Stimulus controller `input-confirmation` together with a [Danger dialog](/lookbook/pages/components/dialogs/danger_dialog).
 
-<%= embed Patterns::CheckboxConfirmationPreview, :default %>
+<%= embed Patterns::InputConfirmationPreview, :checkbox %>
 
-To use it, attach the controller to an element containing both the checkbox and the dialog, and mark them as targets:
+To use it, attach the controller to an element containing both the input and the dialog, and mark them as targets:
 
 ```erb
-<div data-controller="checkbox-confirmation">
+<div data-controller="input-confirmation">
   <%%= primer_form_with(...) do |f| %>
     <%%= render_inline_form(f) do |form| %>
       <%% form.check_box(
             name: :feature_enabled,
             label: "Enable feature",
-            data: { checkbox_confirmation_target: "checkbox" }
+            data: { input_confirmation_target: "input" }
           ) %>
     <%% end %>
   <%% end %>
@@ -94,7 +94,7 @@ To use it, attach the controller to an element containing both the checkbox and 
           id: "disable-feature-dialog",
           title: "Disable feature",
           confirm_button_text: "Disable",
-          data: { checkbox_confirmation_target: "dialog" }
+          data: { input_confirmation_target: "dialog" }
         )
       ) do |dialog| %>
     <%% dialog.with_confirmation_message do |message| %>
@@ -105,11 +105,15 @@ To use it, attach the controller to an element containing both the checkbox and 
 </div>
 ```
 
+For a radio button group, mark the radio button whose selection needs to be confirmed as the target and pass `data-input-confirmation-trigger-value="checked"`:
+
+<%= embed Patterns::InputConfirmationPreview, :radio_button %>
+
 How it behaves:
 
-- The dialog opens when the checkbox is unchecked. Pass `data-checkbox-confirmation-trigger-value="checked"` to ask for confirmation when it is checked instead.
+- The dialog opens when the checkbox is unchecked. Pass `data-input-confirmation-trigger-value="checked"` to ask for confirmation when it is checked, or when the radio button is selected, instead.
 - The change is kept when it is confirmed with the dialog's submit button, i.e. the button marked with `data-submit-dialog-id`, which the Danger dialog renders as its confirm button.
-- Closing the dialog in any other way, by cancelling, closing it or pressing <kbd>Escape</kbd>, changes the checkbox back.
+- Closing the dialog in any other way, by cancelling, closing it or pressing <kbd>Escape</kbd>, changes the checkbox back, or selects the radio button of the group that was selected before.
 - Only attach the controller when confirming is necessary, for example when there actually is data that would be removed. There is no option to skip the confirmation.
 - The dialog must not have `form_arguments`, as the checkbox is saved together with its own form.
 

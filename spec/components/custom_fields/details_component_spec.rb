@@ -64,14 +64,15 @@ RSpec.describe CustomFields::DetailsComponent, type: :component do
   end
 
   describe "the confirmation for disabling project-specific values" do
-    let(:confirmation) { rendered.css("[data-controller~='checkbox-confirmation']") }
+    let(:confirmation) { rendered.css("[data-controller~='input-confirmation']") }
 
     context "when project-specific values are enabled" do
       let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
 
-      it "asks for confirmation before disabling them" do
-        expect(confirmation.css("input[data-checkbox-confirmation-target='checkbox']")).to be_present
-        expect(confirmation.css("dialog[data-checkbox-confirmation-target='dialog']")).to be_present
+      it "asks for confirmation before showing the same values for all projects" do
+        expect(confirmation.attr("data-input-confirmation-trigger-value").value).to eq("checked")
+        expect(confirmation.css("input[type='radio'][value=''][data-input-confirmation-target='input']")).to be_present
+        expect(confirmation.css("dialog[data-input-confirmation-target='dialog']")).to be_present
       end
     end
 

@@ -28,29 +28,35 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Opens a confirmation dialog when the checkbox is changed to the trigger state. The checkbox is
- * changed back unless the change is confirmed with the dialog's submit button, which is marked by
- * `data-submit-dialog-id` as with Primer dialogs.
+ * Opens a confirmation dialog when the checkbox or radio button is changed to the trigger state.
+ * The change is reverted unless it is confirmed with the dialog's submit button, which is marked
+ * by `data-submit-dialog-id` as with Primer dialogs. For a radio button, reverting selects the
+ * radio button of its group that was selected before.
  */
-export default class CheckboxConfirmationController extends Controller {
-  static targets = ['checkbox', 'dialog'];
+export default class InputConfirmationController extends Controller {
+  static targets = ['input', 'dialog'];
 
   static values = {
     trigger: { type: String, default: 'unchecked' },
   };
 
-  declare readonly checkboxTarget:HTMLInputElement;
+  declare readonly inputTarget:HTMLInputElement;
   declare readonly dialogTarget:HTMLDialogElement;
   declare readonly triggerValue:'checked'|'unchecked';
 
   private confirmed = false;
+  private previouslySelectedRadio:HTMLInputElement|undefined;
 
-  checkboxTargetConnected(checkbox:HTMLInputElement):void {
-    checkbox.addEventListener('change', this.onChange);
+  connect():void {
+    this.element.addEventListener('change', this.onChange);
   }
 
-  checkboxTargetDisconnected(checkbox:HTMLInputElement):void {
-    checkbox.removeEventListener('change', this.onChange);
+  disconnect():void {
+    this.element.removeEventListener('change', this.onChange);
+  }
+
+  inputTargetConnected(input:HTMLInputElement):void {
+    this.previouslySelectedRadio = this.radiosOf(input).find((radio) => radio.checked);
   }
 
   dialogTargetConnected(dialog:HTMLDialogElement):void {
@@ -63,10 +69,14 @@ export default class CheckboxConfirmationController extends Controller {
     dialog.removeEventListener('close', this.onDialogClose);
   }
 
-  private onChange = ():void => {
-    if (this.checkboxTarget.checked === (this.triggerValue === 'checked')) {
+  private onChange = (event:Event):void => {
+    const changed = event.target as HTMLInputElement;
+
+    if (changed === this.inputTarget && changed.checked === (this.triggerValue === 'checked')) {
       this.confirmed = false;
       this.dialogTarget.showModal();
+    } else if (this.radiosOf(this.inputTarget).includes(changed)) {
+      this.previouslySelectedRadio = changed;
     }
   };
 
@@ -83,8 +93,25 @@ export default class CheckboxConfirmationController extends Controller {
   };
 
   private onDialogClose = ():void => {
-    if (!this.confirmed) {
-      this.checkboxTarget.checked = !this.checkboxTarget.checked;
+    if (this.confirmed) {
+      this.previouslySelectedRadio = this.radiosOf(this.inputTarget).find((radio) => radio.checked);
+    } else if (this.inputTarget.type === 'radio') {
+      this.inputTarget.checked = false;
+      if (this.previouslySelectedRadio) {
+        this.previouslySelectedRadio.checked = true;
+      }
+    } else {
+      this.inputTarget.checked = !this.inputTarget.checked;
     }
   };
+
+  private radiosOf(input:HTMLInputElement):HTMLInputElement[] {
+    if (input.type !== 'radio') {
+      return [];
+    }
+
+    return Array
+      .from(this.element.querySelectorAll<HTMLInputElement>('input[type="radio"]'))
+      .filter((radio) => radio.name === input.name);
+  }
 }

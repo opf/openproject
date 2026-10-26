@@ -181,18 +181,6 @@ module CustomFields
         )
       end
 
-      if show_project_specific_value_restriction_field?
-        details_form.check_box(
-          name: :project_specific_value_restriction,
-          label: I18n.t("custom_fields.project_specific_value_restriction_label"),
-          caption: instructions(:project_specific_value_restriction),
-          value: "allow",
-          unchecked_value: "",
-          checked: model.project_specific_value_restriction_allow?,
-          data: { checkbox_confirmation_target: "checkbox" }
-        )
-      end
-
       if show_is_filter_field?
         details_form.check_box(
           name: :is_filter,
@@ -207,6 +195,27 @@ module CustomFields
           label: label(:searchable),
           caption: instructions(:searchable)
         )
+      end
+
+      if show_project_specific_value_restriction_field?
+        details_form.radio_button_group(
+          name: :project_specific_value_restriction,
+          label: label(:project_specific_value_restriction)
+        ) do |group|
+          group.radio_button(
+            value: "",
+            checked: model.project_specific_value_restriction.nil?,
+            label: I18n.t("custom_fields.project_specific_values.all.label"),
+            caption: I18n.t("custom_fields.project_specific_values.all.caption"),
+            data: { input_confirmation_target: "input" }
+          )
+          group.radio_button(
+            value: "allow",
+            checked: model.project_specific_value_restriction_allow?,
+            label: I18n.t("custom_fields.project_specific_values.allow.label"),
+            caption: I18n.t("custom_fields.project_specific_values.allow.caption")
+          )
+        end
       end
 
       if show_right_to_left_field?

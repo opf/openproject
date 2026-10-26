@@ -30,9 +30,14 @@
 
 module Patterns
   # @hidden
-  class CheckboxConfirmationPreview < ViewComponent::Preview
+  class InputConfirmationPreview < ViewComponent::Preview
     # @display min_height 400px
-    def default
+    def checkbox
+      render_with_template
+    end
+
+    # @display min_height 400px
+    def radio_button
       render_with_template
     end
   end
