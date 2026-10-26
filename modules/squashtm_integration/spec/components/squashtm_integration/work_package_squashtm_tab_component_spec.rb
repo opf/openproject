@@ -34,13 +34,18 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
   let(:work_package) { build_stubbed(:work_package, project:) }
   let(:status) { :not_linked }
   let(:can_configure_server) { false }
+  let(:can_manage_links) { false }
   let(:can_manage_project_link) { false }
+  let(:work_package_link) { SquashTMIntegration::WorkPackageLink.new(work_package:) }
   let(:tab_state) do
     instance_double(SquashTMIntegration::WorkPackageTabState,
                     work_package:,
                     project:,
                     status:,
+                    work_package_link:,
+                    requirement_options: [{ id: 1, name: "Users can sign in" }],
                     can_configure_server?: can_configure_server,
+                    can_manage_links?: can_manage_links,
                     can_manage_project_link?: can_manage_project_link)
   end
 
@@ -53,6 +58,57 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
 
     expect(page).to have_css("turbo-frame##{described_class::TURBO_FRAME_ID}")
     expect(page).to have_text("No SquashTM requirement linked")
+    expect(page).to have_no_field("SquashTM requirement")
+  end
+
+  context "for a user allowed to manage links" do
+    let(:can_manage_links) { true }
+
+    it "offers the requirements of the linked SquashTM project" do
+      render_component
+
+      expect(page).to have_select("SquashTM requirement", with_options: ["Users can sign in"])
+      expect(page).to have_button("Link requirement")
+    end
+
+    context "when the requirements could not be loaded" do
+      let(:tab_state) do
+        instance_double(SquashTMIntegration::WorkPackageTabState,
+                        work_package:, project:, status:, work_package_link:,
+                        requirement_options: nil, can_manage_links?: true, can_manage_project_link?: false)
+      end
+
+      it "explains that SquashTM is not reachable" do
+        render_component
+
+        expect(page).to have_text("The SquashTM requirements could not be loaded")
+        expect(page).to have_no_button("Link requirement")
+      end
+    end
+  end
+
+  context "when a requirement is linked" do
+    let(:status) { :linked }
+    let(:work_package_link) do
+      build_stubbed(:squashtm_work_package_link, work_package:, squashtm_requirement_name: "Users can sign in")
+    end
+
+    it "shows the linked requirement without an unlink action" do
+      render_component
+
+      expect(page).to have_text("Users can sign in")
+      expect(page).to have_no_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+    end
+
+    context "for a user allowed to manage links" do
+      let(:can_manage_links) { true }
+
+      it "offers to unlink the requirement" do
+        render_component
+
+        expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+      end
+    end
   end
 
   context "when the project is not linked to a SquashTM project" do

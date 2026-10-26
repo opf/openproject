@@ -52,6 +52,49 @@ RSpec.describe SquashTMIntegration::WorkPackageTabState do
 
         expect(state.status).to eq(:not_linked)
       end
+
+      it "is :linked when a requirement is linked" do
+        create(:squashtm_project_link, project:)
+        create(:squashtm_work_package_link, work_package:)
+
+        expect(state.status).to eq(:linked)
+      end
+    end
+  end
+
+  describe "#can_manage_links?" do
+    it "is false without the permission" do
+      expect(state).not_to be_can_manage_links
+    end
+
+    context "with the permission to manage requirement links" do
+      let(:permissions) { %i[view_work_packages manage_squashtm_links] }
+
+      it { is_expected.to be_can_manage_links }
+    end
+  end
+
+  describe "#requirement_options" do
+    let(:client) { instance_double(SquashTMIntegration::Client) }
+
+    before do
+      create(:squashtm_server)
+      create(:squashtm_project_link, project:, squashtm_project_id: 3)
+      allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
+    end
+
+    it "lists the requirements of the linked SquashTM project sorted by name" do
+      allow(client).to receive(:all_requirements).with(3).and_return(
+        [{ "id" => 2, "name" => "b second", "extra" => 1 }, { "id" => 1, "name" => "A first" }]
+      )
+
+      expect(state.requirement_options).to eq([{ id: 1, name: "A first" }, { id: 2, name: "b second" }])
+    end
+
+    it "is nil when SquashTM cannot be reached" do
+      allow(client).to receive(:all_requirements).and_raise(SquashTMIntegration::Client::TimeoutError)
+
+      expect(state.requirement_options).to be_nil
     end
   end
 

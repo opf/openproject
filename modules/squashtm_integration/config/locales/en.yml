@@ -42,6 +42,7 @@ en:
               squashtm_server_not_configured: "No SquashTM server is configured. Please contact your instance administrator."
             squashtm_requirement_id:
               not_found: "does not exist or is not visible to the SquashTM account used by OpenProject."
+              not_in_linked_project: "does not belong to the SquashTM project linked to this project."
               squashtm_unavailable: "could not be verified because the SquashTM server is not reachable. Please try again later."
             work_package_id:
               taken: "is already linked to a SquashTM requirement."
@@ -103,3 +104,16 @@ en:
         heading: "No SquashTM project linked"
         manager_description: "Link this project to a SquashTM project to link its requirements to work packages."
       requirement: "Requirement"
+      requirements_unavailable: "The SquashTM requirements could not be loaded because the SquashTM server is not reachable. Please try again later."
+    work_package_tab:
+      delete_requirement_link_dialog_component:
+        confirm: "Unlink"
+        description: "The test cases of this requirement will no longer be shown on this work package. The requirement and its test cases in SquashTM are not affected."
+        heading: "Unlink the SquashTM requirement %{name}?"
+        title: "Unlink SquashTM requirement"
+      linked_requirement_component:
+        requirement: "Requirement"
+        unlink: "Unlink"
+      requirement_link_form:
+        prompt: "Select a SquashTM requirement"
+        submit: "Link requirement"

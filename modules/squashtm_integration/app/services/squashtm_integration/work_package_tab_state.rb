@@ -29,17 +29,19 @@
 
 module SquashTMIntegration
   class WorkPackageTabState
-    attr_reader :work_package, :user
+    attr_reader :work_package, :user, :work_package_link
 
     delegate :project, to: :work_package
 
-    def initialize(work_package:, user:)
+    def initialize(work_package:, user:, work_package_link: nil)
       @work_package = work_package
       @user = user
+      @work_package_link = work_package_link || WorkPackageLink.find_or_initialize_by(work_package:)
     end
 
     def status
       if server.nil? then :no_server
+      elsif work_package_link.persisted? then :linked
       elsif project_link.nil? then :project_not_linked
       else :not_linked
       end
@@ -61,8 +63,36 @@ module SquashTMIntegration
       user.admin?
     end
 
+    def can_manage_links?
+      user.allowed_in_project?(:manage_squashtm_links, project)
+    end
+
     def can_manage_project_link?
       user.allowed_in_project?(:manage_squashtm_integration, project)
+    end
+
+    def requirement_options
+      load_requirement_options unless defined?(@requirement_options)
+      @requirement_options
+    end
+
+    private
+
+    def client
+      @client ||= Client.for(server)
+    end
+
+    def load_requirement_options
+      @requirement_options = client.all_requirements(project_link.squashtm_project_id)
+                                   .map { it.slice("id", "name").symbolize_keys }
+                                   .sort_by { it[:name].to_s.downcase }
+    rescue Client::Error => e
+      log_error("SquashTM requirements of project #{project_link.squashtm_project_id} could not be loaded", e)
+      @requirement_options = nil
+    end
+
+    def log_error(message, error)
+      Rails.logger.warn("#{message}: #{error.class}: #{error.message}")
     end
   end
 end

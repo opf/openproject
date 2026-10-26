@@ -83,7 +83,7 @@ module OpenProject::SquashTMIntegration
                    dependencies: :view_work_packages
 
         permission :manage_squashtm_links,
-                   {},
+                   { "squashtm_integration/work_package_requirement_links": %i[update destroy_dialog destroy] },
                    permissible_on: :project,
                    dependencies: :view_squashtm_test_results
 

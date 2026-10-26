@@ -38,17 +38,24 @@ RSpec.describe "Work package SquashTM tab",
   let(:permissions) { %i[view_work_packages view_squashtm_test_results] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
+  let(:client) { instance_double(SquashTMIntegration::Client) }
+
   subject do
     get "/projects/#{project.id}/work_packages/#{work_package.id}/squashtm/tab"
     response
   end
 
-  before { login_as user }
+  before do
+    allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
+    allow(client).to receive(:all_requirements).and_return([{ "id" => 11, "name" => "Users can sign in" }])
+    login_as user
+  end
 
   it "tells the user when no SquashTM server is configured" do
     expect(subject).to have_http_status(:ok)
     expect(subject.body).to include("work-package-squashtm-tab-content")
     expect(subject.body).to include("SquashTM is not available")
+    expect(SquashTMIntegration::Client).not_to have_received(:for)
   end
 
   context "with a configured server" do
@@ -65,6 +72,42 @@ RSpec.describe "Work package SquashTM tab",
       it "shows that no requirement is linked yet" do
         expect(subject).to have_http_status(:ok)
         expect(subject.body).to include("No SquashTM requirement linked")
+        expect(subject.body).not_to include("Link requirement")
+      end
+
+      context "for a user allowed to manage links" do
+        let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+
+        it "offers the requirements to link" do
+          expect(subject.body).to include("Link requirement", "Users can sign in")
+        end
+
+        it "explains when SquashTM is not reachable" do
+          allow(client).to receive(:all_requirements).and_raise(SquashTMIntegration::Client::SsrfError)
+
+          expect(subject).to have_http_status(:ok)
+          expect(subject.body).to include("The SquashTM requirements could not be loaded")
+        end
+      end
+
+      context "and a linked requirement" do
+        before { create(:squashtm_work_package_link, work_package:, squashtm_requirement_name: "Users can sign in") }
+
+        it "shows the linked requirement without an unlink action" do
+          page = Capybara.string(subject.body)
+
+          expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--requirement']",
+                                   text: "Users can sign in")
+          expect(page).to have_no_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+        end
+
+        context "for a user allowed to manage links" do
+          let(:permissions) { %i[view_work_packages view_squashtm_test_results manage_squashtm_links] }
+
+          it "offers to unlink the requirement" do
+            expect(Capybara.string(subject.body)).to have_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+          end
+        end
       end
     end
   end

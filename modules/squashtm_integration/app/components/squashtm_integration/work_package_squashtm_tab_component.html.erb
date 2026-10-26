@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       when :not_linked
         flex_layout do |container|
-          container.with_row do
+          container.with_row(mb: 3) do
             render(
               OpenProject::Common::BorderBoxListComponent.new(
                 container: :squashtm_requirement,
@@ -72,7 +72,28 @@ See COPYRIGHT and LICENSE files for more details.
               list.with_empty_state(title: t(".blankslate.heading"), description: t(".blankslate.description"), icon: :beaker)
             end
           end
+
+          if can_manage_links?
+            container.with_row do
+              if requirement_options.nil?
+                render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, test_selector: "op-work-package-squashtm-tab--requirements-unavailable")) do
+                  t(".requirements_unavailable")
+                end
+              else
+                primer_form_with(
+                  model: work_package_link,
+                  scope: :squashtm_work_package_link,
+                  url: project_work_package_squashtm_requirement_link_path(project, work_package),
+                  method: :patch
+                ) do |form|
+                  render(SquashTMIntegration::WorkPackageTab::RequirementLinkForm.new(form, requirement_options:))
+                end
+              end
+            end
+          end
         end
+      when :linked
+        render(SquashTMIntegration::WorkPackageTab::LinkedRequirementComponent.new(tab_state))
       end
     end
   end

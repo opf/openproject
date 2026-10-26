@@ -1,0 +1,56 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout(test_selector: "op-work-package-squashtm-tab--linked") do |container|
+    container.with_row(mb: 3) do
+      render(OpenProject::Common::BorderBoxListComponent.new(container: :squashtm_requirement, padding: :condensed)) do |list|
+        list.with_header(title: t(".requirement")) do |header|
+          if can_manage_links?
+            header.with_action_icon_button(
+              tag: :a,
+              icon: :unlink,
+              scheme: :invisible,
+              aria: { label: t(".unlink") },
+              tooltip_direction: :w,
+              href: destroy_dialog_project_work_package_squashtm_requirement_link_path(project, work_package),
+              data: { controller: "async-dialog" },
+              test_selector: "op-work-package-squashtm-tab--unlink"
+            )
+          end
+        end
+
+        list.with_item do
+          render(Primer::Beta::Text.new(test_selector: "op-work-package-squashtm-tab--requirement")) do
+            work_package_link.squashtm_requirement_name
+          end
+        end
+      end
+    end
+  end
+%>
