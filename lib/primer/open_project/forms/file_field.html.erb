@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::Forms::FormControl.new(input: @input)) do %>
-  <%= content_tag(:div, **field_wrap_arguments, data: { controller: "file-field" }) do %>
+  <%= content_tag(:div, **field_wrap_arguments, data: wrap_attributes) do %>
     <%=
       builder.file_field(
         name,
@@ -89,6 +89,20 @@ See COPYRIGHT and LICENSE files for more details.
             data: error_attributes
           )
         ) { invalid_file_message }
+      %>
+    <% end %>
+
+    <% if file_too_large_message.present? %>
+      <%=
+        render(
+          Primer::OpenProject::InlineMessage.new(
+            scheme: :critical,
+            size: :small,
+            role: "alert",
+            hidden: true,
+            data: too_large_attributes
+          )
+        ) { file_too_large_message }
       %>
     <% end %>
   <% end %>

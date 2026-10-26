@@ -35,7 +35,8 @@ module Primer
         prepend WrappedInput
 
         delegate :builder, :form, :name, :label, :description, :icon, :accept, :preview_url, :preview_class,
-                 :preview_data, :filename, :delete_path, :invalid_file_message, to: :@input
+                 :preview_data, :filename, :delete_path, :invalid_file_message, :max_size,
+                 :file_too_large_message, to: :@input
 
         def initialize(input:)
           super()
@@ -89,8 +90,16 @@ module Primer
           I18n.t(:button_actions)
         end
 
+        def wrap_attributes
+          { controller: "file-field", "file-field-max-size-value": max_size }.compact
+        end
+
         def error_attributes
           { "file-field-target": "error" }.merge(@input.error_data)
+        end
+
+        def too_large_attributes
+          { "file-field-target": "tooLarge" }
         end
 
         def replace_item_arguments

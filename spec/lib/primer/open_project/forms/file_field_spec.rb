@@ -137,6 +137,38 @@ RSpec.describe Primer::OpenProject::Forms::FileField, type: :forms do
     end
   end
 
+  context "without a max_size" do
+    it "omits the max-size Stimulus value, leaving the size check off" do
+      render_file_field
+
+      controller_scope = page.find("[data-controller='file-field']", visible: :all)
+      expect(controller_scope["data-file-field-max-size-value"]).to be_nil
+    end
+
+    it "renders no too-large message, leaving the feedback opt-in" do
+      render_file_field
+
+      expect(page).to have_no_css(".InlineMessage", visible: :all)
+    end
+  end
+
+  context "with a max_size" do
+    it "exposes it as a Stimulus value on the controller scope" do
+      render_file_field(max_size: 1_048_576)
+
+      controller_scope = page.find("[data-controller='file-field']", visible: :all)
+      expect(controller_scope["data-file-field-max-size-value"]).to eq("1048576")
+    end
+  end
+
+  context "with an explicit file_too_large_message" do
+    it "renders the given message" do
+      render_file_field(max_size: 1_048_576, file_too_large_message: "This file is too big")
+
+      expect(page).to have_css(".InlineMessage", text: "This file is too big", visible: :all)
+    end
+  end
+
   context "without auto_submit" do
     it "only wires the change action to fileChosen" do
       render_file_field

@@ -35,11 +35,12 @@ module Primer
         class FileFieldInput < Primer::Forms::Dsl::Input
           attr_reader :name, :label, :description, :icon, :accept, :preview_url, :preview_class, :preview_data,
                       :filename, :delete_path, :delete_button_arguments, :auto_submit,
-                      :invalid_file_message, :error_data
+                      :invalid_file_message, :error_data, :max_size, :file_too_large_message
 
           def initialize(name:, label:, description: nil, icon: :upload, accept: nil, preview_url: nil,
                          preview_class: nil, preview_data: {}, filename: nil, delete_path: nil, delete_button_arguments: {},
-                         auto_submit: false, invalid_file_message: nil, error_data: {}, **system_arguments)
+                         auto_submit: false, invalid_file_message: nil, error_data: {}, max_size: nil,
+                         file_too_large_message: nil, **system_arguments)
             @name = name
             @label = label
             @description = description
@@ -54,6 +55,8 @@ module Primer
             @auto_submit = auto_submit
             @invalid_file_message = invalid_file_message
             @error_data = error_data
+            @max_size = max_size
+            @file_too_large_message = file_too_large_message
 
             super(**system_arguments, visually_hide_label: true)
           end
