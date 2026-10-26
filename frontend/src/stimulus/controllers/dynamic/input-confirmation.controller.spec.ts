@@ -219,4 +219,71 @@ describe('Input confirmation controller', () => {
       expect(dialog.open).toBe(false);
     });
   });
+
+  describe('with several radio buttons asking for their own confirmation', () => {
+    async function render() {
+      await ctx.mount(`
+        <div data-controller="input-confirmation" data-input-confirmation-trigger-value="checked">
+          <input type="radio" name="mode" value="all"
+                 data-input-confirmation-target="input" data-input-confirmation-dialog-id="to-all">
+          <input type="radio" name="mode" value="allow" checked>
+          <input type="radio" name="mode" value="block"
+                 data-input-confirmation-target="input" data-input-confirmation-dialog-id="to-block">
+          <dialog id="to-all" data-input-confirmation-target="dialog">
+            <button type="button" data-submit-dialog-id="to-all">Confirm</button>
+          </dialog>
+          <dialog id="to-block" data-input-confirmation-target="dialog">
+            <button type="button" data-submit-dialog-id="to-block">Confirm</button>
+          </dialog>
+        </div>
+      `);
+
+      const radio = (value:string) => document.querySelector<HTMLInputElement>(`input[value="${value}"]`)!;
+      const dialog = (id:string) => document.querySelector<HTMLDialogElement>(`dialog#${id}`)!;
+
+      return {
+        allow: radio('allow'),
+        block: radio('block'),
+        toAll: dialog('to-all'),
+        toBlock: dialog('to-block'),
+      };
+    }
+
+    function select(radio:HTMLInputElement) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    it('opens the dialog of the selected radio button', async () => {
+      const { block, toAll, toBlock } = await render();
+
+      select(block);
+
+      expect(toBlock.open).toBe(true);
+      expect(toAll.open).toBe(false);
+    });
+
+    it('selects the previously selected radio button again when cancelling', async () => {
+      const { allow, block, toBlock } = await render();
+
+      select(block);
+      const dialogClosed = closed(toBlock);
+      toBlock.close();
+      await dialogClosed;
+
+      expect(block.checked).toBe(false);
+      expect(allow.checked).toBe(true);
+    });
+
+    it('keeps the selection once confirmed', async () => {
+      const { block, toBlock } = await render();
+
+      select(block);
+      const dialogClosed = closed(toBlock);
+      toBlock.querySelector<HTMLButtonElement>('[data-submit-dialog-id]')!.click();
+      await dialogClosed;
+
+      expect(block.checked).toBe(true);
+    });
+  });
 });

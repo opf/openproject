@@ -28,10 +28,11 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
- * Opens a confirmation dialog when the checkbox or radio button is changed to the trigger state.
- * The change is reverted unless it is confirmed with the dialog's submit button, which is marked
- * by `data-submit-dialog-id` as with Primer dialogs. For a radio button, reverting selects the
- * radio button of its group that was selected before.
+ * Opens a confirmation dialog when a checkbox or radio button target is changed to the trigger
+ * state. A target opens the dialog whose id it names in `data-input-confirmation-dialog-id`, or
+ * the first dialog target otherwise. The change is reverted unless it is confirmed with the
+ * dialog's submit button, which is marked by `data-submit-dialog-id` as with Primer dialogs. For
+ * a radio button, reverting selects the radio button of its group that was selected before.
  */
 export default class InputConfirmationController extends Controller {
   static targets = ['input', 'dialog'];
@@ -40,11 +41,12 @@ export default class InputConfirmationController extends Controller {
     trigger: { type: String, default: 'unchecked' },
   };
 
-  declare readonly inputTarget:HTMLInputElement;
-  declare readonly dialogTarget:HTMLDialogElement;
+  declare readonly inputTargets:HTMLInputElement[];
+  declare readonly dialogTargets:HTMLDialogElement[];
   declare readonly triggerValue:'checked'|'unchecked';
 
   private confirmed = false;
+  private pendingInput:HTMLInputElement|undefined;
   private previouslySelectedRadio:HTMLInputElement|undefined;
 
   connect():void {
@@ -56,7 +58,7 @@ export default class InputConfirmationController extends Controller {
   }
 
   inputTargetConnected(input:HTMLInputElement):void {
-    this.previouslySelectedRadio = this.radiosOf(input).find((radio) => radio.checked);
+    this.previouslySelectedRadio ??= this.radiosOf(input).find((radio) => radio.checked);
   }
 
   dialogTargetConnected(dialog:HTMLDialogElement):void {
@@ -72,10 +74,11 @@ export default class InputConfirmationController extends Controller {
   private onChange = (event:Event):void => {
     const changed = event.target as HTMLInputElement;
 
-    if (changed === this.inputTarget && changed.checked === (this.triggerValue === 'checked')) {
+    if (this.inputTargets.includes(changed) && changed.checked === (this.triggerValue === 'checked')) {
       this.confirmed = false;
-      this.dialogTarget.showModal();
-    } else if (this.radiosOf(this.inputTarget).includes(changed)) {
+      this.pendingInput = changed;
+      this.dialogFor(changed).showModal();
+    } else if (this.inputTargets.some((input) => this.radiosOf(input).includes(changed))) {
       this.previouslySelectedRadio = changed;
     }
   };
@@ -87,23 +90,36 @@ export default class InputConfirmationController extends Controller {
     }
 
     this.confirmed = true;
-    if (this.dialogTarget.open) {
-      this.dialogTarget.close();
+    const dialog = event.currentTarget as HTMLDialogElement;
+    if (dialog.open) {
+      dialog.close();
     }
   };
 
   private onDialogClose = ():void => {
+    const input = this.pendingInput;
+    this.pendingInput = undefined;
+    if (!input) {
+      return;
+    }
+
     if (this.confirmed) {
-      this.previouslySelectedRadio = this.radiosOf(this.inputTarget).find((radio) => radio.checked);
-    } else if (this.inputTarget.type === 'radio') {
-      this.inputTarget.checked = false;
+      this.previouslySelectedRadio = this.radiosOf(input).find((radio) => radio.checked);
+    } else if (input.type === 'radio') {
+      input.checked = false;
       if (this.previouslySelectedRadio) {
         this.previouslySelectedRadio.checked = true;
       }
     } else {
-      this.inputTarget.checked = !this.inputTarget.checked;
+      input.checked = !input.checked;
     }
   };
+
+  private dialogFor(input:HTMLInputElement):HTMLDialogElement {
+    const dialogId = input.dataset.inputConfirmationDialogId;
+
+    return this.dialogTargets.find((dialog) => dialog.id === dialogId) ?? this.dialogTargets[0];
+  }
 
   private radiosOf(input:HTMLInputElement):HTMLInputElement[] {
     if (input.type !== 'radio') {

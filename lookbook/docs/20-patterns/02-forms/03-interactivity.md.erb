@@ -112,6 +112,7 @@ For a radio button group, mark the radio button whose selection needs to be conf
 How it behaves:
 
 - The dialog opens when the checkbox is unchecked. Pass `data-input-confirmation-trigger-value="checked"` to ask for confirmation when it is checked, or when the radio button is selected, instead.
+- Several inputs can each ask for confirmation with their own dialog: mark each of them as a target and name its dialog with `data-input-confirmation-dialog-id`. Without it, an input opens the first dialog.
 - The change is kept when it is confirmed with the dialog's submit button, i.e. the button marked with `data-submit-dialog-id`, which the Danger dialog renders as its confirm button.
 - Closing the dialog in any other way, by cancelling, closing it or pressing <kbd>Escape</kbd>, changes the checkbox back, or selects the radio button of the group that was selected before.
 - Only attach the controller when confirming is necessary, for example when there actually is data that would be removed. There is no option to skip the confirmation.
