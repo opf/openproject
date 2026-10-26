@@ -25,13 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { waitFor, within } from '@testing-library/dom';
 import { DisplayFieldRenderer } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { buildWorkPackage } from '../../../testing/work-package-fixture';
-import { buildTable, TableHarness } from '../../../testing/table-harness';
+import {
+  buildTable, ConsumerName, consumerConfiguration, TableHarness,
+} from '../../../testing/table-harness';
 import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageTableConfiguration, WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import {
@@ -78,7 +80,7 @@ describe('roving tabindex', () => {
       productionMarkup: true,
       editing: {},
       groups: [{ value: 'Open', href: '/api/v3/statuses/1', count: 2, sums: { estimatedTime: 'PT1H' } as never }],
-      configuration: { keyboardNavigationEnabled, ...extra },
+      configuration: { keyboardNavigationEnabled, inlineCreateEnabled: true, ...extra },
       ...options,
     });
     await harness.render();
@@ -123,42 +125,64 @@ describe('roving tabindex', () => {
     });
   });
 
-  describe('with the flag off', () => {
-    it('keeps rows and editable fields tabbable', async () => {
+  describe.each<ConsumerName>(['search', 'macro', 'widget', 'queryGroup', 'bcf'])('the %s consumer preset', (name) => {
+    const mountConsumer = () => {
+      harness = buildTable({
+        workPackages: [{ id: '1' }, { id: '2' }],
+        productionMarkup: true,
+        editing: {},
+        configuration: consumerConfiguration(name),
+      });
+      return harness.render().then(() => harness!);
+    };
+
+    it('leaves the first row as the only Tab stop, with editable fields out of the Tab order', async () => {
+      const table = await mountConsumer();
+
+      expect(table.row('1')).toHaveAttribute('tabindex', '0');
+      expect(table.row('2')).toHaveAttribute('tabindex', '-1');
+      expect(subjectField(table)).not.toHaveAttribute('tabindex');
+      expect(subjectField(table)).not.toHaveAttribute('role');
+    });
+
+    it('takes the header sort link out of the Tab order', async () => {
+      const table = await mountConsumer();
+
+      expect(table.headerCells()[0].querySelector('a')).toHaveAttribute('tabindex', '-1');
+    });
+
+    it('marks the data cells navigable', async () => {
+      const table = await mountConsumer();
+
+      expect(navigableCells(table.row('1')).length).toBeGreaterThan(0);
+    });
+
+    it('renders the configuration header control only when the column menu is on', async () => {
+      const table = await mountConsumer();
+      const trigger = table.container.querySelector('th.wp-table--configuration-modal--trigger');
+
+      expect(trigger !== null).toBe(name === 'queryGroup' || consumerConfiguration(name).columnMenuEnabled === true);
+      expect(trigger?.querySelector('button.wp-table--columns-selection') != null).toBe(consumerConfiguration(name).columnMenuEnabled === true);
+    });
+
+    it('renders the inline-create body only when inline create is on', async () => {
+      const table = await mountConsumer();
+      const createButton = within(table.container).queryByRole('button', { name: 'Create new work package' });
+      const inlineCreateEnabled = consumerConfiguration(name).inlineCreateEnabled === true;
+
+      expect(table.container.querySelector('tbody[wpInlineCreate]') !== null).toBe(inlineCreateEnabled);
+      expect(createButton !== null).toBe(inlineCreateEnabled);
+    });
+  });
+
+  describe('with the capability off', () => {
+    it('keeps rows and editable fields tabbable and the header sort link in the Tab order', async () => {
       const table = await mount(false);
 
       expect(table.row('1')).toHaveAttribute('tabindex', '0');
       expect(subjectField(table)).toHaveAttribute('tabindex', '0');
       expect(subjectField(table)).toHaveAttribute('role', 'button');
       expect(table.container.querySelector(`.${navigableCellClassName}`)).toBeNull();
-    });
-
-    it.each([
-      ['the BCF list', { dragAndDropEnabled: false }],
-      ['an embedded table', { isEmbedded: true }],
-    ])('keeps today\'s Tab stops and handles no keys in %s', async (_name, configuration) => {
-      harness = buildTable({
-        workPackages: [{ id: '1' }, { id: '2' }],
-        productionMarkup: true,
-        editing: {},
-        configuration,
-      });
-      await harness.render();
-      harness.row('1').focus();
-
-      expect(harness.table.configuration.keyboardNavigationEnabled).toBe(false);
-      expect(harness.row('1')).toHaveAttribute('tabindex', '0');
-      expect(harness.row('2')).toHaveAttribute('tabindex', '0');
-      expect(subjectField(harness)).toHaveAttribute('tabindex', '0');
-      expect(subjectField(harness)).toHaveAttribute('role', 'button');
-      expect(harness.table.keyboardNavigation).toBeNull();
-      expect(fireEvent.keyDown(harness.row('1'), { key: 'ArrowDown' })).toBe(true);
-      expect(harness.row('1')).toHaveFocus();
-    });
-
-    it('leaves the header sort link without a tabindex', async () => {
-      const table = await mount(false);
-
       expect(table.headerCells()[0].querySelector('a')).not.toHaveAttribute('tabindex');
     });
   });

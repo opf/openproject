@@ -42,7 +42,7 @@ describe('table harness production markup', () => {
   });
 
   it('renders a sticky header row with one cell per column plus the configuration cell, and a totals row', async () => {
-    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject'], productionMarkup: true });
+    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject'], productionMarkup: true, configuration: { columnMenuEnabled: true } });
     await harness.render();
 
     expect(harness.headerCells().map((th) => th.textContent?.trim())).toEqual(['id', 'subject', '']);
@@ -50,6 +50,14 @@ describe('table harness production markup', () => {
     expect(harness.totalsRow()).toHaveClass('wp-table--sums-row');
     expect(harness.headerCells()[0].querySelector('a[href]')).not.toBeNull();
     expect(harness.headerCells()[2].querySelector('button.wp-table--columns-selection')).not.toBeNull();
+  });
+
+  it('renders neither the configuration cell nor its totals cell without the column menu or actions column', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }], columns: ['id', 'subject'], productionMarkup: true });
+    await harness.render();
+
+    expect(harness.headerCells()).toHaveLength(2);
+    expect(harness.totalsRow().cells).toHaveLength(2);
   });
 
   it('keyboardNavigationEnabled defaults to false and can be turned on', () => {

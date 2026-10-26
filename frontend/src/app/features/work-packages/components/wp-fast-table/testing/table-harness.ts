@@ -226,6 +226,51 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+export type ConsumerName = 'search'|'macro'|'widget'|'queryGroup'|'bcf';
+
+const consumerLiterals:Record<ConsumerName, WorkPackageTableConfigurationObject> = {
+  search: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: true,
+    contextMenuEnabled: false,
+    inlineCreateEnabled: false,
+    withFilters: true,
+    showFilterButton: true,
+  },
+  macro: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+  },
+  widget: {
+    actionsColumnEnabled: false,
+    columnMenuEnabled: false,
+    hierarchyToggleEnabled: true,
+    contextMenuEnabled: false,
+  },
+  queryGroup: {
+    actionsColumnEnabled: true,
+    hierarchyToggleEnabled: false,
+    inlineCreateEnabled: true,
+    compactTableStyle: true,
+    columnMenuEnabled: false,
+    contextMenuEnabled: false,
+    projectContext: false,
+  },
+  bcf: {
+    dragAndDropEnabled: false,
+  },
+};
+
+export function consumerConfiguration(name:ConsumerName):WorkPackageTableConfigurationObject {
+  const productionDefaults = Object.fromEntries(
+    Object.entries(new WorkPackageTableConfiguration({}))
+      .filter(([, value]) => typeof value === 'boolean'),
+  ) as WorkPackageTableConfigurationObject;
+
+  return { ...productionDefaults, ...consumerLiterals[name], keyboardNavigationEnabled: true };
+}
+
 const unbuildableColumns:WorkPackageTableConfigurationObject = {
   actionsColumnEnabled: false,
   columnMenuEnabled: false,
@@ -665,16 +710,23 @@ function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configur
         <span class="generic-table--sort-header">${sortable === false ? `<a${tabindex}>${name}</a>` : `<a href="#" id="${id}"${tabindex}>${name}</a>`}</span>
       </div>
     </th>`).join('');
-  const configurationCell = `
+  const hasConfigurationCell = configuration.columnMenuEnabled || configuration.actionsColumnEnabled;
+  const configurationCell = !hasConfigurationCell ? '' : `
     <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th${navigable}">
-      <button type="button" class="wp-table--columns-selection"${tabindex}></button>
+      ${configuration.columnMenuEnabled ? `<button type="button" class="wp-table--columns-selection"${tabindex}></button>` : ''}
     </th>`;
 
   productionMarkupElement(wrapper, 'thead tr').innerHTML = headerCells + configurationCell;
+  if (configuration.inlineCreateEnabled) {
+    wrapper.querySelector('tbody.work-package--results-tbody')!.closest('table')!.insertAdjacentHTML(
+      'beforeend',
+      '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>',
+    );
+  }
   const augmentedColumns = [
     ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
     ...(columns as QueryColumn[]),
-    internalContextMenuColumn,
+    ...(hasConfigurationCell ? [internalContextMenuColumn] : []),
   ];
   productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = augmentedColumns
     .map((column) => `<td${keyboardNavigationEnabled && isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
@@ -703,7 +755,6 @@ export function buildDom(options:{ productionMarkup?:boolean } = {}) {
         ${options.productionMarkup ? '<thead class="-sticky"><tr></tr></thead>' : ''}
         <tbody class="work-package--results-tbody"></tbody>
         ${options.productionMarkup ? '<tbody><tr class="wp-table--sums-row wp-table--row"></tr></tbody>' : ''}
-        ${options.productionMarkup ? '<tbody wpInlineCreate><tr><td><button type="button" class="spot-link">Create new work package</button></td></tr></tbody>' : ''}
       </table>
     </div>
     <div class="work-packages-tabletimeline--timeline-side"><div class="wp-table-timeline--body"></div></div>
