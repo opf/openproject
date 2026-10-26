@@ -2825,10 +2825,10 @@ en:
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     contained_in_type: "Contained in type"
     disable_project_specific_values:
-      button: "Disable"
-      description: "All values enabled for individual projects will be removed. Every project will be able to use all values again."
-      heading: "Disable project-specific values?"
-      title: "Disable project-specific values"
+      button: "Apply"
+      confirmation: "I understand that any project-specific settings will be overridden"
+      description: "All values for this custom field will be available to all projects using it."
+      title: "Make all values available to all projects?"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -2860,7 +2860,7 @@ en:
         all: "Allows the user to assign multiple values to this custom field."
         project: "Allows the user to assign multiple values to this attribute."
       project_specific_value_restriction:
-        all: "Only the values enabled for a project can be used in its work packages. Values are enabled in the project settings."
+        all: "Projects using this custom field will show the values you activate for them in the Projects tab. Each project's list is empty by default."
       regexp:
         all: "eg. ^[A-Z0-9]+$"
         project: "eg. ^[A-Z0-9]+$"
@@ -2878,6 +2878,7 @@ en:
       description: "In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:"
       heading: "Settings moved"
     placeholder_version_select: "Work package or project selection is required first"
+    project_specific_value_restriction_label: "Manually choose which values each project can use"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
     semantic_keys:

@@ -184,7 +184,7 @@ module CustomFields
       if show_project_specific_value_restriction_field?
         details_form.check_box(
           name: :project_specific_value_restriction,
-          label: label(:project_specific_value_restriction),
+          label: I18n.t("custom_fields.project_specific_value_restriction_label"),
           caption: instructions(:project_specific_value_restriction),
           value: "allow",
           unchecked_value: "",

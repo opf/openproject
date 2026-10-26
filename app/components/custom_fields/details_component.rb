@@ -70,13 +70,15 @@ module CustomFields
           id: "disable-project-specific-values-dialog",
           title: t("custom_fields.disable_project_specific_values.title"),
           confirm_button_text: t("custom_fields.disable_project_specific_values.button"),
+          cancel_button_text: t(:button_close),
           data: { checkbox_confirmation_target: "dialog" }
         )
       ) do |dialog|
         dialog.with_confirmation_message do |message|
-          message.with_heading(tag: :h2) { t("custom_fields.disable_project_specific_values.heading") }
+          message.with_heading(tag: :h2) { t("custom_fields.disable_project_specific_values.title") }
           message.with_description_content(t("custom_fields.disable_project_specific_values.description"))
         end
+        dialog.with_confirmation_check_box_content(t("custom_fields.disable_project_specific_values.confirmation"))
       end
     end
 

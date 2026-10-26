@@ -87,6 +87,8 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
       I18n.t("activerecord.attributes.project_custom_field.custom_field_section")
     when :formula
       I18n.t(:label_formula)
+    when :project_specific_value_restriction
+      I18n.t("custom_fields.project_specific_value_restriction_label")
     else
       I18n.t("activerecord.attributes.custom_field.#{field}")
     end
@@ -146,7 +148,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     let(:model) { model_class.new(field_format:, project_specific_value_restriction: "allow") }
 
     it "renders the project-specific values checkbox checked" do
-      expect(page).to have_checked_field(I18n.t("activerecord.attributes.custom_field.project_specific_value_restriction"),
+      expect(page).to have_checked_field(I18n.t("custom_fields.project_specific_value_restriction_label"),
                                          with: "allow")
     end
   end
