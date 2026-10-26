@@ -289,6 +289,17 @@ export function isHTMLInputElement(element:EventTarget|Element|null):element is 
 }
 
 /**
+ * Sets a single file on an `<input type="file">`. The `files` property is a read-only
+ * `FileList`, so a `DataTransfer` is the only way to assign to it programmatically — e.g. after
+ * a drag-and-drop, or to replace a chosen file with a processed version of itself.
+ */
+export function setInputFiles(input:HTMLInputElement, file:File):void {
+  const transfer = new DataTransfer();
+  transfer.items.add(file);
+  input.files = transfer.files;
+}
+
+/**
  * Reads a CSS custom property off the document body, so that a value defined by the stylesheet
  * and by the theme in force can be used where only a plain string will do -- a canvas fill, say.
  *

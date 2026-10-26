@@ -79,6 +79,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
 
     it "selects a color theme", :js do
       select("OpenProject Gray", from: "theme")
+
       wait_for_reload
 
       expect_flash(message: I18n.t(:notice_successful_update))
@@ -154,17 +155,20 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       click_on "Branding"
       expect(page).to have_current_path custom_style_path(tab: "branding")
       expect(page).to have_test_selector("color-theme-select")
-      expect(page).to have_field("custom_style_logo")
-      expect(page).to have_field("custom_style_logo_dark")
-      expect(page).to have_field("custom_style_logo_light_high_contrast")
-      expect(page).to have_field("custom_style_logo_mobile")
-      expect(page).to have_field("custom_style_logo_mobile_dark")
-      expect(page).to have_field("custom_style_logo_mobile_light_high_contrast")
-      expect(page).to have_field("custom_style_favicon")
-      expect(page).to have_field("custom_style_touch_icon")
+      # The native file inputs are intentionally hidden behind FileField's own
+      # drop zone (see lib/primer/open_project/forms/file_field.html.erb).
+      expect(page).to have_field("custom_style_logo", visible: :all)
+      expect(page).to have_field("custom_style_logo_dark", visible: :all)
+      expect(page).to have_field("custom_style_logo_light_high_contrast", visible: :all)
+      expect(page).to have_field("custom_style_logo_mobile", visible: :all)
+      expect(page).to have_field("custom_style_logo_mobile_dark", visible: :all)
+      expect(page).to have_field("custom_style_logo_mobile_light_high_contrast", visible: :all)
+      expect(page).to have_field("custom_style_favicon", visible: :all)
+      expect(page).to have_field("custom_style_touch_icon", visible: :all)
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
+
       wait_for_reload
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "branding")
@@ -185,9 +189,12 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
 
       expect(desktop_logo_background).to include(custom_logo_path)
 
+      # The delete action now lives inside FileField's kebab action menu
+      # rather than being a standalone visible button.
+      find(:button, accessible_name: I18n.t(:button_actions)).click
       find_test_selector("delete-custom-style-image-logo").click
+      wait_for_reload
 
-      expect(page).to have_no_test_selector("delete-custom-style-image-logo")
       expect(custom_style.reload.logo).not_to be_present
       expect(desktop_logo_background).not_to include(custom_logo_path)
       expect(desktop_logo_background)

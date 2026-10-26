@@ -291,13 +291,24 @@ module CustomStylesHelper
 
     {
       field:,
+      mode:,
       label: t("admin.custom_styles.branding.modes.#{mode}.name"),
       present:,
       source: present ? custom_logo_url(custom_style, attachment) : nil,
       img_class: field.to_s.start_with?("logo_mobile") ? "custom-logo-mobile-preview" : "custom-logo-preview",
       accept: "image/*",
       delete_path: custom_style_logo_delete_path(field:),
-      instructions: t("admin.custom_styles.branding.modes.#{mode}.description")
+      instructions: t("admin.custom_styles.branding.modes.#{mode}.description"),
+      preview_data: logo_mode_data_attributes(mode)
     }
+  end
+
+  # Mirrors ApplicationHelper#user_theme_data_attributes/ThemeUtils#applyThemeToBody: with these
+  # two attributes on an element, CSS custom properties mapped in _primer_color_mapping.erb
+  # (e.g. --header-bg-color) resolve exactly as they would under that color mode, so a logo
+  # preview can show its background the way the real header would render it.
+  def logo_mode_data_attributes(mode)
+    color_mode = mode == :dark ? :dark : :light
+    { "color-mode": color_mode, "#{color_mode}-theme": mode }
   end
 end
