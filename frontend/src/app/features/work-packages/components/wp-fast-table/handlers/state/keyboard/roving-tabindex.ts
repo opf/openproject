@@ -69,7 +69,7 @@ export function isNavigableColumn(column:QueryColumn, configuration:WorkPackageT
  * Makes `focused` the table's only Tab stop: it gets `tabindex="0"`, every
  * other row, navigable cell and native Tab stop under `root` gets `tabindex="-1"`.
  */
-export function paintRovingTabindex(root:HTMLElement, focused:HTMLElement|null):void {
+export function paintRovingTabindex(root:HTMLElement, focused:HTMLElement|null, engagedEditor:HTMLElement|null = null):void {
   root
     .querySelectorAll<HTMLElement>(`tr, .${navigableCellClassName}`)
     .forEach((element) => {
@@ -81,7 +81,9 @@ export function paintRovingTabindex(root:HTMLElement, focused:HTMLElement|null):
   root
     .querySelectorAll<HTMLElement>(nativeTabStopSelector)
     .forEach((element) => {
-      if (element !== focused && !element.closest(inlineCreateSelector) && !element.closest(`.${activeFieldContainerClassName}`)) {
+      const activeField = element.closest<HTMLElement>(`.${activeFieldContainerClassName}`);
+      const exempt = engagedEditor !== null && activeField === engagedEditor;
+      if (element !== focused && !element.closest(inlineCreateSelector) && !exempt) {
         element.setAttribute('tabindex', '-1');
       }
     });

@@ -136,6 +136,7 @@ describe('WorkPackageTable lifecycle', () => {
     expect(secondRoving).toHaveAttribute('tabindex', '0');
     expect(secondRoving).toHaveFocus();
     expect(removeListener).toHaveBeenCalledWith('focusin', expect.any(Function));
+    expect(removeListener).toHaveBeenCalledWith('keydown', expect.any(Function));
     firstOverlay.remove();
     secondOverlay.remove();
   });

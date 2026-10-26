@@ -35,6 +35,8 @@ import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing
 import { navigableCells } from './roving-tabindex';
 
 const controlSelector = 'a[href], button, input, select, textarea, [role="button"]';
+const editorTabStopSelector = 'a[href], button, input, select, textarea, [tabindex]';
+const originalTabindex = 'data-op-original-tabindex';
 
 function rendered(element:HTMLElement):boolean {
   return element.checkVisibility() && !element.closest('[aria-hidden="true"]');
@@ -59,6 +61,8 @@ export function rowControls(row:HTMLTableRowElement, table?:WorkPackageTable):HT
 
 export class CellInteraction {
   private tabWalkOrigin:FocusPosition|null = null;
+
+  private readonly parked = new WeakSet<EditFieldHandler>();
 
   constructor(private readonly table:WorkPackageTable) {}
 
@@ -103,13 +107,81 @@ export class CellInteraction {
     return false;
   }
 
+  public preparePaint():HTMLElement|null {
+    const engaged = this.table.editing.gridFieldOwning(document.activeElement);
+    this.table.editing.activeGridFields().forEach(({ handler }) => {
+      if (handler !== engaged?.handler) this.park(handler);
+    });
+    return engaged?.handler.element?.querySelector<HTMLElement>(`.${activeFieldContainerClassName}`) ?? null;
+  }
+
   public engageEditor(handler:EditFieldHandler):void {
     const active = this.table.editing.activeTableFields().find(({ handler: candidate }) => candidate === handler);
     active?.form.engageOrigin(handler.fieldName);
+    this.parked.delete(handler);
+    this.editorElements(handler).forEach((element) => {
+      const savedElements = element.hasAttribute(originalTabindex) ? [element] : [];
+      [...savedElements, ...element.querySelectorAll<HTMLElement>(`[${originalTabindex}]`)].forEach((tabbable) => {
+        const saved = tabbable.getAttribute(originalTabindex);
+        if (saved === '__absent__') {
+          tabbable.removeAttribute('tabindex');
+        } else if (saved !== null) {
+          tabbable.setAttribute('tabindex', saved);
+        }
+        tabbable.removeAttribute(originalTabindex);
+      });
+    });
   }
 
-  public handleInnerKeydown(_event:KeyboardEvent):boolean {
-    return false;
+  public engageFocusedEditor(target:EventTarget|null):void {
+    const active = this.table.editing.gridFieldOwning(target as Node|null);
+    if (active && this.parked.has(active.handler)) {
+      this.engageEditor(active.handler);
+    }
+  }
+
+  public handleInnerKeydown(event:KeyboardEvent):boolean {
+    if (event.key !== 'Tab') return false;
+    const active = this.table.editing.gridFieldOwning(event.target as Node);
+    if (!active) return false;
+
+    const tabbables = this.editorTabStops(active.handler).filter((element) => element.tabIndex >= 0);
+    const index = tabbables.indexOf(event.target as HTMLElement);
+    const boundary = event.shiftKey ? index === 0 : index === tabbables.length - 1;
+    if (!boundary) return false;
+
+    const origin = active.form.originFor(active.handler.fieldName)
+      ?? this.navigation.positionOfCell(active.handler.element!)
+      ?? this.navigation.position;
+    if (!origin) return false;
+
+    event.preventDefault();
+    this.park(active.handler);
+    this.navigation.focusPosition(origin);
+    return true;
+  }
+
+  private park(handler:EditFieldHandler):void {
+    this.parked.add(handler);
+    this.editorTabStops(handler).forEach((element) => {
+      if (!element.hasAttribute(originalTabindex)) {
+        element.setAttribute(originalTabindex, element.getAttribute('tabindex') ?? '__absent__');
+      }
+      element.setAttribute('tabindex', '-1');
+    });
+  }
+
+  private editorElements(handler:EditFieldHandler):HTMLElement[] {
+    return [handler.element!, ...handler.overlays];
+  }
+
+  private editorTabStops(handler:EditFieldHandler):HTMLElement[] {
+    return this.editorElements(handler).flatMap((root) => {
+      const candidates = root.matches(editorTabStopSelector) ? [root] : [];
+      return [...candidates, ...root.querySelectorAll<HTMLElement>(editorTabStopSelector)]
+        .filter((element) => rendered(element) && enabled(element))
+        .filter((element) => element.tabIndex >= 0 || element.hasAttribute(originalTabindex));
+    });
   }
 
   private overlayFocusTarget(handler:EditFieldHandler):HTMLElement|null {

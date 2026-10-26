@@ -482,11 +482,14 @@ class FakeEditingPortalService {
   create(container:HTMLElement, injector:Injector, form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const wrapper = document.createElement('div');
     wrapper.className = activeFieldContainerClassName;
+    const formElement = document.createElement('form');
+    formElement.tabIndex = -1;
     const label = document.createElement('label');
     label.className = 'sr-only';
     const input = document.createElement('input');
     input.className = activeFieldClassName;
-    wrapper.append(label, input);
+    formElement.append(label, input);
+    wrapper.append(formElement);
     container.appendChild(wrapper);
     const handler = new HalResourceEditFieldHandler(injector, form, fieldName, schema, container, injector.get(PathHelperService), errors, destroyRef);
     input.id = handler.htmlId;
