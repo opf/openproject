@@ -31,23 +31,21 @@ module WorkPackageTypes
   module ProjectsTab
     class SwitchConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
-      include WorkPackageTypes::VariantRoutes
 
       DIALOG_ID = "work-package-type-switch-projects-dialog"
 
-      def initialize(variant:, switching:, project_ids:)
+      def initialize(variant:, switching:, url:, project_ids: [])
         super()
 
         @variant = variant
         @switching = switching
+        @url = url
         @project_ids = project_ids
       end
 
       private
 
-      attr_reader :variant, :switching, :project_ids
-
-      def link_path = link_variant_projects_path(variant)
+      attr_reader :variant, :switching, :url, :project_ids
 
       def node_payload(project_id) = { nodeId: project_id.to_s }.to_json
 

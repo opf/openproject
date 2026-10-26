@@ -48,6 +48,9 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
 
   def switch_dialog_id = WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID
 
+  # The dialog arrives inside a turbo-stream template, whose contents Capybara does not enter.
+  def streamed_dialog = Capybara.string(Nokogiri::HTML5.fragment(response.body).css("template").inner_html)
+
   describe "a project that already applies the variant" do
     it "is nothing to do rather than a conflict" do
       parent = create(:project)
@@ -99,6 +102,26 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
       link_projects(laboratory, depot)
 
       expect(response.body).not_to include("Depot")
+    end
+
+    it "asks about a sub-project brought in with its parent, without listing the parent" do
+      parent = create(:project, name: "Shed")
+      create(:project, name: "Annex", parent:, types: [firmware])
+
+      link_projects(parent, include_sub_items: true)
+
+      expect(response.body).to include(switch_dialog_id).and include("Annex")
+      expect(response.body).not_to include("Shed")
+    end
+
+    it "carries the sub-projects into the confirmation, as it is resubmitted without the sub-items flag" do
+      parent = create(:project)
+      child = create(:project, parent:, types: [firmware])
+
+      link_projects(parent, include_sub_items: true)
+
+      node_ids = streamed_dialog.all("input[name='project_ids[]']", visible: :all).map { JSON.parse(it.value)["nodeId"] }
+      expect(node_ids).to contain_exactly(parent.id.to_s, child.id.to_s)
     end
 
     it "switches it once confirmed" do

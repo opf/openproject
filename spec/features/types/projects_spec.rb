@@ -216,6 +216,8 @@ RSpec.describe "Work package type projects tab", :js do
     end
 
     expect_flash(message: I18n.t(:notice_successful_update))
+    expect(page).to have_no_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID)
+    expect(page).to have_no_css("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}", visible: :visible)
     within("#project-table") { expect(page).to have_text(on_firmware.name) }
 
     expect(on_firmware.reload.type_variant(type)).to eq(hardware)
@@ -228,6 +230,11 @@ RSpec.describe "Work package type projects tab", :js do
       visit edit_type_projects_path(type_id: type.id)
 
       click_link_or_button I18n.t("types.edit.projects.enable_all")
+
+      within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+        expect(page).to have_text("Foundry").and have_text("Laboratory")
+        click_link_or_button "Change"
+      end
 
       expect(page).to have_test_selector("type-projects-enable-all",
                                          text: I18n.t("types.edit.projects.disable_all"))

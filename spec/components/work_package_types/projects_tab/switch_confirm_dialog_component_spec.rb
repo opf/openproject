@@ -41,9 +41,12 @@ RSpec.describe WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent, type
   shared_let(:depot) { create(:project, name: "Depot") }
 
   let(:switching) { ProjectType.where(type:, project: [laboratory, bookshop]) }
+  let(:link_path) { link_type_variant_projects_path(type_id: type.id, variant_id: hardware.id) }
+  let(:url) { link_path }
+  let(:project_ids) { [laboratory.id, bookshop.id, depot.id] }
 
   before do
-    render_inline(described_class.new(variant: hardware, switching:, project_ids: [laboratory.id, bookshop.id, depot.id]))
+    render_inline(described_class.new(variant: hardware, switching:, url:, project_ids:))
   end
 
   it "asks to replace the other variants with this one" do
@@ -67,10 +70,22 @@ RSpec.describe WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent, type
   end
 
   it "resubmits the whole selection to the link action, confirmed" do
-    form = page.find("form[action='#{link_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)}']")
+    form = page.find("form[action='#{link_path}']")
 
     node_ids = form.all("input[name='project_ids[]']", visible: :all).map { JSON.parse(it.value)["nodeId"] }
     expect(node_ids).to contain_exactly(laboratory.id.to_s, bookshop.id.to_s, depot.id.to_s)
     expect(form).to have_field("confirm_switch", with: "1", type: :hidden)
+  end
+
+  context "when every project is being enabled" do
+    let(:url) { enable_all_type_variant_projects_path(type_id: type.id, variant_id: hardware.id, value: "1") }
+    let(:project_ids) { [] }
+
+    it "resubmits to that action, confirmed, with no selection to carry" do
+      form = page.find("form[action='#{url}']")
+
+      expect(form).to have_no_field("project_ids[]", type: :hidden)
+      expect(form).to have_field("confirm_switch", with: "1", type: :hidden)
+    end
   end
 end
