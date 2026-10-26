@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe Sprints::Velocity do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
-  let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages view_sprints]) }
 
   let(:open_status) { create(:status, is_default: true) }
   let(:done_status) { create(:status) }

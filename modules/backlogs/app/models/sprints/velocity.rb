@@ -32,12 +32,6 @@ module Sprints
   class Velocity
     SPRINT_COUNT = 7
 
-    EXECUTION_ORDER = [
-      "COALESCE(sprints.started_at, sprints.start_date)",
-      "COALESCE(sprints.completed_at, sprints.finish_date)",
-      "sprints.id"
-    ].freeze
-
     def initialize(sprint, project)
       @sprint = sprint
       @project = project
@@ -46,7 +40,7 @@ module Sprints
     attr_reader :sprint, :project
 
     def sprints
-      @sprints ||= [*preceding_sprints.reverse, sprint]
+      @sprints ||= [*preceding_sprints, sprint]
     end
 
     def committed
@@ -64,14 +58,11 @@ module Sprints
     private
 
     def preceding_sprints
-      execution_key = EXECUTION_ORDER.join(", ")
+      ids = Sprint.for_project(project).visible.order_by_date.pluck(:id)
+      position = ids.index(sprint.id)
+      return [] unless position
 
-      Sprint
-        .for_project(project)
-        .where("(#{execution_key}) < (SELECT #{execution_key} FROM sprints WHERE sprints.id = ?)", sprint.id)
-        .order(Arel.sql(EXECUTION_ORDER.map { "#{it} DESC" }.join(", ")))
-        .limit(SPRINT_COUNT - 1)
-        .to_a
+      Sprint.find(ids.first(position).last(SPRINT_COUNT - 1))
     end
 
     def breakdowns
