@@ -32,7 +32,11 @@ require "active_storage/filename"
 
 module Exports
   class ExportJob < ::ApplicationJob
+    include GoodJob::ActiveJobExtensions::InterruptErrors
+
     queue_with_priority :above_normal
+
+    retry_on GoodJob::InterruptError, wait: 0, attempts: 2, report: true
 
     def perform(export:, user:, mime_type:, query:, query_attributes: nil, options: {})
       self.export = export

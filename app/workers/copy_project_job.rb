@@ -51,7 +51,7 @@ class CopyProjectJob < ApplicationJob
       failure_status_update(errors)
     end
   rescue StandardError => e
-    logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
+    logger.error("Failed to finish copy project job", exception: e)
     errors = [I18n.t("copy_project.failed_internal")]
     update_batch(errors:)
     failure_status_update(errors)
