@@ -59,6 +59,10 @@ module Pages
       container.find("table.work-package-table", wait: 10)
     end
 
+    def axe_scope
+      "##{container.find('table.work-package-table[id]', wait: 10)[:id]}"
+    end
+
     def click_reference_inline_create
       container.find('[data-test-selector="op-wp-inline-create-reference"]').click
 

@@ -703,6 +703,19 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       expect(referencedIds(document).filter((id) => id.startsWith(previousId))).toEqual([]);
     });
 
+    it('gives each table a unique id once its table is registered', async () => {
+      fixture = TestBed.createComponent(TwoTablesStandInComponent);
+      document.body.appendChild(fixture.nativeElement as HTMLElement);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      registerTables();
+      await render([{ id: '1' }]);
+
+      const ids = Array.from(document.querySelectorAll('table.work-package-table')).map((table) => table.id);
+      expect(ids).toHaveLength(2);
+      ids.forEach((id) => expect(id).toMatch(/^wp-table-/));
+      expect(ids[0]).not.toEqual(ids[1]);
+    });
+
     it('keeps a capability-off table beside an enabled one native, with unique references', async () => {
       fixture = TestBed.createComponent(TwoTablesStandInComponent);
       document.body.appendChild(fixture.nativeElement as HTMLElement);

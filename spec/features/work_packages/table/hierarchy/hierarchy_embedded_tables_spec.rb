@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Work package hierarchies in two embedded tables", :js do
+  include_context "with axe on Cuprite"
+
   shared_let(:admin) { create(:admin) }
   shared_let(:project) do
     create(:project, :with_internal_wiki, enabled_module_names: %w[work_package_tracking wiki])
@@ -82,5 +84,26 @@ RSpec.describe "Work package hierarchies in two embedded tables", :js do
       hierarchies.expect_hierarchy_at(parent, collapsed: false)
       expect(page).to have_css("tr", text: "Child")
     end
+  end
+
+  it "scans each table separately" do
+    expect(page).to have_css("#{embedded_tables} tr", text: "Child", count: 2, wait: 10)
+
+    table_a, table_b = page.all(embedded_tables).map { |container| Pages::EmbeddedWorkPackagesTable.new(container) }
+
+    expect(page).to be_axe_clean.within(table_a.axe_scope)
+    expect(page).to be_axe_clean.within(table_b.axe_scope)
+
+    page.execute_script(<<~JS, table_b.axe_scope)
+      const cell = document.querySelector(arguments[0] + " tr.wp-table--row td");
+      const button = cell.appendChild(document.createElement("button"));
+      button.id = "unnamed-button";
+    JS
+
+    expect(page).not_to be_axe_clean.within(table_b.axe_scope)
+    expect(page).to be_axe_clean.within(table_a.axe_scope)
+
+    page.execute_script('document.getElementById("unnamed-button").remove()')
+    expect(page).to be_axe_clean.within(table_b.axe_scope)
   end
 end
