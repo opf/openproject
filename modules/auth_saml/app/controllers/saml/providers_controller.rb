@@ -172,9 +172,9 @@ module Saml
 
     def metadata_preview_error(preview)
       if preview.nil?
-        I18n.t("saml.providers.metadata_refresh.expired")
+        t(".expired")
       elsif preview["provider_version"] != @provider.cache_key_with_version
-        I18n.t("saml.providers.metadata_refresh.provider_changed")
+        t(".provider_changed")
       end
     end
 

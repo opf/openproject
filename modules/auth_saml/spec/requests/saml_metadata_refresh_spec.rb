@@ -148,14 +148,14 @@ RSpec.describe "SAML metadata refresh", :skip_csrf, :webmock,
 
     post apply_metadata_saml_provider_path(provider), params: { metadata_token: token }
 
-    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.expired"))
+    expect(flash[:error]).to eq(I18n.t("saml.providers.apply_metadata.expired"))
     expect(provider.reload.options).to eq(original_options)
   end
 
   it "rejects a missing preview token" do
     post apply_metadata_saml_provider_path(provider)
 
-    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.expired"))
+    expect(flash[:error]).to eq(I18n.t("saml.providers.apply_metadata.expired"))
   end
 
   it "rejects an expired preview" do
@@ -167,7 +167,7 @@ RSpec.describe "SAML metadata refresh", :skip_csrf, :webmock,
       post apply_metadata_saml_provider_path(provider), params: { metadata_token: token }
     end
 
-    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.expired"))
+    expect(flash[:error]).to eq(I18n.t("saml.providers.apply_metadata.expired"))
     expect(provider.reload.options).to eq(original_options)
   end
 
@@ -178,7 +178,7 @@ RSpec.describe "SAML metadata refresh", :skip_csrf, :webmock,
 
     post apply_metadata_saml_provider_path(provider), params: { metadata_token: token }
 
-    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.provider_changed"))
+    expect(flash[:error]).to eq(I18n.t("saml.providers.apply_metadata.provider_changed"))
     expect(provider.reload.idp_sso_service_url).to eq("https://example.com/changed")
   end
 
@@ -189,7 +189,7 @@ RSpec.describe "SAML metadata refresh", :skip_csrf, :webmock,
 
     post apply_metadata_saml_provider_path(other_provider), params: { metadata_token: token }
 
-    expect(flash[:error]).to eq(I18n.t("saml.providers.metadata_refresh.expired"))
+    expect(flash[:error]).to eq(I18n.t("saml.providers.apply_metadata.expired"))
     expect(other_provider.reload.idp_sso_service_url).to eq("https://example.com/sso")
   end
 

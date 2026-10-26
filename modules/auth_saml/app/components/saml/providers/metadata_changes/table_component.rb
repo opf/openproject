@@ -42,14 +42,14 @@ module Saml
         end
 
         def mobile_title
-          I18n.t("saml.providers.metadata_refresh.title")
+          t(".mobile_title")
         end
 
         def headers
           [
             [:attribute, { caption: I18n.t(:label_attribute) }],
-            [:current_value, { caption: I18n.t("saml.providers.metadata_refresh.current_value") }],
-            [:new_value, { caption: I18n.t("saml.providers.metadata_refresh.new_value") }]
+            [:current_value, { caption: t(".current_value") }],
+            [:new_value, { caption: t(".new_value") }]
           ]
         end
       end

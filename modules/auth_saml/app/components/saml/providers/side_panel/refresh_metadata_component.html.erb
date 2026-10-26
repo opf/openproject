@@ -1,7 +1,7 @@
 <%=
   render(Primer::OpenProject::SidePanel::Section.new(test_selector: "saml_provider_refresh_metadata")) do |section|
     section.with_title { I18n.t("saml.providers.label_metadata") }
-    section.with_description { I18n.t("saml.providers.metadata_refresh.side_panel_description") }
+    section.with_description { t(".description") }
 
     render(
       Primer::Beta::Button.new(
@@ -9,6 +9,6 @@
         href: refresh_metadata_saml_provider_path(provider),
         data: { turbo_prefetch: false }
       )
-    ) { I18n.t("saml.providers.metadata_refresh.button") }
+    ) { t(".button") }
   end
 %>
