@@ -68,7 +68,7 @@ import { WorkPackagesTableComponent } from './wp-table.component';
 class ListViewStandInComponent {
   showTable = signal(true);
 
-  configuration:Record<string, boolean> = {
+  configuration:Record<string, boolean|string> = {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     contextMenuEnabled: false,
@@ -402,7 +402,7 @@ class ReferenceStandInComponent {}
   standalone: false,
 })
 class TwoTablesStandInComponent {
-  private readonly disabled:Record<string, boolean> = { ...new ListViewStandInComponent().configuration };
+  private readonly disabled:Record<string, boolean|string> = { ...new ListViewStandInComponent().configuration };
 
   configurations = [{ ...this.disabled, keyboardNavigationEnabled: true }, this.disabled];
 }
@@ -524,7 +524,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       .toHaveLength(fixtures.length));
   }
 
-  async function mount(configuration:Record<string, boolean>, fixtures:WorkPackageFixture[] = [{ id: '1' }, { id: '2' }]) {
+  async function mount(configuration:Record<string, boolean|string>, fixtures:WorkPackageFixture[] = [{ id: '1' }, { id: '2' }]) {
     const listView = TestBed.createComponent(ListViewStandInComponent);
     fixture = listView;
     listView.componentInstance.configuration = { ...listView.componentInstance.configuration, ...configuration };
@@ -535,7 +535,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
     return tables()[0];
   }
 
-  async function replaceTable(configuration:Record<string, boolean>) {
+  async function replaceTable(configuration:Record<string, boolean|string>) {
     const listView = fixture as ComponentFixture<ListViewStandInComponent>;
     listView.componentInstance.showTable.set(false);
     listView.detectChanges();
@@ -570,6 +570,14 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
       expect(grid).toHaveAttribute('aria-multiselectable', 'true');
       expect(within(grid).queryByText(translations['js.work_packages.table.summary'])).not.toBeInTheDocument();
+    });
+
+    it('takes the name from the referenced heading instead of aria-label', async () => {
+      await mount({ ...enabled, labelledBy: 'heading' });
+      const grid = screen.getByRole('treegrid');
+
+      expect(grid).toHaveAttribute('aria-labelledby', 'heading');
+      expect(grid).not.toHaveAttribute('aria-label');
     });
 
     it('keeps the legacy caption and native table on a capability-off table', async () => {

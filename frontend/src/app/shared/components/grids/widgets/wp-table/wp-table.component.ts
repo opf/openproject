@@ -61,6 +61,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent implements O
   public query$:Observable<QueryResource>;
 
   public configuration:Partial<WorkPackageTableConfiguration> = {
+    labelledBy: this.headingId,
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     hierarchyToggleEnabled: true,
