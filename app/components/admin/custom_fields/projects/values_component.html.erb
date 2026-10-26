@@ -26,6 +26,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% unless manageable? %>
+  <%= render(
+        EnterpriseEdition::BannerComponent.new(
+          :project_specific_list_values,
+          variant: :medium,
+          image: "enterprise/project-specific-values.png",
+          mb: 3
+        )
+      ) %>
+<% end %>
+
 <%= helpers.turbo_frame_tag("custom-field-project-values", **frame_arguments) do %>
 <%=
   render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values", padding: :condensed)) do |box|
@@ -35,35 +46,37 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
         end
 
-        header.with_column do
-          safe_join(
-            [
-              render(
-                Primer::Beta::Button.new(
-                  scheme: :invisible,
-                  size: :small,
-                  tag: :a,
-                  href: enable_all_path,
-                  data: { turbo_method: :post }
-                )
-              ) do |button|
-                button.with_leading_visual_icon(icon: :"check-circle")
-                t("custom_fields.admin.projects.enable_all")
-              end,
-              render(
-                Primer::Beta::Button.new(
-                  scheme: :invisible,
-                  size: :small,
-                  tag: :a,
-                  href: disable_all_path,
-                  data: { turbo_method: :post }
-                )
-              ) do |button|
-                button.with_leading_visual_icon(icon: :"x-circle")
-                t("custom_fields.admin.projects.disable_all")
-              end
-            ]
-          )
+        if manageable?
+          header.with_column do
+            safe_join(
+              [
+                render(
+                  Primer::Beta::Button.new(
+                    scheme: :invisible,
+                    size: :small,
+                    tag: :a,
+                    href: enable_all_path,
+                    data: { turbo_method: :post }
+                  )
+                ) do |button|
+                  button.with_leading_visual_icon(icon: :"check-circle")
+                  t("custom_fields.admin.projects.enable_all")
+                end,
+                render(
+                  Primer::Beta::Button.new(
+                    scheme: :invisible,
+                    size: :small,
+                    tag: :a,
+                    href: disable_all_path,
+                    data: { turbo_method: :post }
+                  )
+                ) do |button|
+                  button.with_leading_visual_icon(icon: :"x-circle")
+                  t("custom_fields.admin.projects.disable_all")
+                end
+              ]
+            )
+          end
         end
       end
     end
@@ -86,6 +99,7 @@ See COPYRIGHT and LICENSE files for more details.
                 src: toggle_path(row),
                 csrf_token: helpers.form_authenticity_token,
                 checked: row.enabled,
+                enabled: manageable?,
                 size: :small,
                 aria: { label: row.label }
               )

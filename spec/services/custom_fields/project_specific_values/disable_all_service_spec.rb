@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::ProjectSpecificValues::DisableAllService do
+RSpec.describe CustomFields::ProjectSpecificValues::DisableAllService, with_ee: %i[project_specific_list_values] do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:other_project) { create(:project) }
@@ -131,11 +131,11 @@ RSpec.describe CustomFields::ProjectSpecificValues::DisableAllService do
     end
   end
 
-  context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+  context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
     it_behaves_like "disabling all hierarchical items", :hierarchy_wp_custom_field
   end
 
-  context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+  context "for a weighted item list custom field", with_ee: %i[weighted_item_lists project_specific_list_values] do
     it_behaves_like "disabling all hierarchical items", :weighted_item_list_wp_custom_field
   end
 end

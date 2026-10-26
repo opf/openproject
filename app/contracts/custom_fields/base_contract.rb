@@ -66,7 +66,7 @@ module CustomFields
       errors.add(:is_required, :cannot_be_true) if is_required == true
     end
 
-    def validate_project_specific_value_restriction
+    def validate_project_specific_value_restriction # rubocop:disable Metrics/AbcSize -- only temporary until the TODO is removed
       return if project_specific_value_restriction.nil?
 
       if type != "WorkPackageCustomField" || %w[list hierarchy weighted_item_list].exclude?(field_format)
@@ -74,6 +74,9 @@ module CustomFields
       # TODO: Remove this branch once block mode is supported.
       elsif !model.project_specific_value_restriction_allow?
         errors.add(:project_specific_value_restriction, :inclusion)
+      elsif model.project_specific_value_restriction_changed? && !EnterpriseToken.allows_to?(:project_specific_list_values)
+        errors.add(:project_specific_value_restriction, :error_enterprise_only,
+                   action: I18n.t("ee.features.project_specific_list_values"))
       end
     end
   end

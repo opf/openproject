@@ -31,7 +31,7 @@
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe CustomFields::ProjectSpecificValues::SetContract do
+RSpec.describe CustomFields::ProjectSpecificValues::SetContract, with_ee: %i[project_specific_list_values] do
   include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:admin) }
@@ -50,14 +50,14 @@ RSpec.describe CustomFields::ProjectSpecificValues::SetContract do
       it_behaves_like "contract is invalid", value: :inclusion
     end
 
-    context "with a hierarchy item", with_ee: [:custom_field_hierarchies] do
+    context "with a hierarchy item", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
       let(:value) { create(:hierarchy_item, parent: create(:hierarchy_wp_custom_field).hierarchy_root) }
 
       it_behaves_like "contract is invalid", value: :inclusion
     end
   end
 
-  context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+  context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
     let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
     let(:parent) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
     let(:value) { create(:hierarchy_item, parent:) }

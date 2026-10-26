@@ -198,9 +198,24 @@ module CustomFields
       end
 
       if show_project_specific_value_restriction_field?
+        # The upsell banner belongs between the headline and the options, where a radio button group has no slot.
+        details_form.html_content do
+          render(Primer::Beta::Text.new(tag: :p, font_weight: :semibold, mb: 2)) do
+            label(:project_specific_value_restriction)
+          end +
+            render(
+              EnterpriseEdition::BannerComponent.new(
+                :project_specific_list_values,
+                variant: :medium,
+                image: "enterprise/project-specific-values.png"
+              )
+            )
+        end
+
         details_form.radio_button_group(
           name: :project_specific_value_restriction,
-          label: label(:project_specific_value_restriction)
+          label: label(:project_specific_value_restriction),
+          visually_hide_label: true
         ) do |group|
           group.radio_button(
             value: "",
@@ -212,6 +227,7 @@ module CustomFields
           group.radio_button(
             value: "allow",
             checked: model.project_specific_value_restriction_allow?,
+            disabled: !project_specific_values_enterprise? && !model.project_specific_value_restriction_allow?,
             label: I18n.t("custom_fields.project_specific_values.allow.label"),
             caption: I18n.t("custom_fields.project_specific_values.allow.caption")
           )
@@ -332,6 +348,10 @@ module CustomFields
 
     def show_project_specific_value_restriction_field?
       model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
+    end
+
+    def project_specific_values_enterprise?
+      EnterpriseToken.allows_to?(:project_specific_list_values)
     end
 
     def show_is_searchable_field?

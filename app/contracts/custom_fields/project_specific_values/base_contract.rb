@@ -34,6 +34,7 @@ module CustomFields
       include RequiresAdminGuard
 
       validate :validate_restriction_enabled
+      validate :validate_enterprise_plan
 
       private
 
@@ -41,6 +42,12 @@ module CustomFields
         return if model.project_specific_value_restriction.present?
 
         errors.add :project_specific_value_restriction, :blank
+      end
+
+      def validate_enterprise_plan
+        return if EnterpriseToken.allows_to?(:project_specific_list_values)
+
+        errors.add :base, :error_enterprise_only, action: I18n.t("ee.features.project_specific_list_values")
       end
     end
   end

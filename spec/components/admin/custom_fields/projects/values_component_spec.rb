@@ -39,7 +39,7 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
 
   let(:row) { ->(value) { rendered.css("[data-test-selector='custom-field-project-value-#{value.id}']") } }
 
-  context "for a list custom field" do
+  context "for a list custom field", with_ee: %i[project_specific_list_values] do
     let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B]) }
     let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
     let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
@@ -72,7 +72,19 @@ RSpec.describe Admin::CustomFields::Projects::ValuesComponent, type: :component 
     end
   end
 
-  context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+  context "when the enterprise plan does not include project-specific values" do
+    let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A]) }
+    let(:option) { custom_field.custom_options.first }
+
+    it "shows the values without allowing to change them" do
+      expect(rendered).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.enable_all"))
+      expect(rendered).to have_no_link(I18n.t("custom_fields.admin.projects.disable_all"))
+      expect(row.call(option).css("toggle-switch button[disabled]")).to be_present
+    end
+  end
+
+  context "for a weighted item list custom field", with_ee: %i[weighted_item_lists project_specific_list_values] do
     let(:custom_field) { create(:weighted_item_list_wp_custom_field, :project_specific_allowlist) }
     let!(:parent) { create(:hierarchy_item, parent: custom_field.hierarchy_root, label: "High", weight: 10) }
     let!(:child) { create(:hierarchy_item, parent:, label: "Urgent", weight: 15) }

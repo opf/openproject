@@ -2891,7 +2891,7 @@ en:
     placeholder_version_select: "Work package or project selection is required first"
     project_specific_values:
       all:
-        caption: "All projects will show the same list of values for this custom field."
+        caption: "All projects will show the same list of values for this custom field"
         label: "Show the same values for all projects"
       allow:
         caption: "Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value."
@@ -3169,6 +3169,7 @@ en:
       portfolio_management: Portfolio management
       project_creation_wizard: Project initiation request
       project_list_sharing: Project List Sharing
+      project_specific_list_values: Project-specific values for custom fields
       readonly_work_packages: Readonly Work Packages
       scim_api: SCIM server API
       sso_auth_providers: Single Sign-On
@@ -3273,6 +3274,8 @@ en:
         description: "Generate a step-by-step wizard to help project managers fill out a project initiation request."
       project_list_sharing:
         description: "Share project lists with individual users."
+      project_specific_list_values:
+        description: "Select which values of a list should be visible in individual projects."
       readonly_work_packages:
         description: "Mark work packages as read-only for specific statuses."
       scim_api:

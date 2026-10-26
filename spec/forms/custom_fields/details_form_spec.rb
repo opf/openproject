@@ -104,6 +104,8 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     elsif field == :default_value && field_format == "text"
       expect(page).to have_selector(:rich_text_field, label)
       expect(page).to have_field(label, type: "textarea", name:, visible: :all)
+    elsif field == :project_specific_value_restriction
+      expect(page).to have_field(label, type: "radio", name:, disabled: :all)
     else
       expect(page).to have_field(label, type: control_type(field), name:)
     end
@@ -151,6 +153,32 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     it "selects manually choosing the values for each project" do
       expect(page).to have_checked_field(I18n.t("custom_fields.project_specific_values.allow.label"), with: "allow")
       expect(page).to have_unchecked_field(I18n.t("custom_fields.project_specific_values.all.label"))
+    end
+
+    context "when the enterprise plan does not include project-specific values" do
+      it "keeps the selection usable and offers the upsell" do
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: false)
+        expect(page).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
+    end
+  end
+
+  context "with a WorkPackageCustomField without project-specific values" do
+    let(:model_class) { WorkPackageCustomField }
+    let(:field_format) { "list" }
+
+    context "when the enterprise plan includes project-specific values", with_ee: %i[project_specific_list_values] do
+      it "offers to choose the values for each project" do
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: false)
+        expect(page).to have_no_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
+    end
+
+    context "when the enterprise plan does not include project-specific values" do
+      it "does not offer to choose the values for each project and offers the upsell" do
+        expect(page).to have_field(I18n.t("custom_fields.project_specific_values.allow.label"), disabled: true)
+        expect(page).to have_text(I18n.t("ee.upsell.project_specific_list_values.description"))
+      end
     end
   end
 end

@@ -91,6 +91,10 @@ module Admin
           custom_field.usable_value_id?(project, value.id)
         end
 
+        def manageable?
+          EnterpriseToken.allows_to?(:project_specific_list_values)
+        end
+
         def indentation(row)
           [row.depth * 3, MAX_INDENTATION].min
         end

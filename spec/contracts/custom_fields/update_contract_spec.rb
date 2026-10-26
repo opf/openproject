@@ -76,5 +76,18 @@ RSpec.describe CustomFields::UpdateContract do
         it_behaves_like "contract is invalid", base: :previous_custom_field_recalculation_unprocessed
       end
     end
+
+    context "for a field that already has project-specific values when the enterprise plan does not include them" do
+      let(:custom_field_type) { "WorkPackageCustomField" }
+      let(:custom_field_field_format) { "list" }
+      let(:custom_field_possible_values) { %w[A B] }
+      let(:custom_field_project_specific_value_restriction) { "allow" }
+
+      before do
+        custom_field.clear_changes_information
+      end
+
+      it_behaves_like "contract is valid"
+    end
   end
 end

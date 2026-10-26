@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::ProjectSpecificValues::SetService do
+RSpec.describe CustomFields::ProjectSpecificValues::SetService, with_ee: %i[project_specific_list_values] do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
 
@@ -259,11 +259,11 @@ RSpec.describe CustomFields::ProjectSpecificValues::SetService do
     end
   end
 
-  context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+  context "for a hierarchy custom field", with_ee: %i[custom_field_hierarchies project_specific_list_values] do
     it_behaves_like "setting hierarchical items", :hierarchy_wp_custom_field
   end
 
-  context "for a weighted item list custom field", with_ee: [:weighted_item_lists] do
+  context "for a weighted item list custom field", with_ee: %i[weighted_item_lists project_specific_list_values] do
     it_behaves_like "setting hierarchical items", :weighted_item_list_wp_custom_field
   end
 end

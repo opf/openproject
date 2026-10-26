@@ -39,11 +39,17 @@ RSpec.describe CustomFields::ProjectSpecificValues::BaseContract do
 
   subject(:contract) { described_class.new(custom_field, current_user) }
 
-  it_behaves_like "contract is valid for active admins and invalid for regular users"
+  context "with an enterprise plan including project-specific values", with_ee: %i[project_specific_list_values] do
+    it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  context "without project-specific restrictions enabled", :check_errors_i18n do
-    let(:custom_field) { build(:list_wp_custom_field) }
+    context "without project-specific restrictions enabled", :check_errors_i18n do
+      let(:custom_field) { build(:list_wp_custom_field) }
 
-    it_behaves_like "contract is invalid", project_specific_value_restriction: :blank
+      it_behaves_like "contract is invalid", project_specific_value_restriction: :blank
+    end
+  end
+
+  context "with an enterprise plan not including project-specific values", :check_errors_i18n do
+    it_behaves_like "contract is invalid", base: :error_enterprise_only
   end
 end

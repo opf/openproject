@@ -155,10 +155,20 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
       end
     end
 
-    describe "changing the values of a project" do
+    describe "changing the values of a project", with_ee: %i[project_specific_list_values] do
       let(:option) { custom_field.custom_options.first }
       let(:enabled_values) { custom_field.usable_values_in(using_project) }
       let(:values_path) { project_values_admin_settings_work_package_custom_field_path(custom_field, using_project) }
+
+      context "when the enterprise plan does not include project-specific values", with_ee: false do
+        it "does not change a value" do
+          post toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, using_project, option.id),
+               params: { value: "1" }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(enabled_values).to be_empty
+        end
+      end
 
       it "enables a single value" do
         post toggle_project_value_admin_settings_work_package_custom_field_path(custom_field, using_project, option.id),
