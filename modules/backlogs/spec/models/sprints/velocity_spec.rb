@@ -35,11 +35,11 @@ RSpec.describe Sprints::Velocity do
   let(:other_project) { create(:project) }
   let(:role) { create(:project_role, permissions: %i[view_work_packages view_sprints]) }
 
-  let(:open_status) { create(:status, is_default: true) }
-  let(:done_status) { create(:status) }
-  let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:open_status) { create(:status, is_default: true) }
+  shared_let(:done_status) { create(:status) }
+  shared_let(:closed_status) { create(:status, is_closed: true) }
 
-  let(:start_of_history) { Time.zone.local(2026, 3, 2, 10) }
+  shared_let(:start_of_history) { Time.zone.local(2026, 3, 2, 10) }
 
   current_user { create(:user, member_with_roles: { project => role, other_project => role }) }
 
@@ -70,12 +70,13 @@ RSpec.describe Sprints::Velocity do
            **)
   end
 
-  def create_story(time:, sprint:, story_points:, status: open_status, project: self.project)
-    travel_to(time) { create(:work_package, project:, sprint:, story_points:, status:) }
-  end
+  def create_story(time:, sprint:, story_points:, status: open_status, project: self.project, changes: {})
+    initial = { project_id: project.id, sprint_id: sprint.id, story_points:, status_id: status.id }
+    history = changes.each_with_object({ time => initial }) do |(changed_at, attributes), journals|
+      journals[changed_at] = journals.values.last.merge(attributes)
+    end
 
-  def change_story(story, time:, **attributes)
-    travel_to(time) { story.reload.update!(attributes) }
+    create(:work_package, **history.values.last, journals: history)
   end
 
   describe "#sprints" do
@@ -207,15 +208,15 @@ RSpec.describe Sprints::Velocity do
     end
 
     it "keeps work packages removed after the start" do
-      story = create_story(time: start_of_history, sprint:, story_points: 5)
-      change_story(story, time: start_of_history + 3.days, sprint: nil)
+      create_story(time: start_of_history, sprint:, story_points: 5,
+                   changes: { start_of_history + 3.days => { sprint_id: nil } })
 
       expect(velocity.committed).to eq [5.0]
     end
 
     it "ignores story point changes after the start" do
-      story = create_story(time: start_of_history, sprint:, story_points: 5)
-      change_story(story, time: start_of_history + 3.days, story_points: 13)
+      create_story(time: start_of_history, sprint:, story_points: 5,
+                   changes: { start_of_history + 3.days => { story_points: 13 } })
 
       expect(velocity.committed).to eq [5.0]
     end
@@ -243,15 +244,15 @@ RSpec.describe Sprints::Velocity do
       end
 
       it "ignores work packages finished after completion" do
-        story = create_story(time: start_of_history, sprint:, story_points: 5)
-        change_story(story, time: start_of_history + 3.weeks, status: done_status)
+        create_story(time: start_of_history, sprint:, story_points: 5,
+                     changes: { start_of_history + 3.weeks => { status_id: done_status.id } })
 
         expect(velocity.completed).to eq [0.0]
       end
 
       it "ignores story point changes after completion" do
-        story = create_story(time: start_of_history, sprint:, story_points: 5, status: done_status)
-        change_story(story, time: start_of_history + 3.weeks, story_points: 13)
+        create_story(time: start_of_history, sprint:, story_points: 5, status: done_status,
+                     changes: { start_of_history + 3.weeks => { story_points: 13 } })
 
         expect(velocity.completed).to eq [5.0]
       end
@@ -268,9 +269,9 @@ RSpec.describe Sprints::Velocity do
       let(:sprint) { active_sprint(started_at: start_of_history + 1.day) }
 
       it "uses the current state of its work packages" do
-        story = create_story(time: start_of_history, sprint:, story_points: 5)
+        create_story(time: start_of_history, sprint:, story_points: 5,
+                     changes: { 1.minute.ago => { status_id: done_status.id } })
         create_story(time: start_of_history, sprint:, story_points: 8)
-        change_story(story, time: 1.minute.ago, status: done_status)
 
         expect(velocity.completed).to eq [5.0]
       end

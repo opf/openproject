@@ -62,12 +62,14 @@ RSpec.describe "Velocity chart widget", :js, with_flag: :sprint_reports do
   current_user { user }
 
   before do
-    travel_to(5.weeks.ago) do
-      create(:work_package, project:, sprint: previous_sprint, status: done_status, story_points: 3)
-    end
-    travel_to(2.weeks.ago) do
-      create(:work_package, project:, sprint:, status: done_status, story_points: 5)
-    end
+    create(:work_package,
+           :created_in_past,
+           created_at: 5.weeks.ago,
+           project:,
+           sprint: previous_sprint,
+           status: done_status,
+           story_points: 3)
+    create(:work_package, :created_in_past, created_at: 2.weeks.ago, project:, sprint:, status: done_status, story_points: 5)
   end
 
   def visit_sprint_report(sprint)
