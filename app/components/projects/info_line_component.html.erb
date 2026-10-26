@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     if @project.archived?
       flex.with_column do
-        render(Primer::Beta::Label.new) { t("project.archive.archived") }
+        render(Primer::Beta::Label.new(scheme: :secondary)) { t("project.archive.archived") }
       end
     end
   end
