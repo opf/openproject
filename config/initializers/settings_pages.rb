@@ -441,6 +441,9 @@ Settings::Pages.draw do
     %w[interface branding default_colors pdf_export_styles].each do |tab|
       link tab, label: :"admin.custom_styles.tab_#{tab}", url: -> { custom_style_path(tab:) }
     end
+    %i[label_custom_export_font label_custom_export_font_colors].each do |label|
+      link label, label:, url: -> { custom_style_path(tab: :pdf_export_styles) }
+    end
     link :new_color, label: :"colors.index.label_new_color", url: -> { new_color_path }
   end
 

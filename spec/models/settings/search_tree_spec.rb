@@ -132,6 +132,15 @@ RSpec.describe Settings::SearchTree do
       end
     end
 
+    context "with a query matching a section of a design tab" do
+      let(:query) { "font" }
+
+      it "leads to the tab" do
+        expect(find_node(tree.nodes, "Design", "Custom Font").href)
+          .to eq url_helpers.custom_style_path(tab: :pdf_export_styles)
+      end
+    end
+
     it "omits actions requiring an enterprise feature that is not available" do
       expect(find_node(tree.nodes, "Authentication", "OpenID providers").children).to be_empty
     end
