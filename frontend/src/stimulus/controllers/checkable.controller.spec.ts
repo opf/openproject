@@ -25,8 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 import { ActionEvent } from '@hotwired/stimulus';
 import CheckableController from './checkable.controller';
 import { createControllerInstance } from 'core-stimulus/test-helpers';

@@ -20,7 +20,7 @@ export interface TapActivationProps {
 
 /*
  * Activates an element from the touch itself instead of from the click iOS
- * Safari synthesises afterwards: it holds that click back until the second tap
+ * Safari synthesizes afterwards: it holds that click back until the second tap
  * on everything our editor UI is built from. Preventing the touch's default
  * suppresses the replayed mouse sequence, so a mouse still activates exactly
  * once, through `onClick`.

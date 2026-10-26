@@ -18,7 +18,7 @@ function switchToDarkScheme() {
     .setAttribute('data-color-scheme', 'dark');
 }
 
-describe('Work package surface colour', () => {
+describe('Work package surface color', () => {
   afterEach(() => {
     document.documentElement.style.removeProperty('--bgColor-muted');
   });

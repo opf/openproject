@@ -151,6 +151,10 @@ ar:
       details: سيتم حذف قائمة المهام المتأخرة «%{name}» ونقل جميع حزم العمل إلى صندوق الوارد الخاص بالمهام المتأخرة. ولن يتم حذف أي حزمة عمل.
       title: حذف مجموعة المهام المتراكمة؟
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: حدد تاريخي بدء وانتهاء السبرينت لإنشاء مخطط التقدم.
         blankslate_title: لا توجد بيانات متاحة عن معدل انخفاض الكثافة
@@ -332,9 +336,6 @@ ar:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  burndown:
-    story_points: Story points
-    story_points_ideal: Story points (ideal)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

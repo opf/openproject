@@ -143,7 +143,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     isDirty,
     subjectClipped,
     loading,
-    initialising,
+    initializing,
     loadError,
     notAllowed,
     submitting,
@@ -240,14 +240,14 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
                 {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
 
                 {primaryFields
-                  .filter((field) => !initialising || !dependencyOf(field.key))
+                  .filter((field) => !initializing || !dependencyOf(field.key))
                   .map(renderField)}
 
-                {!initialising && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
+                {!initializing && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
 
-                {!initialising && extraFields.map(renderField)}
+                {!initializing && extraFields.map(renderField)}
 
-                {!initialising && unsupportedFields.length > 0 && (
+                {!initializing && unsupportedFields.length > 0 && (
                   <Notice>
                     <AlertIcon size={14} />
                     <span>

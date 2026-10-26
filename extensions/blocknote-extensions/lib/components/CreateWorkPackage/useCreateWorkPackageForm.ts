@@ -34,7 +34,7 @@ export interface CreateWorkPackageFormState {
   isDirty:boolean;
   subjectClipped:boolean;
   loading:boolean;
-  initialising:boolean;
+  initializing:boolean;
   loadError:string | null;
   notAllowed:boolean;
   submitting:boolean;
@@ -80,7 +80,7 @@ export function useCreateWorkPackageForm(
 
   const loading = loaded === null || loaded.project !== projectHref || loaded.type !== typeHref;
 
-  const initialising = loading && !touched;
+  const initializing = loading && !touched;
 
   useEffect(() => {
     let active = true;
@@ -246,7 +246,7 @@ export function useCreateWorkPackageForm(
     isDirty,
     subjectClipped,
     loading,
-    initialising,
+    initializing,
     loadError: loading ? null : loadError,
     notAllowed: loading ? false : notAllowed,
     submitting,

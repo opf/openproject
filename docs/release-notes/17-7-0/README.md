@@ -100,11 +100,11 @@ Project attributes can now be displayed in a dedicated **Project attributes** ta
 
 ![OpenProject displays project attributes in a dedicated Project attributes tab within a Project initiation request work package.](openproject-17.7-project-attributes-tab.png)
 
-**PMflex Artefact PDF export**
+**PMflex Artifact PDF export**
 
-Work packages can now be [exported using a dedicated **PMflex Artefact** PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artefact). The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
+Work packages can now be [exported using a dedicated **PMflex Artifact** PDF template](../../user-guide/work-packages/exporting/work-package-pdf/#pmflex-artifact). The export combines project attributes, work package attributes, custom fields, and related work packages into a structured document suitable for project documentation and governance.
 
-Administrators can configure PMflex artefacts to be generated automatically when a work package reaches a defined status. Generated artefacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
+Administrators can configure PMflex artifacts to be generated automatically when a work package reaches a defined status. Generated artifacts can either be uploaded to the project's connected Nextcloud folder or added directly as work package attachments.
 
 **Project phases and gates widget**
 
@@ -199,10 +199,10 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Feature: User danger dialog when deleting placeholder users \[[#70726](https://community.openproject.org/wp/70726)\]
 - Feature: Configurable loading indication for filterable tree views with async filter input \[[#75620](https://community.openproject.org/wp/75620)\]
 - Feature: Show project attributes as separate tab in a WorkPackage \[[#75699](https://community.openproject.org/wp/75699)\]
-- Feature: Extend WorkPackage export to include PMflex artefacts export \[[#75702](https://community.openproject.org/wp/75702)\]
+- Feature: Extend WorkPackage export to include PMflex artifacts export \[[#75702](https://community.openproject.org/wp/75702)\]
 - Feature: User danger dialog when deleting repositories \[[#76540](https://community.openproject.org/wp/76540)\]
 - Feature: Replace outdated danger zone when creating a backup \[[#77184](https://community.openproject.org/wp/77184)\]
-- Feature: Automatically upload PDF artefacts to project folder in Nextcloud or as work package attachment \[[#77321](https://community.openproject.org/wp/77321)\]
+- Feature: Automatically upload PDF artifacts to project folder in Nextcloud or as work package attachment \[[#77321](https://community.openproject.org/wp/77321)\]
 - Feature: Add caption to recurring meeting create/edit forms to show end date/no. of occurrences \[[#71922](https://community.openproject.org/wp/71922)\]
 - Feature: Add ability to fetch agenda items by WorkPackage ID via the API \[[#76296](https://community.openproject.org/wp/76296)\]
 - Feature: Track working hours and availabilities for each user in the system \[[#34911](https://community.openproject.org/wp/34911)\]
@@ -286,16 +286,16 @@ The Agenda API now supports retrieving agenda items by work package ID, making i
 - Bugfix: Members: Changing a group&#39;s role results in a 404 error \[[#77450](https://community.openproject.org/wp/77450)\]
 - Bugfix: Boolean calculated value is not properly formatted in input \[[#77487](https://community.openproject.org/wp/77487)\]
 - Bugfix: PDF Export: Empty hierarchy custom fields appear as &quot;not found&quot; in PDF instead of empty \[[#77684](https://community.openproject.org/wp/77684)\]
-- Bugfix: Fix \`XOR\` behaviour \[[#77740](https://community.openproject.org/wp/77740)\]
+- Bugfix: Fix \`XOR\` behavior \[[#77740](https://community.openproject.org/wp/77740)\]
 - Bugfix: Accidentally using a date for calculated value will cause either 500 or cause &quot;unknown error&quot; \[[#77789](https://community.openproject.org/wp/77789)\]
 - Bugfix: Booleans should be allowed as input for calculated values \[[#77830](https://community.openproject.org/wp/77830)\]
 - Bugfix: A \`CASE\` without default value causes an error on project and projects pages \[[#77874](https://community.openproject.org/wp/77874)\]
 - Bugfix: SSRF protection error when using custom design seeding with URLs \[[#78007](https://community.openproject.org/wp/78007)\]
-- Bugfix: PIR PDF and PMflex artefacts are only shown after 2nd WP status change \[[#71857](https://community.openproject.org/wp/71857)\]
+- Bugfix: PIR PDF and PMflex artifacts are only shown after 2nd WP status change \[[#71857](https://community.openproject.org/wp/71857)\]
 - Bugfix: Impossible to search for archived projects, page reverts to active projects list on its own \[[#71971](https://community.openproject.org/wp/71971)\]
 - Bugfix: Nextcloud integration error &quot;&lt;Nextcloud-Hostname&gt; has no public IP addresses&quot; \[[#77278](https://community.openproject.org/wp/77278)\]
 - Feature: New frontend for &#39;My account&#39; based on design system \[[#56584](https://community.openproject.org/wp/56584)\]
-- Feature: Automation to create PM²/PMflex artefacts \[[#69055](https://community.openproject.org/wp/69055)\]
+- Feature: Automation to create PM²/PMflex artifacts \[[#69055](https://community.openproject.org/wp/69055)\]
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->

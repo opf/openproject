@@ -287,7 +287,7 @@ describe('Create work package - the list a fixed set of values is picked from', 
     expect(getComputedStyle(trigger, '::placeholder').opacity).toBe('1');
   });
 
-  it('marks every type in the list with the colour of that type', async () => {
+  it('marks every type in the list with the color of that type', async () => {
     await openModalOnTypeField();
 
     await userEvent.click(page.getByLabelText('Type *'));
@@ -302,7 +302,7 @@ describe('Create work package - the list a fixed set of values is picked from', 
     expect(colorChannelsOf(dotOf('Bug'))).toEqual(['39', '174', '96']);
   });
 
-  it('lines the colour of an option up with the colour of the pick', async () => {
+  it('lines the color of an option up with the color of the pick', async () => {
     await openModalOnTypeField();
     await selectOptionNamed('Type *', 'Task');
 
@@ -319,7 +319,7 @@ describe('Create work package - the list a fixed set of values is picked from', 
     expect(Math.round(listed.width)).toBe(Math.round(picked.width));
   });
 
-  it('leaves the lists of every other field uncoloured', async () => {
+  it('leaves the lists of every other field uncolored', async () => {
     renderEditor();
     await openCreateModal();
     await fillRequiredFields('Fix the header alignment');

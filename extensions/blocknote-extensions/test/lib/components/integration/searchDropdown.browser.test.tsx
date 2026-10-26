@@ -218,4 +218,90 @@ describe('SearchDropdown', () => {
     const items = page.getByTestId('dropdown-item');
     expect((await items.all()).length).toBeLessThanOrEqual(5);
   });
+
+  describe('offering to create a work package', () => {
+    const emptySearch = () => worker.use(
+      http.get(WORK_PACKAGES_ENDPOINT, () => HttpResponse.json({ _embedded: { elements: [] } }))
+    );
+
+    it('offers it below the results and names it after the query', async () => {
+      const onCreate = vi.fn();
+      render(searchDropdown({ onCreate }));
+
+      await userEvent.type(page.getByRole('searchbox'), '  Redesign   the page ');
+      await expect.element(page.getByText('Fix login bug')).toBeVisible();
+
+      const options = page.getByRole('option').elements();
+      expect(options.at(-1)).toHaveTextContent('Create new work package');
+
+      await userEvent.click(page.getByText('Create new work package'));
+
+      expect(onCreate).toHaveBeenCalledExactlyOnceWith('Redesign the page');
+    });
+
+    it('is reached with the arrow keys after the last result', async () => {
+      const onCreate = vi.fn();
+      const onSelect = vi.fn();
+      render(searchDropdown({ onCreate, onSelect }));
+
+      await userEvent.type(page.getByRole('searchbox'), 'Fix');
+      await expect.element(page.getByText('Fix login bug')).toBeVisible();
+      await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{Enter}');
+
+      expect(onCreate).toHaveBeenCalledExactlyOnceWith('Fix');
+      expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    it('is offered when nothing is found, but not taken by Enter alone', async () => {
+      emptySearch();
+      const onCreate = vi.fn();
+      render(searchDropdown({ onCreate }));
+
+      await userEvent.type(page.getByRole('searchbox'), 'Redesign');
+      await expect.element(page.getByText('No results')).toBeVisible();
+      await expect.element(page.getByText('Create new work package')).toBeVisible();
+
+      await userEvent.keyboard('{Enter}');
+      expect(onCreate).not.toHaveBeenCalled();
+
+      await userEvent.keyboard('{ArrowDown}{Enter}');
+      expect(onCreate).toHaveBeenCalledExactlyOnceWith('Redesign');
+    });
+
+    it('is held back while the search is running', async () => {
+      worker.use(
+        http.get(WORK_PACKAGES_ENDPOINT, async () => {
+          await delay(1000);
+          return HttpResponse.json({ _embedded: { elements: [] } });
+        })
+      );
+      const onCreate = vi.fn();
+      render(searchDropdown({ onCreate }));
+
+      await userEvent.type(page.getByRole('searchbox'), 'Redesign');
+      expect(page.getByText('Create new work package').query()).toBeNull();
+
+      await userEvent.keyboard('{ArrowDown}{Enter}');
+      expect(onCreate).not.toHaveBeenCalled();
+
+      await expect.element(page.getByText('Create new work package')).toBeVisible();
+    });
+
+    it('is not offered before anything is typed', async () => {
+      render(searchDropdown({ onCreate: vi.fn() }));
+
+      await userEvent.type(page.getByRole('searchbox'), '   ');
+
+      await expect.element(page.getByText('Create new work package')).not.toBeInTheDocument();
+    });
+
+    it('is not offered without a way to create', async () => {
+      render(searchDropdown());
+
+      await userEvent.type(page.getByRole('searchbox'), 'Fix');
+      await expect.element(page.getByText('Fix login bug')).toBeVisible();
+
+      await expect.element(page.getByText('Create new work package')).not.toBeInTheDocument();
+    });
+  });
 });

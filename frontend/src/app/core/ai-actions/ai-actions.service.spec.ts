@@ -29,15 +29,8 @@ import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
-import { AI_SELECTION_MARKER, AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
+import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { ModelWriter } from 'core-app/core/ai-actions/editor-content';
-import {
-  AI_TEXT_TRANSFORM_APPLIED_EVENT,
-  AI_TEXT_TRANSFORM_APPLY_EVENT,
-  AI_TEXT_TRANSFORM_CLOSED_EVENT,
-  AiTextTransformAppliedDetail,
-} from 'core-app/core/ai-actions/ai-text-transform-events';
 
 const halCollection = (elements:unknown[]) => ({
   _type: 'Collection',
@@ -66,67 +59,19 @@ const existingWorkPackage = {
 
 const newWorkPackage = { ...existingWorkPackage, id: 'new' };
 
-class FakeEditor {
-  content = '# Old text';
-
-  selectedMarkdown = '';
-
-  markers = new Map<string, string>();
-
-  inserted:{ text:string, range:string }|null = null;
-
-  data = {
-    parse: (markdown:string) => markdown,
-    stringify: () => this.selectedMarkdown,
-  };
-
-  model = {
-    document: {
-      getRoot: () => 'root',
-      selection: {
-        get isCollapsed() { return false; },
-        getFirstRange: () => 'selection-range',
-      },
-    },
-    markers: { get: (name:string) => (this.markers.has(name) ? { getRange: () => this.markers.get(name) } : null) },
-    createRangeIn: (root:string) => `range-in-${root}`,
-    getSelectedContent: () => 'selected-fragment',
-    change: (callback:(writer:ModelWriter) => void) => callback({
-      addMarker: (name:string, { range }:{ range:unknown }) => { this.markers.set(name, range as string); },
-      removeMarker: (name:string) => { this.markers.delete(name); },
-    }),
-    insertContent: (text:string, range:string) => { this.inserted = { text, range }; },
-  };
-
-  getData():string { return this.content; }
-}
-
 const fixGrammar = { id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false };
-const sortIntoTemplate = { id: 3, label: 'Sort into template', position: 3, injectsTypeTemplate: true };
+const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
 
 describe('AiActionsService', () => {
   let service:AiActionsService;
   let httpMock:HttpTestingController;
-  let editor:FakeEditor;
-  let paneRequests:{ url:string, body:FormData }[];
-  let applied:AiTextTransformAppliedDetail[];
-
-  const onApplied = (event:Event) => { applied.push((event as CustomEvent<AiTextTransformAppliedDetail>).detail); };
 
   beforeEach(() => {
-    paneRequests = [];
-    applied = [];
-    const turboRequestsStub = {
-      request: (url:string, init:RequestInit) => {
-        paneRequests.push({ url, body: init.body as FormData });
-        return Promise.resolve({ html: '', headers: new Headers() });
-      },
-    };
-
     TestBed.configureTestingModule({
       providers: [
         AiActionsService,
-        { provide: TurboRequestsService, useValue: turboRequestsStub },
+        // Demo only (AI-126 demo branch): the demo run needs Turbo requests.
+        { provide: TurboRequestsService, useValue: { request: () => Promise.resolve({ html: '', headers: new Headers() }) } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -134,113 +79,80 @@ describe('AiActionsService', () => {
 
     service = TestBed.inject(AiActionsService);
     httpMock = TestBed.inject(HttpTestingController);
-    editor = new FakeEditor();
-    window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, onApplied);
   });
 
-  afterEach(() => {
-    httpMock.verify();
-    window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, onApplied);
-  });
+  afterEach(() => httpMock.verify());
 
-  const lastRequestId = () => paneRequests[paneRequests.length - 1].body.get('request_id') as string;
+  describe('actionsFor', () => {
+    it('lists the actions of an existing work package ordered by position', async () => {
+      const promise = service.actionsFor(existingWorkPackage, 'description');
 
-  const dispatch = (name:string, detail:unknown) => document.dispatchEvent(new CustomEvent(name, { detail }));
+      const request = httpMock.expectOne('/api/v3/work_packages/123/ai_text_transform_actions');
+      expect(request.request.method).toBe('GET');
+      request.flush(halCollection([
+        halAction(2, 'Summarize', 2),
+        halAction(1, 'Fix grammar', 1),
+      ]));
 
-  describe('run', () => {
-    it('requests the result pane for the whole description without a selection', async () => {
-      await service.run(fixGrammar, editor, existingWorkPackage);
-
-      const [{ url, body }] = paneRequests;
-      expect(url).toBe('/ai/text_transform_panes');
-      expect(body.get('action_id')).toBe('1');
-      expect(body.get('scope')).toBe('document');
-      expect(body.get('input')).toBe('# Old text');
-      expect(body.get('work_package_id')).toBe('123');
-      expect(body.get('request_id')).toMatch(/^[0-9a-f-]{36}$/);
+      const actions = await promise;
+      expect(actions.map((action) => action.label)).toEqual(['Fix grammar', 'Summarize']);
+      expect(actions[0]).toEqual(fixGrammar);
     });
 
-    it('sends only the selected text and marks its range', async () => {
-      editor.selectedMarkdown = 'selected **text**';
+    it('lists the actions of a new work package through its project and type', async () => {
+      const promise = service.actionsFor(newWorkPackage, 'description');
 
-      await service.run(fixGrammar, editor, existingWorkPackage);
+      httpMock
+        .expectOne('/api/v3/projects/7/ai_text_transform_actions?typeId=45')
+        .flush(halCollection([halAction(3, 'Sort into template', 1)]));
 
-      expect(paneRequests[0].body.get('scope')).toBe('selection');
-      expect(paneRequests[0].body.get('input')).toBe('selected **text**');
-      expect(editor.markers.get(AI_SELECTION_MARKER)).toBe('selection-range');
+      expect((await promise).map((action) => action.id)).toEqual([3]);
     });
 
-    it('runs actions that inject the type template on the whole description', async () => {
-      editor.selectedMarkdown = 'selected text';
+    it('resolves to no actions for a new work package without project or type', async () => {
+      const actions = await service.actionsFor({ id: 'new', _type: 'WorkPackage', $links: {} }, 'description');
 
-      await service.run(sortIntoTemplate, editor, newWorkPackage);
-
-      const { body } = paneRequests[0];
-      expect(body.get('scope')).toBe('document');
-      expect(body.get('project_id')).toBe('7');
-      expect(body.get('type_id')).toBe('45');
-      expect(editor.markers.size).toBe(0);
+      expect(actions).toEqual([]);
+      httpMock.expectNone(() => true);
     });
 
-    it('does nothing outside a work package', async () => {
-      await service.run(fixGrammar, editor, { id: '5', _type: 'Meeting' });
+    it.each([
+      ['a work package comment', existingWorkPackage, 'journal[notes]'],
+      ['another resource', { id: '5', _type: 'Meeting' }, 'description'],
+      ['an editor without resource', undefined, 'content'],
+      ['an editor without field', existingWorkPackage, undefined],
+    ])('lists the actions offered everywhere for %s', async (_, resource, field) => {
+      const promise = service.actionsFor(resource, field);
 
-      expect(paneRequests).toEqual([]);
-    });
-  });
+      httpMock
+        .expectOne('/api/v3/ai_text_transform_actions')
+        .flush(halCollection([halAction(2, 'Summarize', 2), halAction(1, 'Fix grammar', 1)]));
 
-  describe('applying the result', () => {
-    it('replaces the whole description and reports success', async () => {
-      await service.run(fixGrammar, editor, existingWorkPackage);
-
-      dispatch(AI_TEXT_TRANSFORM_APPLY_EVENT, { requestId: lastRequestId(), scope: 'document', text: 'New text' });
-
-      expect(editor.inserted).toEqual({ text: 'New text', range: 'range-in-root' });
-      expect(applied).toEqual([{ requestId: lastRequestId(), ok: true }]);
+      expect((await promise).map((action) => action.id)).toEqual([1, 2]);
     });
 
-    it('replaces only the marked selection', async () => {
-      editor.selectedMarkdown = 'old part';
-      await service.run(fixGrammar, editor, existingWorkPackage);
+    it('resolves to no actions when the request fails', async () => {
+      const promise = service.actionsFor(existingWorkPackage, 'description');
 
-      dispatch(AI_TEXT_TRANSFORM_APPLY_EVENT, { requestId: lastRequestId(), scope: 'selection', text: 'new part' });
+      httpMock
+        .expectOne('/api/v3/work_packages/123/ai_text_transform_actions')
+        .flush({ message: 'nope' }, { status: 403, statusText: 'Forbidden' });
 
-      expect(editor.inserted).toEqual({ text: 'new part', range: 'selection-range' });
-      expect(editor.markers.size).toBe(0);
+      expect(await promise).toEqual([]);
     });
 
-    it('reports a failure when the selection is gone', async () => {
-      editor.selectedMarkdown = 'old part';
-      await service.run(fixGrammar, editor, existingWorkPackage);
-      editor.markers.clear();
+    it('resolves to no actions when the request for the actions offered everywhere fails', async () => {
+      const promise = service.actionsFor(undefined, undefined);
 
-      dispatch(AI_TEXT_TRANSFORM_APPLY_EVENT, { requestId: lastRequestId(), scope: 'selection', text: 'new part' });
+      httpMock
+        .expectOne('/api/v3/ai_text_transform_actions')
+        .flush({ message: 'nope' }, { status: 401, statusText: 'Unauthorized' });
 
-      expect(editor.inserted).toBeNull();
-      expect(applied).toEqual([{ requestId: lastRequestId(), ok: false }]);
-    });
-
-    it('ignores results for requests it did not start', async () => {
-      await service.run(fixGrammar, editor, existingWorkPackage);
-
-      dispatch(AI_TEXT_TRANSFORM_APPLY_EVENT, { requestId: crypto.randomUUID(), scope: 'document', text: 'Injected' });
-
-      expect(editor.inserted).toBeNull();
-      expect(applied).toEqual([]);
-    });
-
-    it('clears the selection marker when the pane closes', async () => {
-      editor.selectedMarkdown = 'old part';
-      await service.run(fixGrammar, editor, existingWorkPackage);
-
-      dispatch(AI_TEXT_TRANSFORM_CLOSED_EVENT, { requestId: lastRequestId() });
-
-      expect(editor.markers.size).toBe(0);
+      expect(await promise).toEqual([]);
     });
   });
 
   describe('defaultAction', () => {
-    const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
     const storageKey = 'openproject.ai_actions.last_action_id';
 
     beforeEach(() => window.localStorage.removeItem(storageKey));
@@ -254,7 +166,7 @@ describe('AiActionsService', () => {
     });
 
     it('is the action that was run last', async () => {
-      await service.run(makeConcise, editor, existingWorkPackage);
+      await service.run(makeConcise);
 
       expect(service.defaultAction([fixGrammar, makeConcise])).toBe(makeConcise);
       expect(window.localStorage.getItem(storageKey)).toBe('2');
@@ -277,59 +189,5 @@ describe('AiActionsService', () => {
 
       expect(service.defaultAction([fixGrammar, makeConcise])).toBe(fixGrammar);
     });
-  });
-
-  it('lists the actions of an existing work package ordered by position', async () => {
-    const promise = service.actionsFor(existingWorkPackage, 'description');
-
-    const request = httpMock.expectOne('/api/v3/work_packages/123/ai_text_transform_actions');
-    expect(request.request.method).toBe('GET');
-    request.flush(halCollection([
-      halAction(2, 'Summarize', 2),
-      halAction(1, 'Fix grammar', 1),
-    ]));
-
-    const actions = await promise;
-    expect(actions.map((action) => action.label)).toEqual(['Fix grammar', 'Summarize']);
-    expect(actions[0]).toEqual({
-      id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false,
-    });
-  });
-
-  it('lists the actions of a new work package through its project and type', async () => {
-    const promise = service.actionsFor(newWorkPackage, 'description');
-
-    const request = httpMock.expectOne('/api/v3/projects/7/ai_text_transform_actions?typeId=45');
-    request.flush(halCollection([halAction(3, 'Sort into template', 1)]));
-
-    const actions = await promise;
-    expect(actions.map((action) => action.id)).toEqual([3]);
-  });
-
-  it('resolves to no actions for a new work package without project or type', async () => {
-    const actions = await service.actionsFor({ id: 'new', _type: 'WorkPackage', $links: {} }, 'description');
-
-    expect(actions).toEqual([]);
-    httpMock.expectNone(() => true);
-  });
-
-  it('resolves to no actions outside the work package description', async () => {
-    const forComment = await service.actionsFor(existingWorkPackage, 'comment');
-    const forOtherResource = await service.actionsFor({ id: '5', _type: 'Meeting' }, 'description');
-    const forNoResource = await service.actionsFor(undefined, 'description');
-    const forNoField = await service.actionsFor(existingWorkPackage, undefined);
-
-    expect([forComment, forOtherResource, forNoResource, forNoField]).toEqual([[], [], [], []]);
-    httpMock.expectNone(() => true);
-  });
-
-  it('resolves to no actions when the request fails', async () => {
-    const promise = service.actionsFor(existingWorkPackage, 'description');
-
-    httpMock
-      .expectOne('/api/v3/work_packages/123/ai_text_transform_actions')
-      .flush({ message: 'nope' }, { status: 403, statusText: 'Forbidden' });
-
-    expect(await promise).toEqual([]);
   });
 });

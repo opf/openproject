@@ -135,6 +135,10 @@ pt-BR:
       details: O grupo de backlog “%{name}” será excluído e todos os pacotes de trabalho serão movidos para a caixa de entrada do backlog. Nenhum pacote de trabalho será excluído.
       title: Excluir grupo de backlog?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Defina a data de início e término da sprint para gerar o gráfico de burndown.
         blankslate_title: Nenhum dado de burndown disponível
@@ -300,9 +304,6 @@ pt-BR:
       update_service:
         invalid_target_type: 'list_type deve ser um dos seguintes: backlog_bucket com um list_id, sprint com um list_id ou inbox sem um list_id.'
         missing_target: list_type ou list_id deve estar presente.
-  burndown:
-    story_points: Pontos de história
-    story_points_ideal: Pontos de história (ideal)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

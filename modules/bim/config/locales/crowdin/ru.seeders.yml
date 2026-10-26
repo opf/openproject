@@ -61,7 +61,7 @@ ru:
         item_2:
           name: Менеджеры BIM
         item_3:
-          name: BIM Modellers
+          name: BIM Modelers
         item_4:
           name: Ведущие BIM координаты
         item_5:
@@ -451,18 +451,18 @@ ru:
               description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
-                  subject: Моделирование исходной BIM-модели
+                  subject: Modeling initial BIM model
                   description: |-
-                    # Цель
+                    # Goal
 
-                    * Моделирование начальной модели BIM
-                    * Создание модели BIM для всей команды проекта
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    # Описание
+                    # Description
 
-                    * По собранным данным от клиента, начальная модель будет смоделирована
-                    * Модель должна быть смоделирована в соответствии с матрицами LOD и содержать необходимую информацию
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: Первоначальная внутренняя проверка и пересмотр модели
                   description: |-
@@ -478,23 +478,23 @@ ru:
                   subject: Отправка исходной BIM-модели
                   description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_4:
-              subject: Моделирование, первый цикл
+              subject: Modeling, first cycle
               description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
               children:
                 item_0:
                   subject: Ссылки на внешние BIM-модели
                   description: |-
-                    # Цель
+                    # Goal
 
-                    * Создание основы для разработки внутренней модели/предложение ответов
-                    * Использование внешней модели для разработки внутренней модели
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    # Описание
+                    # Description
 
-                    * На внешнюю модель будут ссылаться в BIM-платформе, что позволит использовать ее для моделирования внутренней модели
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: Моделирование BIM-модели
+                  subject: Modeling the BIM model
                   description: |-
                     # Цель
 
@@ -542,19 +542,19 @@ ru:
                   subject: Завершение координации, первый цикл
                   description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_6:
-              subject: Моделирование и координация, второй цикл
+              subject: Modeling & coordinating, second cycle
               description: "## Цель\r\n\r\n*   ...\r\n\r\n## Описание\r\n\r\n* \\  ..."
             item_7:
-              subject: Моделирование и координация, ... цикл
+              subject: Modeling & coordinating, ... cycle
               description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_8:
-              subject: Моделирование и координация, (n-й минус 1) цикл
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## Цель\r\n\r\n*   ...\r\n\r\n## Описание\r\n\r\n* \\  ..."
             item_9:
-              subject: Моделирование и координация n-го цикла
+              subject: Modeling & coordinating n-th cycle
               description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_10:
-              subject: Завершение моделирования и координации, n-й цикл
+              subject: Finishing modeling & coordinating, n-th cycle
               description: Этот тип иерархически является родителем типов &quot;Clash&quot; и &quot;Request&quot;, таким образом представляет общую заметку.
             item_11:
               subject: Использовать модель для этапа конструирования

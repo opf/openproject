@@ -30,6 +30,9 @@
 module Import
   class JiraCreateProjectJob
     module CustomFieldNames
+      # The counter `unique_name` appends when a name is taken and cannot be reused (e.g. int vs float type of the field)
+      NUMBERING_SUFFIX = /\s*\(\d+\)\z/
+
       module_function
 
       # Matches `Example`, `Example (2)`, `Example (DYX)` and `Example (DYX, ABC)
@@ -39,6 +42,14 @@ module Import
           .where("LOWER(name) = LOWER(?)", base_name)
           .or(WorkPackageCustomField.where("name ILIKE ?", "#{escaped} (%"))
           .order(:id)
+      end
+
+      def same_field?(custom_field_name, import_name)
+        without_numbering(custom_field_name).casecmp?(import_name.to_s)
+      end
+
+      def without_numbering(name)
+        name.to_s.sub(NUMBERING_SUFFIX, "")
       end
 
       def unique_name(name)

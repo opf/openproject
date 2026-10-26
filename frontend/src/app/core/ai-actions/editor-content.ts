@@ -40,6 +40,7 @@ export interface ModelSelection {
 
 export interface IEditorWithContent {
   getData():string;
+  config?:{ get(name:string):unknown };
   data:{
     parse(markdown:string):unknown;
     stringify(fragment:unknown):string;

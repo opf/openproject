@@ -143,6 +143,10 @@ cs:
       details: Sekce backlogu '%{name}' bude smazána a všechny pracovní balíčky budou přesunuty do složky nevyřízených úkolů. Žádný pracovní balíček nebude odstraněn.
       title: Smazat sekci backlogu?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Nastavte datum začátku a konce sprintu pro vygenerování Burndown grafu.
         blankslate_title: Nedostupná data pro Burndown
@@ -316,9 +320,6 @@ cs:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  burndown:
-    story_points: Story pointy
-    story_points_ideal: Story pointy (ideální)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

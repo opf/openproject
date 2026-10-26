@@ -316,7 +316,7 @@ module API
                                          },
                                          required: false
 
-          # Deprecated in favour of `targetVersions`
+          # Deprecated in favor of `targetVersions`
           # Removed from the API if multiple_versions is enabled on the instance
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,

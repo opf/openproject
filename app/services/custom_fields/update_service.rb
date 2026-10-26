@@ -34,6 +34,7 @@ module CustomFields
     def after_perform(service_call)
       super.tap do
         enqueue_recalculate_values if recalculate_values?
+        model.project_specific_value_restrictions.delete_all if model.project_specific_value_restriction_previously_changed?
       end
     end
 

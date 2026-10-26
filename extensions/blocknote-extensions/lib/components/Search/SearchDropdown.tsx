@@ -16,10 +16,13 @@ import {
   DropdownItem,
 } from './SearchContainer';
 import { Spinner } from '../Spinner';
+import { CreateWorkPackageOption } from './CreateWorkPackageOption';
 
 interface SearchDropdownProps {
   onSelect:(wp:WorkPackage) => void;
   onCancel?:() => void;
+  // Offers to create a work package named after the query; left out, nothing is offered.
+  onCreate?:(subject:string) => void;
   autoFocus?:boolean;
   renderItem:(wp:WorkPackage) => React.ReactNode;
 }
@@ -52,7 +55,7 @@ const SearchInputWithIcon = styled(SearchInput)`
   }
 `;
 
-export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:SearchDropdownProps) => {
+export const SearchDropdown = ({ onSelect, onCancel, onCreate, autoFocus, renderItem }:SearchDropdownProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -81,11 +84,14 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
     setFocusedIndex,
     isDropdownOpen,
     setIsDropdownOpen,
+    createIndex,
+    create,
     isSelectingRef,
     handleKeyDown,
   } = useWorkPackageSearchDropdown({
     onSelect,
     onEscape: onCancel ?? (() => undefined),
+    onCreate,
   });
 
   useActiveOptionInView(listRef, focusedIndex, searchResults);
@@ -140,7 +146,7 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
         <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
       )}
 
-      {isDropdownOpen && searchResults.length > 0 && (
+      {isDropdownOpen && (searchResults.length > 0 || createIndex !== -1) && (
         <DropdownList ref={listRef} role="listbox" aria-label={t('search.dropdownAriaLabel')}>
           {/* eslint-disable-next-line react-hooks/refs */}
           {searchResults.map((wp, index) => (
@@ -160,6 +166,19 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
               {renderItem(wp)}
             </DropdownItem>
           ))}
+
+          {createIndex !== -1 && (
+            <DropdownItem
+              role="option"
+              aria-selected={focusedIndex === createIndex}
+              $selected={focusedIndex === createIndex}
+              onMouseDown={(e) => e.preventDefault()}
+              {...tapProps(create)}
+              onMouseEnter={() => setFocusedIndex(createIndex)}
+            >
+              <CreateWorkPackageOption />
+            </DropdownItem>
+          )}
         </DropdownList>
       )}
     </>

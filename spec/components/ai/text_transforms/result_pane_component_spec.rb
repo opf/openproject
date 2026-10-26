@@ -42,7 +42,7 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     run.events.build(kind: "completed", payload: { "text" => "Login works again." }, seq: 1)
   end
 
-  it "renders a labelled, non-modal dialog" do
+  it "renders a labeled, non-modal dialog" do
     expect(subject).to have_css("[role=dialog][aria-label='AI result'].op-ai-result-pane")
     expect(subject).to have_no_css("dialog")
   end

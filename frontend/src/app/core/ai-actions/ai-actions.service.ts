@@ -30,8 +30,8 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { IEditorWithContent } from 'core-app/core/ai-actions/editor-content';
 import {
   AI_TEXT_TRANSFORM_APPLIED_EVENT,
@@ -69,10 +69,11 @@ const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
 const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
- * Counterpart of the CKEditor Assistant button (AI-101), which only renders the list and reports
- * the chosen action. Demo (AI-126): running an action requests the server-rendered result pane
- * through Turbo, like the wiki page link macro requests its dialog, and applies the text the pane
- * hands back to the editor model.
+ * Counterpart of the CKEditor Assistant button, which only renders the list and reports the chosen
+ * action. Availability is decided server-side; an empty list keeps the button hidden.
+ *
+ * Demo (AI-126 demo branch, until AI-176): run requests the server-rendered result pane through
+ * Turbo and applies the text the pane hands back to the editor model.
  */
 @Injectable({ providedIn: 'root' })
 export class AiActionsService {
@@ -116,14 +117,12 @@ export class AiActionsService {
     return actions.find((action) => action.id === lastActionId) ?? actions[0];
   }
 
-  async run(action:IAiTextTransformAction, editor:IEditorWithContent, resource:IEditorContextResource|undefined):Promise<void> {
-    const context = this.paneContext(resource);
-
-    if (context === null) {
+  async run(action:IAiTextTransformAction, editor?:IEditorWithContent, resource?:IEditorContextResource):Promise<void> {
+    this.rememberAction(action);
+    if (!editor) {
       return;
     }
 
-    this.rememberAction(action);
     this.forgetRequestsOf(editor);
 
     // An action that injects the type template describes the whole description,
@@ -140,7 +139,7 @@ export class AiActionsService {
         action_id: String(action.id),
         scope,
         input: selection ?? editor.getData(),
-        ...context,
+        ...this.paneContext(resource, this.fieldOf(editor)),
       }),
       headers: { Accept: 'text/vnd.turbo-stream.html' },
       credentials: 'same-origin',
@@ -228,6 +227,26 @@ export class AiActionsService {
     return body;
   }
 
+  // The work package description runs with its context; every other editor runs without one.
+  private paneContext(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string> {
+    if (resource?._type !== 'WorkPackage' || field !== 'description') {
+      return {};
+    }
+
+    if (resource.id && resource.id !== 'new') {
+      return { work_package_id: resource.id };
+    }
+
+    const projectId = this.linkedId(resource.$links?.project?.href);
+    const typeId = this.linkedId(resource.$links?.type?.href);
+    return projectId && typeId ? { project_id: projectId, type_id: typeId } : {};
+  }
+
+  private fieldOf(editor:IEditorWithContent):string|undefined {
+    const openProject = editor.config?.get('openProject') as { context?:{ field?:string } }|undefined;
+    return openProject?.context?.field;
+  }
+
   private rememberAction(action:IAiTextTransformAction):void {
     this.withStorage((storage) => storage.setItem(LAST_ACTION_STORAGE_KEY, String(action.id)));
   }
@@ -246,37 +265,25 @@ export class AiActionsService {
     }
   }
 
-  // v1 applies to the work package description editor only. Everything else
-  // (comments, wiki pages, meeting notes) resolves to "no actions".
   private listPath(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
-    const context = field === 'description' ? this.paneContext(resource) : null;
-
-    if (context === null) {
-      return null;
+    if (resource?._type === 'WorkPackage' && field === 'description') {
+      return this.workPackageListPath(resource);
     }
 
-    const base = this.pathHelper.api.v3.apiV3Base;
-
-    if (context.work_package_id) {
-      return `${base}/work_packages/${context.work_package_id}/ai_text_transform_actions`;
-    }
-
-    return `${base}/projects/${context.project_id}/ai_text_transform_actions?typeId=${context.type_id}`;
+    return this.pathHelper.api.v3.aiTextTransformActions();
   }
 
-  private paneContext(resource:IEditorContextResource|undefined):Record<string, string>|null {
-    if (resource?._type !== 'WorkPackage') {
-      return null;
+  private workPackageListPath(workPackage:IEditorContextResource):string|null {
+    const paths = this.pathHelper.api.v3;
+
+    if (workPackage.id && workPackage.id !== 'new') {
+      return paths.aiTextTransformActionsByWorkPackage(workPackage.id);
     }
 
-    if (resource.id && resource.id !== 'new') {
-      return { work_package_id: resource.id };
-    }
+    const projectId = this.linkedId(workPackage.$links?.project?.href);
+    const typeId = this.linkedId(workPackage.$links?.type?.href);
 
-    const projectId = this.linkedId(resource.$links?.project?.href);
-    const typeId = this.linkedId(resource.$links?.type?.href);
-
-    return projectId && typeId ? { project_id: projectId, type_id: typeId } : null;
+    return projectId && typeId ? paths.aiTextTransformActionsByProject(projectId, typeId) : null;
   }
 
   private linkedId(href:string|undefined):string|null {

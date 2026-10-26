@@ -8,10 +8,10 @@ keywords: executing kick-off meeting, project coordination, quality assurance, p
 
 # 7 Executing phase 
 
-The third phase of a PM² project is the Executing Phase. During this phase, the project deliverables are produced and the requestor organisation prepares for their introduction. The Executing Phase begins with a Kick-off Meeting and ends with the acceptance (final or provisional-as per the Deliverables Acceptance Plan) by the requestor side.
+The third phase of a PM² project is the Executing Phase. During this phase, the project deliverables are produced and the requestor organization prepares for their introduction. The Executing Phase begins with a Kick-off Meeting and ends with the acceptance (final or provisional-as per the Deliverables Acceptance Plan) by the requestor side.
 ![Fig 7.1 Executing Phase activities and main outputs](07.01.png)
 
-![Fig 7.2 Executing Phase artefacts](07.02.png)
+![Fig 7.2 Executing Phase artifacts](07.02.png)
 
 ## 7.1 Executing Kick-off Meeting 
 
@@ -19,7 +19,7 @@ The Executing Phase starts with the Executing Kick-off Meeting. This meeting ens
 
 | Key Participants | Description |
 | :-- | :-- |
-| Project Manager (PM) | Organises the meeting. |
+| Project Manager (PM) | Organizes the meeting. |
 | Project Core Team (PCT) | Required participants. |
 | Project Manager Assistant (PMA) \& Project <br> Support Office (PSO) | Required to attend (if they are part of the project). |
 | Other project roles or stakeholders | Optional participation (as per the project's needs). |
@@ -135,7 +135,7 @@ Quality Assurance activities are documented in the Quality Management Plan. Thes
 
 ![Fig 7.5 Quality Assurance inputs/outputs and main roles](07.05.png)
 
-| Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
+| Related Artifacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :--: | :--: | :--: | :--: | :--: | :--: |
 | Quality Management | Project Charter | Quality Management Plan | Quality Review Reports<br />Audit Reports | Quality Review Checklist <br> Project Logs <br> Phase-Exit Review Checklist | Project-End Report <br> Project Acceptance Note |
 
@@ -205,7 +205,7 @@ If a project is a multi-annual project and its overall vision/scope has not chan
 
 **Quality Review Report**
 
-The Project Manager (PM) produces a Quality Review Report after evaluating the results of qualityassurance activities and the effectiveness of the project's quality-management process for all aspects of the project (scope, time, cost, quality, project organisation, communication, risks, contracts, client satisfaction, etc.).
+The Project Manager (PM) produces a Quality Review Report after evaluating the results of qualityassurance activities and the effectiveness of the project's quality-management process for all aspects of the project (scope, time, cost, quality, project organization, communication, risks, contracts, client satisfaction, etc.).
 
 The Quality Review Report should give an overview of the status of all project quality-management activities and present the main quality assurance and control results, non-conformities, opportunities for improvement, recommendations and remediation/improvement actions, and their impact and status. It should also report on the status of important project configuration activities (assurance and control). The main input to the Quality Review Report is the Quality Review Checklist.
 
@@ -215,7 +215,7 @@ The Contractor Status Report is filled out by the contractor (if there is one) a
 
 **Custom or Ad Hoc Reports**
 
-Reports should serve the project's needs. If it is decided that a custom report is needed, this should be defined during the Planning Phase and documented in the Project Handbook. Custom reports can be domain-specific (e.g. IT-related) or project-specific (i.e. related to the particularities of the project organisation or the project management approach).
+Reports should serve the project's needs. If it is decided that a custom report is needed, this should be defined during the Planning Phase and documented in the Project Handbook. Custom reports can be domain-specific (e.g. IT-related) or project-specific (i.e. related to the particularities of the project organization or the project management approach).
 Similarly, if a specific communication/reporting need arises during the project, an Ad-Hoc Report can be produced to address this need.
 
 **Outputs**
@@ -264,7 +264,7 @@ Information distribution refers to the methods used to keep project stakeholders
 
 ## 7.6 Phase Gate: RfC (Ready for Closing) 
 
-This is the third and final phase gate. A review and approval are recommended before the project can move to the next phase. The Project Manager (PM) assesses whether all the goals of the Executing Phase have been achieved, verifies that all planned activities have been carried out, that all requirements have been met, and that the project's outputs have been fully delivered. The Project Manager (PM) is also responsible for ensuring that the Project Owner (PO) accepts the deliverables (at least provisionally), finalises the transition and makes the outputs available to the end-users.
+This is the third and final phase gate. A review and approval are recommended before the project can move to the next phase. The Project Manager (PM) assesses whether all the goals of the Executing Phase have been achieved, verifies that all planned activities have been carried out, that all requirements have been met, and that the project's outputs have been fully delivered. The Project Manager (PM) is also responsible for ensuring that the Project Owner (PO) accepts the deliverables (at least provisionally), finalizes the transition and makes the outputs available to the end-users.
 
-Once all the above conditions have been met, the Project Steering Committee (PSC) can authorise the Project Manager (PM) to move the project to the Closing Phase.
+Once all the above conditions have been met, the Project Steering Committee (PSC) can authorize the Project Manager (PM) to move the project to the Closing Phase.
 PM² provides a template Phase Exit Review Checklist for each phase that can be used by the Project Manager (PM) to guide the assessment, alongside a review of the phase's specific goals.

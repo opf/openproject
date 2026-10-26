@@ -49,7 +49,7 @@ RSpec.describe "LLM connection administration",
          "opce-autocompleter[data-input-name*='default_chat_model_id']")
   end
 
-  # The kebab is a Primer ActionMenu: clicking it before its behaviour is
+  # The kebab is a Primer ActionMenu: clicking it before its behavior is
   # attached silently does nothing, so wait for the page to settle first and
   # for the item itself to become visible.
   def choose_action(item)

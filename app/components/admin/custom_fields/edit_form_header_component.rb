@@ -32,11 +32,12 @@ module Admin
     class EditFormHeaderComponent < ApplicationComponent
       include ::CustomFields::AdminRoutes
 
-      def initialize(custom_field:, selected:, section_label:, page_title:, **)
+      def initialize(custom_field:, selected:, section_label:, page_title:, project: nil, **)
         @custom_field = custom_field
         @selected = selected
         @section_label = section_label
         @page_title = page_title
+        @project = project
         super(custom_field, **)
       end
 
@@ -61,7 +62,8 @@ module Admin
       def extra_tabs
         return [] unless @custom_field.is_a?(WorkPackageCustomField)
 
-        [{ name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
+        [{ name: "projects", path: projects_path(@custom_field), label: t(:label_project_plural) },
+         { name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
            label: AttributeHelpText.human_attribute_name(:help_text) }]
       end
 
@@ -75,9 +77,21 @@ module Admin
           { href: admin_index_path, text: t(:label_administration) },
           { href: index_path(@custom_field), text: @section_label },
           { href: index_path(@custom_field), text: @page_title },
-          helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format),
-                                            @custom_field.attribute_in_database("name"))
+          *custom_field_breadcrumbs_items
         ]
+      end
+
+      def custom_field_breadcrumbs_items
+        name = @custom_field.attribute_in_database("name")
+
+        if @project
+          [
+            { href: projects_path(@custom_field), text: name },
+            helpers.nested_breadcrumb_element(Project.model_name.human, @project.name)
+          ]
+        else
+          [helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format), name)]
+        end
       end
     end
   end

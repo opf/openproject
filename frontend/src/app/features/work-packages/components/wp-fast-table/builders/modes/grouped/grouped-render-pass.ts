@@ -141,7 +141,7 @@ export class GroupedRenderPass extends PlainRenderPass {
 
   private matchesMultiValue(property:HalResource[], group:GroupObject) {
     // The API returns `group.href` as an object keyed by index rather than a
-    // plain array, so normalise it via `Object.values` before comparing.
+    // plain array, so normalize it via `Object.values` before comparing.
     const groupHrefs = Object.values(group.href);
 
     if (property.length !== groupHrefs.length) {

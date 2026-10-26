@@ -84,7 +84,7 @@ module OpPrimer
     end
 
     # Data attributes for the box element wrapping the whole table, for
-    # subclasses that need to attach behaviour to it.
+    # subclasses that need to attach behavior to it.
     def container_data
       {}
     end

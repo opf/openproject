@@ -219,6 +219,9 @@ sv:
         organizational_unit: Organisationsenhet
         parent: Överordnad grupp
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Namn på Jira-instans
         personal_access_token: Personlig åtkomsttoken
         url: URL till Jira-instans
@@ -466,7 +469,7 @@ sv:
         header_look_and_feel: Utseende
         impaired: Tillgänglighetsläge
         increase_contrast: Öka kontrasten
-        increase_contrast_caption: Aktiverar högkontrastläge för det valda färgläget.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Öka temats kontrast
         mode_guideline: I vissa lägen skrivs anpassade temafärger över av tillgänglighets- och läsbarhetsskäl. Välj Light-läge för fullt stöd för anpassade teman.
         require_double_click_for_inline_edit: Require double click to edit fields
@@ -1481,7 +1484,7 @@ sv:
             description: The app header will be black. We recommend a white logo on transparent background.
             name: Dark mode logo
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1563,12 +1566,15 @@ sv:
       actions:
         button_edit: Redigera konfiguration
         button_open: Öppna körningar
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Hjälp oss att förbättra Jira Migrator med din feedback och privata datadonationer. Du kan [gå med i utvecklingscommunityn](link) för Jira Migrator.
 
           '
         description: Jira Migrator är för närvarande i betaversion. Vi stöder för närvarande endast Jira Server/Data Center version 10.x och 11.x. Molninstanser stöds inte just nu.
         title: Beta – Prova!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Konfigurera en Jira-värd för att börja importera objekt från Jira till den här OpenProject-instansen.
         title: Inga Jira-värdar har konfigurerats ännu
@@ -1601,18 +1607,30 @@ sv:
           description: Jira använder ärendeidentifierare som består av en projektnyckel och ett sekvensnummer (PRJ-123). OpenProject stöder också detta, men funktionen måste aktiveras [här](link).
           title: Projektbaserade semantiska identifierare måste vara aktiverade.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Lägg till konfiguration
-        button_delete_token: Ta bort token
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Spara konfiguration
-        delete_token_confirm: Är du säker på att du vill ta bort token? Detta inaktiverar Jira-anslutningen.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
         exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
           exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Namn
-          personal_access_token: Personlig åtkomsttoken
+          personal_access_token: Personal access token (PAT)
           url: URL till Jira Server/Data Center
         label_testing: Testar konfigurationen...
-        test_configuration_caption: Du kan testa den här konfigurationen genom att [klicka här](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Redigera körning
@@ -1865,17 +1883,18 @@ sv:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira-API:t returnerade felstatus %{status}. Kontrollera URL:en till Jira-instansen och API-token.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Anslutningsfel: %{message}'
         error: Ett oväntat fel inträffade när anslutningen testades
         failed: 'Anslutningen misslyckades: Det gick inte att hämta serverinformation'
         invalid_url: Ange en giltig URL
-        missing_credentials: Ange både URL och personlig åtkomsttoken för att testa anslutningen
         parse_error: Det gick inte att tolka svaret från servern. Servern kanske inte är en giltig Jira-instans.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Anslutningen till %{server} lyckades (version %{version})
-        token_error: Ogiltig API-token. Kontrollera autentiseringsuppgifterna i konfigurationen.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Jira-migrerare
-      token_deleted: Token togs bort.
       user:
         unknown_name: Okänd
     journal_aggregation:
@@ -2136,7 +2155,7 @@ sv:
         types_caption: Lägg till de arbetspaketstyper som åtgärden ska vara tillgänglig för. Alla tillgängliga varianter inkluderas automatiskt.
         usage_scope_caption: 'Du kan begränsa var åtgärden är synlig: överallt (inklusive kommentarer, wikier och anpassade fält), för alla arbetspaketstyper eller för vissa arbetspaketstyper.'
       index:
-        description: Åtgärder för textomvandling ger användarna LLM-drivna funktioner för att skriva, ordna och granska text överallt där rich text-redigeraren används, till exempel i arbetspaketsbeskrivningar, kommentarer och wikisidor. Du skapar nya åtgärder med egna promptar och instruktioner.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Åtgärd
         label_aria_add_action: Lägg till åtgärd för textomvandling
       index_component:
@@ -3597,7 +3616,7 @@ sv:
       summary:
         failure: Vissa kontroller misslyckades och systemet fungerar inte som förväntat.
         success: Alla anslutningar och system fungerar som förväntat.
-        warning: Vissa kontroller gav en varning. Det kan leda till oväntat beteende.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Misslyckades
@@ -3606,7 +3625,7 @@ sv:
         warning: Varning
   help_texts:
     views:
-      favoured: Markera den här vyn som favorit och lägg till den i sidofältet med sparade vyer till vänster.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} är alltid kopplade till ett projekt. Här kan du bara välja projekt där modulen %{plural} är aktiv. När du har skapat en %{singular} kan du lägga till arbetspaket från andra projekt i den.\n"
       public: Publicera den här vyn så att andra användare kan komma åt den. Användare med behörigheten 'Hantera offentliga vyer' kan ändra eller ta bort offentliga frågor. Detta påverkar inte synligheten för arbetspaketsresultaten i vyn; beroende på sina behörigheter kan användare se olika resultat.
   homescreen:
@@ -5435,8 +5454,8 @@ sv:
         label: Innehållsförteckning
     page_nr_footer: Sida %{page} av %{total}
     template_artefact:
-      caption: Arbetspaketsinformation återgiven som en PMflex-artefakt.
-      label: PMflex-artefakt
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Alla attribut som finns i det aktuella formuläret med standardmallen.
       label: Attribut och beskrivning
@@ -5743,11 +5762,11 @@ sv:
           no_status_when_submitted: Det gick inte att aktivera begäran om projektinitiering eftersom arbetspaketstypen %{type} kräver minst en associerad status. Aktivera minst ett statusarbetsflöde för denna arbetspaketstyp.
           no_work_package_type: Det gick inte att aktivera begäran om projektinitiering eftersom den kräver minst en aktiv arbetspaketstyp och projektet saknar sådana. Lägg till minst en arbetspaketstyp i projektet.
         export:
-          description_attachment_export: Den genererade artefakten sparas som en PDF-bilaga till artefaktens arbetspaket.
-          description_file_link_export: Artefaktens arbetspaket får en fillänk till en PDF som lagras i en extern fillagring. Kräver en fungerande fillagring med automatiskt hanterade projektmappar för det här projektet. För närvarande stöds endast Nextcloud-fillagring.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Välj vilken av de konfigurerade externa fillagringarna som ska användas.
           external_file_storage: Extern fillagring
-          label_artifact_export: Artefaktexport
+          label_artifact_export: Artifact export
           label_attachment_export: Spara som filbilaga till arbetspaket
           label_file_link_export: Ladda upp fil till extern fillagring och lägg till fillänk i arbetspaket
           pdf_file_storage: PDF-fillagring
@@ -5886,14 +5905,14 @@ sv:
     status:
       button_edit: Redigera status
     wizard:
-      create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
-      create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: Det här projektet har inga projektattribut aktiverade för guiden. Aktivera minst ett i <a href="%{link}">projektinställningarna</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
       sidebar_content_title: Innehåll
-      success: Projektattributen har sparats och artefaktens arbetspaket har skapats.
+      success: Project attributes saved and artifact work package created successfully.
       title: Begäran om projektinitiering
   pwa:
     offline:
@@ -6467,12 +6486,12 @@ sv:
         confirmation_message: Guiden för projektinitieringsbegäran kommer inte längre att vara tillgänglig för nya projekt som baseras på denna mall. Projektledare och projektägare måste konfigurera och fylla i relevant information manuellt i projektöversikten.
         heading: Inaktivera denna begäran om projektinitiering?
         title: Inaktivera begäran om projektinitiering
-      header_description: 'OpenProject kan skapa en steg-för-steg-guide som hjälper projektledare att fylla i en begäran om projektinitiering. Du kan välja vilka projektattribut som ska ingå och skapa en PDF-artefakt som resultat.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Artefaktnamn
-        artifact_name_caption: Välj det namn för artefakten som rekommenderas av ert ramverk för projektledning.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Guide för projektskapande
           project_initiation_request: Begäran om projektinitiering
@@ -6492,8 +6511,8 @@ sv:
           Du skickade in en begäran om projektinitiering för **%{project_name}**. Den väntar nu på granskning.
           Klicka på länken nedan för att komma åt arbetspaketet med din begäran.
         confirmation_email_text: Text i bekräftelsemeddelande
-        description: När en användare skickar in en begäran om projektinitiering skapas ett nytt arbetspaket där begärans artefakt bifogas som PDF-fil. Inställningarna nedan definierar typ, status och tilldelad för detta nya arbetspaket.
-        description_template: "**Det här arbetspaketet skapades automatiskt när arbetsflödet %{wizard_name} slutfördes.** En PDF-artefakt som innehåller all inskickad information har skapats och bifogats detta arbetspaket som referens och för revisionsändamål. Om du behöver uppdatera eller köra initieringsstegen igen kan du när som helst öppna guiden på nytt med länken nedan:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Skicka ett bekräftelsemeddelande till användaren som skickade in begäran om projektinitiering
         status_when_submitted: Status vid inskickning
         status_when_submitted_caption: Den status som det genererade arbetspaketet övergår till när begäran skickas in.
@@ -6501,7 +6520,7 @@ sv:
         work_package_comment_caption: Den tilldelade som väljs ovan @omnämns automatiskt i kommentaren.
         work_package_comment_default: En begäran om projektinitiering för **%{project_name}** har skickats in och väntar på granskning.
         work_package_type: Arbetspaketstyp
-        work_package_type_caption: Den arbetspaketstyp som ska användas för att lagra den slutförda artefakten.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Öppna guiden för projektskapande
         project_initiation_request: Öppna begäran om projektinitiering
@@ -7020,13 +7039,13 @@ sv:
           file_link:
             caption: Den genererade PDF-filen laddas upp till projektets automatiskt hanterade Nextcloud-lagring och länkas från arbetspaketet. Arbetspaket i projekt utan sådan lagring hoppas över.
             label: Ladda upp fil till extern fillagring och lägg till fillänk i arbetspaket
-          intro: Generera automatiskt en PDF-artefakt av ett arbetspaket av den här typen varje gång dess status ändras.
-          invalid_mode: Ogiltigt exportläge för artefakt.
-          label: Automatisk artefaktexport
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: Ingen PDF genereras automatiskt.
             label: Av
-          section_title: Automatisk artefaktexport
+          section_title: Automatic artifact export
           unavailable: inte tillgänglig, ingen automatiskt hanterad Nextcloud-lagring är konfigurerad
         pdf_export_templates:
           actions:
@@ -7405,7 +7424,7 @@ sv:
       deletion_warning: Är du säker på att du vill återkalla denna session? Du kommer att loggas ut på den här enheten.
       device: Enhet / OS
       expires: Upphör
-      instructions: Du är inloggad på ditt konto via följande enheter. Återkalla sessioner som du inte känner igen eller som kommer från enheter du inte kontrollerar.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Senaste inloggning
       may_not_delete_current: Du kan inte ta bort din nuvarande session.
       session_name: "%{browser_name} %{browser_version} på %{os_name}"

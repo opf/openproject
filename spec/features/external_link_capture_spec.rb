@@ -45,7 +45,7 @@ RSpec.describe "External link capture", :js do
   current_user { admin }
 
   shared_examples "opens external link directly in a new window" do
-    it "keeps the default external link behaviour" do
+    it "keeps the default external link behavior" do
       visit project_wiki_path(project, wiki_page)
 
       link = page.find_link("OpenProject", href: external_url)
