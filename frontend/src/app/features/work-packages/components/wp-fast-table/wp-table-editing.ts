@@ -30,7 +30,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -113,7 +112,7 @@ export class WorkPackageTableEditingContext {
     }
   }
 
-  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):EditForm {
+  public startEditing(workPackage:WorkPackageResource, classIdentifier:string):TableEditForm {
     const wpId = workPackage.id!;
     const existing = this.forms[wpId];
     if (existing) {

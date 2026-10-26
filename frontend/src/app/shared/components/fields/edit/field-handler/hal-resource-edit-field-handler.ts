@@ -139,7 +139,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     return this
       .onSubmit()
-      .then(() => this.form.submit())
+      .then(() => this.form.submit(this.fieldName))
       .then(() => {
         this.blurActiveField();
         this.form.onSubmitComplete();
@@ -156,7 +156,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
       if (event.key === 'Enter') {
-        await this.form.submit();
+        await this.form.submit(this.fieldName);
         return false;
       }
       return true;

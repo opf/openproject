@@ -75,6 +75,7 @@ export interface KeyboardNavigation {
   captureOwnership():void;
   /** Keeps the return path open when an editor registers an overlay that already holds focus. */
   adoptOverlay(overlay:HTMLElement):void;
+  engageEditor?(handler:EditFieldHandler):void;
 }
 
 interface RenderedRows {
@@ -257,15 +258,12 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean {
-    const user = this.userPosition;
-    if (user && (user.key !== origin.key || user.cell !== origin.cell)) {
-      return false;
-    }
-
     const rows = buildNavigableRows(this.table);
     const originIndex = rows.findIndex((row) => row.key === origin.key);
     const target = originIndex === -1 ? this.current : reconcilePosition(rows, origin, originIndex);
-    if (!target || !this.mayRestoreFocus(closing)) {
+    const userIndex = this.userPosition ? rows.findIndex((row) => row.key === this.userPosition!.key) : -1;
+    const user = userIndex === -1 ? null : reconcilePosition(rows, this.userPosition!, userIndex);
+    if (!target || !this.mayRestoreFocus(closing) || (user && !this.samePosition(user, target))) {
       return false;
     }
 
@@ -334,6 +332,10 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     paintRovingTabindex(this.table.scrollContainer, painted && this.elementAt(painted));
   }
 
+  private samePosition(a:FocusPosition|null, b:FocusPosition|null):boolean {
+    return a === b || (!!a && !!b && a.key === b.key && a.cell === b.cell);
+  }
+
   private reconcile(rows:NavigableRow[], previous:RenderedRows, position:FocusPosition):FocusPosition|null {
     if (!rows.some((row) => row.kind !== 'header' && row.kind !== 'totals')) {
       const header = rows.find((row) => row.kind === 'header');
@@ -384,6 +386,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     const position = this.positionOf(target);
     if (position) {
       this.current = position;
+      this.userPosition = position;
       paintRovingTabindex(this.table.scrollContainer, target);
       return;
     }

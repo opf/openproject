@@ -540,6 +540,7 @@ describe('KeyboardNavigationTransformer', () => {
       expect(cell(table.row('1'), 0)).toHaveFocus();
       navigation(table).returnFocus(origin);
       expect(cell(table.row('1'), 0)).toHaveFocus();
+      navigation(table).recordPosition(origin);
       cell(table.row('1'), 0).blur();
       navigation(table).returnFocus(origin);
       expect(cell(table.row('2'), 1)).toHaveFocus();
@@ -633,6 +634,19 @@ describe('KeyboardNavigationTransformer', () => {
       navigation(table).returnFocus(moved);
 
       expect(document.body).toHaveFocus();
+    });
+
+    it('returns to the recovered position when a render removed the origin row', async () => {
+      const table = await mount();
+      const menuItem = visitMenu(table);
+      await table.render([{ id: '1' }, { id: '3' }]);
+      menuItem.remove();
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu(origin);
+
+      expect(navigation(table).position).toMatchObject({ key: wpOccurrenceKey('3') });
+      expect(table.row('3')).toHaveFocus();
     });
 
     it('does nothing after the table is destroyed', async () => {
@@ -899,6 +913,30 @@ describe('KeyboardNavigationTransformer', () => {
       await waitFor(() => expect(table.row('3')).not.toBeVisible());
       expect(table.row('1')).toHaveFocus();
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    });
+
+    it('returns a menu to the parent a collapse moved focus to', async () => {
+      const table = await mount({
+        workPackages: [
+          { id: '1', children: [{ id: '2' }, { id: '3' }] },
+          { id: '2', ancestors: [{ id: '1' }] },
+          { id: '3', ancestors: [{ id: '1' }] },
+          { id: '4' },
+        ],
+        showHierarchies: true,
+      });
+      table.row('3').focus();
+      table.injector.get(WorkPackageViewHierarchiesService).collapse('1');
+      await waitFor(() => expect(table.row('1')).toHaveFocus());
+      const menuItem = document.createElement('button');
+      document.body.append(menuItem);
+      menuItem.focus();
+      menuItem.remove();
+      expect(document.body).toHaveFocus();
+
+      navigation(table).returnFocusFromMenu({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+
+      expect(table.row('1')).toHaveFocus();
     });
 
     it('filtering to zero rows moves focus to the header row', async () => {
