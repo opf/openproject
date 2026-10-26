@@ -168,6 +168,46 @@ describe('KeyboardNavigationTransformer', () => {
     await waitFor(() => expect(button).toHaveFocus());
   });
 
+  it('remembers a created row after render without moving Create focus', async () => {
+    const table = await mount();
+    const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+    create.focus();
+    navigation(table).rememberWorkPackageAfterRender('2');
+
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+
+    expect(create).toHaveFocus();
+    expect(table.row('2')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).not.toHaveFocus();
+    expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
+    await userEvent.tab({ shift: true });
+    expect(table.row('2')).toHaveFocus();
+  });
+
+  it('discards a create remembrance after a newer user position', async () => {
+    const table = await mount();
+    const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+    navigation(table).rememberWorkPackageAfterRender('2');
+    navigation(table).recordPosition({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
+    table.row('1').focus();
+    pressActive('ArrowDown');
+    pressActive('ArrowDown');
+    create.focus();
+
+    const rendered = table.nextRender();
+    table.table.redrawTable();
+    await rendered;
+
+    expect(create).toHaveFocus();
+    expect(table.row('3')).toHaveAttribute('tabindex', '0');
+    expect(table.row('2')).toHaveAttribute('tabindex', '-1');
+    expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
+    await userEvent.tab({ shift: true });
+    expect(table.row('3')).toHaveFocus();
+  });
+
   it('takes the scroll container and its wrapper out of the Tab order only when enabled', async () => {
     const enabled = await mount();
     expect(enabled.table.scrollContainer).toHaveAttribute('tabindex', '-1');
@@ -937,6 +977,23 @@ describe('KeyboardNavigationTransformer', () => {
       navigation(table).returnFocusFromMenu({ key: wpOccurrenceKey('1'), cell: null, desiredColumn: null });
 
       expect(table.row('1')).toHaveFocus();
+    });
+
+    it('focuses a created row after render when focus had returned to the grid', async () => {
+      const table = await mount();
+      table.row('1').focus();
+      const create = within(table.container).getByRole('button', { name: 'Create new work package' });
+      create.focus();
+      navigation(table).rememberWorkPackageAfterRender('2');
+      await userEvent.tab({ shift: true });
+      expect(table.row('1')).toHaveFocus();
+
+      const rendered = table.nextRender();
+      table.table.redrawTable();
+      await rendered;
+
+      expect(table.row('2')).toHaveFocus();
+      expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('2'), cell: null, desiredColumn: null });
     });
 
     it('filtering to zero rows moves focus to the header row', async () => {

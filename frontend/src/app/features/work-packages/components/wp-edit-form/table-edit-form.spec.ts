@@ -570,12 +570,22 @@ describe('TableEditForm focus return', () => {
     vi.spyOn(errorResource, 'getInvolvedAttributes').mockReturnValue(['subject']);
     vi.spyOn(errorResource, 'getMessagesPerAttribute').mockReturnValue({ subject: ['Required'] });
     const error = new HalError(new HttpErrorResponse({ status: 422 }), errorResource);
-    await mount({ editing: { save: () => Promise.reject(error) } });
+    await mount({
+      editing: { save: () => Promise.reject(error) },
+      translations: { 'js.inplace.errors.messages_on_field': 'Required' },
+    });
     const handler = await openEditor();
 
     await expect(handler.handleUserSubmit()).rejects.toBe(error);
 
-    await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    const input = within(harness.row('1')).getByRole('textbox');
+    await waitFor(() => expect(input).toHaveFocus());
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+    expect(input.closest('.inline-edit--active-field')).toHaveClass('-error');
+    expect(input.closest('.inline-edit--active-field')?.querySelector('label')).toHaveTextContent('Required');
+
+    handler.setErrors([]);
+    expect(input).not.toHaveAttribute('aria-invalid');
   });
 
   it('no return when focus moved elsewhere while the save was pending', async () => {

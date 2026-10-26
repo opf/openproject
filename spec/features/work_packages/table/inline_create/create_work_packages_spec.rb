@@ -87,6 +87,11 @@ RSpec.describe "inline create work package", :js do
         expect(page).to have_css(".wp--row", count: 2)
         expect(page).to have_button(exact_text: "Create new work package")
 
+        created = WorkPackage.find_by!(subject: "Some subject")
+        expect(page).to have_button("Create new work package", focused: true)
+        wp_table.press_keys(%i[shift tab])
+        wp_table.expect_focus_on_row(created)
+
         wp_table.click_inline_create
 
         subject_field = wp_table.edit_field(nil, :subject)

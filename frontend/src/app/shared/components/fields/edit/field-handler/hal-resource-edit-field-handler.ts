@@ -108,7 +108,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
       return;
     }
 
-    // Focus the input
+    this.syncErrorState();
     target.focus();
 
     // Set selection state if input element
@@ -119,7 +119,19 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
   public setErrors(newErrors:string[]) {
     this.errors = newErrors;
-    this.element.classList.toggle('-error', this.isErrorenous);
+    this.syncErrorState();
+  }
+
+  public syncErrorState():void {
+    const erroneous = this.isErrorenous;
+    this.element.classList.toggle('-error', erroneous);
+    this.element.querySelectorAll<HTMLElement>('.inline-edit--field').forEach((field) => {
+      if (erroneous) {
+        field.setAttribute('aria-invalid', 'true');
+      } else {
+        field.removeAttribute('aria-invalid');
+      }
+    });
     this._errorsChanged$.next();
   }
 
