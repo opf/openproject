@@ -86,7 +86,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   /**
    * Reset the field and re-render the current resource's value
    */
-  abstract reset(fieldName:string, focus?:boolean):void;
+  abstract reset(fieldName:string, focus?:boolean, userEnded?:boolean, closing?:EditFieldHandler):void;
 
   /**
    * Optional callback when the form is being saved

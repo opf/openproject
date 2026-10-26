@@ -35,6 +35,7 @@ import { TableEditForm } from 'core-app/features/work-packages/components/wp-edi
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { insideGrid } from './handlers/state/keyboard/roving-tabindex';
 
 export interface ActiveTableField {
   form:TableEditForm;
@@ -64,8 +65,16 @@ export class WorkPackageTableEditingContext {
       Object.values(form.activeFields).map((handler) => ({ form, handler })));
   }
 
+  public activeGridFields():ActiveTableField[] {
+    return this.activeTableFields().filter(({ handler }) => insideGrid(this.table.scrollContainer, handler.element ?? null));
+  }
+
   public fieldOwning(node:Node|null):ActiveTableField|null {
     return this.activeTableFields().find(({ handler }) => handler.owns(node)) ?? null;
+  }
+
+  public gridFieldOwning(node:Node|null):ActiveTableField|null {
+    return this.activeGridFields().find(({ handler }) => handler.owns(node)) ?? null;
   }
 
   public owns(node:Node|null):boolean {
@@ -74,6 +83,7 @@ export class WorkPackageTableEditingContext {
 
   public markOverlay(overlay:HTMLElement):void {
     overlay.dataset.wpTableEditor = this.ownerId;
+    this.table.keyboardNavigation?.adoptOverlay(overlay);
   }
 
   public reset() {

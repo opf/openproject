@@ -792,6 +792,23 @@ describe('KeyboardNavigationTransformer', () => {
       expect(navigation(table).position).toEqual({ key: wpOccurrenceKey('3'), cell: null, desiredColumn: null });
     });
 
+    it('returns to the origin when a full render retires an editor focused in its overlay', async () => {
+      const table = await mount({ editing: {} });
+      cell(table.row('2'), 1).focus();
+      pressActive('Enter');
+      await waitFor(() => expect(table.table.editing.forms['2'].activeFields.subject).toBeDefined());
+      const handler = table.table.editing.forms['2'].activeFields.subject;
+      const overlay = document.body.appendChild(document.createElement('button'));
+      handler.registerOverlay(overlay);
+      handler.onDestroy.subscribe(() => overlay.remove());
+      overlay.focus();
+
+      await table.render();
+
+      expect(overlay).not.toBeInTheDocument();
+      expect(cell(table.row('2'), 1)).toHaveFocus();
+    });
+
     it('a re-render while focus is in another table does not steal focus', async () => {
       const states = new States();
       const first = await mount({ states });

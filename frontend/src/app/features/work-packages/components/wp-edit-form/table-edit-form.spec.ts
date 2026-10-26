@@ -516,6 +516,33 @@ describe('TableEditForm focus return', () => {
     expect(subjectCell()).toHaveFocus();
   });
 
+  it('returns to the origin after a user-ended owned overlay closes', async () => {
+    await mount();
+    const handler = await openEditor();
+    const overlay = document.body.appendChild(document.createElement('button'));
+    handler.registerOverlay(overlay);
+    overlay.focus();
+
+    handler.deactivate(false, true);
+
+    expect(subjectCell()).toHaveFocus();
+    expect(document.body).not.toHaveFocus();
+    overlay.remove();
+  });
+
+  it('returns to the origin after an overlay that held focus before it was registered closes', async () => {
+    await mount();
+    const handler = await openEditor();
+    const overlay = document.body.appendChild(document.createElement('button'));
+    overlay.focus();
+    handler.registerOverlay(overlay);
+
+    handler.deactivate(false, true);
+
+    expect(subjectCell()).toHaveFocus();
+    overlay.remove();
+  });
+
   it('saving an editor returns focus to the origin cell after the row refresh', async () => {
     await mount({ editing: { save: saveAs('Changed') } });
     const handler = await openEditor();

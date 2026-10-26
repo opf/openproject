@@ -54,6 +54,8 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Current errors of the field
   public errors:string[];
 
+  private deactivated = false;
+
   // Fires when errors are updated, so portals can trigger their own CD
   private readonly _errorsChanged$ = new Subject<void>();
   public readonly errorsChanged$:Observable<void> = this._errorsChanged$.asObservable();
@@ -191,20 +193,23 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   /**
    * Close the field, resetting it with its display value.
    */
-  public deactivate(focus = false) {
+  public deactivate(focus = false, userEnded = false) {
+    if (this.deactivated) return;
+    this.deactivated = true;
+
     if (this.ownerDestroyRef?.destroyed) {
       runCleanup(() => this.blurActiveField());
       runCleanup(() => { delete this.form.activeFields[this.fieldName]; });
       runCleanup(() => this.onDestroy.next());
       runCleanup(() => this.onDestroy.complete());
-      runCleanup(() => this.form.reset(this.fieldName, focus));
+      runCleanup(() => this.form.reset(this.fieldName, focus, userEnded, this));
       return;
     }
     this.blurActiveField();
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
-    this.form.reset(this.fieldName, focus);
+    this.form.reset(this.fieldName, focus, userEnded, this);
   }
 
   /**

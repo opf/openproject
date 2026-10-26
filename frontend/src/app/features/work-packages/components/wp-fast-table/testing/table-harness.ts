@@ -737,7 +737,7 @@ export function buildQuery(columns:(string|RelationColumnSpec|NonSortableColumnS
   } as unknown as QueryResource;
 }
 
-function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
+export function buildColumn(column:string|RelationColumnSpec|NonSortableColumnSpec) {
   if (typeof column === 'string') {
     return { id: column, name: column, _type: 'QueryColumn', href: `/api/v3/queries/columns/${column}` };
   }

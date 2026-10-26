@@ -74,6 +74,15 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
     expect(external).not.toHaveFocus();
   });
 
+  it('deactivates only once when an overlay close is reported twice', () => {
+    const reset = vi.spyOn(form, 'reset');
+
+    handler.deactivate(false, true);
+    handler.deactivate(false, true);
+
+    expect(reset).toHaveBeenCalledOnce();
+  });
+
   it('marks and owns overlays only in their registering table', async () => {
     handler.registerOverlay(external);
 

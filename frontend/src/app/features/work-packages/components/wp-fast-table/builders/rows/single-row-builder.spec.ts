@@ -30,7 +30,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { nextFrame } from 'core-common/testing/timing';
-import { buildTable, TableHarness } from '../../testing/table-harness';
+import { buildColumn, buildTable, TableHarness } from '../../testing/table-harness';
 import { buildWorkPackage } from '../../testing/work-package-fixture';
 import { SingleRowBuilder } from './single-row-builder';
 
@@ -196,6 +196,92 @@ describe('SingleRowBuilder refresh with an active editor', () => {
   let harness:TableHarness;
 
   afterEach(() => harness.destroy());
+
+  it('keeps the editor input focused while replacing non-retained cells', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    const subjectCell = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
+    subjectCell.focus();
+    fireEvent.keyDown(subjectCell, { key: 'Enter' });
+    await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    const input = within(harness.row('1')).getByRole('textbox');
+    const idCell = harness.row('1').querySelector('td.id');
+
+    harness.table.refreshRows(harness.injector.get(States).workPackages.get('1').value!);
+
+    expect(input.isConnected).toBe(true);
+    expect(input).toHaveFocus();
+    expect(harness.row('1').querySelector('td.subject')).toBe(subjectCell);
+    expect(harness.row('1').querySelector('td.id')).not.toBe(idCell);
+  });
+
+  it('keeps an inline-create editor focused during refresh', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }],
+      editing: {},
+      productionMarkup: true,
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    const row = harness.addInlineCreateRow();
+    const form = Object.values(harness.table.editing.forms)[0];
+    const handler = await form.activate('subject');
+    handler!.focus();
+    const input = within(row).getByRole('textbox');
+    const idCell = row.querySelector('td.id');
+    const wp = form.resource;
+
+    new SingleRowBuilder(harness.injector, harness.table).refreshRow(wp, row);
+
+    expect(input.isConnected).toBe(true);
+    expect(input).toHaveFocus();
+    expect(row.querySelector('td.id')).not.toBe(idCell);
+  });
+
+  it('preserves augmented-column order around multiple retained editors', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1', attributes: { location: 'Here' } }],
+      columns: ['id', 'subject', 'location'],
+      editing: { fields: ['subject', 'location'] },
+      productionMarkup: true,
+      configuration: { keyboardNavigationEnabled: true },
+    });
+    await harness.render();
+    const wp = harness.injector.get(States).workPackages.get('1').value!;
+    harness.table.editing.startEditing(wp, harness.row('1').dataset.classIdentifier!);
+    const form = harness.table.editing.forms['1'];
+    const subject = await form.activate('subject');
+    const location = await form.activate('location');
+    subject!.focus();
+    location!.focus();
+    const input = within(harness.row('1').querySelector('td.location')!).getByRole('textbox');
+    const columnClasses = () => Array.from(harness.row('1').querySelectorAll('td.wp-table--cell-td'))
+      .map((cell) => cell.classList.contains('created_at') ? 'created_at'
+        : cell.classList.contains('location') ? 'location'
+          : cell.classList.contains('subject') ? 'subject' : 'id');
+    const refreshWith = (columns:string[]) => {
+      const builder = new SingleRowBuilder(harness.injector, harness.table);
+      Object.defineProperty(builder, 'augmentedColumns', { value: columns.map(buildColumn) });
+      builder.refreshRow(wp, harness.row('1'));
+    };
+
+    refreshWith(['location', 'subject', 'id']);
+    expect(columnClasses()).toEqual(['location', 'subject', 'id']);
+    expect(input).toHaveFocus();
+
+    refreshWith(['id', 'created_at', 'location', 'subject']);
+    expect(columnClasses()).toEqual(['id', 'created_at', 'location', 'subject']);
+    expect(input).toHaveFocus();
+
+    refreshWith(['location', 'subject']);
+    expect(columnClasses()).toEqual(['location', 'subject']);
+    expect(input).toHaveFocus();
+  });
 
   it('retains the editor cell with its role, the row level and selection', async () => {
     harness = buildTable({
