@@ -151,6 +151,32 @@ RSpec.describe AI::TextTransformRun do
     end
   end
 
+  describe "#request_cancel!" do
+    it "flags a running run for cancellation" do
+      run = create(:ai_text_transform_run, :running)
+
+      run.request_cancel!
+
+      expect(run.reload.cancel_requested).to be(true)
+    end
+
+    it "leaves a terminal run untouched" do
+      run = create(:ai_text_transform_run, :succeeded)
+
+      run.request_cancel!
+
+      expect(run.reload.cancel_requested).to be(false)
+    end
+
+    it "does not depend on the run being valid" do
+      run = create(:ai_text_transform_run, :running)
+      run.update_column(:input, "x" * (AI::TextTransformRun::MAX_INPUT_LENGTH + 1))
+
+      expect { run.reload.request_cancel! }.not_to raise_error
+      expect(run.reload.cancel_requested).to be(true)
+    end
+  end
+
   describe "finished_at" do
     subject(:run) { create(:ai_text_transform_run, :running) }
 
