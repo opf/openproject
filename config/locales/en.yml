@@ -2806,6 +2806,12 @@ en:
         enable_all: "Enable all"
         enabled_values: "%{count} of %{total}"
         filter: "Filter by text"
+        filter_no_results:
+          description: "Change the filters to see more projects."
+          title: "No projects match this filter"
+        quick_filter:
+          all: "All projects"
+          with_project_specific_values: "With project-specific values"
         types_column: "Displayed in type"
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.

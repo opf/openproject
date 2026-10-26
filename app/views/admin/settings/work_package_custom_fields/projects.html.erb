@@ -56,6 +56,40 @@ See COPYRIGHT and LICENSE files for more details.
         leading_visual: { icon: :search, size: :small },
         data: { action: "input->auto-submit#submit" }
       )
+
+      if @custom_field.project_specific_value_restriction.present?
+        subheader.with_quick_filter(
+          data: {
+            controller: "filter--segmented-control",
+            action: "itemActivated->filter--segmented-control#activate"
+          }
+        ) do
+          concat hidden_field_tag(
+            :project_specific_values, @with_project_specific_values ? "t" : "",
+            data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
+          )
+          concat(
+            render(
+              Primer::Alpha::SegmentedControl.new(
+                "aria-label": t(:label_filter_plural),
+                full_width: false,
+                test_selector: "custom-field-projects-quick-filter"
+              )
+            ) do |control|
+              control.with_item(
+                label: t("custom_fields.admin.projects.quick_filter.all"),
+                selected: !@with_project_specific_values,
+                data: { value: "" }
+              )
+              control.with_item(
+                label: t("custom_fields.admin.projects.quick_filter.with_project_specific_values"),
+                selected: @with_project_specific_values,
+                data: { value: "t" }
+              )
+            end
+          )
+        end
+      end
     end
   end
 %>
@@ -83,7 +117,8 @@ See COPYRIGHT and LICENSE files for more details.
       Admin::CustomFields::Projects::TableComponent.new(
         rows: @projects,
         custom_field: @custom_field,
-        type_ids_by_project_id: @type_ids_by_project_id
+        type_ids_by_project_id: @type_ids_by_project_id,
+        filtered: @query.present? || @with_project_specific_values
       )
     )
   %>

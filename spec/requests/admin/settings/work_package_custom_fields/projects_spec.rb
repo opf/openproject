@@ -84,6 +84,26 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(page).to have_no_link(using_project.name)
       end
 
+      it "offers to only show the projects with project-specific values" do
+        expect(page).to have_css("[data-test-selector='custom-field-projects-quick-filter']")
+      end
+
+      it "filters the projects with project-specific values" do
+        create(:project, name: "Unconfigured project", types: [feature])
+
+        get projects_path, params: { project_specific_values: "t" }
+
+        expect(page).to have_link(using_project.name)
+        expect(page).to have_no_link("Unconfigured project")
+      end
+
+      it "shows a dedicated empty state when no project matches the filters" do
+        get projects_path, params: { query: "no such project" }
+
+        expect(page).to have_text(I18n.t("custom_fields.admin.projects.filter_no_results.title"))
+        expect(page).to have_no_text(I18n.t("custom_fields.admin.projects.empty_state.title"))
+      end
+
       it "shows the projects tab" do
         expect(page).to have_link(I18n.t(:label_project_plural), href: projects_path)
       end
@@ -164,6 +184,7 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(page).to have_no_link(
           href: project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
         )
+        expect(page).to have_no_css("[data-test-selector='custom-field-projects-quick-filter']")
       end
 
       it "does not find the values of a project" do

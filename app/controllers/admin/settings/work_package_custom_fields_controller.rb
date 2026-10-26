@@ -50,6 +50,7 @@ module Admin
 
       def projects
         @query = params[:query].presence
+        @with_project_specific_values = params[:project_specific_values] == "t"
         @type_ids_by_project_id = @custom_field.type_ids_by_project_id
         @projects = projects_using_custom_field.order(:name).paginate(page: page_param, per_page: per_page_param)
 
@@ -91,6 +92,9 @@ module Admin
 
       def projects_using_custom_field
         projects = Project.where(id: @type_ids_by_project_id.keys)
+        if @with_project_specific_values
+          projects = projects.where(id: @custom_field.project_specific_value_restrictions.select(:project_id))
+        end
         return projects unless @query
 
         projects.where(Project.arel_table[:name].matches("%#{Project.sanitize_sql_like(@query)}%"))

@@ -40,11 +40,12 @@ module Admin
 
         attr_reader :custom_field
 
-        def initialize(rows:, custom_field:, type_ids_by_project_id:)
+        def initialize(rows:, custom_field:, type_ids_by_project_id:, filtered: false)
           super(rows:)
 
           @custom_field = custom_field
           @type_ids_by_project_id = type_ids_by_project_id
+          @filtered = filtered
         end
 
         def headers
@@ -78,11 +79,23 @@ module Admin
 
         def mobile_title = I18n.t(:label_project_plural)
 
-        def blank_title = I18n.t("custom_fields.admin.projects.empty_state.title")
+        def blank_title
+          if @filtered
+            I18n.t("custom_fields.admin.projects.filter_no_results.title")
+          else
+            I18n.t("custom_fields.admin.projects.empty_state.title")
+          end
+        end
 
-        def blank_description = I18n.t("custom_fields.admin.projects.empty_state.description")
+        def blank_description
+          if @filtered
+            I18n.t("custom_fields.admin.projects.filter_no_results.description")
+          else
+            I18n.t("custom_fields.admin.projects.empty_state.description")
+          end
+        end
 
-        def blank_icon = :project
+        def blank_icon = @filtered ? :search : :project
 
         private
 
