@@ -591,14 +591,14 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
 
 function translate(translations:Record<string, string> = {}) {
   return (key:string, args:Record<string, unknown> = {}) => (translations[key] ?? key)
-    .replace(/%\{(\w+)\}/g, (match, name:string) => (name in args ? String(args[name]) : match));
+    .replace(/%\{(\w+)\}/g, (match, name:string) => (Object.hasOwn(args, name) ? String(args[name]) : match));
 }
 
 function baselineStub(active:boolean) {
   return {
     isActive: () => active,
     isChanged: (workPackage:WorkPackageResource, attribute:string) => active
-      && Object.prototype.hasOwnProperty.call(workPackage.attributesByTimestamp?.[0] ?? {}, attribute),
+      && Object.hasOwn(workPackage.attributesByTimestamp?.[0] ?? {}, attribute),
   };
 }
 
