@@ -27,7 +27,7 @@
 
 import { DestroyRef, Injector } from '@angular/core';
 import { Subject } from 'rxjs';
-import { uniqueId } from 'lodash-es';
+import { generateId } from 'core-app/shared/helpers/dom-helpers';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { TableUiWork } from './table-ui-work';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -67,7 +67,7 @@ export class WorkPackageTable {
 
   @LazyInject() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
 
-  public readonly domId = uniqueId('wp-table-');
+  public readonly domId = generateId('wp-table');
 
   public originalRows:string[] = [];
 
