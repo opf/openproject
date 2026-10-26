@@ -95,11 +95,11 @@ describe('AverageLinePlugin', () => {
     expect(ctx.strokeStyle).toBe('red');
   });
 
-  it('writes the label right-aligned next to the y axis', () => {
+  it('writes the label left-aligned inside the chart area', () => {
     draw({ value: 42.5, label: '42,5', color: 'red' });
 
-    expect(ctx.fillText).toHaveBeenCalledWith('42,5', 28, 120);
-    expect(ctx.textAlign).toBe('right');
+    expect(ctx.fillText).toHaveBeenCalledWith('42,5', 48, 120);
+    expect(ctx.textAlign).toBe('left');
     expect(ctx.textBaseline).toBe('middle');
     expect(ctx.fillStyle).toBe('red');
     expect(ctx.font).toContain('sans-serif');
@@ -109,7 +109,7 @@ describe('AverageLinePlugin', () => {
   it('falls back to the raw value and a neutral color', () => {
     draw({ value: 7 });
 
-    expect(ctx.fillText).toHaveBeenCalledWith('7', 28, 120);
+    expect(ctx.fillText).toHaveBeenCalledWith('7', 48, 120);
     expect(ctx.strokeStyle).toBe('gray');
     expect(ctx.fillStyle).toBe('gray');
   });

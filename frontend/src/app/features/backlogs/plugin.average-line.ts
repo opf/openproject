@@ -60,8 +60,33 @@ export function toggleAverageLine(chart:Chart):void {
   chart.update();
 }
 
+function labelText(options:AverageLinePluginOptions):string {
+  return options.label ?? String(options.value);
+}
+
+function labelFont(chart:Chart):string {
+  return toFont({ weight: 'bold' }, chart.options.font).string;
+}
+
 const AverageLinePlugin:Plugin<ChartType, AverageLinePluginOptions> = {
   id: 'averageLine',
+
+  afterLayout(chart, _args, options) {
+    const xScale = chart.scales.x;
+    if (options.value === undefined || !xScale) {
+      return;
+    }
+
+    const { ctx } = chart;
+    ctx.save();
+    ctx.font = labelFont(chart);
+    const inset = ctx.measureText(labelText(options)).width + (2 * LABEL_PADDING);
+    ctx.restore();
+
+    xScale.left += inset;
+    xScale.width -= inset;
+    xScale.configure();
+  },
 
   beforeDatasetsDraw(chart, _args, options) {
     const yScale = chart.scales.y;
@@ -79,15 +104,15 @@ const AverageLinePlugin:Plugin<ChartType, AverageLinePluginOptions> = {
     ctx.lineWidth = 1;
     ctx.setLineDash(AVERAGE_LINE_DASH);
     ctx.beginPath();
-    ctx.moveTo(chartArea.left, y);
+    ctx.moveTo(chart.scales.x?.left ?? chartArea.left, y);
     ctx.lineTo(chartArea.right, y);
     ctx.stroke();
 
     ctx.fillStyle = options.labelColor ?? color;
-    ctx.font = toFont({ weight: 'bold' }, chart.options.font).string;
-    ctx.textAlign = 'right';
+    ctx.font = labelFont(chart);
+    ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.fillText(options.label ?? String(options.value), yScale.right - LABEL_PADDING, y);
+    ctx.fillText(labelText(options), chartArea.left + LABEL_PADDING, y);
 
     ctx.restore();
   },
