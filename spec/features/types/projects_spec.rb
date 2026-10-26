@@ -196,13 +196,22 @@ RSpec.describe "Work package type projects tab", :js do
     expect(parent.reload.type_variant(type)).to eq(hardware)
   end
 
-  it "asks before moving a project off another variant" do
+  it "asks before moving a project off another variant, back to the picker if cancelled" do
     visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects(on_firmware, include_sub_items: false)
 
     within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
       expect(page).to have_text("Laboratory").and have_text("Firmware")
+      click_link_or_button "Cancel"
+    end
+
+    within("##{WorkPackageTypes::ProjectsTab::AddFormComponent::DIALOG_ID}") do
+      expect(page).to have_css("[role='treeitem'][data-node-id='#{on_firmware.id}'][aria-checked='true']")
+      click_link_or_button "Add"
+    end
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
       click_link_or_button "Change"
     end
 

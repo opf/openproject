@@ -312,7 +312,6 @@ module WorkPackageTypes
     def switch_confirmed? = params[:confirm_switch] == "1"
 
     def ask_to_switch(switching, projects)
-      close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
       dialog_via_turbo_stream(
         component: ProjectsTab::SwitchConfirmDialogComponent.new(variant: @variant, switching:, project_ids: projects.ids)
       )

@@ -83,6 +83,12 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
       expect(laboratory.reload.type_variant(type)).to eq(firmware)
     end
 
+    it "keeps the project picker open underneath while asking" do
+      link_projects(laboratory, depot)
+
+      expect(response.body).not_to include(%(action="closeDialog"))
+    end
+
     it "adds nothing else while asking" do
       link_projects(laboratory, depot)
 
