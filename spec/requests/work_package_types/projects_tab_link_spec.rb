@@ -38,12 +38,15 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
 
   before { login_as admin }
 
-  def link_projects(*projects, variant: hardware, include_sub_items: false)
+  def link_projects(*projects, variant: hardware, include_sub_items: false, confirm_switch: false)
     post link_type_variant_projects_path(type_id: type.id, variant_id: variant.id),
          params: { project_ids: projects.map { { nodeId: it.id.to_s }.to_json },
-                   include_sub_items: include_sub_items ? "1" : "0" },
+                   include_sub_items: include_sub_items ? "1" : "0",
+                   confirm_switch: confirm_switch ? "1" : "0" },
          as: :turbo_stream
   end
+
+  def switch_dialog_id = WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID
 
   describe "a project that already applies the variant" do
     it "is nothing to do rather than a conflict" do
@@ -61,10 +64,54 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
       parent = create(:project)
       child = create(:project, parent:, types: [firmware])
 
-      link_projects(parent, include_sub_items: true)
+      link_projects(parent, include_sub_items: true, confirm_switch: true)
 
       expect(response).to have_http_status(:ok)
       expect(child.reload.type_variant(type)).to eq(hardware)
+    end
+  end
+
+  describe "a project on another variant of the type" do
+    shared_let(:laboratory) { create(:project, name: "Laboratory", types: [firmware]) }
+    shared_let(:depot) { create(:project, name: "Depot") }
+
+    it "asks before switching it" do
+      link_projects(laboratory, depot)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(switch_dialog_id).and include("Laboratory")
+      expect(laboratory.reload.type_variant(type)).to eq(firmware)
+    end
+
+    it "adds nothing else while asking" do
+      link_projects(laboratory, depot)
+
+      expect(depot.reload.project_types.where(type_id: type.id)).to be_empty
+    end
+
+    it "lists only the projects that would switch" do
+      link_projects(laboratory, depot)
+
+      expect(response.body).not_to include("Depot")
+    end
+
+    it "switches it once confirmed" do
+      link_projects(laboratory, depot, confirm_switch: true)
+
+      expect(response.body).to include(%(action="closeDialog" target="#{switch_dialog_id}"))
+      expect(laboratory.reload.type_variant(type)).to eq(hardware)
+      expect(depot.reload.type_variant(type)).to eq(hardware)
+    end
+  end
+
+  describe "a selection with no project on another variant" do
+    it "is added without asking" do
+      project = create(:project)
+
+      link_projects(project)
+
+      expect(response.body).not_to include(switch_dialog_id)
+      expect(project.reload.type_variant(type)).to eq(hardware)
     end
   end
 

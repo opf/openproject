@@ -7493,6 +7493,9 @@ en:
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
+        switch_dialog:
+          description: 'The following projects already use other variants for %{type}. Are you sure you want to replace them with "%{variant}"? This will affect forms and workflows in all of these projects.'
+          title: "Replace variants?"
         tab: Projects
         variant_column: Variant or type
       reuse_mode:

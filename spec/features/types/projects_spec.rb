@@ -196,6 +196,22 @@ RSpec.describe "Work package type projects tab", :js do
     expect(parent.reload.type_variant(type)).to eq(hardware)
   end
 
+  it "asks before moving a project off another variant" do
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
+
+    add_projects(on_firmware, include_sub_items: false)
+
+    within_test_selector(WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) do
+      expect(page).to have_text("Laboratory").and have_text("Firmware")
+      click_link_or_button "Change"
+    end
+
+    expect_flash(message: I18n.t(:notice_successful_update))
+    within("#project-table") { expect(page).to have_text(on_firmware.name) }
+
+    expect(on_firmware.reload.type_variant(type)).to eq(hardware)
+  end
+
   describe "enabling the type in all projects" do
     shared_let(:elsewhere) { create(:project, name: "Warehouse") }
 

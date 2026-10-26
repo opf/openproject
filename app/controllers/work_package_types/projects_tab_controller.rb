@@ -78,13 +78,17 @@ module WorkPackageTypes
              layout: false
     end
 
-    def link
+    def link # rubocop:disable Metrics/AbcSize
       projects = ::Project.where(id: selected_project_ids)
       return refuse_empty_selection if projects.empty?
+
+      switching = switching_project_types(projects)
+      return ask_to_switch(switching, projects) if switching.any? && !switch_confirmed?
 
       result = apply_to(projects)
 
       close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
+      close_dialog_via_turbo_stream(ProjectsTab::SwitchConfirmDialogComponent::DIALOG_ID) if switch_confirmed?
       refresh_projects
 
       if result.success?
@@ -292,6 +296,25 @@ module WorkPackageTypes
           validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
         ),
         status: :bad_request
+      )
+      respond_with_turbo_streams
+    end
+
+    def switching_project_types(projects)
+      ::ProjectType
+        .where(type_id: @type.id, project: projects)
+        .where.not(variant: @variant)
+        .joins(:project)
+        .merge(::Project.order(:lft))
+        .preload(:project, :variant)
+    end
+
+    def switch_confirmed? = params[:confirm_switch] == "1"
+
+    def ask_to_switch(switching, projects)
+      close_dialog_via_turbo_stream(ProjectsTab::AddFormComponent::DIALOG_ID)
+      dialog_via_turbo_stream(
+        component: ProjectsTab::SwitchConfirmDialogComponent.new(variant: @variant, switching:, project_ids: projects.ids)
       )
       respond_with_turbo_streams
     end
