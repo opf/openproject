@@ -25,14 +25,48 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
 
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
+import {
+  WorkPackageTabsService,
+} from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
+
+import { SquashTMTabComponent } from './squashtm-tab/squashtm-tab.component';
+
+export function initializeSquashTMIntegrationPlugin(injector:Injector) {
+  const wpTabService = injector.get(WorkPackageTabsService);
+  const I18n = injector.get(I18nService);
+  wpTabService.registerAfter(
+    'relations',
+    {
+      component: SquashTMTabComponent,
+      name: I18n.t('js.work_packages.tabs.squashtm'),
+      id: 'squashtm',
+      displayable: (workPackage) => !!workPackage.squashtm,
+    },
+  );
+}
 
 @NgModule({
   imports: [
     OpSharedModule,
+    OpenprojectTabsModule,
+  ],
+  declarations: [
+    SquashTMTabComponent,
+  ],
+  exports: [
+    SquashTMTabComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class PluginModule {}
+export class PluginModule {
+  constructor() {
+    const injector = inject(Injector);
+
+    initializeSquashTMIntegrationPlugin(injector);
+  }
+}

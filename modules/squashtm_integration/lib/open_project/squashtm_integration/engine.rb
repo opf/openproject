@@ -29,6 +29,8 @@
 
 require "open_project/plugins"
 
+require_relative "patches/api/work_package_representer"
+
 module OpenProject::SquashTMIntegration
   class Engine < ::Rails::Engine
     engine_name :openproject_squashtm_integration
@@ -65,9 +67,18 @@ module OpenProject::SquashTMIntegration
            parent: :settings,
            caption: :project_module_squashtm
 
+      menu :work_package_split_view,
+           :squashtm,
+           { tab: :squashtm },
+           skip_permissions_check: true,
+           after: :relations,
+           if: ->(project) {
+             User.current.allowed_in_project?(:view_squashtm_test_results, project)
+           }
+
       project_module(:squashtm, dependencies: :work_package_tracking) do
         permission :view_squashtm_test_results,
-                   {},
+                   { work_package_squashtm_tab: %i[index] },
                    permissible_on: :project,
                    dependencies: :view_work_packages
 
@@ -82,5 +93,8 @@ module OpenProject::SquashTMIntegration
                    require: :member
       end
     end
+
+    extend_api_response(:v3, :work_packages, :work_package,
+                        &::OpenProject::SquashTMIntegration::Patches::API::WorkPackageRepresenter.extension)
   end
 end

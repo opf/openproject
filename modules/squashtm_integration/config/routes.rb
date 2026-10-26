@@ -45,5 +45,13 @@ Rails.application.routes.draw do
         get :destroy_dialog
       end
     end
+
+    resources :work_packages, only: %i[] do
+      resources :squashtm, only: %i[] do
+        collection do
+          resources :tab, only: %i[index], controller: "work_package_squashtm_tab", as: "squashtm_tab"
+        end
+      end
+    end
   end
 end

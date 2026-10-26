@@ -357,6 +357,7 @@ RSpec/SpecFilePathFormat:
     XWiki: xwiki
     XWikiProviders: xwiki_providers
     SquashTMIntegration: squashtm_integration
+    WorkPackageSquashTMTabComponent: work_package_squashtm_tab_component
   EnforcedInflector: active_support
   IgnoreMethods: true
 
