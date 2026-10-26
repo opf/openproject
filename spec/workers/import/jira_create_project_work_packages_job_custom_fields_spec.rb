@@ -1082,7 +1082,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     before { import_project }
 
-    it "sets the value the later issue is the first to carry" do
+    it "sets the field's value on the issue that introduced it" do
       expect(cf_value("CF Text")).to include("**bold**")
     end
   end
