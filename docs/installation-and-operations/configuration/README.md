@@ -605,10 +605,14 @@ OPENPROJECT_OAUTH__ALLOW__REMAPPING__OF__EXISTING__USERS="false"
 
 ### Gravatar images
 
-OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar.
-You can override this behavior by setting `gravatar_fallback_image` to a different value to always render Gravatars
+Gravatar support is disabled by default. An administrator can enable it under **Administration -> Users and permissions -> Avatars**
+(see the [Avatars guide](../../system-admin-guide/users-permissions/avatars/)) or via the `OPENPROJECT_PLUGIN__OPENPROJECT__AVATARS`
+environment variable.
 
-For supported values, please see [en.gravatar.com/site/implement/images/](https://en.gravatar.com/site/implement/images/)
+Once enabled, OpenProject uses gravatar images with a `404` fallback by default to render an internal, initials-based avatar when no
+Gravatar is found for a user. You can override this behavior by setting `gravatar_fallback_image` to a different value to always render Gravatars.
+
+For supported values, please see "Default Image" section on [docs.gravatar.com/sdk/images/](https://docs.gravatar.com/sdk/images/)
 
 _default: 404_
 

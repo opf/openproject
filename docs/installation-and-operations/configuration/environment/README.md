@@ -328,7 +328,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_PLAIN__TEXT__MAIL` | `false` | Plain text mail (no HTML) |
 | `OPENPROJECT_PLUGIN__COSTS` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__AUTH__SAML` | `{"providers" => nil}` |  |
-| `OPENPROJECT_PLUGIN__OPENPROJECT__AVATARS` | `{"enable_gravatars" => true, "enable_local_avatars" => true}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__AVATARS` | `{"enable_gravatars" => false, "enable_local_avatars" => true}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__BACKLOGS` | `{"points_burn_direction" => "up"}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__BIM` | `{}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__BOARDS` | `nil` |  |
