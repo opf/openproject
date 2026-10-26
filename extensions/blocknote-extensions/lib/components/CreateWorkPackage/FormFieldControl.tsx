@@ -6,6 +6,7 @@ import { hrefsOf } from './formSchema';
 import type { FieldValue, FormField, ValueProblem } from './formSchema';
 import { AllowedValuesSelect } from './AllowedValuesSelect';
 import { AllowedValuesTypeahead } from './AllowedValuesTypeahead';
+import { DatePicker } from './DatePicker';
 import { MultiValueTypeahead } from './MultiValueTypeahead';
 import { ProjectPicker } from './ProjectPicker';
 import {
@@ -190,7 +191,18 @@ export const FormFieldControl = ({
       });
       break;
     case 'date':
-      control = textInput('date', { autoComplete: 'off' });
+    case 'datetime':
+      control = (
+        <DatePicker
+          id={id}
+          withTime={field.kind === 'datetime'}
+          value={textValue}
+          placeholder={placeholder}
+          invalid={Boolean(message)}
+          describedBy={describedBy}
+          onChange={onChange}
+        />
+      );
       break;
     // Held as text: a number input hands over an empty value for what it cannot
     // read, which would leave the form refusing input it does not point at.
