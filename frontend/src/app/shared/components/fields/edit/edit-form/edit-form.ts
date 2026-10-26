@@ -49,6 +49,10 @@ export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export abstract class EditForm<T extends HalResource = HalResource> {
+  public allowsFieldAutofocus(_fieldName:string):boolean {
+    return true;
+  }
+
   // Injections
   @LazyInject() states:States;
 

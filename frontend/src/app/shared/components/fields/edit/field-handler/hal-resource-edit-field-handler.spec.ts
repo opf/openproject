@@ -57,6 +57,28 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
     await harness.destroy();
   });
 
+  it('leaves grid editor focus to keyboard navigation', () => {
+    expect(handler.allowsAutofocus()).toBe(false);
+  });
+
+  it('retains autofocus when keyboard navigation is disabled', () => {
+    harness.table.configuration.keyboardNavigationEnabled = false;
+
+    expect(handler.allowsAutofocus()).toBe(true);
+  });
+
+  it('retains autofocus outside the grid', () => {
+    const container = form.findContainer('subject')!;
+    const parent = container.parentElement!;
+    document.body.append(container);
+
+    try {
+      expect(handler.allowsAutofocus()).toBe(true);
+    } finally {
+      parent.append(container);
+    }
+  });
+
   it('marks the input invalid when errors are set and when it is focused afterwards', () => {
     const input = harness.row('1').querySelector<HTMLInputElement>('input.inline-edit--field')!;
     expect(input).not.toHaveAttribute('aria-invalid');

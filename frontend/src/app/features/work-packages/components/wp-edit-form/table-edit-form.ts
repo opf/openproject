@@ -111,6 +111,11 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     return this.table.destroyed;
   }
 
+  public override allowsFieldAutofocus(fieldName:string):boolean {
+    return !this.table.configuration.keyboardNavigationEnabled
+      || !insideGrid(this.table.scrollContainer, this.findContainer(fieldName) ?? null);
+  }
+
   public findContainer(fieldName:string) {
     return this.rowContainer?.querySelector<HTMLElement>(`.${tdClassName}.${fieldName} .${editFieldContainerClass}`);
   }

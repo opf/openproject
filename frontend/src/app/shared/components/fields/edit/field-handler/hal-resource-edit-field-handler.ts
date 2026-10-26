@@ -92,6 +92,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     return false;
   }
 
+  public override allowsAutofocus():boolean {
+    return this.form.allowsFieldAutofocus(this.fieldName);
+  }
+
   public get inEditMode() {
     return this.form.editMode;
   }
