@@ -101,7 +101,7 @@ describe('TreegridSemantics', () => {
 
     const nested = document.createElement('table');
     nested.innerHTML = '<tbody><tr><td>Editor</td></tr></tbody>';
-    harness.row('1').cells[harness.row('1').cells.length - 1].append(nested);
+    harness.row('1').lastElementChild!.append(nested);
     harness.table.setHidden(new Map([[wpOccurrenceKey('1'), false]]));
 
     expect(harness.row('1')).toHaveAttribute('role', 'row');
