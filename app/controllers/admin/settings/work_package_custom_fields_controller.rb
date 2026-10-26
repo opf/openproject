@@ -87,7 +87,7 @@ module Admin
       # Not @project, as that would render the project menu instead of the administration menu.
       def find_project_using_custom_field
         @configured_project = Project.active
-                                     .where(id: @custom_field.type_ids_by_project_id.keys)
+                                     .with_available_custom_fields([@custom_field.id])
                                      .find(params.expect(:project_id))
       end
 
