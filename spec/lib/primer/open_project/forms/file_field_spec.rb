@@ -132,6 +132,15 @@ RSpec.describe Primer::OpenProject::Forms::FileField, type: :forms do
 
       expect(page).to have_css("img.FormControl-file-field-preview.custom-logo-preview")
     end
+
+    it "adds preview_data as data attributes on the preview image, alongside the component's own" do
+      render_file_field(preview_url: "/uploads/logo.png", preview_data: { "color-mode": :light, "light-theme": :light })
+
+      preview = page.find("img.FormControl-file-field-preview", visible: :all)
+      expect(preview["data-file-field-target"]).to eq("preview")
+      expect(preview["data-color-mode"]).to eq("light")
+      expect(preview["data-light-theme"]).to eq("light")
+    end
   end
 
   describe "the actions menu" do

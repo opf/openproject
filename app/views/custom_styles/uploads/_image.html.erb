@@ -41,6 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
         accept: image[:accept],
         preview_url: (image[:source] if image[:present]),
         preview_class: image[:img_class],
+        preview_data: image[:preview_data] || {},
         required: true,
         auto_submit: true,
         delete_path: (image[:delete_path] if image[:present]),

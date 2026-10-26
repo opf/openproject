@@ -35,7 +35,7 @@ module Primer
         prepend WrappedInput
 
         delegate :builder, :form, :name, :label, :description, :icon, :accept, :preview_url, :preview_class,
-                 :delete_path, to: :@input
+                 :preview_data, :delete_path, to: :@input
 
         def initialize(input:)
           super()
@@ -47,7 +47,7 @@ module Primer
             class: class_names("FormControl-file-field-preview", preview_class),
             alt: "",
             src: preview_url,
-            data: { "file-field-target": "preview" }
+            data: { "file-field-target": "preview" }.merge(preview_data)
           }.compact
         end
 

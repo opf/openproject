@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= flex_layout(flex_wrap: :wrap, classes: "gap-3") do |flex| %>
   <% custom_logo_uploads(@custom_style).each do |image| %>
-    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form custom-style--logo-mode-#{image[:mode]}") do %>
+    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
       <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
     <% end %>
   <% end %>
@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= flex_layout(flex_wrap: :wrap, classes: "gap-3") do |flex| %>
   <% custom_logo_uploads(@custom_style, mobile: true).each do |image| %>
-    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form custom-style--logo-mode-#{image[:mode]}") do %>
+    <% flex.with_column(flex: 1, classes: "custom-style--growing-logo-form") do %>
       <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
     <% end %>
   <% end %>
