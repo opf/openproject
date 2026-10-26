@@ -75,6 +75,10 @@ module Admin
           @value_count ||= custom_field.restrictable_values.count
         end
 
+        def usable_value_counts
+          @usable_value_counts ||= custom_field.usable_value_counts_in(Project.where(id: rows.map(&:id)))
+        end
+
         def has_actions? = project_specific_values?
 
         def mobile_title = I18n.t(:label_project_plural)

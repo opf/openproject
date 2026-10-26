@@ -225,6 +225,42 @@ RSpec.describe CustomField::ProjectSpecificValues do
     end
   end
 
+  describe "#usable_value_counts_in" do
+    shared_let(:unconfigured_project) { create(:project) }
+
+    subject(:counts) { custom_field.usable_value_counts_in(Project.where(id: [project, other_project, unconfigured_project])) }
+
+    context "for a list custom field with an allowlist" do
+      let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist, possible_values: %w[A B C]) }
+
+      before do
+        create(:project_specific_value_restriction, project:, custom_option: custom_field.custom_options.first)
+        create(:project_specific_value_restriction, project:, custom_option: custom_field.custom_options.second)
+        create(:project_specific_value_restriction, project: other_project, custom_option: custom_field.custom_options.third)
+      end
+
+      it "counts the options usable in each project" do
+        expect(counts).to eq(project.id => 2, other_project.id => 1, unconfigured_project.id => 0)
+      end
+    end
+
+    context "for a hierarchy custom field with an allowlist", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, :project_specific_allowlist) }
+      let!(:acme) { create(:hierarchy_item, parent: custom_field.hierarchy_root) }
+      let!(:anvils) { create(:hierarchy_item, parent: acme) }
+
+      before do
+        create(:project_specific_value_restriction, project:, hierarchy_item: acme)
+        create(:project_specific_value_restriction, project:, hierarchy_item: anvils)
+        create(:project_specific_value_restriction, project: other_project, hierarchy_item: anvils)
+      end
+
+      it "only counts the items whose ancestors are usable as well" do
+        expect(counts).to eq(project.id => 2, other_project.id => 0, unconfigured_project.id => 0)
+      end
+    end
+  end
+
   describe "#visible_values_for" do
     shared_let(:type) { create(:type) }
     shared_let(:user) { create(:user) }

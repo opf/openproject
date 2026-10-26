@@ -59,11 +59,18 @@ module Admin
           end
         end
 
-        # The hierarchy root is at depth 0, so the items shown at the top level are at depth 1.
+        # The items come in pre-order, so every parent's depth is known before its children.
         def item_rows
+          depths = { custom_field.hierarchy_root.id => -1 }
+
           hierarchy_items.map do |item|
-            Row.new(id: item.id, label: item.label, depth: item.depth - 1, caption: item_caption(item), enabled: enabled?(item))
+            depths[item.id] = depths.fetch(item.parent_id) + 1
+            item_row(item, depths[item.id])
           end
+        end
+
+        def item_row(item, depth)
+          Row.new(id: item.id, label: item.label, depth:, caption: item_caption(item), enabled: enabled?(item))
         end
 
         def hierarchy_items

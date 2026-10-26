@@ -48,7 +48,7 @@ module Admin
 
         def project_specific_values
           I18n.t("custom_fields.admin.projects.enabled_values",
-                 count: table.custom_field.usable_values_in(project).count,
+                 count: table.usable_value_counts.fetch(project.id),
                  total: table.value_count)
         end
 
