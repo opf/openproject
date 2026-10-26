@@ -113,13 +113,19 @@ describe('AiActionsService', () => {
       httpMock.expectNone(() => true);
     });
 
-    it('resolves to no actions outside the work package description', async () => {
-      const forComment = await service.actionsFor(existingWorkPackage, 'journal[notes]');
-      const forOtherResource = await service.actionsFor({ id: '5', _type: 'Meeting' }, 'description');
-      const forNoResource = await service.actionsFor(undefined, 'description');
+    it.each([
+      ['a work package comment', existingWorkPackage, 'journal[notes]'],
+      ['another resource', { id: '5', _type: 'Meeting' }, 'description'],
+      ['an editor without resource', undefined, 'content'],
+      ['an editor without field', existingWorkPackage, undefined],
+    ])('lists the actions offered everywhere for %s', async (_, resource, field) => {
+      const promise = service.actionsFor(resource, field);
 
-      expect([forComment, forOtherResource, forNoResource]).toEqual([[], [], []]);
-      httpMock.expectNone(() => true);
+      httpMock
+        .expectOne('/api/v3/ai_text_transform_actions')
+        .flush(halCollection([halAction(2, 'Summarize', 2), halAction(1, 'Fix grammar', 1)]));
+
+      expect((await promise).map((action) => action.id)).toEqual([1, 2]);
     });
 
     it('resolves to no actions when the request fails', async () => {
@@ -128,6 +134,16 @@ describe('AiActionsService', () => {
       httpMock
         .expectOne('/api/v3/work_packages/123/ai_text_transform_actions')
         .flush({ message: 'nope' }, { status: 403, statusText: 'Forbidden' });
+
+      expect(await promise).toEqual([]);
+    });
+
+    it('resolves to no actions when the request for the actions offered everywhere fails', async () => {
+      const promise = service.actionsFor(undefined, undefined);
+
+      httpMock
+        .expectOne('/api/v3/ai_text_transform_actions')
+        .flush({ message: 'nope' }, { status: 401, statusText: 'Unauthorized' });
 
       expect(await promise).toEqual([]);
     });
