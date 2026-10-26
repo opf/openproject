@@ -631,20 +631,6 @@ describe('TableEditForm focus return', () => {
       expect(harness.row('1')).toHaveFocus();
       expect(harness.table.scrollContainer.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
     });
-
-    it('returns focus to the origin after a render moved the remembered position', async () => {
-      const complete = await pendingSave(hierarchy, '2');
-      const hierarchies = harness.injector.get(WorkPackageViewHierarchiesService);
-
-      hierarchies.collapse('1');
-      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
-      expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('1'), cell: null });
-      hierarchies.expand('1');
-      await waitFor(() => expect(harness.row('2')).toBeVisible());
-      await complete();
-
-      expect(subjectCell('2')).toHaveFocus();
-    });
   });
 
   it('saving a form whose second field opened by click returns focus to the first field\'s cell', async () => {

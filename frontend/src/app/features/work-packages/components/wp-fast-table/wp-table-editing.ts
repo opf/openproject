@@ -34,6 +34,19 @@ import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+
+export interface ActiveTableField {
+  form:TableEditForm;
+  handler:EditFieldHandler;
+}
+
+let nextTableEditorOwner = 0;
+
+function tableEditorOwnerId():string {
+  nextTableEditorOwner += 1;
+  return `wp-table-${nextTableEditorOwner}`;
+}
 
 export class WorkPackageTableEditingContext {
   @LazyInject() public halEditing:HalResourceEditingService;
@@ -43,6 +56,25 @@ export class WorkPackageTableEditingContext {
   }
 
   public forms:Record<string, TableEditForm> = {};
+
+  public readonly ownerId = tableEditorOwnerId();
+
+  public activeTableFields():ActiveTableField[] {
+    return Object.values(this.forms).flatMap((form) =>
+      Object.values(form.activeFields).map((handler) => ({ form, handler })));
+  }
+
+  public fieldOwning(node:Node|null):ActiveTableField|null {
+    return this.activeTableFields().find(({ handler }) => handler.owns(node)) ?? null;
+  }
+
+  public owns(node:Node|null):boolean {
+    return this.fieldOwning(node) !== null;
+  }
+
+  public markOverlay(overlay:HTMLElement):void {
+    overlay.dataset.wpTableEditor = this.ownerId;
+  }
 
   public reset() {
     if (this.table.destroyed) {

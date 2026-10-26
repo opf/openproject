@@ -214,9 +214,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    */
   public blurActiveField() {
     const active = document.activeElement;
-    if (!(active instanceof HTMLElement)) return;
-    if (this.ownerDestroyRef?.destroyed && !this.element.contains(active)) return;
-    active.blur();
+    if (active instanceof HTMLElement && this.owns(active)) {
+      active.blur();
+    }
   }
 
   /**
