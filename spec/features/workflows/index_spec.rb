@@ -286,24 +286,29 @@ RSpec.describe "Workflows index", :js do
     expect_listed(*all_workflows)
     expect(page).to have_no_link("Task")
 
-    within(row_for("Bug flow")) { click_on "3 types" }
+    wait_for_turbo_stream { within(row_for("Bug flow")) { click_on "3 types" } }
 
     within("dialog#workflow-#{bug_base.workflow.id}-types-dialog") do
       expect(page).to have_css("strong", text: "Bug flow")
-      expect(page).to have_link("Bug")
-      expect(page).to have_link("Task")
-      expect(page).to have_link("Milestone")
+
+      within_test_selector("types-dialog-types") do
+        expect(page).to have_link("Bug")
+        expect(page).to have_link("Task")
+        expect(page).to have_link("Milestone")
+      end
     end
   end
 
   it "distinguishes a dependent variant from its type in the dialog" do
     visit workflows_path
 
-    within(row_for("Hardware flow")) { click_on "1 type (including 1 variant)" }
+    wait_for_turbo_stream { within(row_for("Hardware flow")) { click_on "1 type (including 1 variant)" } }
 
     within("dialog#workflow-#{hardware_flow.id}-types-dialog") do
-      expect(page).to have_link("Hardware")
-      expect(page).to have_text("Variant of Bug")
+      within_test_selector("types-dialog-variants") do
+        expect(page).to have_link("Hardware")
+        expect(page).to have_text("Variant of Bug")
+      end
     end
   end
 

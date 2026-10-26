@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_body do %>
     <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { dialog_caption } %>
     <% if types.any? %>
-      <%= render(Primer::Beta::BorderBox.new(mb: 3)) do |box| %>
+      <%= render(Primer::Beta::BorderBox.new(mb: 3, test_selector: "types-dialog-types")) do |box| %>
         <% box.with_header { render(Primer::Beta::Text.new(font_weight: :bold)) { t(:label_type_plural) } } %>
         <% types.each do |variant| %>
           <% box.with_row { variant_link(variant) } %>
@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
     <% if named_variants.any? %>
-      <%= render(Primer::Beta::BorderBox.new) do |box| %>
+      <%= render(Primer::Beta::BorderBox.new(test_selector: "types-dialog-variants")) do |box| %>
         <% box.with_header { render(Primer::Beta::Text.new(font_weight: :bold)) { reference_translate("usage.dialog.variants") } } %>
         <% named_variants.each do |variant| %>
           <% box.with_row do %>
