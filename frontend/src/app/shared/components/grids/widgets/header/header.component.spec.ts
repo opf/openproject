@@ -26,13 +26,81 @@
 //++
 
 import { CommonModule } from '@angular/common';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { screen } from '@testing-library/dom';
+import { of } from 'rxjs';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
+import {
+  buildQuery, FakeDragAndDropService, harnessProviders, initializeViewServices,
+} from 'core-app/features/work-packages/components/wp-fast-table/testing/table-harness';
+import { EditableToolbarTitleComponent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
-import { WidgetHeaderComponent } from 'core-app/shared/components/grids/widgets/header/header.component';
+import { WidgetHeaderComponent } from './header.component';
+
+@Component({ template: '', standalone: false })
+class WidgetStandInComponent {}
 
 describe('WidgetHeaderComponent', () => {
+  let fixture:ComponentFixture<WidgetStandInComponent>;
+
+  async function mount(isEditable:boolean) {
+    TestBed.configureTestingModule({
+      imports: [CommonModule, FormsModule],
+      declarations: [WidgetHeaderComponent, EditableToolbarTitleComponent, WorkPackagesTableComponent, WidgetStandInComponent],
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [
+        ...harnessProviders(new FakeDragAndDropService(), { workPackages: [] }),
+        WorkPackageViewSumService,
+        { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false, live$: () => of(null) } },
+        { provide: GridAreaService, useValue: { isEditable } },
+        { provide: GridDragAndDropService, useValue: { isDraggable: false } },
+      ],
+    }).overrideTemplate(WidgetStandInComponent, `
+    <widget-header name="Assigned to me" headingId="widget-heading">
+    </widget-header>
+    <wp-table [configuration]="{ keyboardNavigationEnabled: true, labelledBy: 'widget-heading' }" />
+  `);
+
+    const injector = TestBed.inject(Injector);
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    const query = buildQuery(['id', 'subject'], null, false, false);
+    querySpace.query.putValue(query);
+    querySpace.groups.putValue([]);
+    querySpace.results.putValue({ elements: [], count: 0, total: 0 } as unknown as WorkPackageCollectionResource);
+    initializeViewServices(injector, query);
+    TestBed.inject(WorkPackageViewSumService).initialize(query);
+
+    fixture = TestBed.createComponent(WidgetStandInComponent);
+    document.body.appendChild(fixture.nativeElement as HTMLElement);
+    fixture.detectChanges();
+    await fixture.whenStable();
+  }
+
+  afterEach(() => {
+    (fixture.nativeElement as HTMLElement).remove();
+  });
+
+  it.each([true, false])('names the table exactly by the widget title when renameable is %s', async (renameable) => {
+    await mount(renameable);
+
+    expect(screen.getByRole('treegrid', { name: 'Assigned to me' })).toBeInTheDocument();
+  });
+
+  it('puts the heading id on the h3 around the title', async () => {
+    await mount(false);
+
+    expect(screen.getByRole('heading', { level: 3 })).toHaveAttribute('id', 'widget-heading');
+  });
+});
+
+describe('WidgetHeaderComponent heading input', () => {
   let fixture:ComponentFixture<WidgetHeaderComponent>;
 
   beforeEach(async () => {

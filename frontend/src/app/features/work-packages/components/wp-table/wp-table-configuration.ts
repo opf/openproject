@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean }>;
+export type WorkPackageTableConfigurationObject = Partial<{ [field in keyof WorkPackageTableConfiguration]:string|boolean|null }>;
 
 export class WorkPackageTableConfiguration {
   /** Render the table results, set to false when only wanting the table initialization */
@@ -39,6 +39,9 @@ export class WorkPackageTableConfiguration {
 
   /** Whether the table is navigable by keyboard through a roving tabindex */
   public keyboardNavigationEnabled = false;
+
+  /** Id of the visible heading that names the treegrid, used instead of the default label */
+  public labelledBy:string|null = null;
 
   /** Whether the work package context menu is enabled */
   public contextMenuEnabled = true;

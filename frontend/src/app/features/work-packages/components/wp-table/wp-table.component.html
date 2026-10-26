@@ -8,7 +8,8 @@
         [class.op-table-baseline]="baselineEnabled"
         [attr.role]="configuration.keyboardNavigationEnabled ? 'treegrid' : null"
         [attr.aria-multiselectable]="configuration.keyboardNavigationEnabled ? 'true' : null"
-        [attr.aria-label]="configuration.keyboardNavigationEnabled ? text.tableName : null"
+        [attr.aria-label]="configuration.keyboardNavigationEnabled && !configuration.labelledBy ? text.tableName : null"
+        [attr.aria-labelledby]="configuration.keyboardNavigationEnabled ? configuration.labelledBy : null"
         [attr.aria-describedby]="configuration.keyboardNavigationEnabled && sortDescription ? sortDescriptionId : null"
         >
           <colgroup>
