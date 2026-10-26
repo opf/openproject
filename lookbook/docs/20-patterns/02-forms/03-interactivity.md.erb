@@ -69,6 +69,53 @@ Important data inputs:
 - data: `{ target_name: "abc"}` or `data-target-name="abc"` allows you to define multiple sets of cause/effect handlers
 - If you want the target to be visibly blocked, not hidden, then use `data: { set_visibility: "true" }`. By default, the field will be hidden and removed from DOM computation.
 
+## Confirming checkbox and radio button changes
+
+Some checkboxes and radio buttons have consequences that cannot be undone once the form is saved, for example disabling a setting removes all data configured for it. To ask for confirmation right when the input is changed, use the Stimulus controller `input-confirmation` together with a [Danger dialog](/lookbook/pages/components/dialogs/danger_dialog).
+
+<%= embed Patterns::InputConfirmationPreview, :checkbox %>
+
+To use it, attach the controller to an element containing both the input and the dialog, and mark them as targets:
+
+```erb
+<div data-controller="input-confirmation">
+  <%%= primer_form_with(...) do |f| %>
+    <%%= render_inline_form(f) do |form| %>
+      <%% form.check_box(
+            name: :feature_enabled,
+            label: "Enable feature",
+            data: { input_confirmation_target: "input" }
+          ) %>
+    <%% end %>
+  <%% end %>
+
+  <%%= render(
+        Primer::OpenProject::DangerDialog.new(
+          id: "disable-feature-dialog",
+          title: "Disable feature",
+          confirm_button_text: "Disable",
+          data: { input_confirmation_target: "dialog" }
+        )
+      ) do |dialog| %>
+    <%% dialog.with_confirmation_message do |message| %>
+      <%% message.with_heading(tag: :h2) { "Disable the feature?" } %>
+      <%% message.with_description_content("All data configured for it will be removed.") %>
+    <%% end %>
+  <%% end %>
+</div>
+```
+
+For a radio button group, mark the radio button whose selection needs to be confirmed as the target and pass `data-input-confirmation-trigger-value="checked"`:
+
+<%= embed Patterns::InputConfirmationPreview, :radio_button %>
+
+How it behaves:
+
+- The dialog opens when the checkbox is unchecked. Pass `data-input-confirmation-trigger-value="checked"` to ask for confirmation when it is checked, or when the radio button is selected, instead.
+- The change is kept when it is confirmed with the dialog's submit button, i.e. the button marked with `data-submit-dialog-id`, which the Danger dialog renders as its confirm button.
+- Closing the dialog in any other way, by cancelling, closing it or pressing <kbd>Escape</kbd>, changes the checkbox back, or selects the radio button of the group that was selected before.
+- Only attach the controller when confirming is necessary, for example when there actually is data that would be removed. There is no option to skip the confirmation.
+- The dialog must not have `form_arguments`, as the checkbox is saved together with its own form.
 
 ## Advanced Interactivity by previewing forms before submission
 
@@ -130,7 +177,6 @@ In some cases we might want to further customize the triggering behavior, for ex
 
 **Important note:** Javascript rendered elements inside the form such as the datepicker above, could be broken after the form update. This happens, because the datepicker input get replaced without re-initializing the datepicker library. To fix the issue, we can either avoid updating the datepicker input elements using "data-turbo-permanent", or we can programmatically re-initialize them after the form update. In case of angular components, this issue is solved automatically by not updating the components. For more info see the `turbo:before-morph-element` eventlistener in the `turbo-global-listeners.ts`.
 
-
 ### How to handle the form preview actions on the backend?
 
 The form preview mechanism shown above can be nicely tied with our existing ActiveRecord object saving services.
@@ -139,7 +185,7 @@ The form preview mechanism shown above can be nicely tied with our existing Acti
 
     ```ruby
       module WorkPackages
-        class PreviewAttributesService < ::BaseServices::SetAttributes
+        class PreviewAttributesService <::BaseServices::SetAttributes
           def perform(*)
             super.tap do |service_call|
               clear_unchanged_fields(service_call)

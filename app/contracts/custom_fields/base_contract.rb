@@ -52,6 +52,9 @@ module CustomFields
     attribute :multi_value
     attribute :name
     attribute :possible_values
+    attribute :project_specific_value_restriction do
+      validate_project_specific_value_restriction
+    end
     attribute :regexp
     attribute :searchable
     attribute :visible_on_user_card
@@ -61,6 +64,20 @@ module CustomFields
       return unless %w[bool calculated_value].include?(field_format)
 
       errors.add(:is_required, :cannot_be_true) if is_required == true
+    end
+
+    def validate_project_specific_value_restriction # rubocop:disable Metrics/AbcSize -- only temporary until the TODO is removed
+      return if project_specific_value_restriction.nil?
+
+      if type != "WorkPackageCustomField" || %w[list hierarchy weighted_item_list].exclude?(field_format)
+        errors.add(:project_specific_value_restriction, :not_supported)
+      # TODO: Remove this branch once block mode is supported.
+      elsif !model.project_specific_value_restriction_allow?
+        errors.add(:project_specific_value_restriction, :inclusion)
+      elsif model.project_specific_value_restriction_changed? && !EnterpriseToken.allows_to?(:project_specific_list_values)
+        errors.add(:project_specific_value_restriction, :error_enterprise_only,
+                   action: I18n.t("ee.features.project_specific_list_values"))
+      end
     end
   end
 end

@@ -70,11 +70,13 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
   end
 
   def create(work_package, attribute_overrides, send_notifications)
+    attributes = with_usable_custom_field_values(copied_attributes(work_package, attribute_overrides))
+
     WorkPackages::CreateService
       .new(user:,
            contract_class:)
       .with_state(state)
-      .call(**copied_attributes(work_package, attribute_overrides).merge(send_notifications:).symbolize_keys)
+      .call(**attributes.merge(send_notifications:).symbolize_keys)
   end
 
   def copied_attributes(work_package, override)
@@ -96,6 +98,27 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     end
 
     attributes
+  end
+
+  def with_usable_custom_field_values(attributes)
+    custom_field_values = usable_custom_field_values(attributes["custom_field_values"], target_project(attributes))
+
+    attributes.merge("custom_field_values" => custom_field_values)
+  end
+
+  def usable_custom_field_values(custom_field_values, project)
+    values = custom_field_values.to_h.transform_keys(&:to_i)
+
+    WorkPackageCustomField
+      .where(id: values.keys)
+      .where.not(project_specific_value_restriction: nil)
+      .each_with_object(values) do |custom_field, usable_values|
+        usable_values[custom_field.id] = custom_field.keep_usable_values(usable_values[custom_field.id], project)
+      end
+  end
+
+  def target_project(attributes)
+    attributes["project"] || Project.find_by(id: attributes["project_id"])
   end
 
   def writable_work_package_attributes(work_package)

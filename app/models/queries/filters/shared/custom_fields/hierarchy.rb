@@ -58,10 +58,22 @@ module Queries
             }
           end
 
+          def allowed_values
+            return super if custom_field.project_specific_value_restriction.nil?
+
+            visible_items.map { |item| [item.ancestry_path(include_shorts_and_weights: true), item.id] }
+          end
+
           def value_objects
-            CustomField::Hierarchy::Item
+            visible_items
               .where(id: @values)
               .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
+          end
+
+          private
+
+          def visible_items
+            custom_field.visible_values_for(::User.current, within: projects_of_query)
           end
         end
       end
