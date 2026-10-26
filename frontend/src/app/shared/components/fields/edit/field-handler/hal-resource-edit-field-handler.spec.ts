@@ -92,6 +92,16 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
     expect(input).toHaveFocus();
   });
 
+  it('does not cancel an editor when its popup has consumed Escape', async () => {
+    const event = new KeyboardEvent('keydown', { key: 'Escape', cancelable: true });
+    event.preventDefault();
+    const cancel = vi.spyOn(handler, 'handleUserCancel');
+
+    await handler.handleUserKeydown(event, true);
+
+    expect(cancel).not.toHaveBeenCalled();
+  });
+
   it('preserves focus in an unregistered foreign overlay', () => {
     external.focus();
 
