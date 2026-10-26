@@ -1061,6 +1061,9 @@ Rails.application.routes.draw do
           post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
           post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
 
+          get :forms
+          get :types_and_variants
+
           get :deletion_dialog
         end
       end
