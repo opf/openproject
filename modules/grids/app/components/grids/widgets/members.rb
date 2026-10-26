@@ -42,7 +42,7 @@ module Grids
         t(".title")
       end
 
-      def members_by_role # rubocop:disable Metrics/AbcSize
+      def members_by_role
         # Sanity check: If we can't view members, we can return immediatly.
         # This way we don't need to check if current_user is allowed to view_members
         # multiple times.
@@ -54,12 +54,10 @@ module Grids
           .group(:id, :name)
           .count
           .map do |(id, name), total_count|
-            principals = members_for_role(id).limit(limit).map(&:principal)
-
             {
               id:,
               name:,
-              members: principals,
+              members: principals_for_role(id).limit(limit),
               total_count: total_count,
               remaining: [total_count - limit, 0].max,
               has_more: total_count > limit
@@ -67,14 +65,12 @@ module Grids
           end
       end
 
-      def members_for_role(role_id)
+      def principals_for_role(role_id)
         project
-          .members
-          .visible(current_user)
-          .joins(:member_roles)
+          .principals
+          .joins(members: :member_roles)
           .where(member_roles: { role_id: })
-          .includes(:principal)
-          .order(created_at: :desc)
+          .order(members: { created_at: :desc })
       end
 
       def can_view_members?
