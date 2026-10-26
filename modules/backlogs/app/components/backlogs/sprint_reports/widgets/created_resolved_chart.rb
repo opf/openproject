@@ -46,6 +46,7 @@ module Backlogs
         def chart_data
           {
             step: created_resolved.step,
+            range: charted_range,
             series: series,
             nonWorkingIntervals: non_working_intervals
           }.to_json
@@ -76,6 +77,13 @@ module Backlogs
         # Milliseconds are as fine as the chart's axis reads, and the counts are whole anyway.
         def points_for(points)
           points.map { { x: it.at.utc.iso8601(3), y: it.value } }
+        end
+
+        # Always use the sprints range rather than the data. Data does not exist for this chart yet
+        # if the sprint is still running.
+        def charted_range
+          { from: created_resolved.charted_range.first.utc.iso8601(3),
+            to: created_resolved.charted_range.last.utc.iso8601(3) }
         end
 
         def non_working_intervals

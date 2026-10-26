@@ -63,8 +63,14 @@ interface BurndownSeries {
 
 type BurndownDataset = ChartDataset<'line', BurndownPoint[]>;
 
+interface ChartedRange {
+  from:string;
+  to:string;
+}
+
 interface BurndownChartData {
   step:'day'|'hour';
+  range:ChartedRange;
   series:BurndownSeries[];
   nonWorkingIntervals:NonWorkingInterval[];
 }
@@ -256,12 +262,10 @@ export class BurndownChartComponent {
       });
   }
 
-  // Both bounds are taken across every series, so that hiding one does not refit the axes to
-  // what is left.
   private readonly chartedRange = computed(() => {
-    const times = this.series().flatMap((series) => series.data.map((point) => Date.parse(point.x)));
+    const { from, to } = this.parsedInput().range;
 
-    return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
+    return { min: Date.parse(from), max: Date.parse(to) };
   });
 
   private readonly yAxisMaximum = computed(() => {

@@ -53,7 +53,7 @@ module Sprints
       @resolved ||= count_per_tick(sprint_journals.where(status_id: project.statuses_considered_closed))
     end
 
-    delegate :step, :too_long_to_chart?, :non_working_intervals, to: :window
+    delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
 
     private
 

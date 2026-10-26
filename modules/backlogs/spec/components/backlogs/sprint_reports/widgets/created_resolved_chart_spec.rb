@@ -100,6 +100,14 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
       expect(chart_data["step"]).to eq "hour"
     end
 
+    # These counts stop at the current moment, but the burndown beside them is drawn to the
+    # planned finish. The axis follows the window so that the two span the same interval.
+    it "sends the charted window, which reaches past where the counts stop" do
+      expect(chart_data["range"]["from"]).to eq sprint_start.utc.iso8601(3)
+      expect(chart_data["range"]["to"]).to eq second_friday.in_time_zone.end_of_day.utc.iso8601(3)
+      expect(chart_data["series"].first["data"].last["x"]).to eq now.utc.iso8601(3)
+    end
+
     it "sends the non working days of the charted range" do
       expect(chart_data["nonWorkingIntervals"])
         .to eq([{ "from" => saturday.iso8601, "to" => sunday.iso8601 }])

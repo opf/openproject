@@ -62,8 +62,10 @@ describe('BurndownChartComponent', () => {
     timeFormat: () => 'hh:mm A',
   };
 
+  // The window is the server's, not the series' extent, so it is stated rather than derived.
   const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
     step,
+    range: { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' },
     series,
     nonWorkingIntervals: [],
   });

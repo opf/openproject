@@ -74,6 +74,10 @@ module Sprints
       timeframe.effective_finish
     end
 
+    def charted_range
+      charted_from..charted_until
+    end
+
     # How far the chart reaches, which both of its limits are stated against. Whole days, because
     # that is the resolution both are set at.
     def charted_span

@@ -43,6 +43,7 @@ module Backlogs
         def chart_data
           {
             step: burndown.step,
+            range: charted_range,
             series: series,
             nonWorkingIntervals: non_working_intervals
           }.to_json
@@ -73,6 +74,13 @@ module Backlogs
         # so without the rounding they would go out carrying every digit that division produced into the JSON.
         def points_for(points)
           points.map { { x: it.at.utc.iso8601(3), y: it.value.round(3) } }
+        end
+
+        # Could also use the timespan covered by the data, but this way is simpler.
+        # The goal is for all time-based charts to cover the same timespan.
+        def charted_range
+          { from: burndown.charted_range.first.utc.iso8601(3),
+            to: burndown.charted_range.last.utc.iso8601(3) }
         end
 
         def non_working_intervals

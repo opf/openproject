@@ -60,8 +60,14 @@ interface CountSeries {
 
 type CountDataset = ChartDataset<'line', CountPoint[]>;
 
+interface ChartedRange {
+  from:string;
+  to:string;
+}
+
 interface CreatedResolvedChartData {
   step:ChartStep;
+  range:ChartedRange;
   series:CountSeries[];
   nonWorkingIntervals:NonWorkingInterval[];
 }
@@ -193,12 +199,10 @@ export class CreatedResolvedComponent {
     datasets: this.series().map((series) => this.datasetFor(series)),
   }));
 
-  // Both bounds are taken across every series, so that hiding one does not refit the axes to
-  // what is left.
   private readonly chartedRange = computed(() => {
-    const times = this.series().flatMap((series) => series.data.map((point) => Date.parse(point.x)));
+    const { from, to } = this.parsedInput().range;
 
-    return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
+    return { min: Date.parse(from), max: Date.parse(to) };
   });
 
   private readonly yAxisMaximum = computed(() => {

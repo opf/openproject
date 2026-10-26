@@ -52,8 +52,11 @@ describe('CreatedResolvedComponent', () => {
     timeFormat: () => 'hh:mm A',
   };
 
+  // The window is the server's, not the series' extent, so it is stated rather than derived.
+  const range = { from: '2026-10-12T00:00:00.000Z', to: '2026-10-23T23:59:59.999Z' };
+
   const chartData = (series:unknown[], nonWorkingIntervals:unknown[] = [], step:'day'|'hour' = 'hour') =>
-    JSON.stringify({ step, series, nonWorkingIntervals });
+    JSON.stringify({ step, range, series, nonWorkingIntervals });
 
   const point = (x:string, y:number) => ({ x, y });
 
@@ -139,6 +142,18 @@ describe('CreatedResolvedComponent', () => {
     renderWith(bothSeries());
 
     expect(options().interaction?.mode).toEqual('index');
+  });
+
+  // The counted series stop at the current moment while the burndown's guideline beside them
+  // runs to the planned finish, so deriving the axis from the points made the two charts span
+  // different intervals.
+  it('spans the charted window rather than the extent of its own points', () => {
+    renderWith(bothSeries());
+
+    const { x } = options().scales ?? {};
+
+    expect(x?.min).toEqual(Date.parse(range.from));
+    expect(x?.max).toEqual(Date.parse(range.to));
   });
 
   it('places the axis in the OpenProject zone, not the browser one', () => {
