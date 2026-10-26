@@ -97,7 +97,8 @@ RSpec.describe "API v3 work packages with project-specific custom field values",
     end
   end
 
-  context "when the stored value is disabled after the work package was rendered" do
+  context "when the stored value is disabled after the work package was rendered",
+          with_ee: %i[project_specific_list_values] do
     let(:stored_values) { option_a.id.to_s }
 
     it "renders the value as undisclosed instead of serving the cached representation" do
@@ -111,6 +112,26 @@ RSpec.describe "API v3 work packages with project-specific custom field values",
 
       get path
       expect(last_response.body).to be_json_eql(API::V3::URN_UNDISCLOSED.to_json).at_path("_links/#{link_name}/href")
+    end
+  end
+
+  # Restrictions configured while the plan included the feature keep being enforced, so that no
+  # value becomes visible in projects that must not see it.
+  context "when the enterprise plan no longer includes project-specific values", with_ee: false do
+    let(:stored_values) { option_b.id.to_s }
+
+    it "still renders the value that is no longer available as undisclosed" do
+      get path
+
+      expect(last_response.body).to be_json_eql(API::V3::URN_UNDISCLOSED.to_json).at_path("_links/#{link_name}/href")
+    end
+
+    it "still only allows the values enabled in the project" do
+      post api_v3_paths.work_package_form(work_package.id), { lockVersion: work_package.lock_version }.to_json
+
+      field_schema = JSON.parse(last_response.body).dig("_embedded", "schema", link_name)
+      expect(field_schema.dig("_links", "allowedValues").pluck("href"))
+        .to contain_exactly(api_v3_paths.custom_option(option_a.id), api_v3_paths.custom_option(option_c.id))
     end
   end
 
