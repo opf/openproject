@@ -54,6 +54,11 @@ module Settings
   # `form_field: false`. The element representing them needs a
   # `data-setting-name` attribute for the settings search to highlight it.
   #
+  # Settings that can be changed but are not shown in the administration,
+  # e.g. as they are configured through the environment, are declared with
+  # `not_in_administration`, so that every setting is either found by the
+  # settings search or deliberately left out of it.
+  #
   # @example
   #   Settings::Pages.draw do
   #     page :general, menu_item: :settings_general do
@@ -236,6 +241,14 @@ module Settings
 
       def all
         registry.values
+      end
+
+      def not_in_administration(*names)
+        settings_not_in_administration.merge(names.map(&:to_sym))
+      end
+
+      def settings_not_in_administration
+        @settings_not_in_administration ||= Set.new
       end
 
       def admin_menu

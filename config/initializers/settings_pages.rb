@@ -39,6 +39,41 @@
 #
 # See also: [settings entity kinds initializer](settings_entity_kinds.rb)
 Settings::Pages.draw do
+  not_in_administration :additional_host_names, :antivirus_scan_available, :apiv3_enable_basic_auth,
+                        :appsignal_frontend_key, :attachment_default_charset,
+                        :attachments_cleanup_period_hours, :attachments_grace_period, :authentication,
+                        :autologin_cookie_name, :autologin_cookie_path, :avatar_link_expiration_seconds,
+                        :backup_attachment_size_max_sum_mb, :backup_daily_limit, :backup_enabled,
+                        :backup_include_attachments, :backup_initial_waiting_period, :blocked_email_domains,
+                        :boards_demo_data_available, :commit_logs_encoding, :consent_time,
+                        :cost_reporting_cache_filter_classes, :days_per_month, :default_comment_sort_order,
+                        :demo_projects_available, :demo_view_of_type_gantt_seeded,
+                        :demo_view_of_type_team_planner_seeded, :demo_view_of_type_work_packages_table_seeded,
+                        :development_highlight_enabled, :disable_keyboard_shortcuts, :disable_password_choice,
+                        :disable_password_login, :drop_old_sessions_on_login, :drop_old_sessions_on_logout,
+                        :ee_hide_banners, :email_login, :fog, :fog_direct_upload_expires_in,
+                        :fog_download_url_expires_in, :force_formatting_help_link, :force_help_link,
+                        :forced_single_page_size, :good_job_engine_basic_auth, :gravatar_fallback_image,
+                        :hashed_token_pepper, :health_checks_authentication_password,
+                        :health_checks_backlog_threshold, :health_checks_jobs_never_ran_minutes_ago, :home_url,
+                        :ical_feed_keep_closed_meetings_days, :impressum_link, :installation_uuid,
+                        :internal_password_confirmation, :ldap_departments_disable_sync_job,
+                        :ldap_force_no_page, :ldap_groups_disable_sync_job, :ldap_users_disable_sync_job,
+                        :ldap_users_sync_status, :lookbook_enabled, :mail_handler_api_key,
+                        :mail_suffix_separators, :notifications_hidden, :notifications_polling_interval,
+                        :onboarding_enabled, :opentelemetry_enabled, :password_login_bypass_logins,
+                        :plugin_costs, :plugin_openproject_auth_saml, :plugin_openproject_backlogs,
+                        :plugin_openproject_bim, :plugin_openproject_boards, :plugin_openproject_calendar,
+                        :plugin_openproject_gantt, :plugin_openproject_ldap_departments,
+                        :plugin_openproject_ldap_groups, :plugin_openproject_openid_connect,
+                        :plugin_openproject_resource_management, :plugin_openproject_storages,
+                        :plugin_openproject_team_planner, :rate_limiting, :recaptcha_via_hcaptcha,
+                        :report_incoming_email_errors, :session_cookie_name, :show_community_links,
+                        :show_product_version, :show_setting_mismatch_warning, :show_storage_information,
+                        :show_warning_bars, :smtp_timeout, :software_name, :software_url, :user_default_theme,
+                        :work_packages_activities_tab_polling_interval_in_ms,
+                        :work_packages_bulk_request_limit, :youtube_channel
+
   page :general, menu_item: :settings_general do
     setting :app_title
     setting :organization_name

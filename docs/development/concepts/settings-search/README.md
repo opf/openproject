@@ -251,8 +251,8 @@ other, so they drift apart whenever a view is changed without updating the regis
 round. The search then lists settings that do not exist on the page, links to the wrong page, highlights
 nothing or misses settings entirely.
 
-Two request specs render the admin pages and compare them with the registries. They are the safety net
-for every change to an admin page and must pass:
+Specs render the admin pages and compare them with the registries, and check that every setting is
+classified. They are the safety net for every change to an admin page and must pass:
 
 ### `spec/requests/admin/settings/registered_pages_spec.rb`
 
@@ -269,6 +269,19 @@ conversion or an enabled collaboration server), so that settings shown condition
 well. When you add a setting that is only shown in a certain state, register it with a matching `if:`
 and, if necessary, enable that state in the spec.
 
+### `spec/requests/admin/settings/admin_pages_spec.rb`
+
+Renders the page of every admin menu item, whether registered or not, and fails for every
+`settings[<name>]` field of a defined setting and every `data-setting-name` marker that is not registered
+for that menu item. This catches settings on new admin pages, which the spec above does not render.
+
+### `spec/constants/settings/pages_spec.rb`
+
+Checks that every setting that can be changed is either registered on a page or declared with
+`not_in_administration` in `config/initializers/settings_pages.rb`, e.g. because it is configured through
+the environment. A new setting in `config/constants/settings/definition.rb` or a plugin therefore fails
+this spec until it is classified. Feature flags are left out automatically.
+
 ### `spec/requests/admin/settings/entity_attributes_spec.rb`
 
 Creates entities of every kind and renders each page an attribute leads to, checking that every
@@ -279,6 +292,10 @@ registered `field:` is present there. Add an entry for every new kind with attri
 - Labels and captions. Check that the search shows the texts of the page.
 - Links. Check that each link opens the intended page.
 - Menu items without registered settings, which are listed automatically.
+- New fields of entity forms, as the attributes of a kind are a selection of them.
+
+For the latter, Danger warns on pull requests changing admin views, forms or components without changing
+a registry (`.github/dangerfiles/settings_search`).
 
 ### Checklist when changing an admin page
 
@@ -288,7 +305,8 @@ registered `field:` is present there. Add an entry for every new kind with attri
    or use `form_field: false` and add a `data-setting-name` marker.
 3. Adding a button creating an entity: register a `link`, conditioned like the button.
 4. Adding or renaming a field of an entity's form: update the attribute's `field:` in its kind.
-5. Run both drift specs and `spec/models/settings/search_tree_spec.rb`.
+5. Adding a setting not shown in the administration: declare it with `not_in_administration`.
+6. Run the specs above and `spec/models/settings/search_tree_spec.rb`.
 
 ### Future work
 

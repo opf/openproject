@@ -169,4 +169,23 @@ RSpec.describe Settings::Pages do
       end
     end
   end
+
+  describe "settings not in the administration" do
+    let(:registered) { described_class.all.flat_map(&:entries).map(&:name) }
+    let(:not_in_administration) { described_class.settings_not_in_administration.to_a }
+
+    it "together with the registered settings cover every setting that can be changed" do
+      changeable = Settings::Definition.all.values.select(&:writable?).map { it.name.to_sym }
+      unclassified = changeable - registered - not_in_administration - OpenProject::FeatureDecisions.setting_names
+
+      expect(unclassified).to be_empty,
+                              "Register #{unclassified.join(', ')} in config/initializers/settings_pages.rb, either " \
+                              "on the page showing it or with `not_in_administration`."
+    end
+
+    it "are defined and not registered on a page", :aggregate_failures do
+      expect(not_in_administration.reject { Settings::Definition.exists?(it) }).to be_empty
+      expect(not_in_administration & registered).to be_empty
+    end
+  end
 end
