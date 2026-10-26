@@ -33,6 +33,36 @@ module OpenProject::LdapGroups
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "ldap_groups.settings_search" do
+      ::Settings::Pages.draw do
+        page :ldap_groups, menu_item: :plugin_ldap_groups do
+          link :new_filter,
+               label: :"ldap_groups.synchronized_filters.add_new",
+               url: -> { new_ldap_groups_synchronized_filter_path },
+               if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
+          link :new_group,
+               label: :"ldap_groups.synchronized_groups.add_new",
+               url: -> { new_ldap_groups_synchronized_group_path },
+               if: -> { EnterpriseToken.allows_to?(:ldap_groups) }
+        end
+      end
+
+      ::Settings::EntityKinds.draw do
+        kind :ldap_synchronized_filters,
+             menu_item: :plugin_ldap_groups,
+             scope: -> { LdapGroups::SynchronizedFilter.order(:name) },
+             url: ->(filter) { edit_ldap_groups_synchronized_filter_path(filter) },
+             if: -> { EnterpriseToken.allows_to?(:ldap_groups) } do
+          %i[name group_name_attribute sync_users ldap_auth_source_id base_dn member_lookup_attribute
+             filter_string].each do |name|
+            attribute name,
+                      label: -> { LdapGroups::SynchronizedFilter.human_attribute_name(name) },
+                      field: "synchronized_filter[#{name}]"
+          end
+        end
+      end
+    end
+
     register "openproject-ldap_groups",
              author_url: "https://github.com/opf/openproject-ldap_groups",
              bundled: true,

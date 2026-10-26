@@ -1,0 +1,84 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+SETTINGS_SEARCH_REGISTRIES = %w[
+  config/initializers/settings_pages.rb
+  config/initializers/settings_entity_kinds.rb
+].freeze
+MODULE_ENGINE_REGEX = %r{\Amodules/[^/]+/lib/.+/engine\.rb\z}
+CORE_ADMIN_UI_DIRECTORIES = %w[admin custom_fields work_package_types types statuses roles groups ldap_auth_sources oauth].freeze
+CORE_ADMIN_UI_REGEX = %r{\Aapp/(views|forms|components)/(.+/)?(#{CORE_ADMIN_UI_DIRECTORIES.join('|')})/}
+MODULE_UI_REGEX = %r{\A(modules/[^/]+)/app/(views|forms|components)/}
+SETTINGS_SEARCH_UI_REGEX = %r{\Aapp/components/admin/settings_search}
+SETTINGS_SEARCH_DOCS_URL =
+  "https://github.com/opf/openproject/blob/dev/docs/development/concepts/settings-search/README.md" \
+  "#checklist-when-changing-an-admin-page"
+
+def registers_with_settings_search?(module_dir)
+  Dir.glob("#{module_dir}/lib/**/engine.rb").any? do |engine|
+    File.read(engine).match?(/Settings::(Pages|EntityKinds)\.draw/)
+  end
+end
+
+def admin_ui_file?(file)
+  return false if file.match?(SETTINGS_SEARCH_UI_REGEX)
+  return true if file.match?(CORE_ADMIN_UI_REGEX)
+
+  module_dir = file[MODULE_UI_REGEX, 1]
+  !module_dir.nil? && registers_with_settings_search?(module_dir)
+end
+
+changed_files = git.modified_files + git.added_files
+admin_ui_files = changed_files.select { |file| admin_ui_file?(file) }
+registries_changed = changed_files.any? do |file|
+  SETTINGS_SEARCH_REGISTRIES.include?(file) || file.match?(MODULE_ENGINE_REGEX)
+end
+
+if admin_ui_files.any? && !registries_changed
+  message_lines = [
+    "**Settings search:** admin pages were changed without changing the settings search registries:",
+    ""
+  ]
+
+  admin_ui_files.each do |file|
+    message_lines << "- #{file}"
+  end
+
+  message_lines << <<~MESSAGE
+
+    If settings, form fields or actions creating an entity were added, renamed or moved, please update
+    `config/initializers/settings_pages.rb`, `config/initializers/settings_entity_kinds.rb` or the
+    registrations in the module's engine, following the [checklist](#{SETTINGS_SEARCH_DOCS_URL}).
+    Specs catch unregistered global settings, but the fields of entities such as types or providers are
+    only checked against what is registered.
+  MESSAGE
+
+  warn message_lines.join("\n")
+end
