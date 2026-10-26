@@ -57,6 +57,19 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
     await harness.destroy();
   });
 
+  it('marks the input invalid when errors are set and when it is focused afterwards', () => {
+    const input = harness.row('1').querySelector<HTMLInputElement>('input.inline-edit--field')!;
+    expect(input).not.toHaveAttribute('aria-invalid');
+
+    handler.setErrors(['Required']);
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    input.removeAttribute('aria-invalid');
+    handler.focus();
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+    expect(input).toHaveFocus();
+  });
+
   it('preserves focus in an unregistered foreign overlay', () => {
     external.focus();
 

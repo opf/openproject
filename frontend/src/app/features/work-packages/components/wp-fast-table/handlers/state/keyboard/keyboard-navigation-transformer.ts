@@ -61,6 +61,7 @@ export interface KeyboardNavigation {
   focusPosition(position:FocusPosition):void;
   /** Remembers the position without painting or focusing it. */
   recordPosition(position:FocusPosition):void;
+  rememberWorkPackageAfterRender(workPackageId:string):void;
   /** Focuses the origin again, or the row hiding it, unless the user has since moved elsewhere, an editor is open or focus rests on a live control; true when it focused. */
   returnFocus(origin:FocusPosition, closing?:EditFieldHandler):boolean;
   /** Returns focus to `origin` after a menu closed, though focus visited the menu portal; same userPosition guard as returnFocus, and never takes focus from a control outside the table. */
@@ -118,6 +119,11 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   private userPosition:FocusPosition|null = null;
 
   private owned = false;
+
+  private rememberedAfterRender:{
+    position:FocusPosition;
+    requestedFrom:FocusPosition|null;
+  }|null = null;
 
   private focusLeftTable = false;
 
@@ -222,6 +228,13 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     this.userPosition = position;
   }
 
+  public rememberWorkPackageAfterRender(workPackageId:string):void {
+    this.rememberedAfterRender = {
+      position: { key: wpOccurrenceKey(workPackageId), cell: null, desiredColumn: null },
+      requestedFrom: this.userPosition,
+    };
+  }
+
   public captureOwnership():void {
     const active = document.activeElement;
     const inside = insideGrid(this.table.scrollContainer, active) || this.table.editing.gridFieldOwning(active) !== null;
@@ -319,6 +332,20 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     if (requested && this.elementAt(requested)) {
       this.userPosition = requested;
       this.focusPosition(requested);
+      return;
+    }
+
+    const remembered = this.rememberedAfterRender;
+    if (remembered && !this.samePosition(this.userPosition, remembered.requestedFrom)) {
+      this.rememberedAfterRender = null;
+    } else if (remembered && this.elementAt(remembered.position)) {
+      this.rememberedAfterRender = null;
+      this.recordPosition(remembered.position);
+      if (owned && this.mayRestoreFocus()) {
+        this.focusPosition(remembered.position);
+      } else {
+        paintRovingTabindex(this.table.scrollContainer, this.elementAt(remembered.position));
+      }
       return;
     }
 

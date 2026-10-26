@@ -15,7 +15,7 @@
             type="button"
             class="spot-link"
             [class.wp-inline-create--split-link]="hasReferenceClass"
-            [opAutofocus]="focus"
+            [opAutofocus]="focus && focusTarget === 'create'"
             (click)="handleAddRowClick()"
             [attr.aria-label]="text.create"
             aria-haspopup="true"
@@ -29,6 +29,7 @@
           <button
             type="button"
             class="spot-link wp-inline-create--split-link"
+            [opAutofocus]="focus && focusTarget === 'reference'"
             (click)="handleReferenceClick()"
             [attr.aria-label]="text.create"
             aria-haspopup="true"

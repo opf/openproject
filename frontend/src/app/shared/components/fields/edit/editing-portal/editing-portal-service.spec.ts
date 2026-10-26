@@ -45,6 +45,42 @@ async function flush() {
   for (let turn = 0; turn < 20; turn += 1) await Promise.resolve();
 }
 
+describe('EditingPortalService error state', () => {
+  let harness:TableHarness;
+  let form:TableEditForm;
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      declarations: [EditFormPortalComponent],
+      providers: [{ provide: EditFieldService, useValue: { getSpecificClassFor: () => undefined } }],
+    });
+    TestBed.overrideComponent(EditFormPortalComponent, { set: { template: '<input class="inline-edit--field">' } });
+    harness = buildTable({ workPackages: [{ id: '1' }], editing: {}, providers: [EditingPortalService] });
+    await harness.render();
+    const wp = harness.injector.get(States).workPackages.get('1').value!;
+    harness.table.editing.startEditing(wp, harness.row('1').dataset.classIdentifier!);
+    form = harness.table.editing.forms['1'];
+    wp.injector = harness.injector;
+    const change = new ResourceChangeset(wp);
+    vi.spyOn(change, 'getForm').mockResolvedValue(undefined as never);
+    vi.spyOn(harness.injector.get(HalResourceEditingService), 'changeFor').mockReturnValue(change);
+  });
+
+  afterEach(async () => {
+    await harness.destroy();
+    vi.restoreAllMocks();
+  });
+
+  it('marks the input of a field activated with errors as invalid once it renders', async () => {
+    form.errorsPerAttribute = { subject: ['Required'] };
+
+    await form.activate('subject');
+
+    const input = harness.row('1').querySelector('input.inline-edit--field');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+});
+
 describe('EditingPortalService table ownership', () => {
   let harness:TableHarness;
   let form:TableEditForm;
