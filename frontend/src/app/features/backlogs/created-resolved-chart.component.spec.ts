@@ -1,0 +1,153 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CreatedResolvedComponent } from 'core-app/features/backlogs/created-resolved-chart.component';
+
+describe('CreatedResolvedComponent', () => {
+  let fixture:ComponentFixture<CreatedResolvedComponent>;
+  let element:HTMLElement;
+  let zone:string;
+
+  const i18nStub = {
+    locale: 'en',
+    t: (key:string) => key,
+  };
+
+  // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
+  // the zone conversion rather than a stand-in for it.
+  const configurationStub = {
+    isTimezoneSet: () => true,
+    timezone: () => zone,
+    dateFormatPresent: () => true,
+    dateFormat: () => 'MM/DD/YYYY',
+    timeFormatPresent: () => true,
+    timeFormat: () => 'hh:mm A',
+  };
+
+  const chartData = (series:unknown[], nonWorkingIntervals:unknown[] = [], step:'day'|'hour' = 'hour') =>
+    JSON.stringify({ step, series, nonWorkingIntervals });
+
+  const point = (x:string, y:number) => ({ x, y });
+
+  beforeEach(async () => {
+    zone = 'UTC';
+
+    await TestBed.configureTestingModule({
+      imports: [CreatedResolvedComponent],
+      providers: [
+        { provide: I18nService, useValue: i18nStub },
+        { provide: ConfigurationService, useValue: configurationStub },
+        TimezoneService,
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(CreatedResolvedComponent);
+    element = fixture.nativeElement as HTMLElement;
+  });
+
+  const renderWith = (series:unknown[], nonWorkingIntervals:unknown[] = [], step:'day'|'hour' = 'hour') => {
+    fixture.componentRef.setInput('chartData', chartData(series, nonWorkingIntervals, step));
+    fixture.detectChanges();
+  };
+
+  const bothSeries = () => [
+    { id: 'created', label: 'Created work packages', data: [point('2026-10-12T09:00:00.000Z', 2)] },
+    { id: 'resolved', label: 'Resolved work packages', data: [point('2026-10-12T09:00:00.000Z', 1)] },
+  ];
+
+  const datasets = () => fixture.componentInstance.lineChartData().datasets;
+
+  const options = () => fixture.componentInstance.lineChartOptions();
+
+  it('renders a canvas once a series carries points', () => {
+    renderWith(bothSeries());
+
+    expect(element.querySelector('canvas')).not.toBeNull();
+  });
+
+  it('shows no results when every series is empty', () => {
+    renderWith([]);
+
+    expect(element.querySelector('canvas')).toBeNull();
+  });
+
+  // The payload drops a series that has no points, so styling by dataset position would colour
+  // the wrong line as soon as one is absent.
+  it('styles a series by its id rather than its position', () => {
+    renderWith([bothSeries()[1]]);
+
+    const [resolved] = datasets();
+
+    expect(resolved.label).toEqual('Resolved work packages');
+    // Resolved is drawn on top of created, which it never exceeds.
+    expect(resolved.order).toEqual(0);
+  });
+
+  // A count is a step function; interpolating draws totals that never existed.
+  it('steps both counted series rather than interpolating between ticks', () => {
+    renderWith(bothSeries());
+
+    expect(datasets().map((dataset) => dataset.stepped)).toEqual(['after', 'after']);
+  });
+
+  it('adds a point-less series so the non-working days get a legend entry that toggles them', () => {
+    renderWith(bothSeries(), [{ from: '2026-10-17', to: '2026-10-18' }]);
+
+    const standIn = datasets()[2];
+
+    expect(standIn.data).toEqual([]);
+    expect(standIn.label).toEqual('js.sprint_charts.non_working_day');
+  });
+
+  it('leaves the non-working stand-in out when there are no bands to paint', () => {
+    renderWith(bothSeries());
+
+    expect(datasets()).toHaveLength(2);
+  });
+
+  // Both series are counted at the same ticks, so index matching is correct here and
+  // 'series-at-x' would be borrowing the burndown's mechanism without its reason.
+  it('matches the two series by index', () => {
+    renderWith(bothSeries());
+
+    expect(options().interaction?.mode).toEqual('index');
+  });
+
+  it('places the axis in the OpenProject zone, not the browser one', () => {
+    zone = 'Asia/Kolkata';
+    renderWith(bothSeries());
+
+    const callback = options().scales?.x?.ticks?.callback as unknown as (value:number) => string;
+
+    // 18:30Z is the following midnight in Kolkata.
+    expect(callback(Date.parse('2026-10-16T18:30:00.000Z'))).toEqual('10/17/2026');
+  });
+});

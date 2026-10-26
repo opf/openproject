@@ -39,6 +39,7 @@ import NonWorkingDaysPlugin, {
   NonWorkingInterval, nonWorkingDaysColor,
 } from 'core-app/shared/components/charts/plugin.non-working-days';
 import 'core-app/shared/components/charts/interaction.series-at-x';
+import { formattedTick, timeChartOptions } from 'core-app/shared/components/charts/options.time-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
@@ -70,8 +71,6 @@ interface BurndownChartData {
 
 // Keeps the tallest step clear of the top of the plot area.
 const Y_AXIS_HEADROOM = 1.1;
-
-const MINUTE_IN_MS = 60 * 1000;
 
 // Chart.js takes a swatch shape per legend item but the decision to honor it at all is global,
 // hence usePointStyle on the labels.
@@ -204,7 +203,7 @@ export class BurndownChartComponent {
       return series;
     }
 
-    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.burndown_chart.non_working_day'), data: [] }];
+    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.sprint_charts.non_working_day'), data: [] }];
   });
 
   private readonly nonWorkingDatasetIndex = computed(() => {
@@ -276,36 +275,15 @@ export class BurndownChartComponent {
     // instants, so both have to agree on where a day begins and ends.
     const zone = this.timezoneService.userTimezone();
 
-    const fontColor = getCSSVariable('--body-font-color', '#333333');
-    const gridColor = getCSSVariable('--borderColor-muted', '#d0d7de');
-
     return {
-      maintainAspectRatio: false,
-      color: fontColor,
+      ...timeChartOptions({
+        zone,
+        range: this.chartedRange(),
+        yTitle: this.i18n.t('js.burndown_chart.story_points'),
+        suggestedMax: this.yAxisMaximum(),
+        formatDate: (iso) => this.timezoneService.formattedDatetimeAsDate(iso),
+      }),
       interaction: { mode: 'series-at-x', intersect: false },
-      scales: {
-        x: {
-          type: 'time',
-          ...this.chartedRange(),
-          adapters: { date: { zone } },
-          time: { unit: 'day' },
-          ticks: {
-            color: fontColor,
-            callback: (value:string|number) =>
-              this.timezoneService.formattedDatetimeAsDate(new Date(Number(value)).toISOString()),
-          },
-          grid: { color: gridColor },
-          border: { color: fontColor },
-        },
-        y: {
-          title: { display: true, text: this.i18n.t('js.burndown_chart.story_points'), color: fontColor },
-          ticks: { color: fontColor },
-          grid: { color: gridColor },
-          border: { color: fontColor },
-          beginAtZero: true,
-          suggestedMax: this.yAxisMaximum(),
-        },
-      },
       plugins: {
         // Registered globally by the other charts, it would otherwise reassign the colors
         // this chart sets deliberately, on every layout.
@@ -359,18 +337,7 @@ export class BurndownChartComponent {
     const itemFor = (id:BurndownSeries['id']) => items.find((item) => this.seriesId(item.datasetIndex) === id);
     const dated = itemFor('remaining') ?? itemFor('projection') ?? items.at(0);
 
-    return dated ? this.formattedTick(Number(dated.parsed.x)) : '';
-  }
-
-  // Ticks sit at the end of the period they describe, so 09:59:59.999 is what the 9 o'clock hour
-  // left behind, and 23:59:59.999 what the day did. The axis draws such a tick on the boundary it
-  // closes, the hour as 10:00, the day as the date that follows.
-  private formattedTick(timestamp:number):string {
-    const rounded = new Date(Math.round(timestamp / MINUTE_IN_MS) * MINUTE_IN_MS).toISOString();
-
-    return this.parsedInput().step === 'day'
-      ? this.timezoneService.formattedDatetimeAsDate(rounded)
-      : this.timezoneService.formattedDatetime(rounded);
+    return dated ? formattedTick(Number(dated.parsed.x), this.parsedInput().step, this.timezoneService) : '';
   }
 
   // Guideline and projection divide story points across working days, so they are cut to one

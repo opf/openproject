@@ -25,93 +25,265 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
+import {
+  Chart, ChartData, ChartDataset, ChartOptions, LegendItem, PointStyle, TooltipItem,
+} from 'chart.js';
+import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
+import NonWorkingDaysPlugin, {
+  NonWorkingInterval, nonWorkingDaysColor,
+} from 'core-app/shared/components/charts/plugin.non-working-days';
+import { ChartStep, formattedTick, timeChartOptions } from 'core-app/shared/components/charts/options.time-chart';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { environment } from '../../../environments/environment';
 import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 
-const BURNDOWN_Y_SCALE_MIN = 10;
+interface CountPoint {
+  x:string;
+  y:number;
+}
+
+// The non-working days are one of these too, standing in for the bands a plugin paints. It brings
+// no points, so chart.js draws nothing for it, but it earns the legend entry and the visibility
+// that make it behave like the rest.
+type SeriesKey = 'created'|'resolved'|'non-working-days';
+
+const NON_WORKING_KEY = 'non-working-days' satisfies SeriesKey;
+
+interface CountSeries {
+  id:SeriesKey;
+  label:string;
+  data:CountPoint[];
+}
+
+type CountDataset = ChartDataset<'line', CountPoint[]>;
+
+interface CreatedResolvedChartData {
+  step:ChartStep;
+  series:CountSeries[];
+  nonWorkingIntervals:NonWorkingInterval[];
+}
+
+// Keeps the tallest step clear of the top of the plot area.
+const Y_AXIS_HEADROOM = 1.1;
+
+// Chart.js takes a swatch shape per legend item but the decision to honour it at all is global,
+// hence usePointStyle on the labels.
+const SWATCH_WIDTH = 24;
+
+interface SeriesColor {
+  border:string;
+  background:string;
+}
+
+interface SeriesStyle {
+  swatch:PointStyle;
+  borderWidth:number;
+  order?:number;
+  stepped?:'after';
+  fill?:boolean;
+  pointRadius?:number;
+  pointHitRadius?:number;
+  // Read on demand rather than held as a value: the colors come off the document, which at import
+  // time has no stylesheet resolved yet for them to freeze against.
+  color:() => SeriesColor;
+}
+
+// True of both counted series: the points are never drawn, but they stay wide enough to be found
+// by a cursor that is not exactly on one.
+const SERIES_DEFAULTS:Omit<Partial<SeriesStyle>, 'swatch'|'color'> = {
+  pointRadius: 0,
+  pointHitRadius: 8,
+};
+
+// Everything that tells the series apart, so that a line and its swatch cannot drift.
+//
+// ORDER IS SIGNIFICANT: the legend and the tooltip read in the order these are declared. It is
+// not the order the lines are drawn in -- resolved never exceeds created, so it takes the lower
+// `order` to be drawn on top and stay visible.
+//
+// A count is a step function: four work packages hold from the moment the fourth arrived until
+// the fifth does, so both series are stepped rather than interpolated through counts that never
+// existed.
+const SERIES_STYLE:Record<SeriesKey, SeriesStyle> = {
+  created: {
+    swatch: 'rect',
+    borderWidth: 1,
+    order: 1,
+    stepped: 'after',
+    fill: true,
+    color: () => ({
+      border: getCSSVariable('--display-red-scale-4', '#e5484d'),
+      background: getCSSVariable('--display-red-scale-2', '#fda5a7'),
+    }),
+  },
+  resolved: {
+    swatch: 'rect',
+    borderWidth: 1,
+    order: 0,
+    stepped: 'after',
+    fill: true,
+    color: () => ({
+      border: getCSSVariable('--display-green-scale-4', '#30a46c'),
+      background: getCSSVariable('--display-green-scale-2', '#b1efc8'),
+    }),
+  },
+  [NON_WORKING_KEY]: {
+    swatch: 'rect',
+    borderWidth: 0,
+    color: () => ({ border: nonWorkingDaysColor(), background: nonWorkingDaysColor() }),
+  },
+};
+
+function seriesRank(key:SeriesKey|undefined):number {
+  const readingOrder = Object.keys(SERIES_STYLE);
+  const rank = readingOrder.indexOf(key ?? '');
+
+  return rank === -1 ? readingOrder.length : rank;
+}
+
+function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
+  if (key === undefined) {
+    return {};
+  }
+
+  const { swatch, borderWidth } = SERIES_STYLE[key];
+
+  return { pointStyle: swatch, lineWidth: borderWidth };
+}
 
 @Component({
   selector: 'op-created-resolved-chart',
   templateUrl: './created-resolved-chart.component.html',
-  imports: [BaseChartDirective, JsonPipe, NoResultsComponent],
-  providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [BaseChartDirective, NoResultsComponent],
+  providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatedResolvedComponent {
-  readonly isDevMode = !environment.production;
   readonly i18n = inject(I18nService);
+  readonly timezoneService = inject(TimezoneService);
+
   readonly chartData = input.required<string>();
 
-  readonly lineChartData = computed<ChartData<'line'>>(() => {
-    const data = JSON.parse(this.chartData()) as ChartData<'line'>;
+  private readonly parsedInput = computed(() => JSON.parse(this.chartData()) as CreatedResolvedChartData);
 
-    // Resolved never exceeds created, so it has to be drawn on top (lower order) to stay visible.
-    const styles = [
-      {background: getCSSVariable('--display-red-scale-2'), border: getCSSVariable('--display-red-scale-4'), order: 1}, //created
-      {background: getCSSVariable('--display-green-scale-2'), border: getCSSVariable('--display-green-scale-4'), order: 0} //resolved
-    ];
+  // The non-working days join the series they are drawn among, without data points but present,
+  // so that the legend and its toggle reach them through chart.js.
+  private readonly series = computed<CountSeries[]>(() => {
+    const { series, nonWorkingIntervals } = this.parsedInput();
 
-    data.datasets.forEach((dataset, i) => {
-      dataset.backgroundColor = Array(dataset.data.length).fill(styles[i]?.background);
-      dataset.borderColor = Array(dataset.data.length).fill(styles[i]?.border);
-      dataset.borderWidth = 1;
-      dataset.order = styles[i]?.order;
-    });
-
-    return data;
-  });
-
-  readonly hasChartData = computed(() =>
-    this.lineChartData().datasets.some((ds) => ds.data.length > 0)
-  );
-
-  readonly maxValue = computed(() => {
-    return this.lineChartData().datasets
-      .flatMap((dataset) => dataset.data)
-      .filter((item):item is number => typeof item === 'number')
-      .reduce((a, b) => Math.max(a, b), 0);
-  });
-
-  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
-    fill: true,
-    tension: 0,
-    pointRadius: 0,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    scales: {
-      x: {
-        title: {
-          display: false,
-        },
-        ticks: {
-          maxTicksLimit: 15,
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: this.i18n.t('js.created_resolved.work_packages')
-        },
-        suggestedMin: 0,
-        max: this.maxValue() + BURNDOWN_Y_SCALE_MIN
-      }
-    },
-    plugins: {
-      legend: {
-        position: 'bottom'
-      },
-      'primer-colors': {
-        enabled: false
-      }
+    if (nonWorkingIntervals.length === 0) {
+      return series;
     }
+
+    return [...series, { id: NON_WORKING_KEY, label: this.i18n.t('js.sprint_charts.non_working_day'), data: [] }];
+  });
+
+  private readonly nonWorkingDatasetIndex = computed(() => {
+    const index = this.series().findIndex((series) => series.id === NON_WORKING_KEY);
+
+    return index === -1 ? undefined : index;
+  });
+
+  readonly hasChartData = computed(() => this.series().some((series) => series.data.length > 0));
+
+  readonly lineChartData = computed<ChartData<'line', CountPoint[]>>(() => ({
+    datasets: this.series().map((series) => this.datasetFor(series)),
   }));
+
+  // Both bounds are taken across every series, so that hiding one does not refit the axes to
+  // what is left.
+  private readonly chartedRange = computed(() => {
+    const times = this.series().flatMap((series) => series.data.map((point) => Date.parse(point.x)));
+
+    return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
+  });
+
+  private readonly yAxisMaximum = computed(() => {
+    const values = this.series().flatMap((series) => series.data.map((point) => point.y));
+
+    return values.length === 0 ? undefined : Math.max(...values) * Y_AXIS_HEADROOM;
+  });
+
+  readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => {
+    // The axis positions the series and the non-working days are painted between two of its
+    // instants, so both have to agree on where a day begins and ends.
+    const zone = this.timezoneService.userTimezone();
+
+    return {
+      ...timeChartOptions({
+        zone,
+        range: this.chartedRange(),
+        yTitle: this.i18n.t('js.created_resolved_chart.work_packages'),
+        suggestedMax: this.yAxisMaximum(),
+        formatDate: (iso) => this.timezoneService.formattedDatetimeAsDate(iso),
+      }),
+      // Both series are counted at the same ticks, so they share every x value, which is what
+      // index matching needs. The burndown reaches for 'series-at-x' because its series are
+      // sampled at different rates; these are not.
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        // Registered globally by the other charts, it would otherwise reassign the colors
+        // this chart sets deliberately, on every layout.
+        'primer-colors': { enabled: false },
+        'non-working-days': {
+          intervals: this.parsedInput().nonWorkingIntervals,
+          zone,
+          datasetIndex: this.nonWorkingDatasetIndex(),
+        },
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            pointStyleWidth: SWATCH_WIDTH,
+            generateLabels: (chart) => this.legendLabels(chart),
+          },
+        },
+        tooltip: {
+          itemSort: (a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex),
+          callbacks: {
+            title: (items) => this.tooltipTitle(items),
+          },
+        },
+      },
+    };
+  });
+
+  // Everything the style holds but the swatch, which belongs to the legend, is already a dataset
+  // property under its own name.
+  private datasetFor(series:CountSeries):CountDataset {
+    const { swatch: _swatch, color, ...dataset } = SERIES_STYLE[series.id];
+    const { border, background } = color();
+
+    return {
+      label: series.label,
+      data: series.data,
+      ...SERIES_DEFAULTS,
+      ...dataset,
+      borderColor: border,
+      backgroundColor: background,
+    };
+  }
+
+  private tooltipTitle(items:TooltipItem<'line'>[]):string {
+    const dated = items.at(0);
+
+    return dated ? formattedTick(Number(dated.parsed.x), this.parsedInput().step, this.timezoneService) : '';
+  }
+
+  private legendLabels(chart:Chart):LegendItem[] {
+    return Chart.defaults.plugins.legend.labels.generateLabels(chart)
+      .map((label) => ({ ...label, ...legendStyle(this.seriesId(label.datasetIndex)) }))
+      .sort((a, b) => this.datasetRank(a.datasetIndex) - this.datasetRank(b.datasetIndex));
+  }
+
+  private seriesId(datasetIndex:number|undefined):SeriesKey|undefined {
+    return datasetIndex === undefined ? undefined : this.series()[datasetIndex]?.id;
+  }
+
+  private datasetRank(datasetIndex:number|undefined):number {
+    return seriesRank(this.seriesId(datasetIndex));
+  }
 }
