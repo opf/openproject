@@ -66,7 +66,7 @@ module Sprints
     end
 
     def breakdowns
-      @breakdowns ||= sprints.map { SprintWorkPackageBreakdown.new(sprint: it, project:) }
+      @breakdowns ||= sprints.map { Sprints::WorkPackageBreakdown.new(sprint: it, project:) }
     end
   end
 end
