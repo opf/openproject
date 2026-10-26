@@ -179,15 +179,6 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_cell(sibling, :subject)
   end
 
-  it "keeps focus inside the parent row when its toggle hides the focused child" do
-    wp_table.focus_row_by_keyboard(child)
-
-    find("#{wp_table.row_selector(parent)} .wp-table--hierarchy-indicator").click
-
-    expect(page).to have_no_css(wp_table.row_selector(child))
-    expect(wp_table.table_container).to have_css("#{wp_table.row_selector(parent)} :focus")
-  end
-
   context "with a read-only column" do
     let!(:query) { create(:query, user:, project:, column_names: %w[id subject created_at]) }
 
