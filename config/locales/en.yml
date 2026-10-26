@@ -5762,6 +5762,14 @@ en:
 
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: "must not be combined with a work package."
+          retry_of:
+            with_action: "must not be combined with an action or input."
+          type_id:
+            without_project: "must be given together with a project."
       array?: "must be an array."
       decimal?: "must be a decimal."
       defined: "must not be defined."
@@ -5778,6 +5786,7 @@ en:
           range: "must be one of: %{list_left} - %{list_right}."
       int?: "must be an integer."
       key?: "is missing."
+      max_size?: "must not be longer than %{num} characters."
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:
@@ -5790,12 +5799,8 @@ en:
           not_unique: "must be unique within the same hierarchy level."
         parent:
           not_descendant: "must be a descendant of the hierarchy root."
-        project_id:
-          with_work_package: "must not be combined with a work package."
         short:
           not_unique: "must be unique within the same hierarchy level."
-        type_id:
-          without_project: "must be given together with a project."
       str?: "must be a string."
       time?: "must be a time."
       type?: "must be %{type}."

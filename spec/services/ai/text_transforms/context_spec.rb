@@ -41,6 +41,10 @@ RSpec.describe AI::TextTransforms::Context do
       expect(context).to have_attributes(work_package:, project:, type:)
     end
 
+    it "is identified by the work package" do
+      expect(context.ids).to eq(work_package_id: work_package.id)
+    end
+
     it "resolves the type's default variant" do
       expect(context.type_variant).to eq(type.default_variant)
     end
@@ -72,6 +76,10 @@ RSpec.describe AI::TextTransforms::Context do
       expect(context).to have_attributes(work_package: nil, project:, type:)
     end
 
+    it "is identified by the project and the type" do
+      expect(context.ids).to eq(project_id: project.id, type_id: type.id)
+    end
+
     it "resolves the variant through the project" do
       expect(context.type_variant).to eq(project.type_variant(type))
     end
@@ -98,6 +106,7 @@ RSpec.describe AI::TextTransforms::Context do
       expect(context).to have_attributes(work_package: nil, project: nil, type: nil)
       expect(context.type_variant).to be_nil
       expect(context.template).to be_nil
+      expect(context.ids).to eq({})
     end
   end
 end
