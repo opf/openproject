@@ -46,11 +46,11 @@ module Sprints
     end
 
     def created
-      @created ||= count_per_tick(sprint_journals)
+      @created ||= series.counts(sprint_journals)
     end
 
     def resolved
-      @resolved ||= count_per_tick(sprint_journals.where(status_id: project.statuses_considered_closed))
+      @resolved ||= series.counts(sprint_journals.where(status_id: project.statuses_considered_closed))
     end
 
     delegate :step, :too_long_to_chart?, :non_working_intervals, :charted_range, to: :window
@@ -59,20 +59,12 @@ module Sprints
 
     attr_reader :sprint, :project, :user
 
-    delegate :ticks, to: :window, private: true
-
     def window
       @window ||= ChartWindow.new(sprint, zone: user.time_zone)
     end
 
-    def count_per_tick(journals)
-      counts = timeline(journals).group(:tick).count.transform_keys(&:to_i)
-
-      ticks.map { ChartPoint.new(at: it, value: (counts[it.to_i] || 0).to_f) }
-    end
-
-    def timeline(journals)
-      WorkPackages::JournalTimeline.new(journals, ticks:, user:).relation
+    def series
+      @series ||= ChartSeries.new(window:, user:)
     end
 
     def sprint_journals

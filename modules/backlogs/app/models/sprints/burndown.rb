@@ -56,10 +56,7 @@ module Sprints
 
     # The story points still open, sampled up to now.
     def remaining
-      @remaining ||= begin
-        sums = story_points_per_tick
-        ticks.map { ChartPoint.new(at: it, value: (sums[it.to_i] || 0).to_f) }
-      end
+      @remaining ||= series.sums(open_sprint_journals, :story_points)
     end
 
     # The constant reduction the sprint was planned with, pinned to what it started with and
@@ -84,18 +81,14 @@ module Sprints
 
     attr_reader :sprint, :project, :user
 
-    delegate :charted_from, :charted_until, :planned_finish, :ticks, :zone, to: :window, private: true
+    delegate :charted_from, :charted_until, :planned_finish, :zone, to: :window, private: true
 
     def window
       @window ||= ChartWindow.new(sprint, zone: user.time_zone)
     end
 
-    def story_points_per_tick
-      timeline(ticks).group(:tick).sum(:story_points).transform_keys(&:to_i)
-    end
-
-    def timeline(instants)
-      WorkPackages::JournalTimeline.new(open_sprint_journals, ticks: instants, user:).relation
+    def series
+      @series ||= ChartSeries.new(window:, user:)
     end
 
     def open_sprint_journals
