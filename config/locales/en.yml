@@ -307,6 +307,7 @@ en:
         project_creation_wizard_status_when_submitted: "Status when submitted"
         project_creation_wizard_work_package_comment: "Work package comment"
         project_creation_wizard_work_package_type: "Work package type"
+        project_specific_values: "Project-specific values"
         project_types: "Types"
         public_value:
           false: "private"

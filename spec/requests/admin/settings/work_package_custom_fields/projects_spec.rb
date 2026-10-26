@@ -42,6 +42,9 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
   end
   let(:projects_path) { projects_admin_settings_work_package_custom_field_path(custom_field) }
   let(:page) { Capybara.string(response.body) }
+  let(:project_specific_values_filter) do
+    { project_specific_values: { operator: "=", values: [custom_field.id.to_s] } }
+  end
 
   it "denies non-admins" do
     login_as create(:user)
@@ -78,27 +81,44 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
       it "filters the projects by name" do
         create(:project, name: "Another using project", types: [feature])
 
-        get projects_path, params: { query: "another" }
+        get projects_path, params: { filters: [{ name_and_identifier: { operator: "~", values: ["another"] } }].to_json }
 
         expect(page).to have_link("Another using project")
         expect(page).to have_no_link(using_project.name)
       end
 
       it "offers to only show the projects with project-specific values" do
-        expect(page).to have_css("[data-test-selector='custom-field-projects-quick-filter']")
+        expect(page).to have_link(I18n.t("custom_fields.admin.projects.quick_filter.with_project_specific_values"))
       end
 
       it "filters the projects with project-specific values" do
         create(:project, name: "Unconfigured project", types: [feature])
 
-        get projects_path, params: { project_specific_values: "t" }
+        get projects_path, params: { filters: [project_specific_values_filter].to_json }
 
         expect(page).to have_link(using_project.name)
         expect(page).to have_no_link("Unconfigured project")
       end
 
+      context "with more projects than fit a page", with_settings: { per_page_options: "1, 100" } do
+        it "keeps the filters when paginating" do
+          another_project = create(:project, name: "Another using project", types: [feature])
+          create(:project_specific_value_restriction, project: another_project,
+                                                      custom_option: custom_field.custom_options.first)
+          filters = [{ name_and_identifier: { operator: "~", values: ["using"] } }, project_specific_values_filter]
+
+          get projects_path, params: { filters: filters.to_json }
+
+          next_page = page.first("a[href*='page=2']")[:href]
+          next_page_filters = JSON.parse(Rack::Utils.parse_query(URI(next_page).query)["filters"])
+
+          expect(next_page_filters).to include(*filters.map(&:deep_stringify_keys))
+        end
+      end
+
       it "shows a dedicated empty state when no project matches the filters" do
-        get projects_path, params: { query: "no such project" }
+        get projects_path,
+            params: { filters: [{ name_and_identifier: { operator: "~", values: ["no such project"] } }].to_json }
 
         expect(page).to have_text(I18n.t("custom_fields.admin.projects.filter_no_results.title"))
         expect(page).to have_no_text(I18n.t("custom_fields.admin.projects.empty_state.title"))
@@ -184,7 +204,7 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(page).to have_no_link(
           href: project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
         )
-        expect(page).to have_no_css("[data-test-selector='custom-field-projects-quick-filter']")
+        expect(page).to have_no_link(I18n.t("custom_fields.admin.projects.quick_filter.with_project_specific_values"))
       end
 
       it "does not find the values of a project" do

@@ -49,10 +49,11 @@ module Admin
       end
 
       def projects
-        @query = params[:query].presence
-        @with_project_specific_values = params[:project_specific_values] == "t"
+        @query = projects_query
+        @filtered = @query.find_active_filter(:name_and_identifier).present? ||
+                    @query.find_active_filter(:project_specific_values).present?
         @type_ids_by_project_id = @custom_field.type_ids_by_project_id
-        @projects = projects_using_custom_field.order(:name).paginate(page: page_param, per_page: per_page_param)
+        @projects = @query.results.paginate(page: page_param, per_page: per_page_param)
 
         render layout: false if turbo_frame_request?
       end
@@ -90,14 +91,13 @@ module Admin
                                      .find(params.expect(:project_id))
       end
 
-      def projects_using_custom_field
-        projects = Project.where(id: @type_ids_by_project_id.keys)
-        if @with_project_specific_values
-          projects = projects.where(id: @custom_field.project_specific_value_restrictions.select(:project_id))
-        end
-        return projects unless @query
-
-        projects.where(Project.arel_table[:name].matches("%#{Project.sanitize_sql_like(@query)}%"))
+      def projects_query
+        ParamsToQueryService
+          .new(Project, current_user, query_class: ProjectQuery)
+          .call(params)
+          .where(:active, "=", OpenProject::Database::DB_VALUE_TRUE)
+          .where(:available_custom_fields_projects, "=", [@custom_field.id.to_s])
+          .order(name: :asc)
       end
 
       def update_all_project_values(service_class)
