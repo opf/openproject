@@ -47,6 +47,7 @@ interface VelocityChartData {
 const MAX_LABEL_LENGTH = 15;
 const DATASET_COLORS = ['blue', 'green'];
 const LEGEND_SYMBOL_WIDTH = 40;
+const MIN_BAR_HEIGHT_FOR_INNER_LABEL = 24;
 
 function truncate(label:string):string {
   return label.length > MAX_LABEL_LENGTH ? `${label.slice(0, MAX_LABEL_LENGTH - 1).trimEnd()}…` : label;
@@ -143,7 +144,12 @@ export class VelocityChartComponent {
         },
         datalabels: {
           anchor: 'end',
-          align: 'start',
+          align: ({ chart, dataset, dataIndex }) => {
+            const yScale = chart.scales.y;
+            const barHeight = yScale.getPixelForValue(0) - yScale.getPixelForValue(dataset.data[dataIndex] as number);
+
+            return barHeight < MIN_BAR_HEIGHT_FOR_INNER_LABEL ? 'end' : 'start';
+          },
           color: fontColor,
           font: { weight: 'bold' },
         },
