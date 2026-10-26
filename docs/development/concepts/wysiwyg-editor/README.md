@@ -10,7 +10,6 @@ When updating the vendored build, update all direct `@ckeditor/ckeditor5-*` deve
 
 `ckeditor.types.ts` retains only the OpenProject configuration and `createCustomized` and `onEditorError` extensions alongside an alias for the upstream editor type. This is an interim integration until [OP-18993](https://community.openproject.org/wp/OP-18993) provides declarations from the custom build itself.
 
-
 ckEditor is used in OpenProject as an input for string fields that require formatting, for example the description of a task, a comment or a wiki page.
 
 ## MarkDown
