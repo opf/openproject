@@ -183,7 +183,7 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "renders only required project attribute" do
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         expect(page).to have_text "Required Foo"
         expect(page).to have_text "Required User"
@@ -198,7 +198,7 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "enables the same project custom fields as activated on the source project if untouched" do
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         expect(project.project_custom_field_ids).to contain_exactly(
           project_custom_field.id,
@@ -237,7 +237,7 @@ RSpec.describe "Projects copy", :js,
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         fill_in "Name", with: "Copied project"
 
@@ -270,7 +270,7 @@ RSpec.describe "Projects copy", :js,
         end
 
         it "does not enable optional project custom fields with default values when not enabled in source project" do
-          expect(page).to have_heading "Copy project \"#{project.name}\""
+          expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
           # the optional boolean and string fields are not activated in the source project
           expect(project.project_custom_field_ids).to contain_exactly(
@@ -318,7 +318,7 @@ RSpec.describe "Projects copy", :js,
         let(:user) { create(:admin) }
 
         it "shows invisible fields in the form and allows their activation" do
-          expect(page).to have_heading "Copy project \"#{project.name}\""
+          expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
           expect(page).to have_text "Text for Admins only"
 
@@ -345,7 +345,7 @@ RSpec.describe "Projects copy", :js,
 
       context "with non-admin user" do
         it "does not show invisible fields in the form but still activates them" do
-          expect(page).to have_heading "Copy project \"#{project.name}\""
+          expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
           expect(page).to have_no_text "Text for Admins only"
 
@@ -403,7 +403,7 @@ RSpec.describe "Projects copy", :js,
       end
 
       it "can create a project" do
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         fill_in "Name", with: "Copied project"
 
@@ -441,7 +441,7 @@ RSpec.describe "Projects copy", :js,
         general_settings_page.visit!
         general_settings_page.click_copy_action
 
-        expect(page).to have_heading "Copy project \"#{project.name}\""
+        expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
         fill_in "Name", with: "Copied project"
         click_on "Copy"
@@ -472,7 +472,7 @@ RSpec.describe "Projects copy", :js,
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
-      expect(page).to have_heading "Copy project \"#{project.name}\""
+      expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
       fill_in "Name", with: "Copied project"
 
@@ -591,7 +591,7 @@ RSpec.describe "Projects copy", :js,
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
-      expect(page).to have_heading "Copy project \"#{project.name}\""
+      expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
       fill_in "Name", with: "Copied project"
       click_on "Copy"
@@ -650,7 +650,7 @@ RSpec.describe "Projects copy", :js,
       general_settings_page.visit!
       general_settings_page.click_copy_action
 
-      expect(page).to have_heading "Copy project \"#{project.name}\""
+      expect(page).to have_heading "Duplicate project \"#{project.name}\""
 
       fill_in "Name", with: "Copied project"
       click_on "Copy"

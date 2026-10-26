@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 require "spec_helper"
 
@@ -53,7 +54,7 @@ RSpec.describe Projects::CopyOptionsForm, type: :forms do
   end
 
   describe "dependencies" do
-    it "renders auxilary hidden field" do
+    it "renders auxiliary hidden field" do
       expect(page).to have_field "copy_options[dependencies][]", type: "hidden", with: ""
     end
 

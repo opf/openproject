@@ -318,6 +318,34 @@ RSpec.describe UserPreferences::UpdateContract do
       it_behaves_like "contract is invalid", time_format: :inclusion
     end
 
+    [nil, "", "x", "OP", "山田", "本田", "Жя", "𐐀𐐁", "👩🏽‍💻", "👨‍👩‍👧‍👦", "🇯🇵", "🏳️‍🌈", "❤️", "👍🏽", "1️⃣",
+     "e\u0301x", "<&", "12", "1#", "🚀🚀", "A🚀", "👨‍👩‍👧‍👦🇯🇵", "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "👩🏽‍❤️‍💋‍👨🏿", "क्षि"].each do |text|
+      context "with avatar_text #{text.inspect}" do
+        let(:settings) { { avatar_text: text } }
+
+        it_behaves_like "contract is valid"
+      end
+    end
+
+    ["ABC", "本田技", "🚀🚀🚀", "👨‍👩‍👧‍👦🇯🇵a"].each do |text|
+      context "with too much avatar text #{text.inspect}" do
+        let(:settings) { { avatar_text: text } }
+
+        it_behaves_like "contract is invalid", avatar_text: :too_long
+      end
+    end
+
+    ["\u0000", "\u0001", "\n", "\uFFFE", "\uFFFF", "\u200B\u200B", "A\u202E", "a#{"\u0301" * 5}", 123, ["x"]].each do |text|
+      context "with invalid avatar_text #{text.inspect}" do
+        let(:settings) { { avatar_text: text } }
+
+        it "rejects the text" do
+          expect(contract.validate).to be false
+          expect(contract.errors[:avatar_text]).to be_present
+        end
+      end
+    end
+
     context "with duplicate workday entries" do
       let(:settings) do
         {

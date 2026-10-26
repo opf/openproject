@@ -39,27 +39,19 @@ module Pages
 
         def expect_listed(*placeholder_users)
           placeholder_users.each do |user|
-            expect(page).to have_css("td.name", text: user.name)
+            expect(page).to have_css(name_cell_selector, text: user.name, exact_text: true)
           end
-        end
-
-        def expect_ordered(*placeholder_users)
-          rows = page.all "td.name"
-          expect(rows.map(&:text)).to eq(placeholder_users.map(&:name))
         end
 
         def expect_not_listed(*users)
           users.each do |user|
-            expect(page).to have_no_css("td.name", text: user.name)
+            expect(page).to have_no_css(name_cell_selector, text: user.name, exact_text: true)
           end
         end
 
         def expect_non_listed
-          expect(page)
-            .to have_no_css("tr.placeholder-user")
-
-          expect(page)
-            .to have_css("tr.generic-table--empty-row", text: "There is currently nothing to display.")
+          expect(page).to have_no_css(row_selector)
+          expect(page).to have_css(".blankslate")
         end
 
         def filter_by_name(value)
@@ -75,13 +67,6 @@ module Pages
           visit!
         end
 
-        def order_by(key)
-          within "thead" do
-            click_link key
-          end
-          wait_for_network_idle
-        end
-
         def expect_no_delete_button_for_all_rows
           expect(page).to have_css("i.icon-help2")
         end
@@ -94,7 +79,7 @@ module Pages
 
         def expect_delete_button(placeholder_user)
           within_placeholder_user_row(placeholder_user) do
-            expect(page).to have_css("i.icon-delete")
+            expect(page).to have_link(accessible_name: I18n.t("placeholder_users.delete_tooltip"))
           end
         end
 
@@ -106,8 +91,18 @@ module Pages
 
         private
 
+        def row_selector
+          "[role='row'].placeholder_user"
+        end
+
+        def name_cell_selector
+          "#{row_selector} .op-border-box-grid__row-item:first-child"
+        end
+
         def within_placeholder_user_row(placeholder_user, &)
-          row = find("tr.placeholder_user td.name", text: placeholder_user.name).ancestor("tr")
+          row = page.find(row_selector) do |row|
+            row.has_css?(".op-border-box-grid__row-item:first-child", text: placeholder_user.name, exact_text: true)
+          end
           within(row, &)
         end
       end

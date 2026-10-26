@@ -132,9 +132,8 @@ class WorkPackages::ProgressController < ApplicationController
   end
 
   def make_fake_initial_work_package
-    initial_params = params["work_package"]["initial"]
-      .slice(*%w[estimated_hours remaining_hours done_ratio status_id])
-      .permit!
+    initial_params = params.require(:work_package).require(:initial)
+      .permit(:estimated_hours, :remaining_hours, :done_ratio, :status_id)
     @work_package = WorkPackage.new(initial_params)
     @work_package.clear_changes_information
   end

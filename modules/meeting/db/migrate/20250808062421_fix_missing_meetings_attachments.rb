@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class FixMissingMeetingsAttachments < ActiveRecord::Migration[8.0]
   def up
     execute <<-SQL.squish

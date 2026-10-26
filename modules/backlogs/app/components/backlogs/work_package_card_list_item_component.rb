@@ -101,7 +101,7 @@ module Backlogs
     end
 
     # Every card row is a sortable item, movable or not: a non-movable row is
-    # still an addressable position its neighbours anchor drops on.
+    # still an addressable position its neighbors anchor drops on.
     def row_data
       {
         controller: "sortable-lists--item",
@@ -110,8 +110,8 @@ module Backlogs
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_mobility_value: mobility,
         # Native drag payload for external consumers; the same absolute URL
-        # as the card menu's "Copy URL to clipboard" item. The label above
-        # doubles as the link text of the text/html flavour.
+        # as the card menu's "Copy link to clipboard" item. The label above
+        # doubles as the link text of the text/html flavor.
         sortable_lists__item_external_url_value: url_helpers.work_package_url(work_package)
       }
     end

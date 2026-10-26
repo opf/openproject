@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Bim
   class BasicDataSeeder < ::BasicDataSeeder
     def data_seeder_classes

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require_relative "create_from_journal_job_shared"
 
@@ -69,7 +70,7 @@ RSpec.describe Notifications::CreateFromModelService,
               .save(validate: false)
       end
     else
-      # Initialize recipient to have the same behaviour as if the recipient is assigned/responsible
+      # Initialize recipient to have the same behavior as if the recipient is assigned/responsible
       recipient
       create(:work_package,
              **wp_attributes)

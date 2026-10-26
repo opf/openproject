@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class SubclassResponsibilityError < StandardError
   def initialize(message = nil)
     message ||= "The subclass needs to implement this method."

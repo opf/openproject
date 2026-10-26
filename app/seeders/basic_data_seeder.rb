@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class BasicDataSeeder < CompositeSeeder
   def data_seeder_classes
     [

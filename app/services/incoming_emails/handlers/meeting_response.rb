@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails::Handlers
   class MeetingResponse < Base
     # Override in subclasses to determine if this handler can process the email

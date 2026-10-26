@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class MeetingOutcome < ApplicationRecord
   belongs_to :meeting_agenda_item, touch: true
   has_one :meeting, through: :meeting_agenda_item
@@ -56,5 +57,9 @@ class MeetingOutcome < ApplicationRecord
 
   def deleted_work_package?
     persisted? && work_package_kind? && work_package_id_was.nil?
+  end
+
+  def copy_attributes
+    attributes.except("id", "meeting_agenda_item_id", "author_id", "created_at", "updated_at")
   end
 end

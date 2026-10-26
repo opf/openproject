@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class CompositeSeeder < Seeder
   def seed_data!
     ActiveRecord::Base.transaction do

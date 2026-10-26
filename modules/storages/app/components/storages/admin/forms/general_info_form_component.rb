@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 module Storages::Admin::Forms
   class GeneralInfoFormComponent < StorageFormComponent

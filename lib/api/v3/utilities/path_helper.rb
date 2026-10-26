@@ -283,8 +283,8 @@ module API
             "#{custom_field_item(id)}/branch"
           end
 
-          def self.custom_field_items(id, parent = nil, depth = nil)
-            query = { parent:, depth: }.compact_blank.to_query
+          def self.custom_field_items(id, parent = nil, depth = nil, project: nil)
+            query = { parent:, depth:, project: }.compact_blank.to_query
 
             if query.present?
               "#{custom_field(id)}/items?#{query}"
@@ -658,6 +658,10 @@ module API
 
           index :label
           show :label
+
+          def self.labels_by_workspace(workspace_id)
+            "#{workspace(workspace_id)}/labels"
+          end
 
           def self.versions_available_projects
             "#{versions}/available_projects"

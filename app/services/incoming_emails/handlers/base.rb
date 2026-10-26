@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module IncomingEmails::Handlers
   class Base
     attr_reader :email, :user, :reference, :options, :plain_text_body

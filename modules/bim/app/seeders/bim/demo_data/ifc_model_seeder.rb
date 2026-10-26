@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Bim
   module DemoData
     class IfcModelSeeder < ::Seeder

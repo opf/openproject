@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module BasicData
   class ProjectRoleSeeder < BaseRoleSeeder
     self.model_class = ProjectRole

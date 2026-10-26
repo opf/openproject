@@ -26,12 +26,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class EnvDataSeeder < CompositeSeeder
   def data_seeder_classes
     [
       EnvData::CustomDesignSeeder,
       EnvData::LdapSeeder,
-      EnvData::LlmConnectionSeeder,
       EnvData::ScimClientSeeder,
       EnvData::TokenSeeder
     ]

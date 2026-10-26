@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe "DB and ActiveRecord constraints" do # rubocop:disable RSpec/DescribeClass

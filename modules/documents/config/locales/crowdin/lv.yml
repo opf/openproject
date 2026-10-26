@@ -51,7 +51,7 @@ lv:
     active_editors: Active editors
     active_editors_count:
       zero: "%{count} active editors"
-      one: 1 active editor
+      one: "%{count} active editor"
       other: "%{count} active editors"
     admin:
       collaboration_settings:

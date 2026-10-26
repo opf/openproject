@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class AdminUserSeeder < Seeder
   def seed_data!
     user = new_admin

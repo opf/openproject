@@ -43,6 +43,15 @@ RSpec.describe OpenProject::Avatars::InitialsSvg do
       expect(described_class.initials_for("🤖 Oliver")).to eq "🤖O"
     end
 
+    it "keeps combined emoji and combining accents intact" do
+      expect(described_class.initials_for("👩🏽‍💻 E\u0301clair")).to eq "👩🏽‍💻E\u0301"
+    end
+
+    it "supports names in non-Latin scripts" do
+      expect(described_class.initials_for("山田 太郎")).to eq "山太"
+      expect(described_class.initials_for("山田太郎")).to eq "山"
+    end
+
     it "returns an empty string for a blank name" do
       expect(described_class.initials_for("")).to eq ""
     end
@@ -80,6 +89,77 @@ RSpec.describe OpenProject::Avatars::InitialsSvg do
   end
 
   describe ".render" do
+    let(:user) { build_stubbed(:user, firstname: "Jane", lastname: "Doe") }
+
+    before { user.pref.avatar_type = "initials" }
+
+    { "#D1F0FF" => "#1f2328", "#FFFFFF" => "#1f2328", "#123456" => "#ffffff" }.each do |background, foreground|
+      it "uses contrasting text on #{background}" do
+        user.pref.avatar_color = background
+
+        svg = Nokogiri::XML(described_class.render(user), &:strict)
+
+        expect(svg.at_css("text")["fill"]).to eq foreground
+      end
+    end
+
+    ["x", "OP", "山田", "本田", "👩🏽‍💻", "🇯🇵", "👨‍👩‍👧‍👦", "e\u0301"].each do |text|
+      it "renders custom avatar text #{text.inspect} unchanged" do
+        user.pref.avatar_text = text
+
+        expect(described_class.render(user)).to include(">#{text}<")
+      end
+    end
+
+    it "renders two kanji at the normal font size" do
+      user.pref.avatar_text = "本田"
+
+      svg = Nokogiri::XML(described_class.render(user), &:strict)
+
+      expect(svg.at_css("text")["font-size"]).to eq "28"
+    end
+
+    it "renders custom text and color for a group" do
+      group = build_stubbed(:group, avatar_type: "initials", avatar_text: "🚀", avatar_color: "#abc")
+
+      svg = Nokogiri::XML(described_class.render(group), &:strict)
+
+      expect(svg.at_css("text").text).to eq "🚀"
+      expect(svg.at_css("rect")["fill"]).to eq "#AABBCC"
+    end
+
+    it "ignores custom text while another source is selected",
+       with_settings: { plugin_openproject_avatars: { enable_local_avatars: true } } do
+      user.pref.avatar_text = "XY"
+      user.pref.avatar_type = "image"
+
+      expect(described_class.render(user)).to include(">JD<")
+    end
+
+    it "renders custom text when the selected source is disabled",
+       with_settings: { plugin_openproject_avatars: { enable_gravatars: false, enable_local_avatars: false } } do
+      user.pref.avatar_text = "XY"
+      user.pref.avatar_type = "gravatar"
+
+      expect(described_class.render(user)).to include(">XY<")
+    end
+
+    it "escapes custom text as SVG text content" do
+      user.pref.avatar_text = "<&"
+
+      svg = described_class.render(user)
+
+      expect(svg).to include("&lt;&amp;")
+      expect(Nokogiri::XML(svg, &:strict).at_css("text").text).to eq "<&"
+    end
+
+    it "falls back to name initials after clearing custom text" do
+      user.pref.avatar_text = "🚀"
+      user.pref.avatar_text = " "
+
+      expect(described_class.render(user)).to include(">JD<")
+    end
+
     it "renders an SVG document containing the color and initials" do
       user = build_stubbed(:user, id: 1, firstname: "Jane", lastname: "Doe")
 

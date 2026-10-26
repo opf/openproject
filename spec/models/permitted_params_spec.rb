@@ -140,7 +140,7 @@ RSpec.describe PermittedParams do
   describe "#reply" do
     let(:attribute) { :reply }
     let(:hash) do
-      %w(content subject).index_with("value")
+      %w(content).index_with("value")
     end
 
     it_behaves_like "allows params"
@@ -728,26 +728,6 @@ RSpec.describe PermittedParams do
                                 "type_id" => nil,
                                 "project_id" => nil)
       end
-    end
-  end
-
-  describe "#time_entry_activities_project" do
-    let(:attribute) { :time_entry_activities_project }
-    let(:hash) do
-      [
-        { "activity_id" => "5", "active" => "0" },
-        { "activity_id" => "6", "active" => "1" }
-      ]
-    end
-    let(:expected_permitted) do
-      [
-        ActionController::Parameters.new("activity_id" => "5", "active" => "0").permit!,
-        ActionController::Parameters.new("activity_id" => "6", "active" => "1").permit!
-      ]
-    end
-
-    it_behaves_like "allows params" do
-      subject { described_class.new(params, user).send(attribute) }
     end
   end
 

@@ -26,12 +26,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackage::Exports
   module Formatters
     module PDF
       class Hours < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          name.to_sym == :spent_hours && export_format == :pdf
+          name.to_sym == :spent_hours && export_format.in?(%i[pdf md])
         end
 
         def format_value(value, _options)

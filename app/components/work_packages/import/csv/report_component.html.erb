@@ -2,19 +2,18 @@
 <% when "checked" %>
   <%= render banner(:success, "checked", count: row_count) %>
 
-  <%= render Primer::Box.new(border: true, border_radius: 3, p: 4, mb: 3) do %>
-    <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center, mb: 3) do %>
-      <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.checked.heading") } %>
-      <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { filename } %>
-    <% end %>
-
-    <%= render Primer::Box.new(display: :flex, flex_wrap: :wrap, classes: "gap-3", mb: 3) do %>
-      <% stat_cards.each do |card| %>
-        <%= render(card) %>
+  <%= render Primer::Beta::BorderBox.new(mb: 3) do |box| %>
+    <% box.with_header do %>
+      <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center) do %>
+        <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.checked.heading") } %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: 6)) { filename } %>
       <% end %>
     <% end %>
 
-    <%= render partial: "projects/settings/work_packages_import/breakdown", locals: { breakdown: } %>
+    <% box.with_body do %>
+      <%= render partial: "projects/settings/work_packages_import/summary",
+                 locals: { cards: stat_cards, breakdown: } %>
+    <% end %>
   <% end %>
 
   <%= render Primer::Box.new(display: :flex, align_items: :center, mb: 2) do %>
@@ -48,8 +47,9 @@
       <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { t("work_packages.import.report.imported.heading") } %>
     <% end %>
 
-    <% box.with_row(p: 0) do %>
-      <%= render partial: "projects/settings/work_packages_import/stats", locals: { stats: created_stats } %>
+    <% box.with_body do %>
+      <%= render partial: "projects/settings/work_packages_import/summary",
+                 locals: { cards: stat_cards, breakdown: } %>
     <% end %>
 
     <% box.with_footer do %>

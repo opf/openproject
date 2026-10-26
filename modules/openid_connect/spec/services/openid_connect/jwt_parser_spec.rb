@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 RSpec.describe OpenIDConnect::JwtParser do
@@ -174,7 +175,7 @@ RSpec.describe OpenIDConnect::JwtParser do
 
     it { is_expected.to be_failure }
 
-    it "indicates the problem that occured" do
+    it "indicates the problem that occurred" do
       expect(parse.failure).to match(/Unable to validate issuer signature/)
     end
 

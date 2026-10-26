@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,8 +73,8 @@ sv:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Det finns ett arbetspaket som inte slutfördes i den här sprinten.
-                other: Det finns %{count} arbetspaket som inte slutfördes i den här sprinten.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: är inte aktiv och kan därför inte stängas.
         sprint_goal:
@@ -135,9 +135,17 @@ sv:
       details: Backlogggruppen ”%{name}” tas bort och alla arbetspaket flyttas till backloggens inkorg. Inget arbetspaket tas bort.
       title: Ta bort backlogggruppen?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
         blankslate_title: Inga burndown-data tillgängliga
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Enheter
     excluded_work_package_types_caption: 'Välj vilka arbetspaketstyper som ska döljas från backloggen. Objekt av de valda typerna visas inte automatiskt i backloggen, så att den kan fokusera på det arbete som är relevant för teamet. Till exempel kan typer som epics eller milstolpar, som hanteras på en högre nivå, döljas så att backloggen fokuserar på åtgärdbara objekt.
 
@@ -161,8 +169,8 @@ sv:
       drop_zone_label: Släpp här för att lägga till objektet
       label_actions: Inkorgsåtgärder
       show_more:
-        one: Visa 1 objekt till
-        other: Visa %{count} objekt till
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Inkorg
     index_subheader_component:
       label_search_by_subject: Sök arbetspaket efter ämne
@@ -186,6 +194,7 @@ sv:
     remaining_hours: Återstående arbete
     sharing: Delning av sprintar
     show_burndown_chart: Burndown-diagram
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Arbetspaket i sprinten
     sprint_component:
       action_menu:
@@ -209,6 +218,9 @@ sv:
       shared_sprint_info_banner: Det här är en delad sprint. Ändringar återspeglas i alla projekt som använder den.
       shared_sprint_warning_banner: Det här är en delad sprint. Du har inte de behörigheter som krävs för att redigera den.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Rapport
         title: Rapport för %{sprint}
@@ -266,7 +278,6 @@ sv:
       header_backlogs: Backlogmodul
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Kopiera URL till urklipp
         copy_work_package_id: Kopiera arbetspakets-ID
         move_menu: Flytta till position
         move_to_backlog_bucket: Flytta till backlogggrupp
@@ -293,9 +304,9 @@ sv:
       update_service:
         invalid_target_type: 'list_type måste vara något av följande: backlog_bucket med ett list_id, sprint med ett list_id eller inbox utan ett list_id.'
         missing_target: list_type eller list_id måste anges.
-  burndown:
-    story_points: Berättelsepoäng
-    story_points_ideal: Berättelsepoäng (idealiskt)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Flera aktiva sprintar

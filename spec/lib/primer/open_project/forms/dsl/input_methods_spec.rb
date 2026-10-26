@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 require "spec_helper"
 
@@ -214,6 +215,13 @@ RSpec.describe Primer::OpenProject::Forms::Dsl::InputMethods, type: :forms do
       let(:field_group) { form_dsl.color_select_list(name:, label:, **options) }
 
       include_examples "input class", Primer::OpenProject::Forms::Dsl::ColorSelectInput
+      it_behaves_like "supporting help texts"
+    end
+
+    describe "#file_field" do
+      let(:field_group) { form_dsl.file_field(name:, label:, **options) }
+
+      include_examples "input class", Primer::OpenProject::Forms::Dsl::FileFieldInput
       it_behaves_like "supporting help texts"
     end
 

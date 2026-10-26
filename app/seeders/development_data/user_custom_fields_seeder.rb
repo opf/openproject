@@ -26,9 +26,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DevelopmentData
   # Seeds a handful of user attributes that fit the demo project's mix of
-  # conference organisation and software delivery work. The values are assigned
+  # conference organization and software delivery work. The values are assigned
   # to the users created by the DepartmentSeeder.
   class UserCustomFieldsSeeder < Seeder
     JOB_TITLES = [

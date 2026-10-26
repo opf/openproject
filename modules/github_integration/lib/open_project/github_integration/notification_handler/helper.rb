@@ -94,7 +94,7 @@ module OpenProject::GithubIntegration
       end
 
       ##
-      # A wapper around a ruby Hash to access webhook payloads.
+      # A wrapper around a ruby Hash to access webhook payloads.
       # All methods called on it are converted to `.fetch` hash-access, raising an error if the string-key does not exist.
       # If the method ends with a question mark, e.g. "comment?" not error is raised if the key does not exist.
       # If the fetched value is again a hash, the value is wrapped into a new payload object.

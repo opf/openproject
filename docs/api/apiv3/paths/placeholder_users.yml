@@ -1,7 +1,7 @@
 # /api/v3/placeholder_users
 ---
 get:
-  summary: List placehoder users
+  summary: List placeholder users
   operationId: list_placeholder_users
   tags:
     - Principals

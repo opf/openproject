@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Projects
   class PhaseDefinitionComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers

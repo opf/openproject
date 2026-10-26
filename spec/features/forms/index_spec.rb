@@ -55,7 +55,7 @@ RSpec.describe "Forms index", :js do
 
   def all_forms = ["Bug form", "Hardware form", "Phase form"]
 
-  def results = "#form_configurations-index-results-component"
+  def results = "#work-package-types-named-references-index-table-component"
 
   def row_for(name)
     page.find(".Box-row") { |row| row.has_css?(".name a", text: name, exact_text: true) }

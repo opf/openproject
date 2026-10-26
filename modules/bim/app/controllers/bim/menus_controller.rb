@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module ::Bim
   class MenusController < ApplicationController
     before_action :find_project_by_project_id,

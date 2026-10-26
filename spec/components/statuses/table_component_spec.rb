@@ -98,10 +98,10 @@ RSpec.describe Statuses::TableComponent, type: :component do
     # have to sit inside it rather than anywhere under the box.
     it "points the list at the rows container the drag-and-drop styling keys on" do
       expect(rendered_component).to have_css("#statuses-table") do |root|
-        expect(root["data-sortable-lists--list-rows-container-element"]).to eq(":scope > .op-border-box-table--rows")
+        expect(root["data-sortable-lists--list-rows-container-element"]).to eq(":scope > .op-border-box-table__rows")
       end
 
-      expect(rendered_component).to have_css(".op-border-box-table--rows > .Box-row", count: 2)
+      expect(rendered_component).to have_css(".op-border-box-table__rows > .Box-row", count: 2)
     end
 
     it "renders each status as an identified sortable row", :aggregate_failures do

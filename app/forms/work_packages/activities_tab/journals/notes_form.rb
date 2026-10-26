@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackages::ActivitiesTab::Journals
   class NotesForm < ApplicationForm
     delegate :object, to: :@builder

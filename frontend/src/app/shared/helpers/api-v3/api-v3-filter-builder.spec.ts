@@ -36,7 +36,7 @@ import {
 // over the filter map): the `filters` getter and `toFilterObject`.
 describe('ApiV3FilterBuilder', () => {
   describe('add() and the filters getter', () => {
-    it('serialises each entry of the filter map to a single-key object', () => {
+    it('serializes each entry of the filter map to a single-key object', () => {
       const builder = new ApiV3FilterBuilder()
         .add('status', '=', ['1'])
         .add('subject', '~', ['foo']);

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class AddUsersToResourceAllocations < ActiveRecord::Migration[8.1]
   def change
     change_table :resource_allocations, bulk: true do |t|

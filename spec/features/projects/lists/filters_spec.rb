@@ -168,7 +168,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
         expect(menu).to have_text("Delete")
         expect(menu).to have_no_text("Add to favorites")
         expect(menu).to have_no_text("Archive")
-        expect(menu).to have_no_text("Copy")
+        expect(menu).to have_no_text("Duplicate")
         expect(menu).to have_no_text("Settings")
         expect(menu).to have_no_text("New subproject")
 

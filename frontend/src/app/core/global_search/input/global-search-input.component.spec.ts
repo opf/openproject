@@ -66,7 +66,7 @@ describe('GlobalSearchInputComponent#followItem', () => {
       return item;
     }
 
-    it('is recognised as a HalResource', () => {
+    it('is recognized as a HalResource', () => {
       expect(buildWorkPackage({ id: 42 }) instanceof HalResource).toBe(true);
     });
 

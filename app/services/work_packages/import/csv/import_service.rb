@@ -118,9 +118,21 @@ module WorkPackages
 
         def import_row(row, mapper, progress)
           mapped = mapper.call(row)
-          return progress.problems.concat(mapped.result) if mapped.failure?
+          return progress.problems.concat(rejected(row, mapped.result)) if mapped.failure?
 
           record(create_work_package(mapped.result.attributes), row, mapped.result.columns, progress)
+        end
+
+        def rejected(row, mapped)
+          mapped.problems + remaining_problems(row, mapped)
+        end
+
+        def remaining_problems(row, mapped)
+          reported = mapped.problem_attributes
+          return [] if reported.include?(:type)
+
+          contract_problems(row, validate_work_package(mapped.attributes).errors)
+            .reject { |problem| reported.include?(problem.attribute&.to_sym) }
         end
 
         def record(created, row, columns, progress)
@@ -129,7 +141,7 @@ module WorkPackages
             progress.created_ids << created.result.id
             write_columns(created.result, columns)
             mark_as_imported(created.result, columns)
-            summarise(progress, created.result, columns)
+            summarize(progress, created.result, columns)
           else
             progress.problems.concat(problems_for(row, created.errors))
           end
@@ -159,8 +171,18 @@ module WorkPackages
         end
 
         def create_work_package(attributes)
-          WorkPackages::CreateService.new(user:).call(project:, **attributes)
+          WorkPackages::CreateService.new(user:, contract_options:).call(project:, **attributes)
         end
+
+        def validate_work_package(attributes)
+          WorkPackages::SetAttributesService
+            .new(user:, model: WorkPackage.new, contract_class: WorkPackages::CreateContract, contract_options:)
+            .call(project:, **attributes)
+        end
+
+        # No column carries a custom field, so holding a row to a required one would make every type
+        # that has one impossible to import. The field is left empty instead.
+        def contract_options = { skip_custom_field_validation: true }
 
         # The activity tab renders no details for a creation journal, so the mark needs an entry of
         # its own. It is written as the system user because an entry by the importing user would be
@@ -194,7 +216,7 @@ module WorkPackages
 
         def view_name = I18n.t("work_packages.import.csv.view_name", datetime: format_time(Time.current))
 
-        def summarise(progress, work_package, columns)
+        def summarize(progress, work_package, columns)
           count_values(progress.counts_by_attribute, work_package)
           progress.account_ids.merge(account_ids(work_package, columns))
           progress.dated_count += 1 if work_package.start_date || work_package.due_date

@@ -79,6 +79,7 @@ en:
         single: 'Select "%{name}"'
       remove: "Remove %{name}"
     autocompleter:
+      create_label: "Create label"
       notFoundText: "No items found"
       placeholder: "Type to search"
       project:
@@ -183,6 +184,7 @@ en:
     button_stop_timer: "Stop timer"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
+    button_view_markdown: "View Markdown"
     caption_rate_history: "Rate history"
 
     card:
@@ -395,8 +397,8 @@ en:
     ical_sharing_modal:
       copy_url_label: "Copy URL"
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      inital_setup_error_message: "An error occured while fetching data."
+      ical_generation_error_text: "An error occurred while generating the calendar URL."
+      inital_setup_error_message: "An error occurred while fetching data."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
       title: "Subscribe to calendar"
       token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.'
@@ -590,6 +592,8 @@ en:
     label_reset: "Reset"
     label_resize_project_menu: "Resize project menu"
     label_save_as: "Save as"
+    label_scroll_left: "Scroll left"
+    label_scroll_right: "Scroll right"
     label_search_columns: "Search a column"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Selected filters"
@@ -664,7 +668,7 @@ en:
     notifications:
       center:
         and_more_users:
-          one: "and 1 other"
+          one: "and %{count} other"
           other: "and %{count} others"
         empty_state:
           no_notification: "Looks like you are all caught up."
@@ -886,11 +890,11 @@ en:
         not_selectable: "Selection unchanged. This item takes no part in this list's ordering."
         range_blocked: "Selection unchanged. That range contains an item that takes no part in this list's ordering."
         range_restarted:
-          one: "Could not extend the range. 1 item selected."
+          one: "Could not extend the range. %{count} item selected."
           other: "Could not extend the range. %{count} items selected."
         range_unavailable: "Selection unchanged. Expand this list to select that range."
         selected:
-          one: "1 item selected."
+          one: "%{count} item selected."
           other: "%{count} items selected."
 
     spot:
@@ -946,19 +950,19 @@ en:
 
     units:
       child_work_packages:
-        one: "one child work package"
+        one: "%{count} child work package"
         other: "%{count} work package children"
       day:
-        one: "1 day"
+        one: "%{count} day"
         other: "%{count} days"
         zero: "0 days"
       hour:
-        one: "1 h"
+        one: "%{count} h"
         other: "%{count} h"
         zero: "0 h"
       hour_string: "%{hours} h"
       word:
-        one: "1 word"
+        one: "%{count} word"
         other: "%{count} words"
       workPackage:
         one: "work package"

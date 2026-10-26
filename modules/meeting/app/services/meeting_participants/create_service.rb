@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module MeetingParticipants
   class CreateService < BaseServices::Create
     include Meetings::JournalAfterPerform

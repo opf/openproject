@@ -69,7 +69,9 @@ module Import
              :deletable?,
              to: :state_machine
 
-    delegate :client, to: :jira
+    delegate :client,
+             :exclude_resolution_fields?,
+             to: :jira
 
     def find_op_leg(jira_leg)
       Import::JiraOpenProjectReference

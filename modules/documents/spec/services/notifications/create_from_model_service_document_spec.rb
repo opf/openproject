@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require Rails.root.join("spec/services/notifications/create_from_journal_job_shared")
 

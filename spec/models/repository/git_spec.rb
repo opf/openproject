@@ -512,7 +512,7 @@ RSpec.describe Repository::Git do
           let (:encoding) { "ISO-8859-1" }
           let (:char1_hex) { (+"\xc3\x9c").force_encoding("UTF-8") }
 
-          it "latests changesets latin 1 dir" do
+          it "latest changesets latin 1 dir" do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(

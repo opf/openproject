@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module BasicData
   class TypeSeeder < ModelSeeder
     self.model_class = Type

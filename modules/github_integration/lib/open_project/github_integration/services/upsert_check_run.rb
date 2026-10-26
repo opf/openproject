@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpenProject::GithubIntegration::Services
   ##
   # Takes check_run data coming from GitHub webhook data and stores

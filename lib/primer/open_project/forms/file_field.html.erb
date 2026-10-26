@@ -1,0 +1,84 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Forms::FormControl.new(input: @input)) do %>
+  <%= content_tag(:div, **field_wrap_arguments, data: { controller: "file-field" }) do %>
+    <%=
+      builder.file_field(
+        name,
+        hidden: true,
+        accept:,
+        disabled: @input.disabled?,
+        data: {
+          "file-field-target": "file",
+          action: file_input_actions
+        }
+      )
+    %>
+
+    <%=
+      content_tag(
+        :button,
+        type: "button",
+        class: "FormControl-file-field-drop-zone",
+        disabled: @input.disabled?,
+        "aria-label": label,
+        data: {
+          "file-field-target": "dropBox",
+          action: "click->file-field#openFilePicker
+                   dragover->file-field#dragOver
+                   dragleave->file-field#dragLeave
+                   drop->file-field#dropFile"
+        }
+      ) do
+    %>
+      <%= content_tag(:img, nil, **preview_attributes) %>
+      <span class="FormControl-file-field-placeholder">
+        <%= render(Primer::Beta::Octicon.new(icon:, classes: "FormControl-file-field-icon")) %>
+        <span class="FormControl-file-field-label"
+              data-file-field-target="filename"
+              data-empty="<%= label %>"><%= displayed_label %></span>
+        <% if description.present? %>
+          <span class="FormControl-caption"><%= description %></span>
+        <% end %>
+      </span>
+    <% end %>
+
+    <% if has_attachment? && !@input.disabled? %>
+      <span class="FormControl-file-field-menu">
+        <%= render(Primer::Alpha::ActionMenu.new) do |menu| %>
+          <% menu.with_show_button(icon: "kebab-horizontal", "aria-label": menu_label, scheme: :invisible) %>
+          <% menu.with_item(**replace_item_arguments) { |item| item.with_leading_visual_icon(icon: :sync) } %>
+          <% if delete_path.present? %>
+            <% menu.with_item(**delete_item_arguments) { |item| item.with_leading_visual_icon(icon: :trash) } %>
+          <% end %>
+        <% end %>
+      </span>
+    <% end %>
+  <% end %>
+<% end %>

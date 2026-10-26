@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class AddUniquenessForWatchersTable < ActiveRecord::Migration[8.0]
   disable_ddl_transaction!
 

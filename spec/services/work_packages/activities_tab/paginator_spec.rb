@@ -822,6 +822,54 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         end
       end
 
+      context "with label changes" do
+        let(:label_a) { create(:label, name: "alpha") }
+        let(:label_b) { create(:label, name: "beta") }
+
+        def save_labels(*labels)
+          work_package.reload.label_id_replacements = labels.map(&:id)
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        it "includes journal where a label was added" do
+          journal = save_labels(label_a)
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal.id)
+        end
+
+        it "includes journal where a label was replaced" do
+          save_labels(label_a)
+          journal = save_labels(label_b)
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal.id)
+        end
+
+        it "includes journal where a label was removed" do
+          save_labels(label_a)
+          journal = save_labels
+
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal.id)
+        end
+
+        it "excludes journal with only a label snapshot" do
+          save_labels(label_a)
+          work_package.reload.add_journal(notes: "Unrelated change")
+          work_package.save!
+          snapshot = work_package.journals.order(:version).last
+
+          _pagy, records = paginator.call
+          expect(snapshot.reload.label_journals.count).to eq(1)
+          changes = snapshot.reload.get_changes
+          expect(changes).to eq({})
+
+          expect(records.map(&:id)).not_to include(snapshot.id)
+        end
+      end
+
       context "with target version changes" do
         let!(:journal_with_target_version_added) do
           version = create(:version, project:)
@@ -1056,7 +1104,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
       end
     end
 
-    context "with an unrecognised filter value" do
+    context "with an unrecognized filter value" do
       let(:initial_journal) { work_package.journals.find_by(version: 1) }
       let!(:journal_with_notes) do
         create(:work_package_journal, user:, notes: "A comment", journable: work_package, version: 2)
@@ -1066,7 +1114,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         params[:filter] = "bogus"
       end
 
-      it "normalises the filter to :all" do
+      it "normalizes the filter to :all" do
         expect(paginator.filter).to eq(:all)
       end
 

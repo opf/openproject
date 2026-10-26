@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 # This is a feature spec for the project creation wizard, but only when creating
@@ -266,7 +267,7 @@ RSpec.describe "Project creation wizard",
     fill_in "Team Size", with: "5"
 
     wait_for_turbo(wait: 20) { click_button "Complete" }
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
 
     project.reload
     expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -395,7 +396,7 @@ RSpec.describe "Project creation wizard",
 
       click_button "Complete"
 
-      expect(page).to have_text("Project attributes saved and artefact work package created successfully.", wait: 20)
+      expect(page).to have_text("Project attributes saved and artifact work package created successfully.", wait: 20)
 
       project.reload
       expect(page).to have_current_path("/projects/#{project.identifier}/" \

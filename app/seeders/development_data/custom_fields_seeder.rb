@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DevelopmentData
   class CustomFieldsSeeder < Seeder
     def seed_data!

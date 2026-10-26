@@ -177,7 +177,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
         expect(variant.default_work_package_description).to eq("Own description")
       end
 
-      it "falls back to the artefact export default when the base has none" do
+      it "falls back to the artifact export default when the base has none" do
         base.update!(artefact_export_mode: nil)
 
         expect(variant.artefact_export_mode).to eq(Type::ArtefactExport::DEFAULT)

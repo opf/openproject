@@ -80,6 +80,7 @@ RSpec.describe "Create viewpoint from BCF details page",
       page.driver.browser.navigate.refresh
 
       bcf_details.ensure_page_loaded
+      show_model_page.finished_loading
       bcf_details.expect_viewpoint_count(1)
       bcf_details.show_current_viewpoint
 

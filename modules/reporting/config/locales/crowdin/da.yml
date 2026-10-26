@@ -25,14 +25,14 @@ da:
     errors:
       models:
         cost_report:
-          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+          pivot_axes_do_not_match_group_bys: Rækker og kolonner skal tilsammen dække præcis visningens grupperingskriterier.
     models:
       cost_query:
-        one: Cost report
-        other: Cost reports
+        one: Omkostningsrapport
+        other: Omkostningsrapporter
       cost_report:
-        one: Cost report
-        other: Cost reports
+        one: Omkostningsrapport
+        other: Omkostningsrapporter
   button_save_report_as: Gem rapport som...
   comments: Kommentér
   cost_reports_title: Tid og omkostninger
@@ -51,7 +51,7 @@ da:
       overview_per_user_total: 'Oversigt: Samlet antal timer pr. bruger'
       sums_hours: Summer
       time: Tidspunkt
-      timesheet: Tidskema
+      timesheet: Timeseddel
       title: Eksport af din PDF-timeseddel
   information_restricted_depending_on_permission: Afhængigt af dine tilladelser kan denne side indeholde oplysninger du ikke kan se.
   label_click_to_edit: Klik for at redigere.
@@ -104,7 +104,7 @@ da:
   permission_save_cost_reports: Gem offentlig omkostningsrapport
   permission_save_private_cost_reports: Gem privat omkostningsrapport
   plugin_openproject_reporting:
-    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
+    description: Pluginnet gør det muligt at oprette egne omkostningsrapporter med filtrering og gruppering ud fra data fra OpenProject-pluginnet Tid og omkostninger.
     name: OpenProject Reporting
   reporting:
     group_by:

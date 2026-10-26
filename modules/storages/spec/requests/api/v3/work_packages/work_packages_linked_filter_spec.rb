@@ -66,7 +66,6 @@ RSpec.describe "API v3 work packages resource with filters for linked storage fi
   # This link is considered invisible, as it is linking a work package to a file, where the work package's project
   # and the file's storage are not linked together.
   let(:file_link4) { create(:file_link, creator: current_user, container: work_package3, storage: storage1) }
-  # rubocop:enable RSpec/IndexedLet
 
   subject(:response) { last_response }
 

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "rails_helper"
 
 RSpec.describe OpenProject::Common::InplaceEditFields::VersionSelectListComponent,
@@ -60,7 +61,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::VersionSelectListComponen
     render_component(project)
 
     expect(rendered_content).to have_css("opce-autocompleter")
-    # Options are serialised as JSON in the opce-autocompleter's items attribute
+    # Options are serialized as JSON in the opce-autocompleter's items attribute
     expect(rendered_content).to include("v1.0")
     expect(rendered_content).to include("v2.0")
   end
@@ -70,7 +71,7 @@ RSpec.describe OpenProject::Common::InplaceEditFields::VersionSelectListComponen
     create(:custom_value, :skip_validations, customized: project, custom_field:, value: version1.id.to_s)
     render_component(Project.find(project.id))
 
-    # The decorated autocompleter serialises the selected item as a data-model attribute
+    # The decorated autocompleter serializes the selected item as a data-model attribute
     expect(page).to have_element "opce-autocompleter" do |autocompleter|
       expect(autocompleter["data-model"]).to be_json_eql(
         %{{"disabled": false, "group_by": "#{project.name}", "name": "#{version1.name}", "selected": true}}

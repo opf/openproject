@@ -61,6 +61,7 @@ uk:
         single: Виберіть %{name}
       remove: Видалити %{name}
     autocompleter:
+      create_label: Створити етикетку
       notFoundText: Елементів не знайдено
       placeholder: Введіть для пошуку
       project:
@@ -162,6 +163,7 @@ uk:
     button_stop_timer: Зупинити таймер
     button_uncheck_all: Зняти усі відмітки
     button_update: Оновити
+    button_view_markdown: View Markdown
     caption_rate_history: Історія рейтингу
     card:
       add_new: Додати нову картку
@@ -202,7 +204,7 @@ uk:
     description_subwork_package: 'Нащадок пакету робіт #%{id}'
     editor:
       ckeditor_error: У CKEditor сталася помилка
-      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
+      ckeditor_error_reload: Редактор перестав працювати. Ваш текст ще тут, але його не можна змінювати. Скопіюйте будь-який текст, який ви хочете зберегти, і перезавантажте сторінку.
       error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
       macro:
         attribute_reference:
@@ -359,8 +361,8 @@ uk:
     ical_sharing_modal:
       copy_url_label: Копіювати URL
       description: За допомогою URL-адреси (iCalendar) ви можете підписатися на цей календар у зовнішньому клієнті й переглядати звідти актуальну інформацію про пакети робіт.
-      ical_generation_error_text: Під час створення URL-адреси календаря сталася помилка.
-      inital_setup_error_message: Під час отримання даних сталася помилка.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL-адресу «%{name}» скопійовано в буфер обміну. Вставте її в клієнт свого календаря, що завершити створення підписки.
       title: Підписатися на календар
       token_name_description_text: Якщо ви підписані на цей календар на кількох пристроях, це ім’я допоможе вам розрізняти їх у списку <a href="%{myAccessTokensUrl}" target="_blank">маркерів доступу</a>.
@@ -552,6 +554,8 @@ uk:
     label_reset: Скинути
     label_resize_project_menu: Змінити розмір меню проєкту
     label_save_as: Зберегти як
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Пошук стовпця
     label_select_watcher: Виберіть спостерігача...
     label_selected_filter_list: Вибрані фільтри
@@ -624,10 +628,10 @@ uk:
     notifications:
       center:
         and_more_users:
-          one: і ще 1
-          few: і ще %{count}
-          many: і ще %{count}
-          other: і ще %{count}
+          one: and %{count} other
+          few: and %{count} others
+          many: and %{count} others
+          other: and %{count} others
         empty_state:
           no_notification: Схоже, ви все переглянули.
           no_notification_for_filter: Схоже, ви переглянули всі сповіщення за цим фільтром.
@@ -723,7 +727,7 @@ uk:
     placeholders:
       default: "-"
       description: Опис. Натисніть, щоб змінити…
-      description_double_click: 'Description: Double click to edit...'
+      description_double_click: 'Опис: Двічі клацніть для редагування...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Будь ласка, виберіть
       subject: Введіть тему тут
@@ -830,16 +834,16 @@ uk:
         not_selectable: Вибір залишився незмінним. Цей елемент не впливає на порядок у цьому списку.
         range_blocked: Вибір залишився незмінним. Діапазон містить елемент, що не впливає на порядок у цьому списку.
         range_restarted:
-          one: Не вдалося розширити діапазон. Вибрано 1 елемент.
-          few: Не вдалося розширити діапазон. Вибрано %{count} елементи.
-          many: Не вдалося розширити діапазон. Вибрано %{count} елементів.
-          other: Не вдалося розширити діапазон. Вибрано %{count} елемента.
+          one: Could not extend the range. %{count} item selected.
+          few: Could not extend the range. %{count} items selected.
+          many: Could not extend the range. %{count} items selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Вибір залишився незмінним. Щоб вибрати потрібний діапазон, розгорніть цей список.
         selected:
-          one: Вибрано 1 елемент.
-          few: Вибрано %{count} елементи.
-          many: Вибрано %{count} елементів.
-          other: Вибрано %{count} елемента.
+          one: "%{count} item selected."
+          few: "%{count} items selected."
+          many: "%{count} items selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Закрити модальне вікно
@@ -888,24 +892,24 @@ uk:
       label_two_factor_authentication: Двофакторна аутентифікація
     units:
       child_work_packages:
-        one: один робочий пакет для дітей
-        few: "%{count} робочий пакет дітей"
-        many: "%{count} робочий пакет дітей"
-        other: "%{count} робочий пакет дітей"
+        one: "%{count} child work package"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+        other: "%{count} work package children"
       day:
-        one: 1 день
+        one: "%{count} day"
         other: "%{count} д."
         zero: 0 днів
       hour:
-        one: 1 год
+        one: "%{count} h"
         other: "%{count} год"
         zero: 0 год
       hour_string: "%{hours} год"
       word:
-        one: 1 слово
-        few: "%{count} слова"
-        many: "%{count} слів"
-        other: "%{count} слова"
+        one: "%{count} word"
+        few: "%{count} words"
+        many: "%{count} words"
+        other: "%{count} words"
       workPackage:
         one: Робочий пакет
         few: робочі пакети.

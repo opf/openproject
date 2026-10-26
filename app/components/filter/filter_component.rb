@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Filter
   class FilterComponent < ApplicationComponent
     TURBO_FRAME_ID = "filter_component"

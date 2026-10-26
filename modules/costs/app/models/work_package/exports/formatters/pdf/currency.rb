@@ -26,12 +26,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackage::Exports
   module Formatters
     module PDF
       class Currency < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          %i[material_costs labor_costs overall_costs].include?(name.to_sym) && export_format == :pdf
+          name.to_sym.in?(%i[material_costs labor_costs overall_costs]) && export_format.in?(%i[pdf md])
         end
 
         def format_value(value, _options)

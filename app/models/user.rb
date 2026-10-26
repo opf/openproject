@@ -454,9 +454,7 @@ class User < Principal
     preference || build_preference
   end
 
-  # Allows avatar rendering to treat User and Group uniformly (Group stores its
-  # own avatar_color directly, see Group#avatar_color).
-  delegate :avatar_color, to: :pref
+  delegate :avatar_color, :avatar_text, :avatar_type, to: :pref
 
   def time_zone
     @time_zone ||= ActiveSupport::TimeZone[pref.time_zone] || ActiveSupport::TimeZone["Etc/UTC"]
@@ -504,7 +502,7 @@ class User < Principal
 
   ##
   # Finds all users with the mail address matching the given mail
-  # Includes searching for suffixes from +Setting.mail_suffix_separtors+.
+  # Includes searching for suffixes from +Setting.mail_suffix_separators+.
   #
   # For example:
   #  - With Setting.mail_suffix_separators = '+'

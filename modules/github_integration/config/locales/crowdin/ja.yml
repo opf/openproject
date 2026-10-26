@@ -38,7 +38,7 @@ ja:
     changed_files_count: 変更されたファイル
     comments_count: コメント数
     deletions_count: 削除数
-    github: GitHub 識別子
+    github: GitHub identifier
     github_app_owner_avatar_url: オーナーのアバターURL
     github_avatar_url: アバター URL
     github_html_url: プルリクエストURL

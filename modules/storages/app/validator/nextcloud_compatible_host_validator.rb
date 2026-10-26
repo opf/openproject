@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   MINIMAL_NEXTCLOUD_VERSION = 30
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN"

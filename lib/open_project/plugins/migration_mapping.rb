@@ -24,6 +24,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpenProject::Plugins
   module MigrationMapping
     def self.migration_files_to_migration_names(migration_files, old_plugin_name)

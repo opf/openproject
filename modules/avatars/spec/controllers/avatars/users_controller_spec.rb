@@ -38,7 +38,7 @@ RSpec.describe Avatars::UsersController do
 
   before do
     allow(User).to receive(:current).and_return current_user
-    allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
+    allow(OpenProject::Avatars::AvatarManager).to receive(:local_avatars_enabled?).and_return enabled
   end
 
   describe ":show" do
@@ -49,7 +49,7 @@ RSpec.describe Avatars::UsersController do
         get :show, params: { id: target_user.id }
       end
 
-      it "renders the edit action" do
+      it "redirects to the user edit page" do
         expect(response).to redirect_to edit_user_path(target_user)
       end
     end
@@ -67,52 +67,15 @@ RSpec.describe Avatars::UsersController do
     end
   end
 
-  describe "#update" do
+  describe "#update_settings" do
     let(:target_user) { user_without_avatar }
 
-    context "when not logged in" do
-      let(:current_user) { User.anonymous }
+    it "saves settings and returns to the user edit page" do
+      patch :update_settings, params: { id: target_user.id, avatar_type: "initials", avatar_text: "OP" }
 
-      it "renders 403" do
-        post :update, params: { id: target_user.id }
-        expect(response).to redirect_to signin_path(back_url: edit_user_avatar_url(target_user))
-      end
-    end
-
-    context "when not enabled" do
-      let(:enabled) { false }
-
-      it "renders 404" do
-        put :update, params: { id: target_user.id }
-        expect(response).to have_http_status :not_found
-      end
-    end
-
-    it "returns invalid method for post request" do
-      post :update, params: { id: target_user.id }
-      expect(response).not_to be_successful
-      expect(response).to have_http_status :method_not_allowed
-    end
-
-    it "calls the service for put" do
-      expect_any_instance_of(Avatars::UpdateService)
-        .to receive(:replace)
-              .and_return(ServiceResult.success(result: "Avatar changed successfully."))
-
-      put :update, params: { id: target_user.id }
-      expect(response).to be_successful
-      expect(response).to have_http_status :ok
-      expect(flash[:notice]).to eq("Avatar changed successfully.")
-    end
-
-    it "calls the service for put" do
-      expect_any_instance_of(Avatars::UpdateService)
-        .to receive(:replace)
-              .and_return(ServiceResult.failure)
-
-      put :update, params: { id: target_user.id }
-      expect(response).not_to be_successful
-      expect(response).to have_http_status :bad_request
+      expect(response).to redirect_to edit_user_path(target_user)
+      expect(flash[:notice]).to eq I18n.t("avatars.message_avatar_updated")
+      expect(target_user.reload.avatar_text).to eq "OP"
     end
   end
 

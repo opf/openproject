@@ -126,7 +126,7 @@ RSpec.describe "create users" do
           field.fill_in with: "bob"
         end
 
-        page.click_button "Save"
+        within("form[data-controller='admin--users']") { click_button "Save" }
         expect_flash(message: "Successful update.")
       end
     end

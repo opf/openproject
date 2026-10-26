@@ -57,6 +57,31 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
     end
   end
 
+  context "with a stored schedule of the principal" do
+    let(:other_user) { create(:user) }
+
+    let!(:principal_working_hours) { create(:user_working_hours, user: principal, valid_from: Date.current - 1.year) }
+    let!(:other_working_hours) { create(:user_working_hours, user: other_user, valid_from: Date.current - 1.year) }
+    let!(:allocation) { create(:resource_allocation, principal:) }
+    let!(:other_allocation) { create(:resource_allocation, principal: other_user) }
+
+    it "removes the principal's schedule" do
+      expect { job }
+        .to change { ResourceAllocations::ScheduledEntry.where(user_id: principal.id).count }
+        .from(be_positive).to(0)
+    end
+
+    it "does not move the schedule to the deleted user placeholder" do
+      job
+
+      expect(ResourceAllocations::ScheduledEntry.where(user: deleted_user)).to be_empty
+    end
+
+    it "keeps the schedules of other users" do
+      expect { job }.not_to change { ResourceAllocations::ScheduledEntry.where(user: other_user).pluck(:id) }
+    end
+  end
+
   context "with a resource allocation requested, reviewed or staffed by the principal" do
     let!(:requested_allocation) { create(:resource_allocation, requested_by: principal) }
     let!(:reviewed_allocation) { create(:resource_allocation, reviewed_by: principal) }

@@ -36,14 +36,12 @@ module ::Avatars
 
     private
 
-    def find_group
-      @principal = Group.find(params.expect(:id))
+    def redirect_path
+      edit_group_path(@principal)
     end
 
-    def update_color_request
-      ::Groups::UpdateService
-        .new(model: @principal, user: current_user)
-        .call(avatar_color: params[:avatar_color])
+    def find_group
+      @principal = Group.find(params.expect(:id))
     end
   end
 end

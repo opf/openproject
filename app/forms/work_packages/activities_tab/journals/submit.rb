@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackages::ActivitiesTab::Journals
   class Submit < ApplicationForm
     form do |notes_form|

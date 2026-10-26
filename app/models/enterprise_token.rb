@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class EnterpriseToken < ApplicationRecord
   EXPIRING_SOON_DAYS = 30
 

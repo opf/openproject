@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 #
 # Primer's autocomplete displays the ID of a user when selected instead of the name
 # this cannot be changed at the moment as the component uses a simple text field which

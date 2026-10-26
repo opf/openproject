@@ -48,7 +48,7 @@ module TimeEntries
       end
 
       # Set start time for ongoing time entries
-      ensure_start_time_for_onging_entries
+      ensure_start_time_for_ongoing_entries
 
       # Always set the logging user as logged_by
       set_logged_by
@@ -83,7 +83,7 @@ module TimeEntries
         (model.entity && model.entity_changed? && !model.project_id_changed?)
     end
 
-    def ensure_start_time_for_onging_entries
+    def ensure_start_time_for_ongoing_entries
       return unless model.new_record?
       return unless model.ongoing?
       return unless TimeEntry.can_track_start_and_end_time?

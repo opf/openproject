@@ -52,7 +52,7 @@ RSpec.describe "form configuration required attributes", :js do
     page.test_selector("type-form-configuration-required-#{attribute}")
   end
 
-  # The two labels differ in colour as well as wording, and "Required" is a substring of
+  # The two labels differ in color as well as wording, and "Required" is a substring of
   # "Required in this type", so both are asserted exactly.
   def expect_badge(attribute, text:, scheme:)
     badge = page.find_test_selector("type-form-configuration-required-#{attribute}")

@@ -39,7 +39,7 @@ set -e
 PR_BODY=$(cat)
 
 # "None/Assisted" is listed first so that it is matched as a single level; a bare
-# "None" or "Assisted" is accepted as well and normalised to it.
+# "None" or "Assisted" is accepted as well and normalized to it.
 LEVELS='None/Assisted|None|Assisted|Collaborative|Directed|Autonomous'
 
 # The template lists every level inside an HTML comment; contributors pick one

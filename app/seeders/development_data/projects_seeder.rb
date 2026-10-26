@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module DevelopmentData
   class ProjectsSeeder < Seeder
     def seed_data!
@@ -55,7 +56,7 @@ module DevelopmentData
     end
 
     def project_identifiers
-      %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields)
+      %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields dev-forums)
     end
 
     def reset_projects
@@ -64,7 +65,7 @@ module DevelopmentData
         project = Project.new project_data(id)
 
         if id == "dev-large-child"
-          project.parent_id = Project.find_by(identifier: "dev-large").id
+          project.parent = seed_data.find_reference(:dev_large)
         end
 
         project.save!

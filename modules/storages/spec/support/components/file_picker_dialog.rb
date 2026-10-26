@@ -46,7 +46,7 @@ module Components
         case selection_count
         when 0
           expect(page).to have_button(disabled: true,
-                                      exact_text: I18n.t("js.storages.file_links.selection.zero"))
+                                      exact_text: I18n.t("js.storages.file_links.selection.none"))
         else
           expect(page).to have_button(disabled: false,
                                       exact_text: I18n.t("js.storages.file_links.selection", count: selection_count))

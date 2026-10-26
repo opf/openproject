@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module CostReports
   # Builds the compact filter syntax the url uses from operators and values,
   # whether those come from a report, a leftover session, or a link created back

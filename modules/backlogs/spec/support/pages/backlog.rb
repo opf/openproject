@@ -349,7 +349,7 @@ module Pages
       find(work_package_selector(work_package))
     end
 
-    # The row's resolved background colour. Read it twice around one isolated
+    # The row's resolved background color. Read it twice around one isolated
     # change, never across two rows and never around a gesture that also
     # focuses or navigates: the background depends on focus and `aria-current`
     # too, so anything else makes the difference unattributable.
@@ -359,7 +359,7 @@ module Pages
 
     # Moves focus onto the card without a pointer and without any event a
     # Backlogs controller listens for. Establishes focus before a
-    # background-colour control read, so a later keyboard gesture on the same
+    # background-color control read, so a later keyboard gesture on the same
     # card does not change it a second time.
     def focus_work_package_card(work_package)
       work_package_card(work_package).execute_script(
@@ -706,7 +706,7 @@ module Pages
     end
 
     # An unmodified click: narrows the batch to this card and opens its
-    # details pane. Offset near the top-left corner because the card's centre
+    # details pane. Offset near the top-left corner because the card's center
     # sits on the subject link or the actions menu button, both of which the
     # selection root ignores as interactive descendants.
     def select_card(work_package)
@@ -1078,7 +1078,7 @@ module Pages
     end
 
     def expect_sprint_completing_modal
-      expect(page).to have_css sprint_complete_modal_selector
+      wait_for_size_animation_completion(sprint_complete_modal_selector)
     end
 
     def expect_sprints_to_choose_for_moving_unfinished_work_packages_to(*sprints)
@@ -1129,9 +1129,9 @@ module Pages
     end
 
     # Node::Element#click takes the held key and positional options, so no
-    # action chain is needed. The offset avoids the card's centre, where the
+    # action chain is needed. The offset avoids the card's center, where the
     # subject link or actions menu button sits: the selection root ignores a
-    # gesture starting on either, and which one lands dead centre varies with
+    # gesture starting on either, and which one lands dead center varies with
     # the card's content.
     def modified_click(work_package, key)
       work_package_card(work_package).click(key, x: 6, y: 6, offset: :position)

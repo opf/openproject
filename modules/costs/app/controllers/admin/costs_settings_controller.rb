@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Admin
   class CostsSettingsController < SettingsController
     menu_item :costs_settings

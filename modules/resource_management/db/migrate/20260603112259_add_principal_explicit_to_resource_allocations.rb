@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class AddPrincipalExplicitToResourceAllocations < ActiveRecord::Migration[8.1]
   def change
     add_column :resource_allocations, :principal_explicit, :boolean, null: false, default: true

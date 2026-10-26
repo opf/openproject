@@ -79,6 +79,10 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
     user_avatar_url(user)
   end
 
+  def initials_expected_url(user)
+    "#{API::V3::Utilities::PathHelper::ApiV3Path.url_for(:user, user.id)}/avatar"
+  end
+
   def gravatar_expected_url(digest, options = {})
     ssl = !!options[:ssl]
 
@@ -156,8 +160,19 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
       let(:enable_gravatars) { false }
       let(:enable_local_avatars) { false }
 
-      it "returns nil" do
-        expect(helper.avatar_url(user)).to be_nil
+      it "returns the url to the generated initials avatar" do
+        expect(helper.avatar_url(user)).to eq(initials_expected_url(user))
+      end
+    end
+
+    context "when initials are selected explicitly" do
+      let(:enable_gravatars) { true }
+      let(:enable_local_avatars) { true }
+
+      it "returns the same url as for implicit initials" do
+        user.pref.avatar_type = "initials"
+
+        expect(helper.avatar_url(user)).to eq(initials_expected_url(user))
       end
     end
   end
@@ -232,8 +247,8 @@ RSpec.describe AvatarHelper, with_settings: { protocol: "http" } do
       expect(helper.avatar(user)).to be_html_eql(expected_user_avatar_tag(user))
     end
 
-    it "returns nil for avatar_url" do
-      expect(helper.avatar_url(user)).to be_nil
+    it "returns the generated initials avatar for avatar_url" do
+      expect(helper.avatar_url(user)).to eq(initials_expected_url(user))
     end
   end
 

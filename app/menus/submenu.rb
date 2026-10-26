@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class Submenu
   include Rails.application.routes.url_helpers
 

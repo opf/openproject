@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 require_relative "enumerations/shared_enumeration_examples"
@@ -82,7 +83,7 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe "#transer_to" do
+  describe "#transfer_relations" do
     let(:new_priority) { create(:priority) }
     let(:work_package1) { create(:work_package, priority:) }
     let(:work_package2) { create(:work_package) }

@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 require "ostruct"
 
@@ -73,7 +74,7 @@ RSpec.describe CustomFieldFormBuilder do
       builder.cf_form_field options
     end
 
-    it_behaves_like "labelled by default"
+    it_behaves_like "labeled by default"
     it_behaves_like "wrapped in field-container by default" do
       let(:container_count) { 2 }
     end

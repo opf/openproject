@@ -352,6 +352,22 @@ RSpec.describe Rake::Task, :copyright do
       expect_canonical_header("trailing.rb", source)
     end
 
+    it "drops text trailing the closing marker on its line" do
+      write_source("trailing_text.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++stray
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("trailing_text.rb", source)
+    end
+
     it "normalizes headers that lost their closing marker" do
       write_source("unclosed.rb", <<~RUBY)
         # frozen_string_literal: true
@@ -381,7 +397,68 @@ RSpec.describe Rake::Task, :copyright do
 
       subject.invoke(".")
 
-      expect(File.read("abutting.rb")).to eq("#{magic_comment}#{canonical_header}\n#{documented}")
+      expect(File.read("abutting.rb")).to eq("#{magic_comment}#{canonical_header}\n\n#{documented}")
+    end
+
+    it "separates the header from code abutting the closing marker" do
+      write_source("abutting_closer.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("abutting_closer.rb", source)
+    end
+
+    it "collapses blank lines between the header and the code" do
+      write_source("spaced_out.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++
+
+
+        #{source.chomp}
+      RUBY
+
+      subject.invoke(".")
+
+      expect_canonical_header("spaced_out.rb", source)
+    end
+
+    it "keeps a header-only file ending at the closing marker" do
+      write_source("header_only.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        #-- copyright
+        # Old copyright.
+        #++
+      RUBY
+
+      subject.invoke(".")
+
+      expect(File.read("header_only.rb")).to eq("#{magic_comment}#{canonical_header}\n")
+    end
+
+    it "leaves a notice without closing marker or COPYRIGHT reference alone when a comment run abuts it" do
+      ambiguous = <<~RUBY
+        # frozen_string_literal: true
+
+        #-- copyright
+        # OpenProject is an open source project management software.
+        # Documents the class.
+        #{source.chomp}
+      RUBY
+      write_source("ambiguous.rb", ambiguous)
+
+      expect { subject.invoke(".") }.to output(/ambiguous\.rb .*seems to have a copyright header/).to_stdout
+      expect(File.read("ambiguous.rb")).to eq(ambiguous)
     end
 
     it "normalizes a notice split off its opening marker by a blank line" do

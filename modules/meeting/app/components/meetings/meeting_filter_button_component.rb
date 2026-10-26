@@ -26,10 +26,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module Meetings
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
   class MeetingFilterButtonComponent < Filter::FilterButtonComponent
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
     options :project
     def filters_count
       @filters_count ||= begin

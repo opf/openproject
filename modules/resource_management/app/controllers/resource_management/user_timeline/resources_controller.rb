@@ -31,7 +31,7 @@ module ResourceManagement
   module UserTimeline
     class ResourcesController < FeedsController
       def index
-        overbooked = overbooked_ranges_by_principal.keys.to_set
+        overbooked = overbooked_principal_ids
         scheduled = scheduled_principal_ids
         preload_user_details
 
@@ -51,6 +51,10 @@ module ResourceManagement
       end
 
       private
+
+      def overbooked_principal_ids
+        availabilities_by_principal.select { |_id, availability| availability.overbooked? }.keys.to_set
+      end
 
       # Eager-load everything the resource cell reads off each user, so rendering
       # the rows stays a fixed number of queries regardless of the user count.

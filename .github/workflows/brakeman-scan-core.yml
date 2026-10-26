@@ -21,6 +21,7 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Brakeman Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       RUBY_GC_HEAP_INIT_SLOTS: 100000
     steps:
@@ -30,7 +31,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1
+        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
 
       - name: Setup Brakeman
         run: |

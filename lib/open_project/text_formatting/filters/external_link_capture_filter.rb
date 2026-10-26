@@ -26,6 +26,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module OpenProject::TextFormatting
   module Filters
     class ExternalLinkCaptureFilter < HTML::Pipeline::Filter

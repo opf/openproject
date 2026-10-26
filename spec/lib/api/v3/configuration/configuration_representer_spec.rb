@@ -292,7 +292,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       context "if embedding" do
         let(:embed_links) { true }
 
-        it "embedds the user preferences" do
+        it "embeds the user preferences" do
           expect(subject)
             .to be_json_eql("UserPreferences".to_json)
             .at_path("_embedded/userPreferences/_type")
@@ -300,7 +300,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       end
 
       context "if not embedding" do
-        it "embedds the user preferences" do
+        it "embeds the user preferences" do
           expect(subject)
             .not_to have_json_path("_embedded/userPreferences/_type")
         end
