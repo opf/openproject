@@ -203,13 +203,7 @@ module CustomFields
           render(Primer::Beta::Text.new(tag: :p, font_weight: :semibold, mb: 2)) do
             label(:project_specific_value_restriction)
           end +
-            render(
-              EnterpriseEdition::BannerComponent.new(
-                :project_specific_list_values,
-                variant: :medium,
-                image: "enterprise/project-specific-values.png"
-              )
-            )
+            render(EnterpriseEdition::BannerComponent.new(:project_specific_list_values))
         end
 
         details_form.radio_button_group(
