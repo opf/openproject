@@ -44,8 +44,8 @@ module Import
           .order(:id)
       end
 
-      def same_field?(name, other)
-        without_numbering(name).casecmp?(without_numbering(other))
+      def same_field?(custom_field_name, import_name)
+        without_numbering(custom_field_name).casecmp?(import_name.to_s)
       end
 
       def without_numbering(name)

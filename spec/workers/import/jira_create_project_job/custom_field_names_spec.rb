@@ -70,18 +70,21 @@ RSpec.describe Import::JiraCreateProjectJob::CustomFieldNames do
       expect(described_class).to be_same_field("Story Points", "STORY POINTS")
     end
 
-    it "matches a name carrying the counter unique_name appends" do
+    it "matches a stored name carrying the counter unique_name appends" do
       expect(described_class).to be_same_field("Story Points (2)", "Story Points")
-      expect(described_class).to be_same_field("Story Points", "Story Points (12)")
+      expect(described_class).to be_same_field("Story Points (12)", "Story Points")
     end
 
-    it "matches two names carrying a different counter" do
-      expect(described_class).to be_same_field("Story Points (2)", "Story Points (3)")
+    it "strips the counter from the stored name only" do
+      expect(described_class).not_to be_same_field("Story Points", "Story Points (2)")
+    end
+
+    it "matches a Jira field whose own name ends in a number against its renamed field" do
+      expect(described_class).to be_same_field("Story Points (2) (2)", "Story Points (2)")
     end
 
     it "keeps a project key suffix apart from the counter" do
       expect(described_class).not_to be_same_field("Story Points (XYZ)", "Story Points")
-      expect(described_class).not_to be_same_field("Story Points (XYZ)", "Story Points (2)")
     end
 
     it "matches a project key suffix with itself despite a counter" do

@@ -1000,6 +1000,23 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
 
         expect(date_builder.find_existing_custom_field).to be_nil
       end
+
+      it "reuses the renamed field of a Jira field whose own name ends in a number" do
+        create(:string_wp_custom_field, name: "Due (2)")
+        renamed = create(:date_wp_custom_field, name: "Due (2) (2)")
+        schema = { "type" => "date", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" }
+        builder = described_class.new(jira_field_for(name: "Due (2)", schema:), jira_import:)
+
+        expect(builder.find_existing_custom_field).to eq(renamed)
+      end
+
+      it "does not let a Jira field whose name ends in a number take over the plain field" do
+        create(:date_wp_custom_field, name: "Due")
+        schema = { "type" => "date", "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datepicker" }
+        builder = described_class.new(jira_field_for(name: "Due (2)", schema:), jira_import:)
+
+        expect(builder.find_existing_custom_field).to be_nil
+      end
     end
 
     context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do
