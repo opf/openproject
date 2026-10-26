@@ -38,5 +38,11 @@ module OpenProject::Projects
       phase = FactoryBot.build_stubbed(:project_phase, status:)
       render(::Projects::PhaseStatusButtonComponent.new(phase:, user:))
     end
+
+    def edit_disabled(status: :open)
+      user = FactoryBot.build_stubbed(:user)
+      phase = FactoryBot.build_stubbed(:project_phase, status:)
+      render(::Projects::PhaseStatusButtonComponent.new(phase:, user:))
+    end
   end
 end

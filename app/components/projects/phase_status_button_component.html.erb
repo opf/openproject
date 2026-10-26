@@ -2,31 +2,28 @@
   component_wrapper do
     flex_layout do |container|
       container.with_row do
-        flex_layout(align_items: :center) do |flex|
-          flex.with_column do
-            render(
-              OpPrimer::StatusButtonComponent.new(
-                current_status: build_item(@status),
-                items: build_items,
-                readonly: !edit_enabled?,
-                disabled: !edit_enabled?,
-                button_arguments: {
-                  icon_only: true,
-                  classes: class_names(
-                    "op-phase-status-button",
-                    helpers.hl_foreground_class(:project_phase_status, @status.id)
-                  ),
-                  title: project_phase_status_name(@status.code),
-                  size: :medium,
-                  scheme: :invisible,
-                  style: :foreground,
-                  icon: @status.icon,
-                  "aria-label": project_phase_status_name(@status.code)
-                }
-              )
-            )
-          end
-        end
+        render(
+          OpPrimer::StatusButtonComponent.new(
+            current_status: build_item(@status),
+            items: build_items,
+            button_arguments: {
+              icon_only: true,
+              classes: class_names(
+                "op-phase-status-button",
+                helpers.hl_foreground_class(:project_phase_status, @status.id)
+              ),
+              title: project_phase_status_name(@status.code),
+              size: :medium,
+              scheme: :invisible,
+              style: :foreground,
+              icon: @status.icon,
+              "aria-label": project_phase_status_name(@status.code)
+            },
+            menu_arguments: {
+              data: { test_selector: "phase-status-action-menu-#{@phase.id}" },
+            }
+          )
+        )
       end
     end
   end

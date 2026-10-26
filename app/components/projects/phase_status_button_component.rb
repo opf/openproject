@@ -49,7 +49,7 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
     phase
   end
 
-  def render? = @status.present?
+  def render? = @status.present? && edit_enabled?
 
   private
 

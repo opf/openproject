@@ -43,26 +43,24 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
     page
   end
 
-  it "renders component wrapper" do
-    id = "projects-phase-status-button-component-#{phase.id}"
-    expect(subject).to have_xpath "//*[@id='#{id}']", count: 1
+  shared_examples "does not render" do
+    it "renders nothing" do
+      subject
+
+      expect(rendered_content).to be_blank
+      expect(page).to have_no_element id: "projects-phase-status-button-component-#{phase.id}"
+      expect(page).to have_no_button
+      expect(page).to have_no_element "action-menu"
+    end
   end
 
   context "when the user cannot edit project phases" do
-    it "renders a disabled button" do
-      expect(subject).to have_button "Open", disabled: true
-    end
-
-    it "does not render a Primer ActionMenu" do
-      expect(subject).not_to have_element "action-menu"
-    end
+    include_examples "does not render"
 
     context "with a status other than the default" do
       let(:phase_attributes) { { status: :completed } }
 
-      it "renders a disabled button showing that status" do
-        expect(subject).to have_button "Completed", disabled: true
-      end
+      include_examples "does not render"
     end
 
     context "when the user can only edit project attributes, not phases" do
@@ -72,9 +70,7 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
         end
       end
 
-      it "renders a disabled button" do
-        expect(subject).to have_button "Open", disabled: true
-      end
+      include_examples "does not render"
     end
   end
 
@@ -85,14 +81,26 @@ RSpec.describe Projects::PhaseStatusButtonComponent, type: :component do
       end
     end
 
-    context "with the default status" do
+    context "when the phase has no known status" do
+      before do
+        allow(Projects::PhaseStatuses).to receive(:find).with(phase.status).and_return(nil)
+      end
+
+      include_examples "does not render"
+    end
+
+    it "renders component wrapper" do
+      expect(subject).to have_element id: "projects-phase-status-button-component-#{phase.id}", count: 1
+    end
+
+        context "with the default status" do
       it "renders an enabled button for the open status" do
         expect(subject).to have_button "Open", disabled: false
       end
 
       it "renders a Primer ActionMenu (single variant)" do
         expect(subject).to have_element "action-menu", "data-select-variant": "none"
-        expect(subject).to have_element "action-menu", class: "op-status-button"
+        expect(subject).to have_test_selector "phase-status-action-menu-#{phase.id}"
       end
 
       it "renders one menu item per status and marks the current one" do
