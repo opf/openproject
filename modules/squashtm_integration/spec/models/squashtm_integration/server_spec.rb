@@ -71,6 +71,14 @@ RSpec.describe SquashTMIntegration::Server do
     end
   end
 
+  it "rejects a second server at the database level when the validation is bypassed" do
+    create(:squashtm_server)
+
+    expect do
+      described_class.transaction(requires_new: true) { build(:squashtm_server).save!(validate: false) }
+    end.to raise_error(ActiveRecord::RecordNotUnique)
+  end
+
   it "allows only one server" do
     create(:squashtm_server)
 

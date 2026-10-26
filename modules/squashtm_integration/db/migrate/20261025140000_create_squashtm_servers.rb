@@ -34,6 +34,8 @@ class CreateSquashTMServers < ActiveRecord::Migration[8.1]
       t.text :api_token, null: false
 
       t.timestamps
+
+      t.index "(1)", unique: true, name: "index_squashtm_servers_singleton"
     end
   end
 end

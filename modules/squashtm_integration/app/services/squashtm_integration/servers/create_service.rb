@@ -30,6 +30,17 @@
 module SquashTMIntegration
   module Servers
     class CreateService < ::BaseServices::Create
+      protected
+
+      # The singleton validation cannot stop two concurrent creates, only the unique index can.
+      def persist(service_result)
+        ActiveRecord::Base.transaction(requires_new: true) { super }
+      rescue ActiveRecord::RecordNotUnique
+        service_result.result.errors.add(:base, :singleton)
+        service_result.errors = service_result.result.errors
+        service_result.success = false
+        service_result
+      end
     end
   end
 end
