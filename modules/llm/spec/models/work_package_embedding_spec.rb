@@ -32,18 +32,18 @@ require_module_spec_helper
 
 RSpec.describe WorkPackageEmbedding do
   describe ".vector_literal" do
+    it "converts an array of numbers to the string representation of a vector" do
+      literal = described_class.vector_literal(Array.new(described_class::DIMENSIONS, 0.1))
+
+      expect(JSON.parse(literal)).to all(eq(0.1))
+    end
+
     it "formats the vector as a pgvector literal zero-padded to the column width" do
       padding = Array.new(described_class::DIMENSIONS - 3, "0.0")
       values = ["1.0", "0.5", "-2.0", *padding].join(",")
       expected = "[#{values}]"
 
       expect(described_class.vector_literal([1, 0.5, -2])).to eq(expected)
-    end
-
-    it "does not pad a vector that already has the column width" do
-      literal = described_class.vector_literal(Array.new(described_class::DIMENSIONS, 0.1))
-
-      expect(JSON.parse(literal)).to all(eq(0.1))
     end
 
     it "raises on vectors wider than the column" do

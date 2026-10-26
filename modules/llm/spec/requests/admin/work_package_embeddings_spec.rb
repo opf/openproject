@@ -81,7 +81,7 @@ RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request
       end
     end
 
-    context "without a default embedding model" do
+    context "without selected model for seamantic search and without default embedding model" do
       let!(:connection) { create(:llm_connection, :with_models) }
 
       before { login_as create(:admin) }
