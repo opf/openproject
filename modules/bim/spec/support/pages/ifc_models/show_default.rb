@@ -104,11 +104,11 @@ module Pages
       end
 
       def page_shows_a_refresh_button(visible)
-        expect(page).to have_conditional_selector(visible, :button, I18n.t("js.bcf.refresh_work_package"))
+        expect(page).to have_conditional_selector(visible, :button, accessible_name: I18n.t("js.bcf.refresh_work_package"))
       end
 
       def click_refresh_button
-        click_on I18n.t("js.bcf.refresh_work_package")
+        click_on accessible_name: I18n.t("js.bcf.refresh_work_package")
       end
 
       def switch_view(value)
