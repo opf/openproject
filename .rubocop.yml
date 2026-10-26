@@ -356,6 +356,7 @@ RSpec/SpecFilePathFormat:
     OAuthClients: oauth_clients
     XWiki: xwiki
     XWikiProviders: xwiki_providers
+    SquashTMIntegration: squashtm_integration
   EnforcedInflector: active_support
   IgnoreMethods: true
 

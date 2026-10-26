@@ -214,6 +214,11 @@ PATH
     openproject-resource_management (1.0.0)
 
 PATH
+  remote: modules/squashtm_integration
+  specs:
+    openproject-squashtm_integration (1.0.0)
+
+PATH
   remote: modules/storages
   specs:
     openproject-storages (1.0.0)
@@ -1725,6 +1730,7 @@ DEPENDENCIES
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
+  openproject-squashtm_integration!
   openproject-storages!
   openproject-team_planner!
   openproject-token (~> 8.13.0)
@@ -2112,6 +2118,7 @@ CHECKSUMS
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
+  openproject-squashtm_integration (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)
   openproject-token (8.13.0) sha256=b9f570200021db72a1b74b88af756552b12c830db22641725dba9d7fd2a942d0
