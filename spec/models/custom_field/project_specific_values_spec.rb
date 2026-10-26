@@ -275,6 +275,19 @@ RSpec.describe CustomField::ProjectSpecificValues do
           expect(visible_values).to contain_exactly(option_a, option_b)
         end
 
+        context "with a work package of a project the user is not a member of shared with the user" do
+          before do
+            create(:work_package_member,
+                   entity: create(:work_package, project: foreign_project, type:),
+                   user:,
+                   roles: [create(:view_work_package_role)])
+          end
+
+          it "also returns the options allowed in the project of the shared work package" do
+            expect(visible_values).to contain_exactly(option_a, option_b, option_c)
+          end
+        end
+
         context "for an admin" do
           let(:user) { create(:admin) }
 

@@ -49,7 +49,10 @@ module CustomField::ProjectSpecificValues
   def visible_values_for(user)
     return restrictable_values if user.admin?
 
-    usable_values_in_any(Project.allowed_to(user, :view_work_packages).with_available_custom_fields(id))
+    projects = Project.where(id: Project.allowed_to(user, :view_work_packages))
+                      .or(Project.where(id: WorkPackage.visible(user).select(:project_id)))
+
+    usable_values_in_any(projects.with_available_custom_fields(id))
   end
 
   private
