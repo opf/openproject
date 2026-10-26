@@ -73,6 +73,8 @@ export interface KeyboardNavigation {
   onCellEnter:(position:FocusPosition) => boolean;
   /** Records whether focus is inside the table before a mutation replaces or hides its rows. */
   captureOwnership():void;
+  /** Keeps the return path open when an editor registers an overlay that already holds focus. */
+  adoptOverlay(overlay:HTMLElement):void;
 }
 
 interface RenderedRows {
@@ -220,7 +222,8 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
   }
 
   public captureOwnership():void {
-    const inside = insideGrid(this.table.scrollContainer, document.activeElement);
+    const active = document.activeElement;
+    const inside = insideGrid(this.table.scrollContainer, active) || this.table.editing.gridFieldOwning(active) !== null;
     if (this.capturing || this.table.hasPendingRender) {
       this.owned ||= inside;
     } else {
@@ -230,6 +233,12 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     if (!this.capturing) {
       this.capturing = true;
       queueMicrotask(() => { this.capturing = false; });
+    }
+  }
+
+  public adoptOverlay(overlay:HTMLElement):void {
+    if (overlay.contains(document.activeElement)) {
+      this.focusLeftTable = false;
     }
   }
 

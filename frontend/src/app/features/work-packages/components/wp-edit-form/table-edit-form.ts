@@ -168,7 +168,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       });
   }
 
-  public reset(fieldName:string, focus?:boolean) {
+  public reset(fieldName:string, focus?:boolean, userEnded = false, closing?:EditFieldHandler) {
     if (this.table.destroyed) return;
     const cell = this.findContainer(fieldName);
     const td = this.findCell(fieldName)!;
@@ -179,8 +179,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       this.cellBuilder.refresh(cell, this.resource, fieldName);
       td.classList.remove(editModeClassName);
 
-      if (focus) {
-        this.returnFocusFrom(cell);
+      if (focus || userEnded) {
+        this.returnFocusFrom(cell, focus, closing);
       }
     }
 
@@ -282,12 +282,12 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     return origin;
   }
 
-  private returnFocusFrom(container:HTMLElement):void {
+  private returnFocusFrom(container:HTMLElement, focus:boolean|undefined, closing?:EditFieldHandler):void {
     const navigation = this.table.keyboardNavigation;
     if (!navigation) {
-      this.FocusHelper.focus(container);
+      if (focus) this.FocusHelper.focus(container);
     } else if (this.origin) {
-      navigation.returnFocus(this.origin);
+      navigation.returnFocus(this.origin, closing);
     }
   }
 

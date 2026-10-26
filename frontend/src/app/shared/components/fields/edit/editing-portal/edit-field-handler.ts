@@ -157,7 +157,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Close the field, resetting it with its display value.
    */
-  public abstract deactivate(focus:boolean):void;
+  public abstract deactivate(focus:boolean, userEnded?:boolean):void;
 
   /**
    * Returns whether the field has been changed
