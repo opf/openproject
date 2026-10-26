@@ -33,20 +33,20 @@ module WorkPackageTypes
       class TypesDialogComponent < ApplicationComponent
         include Translatable
         include OpPrimer::ComponentHelpers
+        include OpTurbo::Streamable
         include WorkPackageTypes::VariantRoutes
 
-        def initialize(record:, model_class:, variants:, label:)
+        def initialize(record:, model_class:, variants:)
           super()
 
           @record = record
           @model_class = model_class
           @variants = variants
-          @label = label
         end
 
         private
 
-        attr_reader :record, :model_class, :variants, :label
+        attr_reader :record, :model_class, :variants
 
         def types = variants.select(&:is_default_variant?)
 

@@ -42,7 +42,9 @@ module WorkPackageTypes
         def types_and_variants
           return dash if variants.empty?
 
-          render(TypesDialogComponent.new(record:, model_class:, variants:, label: types_and_variants_label))
+          render(Primer::Beta::Link.new(href: types_dialog_path, data: { controller: "async-dialog" })) do
+            types_and_variants_label
+          end
         end
 
         def projects
@@ -94,6 +96,8 @@ module WorkPackageTypes
         def project_count
           @project_count ||= variants.flat_map { |variant| variant.projects.map(&:id) }.uniq.size
         end
+
+        def types_dialog_path = helpers.polymorphic_path(record, action: :types_dialog)
 
         def projects_filter_path
           filters = [{ type_variant_id: { operator: "=", values: variants.map(&:id) } }].to_json
