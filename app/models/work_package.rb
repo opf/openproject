@@ -500,6 +500,15 @@ class WorkPackage < ApplicationRecord
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
 
+  # closure_tree 9.8 keeps its advisory lock until the outermost transaction commits.
+  # In a savepoint, it releases the lock after each hierarchy change. Use this block for each
+  # work package in a long transaction. If you do not, all work package creates, parent changes
+  # and deletes wait until that transaction commits.
+  # https://github.com/ClosureTree/closure_tree/commit/b4eb3df
+  def self.with_hierarchy_savepoint(&)
+    transaction(requires_new: true, &)
+  end
+
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
     if work_package.project_id && work_package.type_id
