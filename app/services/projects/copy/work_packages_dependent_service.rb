@@ -91,16 +91,20 @@ module Projects::Copy
     def copy_work_package(source_work_package, parent_id, user_cf_ids)
       overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
 
-      service_call = WorkPackages::CopyService
-        .new(user:,
-             work_package: source_work_package,
-             contract_class: WorkPackages::CopyProjectContract)
-        .with_state(bulk_duplicate_in_progress: true)
-        .call(
-          copy_attachments: copy_attachments?,
-          copy_share_members: copy_shares?,
-          **overrides
-        )
+      service_call = nil
+
+      # Create a new savepoint when copying this work package
+      # Otherwise, the closure_tree gem will use an advisory lock, effectively locking
+      # all work package creates, parent write, etc. until the entire process (e.g., a project copy) is done.
+      #
+      # closure_tree 9.8 keeps its advisory lock until the outermost transaction commits.
+      # In a savepoint, it releases the lock after each work package. Regression found in release 17.9.
+      # https://github.com/ClosureTree/closure_tree/commit/b4eb3df
+      WorkPackage.transaction(requires_new: true) do
+        service_call = call_copy_service(source_work_package, overrides)
+
+        raise ActiveRecord::Rollback if service_call.failure?
+      end
 
       if service_call.success?
         service_call.result
@@ -113,6 +117,19 @@ module Projects::Copy
 
         nil
       end
+    end
+
+    def call_copy_service(source_work_package, overrides)
+      WorkPackages::CopyService
+        .new(user:,
+             work_package: source_work_package,
+             contract_class: WorkPackages::CopyProjectContract)
+        .with_state(bulk_duplicate_in_progress: true)
+        .call(
+          copy_attachments: copy_attachments?,
+          copy_share_members: copy_shares?,
+          **overrides
+        )
     end
 
     def copy_work_packages_relations(to_copy, work_packages_map)
