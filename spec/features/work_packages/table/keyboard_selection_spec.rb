@@ -56,6 +56,33 @@ RSpec.describe "Work package table keyboard selection", :js do
     end
   end
 
+  shared_examples "cell interaction preserves the selection anchor" do |steps = 1|
+    let(:range_steps) { steps }
+
+    it "keeps membership and anchor through an unchanged edit and control walk" do
+      wp_table.focus_row_by_keyboard(listed.first)
+      wp_table.press_keys(%i[shift space])
+      expect_selection(listed.first)
+      wp_table.focus_cell_by_keyboard(listed.second, :subject)
+      wp_table.press_keys(:enter)
+      field = wp_table.edit_field(listed.second, :subject)
+      field.expect_active!
+      wp_table.press_keys(:enter)
+      field.expect_inactive!
+      expect_selection(listed.first)
+
+      wp_table.press_keys(:tab)
+      wp_table.expect_focus_on_control(listed.second, "Open details view")
+      wp_table.press_keys(:escape)
+      wp_table.expect_focus_on_cell(listed.second, :subject)
+      expect_selection(listed.first)
+      wp_table.focus_row_by_keyboard(listed.second)
+      range_steps.times { wp_table.press_keys(%i[shift down]) }
+      wp_table.expect_focus_on_row(listed.third)
+      expect_selection(*listed.first(3))
+    end
+  end
+
   context "in a flat table" do
     let!(:alpha) { create(:work_package, project:, subject: "Alpha task") }
     let!(:bravo) { create(:work_package, project:, subject: "Bravo task") }
@@ -73,6 +100,8 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.expect_work_package_order(*listed)
       wp_table.expect_inline_create_button
     end
+
+    include_examples "cell interaction preserves the selection anchor"
 
     # Backlogs counterpart: modules/backlogs/spec/features/work_packages/batch_selection_spec.rb:154
     # Divergence: the table toggles with Shift+Space, Backlogs with plain Space.
@@ -419,6 +448,8 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.expect_inline_create_button
     end
 
+    include_examples "cell interaction preserves the selection anchor", 3
+
     it "passes Shift+ArrowDown through sums rows and group headers without changing the range" do
       wp_table.focus_row_by_keyboard(alpha)
       wp_table.press_keys(%i[shift space], %i[shift down])
@@ -495,6 +526,7 @@ RSpec.describe "Work package table keyboard selection", :js do
     let!(:parent) { create(:work_package, project:, subject: "Alpha parent") }
     let!(:child) { create(:work_package, project:, parent:, subject: "Bravo child") }
     let!(:sibling) { create(:work_package, project:, subject: "Charlie sibling") }
+    let(:listed) { [parent, child, sibling] }
     let!(:query) do
       create(:query, user:, project:, column_names: %w[id subject],
                      sort_criteria: [%w[subject asc]], show_hierarchies: true)
@@ -504,6 +536,8 @@ RSpec.describe "Work package table keyboard selection", :js do
       wp_table.visit_query(query)
       wp_table.expect_work_package_order(parent, child, sibling)
     end
+
+    include_examples "cell interaction preserves the selection anchor"
 
     it "keeps focus on the work package after a menu action re-renders the table" do
       wp_table.focus_row_by_keyboard(child)

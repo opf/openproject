@@ -117,6 +117,44 @@ RSpec.describe "inline create work package", :js do
         # Expect no inline create open
         expect(page).to have_no_css(".wp-inline-create-row")
       end
+
+      it "keeps focus on the invalid editor and returns cancel to Create" do
+        wp_table.expect_work_package_listed(existing_wp)
+
+        wp_table.click_inline_create
+        subject_field = wp_table.edit_field(nil, :subject)
+        subject_field.expect_active!
+        subject_field.set_value ""
+        subject_field.save!
+
+        wp_table.expect_toast(type: :error, message: "Subject can't be blank.")
+        subject_field.expect_error
+        expect(page).to have_focus_on("#wp-new-inline-edit--field-subject")
+
+        subject_field.cancel_by_escape
+
+        expect(page).to have_no_css(".wp-inline-create-row")
+        expect(page).to have_button("Create new work package", focused: true)
+      end
+
+      it "closes an inline-create dropdown with the first Escape" do
+        wp_table.expect_work_package_listed(existing_wp)
+
+        wp_table.click_inline_create
+        type_field = wp_table.edit_field(nil, :type)
+        type_field.activate!
+        type_field.openSelectField
+        expect(page).to have_css(".ng-dropdown-panel")
+
+        wp_table.press_keys(:escape)
+        expect(page).to have_no_css(".ng-dropdown-panel")
+        expect(page).to have_css(".wp-inline-create-row")
+        type_field.expect_active!
+
+        wp_table.press_keys(:escape)
+        expect(page).to have_no_css(".wp-inline-create-row")
+        expect(page).to have_button("Create new work package", focused: true)
+      end
     end
 
     context "when user may not create work packages" do
