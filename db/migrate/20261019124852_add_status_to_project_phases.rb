@@ -29,9 +29,12 @@
 
 class AddStatusToProjectPhases < ActiveRecord::Migration[8.1]
   def change
-    add_column :project_phases, :status, :integer, null: false, default: 0
-    add_column :project_phase_journals, :status, :integer, null: false, default: 0
+    add_column :project_phases, :status, :string, null: false, default: "open"
+    add_column :project_phase_journals, :status, :string, null: false, default: "open"
 
     add_index :project_phases, :status
+
+    add_check_constraint :project_phases, "status IN ('open', 'in_progress', 'completed')",
+                          name: "project_phases_status_valid"
   end
 end

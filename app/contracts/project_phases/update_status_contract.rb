@@ -31,6 +31,6 @@ module ProjectPhases
   class UpdateStatusContract < BaseContract
     delegate :project, to: :model
 
-    def writable_attributes = %w[status]
+    attribute :status
   end
 end
