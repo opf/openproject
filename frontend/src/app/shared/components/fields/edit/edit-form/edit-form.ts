@@ -191,7 +191,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * Save the active changeset.
    * @return {any}
    */
-  public async submit():Promise<T> {
+  public async submit(_submittedField?:string):Promise<T> {
     const change = this.change;
     const resource = this.resource;
     if (change.isEmpty() && !isNewResource(resource)) {

@@ -407,17 +407,17 @@ describe('TableEditForm origin', () => {
     const subject = harness.row('1').querySelector<HTMLTableCellElement>('td.subject')!;
     const index = Array.from(harness.row('1').cells).filter((cell) => cell.classList.contains('wp-table--navigable-cell')).indexOf(subject);
 
-    expect(form.origin).toBeNull();
+    expect(form.originFor('subject')).toBeNull();
     fireEvent.mouseDown(subject, { button: 0 });
-    await form.activate('subject');
+    await form.activate('subject', false, true);
 
     expect(index).toBeGreaterThan(-1);
-    expect(form.origin).toMatchObject({ cell: index });
+    expect(form.originFor('subject')).toMatchObject({ cell: index });
     harness.table.keyboardNavigation!.recordPosition({ key: 'header', cell: 0, desiredColumn: 0 });
-    expect(form.origin).toMatchObject({ cell: index });
+    expect(form.originFor('subject')).toMatchObject({ cell: index });
 
     form.closeEditFields();
-    expect(form.origin).toBeNull();
+    expect(form.originFor('subject')).toBeNull();
   });
 
   describe('with a remembered position elsewhere', () => {
@@ -437,14 +437,16 @@ describe('TableEditForm origin', () => {
       return harness.table.editing.forms[id];
     };
 
-    it('an editor activated programmatically returns focus to its own cell on cancel', async () => {
+    it('an editor activated programmatically has no origin on cancel', async () => {
       await mountTwoRows();
-      const handler = await formFor('1').activate('subject');
+      const form = formFor('1');
+      const handler = await form.activate('subject');
       handler!.focus();
 
       handler!.handleUserCancel();
 
-      expect(harness.row('1').querySelector('td.subject')).toHaveFocus();
+      expect(form.originFor('subject')).toBeNull();
+      expect(document.body).toHaveFocus();
     });
 
     it('an editor in the inline-create row has no origin', async () => {
@@ -456,7 +458,7 @@ describe('TableEditForm origin', () => {
 
       expect(handler).toBeDefined();
       expect(row).toContainElement(within(row).getByRole('textbox'));
-      expect(form.origin).toBeNull();
+      expect(form.originFor('subject')).toBeNull();
     });
 
     it('a failed activation leaves no origin behind', async () => {
@@ -467,7 +469,7 @@ describe('TableEditForm origin', () => {
 
       await expect(form.activate('subject')).resolves.toBeUndefined();
 
-      expect(form.origin).toBeNull();
+      expect(form.originFor('subject')).toBeNull();
       vi.restoreAllMocks();
     });
   });
@@ -488,12 +490,12 @@ describe('TableEditForm focus return', () => {
     await harness.render();
   };
   const subjectCell = (id = '1') => harness.row(id).querySelector<HTMLTableCellElement>('td.subject')!;
-  const openEditor = async (id = '1') => {
-    const display = subjectCell(id).querySelector<HTMLElement>('.inline-edit--display-field')!;
+  const openEditor = async (id = '1', fieldName = 'subject') => {
+    const display = harness.row(id).querySelector<HTMLElement>(`td.${fieldName} .inline-edit--display-field`)!;
     fireEvent.mouseDown(display, { button: 0 });
     fireEvent.click(display);
-    await waitFor(() => expect(within(harness.row(id)).getByRole('textbox')).toHaveFocus());
-    return harness.table.editing.forms[id].activeFields.subject;
+    await waitFor(() => expect(within(harness.row(id).querySelector(`td.${fieldName}`)!).getByRole('textbox')).toHaveFocus());
+    return harness.table.editing.forms[id].activeFields[fieldName];
   };
   const saveAs = (subject:string, id = '1') => () => {
     const saved = buildWorkPackage({ id, subject });
@@ -604,6 +606,85 @@ describe('TableEditForm focus return', () => {
     expect(subjectCell()).not.toHaveFocus();
   });
 
+  it('leaves focus alone when the user moved to another row before the validation error', async () => {
+    const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
+    await mount({ editing: { save: () => save.promise } });
+    const handler = await openEditor('1');
+    const submit = vi.spyOn(harness.table.editing.forms['1'], 'submit');
+    const submission = handler.handleUserSubmit();
+    await waitFor(() => expect(submit).toHaveBeenCalled());
+    fireEvent.mouseDown(subjectCell('2'), { button: 0 });
+    subjectCell('2').focus();
+    fireEvent.mouseUp(subjectCell('2'), { button: 0 });
+    handler.setErrors(['Required']);
+
+    (harness.table.editing.forms['1'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(subjectCell('2')).toHaveFocus();
+    save.resolve({ resource: harness.table.editing.forms['1'].resource, wasNew: false });
+    await submission.catch(() => undefined);
+  });
+
+  it('leaves a control outside the table focused when a delayed validation error arrives', async () => {
+    const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
+    await mount({ editing: { save: () => save.promise } });
+    const handler = await openEditor('1');
+    const submit = vi.spyOn(harness.table.editing.forms['1'], 'submit');
+    const submission = handler.handleUserSubmit();
+    await waitFor(() => expect(submit).toHaveBeenCalled());
+    document.body.append(outside);
+    outside.focus();
+    handler.setErrors(['Required']);
+
+    (harness.table.editing.forms['1'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(outside).toHaveFocus();
+    save.resolve({ resource: harness.table.editing.forms['1'].resource, wasNew: false });
+    await submission.catch(() => undefined);
+  });
+
+  it('leaves an inline-create editor focused when a delayed validation error arrives', async () => {
+    const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
+    await mount({ editing: { save: () => save.promise } });
+    const handler = await openEditor('1');
+    const submit = vi.spyOn(harness.table.editing.forms['1'], 'submit');
+    const submission = handler.handleUserSubmit();
+    await waitFor(() => expect(submit).toHaveBeenCalled());
+    const row = harness.addInlineCreateRow();
+    const create = await harness.table.editing.forms[HAL_NEW_RESOURCE_ID].activate('subject');
+    create!.focus();
+    const input = within(row).getByRole('textbox');
+    expect(input).toHaveFocus();
+    handler.setErrors(['Required']);
+
+    (harness.table.editing.forms['1'] as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(input).toHaveFocus();
+    save.resolve({ resource: harness.table.editing.forms['1'].resource, wasNew: false });
+    await submission.catch(() => undefined);
+  });
+
+  it('leaves a newer row focused when validation opens a field without an origin', async () => {
+    const save = deferred<{ resource:WorkPackageResource; wasNew:boolean }>();
+    await mount({ columns: ['id', 'subject', 'location'], editing: { fields: ['subject', 'location'], save: () => save.promise } });
+    const handler = await openEditor('1');
+    const submit = vi.spyOn(harness.table.editing.forms['1'], 'submit');
+    const submission = handler.handleUserSubmit();
+    await waitFor(() => expect(submit).toHaveBeenCalled());
+    fireEvent.mouseDown(subjectCell('2'), { button: 0 });
+    subjectCell('2').focus();
+    fireEvent.mouseUp(subjectCell('2'), { button: 0 });
+    const form = harness.table.editing.forms['1'];
+    const extra = (await form.activate('location'))!;
+    extra.setErrors(['Required']);
+
+    (form as unknown as { focusOnFirstError():void }).focusOnFirstError();
+
+    expect(subjectCell('2')).toHaveFocus();
+    save.resolve({ resource: form.resource, wasNew: false });
+    await submission.catch(() => undefined);
+  });
+
   describe('while the save is pending', () => {
     const hierarchy:Partial<TableHarnessOptions> = {
       workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2', ancestors: [{ id: '1' }] }],
@@ -636,6 +717,31 @@ describe('TableEditForm focus return', () => {
       expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('2'), cell: 1 });
     });
 
+    it('records an AT-adopted position as the newer user position', async () => {
+      const complete = await pendingSave();
+      document.body.append(outside);
+      outside.focus();
+      subjectCell('2').focus();
+      subjectCell('2').blur();
+
+      await complete();
+
+      expect(subjectCell()).not.toHaveFocus();
+      expect(harness.table.keyboardNavigation!.position).toMatchObject({ key: wpOccurrenceKey('2'), cell: 1 });
+    });
+
+    it('does not return or blur a newer owner when the table is destroyed during save', async () => {
+      const complete = await pendingSave();
+      document.body.append(outside);
+      outside.focus();
+      harness.table.destroy();
+
+      await expect(complete()).resolves.toBeUndefined();
+
+      expect(outside).toHaveFocus();
+      expect(subjectCell()).not.toHaveFocus();
+    });
+
     it('does not return focus when the user moved to another cell of the same row', async () => {
       const complete = await pendingSave();
       moveByPointer(harness.row('1').querySelector<HTMLTableCellElement>('td.id')!);
@@ -660,23 +766,61 @@ describe('TableEditForm focus return', () => {
     });
   });
 
-  it('saving a form whose second field opened by click returns focus to the first field\'s cell', async () => {
+  it('saving from the re-engaged first field returns to its cell', async () => {
     await mount({
       workPackages: [{ id: '1', attributes: { location: 'Here' } }, { id: '2' }],
       columns: ['id', 'subject', 'location'],
       editing: { fields: ['subject', 'location'], save: saveAs('Changed') },
     });
     const handler = await openEditor();
-    const location = harness.row('1').querySelector<HTMLElement>('td.location .inline-edit--display-field')!;
-    fireEvent.mouseDown(location, { button: 0 });
-    fireEvent.click(location);
-    await waitFor(() => expect(harness.table.editing.forms['1'].activeFields.location).toBeDefined());
+    const second = await openEditor('1', 'location');
+    const input = within(harness.row('1').querySelector('td.subject')!).getByRole('textbox');
+    fireEvent.mouseDown(input, { button: 0 });
+    input.focus();
+    fireEvent.mouseUp(input, { button: 0 });
 
     await handler.handleUserSubmit();
 
+    expect(second).toBeDefined();
     expect(subjectCell()).toHaveAttribute('tabindex', '0');
     expect(harness.table.scrollContainer.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
     expect(subjectCell()).toHaveFocus();
+    expect(handler).toBeDefined();
+  });
+
+  it('a stale first-field submit does not steal focus from the second field', async () => {
+    await mount({
+      workPackages: [{ id: '1', attributes: { location: 'Here' } }, { id: '2' }],
+      columns: ['id', 'subject', 'location'],
+      editing: { fields: ['subject', 'location'], save: saveAs('Changed') },
+    });
+    const first = await openEditor();
+    await openEditor('1', 'location');
+    const locationCell = harness.row('1').querySelector('td.location');
+
+    await first.handleUserSubmit();
+
+    expect(locationCell).toHaveAttribute('tabindex', '0');
+    expect(subjectCell()).not.toHaveFocus();
+  });
+
+  it('cancelling and saving the second field returns to its own origin', async () => {
+    await mount({
+      workPackages: [{ id: '1', attributes: { location: 'Here' } }, { id: '2' }],
+      columns: ['id', 'subject', 'location'],
+      editing: { fields: ['subject', 'location'], save: saveAs('Changed') },
+    });
+    await openEditor();
+    const second = await openEditor('1', 'location');
+
+    second.handleUserCancel();
+    expect(harness.row('1').querySelector('td.location')).toHaveFocus();
+
+    const reopened = await openEditor('1', 'location');
+    await reopened.handleUserSubmit();
+
+    expect(reopened).toBeDefined();
+    expect(harness.row('1').querySelector('td.location')).toHaveFocus();
   });
 
   it('reset with focus=false returns nothing', async () => {

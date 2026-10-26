@@ -52,6 +52,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
+import { insideGrid } from '../wp-fast-table/handlers/state/keyboard/roving-tabindex';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -69,10 +70,13 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   @LazyInject() wpListService:WorkPackagesListService;
 
-  /** The focus position of the cell the first active field was opened in; null outside rendered occurrences. */
-  public origin:FocusPosition|null = null;
+  private readonly origins = new Map<string, FocusPosition>();
+
+  private readonly userActivations = new Set<string>();
 
   private submittedOrigin:FocusPosition|null = null;
+
+  private submittedPosition:FocusPosition|null = null;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector, this.table.configuration);
@@ -115,14 +119,27 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     return this.rowContainer?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${fieldName}`);
   }
 
-  public override async activate(fieldName:string, noWarnings = false):Promise<void|EditFieldHandler> {
+  public override async activate(fieldName:string, noWarnings = false, userInitiated = false):Promise<void|EditFieldHandler> {
+    if (userInitiated) {
+      this.userActivations.add(fieldName);
+    }
+
     try {
       return await super.activate(fieldName, noWarnings);
     } finally {
+      this.userActivations.delete(fieldName);
       if (!this.hasActiveFields()) {
-        this.origin = null;
+        this.origins.clear();
       }
     }
+  }
+
+  public originFor(fieldName:string):FocusPosition|null {
+    return this.origins.get(fieldName) ?? null;
+  }
+
+  public engageOrigin(fieldName:string):FocusPosition|null {
+    return this.originOf(fieldName);
   }
 
   public activateField(form:EditForm, schema:IFieldSchema, fieldName:string, errors:string[]):Promise<EditFieldHandler> {
@@ -130,10 +147,8 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       .then((cell) => {
         this.assertActivationActive();
         this.table.editing.forms[this.workPackageId] ??= this;
-        if (!this.hasActiveFields()) {
-          this.origin = this.originOf(fieldName);
-        } else if (this.origin) {
-          this.table.keyboardNavigation?.recordPosition(this.origin);
+        if (this.userActivations.delete(fieldName)) {
+          this.originOf(fieldName);
         }
         // Forcibly set the width since the edit field may otherwise
         // be given more width. Thereby preserve a minimum width of 150.
@@ -180,18 +195,17 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       td.classList.remove(editModeClassName);
 
       if (focus || userEnded) {
-        this.returnFocusFrom(cell, focus, closing);
+        this.returnFocusFrom(cell, fieldName, focus, closing);
       }
     }
 
-    if (!this.hasActiveFields()) {
-      this.origin = null;
-    }
+    this.origins.delete(fieldName);
   }
 
-  public override async submit():Promise<WorkPackageResource> {
-    const origin = this.origin;
-    const resource = await super.submit();
+  public override async submit(fieldName?:string):Promise<WorkPackageResource> {
+    const origin = fieldName ? this.originFor(fieldName) : null;
+    this.submittedPosition = this.table.keyboardNavigation?.position ?? null;
+    const resource = await super.submit(fieldName);
     this.submittedOrigin = origin;
     return resource;
   }
@@ -215,10 +229,33 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   protected focusOnFirstError():void {
     if (this.table.destroyed) return;
-    // Focus the first field that is erroneous
-    this.table.tableAndTimelineContainer
-      ?.querySelector<HTMLElement>(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
-      ?.focus();
+    const element = this.rowContainer
+      ?.querySelector<HTMLElement>(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`);
+    if (!element) return;
+
+    const handler = Object.values(this.activeFields).find((field) => field.element?.contains(element));
+    if (!handler) {
+      element.focus();
+      return;
+    }
+
+    if (!this.validationMayFocus()) return;
+
+    this.engageOrigin(handler.fieldName);
+    this.table.keyboardNavigation?.engageEditor?.(handler);
+    handler.focus();
+  }
+
+  private validationMayFocus():boolean {
+    const current = this.table.keyboardNavigation?.position ?? null;
+    const submitted = this.submittedPosition;
+    if (submitted && current && (current.key !== submitted.key || current.cell !== submitted.cell)) return false;
+
+    const active = document.activeElement;
+    return !active
+      || active === document.body
+      || insideGrid(this.table.scrollContainer, active)
+      || Object.values(this.activeFields).some((field) => field.owns(active));
   }
 
   /**
@@ -277,17 +314,19 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
     const origin = navigation.positionOfCell(td);
     if (origin) {
+      this.origins.set(fieldName, origin);
       navigation.recordPosition(origin);
     }
     return origin;
   }
 
-  private returnFocusFrom(container:HTMLElement, focus:boolean|undefined, closing?:EditFieldHandler):void {
+  private returnFocusFrom(container:HTMLElement, fieldName:string, focus:boolean|undefined, closing?:EditFieldHandler):void {
     const navigation = this.table.keyboardNavigation;
+    const origin = this.originFor(fieldName);
     if (!navigation) {
       if (focus) this.FocusHelper.focus(container);
-    } else if (this.origin) {
-      navigation.returnFocus(this.origin, closing);
+    } else if (origin) {
+      navigation.returnFocus(origin, closing);
     }
   }
 
