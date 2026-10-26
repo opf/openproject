@@ -34,7 +34,7 @@ RSpec.describe "group memberships through project members page", :js do
   shared_let(:alice) { create(:user, firstname: "Alice", lastname: "Wonderland") }
   shared_let(:bob) { create(:user, firstname: "Bob", lastname: "Bobbit") }
 
-  shared_let(:alpha) { create(:project_role, name: "alpha", permissions: [:manage_members]) }
+  shared_let(:alpha) { create(:project_role, name: "alpha", permissions: %i[manage_members view_members]) }
   shared_let(:beta) { create(:project_role, name: "beta") }
 
   let(:group) { create(:group, lastname: "group1") }
