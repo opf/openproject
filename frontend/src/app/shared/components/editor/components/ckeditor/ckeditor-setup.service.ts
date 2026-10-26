@@ -83,13 +83,13 @@ export class CKEditorSetupService {
    *
    * @param {HTMLElement} wrapper
    * @param {ICKEditorContext} context
-   * @param {string|null} initialData
+   * @param {string} initialData
    * @returns {Promise<ICKEditorInstance>}
    */
   public async create(
     wrapper:HTMLElement,
     context:ICKEditorContext,
-    initialData:string|null = null,
+    initialData = '',
   ):Promise<ICKEditorInstance> {
     // Load the bundle and the matching locale, if found.
     await this.prefetch;
@@ -157,7 +157,7 @@ export class CKEditorSetupService {
     });
   }
 
-  private createConfig(context:ICKEditorContext, initialData:string|null):OpenProjectEditorConfig {
+  private createConfig(context:ICKEditorContext, initialData:string):OpenProjectEditorConfig {
     const uiLocale = this.loadedLocale;
     const contentLanguage = context.options?.rtl ? 'ar' : 'en';
     const macros = this.resolveMacros(context.macros);
@@ -167,7 +167,7 @@ export class CKEditorSetupService {
       openProject: this.createContext(resolvedContext),
       removePlugins: context.removePlugins,
       root: {
-        initialData: initialData ?? undefined,
+        initialData,
       },
       ui: {
         poweredBy: {
