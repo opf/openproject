@@ -89,6 +89,27 @@ RSpec.describe ITSM::InboundEmail do
     end
   end
 
+  context "with a recipient header that cannot be parsed" do
+    let(:raw) do
+      "From: jane@customer.example\r\n" \
+        "To: \"Broken <support@example\r\n" \
+        "Cc: colleague@customer.example, boss@customer.example\r\n\r\nHello"
+    end
+
+    it "keeps only the email addresses" do
+      expect(headers).to have_attributes(to_addresses: [],
+                                         cc_addresses: %w[colleague@customer.example boss@customer.example])
+    end
+  end
+
+  context "with a recipient that is not valid UTF-8" do
+    let(:raw) { "From: jane@customer.example\r\nTo: \xFFsupport@example.com\r\n\r\nHello".b }
+
+    it "replaces the invalid bytes instead of failing" do
+      expect(headers.to_addresses).to eq(["�support@example.com"])
+    end
+  end
+
   context "with header bytes that are not valid UTF-8" do
     let(:raw) { "From: jane@customer.example\r\nSubject: \xFF\xFEPrinter\r\n\r\nHello".b }
 

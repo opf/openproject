@@ -28,5 +28,6 @@
 #++
 
 require "spec_helper"
+require "net/imap"
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }

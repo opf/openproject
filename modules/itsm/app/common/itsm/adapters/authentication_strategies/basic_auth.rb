@@ -27,6 +27,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "net/imap"
+
 module ITSM
   module Adapters
     module AuthenticationStrategies
@@ -37,11 +39,15 @@ module ITSM
         end
 
         def call(imap)
-          imap.login(@credentials.username, @credentials.password)
+          imap.login(credentials.username, credentials.password)
           Success()
         rescue Net::IMAP::NoResponseError => e
           Failure(SimpleError.new(source: self.class, code: :authentication_failed, payload: e.message))
         end
+
+        private
+
+        attr_reader :credentials
       end
     end
   end

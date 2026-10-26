@@ -54,8 +54,8 @@ module ITSM
         references: Array(mail.references),
         from_address: Array(mail.from).first,
         from_name:,
-        to_addresses: Array(mail.to),
-        cc_addresses: Array(mail.cc),
+        to_addresses: email_addresses(mail.to),
+        cc_addresses: email_addresses(mail.cc),
         subject: mail.subject
       }
     end
@@ -64,6 +64,8 @@ module ITSM
       field = mail[:from]&.field
       field.display_names.first if field.is_a?(Mail::FromField)
     end
+
+    def email_addresses(addresses) = valid_utf8(Array(addresses)).select { EmailValidator.valid?(it) }
 
     def content_based_message_id = "#{Digest::SHA256.hexdigest(raw)}@openproject.invalid"
 
