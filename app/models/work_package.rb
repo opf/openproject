@@ -505,7 +505,7 @@ class WorkPackage < ApplicationRecord
   # work package in a long transaction. If you do not, all work package creates, parent changes
   # and deletes wait until that transaction commits.
   # https://github.com/ClosureTree/closure_tree/commit/b4eb3df
-  def self.with_short_hierarchy_lock(&)
+  def self.with_hierarchy_savepoint(&)
     transaction(requires_new: true, &)
   end
 

@@ -92,7 +92,7 @@ module Projects::Copy
       overrides = copy_work_package_attribute_overrides(source_work_package, parent_id, user_cf_ids)
 
       service_call = nil
-      WorkPackage.with_short_hierarchy_lock do
+      WorkPackage.with_hierarchy_savepoint do
         service_call = call_copy_service(source_work_package, overrides)
 
         raise ActiveRecord::Rollback if service_call.failure?

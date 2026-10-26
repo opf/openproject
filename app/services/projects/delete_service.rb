@@ -72,7 +72,7 @@ module Projects
 
     def destroy_all_work_packages
       model.work_packages.each do |wp|
-        WorkPackage.with_short_hierarchy_lock do
+        WorkPackage.with_hierarchy_savepoint do
           wp.reload
           wp.destroy
         end

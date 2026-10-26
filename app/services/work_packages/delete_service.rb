@@ -55,7 +55,7 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
     successors = find_successors_of_self_and_descendants(model).to_a
 
-    result = WorkPackage.with_short_hierarchy_lock { super }
+    result = WorkPackage.with_hierarchy_savepoint { super }
 
     if result.success?
       destroy_descendants(deletable, result)
@@ -68,7 +68,7 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
   def detach(detachable)
     detachable.each do |descendant|
-      result = WorkPackage.with_short_hierarchy_lock do
+      result = WorkPackage.with_hierarchy_savepoint do
         WorkPackages::UpdateService
           .new(user:, model: descendant, contract_class: EmptyContract)
           .call(parent: nil, journal_cause: Journal::CausedByWorkPackageParentDeletion.new)
@@ -82,7 +82,7 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
   def destroy_descendants(descendants, result)
     descendants.each do |descendant|
-      success = WorkPackage.with_short_hierarchy_lock { destroy(descendant.reload) }
+      success = WorkPackage.with_hierarchy_savepoint { destroy(descendant.reload) }
       result.add_dependent!(ServiceResult.new(success:, result: descendant))
     end
   end
