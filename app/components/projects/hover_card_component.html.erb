@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   flex_layout(classes: "op-project-hover-card", data: { test_selector: "project-hover-card-#{@id}" }) do |flex|
     if breadcrumb_items.present?
       flex.with_row(mb: 1) do
-        render(Primer::Beta::Breadcrumbs.new) do |breadcrumbs|
+        render(Primer::Beta::Breadcrumbs.new(data: { test_selector: "hierarchy-#{@id}" })) do |breadcrumbs|
           breadcrumb_items.each_with_index do |item, i|
             breadcrumbs.with_item(href: item[:href], font_size: :small, font_weight: i == breadcrumb_items.size - 1 ? :bold : nil) do
               render(Primer::Beta::Truncate.new) do |truncate|
@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     flex.with_row(flex_layout: true, align_items: :center) do |row|
       row.with_column(mr: 2) do
-        render(Projects::WorkspaceLabelComponent.new(project: @project))
+        render(Projects::WorkspaceLabelComponent.new(project: @project, data: { test_selector: "workspace-label-#{@id}" }))
       end
 
       if @project.archived?
@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       row.with_column do
-        render(Projects::StatusBadgeComponent.new(project: @project, size: :large, with_icon: true))
+        render(Projects::StatusBadgeComponent.new(project: @project, size: :large, with_icon: true, data: { test_selector: "status-badge-#{@id}" }))
       end
     end
   end

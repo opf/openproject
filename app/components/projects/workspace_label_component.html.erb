@@ -1,5 +1,5 @@
 <%=
-  flex_layout(align_items: :center) do |container|
+  flex_layout(align_items: :center, **@system_arguments) do |container|
     container.with_column(mr: 1) do
       render(Primer::Beta::Octicon.new(icon: icon_name, color: :muted))
     end

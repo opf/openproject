@@ -30,10 +30,11 @@
 class Projects::WorkspaceLabelComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
 
-  def initialize(project:)
+  def initialize(project:, **system_arguments)
     super
 
     @project = project
+    @system_arguments = system_arguments
   end
 
   private

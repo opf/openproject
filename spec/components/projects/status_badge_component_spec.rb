@@ -45,6 +45,16 @@ RSpec.describe Projects::StatusBadgeComponent, type: :component do
     it "renders nothing" do
       expect(rendered_component.to_s).to be_empty
     end
+
+    context "and with_icon is true" do
+      subject(:rendered_component) do
+        render_component(project:, with_icon: true)
+      end
+
+      it "still renders nothing" do
+        expect(rendered_component.to_s).to be_empty
+      end
+    end
   end
 
   context "when status code is set" do
@@ -52,6 +62,24 @@ RSpec.describe Projects::StatusBadgeComponent, type: :component do
 
     it "renders a label" do
       expect(rendered_component).to have_primer_label "Off track"
+    end
+
+    it "does not render an icon by default" do
+      expect(rendered_component).to have_no_css "svg.octicon"
+    end
+
+    context "with with_icon: true" do
+      subject(:rendered_component) do
+        render_component(project:, with_icon: true)
+      end
+
+      it "renders the label text" do
+        expect(rendered_component).to have_primer_label "Off track"
+      end
+
+      it "renders an icon inside the label" do
+        expect(rendered_component).to have_css ".Label svg.octicon"
+      end
     end
   end
 end
