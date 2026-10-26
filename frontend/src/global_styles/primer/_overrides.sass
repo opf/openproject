@@ -166,7 +166,7 @@ ul.SegmentedControl,
 
   .Banner
     @container (max-width: 543.98px)
-      grid-template-areas: 'visual message close' '.actions actions'
+      grid-template-areas: 'visual message close' '. actions actions'
       grid-template-columns: min-content 1fr min-content
       grid-template-rows: min-content min-content
 
@@ -213,6 +213,7 @@ ul.SegmentedControl,
       // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
       body.-browser-windows.-browser-firefox &
         @include keep-project-select-actions-clear-of-scrollbar
+
 
 .op-sidemenu-filterable-tree
   .TreeViewItemContentText,

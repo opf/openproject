@@ -9,7 +9,6 @@ module OpenProject::Projects
 
     def with_hierarchy
       user = FactoryBot.build_stubbed(:admin)
-      status = FactoryBot.build_stubbed(:status)
       root = FactoryBot.build_stubbed(:project, name: "Arcanos Flight Planning")
       child = FactoryBot.build_stubbed(:project, name: "Mobile app", parent: root)
       leaf = FactoryBot.build_stubbed(:project, active: false, name: "Data sources", parent: child, status_code: 1)
