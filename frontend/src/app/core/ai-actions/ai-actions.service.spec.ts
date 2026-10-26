@@ -30,6 +30,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 const halCollection = (elements:unknown[]) => ({
   _type: 'Collection',
@@ -64,11 +65,14 @@ const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemp
 describe('AiActionsService', () => {
   let service:AiActionsService;
   let httpMock:HttpTestingController;
+  let activeFeatureFlags:string[];
 
   beforeEach(() => {
+    activeFeatureFlags = ['aiTextTransformActions'];
     TestBed.configureTestingModule({
       providers: [
         AiActionsService,
+        { provide: ConfigurationService, useValue: { get activeFeatureFlags() { return activeFeatureFlags; } } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -81,6 +85,14 @@ describe('AiActionsService', () => {
   afterEach(() => httpMock.verify());
 
   describe('actionsFor', () => {
+    it('resolves to no actions without requesting any while the feature flag is off', async () => {
+      activeFeatureFlags = [];
+
+      expect(await service.actionsFor(existingWorkPackage, 'description')).toEqual([]);
+      expect(await service.actionsFor(undefined, undefined)).toEqual([]);
+      httpMock.expectNone(() => true);
+    });
+
     it('lists the actions of an existing work package ordered by position', async () => {
       const promise = service.actionsFor(existingWorkPackage, 'description');
 

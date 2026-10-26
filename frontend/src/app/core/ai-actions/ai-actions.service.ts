@@ -30,7 +30,9 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export interface IAiTextTransformAction {
   id:number;
@@ -40,7 +42,7 @@ export interface IAiTextTransformAction {
 }
 
 interface IEditorContextResource {
-  id?:string|null;
+  id:string|null;
   _type?:string;
   $links?:{
     type?:{ href?:string };
@@ -48,6 +50,7 @@ interface IEditorContextResource {
   };
 }
 
+const FEATURE_FLAG = 'aiTextTransformActions';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
 
 /**
@@ -60,7 +63,13 @@ export class AiActionsService {
 
   private pathHelper = inject(PathHelperService);
 
+  private configuration = inject(ConfigurationService);
+
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
+    if (!this.configuration.activeFeatureFlags.includes(FEATURE_FLAG)) {
+      return [];
+    }
+
     const path = this.listPath(resource, field);
 
     if (path === null) {
@@ -118,8 +127,8 @@ export class AiActionsService {
   private workPackageListPath(workPackage:IEditorContextResource):string|null {
     const paths = this.pathHelper.api.v3;
 
-    if (workPackage.id && workPackage.id !== 'new') {
-      return paths.aiTextTransformActionsByWorkPackage(workPackage.id);
+    if (!isNewResource(workPackage)) {
+      return paths.aiTextTransformActionsByWorkPackage(workPackage.id!);
     }
 
     const projectId = this.linkedId(workPackage.$links?.project?.href);
