@@ -47,9 +47,7 @@ module Grids
         # multiple times.
         return [] unless can_view_members?
 
-        return @members_by_role if @members_by_role
-
-        @members_by_role = ProjectRole
+        @members_by_role ||= ProjectRole
           .joins(:members)
           .where(members: { project_id: project.id })
           .group(:id, :name)
