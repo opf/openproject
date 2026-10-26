@@ -2852,11 +2852,6 @@ en:
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     contained_in_type: "Contained in type"
-    disable_project_specific_values:
-      button: "Apply"
-      confirmation: "I understand that any project-specific settings will be overridden"
-      description: "All values for this custom field will be available to all projects using it."
-      title: "Make all values available to all projects?"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
@@ -2911,6 +2906,24 @@ en:
       allow:
         caption: "Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value."
         label: "Manually choose which values to activate for each project"
+      block:
+        caption: "Projects using this custom field will show all values for this custom field but you can manually deactivate specific values for each project."
+        label: "Manually choose which values to deactivate for each project"
+      change:
+        allow_to_all:
+          description: "All values for this custom field will be available to all projects using it."
+          title: "Make all values available to all projects?"
+        allow_to_block:
+          description: "All values for this custom field will be available to all projects using it until you deactivate them for a project."
+          title: "Switch to deactivating values for each project?"
+        block_to_all:
+          description: "Values deactivated for projects will be available to all projects using this custom field again."
+          title: "Make all values available to all projects?"
+        block_to_allow:
+          description: "No values will be available to the projects using this custom field until you activate them for a project."
+          title: "Switch to activating values for each project?"
+        button: "Apply"
+        confirmation: "I understand that any project-specific settings will be overridden"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
     semantic_keys:

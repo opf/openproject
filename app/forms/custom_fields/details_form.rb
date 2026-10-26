@@ -216,14 +216,23 @@ module CustomFields
             checked: model.project_specific_value_restriction.nil?,
             label: I18n.t("custom_fields.project_specific_values.all.label"),
             caption: I18n.t("custom_fields.project_specific_values.all.caption"),
-            data: { input_confirmation_target: "input" }
+            data: mode_change_confirmation_data("all")
           )
           group.radio_button(
             value: "allow",
             checked: model.project_specific_value_restriction_allow?,
-            disabled: !project_specific_values_enterprise? && !model.project_specific_value_restriction_allow?,
+            disabled: mode_unavailable?("allow"),
             label: I18n.t("custom_fields.project_specific_values.allow.label"),
-            caption: I18n.t("custom_fields.project_specific_values.allow.caption")
+            caption: I18n.t("custom_fields.project_specific_values.allow.caption"),
+            data: mode_change_confirmation_data("allow")
+          )
+          group.radio_button(
+            value: "block",
+            checked: model.project_specific_value_restriction_block?,
+            disabled: mode_unavailable?("block"),
+            label: I18n.t("custom_fields.project_specific_values.block.label"),
+            caption: I18n.t("custom_fields.project_specific_values.block.caption"),
+            data: mode_change_confirmation_data("block")
           )
         end
       end
@@ -344,8 +353,27 @@ module CustomFields
       model.is_a?(WorkPackageCustomField) && %w[list hierarchy weighted_item_list].include?(model.field_format)
     end
 
+    def self.mode_change_dialog_id(from, to)
+      "project-specific-values-#{from}-to-#{to}-dialog"
+    end
+
     def project_specific_values_enterprise?
       EnterpriseToken.allows_to?(:project_specific_list_values)
+    end
+
+    def mode_unavailable?(mode)
+      !project_specific_values_enterprise? && model.project_specific_value_restriction != mode
+    end
+
+    # Changing the saved mode removes all project-specific settings, so it needs to be confirmed.
+    def mode_change_confirmation_data(mode)
+      saved_mode = model.project_specific_value_restriction_in_database
+      return {} if saved_mode.nil? || saved_mode == mode
+
+      {
+        input_confirmation_target: "input",
+        input_confirmation_dialog_id: self.class.mode_change_dialog_id(saved_mode, mode)
+      }
     end
 
     def show_is_searchable_field?

@@ -25,7 +25,7 @@
                 url: form_url,
                 method: form_method
               ) { |form| render CustomFields::DetailsForm.new(form) },
-              (disable_project_specific_values_dialog if confirm_disabling_project_specific_values?)
+              (change_project_specific_values_dialogs if confirm_changing_project_specific_values?)
             ]
           )
         end
