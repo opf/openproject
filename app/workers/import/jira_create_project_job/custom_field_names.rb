@@ -30,7 +30,7 @@
 module Import
   class JiraCreateProjectJob
     module CustomFieldNames
-      # The counter `unique_name` appends when a name is taken ahd cannot be reused (eg. int vs float type of the field)
+      # The counter `unique_name` appends when a name is taken and cannot be reused (e.g. int vs float type of the field)
       NUMBERING_SUFFIX = /\s*\(\d+\)\z/
 
       module_function
