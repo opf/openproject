@@ -37,13 +37,19 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
-import { buildQuery, buildTable, TableHarness, TableHarnessOptions } from '../../../testing/table-harness';
+import { registerContextMenu } from 'core-app/shared/components/op-context-menu/testing/register-context-menu';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
+import { internalContextMenuColumn, internalSortColumn } from '../../../builders/internal-sort-columns';
+import {
+  buildQuery, buildTable, ConsumerName, consumerConfiguration, TableHarness, TableHarnessOptions,
+} from '../../../testing/table-harness';
 import { buildGroup } from '../../../testing/work-package-fixture';
 import { wpOccurrenceKey } from '../../../rendered-occurrence-ledger';
 import { KeyboardNavigation } from './keyboard-navigation-transformer';
 import { headerRowKey, totalsRowKey } from './navigable-rows';
 import { expansionStateOf } from '../../../helpers/row-expansion';
-import { insideGrid, navigableCells } from './roving-tabindex';
+import { insideGrid, isNavigableColumn, navigableCells } from './roving-tabindex';
 
 class AnchorDisplayField extends TextDisplayField {
   public render(element:HTMLElement, displayText:string):void {
@@ -78,7 +84,7 @@ describe('KeyboardNavigationTransformer', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true, ...options.configuration },
     });
     harnesses.push(table);
     beforeRender?.(table);
@@ -373,7 +379,7 @@ describe('KeyboardNavigationTransformer', () => {
   });
 
   it('Enter on a header cell clicks its sort link; on the configuration cell clicks the button', async () => {
-    const table = await mount();
+    const table = await mount({ configuration: { columnMenuEnabled: true } });
     const [idHeader, , configurationHeader] = table.headerCells();
     const linkClicked = vi.fn((event:Event) => event.preventDefault());
     const buttonClicked = vi.fn();
@@ -1301,6 +1307,141 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(selectAll).toHaveBeenCalledTimes(1);
       expect(selectedIds(table)).toEqual(['1', '2', '3']);
+    });
+  });
+
+  describe.each<ConsumerName>(['search', 'macro', 'widget', 'queryGroup', 'bcf'])('the %s consumer', (name) => {
+    const mountConsumer = (options:Partial<TableHarnessOptions> = {}) => mount({
+      ...options,
+      configuration: { ...consumerConfiguration(name), ...options.configuration },
+    });
+
+    it('renders as many header cells as data cells', async () => {
+      const table = await mountConsumer();
+
+      expect(table.headerCells()).toHaveLength(table.row('1').cells.length);
+    });
+
+    it('leaves the first row as the only Tab stop', async () => {
+      const table = await mountConsumer();
+
+      expect(Array.from(table.container.querySelectorAll('[tabindex="0"]'))).toEqual([table.row('1')]);
+    });
+
+    it('marks exactly the cells isNavigableColumn names', async () => {
+      const table = await mountConsumer();
+      const configuration = new WorkPackageTableConfiguration(consumerConfiguration(name));
+      const columns = [
+        ...(configuration.dragAndDropEnabled ? [internalSortColumn] : []),
+        { id: 'id' } as QueryColumn,
+        { id: 'subject' } as QueryColumn,
+        internalContextMenuColumn,
+      ];
+
+      expect(navigableCells(table.row('1'))).toHaveLength(columns.filter((column) => isNavigableColumn(column, configuration)).length);
+    });
+
+    it.each([
+      ['Shift+F10', { key: 'F10', shiftKey: true }],
+      ['Menu', { key: 'ContextMenu' }],
+    ])('opens the context menu on %s only for the BCF list', async (_chord, init) => {
+      const table = await mountConsumer();
+      vi.spyOn(table.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions').mockReturnValue([]);
+      const show = vi.spyOn(table.injector.get(OPContextMenuService), 'show').mockImplementation(() => undefined);
+      table.row('1').focus();
+
+      fireEvent.keyDown(table.row('1'), init);
+
+      expect(show).toHaveBeenCalledTimes(name === 'bcf' ? 1 : 0);
+    });
+
+    it('selects the focused row on Shift+Space', async () => {
+      const table = await mountConsumer();
+      table.row('2').focus();
+
+      expect(pressActive(' ', { shiftKey: true })).toBe(false);
+
+      expect(selectedIds(table)).toEqual(['2']);
+    });
+  });
+
+  describe('two consumer tables on one page', () => {
+    const mountPair = async (options:Partial<TableHarnessOptions> = {}) => {
+      const states = new States();
+      const first = await mount({ states, providers: [OPContextMenuService], configuration: consumerConfiguration('bcf'), ...options });
+      const second = await mount({ states, configuration: consumerConfiguration('bcf'), ...options });
+      return [first, second] as const;
+    };
+
+    const tabindexes = (table:TableHarness) => Array.from(table.container.querySelectorAll('[tabindex]'))
+      .map((element) => [element, element.getAttribute('tabindex')]);
+
+    it('a re-render of one leaves the roving tabindex of the other unchanged', async () => {
+      const [first, second] = await mountPair();
+      const before = tabindexes(second);
+      first.row('2').focus();
+
+      await first.render();
+      first.table.refreshRows(resource(first, '1'));
+
+      expect(before.length).toBeGreaterThan(0);
+      expect(tabindexes(second)).toEqual(before);
+    });
+
+    it('a re-render of one leaves an active create input of the other focused', async () => {
+      const [first, second] = await mountPair();
+      first.row('2').focus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+      const input = document.createElement('input');
+      second.addInlineCreateRow().cells[0].append(input);
+      input.focus();
+
+      await first.render();
+
+      expect(input).toHaveFocus();
+      expect(navigation(first).position?.key).toBe(wpOccurrenceKey('2'));
+    });
+
+    it('closing a menu with Escape keeps the other selection until a plain Escape clears both', async () => {
+      const [first, second] = await mountPair();
+      const page = document.createElement('div');
+      page.id = 'wrapper';
+      document.body.append(page);
+      const unregister = registerContextMenu(first.injector.get(OPContextMenuService));
+      vi.spyOn(first.injector.get(WorkPackageContextMenuHelperService), 'getPermittedActions')
+        .mockReturnValue([{ key: 'test-action', text: 'Test action', link: '#' }]);
+      try {
+        first.click('1');
+        second.click('2');
+        first.row('1').focus();
+        fireEvent.keyDown(first.row('1'), { key: 'F10', shiftKey: true });
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
+
+        fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
+        await waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toBeNull());
+
+        expect(selectedIds(first)).toEqual(['1']);
+        expect(selectedIds(second)).toEqual(['2']);
+
+        fireEvent.keyDown(document.body, { key: 'Escape' });
+
+        expect(selectedIds(first)).toEqual([]);
+        expect(selectedIds(second)).toEqual([]);
+      } finally {
+        first.injector.get(OPContextMenuService).close();
+        unregister();
+        page.remove();
+      }
+    });
+
+    it('Ctrl+A with focus in one table selects only that table', async () => {
+      const [first, second] = await mountPair();
+      second.row('1').focus();
+
+      expect(pressActive('a', { code: 'KeyA', ctrlKey: true })).toBe(false);
+
+      expect(selectedIds(second)).toEqual(['1', '2', '3']);
+      expect(selectedIds(first)).toEqual([]);
     });
   });
 });

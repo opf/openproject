@@ -43,7 +43,7 @@ describe('CellInteraction', () => {
       editing: {},
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true, ...options.configuration },
     });
     harnesses.push(table);
     await table.render();

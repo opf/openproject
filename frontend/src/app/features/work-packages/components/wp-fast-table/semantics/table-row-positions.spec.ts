@@ -50,7 +50,7 @@ describe('TableRowPositions', () => {
       productionMarkup: true,
       pagination: { offset: 2, pageSize: 20, total: 100 },
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true, ...options.configuration },
     });
     return harness.render();
   };
@@ -439,7 +439,7 @@ describe('TableRowPositions', () => {
       workPackages: [{ id: '21' }], productionMarkup: true,
       pagination: { offset: 2, pageSize: 20, total: 100 },
       columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
-      configuration: { keyboardNavigationEnabled: true },
+      configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true },
     });
     harness.expand('999', 'relationsOfTypeFollows');
     await harness.render();
@@ -593,7 +593,7 @@ describe('TableRowPositions', () => {
         pagination: { offset: 2, pageSize: 20, total: 100 },
         columns: ['id', 'subject', children],
         loadChildren: false,
-        configuration: { keyboardNavigationEnabled: true },
+        configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true },
         requireAll: async (ids) => {
           await loaded;
           return ids.map((id) => {
