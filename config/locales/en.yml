@@ -7260,6 +7260,7 @@ en:
     You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_formatting:
+    image_link: "Image: %{name}"
     markdown: "Markdown"
     plain: "Plain text"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
