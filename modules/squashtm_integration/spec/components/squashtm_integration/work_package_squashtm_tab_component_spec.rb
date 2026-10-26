@@ -35,6 +35,9 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
   let(:status) { :not_linked }
   let(:can_configure_server) { false }
   let(:can_manage_links) { false }
+  let(:server) { build_stubbed(:squashtm_server) }
+  let(:requirement) { nil }
+  let(:requirement_error) { nil }
   let(:can_manage_project_link) { false }
   let(:work_package_link) { SquashTMIntegration::WorkPackageLink.new(work_package:) }
   let(:tab_state) do
@@ -43,6 +46,9 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
                     project:,
                     status:,
                     work_package_link:,
+                    server:,
+                    requirement:,
+                    requirement_error:,
                     requirement_options: [{ id: 1, name: "Users can sign in" }],
                     can_configure_server?: can_configure_server,
                     can_manage_links?: can_manage_links,
@@ -90,13 +96,46 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
   context "when a requirement is linked" do
     let(:status) { :linked }
     let(:work_package_link) do
-      build_stubbed(:squashtm_work_package_link, work_package:, squashtm_requirement_name: "Users can sign in")
+      build_stubbed(:squashtm_work_package_link, work_package:, squashtm_requirement_id: 11,
+                                                 squashtm_requirement_name: "Users can sign in")
+    end
+    let(:test_cases) do
+      [
+        SquashTMIntegration::RequirementCoverage::TestCase.new(
+          id: 21, name: "Valid login", reference: "TC-001", description: nil, execution_status: "SUCCESS",
+          last_executed_on: Time.zone.parse("2026-10-24 10:00"), last_executed_by: "bob"
+        ),
+        SquashTMIntegration::RequirementCoverage::TestCase.new(
+          id: 22, name: "Wrong password", reference: nil, description: nil, execution_status: nil,
+          last_executed_on: nil, last_executed_by: nil
+        )
+      ]
+    end
+    let(:requirement) do
+      SquashTMIntegration::RequirementCoverage::Requirement.new(
+        id: 11, name: "Users can sign in", reference: "REQ-001", status: "APPROVED", test_cases:
+      )
     end
 
-    it "shows the linked requirement without an unlink action" do
+    it "shows the requirement with a link to SquashTM" do
       render_component
 
-      expect(page).to have_text("Users can sign in")
+      expect(page).to have_text("REQ-001")
+      expect(page).to have_text("Approved")
+      expect(page).to have_link("Users can sign in", href: %r{/requirement-workspace/requirement-library/11/content})
+    end
+
+    it "lists the test cases with their latest execution status" do
+      render_component
+
+      expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "Passed")
+      expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-21']", text: "by bob")
+      expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--test-case-22']", text: "Not executed")
+    end
+
+    it "offers no unlink action without the permission" do
+      render_component
+
       expect(page).to have_no_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
     end
 
@@ -107,6 +146,40 @@ RSpec.describe SquashTMIntegration::WorkPackageSquashTMTabComponent, type: :comp
         render_component
 
         expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--unlink']")
+      end
+    end
+
+    context "when the requirement has no test cases" do
+      let(:test_cases) { [] }
+
+      it "shows an empty state" do
+        render_component
+
+        expect(page).to have_text("No test cases")
+      end
+    end
+
+    context "when the requirement no longer exists in SquashTM" do
+      let(:requirement) { nil }
+      let(:requirement_error) { :not_found }
+
+      it "warns and keeps showing the cached name" do
+        render_component
+
+        expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--requirement-missing']")
+        expect(page).to have_text("Users can sign in")
+      end
+    end
+
+    context "when SquashTM is not reachable" do
+      let(:requirement) { nil }
+      let(:requirement_error) { :unavailable }
+
+      it "explains that the test cases could not be loaded" do
+        render_component
+
+        expect(page).to have_css("[data-test-selector='op-work-package-squashtm-tab--unavailable']")
+        expect(page).to have_text("Users can sign in")
       end
     end
   end

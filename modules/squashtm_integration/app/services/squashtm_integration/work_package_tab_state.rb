@@ -71,6 +71,16 @@ module SquashTMIntegration
       user.allowed_in_project?(:manage_squashtm_integration, project)
     end
 
+    def requirement
+      load_requirement unless defined?(@requirement)
+      @requirement
+    end
+
+    def requirement_error
+      requirement
+      @requirement_error
+    end
+
     def requirement_options
       load_requirement_options unless defined?(@requirement_options)
       @requirement_options
@@ -80,6 +90,17 @@ module SquashTMIntegration
 
     def client
       @client ||= Client.for(server)
+    end
+
+    def load_requirement
+      @requirement = RequirementCoverage.new(client).call(work_package_link.squashtm_requirement_id_in_database)
+    rescue Client::NotFoundError
+      @requirement = nil
+      @requirement_error = :not_found
+    rescue Client::Error => e
+      log_error("SquashTM requirement #{work_package_link.squashtm_requirement_id_in_database} could not be loaded", e)
+      @requirement = nil
+      @requirement_error = :unavailable
     end
 
     def load_requirement_options

@@ -74,6 +74,42 @@ RSpec.describe SquashTMIntegration::WorkPackageTabState do
     end
   end
 
+  describe "#requirement" do
+    let(:client) { instance_double(SquashTMIntegration::Client) }
+    let(:coverage) { instance_double(SquashTMIntegration::RequirementCoverage) }
+    let(:work_package_link) { create(:squashtm_work_package_link, work_package:, squashtm_requirement_id: 11) }
+
+    subject(:state) { described_class.new(work_package:, user:, work_package_link:) }
+
+    before do
+      create(:squashtm_server)
+      allow(SquashTMIntegration::Client).to receive(:for).and_return(client)
+      allow(SquashTMIntegration::RequirementCoverage).to receive(:new).with(client).and_return(coverage)
+    end
+
+    it "loads the requirement with its test cases" do
+      requirement = instance_double(SquashTMIntegration::RequirementCoverage::Requirement)
+      allow(coverage).to receive(:call).with(11).and_return(requirement)
+
+      expect(state.requirement).to eq(requirement)
+      expect(state.requirement_error).to be_nil
+    end
+
+    it "reports :not_found when the requirement no longer exists" do
+      allow(coverage).to receive(:call).and_raise(SquashTMIntegration::Client::NotFoundError)
+
+      expect(state.requirement).to be_nil
+      expect(state.requirement_error).to eq(:not_found)
+    end
+
+    it "reports :unavailable when SquashTM cannot be reached" do
+      allow(coverage).to receive(:call).and_raise(SquashTMIntegration::Client::TimeoutError)
+
+      expect(state.requirement).to be_nil
+      expect(state.requirement_error).to eq(:unavailable)
+    end
+  end
+
   describe "#requirement_options" do
     let(:client) { instance_double(SquashTMIntegration::Client) }
 
