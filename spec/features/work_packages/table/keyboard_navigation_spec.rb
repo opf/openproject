@@ -139,6 +139,16 @@ RSpec.describe "Work package table keyboard navigation", :js do
     wp_table.expect_focus_on_cell(child, :subject)
   end
 
+  it "shows the row actions while the row or one of its cells has focus" do
+    wp_table.focus_row_by_keyboard(child)
+    expect(wp_table.table_container).to have_css("#{wp_table.row_selector(child)} .wp-table-context-menu-icon")
+    expect(wp_table.table_container).to have_no_css("#{wp_table.row_selector(sibling)} .wp-table-context-menu-icon")
+
+    wp_table.press_keys(:right)
+    wp_table.expect_focus_on_cell(child, :id)
+    expect(wp_table.table_container).to have_css("#{wp_table.row_selector(child)} .wp-table-context-menu-icon")
+  end
+
   it "jumps to the last row with End and to the header row with Home" do
     wp_table.focus_row_by_keyboard(child)
 
