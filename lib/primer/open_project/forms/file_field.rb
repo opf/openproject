@@ -35,11 +35,25 @@ module Primer
         prepend WrappedInput
 
         delegate :builder, :form, :name, :label, :description, :icon, :accept, :preview_url, :preview_class,
-                 :preview_data, :filename, :delete_path, to: :@input
+                 :preview_data, :filename, :delete_path, :invalid_file_message, to: :@input
 
         def initialize(input:)
           super()
           @input = input
+
+          # Merging (rather than overwriting) preserves a caller-supplied `data: { action: ... }`
+          # passed as an ordinary system argument, appending our own action to theirs.
+          caller_action = @input.input_arguments.dig(:data, :action)
+          actions = ["change->file-field#fileChosen"]
+          actions << "change->auto-submit#submit" if @input.auto_submit
+          actions << caller_action
+
+          @input.merge_input_arguments!(
+            data: {
+              "file-field-target": "file",
+              action: actions.compact.join(" ")
+            }
+          )
         end
 
         def preview_attributes
@@ -75,11 +89,8 @@ module Primer
           I18n.t(:button_actions)
         end
 
-        def file_input_actions
-          actions = ["change->file-field#fileChosen"]
-          actions << "change->auto-submit#submit" if @input.auto_submit
-
-          actions.join(" ")
+        def error_attributes
+          { "file-field-target": "error" }.merge(@input.error_data)
         end
 
         def replace_item_arguments

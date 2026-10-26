@@ -51,7 +51,7 @@ describe('File field controller', () => {
     ctx.dispose();
   });
 
-  async function mount(accept = '') {
+  async function mount(accept = '', { withError = false } = {}) {
     await ctx.mount(`
       <div data-controller="${IDENTIFIER}">
         <input type="file" hidden
@@ -72,6 +72,8 @@ describe('File field controller', () => {
           </span>
           <img data-${IDENTIFIER}-target="preview">
         </button>
+
+        ${withError ? `<p data-${IDENTIFIER}-target="error" hidden>Wrong file format.</p>` : ''}
       </div>`);
   }
 
@@ -79,6 +81,7 @@ describe('File field controller', () => {
   const fileInput = () => target('file') as HTMLInputElement;
   const dropBox = () => target('dropBox');
   const preview = () => target('preview') as HTMLImageElement;
+  const error = () => target('error');
   const wrap = () => ctx.container.querySelector<HTMLElement>(`[data-controller="${IDENTIFIER}"]`)!;
 
   function file(name = 'contract.pdf') {
@@ -202,6 +205,99 @@ describe('File field controller', () => {
       await ctx.nextFrame();
 
       expect(fileInput().files?.length).toEqual(0);
+    });
+
+    it('does nothing with a rejected drop when no error target is rendered (opt-in feature)', async () => {
+      await mount('image/*');
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      expect(() => {
+        dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      }).not.toThrow();
+    });
+  });
+
+  describe('rejecting a picked file that does not match the accept attribute', () => {
+    it('clears the input, regardless of whether an error target is rendered', async () => {
+      await mount('image/*');
+
+      await choose(file());
+
+      expect(fileInput().files?.length).toEqual(0);
+      expect(target('filename').textContent).toEqual('Upload file');
+    });
+
+    it('does not reject a picked file when no accept attribute is set', async () => {
+      await mount('');
+
+      await choose(file());
+
+      expect(fileInput().files?.[0].name).toEqual('contract.pdf');
+    });
+
+    it('stops the rejection from reaching other change listeners on the same input (e.g. auto-submit)', async () => {
+      await mount('image/*');
+      const otherListener = vi.fn();
+      fileInput().addEventListener('change', otherListener);
+
+      await choose(file());
+
+      expect(otherListener).not.toHaveBeenCalled();
+    });
+
+    it('still notifies other change listeners once an accepted file is chosen', async () => {
+      await mount('image/*');
+      const otherListener = vi.fn();
+      fileInput().addEventListener('change', otherListener);
+
+      await choose(imageFile());
+
+      expect(otherListener).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe('showing an error for a file that does not match the accept attribute (opt-in)', () => {
+    it('shows the error and clears the input when a rejected file is dropped', async () => {
+      await mount('image/*', { withError: true });
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file());
+
+      dropBox().dispatchEvent(new DragEvent('drop', { bubbles: true, cancelable: true, dataTransfer }));
+      await ctx.nextFrame();
+
+      expect(error().hidden).toBe(false);
+      expect(fileInput().files?.length).toEqual(0);
+    });
+
+    it('shows the error and clears the input when a rejected file is picked through the native dialog', async () => {
+      await mount('image/*', { withError: true });
+
+      await choose(file());
+
+      expect(error().hidden).toBe(false);
+      expect(fileInput().files?.length).toEqual(0);
+      expect(target('filename').textContent).toEqual('Upload file');
+    });
+
+    it('hides the error again once a matching file is chosen', async () => {
+      await mount('image/*', { withError: true });
+      await choose(file());
+      expect(error().hidden).toBe(false);
+
+      await choose(imageFile());
+
+      expect(error().hidden).toBe(true);
+      expect(fileInput().files?.[0].name).toEqual('logo.png');
+    });
+
+    it('does not show an error when no accept attribute is set', async () => {
+      await mount('', { withError: true });
+
+      await choose(file());
+
+      expect(error().hidden).toBe(true);
+      expect(fileInput().files?.[0].name).toEqual('contract.pdf');
     });
   });
 
