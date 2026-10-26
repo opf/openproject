@@ -242,9 +242,9 @@ export class AiActionsService {
     return projectId && typeId ? { project_id: projectId, type_id: typeId } : {};
   }
 
+  // Only the field: config.get deep-clones its value, and the context's HAL resource cannot be cloned.
   private fieldOf(editor:IEditorWithContent):string|undefined {
-    const openProject = editor.config?.get('openProject') as { context?:{ field?:string } }|undefined;
-    return openProject?.context?.field;
+    return editor.config?.get('openProject.context.field') as string|undefined;
   }
 
   private rememberAction(action:IAiTextTransformAction):void {

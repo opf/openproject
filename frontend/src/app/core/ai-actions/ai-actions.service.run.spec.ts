@@ -83,7 +83,7 @@ class FakeEditor {
 
   field = 'description';
 
-  config = { get: () => ({ context: { field: this.field } }) };
+  config = { get: (name:string) => (name === 'openProject.context.field' ? this.field : undefined) };
 
   getData():string { return this.content; }
 }
