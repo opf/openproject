@@ -308,7 +308,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
   @HostListener('keydown.escape', ['$event'])
   public cancelOnEscape(event:KeyboardEvent) {
-    if (this.mode === 'inactive') {
+    if (this.mode === 'inactive' || event.defaultPrevented) {
       return;
     }
 
