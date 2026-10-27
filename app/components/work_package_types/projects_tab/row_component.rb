@@ -32,9 +32,21 @@ module WorkPackageTypes
     class RowComponent < OpPrimer::BorderBoxRowComponent
       include WorkPackageTypes::VariantRoutes
 
+      SELECTION_TYPE = "type_project"
+
       alias_method :project, :model
 
-      def row_data = { test_selector: "type-projects-row-#{project.id}" }
+      def row_data
+        {
+          test_selector: "type-projects-row-#{project.id}",
+          controller: "sortable-lists--item contextual-action-menu",
+          sortable_lists__item_id_value: project.id,
+          sortable_lists__item_type_value: SELECTION_TYPE,
+          sortable_lists__item_label_value: project.name
+        }
+      end
+
+      def row_tabindex = 0
 
       def name
         render(Projects::InfoLineComponent.new(project:))
