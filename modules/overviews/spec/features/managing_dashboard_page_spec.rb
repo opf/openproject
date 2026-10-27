@@ -158,6 +158,11 @@ RSpec.describe "Dashboard page managing", :js do
         table_name: "Work packages table"
       )
       wp_table.expect_work_package_listed(*rows)
+      expect(wp_table.treegrid).to have_selector(:role, "rowheader", count: rows.size)
+      rows.each do |work_package|
+        expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: work_package.subject,
+                                                                       exact: true, count: 1)
+      end
 
       wp_table.tab_into_table
       wp_table.expect_focus_on_row(rows.first)
