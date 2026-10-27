@@ -36,7 +36,7 @@ To upgrade to PostgreSQL 17, you need to override the default database image.
 #### Create `docker-compose.override.yml`
 
 Create a file named `docker-compose.override.yml` in the docker compose directory. 
-Replace the `db` service image with `pgvector/pgvector:pg17` which is the official PostgreSQL 17 image plus [pgvector](../../system-requirements/#pgvector).
+Replace the `db` service image with `pgvector/pgvector:pg17-trixie` which is the official PostgreSQL 17 image plus [pgvector](../../system-requirements/#pgvector).
 Also, define a new volume for the upgraded database to avoid overwriting the existing one.
 
 Here’s an example configuration:
@@ -47,7 +47,7 @@ volumes:
 
 services:
   db:
-    image: pgvector/pgvector:pg17
+    image: pgvector/pgvector:pg17-trixie
     volumes:
       - pgdata17:/var/lib/postgresql/data
 
@@ -120,7 +120,7 @@ docker run --rm -d --name postgres \
 -e LANG=C.UTF-8 \
 -e LC_ALL=C.UTF-8 \
 -v /var/lib/openproject/pgdata17:/var/lib/postgresql/data \
-pgvector/pgvector:pg17
+pgvector/pgvector:pg17-trixie
 ```
 
 The `pgvector/pgvector` image is the official PostgreSQL image plus [pgvector](../../system-requirements/#pgvector).
