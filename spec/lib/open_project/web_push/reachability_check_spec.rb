@@ -45,8 +45,6 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
     results
 
     expect(OpenProject::SsrfProtection).to have_received(:head).with("https://fcm.googleapis.com/", any_args)
-    expect(OpenProject::SsrfProtection).to have_received(:head).with("https://wns2-par02p.notify.windows.com/", any_args)
-    expect(OpenProject::SsrfProtection).not_to have_received(:head).with("https://notify.windows.com/", any_args)
     expect(OpenProject::SsrfProtection).to have_received(:head).with("https://web.push.apple.com/", any_args)
     expect(OpenProject::SsrfProtection).not_to have_received(:head).with("https://push.apple.com/", any_args)
   end
@@ -106,23 +104,17 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.to_h { [it.host, it.reachable?] })
         .to eq("fcm.googleapis.com" => true,
                "updates.push.services.mozilla.com" => true,
-               "web.push.apple.com" => false,
-               "wns2-par02p.notify.windows.com" => true)
+               "web.push.apple.com" => false)
     end
   end
 
-  context "with a stored subscription endpoint under a known service" do
-    before { create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc") }
-
-    it "probes the stored host instead of the sample" do
-      expect(results.map(&:host)).to include("wns2-db5p.notify.windows.com")
-      expect(results.map(&:host)).not_to include("wns2-par02p.notify.windows.com")
-    end
+  context "with a stored subscription endpoint on a sample host" do
+    before { create(:push_subscription, endpoint: "https://web.push.apple.com/abc") }
 
     it "reports it as unresolved rather than inconclusive when it does not resolve" do
       allow(OpenProject::SsrfProtection).to receive(:head).and_raise(SsrfFilter::UnresolvedHostname.new("x"))
 
-      expect(results.find { it.host == "wns2-db5p.notify.windows.com" }).to have_attributes(reason: :unresolved)
+      expect(results.find { it.host == "web.push.apple.com" }).to have_attributes(reason: :unresolved)
     end
   end
 
@@ -132,7 +124,7 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       create(:push_subscription, endpoint: "https://wns2-am3p.notify.windows.com/w/?token=def")
     end
 
-    it "probes every stored host in place of the sample" do
+    it "probes each of them after the known services" do
       expect(results.map(&:host)).to eq(%w[fcm.googleapis.com
                                            updates.push.services.mozilla.com
                                            web.push.apple.com
@@ -148,7 +140,6 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.map(&:host)).to eq(%w[fcm.googleapis.com
                                            updates.push.services.mozilla.com
                                            web.push.apple.com
-                                           wns2-par02p.notify.windows.com
                                            push.example.org])
     end
   end
@@ -162,8 +153,7 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.to_h { [it.host, it.reason] })
         .to eq("fcm.googleapis.com" => :unresolved,
                "updates.push.services.mozilla.com" => :unresolved,
-               "web.push.apple.com" => :sample_unresolved,
-               "wns2-par02p.notify.windows.com" => :sample_unresolved)
+               "web.push.apple.com" => :sample_unresolved)
     end
   end
 end

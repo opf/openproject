@@ -30,12 +30,11 @@
 
 module OpenProject::WebPush
   class ReachabilityCheck
-    # The apex of apple and windows does not resolve, so a subdomain that answers stands in for it.
+    # The apex of apple does not resolve, so a subdomain that answers stands in for it.
     KNOWN_SERVICES = {
       "fcm.googleapis.com" => "fcm.googleapis.com",
       "updates.push.services.mozilla.com" => "updates.push.services.mozilla.com",
-      "push.apple.com" => "web.push.apple.com",
-      "notify.windows.com" => "wns2-par02p.notify.windows.com"
+      "push.apple.com" => "web.push.apple.com"
     }.freeze
     TIMEOUT = 3
 

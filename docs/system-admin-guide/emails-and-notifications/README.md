@@ -97,7 +97,7 @@ The instance must be able to reach, over HTTPS, the push service of every browse
 
 Other browsers bring their own push service. OpenProject contacts whichever one the browser subscribed through.
 
-Click **Verify reachability** to test this from the instance. The results cover the services above and every service an existing subscription uses, showing **Reachable** or **Unreachable** for each, with a reason for every one that cannot be reached.
+Click **Verify reachability** to test this from the instance. The results cover the Chrome, Firefox and Safari services above and every service an existing subscription uses, so Edge appears once someone has subscribed through it, showing **Reachable** or **Unreachable** for each, with a reason for every one that cannot be reached.
 
 Air-gapped instances cannot use browser notifications. Allowing them does no harm there; nothing is sent until a user turns them on for a device.
 
