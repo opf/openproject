@@ -53,7 +53,7 @@ module AI
         end
 
         def retryable?
-          pane.run && %w[failed stopped].include?(state)
+          pane.run&.failed?
         end
 
         def form(id:, url:, method:, fields: form_params)
