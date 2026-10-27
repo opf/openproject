@@ -104,10 +104,12 @@ module Import
           Rails.logger.tagged("jira_issue_key:#{payload['key']}") do
             Rails.logger.debug "Fetched issue"
           end
+          origin_id = payload.fetch("id")
+          payload["watchers"] = fetch_watchers(origin_id) if has_watchers?(payload)
           {
             payload:,
             jira_project_id:,
-            origin_id: payload.fetch("id"),
+            origin_id:,
             jira_import_id:,
             created_at: @created_at,
             updated_at: @updated_at
@@ -127,6 +129,21 @@ module Import
       return if worklog.blank? || worklog["total"] <= worklog["worklogs"].size
 
       worklog.merge!(@jira_client.issue_worklogs(payload.fetch("id")))
+    end
+
+    def has_watchers?(issue_payload)
+      issue_payload.dig("fields", "watches", "watchCount").to_i > 0
+    end
+
+    def fetch_watchers(issue_id)
+      watchers = @jira_client.issue_watchers(issue_id).fetch("watchers")
+      Rails.logger.debug { "Fetched #{watchers.size} watchers" }
+      watchers
+    rescue JiraClient::ApiError => e
+      raise unless e.status == 404
+
+      Rails.logger.warn "Watchers for issue ID #{issue_id} not found (#{e.message}), skipping"
+      []
     end
   end
 end
