@@ -55,7 +55,7 @@ module Labelable
   end
 
   def replace_label_names_with_ids(ids)
-    self.label_id_replacements = pending_label_ids | ids
+    self.label_id_replacements = label_ids_to_assign | ids
     self.label_name_replacements = nil
   end
 
@@ -64,21 +64,21 @@ module Labelable
   def effective_labels
     return labels unless override_labels?
 
-    Label.where(id: pending_label_ids).order(:id).to_a + labels_for_pending_names
+    Label.where(id: label_ids_to_assign).order(:id).to_a + labels_for_names_to_assign
   end
 
   def label_changes
     return {} unless override_labels?
-    return {} if pending_label_ids.sort == label_ids.sort && pending_label_names.empty?
+    return {} if label_ids_to_assign.sort == label_ids.sort && label_names_to_assign.empty?
 
-    { "labels" => [label_ids, pending_label_ids + pending_label_names] }
+    { "labels" => [label_ids, label_ids_to_assign + label_names_to_assign] }
   end
 
   private
 
-  def pending_label_ids = Array(label_id_replacements)
+  def label_ids_to_assign = Array(label_id_replacements)
 
-  def pending_label_names = Array(label_name_replacements)
+  def label_names_to_assign = Array(label_name_replacements)
 
   def normalize_label_ids(new_labels)
     Array.wrap(new_labels)
@@ -90,29 +90,29 @@ module Labelable
     Array.wrap(names).map { it.to_s.squish }.compact_blank.uniq(&:downcase)
   end
 
-  def labels_for_pending_names
-    existing = Label.named_any(pending_label_names).index_by { it.name.downcase }
+  def labels_for_names_to_assign
+    existing = Label.named_any(label_names_to_assign).index_by { it.name.downcase }
 
-    pending_label_names.map { |name| existing[name.downcase] || Label.new(name:) }
+    label_names_to_assign.map { |name| existing[name.downcase] || Label.new(name:) }
   end
 
   def validate_label_id_replacements
     return unless override_labels?
 
-    missing = pending_label_ids - Label.where(id: pending_label_ids).pluck(:id)
+    missing = label_ids_to_assign - Label.where(id: label_ids_to_assign).pluck(:id)
 
     errors.add(:labels, :does_not_exist) if missing.any?
   end
 
   def abort_save_with_label_names
-    return if pending_label_names.empty?
+    return if label_names_to_assign.empty?
 
     errors.add(:labels, :invalid)
     throw :abort
   end
 
   def persist_label_associations
-    replace_labels(pending_label_ids) if override_labels?
+    replace_labels(label_ids_to_assign) if override_labels?
 
     self.label_id_replacements = nil
   end
