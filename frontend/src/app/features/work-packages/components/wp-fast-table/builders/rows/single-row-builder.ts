@@ -74,7 +74,7 @@ export class SingleRowBuilder {
   @LazyInject() I18n!:I18nService;
 
   // Cell builder instance
-  protected cellBuilder = new CellBuilder(this.injector);
+  protected cellBuilder = new CellBuilder(this.injector, this.workPackageTable.configuration.inlineEditEnabled);
 
   // Relation cell builder instance
   protected relationCellBuilder = new RelationCellbuilder(this.injector);

@@ -46,9 +46,12 @@ export class CellBuilder {
 
   @LazyInject(WorkPackageViewBaselineService) wpTableBaseline:WorkPackageViewBaselineService;
 
-  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
+  public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { inlineEditEnabled: this.inlineEditEnabled });
 
-  constructor(public injector:Injector) {
+  constructor(
+    public injector:Injector,
+    private inlineEditEnabled = true,
+  ) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
