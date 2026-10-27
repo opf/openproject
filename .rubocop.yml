@@ -150,7 +150,6 @@ Naming/MethodParameterName:
     - to # pairs with `from` for ranges, as in Day.from_range(from:, to:)
     - "on"
     - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
-    - "if"
 
 Naming/PredicateMethod:
   # disabling this cop as it enforces a method name solely based on the return type (if the method returns a boolean, the name must end in "?")
