@@ -65,7 +65,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(AI::TextTransformRun.sole).to have_attributes(user:, input: "Login page dont work.", status: "queued")
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('action="append"', 'targets="body"', 'id="ai-text-transforms-result-pane-component"',
-                                       "Fix grammar", "Generating…")
+                                       "Fix grammar", "Generating…", 'data-state="generating"',
+                                       %(data-run="#{AI::TextTransformRun.sole.uuid}"), 'data-seq="0"')
     end
 
     it "starts a run for a new work package of a project and type" do
@@ -217,7 +218,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('action="update"', 'target="ai-text-transforms-result-pane-component-body"',
                                        'target="ai-text-transforms-result-pane-component-footer"',
-                                       "<strong>bold</strong> text", "Generating…")
+                                       "<strong>bold</strong> text", "Generating…",
+                                       'data-state="generating"', %(data-run="#{run.uuid}"), 'data-seq="2"')
     end
 
     it "offers the raw text once completed" do
@@ -225,7 +227,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
 
-      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace")
+      expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace",
+                                       'data-state="done"', apply_ai_text_transform_pane_path(run.uuid))
     end
 
     it "keeps markup in the raw text inside its template" do
@@ -242,7 +245,8 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
 
-      expect(response.body).to include("Generation stopped", "Try again")
+      expect(response.body).to include("Generation stopped", "Try again", 'data-state="stopped"',
+                                       %(name="retry_of" value="#{run.uuid}"))
     end
 
     it "removes the pane of a cancelled run and reports the closed request" do
