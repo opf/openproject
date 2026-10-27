@@ -83,7 +83,8 @@ RSpec.shared_context "with a sprint report work package table" do
         "actionsColumnEnabled" => false,
         "columnMenuEnabled" => false,
         "contextMenuEnabled" => false,
-        "inlineCreateEnabled" => false
+        "inlineCreateEnabled" => false,
+        "inlineEditEnabled" => false
       }.to_json)
     end
 

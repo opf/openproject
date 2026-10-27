@@ -76,7 +76,7 @@ export class RowClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (this.clickActivatesCell(target) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (this.clickActivatesCell(view, target) || target.classList.contains(`${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
     }
@@ -94,8 +94,9 @@ export class RowClickHandler implements TableEventHandler {
     return false;
   }
 
-  private clickActivatesCell(target:HTMLElement):boolean {
-    return target.classList.contains(displayClassName)
+  private clickActivatesCell(view:TableEventComponent, target:HTMLElement):boolean {
+    return view.workPackageTable.configuration.inlineEditEnabled
+      && target.classList.contains(displayClassName)
       && !this.configurationService.requireDoubleClickForInlineEdit();
   }
 }
