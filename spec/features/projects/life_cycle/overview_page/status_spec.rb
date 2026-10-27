@@ -36,7 +36,6 @@ RSpec.describe "Change project phase status on project overview page", :js do
   let(:overview_page) { Pages::Projects::Show.new(project) }
   let(:permissions) { %i[view_project view_project_phases edit_project_phases] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
-
   let(:initial_statuses) { %w[open open open open] }
   let(:inactive_phases) { [] }
 
@@ -147,6 +146,27 @@ RSpec.describe "Change project phase status on project overview page", :js do
 
         expect_flash(message: I18n.t(:notice_successful_update))
         expect(stored_statuses).to eq %w[completed open completed in_progress]
+      end
+    end
+  end
+
+  describe "activity page" do
+    let(:user) { admin }
+    let(:activity_page) { Pages::Projects::Activity.new(project) }
+
+    it "lists the status change of every affected phase in a single entry" do
+      change_status(life_cycle_executing, from: "Open", to: "In progress")
+      expect_flash(message: I18n.t(:notice_successful_update))
+
+      activity_page.visit!
+      activity_page.show_details
+
+      activity_page.within_journal(number: 1) do
+        activity_page.expect_activity("Initiating changed from Open to Completed")
+        activity_page.expect_activity("Planning changed from Open to Completed")
+        activity_page.expect_activity("Executing changed from Open to In progress")
+
+        activity_page.expect_no_activity("Closing changed")
       end
     end
   end

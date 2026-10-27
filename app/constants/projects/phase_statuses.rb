@@ -31,9 +31,8 @@ module Projects
   module PhaseStatuses
     Status = Data.define(:code, :hexcode, :icon) do
       def id = code&.to_s || :none
-      def value = code&.to_s
-
       def color = Color.new(hexcode:)
+      def name = I18n.t(id, scope: "projects.phase_status.title")
     end
 
     OPEN = Status.new(code: :open, hexcode: "#006edb", icon: "issue-opened")
@@ -45,5 +44,7 @@ module Projects
     def self.find(code)
       AVAILABLE.find { it.code.to_s == code.to_s }
     end
+
+    def self.name_for(code) = find(code)&.name || code.to_s
   end
 end

@@ -11,12 +11,12 @@
               classes: class_names(
                 "op-phase-status-button"
               ),
-              title: project_phase_status_name(@status.code),
               size: :medium,
               scheme: :invisible,
               style: :foreground,
               icon: @status.icon,
-              "aria-label": project_phase_status_name(@status.code)
+              title: @status.name,
+              "aria-label": @status.name
             },
             menu_arguments: {
               data: { test_selector: "phase-status-action-menu-#{@phase.id}" }

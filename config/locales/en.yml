@@ -1485,6 +1485,7 @@ en:
       phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
       removed_date: "date deleted %{date}"
+      status_changed: "changed from %{from} to %{to}"
 
   admin:
     banners:

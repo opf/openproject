@@ -128,7 +128,7 @@ module JournalChanges
       association: :project_phase_journals,
       id_attribute: :phase_id
     ).multiple_attributes_changes(
-      %i[active date_range],
+      %i[active date_range status],
       key_prefix: "project_phase"
     )
   end

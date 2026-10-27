@@ -62,7 +62,7 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
 
   def build_item(status)
     OpPrimer::StatusButtonOption.new(
-      name: project_phase_status_name(status.code),
+      name: status.name,
       description: project_phase_status_description(status.code),
       color_namespace: :project_phase_status,
       color_ref: status.id,
@@ -71,17 +71,10 @@ class Projects::PhaseStatusButtonComponent < ApplicationComponent
       tag: :a,
       href: project_phase_status_path(phase, status: status.code),
       content_arguments: {
-        data: { turbo_method: status.value ? :put : :delete },
+        data: { turbo_method: status.id ? :put : :delete },
         aria: { current: (true if status == @status) }
       }
     )
-  end
-
-  ##
-  # @param status_code [String | Symbol | nil] Project Phase Status code
-  # @return [String] the localized name.
-  def project_phase_status_name(status_code)
-    I18n.t(status_code, scope: "projects.phase_status.title")
   end
 
   ##
