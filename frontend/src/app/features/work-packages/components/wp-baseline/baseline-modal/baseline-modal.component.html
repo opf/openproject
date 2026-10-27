@@ -9,7 +9,9 @@
     class="button"
     [class.-active]="opened"
     (click)="toggleOpen()"
-    [title]="text.toggle_title"
+    opTooltip
+    [label]="text.toggle_title"
+    tooltipWhenObscured=".button--text"
     data-test-selector="baseline-button"
   >
     <svg op-baseline-icon size="small"/>

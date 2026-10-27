@@ -95,7 +95,7 @@ module Pages
 
     def select_log_unit_costs_action
       SeleniumHubWaiter.wait
-      click_button(I18n.t("js.button_more"))
+      click_button(accessible_name: I18n.t("js.button_more"), exact: true)
       find(:menuitem, text: I18n.t(:button_log_costs)).click
       Pages::WorkPackages::CostEntries.new.wait_for_spent_on_date_field_to_be_loaded
     end

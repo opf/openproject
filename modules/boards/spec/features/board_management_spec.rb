@@ -184,6 +184,8 @@ RSpec.describe "Board management spec", :js, :selenium do
       filters.quick_filter ""
       sleep 2
 
+      expect(page).to be_axe_clean.within(".op-wp-single-card--inline-buttons")
+
       # Remove card again
       board_page.remove_card "Second", work_package.subject, 0
 

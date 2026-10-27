@@ -28,7 +28,9 @@
           type="button"
           class="spot-link op-wp-single-card--details-button op-wp-single-card--card-action"
           data-test-selector="op-wp-single-card--details-button"
-          [title]="text.detailsView"
+          title=""
+          opTooltip
+          [label]="text.detailsView"
           (click)="emitStateLinkClicked($event, workPackage, true)">
           <op-icon icon-classes="icon3 icon-info2" />
         </button>
@@ -39,7 +41,9 @@
           class="spot-link op-wp-single-card--inline-cancel-button op-wp-single-card--card-action"
           data-test-selector="op-wp-single-card--inline-cancel-button"
           [class.-show]="isNewResource(workPackage)"
-          [title]="text.removeCard"
+          title=""
+          opTooltip
+          [label]="text.removeCard"
           (click)="onRemoved(workPackage)">
           <op-icon icon-classes="icon-context icon-close" />
         </button>
