@@ -59,10 +59,12 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
 
   it "renders the close form with the pane parameters" do
     expect(subject).to have_css("#{close_form}[data-turbo-stream='true'][action='/ai/text_transform_panes/#{run.uuid}']")
-    expect(subject).to have_field("_method", type: :hidden, with: "delete")
-    expect(subject).to have_field("request_id", type: :hidden, with: request_id)
-    expect(subject).to have_field("scope", type: :hidden, with: scope)
-    expect(subject).to have_no_field("work_package_id", type: :hidden)
+
+    form = subject.find(close_form)
+    expect(form).to have_field("_method", type: :hidden, with: "delete")
+    expect(form).to have_field("request_id", type: :hidden, with: request_id)
+    expect(form).to have_field("scope", type: :hidden, with: scope)
+    expect(form).to have_no_field("work_package_id", type: :hidden)
   end
 
   it "exposes the pane state for polling" do
@@ -77,10 +79,31 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
     let(:work_package) { build_stubbed(:work_package) }
     let(:context) { AI::TextTransforms::Context.for_work_package(work_package) }
 
-    it "carries only the work package id as context" do
-      expect(subject).to have_field("work_package_id", type: :hidden, with: work_package.id)
-      expect(subject).to have_no_field("project_id", type: :hidden)
-      expect(subject).to have_no_field("type_id", type: :hidden)
+    shared_examples "pane parameters in every form" do |forms|
+      it "carries the pane parameters with only the work package id as context" do
+        forms.each do |name|
+          form = subject.find(public_send(name))
+          expect(form).to have_field("request_id", type: :hidden, with: request_id)
+          expect(form).to have_field("scope", type: :hidden, with: scope)
+          expect(form).to have_field("work_package_id", type: :hidden, with: work_package.id)
+          expect(form).to have_no_field("project_id", type: :hidden)
+          expect(form).to have_no_field("type_id", type: :hidden)
+        end
+      end
+    end
+
+    it_behaves_like "pane parameters in every form", %i[close_form]
+
+    context "when done" do
+      let(:status) { "succeeded" }
+
+      it_behaves_like "pane parameters in every form", %i[close_form apply_form]
+    end
+
+    context "when failed" do
+      let(:status) { "failed" }
+
+      it_behaves_like "pane parameters in every form", %i[close_form retry_form]
     end
   end
 
@@ -124,7 +147,7 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
 
     it "renders the retry form for the run" do
       expect(subject).to have_css("#{retry_form}[data-turbo-stream='true'][action='/ai/text_transform_panes'][method=post]")
-      expect(subject).to have_field("retry_of", type: :hidden, with: run.uuid)
+      expect(subject.find(retry_form)).to have_field("retry_of", type: :hidden, with: run.uuid)
       expect(subject).to have_no_css(apply_form)
     end
   end
@@ -153,7 +176,7 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
     end
 
     it "has nothing to poll" do
-      expect(subject).to have_css("[data-state='failed']:not([data-poll-url])", visible: :hidden)
+      expect(subject).to have_css("[data-state='failed']:not([data-poll-url]):not([data-run])", visible: :hidden)
     end
   end
 end

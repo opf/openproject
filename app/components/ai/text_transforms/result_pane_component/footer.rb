@@ -37,7 +37,7 @@ module AI
           {
             **target(:state),
             state:,
-            run: pane.uuid,
+            run: pane.run&.uuid,
             seq: pane.last_seq,
             request_id: pane.request_id,
             poll_url:
@@ -53,7 +53,7 @@ module AI
         end
 
         def retryable?
-          pane.run.present? && %w[failed stopped].include?(state)
+          pane.run && %w[failed stopped].include?(state)
         end
 
         def form(id:, url:, method:, fields: form_params)
