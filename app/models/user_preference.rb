@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -182,6 +181,10 @@ class UserPreference < ApplicationRecord
     settings["avatar_color"] = value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil
   end
 
+  def avatar_text=(value)
+    settings["avatar_text"] = AvatarTextValidator.normalize(value)
+  end
+
   def daily_reminders
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end
@@ -244,7 +247,15 @@ class UserPreference < ApplicationRecord
   end
 
   def mark_whats_new_read(version_key, key)
-    whats_new_read_items[version_key.to_s] = (whats_new_read_keys(version_key) | [key.to_s])
+    self.whats_new_read_items = { version_key.to_s => whats_new_read_keys(version_key) | [key.to_s] }
+  end
+
+  def mark_whats_new_seen(version_key)
+    return if whats_new_seen_version == version_key.to_s
+
+    self.whats_new_seen_version = version_key.to_s
+    self.whats_new_seen_at = Time.current
+    self.whats_new_read_items = whats_new_read_items.slice(version_key.to_s)
   end
 
   def supported_settings_method?(method_name)

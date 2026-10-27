@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -122,6 +121,41 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
 
       context "with a pending attachment that was never uploaded" do
         let(:staged) { false }
+
+        it "returns 404" do
+          expect(last_response).to have_http_status :not_found
+        end
+      end
+    end
+
+    describe "GET /content of a pending attachment", :with_direct_uploads do
+      include DirectUploadHelpers
+
+      let(:permissions) { [:view_work_packages] }
+      let(:author) { current_user }
+      let(:attachment) do
+        create(:attachment, status: :prepared, author:, container: create(:work_package, project:))
+      end
+
+      before do
+        stage_direct_upload(attachment)
+        get api_v3_paths.attachment_content(attachment.id)
+      end
+
+      context "when requested by the author" do
+        it "redirects to the staged upload" do
+          expect(last_response).to have_http_status :found
+          expect(last_response.headers["Location"]).to include direct_upload_staging_key(attachment)
+        end
+
+        it "does not allow caching the redirect" do
+          expect(last_response.headers["Cache-Control"]).not_to include "public"
+          expect(last_response.headers["Expires"]).to be_nil
+        end
+      end
+
+      context "when requested by another user" do
+        let(:author) { create(:user, member_with_roles: { project => role }) }
 
         it "returns 404" do
           expect(last_response).to have_http_status :not_found

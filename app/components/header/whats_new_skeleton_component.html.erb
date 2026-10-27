@@ -20,14 +20,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Box.new(test_selector: "op-header-whats-new-skeleton")) do %>
+<%= render(Primer::Box.new(pb: 3, test_selector: "op-header-whats-new-skeleton")) do %>
   <%= render(Primer::Box.new(display: :flex, justify_content: :space_between, px: 3, pt: 3, pb: 2)) do %>
     <%= render(Primer::Alpha::SkeletonBox.new(width: "40%", height: "20px")) %>
     <%= render(Primer::Alpha::SkeletonBox.new(width: "30%", height: "20px")) %>

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,7 @@
 module WhatsNew
   class Release
     Item = Data.define(:key, :title, :description, :url)
+    VISIBLE_AFTER_FIRST_OPEN = 7.days
 
     attr_reader :major, :minor
 
@@ -60,7 +60,7 @@ module WhatsNew
     end
 
     def visible_to?(user)
-      user.logged? && items.any?
+      user.logged? && items.any? && !expired_for?(user)
     end
 
     def item?(key)
@@ -68,7 +68,7 @@ module WhatsNew
     end
 
     def video_url
-      I18n.t("#{i18n_scope}.whats_new.video_url", default: nil).presence
+      OpenProject::Static::Links.url_for(:release_videos, url_templates: { MAJOR: major, MINOR: minor })
     end
 
     def unread_keys(user)
@@ -77,6 +77,11 @@ module WhatsNew
 
     def seen?(user)
       user.pref.whats_new_seen_version == version_key
+    end
+
+    def expired_for?(user)
+      seen?(user) && user.pref.whats_new_seen_at.present? &&
+        user.pref.whats_new_seen_at.before?(VISIBLE_AFTER_FIRST_OPEN.ago)
     end
 
     private

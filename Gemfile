@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.6.1"
+gem "mcp", "~> 1.7.0"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -182,7 +182,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.1.2"
+  gem "dalli", "~> 5.2.2"
   gem "redis", "~> 6.0.0"
 end
 
@@ -205,7 +205,7 @@ gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.232"
+gem "aws-sdk-s3", "~> 1.233"
 
 gem "openproject-token", "~> 8.13.0"
 
@@ -235,7 +235,7 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.37.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.97.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
@@ -259,12 +259,6 @@ gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.4"
 
-# Provider adapters and a model metadata registry for the AI features. Used as
-# transport and as a source of published model capabilities; what a given
-# connection actually offers is tracked per connection, never in RubyLLM's
-# application-wide registry.
-gem "ruby_llm", "~> 1.16"
-
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
 
@@ -275,7 +269,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.3"
+  gem "test-prof", "~> 1.6.4"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
@@ -309,7 +303,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.49"
+  gem "selenium-webdriver", "~> 4.51"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -317,7 +311,7 @@ group :test do
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
   gem "vcr"
   # Mock backend requests (for ruby tests)
-  gem "webmock", "~> 3.26", require: false
+  gem "webmock", "~> 3.29", require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem "puffing-billy", "~> 4.0.0"
@@ -351,6 +345,7 @@ group :development, :test do
 
   # Tracing and profiling gems
   gem "flamegraph", require: false
+  gem "memory_profiler", require: false
   gem "rack-mini-profiler", require: false
   gem "ruby-prof", require: false
   gem "stackprof", require: false

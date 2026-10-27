@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -58,7 +57,7 @@ RSpec.describe "Meeting notifications", :js do
     perform_enqueued_jobs
   end
 
-  shared_examples "notification checkbox behaviour" do
+  shared_examples "notification checkbox behavior" do
     it "shows checkbox checked initially" do
       page.find_by_id("open-meeting-button").click
 
@@ -103,7 +102,7 @@ RSpec.describe "Meeting notifications", :js do
       meetings_page.click_create
     end
 
-    include_examples "notification checkbox behaviour"
+    include_examples "notification checkbox behavior"
 
     it "sets and toggles the calendar updates state" do
       edit_start_time = "12:00"
@@ -249,7 +248,7 @@ RSpec.describe "Meeting notifications", :js do
       meetings_page.click_create
     end
 
-    include_examples "notification checkbox behaviour"
+    include_examples "notification checkbox behavior"
   end
 
   context "for a recurring meeting" do

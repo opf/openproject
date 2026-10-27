@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,8 +110,8 @@ module Redmine
         # The role of this method is to provide flexibility on enabling just a subset of
         # available_custom_fields on the UI while enabling all_available_custom_fields via the api.
         # A good example is the Project's attributes, the UI allows the enabled attributes only,
-        # and the Projects API still provides the old behaviour where all the custom fields are available.
-        # Once the api behaviour is aligned to the UI behaviour, this method can be removed in favor of
+        # and the Projects API still provides the old behavior where all the custom fields are available.
+        # Once the api behavior is aligned to the UI behavior, this method can be removed in favor of
         # the available_custom_fields method.
         def all_available_custom_fields
           @all_available_custom_fields ||= available_custom_fields

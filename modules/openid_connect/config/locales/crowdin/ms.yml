@@ -79,7 +79,7 @@ ms:
       group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
-      group_sync: Automatically extract and synchronise group membership information from the identity provider.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
       limit_self_registration: Jika didayakan, pengguna hanya boleh mendaftar menggunakan pembekal ini jika konfigurasi di hujung pembekal membenarkannya.
       mapping_admin: 'Sediakan pemetaan tersuai dalam respons info pengguna untuk digunakan untuk status pentadbir. Ia menjangkakan atribut boolean akan dikembalikan.
@@ -162,7 +162,7 @@ ms:
       delete_result_1: Alih keluar pembekal daripada senarai pembekal yang tersedia.
       delete_result_direct: Pembekal ini ditandakan sebagai pembekal log masuk langsung. Tetapan akan dialih keluar dan pengguna tidak lagi akan diubah hala ke pembekal untuk log masuk.
       delete_result_user_count:
-        one: Seorang pengguna masih menggunakan penyedia ini pada masa ini. Mereka perlu dijemput semula atau log masuk dengan penyedia lain.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} pengguna pada masa ini masih menggunakan penyedia ini. Mereka perlu dijemput semula atau log masuk dengan penyedia lain."
         zero: Tiada pengguna yang menggunakan penyedia ini pada masa ini. Tiada tindakan lanjut diperlukan.
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

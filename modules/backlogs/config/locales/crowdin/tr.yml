@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -73,8 +73,8 @@ tr:
             base:
               format: "%{message}"
               unfinished_work_packages:
-                one: Bu sprintte tamamlanmayan bir iş paketi var.
-                other: Bu sprint bünyesinde tamamlanmamış %{count} adet iş paketi bulunmaktadır.
+                one: There is %{count} work package that was not completed in this sprint.
+                other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: etkin değil, bu yüzden kapatılamaz.
         sprint_goal:
@@ -135,9 +135,17 @@ tr:
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
       title: Delete backlog bucket?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Bir burndown grafiği oluşturmak için sprint için başlangıç ve bitiş tarihi belirleyin.
         blankslate_title: Burndown verisi yok
+    created_resolved_chart:
+      show:
+        blankslate_description: Set start and end date for the sprint to generate a created vs resolved chart.
+        blankslate_title: No created vs resolved chart data available
     estimation_unit: Units
     excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
 
@@ -161,8 +169,8 @@ tr:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        one: 1 ürün daha göster
-        other: "%{count} ürün daha göster"
+        one: Show %{count} more item
+        other: Show %{count} more items
       title: Gelen kutusu
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
@@ -186,6 +194,7 @@ tr:
     remaining_hours: Kalan çalışma
     sharing: Sprint sharing
     show_burndown_chart: Burndown grafiği
+    show_created_resolved_chart: Created vs resolved work packages
     show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
@@ -209,6 +218,9 @@ tr:
       shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprint_reports:
+      navigation_component:
+        next: Next
+        previous: Previous
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
@@ -266,7 +278,6 @@ tr:
       header_backlogs: Birikmiş İşler Modülü
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: URL'yi panoya kopyala
         copy_work_package_id: İş paketi kimliğini kopyala
         move_menu: Move to position
         move_to_backlog_bucket: Move to backlog bucket
@@ -293,9 +304,9 @@ tr:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  burndown:
-    story_points: Hikaye noktaları
-    story_points_ideal: Hikaye noktaları (ideal)
+  created_resolved:
+    wp_created: Created
+    wp_resolved: Resolved
   ee:
     features:
       multiple_active_sprints: Multiple active sprints

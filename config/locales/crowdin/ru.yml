@@ -40,7 +40,9 @@ ru:
         view: Динамическая ссылка на представление, размещённая с помощью макроса.
         work_package: Динамическая ссылка на пакет работ, размещенная с помощью макроса.
   account:
+    already_have_an_account: You already have an account?
     auth_source_login_html: Пожалуйста, войдите в систему как <em>%{login}</em> чтобы активировать свою учетную запись.
+    continue_with_provider: Continue with %{name}
     delete: Удалить учётную запись
     delete_confirmation: Вы уверены, что хотите удалить учетную запись?
     deletion_info:
@@ -65,7 +67,9 @@ ru:
     error_self_registration_limited_provider: 'Регистрация пользователей ограничена для поставщика системы единого входа «%{name}».  Попросите администратора активировать для вас учетную запись или изменить лимит самостоятельной регистрации для этого провайдера.
 
       '
-    login_with_auth_provider: или войдите своей учетной записью
+    login_title: Sign in to %{app_title}
+    login_with_external_account: Sign in with an external account
+    no_account_yet: You don't have an account yet?
     omniauth_direct_login_continue: Продолжить вход
     omniauth_direct_login_redirecting: Перенаправление к вашему поставщику идентификационных данных…
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
@@ -118,6 +122,8 @@ ru:
       auth_provider:
         additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клиенты SCIM
+      automation:
+        actions: Actions
       calculated_value_error:
         customized_id: Настраиваемый ID
         customized_type: Настраиваемый тип
@@ -128,8 +134,6 @@ ru:
         repository: Репозиторий
       comment:
         commented: Прокомментировано
-      custom_action:
-        actions: Действия
       custom_field:
         admin_only: Только администратор
         allow_non_open_versions: Разрешить неоткрытые версии
@@ -201,14 +205,23 @@ ru:
         row_count: Количество строк
         widgets: Виджеты
       group:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         group_users: Пользователи группы
         identity_url: URL идентификации
         organizational_unit: Подразделение организации
         parent: Родительская группа
       group_detail:
+        avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         organizational_unit: Подразделение организации
         parent: Родительская группа
       import/jira:
+        auth_method: Auth method
+        basic_auth_password: Basic auth password
+        basic_auth_username: Basic auth username
         name: Имя экземпляра Jira
         personal_access_token: Персональный токен доступа
         url: URL-адрес экземпляра Jira
@@ -233,27 +246,6 @@ ru:
         onthefly: Автоматическое создание пользователя
         port: Порт
         tls_certificate_string: SSL-сертификат сервера LDAP
-      llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
-      llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        env_fingerprint: Applied environment configuration
-        env_provisioned_at: Applied from the environment
-        llm_features_enabled: Enable LLMs for this instance
-      llm_feature_binding:
-        dimensions: Dimensions
-        feature_key: Feature
-        model: Model
-      llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
       mcp_configuration:
         description: Описание
         enabled: Включено
@@ -435,6 +427,7 @@ ru:
       user:
         admin: Администратор
         auth_source: Источник аутентификации
+        avatar_type: Avatar type
         consented_at: Согласен с
         current_password: Текущий пароль
         department: Подразделение
@@ -448,7 +441,7 @@ ru:
         last_name: Фамилия
         ldap_auth_source: Подключение к LDAP
         new_password: Новый пароль
-        password_confirmation: Подтверждение
+        password_confirmation: Password confirmation
       user_custom_field:
         custom_field_section: Раздел
       user_non_working_time:
@@ -458,12 +451,14 @@ ru:
         auto_hide_popups: Автоматически скрывать успешные баннеры
         auto_hide_popups_caption: Когда эта функция включена, зеленые успешные баннеры автоматически исчезают через 5 секунд.
         avatar_color: Fallback color
+        avatar_text: Avatar text
+        avatar_type: Avatar type
         button_update_alerts: Обновить оповещения
-        button_update_fallback_color: Update fallback color
         button_update_look_and_feel: Обновить оформление
         button_update_user_information: Обновить профиль
         comments_sorting: Отображение активности пакета работ, отсортированной по
         daily_reminders: Ежедневные напоминания
+        date_format: Date format
         disable_keyboard_shortcuts: Отключить горячие клавиши
         dismissed_enterprise_banners: Скрытые корпоративные баннеры
         force_dark_theme_contrast: Принудительная высокая контрастность в темном режиме
@@ -474,12 +469,13 @@ ru:
         header_look_and_feel: Оформление
         impaired: Режим отображения для людей с ограниченными возможностями
         increase_contrast: Увеличить контраст
-        increase_contrast_caption: Включает режим высокой контрастности для выбранного цветового режима.
+        increase_contrast_caption: Enables high-contrast mode for the chosen color mode.
         increase_theme_contrast: Увеличить контрастность темы
         mode_guideline: Некоторые режимы перезаписывают цвета пользовательских тем для обеспечения доступности и читаемости. Пожалуйста, выберите светлый режим для полной поддержки пользовательских тем.
         require_double_click_for_inline_edit: Require double click to edit fields
         require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Цветовой режим
+        time_format: Time format
         time_zone: Часовой пояс
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не сохраненных изменениях
         workdays: Рабочие дни
@@ -644,6 +640,8 @@ ru:
         regex_invalid: не может быть проверен связанным регулярным выражением.
         regex_list_invalid: Строки %{invalid_lines} не могут быть проанализированы как регулярное выражение.
         regex_match_failed: не соответствует регулярному выражению %{expression}.
+        replacement_workflow_invalid: The selected replacement must be another available workflow.
+        replacement_workflow_required: A replacement workflow must be selected before this workflow can be deleted.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
         smaller_than_or_equal_to_max_value: должно быть меньше или равно максимальному значению.
         ssrf_filtered: нарушает политику SSRF данного экземпляра OpenProject.
@@ -771,45 +769,6 @@ ru:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'Указанный сертификат SSL недействителен: %{additional_message}'
-        llm_connection:
-          attributes:
-            api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
-            api_key:
-              invalid_api_key: was rejected by the LLM server.
-            base:
-              singleton: Only one LLM connection can be active.
-            base_url:
-              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
-              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
-              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
-              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
-              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
-              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
-            custom_headers:
-              invalid: must map header names to plain text values.
-            default_chat_model_id:
-              cannot_chat: is an embedding model, according to the LLM server, and cannot be used for chat.
-              not_available: is not offered by the configured LLM server.
-            default_embedding_model_id:
-              cannot_embed: is known not to create embeddings, according to the LLM server.
-              not_available: is not offered by the configured LLM server.
-            llm_features_enabled:
-              requires_connection: cannot be turned on before a connection has been configured.
-        llm_feature_binding:
-          attributes:
-            dimensions:
-              locked: cannot be changed while data indexed with it still exists. Re-index to change it.
-              not_for_chat_feature: only applies to features that create embeddings.
-            feature_key:
-              not_registered: does not belong to a known AI feature.
-            model_id:
-              locked: cannot be changed while data indexed with it still exists. Re-index to switch models.
-              not_available: is not offered by the configured LLM server.
-        llm_model:
-          attributes:
-            external_id:
-              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Невозможно сохранить, потому что совещание было обновлено кем-то другим за это время. Пожалуйста, перезагрузите страницу.
         member:
@@ -1005,10 +964,10 @@ ru:
               numeric: цифры (например "1")
               requirements_not_met: 'Должны включать символы следующих типов: %{rules}'
               reused:
-                one: уже использовался ранее. Пожалуйста, укажите другое значение.
-                few: использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}.
-                many: использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}.
-                other: уже использовался ранее. Пожалуйста, укажите пароль отличающийся от использованных ранее %{count}.
+                one: has been used before. Please choose one that is different from your last %{count} password.
+                few: has been used before. Please choose one that is different from your last %{count}.
+                many: has been used before. Please choose one that is different from your last %{count}.
+                other: has been used before. Please choose one that is different from your last %{count}.
               special: спецсимволы (например, "%")
               uppercase: прописные буквы (например, "A")
             password_confirmation:
@@ -1077,6 +1036,8 @@ ru:
             identifier:
               must_not_be_changed: не должно быть изменено вручную. Идентификаторы пакетов работ автоматически выделяются и разрешаются через таблицу псевдонимов, поэтому их изменение вручную прерывает ссылки и историю идентификатора. Если это намеренно, сохраните `save(контекст:%{context})` и поддерживайте таблицу work_package_semantic_aliass.
               semantic_identifier_incomplete: и sequence_number должны быть установлены одновременно.
+            observed_in_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             parent:
               cannot_be_in_another_project: не может быть в другом проекте.
               cannot_be_milestone: не может быть вехой
@@ -1104,6 +1065,8 @@ ru:
             status_id:
               status_invalid_in_type: недопустимо, так как текущего статуса в этом типе нет.
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя нет правильного перехода от старого этапа к новому.
+            target_versions:
+              error_readonly: cannot be set because you are not allowed to assign versions in this project.
             type:
               cannot_be_milestone_due_to_children: не может быть вехой, поскольку этот пакет работ имеет потомков.
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым для переназначения времени записи.'
@@ -1112,10 +1075,10 @@ ru:
       template:
         body: 'Пожалуйста, проверьте следующие поля:'
         header:
-          one: 1 ошибка не позволила сохранить %{model}
-          few: "%{count} ошибки не позволили сохранить %{model}"
-          many: "%{count} ошибок не позволили сохранить %{model}"
-          other: "%{count} ошибок не позволили сохранить %{model}"
+          one: "%{count} error prohibited this %{model} from being saved"
+          few: "%{count} errors prohibited this %{model} from being saved"
+          many: "%{count} errors prohibited this %{model} from being saved"
+          other: "%{count} errors prohibited this %{model} from being saved"
     models:
       action:
         one: Действие
@@ -1177,6 +1140,11 @@ ru:
         few: Провайдера аутентификации
         many: Провайдеров аутентификации
         other: Провайдеры аутентификации
+      automation:
+        one: Automation
+        few: Automations
+        many: Automations
+        other: Automations
       backup:
         one: Резервная копия
         few: Backups
@@ -1212,11 +1180,6 @@ ru:
         few: Comments
         many: Comments
         other: Комментарии
-      custom_action:
-        one: Пользовательское действие
-        few: Custom actions
-        many: Custom actions
-        other: Пользовательские действия
       custom_field:
         one: Пользовательское поле
         few: Custom fields
@@ -1327,6 +1290,11 @@ ru:
         few: Приоритеты
         many: Приоритеты
         other: Приоритеты
+      label:
+        one: Label
+        few: Labels
+        many: Labels
+        other: Labels
       ldap_auth_source:
         one: LDAP-подключение
         few: LDAP connections
@@ -1736,7 +1704,7 @@ ru:
             description: Заголовок приложения будет черным. Мы рекомендуем белый логотип на прозрачном фоне.
             name: Логотип в темном режиме
           light:
-            description: Убедитесь, что вы загрузили логотип, который достаточно контрастирует с выбранным цветом заголовка приложения.
+            description: Make sure to upload a logo that has enough contrast with the app header color selected.
             name: Логотип в светлом режиме
           light_high_contrast:
             description: Заголовок приложения будет серым. Мы рекомендуем черный логотип на прозрачном фоне.
@@ -1810,7 +1778,7 @@ ru:
     import:
       title: Импорт
     info:
-      database_deprecation_html: 'Начиная с OpenProject 16.0, для использования OpenProject требуется PostgreSQL 16. Ваша установка останется работоспособной с текущей базой данных, но ожидайте несовместимости в будущих выпусках. <br/> Мы подготовили [руководства по обновлению для всех способов установки](upgrade_guide). Вы можете выполнить обновление до следующего релиза в любое время, следуя этим руководствам.
+      database_deprecation_html: 'Starting with OpenProject 16.0, PostgreSQL 16 is required to use OpenProject. Your installation will remain functional with your current database, but anticipate incompatibility in future releases. <br/> We have prepared [upgrade guides for all installation methods](upgrade_guide). You can perform the upgrade ahead of the next release at any time by following the guides.
 
         '
     jemalloc_allocator: Распределитель памяти Jemalloc
@@ -1818,12 +1786,15 @@ ru:
       actions:
         button_edit: Редактировать конфигурацию
         button_open: Открыть запуск
+      api_client:
+        unknown_auth_method: Unknown authentication method. Please use 'bearer' or 'basic'.
       banner:
         contribution_callout: 'Пожалуйста, помогите нам улучшить Jira Migrator с помощью Ваших отзывов и частных пожертвований данных. Вы можете [присоединиться к сообществу разработчиков](link) Jira Migrator.
 
           '
         description: Этот мигратор Jira в настоящее время находится в бета-версии. В настоящее время мы поддерживаем только Jira Server/Data Center версии 10. и 11.x. Облачные экземпляры в данный момент не поддерживаются.
         title: Бета-версия - попробовать!
+      basic_auth_password_deleted: Basic auth password was successfully deleted.
       blank:
         description: Настройте хост Jira, чтобы начать импортировать элементы из Jira в этот экземпляр OpenProject.
         title: Хосты Jira еще не настроены
@@ -1856,16 +1827,30 @@ ru:
           description: В Jira используются идентификаторы задач, состоящие из ключа проекта и порядкового номера (PRJ-123). OpenProject также поддерживает эту функцию, однако её необходимо включить [здесь](link).
           title: Семантические идентификаторы на основе проекта должны быть включены.
       form:
+        auth_method:
+          basic:
+            caption: Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.
+            label: Basic auth
+          bearer:
+            caption: We recommend using this authentication method.
+            label: Personal access token (PAT)
         button_add: Добавить конфигурацию
-        button_delete_token: Удалить токен
+        button_delete_basic_auth_password: Delete basic auth password
+        button_delete_personal_access_token: Delete PAT
         button_save: Сохранить конфигурацию
-        delete_token_confirm: Вы уверены, что хотите удалить токен? Это отключит подключение к Jira.
+        button_test_connection: Test Connection
+        delete_basic_auth_password_confirm: Are you sure you want to delete the basic auth password? This will disable the Jira connection.
+        delete_personal_access_token_confirm: Are you sure you want to delete the personal access token (PAT)? This will disable the Jira connection.
+        exclude_resolution_fields_caption: You can exclude the resolution and resolution date fields from the import for this configuration.
         fields:
+          basic_auth_password: Password
+          basic_auth_username: Username
+          exclude_resolution_fields: Exclude resolution fields for this configuration
           name: Имя
-          personal_access_token: Персональный токен доступа
+          personal_access_token: Personal access token (PAT)
           url: URL сервера/центра обработки данных Jira
         label_testing: Тестирование конфигурации...
-        test_configuration_caption: Вы можете протестировать эту конфигурацию, [нажав здесь](test)
+      personal_access_token_deleted: Personal access token (PAT) was successfully deleted.
       run:
         actions:
           button_edit: Редактировать запуск
@@ -1969,40 +1954,40 @@ ru:
             title: Пожалуйста, убедитесь, что у Вас есть резервная копия!
           parts:
             issues:
-              one: 1 проблема
-              few: "%{count} проблем"
-              many: "%{count} проблем"
-              other: "%{count} проблем"
+              one: "%{count} issue"
+              few: "%{count} issues"
+              many: "%{count} issues"
+              other: "%{count} issues"
             jobs:
-              one: 1 job
+              one: "%{count} job"
               few: "%{count} jobs"
               many: "%{count} jobs"
               other: "%{count} jobs"
             projects:
-              one: 1 проект
-              few: "%{count} проектов"
-              many: "%{count} проектов"
-              other: "%{count} проектов"
+              one: "%{count} project"
+              few: "%{count} projects"
+              many: "%{count} projects"
+              other: "%{count} projects"
             statuses:
-              one: 1 статус
-              few: "%{count} статусов"
-              many: "%{count} статусов"
-              other: "%{count} статусов"
+              one: "%{count} status"
+              few: "%{count} statuses"
+              many: "%{count} statuses"
+              other: "%{count} statuses"
             types:
-              one: 1 тип
-              few: "%{count} типов"
-              many: "%{count} типов"
-              other: "%{count} типов"
+              one: "%{count} type"
+              few: "%{count} types"
+              many: "%{count} types"
+              other: "%{count} types"
             users:
-              one: 1 пользователь
-              few: "%{count} пользователей"
-              many: "%{count} пользователей"
-              other: "%{count} пользователей"
+              one: "%{count} user"
+              few: "%{count} users"
+              many: "%{count} users"
+              other: "%{count} users"
             work_packages:
-              one: 1 пакет работ
-              few: "%{count} пакетов работ"
-              many: "%{count} пакетов работ"
-              other: "%{count} пакетов работ"
+              one: "%{count} work package"
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
           revert_dialog:
             confirm: Я понимаю, что при отмене данные будут удалены навсегда
             description: Это приведет к удалению всех импортированных объектов (включая целые проекты).
@@ -2067,10 +2052,10 @@ ru:
               caption: Выберите, что Вы хотите импортировать в OpenProject
               caption_done: Завершено
               caption_done_description:
-                one: 1 проект выбран в области применения
-                few: "%{count} проекта выбраны в области применения"
-                many: "%{count} проектов выбраны в области применения"
-                other: "%{count} проектов выбраны в области применения"
+                one: "%{count} project selected as scope"
+                few: "%{count} projects selected as scope"
+                many: "%{count} projects selected as scope"
+                other: "%{count} projects selected as scope"
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               elements:
                 custom_fields: Подмножество настраиваемых полей
@@ -2134,17 +2119,18 @@ ru:
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
       test:
-        api_error: Jira API вернул статус ошибки %{status}. Пожалуйста, проверьте ваш экземпляр Jira URL и API токен.
+        api_error: Jira API returned error status %{status}. Please check your Jira instance URL and credentials.
+        basic_auth_password_invalid: Invalid basic auth password. Please check your credentials in the configuration.
+        basic_auth_username_invalid: Invalid basic auth username. Please check your credentials in the configuration.
         connection_error: 'Ошибка соединения: %{message}'
         error: Во время тестирования соединения произошла непредвиденная ошибка
         failed: 'Соединение не удалось: Невозможно получить информацию о сервере'
         invalid_url: Укажите корректный URL
-        missing_credentials: Пожалуйста, укажите URL и персональный токен доступа, чтобы проверить соединение
         parse_error: Не удалось разобрать ответ от сервера. Возможно, сервер не является действующим экземпляром Jira.
+        personal_access_token_invalid: Invalid personal access token (PAT). Please check your credentials in the configuration.
         success: Успешное подключение к %{server} (версия %{version})
-        token_error: Неверный API токен. Пожалуйста, проверьте свои учетные данные в конфигурации.
+        user_is_not_admin: Credential's owner is not an Administer in Jira
       title: Мигратор Jira
-      token_deleted: Токен был успешно удален.
       user:
         unknown_name: Неизвестен
     journal_aggregation:
@@ -2182,144 +2168,6 @@ ru:
         no_matches:
           description: Попробуйте изменить поисковой запрос.
           title: Нет меток, соответствующих вашему запросу
-    llm_connections:
-      delete_api_key:
-        configured_from_env: This connection is configured through the environment and cannot be changed here.
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
-        title: Remove API key
-      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
-      disconnect:
-        configured_from_env: This connection is configured through the environment and cannot be changed here.
-        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
-        heading: Disconnect from the LLM server?
-        keeps_bindings: 'The model chosen for each feature is kept: %{features}.'
-        keeps_models: The model list, including any models you added manually, is kept.
-        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
-        menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
-      form:
-        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
-        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
-        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
-        api_key_caption_env: The key comes from the environment.
-        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
-        base_url_caption: The base URL of the server, for example https://example.com/v1.
-        env_applied: Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded.
-        env_changed: The environment variables have changed since they were applied on %{time}. The values below stay in use until the database is seeded again.
-        env_pending: Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page.
-        label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
-      show:
-        description: Connect OpenProject to an LLM server so that AI features can use it.
-        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
-      tabs:
-        connection: Connection
-        features: Feature configuration
-        models: Models
-      update:
-        disabled: Saved. LLM features are switched off for this instance.
-        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
-        success: Successfully connected to the LLM server.
-    llm_feature_bindings:
-      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
-      form:
-        dimensions_caption: How many numbers each vector has. Leave blank to use whatever the server returns.
-        dimensions_caption_probed: The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time.
-        model_caption_embedding: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
-        model_caption_ruled_out: Models known to lack a capability this feature needs are not offered.
-      index:
-        description: Choose which model each AI feature uses. Features without a choice use the default models set on the [Models](models_url) tab.
-      inherit_with_default: Use the default (%{model})
-      inherit_without_default: Use the default (none set)
-      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
-      locked_values_heading: Values fixed by the existing index
-      option_unqualified: "%{model} (no longer eligible for this feature)"
-      update:
-        model_incapable: The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better.
-        success: The model for %{feature} has been saved.
-    llm_health_status:
-      create:
-        success: 'The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed.'
-      create_health_status_report:
-        success: The checks have run.
-      show:
-        blankslate_description: Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model.
-        blankslate_heading: This connection has not been checked yet
-        download: Download report
-        last_check: Last checked %{datetime}.
-        run_checks: Run checks
-        running: Running checks...
-        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
-        title: Health status
-    llm_models:
-      configured_from_env: The environment configures this model as a default, so it cannot be removed or renamed here.
-      create:
-        success: "%{model} has been added."
-      defaults:
-        chat_caption: Embedding models are not offered.
-        description: Used by AI features that do not choose a model themselves.
-        embedding_caption: Only models known to create embeddings are offered. [Read more](docs_url) about model types.
-        embedding_none: No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model.
-        embedding_option_unqualified: "%{model} (not known to create embeddings)"
-        heading: Default models
-        success: The default models have been saved.
-      destroy:
-        description: The model will no longer be offered to AI features.
-        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
-        heading: Remove %{model}?
-        success: "%{model} has been removed."
-        title: Remove model
-      edit:
-        description: Edit how OpenProject uses this model.
-      form:
-        context_window: Context window
-        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
-        context_window_known: Leave blank to use %{value}, %{source}.
-        display_name_caption: An optional friendly name shown instead of the model id.
-        external_id_caption: The model name exactly as the server expects it.
-        model_type: Model type
-        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
-        model_type_chat: Chat model
-        model_type_embedding: Embedding model
-        model_type_unspecified: Not specified
-        state_inherited: Inherit from server (%{state})
-        state_supported: Supported
-        state_unsupported: Not supported
-      index:
-        add_model: Model
-        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
-        blank_title: No models available
-        context_window: Context window
-        description: Reported by the server on %{fetched_at}.
-        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
-        filter_label: Filter models
-        identifier: Model
-        kind: Type
-        refresh: Refresh models
-        source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
-      new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
-      refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
-      update:
-        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: Протокол контекста модели позволяет агентам ИИ предоставлять своим пользователям инструменты и ресурсы, открытые данным экземпляром OpenProject. Эта функция пока находится в стадии бета-версии.
@@ -2358,6 +2206,10 @@ ru:
         inheritance_source: "%{type} %{name}"
         inherited_via: "(источник: %{source})"
         title: Членства
+    placeholder_users:
+      index:
+        blank_description: No placeholder user matches the current filter.
+        blank_title: No placeholder users
     plugins:
       no_results_content_text: Более подробную информацию см. на странице "Наши интеграции и плагины".
       no_results_title_text: В настоящее время плагины не установлены.
@@ -2371,10 +2223,10 @@ ru:
         confirm_button: Снять резервирование идентификатора
         description: Отмена резервирования данного идентификатора проекта не может быть отменена. Внешние ссылки и интеграции, использующие этот идентификатор, перестанут работать, а само имя станет доступным для использования любым новым проектом.
         description_with_work_packages:
-          one: Отмена резервирования этого идентификатора проекта (и его один идентификатор пакета работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
-          few: Отмена резервирования этого идентификатора проекта (и его %{count} идентификатора пакетов работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
-          many: Отмена резервирования этого идентификатора проекта (и его %{count} идентификаторов пакетов работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
-          other: Отмена резервирования этого идентификатора проекта (и его %{count} идентификаторов пакетов работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
+          one: Unreserving this project identifier (and its %{count} work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         heading: Отменить резервирование "%{identifier}?
         title: Снять резервирование идентификатора
       empty_body: В случае изменения идентификатора проекта предыдущий идентификатор будет отображаться здесь, чтобы вы могли отменить его резервирование, как только это станет безопасным.
@@ -2502,10 +2354,10 @@ ru:
           error_unknown: Требуется ручная проверка
           error_used_in_past: Зарезервировано другим проектом
           remaining_projects:
-            one: "... еще 1 проект"
-            few: "... еще %{count} проектов"
-            many: "... еще %{count} проектов"
-            other: "... еще %{count} проектов"
+            one: "... %{count} more project"
+            few: "... %{count} more projects"
+            many: "... %{count} more projects"
+            other: "... %{count} more projects"
         banner:
           existing_identifiers_notice: 'Существующие идентификаторы для %{project_count} проектов не соответствуют требованиям, предъявляемым к семантическим идентификаторам. OpenProject может автоматически обновить их, чтобы они были действительными, как показано в примерах ниже. Щелкните на ''Конвертировать идентификаторы'', чтобы обновить идентификаторы для всех проектов и включить семантические идентификаторы для проектов.
 
@@ -2545,7 +2397,7 @@ ru:
         types_caption: Добавьте типы пакетов работ, для которых должно быть доступно данное действие. Все доступные варианты будут включены автоматически.
         usage_scope_caption: 'Вы можете ограничить область видимости этого действия: везде (включая комментарии, Вики и настраиваемые поля), для всех типов пакетов работ или для определенных типов пакетов работ.'
       index:
-        description: Действия по преобразованию текста предоставляют пользователям возможности на базе больших языковых моделей для написания, систематизации и проверки текста везде, где используется редактор форматированного текста, например в описаниях пакетов работ, комментариях и на страницах вики. Вы можете создавать новые действия, используя собственные подсказки и инструкции.
+        description: Text transform actions give users LLM-powered actions to write, organize and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
         label_add_action: Действие
         label_aria_add_action: Добавить действие «Преобразование текста»
       index_component:
@@ -2589,11 +2441,13 @@ ru:
         label: 'Роль: %{role}'
         no_role: Выберите роль
         roles:
-          one: Выбрана одна роль
-          few: "%{count} роли выбрано"
-          many: "%{count} ролей выбрано"
-          other: "%{count} ролей выбрано"
+          one: "%{count} role selected"
+          few: "%{count} roles selected"
+          many: "%{count} roles selected"
+          other: "%{count} roles selected"
         title: Выберите роли
+        with_transitions: With transitions
+        without_transitions: Without transitions
       status_button: Статус
       statuses_dialog:
         caption: Добавление или удаление статусов, которые вы хотите ассоциировать с этим типом. Удаление статуса также удалит связанный с ним рабочий процесс.
@@ -2603,10 +2457,10 @@ ru:
         confirm: Удалить
         description: Удаление этих статусов сделает их недоступными для данного типа и удалит существующие рабочие процессы. Вы уверены, что хотите продолжить?
         heading:
-          one: Удалить 1 статус?
-          few: Удалить %{count} статусов?
-          many: Удалить %{count} статусов?
-          other: Удалить %{count} статусов?
+          one: Remove %{count} status?
+          few: Remove %{count} statuses?
+          many: Remove %{count} statuses?
+          other: Remove %{count} statuses?
         title: Удаление статусов
       tabs:
         always: Переходы по умолчанию
@@ -2626,6 +2480,21 @@ ru:
         not_available: ИИ-ассистент недоступен.
         timeout: Сервис ИИ не ответил вовремя.
         upstream_error: Сервис ИИ выдал ошибку.
+      pane:
+        cancel: Cancel
+        close: Close
+        copied: Copied
+        copy: Copy
+        discard: Discard
+        editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
+        failed_title: Generation failed
+        generating: Generating…
+        replace: Replace
+        selection_gone: The selected text is no longer there, so it cannot be replaced. You can still copy it.
+        stopped_description: The response was blocked before it finished, so the partial text was discarded.
+        stopped_title: Generation stopped
+        title: AI result
+        try_again: Try again
   announcements:
     content: Content
     is_active: теперь отображается
@@ -2635,7 +2504,7 @@ ru:
     deleted_by_admin: Находящийся в карантине файл '%{filename}' был удален администратором.
     deleted_message: Вирус обнаружен в файле '%{filename}'. Файл был удален.
     not_processed_yet_message: Загрузка заблокирована, так как файл еще не был проверен на вирусы. Пожалуйста, повторите попытку позже.
-    overridden_by_admin: Карантин для файла '%{filename}' был снят с помощью %{user}. Теперь к файлу можно получить доступ.
+    overridden_by_admin: The quarantine for file '%{filename}' has been removed by %{user}. The file can now be accessed.
     quarantined_attachments:
       container: Контейнер
       delete: Удалите файл, помещенный в карантин
@@ -2812,6 +2681,7 @@ ru:
     updated_at: Обновлено
     updated_on: Обновлено
     uploader: Кто загрузил
+    url: URL
     user: Пользователь
     username: Имя пользователя
     value: Значение
@@ -3044,9 +2914,9 @@ ru:
     text:
       failed: Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}».
       succeeded: Скопированный проект «%{source_project_name}» в «%{target_project_name}».
-    title: Копировать проект "%{source_project_name}"
+    title: Duplicate project "%{source_project_name}"
     x_objects_of_this_type:
-      one: Один объект этого типа
+      one: "%{count} object of this type"
       other: "%{count} объектов этого типа"
       zero: Нет объектов данного типа
   create_portfolio:
@@ -3086,7 +2956,7 @@ ru:
     admin:
       hierarchy:
         subitems:
-          one: 1 подпункт
+          one: "%{count} sub-item"
           other: "%{count} подпунктов"
           zero: нет подпунктов
       items:
@@ -3246,25 +3116,25 @@ ru:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: около часа
-        few: около %{count} часов
-        many: около %{count} часов
-        other: около %{count} часов
+        one: about %{count} hour
+        few: about %{count} hours
+        many: about %{count} hours
+        other: about %{count} hours
       about_x_months:
-        one: около месяца
-        few: около %{count} месяцев
-        many: около %{count} месяцев
-        other: около %{count} месяцев
+        one: about %{count} month
+        few: about %{count} months
+        many: about %{count} months
+        other: about %{count} months
       about_x_years:
-        one: около года
-        few: около %{count} лет
-        many: около %{count} лет
-        other: около %{count} лет
+        one: about %{count} year
+        few: about %{count} years
+        many: about %{count} years
+        other: about %{count} years
       almost_x_years:
-        one: почти год
-        few: почти %{count} года
-        many: почти %{count} года
-        other: почти %{count} года
+        one: almost %{count} year
+        few: almost %{count} years
+        many: almost %{count} years
+        other: almost %{count} years
       half_a_minute: полминуты
       less_than_x_minutes:
         one: менее минуты
@@ -3272,65 +3142,65 @@ ru:
         many: менее %{count} минут
         other: менее %{count} минут
       less_than_x_seconds:
-        one: меньше секунды
-        few: менее %{count} секунд
-        many: менее %{count} секунд
-        other: менее %{count} секунд
+        one: less than %{count} second
+        few: less than %{count} seconds
+        many: less than %{count} seconds
+        other: less than %{count} seconds
       over_x_years:
-        one: более года
-        few: более %{count} лет
-        many: более %{count} лет
-        other: более %{count} лет
+        one: over %{count} year
+        few: over %{count} years
+        many: over %{count} years
+        other: over %{count} years
       x_days:
-        one: День
-        few: "%{count} дней"
-        many: "%{count} дней"
-        other: "%{count} дней"
+        one: "%{count} day"
+        few: "%{count} days"
+        many: "%{count} days"
+        other: "%{count} days"
       x_hours:
-        one: 1 час
-        few: "%{count} часов"
-        many: "%{count} часов"
-        other: "%{count} часов"
+        one: "%{count} hour"
+        few: "%{count} hours"
+        many: "%{count} hours"
+        other: "%{count} hours"
       x_hours_abbreviated:
-        one: 1 ч
-        few: "%{count} ч"
-        many: "%{count} ч"
-        other: "%{count} ч"
+        one: "%{count} hr"
+        few: "%{count} hrs"
+        many: "%{count} hrs"
+        other: "%{count} hrs"
       x_minutes:
-        one: 1 минута
-        few: "%{count} минут"
-        many: "%{count} минут"
-        other: "%{count} минут"
+        one: "%{count} minute"
+        few: "%{count} minutes"
+        many: "%{count} minutes"
+        other: "%{count} minutes"
       x_minutes_abbreviated:
-        one: 1 мин
-        few: "%{count} мин"
-        many: "%{count} мин"
-        other: "%{count} мин"
+        one: "%{count} min"
+        few: "%{count} mins"
+        many: "%{count} mins"
+        other: "%{count} mins"
       x_months:
-        one: 1 месяц
-        few: "%{count} месяца"
-        many: "%{count} месяцев"
-        other: "%{count} месяца"
+        one: "%{count} month"
+        few: "%{count} months"
+        many: "%{count} months"
+        other: "%{count} months"
       x_seconds:
-        one: 1 секунда
-        few: "%{count} секунды"
-        many: "%{count} секунд"
-        other: "%{count} секунды"
+        one: "%{count} second"
+        few: "%{count} seconds"
+        many: "%{count} seconds"
+        other: "%{count} seconds"
       x_seconds_abbreviated:
-        one: 1 секунда
-        few: "%{count} секунд"
-        many: "%{count} секунд"
-        other: "%{count} секунд"
+        one: "%{count} s"
+        few: "%{count} s"
+        many: "%{count} s"
+        other: "%{count} s"
       x_weeks:
-        one: 1 неделя
-        few: "%{count} недель"
-        many: "%{count} недель"
-        other: "%{count} недель"
+        one: "%{count} week"
+        few: "%{count} weeks"
+        many: "%{count} weeks"
+        other: "%{count} weeks"
       x_years:
-        one: 1 год
-        few: "%{count} года"
-        many: "%{count} лет"
-        other: "%{count} лет"
+        one: "%{count} year"
+        few: "%{count} years"
+        many: "%{count} years"
+        other: "%{count} years"
     units:
       day:
         one: день
@@ -3486,10 +3356,10 @@ ru:
     teaser:
       description_html: У вас есть доступ ко всем функциям %{trial_plan}.
       title:
-        one: Остался один день для пробного токена %{trial_plan}
-        few: Осталось %{count} дня для пробного токена %{trial_plan}
-        many: Осталось %{count} дней для пробного токена %{trial_plan}
-        other: Осталось %{count} дней для пробного токена %{trial_plan}
+        one: "%{count} day left of %{trial_plan} trial token"
+        few: "%{count} days left of %{trial_plan} trial token"
+        many: "%{count} days left of %{trial_plan} trial token"
+        other: "%{count} days left of %{trial_plan} trial token"
     trial:
       already_retrieved: 'Токен пробной версии уже был получен. Пожалуйста, проверьте ваши письма на наличие прикрепленного токена. Свяжитесь с нашей службой поддержки, если вам нужен новый токен.
 
@@ -3876,18 +3746,18 @@ ru:
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
+        one: "%{count} project"
         few: "%{count} projects"
         many: "%{count} projects"
         other: "%{count} projects"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
+        one: "%{count} type"
         few: "%{count} types"
         many: "%{count} types"
         other: "%{count} types"
       variants_count:
-        one: 1 variant
+        one: "%{count} variant"
         few: "%{count} variants"
         many: "%{count} variants"
         other: "%{count} variants"
@@ -3904,7 +3774,6 @@ ru:
         caption: Start with an existing form, change it as you wish and save it as a new form.
         label: Start with a copy of an existing form
         missing: Select the form to copy, or start from scratch instead.
-        panel_label: Form to copy
       label: Starting point
       scratch:
         caption: Start with the default attribute groups and arrange them yourself.
@@ -3925,15 +3794,15 @@ ru:
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
-        one: This form is used by 1 type. Changes apply to it.
+        one: This form is used by %{count} type. Changes apply to it.
         few: This form is used by %{count} types. Changes apply to all of them.
         many: This form is used by %{count} types. Changes apply to all of them.
         other: This form is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: This form is used by 1 type or variant.
-        few: This form is used by %{count} types and variants.
-        many: This form is used by %{count} types and variants.
-        other: This form is used by %{count} types and variants.
+        one: This form is used by %{count} type or variant. Changes apply to it.
+        few: This form is used by %{count} types and variants. Changes apply to all of them.
+        many: This form is used by %{count} types and variants. Changes apply to all of them.
+        other: This form is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:
@@ -3943,8 +3812,54 @@ ru:
           caption: Arrange the attribute groups of a new form for this type.
           label: Configure a new form
   forums:
+    index:
+      could_not_be_moved: Forum could not be moved.
+      forum_actions: Forum actions
+      no_results_title_text: There are currently no forums.
     show:
-      no_results_title_text: На данный момент сообщений для форума нет.
+      last_reply: Last reply
+      new_topic: New topic
+      no_results_title_text: No topics yet
+      sort:
+        fewest_replies: Fewest replies
+        most_replies: Most replies
+        newest: Newest
+        oldest: Oldest
+        oldest_activity: Oldest activity
+        recent_activity: Recent activity
+      topic: Topic
+    topic:
+      accept_as_solution: Accept as solution
+      accepted_solution: Accepted solution
+      accepted_solutions_banner:
+        one: 'Accepted solution:'
+        few: 'Accepted solutions:'
+        many: 'Accepted solutions:'
+        other: 'Accepted solutions:'
+      add_work_package: Add new work package
+      edit_message: Edit message
+      gap:
+        load_previous:
+          one: Load previous reply
+          few: Load previous %{count} replies
+          many: Load previous %{count} replies
+          other: Load previous %{count} replies
+        load_previous_page: Load previous %{count} replies (out of %{total})
+      message_actions: Message actions
+      participants:
+        one: 1 participant
+        few: "%{count} participants"
+        many: "%{count} participants"
+        other: "%{count} participants"
+      quote_message: Quote message
+      remove_as_solution: Remove as solution
+      replies:
+        one: 1 reply
+        other: "%{count} replies"
+        zero: No replies yet
+      started_html: Started %{time}
+      view_work_package: View %{id}
+      with_accepted_solution: With accepted solution
   general_csv_decimal_separator: "."
   general_csv_encoding: UTF-8
   general_csv_separator: ","
@@ -3969,6 +3884,8 @@ ru:
   groups:
     edit:
       synchronized_groups: Синхронизированные группы
+    form:
+      group_attributes: Group attributes
     index:
       description: Объединяя пользователей в группы, Вы можете добавлять их в качестве участников в одни и те же проекты или назначать им одинаковые глобальные роли.
     memberships:
@@ -3994,6 +3911,10 @@ ru:
       leave_project: Покинуть проект
       no_favorite_projects: У вас нет избранных проектов.
       title: Проекты
+    whats_new:
+      title: What's new in %{version}
+      unread: Unread
+      view_release_video: View release video
   health_reports:
     common:
       checks:
@@ -4011,7 +3932,7 @@ ru:
       summary:
         failure: Некоторые проверки не удались, и система работает не так, как ожидалось.
         success: Все соединения и системы работают, как и ожидалось.
-        warning: Некоторые проверки вернули предупреждение. Это может привести к неожиданному поведению.
+        warning: Some checks returned a warning. This can lead to unexpected behavior.
     result_component:
       status:
         failed: Ошибка
@@ -4020,7 +3941,7 @@ ru:
         warning: Предупреждение
   help_texts:
     views:
-      favoured: Отметить это представление как избранное и добавить в панель сохранённых представлений слева.
+      favoured: Mark this view as favorite and add to the saved views sidebar on the left.
       project: "%{plural} всегда прикреплены к проекту. Вы можете выбрать только проекты, в которых активен модуль %{plural} . После создания %{singular} вы можете добавлять к нему пакеты работ из других проектов.\n"
       public: Опубликуйте это представление, позволив другим пользователям получить доступ к вашему представлению. Пользователи с разрешением "Управление общедоступными представлениями" могут изменять или удалять общедоступный запрос. Это не влияет на видимость результатов рабочего пакета в этом представлении, и в зависимости от их разрешений пользователи могут видеть разные результаты.
   homescreen:
@@ -4044,6 +3965,31 @@ ru:
             line_5: Отслеживайте прогресс импорта при использовании Jira Migrator.
             line_6: Используйте оповещения о дедлайне в версии Community Edition.
           new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
+
+            '
+        '18_0':
+          new_features_list:
+            line_0:
+              description: Use with shared and project-specific workflows and forms
+              title: Type variants
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_1:
+              description: Sprint reports, including many new charts
+              title: Agile Reporting
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_2:
+              description: Summarize text, change formats, base it on templates
+              title: AI Text Actions
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_3:
+              description: Create and reuse tags
+              title: Labels
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+            line_4:
+              description: Configure or delegate custom fields per project
+              title: Project-specific values
+              url: https://www.openproject.org/docs/release-notes/18-0-0/
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -4081,6 +4027,7 @@ ru:
   journals:
     cause_descriptions:
       budget_deleted: Бюджет был удален
+      forum_message_deleted: "(deleted)"
       import:
         changed_with_diff: "%{field} изменено (%{link})"
         csv: from CSV
@@ -4133,6 +4080,7 @@ ru:
       budget_deleted: Бюджет был удален
       dates_changed: Даты изменены
       default_attribute_written: Запись атрибутов со свойством "только для чтения"
+      forum_message_html: "<strong>Created from forum message</strong> %{message_information}"
       import: Импортировано
       meeting_agenda_item_added_html: "<strong>Добавлено в повестку встречи</strong> %{meeting_title_information}"
       meeting_agenda_item_added_template_html: "<strong>Добавлено в</strong> %{meeting_title_information}"
@@ -4320,7 +4268,7 @@ ru:
   label_database_version: Версия PostgreSQL
   label_date: Дата
   label_date_and_time: Дата и время
-  label_date_format: Формат даты
+  label_date_and_time_formats: Date and time formats
   label_date_from: От
   label_date_from_to: C %{start} по %{end}
   label_date_to: Кому
@@ -4336,6 +4284,7 @@ ru:
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_deleted_label: "(deleted label)"
   label_deleted_version: "(удаленная версия)"
   label_departments: Департаменты
   label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
@@ -4479,7 +4428,6 @@ ru:
   label_keyword_plural: Ключевые слова
   label_label_plural: Метки
   label_language: Язык
-  label_language_based: Основанный на языке пользователя
   label_languages: Языки
   label_last_activity: Последняя активность
   label_last_change_on: Последнее изменение
@@ -4501,6 +4449,7 @@ ru:
   label_list: Список
   label_loading: Загрузка...
   label_locale: Язык и регион
+  label_locale_based: Use default for user locale
   label_lock_user: Заблокировать пользователя
   label_locked: заблокировано
   label_logged_as: Войти в систему как
@@ -4512,6 +4461,7 @@ ru:
   label_managed_by_ldap: Управляется LDAP синхронизацией
   label_managed_repositories_vendor: Управляемые %{vendor} репозиториев
   label_mapping_for: 'Привязки для: %{attribute}'
+  label_markdown_version: Markdown version
   label_max_size: Максимальный размер
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
@@ -4530,7 +4480,6 @@ ru:
   label_menu_item_name: Название пункта меню
   label_message: Сообщение
   label_message_last: Последнее сообщение
-  label_message_new: Новое сообщение
   label_message_plural: Сообщения
   label_message_posted: Сообщение добавлено
   label_minute_plural: минуты
@@ -4556,7 +4505,7 @@ ru:
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
   label_my_security: Безопасность
-  label_my_work: My work
+  label_my_time: My time
   label_name: Имя
   label_never: Никогда
   label_new: Новое
@@ -4791,6 +4740,7 @@ ru:
   label_subtask_plural: Подзадачи
   label_summary: Сводка
   label_system: Система
+  label_system_or_language_default: Use system or language based default
   label_system_settings: Настройки системы
   label_system_storage: Информация хранилища
   label_table_of_contents: Содержание
@@ -4841,6 +4791,7 @@ ru:
   label_user_search: Найти пользователя
   label_user_settings: Настройки пользователя
   label_users_settings: Настройки пользователей
+  label_value: Value
   label_value_x: 'Значение: %{x}'
   label_version_custom_field_plural: Version custom fields
   label_version_edit: Изменить версию
@@ -4905,53 +4856,53 @@ ru:
   label_working_hours: График работы
   label_workweek: Рабочая неделя
   label_x_closed_work_packages_abbr:
-    one: 1 закрыто
+    one: "%{count} closed"
     other: "%{count} закрыто"
     zero: 0 закрытых
   label_x_comments:
-    one: 1 комментарий
+    one: "%{count} comment"
     other: "%{count} комментариев"
     zero: нет комментариев
   label_x_days:
-    one: 1 день
-    few: "%{count} дней"
-    many: "%{count} дней"
-    other: "%{count} дней"
+    one: "%{count} day"
+    few: "%{count} days"
+    many: "%{count} days"
+    other: "%{count} days"
   label_x_files:
-    one: 1 файл
+    one: "%{count} file"
     other: "%{count} файлов"
     zero: нет файлов
   label_x_items:
-    one: 1 элемент
+    one: "%{count} item"
     other: "%{count} элементов"
     zero: нет элементов
   label_x_items_selected:
-    one: Один элемент выбран
-    few: "%{count} элемента выбрано"
-    many: "%{count} элементов выбрано"
-    other: "%{count} элементов выбрано"
+    one: "%{count} item selected"
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_x_open_work_packages_abbr:
-    one: 1 открыт
+    one: "%{count} open"
     other: "%{count} открыто"
     zero: 0 открытых
   label_x_projects:
-    one: 1 проект
+    one: "%{count} project"
     other: "%{count} проектов"
     zero: нет проектов
   label_x_work_packages:
-    one: 1 пакет работ
+    one: "%{count} work package"
     other: "%{count} пакетов работ"
     zero: Пакетов работ нет
   label_x_working_days:
-    one: 1 рабочий день
-    few: "%{count} рабочих дней"
-    many: "%{count} рабочих дней"
-    other: "%{count} рабочих дней"
+    one: "%{count} working day"
+    few: "%{count} working days"
+    many: "%{count} working days"
+    other: "%{count} working days"
   label_x_working_days_time_off:
-    one: 'Время отдыха: 1 рабочий день'
-    few: 'Время отдыха: %{count} рабочих дней'
-    many: 'Время отдыха: %{count} рабочих дней'
-    other: 'Время отдыха: %{count} рабочих дней'
+    one: 'Time off: %{count} working day'
+    few: 'Time off: %{count} working days'
+    many: 'Time off: %{count} working days'
+    other: 'Time off: %{count} working days'
   label_yesterday: вчера
   label_zen_mode: Режим «Дзен» (только доска и часы)
   ldap_auth_sources:
@@ -5004,7 +4955,7 @@ ru:
       start_tls: STARTTLS
       start_tls_description: Отправляет команду STARTTLS после подключения к стандартному LDAP порту. Рекомендуется для шифрованных соединений.
     tls_options:
-      tls_certificate_description: Если сертификат сервера LDAP отсутствует в источниках доверия этой системы, вы можете добавить его вручную. Введите строку сертификации PEM X509.
+      tls_certificate_description: If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certificate string.
       verify_peer: Проверка SSL сертификата
       verify_peer_description_html: 'Включает строгую проверку SSL цепочки доверенных сертификатов. <br> <strong>Предупреждение:</strong> Отключение этой опции отключает проверку SSL сертификата сервера LDAP. Это делает ваше соединение уязвимым к атакам "человек посередине".
 
@@ -5032,114 +4983,6 @@ ru:
     update:
       failure: 'Измененный список не может быть сохранен: %{errors}'
       success: Измененный список был сохранен
-  llm:
-    api_formats:
-      anthropic: Anthropic
-      azure: Azure OpenAI
-      bedrock: AWS Bedrock
-      deepseek: DeepSeek
-      gemini: Google Gemini
-      gpustack: GPUStack
-      mistral: Mistral
-      ollama: Ollama
-      openai: OpenAI
-      openrouter: OpenRouter
-      perplexity: Perplexity
-      vertexai: Google Vertex AI
-      xai: xAI
-    capabilities:
-      embeddings:
-        label: Embeddings
-      function_calling:
-        label: Tool calling
-      reasoning:
-        label: Reasoning
-      structured_output:
-        label: Structured output
-      vision:
-        label: Vision
-    context_window_sources:
-      registry: the figure published for this model
-      server: reported by the server
-    features:
-      description_assistant:
-        caption: Rewrites and restructures work package text on request.
-        label: Description assistant
-      semantic_search:
-        caption: Indexes work packages so they can be found by meaning rather than by keyword.
-        label: Semantic search
-    health_checks:
-      configuration:
-        api_format_supported: Endpoint format is usable
-        base_url_present: Endpoint is configured
-        credentials_present: API key is stored
-        enabled: Connection is switched on
-        feature_flag: AI features are switched on
-        header: Configuration
-      errors:
-        api_key_missing: No API key is stored. This is only correct if the LLM server requires no authentication.
-        catalogue_never_fetched: The model list has never been retrieved from the server.
-        catalogue_stale: The model list was last retrieved on %{fetched_at} and may no longer match what the server offers.
-        catalogue_stale_settings: The connection settings changed after the model list was last refreshed. Refresh the models on the Models tab.
-        chat_failed: The server refused a request for %{model} with status %{status}.
-        connection_disabled: The connection is configured but switched off, so no feature will use it.
-        connection_error: The server could not be reached. Please ensure it is running and reachable from OpenProject.
-        default_model_missing: "%{model} is no longer offered by the server."
-        default_model_unset: No default model has been chosen on the Models tab, so features fall back to their own selection.
-        empty_completion: "%{model} answered with an empty message."
-        feature_flag_off: The LLM connection feature is switched off, so the connection is not used yet.
-        features_incapable: "%{features} cannot run, because the chosen model does not provide: %{capabilities}."
-        features_model_missing: "%{features} point at a model the server no longer offers."
-        features_unbound: "%{features} have no model chosen yet."
-        invalid_api_key: The server rejected the stored API key.
-        locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
-        model_not_served: The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment.
-        models_endpoint_missing: The server has no model list at this address, so the API key could not be verified either. Check that the URL includes the API version segment (for example https://example.com/v1).
-        no_model_to_test: No model is available to test with. Add a model or choose a default first.
-        no_models: The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right.
-        no_models_endpoint: The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it.
-        not_configured: No endpoint has been configured.
-        not_openai_compatible: The endpoint did not return a valid model list. Please ensure it points at an OpenAI-API-compatible endpoint, including the API version segment.
-        request_timed_out: The server did not respond in time.
-        server_error: The server responded with status %{status}.
-        ssrf_filtered: The endpoint resolves to a blocked address.
-        unsupported_api_format: "%{api_format} needs credentials that OpenProject cannot store."
-      features:
-        bindings_resolvable: Every feature has a usable model
-        header: AI features
-        locked_bindings_intact: Indexed data still has its model
-      inference:
-        chat_round_trip: The server answers a request
-        header: Inference
-      models:
-        catalogue_fresh: Model list is up to date
-        catalogue_present: Models are available
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        header: Models
-      server:
-        credentials_accepted: The server accepts the API key
-        header: Server
-        reachable: The server can be reached
-    health_report_kinds:
-      full: Full check, including an inference request.
-      without_inference: Checked without an inference request, as the scheduled check does. Run the checks to include one.
-    model_kinds:
-      chat: Chat
-      embedding: Embedding
-    verdict_states:
-      supported: supported
-      unknown: not verified
-      unsupported: not supported
-  llm_connections:
-    side_panel:
-      health_status_component:
-        last_check: Last checked %{datetime}.
-        never_checked: This connection has not been checked yet.
-        open_report: Open full health report
-        run_checks: Run checks now
-        running: Running checks...
-        title: Health status
   macro_execution_error: Ошибка при выполнении макроса %{macro_name}
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
   macro_unknown: Неизвестный или неподдерживаемый макрос.
@@ -5169,6 +5012,8 @@ ru:
       you_have: У вас
     logo_alt_text: Логотип
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
       center: В центр уведомлений
@@ -5225,10 +5070,10 @@ ru:
       mentioned: Вы были <b>упомянуты в комментариях</b>
       mentioned_by: "%{user} упомянул вас в комментарии"
       more_to_see:
-        one: Есть еще 1 пакет работ с уведомлениями.
-        few: Есть еще %{count} пакетов работ с уведомлениями.
-        many: Есть еще %{count} пакетов работ с уведомлениями.
-        other: Есть еще %{count} пакетов работ с уведомлениями.
+        one: There is %{count} more work package with notifications.
+        few: There are %{count} more work packages with notifications.
+        many: There are %{count} more work packages with notifications.
+        other: There are %{count} more work packages with notifications.
       open_in_browser: Открыть в браузере
       reason:
         assigned: Назначено
@@ -5395,7 +5240,6 @@ ru:
       aggregation: Агрегация
       ai: Искусственный интеллект (AI)
       api_and_webhooks: API и вебхуки
-      llm_connection: LLM settings
       mail_notification: Уведомления по электронной почте
       mails_and_notifications: Письма и уведомления
       mcp_configurations: Протокол контекста модели (MCP)
@@ -5422,7 +5266,7 @@ ru:
           expiry_label: Expiration
           expiry_never: No expiration
           expiry_preset:
-            one: 1 day (%{date})
+            one: "%{count} day (%{date})"
             few: "%{count} days (%{date})"
             many: "%{count} days (%{date})"
             other: "%{count} days (%{date})"
@@ -5770,10 +5614,10 @@ ru:
 
       '
     confirm_revoke_my_application:
-      one: Вы действительно хотите удалить это приложение? Это приведет к отзыву одного активного токена.
-      few: Вы действительно хотите удалить это приложение? Это приведет к отзыву %{count} активных токенов.
-      many: Вы действительно хотите удалить это приложение? Это приведет к отзыву %{count} активных токенов.
-      other: Вы действительно хотите удалить это приложение? Это приведет к отзыву %{count} активных токенов.
+      one: Do you really want to remove this application? This will revoke %{count} token active for it.
+      few: Do you really want to remove this application? This will revoke %{count} tokens active for it.
+      many: Do you really want to remove this application? This will revoke %{count} tokens active for it.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     empty_application_lists: Нет зарегистрированных приложений OAuth.
     flows:
       authorization_code: Поток кода авторизации
@@ -5953,8 +5797,8 @@ ru:
         label: Содержание
     page_nr_footer: Страница %{page} из %{total}
     template_artefact:
-      caption: Сведения о пакете работ, представлены в виде артефакта PMflex.
-      label: Артефакт PMflex
+      caption: Work package details rendered as a PMflex Artifact.
+      label: PMflex Artifact
     template_attributes:
       caption: Все атрибуты, присутствующие в текущей форме используют шаблон по умолчанию.
       label: Атрибуты и описание
@@ -5979,7 +5823,7 @@ ru:
   permission_change_work_package_status_explanation: Позволяет изменять статус без редактирования разрешения пакетов работ
   permission_comment_news: Комментировать новость
   permission_commit_access: Возможность чтения/записи в репозиторий (commit)
-  permission_copy_projects: Копировать проект
+  permission_copy_projects: Duplicate projects
   permission_copy_projects_explanation: В шаблонных проектах это разрешение имеет второстепенную функцию - оно позволяет создавать новые проекты, основанные на шаблоне.
   permission_copy_work_packages: Дублировать пакеты работ
   permission_create_backup: Создание резервных копий
@@ -6118,7 +5962,7 @@ ru:
     name: OmniAuth SAML / Однозначный вход
   portfolio:
     count:
-      one: 1 портфолио
+      one: "%{count} portfolio"
       other: "%{count} портфолио"
       zero: 0 портфолио
     filters:
@@ -6129,10 +5973,10 @@ ru:
         label: Фильтр по названию портфолио
         placeholder: Поиск портфолио
       sub_items_html:
-        one: "<strong>1</strong> подпункт"
-        few: "<strong>%{count}</strong> подпункта"
-        many: "<strong>%{count}</strong> подпунктов"
-        other: "<strong>%{count}</strong> подпунктов"
+        one: "<strong>%{count}</strong> sub-item"
+        few: "<strong>%{count}</strong> sub-items"
+        many: "<strong>%{count}</strong> sub-items"
+        other: "<strong>%{count}</strong> sub-items"
     lists:
       active: Активные портфолио
       archived: Архивные портфолио
@@ -6146,7 +5990,7 @@ ru:
         Этот цвет может использоваться для выделения пакетов работ в таблице.
   program:
     count:
-      one: 1 программа
+      one: "%{count} program"
       other: "%{count} программ"
       zero: 0 программ
     filters:
@@ -6158,7 +6002,7 @@ ru:
       confirmation_message: Архивирование данного проекта приведет к тому, что он и все его потомки станут недоступны для всех пользователей данного экземпляра. Архивированные проекты можно восстановить.
       title: Архивировать проект
     count:
-      one: 1 проект
+      one: "%{count} project"
       other: "%{count} проектов"
       zero: 0 проектов
     destroy:
@@ -6263,11 +6107,11 @@ ru:
           no_status_when_submitted: Не удалось включить запрос на инициирование проекта, поскольку тип пакета работ %{type} требует наличия хотя бы одного связанного с ним статуса. Пожалуйста, включите хотя бы один рабочий процесс со статусом для этого типа пакета работ.
           no_work_package_type: Не удалось включить запрос на инициирование проекта, поскольку для этого требуется хотя бы один активный тип пакета работ, а в данном проекте его нет. Пожалуйста, добавьте хотя бы один тип пакета работ в этот проект.
         export:
-          description_attachment_export: Сгенерированный артефакт будет сохранен в виде PDF приложения к пакету работ артефакта.
-          description_file_link_export: Пакет работ артефакта будет иметь ссылку на файл PDF на внешнем файловом хранилище. Требует рабочего хранилища файлов с автоматически управляемыми папками проекта для этого проекта. В настоящее время поддерживается только файловые хранилища Nextcloud.
+          description_attachment_export: The generated artifact will be saved as a PDF attachment to the artifact work package.
+          description_file_link_export: The artifact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
           description_file_storage_selection: Выберите, какое из настроенных внешних файловых хранилищ должно использоваться.
           external_file_storage: Внешнее хранилище файлов
-          label_artifact_export: Экспорт артефакта
+          label_artifact_export: Artifact export
           label_attachment_export: Сохраните как вложение файла в пакете работ
           label_file_link_export: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
           pdf_file_storage: Хранилище файлов PDF
@@ -6277,6 +6121,12 @@ ru:
 
           '
       custom_fields:
+        changes_heading: Important changes
+        changes_text: 'Starting with version 18.0, custom fields are no longer enabled or disabled for each project. They are part of forms, which types and variants use. The list below shows the custom fields on the work packages of this project, and the variants that include them.
+
+          '
+        column_name: Custom field
+        column_variants: Variants
         no_results_title_text: Нет доступных настраиваемых полей.
       forums:
         no_results_content_text: Создать новый форум
@@ -6373,21 +6223,21 @@ ru:
             new_heading: Поля, которые становятся доступными
             nothing_affected: Поля или статусы не затронуты.
             status_count:
-              one: 1 пакет работ
+              one: "%{count} work package"
               few: "%{count} work packages"
               many: "%{count} work packages"
-              other: "%{count} пакетов работ"
+              other: "%{count} work packages"
             table_suffix: "(таблица)"
             value_count:
-              one: 1 пакет работ имеет значение
+              one: "%{count} work package has a value"
               few: "%{count} work packages have a value"
               many: "%{count} work packages have a value"
-              other: "%{count} пакетов работ имеют значение"
+              other: "%{count} work packages have a value"
             work_packages:
-              one: 1 пакет работ будет использовать новую конфигурацию
+              one: "%{count} work package will use the new configuration"
               few: "%{count} work packages will use the new configuration"
               many: "%{count} work packages will use the new configuration"
-              other: "%{count} пакетов работ будут использовать новую конфигурацию"
+              other: "%{count} work packages will use the new configuration"
           success: Проект теперь использует %{type}.
           target_label: Вариант
           title: "%{type}: Переключить вариант"
@@ -6406,15 +6256,27 @@ ru:
     status:
       button_edit: Редактировать статус
     wizard:
-      create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
-      create_artifact_work_package_error: Не удалось создать пакет работ артефакта
+      create_artifact_storage_error: Failed to store artifact in file storage
+      create_artifact_work_package_error: Failed to create artifact work package
       no_custom_fields_html: Для данного проекта не включены атрибуты проекта, необходимые для работы мастера. Пожалуйста, включите хотя бы один из них в <a href="%{link}">настройках проекта</a>.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
       sidebar_content_title: Содержимое
-      success: Атрибуты проекта сохранены, пакет работ артефакта создан успешно.
+      success: Project attributes saved and artifact work package created successfully.
       title: Запрос на инициализацию проекта
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: You’re offline
+      headline_online: You’re back online
+      reloading: Reloading…
+      retry: Retry
+      retrying: Retrying…
+      status_checking: Checking your connection…
+      status_restored: Connection restored. Reloading…
+      status_still: Still offline. We’ll try again in a moment.
+      title: Offline
   queries:
     apply_filter: Применить ранее настроенный фильтр
     configure_view:
@@ -6443,10 +6305,10 @@ ru:
     action_title: Реакция
     add_reaction: Добавить реакцию
     and_others:
-      one: и еще 1
-      few: и %{count} других
-      many: и %{count} других
-      other: и %{count} других
+      one: and %{count} other
+      few: and %{count} others
+      many: and %{count} others
+      other: and %{count} others
     and_user: и %{user}
     react_with: Реакция %{reaction}
     reaction_by: "%{reaction} от"
@@ -6563,32 +6425,32 @@ ru:
         many: "(Projects: %{projects})"
         other: "(Проекты: %{projects})"
       entry_projects_truncated:
-        one: "(Projects: %{projects} and 1 other)"
+        one: "(Projects: %{projects} and %{count} other)"
         few: "(Projects: %{projects} and %{count} others)"
         many: "(Projects: %{projects} and %{count} others)"
-        other: "(Проекты: %{projects} и ещё %{count})"
+        other: "(Projects: %{projects} and %{count} others)"
       heading:
-        one: 'Эта роль по-прежнему присвоена 1 участнику:'
+        one: 'This role is still attributed to %{count} member:'
         few: 'This role is still attributed to %{count} members:'
         many: 'This role is still attributed to %{count} members:'
-        other: 'Эта роль по-прежнему присвоена %{count} участникам:'
+        other: 'This role is still attributed to %{count} members:'
       heading_unused: Вы уверены, что хотите удалить роль "%{name}"?
       losing_project_access:
-        one: Из числа этих пользователей 1 лишится доступа к проектам, в которых была их единственная роль. Вы уверены, что хотите удалить эту роль?
+        one: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
         other: Из этих пользователей %{count} потеряет доступ к проектам, в которых это была их единственная роль. Вы уверены, что хотите удалить эту роль?
         zero: Ни один из этих пользователей не потеряет доступа к одному из их проектов. Вы уверены, что хотите удалить эту роль?
       show_memberships: Показать все членства с этой ролью
       summary: "%{users} в %{projects}"
       summary_projects:
-        one: 1 проект
+        one: "%{count} project"
         few: "%{count} projects"
         many: "%{count} projects"
-        other: "%{count} проектов"
+        other: "%{count} projects"
       summary_users:
-        one: 1 пользователь
+        one: "%{count} user"
         few: "%{count} users"
         many: "%{count} users"
-        other: "%{count} пользователей"
+        other: "%{count} users"
       title: Удалить роль
     edit:
       default_for_new_projects_warning: 'Эта роль настроена как роль по умолчанию, предоставляемая пользователям, не являющимся администраторами, которые создают проект. Не удаляйте следующие разрешения, иначе создатели проектов не смогут завершить настройку своих новых проектов:'
@@ -6603,13 +6465,12 @@ ru:
       section_uncheck_all_label: Отменить все разрешения %{module}
     permissions_dialog:
       edit_permissions: Редактирование прав доступа ролей
-      implicit_permission: Предоставляется всегда
       no_permissions: Эта роль не предоставляет никаких разрешений.
       permission_count:
-        one: 1 разрешение
+        one: "%{count} permission"
         few: "%{count} permissions"
         many: "%{count} permissions"
-        other: "%{count} разрешений"
+        other: "%{count} permissions"
       preview_action: Просмотреть разрешения
       preview_aria_label: Просмотр разрешений %{role}
       title: Разрешения "%{name}"
@@ -6717,7 +6578,7 @@ ru:
   setting_default_projects_wiki: Включить функциональность вики для новых проектов по умолчанию
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
-  setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
+  setting_display_subprojects_work_packages: Display subprojects work packages in main projects by default
   setting_duration_format: Формат длительности
   setting_duration_format_days_and_hours: Дни и часы
   setting_duration_format_hours_only: Только часы
@@ -6885,7 +6746,7 @@ ru:
         description_html: 'Выберите режим, в котором будет работать интеграция антивирусного сканера. <br/> <ul> <li><strong>%{disabled_option}</strong>: Загруженные файлы не проверяются на наличие вирусов.</li> <li><strong>%{socket_option}</strong>: Вы установили ClamAV на том же сервере, что и OpenProject, и демон сканирования clamd работает в фоновом режиме.</li> <li><strong>%{host_option}</strong>: Вы передаете файлы на внешний хост для сканирования на вирусы.</li> </ul>
 
           '
-      remaining_quarantined_files_html: 'Сканирование вирусов отключено. %{file_count} остается в карантине. Чтобы просмотреть файлы карантина, перейдите по ссылке: %{link}
+      remaining_quarantined_files_html: 'Virus scanning has been disabled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
 
         '
       remaining_rescanned_files: 'Проверка на вирусы успешно включена. Есть %{file_count}, которые были загружены ранее и все еще нуждаются в сканировании. Этот процесс был запланирован в фоновом режиме. Файлы останутся доступными во время сканирования.
@@ -6988,12 +6849,12 @@ ru:
         confirmation_message: Мастер запроса инициации больше не будет доступен для новых проектов, основанных на этом шаблоне. Менеджерам и руководителям проектов придется вручную настраивать и заполнять соответствующую информацию в обзоре проекта.
         heading: Отключить запрос на инициирование этого проекта?
         title: Отключить запрос на инициализацию проекта
-      header_description: 'OpenProject может сгенерировать пошаговый мастер, чтобы помочь менеджерам проектов заполнить запрос на запуск проекта. Вы можете выбрать, какие атрибуты проекта должны быть включены и создать артефакт в PDF.
+      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
 
         '
       name:
-        artifact_name: Название артефакта
-        artifact_name_caption: Выберите название для этого артефакта, рекомендованное вашей методологией управления проектами.
+        artifact_name: Artifact name
+        artifact_name_caption: Choose the name for this artifact that your project management framework recommends.
         options:
           project_creation_wizard: Мастер создания проекта
           project_initiation_request: Запрос на инициализацию проекта
@@ -7013,8 +6874,8 @@ ru:
           Вы подали запрос на инициирование проекта **%{project_name}**. Сейчас он ожидает рассмотрения.
           Щелкните по ссылке ниже, чтобы получить доступ к пакету работ с Вашим запросом.
         confirmation_email_text: Текст письма подтверждения
-        description: Когда пользователь отправляет запрос на запуск проекта, создается новый пакет работ с приложением — артефактом запроса в формате PDF. Приведенные ниже настройки определяют тип, статус и ответственное лицо для этого нового рабочего пакета.
-        description_template: "**Этот пакет работ был автоматически создан по завершении рабочего процесса %{wizard_name}.** Артефакт в формате PDF, содержащий всю предоставленную информацию, был создан и прикреплен к этому пакету работ для справки и аудита. Если Вам необходимо обновить или повторно выполнить шаги запуска проекта, Вы можете в любой момент снова открыть мастер, воспользовавшись приведенной ниже ссылкой:\n"
+        description: When a user submits a project initiation request, a new work package will be created with the request artifact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
+        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artifact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
         send_confirmation_email: Отправить подтверждение по электронной почте пользователю, подавшему запрос на инициирование проекта
         status_when_submitted: Статус на момент подачи
         status_when_submitted_caption: Статус, в который перейдет созданный пакет работ после отправки запроса.
@@ -7022,7 +6883,7 @@ ru:
         work_package_comment_caption: Выбранный выше адресат будет автоматически @указан в комментарии.
         work_package_comment_default: Запрос на инициализацию проекта **%{project_name}** был отправлен и ожидает рассмотрения.
         work_package_type: Тип пакета работ
-        work_package_type_caption: Тип пакета работ, который следует использовать для хранения готового артефакта.
+        work_package_type_caption: The work package type that should be used to store the completed artifact.
       wizard_status_button:
         project_creation_wizard: Открыть мастер создания проекта
         project_initiation_request: Открыть запрос на инициализацию проекта
@@ -7099,7 +6960,7 @@ ru:
       section_work_week: Рабочая неделя
   sharing:
     count:
-      one: 1 пользователь
+      one: "%{count} user"
       other: "%{count} пользователей"
       zero: 0 пользователей
     denied: У вас нет прав на предоставление общего доступа к %{entities}.
@@ -7205,7 +7066,6 @@ ru:
       sentence_connector: и
       skip_last_comma: Ложно
   text_access_token_hint: Маркеры доступа позволяют предоставить внешним приложениям доступ к ресурсам в OpenProject.
-  text_accessibility_hint: Режим упрощенного просмотра предназначен для ограниченных в движении пользователей и пользователей с плохим зрением. Для последних активные элементы выделяются специально. Обращаем внимание, что модуль Отставаний в этом режиме не доступен.
   text_analyze: 'Дополнительный анализ: %{subject}'
   text_are_you_sure: Вы уверены?
   text_are_you_sure_continue: Вы уверены, что хотите продолжить?
@@ -7297,6 +7157,7 @@ ru:
   text_length_between: Количество символов между %{min} и %{max} .
   text_line_separated: Допускается  несколько значений (одна строка для каждого значения).
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
+  text_markdown_login_required: Log in or send an X-OpenProject-API-Key header to read this document.
   text_no_access_tokens_configurable: Маркеры доступа, которые могут быть настроены, отсутствуют.
   text_no_configuration_data: Роли, типы,  статусы пакетов работ и рабочие потоки еще не сконфигурированы. Настоятельно рекомендуем для правки загрузить конфигурацию по умолчанию.
   text_no_notes: Комментарии для этого пакета работ отсутствуют.
@@ -7396,6 +7257,27 @@ ru:
   tree_view:
     label_empty_sub_tree: Нет элементов
   types:
+    aspect_descriptions:
+      defaults:
+        type: Set the template description text for this type and choose whether subjects are written by users or generated automatically.
+        variant: Set the template description text for this variant and choose whether subjects are written by users or generated automatically.
+      details:
+        type: Set the basic properties of this type, like its name, color and how it appears in projects. Project members always see this name, even when their project uses a variant.
+        variant: Name this variant so admins can tell it apart from other variants. Project members don't see this name, they see the name of the parent type.
+      form_configuration:
+        existing:
+          type: These are the fields project members see when creating or editing a work package of this type. You can choose to deactivate fields you would like to hide.
+          variant: These are the fields project members see when creating or editing a work package of this variant. You can choose to deactivate fields you would like to hide.
+        new:
+          type: These are the fields project members see when creating or editing a work package of this type. Arrange and group them in any order you like.
+          variant: These are the fields project members see when creating or editing a work package of this variant. Arrange and group them in any order you like.
+      pdf: Choose which PDF templates are available when generating the PDF of work packages that use these settings. Each template defines the layout and which attributes appear in the PDF. The first template in the list is the default.
+      project_attributes: Choose which project attributes appear in work packages. Project members with permission can view and edit them in the work package's Project attributes tab.
+      projects:
+        type: Choose the projects in which this type should be available.
+        variant: Choose the projects in which this variant should be available. In these projects, the variant's settings replace those of its parent type.
+      variants: See all variants of this type, including those created by project admins within their projects.
+      workflows: Define which status changes each role can make in work packages of this type. Workflows can be shared across types and variants.
     comparison:
       action: Сравнить варианты
       blankslate:
@@ -7406,10 +7288,10 @@ ru:
         duplicate: Возможный дубликат
         duplicate_of: Настроен точно так же, как %{names}
         duplicate_of_more:
-          one: "%{names} и еще 1"
+          one: "%{names} and %{count} more"
           few: "%{names} and %{count} more"
           many: "%{names} and %{count} more"
-          other: "%{names} и %{count} ещё"
+          other: "%{names} and %{count} more"
         parent_type: Родительский тип
         same_as_type: Такой же, как у родительского типа
       rows:
@@ -7443,42 +7325,41 @@ ru:
       add_variant: Добавить вариант в %{name}
       create_type: Создать тип
       create_variant: Создать Вариант
-      descriptions:
-        defaults: Выберите, если участники проекта должны иметь возможность называть рабочие пакеты по своему желанию или если заголовки должны быть сгенерированы автоматически.
-        form_configuration: Это поля, которые участник проекта видит при создании или редактировании пакета работ данного типа.
-        pdf: Настройте, как должны выглядеть PDF-файлы, экспортируемые из пакетов работ данного типа.
-        project_attributes: Вы можете сделать так, чтобы определенные атрибуты проекта отображались во всех пакетах работ данного типа.
-        projects: В каких проектах должен быть доступен этот тип?
       fields:
         variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
       finish: Закончить
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
       start:
-        inherit_description: Страница наследует существующие настройки от другого типа. Впоследствии изменения, внесённые в исходный тип, автоматически отразятся здесь.
-        inherit_title: Использовать те же настройки, что и тип
-        manual_description: Вы можете настроить эту страницу по своему усмотрению или скопировать настройки из другого типа.
-        manual_title: Ручная настройка
-        reuse_heading: Использовать существующую конфигурацию типа
-        reuse_inherit: Для всего остального, вы можете настроить автоматическое использование тех же параметров, что и для типа (%{type_name}), если не хотите никаких отличий, и вручную настраивать только те страницы, на которых вы хотите, чтобы были отличия.
-        reuse_intro: Для каждой из страниц вы можете определить, какую связь она имеет с основным типом.
-        reuse_named: Для рабочих процессов и форм, вы можете использовать существующие конфигурации, чтобы избежать определения различных каждый раз при создании нового типа или варианта. Если конфигурация не соответствует вашим потребностям, вы можете создать новую.
+        next_heading: What happens next?
         submit: Начать
         type:
-          description: Тип представляет собой конкретный вид элемента, например функцию или ошибку. Он имеет имя, цвет, набор полей, некоторые правила перехода между статусами и другой конфигурацией. Вы можете активировать и использовать различные типы в разных проектах.
           heading: Создать новый тип
-          lead_html: Вы собираетесь создать новый тип в своём экземпляре.
-          step_by_step: На следующих страницах вы пошагово настроите новый тип.
+          lead_html: You are about to create a new work package type in your instance. A type is a kind of work package, such as a Bug, Task or Milestone, with its own form, workflow and settings.
+          next_steps: You will configure your type in the next steps, choosing the settings that best fit your needs. Once the type exists, you can create variants of it to adapt individual settings without creating another type.
+          objects_description: Form and workflows are standalone objects that can be shared across multiple types and variants. You can select an existing one, create a new one from a copy, or start from scratch.
+          objects_title: Objects
+          options_heading: Settings and objects
+          options_intro: A type is made up of two kinds of building blocks.
+          settings_description: Details, defaults, project attributes, projects and PDF export belong to the type itself. You configure them directly for this type.
+          settings_title: Settings
         variant:
-          description: Вариант — это альтернативная версия типа, отличающаяся от него несколькими особенностями. Их можно использовать для удовлетворения требований конкретного проекта без необходимости создания совершенно нового типа.
           heading: Создать новый вариант
-          lead_html: Вы собираетесь создать новый вариант <b>%{type_name}</b> в вашем экземпляре.
-          step_by_step: На следующих страницах вы шаг за шагом настроите этот новый вариант.
+          inherit_description: The variant uses the parent type's settings. Any changes to the parent type are automatically reflected in the variant.
+          inherit_title: Use the same settings as the type
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance. A variant is an alternative version of a work package type. It starts with the configuration of the original type and lets you adapt individual settings without creating an entirely new type.
+          manual_description: Start with a copy of the parent type's current settings and customize them independently, or start from scratch. Changes to the parent type will not affect this configuration.
+          manual_title: Manual configuration
+          next_steps: You will configure your variant in the next steps, choosing the settings that best fit your needs.
+          objects_description: Workflows and forms are standalone objects that can be shared across multiple types and variants. You can select an existing workflow or form, create a new one from a copy, or start from scratch.
+          objects_heading: Reuse workflow and form objects
+          options_heading: Reuse or customize settings
+          options_intro: For most settings, you can choose whether to use the parent type's configuration or configure it independently. Form and workflows are handled separately below.
       steps:
         defaults: По умолчанию
         details: Детали
         form_configuration: Форма
-        pdf: Создание PDF
+        pdf: Generate PDF
         project_attributes: Атрибуты проекта
         projects: Проекты
         start: Начать
@@ -7491,8 +7372,10 @@ ru:
           caption: Определите шаблон, используя атрибуты ссылок и текст, чтобы автоматически генерировать темы пакетов работ. Пользователи не смогут вручную редактировать темы.
           label: Автоматически сгенерированные темы
         description:
-          caption: Добавьте текст, который будет добавлен в поле описания всех новых пакетов работ данного типа.
-          label: Текст описания по умолчанию
+          caption:
+            type: This text is included by default in the description of every new work package of this type.
+            variant: This text is included by default in the description of every new work package of this variant.
+          label: Description template
         manually_editable_subjects:
           caption: Пользователи могут вручную вводить и редактировать темы пакетов работ без ограничений.
           label: Вручную редактируемые темы
@@ -7521,15 +7404,14 @@ ru:
           file_link:
             caption: Сгенерированный PDF-файл загружается в хранилище Nextcloud, управляемое автоматически в рамках проекта, и ссылка на него добавляется в пакет работ. Пакеты работ в проектах, не имеющих такого хранилища, пропускаются.
             label: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
-          intro: Автоматически создавать PDF-документ по пакету работ данного типа при каждом изменении его статуса.
-          invalid_mode: Недопустимый режим экспорта артефактов.
-          label: Автоматический экспорт артефактов
+          intro: Automatically generate a PDF artifact of a work package of this type whenever its status changes.
+          invalid_mode: Invalid artifact export mode.
+          label: Automatic artifact export
           off_mode:
             caption: PDF-файл не создается автоматически.
             label: Выключено
-          section_title: Автоматический экспорт артефактов
+          section_title: Automatic artifact export
           unavailable: недоступно, не настроено ни одного хранилища Nextcloud с автоматическим администрированием
-        intro: Выберите, какие шаблоны из имеющихся Вы хотите активировать для этого типа. Шаблон задаёт дизайн и атрибуты в экспортированном PDF-файле пакета работ этого типа. Первый шаблон из списка выбирается по умолчанию.
         pdf_export_templates:
           actions:
             label_disable_all: Выключить всё
@@ -7593,11 +7475,14 @@ ru:
         tab: Форма
         untitled_group: Безымянная группа
       overview:
+        caption: Variants can either use settings from the original type or you can manually configure them to be different. This table shows you where the configuration for each setting comes from.
         configuration_mode: Режим конфигурации
         mode:
           always_manual: Всегда вручную
-          inheriting_from_html: Наследование от %{source_name}
+          inheriting_from_html: Using the same as type (%{source_name})
           manual: Настроена вручную
+          using_form_html: Using form %{name}
+          using_workflow_html: Using workflow %{name}
         settings: Настройки
         tab: Обзор
       project_attributes:
@@ -7611,12 +7496,12 @@ ru:
           manual:
             description: После [создания атрибутов проекта](administration_url), они будут видны здесь и могут быть добавлены к типу.
             title: Нет доступных атрибутов проекта
-        description: Выберите атрибуты проекта, которые вы хотите включить для этого типа пакета работ. Включенные атрибуты проекта отображаются на отдельной вкладке в пакетах работ данного типа. Пользователи с необходимыми правами могут просматривать и редактировать эти атрибуты.
         disabled: Отключено
         exclusions:
           attribute_label: Наследовать %{attribute}
         filter: Поиск по секции или названию
         tab: Атрибуты проекта
+      project_specific_variant_suffix: "(Project-specific variant)"
       projects:
         actions:
           confirm_remove: Удалить тип «%{type}» из «%{project}»?
@@ -7629,10 +7514,12 @@ ru:
         empty_state:
           description: Добавьте проект для использования этой конфигурации.
           no_results: Нет подходящих проектов.
+          title: Not used in any project yet
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
         tab: Проекты
+        variant_column: Variant or type
       reuse_mode:
         copy:
           confirm_dialog:
@@ -7697,12 +7584,16 @@ ru:
           success: Режим конфигурации переключен.
           title: Ручная настройка
         parent_suffix: " (родитель)"
+      variant_suffix: "(Variant)"
       variants:
         blankslate:
           description_html: 'Вы можете создать варианты, чтобы предложить версии этого типа различным проектам.<br> Каждый вариант может наследовать, копировать или иметь собственную настраиваемую конфигурацию для шаблона по умолчанию, настраиваемые поля, рабочие процессы и настройки.
 
             '
           title: Для этого типа не существует вариантов
+        created_by_migration_filter:
+          all: All
+          migrated: Migrated
         created_in_html: Создан в %{project}
         delete:
           description: Проекты, в которых используется данный вариант, будут переведены на вариант, который вы выберете ниже, до того как данный вариант будет удален.
@@ -7734,15 +7625,16 @@ ru:
         confirm: Преобразовать
         text: Глобальный вариант с таким именем уже существует. Пожалуйста, выберите другое имя.
         title: Выберите другое имя для этого варианта
+      created_by_migration: Migrated
       delete:
         description: Этот тип будет удален навсегда. Это действие не может быть отменено.
         description_with_variants: Тип и все его варианты будут удалены навсегда. Это действие нельзя отменить.
         heading: Удалить тип '%{name}'?
         projects:
-          one: 'Тип будет удален из 1 проекта:'
+          one: 'The type will be removed from %{count} project:'
           few: 'The type will be removed from %{count} projects:'
           many: 'The type will be removed from %{count} projects:'
-          other: 'Тип будет удален из %{count} проектов:'
+          other: 'The type will be removed from %{count} projects:'
         title: Удалить тип
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
@@ -7750,15 +7642,21 @@ ru:
       duplicate_name: Копия %{name}
       duplicate_notice: "%{name} был дублирован."
       enabled_in_new_projects: Активно в новых проектах
+      filter: Filter by name
+      filter_no_results: No types match this filter
       make_default: Активировать в новых проектах
       make_default_notice: "%{name} теперь активирован в новых проектах."
+      migrated_variants_banner:
+        text: 'Some variants were automatically created during migration to preserve project-specific custom field configurations, as part of 18.0. They are marked as "%{label}". To remove them, make the affected projects use a different variant or type, then delete the migrated variant. [Learn more about variants](docs_url).
+
+          '
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
       project_variants_count:
-        one: 1 вариант конкретного проекта
+        one: "%{count} project-specific variant"
         few: "%{count} project-specific variants"
         many: "%{count} project-specific variants"
-        other: "%{count} вариантов, используемых в конкретных проектах"
+        other: "%{count} project-specific variants"
       remove_default: Не активировать в новых проектах
       remove_default_notice: "%{name} в новых проектах эта функция больше не активируется."
       type_label: Тип
@@ -7766,7 +7664,7 @@ ru:
     migration:
       variant_name: "%{type} without %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
+        one: "%{type} without %{fields} and %{count} more field"
         few: "%{type} without %{fields} and %{count} more fields"
         many: "%{type} without %{fields} and %{count} more fields"
         other: "%{type} without %{fields} and %{count} more fields"
@@ -7796,10 +7694,10 @@ ru:
     authorization_rejected: У вас нет разрешения на вход.
     blocked: Временно заблокирован
     blocked_num_failed_logins:
-      one: временно заблокирован (одна неудачная попытка авторизации)
-      few: временно заблокирован (%{count} неудачные попытки авторизации)
-      many: временно заблокирован (%{count} неудачных попыток авторизации)
-      other: временно заблокирован (%{count} неудачные попытки авторизации)
+      one: locked temporarily (%{count} failed login attempt)
+      few: locked temporarily (%{count} failed login attempts)
+      many: locked temporarily (%{count} failed login attempts)
+      other: locked temporarily (%{count} failed login attempts)
     confirm_status_change: Вы собираетесь изменить статус '%{name}'. Хотите продолжить?
     deleted: Удалённый пользователь
     department_ldap_managed_caption: Это подразделение управляется с помощью синхронизации LDAP и не может быть изменено здесь.
@@ -7899,7 +7797,7 @@ ru:
       deletion_warning: Вы уверены, что хотите отменить эту сессию? Вы выйдите на этом устройстве.
       device: Устройство / ОС
       expires: Срок действия
-      instructions: Вы вошли в свою учетную запись через следующие устройства. Отмените сеансы, которые вы не узнаете или устройства, которые вы не контролируете.
+      instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognize or from devices you do not control.
       last_connection: Последнее соединение
       may_not_delete_current: Вы не можете удалить ваш текущий сеанс.
       session_name: "%{browser_name} %{browser_version} на %{os_name}"
@@ -7959,10 +7857,10 @@ ru:
         start_date: Дата начала
         work_days: Рабочие дни
         work_days_count:
-          one: 1 рабочий день
-          few: "%{count} рабочих дней"
-          many: "%{count} рабочих дней"
-          other: "%{count} рабочих дней"
+          one: "%{count} working day"
+          few: "%{count} working days"
+          many: "%{count} working days"
+          other: "%{count} working days"
         work_hours: Рабочие часы
   version_status_closed: закрыт
   version_status_locked: заблокировано
@@ -8152,10 +8050,10 @@ ru:
       could_not_be_deleted: 'Следующие пакеты работ удалить не удалось:'
       could_not_be_saved: 'Не удалось сохранить следующие пакеты работ:'
       deletion_successful:
-        one: 1 пакет работ успешно удалён.
-        few: "%{count} пакета работ успешно удалено."
-        many: "%{count} пакетов работ успешно удалено."
-        other: "%{count} пакетов работ успешно удалено."
+        one: Successfully deleted %{count} work package.
+        few: Successfully deleted %{count} work packages.
+        many: Successfully deleted %{count} work packages.
+        other: Successfully deleted %{count} work packages.
       descendant: дочерний пакет работ выбранного элемента
       move_failed: Пакеты работ не могут быть перемещены.
       none_could_be_saved: Ни один из пакетов работ %{total} не может быть обновлен.
@@ -8179,26 +8077,26 @@ ru:
       description_with_visible_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все видимые вложенные элементы?
       heading: Окончательно удалить эти %{count} пакеты работ?
       hidden_descendants_only_warning:
-        one: Есть один потомок, которого вы не видите. Он не будет удалён, но будет удалена связь.
-        few: Есть %{count} потомка, которых вы не видите. Они не будут удалены, но будет удалена связь.
-        many: Есть %{count} потомков, которых вы не видите. Они не будут удалены, но будет удалена связь.
-        other: Есть %{count} потомков, которых вы не видите. Они не будут удалены, но будет удалена связь.
+        one: There is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       hidden_descendants_warning:
-        one: Все видимые потомки будут удалены. Однако есть один потомок, которого вы не можете увидеть. Он не будет удален, но будет удалена связь с ним.
-        few: Все видимые потомки будут удалены. Однако есть %{count} потомка, которых вы не можете увидеть. Они не будут удалены, но будет удалена связь с ними.
-        many: Все видимые потомки будут удалены. Однако есть %{count} потомков, которые вы не можете увидеть. Они не будут удалены, но будет удалена связь с ними.
-        other: Все видимые потомки будут удалены. Однако есть %{count} потомков, которые вы не можете увидеть. Они не будут удалены, но будет удалена связь с ними.
+        one: All visible descendants will be removed. However, there is %{count} descendant that you cannot see. It will not be deleted but the relation will be removed.
+        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
       title: Удалить %{count} пакетов работ
       undeletable_descendants_warning:
-        one: Вы не можете удалить один из потомков, поскольку у вас отсутствуют необходимые права доступа. Он будет сохранен, но будет удалена иерархическая связь.
-        few: Вы не можете удалить %{count} из потомка, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но будет удалена иерархическая связь.
-        many: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но будет удалена иерархическая связь.
-        other: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но будет удалена иерархическая связь.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: Вы не можете удалить один из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Он будет сохранен, но иерархическая связь будет удалена.
-        few: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но будет удалена иерархическая связь.
-        many: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но будет удалена иерархическая связь.
-        other: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но будет удалена иерархическая связь.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     datepicker_modal:
       banner:
         description:
@@ -8255,26 +8153,26 @@ ru:
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:
-        one: У данного пакета работ есть один дочерний элемент, который вам не отображается. Он не будет удален, однако иерархическая связь будет потеряна.
-        few: У данного пакета работ есть %{count} дочерних элементов, которые вам не отображается. Они не будет удалены, однако иерархическая связь будет потеряна.
-        many: У данного пакета работ есть %{count} дочерних элементов, которые вам не отображается. Они не будет удалены, однако иерархическая связь будет потеряна.
-        other: У данного пакета работ есть %{count} дочерних элементов, которые вам не отображается. Они не будет удалены, однако иерархическая связь будет потеряна.
+        one: This work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       hidden_descendants_warning:
-        one: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть один потомок, который вам не виден. Он не будет удален, но иерархическая связь с ним будет потеряна.
-        few: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть %{count} потомока, которые вам не видны. Они не будут удалены, но иерархическая связь с ними будет потеряна.
-        many: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть %{count} потомоков, которые вам не видны. Они не будут удалены, но иерархическая связь с ними будет потеряна.
-        other: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть %{count} потомоков, которые вам не видны. Они не будут удалены, но иерархическая связь с ними будет потеряна.
+        one: All visible descendants will be deleted. However, this work package has %{count} descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
+        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
       title: Удалить пакеты работ
       undeletable_descendants_warning:
-        one: Вы не можете удалить одного потомка, поскольку у вас отсутствуют необходимые права доступа. Он будет сохранен, но иерархическая связь будет потеряна.
-        few: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но иерархическая связь будет потеряна.
-        many: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но иерархическая связь будет потеряна.
-        other: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но иерархическая связь будет потеряна.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
       undeletable_descendants_warning_html:
-        one: Вы не можете удалить одного потомка, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Он будет сохранен, но иерархическая связь будет потеряна.
-        few: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
-        many: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
-        other: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
+        one: You are not able to delete %{count} descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
+        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
     import:
       check_file: Check file
       checking_file: Checking %{filename}
@@ -8316,6 +8214,8 @@ ru:
           unknown_in_project: does not exist in this project.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
+          example_category: Documentation
+          example_version: '1.0'
           examples:
             one:
               description: Explain what the new page has to do.
@@ -8330,10 +8230,10 @@ ru:
       dry_run_label: Check the file first, without importing
       file_label: CSV file
       guidance:
-        column_reference: column reference
-        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
-        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
-        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        column_reference: Find more here
+        columns_html: "%{link} containing the correct column headers needed for the import to succeed and fill it with the work package data."
+        limits_html: The CSV file imported must be exported in UTF-8/UTF-16 with a limit of %{lines} lines and a size of %{size}.
+        names_html: The column headers and values inside each work package attribute must match existing values. User attributes must match an existing email address. %{link}
         title: Before you start
       import_file: Import file
       importing_file: Importing %{filename}
@@ -8351,7 +8251,7 @@ ru:
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
+            one: "%{count} line checked, no problems found"
             few: "%{count} lines checked, no problems found"
             many: "%{count} lines checked, no problems found"
             other: "%{count} lines checked, no problems found"
@@ -8386,10 +8286,9 @@ ru:
           notifications: Notifications were not sent for these work packages.
           text_html: Imported from %{filename} on %{date} at %{time}.
           title: "%{work_packages} created"
-          work_packages: work packages
         problems:
           all:
-            one: 1 problem.
+            one: "%{count} problem."
             few: "%{count} problems, all shown."
             many: "%{count} problems, all shown."
             other: "%{count} problems, all shown."
@@ -8408,12 +8307,12 @@ ru:
           row: Line
           value: Value
         x_lines:
-          one: 1 line
+          one: "%{count} line"
           few: "%{count} lines"
           many: "%{count} lines"
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: "%{count} problem"
           few: "%{count} problems"
           many: "%{count} problems"
           other: "%{count} problems"
@@ -8451,10 +8350,10 @@ ru:
         version:
           no_results_title_text: На данный момент этапы отсутствуют.
     x_descendants:
-      one: Один пакет работ, являющийся потомком
-      few: 'Пакетов работ, являющихся потомками: %{count}'
-      many: 'Пакетов работ, являющихся потомками: %{count}'
-      other: 'Пакетов работ, являющихся потомками: %{count}'
+      one: "%{count} descendant work package"
+      few: "%{count} work package descendants"
+      many: "%{count} work package descendants"
+      other: "%{count} work package descendants"
   workflows:
     change:
       confirm:
@@ -8481,6 +8380,20 @@ ru:
             other: Рабочий процесс успешно скопирован в %{count} ролей.
       new:
         dialog_title: Копия рабочего процесса для "%{source}"
+    delete:
+      body_in_use:
+        one: This workflow is currently used by %{count} type or variant. Please select a new workflow to replace it with.
+        few: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        many: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+        other: This workflow is currently used by %{count} types and variants. Please select a new workflow to replace it with.
+      body_not_in_use: This workflow will be permanently deleted. This action is not reversible.
+      button: Delete workflow
+      confirmation_checkbox_label: I understand that this action is not reversible.
+      no_replacement: This workflow is in use and cannot be deleted because there is no other workflow to replace it with.
+      replace_caption: The selected workflow will be applied to all types and variants listed above.
+      replace_label: Replace with workflow
+      replace_placeholder: Select a workflow
+      title: Delete workflow %{name}?
     form:
       copy_from:
         caption: Новый рабочий процесс начинается с копии переходов статусов этого рабочего процесса.
@@ -8524,28 +8437,28 @@ ru:
         name_placeholder: Фильтр по имени рабочего процесса или описанию…
         projects_placeholder: Фильтровать проекты…
       projects_count:
-        one: 1 проект
+        one: "%{count} project"
         few: "%{count} projects"
         many: "%{count} projects"
-        other: "%{count} проектов"
+        other: "%{count} projects"
       roles_count:
-        one: 1 роль
+        one: "%{count} role"
         few: "%{count} roles"
         many: "%{count} roles"
-        other: "%{count} ролей"
+        other: "%{count} roles"
       type_filter:
         label: Фильтр по имени типа…
       types_and_variants_count: "%{types} (в том числе %{variants})"
       types_count:
-        one: 1 тип
+        one: "%{count} type"
         few: "%{count} types"
         many: "%{count} types"
-        other: "%{count} типов"
+        other: "%{count} types"
       variants_count:
-        one: 1 вариант
+        one: "%{count} variant"
         few: "%{count} variants"
         many: "%{count} variants"
-        other: "%{count} вариантов"
+        other: "%{count} variants"
     name:
       fallback: Рабочий процесс
       implicit: рабочий процесс %{name}
@@ -8561,12 +8474,11 @@ ru:
         caption: Начните с существующего рабочего процесса, измените его по своему усмотрению и сохраните в качестве нового рабочего процесса.
         label: Начните с создания копии существующего рабочего процесса
         missing: Выберите рабочий процесс для копирования или начинайте с нуля.
-        panel_label: Рабочий процесс для копирования
       label: Отправная точка
       scratch:
         caption: Начните с пустого рабочего процесса и создайте его вручную.
         label: Начать с нуля
-      title: Настроить новый рабочий процесс
+      title: New workflow
     usage:
       dialog:
         button: Просмотр зависимых типов
@@ -8576,15 +8488,15 @@ ru:
         variants: Варианты
       unused: Этот рабочий процесс пока не использует ни тип, ни вариант.
       used_by_types:
-        one: Этот рабочий процесс используется 1 тип. К нему применяются изменения.
+        one: This workflow is used by %{count} type. Changes apply to it.
         few: This workflow is used by %{count} types. Changes apply to all of them.
         many: This workflow is used by %{count} types. Changes apply to all of them.
-        other: Этот рабочий процесс используется %{count} типами. Изменения применяются ко всем им.
+        other: This workflow is used by %{count} types. Changes apply to all of them.
       used_by_variants:
-        one: Этот рабочий процесс используется 1 типом или вариантом.
-        few: This workflow is used by %{count} types and variants.
-        many: This workflow is used by %{count} types and variants.
-        other: This workflow is used by %{count} types and variants.
+        one: This workflow is used by %{count} type or variant. Changes apply to it.
+        few: This workflow is used by %{count} types and variants. Changes apply to all of them.
+        many: This workflow is used by %{count} types and variants. Changes apply to all of them.
+        other: This workflow is used by %{count} types and variants. Changes apply to all of them.
     wizard:
       choice:
         existing:

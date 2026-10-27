@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -36,11 +35,14 @@ See COPYRIGHT and LICENSE files for more details.
 <% work_package = customizable_name == "WorkPackage" %>
 <% if work_package %>
   <%= render(EnterpriseEdition::BannerComponent.new(:custom_field_hierarchies)) %>
+  <%= render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do %>
+    <%= t("text_custom_field_hint_activate_per_project_and_type") %>
+  <% end %>
 <% end %>
-
-<% if @custom_fields.blank? %>
-  <%= no_results_box(display_action: false, custom_title: t("custom_fields.no_results_title_text")) %>
-<% else %>
-  <%= render partial: "admin/settings/custom_fields_base/table",
-             locals: { custom_fields: @custom_fields, work_package: } %>
-<% end %>
+<%= render(
+      Admin::Settings::CustomFields::TableComponent.new(
+        rows: @custom_fields.sort,
+        work_package:,
+        project_counts: @project_counts
+      )
+    ) %>

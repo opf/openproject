@@ -81,7 +81,7 @@ tr:
       group_regexes: Satır başına bir düzenli ifade kalıbı. Bunun nasıl yapılacağı hakkında daha fazla bilgi için lütfen [belgeleri](docs_url) okuyun.
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Düzenli ifade kalıbınızı örnek OIDC kullanıcı bilgilerine karşı test etmek için 'Kalıbı test et' seçeneğine tıklayın.
-      group_sync: Grup üyeliği bilgilerini kimlik sağlayıcısından otomatik olarak alın ve senkronize edin.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Kullanıcının üyesi olduğu grup adlarını belirtmesi beklenen talebin adını belirtin.
       limit_self_registration: Etkinleştirilirse, kullanıcılar yalnızca sağlayıcı tarafındaki yapılandırma izin veriyorsa bu sağlayıcıyı kullanarak kaydolabilir.
       mapping_admin: 'Yönetici durumu için kullanılmak üzere userinfo yanıtında özel bir eşleme sağlayın. Bir boolean özniteliğinin döndürülmesini bekler.
@@ -164,7 +164,7 @@ tr:
       delete_result_1: Sağlayıcının adını mevcut sağlayıcılardan kaldır.
       delete_result_direct: Bu sağlayıcı doğrudan oturum açma sağlayıcısı olarak işaretlenmiştir. Ayar kaldırılacak ve kullanıcılar artık oturum açmak için sağlayıcıya yönlendirilmeyecektir.
       delete_result_user_count:
-        one: Bir kullanıcı bu sağlayıcıyı kullanıyor. Tekrar davet edilmesi ya da başka bir kullanıcı ile giriş yapması gerekecek.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} kullanıcı bu sağlayıcıyı kullanıyor. Tekrar davet edilmeleri ya da başka bir kullanıcı ile giriş yapmaları gerekecek."
         zero: Bu sağlayıcıyı hiçbir kullanıcı kullanmıyor. Ek bir işleme gerek yok.
       input_delete_confirmation_html: Silme işlemini onaylamak için sağlayıcı %{name} ismini girin.

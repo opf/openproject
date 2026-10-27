@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -91,4 +90,9 @@ class Workflow < ApplicationRecord
   end
 
   def project_specific? = project_id.present?
+
+  def in_use? = type_variants.exists?
+
+  # Global workflows are available to every variant, so they are the safe replacements
+  def replacement_targets = self.class.global.in_display_order.where.not(id:)
 end

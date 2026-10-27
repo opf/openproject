@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -835,17 +834,42 @@ RSpec.describe ResourceAllocation do
     context "when the assigned user has working hours configured" do
       shared_let(:working_hours) { create(:user_working_hours, user: assignee, valid_from: Date.new(2025, 1, 1)) }
 
-      it "returns the ids of the allocations in overbooked ranges" do
+      it "returns the ids of the allocations with time on an overbooked day" do
         fitting = allocation
         overbooked = overbooked_allocation
 
         expect(described_class.overbooked_ids([fitting, overbooked])).to eq(Set[overbooked.id])
       end
 
+      it "includes an allocation that fits on its own when it shares an overbooked day" do
+        full_week = allocation
+        one_hour = allocation(start_date: Date.new(2026, 1, 7), end_date: Date.new(2026, 1, 7), allocated_time: 60)
+
+        expect(described_class.overbooked_ids([full_week, one_hour])).to eq(Set[full_week.id, one_hour.id])
+      end
+
       it "is empty when every allocation fits" do
         fitting = allocation
 
         expect(described_class.overbooked_ids([fitting])).to be_empty
+      end
+
+      it "includes an allocation whose window has no working day" do
+        weekend = allocation(start_date: Date.new(2026, 1, 10), end_date: Date.new(2026, 1, 11), allocated_time: 60)
+
+        expect(described_class.overbooked_ids([weekend])).to eq(Set[weekend.id])
+      end
+
+      it "checks the allocations of several users in a single query" do
+        other = create(:user)
+        create(:user_working_hours, user: other, valid_from: Date.new(2025, 1, 1))
+        full_week = allocation
+        one_hour = allocation(start_date: Date.new(2026, 1, 7), end_date: Date.new(2026, 1, 7), allocated_time: 60)
+        full_week_of_other = allocation(principal: other)
+        allocations = [full_week, one_hour, full_week_of_other]
+
+        expect { described_class.overbooked_ids(allocations) }.to have_a_query_limit(1)
+        expect(described_class.overbooked_ids(allocations)).to eq(Set[full_week.id, one_hour.id])
       end
     end
 

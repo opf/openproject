@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,23 +41,29 @@ module Grids
         t(".title")
       end
 
-      def members_by_role
-        @members_by_role ||= ProjectRole
-          .where(id: member_role_ids)
-          .order(name: :asc)
-          .map do |role|
-          members_query = members_for_role(role.id)
-          total_count = members_query.count
-          members = members_query.limit(limit).to_a.map(&:principal)
+      def members_by_role # rubocop:disable Metrics/AbcSize
+        # Sanity check: If we can't view members, we can return immediatly.
+        # This way we don't need to check if current_user is allowed to view_members
+        # multiple times.
+        return [] unless can_view_members?
 
-          {
-            role:,
-            members:,
-            total_count:,
-            remaining: [total_count - limit, 0].max,
-            has_more: total_count > limit
-          }
-        end
+        @members_by_role ||= ProjectRole
+          .joins(:members)
+          .where(members: { project_id: project.id })
+          .group(:id, :name)
+          .count
+          .map do |(id, name), total_count|
+            principals = members_for_role(id).limit(limit).map(&:principal)
+
+            {
+              id:,
+              name:,
+              members: principals,
+              total_count: total_count,
+              remaining: [total_count - limit, 0].max,
+              has_more: total_count > limit
+            }
+          end
       end
 
       def members_for_role(role_id)
@@ -71,19 +76,12 @@ module Grids
           .order(created_at: :desc)
       end
 
-      def member_role_ids
-        MemberRole
-          .where(member_id: project.members.select(:id))
-          .select(:role_id)
-          .distinct
-      end
-
       def can_view_members?
         current_user.allowed_in_project?(:view_members, project)
       end
 
       def can_manage_members?
-        current_user.allowed_in_project?(:manage_members, project)
+        @can_manage_members ||= current_user.allowed_in_project?(:manage_members, project)
       end
     end
   end

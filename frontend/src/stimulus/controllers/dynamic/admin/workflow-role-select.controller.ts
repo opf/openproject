@@ -36,12 +36,24 @@ import { navigateWorkflowFrame } from './navigate-workflow-frame';
  */
 export default class WorkflowRoleSelectController extends Controller {
   static outlets = ['admin--workflow-checkbox-state'];
+  static targets = ['groupHeading'];
   static values = { baseUrl: String, currentRoleIds: Array };
 
   declare readonly adminWorkflowCheckboxStateOutlet:WorkflowCheckboxStateController;
   declare readonly hasAdminWorkflowCheckboxStateOutlet:boolean;
   declare baseUrlValue:string;
   declare currentRoleIdsValue:unknown[];
+  declare readonly groupHeadingTargets:HTMLElement[];
+
+  filterGroups() {
+    queueMicrotask(() => {
+      const panel = this.element as SelectPanelElement;
+      const visibleGroups = new Set(panel.visibleItems.map((item) => item.dataset.roleGroup));
+      this.groupHeadingTargets.forEach((heading) => {
+        heading.style.display = visibleGroups.has(heading.dataset.roleGroup) ? 'flex' : 'none';
+      });
+    });
+  }
 
   apply() {
     const panel = this.element as HTMLElement as SelectPanelElement;

@@ -122,7 +122,7 @@ ar:
     not_recommended: غير موصى بها
     recommended: موصى بها
     x_bcf_issues:
-      one: One BCF issue
+      one: "%{count} BCF issue"
       other: "%{count} BCF issues"
       zero: لا توجد مشاكل BCF
   bim:

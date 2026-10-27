@@ -61,6 +61,7 @@ de:
         single: "%{name} auswählen"
       remove: Entferne %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Keine Elemente gefunden
       placeholder: Suchbegriff eintippen
       project:
@@ -162,6 +163,7 @@ de:
     button_stop_timer: Timer anhalten
     button_uncheck_all: Alle abwählen
     button_update: Aktualisieren
+    button_view_markdown: View Markdown
     caption_rate_history: Stundensatz-Historie
     card:
       add_new: Neue Karte hinzufügen
@@ -359,8 +361,8 @@ de:
     ical_sharing_modal:
       copy_url_label: URL kopieren
       description: Sie können die URL (iCalendar) verwenden, um diesen Kalender in einem externen Client zu abonnieren und aktuelle Arbeitspaket-Informationen von dort aus anzuzeigen.
-      ical_generation_error_text: Beim Generieren der Kalender-URL ist ein Fehler aufgetreten.
-      inital_setup_error_message: Beim Abrufen der Daten ist ein Fehler aufgetreten.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: Die URL "%{name}" wurde erfolgreich in Ihre Zwischenablage kopiert. Fügen Sie sie in Ihren Kalender-Client ein, um das Abonnement abzuschließen.
       title: Kalender abonnieren
       token_name_description_text: Wenn Sie diesen Kalender auf mehreren Geräten abonnieren, wird Ihnen dieser Name helfen, zwischen diesen in der Liste der <a href="%{myAccessTokensUrl}", target="_blank">Zugriffstoken</a> zu unterscheiden.
@@ -552,6 +554,8 @@ de:
     label_reset: Zurücksetzen
     label_resize_project_menu: Größe des Projektmenüs ändern
     label_save_as: Speichern unter
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Spalte suchen
     label_select_watcher: Beobachter auswählen ...
     label_selected_filter_list: Ausgewählte Filter
@@ -624,8 +628,8 @@ de:
     notifications:
       center:
         and_more_users:
-          one: und ein weiterer
-          other: und %{count} weitere
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Alle Benachrichtungen abgearbeitet.
           no_notification_for_filter: Keine Benachrichtigungen für diesen Filter vorhanden.
@@ -830,12 +834,12 @@ de:
         not_selectable: Auswahl unverändert. Dieses Element hat keinen Einfluss auf die Reihenfolge dieser Liste.
         range_blocked: Auswahl unverändert. Sie enthält ein Element ohne Einfluss auf die Reihenfolge dieser Liste.
         range_restarted:
-          one: Die Auswahl konnte nicht erweitert werden. 1 Element ausgewählt.
-          other: Die Auswahl konnte nicht erweitert werden. %{count} Elemente ausgewählt.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
         selected:
-          one: 1 Element ausgewählt.
-          other: "%{count} Elemente ausgewählt."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Modal schließen
@@ -884,20 +888,20 @@ de:
       label_two_factor_authentication: Zwei-Faktor-Authentifizierung
     units:
       child_work_packages:
-        one: eine Unteraufgabe
-        other: "%{count} untergeordnete Arbeitspakete"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 Tag
+        one: "%{count} day"
         other: "%{count} Tage"
         zero: 0 Tage
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} h"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 Wort
-        other: "%{count} Wörter"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: Arbeitspaket
         other: Arbeitspakete

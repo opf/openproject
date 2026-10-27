@@ -16,6 +16,14 @@
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
@@ -44,7 +52,7 @@ RSpec.describe "form configuration required attributes", :js do
     page.test_selector("type-form-configuration-required-#{attribute}")
   end
 
-  # The two labels differ in colour as well as wording, and "Required" is a substring of
+  # The two labels differ in color as well as wording, and "Required" is a substring of
   # "Required in this type", so both are asserted exactly.
   def expect_badge(attribute, text:, scheme:)
     badge = page.find_test_selector("type-form-configuration-required-#{attribute}")

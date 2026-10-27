@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,14 +55,14 @@ RSpec.describe WorkPackages::WorkflowJob do
   subject(:perform) { described_class.new.perform(journal, changes) }
 
   context "when the status changes from an existing value" do
-    it "invokes both the creation-wizard reupload and the type artefact export" do
+    it "invokes both the creation-wizard reupload and the type artifact export" do
       perform
 
       expect(reupload_service).to have_received(:call!).with(changes:)
       expect(type_export_service).to have_received(:call!).with(changes:)
     end
 
-    it "acts as the journal's user so generated artefacts are attributed to them" do
+    it "acts as the journal's user so generated artifacts are attributed to them" do
       current_user_during_call = nil
       allow(type_export_service).to receive(:call!) { current_user_during_call = User.current }
 

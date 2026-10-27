@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -64,7 +63,7 @@ RSpec.describe Wikis::Admin::RedirectUriInfoComponent, type: :component do
       expect(subject).to have_text(I18n.t(:label_completed))
     end
 
-    it "renders the labelled redirect uri" do
+    it "renders the labeled redirect uri" do
       expect(subject).to have_text(
         "#{I18n.t('wikis.admin.redirect_uri_info_component.label_uri')}: #{oauth_client.redirect_uri}"
       )

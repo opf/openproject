@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
   private
 
   def mode
-    requested = (params[:mode].presence || User.current.pref.my_work_mode).to_s.to_sym
+    requested = (params[:mode].presence || User.current.pref.my_time_management_mode).to_s.to_sym
 
     %i[day workweek week].include?(requested) ? requested : :workweek
   end
@@ -49,9 +48,9 @@ class Grids::Widgets::TimeEntriesCurrentUserController < Grids::WidgetController
     return if params[:mode].blank?
 
     preference = User.current.pref
-    return if preference.my_work_mode == mode.to_s
+    return if preference.my_time_management_mode == mode.to_s
 
-    preference.update(my_work_mode: mode.to_s)
+    preference.update(my_time_management_mode: mode.to_s)
   end
 
   def date

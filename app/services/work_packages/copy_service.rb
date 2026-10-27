@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -87,6 +86,7 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
                    .slice(*writable_attributes)
                    .merge("custom_field_values" => work_package.custom_value_attributes)
                    .merge(version_reference_attributes(work_package, writable_attributes))
+                   .merge(label_reference_attributes(work_package, writable_attributes))
                    .merge(overwritten_attributes)
 
     if overwritten_attributes.has_key?("start_date") &&
@@ -114,6 +114,12 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     end
 
     attributes.compact
+  end
+
+  def label_reference_attributes(work_package, writable_attributes)
+    return {} unless writable_attributes.include?("labels")
+
+    { "label_ids" => work_package.label_ids.presence }.compact
   end
 
   def remove_author_watcher(copied)

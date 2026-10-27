@@ -61,6 +61,7 @@ sv:
         single: Välj ”%{name}”
       remove: Ta bort %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Inga objekt hittades
       placeholder: Skriv för att söka
       project:
@@ -162,6 +163,7 @@ sv:
     button_stop_timer: Stoppa timer
     button_uncheck_all: Avmarkera alla
     button_update: Uppdatera
+    button_view_markdown: View Markdown
     caption_rate_history: Historiska timpriser
     card:
       add_new: Lägg till kort
@@ -359,8 +361,8 @@ sv:
     ical_sharing_modal:
       copy_url_label: Kopiera URL
       description: 'Du kan använda URL: en (iCalendar) för att prenumerera på denna kalender i en extern klient och visa aktuell information om arbetspaket därifrån.'
-      ical_generation_error_text: Ett fel uppstod när kalenderns URL genererades.
-      inital_setup_error_message: Ett fel inträffade vid hämtning av data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" har kopierats till ditt urklipp. Klistra in den i din kalenderklient för att slutföra prenumerationen.
       title: Prenumerera på kalender
       token_name_description_text: Om du prenumererar på den här kalendern från flera enheter hjälper namnet dig att skilja dem åt i listan över <a href="%{myAccessTokensUrl}" target="_blank">åtkomsttoken</a>.
@@ -552,6 +554,8 @@ sv:
     label_reset: Återställ
     label_resize_project_menu: Ändra storlek på projektmenyn
     label_save_as: Spara som
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Sök i en kolumn
     label_select_watcher: Välj en bevakare...
     label_selected_filter_list: Valda filter
@@ -624,8 +628,8 @@ sv:
     notifications:
       center:
         and_more_users:
-          one: och 1 annan
-          other: och %{count} andra
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Du är helt uppdaterad.
           no_notification_for_filter: Det ser ut som om du är klar med det här filtret.
@@ -828,12 +832,12 @@ sv:
         not_selectable: Markeringen är oförändrad. Det här objektet ingår inte i listans sorteringsordning.
         range_blocked: Markeringen är oförändrad. Intervallet innehåller ett objekt som inte ingår i listans sorteringsordning.
         range_restarted:
-          one: Det gick inte att utöka intervallet. 1 objekt markerat.
-          other: Det gick inte att utöka intervallet. %{count} objekt markerade.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
         selected:
-          one: 1 objekt markerat.
-          other: "%{count} objekt markerade."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Stäng modal
@@ -882,20 +886,20 @@ sv:
       label_two_factor_authentication: Tvåfaktorsautentisering
     units:
       child_work_packages:
-        one: ett underordnat arbetspaket
-        other: "%{count} underordnade arbetspaket"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: En dag
+        one: "%{count} day"
         other: "%{count} dagar"
         zero: 0 dagar
       hour:
-        one: 1 tim
+        one: "%{count} h"
         other: "%{count} timmar"
         zero: 0 tim
       hour_string: "%{hours} tim"
       word:
-        one: 1 ord
-        other: "%{count} ord"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: arbetspaket
         other: arbetspaket

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Workflows
   module EditHelpers
@@ -61,12 +60,17 @@ module Workflows
     end
 
     def choose_workflow_start(name)
-      selected = "[data-test-selector='workflow-start-#{name}']:checked"
+      option = find_test_selector("workflow-start-#{name}")
+      wait_for_size_animation_completion(option)
+      option.click
 
-      retry_block do
-        find_test_selector("workflow-start-#{name}").click
-        raise "The #{name} option did not take the click" unless page.has_css?(selected, visible: :all, wait: 2)
-      end
+      expect(page).to have_css("[data-test-selector='workflow-start-#{name}']:checked", visible: :all)
+    end
+
+    def within_change_workflow_confirm_dialog(&)
+      dialog = find_test_selector("change-workflow-confirm-dialog")
+      wait_for_size_animation_completion(dialog)
+      within(dialog, &)
     end
 
     def run_workflow_start_dialog(start: "scratch")

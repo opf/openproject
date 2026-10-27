@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ module API
 
               # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
               # because we need to generate a link even if the id does not belong to an existing
-              # object (that behaviour is only required for form payloads)
+              # object (that behavior is only required for form payloads)
               values = Methods.link_value_getter_values represented, custom_field
 
               if custom_field.multi_value?

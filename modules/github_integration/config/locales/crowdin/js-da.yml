@@ -36,15 +36,15 @@ da:
           ready_for_review: markeret som klar til gennemgang
       tab_header:
         copy_menu:
-          description: Copy git snippets to clipboard
-          label: Git snippets
+          description: Kopiér Git-kodestykker til udklipsholderen
+          label: Git-kodestykker
         git_actions:
-          branch_name: Branch name
-          cmd: Create branch with empty commit
-          commit_message: Commit message
+          branch_name: Navn på branch
+          cmd: Opret branch med tomt commit
+          commit_message: Commit-besked
           copy_error: "❌ Kopiering mislykkedes!"
           copy_success: "✅ Kopieret!"
-          title: Quick snippets for Git
+          title: Hurtige Git-kodestykker
         title: Pull requests
       tab_prs:
         empty: Der er endnu ingen pull requests linket. Link en eksisterende PR ved at bruge koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opret en ny PR.

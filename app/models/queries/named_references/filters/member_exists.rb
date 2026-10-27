@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,7 +31,7 @@ module Queries::NamedReferences::Filters::MemberExists
   private
 
   def member_exists(condition, binds, extra_joins: nil)
-    honouring_negation(member_exists_sql(condition, extra_joins:), binds)
+    honoring_negation(member_exists_sql(condition, extra_joins:), binds)
   end
 
   def member_exists_sql(condition, extra_joins: nil)
@@ -47,7 +46,7 @@ module Queries::NamedReferences::Filters::MemberExists
     SQL
   end
 
-  def honouring_negation(sql, binds)
+  def honoring_negation(sql, binds)
     [negated? ? "NOT (#{sql})" : "(#{sql})", binds]
   end
 

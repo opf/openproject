@@ -46,6 +46,8 @@ export interface AvatarOptions {
   hide:boolean;
   size:AvatarSize;
   imageAltText?:string;
+  imageUrl?:string;
+  fallbackImageUrl?:string;
 }
 
 export interface NameOptions {
@@ -153,13 +155,13 @@ export class PrincipalRendererService {
     type:PrincipalType,
     ariaHidden:boolean,
   ):HTMLElement {
-    // The backend always returns a displayable image for users (the uploaded
-    // photo, a Gravatar, or a generated initials avatar), so there is nothing
-    // to compute or swap in locally here, unlike for groups/placeholder users.
-    if (type === 'user') {
-      const url = this.userAvatarUrl(principal);
+    // The backend always returns a displayable image for users and groups (an
+    // uploaded image, a Gravatar, or a generated initials avatar), so there is
+    // nothing to compute or swap in locally here, unlike for placeholder users.
+    if (type === 'user' || type === 'group') {
+      const url = options.imageUrl ?? this.principalAvatarUrl(principal, type);
       if (url) {
-        return this.renderUserAvatarImage(principal, options, hoverCard, ariaHidden, url);
+        return this.renderPrincipalAvatarImage(principal, options, hoverCard, type, ariaHidden, url);
       }
     }
 
@@ -206,10 +208,11 @@ export class PrincipalRendererService {
     return fallback;
   }
 
-  private renderUserAvatarImage(
+  private renderPrincipalAvatarImage(
     principal:PrincipalLike|IPrincipal,
     options:AvatarOptions,
     hoverCard:HoverCardOptions,
+    type:PrincipalType,
     ariaHidden:boolean,
     url:string,
   ):HTMLImageElement {
@@ -217,9 +220,9 @@ export class PrincipalRendererService {
     image.classList.add('op-principal--avatar');
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
-    image.classList.add('op-avatar_user');
+    image.classList.add(`op-avatar_${type.replace('_', '-')}`);
 
-    this.setHoverCardAttributes(image, hoverCard, principal, 'user');
+    this.setHoverCardAttributes(image, hoverCard, principal, type);
 
     image.src = url;
     image.title = principal.name;
@@ -232,21 +235,29 @@ export class PrincipalRendererService {
     // Avatars are never meaningfully draggable; suppressing the browser's native
     // image drag stops it from pre-empting Pragmatic DnD card reordering.
     image.draggable = false;
-    // The backend tries the uploaded photo or a redirect to Gravatar first; either
-    // can fail (e.g. no Gravatar registered for the user's email). Retrying once
-    // with `fallback=true` asks the backend to skip straight to the generated
-    // initials avatar, which always succeeds, without us having to check upfront.
+    // For users, the backend tries the uploaded image or a redirect to Gravatar
+    // first; either can fail (e.g. no Gravatar registered for the user's
+    // email). Retrying once with `fallback=true` asks the backend to skip
+    // straight to the generated initials avatar, which always succeeds,
+    // without us having to check upfront. Groups have no Gravatar to fail
+    // against, so this retry is a harmless no-op for them.
     image.onerror = () => {
       image.onerror = null;
-      image.src = `${url}${url.includes('?') ? '&' : '?'}fallback=true`;
+      const fallbackUrl = (type === 'user' || type === 'group' ? this.principalAvatarUrl(principal, type) : null) ?? url;
+      image.src = options.fallbackImageUrl ?? `${fallbackUrl}${fallbackUrl.includes('?') ? '&' : '?'}fallback=true`;
     };
 
     return image;
   }
 
-  private userAvatarUrl(principal:PrincipalLike|IPrincipal):string|null {
+  private principalAvatarUrl(principal:PrincipalLike|IPrincipal, type:'user'|'group'):string|null {
     const id = principal.id ?? idFromLink(hrefFromPrincipal(principal));
-    return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
+    if (!id) {
+      return null;
+    }
+
+    const endpoint = type === 'user' ? this.apiV3Service.users : this.apiV3Service.groups;
+    return endpoint.id(id).avatar.toString();
   }
 
   private userHoverCardUrl(principal:PrincipalLike|IPrincipal):string|null {

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,9 +44,6 @@ RSpec.describe WhatsNew::Release do
               new_features_list: {
                 first: { title: "First", description: "The first one", url: "https://example.com/first" },
                 second: { title: "Second", description: "The second one", url: "https://example.com/second" }
-              },
-              whats_new: {
-                video_url: "https://example.com/video"
               }
             },
             "99_3": {
@@ -76,7 +72,7 @@ RSpec.describe WhatsNew::Release do
                                   url: "https://example.com/second")
       ]
     )
-    expect(release.video_url).to eq("https://example.com/video")
+    expect(release.video_url).to eq("https://www.openproject.org/release-videos/99-1?go_to_locale=en")
     expect(release.version).to eq("99.1")
   end
 
@@ -100,16 +96,41 @@ RSpec.describe WhatsNew::Release do
     expect(release.unread_keys(user)).to eq(%w[second])
   end
 
+  it "keeps only the read items of the latest version" do
+    user.pref.mark_whats_new_read("99_0", "old")
+    user.pref.mark_whats_new_read(release.version_key, "first")
+
+    expect(user.pref.whats_new_read_items).to eq(release.version_key => %w[first])
+  end
+
   it "is seen by a user once the user opened its version" do
     expect(release).not_to be_seen(user)
 
-    user.pref.whats_new_seen_version = "99_0"
+    user.pref.mark_whats_new_seen("99_0")
 
     expect(release).not_to be_seen(user)
 
-    user.pref.whats_new_seen_version = release.version_key
+    user.pref.mark_whats_new_seen(release.version_key)
 
     expect(release).to be_seen(user)
+  end
+
+  it "remembers when the user first opened its version" do
+    user.pref.mark_whats_new_read("99_0", "old")
+
+    travel_to(2.days.ago) { user.pref.mark_whats_new_seen(release.version_key) }
+    first_opened_at = user.pref.whats_new_seen_at
+    user.pref.mark_whats_new_seen(release.version_key)
+
+    expect(user.pref.whats_new_seen_at).to eq(first_opened_at)
+    expect(user.pref.whats_new_read_items).to be_empty
+  end
+
+  it "uses the minor release of the current version" do
+    stub_const("OpenProject::VERSION::PATCH", 3)
+
+    expect(described_class.current.version)
+      .to eq("#{OpenProject::VERSION::MAJOR}.#{OpenProject::VERSION::MINOR}")
   end
 
   describe "#visible_to?" do
@@ -123,6 +144,24 @@ RSpec.describe WhatsNew::Release do
 
     it "is not visible without items" do
       expect(described_class.new(major: 99, minor: 2)).not_to be_visible_to(user)
+    end
+
+    it "is visible for seven days after the user first opened it" do
+      travel_to(7.days.ago + 1.minute) { user.pref.mark_whats_new_seen(release.version_key) }
+
+      expect(release).to be_visible_to(user)
+    end
+
+    it "is not visible later than seven days after the user first opened it" do
+      travel_to(8.days.ago) { user.pref.mark_whats_new_seen(release.version_key) }
+
+      expect(release).not_to be_visible_to(user)
+    end
+
+    it "is visible again for a new version" do
+      travel_to(8.days.ago) { user.pref.mark_whats_new_seen("99_0") }
+
+      expect(release).to be_visible_to(user)
     end
   end
 end

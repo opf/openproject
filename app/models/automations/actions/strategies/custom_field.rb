@@ -22,21 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Automations::Actions::Strategies::CustomField
   def apply(work_package)
+    return if custom_field.nil?
+
     if work_package.respond_to?(custom_field.attribute_setter)
       set_custom_field_value(work_package)
       validate_custom_field(work_package)
     end
   end
 
-  delegate :required?, to: :custom_field
+  delegate :required?, to: :custom_field, allow_nil: true
 
-  delegate :multi_value?, to: :custom_field
+  delegate :multi_value?, to: :custom_field, allow_nil: true
 end
