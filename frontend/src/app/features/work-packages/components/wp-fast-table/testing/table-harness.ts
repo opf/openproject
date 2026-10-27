@@ -226,9 +226,12 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
-export type ConsumerName = 'search'|'macro'|'widget'|'queryGroup'|'bcf';
+export type ConsumerName = 'list'|'search'|'macro'|'widget'|'queryGroup'|'bcf';
 
 const consumerLiterals:Record<ConsumerName, WorkPackageTableConfigurationObject> = {
+  list: {
+    dragAndDropEnabled: true,
+  },
   search: {
     actionsColumnEnabled: false,
     columnMenuEnabled: true,

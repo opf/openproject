@@ -35,6 +35,7 @@ import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing
 import { navigableCells } from './roving-tabindex';
 import { headerRowKey } from './navigable-rows';
 import type { ActiveTableField } from '../../../wp-table-editing';
+import { destructiveControlAttribute } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 
 const controlSelector = 'a[href], button, input, select, textarea, [role="button"]';
 const editorTabStopSelector = 'a[href], button, input, select, textarea, [tabindex]';
@@ -88,12 +89,12 @@ export class CellInteraction {
     }
 
     const targets = cellTargets(cell, this.table);
-    if (targets.length === 1) {
+    if (targets.length === 1 && !targets[0].hasAttribute(destructiveControlAttribute)) {
       targets[0].click();
       return true;
     }
 
-    if (targets.length > 1) {
+    if (targets.length > 0) {
       this.tabWalkOrigin = position;
       targets[0].focus({ preventScroll: true });
       return true;
@@ -150,6 +151,11 @@ export class CellInteraction {
   }
 
   public handleInnerKeydown(event:KeyboardEvent):boolean {
+    if (this.isRepeatedEnterOnDestructiveControl(event)) {
+      event.preventDefault();
+      return true;
+    }
+
     const active = this.table.editing.gridFieldOwning(event.target as Node);
     if (active) {
       if (event.key !== 'Tab') return false;
@@ -274,6 +280,12 @@ export class CellInteraction {
     if (origin.cell === null) return rowControls(row, this.table);
 
     return navigableCells(row).slice(origin.cell).flatMap((cell) => cellTargets(cell, this.table));
+  }
+
+  private isRepeatedEnterOnDestructiveControl(event:KeyboardEvent):boolean {
+    return event.key === 'Enter'
+      && event.repeat
+      && !!(event.target as HTMLElement).closest?.(`[${destructiveControlAttribute}]`);
   }
 
   private isNavigationKey(event:KeyboardEvent):boolean {

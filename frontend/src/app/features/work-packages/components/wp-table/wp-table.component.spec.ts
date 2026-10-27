@@ -635,6 +635,15 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
       });
     });
 
+    it('gives the actions header text instead of a label when it holds no configuration control', async () => {
+      await mount({ ...enabled, actionsColumnEnabled: true });
+      const actions = within(headerRow()).getAllByRole('columnheader').at(-1)!;
+
+      expect(actions).toHaveAccessibleName('Actions');
+      expect(actions).toHaveTextContent('Actions');
+      expect(actions).not.toHaveAttribute('aria-label');
+    });
+
     it('names the trailing header after the configuration control', async () => {
       await mount({ ...enabled, columnMenuEnabled: true });
 

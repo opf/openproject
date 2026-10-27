@@ -85,11 +85,13 @@
                 <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
                   [class.wp-table--navigable-cell]="configuration.keyboardNavigationEnabled"
                   [attr.role]="configuration.keyboardNavigationEnabled ? 'columnheader' : null"
-                  [attr.aria-label]="configuration.keyboardNavigationEnabled ? (configuration.columnMenuEnabled ? text.configurationHeader : text.actionsHeader) : null">
+                  [attr.aria-label]="configuration.keyboardNavigationEnabled && configuration.columnMenuEnabled ? text.configurationHeader : null">
                   @if (configuration.columnMenuEnabled) {
                     <div class="generic-table--sort-header-outer">
                       <wp-table-config-menu [keyboardNavigationEnabled]="configuration.keyboardNavigationEnabled" />
                     </div>
+                  } @else if (configuration.keyboardNavigationEnabled) {
+                    <span class="sr-only">{{text.actionsHeader}}</span>
                   }
                 </th>
               }
