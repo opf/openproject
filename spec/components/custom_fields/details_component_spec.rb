@@ -63,56 +63,6 @@ RSpec.describe CustomFields::DetailsComponent, type: :component do
     end
   end
 
-  describe "the confirmation for changing how project-specific values are chosen" do
-    let(:confirmation) { rendered.css("[data-controller~='input-confirmation']") }
-    let(:radio) { ->(value) { confirmation.css("input[type='radio'][value='#{value}']") } }
-    let(:dialog_title) { ->(id) { confirmation.css("dialog##{id}").text } }
-
-    context "when values are activated for each project" do
-      let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
-
-      it "asks for confirmation before choosing another option, with a dialog for each" do
-        expect(confirmation.attr("data-input-confirmation-trigger-value").value).to eq("checked")
-        expect(radio.call("").attr("data-input-confirmation-dialog-id").value)
-          .to eq("project-specific-values-allow-to-all-dialog")
-        expect(radio.call("block").attr("data-input-confirmation-dialog-id").value)
-          .to eq("project-specific-values-allow-to-block-dialog")
-        expect(radio.call("allow").attr("data-input-confirmation-target")).to be_nil
-
-        expect(dialog_title.call("project-specific-values-allow-to-all-dialog"))
-          .to include(I18n.t("custom_fields.project_specific_values.change.allow_to_all.title"))
-        expect(dialog_title.call("project-specific-values-allow-to-block-dialog"))
-          .to include(I18n.t("custom_fields.project_specific_values.change.allow_to_block.title"))
-      end
-    end
-
-    context "when values are deactivated for each project" do
-      let(:custom_field) { create(:list_wp_custom_field, :project_specific_blocklist) }
-
-      it "asks for confirmation before choosing another option, with a dialog for each" do
-        expect(radio.call("").attr("data-input-confirmation-dialog-id").value)
-          .to eq("project-specific-values-block-to-all-dialog")
-        expect(radio.call("allow").attr("data-input-confirmation-dialog-id").value)
-          .to eq("project-specific-values-block-to-allow-dialog")
-        expect(radio.call("block").attr("data-input-confirmation-target")).to be_nil
-
-        expect(dialog_title.call("project-specific-values-block-to-all-dialog"))
-          .to include(I18n.t("custom_fields.project_specific_values.change.block_to_all.title"))
-        expect(dialog_title.call("project-specific-values-block-to-allow-dialog"))
-          .to include(I18n.t("custom_fields.project_specific_values.change.block_to_allow.title"))
-      end
-    end
-
-    context "when project-specific values are not enabled" do
-      let(:custom_field) { create(:list_wp_custom_field) }
-
-      it "does not ask for confirmation" do
-        expect(confirmation).to be_empty
-        expect(rendered.css("dialog[data-input-confirmation-target='dialog']")).to be_empty
-      end
-    end
-  end
-
   describe "for a project custom field" do
     let(:custom_field) { create(:list_project_custom_field, possible_values: []) }
 

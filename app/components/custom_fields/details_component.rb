@@ -54,47 +54,6 @@ module CustomFields
       model.new_record? ? :post : :put
     end
 
-    def confirm_changing_project_specific_values?
-      custom_field.persisted? && saved_project_specific_values_mode.present?
-    end
-
-    def form_row_arguments
-      return {} unless confirm_changing_project_specific_values?
-
-      { data: { controller: "input-confirmation", input_confirmation_trigger_value: "checked" } }
-    end
-
-    def change_project_specific_values_dialogs
-      target_modes = %w[all allow block] - [saved_project_specific_values_mode]
-
-      safe_join(target_modes.map { |mode| change_project_specific_values_dialog(mode) })
-    end
-
-    def change_project_specific_values_dialog(mode)
-      scope = "custom_fields.project_specific_values.change"
-      direction = "#{saved_project_specific_values_mode}_to_#{mode}"
-
-      render(
-        Primer::OpenProject::DangerDialog.new(
-          id: CustomFields::DetailsForm.mode_change_dialog_id(saved_project_specific_values_mode, mode),
-          title: t("#{direction}.title", scope:),
-          confirm_button_text: t("button", scope:),
-          cancel_button_text: t(:button_close),
-          data: { input_confirmation_target: "dialog" }
-        )
-      ) do |dialog|
-        dialog.with_confirmation_message do |message|
-          message.with_heading(tag: :h2) { t("#{direction}.title", scope:) }
-          message.with_description_content(t("#{direction}.description", scope:))
-        end
-        dialog.with_confirmation_check_box_content(t("confirmation", scope:))
-      end
-    end
-
-    def saved_project_specific_values_mode
-      custom_field.project_specific_value_restriction_in_database
-    end
-
     def enterprise_addon_key
       ENTERPRISE_GUARDED.dig(custom_field.field_format, :key)
     end
