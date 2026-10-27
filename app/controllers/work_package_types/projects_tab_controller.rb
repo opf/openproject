@@ -31,7 +31,7 @@ module WorkPackageTypes
   class ProjectsTabController < BaseTabController
     include OpTurbo::ComponentStream
     include ProjectsTab::TableRefresh
-    include TypeDeactivationErrorMessage
+    include ProjectsTab::RefusalMessages
 
     before_action :load_query, only: %i[edit link unlink switch enable_all_projects]
     before_action :load_linked_project, only: %i[unlink new_switch switch]
@@ -111,7 +111,7 @@ module WorkPackageTypes
       if params[:value] == "1"
         enable_everywhere
       else
-        respond_to_bulk_change(remove_from(@variant.projects))
+        respond_to_bulk_change(project_assignments.remove(@variant.projects))
       end
     end
 
@@ -153,15 +153,9 @@ module WorkPackageTypes
       project.project_types.find_by(type_id: @type.id)&.variant
     end
 
-    def remove_from(projects, into: new_aggregate)
-      projects.find_each do |project|
-        into.add_dependent!(::Projects::Types::RemoveService.new(user: current_user, model: project).call(variant: @variant))
-      end
-
-      into
-    end
-
     def new_aggregate = ServiceResult.success(result: @variant)
+
+    def project_assignments = ProjectAssignments.new(user: current_user, variant: @variant)
 
     def on_switched(target)
       close_dialog_via_turbo_stream(
@@ -276,27 +270,10 @@ module WorkPackageTypes
       ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
     end
 
-    def aggregate_refusal_message(result)
-      refused = result.dependent_results.reject(&:success?)
-      blocked = blocked_project_ids(refused.map { |failed| failed.result.id })
-
-      return blocked_message(blocked) if blocked.any?
-
-      refused.map { |failed| "#{failed.result.name}: #{failed.errors.full_messages.to_sentence}" }.to_sentence
-    end
-
-    def blocked_message(project_ids)
-      helpers.join_flash_messages(type_deactivation_error_messages(@variant, project_ids:))
-    end
-
     def removal_refusal_message(result)
       return type_deactivation_error_message(applied_variant, project: @linked_project) if blocked?(@linked_project)
 
       "#{@linked_project.name}: #{result.errors.full_messages.to_sentence}"
-    end
-
-    def blocked_project_ids(project_ids)
-      WorkPackage.where(type_id: @type.id, project_id: project_ids).distinct.pluck(:project_id)
     end
 
     def blocked?(project) = WorkPackage.exists?(type_id: @type.id, project_id: project.id)
