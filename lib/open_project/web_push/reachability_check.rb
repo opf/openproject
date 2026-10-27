@@ -45,12 +45,7 @@ module OpenProject::WebPush
     def self.call = new.call
     def self.hosts = new.hosts
 
-    def hosts
-      known = KNOWN_SERVICES.flat_map do |service, sample|
-        stored_hosts.select { under?(it, service) }.presence || [sample]
-      end
-      known + stored_hosts.reject { |host| KNOWN_SERVICES.each_key.any? { under?(host, it) } }
-    end
+    def hosts = (KNOWN_SERVICES.values + stored_hosts).uniq
 
     def call
       threads = hosts.map do |host|
@@ -66,10 +61,6 @@ module OpenProject::WebPush
 
     def stored_hosts
       @stored_hosts ||= PushSubscription.endpoint_hosts
-    end
-
-    def under?(host, service)
-      host == service || host.end_with?(".#{service}")
     end
 
     def sample?(host)
