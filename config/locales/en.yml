@@ -5730,13 +5730,17 @@ en:
     Allows users to manage their own working times, and personal non-working days.
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_manage_project_activities: "Manage project activities"
-  permission_manage_project_variants: "Manage the project's own type variants"
+  permission_manage_project_variants: "Manage type variants"
+  permission_manage_project_variants_explanation: >
+    Select which variant the project uses and, if the type allows it, create project-specific variants that are only available to that project.
   permission_manage_public_bcf_queries: "Manage public BCF queries"
   permission_manage_public_project_queries: "Manage public project lists"
   permission_manage_public_queries: "Manage public views"
   permission_manage_repository: "Manage repository"
   permission_manage_subtasks: "Manage work package hierarchies"
   permission_manage_types: "Select types"
+  permission_manage_types_explanation: >
+    Select which work package types are available in the project.
   permission_manage_user: "Edit users"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
