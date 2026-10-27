@@ -62,6 +62,14 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::Id do
       expect(described_class.new(:id).format(work_package)).to eq("PROJ-42")
     end
 
+    context "when the work package has no identifier" do
+      let(:work_package) { build_stubbed(:work_package, identifier: nil) }
+
+      it "exports the numeric id as text, so that the column stays one type" do
+        expect(described_class.new(:id).format(work_package)).to eq(work_package.id.to_s)
+      end
+    end
+
     it "leaves the column unformatted, the identifier being text" do
       expect(described_class.new(:id).format_options).to eq({})
     end

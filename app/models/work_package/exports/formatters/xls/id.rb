@@ -36,13 +36,21 @@ module WorkPackage::Exports
         end
 
         def format_value(value, _options = {})
-          value
+          return value unless semantic?
+
+          value.to_s
         end
 
         def format_options
-          return {} if Setting::WorkPackageIdentifier.semantic?
+          return {} if semantic?
 
           { number_format: integer_format }
+        end
+
+        private
+
+        def semantic?
+          Setting::WorkPackageIdentifier.semantic?
         end
       end
     end

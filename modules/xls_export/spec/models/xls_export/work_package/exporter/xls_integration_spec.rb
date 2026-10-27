@@ -317,6 +317,18 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       expect(work_package.identifier).to match(/\AXLSPROJ-\d+\z/)
       expect(sheet.rows[1][0]).to eq work_package.identifier
     end
+
+    context "when an identifier has not been backfilled yet" do
+      let(:other) { create(:work_package, project:, type: project.enabled_types.first) }
+      let(:work_packages) { [work_package, other] }
+
+      before { other.update_column(:identifier, nil) }
+
+      it "exports the numeric id as text, so that the column stays one type" do
+        expect(sheet.rows[1..2].map { |row| row[0] })
+          .to contain_exactly(work_package.identifier, other.id.to_s)
+      end
+    end
   end
 
   context "with underscore in subject" do
