@@ -198,18 +198,9 @@ module CustomFields
       end
 
       if show_project_specific_value_restriction_field?
-        # The upsell banner belongs between the headline and the options, where a radio button group has no slot.
-        details_form.html_content do
-          render(Primer::Beta::Text.new(tag: :p, font_weight: :semibold, mb: 2)) do
-            label(:project_specific_value_restriction)
-          end +
-            render(EnterpriseEdition::BannerComponent.new(:project_specific_list_values))
-        end
-
         details_form.radio_button_group(
           name: :project_specific_value_restriction,
-          label: label(:project_specific_value_restriction),
-          visually_hide_label: true
+          label: label(:project_specific_value_restriction)
         ) do |group|
           group.radio_button(
             value: "",
@@ -234,6 +225,10 @@ module CustomFields
             caption: I18n.t("custom_fields.project_specific_values.block.caption"),
             data: mode_switch_cause_data
           )
+        end
+
+        details_form.html_content do
+          render(EnterpriseEdition::BannerComponent.new(:project_specific_list_values))
         end
 
         mode_switch_banner(details_form, mode: "all", value: "")
