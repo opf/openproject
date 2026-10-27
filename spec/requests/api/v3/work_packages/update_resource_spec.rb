@@ -862,6 +862,18 @@ RSpec.describe "API v3 Work package resource",
           end
         end
 
+        context "with the feature flag off", with_flag: { work_package_labels: false } do
+          let(:label_links) { [{ href: nil, title: "Needs triage" }] }
+
+          include_context "patch request"
+
+          it { expect(response).to have_http_status(:ok) }
+
+          it "creates no label" do
+            expect(Label.count).to eq(0)
+          end
+        end
+
         context "with a null href and no title" do
           let(:label_links) { [{ href: nil }] }
 
