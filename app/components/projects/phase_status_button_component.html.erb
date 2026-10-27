@@ -9,7 +9,7 @@
             button_arguments: {
               icon_only: true,
               classes: class_names(
-                "op-phase-status-button",
+                "op-phase-status-button"
               ),
               title: project_phase_status_name(@status.code),
               size: :medium,
@@ -19,7 +19,7 @@
               "aria-label": project_phase_status_name(@status.code)
             },
             menu_arguments: {
-              data: { test_selector: "phase-status-action-menu-#{@phase.id}" },
+              data: { test_selector: "phase-status-action-menu-#{@phase.id}" }
             }
           )
         )

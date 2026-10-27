@@ -35,6 +35,6 @@ class AddStatusToProjectPhases < ActiveRecord::Migration[8.1]
     add_index :project_phases, :status
 
     add_check_constraint :project_phases, "status IN ('open', 'in_progress', 'completed')",
-                          name: "project_phases_status_valid"
+                         name: "project_phases_status_valid"
   end
 end
