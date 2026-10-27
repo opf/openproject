@@ -34,8 +34,7 @@ class CopyProjectJob < ApplicationJob
 
   queue_with_priority :above_normal
 
-  # Again error handling pushing the branch costs up
-  def perform(target_project_params:, associations_to_copy:, skip_custom_field_validation: false, send_mails: false, **) # rubocop:disable Metrics/AbcSize
+  def perform(target_project_params:, associations_to_copy:, skip_custom_field_validation: false, send_mails: false, **)
     User.current = user
     target_project_params = target_project_params.with_indifferent_access
 
@@ -135,6 +134,7 @@ class CopyProjectJob < ApplicationJob
   # rubocop:disable Metrics/AbcSize
   # Most of the cost is from handling errors, we need to check what can be moved around / removed
   def create_project_copy(target_project_params, associations_to_copy, skip_custom_field_validation, send_mails)
+    errors = []
     service_result = copy_project(
       target_project_params,
       associations_to_copy,
