@@ -25,7 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { screen } from '@testing-library/dom';
 import { PrimerIconButtonComponent } from './icon-button.component';
 
 describe('PrimerIconButtonComponent', () => {
@@ -112,5 +114,17 @@ describe('PrimerIconButtonComponent', () => {
     const button = container.querySelector('[aria-label=\'Star\']');
 
     expect(button).not.toBeNull();
+  });
+
+  it('keeps its label as name when a description is given', async () => {
+    fixture.componentRef.setInput('icon', 'star');
+    fixture.componentRef.setInput('label', 'Star');
+    fixture.componentRef.setInput('description', 'Add to favorites');
+    await fixture.whenStable();
+
+    const button = screen.getByRole('button');
+
+    expect(button).toHaveAccessibleName('Star');
+    expect(button).toHaveAccessibleDescription('Add to favorites');
   });
 });
