@@ -310,3 +310,10 @@ export function setInputFiles(input:HTMLInputElement, file:File):void {
 export function getCSSVariable(variable:string, fallback = ''):string {
   return getComputedStyle(document.body).getPropertyValue(variable).trim() || fallback;
 }
+
+/**
+ * Whether an element's text is not fully visible: not rendered, visually hidden or cut off.
+ */
+export function isObscured(element:HTMLElement):boolean {
+  return !element.checkVisibility() || element.scrollWidth > element.clientWidth;
+}
