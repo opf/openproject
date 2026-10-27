@@ -34,46 +34,27 @@ module OpenProject
       class CreateCommit
         include ParamsHelper
 
-        def call(payload, event_payload, work_packages: [])
-          GitlabCommit.find_or_create_by!(sha: payload.id) do |commit|
+        def call(payload, event_payload, provider:, work_packages: [])
+          provider.commits.find_or_create_by!(sha: payload.id) do |commit|
             assign_commit_attributes(commit, payload)
-            assign_event_attributes(commit, event_payload)
+            assign_event_attributes(commit, event_payload, provider)
             commit.work_packages = work_packages
           end
         end
 
         private
 
-        def find_or_initialize(payload)
-          GitlabMergeRequest.find_by_gitlab_identifiers(id: payload.object_attributes.iid,
-                                                        url: payload.object_attributes.url,
-                                                        initialize: true)
-        end
-
         def assign_commit_attributes(commit, payload)
           commit.message = payload.message || ""
           commit.author_name = payload.author.name
           commit.author_email = payload.author.email
           commit.authored_at = payload.timestamp
-          commit.gitlab_html_url = payload.url
+          commit.web_url = payload.url
         end
 
-        def assign_event_attributes(commit, payload)
-          commit.gitlab_user_id = gitlab_user(payload)
-          commit.repository = payload.repository.name
-        end
-
-        def gitlab_user(payload)
-          user = ::OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
-            {
-              "id" => payload.user_id,
-              "name" => payload.user_name,
-              "username" => payload.user_username,
-              "email" => payload.user_email,
-              "avatar_url" => payload.user_avatar
-            }
-          )
-          ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(user)
+        def assign_event_attributes(commit, payload, provider)
+          commit.repository_user = pusher(payload, provider)
+          commit.project_name = payload.repository.name
         end
       end
     end

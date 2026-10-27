@@ -36,11 +36,11 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
 
   shared_let(:gitlab_system_user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
+  shared_let(:provider) { create(:repository_provider, url: "http://79dfcd98b723") }
 
   let(:handler_instance) { described_class.new }
   let(:upsert_service) { OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new }
   let(:gitlab_html_url) { "http://79dfcd98b723/root/hot_do/-/merge_requests/4" }
-  let(:gitlab_merge_request) { GitlabMergeRequest.find_by_gitlab_identifiers(id: 4, url: gitlab_html_url) }
 
   let(:mr_description) { "Mentioning OP##{work_package.id}" }
   let(:gitlab_action) { "open" }
@@ -51,6 +51,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
   let(:payload) do
     {
       "open_project_user_id" => gitlab_system_user.id,
+      "repository_provider_id" => provider.id,
       "object_kind" => "merge_request",
       "event_type" => "merge_request",
       "user" => {
@@ -71,7 +72,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "work_in_progress" => mr_draft,
         "state" => mr_state,
         "head_pipeline_id" => nil,
-        "id" => 4,
+        "id" => 1004,
         "iid" => 4,
         "url" => gitlab_html_url,
         "updated_at" => Time.current.iso8601
@@ -129,15 +130,16 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     it "calls the merge request upsert service" do
       process
       expect(upsert_service).to have_received(:call)
-        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package])
+        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+              provider:,
+              work_packages: [work_package])
     end
 
     context "when no work_package was mentioned" do
       let(:mr_description) { "some text that does not mention any work package" }
 
-      it "does not call the merge request upsert service" do
-        process
-        expect(upsert_service).not_to have_received(:call)
+      it "does not store the merge request" do
+        expect { process }.not_to change(Repositories::MergeRequest, :count)
       end
     end
   end
@@ -180,15 +182,20 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     it_behaves_like "adding a comment"
     it_behaves_like "calls the merge request upsert service"
 
-    context "when the work package is already known to the GitlabMergeRequest" do
-      let!(:gitlab_merge_request) { create(:gitlab_merge_request, gitlab_id: 4, gitlab_html_url:, work_packages: [work_package]) }
+    context "when the work package is already known to the merge request" do
+      let!(:merge_request) do
+        create(:repository_merge_request,
+               provider:, external_id: "1004", display_id: "4", web_url: gitlab_html_url, work_packages: [work_package])
+      end
 
       it_behaves_like "adding a comment"
 
       it "calls the merge request upsert service" do
-        expect { process }.to change { gitlab_merge_request.reload.state }.from("opened").to("merged")
+        expect { process }.to change { merge_request.reload.state }.from("opened").to("merged")
         expect(upsert_service).to have_received(:call).with(
-          a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package]
+          a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+          provider:,
+          work_packages: [work_package]
         )
       end
     end
@@ -201,6 +208,10 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
 
     it_behaves_like "not adding a comment"
     it_behaves_like "calls the merge request upsert service"
+
+    it "stores the merge request as a draft" do
+      expect(process.reload.state).to eq("draft")
+    end
   end
 
   context "with a labeled action" do
@@ -241,11 +252,12 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     it_behaves_like "not adding a comment"
 
     it "calls the merge request upsert service with all work_packages" do
-      gitlab_merge_request = process.reload
-      expect(gitlab_merge_request.labels).to eq([{ "title" => "feature", "color" => "#009966" },
+      merge_request = process.reload
+      expect(merge_request.labels).to eq([{ "title" => "feature", "color" => "#009966" },
                                                  { "title" => "needs review", "color" => "#9400d3" }])
 
       expect(upsert_service).to have_received(:call).with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+                                                          provider:,
                                                           work_packages: [work_package])
     end
   end
@@ -261,14 +273,19 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "[Administrator](https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon).\n"
     end
 
-    before { create(:gitlab_merge_request, gitlab_id: 4, work_packages: [work_package]) }
+    before do
+      create(:repository_merge_request,
+             provider:, external_id: "1004", display_id: "4", web_url: gitlab_html_url, work_packages: [work_package])
+    end
 
     it_behaves_like "not adding a comment"
 
     it "calls the merge request upsert service" do
       process
       expect(upsert_service).to have_received(:call)
-        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package])
+        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+              provider:,
+              work_packages: [work_package])
     end
   end
 
@@ -284,5 +301,43 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
 
     it_behaves_like "adding a comment"
     it_behaves_like "calls the merge request upsert service"
+  end
+
+  context "when the merge request was stored with its iid as external ID" do
+    let!(:merge_request) do
+      create(:repository_merge_request,
+             provider:, external_id: "4", display_id: "4", web_url: gitlab_html_url, work_packages: [work_package])
+    end
+
+    it "updates the stored merge request and corrects its external ID" do
+      expect { process }.not_to change(Repositories::MergeRequest, :count)
+      expect(merge_request.reload.external_id).to eq("1004")
+    end
+  end
+
+  context "when a merge request of another project has an external ID equal to this one's iid" do
+    let!(:other_merge_request) { create(:repository_merge_request, provider:, external_id: "4", display_id: "1") }
+
+    it "creates a new merge request" do
+      expect { process }.to change(Repositories::MergeRequest, :count).by(1)
+      expect(other_merge_request.reload.web_url).not_to eq(gitlab_html_url)
+    end
+  end
+
+  context "when the project of a tracked merge request was moved and no work package is mentioned" do
+    let(:mr_description) { "some text that does not mention any work package" }
+    let!(:merge_request) do
+      create(:repository_merge_request,
+             provider:,
+             external_id: "1004",
+             display_id: "4",
+             web_url: "http://79dfcd98b723/old_group/hot_do/-/merge_requests/4",
+             work_packages: [work_package])
+    end
+
+    it "updates the merge request with its new URL" do
+      expect { process }.not_to change(Repositories::MergeRequest, :count)
+      expect(merge_request.reload.web_url).to eq(gitlab_html_url)
+    end
   end
 end

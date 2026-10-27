@@ -31,8 +31,25 @@
 module Repositories
   class GitlabProvider < Provider
     store_attribute :options, :url, :string
-    store_attribute :options, :gitlab_user_id, :string
+    store_attribute :options, :gitlab_user_id, :integer
     store_attribute :options, :webhook_secret, :string
+
+    def self.for_web_url(web_url)
+      resource = URI.parse(web_url.to_s)
+      all.find { it.serves?(resource) }
+    rescue URI::InvalidURIError
+      nil
+    end
+
+    def serves?(resource)
+      base = URI.parse(url.to_s)
+
+      base.host.present? &&
+        origin(base) == origin(resource) &&
+        "#{resource.path}/".start_with?("#{base.path.chomp('/')}/")
+    rescue URI::InvalidURIError
+      false
+    end
 
     # TODO: move into registry-style query methods (like we did for storages and wikis)
     def branch_url(branch)
@@ -45,5 +62,9 @@ module Repositories
       "#{branch.project_web_url}/-/merge_requests/new?#{query}"
     end
     # END: move into registry-style query methods
+
+    private
+
+    def origin(uri) = [uri.scheme, uri.host&.downcase, uri.port]
   end
 end

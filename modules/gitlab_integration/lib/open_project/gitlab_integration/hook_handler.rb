@@ -47,45 +47,44 @@ module OpenProject::GitlabIntegration
       Rails.logger.debug { "Received gitlab webhook #{event_type}" }
 
       return 404 unless KNOWN_EVENTS.include?(event_type)
-      return 403 unless authorized?(request, user)
 
-      notify(params, user, event_type)
+      provider = find_provider(params)
+      return 404 if provider.nil?
+      return 403 unless authorized?(request, user, provider)
+
+      notify(params, user, provider, event_type)
       200
     end
 
     private
 
-    def authorized?(request, user)
-      valid_token?(request) &&
-        user.present? &&
-        (configured_user_id.blank? || user.id == configured_user_id)
+    def find_provider(params)
+      ::Repositories::GitlabProvider.for_web_url(params.dig(:payload, :project, :web_url))
     end
 
-    def notify(params, user, event_type)
+    def authorized?(request, user, provider)
+      valid_token?(request, provider) &&
+        user.present? &&
+        (provider.gitlab_user_id.blank? || user.id == provider.gitlab_user_id)
+    end
+
+    def notify(params, user, provider, event_type)
       payload = params[:payload]
                 .permit!
                 .to_h
-                .merge("open_project_user_id" => user.id)
+                .merge("open_project_user_id" => user.id, "repository_provider_id" => provider.id)
 
       OpenProject::Notifications.send(:"gitlab.#{event_type}_hook", payload)
     end
 
-    def valid_token?(request)
-      secret = plugin_settings[:webhook_secret].presence
+    def valid_token?(request, provider)
+      secret = provider.webhook_secret.presence
       return true if secret.blank?
 
       token_header = request.env["HTTP_X_GITLAB_TOKEN"]
       return false if token_header.blank?
 
       ActiveSupport::SecurityUtils.secure_compare(secret, token_header)
-    end
-
-    def configured_user_id
-      plugin_settings[:gitlab_user_id].presence&.to_i
-    end
-
-    def plugin_settings
-      Hash(Setting.plugin_openproject_gitlab_integration).with_indifferent_access
     end
   end
 end

@@ -35,10 +35,13 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
   subject(:process) { handler_instance.process(payload) }
 
   shared_let(:gitlab_system_user) { create(:admin) }
-  shared_let(:gitlab_merge_request) do
-    create(:gitlab_merge_request,
-           gitlab_id: 5,
-           gitlab_html_url: "http://79dfcd98b723/root/hot_do/-/merge_requests/5")
+  shared_let(:provider) { create(:repository_provider, url: "http://79dfcd98b723") }
+  shared_let(:merge_request) do
+    create(:repository_merge_request,
+           provider:,
+           external_id: "1005",
+           display_id: "5",
+           web_url: "http://79dfcd98b723/root/hot_do/-/merge_requests/5")
   end
 
   let(:handler_instance) { described_class.new }
@@ -47,6 +50,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
   let(:payload) do
     {
       "open_project_user_id" => gitlab_system_user.id,
+      "repository_provider_id" => provider.id,
       "object_kind" => "pipeline",
       "event_type" => "pipeline",
       "user" => {
@@ -57,7 +61,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
         "email" => "[REDACTED]"
       },
       "object_attributes" => {
-        "id" => 5,
+        "id" => 3105,
         "iid" => 5,
         "name" => nil,
         "ref" => "task/42-test-hooks",
@@ -75,11 +79,11 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
         "duration" => nil,
         "queued_duration" => nil,
         "variables" => [],
-        "url" => "http://79dfcd98b723/root/hot_do/-/pipelines/5"
+        "url" => "http://79dfcd98b723/root/hot_do/-/pipelines/3105"
       },
       "merge_request" => {
-        "iid" => gitlab_merge_request.gitlab_id,
-        "id" => gitlab_merge_request.gitlab_id,
+        "iid" => merge_request.display_id.to_i,
+        "id" => merge_request.external_id.to_i,
         "title" => "Update .gitlab-ci.yml file",
         "ref_path" => "/root/hot_do/-/merge_requests/1",
         "source_branch" => "task/42-test-hooks",
@@ -141,47 +145,105 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PipelineHook
   end
 
   context "with a new pipeline" do
+    it "stores the pipeline" do
+      pipeline = process
+
+      expect(pipeline.reload).to have_attributes(
+        provider:,
+        merge_request:,
+        external_id: 3105,
+        external_project_id: "1",
+        status: "failed",
+        web_url: "http://79dfcd98b723/root/hot_do/-/pipelines/3105",
+        details_url: "http://79dfcd98b723/root/hot_do/-/commit/4bf4cebe",
+        started_at: Time.zone.parse("2024-03-02 09:01:05 UTC"),
+        completed_at: Time.zone.parse("2024-03-02 11:00:07 UTC")
+      )
+      expect(pipeline.repository_user).to have_attributes(external_id: "1", username: "root")
+    end
+
     it "calls the pipeline upsert service" do
-      expect { process }.to change(GitlabPipeline, :count).by(1)
+      expect { process }.to change(Repositories::Pipeline, :count).by(1)
       expect(upsert_service).to have_received(:call)
-        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
-              merge_request: gitlab_merge_request)
+        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), provider:)
     end
   end
 
   context "when another repository has a merge request with the same iid" do
     shared_let(:other_repo_merge_request) do
-      create(:gitlab_merge_request,
-             gitlab_id: gitlab_merge_request.gitlab_id,
-             gitlab_html_url: "http://79dfcd98b723/root/other_repo/-/merge_requests/5")
+      create(:repository_merge_request,
+             provider:,
+             display_id: merge_request.display_id,
+             web_url: "http://79dfcd98b723/root/other_repo/-/merge_requests/5")
     end
 
     it "attaches the pipeline to the merge request in the matching repository" do
-      expect { process }.to change(GitlabPipeline, :count).by(1)
-      expect(upsert_service).to have_received(:call)
-        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
-              merge_request: gitlab_merge_request)
+      expect { process }.to change(Repositories::Pipeline, :count).by(1)
+      expect(Repositories::Pipeline.last.merge_request).to eq(merge_request)
     end
   end
 
   context "when the payload carries the merge request URL (fork pipeline)" do
     shared_let(:target_project_merge_request) do
-      create(:gitlab_merge_request,
-             gitlab_id: 5,
-             gitlab_html_url: "http://79dfcd98b723/root/upstream/-/merge_requests/5")
+      create(:repository_merge_request,
+             provider:,
+             display_id: "5",
+             web_url: "http://79dfcd98b723/root/upstream/-/merge_requests/5")
     end
 
     let(:payload) do
       super().deep_merge(
-        "merge_request" => { "url" => target_project_merge_request.gitlab_html_url }
+        "merge_request" => { "id" => 2005, "url" => target_project_merge_request.web_url }
       )
     end
 
     it "attaches the pipeline to the merge request at the payload URL, not the pipeline's project" do
-      expect { process }.to change(GitlabPipeline, :count).by(1)
-      expect(upsert_service).to have_received(:call)
-        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
-              merge_request: target_project_merge_request)
+      expect { process }.to change(Repositories::Pipeline, :count).by(1)
+      expect(Repositories::Pipeline.last.merge_request).to eq(target_project_merge_request)
+    end
+  end
+
+  context "when the pipeline was stored with its iid" do
+    let!(:pipeline) do
+      create(:repository_pipeline,
+             provider:,
+             merge_request:,
+             external_id: 5,
+             web_url: "http://79dfcd98b723/root/hot_do/-/pipelines/5",
+             status: "running")
+    end
+
+    it "updates the stored pipeline and corrects its external ID" do
+      expect { process }.not_to change(Repositories::Pipeline, :count)
+      expect(pipeline.reload).to have_attributes(external_id: 3105, status: "failed")
+    end
+  end
+
+  context "when the pipeline is already known" do
+    let!(:pipeline) { create(:repository_pipeline, provider:, merge_request:, external_id: 3105, status: "running") }
+
+    it "updates the pipeline" do
+      expect { process }.not_to change(Repositories::Pipeline, :count)
+      expect(pipeline.reload.status).to eq("failed")
+    end
+  end
+
+  context "when the merge request is not tracked" do
+    let(:payload) { super().deep_merge("merge_request" => { "id" => 9999, "iid" => 99 }) }
+
+    it "does not store the pipeline" do
+      expect { process }.not_to change(Repositories::Pipeline, :count)
+    end
+  end
+
+  context "when the project of the tracked merge request was moved" do
+    let(:payload) do
+      super().deep_merge("merge_request" => { "url" => "http://79dfcd98b723/new_group/hot_do/-/merge_requests/5" })
+    end
+
+    it "attaches the pipeline to the merge request found by its ID" do
+      expect { process }.to change(Repositories::Pipeline, :count).by(1)
+      expect(Repositories::Pipeline.last.merge_request).to eq(merge_request)
     end
   end
 end

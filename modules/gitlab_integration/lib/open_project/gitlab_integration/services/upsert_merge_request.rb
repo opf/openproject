@@ -33,55 +33,46 @@ module OpenProject
     module Services
       class UpsertMergeRequest
         include ParamsHelper
+        include ResourceLookup
 
-        def call(payload, work_packages: [])
-          find_or_initialize(payload).tap do |mr|
-            mr.update!(work_packages: mr.work_packages | work_packages, **extract_params(payload))
-          end
+        # Resources are only tracked once they are linked to a work package.
+        def call(payload, provider:, work_packages: [])
+          mr = find_or_initialize(payload, provider)
+          return if mr.new_record? && work_packages.empty?
+
+          mr.update!(work_packages: mr.work_packages | work_packages, **extract_params(payload, provider))
+          mr
         end
 
         private
 
-        def find_or_initialize(payload)
-          GitlabMergeRequest.find_by_gitlab_identifiers(id: payload.object_attributes.iid,
-                                                        url: payload.object_attributes.url,
-                                                        initialize: true)
+        def find_or_initialize(payload, provider)
+          find_or_initialize_resource(provider.merge_requests,
+                                      external_id: payload.object_attributes.id,
+                                      web_url: payload.object_attributes.url)
         end
 
         # Receives the input from the gitlab webhook and translates them
         # to our internal representation.
-        # rubocop:disable Metrics/AbcSize
-        def extract_params(payload)
+        # rubocop:disable-next Metrics/AbcSize
+        def extract_params(payload, provider)
           {
-            gitlab_id: payload.object_attributes.iid, # TODO: this is sadly wrong... it should've been id, not iid
-            gitlab_user: gitlab_user_id(payload.user),
-            number: payload.object_attributes.iid,
-            gitlab_html_url: payload.object_attributes.url,
-            gitlab_updated_at: payload.object_attributes.updated_at,
-            state: payload.object_attributes.state,
-            title: payload.object_attributes.title,
-            body: description(payload.object_attributes.description),
-            repository: payload.repository.name,
-            draft: payload.object_attributes.work_in_progress,
-            merged: payload.object_attributes.state == "merged",
-            merged_by: gitlab_user_id(payload.user),
-            merged_at: payload.object_attributes.state == "merged" ? payload.object_attributes.updated_at : nil,
-            labels: payload.labels.map { |values| extract_label_values(values) }
-          }
-        end
-        # rubocop:enable Metrics/AbcSize
-
-        def extract_label_values(payload)
-          {
-            title: payload["title"],
-            color: payload["color"]
+            external_id: payload.object_attributes.id.to_s,
+            repository_user: repository_user(payload.user, provider),
+            display_id: payload.object_attributes.iid.to_s,
+            web_url: payload.object_attributes.url,
+            external_updated_at: payload.object_attributes.updated_at,
+            state: state(payload.object_attributes),
+            title: payload.object_attributes.title.to_s,
+            description: payload.object_attributes.description.to_s,
+            project_name: payload.repository.name,
+            labels: labels(payload.labels)
           }
         end
 
-        def gitlab_user_id(payload)
-          return if payload.blank?
-
-          ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
+        def state(attributes)
+          draft = attributes.draft? || attributes.work_in_progress?
+          attributes.state == "opened" && draft ? "draft" : attributes.state
         end
       end
     end

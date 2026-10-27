@@ -147,17 +147,8 @@ module OpenProject::GitlabIntegration
         end
       end
 
-      def gitlab_issue
-        return @gitlab_issue if defined?(@gitlab_issue)
-
-        @gitlab_issue = GitlabIssue.find_by(gitlab_html_url: payload.issue.url)
-      end
-
       def upsert_issue(work_packages)
-        return if work_packages.empty? && gitlab_issue.nil?
-
-        OpenProject::GitlabIntegration::Services::UpsertIssueNote.new.call(payload,
-                                                                           work_packages:)
+        OpenProject::GitlabIntegration::Services::UpsertIssueNote.new.call(payload, provider:, work_packages:)
       end
     end
   end

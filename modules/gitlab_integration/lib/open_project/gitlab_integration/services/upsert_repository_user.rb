@@ -28,14 +28,37 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject
+  module GitlabIntegration
+    module Services
+      ##
+      # Takes user data coming from Gitlab webhook data and stores
+      # them as a `Repositories::User` of the given provider.
+      # If the user already exists, it is updated.
+      #
+      # Returns the upserted `Repositories::User`.
+      class UpsertRepositoryUser
+        include ParamsHelper
 
-module Cron
-  class ClearOldMergeRequestsJob < ApplicationJob
-    priority_number :low
+        def call(payload, provider:)
+          provider.users.find_or_initialize_by(external_id: payload.id.to_s).tap do |user|
+            user.update!(extract_params(payload))
+          end
+        end
 
-    def perform
-      GitlabMergeRequest.without_work_package
-                       .find_each(&:destroy!)
+        private
+
+        ##
+        # Receives the input from the gitlab webhook and translates them
+        # to our internal representation.
+        def extract_params(payload)
+          {
+            name: payload.name,
+            username: payload.username,
+            avatar_url: avatar_url(payload.avatar_url)
+          }
+        end
+      end
     end
   end
 end

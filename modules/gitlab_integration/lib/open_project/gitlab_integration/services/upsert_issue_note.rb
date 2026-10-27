@@ -33,51 +33,41 @@ module OpenProject
     module Services
       class UpsertIssueNote
         include ParamsHelper
+        include ResourceLookup
 
-        def call(payload, work_packages: [])
-          find_or_initialize(payload).tap do |issue|
-            issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload))
-          end
+        # Resources are only tracked once they are linked to a work package.
+        def call(payload, provider:, work_packages: [])
+          issue = find_or_initialize(payload, provider)
+          return if issue.new_record? && work_packages.empty?
+
+          issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload, provider))
+          issue
         end
 
         private
 
-        def find_or_initialize(payload)
-          GitlabIssue.find_by_gitlab_identifiers(id: payload.issue.iid,
-                                                 url: payload.issue.url,
-                                                 initialize: true)
+        def find_or_initialize(payload, provider)
+          find_or_initialize_resource(provider.issues,
+                                      external_id: payload.issue.id,
+                                      web_url: payload.issue.url)
         end
 
         # Receives the input from the gitlab webhook and translates them
         # to our internal representation.
-        # rubocop:disable Metrics/AbcSize
-        def extract_params(payload)
+        # rubocop:disable-next Metrics/AbcSize
+        def extract_params(payload, provider)
           {
-            gitlab_id: payload.issue.iid,
-            gitlab_user: gitlab_user_id(payload.user),
-            number: payload.issue.iid,
-            gitlab_html_url: payload.issue.url,
-            gitlab_updated_at: payload.issue.updated_at,
+            external_id: payload.issue.id.to_s,
+            repository_user: repository_user(payload.user, provider),
+            display_id: payload.issue.iid.to_s,
+            web_url: payload.issue.url,
+            external_updated_at: payload.issue.updated_at,
             state: payload.issue.state,
-            title: payload.issue.title,
-            body: description(payload.object_attributes.description),
-            repository: payload.repository.name,
-            labels: payload.issue.labels.map { |values| extract_label_values(values) }
+            title: payload.issue.title.to_s,
+            description: payload.issue.description.to_s,
+            project_name: payload.repository.name,
+            labels: labels(payload.issue.labels)
           }
-        end
-        # rubocop:enable Metrics/AbcSize
-
-        def extract_label_values(payload)
-          {
-            title: payload["title"],
-            color: payload["color"]
-          }
-        end
-
-        def gitlab_user_id(payload)
-          return if payload.blank?
-
-          ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
         end
       end
     end

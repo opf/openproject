@@ -42,25 +42,25 @@ module OpenProject
         BLANK_SHA = /\A0+\z/
         HEADS_PREFIX = "refs/heads/"
 
-        def call(payload, user:)
+        def call(payload, provider:, user:)
           return unless payload.ref.start_with?(HEADS_PREFIX)
 
           name = payload.ref.delete_prefix(HEADS_PREFIX)
 
           if payload.before.match?(BLANK_SHA)
-            branch_created!(payload, name, user)
+            branch_created!(payload, provider, name, user)
           elsif payload.after.match?(BLANK_SHA)
-            branch_deleted!(payload.project_id, name)
+            branch_deleted!(provider, payload.project_id, name)
           end
         end
 
         private
 
-        def branch_created!(payload, name, user)
+        def branch_created!(payload, provider, name, user)
           work_package = find_visible_work_packages(extract_work_package_ids_from_branch(name), user).first
           return if work_package.nil?
 
-          CreateBranch.new.call(payload, name:, work_package:)
+          CreateBranch.new.call(payload, provider:, name:, work_package:)
         end
 
         def extract_work_package_ids_from_branch(branch_name)
@@ -89,8 +89,8 @@ module OpenProject
           ids.first(1).map { it.match?(/\A\d+\z/) ? it : it.upcase }
         end
 
-        def branch_deleted!(gitlab_project_id, name)
-          GitlabBranch.find_by(gitlab_project_id:, name:)&.destroy!
+        def branch_deleted!(provider, external_project_id, name)
+          provider.branches.find_by(external_project_id: external_project_id.to_s, name:)&.destroy!
         end
       end
     end

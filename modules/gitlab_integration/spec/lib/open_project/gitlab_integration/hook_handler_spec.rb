@@ -34,8 +34,13 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
   describe "#process" do
     let(:handler) { described_class.new }
     let(:hook) { "fake hook" }
-    let(:params) { ActionController::Parameters.new({ event_type:, payload: { "fake" => "value", event_type: } }) }
+    let(:params) { ActionController::Parameters.new({ event_type:, payload: }) }
+    let(:payload) { { "fake" => "value", "project" => { "web_url" => project_web_url }, event_type: } }
+    let(:project_web_url) { "https://gitlab.example.com/group/project" }
     let(:event_type) { "merge_request" }
+    let(:webhook_secret) { nil }
+    let(:gitlab_user_id) { nil }
+    let!(:provider) { create(:repository_provider, url: "https://gitlab.example.com", webhook_secret:, gitlab_user_id:) }
     let(:environment) do
       {}
     end
@@ -55,6 +60,21 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
       end
     end
 
+    context "with a supported event from an unknown GitLab instance" do
+      let(:project_web_url) { "https://other-gitlab.example.com/group/project" }
+
+      before { allow(OpenProject::Notifications).to receive(:send) }
+
+      it "returns 404" do
+        expect(handler.process(hook, request, params, user)).to eq(404)
+      end
+
+      it "does not send a notification" do
+        handler.process(hook, request, params, user)
+        expect(OpenProject::Notifications).not_to have_received(:send)
+      end
+    end
+
     context "with a supported event and without user" do
       let(:user) { nil }
 
@@ -66,11 +86,11 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
 
     context "with webhook secret verification" do
       let(:secret) { "super_secret" }
+      let(:webhook_secret) { "super_secret" }
 
       before { allow(OpenProject::Notifications).to receive(:send) }
 
-      context "when a secret is configured and the token matches",
-              with_settings: { plugin_openproject_gitlab_integration: { webhook_secret: "super_secret" } } do
+      context "when a secret is configured and the token matches" do
         let(:environment) do
           { "HTTP_X_GITLAB_TOKEN" => secret }
         end
@@ -80,8 +100,7 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
         end
       end
 
-      context "when a secret is configured and the token is wrong",
-              with_settings: { plugin_openproject_gitlab_integration: { webhook_secret: "super_secret" } } do
+      context "when a secret is configured and the token is wrong" do
         let(:environment) do
           { "HTTP_X_GITLAB_TOKEN" => "wrong_secret" }
         end
@@ -96,8 +115,7 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
         end
       end
 
-      context "when a secret is configured and the token header is missing",
-              with_settings: { plugin_openproject_gitlab_integration: { webhook_secret: "super_secret" } } do
+      context "when a secret is configured and the token header is missing" do
         it "returns 403" do
           expect(handler.process(hook, request, params, user)).to eq(403)
         end
@@ -108,8 +126,9 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
         end
       end
 
-      context "when no secret is configured",
-              with_settings: { plugin_openproject_gitlab_integration: {} } do
+      context "when no secret is configured" do
+        let(:webhook_secret) { nil }
+
         it "returns 200 without requiring a token" do
           expect(handler.process(hook, request, params, user)).to eq(200)
         end
@@ -120,7 +139,9 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
       let(:expected_params) do
         {
           fake: "value",
+          project: { web_url: project_web_url },
           open_project_user_id: 12,
+          repository_provider_id: provider.id,
           event_type:
         }
       end
@@ -140,8 +161,9 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
       end
 
       context "when a gitlab_user_id is configured" do
-        context "and the request user matches the configured user",
-                with_settings: { plugin_openproject_gitlab_integration: { gitlab_user_id: 12 } } do
+        context "and the request user matches the configured user" do
+          let(:gitlab_user_id) { 12 }
+
           it "returns 200" do
             expect(handler.process(hook, request, params, user)).to eq(200)
           end
@@ -152,8 +174,9 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
           end
         end
 
-        context "and the request user does not match the configured user",
-                with_settings: { plugin_openproject_gitlab_integration: { gitlab_user_id: 99 } } do
+        context "and the request user does not match the configured user" do
+          let(:gitlab_user_id) { 99 }
+
           it "returns 403" do
             expect(handler.process(hook, request, params, user)).to eq(403)
           end
@@ -165,8 +188,7 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
         end
       end
 
-      context "when no gitlab_user_id is configured",
-              with_settings: { plugin_openproject_gitlab_integration: {} } do
+      context "when no gitlab_user_id is configured" do
         it "returns 200 regardless of which user authenticates" do
           expect(handler.process(hook, request, params, user)).to eq(200)
         end

@@ -59,13 +59,15 @@ module OpenProject::GitlabIntegration
       attr_reader :payload
 
       def create_commit(commit_payload, event_payload, work_packages)
-        ::OpenProject::GitlabIntegration::Services::CreateCommit.new.call(commit_payload, event_payload, work_packages:)
+        ::OpenProject::GitlabIntegration::Services::CreateCommit
+          .new
+          .call(commit_payload, event_payload, provider:, work_packages:)
       end
 
       # A branch we cannot track must not stop the commits in the same push
       # from being processed.
       def track_branch(user)
-        ::OpenProject::GitlabIntegration::Services::TrackBranch.new.call(payload, user:)
+        ::OpenProject::GitlabIntegration::Services::TrackBranch.new.call(payload, provider:, user:)
       rescue ActiveRecord::ActiveRecordError => e
         ::OpenProject.logger.error("Failed to track Gitlab branch #{payload.ref}", exception: e)
       end

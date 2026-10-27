@@ -34,6 +34,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
 
   shared_let(:gitlab_system_user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
+  shared_let(:provider) { create(:repository_provider, url: "http://c7e7cd2d54c3") }
 
   let(:handler_instance) { described_class.new }
 
@@ -99,7 +100,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
           "git_ssh_url" => "git@c7e7cd2d54c3:openprojecttest/test.git",
           "visibility_level" => 10
         },
-      "open_project_user_id" => gitlab_system_user.id
+      "open_project_user_id" => gitlab_system_user.id,
+      "repository_provider_id" => provider.id
     }
   end
 
@@ -115,26 +117,27 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       payload["ref"] = "refs/heads/#{branch_name}"
     end
 
-    it "creates a GitlabBranch linked to the work package" do
-      expect { process }.to change(GitlabBranch, :count).by(1)
+    it "creates a branch linked to the work package" do
+      expect { process }.to change(Repositories::Branch, :count).by(1)
 
-      branch = GitlabBranch.last
+      branch = Repositories::Branch.last
       expect(branch).to have_attributes(
+        provider:,
         name: branch_name,
         work_package:,
-        gitlab_project_id: 1,
-        namespace: "openprojecttest",
-        repository: "Test",
-        project_html_url: "http://c7e7cd2d54c3/openprojecttest/test"
+        external_project_id: "1",
+        project_name: "Test",
+        project_web_url: "http://c7e7cd2d54c3/openprojecttest/test"
       )
-      expect(branch.html_url).to eq("http://c7e7cd2d54c3/openprojecttest/test/-/tree/#{branch_name}")
+      expect(branch.web_url).to eq("http://c7e7cd2d54c3/openprojecttest/test/-/tree/#{branch_name}")
     end
 
-    it "records the pusher as a GitlabUser" do
-      expect { process }.to change(GitlabUser, :count).by(1)
+    it "records the pusher as a repository user" do
+      expect { process }.to change(Repositories::User, :count).by(1)
 
-      expect(GitlabBranch.last.gitlab_user).to have_attributes(
-        gitlab_id: 1,
+      expect(Repositories::Branch.last.repository_user).to have_attributes(
+        provider:,
+        external_id: "1",
         name: "Administrator",
         username: "root",
         avatar_url: payload["user_avatar"]
@@ -144,14 +147,14 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     it "keeps the existing record when the same create event arrives twice" do
       process
 
-      expect { described_class.new.process(payload) }.not_to change(GitlabBranch, :count)
+      expect { described_class.new.process(payload) }.not_to change(Repositories::Branch, :count)
     end
 
     context "when the branch name references no work package" do
       let(:branch_name) { "chore/update-readme" }
 
       it "creates nothing" do
-        expect { process }.not_to change(GitlabBranch, :count)
+        expect { process }.not_to change(Repositories::Branch, :count)
       end
     end
 
@@ -160,8 +163,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       let(:branch_name) { "update-on-proj-42-send-invitation-to-speakers" }
 
       it "still matches the work package" do
-        expect { process }.to change(GitlabBranch, :count).by(1)
-        expect(GitlabBranch.last.work_package).to eq(work_package)
+        expect { process }.to change(Repositories::Branch, :count).by(1)
+        expect(Repositories::Branch.last.work_package).to eq(work_package)
       end
     end
 
@@ -169,7 +172,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       let(:branch_name) { "bump-timeout-to-#{work_package.id}" }
 
       it "creates nothing, since any number would match some work package" do
-        expect { process }.not_to change(GitlabBranch, :count)
+        expect { process }.not_to change(Repositories::Branch, :count)
       end
     end
 
@@ -177,7 +180,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       before { payload["before"] = "0" * 64 }
 
       it "still detects the branch as created" do
-        expect { process }.to change(GitlabBranch, :count).by(1)
+        expect { process }.to change(Repositories::Branch, :count).by(1)
       end
     end
 
@@ -186,8 +189,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       let(:branch_name) { "bug/proj-42-fix-the-thing" }
 
       it "matches the work package despite the lowercased branch name" do
-        expect { process }.to change(GitlabBranch, :count).by(1)
-        expect(GitlabBranch.last.work_package).to eq(work_package)
+        expect { process }.to change(Repositories::Branch, :count).by(1)
+        expect(Repositories::Branch.last.work_package).to eq(work_package)
       end
     end
   end
@@ -231,13 +234,19 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
 
     it "destroys the tracked branch" do
-      create(:gitlab_branch, work_package:, gitlab_project_id: 1, name: branch_name)
+      create(:repository_branch, provider:, work_package:, external_project_id: "1", name: branch_name)
 
-      expect { process }.to change(GitlabBranch, :count).by(-1)
+      expect { process }.to change(Repositories::Branch, :count).by(-1)
+    end
+
+    it "keeps a branch of the same name tracked for another provider" do
+      create(:repository_branch, work_package:, external_project_id: "1", name: branch_name)
+
+      expect { process }.not_to change(Repositories::Branch, :count)
     end
 
     it "does nothing when the branch was never tracked" do
-      expect { process }.not_to change(GitlabBranch, :count)
+      expect { process }.not_to change(Repositories::Branch, :count)
     end
   end
 
@@ -248,7 +257,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
 
     it "tracks nothing" do
-      expect { process }.not_to change(GitlabBranch, :count)
+      expect { process }.not_to change(Repositories::Branch, :count)
     end
   end
 
@@ -262,7 +271,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
 
     it "does not track a branch" do
-      expect { process }.not_to change(GitlabBranch, :count)
+      expect { process }.not_to change(Repositories::Branch, :count)
     end
 
     it "adds a comment to the work packages" do
@@ -275,21 +284,26 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
 
     it "adds a commit" do
-      expect { process }.to change(GitlabCommit, :count).from(0).to(1)
+      expect { process }.to change(Repositories::Commit, :count).from(0).to(1)
 
-      expect(GitlabCommit.first).to have_attributes(
+      expect(Repositories::Commit.first).to have_attributes(
+        provider:,
         sha: "a265d6b7bcf836b77ed9e32f824b231585c6a355",
         message: commit_message,
         author_name: "Some committer",
-        author_email: "some_committer@example.com"
+        author_email: "some_committer@example.com",
+        project_name: "Test",
+        web_url: "http://c7e7cd2d54c3/openprojecttest/test/-/commit/a265d6b7bcf836b77ed9e32f824b231585c6a355",
+        work_packages: [work_package]
       )
     end
 
     it "creates the pushing user" do
-      expect { process }.to change(GitlabUser, :count).from(0).to(1)
+      expect { process }.to change(Repositories::User, :count).from(0).to(1)
 
-      expect(GitlabUser.first).to have_attributes(
-        gitlab_id: 1,
+      expect(Repositories::User.first).to have_attributes(
+        provider:,
+        external_id: "1",
         name: "Administrator",
         username: "root"
       )

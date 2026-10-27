@@ -110,7 +110,7 @@ RSpec.describe FillFromGitlab, type: :model do
       expect(provider).to have_attributes(
         name: "GitLab",
         url: base_url,
-        gitlab_user_id: "42",
+        gitlab_user_id: 42,
         webhook_secret: "it's s3cret"
       )
     end
