@@ -29,6 +29,7 @@
 
 class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::PendingLabels
   include Attachments::ReplaceAttachments
   include Types::ApplyPatterns
 
@@ -40,6 +41,18 @@ class WorkPackages::UpdateService < BaseServices::Update
   end
 
   private
+
+  def persist(call)
+    labels_call = create_pending_labels(call.result)
+
+    if labels_call.failure?
+      call.success = false
+      call.errors = labels_call.errors
+      return call
+    end
+
+    super
+  end
 
   def after_perform(service_call)
     # TODO: code smell here: saving the automatically generated subject depends

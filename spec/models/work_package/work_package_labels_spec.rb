@@ -249,71 +249,28 @@ RSpec.describe WorkPackage, "labels" do
     end
 
     describe "saving" do
-      let(:user) { create(:admin) }
-
-      it "creates a new label authored by the acting user and attaches it" do
-        work_package.label_name_replacements = ["Brand new"]
-        User.execute_as(user) { work_package.save! }
-
-        created = Label.find_by!(name: "Brand new")
-        expect(created.author).to eq(user)
-        expect(persisted_label_ids).to contain_exactly(created.id)
-        expect(work_package.label_name_replacements).to be_nil
-      end
-
-      it "reuses an existing label whose name differs in casing" do
-        work_package.label_name_replacements = ["ZEBRA"]
-
-        work_package.label_names_user = user
-
-        expect { work_package.save! }.not_to change(Label, :count)
-        expect(persisted_label_ids).to contain_exactly(higher_label.id)
-      end
-
-      it "combines ids and names" do
-        work_package.label_id_replacements = [lower_label.id]
-        work_package.label_name_replacements = ["Brand new"]
-        work_package.label_names_user = user
-        work_package.save!
-
-        expect(persisted_label_ids).to contain_exactly(lower_label.id, Label.find_by!(name: "Brand new").id)
-      end
-
-      it "records the new label in the journal" do
-        work_package.label_name_replacements = ["Brand new"]
-        work_package.label_names_user = user
-        work_package.save!
-
-        created = Label.find_by!(name: "Brand new")
-        expect(work_package.journals.last.label_journals.pluck(:label_id)).to include(created.id)
-      end
-    end
-
-    describe "when the label cannot be created" do
-      let(:failure) do
-        ServiceResult.failure(result: nil).tap { it.errors.add(:name, :blank) }
-      end
-
-      before do
-        service = instance_double(Labels::FindOrCreateService, call: failure)
-        allow(Labels::FindOrCreateService).to receive(:new).and_return(service)
-      end
-
-      it "fails a persisted work package save without touching the labelings" do
+      it "refuses to save while names are unresolved and creates no label" do
         work_package.label_name_replacements = ["Brand new"]
 
-        expect(work_package.save).to be(false)
-        expect(work_package.errors.symbols_for(:labels)).to contain_exactly(:blank)
+        expect { expect(work_package.save).to be(false) }.not_to change(Label, :count)
+        expect(work_package.errors.symbols_for(:labels)).to contain_exactly(:invalid)
         expect(persisted_label_ids).to contain_exactly(lower_label.id, higher_label.id)
       end
 
-      it "fails a new work package saved without validation" do
-        new_work_package = build(:work_package)
-        new_work_package.label_name_replacements = ["Brand new"]
+      it "saves once the names are resolved to ids" do
+        work_package.label_name_replacements = ["Brand new"]
+        work_package.resolve_pending_label_names([lower_label.id])
+        work_package.save!
 
-        expect(new_work_package.save(validate: false)).to be(false)
-        expect(new_work_package.errors.symbols_for(:labels)).to contain_exactly(:blank)
-        expect(new_work_package).not_to be_persisted
+        expect(persisted_label_ids).to contain_exactly(lower_label.id)
+        expect(work_package.label_name_replacements).to be_nil
+      end
+
+      it "records resolved labels in the journal" do
+        work_package.resolve_pending_label_names([lower_label.id])
+        work_package.save!
+
+        expect(work_package.journals.last.label_journals.pluck(:label_id)).to contain_exactly(lower_label.id)
       end
     end
   end

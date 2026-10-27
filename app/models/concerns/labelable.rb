@@ -38,14 +38,13 @@ module Labelable
 
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
 
-    before_save :create_pending_labels
+    before_save :ensure_pending_label_names_resolved
     after_save :persist_label_associations
 
     validate :validate_label_id_replacements
   end
 
   attr_reader :label_id_replacements, :label_name_replacements
-  attr_accessor :label_names_user
 
   def label_id_replacements=(new_labels)
     @label_id_replacements = new_labels.nil? ? nil : normalize_label_ids(new_labels)
@@ -53,6 +52,11 @@ module Labelable
 
   def label_name_replacements=(names)
     @label_name_replacements = names.nil? ? nil : normalize_label_names(names)
+  end
+
+  def resolve_pending_label_names(ids)
+    self.label_id_replacements = pending_label_ids | ids
+    self.label_name_replacements = nil
   end
 
   def override_labels? = !label_id_replacements.nil? || !label_name_replacements.nil?
@@ -100,26 +104,10 @@ module Labelable
     errors.add(:labels, :does_not_exist) if missing.any?
   end
 
-  def create_pending_labels
+  def ensure_pending_label_names_resolved
     return if pending_label_names.empty?
 
-    self.label_id_replacements = pending_label_ids | find_or_create_pending_labels
-    self.label_name_replacements = nil
-  end
-
-  def find_or_create_pending_labels
-    service = Labels::FindOrCreateService.new(user: label_names_user || User.current)
-
-    pending_label_names.map do |name|
-      result = service.call(name:)
-      abort_label_creation(result) unless result.success?
-
-      result.result.id
-    end
-  end
-
-  def abort_label_creation(result)
-    errors.add(:labels, result.errors.symbols_for(:name).first || :invalid)
+    errors.add(:labels, :invalid)
     throw :abort
   end
 

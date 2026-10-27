@@ -29,6 +29,7 @@
 
 class WorkPackages::CreateService < BaseServices::BaseCallable
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::PendingLabels
   include ::Shared::ServiceContext
   include Types::ApplyPatterns
 
@@ -59,7 +60,7 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       # Set attributes service passed, meaning the contract is fulfilled.
       # Avoid running validations again as we might be in a project copy scenario.
       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-      return save_failure(result, work_package) unless work_package.save(validate: false)
+      return save_failure(result, work_package) unless save_with_labels(work_package)
 
       apply_patterns(work_package)
 
@@ -74,6 +75,10 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
     end
 
     result
+  end
+
+  def save_with_labels(work_package)
+    create_pending_labels(work_package).success? && work_package.save(validate: false)
   end
 
   def save_failure(result, work_package)

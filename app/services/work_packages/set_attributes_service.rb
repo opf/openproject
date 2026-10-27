@@ -90,10 +90,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
     model.label_id_replacements = label_ids if label_ids
 
-    if label_names
-      model.label_name_replacements = label_names
-      model.label_names_user = user
-    end
+    model.label_name_replacements = label_names if label_names
   end
 
   def set_static_attributes(attributes)
