@@ -93,11 +93,11 @@ module Exports
       end
 
       def date_format
-        "YYYY-MM-DD"
+        "yyyy-mm-dd"
       end
 
       def datetime_format
-        "YYYY-MM-DD HH:MM"
+        "yyyy-mm-dd hh:mm"
       end
 
       def percentage_format

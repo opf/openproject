@@ -438,14 +438,14 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
 
     it "sets a matching cell format on every typed column" do
       expect(number_formats)
-        .to eq(["0", "YYYY-MM-DD", "YYYY-MM-DD", "YYYY-MM-DD HH:MM", '0 "d"', "0", "0.00", "YYYY-MM-DD"])
+        .to eq(["0", "yyyy-mm-dd", "yyyy-mm-dd", "yyyy-mm-dd hh:mm", '0 "d"', "0", "0.00", "yyyy-mm-dd"])
     end
 
     context "with a localised date format",
             with_settings: { date_format: "%d.%m.%Y", time_format: "%H:%M" } do
       it "keeps the same cell format" do
-        expect(number_formats.values_at(1, 2, 7)).to all(eq("YYYY-MM-DD"))
-        expect(number_formats[3]).to eq("YYYY-MM-DD HH:MM")
+        expect(number_formats.values_at(1, 2, 7)).to all(eq("yyyy-mm-dd"))
+        expect(number_formats[3]).to eq("yyyy-mm-dd hh:mm")
       end
     end
 

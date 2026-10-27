@@ -114,7 +114,7 @@ RSpec.describe Projects::Exports::Formatters::XLS::TypedAttribute do
   describe "#format_options" do
     it "formats datetimes consistently across date and time settings",
        with_settings: { date_format: "%d.%m.%Y", time_format: "%H:%M" } do
-      expect(described_class.new(:created_at).format_options).to eq({ number_format: "YYYY-MM-DD HH:MM" })
+      expect(described_class.new(:created_at).format_options).to eq({ number_format: "yyyy-mm-dd hh:mm" })
     end
 
     it "formats integers without decimals" do

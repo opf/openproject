@@ -103,7 +103,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
         .to eq(project.created_at.in_time_zone(User.current.time_zone).strftime("%Y-%m-%d %H:%M:%S"))
 
       expect(sheet.row(1).format(1).number_format).to eq("0")
-      expect(sheet.row(1).format(2).number_format).to eq("YYYY-MM-DD HH:MM")
+      expect(sheet.row(1).format(2).number_format).to eq("yyyy-mm-dd hh:mm")
     end
   end
 
