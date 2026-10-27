@@ -21,7 +21,7 @@ done
 [ -f "$DUMPFILE" ] || { echo "Dump file $DUMPFILE does not exist"; exit 1; }
 command -v docker >/dev/null || { echo "This script needs docker"; exit 1; }
 
-POSTGRES_IMAGE=pgvector/pgvector:pg17
+POSTGRES_IMAGE=pgvector/pgvector:pg17-trixie
 POSTGRES_CONTAINER="anonymize-sql-dump-postgres-$$"
 NETWORK="anonymize-sql-dump-$$"
 
