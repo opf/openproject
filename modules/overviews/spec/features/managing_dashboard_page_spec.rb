@@ -147,6 +147,25 @@ RSpec.describe "Dashboard page managing", :js do
       table_area.expect_to_span(4, 1, 5, 3)
     end
 
+    it "exposes a work package table widget as a named treegrid that can be entered and selected by keyboard" do
+      dashboard_page.add_widget(1, 1, :row, "Work packages table")
+      dashboard_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
+
+      rows = [created_work_package, assigned_work_package].sort_by(&:id)
+      wp_table = Pages::EmbeddedWorkPackagesTable.new(
+        find(".grid--area.-widgeted:nth-of-type(1)"),
+        entry_control: -> { find(:link, accessible_name: "Show menu options for Work packages table widget") },
+        table_name: "Work packages table"
+      )
+      wp_table.expect_work_package_listed(*rows)
+
+      wp_table.tab_into_table
+      wp_table.expect_focus_on_row(rows.first)
+
+      wp_table.press_keys([BrowserPlatform.multi_select_modifier(page), "a"])
+      expect(wp_table.treegrid).to have_selector(:row, aria: { selected: true }, count: rows.size)
+    end
+
     it "can add a new widget via a primary button" do
       description_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
       status_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
