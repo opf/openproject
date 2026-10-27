@@ -69,6 +69,7 @@ describe('Ancestor row selection', () => {
     { platform: 'MacIntel', metaKey: true },
   ])('anchors Select All on the ancestor on $platform', ({ platform, ...modifiers }) => {
     pretendPlatform(platform);
+    harness.row('1').focus();
     expect(fireEvent.keyDown(harness.row('1'), { key: 'a', ...modifiers })).toBe(false);
     harness.click('2', { shiftKey: true });
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);

@@ -41,7 +41,6 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
       workPackages: [{ id: '1' }],
       editing: {},
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true },
     });
     await harness.render();
     const wp = harness.injector.get(States).workPackages.get('1').value!;
@@ -59,12 +58,6 @@ describe('HalResourceEditFieldHandler focus ownership', () => {
 
   it('leaves grid editor focus to keyboard navigation', () => {
     expect(handler.allowsAutofocus()).toBe(false);
-  });
-
-  it('retains autofocus when keyboard navigation is disabled', () => {
-    harness.table.configuration.keyboardNavigationEnabled = false;
-
-    expect(handler.allowsAutofocus()).toBe(true);
   });
 
   it('retains autofocus outside the grid', () => {

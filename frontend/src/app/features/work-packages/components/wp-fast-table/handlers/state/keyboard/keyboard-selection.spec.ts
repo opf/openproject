@@ -74,7 +74,7 @@ describe('KeyboardSelection', () => {
     const table = buildTable({
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { ...options.configuration },
     } as TableHarnessOptions);
     harnesses.push(table);
     await table.render();
@@ -279,7 +279,6 @@ describe('KeyboardSelection', () => {
         workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
-        configuration: { keyboardNavigationEnabled: true },
       });
       harnesses.push(table);
       table.expand('1', 'relationsOfTypeFollows');
@@ -464,7 +463,6 @@ describe('KeyboardSelection', () => {
         workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
-        configuration: { keyboardNavigationEnabled: true },
       });
       harnesses.push(table);
       table.expand('1', 'relationsOfTypeFollows');

@@ -32,15 +32,14 @@ import { contextMenuSpanClassName, contextMenuTdClassName } from 'core-app/featu
 import { internalContextMenuColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tdClassName } from './cell-builder';
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { keyboardNavigationEnabled, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { removeTabStops } from 'core-app/shared/helpers/dom/remove-tab-stops';
 
 export class TableActionRenderer {
   // Injections
   @LazyInject() tableActionsService:OpTableActionsService;
 
-  constructor(public readonly injector:Injector, private readonly configuration?:WorkPackageTableConfiguration) {
+  constructor(public readonly injector:Injector) {
   }
 
   public build(workPackage:WorkPackageResource):HTMLTableCellElement{
@@ -60,10 +59,8 @@ export class TableActionRenderer {
 
     td.appendChild(span);
 
-    if (keyboardNavigationEnabled(this.configuration)) {
-      td.classList.add(navigableCellClassName);
-      removeTabStops(td);
-    }
+    td.classList.add(navigableCellClassName);
+    removeTabStops(td);
 
     return td;
   }

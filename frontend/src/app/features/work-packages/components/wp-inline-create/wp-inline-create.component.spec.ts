@@ -76,7 +76,7 @@ describe('WorkPackageInlineCreateComponent', () => {
     });
 
     const fixture = TestBed.createComponent(WorkPackageInlineCreateComponent);
-    fixture.componentInstance.table = { configuration: { keyboardNavigationEnabled: false } } as WorkPackageTable;
+    fixture.componentInstance.table = { configuration: {}, reconcileSection: () => undefined } as unknown as WorkPackageTable;
     fixture.componentInstance.colspan = 3;
     fixture.detectChanges();
     return fixture;

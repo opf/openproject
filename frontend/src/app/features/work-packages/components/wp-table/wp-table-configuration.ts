@@ -37,9 +37,6 @@ export class WorkPackageTableConfiguration {
   /** Render the action column (last column) with the actions defined in the TableActionsService */
   public actionsColumnEnabled = true;
 
-  /** Whether the table is navigable by keyboard through a roving tabindex */
-  public keyboardNavigationEnabled = false;
-
   /** Id of the visible heading that names the treegrid, used instead of the default label */
   public labelledBy:string|null = null;
 

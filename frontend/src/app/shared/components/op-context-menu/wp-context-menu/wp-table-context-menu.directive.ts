@@ -31,7 +31,6 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { FocusPosition } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/focus-position';
 import { OpContextMenuCloseReason } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 import { forgetKeyboardMenuOpen } from 'core-app/features/work-packages/components/wp-fast-table/handlers/context-menu/context-menu-handler';
@@ -62,10 +61,6 @@ export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
   }
 
   protected override get afterFocusOn():HTMLElement {
-    if (!keyboardNavigationEnabled(this.table.configuration)) {
-      return super.afterFocusOn;
-    }
-
     return this.element.closest<HTMLElement>('[tabindex="0"]')
       ?? this.element.querySelector<HTMLElement>('[tabindex="0"]')
       ?? super.afterFocusOn;

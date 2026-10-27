@@ -96,7 +96,7 @@ describe('OpColumnsContextMenu', () => {
   });
 });
 
-describe('OpColumnsContextMenu on a capability-on table', () => {
+describe('OpColumnsContextMenu keyboard focus', () => {
   let harness:TableHarness;
   let service:OPContextMenuService;
   let unregister:() => void;
@@ -110,7 +110,7 @@ describe('OpColumnsContextMenu on a capability-on table', () => {
       columns: ['id', 'subject', 'status'],
       productionMarkup: true,
       providers: [OPContextMenuService],
-      configuration: { columnMenuEnabled: true, keyboardNavigationEnabled: true },
+      configuration: { columnMenuEnabled: true },
     });
     await harness.render();
     page = document.createElement('div');

@@ -40,7 +40,6 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { totalsRowKey } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/navigable-rows';
-import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { paintRowRole, paintSectionExposure } from 'core-app/features/work-packages/components/wp-fast-table/semantics/treegrid-semantics';
 
 @Directive({
@@ -131,11 +130,11 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   }
 
   private reconcileSemantics(table:WorkPackageTable) {
-    if (this.paintSemantics(table)) table.rowPositions?.paint();
+    if (this.paintSemantics(table)) table.rowPositions.paint();
   }
 
   private paintSemantics(table:WorkPackageTable):boolean {
-    if (table.destroyed || !keyboardNavigationEnabled(table.configuration)) return false;
+    if (table.destroyed) return false;
 
     if (this.isHidden || this.element.cells.length === 0) {
       this.element.setAttribute('aria-hidden', 'true');

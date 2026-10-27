@@ -34,7 +34,7 @@ import {
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { Injector } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { keyboardNavigationEnabled, isNavigableColumn, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
+import { isNavigableColumn, navigableCellClassName } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -50,8 +50,8 @@ export class CellBuilder {
 
   public fieldRenderer:DisplayFieldRenderer;
 
-  constructor(public injector:Injector, private readonly configuration?:WorkPackageTableConfiguration) {
-    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: !keyboardNavigationEnabled(this.configuration) });
+  constructor(public injector:Injector, private readonly configuration:WorkPackageTableConfiguration) {
+    this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'table', { tabbable: false });
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
@@ -59,7 +59,7 @@ export class CellBuilder {
     const attribute = column.id;
     td.classList.add(tdClassName, attribute);
 
-    if (this.configuration && keyboardNavigationEnabled(this.configuration) && isNavigableColumn(column, this.configuration)) {
+    if (isNavigableColumn(column, this.configuration)) {
       td.classList.add(navigableCellClassName);
     }
 
