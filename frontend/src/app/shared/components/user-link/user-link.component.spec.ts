@@ -26,9 +26,11 @@
 //++
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { screen } from '@testing-library/dom';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 import { UserLinkComponent } from './user-link.component';
 
 describe('UserLinkComponent component test', () => {
@@ -46,6 +48,7 @@ describe('UserLinkComponent component test', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [OpTooltipDirective],
       declarations: [
         UserLinkComponent,
       ],
@@ -71,12 +74,12 @@ describe('UserLinkComponent component test', () => {
         fixture.detectChanges();
       });
 
-      it('should render an inner link with specified classes', () => {
-        const link = element.querySelector('a')!;
+      it('renders a link described as the author by its tooltip', async () => {
+        await fixture.whenStable();
+        const link = screen.getByRole('link', { name: 'First Last' });
 
-        expect(link.textContent).toEqual('First Last');
-        expect(link.getAttribute('title')).toEqual('Author: First Last');
-        expect(link.getAttribute('href')).toEqual('/users/1');
+        expect(link).toHaveAccessibleDescription('Author: First Last');
+        expect(link).toHaveAttribute('href', '/users/1');
       });
     });
 

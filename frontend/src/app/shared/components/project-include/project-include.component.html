@@ -1,3 +1,4 @@
+@let count = numberOfProjectsInFilter$ | async;
 <spot-drop-modal
   [opened]="opened"
   (closed)="opened = false"
@@ -8,13 +9,15 @@
     type="button"
     class="button button_flex op-project-include--button"
     (click)="toggleOpen()"
-    [title]="text.toggle_title"
+    opTooltip
+    [label]="count ? text.toggle_title + ' ' + count : text.toggle_title"
+    tooltipWhenObscured=".button--text"
     data-test-selector="project-include-button"
     >
     <svg op-include-projects-icon size="small"/>
     <span class="button--text">
       {{ text.toggle_title }}
-      @if ((numberOfProjectsInFilter$ | async); as count) {
+      @if (count) {
         <span
           class="badge"
           [textContent]="count"
