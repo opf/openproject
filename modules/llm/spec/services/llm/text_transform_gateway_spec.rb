@@ -161,7 +161,7 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
 
     it "reports a throttling server as rate limited without retrying" do
       stub_request(:post, completions)
-        .to_return(status: 429, body: '{"error":{"message":"slow down","type":"rate_limit_exceeded"}}')
+        .to_return(status: 429, body: '{"error":{"message":"slow down","type":"requests","code":"rate_limit_exceeded"}}')
 
       expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::RateLimited)
       expect(WebMock).to have_requested(:post, completions).once

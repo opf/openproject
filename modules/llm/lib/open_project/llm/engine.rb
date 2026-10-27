@@ -48,7 +48,8 @@ module OpenProject::Llm
            first: true
     end
 
-    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders")
+    class_inflection_override("ruby_llm_provider_headers" => "RubyLLMProviderHeaders",
+                              "ruby_llm_stream_error_status" => "RubyLLMStreamErrorStatus")
 
     # RubyLLM's legacy acts_as API warns on boot unless the new one is chosen,
     # and the choice has to be made before its railtie reaches ActiveRecord.
@@ -112,6 +113,7 @@ module OpenProject::Llm
 
     initializer "openproject_llm.load_patches" do
       require_relative "patches/ruby_llm_provider_headers"
+      require_relative "patches/ruby_llm_stream_error_status"
 
       OpenProject::Patches.patch_gem_version("ruby_llm", "1.16.0") do
         RubyLLM::Configuration.register_provider_options(%i[openproject_custom_headers])
@@ -119,6 +121,8 @@ module OpenProject::Llm
         RubyLLM::Provider.providers.each_value do |provider_class|
           provider_class.prepend(OpenProject::Llm::Patches::RubyLLMProviderHeaders)
         end
+
+        RubyLLM::Provider.prepend(OpenProject::Llm::Patches::RubyLLMStreamErrorStatus)
       end
     end
 
