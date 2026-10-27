@@ -30,6 +30,7 @@
 module WorkPackages
   class BaseContract < ::ModelContract
     include ::Attachments::ValidateReplacements
+    include ::Labels::ValidateReplacements
     include AssignableValuesContract
     include WorkPackages::SetAttributesService::ProgressValuesCalculations
 
@@ -136,9 +137,7 @@ module WorkPackages
 
     attribute :budget
 
-    attribute :labels do
-      validate_label_names
-    end
+    attribute :labels
 
     validates :subject,
               presence: true,
@@ -427,43 +426,6 @@ module WorkPackages
       validate_version_ids_assignable(model.target_version_ids_replacements,
                                       :target_versions,
                                       assignable_target_versions)
-    end
-
-    def validate_label_names
-      return if model.label_name_replacements.blank?
-      return unless writable?(:labels)
-
-      if model.label_name_replacements.size > Labelable::MAX_LABEL_NAMES_PER_SAVE
-        errors.add(:labels, :too_many, count: Labelable::MAX_LABEL_NAMES_PER_SAVE)
-        return
-      end
-
-      label_name_error_details.each { errors.add(:labels, it[:error], **it.except(:error)) }
-    end
-
-    def label_name_error_details
-      names_to_create = label_names_to_create
-      return [] if names_to_create.empty?
-
-      authorization = label_creation_authorization_errors(names_to_create.first)
-      (authorization + names_to_create.flat_map { label_name_errors(it) }).uniq
-    end
-
-    def label_names_to_create
-      existing_names = Label.named_any(model.label_name_replacements).pluck(:name).to_set(&:downcase)
-      model.label_name_replacements.reject { existing_names.include?(it.downcase) }
-    end
-
-    def label_creation_authorization_errors(name)
-      contract = Labels::CreateContract.new(Label.new(name:), user)
-      contract.validate
-      contract.errors.details[:base]
-    end
-
-    def label_name_errors(name)
-      label = Label.new(name:)
-      label.valid?
-      label.errors.details[:name]
     end
 
     def validate_observed_in_versions_are_assignable
