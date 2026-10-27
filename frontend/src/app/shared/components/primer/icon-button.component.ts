@@ -83,7 +83,10 @@ export class PrimerIconButtonComponent extends AbstractBaseButtonDirective {
   readonly tooltipText = computed(() => this.description() || this.label());
   readonly tooltipType = computed(() => this.description() ? 'description' : 'label');
 
-  readonly ariaLabel = computed(() => this.whenNoTooltip(() => this.label()));
+  readonly ariaLabel = computed(() =>
+    this.showTooltip() && this.tooltipType() === 'label' ? undefined : this.label()
+  );
+
   readonly ariaDescription = computed(() => this.whenNoTooltip(() => this.description()));
 
   readonly ariaLabelledBy = computed(() =>
