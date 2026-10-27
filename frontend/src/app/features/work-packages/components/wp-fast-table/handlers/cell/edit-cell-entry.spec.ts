@@ -105,6 +105,17 @@ describe('Edit cell entry', () => {
     });
   });
 
+  describe('when inline edit is disabled', () => {
+    beforeEach(() => renderTable({ editing: {}, configuration: { inlineEditEnabled: false } }));
+
+    it('marks the field read-only and does not open an editor', async () => {
+      fireEvent.click(subjectField('1'));
+
+      await expect(waitFor(() => within(harness.row('1')).getByRole('textbox'), { timeout: 300 })).rejects.toThrow();
+      expect(subjectField('1')).toHaveClass('-read-only');
+    });
+  });
+
   describe('without an editable subject', () => {
     beforeEach(() => renderTable({}));
 
