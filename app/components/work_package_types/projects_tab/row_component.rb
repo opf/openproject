@@ -90,7 +90,7 @@ module WorkPackageTypes
         menu.with_item(
           label: I18n.t("types.edit.projects.actions.switch_variant"),
           tag: :a,
-          href: new_switch_variant_projects_path(table_variant, project_id: project.id),
+          href: new_variant_projects_switch_path(table_variant, project_ids: [project.id]),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :"list-ordered")

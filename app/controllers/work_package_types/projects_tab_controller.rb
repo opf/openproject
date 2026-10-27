@@ -33,8 +33,8 @@ module WorkPackageTypes
     include ProjectsTab::TableRefresh
     include ProjectsTab::RefusalMessages
 
-    before_action :load_query, only: %i[edit update link unlink switch enable_all_projects]
-    before_action :load_linked_project, only: %i[unlink new_switch switch]
+    before_action :load_query, only: %i[edit update link unlink enable_all_projects]
+    before_action :load_linked_project, only: %i[unlink]
 
     current_menu_item [:edit, :update] do
       :types
@@ -100,24 +100,6 @@ module WorkPackageTypes
       respond_to_with_turbo_streams(status: result)
     end
 
-    def new_switch
-      respond_with_dialog ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent.new(
-        project: @linked_project, source: applied_variant, url: switch_path
-      )
-    end
-
-    def switch
-      target = @type.variants.find_by(id: params[:target_id])
-      result = ::Projects::Types::SwitchVariantService
-                 .new(user: current_user, model: @linked_project)
-                 .call(source: applied_variant, target:)
-
-      result.on_success { on_switched(target) }
-      result.on_failure { on_switch_refused(target, result) }
-
-      respond_to_with_turbo_streams(status: result)
-    end
-
     def enable_all_projects
       if params[:value] == "1"
         enable_everywhere
@@ -134,10 +116,6 @@ module WorkPackageTypes
 
     def applied_variant
       @applied_variant ||= @linked_project.type_variant(@type)
-    end
-
-    def switch_path
-      switch_variant_projects_path(@variant, project_id: @linked_project.id)
     end
 
     def sync_projects(desired)
@@ -174,31 +152,6 @@ module WorkPackageTypes
     def new_aggregate = ServiceResult.success(result: @variant)
 
     def project_assignments = ProjectAssignments.new(user: current_user, variant: @variant)
-
-    def on_switched(target)
-      close_dialog_via_turbo_stream(
-        ::Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID
-      )
-      refresh_projects
-      render_success_flash_message_via_turbo_stream(
-        message: I18n.t("projects.settings.types.switch.success", type: target.composite_name)
-      )
-    end
-
-    def on_switch_refused(target, result)
-      message = result.errors.messages_for(:types).first
-      return if message.blank?
-
-      update_via_turbo_stream(
-        component: ::Projects::Settings::WorkPackages::Types::SwitchFormComponent.new(
-          project: @linked_project,
-          source: applied_variant,
-          selected: target || applied_variant,
-          validation_message: message,
-          url: switch_path
-        )
-      )
-    end
 
     def refuse_empty_selection
       update_via_turbo_stream(

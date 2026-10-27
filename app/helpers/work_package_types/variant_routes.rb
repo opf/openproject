@@ -363,17 +363,24 @@ module WorkPackageTypes
                                    **)
     end
 
-    def new_switch_variant_projects_path(variant, **)
+    def new_variant_projects_switch_path(variant, **)
       administration_variant_route(variant,
-                                   base: :new_switch_type_projects_path,
-                                   named: :new_switch_type_variant_projects_path,
+                                   base: :new_type_projects_switch_path,
+                                   named: :new_type_variant_projects_switch_path,
                                    **)
     end
 
-    def switch_variant_projects_path(variant, **)
+    def variant_projects_switch_path(variant, **)
       administration_variant_route(variant,
-                                   base: :switch_type_projects_path,
-                                   named: :switch_type_variant_projects_path,
+                                   base: :type_projects_switch_path,
+                                   named: :type_variant_projects_switch_path,
+                                   **)
+    end
+
+    def new_variant_projects_switch_confirmation_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :new_type_projects_switch_confirmation_path,
+                                   named: :new_type_variant_projects_switch_confirmation_path,
                                    **)
     end
 

@@ -7507,6 +7507,16 @@ en:
           description: "This type will no longer be available in the following projects. Projects that still have work packages of this type keep it."
           submit: "Remove"
           title: "Remove type '%{type}' from these projects?"
+        bulk_switch:
+          confirm_description: "Switching type variants will result in loss of information from custom fields that are not included in the new variant. The following projects will be affected by this bulk action:"
+          confirm_submit: "Switch"
+          confirm_title: "Switch type variant?"
+          confirmation: "I understand that I will lose information from some custom fields"
+          invalid_target: "Only the type itself or one of its shared variants can be applied to several projects at once."
+          submit: "Apply"
+          success: "The selected projects now use %{type}."
+          target_label: "New type or variant"
+          title: "Bulk switch type or variant"
         disable_all: Disable for all projects
         empty_state:
           description: Add a project to use this configuration there.

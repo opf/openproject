@@ -340,31 +340,6 @@ because it's still in use by work packages)
       end
     end
 
-    describe "the switch flow" do
-      let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
-      let(:target) { create(:type_variant, type:, variant_name: "Firmware") }
-
-      before { create(:project_type, project:, type:, variant:) }
-
-      it "opens the switch dialog for the row's project" do
-        get :new_switch, params: { type_id: type.id, variant_id: variant.id, project_id: project.id },
-                         format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body)
-          .to include(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
-      end
-
-      it "moves the project to the chosen variant" do
-        post :switch, params: { type_id: type.id, variant_id: variant.id,
-                                project_id: project.id, target_id: target.id },
-                      format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(project.reload.type_variant(type)).to eq(target)
-      end
-    end
-
     describe "POST enable_all" do
       before { project }
 
