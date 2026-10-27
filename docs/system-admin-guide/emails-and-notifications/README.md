@@ -79,7 +79,7 @@ The instance sends at most one push per user per minute. Each push is sent with 
 
 The push carries no content, not even a count. It is an empty wake-up signal. The installed application fetches the unread count from the instance itself over the user's own session.
 
-The vendor push services (Google, Mozilla, Microsoft, Apple) do see the following:
+The push service of each browser, such as those of Google, Mozilla, Microsoft and Apple, does see the following:
 
 - The subscription endpoint, a per-device identifier the browser created.
 - The outgoing IP address of the instance.
