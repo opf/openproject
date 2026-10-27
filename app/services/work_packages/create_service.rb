@@ -60,25 +60,26 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       # Set attributes service passed, meaning the contract is fulfilled.
       # Avoid running validations again as we might be in a project copy scenario.
       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-      return save_failure(result, work_package) unless save_with_labels(work_package)
+      return save_failure(result, work_package) if find_or_create_labels(work_package).failure?
+      return save_failure(result, work_package) unless work_package.save(validate: false)
 
-      apply_patterns(work_package)
-
-      # update ancestors before rescheduling, as the parent might switch to automatic mode
-      multi_update_ancestors(result.all_results).each do |ancestor_result|
-        result.merge!(ancestor_result)
-      end
-
-      result.merge!(reschedule_related(work_package))
-
-      set_user_as_watcher(work_package)
+      after_create(result, work_package)
     end
 
     result
   end
 
-  def save_with_labels(work_package)
-    find_or_create_labels(work_package).success? && work_package.save(validate: false)
+  def after_create(result, work_package)
+    apply_patterns(work_package)
+
+    # update ancestors before rescheduling, as the parent might switch to automatic mode
+    multi_update_ancestors(result.all_results).each do |ancestor_result|
+      result.merge!(ancestor_result)
+    end
+
+    result.merge!(reschedule_related(work_package))
+
+    set_user_as_watcher(work_package)
   end
 
   def save_failure(result, work_package)
