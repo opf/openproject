@@ -6,8 +6,7 @@ import { ChipBase, InlineChip } from './chipLayouts';
 import { WorkPackageId } from '../WorkPackage/atoms';
 import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
 import { UnavailableChip } from './UnavailableChip';
-import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
-import { CreateWorkPackageModal } from '../CreateWorkPackage';
+import { PendingWorkPackagePopover } from '../WorkPackage/PendingWorkPackagePopover';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
 import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
@@ -146,7 +145,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   if (pendingCallbacks) {
     const resolvePending = (resolvedWp:WorkPackage) => {
-      pendingCallbacks.onSelect(resolvedWp.id, resolvedWp.displayId);
+      pendingCallbacks.onSelect(resolvedWp);
       clearInlineWpCallbacks(rawWpid);
     };
     const cancelPending = () => {
@@ -154,25 +153,17 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
       clearInlineWpCallbacks(rawWpid);
     };
 
-    const pendingPopover = pendingCallbacks.mode === 'create'
-      ? (
-        <CreateWorkPackageModal
-          anchorEl={chipEl}
-          onCreated={resolvePending}
-          onCancel={cancelPending}
-        />
-      )
-      : (
-        <WorkPackageSearchPopover
-          anchorEl={chipEl}
-          onSelect={resolvePending}
-          onCancel={cancelPending}
-        />
-      );
-
     return (
       <InlineChip ref={setRef}>
-        {chipEl && pendingPopover}
+        {chipEl && (
+          <PendingWorkPackagePopover
+            mode={pendingCallbacks.mode}
+            initialSubject={pendingCallbacks.initialSubject}
+            anchorEl={chipEl}
+            onResolve={resolvePending}
+            onCancel={cancelPending}
+          />
+        )}
       </InlineChip>
     );
   }

@@ -361,7 +361,7 @@ GEM
     android_key_attestation (0.3.0)
     anyway_config (2.8.1)
       ruby-next-core (~> 1.0)
-    appsignal (5.0.4)
+    appsignal (5.0.5)
       logger
       rack (>= 2.0.0)
     ast (2.4.3)
@@ -923,7 +923,7 @@ GEM
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.36.0)
       view_component (>= 3.1, < 5.0)
-    openproject-token (8.13.0)
+    openproject-token (8.15.0)
       activemodel
     openssl (4.0.2)
     openssl-signature_algorithm (1.3.0)
@@ -1395,9 +1395,9 @@ GEM
       lint_roller (~> 1.1)
       regexp_parser (>= 2.0)
       rubocop (~> 1.86, >= 1.86.2)
-    rubocop-rspec_rails (2.32.0)
+    rubocop-rspec_rails (2.33.0)
       lint_roller (~> 1.1)
-      rubocop (~> 1.72, >= 1.72.1)
+      rubocop (~> 1.89)
       rubocop-rspec (~> 3.5)
     ruby-duration (3.2.3)
       activesupport (>= 3.0.0)
@@ -1439,7 +1439,7 @@ GEM
     securerandom (0.4.1)
     selenium-devtools (0.154.0)
       selenium-webdriver (~> 4.2)
-    selenium-webdriver (4.50.0)
+    selenium-webdriver (4.51.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rubyzip (>= 1.2.2, < 4.0)
@@ -1547,7 +1547,7 @@ GEM
       activesupport
       faraday (~> 2.0)
       faraday-follow_redirects
-    webmock (3.26.4)
+    webmock (3.29.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -1727,7 +1727,7 @@ DEPENDENCIES
   openproject-resource_management!
   openproject-storages!
   openproject-team_planner!
-  openproject-token (~> 8.13.0)
+  openproject-token (~> 8.15.0)
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-wikis!
@@ -1789,7 +1789,7 @@ DEPENDENCIES
   sanitize (~> 7.0.0)
   scimitar (~> 2.13)
   selenium-devtools
-  selenium-webdriver (~> 4.49)
+  selenium-webdriver (~> 4.51)
   semantic (~> 1.6.1)
   shoulda-context (~> 2.0)
   shoulda-matchers (~> 8.0)
@@ -1821,7 +1821,7 @@ DEPENDENCIES
   view_component (~> 4.15.0)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
-  webmock (~> 3.26)
+  webmock (~> 3.29)
   will_paginate (~> 4.0.0)
   with_advisory_lock (~> 7.6.0)
   yabeda-activerecord
@@ -1858,7 +1858,7 @@ CHECKSUMS
   airbrake-ruby (6.2.2) sha256=293e34fb36e763e1b6d67ab584cce7c5b6fe9eea1a70c26d8c13c0f5d7de2fbc
   android_key_attestation (0.3.0) sha256=467eb01a99d2bb48ef9cf24cc13712669d7056cba5a52d009554ff037560570b
   anyway_config (2.8.1) sha256=541842b25117fac3e277670c32dc09d3b715b20404826a6538ac35527583624f
-  appsignal (5.0.4) sha256=c98d747b0115ae088ac90179630aebf5ee1943f3b2de48ef2eb6db497a6683d5
+  appsignal (5.0.5) sha256=9a2925f70ef4e984271965ad632104bfbedbc23960adeb025177e5dfc2a6a571
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   attr_required (1.0.2) sha256=f0ebfc56b35e874f4d0ae799066dbc1f81efefe2364ca3803dc9ea6a4de6cb99
   auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
@@ -2114,7 +2114,7 @@ CHECKSUMS
   openproject-resource_management (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)
-  openproject-token (8.13.0) sha256=b9f570200021db72a1b74b88af756552b12c830db22641725dba9d7fd2a942d0
+  openproject-token (8.15.0) sha256=5e8f88ba59555519696466fc53c5243f9f069106f111ed99fc5668a46f1f9999
   openproject-two_factor_authentication (1.0.0)
   openproject-webhooks (1.0.0)
   openproject-wikis (1.0.0)
@@ -2281,7 +2281,7 @@ CHECKSUMS
   rubocop-performance (1.27.0) sha256=eeeb1374d062a368ee1c787b70eb0b0cc4b184cb1f8565f424760946146d61ce
   rubocop-rails (2.38.0) sha256=6e2b7c532efa95e3050371bec20b8f5b025662acead8bc70ee31f0e3e6fa2f06
   rubocop-rspec (3.10.2) sha256=0b3e2ecc592cd10ecbf0095bb58d1e357905276e069643523cc19eb7495f65e2
-  rubocop-rspec_rails (2.32.0) sha256=4a0d641c72f6ebb957534f539d9d0a62c47abd8ce0d0aeee1ef4701e892a9100
+  rubocop-rspec_rails (2.33.0) sha256=669e0a7a9a5fca6d6ccaf853ac65b5b8bdfde3519f604616f2c5278cbf565689
   ruby-duration (3.2.3) sha256=eb3d13b1df85067a015a8fb2ed8f1eec842a3b721e47c9b6fd74d2f356069784
   ruby-next-core (1.2.1) sha256=ddba3e986e127143299a26bde8bdbeedd4bc738a1a765e499f9634f361551f79
   ruby-ole (1.2.13.1) sha256=578d10dd2a797a2b35a1286c6fb2c9525f67c24791346fc8015d39f0ffa3cb72
@@ -2298,7 +2298,7 @@ CHECKSUMS
   scimitar (2.15.0) sha256=700901afab9303b705a8f37644cd733ee3c3819b168d24a14a48dec060b16d63
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   selenium-devtools (0.154.0) sha256=fa6f77b66206cf0c194cfd71e4ab614cac149ee6d92ca7e8753d36d4360ec102
-  selenium-webdriver (4.50.0) sha256=d12f94025bc33af44428ed6b8def4896a7bb9c4521212579241650d6cb060fcb
+  selenium-webdriver (4.51.0) sha256=09edf1b7fc360e0570bac609676f804ed527fe0b2f285e03233561e29b0ec105
   semantic (1.6.1) sha256=3cdbb48f59198ebb782a3fdfb87b559e0822a311610db153bae22777a7d0c163
   shoulda-context (2.0.0) sha256=7adf45342cd800f507d2a053658cb1cce2884b616b26004d39684b912ea32c34
   shoulda-matchers (8.0.1) sha256=5dbb46e5765b9da225111b085e0819e8c8a121ff94bba430a153eb1ea2c60288
@@ -2352,7 +2352,7 @@ CHECKSUMS
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
   webfinger (2.1.3) sha256=567a52bde77fb38ca6b67e55db755f988766ec4651c1d24916a65aa70540695c
-  webmock (3.26.4) sha256=8d8da206d217ebe6968cfb09c77f4533c23074e1432bad865f3994eacbaad50d
+  webmock (3.29.0) sha256=a854b243019d503d3446ab7807c9192f41826d5b673b5dfe0d287ced9606ecbc
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   websocket (1.2.11) sha256=b7e7a74e2410b5e85c25858b26b3322f29161e300935f70a0e0d3c35e0462737
   websocket-driver (0.8.2) sha256=97c556b019bf3410b4961002ac501621e9322d3f8a7bc02161a09301cc4c4146
@@ -2370,7 +2370,7 @@ CHECKSUMS
   zeitwerk (2.8.3) sha256=2c85125a8467ce069e20123d1e709a08955c9d29c118c25b46b7b7fafdbb92e5
 
 RUBY VERSION
-  ruby 4.0.7
+  ruby 4.0.9
 
 BUNDLED WITH
   4.0.21

@@ -314,7 +314,7 @@ module Import
       # Custom fields are created once per run by JiraCreateCustomFieldsJob, which records the
       # mapping the per-project jobs read instead of creating anything themselves. A per-project
       # job only gets here when that mapping is missing, eg. Jira < 9.3, and those jobs run concurrently,
-      # so creation still has to be serialised.
+      # so creation still has to be serialized.
       def locked_find_or_create_custom_field(jira_field, builder)
         jira_import = jira_field.jira_import
         OpenProject::Mutex.with_advisory_lock(jira_import, lock_key) do

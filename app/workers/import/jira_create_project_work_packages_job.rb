@@ -76,7 +76,7 @@ module Import
         jira = @jira_import.jira
         @jira_id = jira.id
         @system_user = User.system
-        @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+        @jira_client = jira.client
 
         @project_role = Role.find_by!(name: "JiraMember")
         @custom_field_registry = build_custom_field_registry

@@ -131,6 +131,10 @@ ja:
       details: バックログ・バケット「%{name}」が削除され、すべてのワークパッケージがバックログ・インボックスに移動されます。ワークパッケージが削除されることはありません。
       title: バックログ・バケットを削除しますか？
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: スプリントの開始日と終了日を設定して、バーンダウンチャートを生成します。
         blankslate_title: バーンダウンデータはありません
@@ -292,9 +296,6 @@ ja:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  burndown:
-    story_points: ストーリーポイント
-    story_points_ideal: Story points (ideal)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

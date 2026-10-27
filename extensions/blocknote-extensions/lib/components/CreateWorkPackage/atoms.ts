@@ -633,7 +633,7 @@ export const SuggestionItem = styled.div<{ $focused:boolean; $selected?:boolean 
     background: ${({ $selected }) => ($selected ? 'var(--op-create-wp-selected-bg)' : 'var(--op-item-hover-bg)')};
   }
 
-  // Forced colours drop the background, so the mark has to be an outline.
+  // Forced colors drop the background, so the mark has to be an outline.
   @media (forced-colors: active) {
     outline-offset: -2px;
     outline: ${({ $focused, $selected }) => {
@@ -711,7 +711,7 @@ export const FilterMode = styled.button.attrs({ type: 'button' })<{ $active:bool
 
 /*  One per level the row sits in, as OpenProject draws them: an indent as wide
     as the fold marker, closed by the line that ties a subtree together. Stretched
-    past the row's own padding so the lines of neighbouring rows meet.  */
+    past the row's own padding so the lines of neighboring rows meet.  */
 export const LevelLine = styled.span`
   position: relative;
   flex-shrink: 0;

@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - 'docs/**'
       - 'help/**'
+      - 'extensions/blocknote-extensions/**'
   pull_request:
     types: [opened, reopened, synchronize]
     branches:
@@ -17,6 +18,7 @@ on:
       - 'help/**'
       - 'packaging/**'
       - '.pkgr.yml'
+      - 'extensions/blocknote-extensions/**'
 
 permissions:
   contents: read

@@ -1,6 +1,9 @@
-import { describe, it, expect, vi, beforeEach, onTestFinished } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach, onTestFinished } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
+import { http, HttpResponse } from 'msw';
+import { worker } from '../../../mocks/browser';
+import { mockWorkPackage } from '../../../mocks/handlers';
 import { WorkPackageSearchPopover } from '../../../../lib/components/Search/WorkPackageSearchPopover';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { SEARCH_PLACEHOLDER, openBlockWorkPackageSearch } from '../../../helpers/editorHelpers';
@@ -17,13 +20,13 @@ const searchForAResult = async () => {
   await expect.element(page.getByText('Fix login bug')).toBeVisible();
 };
 
-const renderPopoverAnchoredAt = async (top:number) => {
+const renderPopoverAnchoredAt = async (top:number, onCreate?:(subject:string) => void) => {
   const anchor = document.createElement('div');
   anchor.style.cssText = `position: absolute; left: 20px; top: ${top}px; width: 200px; height: 20px;`;
   document.body.append(anchor);
   onTestFinished(() => anchor.remove());
 
-  render(<WorkPackageSearchPopover anchorEl={anchor} onSelect={vi.fn()} onCancel={vi.fn()} />);
+  render(<WorkPackageSearchPopover anchorEl={anchor} onSelect={vi.fn()} onCancel={vi.fn()} onCreate={onCreate} />);
   await expect.element(page.getByPlaceholder(SEARCH_PLACEHOLDER)).toBeVisible();
 
   return anchor;
@@ -43,6 +46,7 @@ const scrollToViewportBottom = (element:Element) => {
 
 describe('Work package search popover placement', () => {
   beforeEach(() => window.scrollTo(0, 0));
+  afterEach(() => worker.resetHandlers());
 
   it('opens below its anchor while there is room for it', async () => {
     const anchor = await renderPopoverAnchoredAt(GAP_FROM_EDGE);
@@ -90,5 +94,21 @@ describe('Work package search popover placement', () => {
     const popoverRect = searchPopover().getBoundingClientRect();
     expect(popoverRect.bottom).toBeLessThanOrEqual(blockRect.top);
     expect(popoverRect.top).toBeGreaterThanOrEqual(0);
+  });
+
+  it('shows every result and the create entry without a scrollbar', async () => {
+    worker.use(http.get('http://localhost:3000/api/v3/work_packages', () => HttpResponse.json({
+      _embedded: {
+        elements: ['Test Macros', 'Save Gotham', 'Test from iphone', 'Test from Android', 'Test hierarchy'].map(
+          (subject, index) => ({ ...mockWorkPackage, id: 60 + index, displayId: `${60 + index}`, subject })
+        ),
+      },
+    })));
+    await renderPopoverAnchoredAt(GAP_FROM_EDGE, vi.fn());
+
+    await userEvent.type(page.getByPlaceholder(SEARCH_PLACEHOLDER), 'Test');
+    await expect.element(page.getByText('Create new work package')).toBeVisible();
+
+    expect(resultList().scrollHeight).toBeLessThanOrEqual(resultList().clientHeight);
   });
 });

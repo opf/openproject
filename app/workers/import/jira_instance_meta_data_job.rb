@@ -50,7 +50,7 @@ module Import
         Rails.logger.info "Fetching instance meta data started"
         jira_import = Import::JiraImport.find(jira_import_id)
         jira = jira_import.jira
-        @client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+        @client = jira.client
         jira_import.update!(available: collect_metadata)
         jira_import.transition_to!(:instance_meta_done)
         Rails.logger.info "Fetching instance meta data finished"

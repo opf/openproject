@@ -1,4 +1,5 @@
 import type { PendingMode } from '../WorkPackage/types';
+import type { WorkPackage } from '../../openProjectTypes';
 
 // Global registry that bridges the slash-menu insertion flow with the
 // pending-chip React component.
@@ -8,7 +9,7 @@ import type { PendingMode } from '../WorkPackage/types';
 // and calls `onSelect` / `onCancel` when the user picks a WP or dismisses.
 
 
-type WpSelectedCallback = (wpid:number, displayId:string) => void;
+type WpSelectedCallback = (workPackage:WorkPackage) => void;
 type WpCancelCallback = () => void;
 
 export interface PendingCallbacks {
@@ -16,7 +17,10 @@ export interface PendingCallbacks {
   onCancel:WpCancelCallback;
   // Kept here rather than in the node props, so it never reaches the document.
   mode:PendingMode;
+  initialSubject?:string;
 }
+
+export type PendingOptions = Partial<Pick<PendingCallbacks, 'mode' | 'initialSubject'>>;
 
 export const PENDING_PREFIX = 'pending:' as const;
 const registry = new Map<string, PendingCallbacks>();
@@ -42,12 +46,12 @@ export function registerInlineWpCallbacks(
   key:string,
   onSelect:WpSelectedCallback,
   onCancel:WpCancelCallback,
-  mode:PendingMode = 'link',
+  { mode = 'link', initialSubject }:PendingOptions = {},
 ):void {
   if (!import.meta.env.PROD && registry.has(key)) {
     console.warn(`[inline-wp] Overwriting existing callbacks for key "${key}". This is likely a bug.`);
   }
-  registry.set(key, { onSelect, onCancel, mode });
+  registry.set(key, { onSelect, onCancel, mode, initialSubject });
 }
 
 export function clearInlineWpCallbacks(key:string):void {

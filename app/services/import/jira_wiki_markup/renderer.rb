@@ -160,7 +160,7 @@ module Import
       end
 
       # Markdown has no panel, so it becomes its title above its content. Jira does
-      # not parse the title as wiki markup, so it is emphasised as a plain label.
+      # not parse the title as wiki markup, so it is emphasized as a plain label.
       def render_panel(node)
         content = render_inline(node.children)
         title = node.params["title"]

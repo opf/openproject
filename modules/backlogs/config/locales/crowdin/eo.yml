@@ -135,6 +135,10 @@ eo:
       details: La tasklista ujo '%{name}' estos forigita kaj ĉiuj laborpakaĵoj estos movitaj al la backlog-enirkesto. Neniu laborpakaĵo estos forigita.
       title: Ĉu forigi tasklista ujo?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Agordu la komencan kaj finan daton de la sprinto por generi burndown-diagramon.
         blankslate_title: Neniuj datumoj por la "burndown"-diagramo disponeblas
@@ -300,9 +304,6 @@ eo:
       update_service:
         invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
         missing_target: list_type or list_id must be present.
-  burndown:
-    story_points: Rakontaj poentoj
-    story_points_ideal: Rakontaj poentoj (ideala)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

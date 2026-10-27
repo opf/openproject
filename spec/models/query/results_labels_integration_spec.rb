@@ -136,7 +136,7 @@ RSpec.describe Query::Results, "Grouping and sorting for labels", with_flag: { w
       end
     end
 
-    context "with a labelled work package in a subproject the user cannot see" do
+    context "with a labeled work package in a subproject the user cannot see" do
       let(:hidden_subproject) { create(:project, parent: project) }
       let!(:hidden_wp) do
         create(:work_package, subject: "Hidden wp", project: hidden_subproject).tap do |wp|

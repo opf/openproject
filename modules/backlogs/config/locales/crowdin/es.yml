@@ -135,6 +135,10 @@ es:
       details: Se eliminará el bucket de backlog «%{name}» y todos los paquetes de trabajo se trasladarán a la bandeja de entrada de tareas pendientes. No se eliminará ningún paquete de trabajo.
       title: "¿Eliminar bucket de backlog?"
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Establezca la fecha de inicio y finalización del sprint para generar un gráfico de trabajo pendiente.
         blankslate_title: No hay datos de trabajo pendiente disponibles
@@ -300,9 +304,6 @@ es:
       update_service:
         invalid_target_type: 'list_type debe ser uno de los siguientes: backlog_bucket con un list_id, sprint con un list_id, o inbox sin un list_id.'
         missing_target: list_type o list_id deben estar presentes.
-  burndown:
-    story_points: Puntos de historia
-    story_points_ideal: Puntos de historia (ideal)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

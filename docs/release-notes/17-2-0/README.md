@@ -198,7 +198,7 @@ For more information, please see the [GitHub advisory #GHSA-gpvh-g967-g4h8](http
 
 ### CVE-2026-31974 - Blind SSRF on OpenProject instance via webhooks, and through /admin/test_email via POST request leads to internal network reconnaissance
 
-OpenProject SMTP test endpoint (POST /admin/settings/mail\_notifications) accepts arbitrary host and port values and exhibits measurable differences in response behaviour depending on whether the target IP exists and whether the port is open. An attacker with access can use these timing and error distinctions to map internal hosts and identify which services/ports are reachable.
+OpenProject SMTP test endpoint (POST /admin/settings/mail\_notifications) accepts arbitrary host and port values and exhibits measurable differences in response behavior depending on whether the target IP exists and whether the port is open. An attacker with access can use these timing and error distinctions to map internal hosts and identify which services/ports are reachable.
 
 Similarly, you can create webhooks in OpenProject and point them to arbitrary IPs, resulting in the same kind of SSRF issue which allows attackers to scan the internal network.
 

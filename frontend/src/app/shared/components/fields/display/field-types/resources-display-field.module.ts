@@ -28,6 +28,10 @@
 import { take } from 'lodash-es';
 import { cssClassCustomOption, DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  isUndisclosed,
+  undisclosedValueNode,
+} from 'core-app/shared/components/fields/display/field-types/undisclosed-value';
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
@@ -72,9 +76,8 @@ export class ResourcesDisplayField extends DisplayField {
    */
   protected renderValues(values:unknown[], element:HTMLElement) {
     const content = document.createDocumentFragment();
-    const abridged = this.optionDiv(this.valueAbridged(values));
 
-    content.appendChild(abridged);
+    content.appendChild(this.abridgedDiv());
 
     if (values.length > 2) {
       const badge = this.optionDiv(values.length.toString(), 'badge');
@@ -100,15 +103,37 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   /**
-   * Return the first two joined values, if any.
+   * Build a .custom-option div with the first two values, if any.
    */
-  protected valueAbridged(values:unknown[]) {
-    const valueForDisplay = take(values, 2);
+  protected abridgedDiv() {
+    const div = this.optionDiv('');
+    const span = div.firstElementChild as HTMLSpanElement;
+    const { resources } = this;
 
-    if (values.length > 2) {
-      valueForDisplay.push('... ');
+    take(resources, 2).forEach((resource, index) => {
+      if (index > 0) {
+        span.append(', ');
+      }
+      span.append(isUndisclosed(resource) ? undisclosedValueNode(resource.name) : resource.name);
+    });
+
+    if (resources.length > 2) {
+      span.append(', ... ');
     }
 
-    return valueForDisplay.join(', ');
+    return div;
+  }
+
+  protected get resources():HalResource[] {
+    const cf = this.resource[this.name] as { elements?:HalResource[] }|HalResource[]|null|undefined;
+
+    if (!this.schema || !cf) {
+      return [];
+    }
+    if (Array.isArray(cf)) {
+      return cf;
+    }
+
+    return cf.elements ?? [cf as HalResource];
   }
 }

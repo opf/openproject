@@ -51,7 +51,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
   end
 
-  describe "with correct updating behaviour" do
+  describe "with correct updating behavior" do
     def open_dialog
       dialog = overview_page.open_modal_for_custom_field(custom_field).dialog
 
@@ -694,7 +694,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         # all the custom field accessors on every project, and that leads to having the
         # empty custom values created. This is a compromise to avoid further patching the
         # aac plugin and increase complexity. We will also get rid of the patch and this
-        # behaviour in a latter ticket https://community.openproject.org/wp/53729 .
+        # behavior in a latter ticket https://community.openproject.org/wp/53729 .
         # An extra expectation is added to make sure we don't activate other custom fields,
         # so there are no unwanted side effects.
 

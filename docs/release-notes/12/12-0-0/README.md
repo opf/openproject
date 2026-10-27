@@ -186,7 +186,7 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 - Fixed: Translation errors/sentence errors when sending meeting minutes \[[#39072](https://community.openproject.org/wp/39072)\]
 - Fixed: During Installation in Debian 11 BIM version not selectable \[[#39113](https://community.openproject.org/wp/39113)\]
 - Fixed: Fix GET viewpoint endpoint in BCF API \[[#39144](https://community.openproject.org/wp/39144)\]
-- Fixed: Email content not centred when deleting a project \[[#39188](https://community.openproject.org/wp/39188)\]
+- Fixed: Email content not centered when deleting a project \[[#39188](https://community.openproject.org/wp/39188)\]
 - Fixed: Wrong Russian translate for custom fields and menu item \[[#39437](https://community.openproject.org/wp/39437)\]
 - Fixed: Highlighting in project table is broken \[[#39449](https://community.openproject.org/wp/39449)\]
 - Fixed: Wrong error message about missing external authentication source when changing a password \[[#39460](https://community.openproject.org/wp/39460)\]

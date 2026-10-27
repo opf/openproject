@@ -27,38 +27,58 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { BurndownChartComponent } from 'core-app/features/backlogs/burndown-chart.component';
 
 describe('BurndownChartComponent', () => {
   let fixture:ComponentFixture<BurndownChartComponent>;
   let element:HTMLElement;
+  let zone:string;
 
   const i18nStub = {
     locale: 'en',
     t(key:string, options:Record<string, string|number> = {}) {
       const translations:Record<string, string> = {
-        'js.burndown.chart_day': `Day ${options.day}: ${options.values}`,
-        'js.burndown.chart_label': 'Burndown chart',
-        'js.burndown.chart_summary': `Burndown chart data: ${options.days}.`,
-        'js.burndown.chart_value': `${options.label}: ${options.value}`,
-        'js.burndown.day': 'Day',
-        'js.burndown.points': 'Points',
+        'js.burndown_chart.chart_day': `Day ${options.day}: ${options.values}`,
+        'js.burndown_chart.chart_label': 'Burndown chart',
+        'js.burndown_chart.chart_summary': `Burndown chart data: ${options.days}.`,
+        'js.burndown_chart.chart_value': `${options.label}: ${options.value}`,
       };
 
       return translations[key] ?? key;
     },
   };
 
-  const chartData = (datasets:unknown[]) => JSON.stringify({
-    labels: [['Mon 01/01'], ['Tue 02/01']],
-    datasets,
+  // The real TimezoneService, stubbed only at its configuration, so that these examples exercise
+  // the zone conversion rather than a stand-in for it. The zone decides which day a point falls
+  // on, so each example sets it rather than it being fixed here.
+  const configurationStub = {
+    isTimezoneSet: () => true,
+    timezone: () => zone,
+    dateFormatPresent: () => true,
+    dateFormat: () => 'MM/DD/YYYY',
+    timeFormatPresent: () => true,
+    timeFormat: () => 'hh:mm A',
+  };
+
+  const chartData = (series:unknown[], step:'day'|'hour' = 'hour') => JSON.stringify({
+    step,
+    series,
+    nonWorkingIntervals: [],
   });
 
+  const point = (x:string, y:number) => ({ x, y });
+
   beforeEach(async () => {
+    zone = 'UTC';
+
     await TestBed.configureTestingModule({
       imports: [BurndownChartComponent],
       providers: [
         { provide: I18nService, useValue: i18nStub },
+        { provide: ConfigurationService, useValue: configurationStub },
+        TimezoneService,
       ],
     }).compileComponents();
 
@@ -66,51 +86,117 @@ describe('BurndownChartComponent', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  const renderWith = (datasets:unknown[]) => {
-    fixture.componentRef.setInput('chartData', chartData(datasets));
+  const renderWith = (series:unknown[], step:'day'|'hour' = 'hour') => {
+    fixture.componentRef.setInput('chartData', chartData(series, step));
     fixture.detectChanges();
   };
 
-  it('provides a translated name and day-by-day description for the chart', () => {
+  const seriesWithAPointAt = (iso:string) => [
+    { id: 'remaining', label: 'Story points', data: [{ x: iso, y: 8 }] },
+  ];
+
+  // Both are what chart.js itself calls to put words on the axis and in the tooltip.
+  const axisLabelAt = (timestamp:number):string => {
+    const { scales } = fixture.componentInstance.lineChartOptions();
+    const callback = scales?.x?.ticks?.callback as unknown as (value:number) => string;
+
+    return callback(timestamp);
+  };
+
+  const tooltipTitleAt = (timestamp:number):string => {
+    const { plugins } = fixture.componentInstance.lineChartOptions();
+    const title = plugins?.tooltip?.callbacks?.title as unknown as
+      (items:{ datasetIndex:number, parsed:{ x:number } }[]) => string;
+
+    return title([{ datasetIndex: 0, parsed: { x: timestamp } }]);
+  };
+
+  const describedBy = (host:HTMLElement) => {
+    const id = host.querySelector('canvas')!.getAttribute('aria-describedby')!;
+
+    return host.querySelector<HTMLElement>(`#${id}`)!;
+  };
+
+  // Remaining is sampled hourly and the guideline once a day, so a day holds several values of the
+  // one and a single value of the other. Each is reported by what it closed the day at.
+  it('describes each day by the value its series closed at', () => {
     renderWith([
-      { label: 'Story points', data: [8, 6] },
-      { label: 'Story points (ideal)', data: [8, 4] },
+      {
+        id: 'remaining',
+        label: 'Story points',
+        data: [
+          point('2026-10-12T09:00:00.000Z', 8),
+          point('2026-10-12T14:00:00.000Z', 7),
+          point('2026-10-12T23:59:59.999Z', 5),
+          point('2026-10-13T12:00:00.000Z', 3),
+        ],
+      },
+      {
+        id: 'guideline',
+        label: 'Guideline',
+        data: [
+          point('2026-10-12T23:59:59.999Z', 6),
+          point('2026-10-13T23:59:59.999Z', 4),
+        ],
+      },
     ]);
 
     const canvas = element.querySelector('canvas')!;
-    const descriptionId = canvas.getAttribute('aria-describedby')!;
-    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+    const description = describedBy(element);
 
     expect(canvas).toHaveAttribute('role', 'img');
     expect(canvas).toHaveAccessibleName('Burndown chart');
     expect(canvas).toContainElement(description);
     expect(description).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 8, Story points (ideal): 8; Day 2: Story points: 6, Story points (ideal): 4.',
+      'Burndown chart data: Day 1: Story points: 5, Guideline: 6; Day 2: Story points: 3, Guideline: 4.',
     );
     expect(canvas).toHaveAccessibleDescription(description.textContent.trim());
     expect(element.textContent.split(description.textContent.trim())).toHaveLength(2);
   });
 
-  it('omits unavailable values from future sprint days', () => {
+  it('omits a series from a day it has no value on', () => {
     renderWith([
-      { label: 'Story points', data: [8] },
-      { label: 'Story points (ideal)', data: [8, 4] },
+      { id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] },
+      {
+        id: 'guideline',
+        label: 'Guideline',
+        data: [point('2026-10-12T23:59:59.999Z', 8), point('2026-10-13T23:59:59.999Z', 4)],
+      },
     ]);
 
-    const descriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby')!;
-    const description = element.querySelector<HTMLElement>(`#${descriptionId}`)!;
+    expect(describedBy(element)).toHaveTextContent(
+      'Burndown chart data: Day 1: Story points: 8, Guideline: 8; Day 2: Guideline: 4.',
+    );
+  });
 
-    expect(description).toHaveTextContent(
-      'Burndown chart data: Day 1: Story points: 8, Story points (ideal): 8; Day 2: Story points (ideal): 4.',
+  // The days are the reader's rather than UTC's: east of UTC these two instants fall either side
+  // of a local midnight, so they are two days and not one.
+  it('groups days in the viewer time zone', () => {
+    zone = 'Asia/Kolkata';
+
+    renderWith([
+      {
+        id: 'remaining',
+        label: 'Story points',
+        data: [point('2026-10-12T10:00:00.000Z', 8), point('2026-10-12T20:00:00.000Z', 5)],
+      },
+    ]);
+
+    expect(describedBy(element)).toHaveTextContent(
+      'Burndown chart data: Day 1: Story points: 8; Day 2: Story points: 5.',
     );
   });
 
   it('uses a unique description ID for each chart', () => {
-    renderWith([{ label: 'Story points', data: [8, 6] }]);
+    renderWith([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 8)] }]);
+
     const secondFixture = TestBed.createComponent(BurndownChartComponent);
     const secondElement = secondFixture.nativeElement as HTMLElement;
 
-    secondFixture.componentRef.setInput('chartData', chartData([{ label: 'Story points', data: [5, 3] }]));
+    secondFixture.componentRef.setInput(
+      'chartData',
+      chartData([{ id: 'remaining', label: 'Story points', data: [point('2026-10-12T23:59:59.999Z', 5)] }]),
+    );
     secondFixture.detectChanges();
 
     const firstDescriptionId = element.querySelector('canvas')!.getAttribute('aria-describedby');
@@ -119,6 +205,71 @@ describe('BurndownChartComponent', () => {
     expect(firstDescriptionId).toEqual(fixture.componentInstance.chartDescriptionId);
     expect(secondDescriptionId).toEqual(secondFixture.componentInstance.chartDescriptionId);
     expect(firstDescriptionId).not.toEqual(secondDescriptionId);
+  });
+
+  // The axis places points using the OpenProject zone, so everything naming those points has to
+  // use it too. Where it did not, labels slid against the data for anyone whose browser zone
+  // differed -- a point drawn at one gridline but named for another.
+  describe('naming instants when the browser zone differs', () => {
+    // 18:30Z is the following midnight in Kolkata, and the day before it in UTC.
+    const dayEndInKolkata = Date.parse('2026-10-16T18:29:59.999Z');
+    const midnightInKolkata = Date.parse('2026-10-16T18:30:00.000Z');
+
+    beforeEach(() => {
+      zone = 'Asia/Kolkata';
+    });
+
+    it('labels the axis in the OpenProject zone', () => {
+      renderWith(seriesWithAPointAt('2026-10-16T18:30:00.000Z'));
+
+      expect(axisLabelAt(midnightInKolkata)).toEqual('10/17/2026');
+    });
+
+    it('names an hourly tick in the OpenProject zone, rounded to the hour it closes', () => {
+      renderWith(seriesWithAPointAt('2026-10-16T18:29:59.999Z'));
+
+      expect(tooltipTitleAt(dayEndInKolkata)).toEqual('10/17/2026 12:00 AM');
+    });
+
+    // Dated in that zone, which west of Kolkata is still the day before -- so this says nothing
+    // unless the conversion happens.
+    it('names a daily tick by its date in the OpenProject zone', () => {
+      const justPastMidnightInKolkata = Date.parse('2026-10-16T19:00:00.000Z');
+
+      renderWith(seriesWithAPointAt('2026-10-16T19:00:00.000Z'), 'day');
+
+      expect(tooltipTitleAt(justPastMidnightInKolkata)).toEqual('10/17/2026');
+    });
+  });
+
+  // A tick sits at the close of the period it carries, which the axis draws on the next gridline
+  // -- a millisecond is less than a pixel. Naming it for the period it covered instead put every
+  // daily point one gridline away from its own tooltip.
+  describe('naming a tick for the boundary it is drawn on', () => {
+    const dayEnd = '2026-10-16T23:59:59.999Z';
+    const hourEnd = '2026-10-16T09:59:59.999Z';
+
+    it('names a day end as the date that follows it', () => {
+      renderWith(seriesWithAPointAt(dayEnd), 'day');
+
+      expect(tooltipTitleAt(Date.parse(dayEnd))).toEqual('10/17/2026');
+    });
+
+    it('names an hour end as the hour it opens', () => {
+      renderWith(seriesWithAPointAt(hourEnd));
+
+      expect(tooltipTitleAt(Date.parse(hourEnd))).toEqual('10/16/2026 10:00 AM');
+    });
+
+    // The interval's own bounds are exact instants rather than period closes, so the rounding
+    // must leave them where they are rather than carrying them to the next day.
+    it('leaves an instant that is genuinely mid-day on its own date', () => {
+      const sprintStart = '2026-10-16T09:00:00.000Z';
+
+      renderWith(seriesWithAPointAt(sprintStart), 'day');
+
+      expect(tooltipTitleAt(Date.parse(sprintStart))).toEqual('10/16/2026');
+    });
   });
 
   it('does not render chart semantics without data', () => {

@@ -138,7 +138,7 @@ module Projects::LifeCycle
       # behaves totally different than all other browsers and destroys the behavior of the datepicker
       # Given a date field with no value: When Safari opens its native datepicker, the first thing it does is to
       # set the date to Today. And not only in the datepicker but directly in the field.
-      # This behaviour has however consequences:
+      # This behavior has however consequences:
       # * The "reset" button in the datepicker does not clear the input (as the other browsers do it) but it resets
       #   it to the original value it had when you opened it. So if the value was empty, it sets it back to empty.
       #   If the value was set before, you cannot clear it, but only set it back to that value.

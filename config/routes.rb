@@ -354,6 +354,9 @@ Rails.application.routes.draw do
     collection do
       get :projects_tree
     end
+    member do
+      get :types_dialog
+    end
   end
 
   resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
@@ -380,6 +383,9 @@ Rails.application.routes.draw do
   resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
     collection do
       get :projects_tree
+    end
+    member do
+      get :types_dialog
     end
   end
 
@@ -1055,6 +1061,14 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+          get :projects
+          get "projects/:project_id", action: :project_values, as: :project_values
+          post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
+          post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
+          post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
+
+          get :forms
+          get :types_and_variants
 
           get :deletion_dialog
         end
@@ -1116,12 +1130,12 @@ Rails.application.routes.draw do
 
     namespace :import do
       get "/", to: redirect("/admin/import/jira")
-      resources :jira, controller: "/admin/import/jira/instances" do
+      resources :jira, controller: "/admin/import/jira" do
         collection do
-          post :test
+          post :test_connection
         end
         member do
-          delete :delete_token
+          delete :clear_credential
         end
         resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
           member do
