@@ -31,8 +31,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "Show/Edit Document View",
-               :js,
-               :selenium do
+               :js do
   include_context "with hocuspocus"
 
   shared_let(:project) { create(:project) }

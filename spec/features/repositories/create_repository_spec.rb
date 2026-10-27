@@ -30,7 +30,7 @@
 require "spec_helper"
 require "features/repositories/repository_settings_page"
 
-RSpec.describe "Create repository", :js, :selenium do
+RSpec.describe "Create repository", :js do
   let(:current_user) { create(:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
@@ -117,7 +117,7 @@ RSpec.describe "Create repository", :js, :selenium do
 
         content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eq "true"
+        expect(content).to match_css("[hidden]", visible: :all)
       end
     end
 
@@ -129,18 +129,18 @@ RSpec.describe "Create repository", :js, :selenium do
         find("input[name='scm_type'][value='#{type}']").set(true)
         content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
+        expect(content).not_to match_css("[hidden]", visible: :all)
         content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
+        expect(content).not_to match_css("[hidden]", visible: :all)
 
         find('input[type="radio"][value="managed"]').set(true)
         content = find_by_id("attributes-group--content-managed")
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
+        expect(content).not_to match_css("[hidden]", visible: :all)
         content = find("##{vendor}-managed", visible: false)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to eql "false"
+        expect(content).not_to match_css("[hidden]", visible: :all)
       end
     end
 
