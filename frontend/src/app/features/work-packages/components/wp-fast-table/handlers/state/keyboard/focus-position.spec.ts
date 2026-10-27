@@ -29,7 +29,7 @@ import {
   FocusPosition,
   initialPosition,
   NavigableRow,
-  nextPosition,
+  computeNextPosition,
   reconcilePosition,
 } from './focus-position';
 
@@ -65,106 +65,106 @@ describe('focus position model', () => {
   it('ArrowDown in row focus skips hidden rows', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, row('A'), 'ArrowDown', 5)).toEqual(move(row('0:header')));
-    expect(nextPosition(rows, row('0:header'), 'ArrowDown', 5)).toEqual(move(row('C')));
+    expect(computeNextPosition(rows, row('A'), 'ArrowDown', 5)).toEqual(move(row('0:header')));
+    expect(computeNextPosition(rows, row('0:header'), 'ArrowDown', 5)).toEqual(move(row('C')));
   });
 
   it('ArrowUp from first body row lands on the header row', () => {
-    expect(nextPosition(buildRows(), row('A'), 'ArrowUp', 5)).toEqual(move(row('header')));
+    expect(computeNextPosition(buildRows(), row('A'), 'ArrowUp', 5)).toEqual(move(row('header')));
   });
 
   it('ArrowUp and ArrowDown at the edges are none', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, row('header'), 'ArrowUp', 5)).toEqual({ type: 'none' });
-    expect(nextPosition(rows, row('totals'), 'ArrowDown', 5)).toEqual({ type: 'none' });
+    expect(computeNextPosition(rows, row('header'), 'ArrowUp', 5)).toEqual({ type: 'none' });
+    expect(computeNextPosition(rows, row('totals'), 'ArrowDown', 5)).toEqual({ type: 'none' });
   });
 
   it('Home/End go to first/last visible row in row focus', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, row('C'), 'Home', 5)).toEqual(move(row('header')));
-    expect(nextPosition(rows, row('C'), 'End', 5)).toEqual(move(row('totals')));
+    expect(computeNextPosition(rows, row('C'), 'Home', 5)).toEqual(move(row('header')));
+    expect(computeNextPosition(rows, row('C'), 'End', 5)).toEqual(move(row('totals')));
   });
 
   it('Home/End in cell focus go to the first/last cell of the row', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, cell('A', 1), 'Home', 5)).toEqual(move(cell('A', 0)));
-    expect(nextPosition(rows, cell('A', 1), 'End', 5)).toEqual(move(cell('A', 2)));
+    expect(computeNextPosition(rows, cell('A', 1), 'Home', 5)).toEqual(move(cell('A', 0)));
+    expect(computeNextPosition(rows, cell('A', 1), 'End', 5)).toEqual(move(cell('A', 2)));
   });
 
   it('ArrowRight on an expanded or leaf row enters cell 0', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, row('A'), 'ArrowRight', 5)).toEqual(move(cell('A', 0)));
-    expect(nextPosition(rows, row('0:header'), 'ArrowRight', 5)).toEqual(move(cell('0:header', 0)));
+    expect(computeNextPosition(rows, row('A'), 'ArrowRight', 5)).toEqual(move(cell('A', 0)));
+    expect(computeNextPosition(rows, row('0:header'), 'ArrowRight', 5)).toEqual(move(cell('0:header', 0)));
   });
 
   it('ArrowRight on a collapsed parent returns expand', () => {
-    expect(nextPosition(buildRows(), row('C'), 'ArrowRight', 5)).toEqual({ type: 'expand', key: 'C' });
+    expect(computeNextPosition(buildRows(), row('C'), 'ArrowRight', 5)).toEqual({ type: 'expand', key: 'C' });
   });
 
   it('ArrowLeft on an expanded group header returns collapse', () => {
-    expect(nextPosition(buildRows(), row('0:header'), 'ArrowLeft', 5)).toEqual({ type: 'collapse', key: '0:header' });
+    expect(computeNextPosition(buildRows(), row('0:header'), 'ArrowLeft', 5)).toEqual({ type: 'collapse', key: '0:header' });
   });
 
   it('ArrowLeft on a non-expanded row is none', () => {
-    expect(nextPosition(buildRows(), row('A'), 'ArrowLeft', 5)).toEqual({ type: 'none' });
+    expect(computeNextPosition(buildRows(), row('A'), 'ArrowLeft', 5)).toEqual({ type: 'none' });
   });
 
   it('ArrowLeft on cell 0 returns to the row', () => {
-    expect(nextPosition(buildRows(), cell('A', 0), 'ArrowLeft', 5))
+    expect(computeNextPosition(buildRows(), cell('A', 0), 'ArrowLeft', 5))
       .toEqual(move({ key: 'A', cell: null, desiredColumn: 0 }));
   });
 
   it('ArrowRight on the last cell is none', () => {
-    expect(nextPosition(buildRows(), cell('A', 2), 'ArrowRight', 5)).toEqual({ type: 'none' });
+    expect(computeNextPosition(buildRows(), cell('A', 2), 'ArrowRight', 5)).toEqual({ type: 'none' });
   });
 
   it('ArrowDown keeps the desired column and clamps on a shorter row', () => {
     const rows = buildRows();
 
-    const toGroup = nextPosition(rows, cell('A', 2), 'ArrowDown', 5);
+    const toGroup = computeNextPosition(rows, cell('A', 2), 'ArrowDown', 5);
     expect(toGroup).toEqual(move({ ...cell('0:header', 0, 2) }));
 
-    const toC = nextPosition(rows, (toGroup as { position:FocusPosition }).position, 'ArrowDown', 5);
+    const toC = computeNextPosition(rows, (toGroup as { position:FocusPosition }).position, 'ArrowDown', 5);
     expect(toC).toEqual(move({ key: 'C', cell: 2, desiredColumn: 2 }));
   });
 
   it('ArrowLeft/Right set the desired column to the landing cell', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, cell('A', 0, 2), 'ArrowRight', 5)).toEqual(move(cell('A', 1)));
-    expect(nextPosition(rows, cell('A', 2, 0), 'ArrowLeft', 5)).toEqual(move(cell('A', 1)));
+    expect(computeNextPosition(rows, cell('A', 0, 2), 'ArrowRight', 5)).toEqual(move(cell('A', 1)));
+    expect(computeNextPosition(rows, cell('A', 2, 0), 'ArrowLeft', 5)).toEqual(move(cell('A', 1)));
   });
 
   it('CtrlHome/CtrlEnd go to the grid corners in cell focus and first/last row in row focus', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, cell('C', 1), 'CtrlHome', 5)).toEqual(move(cell('header', 0)));
-    expect(nextPosition(rows, cell('C', 1), 'CtrlEnd', 5)).toEqual(move(cell('totals', 2)));
-    expect(nextPosition(rows, row('C'), 'CtrlHome', 5)).toEqual(move(row('header')));
-    expect(nextPosition(rows, row('C'), 'CtrlEnd', 5)).toEqual(move(row('totals')));
+    expect(computeNextPosition(rows, cell('C', 1), 'CtrlHome', 5)).toEqual(move(cell('header', 0)));
+    expect(computeNextPosition(rows, cell('C', 1), 'CtrlEnd', 5)).toEqual(move(cell('totals', 2)));
+    expect(computeNextPosition(rows, row('C'), 'CtrlHome', 5)).toEqual(move(row('header')));
+    expect(computeNextPosition(rows, row('C'), 'CtrlEnd', 5)).toEqual(move(row('totals')));
   });
 
   it('PageDown moves pageSize visible rows and stops at the end', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, row('header'), 'PageDown', 2)).toEqual(move(row('0:header')));
-    expect(nextPosition(rows, row('0:header'), 'PageDown', 10)).toEqual(move(row('totals')));
-    expect(nextPosition(rows, row('totals'), 'PageDown', 2)).toEqual({ type: 'none' });
+    expect(computeNextPosition(rows, row('header'), 'PageDown', 2)).toEqual(move(row('0:header')));
+    expect(computeNextPosition(rows, row('0:header'), 'PageDown', 10)).toEqual(move(row('totals')));
+    expect(computeNextPosition(rows, row('totals'), 'PageDown', 2)).toEqual({ type: 'none' });
   });
 
   it('PageUp moves pageSize visible rows and stops at the start', () => {
     const rows = buildRows();
 
-    expect(nextPosition(rows, row('0:sums'), 'PageUp', 2)).toEqual(move(row('0:header')));
-    expect(nextPosition(rows, row('A'), 'PageUp', 10)).toEqual(move(row('header')));
+    expect(computeNextPosition(rows, row('0:sums'), 'PageUp', 2)).toEqual(move(row('0:header')));
+    expect(computeNextPosition(rows, row('A'), 'PageUp', 10)).toEqual(move(row('header')));
   });
 
   it('PageDown in cell focus keeps cell focus with the desired column', () => {
-    expect(nextPosition(buildRows(), cell('A', 2), 'PageDown', 2))
+    expect(computeNextPosition(buildRows(), cell('A', 2), 'PageDown', 2))
       .toEqual(move({ key: 'C', cell: 2, desiredColumn: 2 }));
   });
 
@@ -211,12 +211,12 @@ describe('focus position model', () => {
     expect(reconcilePosition(rows, cell('A', 1), 1)).toEqual({ key: 'A', cell: null, desiredColumn: 1 });
   });
 
-  it('nextPosition on a hidden current row is none for every key', () => {
+  it('computeNextPosition on a hidden current row is none for every key', () => {
     const keys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'PageUp', 'PageDown', 'CtrlHome', 'CtrlEnd'] as const;
 
     keys.forEach((key) => {
-      expect(nextPosition(buildRows(), row('B'), key, 5)).toEqual({ type: 'none' });
-      expect(nextPosition(buildRows(), cell('B', 1), key, 5)).toEqual({ type: 'none' });
+      expect(computeNextPosition(buildRows(), row('B'), key, 5)).toEqual({ type: 'none' });
+      expect(computeNextPosition(buildRows(), cell('B', 1), key, 5)).toEqual({ type: 'none' });
     });
   });
 });

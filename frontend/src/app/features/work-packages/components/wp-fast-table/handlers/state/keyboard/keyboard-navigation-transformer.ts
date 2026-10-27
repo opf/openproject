@@ -42,7 +42,7 @@ import type { TableEventComponent } from '../../table-handler-registry';
 import { activateTableField } from '../../cell/edit-cell-handler';
 import { activateRow } from '../../row/click-handler';
 import {
-  FocusPosition, initialPosition, NavigableRow, NavKey, nearestPosition, nextPosition, reconcilePosition,
+  FocusPosition, initialPosition, NavigableRow, NavKey, nearestPosition, computeNextPosition, reconcilePosition,
 } from './focus-position';
 import {
   buildNavigableRows, headerRowKey, headerRowOf, rowKindOf, totalsRowKey, totalsRowOf,
@@ -444,7 +444,7 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     }
 
     const rows = buildNavigableRows(this.table);
-    const result = nextPosition(rows, position, key, this.pageSize(rows));
+    const result = computeNextPosition(rows, position, key, this.pageSize(rows));
     switch (result.type) {
       case 'move':
         this.userPosition = result.position;

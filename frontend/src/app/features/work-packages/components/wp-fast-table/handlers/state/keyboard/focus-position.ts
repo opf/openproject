@@ -100,7 +100,7 @@ function moveToEdge(
   rows:readonly NavigableRow[],
   position:FocusPosition,
   edge:'first'|'last',
-  column:'keep'|'edge',
+  column:'desired'|'edge',
 ):NavResult {
   const cellFocus = position.cell !== null;
   const visible = visibleIndexes(rows, cellFocus);
@@ -110,7 +110,7 @@ function moveToEdge(
     return NONE;
   }
 
-  if (!cellFocus || column === 'keep') {
+  if (!cellFocus || column === 'desired') {
     return toResult(landOn(target, cellFocus, position.desiredColumn), position);
   }
 
@@ -118,7 +118,7 @@ function moveToEdge(
   return toResult(positionOn(target, cell, cell), position);
 }
 
-function moveWithinRow(row:NavigableRow, position:FocusPosition, direction:'Home'|'End'|'ArrowLeft'|'ArrowRight'):NavResult {
+function navigateHorizontally(row:NavigableRow, position:FocusPosition, direction:'Home'|'End'|'ArrowLeft'|'ArrowRight'):NavResult {
   const cell = position.cell ?? 0;
   const last = row.cellCount - 1;
   const landing = { Home: 0, End: last, ArrowLeft: cell - 1, ArrowRight: cell + 1 }[direction];
@@ -134,7 +134,7 @@ function moveWithinRow(row:NavigableRow, position:FocusPosition, direction:'Home
   return toResult(positionOn(row, landing, landing), position);
 }
 
-function navigateRowFocus(rows:readonly NavigableRow[], row:NavigableRow, position:FocusPosition, key:NavKey, index:number, pageSize:number):NavResult {
+function navigateFromRow(rows:readonly NavigableRow[], row:NavigableRow, position:FocusPosition, key:NavKey, index:number, pageSize:number):NavResult {
   switch (key) {
     case 'ArrowRight':
       if (row.expanded === false) {
@@ -159,9 +159,9 @@ function navigateVertically(rows:readonly NavigableRow[], position:FocusPosition
     case 'PageDown':
       return moveRows(rows, position, index, pageSize);
     case 'Home':
-      return moveToEdge(rows, position, 'first', 'keep');
+      return moveToEdge(rows, position, 'first', 'desired');
     case 'End':
-      return moveToEdge(rows, position, 'last', 'keep');
+      return moveToEdge(rows, position, 'last', 'desired');
     case 'CtrlHome':
       return moveToEdge(rows, position, 'first', 'edge');
     case 'CtrlEnd':
@@ -172,7 +172,7 @@ function navigateVertically(rows:readonly NavigableRow[], position:FocusPosition
 }
 
 /** Computes what a navigation key does at the given position. */
-export function nextPosition(
+export function computeNextPosition(
   rows:readonly NavigableRow[],
   position:FocusPosition,
   key:NavKey,
@@ -189,7 +189,7 @@ export function nextPosition(
   }
 
   if (position.cell === null) {
-    return navigateRowFocus(rows, row, position, key, index, pageSize);
+    return navigateFromRow(rows, row, position, key, index, pageSize);
   }
 
   switch (key) {
@@ -197,7 +197,7 @@ export function nextPosition(
     case 'ArrowRight':
     case 'Home':
     case 'End':
-      return moveWithinRow(row, position, key);
+      return navigateHorizontally(row, position, key);
     default:
       return navigateVertically(rows, position, key, index, pageSize);
   }
