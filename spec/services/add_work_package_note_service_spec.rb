@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -211,6 +210,25 @@ RSpec.describe AddWorkPackageNoteService, type: :model do
 
         expect(subject.errors).to eql errors
       end
+    end
+  end
+
+  describe "integration" do
+    let(:user) { create(:admin) }
+    let(:project) { create(:project) }
+    let(:work_package) { create(:work_package, project:) }
+
+    before do
+      create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |custom_field|
+        project.enabled_variants.first.custom_field_ids |= [custom_field.id]
+      end
+    end
+
+    it "adds a comment when another required work package field is invalid" do
+      result = described_class.new(user:, work_package:).call("A comment", send_notifications: false)
+
+      expect(result).to be_success
+      expect(work_package.journals.reload.last.notes).to eq("A comment")
     end
   end
 end

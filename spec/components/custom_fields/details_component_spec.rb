@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -60,6 +59,29 @@ RSpec.describe CustomFields::DetailsComponent, type: :component do
 
       it "reminds" do
         expect(rendered.to_html).to include(banner)
+      end
+    end
+  end
+
+  describe "the confirmation for disabling project-specific values" do
+    let(:confirmation) { rendered.css("[data-controller~='input-confirmation']") }
+
+    context "when project-specific values are enabled" do
+      let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
+
+      it "asks for confirmation before showing the same values for all projects" do
+        expect(confirmation.attr("data-input-confirmation-trigger-value").value).to eq("checked")
+        expect(confirmation.css("input[type='radio'][value=''][data-input-confirmation-target='input']")).to be_present
+        expect(confirmation.css("dialog[data-input-confirmation-target='dialog']")).to be_present
+      end
+    end
+
+    context "when project-specific values are not enabled" do
+      let(:custom_field) { create(:list_wp_custom_field) }
+
+      it "does not ask for confirmation" do
+        expect(confirmation).to be_empty
+        expect(rendered.css("dialog#disable-project-specific-values-dialog")).to be_empty
       end
     end
   end

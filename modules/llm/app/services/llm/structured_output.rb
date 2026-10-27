@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ module Llm
     module_function
 
     # @param message [RubyLLM::Message] the answer from Chat#ask
-    # @raise [Llm::Errors::ParseError] when the model did not honour the schema
+    # @raise [Llm::Errors::ParseError] when the model did not honor the schema
     # @return [Hash]
     def parse!(message)
       content = message.respond_to?(:content) ? message.content : message

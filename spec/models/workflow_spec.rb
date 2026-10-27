@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -242,6 +241,38 @@ RSpec.describe Workflow do
 
       expect(TypeVariant.where(id: variant_id)).to be_empty
       expect(described_class.where(id: workflow_id)).to be_empty
+    end
+  end
+
+  describe "#in_use?" do
+    it "is true while a variant references it" do
+      expect(create(:type).default_variant.workflow).to be_in_use
+    end
+
+    it "is false once nothing references it" do
+      expect(create(:named_workflow)).not_to be_in_use
+    end
+  end
+
+  describe "#replacement_targets" do
+    it "offers the other global workflows" do
+      workflow = create(:named_workflow)
+      other = create(:named_workflow)
+
+      expect(workflow.replacement_targets).to include(other)
+    end
+
+    it "excludes itself" do
+      workflow = create(:named_workflow)
+
+      expect(workflow.replacement_targets).not_to include(workflow)
+    end
+
+    it "excludes project-owned workflows" do
+      workflow = create(:named_workflow)
+      owned = create(:project_owned_workflow, project:)
+
+      expect(workflow.replacement_targets).not_to include(owned)
     end
   end
 end

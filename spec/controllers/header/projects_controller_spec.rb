@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -217,7 +216,7 @@ RSpec.describe Header::ProjectsController do
           expect(assigns(:projects)).to be_empty
         end
 
-        it "renders the no-favourites placeholder" do
+        it "renders the no-favorites placeholder" do
           make_request
           expect(response.body).to include("op-header-project-select--no-favourites")
         end
@@ -225,7 +224,7 @@ RSpec.describe Header::ProjectsController do
         context "when a query is present" do
           subject(:make_request) { get :index, params: { filter_mode: "favorited", query: "Alpha" } }
 
-          it "does not render the no-favourites placeholder" do
+          it "does not render the no-favorites placeholder" do
             make_request
             expect(response.body).not_to include("op-header-project-select--no-favourites")
           end

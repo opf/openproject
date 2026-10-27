@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,9 +51,9 @@ module Admin
           return head :not_found if @report.nil?
 
           timestamp = @report.created_at.iso8601
-          send_data Llm::HealthReportMarkdown.new(@connection, @report).to_s,
-                    filename: "llm_connection_health_report_#{timestamp}.md",
-                    type: "text/markdown",
+          send_data text_report(timestamp),
+                    filename: "llm_connection_health_report_#{timestamp}.txt",
+                    type: "text/plain",
                     disposition: :attachment
         end
       end
@@ -76,6 +75,18 @@ module Admin
     end
 
     private
+
+    # Downloaded and pasted into support tickets, so it must not contain the API
+    # key or the custom headers -- a gateway header routinely carries a second
+    # credential.
+    def text_report(timestamp)
+      {
+        connection: @connection.identifier,
+        configuration: @connection.non_confidential_configuration,
+        ran_at: timestamp,
+        results: @report ? @report.results.map(&:to_h) : []
+      }.to_yaml(stringify_names: true)
+    end
 
     def tally_counts(report)
       tally = report.tally

@@ -81,7 +81,7 @@ it:
       group_regexes: Una espressione regolare per riga. Consulta la [documentazione](docs_url) per maggiori informazioni.
       group_regexes_detail_html: Facoltativamente, definisci dei pattern mediante espressioni regolari per trovare corrispondenze con i nomi dei gruppi presenti nel claim dei gruppi. Ad esempio, inserendo un pattern come <code>^Level1/Level2/([\w/]+)$</code>, verrà estratto il gruppo "GroupName/SubGroup" da una risposta contenente "Level1/Level2/GroupName/SubGroup". Se nessun pattern corrisponde, il gruppo viene ignorato. Lascia vuoto per sincronizzare tutti i gruppi utilizzando il relativo nome completo.
       group_regexes_testing: Fai clic su 'Prova il modello' per verificare il tuo modello di espressione regolare sui dati di esempio OIDC userinfo.
-      group_sync: Estrai e sincronizza automaticamente le informazioni di appartenenza al gruppo dal fornitore di identità.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Specifica il nome della richiesta che dovrebbe indicare i nomi dei gruppi di cui l'utente è membro.
       limit_self_registration: Se l'opzione è abilitata, gli utenti possono registrarsi utilizzando questo fornitore solo se la configurazione da parte del fornitore lo consente.
       mapping_admin: 'Fornisci una mappatura personalizzata nella risposta userinfo da utilizzare per lo stato di amministrazione. È atteso un valore booleano.
@@ -164,7 +164,7 @@ it:
       delete_result_1: Rimuovi il fornitore dall'elenco dei fornitori disponibili.
       delete_result_direct: Questo fornitore è contrassegnato come fornitore di accesso diretto. L'impostazione sarà rimossa e gli utenti non saranno più reindirizzati al fornitore per l'accesso.
       delete_result_user_count:
-        one: Un utente sta attualmente ancora utilizzando questo fornitore. Dovrà essere invitato nuovamente o effettuare l'accesso con un altro fornitore.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} utenti stanno attualmente ancora utilizzando questo fornitore. Dovrà essere invitato nuovamente o effettuare l'accesso con un altro fornitore."
         zero: Nessun utente sta attualmente utilizzando questo fornitore. Non sono necessarie ulteriori azioni.
       input_delete_confirmation_html: Inserisci il nome del fornitore %{name} per confermare l'eliminazione.

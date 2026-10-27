@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,11 @@ module WorkPackageTypes
       end
 
       form do |choice_form|
-        choice_form.advanced_radio_button_group(name: :"#{dom_class(@model_class)}_choice", data: @group_data) do |group|
+        choice_form.advanced_radio_button_group(
+          name: :"#{dom_class(@model_class)}_choice",
+          class: "op-fluid-radio-group",
+          data: @group_data
+        ) do |group|
           @options.each { |option| group.radio_button(**option) }
         end
       end

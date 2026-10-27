@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,6 +47,16 @@ module Pages
 
       def within_type_header(type, &)
         within(type_group(type).find(".Box-header"), &)
+      end
+
+      # Primer collapses the filter input behind a button once the sub header carries a quick
+      # filter, so it has to be opened before the first search.
+      def filter_by_name(text)
+        unless page.has_field?("query", wait: 0)
+          page.first("[data-action~='click:sub-header#expandFilterInput']").click
+        end
+
+        fill_in "query", with: text
       end
 
       def within_actions_menu(type, &)

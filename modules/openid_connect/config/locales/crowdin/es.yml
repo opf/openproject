@@ -81,7 +81,7 @@ es:
       group_regexes: Un patrón de expresión regular por línea. Lea [la documentación](docs_url) para obtener más información sobre cómo hacerlo.
       group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Haga clic en «Patrón de prueba» para comprobar su patrón de expresión regular con la información de usuario OIDC de muestra.
-      group_sync: Extraiga y sincronice automáticamente la información de pertenencia a grupos del proveedor de identidad.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Especifique el nombre de la reclamación que se espera que indique los nombres de los grupos a los que pertenece el usuario.
       limit_self_registration: Si está activada, los usuarios solo podrán registrarse utilizando este proveedor si la configuración del proveedor lo permite.
       mapping_admin: 'Proporciona una asignación personalizada en la respuesta userinfo que se utilizará para el estado administrador. Espera que se devuelva un atributo booleano.
@@ -164,7 +164,7 @@ es:
       delete_result_1: Elimine al proveedor de la lista de proveedores disponibles.
       delete_result_direct: Este proveedor está marcado como proveedor de inicio de sesión directo. La configuración se eliminará y ya no se redirigirá a los usuarios al proveedor para iniciar sesión.
       delete_result_user_count:
-        one: Actualmente, un usuario sigue utilizando este proveedor. Deberá ser invitado de nuevo o iniciar sesión con otro proveedor.
+        one: "%{count} user is currently still using this provider. They will need to be re-invited or logging in with another provider."
         other: "%{count} usuarios siguen utilizando actualmente este proveedor. Deberán ser invitados de nuevo o iniciar sesión con otro proveedor."
         zero: Ningún usuario utiliza actualmente este proveedor. No se requiere ninguna acción adicional.
       input_delete_confirmation_html: Escribe el nombre del proveedor %{name} para confirmar la eliminación.

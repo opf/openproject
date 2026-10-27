@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -67,7 +66,7 @@ RSpec.describe WorkPackages::JournalTimeline do
       expect(relation.distinct.pluck(:work_package_id)).to eq [work_package.id]
     end
 
-    it "returns read-only entries carrying no work package behaviour" do
+    it "returns read-only entries carrying no work package behavior" do
       entry = relation.order(:tick).last
 
       expect(entry).to be_a WorkPackages::JournalTimeline::Entry

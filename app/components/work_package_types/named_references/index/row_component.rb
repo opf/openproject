@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,13 +42,17 @@ module WorkPackageTypes
         def types_and_variants
           return dash if variants.empty?
 
-          text(types_and_variants_label)
+          render(Primer::Beta::Link.new(href: types_dialog_path, data: { controller: "async-dialog" })) do
+            types_and_variants_label
+          end
         end
 
         def projects
           return dash if project_count.zero?
 
-          text(reference_translate("index.projects_count", count: project_count))
+          render(Primer::Beta::Link.new(href: projects_filter_path)) do
+            reference_translate("index.projects_count", count: project_count)
+          end
         end
 
         def button_links
@@ -92,6 +95,13 @@ module WorkPackageTypes
 
         def project_count
           @project_count ||= variants.flat_map { |variant| variant.projects.map(&:id) }.uniq.size
+        end
+
+        def types_dialog_path = helpers.polymorphic_path(record, action: :types_dialog)
+
+        def projects_filter_path
+          filters = [{ type_variant_id: { operator: "=", values: variants.map(&:id) } }].to_json
+          helpers.projects_path(filters:)
         end
 
         def title

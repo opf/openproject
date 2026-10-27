@@ -175,7 +175,7 @@ They may render only the field itself or also include submit and reset buttons. 
 
 Edit field components define a `display_class`. This class is used to render the read-only display state.
 
-All field components should inherit from `BaseFieldComponent` to get access to the comment field helper and other shared behaviour.
+All field components should inherit from `BaseFieldComponent` to get access to the comment field helper and other shared behavior.
 
 **Simplified example of an `EditFieldComponent`:**
 ```ruby
@@ -357,7 +357,7 @@ Each `InplaceEditFieldComponent` generates a UUID and stores it in `@system_argu
 
 When building the dialog URL, the component passes this UUID as `page_component_id` inside `system_arguments_json` (while excluding its own `:id` key to avoid a clash with the dialog's UUID). On a successful `update`, the controller restores `page_component_id` as `:id` before constructing the response component, so the `wrapper_key` matches the original element on the page and the Turbo Stream replacement lands in the right place. The controller also closes the dialog via `close_dialog_via_turbo_stream` on success, and strips dialog-specific arguments (`wrapper_id`, `form_id`) so they do not bleed into the display component.
 
-### Update behaviour
+### Update behavior
 
 #### InplaceEditFieldsController
 

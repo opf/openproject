@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -161,6 +160,16 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
         expect(rendered_component).to have_text("Second slide")
         expect(rendered_component).to have_no_text("First slide")
         expect(rendered_component).to have_no_css("hr")
+      end
+
+      context "with vote-based sorting" do
+        before { meeting.update!(agenda_sorting_mode: :vote_based) }
+
+        it "renders only the current slide alongside the vote count" do
+          expect(rendered_component).to have_text("Second slide")
+          expect(rendered_component).to have_no_text("First slide")
+          expect(rendered_component).to have_css('[data-test-selector="agenda-item-vote-score"]')
+        end
       end
     end
 

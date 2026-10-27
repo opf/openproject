@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -73,7 +72,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService do
       expect(excluded_elements).to contain_exactly("custom_field_1", "assignee", "query_7")
     end
 
-    it "normalises the given elements" do
+    it "normalizes the given elements" do
       result = described_class.new(user: admin, variant:)
                              .call(aspect:, elements: ["  custom_field_1  ", "", nil, :assignee])
 

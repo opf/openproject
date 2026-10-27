@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Types
   class EditPageHeaderComponent < ApplicationComponent
@@ -48,7 +47,10 @@ module Types
     end
 
     def title
-      @title || variant_or_type_name
+      return @title if @title
+      return @variant.variant_name if named_variant?
+
+      @type.name
     end
 
     def breadcrumb_items
@@ -61,6 +63,19 @@ module Types
     private
 
     def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
+
+    def show_variant_suffix? = named_variant? && @title.nil?
+
+    def variant_suffix
+      key = @variant.project_owned? ? "types.edit.project_specific_variant_suffix" : "types.edit.variant_suffix"
+      t(key)
+    end
+
+    def convert_to_global_action? = named_variant? && @variant.project_owned? && User.current.admin?
+
+    def convert_to_global_dialog_path
+      convert_to_global_dialog_type_variant_path(type_id: @variant.type_id, id: @variant.id)
+    end
 
     def variant_or_type_name
       return @type.name unless named_variant?

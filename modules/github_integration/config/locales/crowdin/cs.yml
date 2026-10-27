@@ -53,7 +53,7 @@ cs:
     changed_files_count: Změněné soubory
     comments_count: Počet komentářů
     deletions_count: Počet výmazů
-    github: Identifikátor na GitHubu
+    github: GitHub identifier
     github_app_owner_avatar_url: URL avataru vlastníka
     github_avatar_url: URL avataru
     github_html_url: URL pull requestu

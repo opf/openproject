@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -206,9 +205,9 @@ class LlmConnection < ApplicationRecord
       base_url: base_url_without_credentials,
       api_format:,
       llm_features_enabled: Setting.llm_features_enabled?,
-      server_flavour:,
-      last_synced_at:,
-      last_connected_at:,
+      server_flavour: server_flavour&.to_s,
+      last_synced_at: last_synced_at&.utc&.iso8601,
+      last_connected_at: last_connected_at&.utc&.iso8601,
       model_count: models.count,
       manual_model_count: models.where(manual: true).count
     }
@@ -241,7 +240,7 @@ class LlmConnection < ApplicationRecord
     errors.add(:base, :singleton)
   end
 
-  # The value goes into Faraday's header serialisation unchanged, where a nested
+  # The value goes into Faraday's header serialization unchanged, where a nested
   # hash or a non-string fails at request time rather than at save time.
   def custom_headers_are_flat_strings
     return if custom_headers.blank?

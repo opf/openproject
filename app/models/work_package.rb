@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,6 +49,7 @@ class WorkPackage < ApplicationRecord
 
   include OpenProject::Journal::AttachmentHelper
 
+  AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX = "work_package_custom_fields_"
   DONE_RATIO_OPTIONS = %w[field status].freeze
   TOTAL_PERCENT_COMPLETE_MODE_OPTIONS = %w[work_weighted_average simple_average].freeze
 
@@ -142,9 +142,6 @@ class WorkPackage < ApplicationRecord
                    if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
   before_create :default_assign
-  # By using prepend: true, the callback will be performed before the meeting_agenda_items are nullified,
-  # thus the associated agenda items will be available at the time the callback method is performed.
-  around_destroy :save_agenda_item_journals, prepend: true, if: -> { meeting_agenda_items.any? }
 
   acts_as_customizable validate_on: :saving_custom_fields
 
@@ -403,6 +400,10 @@ class WorkPackage < ApplicationRecord
     Project.allowed_to(user, :move_work_packages)
   end
 
+  def self.allowed_target_projects_on_copy(user)
+    Project.allowed_to(user, :copy_work_packages)
+  end
+
   # Returns a scope for the projects
   # the user is create a work package in
   def self.allowed_target_projects_on_create(user)
@@ -505,6 +506,10 @@ class WorkPackage < ApplicationRecord
     end
   end
 
+  def self.clear_available_custom_fields_cache
+    RequestStore.store.delete_if { |key, _| key.to_s.start_with?(AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX) }
+  end
+
   def self.preload_available_custom_fields(work_packages)
     type_variant_ids = type_variant_ids_by_pair(work_packages)
 
@@ -591,7 +596,7 @@ class WorkPackage < ApplicationRecord
   private_class_method :form_configuration_custom_fields_join
 
   def self.available_custom_field_key(work_package)
-    :"work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
+    :"#{AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX}#{work_package.project_id}_#{work_package.type_id}"
   end
 
   private_class_method :available_custom_field_key
@@ -622,6 +627,10 @@ class WorkPackage < ApplicationRecord
   end
 
   private
+
+  def default_custom_field_value(custom_field)
+    custom_field.keep_usable_values(super, project)
+  end
 
   def derived_progress_hints
     @derived_progress_hints ||= {}
@@ -711,15 +720,5 @@ class WorkPackage < ApplicationRecord
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
-  end
-
-  def save_agenda_item_journals
-    ##
-    # Meetings are stored before they become dissociated from the work package,
-    # but the meeting journals are saved only after the agenda items are dissociated (nullified).
-    # By saving the meeting journals, the agenda item journals are also saved.
-    stored_meetings = meetings.to_a
-    yield
-    stored_meetings.each(&:touch_and_save_journals)
   end
 end

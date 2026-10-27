@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -42,7 +41,7 @@ module LlmConnections
 
     def not_configured_from_env = nil
 
-    # On a fresh installation the seed runs before any model synchronisation, so
+    # On a fresh installation the seed runs before any model synchronization, so
     # there is no catalogue to validate a default model against. A wrong id is
     # surfaced afterwards, the same way as a model that vanished: the binding
     # shows as no longer offered.

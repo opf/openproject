@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,13 @@
 Rails.application.routes.draw do
   root to: "homescreen#index", as: "home"
   rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
+
+  constraints(->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }) do
+    get "manifest" => "pwa/manifest#show", as: :pwa_manifest, format: false
+    get "offline" => "pwa/offline#show", as: :pwa_offline, format: false
+  end
+
+  get "service-worker" => "pwa/service_worker#show", as: :pwa_service_worker, format: false
 
   # Route for error pages
   get "/404", to: "errors#not_found"
@@ -66,7 +72,8 @@ Rails.application.routes.draw do
   # Redirect wp short url for work packages to full URL
   get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
-    "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    target = "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    params[:format].to_s.match?(/\A[A-Za-z0-9]+\z/) ? "#{target}.#{params[:format]}" : target
   }, as: :work_package_short
 
   # Add catch method for Rack OmniAuth to allow route helpers
@@ -347,6 +354,9 @@ Rails.application.routes.draw do
     collection do
       get :projects_tree
     end
+    member do
+      get :types_dialog
+    end
   end
 
   resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
@@ -357,6 +367,7 @@ Rails.application.routes.draw do
 
     member do
       get :edit_dialog
+      get :deletion_dialog
     end
 
     resource :matrix, only: %i[show update], controller: "workflows/matrix" do
@@ -372,6 +383,9 @@ Rails.application.routes.draw do
   resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
     collection do
       get :projects_tree
+    end
+    member do
+      get :types_dialog
     end
   end
 
@@ -499,6 +513,11 @@ Rails.application.routes.draw do
         get :children
       end
     end
+    resource :whats_new, only: :show, controller: "whats_new" do
+      get :dialog
+      post :seen
+      post :read
+    end
   end
 
   %w[portfolio project program].each do |workspace_type|
@@ -563,6 +582,7 @@ Rails.application.routes.draw do
             end
           end
           resource :categories, only: %i[show update]
+          resource :custom_fields, only: %i[show]
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
           member do
@@ -691,16 +711,21 @@ Rails.application.routes.draw do
 
     resources :forums do
       resources :topics, controller: "messages", except: [:index] do
+        resource :accepted_solution, only: %i[create destroy], controller: "messages/accepted_solutions"
+
         member do
           get :quote
+          get :replies
           post :reply, as: "reply_to"
+        end
+
+        resource :work_package, only: %i[new create], controller: "messages/work_packages" do
+          post :refresh_form
         end
       end
 
       member do
-        get :confirm_destroy
-        get :move
-        post :move
+        put :move
       end
     end
 
@@ -947,6 +972,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/project_custom_fields/hierarchy/items" do
@@ -988,6 +1015,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/user_custom_fields/hierarchy/items" do
@@ -1032,6 +1061,16 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+          get :projects
+          get "projects/:project_id", action: :project_values, as: :project_values
+          post "projects/:project_id/values/:value_id", action: :toggle_project_value, as: :toggle_project_value
+          post "projects/:project_id/enable_all", action: :enable_all_project_values, as: :enable_all_project_values
+          post "projects/:project_id/disable_all", action: :disable_all_project_values, as: :disable_all_project_values
+
+          get :forms
+          get :types_and_variants
+
+          get :deletion_dialog
         end
       end
 
@@ -1039,11 +1078,14 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
+          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
       end
 
@@ -1051,11 +1093,14 @@ Rails.application.routes.draw do
         member do
           delete "options/:option_id", action: "delete_option", as: :delete_option_of
           post :reorder_alphabetical
+          put :drop
 
           get :attribute_help_text
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
       end
 
@@ -1085,12 +1130,12 @@ Rails.application.routes.draw do
 
     namespace :import do
       get "/", to: redirect("/admin/import/jira")
-      resources :jira, controller: "/admin/import/jira/instances" do
+      resources :jira, controller: "/admin/import/jira" do
         collection do
-          post :test
+          post :test_connection
         end
         member do
-          delete :delete_token
+          delete :clear_credential
         end
         resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
           member do
@@ -1439,19 +1484,19 @@ Rails.application.routes.draw do
       delete :revoke_ical_meeting_token
     end
 
-    get "/work/(:mode-:view_mode)(/:date)" => "work#index",
-        as: :work,
+    get "/time/(:mode-:view_mode)(/:date)" => "time_management#index",
+        as: :time,
         constraints: {
           mode: /day|week|workweek|month/,
           view_mode: /list|calendar|stack/,
           date: /(\d{4}-\d{2}-\d{2}|today)/
         }
-    get "/work/refresh" => "work#refresh",
-        as: :work_refresh
+    get "/time/refresh" => "time_management#refresh",
+        as: :time_refresh
 
-    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
+    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/time")
     get "/time-tracking/*rest" => redirect { |params, _req|
-      "#{rails_relative_url_root}/my/work/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+      "#{rails_relative_url_root}/my/time/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
     }
   end
 

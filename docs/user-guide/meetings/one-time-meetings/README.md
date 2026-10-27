@@ -3,7 +3,7 @@ sidebar_navigation:
   title: One-time meetings
   priority: 900
 description: Manage meetings with agenda and meeting minutes in OpenProject.
-keywords: meetings, dynamic meetings, agenda, minutes, one-time meeting, draft mode, presentation mode, meeting draft, meeting presentation
+keywords: meetings, dynamic meetings, agenda, minutes, one-time meeting, draft mode, presentation mode, meeting draft, meeting presentation, voting, vote-based sorting
 ---
 
 # One-time meetings
@@ -21,6 +21,7 @@ For information on setting up recurring meeting series and templates, please ref
 | [Edit a meeting](#edit-a-meeting)                            | How to edit an existing meeting.                           |
 | [Add a work package to the agenda](#add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.             |
 | [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                          |
+| [Sort agenda items and vote](#sort-agenda-items-and-vote)     | How to choose a sorting mode and vote on agenda items.     |
 | [Agenda backlog](#agenda-backlogs)                           | How to use an agenda backlog.                              |
 | [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                         |
 | [Add meeting attachments](#meeting-attachments)              | How to add attachments to a meeting.                       |
@@ -150,7 +151,7 @@ If, prior to creating your first section, your meeting already had existing [age
 
 After adding a section, you can specify it further by [adding agenda items](#add-an-agenda-item) or [work packages](#link-a-work-package-to-a-meeting) to it. 
 
-You can also add agenda items to specific sections by either dragging and dropping items into each section, or by clicking on the **More** button (⋯) and choosing your desired action.
+In manual sorting mode, you can also add agenda items to specific sections by dragging and dropping items into each section. In either sorting mode, you can move items between sections by clicking on the **More** button (⋯) and choosing your desired action.
 
 ![Edit or delete a section in an OpenProject meeting](openproject_userguide_meetings_section_more_menu.png)
 
@@ -209,11 +210,11 @@ You can also include work packages into the description section of other agenda 
 
 #### Edit a meeting agenda
 
-After you have finalized the agenda, you can always edit the agenda, items, add notes, move an item up or down or delete it. Clicking on the **More** (three dots) menu icon on the right edge of each agenda item will display a menu of available options, including editing, copying link to clipboard, moving the agenda item within the agenda or to the backlog, or deleting it.
+After you have finalized the agenda, you can still edit agenda items, add notes or delete items. Clicking on the **More** (three dots) menu icon on the right edge of each agenda item will display a menu of available options, including editing, adding a new item directly above or below it, copying a link to the clipboard, moving the agenda item to another section or to the backlog, or deleting it. In manual sorting mode, you can also move an item up or down.
 
 ![Edit, copy, move or delete an agenda item in OpenProject meetings module](openproject_userguide_meetings_agenda_item_more_icon_opened.png)
-
-You may also re-order agenda items by clicking on the drag handle (the icon with six dots) on the left edge of each agenda item and dragging that item above or below.
+UPDATE SCREENSHOT
+In manual sorting mode, you may also re-order agenda items by clicking on the drag handle (the icon with six dots) on the left edge of each agenda item and dragging that item above or below. To prioritize items through voting instead, use [vote-based sorting](#sort-agenda-items-and-vote).
 
 ![Drag handle next to an agenda item in OpenProject meetings](openproject_userguide_meetings_agenda_item_drag_handle.png)
 
@@ -221,9 +222,46 @@ The durations of each agenda item are automatically summed up. If that sum excee
 
 ![Meeting agenda items duration sum is greater than the meeting duration set in OpenProject](openproject_userguide_meetings_agenda_too_long.png)
 
+### Sort agenda items and vote
+
+Choose **Manual** sorting to arrange the agenda yourself, or **Vote-based** sorting to prioritize topics by participant preference. The current **Sorting mode** is shown in the sidebar. In vote-based mode, the meeting subheader also shows **Agenda sorted by votes**.
+
+#### Change the sorting mode
+
+1. Click **Change sorting mode** in the sidebar, or open the meeting's **More** (three dots) menu and select **Sorting mode**.
+2. In the dialog, select **Manual** or **Vote-based**.
+3. Save your selection.
+
+Changing the sorting mode requires the **Edit meetings** permission in the project and is only available while the meeting is editable. Users with **View meetings** permission can see the current mode, even if they cannot change it.
+
+With vote-based sorting:
+
+- Agenda items are ordered from the highest to the lowest vote count within each section. The count is the number of upvotes minus downvotes: for example, 15 upvotes and 2 downvotes result in **Votes: 13**.
+- Items with equal counts retain their manual order.
+- Sections remain manually sorted. Votes do not move items between sections.
+- Drag-and-drop and actions to move agenda items up or down are disabled. You can still move an item to another section through its **More** menu.
+- Backlogs remain manually sorted and do not support voting.
+
+Switching back to **Manual** restores the manual item order and hides the vote counts and voting controls. Existing votes are retained and used again if you switch back to **Vote-based**.
+
+#### Vote on agenda items
+
+In a vote-based meeting, hover over an agenda item or move keyboard focus into it to reveal its **Votes** count and small **thumbs up** (👍) and **thumbs down** (👎) buttons. On mobile, the vote count remains visible, but the inline buttons are hidden. Use the item's **More** (three dots) menu to vote instead.
+
+Click 👍 to upvote or 👎 to downvote. Alternatively, open the item's **More** (three dots) menu and select **Upvote** or **Downvote**.
+
+Each user can have one vote per item. Clicking your selected vote again removes it; selecting the opposite vote replaces your previous vote. The count and agenda order update after voting. Counts can be positive, zero or negative, for example **Votes: 13** or **Votes: -2**.
+
+> [!NOTE]
+> Voting requires the **View meetings** permission in the project; you do not need permission to edit the agenda or be listed as a meeting participant. Voting is available in draft, open and in-progress meetings, but not in closed or cancelled meetings, meeting templates or backlogs.
+
+Votes stay with an item when it is moved between sections of the same meeting. Moving an item to another meeting resets its votes.
+
 ### Agenda backlogs
 
 An **agenda backlog** is a special pre-existing section below the actual meeting agenda where additional agenda items can be listed before being added to that particular meeting. This allows users to propose topics that are then picked up by the meeting organizer either before or during the actual meeting. 
+
+Backlog items remain manually sorted, even when the meeting uses [vote-based sorting](#sort-agenda-items-and-vote). Move an item into the agenda before voting on it.
 
 The backlog can be expanded or collapsed by clicking on the title.
 
@@ -584,6 +622,8 @@ You can copy an existing meeting. This is useful if you have recurring meetings.
 ![Copy a meeting in OpenProject](openproject_userguide_meetings_copy_meeting.png)
 
 A modal will open, which will allow you adjust the title, time, location and further details of the copied meeting. By default, the date for the copied meeting will be set to the next day. You also have an option of copying the agenda, attachments and the list of participants. 
+
+The copy inherits the meeting's sorting mode. If you copy the agenda, its items start without votes; votes from the original meeting are not copied.
 
 If you copy a closed meeting, the new meeting status will automatically be set to open. Don't forget to **save** the copied meeting by clicking the **Create meeting** button.
 

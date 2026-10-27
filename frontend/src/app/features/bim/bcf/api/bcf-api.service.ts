@@ -57,22 +57,22 @@ export class BcfApiService {
       .split('/');
 
     // Try to find a target collection or resource
-    let current:any = this;
+    let current = this as object;
 
     for (const pathOrId of parts) {
       if (pathOrId in current) {
         // Current has a member named like this URL part
         // descend into it
-        current = current[pathOrId];
+        current = (current as Record<string, object>)[pathOrId];
       } else if (current instanceof BcfResourceCollectionPath) {
         // Otherwise, assume we're looking for an ID
-        current = current.id(pathOrId);
+        current = current.id(pathOrId) as object;
       } else {
         // Otherwise, return the current
         break;
       }
     }
 
-    return current === this ? undefined : current;
+    return current === this ? undefined : current as T;
   }
 }

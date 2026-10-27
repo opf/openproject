@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -189,7 +188,7 @@ RSpec.describe "Configuring the variants a project owns",
       expect(project.owned_type_variants.last.variant_name).to eq("Internal")
     end
 
-    # The owner comes from the route. A body naming another project must not be honoured.
+    # The owner comes from the route. A body naming another project must not be honored.
     it "ignores an owner named in the request body" do
       post creation_wizard_project_type_variants_path(project_id: project, type_id: type.id),
            params: { type_variant: { variant_name: "Injected", project_id: stranger.id } }

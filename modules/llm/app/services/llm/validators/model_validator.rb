@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -63,7 +62,7 @@ module Llm
         elsif subject.models_stale?
           warn_check(:catalogue_fresh, :catalogue_stale_settings)
         elsif fetched_at < STALE_AFTER.ago
-          # Context is serialised to jsonb, so a Time has to be formatted here.
+          # Context is serialized to jsonb, so a Time has to be formatted here.
           warn_check(:catalogue_fresh, :catalogue_stale, context: { fetched_at: I18n.l(fetched_at.to_date) })
         else
           pass_check(:catalogue_fresh)

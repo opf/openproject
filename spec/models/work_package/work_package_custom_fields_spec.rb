@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -457,6 +456,15 @@ RSpec.describe WorkPackage do
 
     it "offers a field the applied variant's form configuration shows" do
       expect(work_package.available_custom_fields).to include(field)
+    end
+
+    it "picks up a field the form configuration gained after an earlier lookup" do
+      later_field = create(:work_package_custom_field)
+      work_package.available_custom_fields.to_a
+
+      type.default_variant.custom_field_ids |= [later_field.id]
+
+      expect(described_class.find(work_package.id).available_custom_fields).to include(later_field)
     end
   end
 end

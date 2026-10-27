@@ -52,7 +52,7 @@ describe('ActualCostsComponent', () => {
   });
 
   const renderWith = (datasets:unknown[]) => {
-    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labour'], datasets }));
+    fixture.componentRef.setInput('chartData', JSON.stringify({ labels: ['Labor'], datasets }));
     fixture.detectChanges();
   };
 
@@ -62,13 +62,13 @@ describe('ActualCostsComponent', () => {
       opacity,
       caretX: 50,
       caretY: 40,
-      dataPoints: [{ parsed: { x: 0, y: 10 }, dataset: { label: 'Labour' }, element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) } }],
+      dataPoints: [{ parsed: { x: 0, y: 10 }, dataset: { label: 'Labor' }, element: { getProps: () => ({ x: 50, y: 20, base: 120, width: 30 }) } }],
       labelColors: [{ backgroundColor: '#123456' }],
     },
   } as unknown as BarTooltipContext);
 
   it('renders the chart with a tooltip host beside the canvas', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
 
     const canvas = element.querySelector('canvas')!;
     expect(canvas).not.toBeNull();
@@ -81,27 +81,27 @@ describe('ActualCostsComponent', () => {
   });
 
   it('drops the tooltip renderer together with its host', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     const removeListener = vi.spyOn(document, 'removeEventListener');
 
     renderWith([]);
     expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
 
     removeListener.mockClear();
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     fixture.destroy();
     expect(removeListener).toHaveBeenCalledWith('scroll', expect.any(Function), expect.anything());
   });
 
   it('opens the tooltip inside its host from the Chart.js callback', () => {
-    renderWith([{ label: 'Labour', data: [10] }]);
+    renderWith([{ label: 'Labor', data: [10] }]);
     const external = fixture.componentInstance.barChartOptions()!.plugins!.tooltip!.external as (context:BarTooltipContext) => void;
 
     external(tooltipContext(1));
 
     const popover = element.querySelector<HTMLElement>('anchored-position')!;
     expect(popover.matches(':popover-open')).toBe(true);
-    expect(within(popover).getByText('Labour')).toBeInTheDocument();
+    expect(within(popover).getByText('Labor')).toBeInTheDocument();
     expect(document.body.querySelector(':scope > anchored-position')).toBeNull();
   });
 });

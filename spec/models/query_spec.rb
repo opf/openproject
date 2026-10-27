@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -308,7 +307,7 @@ RSpec.describe Query,
       expect(query).not_to be_valid
     end
 
-    it "#hightlighting_mode accepts non-present values" do
+    it "#highlighting_mode accepts non-present values" do
       query.highlighting_mode = nil
       expect(query).to be_valid
 
@@ -316,7 +315,7 @@ RSpec.describe Query,
       expect(query).to be_valid
     end
 
-    it "#hightlighting_mode rejects invalid values" do
+    it "#highlighting_mode rejects invalid values" do
       query.highlighting_mode = "bogus"
       expect(query).not_to be_valid
     end

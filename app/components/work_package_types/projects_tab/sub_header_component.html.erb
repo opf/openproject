@@ -20,8 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 See COPYRIGHT and LICENSE files for more details.
 
@@ -55,13 +54,13 @@ See COPYRIGHT and LICENSE files for more details.
     <%
       sub_header.with_action_button(
         scheme: :primary,
-        leading_icon: :"op-include-projects",
+        leading_icon: :plus,
         label: t(:label_add_projects),
         tag: :a,
         href: add_path,
         test_selector: "type-projects-add-button",
         data: { controller: "async-dialog" }
-      ) { t(:label_add_projects) }
+      ) { t(:label_project) }
     %>
 
     <% if toggle_all_available? %>

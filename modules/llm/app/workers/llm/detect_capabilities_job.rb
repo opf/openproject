@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Llm
-  # Pre-colours the model list after a refresh, out of band so that fetching the
+  # Pre-colors the model list after a refresh, out of band so that fetching the
   # catalogue does not wait on one request per candidate model.
   class DetectCapabilitiesJob < ApplicationJob
     include GoodJob::ActiveJobExtensions::Concurrency

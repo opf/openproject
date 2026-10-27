@@ -16,7 +16,7 @@
 #GNU General Public License for more details.
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
-#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ---
@@ -45,19 +45,25 @@ ru:
         not_selectable: Выборка осталась без изменений. Данный пакет работ не влияет на порядок элементов в этом списке.
         range_blocked: Выборка осталась без изменений. Данный диапазон содержит пакет работ, который не влияет на порядок элементов в этом списке.
         range_restarted:
-          one: Не удалось расширить диапазон. Выбран 1 рабочий пакет.
+          one: Could not extend the range. %{count} work package selected.
           few: Could not extend the range. %{count} work packages selected.
           many: Could not extend the range. %{count} work packages selected.
-          other: 'Не удалось расширить диапазон. Выбрано рабочих пакетов: %{count}.'
+          other: Could not extend the range. %{count} work packages selected.
         range_unavailable: Выборка не изменена. Разверните этот список, чтобы выбрать этот диапазон.
         selected:
-          one: Выбран 1 пакет работ.
+          one: "%{count} work package selected."
           few: "%{count} work packages selected."
           many: "%{count} work packages selected."
-          other: "%{count} пакетов работ выбрано."
-    burndown:
-      day: День
-      points: Точки
+          other: "%{count} work packages selected."
+    burndown_chart:
+      chart_day: 'Day %{day}: %{values}'
+      chart_label: Burndown chart
+      chart_summary: 'Burndown chart data: %{days}.'
+      chart_value: "%{label}: %{value}"
+      non_working_day: Non-working day
+      story_points: Story points
+    created_resolved:
+      work_packages: Work packages
     work_packages:
       properties:
         storyPoints: Исторические точки

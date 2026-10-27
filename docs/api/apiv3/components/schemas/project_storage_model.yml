@@ -80,7 +80,7 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              A link to OpenProject strorage.
+              A link to OpenProject storage.
 
               # Conditions
 

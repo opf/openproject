@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,11 +54,19 @@ class MeetingAgendaItemsController < ApplicationController
                 only: %i[move_to_next_meeting move_to_next_meeting_dialog duplicate_in_next_meeting
                          duplicate_in_next_meeting_dialog]
   before_action :assign_drop_params, only: %i[drop]
+  before_action :set_relative_insert, only: %i[new create cancel_new]
 
   def new
     if @meeting.closed?
       update_all_via_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
+    elsif @relative_to.present?
+      render_relative_agenda_item_form_via_turbo_stream(
+        relative_to: @relative_to,
+        insert_position: @insert_position,
+        type: @agenda_item_type,
+        current_occurrence: @current_occurrence
+      )
     else
       if params[:meeting_section_id].present?
         meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
@@ -75,18 +82,11 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def cancel_new
-    if params[:meeting_section_id].present?
-      meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
-      if meeting_section.agenda_items.empty?
-        if meeting_section.backlog?
-          collapsed = false
-        end
-        update_section_via_turbo_stream(form_hidden: true, meeting_section:, collapsed:, current_occurrence: @current_occurrence)
-      end
+    if @relative_to.present?
+      remove_relative_agenda_item_form_via_turbo_stream(relative_to: @relative_to, insert_position: @insert_position)
+    else
+      cancel_new_in_section
     end
-
-    update_new_component_via_turbo_stream(hidden: true, meeting_section:, current_occurrence: @current_occurrence)
-    update_new_button_via_turbo_stream(disabled: false) unless meeting_section&.backlog?
 
     respond_with_turbo_streams
   end
@@ -115,7 +115,7 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
       .call(
@@ -128,22 +128,9 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item = call.result
 
     if call.success?
-      if @meeting_agenda_item.meeting_section.backlog?
-        update_section_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section, collapsed: false,
-                                        current_occurrence: @current_occurrence)
-      else
-        reset_meeting_from_agenda_item
-        # enable continue editing
-        update_header_component_via_turbo_stream
-        update_sidebar_details_component_via_turbo_stream
-        add_item_via_turbo_stream(clear_slate: false, current_occurrence: @current_occurrence)
-      end
+      handle_successful_create
     else
-      # show errors
-      update_new_component_via_turbo_stream(
-        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type, current_occurrence: @current_occurrence
-      )
-      render_base_error_in_flash_message_via_turbo_stream(call.errors)
+      handle_failed_create(call)
     end
 
     respond_with_turbo_streams
@@ -238,7 +225,7 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def move_to_next_meeting_dialog
-    next_occurrence = init_next_meeting_occurrence
+    next_occurrence = resolve_next_meeting_occurrence
     return if next_occurrence.nil?
 
     respond_with_dialog MeetingAgendaItems::MoveToNextMeetingDialogComponent.new(
@@ -253,7 +240,7 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def duplicate_in_next_meeting_dialog
-    next_occurrence = init_next_meeting_occurrence
+    next_occurrence = resolve_next_meeting_occurrence
     return if next_occurrence.nil?
 
     respond_with_dialog MeetingAgendaItems::DuplicateInNextMeetingDialogComponent.new(
@@ -266,28 +253,24 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def move_to_next_meeting
-    next_occurrence = init_next_meeting_occurrence
-    return if next_occurrence.nil?
-
     previous_index = presentation_previous_index
 
-    update_call = update_agenda_item(
-      meeting_id: next_occurrence.id,
-      meeting_section_id: params.dig(:meeting_agenda_item, :meeting_section_id)
+    call = move_to_next_meeting_service.call(
+      start_time: @next_meeting_time,
+      meeting_section: next_meeting_section
     )
 
-    if !update_call.success?
-      respond_with_flash_error(message: update_call.message)
+    if !call.success?
+      respond_with_flash_error(message: call.message)
     elsif @presentation_mode
-      message = t(:text_agenda_item_moved_to_next_meeting, date: format_date(next_occurrence.start_time))
-      advance_presentation_after_move(previous_index, message)
+      advance_presentation_after_move(previous_index, moved_to_next_meeting_message(call.result.meeting))
     else
-      respond_with_next_meeting_move(next_occurrence)
+      respond_with_next_meeting_move(call.result.meeting)
     end
   end
 
   def duplicate_in_next_meeting
-    next_occurrence = init_next_meeting_occurrence
+    next_occurrence = resolve_next_meeting_occurrence
     return if next_occurrence.nil?
 
     duplicate_call = duplicate_agenda_item_in_meeting(next_occurrence)
@@ -380,6 +363,65 @@ class MeetingAgendaItemsController < ApplicationController
 
   private
 
+  def cancel_new_in_section
+    if params[:meeting_section_id].present?
+      meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
+      if meeting_section.agenda_items.empty?
+        if meeting_section.backlog?
+          collapsed = false
+        end
+        update_section_via_turbo_stream(form_hidden: true, meeting_section:, collapsed:, current_occurrence: @current_occurrence)
+      end
+    end
+
+    update_new_component_via_turbo_stream(hidden: true, meeting_section:, current_occurrence: @current_occurrence)
+    update_new_button_via_turbo_stream(disabled: false) unless meeting_section&.backlog?
+  end
+
+  def handle_successful_create
+    if @relative_to.present?
+      insert_agenda_item_relative_to(@relative_to, @insert_position)
+      reset_meeting_from_agenda_item
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+      add_relative_item_via_turbo_stream(relative_to: @relative_to, insert_position: @insert_position,
+                                         current_occurrence: @current_occurrence)
+    elsif @meeting_agenda_item.meeting_section.backlog?
+      update_section_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section, collapsed: false,
+                                      current_occurrence: @current_occurrence)
+    else
+      reset_meeting_from_agenda_item
+      # enable continue editing
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+      add_item_via_turbo_stream(clear_slate: false, current_occurrence: @current_occurrence)
+    end
+  end
+
+  def handle_failed_create(call)
+    if @relative_to.present?
+      update_relative_agenda_item_form_via_turbo_stream(
+        relative_to: @relative_to,
+        insert_position: @insert_position,
+        meeting_agenda_item: @meeting_agenda_item,
+        type: @agenda_item_type,
+        current_occurrence: @current_occurrence
+      )
+    else
+      update_new_component_via_turbo_stream(
+        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type,
+        current_occurrence: @current_occurrence
+      )
+    end
+    render_base_error_in_flash_message_via_turbo_stream(call.errors)
+  end
+
+  def insert_agenda_item_relative_to(relative_to, insert_position)
+    relative_to.reload
+    target_position = insert_position == "above" ? relative_to.position : relative_to.position + 1
+    @meeting_agenda_item.insert_at(target_position)
+  end
+
   def convert_to_work_package_service
     @convert_to_work_package_service ||=
       ::MeetingAgendaItems::ConvertToWorkPackageService.new(user: current_user, project: @project)
@@ -392,24 +434,26 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def duplicate_agenda_item_in_meeting(target_meeting)
-    attributes = @meeting_agenda_item.copy_attributes
-    attributes = attributes.except("author_id", "created_at", "updated_at", "lock_version", "position")
+    include_outcomes = params.dig(:meeting_agenda_item, :include_outcomes)
 
-    attributes[:meeting_id] = target_meeting.id
-    attributes[:meeting_section_id] = MeetingSection.find_by(id: params.dig(:meeting_agenda_item, :meeting_section_id))&.id
-    attributes[:source_meeting_id] = @meeting_agenda_item.meeting_id
-
-    ::MeetingAgendaItems::CreateService
-      .new(user: current_user)
-      .call(attributes)
+    ::MeetingAgendaItems::CopyService
+      .new(user: current_user, model: @meeting_agenda_item)
+      .call(
+        include_outcomes: ActiveModel::Type::Boolean.new.cast(include_outcomes),
+        attributes: {
+          meeting_id: target_meeting.id,
+          meeting_section_id: params.dig(:meeting_agenda_item, :meeting_section_id)
+        }
+      )
   end
 
-  def init_next_meeting_occurrence
-    return @next_occurrence if @next_occurrence.present?
+  def move_to_next_meeting_service
+    @move_to_next_meeting_service ||= ::MeetingAgendaItems::MoveToNextMeetingService
+      .new(user: current_user, meeting_agenda_item: @meeting_agenda_item)
+  end
 
-    call = ::RecurringMeetings::InitOccurrenceService
-    .new(user: User.system, recurring_meeting: @series)
-    .call(start_time: @next_meeting_time)
+  def resolve_next_meeting_occurrence
+    call = move_to_next_meeting_service.resolve_next_occurrence(start_time: @next_meeting_time)
 
     if call.success?
       call.result
@@ -417,6 +461,14 @@ class MeetingAgendaItemsController < ApplicationController
       respond_with_flash_error(message: call.message)
       nil
     end
+  end
+
+  def next_meeting_section
+    MeetingSection.find_by(id: params.dig(:meeting_agenda_item, :meeting_section_id))
+  end
+
+  def moved_to_next_meeting_message(next_occurrence)
+    t(:text_agenda_item_moved_to_next_meeting, date: format_date(next_occurrence.start_time))
   end
 
   def set_meeting
@@ -434,7 +486,14 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def set_meeting_agenda_item
-    @meeting_agenda_item = @meeting.agenda_items.find(params[:id])
+    @meeting_agenda_item = @meeting.agenda_items.find(params.expect(:id))
+  end
+
+  def set_relative_insert
+    return if params[:relative_to_id].blank?
+
+    @relative_to = @meeting.agenda_items.find(params.expect(:relative_to_id))
+    @insert_position = params[:insert_position]
   end
 
   def set_current_occurrence
@@ -469,24 +528,6 @@ class MeetingAgendaItemsController < ApplicationController
     @series = @meeting.recurring_meeting
 
     render_400 unless @next_meeting_time && @series.occurs_at?(@next_meeting_time)
-    find_existing_occurrence
-  end
-
-  def find_existing_occurrence
-    next_occurrence = @series.meetings.not_templated.find_by(recurrence_start_time: @next_meeting_time)
-
-    if next_occurrence&.cancelled? || next_occurrence&.closed?
-      result = @series.first_available_occurrence(from_time: @next_meeting_time)
-
-      if result.nil?
-        return respond_with_flash_error(message: I18n.t(:text_agenda_item_no_available_occurrence))
-      end
-
-      @next_meeting_time = result[:occurrence]
-      next_occurrence = @series.meetings.not_templated.find_by(recurrence_start_time: @next_meeting_time)
-    end
-
-    @next_occurrence = next_occurrence&.cancelled? ? nil : next_occurrence
   end
 
   def render_next_meeting_flash(base_key, next_occurrence)

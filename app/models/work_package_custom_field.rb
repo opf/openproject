@@ -22,16 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WorkPackageCustomField < CustomField
+  def self.project_counts
+    project_type_usages
+      .group("#{FormConfigurationAttribute.table_name}.custom_field_id")
+      .distinct
+      .count(:project_id)
+  end
+
   # A field reaches a project when the variant that project applies shows it. An archived project
   # is no reach, which is the same answer CustomFields::DetailsComponent gives.
-  def self.project_counts
+  def self.project_type_usages
     memberships = FormConfigurationAttribute.table_name
     form_join, form_configuration_id, excluded =
       TypeVariant.form_configuration_join("project_types.variant_id")
@@ -43,9 +49,15 @@ class WorkPackageCustomField < CustomField
                       "AND #{memberships}.custom_field_id IS NOT NULL " \
                       "AND #{memberships}.form_configuration_group_id IS NOT NULL AND #{exclusion}"))
       .where(project_id: Project.active.select(:id))
-      .group("#{memberships}.custom_field_id")
+  end
+
+  def type_ids_by_project_id
+    self.class.project_type_usages
+      .where(FormConfigurationAttribute.table_name => { custom_field_id: id })
       .distinct
-      .count(:project_id)
+      .pluck(:project_id, :type_id)
+      .group_by(&:first)
+      .transform_values { |pairs| pairs.map(&:last) }
   end
 
   has_many :form_configuration_memberships, -> { active },

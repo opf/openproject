@@ -209,7 +209,7 @@ ar:
         main: Main wiki pages
       sub_pages_count:
         zero: "%{count} sub-pages"
-        one: 1 sub-page
+        one: "%{count} sub-page"
         two: "%{count} sub-pages"
         few: "%{count} sub-pages"
         many: "%{count} sub-pages"

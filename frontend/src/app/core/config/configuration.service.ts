@@ -54,6 +54,10 @@ export class ConfigurationService {
     return this.configuration.userPreferences.disableKeyboardShortcuts;
   }
 
+  public requireDoubleClickForInlineEdit():boolean {
+    return this.configuration.userPreferences.requireDoubleClickForInlineEdit;
+  }
+
   public warnOnLeavingUnsaved():boolean {
     return this.configuration.userPreferences.warnOnLeavingUnsaved;
   }

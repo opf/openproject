@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ module LlmConnections
     end
 
     # Not named +options+: ApplicationComponent already owns that name and
-    # initialises it to an empty hash, which silently swallowed the memoisation.
+    # initializes it to an empty hash, which silently swallowed the memoisation.
     def model_options
       @model_options ||= selectable_models.call
     end

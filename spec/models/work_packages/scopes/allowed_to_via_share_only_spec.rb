@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -145,7 +144,7 @@ RSpec.describe WorkPackage, ".allowed_to_via_share_only" do # rubocop:disable RS
               role_ids: [work_package_role.id])
     end
 
-    it "returns the work package, because the group share is materialised per user" do
+    it "returns the work package, because the group share is materialized per user" do
       expect(subject).to contain_exactly(shared_work_package)
     end
   end

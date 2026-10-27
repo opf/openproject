@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: 3 PM² methodology overview
   priority: 850
-description: "Presents the House of PM² framework and explains its four pillars: Governance, Lifecycle, Processes, and Artefacts, all supported by PM² Mindsets. It introduces the four project lifecycle phases (Initiating, Planning, Executing, Closing) and explains tailoring to different project contexts."
+description: "Presents the House of PM² framework and explains its four pillars: Governance, Lifecycle, Processes, and Artifacts, all supported by PM² Mindsets. It introduces the four project lifecycle phases (Initiating, Planning, Executing, Closing) and explains tailoring to different project contexts."
 ---
 
 # 3 Overview of the PM² methodology
@@ -14,7 +14,7 @@ The PM² Methodology is built on Project Management best practices and is suppor
 1. a project governance model (i.e. Roles \& Responsibilities)
 2. a project lifecycle (i.e. Project Phases)
 3. a set of processes (i.e. project management activities)
-4. a set of project Artefacts (i.e. documentation templates and guidelines).
+4. a set of project Artifacts (i.e. documentation templates and guidelines).
 
 ![Fig 3.1 The House of PM²](03.01.png)
 
@@ -22,14 +22,14 @@ The spirit of the PM² Methodology is further defined by the PM² Mindsets, whic
 
 ## 3.2 The PM² lifecycle
 
-The PM² project lifecycle has four sequential and non-overlapping phases with a different type of activity predominant in each phase (i.e. initiating activities are predominant in the Initiating Phase, etc.). However, while phase-related activities peak in terms of effort during a specific phase, activities of this type can also be executed during neighbouring phase(s) (e.g. planning activities are also repeated in the Executing Phase).
+The PM² project lifecycle has four sequential and non-overlapping phases with a different type of activity predominant in each phase (i.e. initiating activities are predominant in the Initiating Phase, etc.). However, while phase-related activities peak in terms of effort during a specific phase, activities of this type can also be executed during neighboring phase(s) (e.g. planning activities are also repeated in the Executing Phase).
 
 A project moves on to the next phase when the goals of its current phase have been deemed achieved as the results of a formal (or less formal) phase-exit review.
 ![Fig 3.2 The PM² project lifecycle: indicative overlap of phase activities and cumulative effort](03.02.png)
 
 The focus of a project shifts from initiating and planning activities in the beginning to executing, monitoring and controlling activities in the middle and acceptance, transitioning and closing activities at the end.
 
-Inexperienced project teams sometimes underestimate the importance of the work done in the initial project phases and start working on deliverables that are inadequately defined or planned. This results in the delivery of outputs, which are of poor quality and of little value to end-users. This is a common and costly mistake, which is often the root cause of overall project failure and the failure to realise the project's intended benefits. It is therefore important to invest adequate time during the Initiating Phase to define the desired outcomes by engaging a broad spectrum of stakeholders.
+Inexperienced project teams sometimes underestimate the importance of the work done in the initial project phases and start working on deliverables that are inadequately defined or planned. This results in the delivery of outputs, which are of poor quality and of little value to end-users. This is a common and costly mistake, which is often the root cause of overall project failure and the failure to realize the project's intended benefits. It is therefore important to invest adequate time during the Initiating Phase to define the desired outcomes by engaging a broad spectrum of stakeholders.
 
 |  Project Phase | Description  |
 | --- | --- |
@@ -43,13 +43,13 @@ Inexperienced project teams sometimes underestimate the importance of the work d
 
 ![Initiating Phase](03.02.01.png)
 
-The first phase of a PM² project is the Initiating Phase. During this phase, the people involved formulate the project's objective(s), ensure the project's alignment to the organisation's strategic objectives, undertake some initial planning to get the project off to a good start, and put together the information required to gain approval to continue to the Planning Phase. The main input of this phase is a (client) request to address a need, problem or opportunity.
+The first phase of a PM² project is the Initiating Phase. During this phase, the people involved formulate the project's objective(s), ensure the project's alignment to the organization's strategic objectives, undertake some initial planning to get the project off to a good start, and put together the information required to gain approval to continue to the Planning Phase. The main input of this phase is a (client) request to address a need, problem or opportunity.
 
 The following activities are part of the Initiating Phase:
 
 - Creation of the Project Initiation Request which contains information about the requestor, business needs and the desired project outcomes.
 - Creation of the Business Case, which provides a business justification, defines the project's budgetary requirements, and outlines the business context, problem and project descriptions, alternative solutions, and a high-level roadmap.
-- Creation of the Project Charter, which provides more details on the project definition in terms of scope, cost, time and risk. It also defines milestones, deliverables, project organisation, etc.
+- Creation of the Project Charter, which provides more details on the project definition in terms of scope, cost, time and risk. It also defines milestones, deliverables, project organization, etc.
 
 ![Fig 3.3 Overview of the Initiating Phase](03.03.png)
 
@@ -61,7 +61,7 @@ At the end of the Initiating Phase, the Project Steering Committee (PSC) or othe
 
 ![Planning Phase](03.02.02.png)
 
-The second phase of a PM² project is the Planning Phase. During the Planning Phase, the project's objective is developed into a specific and workable plan ready to be executed. The Project Work Plan specifies the project scope and appropriate approach, decides on a schedule for the tasks involved, estimates the necessary resources and develops the detail of the project plans. Several times during the Planning Phase, the Project Work Plan can be updated. Once agreed and finalised it is baselined and signed off.
+The second phase of a PM² project is the Planning Phase. During the Planning Phase, the project's objective is developed into a specific and workable plan ready to be executed. The Project Work Plan specifies the project scope and appropriate approach, decides on a schedule for the tasks involved, estimates the necessary resources and develops the detail of the project plans. Several times during the Planning Phase, the Project Work Plan can be updated. Once agreed and finalized it is baselined and signed off.
 
 The following activities are part of the Planning Phase:
 
@@ -103,7 +103,7 @@ During a project's Closing Phase, the finished deliverables are officially trans
 
 The following activities are part of the Closing Phase:
 
-- Finalising all activities in order to formally close the project.
+- Finalizing all activities in order to formally close the project.
 - Discussing the overall project experience and Lessons Learned with the project team.
 - Documenting Lessons Learned and best practices for future projects.
 - Closing the project administratively and archiving all project documents.
@@ -128,7 +128,7 @@ At the end of each phase, the project passes through a review and approval gate.
 - RfE (Ready for Executing): at the end of the Planning Phase
 - RfC (Ready for Closing): at the end of the Executing Phase.
 
-## 3.3 PM² Phase Drivers and Key Artefacts
+## 3.3 PM² Phase Drivers and Key Artifacts
 
 Projects depend on people to define, plan and execute them. These project drivers change from phase to phase in a PM² project.
 
@@ -144,13 +144,13 @@ Finally, the Closing Phase is driven by the stakeholders who evaluate the projec
 
 | Key Phase Input/Output | Description |
 | :-- | :-- |
-| Project Initiation Request | Formalises the commitment to explore a problem, need or <br> opportunity further and captures the context. |
+| Project Initiation Request | Formalizes the commitment to explore a problem, need or <br> opportunity further and captures the context. |
 | Business Case | Captures the reasoning behind the project, provides justification and <br> establishes the budgetary constraints. |
 | Project Charter | Builds on the Business Case and defines the project scope, high-level <br> requirements and deliverables. |
 | Project Handbook | Presents the project management objectives and overall management <br> approach. Documents the roles \& responsibilities. |
 | Project Work Plan | Includes a breakdown of the work to be carried out, estimates of the <br> effort and costs involved, and the project schedule. |
 | Project Deliverables | Lists the complete set of project deliverables as defined in the Project <br> Charter and Project Work Plan. |
-| Project-End Report | Summarises the project experience, project performance and Lessons <br> Learned (successful project practices and potential pitfalls). |
+| Project-End Report | Summarizes the project experience, project performance and Lessons <br> Learned (successful project practices and potential pitfalls). |
 
 ## 3.4 What is a PM² Project
 
@@ -160,7 +160,7 @@ Thus, a PM² project:
 
 - is (above all) a project (i.e. not operations, not a work activity, not a programme, etc.)
 - has a duration of more than 4-5 weeks and involves more than 2-3 people
-- runs within an organisation and can be subject to internal or external audits
+- runs within an organization and can be subject to internal or external audits
 - requires a clearly defined governance structure and clearly assigned roles and responsibilities
 - requires approval of its budget and scope
 - includes more than just construction/delivery activities
@@ -168,16 +168,16 @@ Thus, a PM² project:
 - requires a certain level of documentation, transparency and reporting
 - requires a certain level of control and traceability
 - has a broad base of internal (and external) stakeholders
-- may require the collaboration of several organisations or organisational units
-- contributes to raising the organisation's project management maturity.
+- may require the collaboration of several organizations or organizational units
+- contributes to raising the organization's project management maturity.
 
 The number of the above characteristics, apparent in a project, drive the tailoring and customization that will have to be applied to the PM² methodology.
 
 ## 3.5 PM² Mindsets
 
-The PM² processes, artefacts, tools and techniques help project teams make decisions on trade-offs between a project's time, cost, scope and quality dimensions.
+The PM² processes, artifacts, tools and techniques help project teams make decisions on trade-offs between a project's time, cost, scope and quality dimensions.
 
-The PM² Mindsets are the attitudes and behaviours that help project teams focus on what is crucial to achieving their project's goals. They help project teams navigate the complexities of managing projects in organisations and make the PM² Methodology both more effective and complete.
+The PM² Mindsets are the attitudes and behaviors that help project teams focus on what is crucial to achieving their project's goals. They help project teams navigate the complexities of managing projects in organizations and make the PM² Methodology both more effective and complete.
 
 Thus, Project Managers (PMs) and project teams that practise PM² :
 
@@ -188,23 +188,23 @@ Thus, Project Managers (PMs) and project teams that practise PM² :
 5. Foster a project culture of collaboration, clear communication and accountability.
 6. Assign project roles to the most appropriate people for the benefit of the project.
 7. Balance in the most productive way the often-conflicting project management "Ps" of product, purpose, process, plan, planet, people, pleasure/pain, participation, perception and politics.
-8. Invest in developing technical and behavioural competences to become better project contributors.
-9. Involve project stakeholders in the organisational change needed to maximise project benefits.
-10. Share knowledge, actively manage Lessons Learned, and contribute to the improvement of project management within their organisations.
+8. Invest in developing technical and behavioral competences to become better project contributors.
+9. Involve project stakeholders in the organizational change needed to maximize project benefits.
+10. Share knowledge, actively manage Lessons Learned, and contribute to the improvement of project management within their organizations.
 11. Draw inspiration from the PM² Guidelines on Ethics and Professional Virtues (see Appendix F).
 
 To remain mindful of the PM² Mindsets, Project Managers (PMs) and project teams that practise PM² should ask themselves the following important Infrequently Asked Questions (IAQs):
 
-- Do we know what we are doing? Tip: Develop a clear and shared project vision. Manage the project using a holistic approach and optimise the whole project, not just parts of it. Follow a process but stay Agile and try to regularly remind yourself why you are doing something.
-- Do we know why we are doing it? Does anyone really care? Tip: Make sure your project matters. Understand its goals, value and impact, and how it relates to the organisational strategy. Define upfront what project success is and deliver maximum value and real benefits, not just outputs.
+- Do we know what we are doing? Tip: Develop a clear and shared project vision. Manage the project using a holistic approach and optimize the whole project, not just parts of it. Follow a process but stay Agile and try to regularly remind yourself why you are doing something.
+- Do we know why we are doing it? Does anyone really care? Tip: Make sure your project matters. Understand its goals, value and impact, and how it relates to the organizational strategy. Define upfront what project success is and deliver maximum value and real benefits, not just outputs.
 - Are the right people involved? Tip: People make projects work. The primary criterion for involving people and assigning project roles should be to serve the needs and objectives of the project, and not politics, friendship, functional hierarchy, proximity or convenience.
 - Do we know who is doing what? Tip: Know what you should be doing, and make sure others know what they should be doing. Is it clear to everyone? Clearly define and understand roles, responsibilities and accountabilities.
-- Deliver at any cost or risk? Tip: Show respect for people's work and organisational funds and avoid high-risk behaviour and tactics. Always keep in mind that it is not just about the end result - how you get there also matters. Manage your projects based on positive values and principles.
+- Deliver at any cost or risk? Tip: Show respect for people's work and organizational funds and avoid high-risk behavior and tactics. Always keep in mind that it is not just about the end result - how you get there also matters. Manage your projects based on positive values and principles.
 - Is this important? Tip: Everything is NOT equally important. Identify, and agree on, the project's Critical Success Criteria (CSC), Minimum Viable Product (MVP), and Critical Success Factors (CSFs), and allocate effort and attention both tactically and strategically for the benefit of both the project and project management goals.
 - Is this a task for "them" or for "us"? Tip: Make sure that client and provider groups work as one team towards a common goal. Real teamwork really works; so foster clear, effective and frequent communication.
 - Should I be involved? Tip: Contribute from any position. Be proud of the skills, value and positive attitude you bring to the project. Help everyone who needs to be involved get involved. Promote and facilitate the contributions of all stakeholders.
 
-- Have we improved? Tip: Commit to ongoing self- and organisational improvement by gathering and sharing knowledge. Project teams should reflect on how they can become more effective and adjust their behaviour accordingly.
+- Have we improved? Tip: Commit to ongoing self- and organizational improvement by gathering and sharing knowledge. Project teams should reflect on how they can become more effective and adjust their behavior accordingly.
 - Is there life after the project? Tip: The product (or service) lifecycle has just begun! Make sure you have contributed to its success.
 
 The PM² Mindsets are the glue that holds the PM² processes and practices together. They provide a common set of beliefs and values for all PM² practitioners.
@@ -212,38 +212,38 @@ The PM² Mindsets are the glue that holds the PM² processes and practices toget
 The PM² Mindsets:
 
 - help project teams navigate through the complexities of project realities.
-- help project teams (re)position project management goals in a wider organisational context.
+- help project teams (re)position project management goals in a wider organizational context.
 - remind project teams what is important for project success.
-- are useful reminders of effective attitudes and behaviours.
+- are useful reminders of effective attitudes and behaviors.
 
-## 3.6 Tailoring and Customisation
+## 3.6 Tailoring and Customization
 
-To ensure that the PM² Methodology effectively serves an organisation's and a project's needs, some level of tailoring or/and customisation may be required.
+To ensure that the PM² Methodology effectively serves an organization's and a project's needs, some level of tailoring or/and customization may be required.
 
-Tailoring refers to changing specific parts of the methodology, such as process steps, the content of artefacts, the distribution of responsibilities amongst the various roles, etc. Organisations do this to adapt the methodology to the specific needs of their structure and culture, and to align the methodology to organisational processes, policies, etc.
+Tailoring refers to changing specific parts of the methodology, such as process steps, the content of artifacts, the distribution of responsibilities amongst the various roles, etc. Organizations do this to adapt the methodology to the specific needs of their structure and culture, and to align the methodology to organizational processes, policies, etc.
 
-Tailoring makes more sense at the organisation/departmental level, but some tailoring can also take place at the project level, based, for instance, on the complexity, size or type of a project. In addition to any tailoring, further customisation may also be required at the project level to reflect the project's specific management needs. Examples of such customisations are the definition of decision thresholds for escalation, risk tolerances based on the risk appetite of the stakeholders, etc.
+Tailoring makes more sense at the organisation/departmental level, but some tailoring can also take place at the project level, based, for instance, on the complexity, size or type of a project. In addition to any tailoring, further customization may also be required at the project level to reflect the project's specific management needs. Examples of such customizations are the definition of decision thresholds for escalation, risk tolerances based on the risk appetite of the stakeholders, etc.
 
-All tailoring and customisations should be documented in the Project Handbook.
-The following guidelines should be considered when tailoring or customising the PM² Methodology:
+All tailoring and customizations should be documented in the Project Handbook.
+The following guidelines should be considered when tailoring or customizing the PM² Methodology:
 
 - First, understand the purpose and value of the methodology element to be tailored, and then proceed with its tailoring.
-- Avoid simplifying the methodology by eliminating whole chunks (e.g. a phase, a role, an activity or an artefact), but rather scale down (or up) the scope of that element.
+- Avoid simplifying the methodology by eliminating whole chunks (e.g. a phase, a role, an activity or an artifact), but rather scale down (or up) the scope of that element.
 - Balance the level of control a project needs against the extra effort such control requires.
 - Eliminate waste (lean approach) but remain aligned with the spirit of the PM² Methodology as this is reflected by its four pillars and mindsets.
 - Remember that the methodology was designed as an integrated whole, so avoid unnecessary deviations.
 
 ## 3.7 PM² and Agile Management
 
-PM² recognises the complex and uncertain nature of many types of project and the positive contribution of the Agile way of thinking to their effective management.
+PM² recognizes the complex and uncertain nature of many types of project and the positive contribution of the Agile way of thinking to their effective management.
 
-Agile approaches meet various challenges, which often grow with the size of the organisations in which they are applied. These challenges may include coordination between Agile and non-Agile teams, compliance with various organisational governance and audit requirements, and organisational architecture and interoperability constraints.
+Agile approaches meet various challenges, which often grow with the size of the organizations in which they are applied. These challenges may include coordination between Agile and non-Agile teams, compliance with various organizational governance and audit requirements, and organizational architecture and interoperability constraints.
 
 **What is Agile?**
 
 Agile is an approach to managing projects based on a specific set of principles and practices, which promote adaptive planning, evolutionary development, early incremental delivery and continuous improvement. It encourages rapid and flexible responses to change.
 
-Agile takes into account the inherent uncertainty of the project environment and creates an organisation that is highly adaptive. It uses short feedback loops to allow for rapid responses to changes in product requirements and for ongoing improvements to processes.
+Agile takes into account the inherent uncertainty of the project environment and creates an organization that is highly adaptive. It uses short feedback loops to allow for rapid responses to changes in product requirements and for ongoing improvements to processes.
 
 Agile's key characteristics are:
 
@@ -253,8 +253,8 @@ Agile's key characteristics are:
 - continuous stakeholder involvement at all levels
 - involving team members in planning
 - incremental development with short cycles
-- scope management through the continuous (re)prioritisation of tasks
+- scope management through the continuous (re)prioritization of tasks
 - embracing change, continuous learning and improvement
 - just enough documentation and control.
 
-PM² provides a structure that helps Agile teams achieve the desired agility while still accommodating tight procurement and audit requirements, good coordination with programme and portfolio levels, and collaboration with other projects, contractors, other organisational units and external organisations (see Appendix D).
+PM² provides a structure that helps Agile teams achieve the desired agility while still accommodating tight procurement and audit requirements, good coordination with programme and portfolio levels, and collaboration with other projects, contractors, other organizational units and external organizations (see Appendix D).

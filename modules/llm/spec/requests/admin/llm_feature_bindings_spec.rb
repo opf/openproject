@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
-  # The picker is an autocompleter, so its options are serialised into the
+  # The picker is an autocompleter, so its options are serialized into the
   # element rather than rendered as markup.
   def offered_models(feature_key)
     items = page.find("form[action='#{llm_feature_binding_path(feature_key)}'] opce-autocompleter")["data-items"]

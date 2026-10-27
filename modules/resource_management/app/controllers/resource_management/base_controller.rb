@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ module ::ResourceManagement
     # project's planners. Which planners the user then gets to see is decided by
     # `ResourcePlanner.visible_to`.
     def self.load_and_authorize_in_planner_section(**options)
-      # `Accounts::Authorization` only recognises its own method names as an
+      # `Accounts::Authorization` only recognizes its own method names as an
       # authorization check, so ours has to be affirmed.
       authorization_checked_by_default_action(**options.slice(:only, :except))
 

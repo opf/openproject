@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,7 +38,7 @@ RSpec.describe EnvData::Llm::ConnectionSeeder do
     expect { seed }.not_to change(LlmConnection, :count)
   end
 
-  # On a fresh installation the seed runs before any model synchronisation, so
+  # On a fresh installation the seed runs before any model synchronization, so
   # the model the environment names has no row yet. Provisioning enters it the
   # way an administrator would, and the refresh confirms it later.
   context "with a default model configured on a fresh installation", with_settings: {

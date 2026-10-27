@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -37,7 +36,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
-  # The picker is an autocompleter, so its options are serialised into the
+  # The picker is an autocompleter, so its options are serialized into the
   # element rather than rendered as markup.
   def offered_default_models(field = :default_chat_model_id)
     element = page.all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
@@ -92,7 +91,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
       end
 
-      # ".icon:before" carries the padding and colour and "a.icon:hover" removes
+      # ".icon:before" carries the padding and color and "a.icon:hover" removes
       # the underline, and both select the anchor, so the classes cannot sit on
       # an inner <i> as op_icon would place them.
       it "puts the icon classes on the action anchor itself" do

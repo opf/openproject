@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 module Flash
   module Expectations
     def expect_flash(message: nil, exact_message: nil, type: :success, wait: 20)
@@ -16,6 +43,22 @@ module Flash
       expect_flash(type:, message:, exact_message:, wait:)
       dismiss_flash!
       expect_no_flash(type:, message:, exact_message:, wait: 5)
+    end
+
+    def expect_and_dismiss_all_flashes(message: nil, exact_message: nil, type: :success, wait: 20)
+      expect_flash(type:, message:, exact_message:, wait:)
+      expected_css = expected_flash_css(type)
+
+      while page.has_css?(expected_css, wait: 1, **{ text: message, exact_text: exact_message }.compact)
+        page.document.synchronize do
+          flash = page.first(expected_css, wait: 0, **{ text: message, exact_text: exact_message }.compact)
+          next unless flash
+
+          flash.find(".Banner-close button").click # rubocop:disable Capybara/SpecificActions
+        end
+      end
+
+      expect_no_flash(type:, message:, exact_message:, wait: 2)
     end
 
     def dismiss_flash!
