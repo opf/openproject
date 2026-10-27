@@ -39,7 +39,7 @@ RSpec.describe "Adding projects to a work package type variant", :skip_csrf,
   before { login_as admin }
 
   def link_projects(*projects, variant: hardware, include_sub_items: false, confirm_switch: false)
-    post link_type_variant_projects_path(type_id: type.id, variant_id: variant.id),
+    post type_variant_projects_link_path(type_id: type.id, variant_id: variant.id),
          params: { project_ids: projects.map { { nodeId: it.id.to_s }.to_json },
                    include_sub_items: include_sub_items ? "1" : "0",
                    confirm_switch: confirm_switch ? "1" : "0" },

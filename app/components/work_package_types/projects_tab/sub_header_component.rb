@@ -80,7 +80,7 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = new_link_variant_projects_path(variant)
+      def add_path = new_variant_projects_link_path(variant)
 
       def toggle_all_path
         enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")

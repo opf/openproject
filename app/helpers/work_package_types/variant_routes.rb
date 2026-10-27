@@ -323,29 +323,17 @@ module WorkPackageTypes
                                    **)
     end
 
-    def new_link_variant_projects_path(variant)
+    def new_variant_projects_link_path(variant, **)
       administration_variant_route(variant,
-                                   base: :new_link_type_projects_path,
-                                   named: :new_link_type_variant_projects_path)
-    end
-
-    def tree_variant_projects_path(variant, **)
-      administration_variant_route(variant,
-                                   base: :tree_type_projects_path,
-                                   named: :tree_type_variant_projects_path,
+                                   base: :new_type_projects_link_path,
+                                   named: :new_type_variant_projects_link_path,
                                    **)
     end
 
-    def link_variant_projects_path(variant)
+    def variant_projects_link_candidates_path(variant, **)
       administration_variant_route(variant,
-                                   base: :link_type_projects_path,
-                                   named: :link_type_variant_projects_path)
-    end
-
-    def unlink_variant_projects_path(variant, **)
-      administration_variant_route(variant,
-                                   base: :unlink_type_projects_path,
-                                   named: :unlink_type_variant_projects_path,
+                                   base: :type_projects_link_candidates_path,
+                                   named: :type_variant_projects_link_candidates_path,
                                    **)
     end
 

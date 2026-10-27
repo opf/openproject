@@ -34,13 +34,37 @@ module WorkPackageTypes
       include TableRefresh
       include RefusalMessages
       include SelectedProjects
+      include SwitchConfirmation
 
-      before_action :load_query, only: %i[destroy]
+      before_action :load_query, only: %i[create destroy]
+
+      def new
+        respond_with_dialog AddDialogComponent.new(variant: @variant)
+      end
+
+      def create
+        projects = ::Project.where(id: chosen_project_ids)
+        return refuse_empty_selection if projects.empty?
+
+        switching = switching_project_types(projects)
+        if unconfirmed_switch?(switching)
+          return ask_to_switch(switching, url: variant_projects_link_path(@variant), project_ids: projects.ids)
+        end
+
+        respond_with_outcome(project_assignments.apply(projects), dialog_id: AddFormComponent::DIALOG_ID)
+      end
 
       def destroy
-        result = ProjectAssignments.new(user: current_user, variant: @variant).remove(selected_projects)
+        respond_with_outcome(project_assignments.remove(selected_projects), dialog_id: BulkRemoveDialogComponent::DIALOG_ID)
+      end
 
-        close_dialog_via_turbo_stream(BulkRemoveDialogComponent::DIALOG_ID)
+      private
+
+      def project_assignments = ProjectAssignments.new(user: current_user, variant: @variant)
+
+      def respond_with_outcome(result, dialog_id:)
+        close_dialog_via_turbo_stream(dialog_id)
+        close_switch_dialog
         refresh_projects
 
         if result.success?
@@ -50,6 +74,34 @@ module WorkPackageTypes
         end
 
         respond_to_with_turbo_streams(status: result)
+      end
+
+      def refuse_empty_selection
+        update_via_turbo_stream(
+          component: AddFormComponent.new(
+            variant: @variant,
+            validation_message: I18n.t("types.edit.projects.add_dialog.no_projects_selected")
+          ),
+          status: :bad_request
+        )
+        respond_with_turbo_streams
+      end
+
+      # The add dialog's tree posts each picked node as a JSON payload, not as a bare id.
+      def chosen_project_ids
+        ids = Array(params[AddFormComponent::FIELD_NAME]).filter_map { |node| node_id_from(node) }
+
+        params[:include_sub_items] == "1" ? with_descendants(ids) : ids
+      end
+
+      def node_id_from(payload)
+        JSON.parse(payload)["nodeId"].presence&.to_i
+      rescue JSON::ParserError, TypeError
+        nil
+      end
+
+      def with_descendants(project_ids)
+        ::Project.where(id: project_ids).flat_map { |project| project.self_and_descendants.ids }.uniq
       end
     end
   end

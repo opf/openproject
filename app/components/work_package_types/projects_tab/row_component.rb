@@ -105,7 +105,7 @@ module WorkPackageTypes
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
           scheme: :danger,
           tag: :a,
-          href: unlink_variant_projects_path(table_variant, project_id: project.id, page: table.rows.current_page),
+          href: variant_projects_link_path(table_variant, project_ids: [project.id], page: table.rows.current_page),
           content_arguments: { data: { turbo_method: :delete, turbo_confirm: confirm_removal } },
           data: { type_projects_selection_scope: "single" }
         ) do |item|
