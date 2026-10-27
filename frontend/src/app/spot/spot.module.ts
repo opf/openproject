@@ -46,6 +46,7 @@ import { SpotFormBindingDirective } from './components/form-field/form-binding.d
 import { SpotBreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { SpotSelectorFieldComponent } from './components/selector-field/selector-field.component';
 import { SpotDropModalPortalComponent } from './components/drop-modal/drop-modal-portal.component';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
 
 @NgModule({
   imports: [
@@ -54,6 +55,7 @@ import { SpotDropModalPortalComponent } from './components/drop-modal/drop-modal
     CommonModule,
     A11yModule,
     IconModule,
+    OpTooltipDirective,
   ],
 
   providers: [

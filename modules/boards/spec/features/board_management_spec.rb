@@ -69,19 +69,26 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       board_page = board_index.open_board board_view
 
+      expect(page).to have_button(accessible_name: "More", exact: true)
+      expect(page).to be_axe_clean.within(".board--settings-dropdown")
+      board_page.within_list("List 1") do
+        expect(page).to have_button(accessible_name: "Add card")
+      end
+      expect(page).to be_axe_clean.within(".op-board-list--button-container")
+
       board_page.add_list
       board_page.rename_list "Unnamed list", "List 2"
 
       # Open in list 1
       board_page.within_list("List 1") do
-        page.find_test_selector("op-board-list--card-dropdown-add-button").click
+        click_on accessible_name: "Add card"
       end
 
       page.find(".menu-item", text: "Add new card").click
 
       # Open in list 2
       board_page.within_list("List 2") do
-        page.find_test_selector("op-board-list--card-dropdown-add-button").click
+        click_on accessible_name: "Add card"
       end
 
       page.find(".menu-item", text: "Add new card").click
