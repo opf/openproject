@@ -134,11 +134,41 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
     end
 
     it "leaves a project that does not use the type alone" do
-      expect { switch(bookshop, unrelated, to: firmware) }
+      expect { switch(bookshop, foundry, unrelated, to: firmware) }
         .not_to change { unrelated.reload.project_types.pluck(:id) }
 
       expect(response).to have_http_status(:ok)
       expect(bookshop.reload.type_variant(type)).to eq(firmware)
+    end
+
+    # Only one of the submitted projects remains, yet the request came from the bulk dialogs.
+    it "stays a bulk switch when a submitted project is dropped" do
+      open_switch(bookshop, unrelated)
+      expect(response.body).to include("Bulk switch type or variant")
+
+      switch(bookshop, unrelated, to: firmware)
+      expect(response.body).to include("type-projects-bulk-switch-confirm-dialog")
+        .and include("The selected projects now use Bug: Firmware.")
+    end
+
+    context "when the switch is refused for one project" do
+      before do
+        refusal = ServiceResult.failure(result: foundry)
+        refusal.errors.add(:base, "Refused for a reason")
+
+        allow(Projects::Types::SwitchVariantService).to receive(:new).and_call_original
+        allow(Projects::Types::SwitchVariantService)
+          .to receive(:new).with(user: anything, model: foundry)
+          .and_return(instance_double(Projects::Types::SwitchVariantService, call: refusal))
+      end
+
+      it "switches the others and names the refused one" do
+        switch(bookshop, foundry, to: firmware)
+
+        expect(bookshop.reload.type_variant(type)).to eq(firmware)
+        expect(foundry.reload.type_variant(type)).to eq(hardware)
+        expect(response.body).to include("Foundry: Refused for a reason")
+      end
     end
   end
 end

@@ -38,11 +38,11 @@ module WorkPackageTypes
       before_action :load_query, only: %i[create]
 
       def new
-        respond_with_dialog(selected_projects.one? ? project_dialog(selected_projects.first) : bulk_dialog)
+        respond_with_dialog(bulk_selection? ? bulk_dialog : project_dialog(selected_projects.first!))
       end
 
       def create
-        result = selected_projects.one? ? switch_project(selected_projects.first) : switch_projects
+        result = bulk_selection? ? switch_projects : switch_project(selected_projects.first!)
 
         respond_to_with_turbo_streams(status: result)
       end
