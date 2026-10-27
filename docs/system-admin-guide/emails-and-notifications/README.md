@@ -73,8 +73,6 @@ The operating system notification shows the actor and the work package subject o
 
 The instance sends at most one push per user per minute. Each push is sent with low urgency and a time to live of one hour.
 
-**To turn on browser notifications on a device**, please visit our [User guide](../../user-guide/account-settings/notification-and-email/#browser-notifications).
-
 ### Data protection
 
 The push carries no content, not even a count. It is an empty wake-up signal. The installed application fetches the unread count from the instance itself over the user's own session.
