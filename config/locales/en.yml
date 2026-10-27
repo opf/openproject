@@ -5563,6 +5563,14 @@ en:
 
   op_dry_validation:
     errors:
+      ai_text_transform_pane:
+        rules:
+          project_id:
+            with_work_package: "must not be combined with a work package."
+          retry_of:
+            with_action: "must not be combined with an action or input."
+          type_id:
+            without_project: "must be given together with a project."
       array?: "must be an array."
       decimal?: "must be a decimal."
       defined: "must not be defined."
@@ -5570,6 +5578,7 @@ en:
       filled?: "must be filled."
       format?: "is in invalid format."
       greater_or_equal_zero: "must be greater or equal to 0."
+      gt?: "must be greater than %{num}."
       gteq?: "must be greater than or equal to %{num}."
       hash?: "must be a hash."
       included_in?:
@@ -5578,6 +5587,7 @@ en:
           range: "must be one of: %{list_left} - %{list_right}."
       int?: "must be an integer."
       key?: "is missing."
+      max_size?: "must not be longer than %{num} characters."
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:
@@ -5597,6 +5607,7 @@ en:
       type?: "must be %{type}."
       unexpected_key: "is not allowed."
       uri?: "is not a valid URI."
+      uuid_v4?: "must be a UUID (version 4)."
     or: "or"
     rules:
       blueprint: "Pattern blueprint"
@@ -7078,6 +7089,7 @@ en:
     You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_formatting:
+    image_link: "Image: %{name}"
     markdown: "Markdown"
     plain: "Plain text"
   text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
