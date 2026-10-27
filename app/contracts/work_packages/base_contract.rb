@@ -137,7 +137,7 @@ module WorkPackages
     attribute :budget
 
     attribute :labels do
-      validate_pending_labels
+      validate_label_names
     end
 
     validates :subject,
@@ -429,27 +429,27 @@ module WorkPackages
                                       assignable_target_versions)
     end
 
-    def validate_pending_labels
+    def validate_label_names
       return if model.label_name_replacements.blank?
       return unless writable?(:labels)
 
-      if model.label_name_replacements.size > Labelable::MAX_PENDING_LABEL_NAMES
-        errors.add(:labels, :too_many, count: Labelable::MAX_PENDING_LABEL_NAMES)
+      if model.label_name_replacements.size > Labelable::MAX_LABEL_NAMES_PER_SAVE
+        errors.add(:labels, :too_many, count: Labelable::MAX_LABEL_NAMES_PER_SAVE)
         return
       end
 
-      pending_label_error_details.each { errors.add(:labels, it[:error], **it.except(:error)) }
+      label_name_error_details.each { errors.add(:labels, it[:error], **it.except(:error)) }
     end
 
-    def pending_label_error_details
-      new_names = new_pending_label_names
-      return [] if new_names.empty?
+    def label_name_error_details
+      names_to_create = label_names_to_create
+      return [] if names_to_create.empty?
 
-      authorization = label_creation_authorization_errors(new_names.first)
-      (authorization + new_names.flat_map { label_name_errors(it) }).uniq
+      authorization = label_creation_authorization_errors(names_to_create.first)
+      (authorization + names_to_create.flat_map { label_name_errors(it) }).uniq
     end
 
-    def new_pending_label_names
+    def label_names_to_create
       existing_names = Label.named_any(model.label_name_replacements).pluck(:name).to_set(&:downcase)
       model.label_name_replacements.reject { existing_names.include?(it.downcase) }
     end

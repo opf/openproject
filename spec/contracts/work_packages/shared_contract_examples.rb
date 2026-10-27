@@ -274,7 +274,7 @@ RSpec.shared_examples "work package contract" do
 
       it_behaves_like "contract is valid"
 
-      context "with a pending name the user may create" do
+      context "with a new label name the user may create" do
         let(:permissions) { super() + %i[edit_work_packages] }
 
         before do
@@ -284,7 +284,7 @@ RSpec.shared_examples "work package contract" do
         it_behaves_like "contract is valid"
       end
 
-      context "with a pending name that is too long" do
+      context "with a new label name that is too long" do
         let(:permissions) { super() + %i[edit_work_packages] }
 
         before do
@@ -301,17 +301,17 @@ RSpec.shared_examples "work package contract" do
         end
       end
 
-      context "with more pending names than allowed" do
+      context "with more label names than allowed" do
         let(:permissions) { super() + %i[edit_work_packages] }
 
         before do
-          work_package.label_name_replacements = Array.new(Labelable::MAX_PENDING_LABEL_NAMES + 1) { "Label #{it}" }
+          work_package.label_name_replacements = Array.new(Labelable::MAX_LABEL_NAMES_PER_SAVE + 1) { "Label #{it}" }
         end
 
         it_behaves_like "contract is invalid", labels: :too_many
       end
 
-      context "with several pending names the user may create" do
+      context "with several new label names the user may create" do
         let(:permissions) { super() + %i[edit_work_packages] }
 
         before do
@@ -326,7 +326,7 @@ RSpec.shared_examples "work package contract" do
         end
       end
 
-      context "with a pending name that already exists in different casing" do
+      context "with a label name that already exists in different casing" do
         let(:permissions) { super() + %i[edit_work_packages] }
 
         before do

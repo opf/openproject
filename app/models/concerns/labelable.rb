@@ -30,7 +30,7 @@
 module Labelable
   extend ActiveSupport::Concern
 
-  MAX_PENDING_LABEL_NAMES = 50
+  MAX_LABEL_NAMES_PER_SAVE = 50
 
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
