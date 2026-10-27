@@ -131,57 +131,53 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(response).to have_http_status(:not_found)
     end
 
-    it "rejects a request id that is not a UUID" do
+    it "does not find a type that is not enabled in the project" do
+      other_type = create(:type)
+
+      post ai_text_transform_panes_path,
+           params: start_params.except(:work_package_id).merge(project_id: project.id, type_id: other_type.id),
+           headers: stream
+
+      expect(response).to have_http_status(:not_found)
+      expect(AI::TextTransformRun.count).to eq(0)
+    end
+
+    it "rejects invalid parameters" do
       post ai_text_transform_panes_path, params: start_params.merge(request_id: "pane-1"), headers: stream
 
       expect(response).to have_http_status(:bad_request)
       expect(AI::TextTransformRun.count).to eq(0)
     end
 
-    it "rejects a request without a request id" do
-      post ai_text_transform_panes_path, params: start_params.except(:request_id), headers: stream
+    context "when not logged in" do
+      current_user { User.anonymous }
 
-      expect(response).to have_http_status(:bad_request)
-    end
-
-    it "rejects an unknown scope" do
-      post ai_text_transform_panes_path, params: start_params.merge(scope: "page"), headers: stream
-
-      expect(response).to have_http_status(:bad_request)
-    end
-
-    it "rejects an action id that is not a number" do
-      post ai_text_transform_panes_path, params: start_params.merge(action_id: "fix"), headers: stream
-
-      expect(response).to have_http_status(:bad_request)
-    end
-
-    it "rejects a work package together with a project" do
-      post ai_text_transform_panes_path, params: start_params.merge(project_id: project.id, type_id: type.id), headers: stream
-
-      expect(response).to have_http_status(:bad_request)
-    end
-
-    it "rejects a project without a type" do
-      post ai_text_transform_panes_path,
-           params: start_params.except(:work_package_id).merge(project_id: project.id),
-           headers: stream
-
-      expect(response).to have_http_status(:bad_request)
-    end
-
-    it "ignores blank context ids" do
-      post ai_text_transform_panes_path,
-           params: start_params.merge(work_package_id: "", project_id: project.id, type_id: type.id),
-           headers: stream
-
-      expect(response).to have_http_status(:ok)
-      expect(AI::TextTransformRun.count).to eq(1)
-    end
-
-    context "with the feature flag inactive", with_flag: { ai_text_transform_actions: false } do
-      it "is not found" do
+      it "starts no run" do
         post ai_text_transform_panes_path, params: start_params, headers: stream
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(AI::TextTransformRun.count).to eq(0)
+      end
+    end
+  end
+
+  context "with the feature flag inactive", with_flag: { ai_text_transform_actions: false } do
+    let(:run) { run_with_events(:succeeded, ["completed", { "text" => "Done." }]) }
+
+    it "is not found for create" do
+      post ai_text_transform_panes_path, params: start_params, headers: stream
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    {
+      show: %i[get ai_text_transform_pane_path],
+      destroy: %i[delete ai_text_transform_pane_path],
+      apply: %i[post apply_ai_text_transform_pane_path],
+      cancel: %i[post cancel_ai_text_transform_pane_path]
+    }.each do |name, (verb, path_helper)|
+      it "is not found for #{name}" do
+        public_send(verb, public_send(path_helper, run.uuid), params: pane_params, headers: stream)
 
         expect(response).to have_http_status(:not_found)
       end
@@ -191,12 +187,36 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
   describe "GET show" do
     it "answers without content while nothing new happened" do
       run = run_with_events(:running, ["status", { "status" => "running" }])
-      allow(AI::TextTransforms::ResolveContext).to receive(:new).and_call_original
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1), headers: stream
 
       expect(response).to have_http_status(:no_content)
-      expect(AI::TextTransforms::ResolveContext).not_to have_received(:new)
+    end
+
+    it "answers without content once the client has seen the final state" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Done." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1, state: "done"), headers: stream
+
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it "updates a pane whose run finished after its last event" do
+      run = run_with_events(:succeeded, ["completed", { "text" => "Done." }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1, state: "generating"), headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Replace")
+    end
+
+    it "updates a pane that carries no context" do
+      run = run_with_events(:running, ["text_delta", { "delta" => "Text" }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params.except(:work_package_id)), headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Text")
     end
 
     it "streams the text so far as formatted html" do
@@ -216,6 +236,15 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 0), headers: stream
 
       expect(response.body).to include("<strong>done</strong>", "<template>**done**</template>", "Replace")
+    end
+
+    it "keeps markup in the raw text inside its template" do
+      run = run_with_events(:succeeded, ["completed", { "text" => %(a < b "quoted" </template><img src=x>) }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params), headers: stream
+
+      expect(response.body).to include("a &lt; b &quot;quoted&quot; &lt;/template&gt;&lt;img src=x&gt;")
+      expect(response.body).not_to include("<img src=x>")
     end
 
     it "shows the stopped state for a blocked response" do
@@ -252,14 +281,6 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       expect(response).to have_http_status(:not_found)
     end
-
-    it "rejects a request without a scope" do
-      run = run_with_events(:running)
-
-      get ai_text_transform_pane_path(run.uuid, **pane_params.except(:scope)), headers: stream
-
-      expect(response).to have_http_status(:bad_request)
-    end
   end
 
   describe "DELETE destroy" do
@@ -282,6 +303,17 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       expect(run.reload.cancel_requested).to be(false)
     end
 
+    it "cancels the run even without a valid request id" do
+      run = run_with_events(:running)
+
+      delete ai_text_transform_pane_path(run.uuid), params: { request_id: "pane-1" }, headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(run.reload.cancel_requested).to be(true)
+      expect(response.body).to include('action="remove"')
+      expect(response.body).not_to include("op-dispatched:ai-text-transform:closed")
+    end
+
     it "closes a pane without a run" do
       delete ai_text_transform_pane_path("rejected"), params: pane_params, headers: stream
 
@@ -299,14 +331,28 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
   end
 
   describe "POST apply" do
-    it "hands the completed text to the editor" do
-      run = run_with_events(:succeeded, ["completed", { "text" => "Fixed text." }])
+    it "hands the completed text of the run to the editor, never the client's" do
+      text = %(Fixed < text "quoted" </template>)
+      run = run_with_events(:succeeded, ["completed", { "text" => text }])
 
-      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+      post apply_ai_text_transform_pane_path(run.uuid), params: pane_params.merge(text: "Forged."), headers: stream
 
-      expect(response.body).to include('action="dispatchEvent"', "op-dispatched:ai-text-transform:apply")
+      expect(response.body).to include('action="dispatchEvent"', "op-dispatched:ai-text-transform:accepted")
       detail = JSON.parse(Nokogiri::HTML5.fragment(response.body).at("turbo-stream")["detail"])
-      expect(detail).to eq("requestId" => request_id, "scope" => "selection", "text" => "Fixed text.")
+      expect(detail).to eq("requestId" => request_id, "scope" => "selection", "text" => text)
+    end
+
+    context "without the permission to edit the work package any more" do
+      current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+      it "is forbidden" do
+        run = create(:ai_text_transform_run, :succeeded, user: current_user, action:)
+
+        post apply_ai_text_transform_pane_path(run.uuid), params: pane_params, headers: stream
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.body).not_to include("op-dispatched")
+      end
     end
 
     it "refuses a run that has not succeeded" do

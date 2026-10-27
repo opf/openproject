@@ -324,20 +324,20 @@ da:
   meeting:
     agenda_sorting:
       change: Skift sortering
-      current_mode: Currently in %{mode} mode
+      current_mode: 'Sortering lige nu: %{mode}'
       invalid_reaction: Kun stemmer op og ned er tilladt på dagsordenspunkter.
       manual: Manuel
-      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
+      manual_description: Du kan selv placere dagsordenspunkterne i den rækkefølge, du vil, ved at trække dem op eller ned.
       manual_order_disabled: Dagsordenspunkterne er sorteret efter stemmer. Skift til manuel sortering for at ændre rækkefølgen.
       remove_thumbs_down: Fjern stemme ned
       remove_thumbs_up: Fjern stemme op
-      sidebar_title: Agenda sorting
+      sidebar_title: Sortering af dagsorden
       sorted_by_votes: Dagsordenen er sorteret efter stemmer.
       thumbs_down: Stem ned
       thumbs_up: Stem op
       title: Sortering
       vote_based: Efter stemmer
-      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+      vote_based_description: 'Deltagerne kan stemme dagsordenspunkter op eller ned. Punkterne med flest stemmer kommer øverst i hvert afsnit. Afsnittene sorteres fortsat manuelt.
 
         '
       votes: 'Stemmer: %{count}'

@@ -151,6 +151,11 @@ PATH
     grids (1.0.0)
 
 PATH
+  remote: modules/itsm
+  specs:
+    openproject-itsm (1.0.0)
+
+PATH
   remote: modules/job_status
   specs:
     openproject-job_status (1.0.0)
@@ -361,7 +366,7 @@ GEM
     android_key_attestation (0.3.0)
     anyway_config (2.8.1)
       ruby-next-core (~> 1.0)
-    appsignal (5.0.4)
+    appsignal (5.0.5)
       logger
       rack (>= 2.0.0)
     ast (2.4.3)
@@ -860,7 +865,7 @@ GEM
     net-imap (0.6.7)
       date
       net-protocol
-    net-ldap (0.20.0)
+    net-ldap (0.21.0)
       base64
       ostruct
     net-pop (0.1.2)
@@ -1694,7 +1699,7 @@ DEPENDENCIES
   msgpack (~> 1.8.4)
   multi_json (~> 1.21.2)
   my_page!
-  net-ldap (~> 0.20.0)
+  net-ldap (~> 0.21.0)
   nokogiri (~> 1.19.4)
   okcomputer (~> 1.20.0)
   omniauth (~> 2.1)
@@ -1713,6 +1718,7 @@ DEPENDENCIES
   openproject-gantt!
   openproject-github_integration!
   openproject-gitlab_integration!
+  openproject-itsm!
   openproject-job_status!
   openproject-ldap_departments!
   openproject-ldap_groups!
@@ -1858,7 +1864,7 @@ CHECKSUMS
   airbrake-ruby (6.2.2) sha256=293e34fb36e763e1b6d67ab584cce7c5b6fe9eea1a70c26d8c13c0f5d7de2fbc
   android_key_attestation (0.3.0) sha256=467eb01a99d2bb48ef9cf24cc13712669d7056cba5a52d009554ff037560570b
   anyway_config (2.8.1) sha256=541842b25117fac3e277670c32dc09d3b715b20404826a6538ac35527583624f
-  appsignal (5.0.4) sha256=c98d747b0115ae088ac90179630aebf5ee1943f3b2de48ef2eb6db497a6683d5
+  appsignal (5.0.5) sha256=9a2925f70ef4e984271965ad632104bfbedbc23960adeb025177e5dfc2a6a571
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   attr_required (1.0.2) sha256=f0ebfc56b35e874f4d0ae799066dbc1f81efefe2364ca3803dc9ea6a4de6cb99
   auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
@@ -2067,7 +2073,7 @@ CHECKSUMS
   my_page (1.0.0)
   net-http (0.10.0) sha256=1a2ff6e37a05724973c43f2bf7bf105f59c36a4cd0a7e9b1c021a0a566987c27
   net-imap (0.6.7) sha256=b5c9573be975d856de252ee851871724da66aa2d449b2482d5690bd12bc23660
-  net-ldap (0.20.0) sha256=b2080b350753a9ac4930869ded8e61a1d2151c01e03b0bf07b4675cbd9ce5372
+  net-ldap (0.21.0) sha256=cbb39e3271e181addcb76da55d2d87074c142e652a2d936cda40a7708be23576
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3
   net-protocol (0.4.0) sha256=f9f90c8c6f64794a45160bf422177a336db12809de3beeeaa26b88fcd2e8c853
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
@@ -2100,6 +2106,7 @@ CHECKSUMS
   openproject-gantt (1.0.0)
   openproject-github_integration (1.0.0)
   openproject-gitlab_integration (3.0.0)
+  openproject-itsm (1.0.0)
   openproject-job_status (1.0.0)
   openproject-ldap_departments (1.0.0)
   openproject-ldap_groups (1.0.0)

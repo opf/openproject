@@ -47,9 +47,16 @@ module Admin
         end
 
         def project_specific_values
-          I18n.t("custom_fields.admin.projects.enabled_values",
-                 count: table.usable_value_counts.fetch(project.id),
-                 total: table.value_count)
+          count = table.usable_value_counts.fetch(project.id)
+          total = table.value_count
+
+          if count.zero?
+            I18n.t("custom_fields.admin.projects.enabled_values.none")
+          elsif count == total
+            I18n.t("custom_fields.admin.projects.enabled_values.all")
+          else
+            I18n.t("custom_fields.admin.projects.enabled_values.some", count:, total:)
+          end
         end
 
         def button_links

@@ -71,6 +71,14 @@ module CustomFields
       op_routes.public_send(:"project_values_admin_settings_#{cf_singular(custom_field)}_path", custom_field, project)
     end
 
+    def forms_path(custom_field)
+      op_routes.public_send(:"forms_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
+    def types_and_variants_path(custom_field)
+      op_routes.public_send(:"types_and_variants_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
     def attribute_help_text_path(custom_field)
       op_routes.public_send(:"attribute_help_text_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end

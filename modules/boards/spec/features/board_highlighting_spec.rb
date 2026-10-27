@@ -29,7 +29,7 @@ require "spec_helper"
 require_relative "support/board_index_page"
 require_relative "support/board_page"
 
-RSpec.describe "Work Package boards spec", :js, :selenium do
+RSpec.describe "Work Package boards spec", :js do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })

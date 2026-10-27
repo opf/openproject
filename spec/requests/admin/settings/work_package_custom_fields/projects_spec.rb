@@ -74,6 +74,21 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(row).to have_text("1 of 2")
       end
 
+      it "shows None and All instead of counts when no or all values are enabled" do
+        unconfigured_project = create(:project, types: [feature])
+        fully_configured_project = create(:project, types: [feature])
+        custom_field.custom_options.each do |option|
+          create(:project_specific_value_restriction, project: fully_configured_project, custom_option: option)
+        end
+
+        get projects_path
+
+        expect(page.find("[data-test-selector='custom-field-projects-row-#{unconfigured_project.id}']"))
+          .to have_text(I18n.t("custom_fields.admin.projects.enabled_values.none"))
+        expect(page.find("[data-test-selector='custom-field-projects-row-#{fully_configured_project.id}']"))
+          .to have_text(I18n.t("custom_fields.admin.projects.enabled_values.all"))
+      end
+
       it "does not list projects not using the custom field" do
         expect(page).to have_no_text("Other project")
       end
@@ -146,6 +161,19 @@ RSpec.describe "Admin work package custom field projects", :skip_csrf, type: :ra
         expect(response).to have_http_status(:ok)
         expect(page).to have_text("#{Project.model_name.human}: #{using_project.name}")
         expect(page).to have_css("[data-test-selector='custom-field-project-value-#{custom_field.custom_options.first.id}']")
+      end
+
+      context "when values are deactivated for each project" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, :project_specific_blocklist, types: [feature, epic], possible_values: %w[A B])
+        end
+
+        it "lists all values as enabled while none is deactivated" do
+          get project_values_admin_settings_work_package_custom_field_path(custom_field, using_project)
+
+          expect(page).to have_css("[data-test-selector^='custom-field-project-value-'] button[aria-pressed='true']",
+                                   count: 2)
+        end
       end
 
       it "is not found for a project not using the custom field" do

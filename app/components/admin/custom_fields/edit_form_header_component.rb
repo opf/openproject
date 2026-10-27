@@ -64,7 +64,10 @@ module Admin
 
         [{ name: "projects", path: projects_path(@custom_field), label: t(:label_project_plural) },
          { name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
-           label: AttributeHelpText.human_attribute_name(:help_text) }]
+           label: AttributeHelpText.human_attribute_name(:help_text) },
+         { name: "forms", path: forms_path(@custom_field), label: t("custom_fields.show.tabs.forms") },
+         { name: "types_and_variants", path: types_and_variants_path(@custom_field),
+           label: t("custom_fields.show.tabs.types_and_variants") }]
       end
 
       def header_title

@@ -148,6 +148,20 @@ describe('AiTextTransformPaneController', () => {
 
       expect(rect()).toEqual(before);
     });
+
+    it('stops the previous pointer action when a new one starts', () => {
+      const before = rect();
+      const header = byTestId('header').getBoundingClientRect();
+      const handle = byTestId('resize-bottom-right');
+      const start = handle.getBoundingClientRect();
+      fireEvent.pointerDown(byTestId('header'), { clientX: header.left, clientY: header.top });
+      fireEvent.pointerDown(handle, { clientX: start.left, clientY: start.top });
+      fireEvent.pointerMove(window, { clientX: start.left - 10, clientY: start.top - 10 });
+      fireEvent.pointerUp(window);
+
+      expect(rect().left).toBe(before.left);
+      expect(rect().width).toBe(before.width - 10);
+    });
   });
 
   describe('resizing', () => {
@@ -211,6 +225,18 @@ describe('AiTextTransformPaneController', () => {
 
       expect(rect().right).toBe(window.innerWidth - 8);
     });
+
+    it('keeps a resized pane inside the viewport when the window shrinks', () => {
+      dragBy(byTestId('resize-bottom-right'), 10, 10);
+      pane().style.width = `${window.innerWidth * 2}px`;
+      pane().style.height = `${window.innerHeight * 2}px`;
+
+      fireEvent.resize(window);
+
+      expect(rect().left).toBe(8);
+      expect(rect().right).toBe(window.innerWidth - 8);
+      expect(rect().bottom).toBe(window.innerHeight - 8);
+    });
   });
 
   describe('closing', () => {
@@ -223,6 +249,14 @@ describe('AiTextTransformPaneController', () => {
 
       expect(submit).toHaveBeenCalled();
       expect(pane()).toBeInTheDocument();
+    });
+
+    it('does not let Escape reach surrounding dialogs', () => {
+      const outerListener = vi.fn();
+      ctx.container.addEventListener('keydown', outerListener);
+      pressEscape();
+
+      expect(outerListener).not.toHaveBeenCalled();
     });
 
     it('removes the pane on Escape without a close form', () => {

@@ -70,6 +70,34 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
   end
 
+  it "formats tables with header rows, cell colors and merged cells" do
+    visit document_path(document)
+    expect(page).to have_test_selector("blocknote-document-description")
+
+    editor.insert_table
+    send_keys("Name", :tab, "Status", :tab, "Owner")
+
+    editor.open_table_row_menu
+    editor.click_table_menu_item("Header row")
+    expect(editor.element).to have_css("table th", count: 3)
+
+    editor.open_table_cell_menu(editor.element.find("table th", text: "Status"))
+    editor.pick_table_cell_color("Blue", background: true)
+    editor.open_table_cell_menu(editor.element.find("table th", text: "Owner"))
+    editor.pick_table_cell_color("Red")
+
+    editor.element.first("table td").click
+    send_keys(%i[shift right])
+    editor.click_formatting_toolbar_button("Merge cells")
+
+    page.refresh
+    expect(page).to have_test_selector("blocknote-document-description")
+    expect(editor.element).to have_css("table th", count: 3)
+    expect(editor.element).to have_css("table th[data-background-color='blue']", text: "Status")
+    expect(editor.element).to have_css("table th[data-text-color='red']", text: "Owner")
+    expect(editor.element).to have_css("table td[colspan='2']")
+  end
+
   context "when real time text collaboration is disabled",
           with_settings: { real_time_text_collaboration_enabled: false } do
     it "does not render the BlockNote editor" do

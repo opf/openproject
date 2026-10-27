@@ -27,33 +27,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Exports
-  module Formatters
-    class CustomFieldPdf < CustomField
-      def self.apply?(attribute, export_format)
-        export_format == :pdf && attribute.start_with?("cf_")
-      end
+module Admin
+  module CustomFields
+    module TypesAndVariants
+      class RowComponent < OpPrimer::BorderBoxRowComponent
+        include WorkPackageTypes::VariantRoutes
 
-      def format_value(value, options)
-        # avoid the value transformed in to a string by the super method
-        return value if value.is_a?(::Exports::Formatters::LinkFormatter)
+        alias_method :variant, :model
 
-        super
-      end
+        def row_data = { test_selector: "custom-field-type-variant-row-#{variant.id}" }
 
-      ##
-      # Print the value meant for PDF export.
-      #
-      # - For boolean values, use the Yes/No formatting for the PDF
-      #   treat nil as false
-      def format_for_export(object, custom_field)
-        if custom_field.field_format == "bool"
-          value = object.typed_custom_value_for(custom_field)
-          value ? I18n.t(:general_text_Yes) : I18n.t(:general_text_No)
-        elsif custom_field.field_format == "link"
-          LinkFormatter.new(object, custom_field)
-        else
-          super
+        def type_or_variant
+          render(Primer::Beta::Link.new(href: edit_variant_form_configuration_path(variant.project, variant),
+                                        font_weight: :bold)) do
+            variant.composite_name
+          end
+        end
+
+        def form
+          form_configuration = variant.form_configuration
+          return render(Primer::Beta::Text.new(color: :muted)) { "-" } if form_configuration.nil?
+
+          render(Primer::Beta::Link.new(href: helpers.edit_polymorphic_path(form_configuration))) do
+            form_configuration.name
+          end
         end
       end
     end

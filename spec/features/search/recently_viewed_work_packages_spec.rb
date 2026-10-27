@@ -31,7 +31,6 @@ require "spec_helper"
 
 RSpec.describe "Recently viewed work packages",
                :js,
-               :selenium,
                with_settings: { login_required: false } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 

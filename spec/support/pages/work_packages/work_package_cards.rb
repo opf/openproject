@@ -67,7 +67,7 @@ module Pages
     def open_full_screen_by_doubleclick(work_package)
       retry_block do
         loading_indicator_saveguard
-        page.driver.browser.action.double_click(card(work_package).native).perform
+        card(work_package).double_click
 
         # Ensure we show the subject field
         page.find(".work-packages--subject-type-row")
@@ -108,19 +108,13 @@ module Pages
     def deselect_work_package(work_package)
       element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
 
-      page.driver.browser.action.key_down(:command)
-        .click(element.native)
-        .key_up(:command)
-        .perform
+      element.click(:command)
     end
 
     def select_work_package_with_shift(work_package)
       element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
 
-      page.driver.browser.action.key_down(:shift)
-        .click(element.native)
-        .key_up(:shift)
-        .perform
+      element.click(:shift)
     end
 
     def select_all_work_packages

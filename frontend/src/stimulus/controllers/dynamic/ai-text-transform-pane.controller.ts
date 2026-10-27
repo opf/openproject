@@ -88,8 +88,6 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     event.preventDefault();
   }
 
-  // Resizing pins the pane to explicit coordinates first, so a right or bottom handle
-  // grows it in place and a left handle moves the left edge only.
   beginResize(event:PointerEvent):void {
     if (event.button !== 0) {
       return;
@@ -117,7 +115,8 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     }
   }
 
-  close():void {
+  close(event?:Event):void {
+    event?.stopPropagation();
     const form = document.getElementById(this.closeFormValue);
     if (form instanceof HTMLFormElement) {
       form.requestSubmit();
@@ -143,7 +142,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
     const { x, y, left, top, width, height, edge } = this.resizeStart;
     const { style } = this.paneTarget;
-    style.maxWidth = 'none';
+    style.maxWidth = `calc(100vw - ${2 * EDGE_MARGIN}px)`;
 
     if (edge.endsWith('left')) {
       const newWidth = clamp(width - (event.clientX - x), MIN_WIDTH, left + width - EDGE_MARGIN);
@@ -155,7 +154,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
 
     if (edge.startsWith('bottom')) {
       style.height = `${clamp(height + (event.clientY - y), MIN_HEIGHT, window.innerHeight - top - EDGE_MARGIN)}px`;
-      style.maxHeight = 'none';
+      style.maxHeight = `calc(100vh - ${2 * EDGE_MARGIN}px)`;
     }
   }
 
@@ -177,6 +176,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   }
 
   private listen(onMove:(event:PointerEvent) => void):void {
+    this.pointerListeners?.abort();
     this.pointerListeners = new AbortController();
     const { signal } = this.pointerListeners;
     const end = () => this.endPointerAction();

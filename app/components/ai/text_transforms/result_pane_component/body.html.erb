@@ -35,9 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
       if done?
-        body.with_row(mb: 3, hidden: true, test_selector: "ai-text-transform-pane-apply-failed", data: target(:applyFailed)) do
+        body.with_row(mb: 3, hidden: true, test_selector: "ai-text-transform-pane-apply-failed") do
           render(Primer::Alpha::Banner.new(scheme: :danger)) do
-            render(Primer::Beta::Text.new(tag: :span, data: target(:applyFailedMessage))) { "" }
+            render(Primer::Beta::Text.new(tag: :span)) { "" }
           end
         end
       end
@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
       if done?
-        body.with_row { content_tag(:template, pane.text, data: target(:raw)) }
+        body.with_row { content_tag(:template, pane.text) }
       end
     end
   %>

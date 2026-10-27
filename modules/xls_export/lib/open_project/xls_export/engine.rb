@@ -49,8 +49,6 @@ module OpenProject::XlsExport
                           %w(application/vnd.ms-excel))
     end
 
-    class_inflection_override("xls" => "XLS")
-
     config.to_prepare do
       ::Exports::Register.register do
         list(::WorkPackage, XlsExport::WorkPackage::Exporter::XLS)
