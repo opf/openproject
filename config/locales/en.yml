@@ -7496,8 +7496,8 @@ en:
       projects:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
-          remove_from_project: "Remove from project"
-          switch_variant: "Change variant"
+          remove_from_project: "Remove type from this project"
+          switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"

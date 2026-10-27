@@ -948,6 +948,20 @@ en:
     two_factor_authentication:
       label_two_factor_authentication: "Two-factor authentication"
 
+    types:
+      projects:
+        selection:
+          cleared: "Selection cleared."
+          not_selectable: "Selection unchanged. This project cannot be selected."
+          range_blocked: "Selection unchanged. That range contains a project that cannot be selected."
+          range_restarted:
+            one: "Could not extend the range. %{count} project selected."
+            other: "Could not extend the range. %{count} projects selected."
+          range_unavailable: "Selection unchanged. Expand this list to select that range."
+          selected:
+            one: "%{count} project selected."
+            other: "%{count} projects selected."
+
     units:
       child_work_packages:
         one: "%{count} child work package"

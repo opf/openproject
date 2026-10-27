@@ -45,6 +45,21 @@ module WorkPackageTypes
 
       def container_id = "project-table"
 
+      def container_data
+        {
+          controller: "sortable-lists sortable-lists--list",
+          sortable_lists_selection_enabled_value: true,
+          sortable_lists_drag_enabled_value: false,
+          sortable_lists_announcement_scope_value: "js.types.projects.selection",
+          sortable_lists_sortable_lists__list_outlet: "##{container_id}",
+          sortable_lists_sortable_lists__item_outlet: "##{container_id} [data-controller~='sortable-lists--item']",
+          sortable_lists__list_type_value: RowComponent::SELECTION_TYPE,
+          sortable_lists__list_accepted_type_value: RowComponent::SELECTION_TYPE,
+          sortable_lists__list_name_value: Project.model_name.human(count: 2),
+          "sortable-lists--list-rows-container-element": ":scope > .#{rows_container_class}"
+        }
+      end
+
       def switchable?
         @switchable = variant.type.variants.many? if @switchable.nil?
         @switchable
