@@ -41,6 +41,25 @@ RSpec.describe "Work package type projects tab routes" do
         .to route_to("work_package_types/projects_tab/links/deletions#new", **ids)
     end
 
+    it "opens a switch through the switch resource" do
+      expect(get: "#{prefix}/projects/switch/new")
+        .to route_to("work_package_types/projects_tab/switches#new", **ids)
+    end
+
+    it "switches through the switch resource" do
+      expect(post: "#{prefix}/projects/switch")
+        .to route_to("work_package_types/projects_tab/switches#create", **ids)
+    end
+
+    it "confirms a switch through a nested confirmation resource" do
+      expect(get: "#{prefix}/projects/switch/confirmation/new")
+        .to route_to("work_package_types/projects_tab/switches/confirmations#new", **ids)
+    end
+
+    it "no longer offers the legacy switch dialog action" do
+      expect(get: "#{prefix}/projects/new_switch").not_to be_routable
+    end
+
     it "still removes a single project through the legacy action" do
       expect(delete: "#{prefix}/projects/unlink")
         .to route_to("work_package_types/projects_tab#unlink", **ids)

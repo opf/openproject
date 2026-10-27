@@ -181,14 +181,15 @@ Rails.application.routes.draw do
           get :tree
           post :link
           delete :unlink
-
-          get :new_switch
-          post :switch
         end
 
         scope module: :projects_tab do
           resource :link, only: %i[destroy] do
             resource :deletion, only: %i[new], module: :links
+          end
+
+          resource :switch, only: %i[new create] do
+            resource :confirmation, only: %i[new], module: :switches
           end
         end
       end
