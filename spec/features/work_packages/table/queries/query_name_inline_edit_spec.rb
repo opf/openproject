@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Query name inline edit", :js, :selenium do
+RSpec.describe "Query name inline edit", :js do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -112,8 +112,8 @@ RSpec.describe "Query name inline edit", :js, :selenium do
     wp_table.click_setting_item "Rename view"
 
     expect(page).to have_focus_on(".editable-toolbar-title--input")
-    page.driver.browser.switch_to.active_element.send_keys("Some other name")
-    page.driver.browser.switch_to.active_element.send_keys(:return)
+    page.active_element.send_keys("Some other name")
+    page.active_element.send_keys(:return)
 
     wp_table.expect_and_dismiss_toaster message: "Successful update."
 
