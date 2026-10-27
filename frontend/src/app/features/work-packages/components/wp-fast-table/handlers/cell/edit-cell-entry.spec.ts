@@ -29,6 +29,7 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { readOnlyClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { buildTable, TableHarness, TableHarnessOptions } from '../../testing/table-harness';
+import { activateTableField } from './edit-cell-handler';
 
 describe('Edit cell entry', () => {
   let harness:TableHarness;
@@ -114,6 +115,69 @@ describe('Edit cell entry', () => {
       expect(blocked).toHaveBeenCalledWith('subject');
       expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    });
+  });
+
+  describe('when inline edit is disabled', () => {
+    beforeEach(() => renderTable({ editing: {}, configuration: { inlineEditEnabled: false } }));
+
+    it('refuses to open an editor through cell activation', () => {
+      expect(activateTableField(harness.table, subjectField('1'))).toBe(false);
+
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it('does not open an editor or mark the field', () => {
+      fireEvent.click(subjectField('1'));
+
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(subjectField('1')).not.toHaveClass('-editable');
+      expect(subjectField('1')).not.toHaveClass('-read-only');
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it.each(['Enter', 'F2'])('does not open an editor with %s in a focused cell', (key) => {
+      const cell = subjectField('1').closest<HTMLTableCellElement>('td, th')!;
+      const navigation = harness.table.keyboardNavigation;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+
+      fireEvent.keyDown(cell, { key });
+
+      expect(within(harness.row('1')).queryByRole('textbox')).not.toBeInTheDocument();
+      expect(cell).toHaveFocus();
+      expect(subjectField('1')).not.toHaveClass('-read-only');
+      expect(harness.table.editing.forms).toEqual({});
+    });
+
+    it('selects the row when clicking the field text', () => {
+      fireEvent.click(subjectField('1'));
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    });
+
+    it('opens the row when double clicking the field text', () => {
+      const itemClicked = vi.fn();
+      harness.outputs.itemClicked.subscribe(itemClicked);
+
+      fireEvent.dblClick(subjectField('1'));
+
+      expect(itemClicked).toHaveBeenCalledWith({ workPackageId: '1', double: true });
+    });
+
+    it('keeps row navigation and keyboard selection available', () => {
+      const cell = subjectField('1').closest<HTMLTableCellElement>('td, th')!;
+      const navigation = harness.table.keyboardNavigation;
+      navigation.focusPosition(navigation.positionOfCell(cell)!);
+
+      fireEvent.keyDown(cell, { key: 'ArrowLeft' });
+      fireEvent.keyDown(document.activeElement!, { key: 'ArrowLeft' });
+      expect(harness.row('1')).toHaveFocus();
+      fireEvent.keyDown(harness.row('1'), { key: ' ', code: 'Space', shiftKey: true });
+      expect(harness.selection.getSelectedWorkPackageIds()).toContain('1');
+      fireEvent.keyDown(harness.row('1'), { key: 'ArrowDown' });
+      expect(harness.row('2')).toHaveFocus();
+      expect(harness.table.editing.forms).toEqual({});
     });
   });
 
