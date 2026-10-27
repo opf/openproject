@@ -2138,9 +2138,9 @@ en:
           confirm_button: "Renew key"
           confirmation: "I understand that every device has to turn browser notifications on again."
           description:
-            one: "OpenProject signs every browser notification with this key (VAPID) so the push services of Google, Mozilla, Microsoft and Apple can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device."
-            other: "OpenProject signs every browser notification with this key (VAPID) so the push services of Google, Mozilla, Microsoft and Apple can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device."
-            zero: "OpenProject signs every browser notification with this key (VAPID) so the push services of Google, Mozilla, Microsoft and Apple can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device."
+            one: "OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: the one existing subscription is deleted, and every user has to turn browser notifications on again on each device."
+            other: "OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: %{count} subscriptions are deleted, and every user has to turn browser notifications on again on each device."
+            zero: "OpenProject signs every browser notification with this key (VAPID) so the push service of every browser can trust it. A new key disconnects every device: no subscriptions exist yet, but every user has to turn browser notifications on again on each device."
           heading: "Renew the push signing key?"
           title: "Renew keys"
         unreachable: "Unreachable"
