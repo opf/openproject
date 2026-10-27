@@ -104,8 +104,7 @@ RSpec.describe "Workflows index", :skip_csrf, type: :rails_request do
     get workflows_path
 
     row = row_for("Standard flow")
-    expect(row).to have_css(".projects", text: I18n.t("workflows.index.projects_count", count: 5))
-    expect(row).to have_no_css(".projects a")
+    expect(row).to have_css(".projects a", text: I18n.t("workflows.index.projects_count", count: 5))
   end
 
   it "marks a workflow a project owns with that project" do

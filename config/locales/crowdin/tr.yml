@@ -152,10 +152,13 @@ tr:
         min_value: Minimum value
         multi_value: Çoklu seçime izin ver
         possible_values: Olası değerler
+        project_specific_value_restriction: Project-specific values
         regexp: Düzenli ifade
         searchable: Aranabilir
         semantic_key: Semantic meaning
         visible_on_user_card: Show on user card
+      custom_field/project_specific_value_restriction:
+        restriction: Restriction
       custom_value:
         value: Değer
       design_color:
@@ -294,6 +297,7 @@ tr:
         project_creation_wizard_status_when_submitted: Teslim edildiğinde durum
         project_creation_wizard_work_package_comment: İş paketi yorumları
         project_creation_wizard_work_package_type: İş paketi türleri
+        project_specific_values: Project-specific values
         project_types: Types
         public_value:
           false: özel
@@ -702,6 +706,8 @@ tr:
               invalid: Formül geçersiz.
               invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
               not_allowed_custom_fields_referenced: The attribute %{custom_fields} cannot be used because it leads to a circular reference; one attribute depends on the other.
+            project_specific_value_restriction:
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
               cannot_be_true: aktif olarak ayarlanamaz.
           previous_custom_field_recalculation_unprocessed: Bu özel alana ait önceki değişiklikler henüz yeniden hesaplanmadı. Lütfen birkaç dakika sonra tekrar deneyin.
@@ -1480,6 +1486,11 @@ tr:
         desktop:
           description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
           title: Custom desktop logos
+        favicon:
+          field: Favicon
+          field_description: The image should be 32x32px in PNG format on transparent background.
+          title: Custom favicon
+          title_description: This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme.
         mobile:
           description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
           title: Custom mobile logos
@@ -1493,6 +1504,11 @@ tr:
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
             name: High contrast mode logo
+        touch_icon:
+          field: Touch icon
+          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          title: Custom touch icon
+          title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
         base_colors: Base colors
         main_menu: Main lateral menu
@@ -1510,11 +1526,15 @@ tr:
       default_colors:
         description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
+      export:
+        description: Upload and manage custom image files used in your PDF exports.
+        title: Custom export
       fonts:
         file_is_invalid: geçerli bir TTF yazı tipi dosyası değildir.
         file_too_large: çok büyük (maksimum boyut %{count} MB'dir).
       instructions:
         accent-color: Bağlantılar ve diğer uygun biçimde vurgulanmış öğeler için renk.
+        export_cover_text_color: Color of the text on top of the cover background to ensure readability.
         header-bg-color: Default background color of the app header.
         main-menu-bg-color: Sol taraftaki menünün arka plan rengi.
         main-menu-bg-selected-background: Background color of menu items when selected.
@@ -1523,7 +1543,6 @@ tr:
       tab_branding: Markalama
       tab_default_colors: Default colors
       tab_interface: Arayüz
-      tab_pdf_export_font: PDF dışa aktarma yazı tipi
       tab_pdf_export_styles: PDF dışa aktarma biçimi
       theme_warning:
         confirmation: I understand that this action cannot be reversed
@@ -2239,7 +2258,6 @@ tr:
       pane:
         cancel: Cancel
         close: Close
-        copied: Copied
         copy: Copy
         discard: Discard
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
@@ -2734,6 +2752,30 @@ tr:
           weight: Weight
       notice:
         remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+      projects:
+        changes_heading: Important changes
+        changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
+
+          '
+        configure: Configure project-specific values for %{project}
+        disable_all: Disable all
+        editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
+        empty_state:
+          description: Add this custom field to the form of a type that is used in a project.
+          title: No project uses this custom field
+        enable_all: Enable all
+        enabled_values:
+          all: All
+          none: None
+          some: "%{count} of %{total}"
+        filter: Filter by text
+        filter_no_results:
+          description: Change the filters to see more projects.
+          title: No projects match this filter
+        quick_filter:
+          all: All projects
+          with_project_specific_values: With project-specific values
+        types_column: Displayed in type
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2757,6 +2799,11 @@ tr:
     calculated_field_not_editable: Düzenlenemez öznitelik. Bu değer otomatik olarak hesaplanır.
     confirm_destroy_option: Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?
     contained_in_type: Kullanıldığı tipler
+    disable_project_specific_values:
+      button: Apply
+      confirmation: I understand that any project-specific settings will be overridden
+      description: All values for this custom field will be available to all projects using it.
+      title: Make all values available to all projects?
     enabled_in_project: Projede etkin
     instructions:
       admin_only:
@@ -2804,6 +2851,13 @@ tr:
       description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
       heading: Settings moved
     placeholder_version_select: Öncelikle iş paketi veya proje seçimi gereklidir
+    project_specific_values:
+      all:
+        caption: All projects will show the same list of values for this custom field
+        label: Show the same values for all projects
+      allow:
+        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
+        label: Manually choose which values to activate for each project
     reorder_alphabetical: Değerleri alfabetik olarak yeniden sıralayın
     reorder_confirmation: 'Uyarı: Mevcut değerlerin mevcut sırası ve kaydedilmemiş tüm değerler kaybolacaktır. Devam etmek istediğinizden emin misiniz?'
     semantic_keys:
@@ -3060,6 +3114,7 @@ tr:
       portfolio_management: Portföy yönetimi
       project_creation_wizard: Proje başlatma talebi
       project_list_sharing: Proje Listesi Paylaşımı
+      project_specific_list_values: Project-specific values for custom fields
       readonly_work_packages: Salt Okunur İş Paketleri
       scim_api: SCIM sunucu API'si
       sso_auth_providers: Tek Oturum Açma
@@ -3166,6 +3221,8 @@ tr:
         description: Proje yöneticilerinin proje başlatma talebini doldurmasına yardımcı olacak adım adım bir sihirbaz oluşturun.
       project_list_sharing:
         description: Proje listelerini belirli kullanıcılarla paylaşın.
+      project_specific_list_values:
+        description: Select which values of a list should be visible in individual projects.
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
       scim_api:
@@ -3932,21 +3989,16 @@ tr:
   label_current_status: Mevcut durum
   label_current_version: Mevcut sürüm
   label_custom_comment: "%{name} comment"
-  label_custom_export_cover: Özel dışarı aktarma kapak arka planı
-  label_custom_export_cover_overlay: Özel dışarı aktarma kapak arka planı kaplaması
-  label_custom_export_cover_text_color: Metin rengi
+  label_custom_export_cover: Cover background
+  label_custom_export_cover_text_color: Text color for cover background
+  label_custom_export_font: Custom Font
   label_custom_export_font_bold: Kalın
   label_custom_export_font_bold_italic: Kalın italik
-  label_custom_export_font_instructions: 'Upload and manage custom TrueType (.ttf) fonts used in your PDF exports. For best results, use matching files from the same font family. If no font is provided, the default NotoSans font will be used.
-
-    '
+  label_custom_export_font_colors: Custom font colors
   label_custom_export_font_italic: İtalik
   label_custom_export_font_regular: Normal
-  label_custom_export_footer: Özel dışa aktarma altbilgi görüntüsü
-  label_custom_export_images_instructions: 'Upload and manage custom image files used in your PDF exports.
-
-    '
-  label_custom_export_logo: Özel dışarı aktarma logosu
+  label_custom_export_footer: Footer image
+  label_custom_export_logo: Logo
   label_custom_favicon: Özel favicon
   label_custom_field_add_no_type: Bu alanı bir iş paketi türüne ekleyin
   label_custom_field_default_type: Boş tür
@@ -3956,6 +4008,7 @@ tr:
   label_custom_style: Tasarım
   label_custom_style_description: Temalarla OpenProject görünümünü belirleyin, uygulamada kullanmak için varsayılan renklerinizi ve dışa aktarımların nasıl görüneceğini seçin.
   label_custom_touch_icon: Özel dokunma simgesi
+  label_custom_value_no_longer_available: "(Value no longer available)"
   label_dashboard: Gösterge paneli
   label_database_version: PostgreSQL sürümü
   label_date: Tarih
@@ -7115,12 +7168,12 @@ tr:
         rename_group: Rename section
         required:
           already_required_globally: This custom field is required for all types.
-          for_variant: Required in this type
+          for_variant: Required for this type
           globally: Required
           globally_hint: Change this on the custom field
-          mark: Require in this type
+          mark: Require for this type
           not_a_custom_field: Only a custom field can be made required for a single type.
-          unmark: Do not require in this type
+          unmark: Do not require for this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '

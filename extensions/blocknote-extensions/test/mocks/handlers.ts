@@ -219,6 +219,23 @@ function sortsByHierarchy(request:Request):boolean {
   return (new URL(request.url).searchParams.get('sortBy') ?? '').includes('lft');
 }
 
+/*  Any other id answers as a copy of the first work package, as with the single resource.  */
+export function workPackageFor(id:string) {
+  if (id === '999') return mockCreatedWorkPackage;
+  if (id === '789' || id === 'DWPS-1') return mockWorkPackageWithSemanticId;
+  if (id === '456') return mockWorkPackage2;
+  return { ...mockWorkPackage, id: Number(id), displayId: id };
+}
+
+/*  The ids of a batch load, which asks the collection for the given work packages.  */
+export function requestedWorkPackageIds(request:Request):string[] | undefined {
+  return filterValues(request, 'id');
+}
+
+export function workPackageCollection(elements:{ id:number }[]) {
+  return HttpResponse.json({ total: elements.length, count: elements.length, _embedded: { elements } });
+}
+
 const demoParent = { href: '/api/v3/projects/1', title: 'Demo project' };
 
 /*  Deliberately in neither tree nor alphabetical order: the picker has to ask
@@ -303,18 +320,16 @@ export const handlers = [
     })
   ),
 
-  http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
-    const raw = String(params.id);
-    if (raw === '999') return HttpResponse.json(mockCreatedWorkPackage);
-    if (raw === '789' || raw === 'DWPS-1') return HttpResponse.json(mockWorkPackageWithSemanticId);
-    if (raw === '456') return HttpResponse.json(mockWorkPackage2);
-    const id = Number(raw);
-    return HttpResponse.json({ ...mockWorkPackage, id, displayId: String(id) });
-  }),
-
-  http.get('http://localhost:3000/api/v3/work_packages', () =>
-    HttpResponse.json({
-      _embedded: { elements: [mockWorkPackage, mockWorkPackage2, mockWorkPackageWithSemanticId] },
-    })
+  http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) =>
+    HttpResponse.json(workPackageFor(String(params.id)))
   ),
+
+  http.get('http://localhost:3000/api/v3/work_packages', ({ request }) => {
+    const ids = requestedWorkPackageIds(request);
+    if (ids) return workPackageCollection(ids.map(workPackageFor));
+
+    return HttpResponse.json({
+      _embedded: { elements: [mockWorkPackage, mockWorkPackage2, mockWorkPackageWithSemanticId] },
+    });
+  }),
 ];

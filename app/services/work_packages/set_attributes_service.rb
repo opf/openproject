@@ -276,7 +276,22 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       CustomField.custom_field_attribute?(key) && work_package.respond_to?(key)
     end
 
-    work_package.attributes = assignable_attributes
+    work_package.attributes = assignable_attributes.to_h do |key, value|
+      [key, retain_undisclosed_custom_values(key, value)]
+    end
+  end
+
+  # Values of a multi value custom field coming from the API carry the undisclosed URN in place
+  # of the stored values that are no longer available in the project.
+  def retain_undisclosed_custom_values(key, values)
+    return values unless Array(values).include?(API::V3::URN_UNDISCLOSED)
+
+    custom_field = work_package.all_available_custom_fields.find { it.attribute_name == key.to_s }
+    undisclosed_values = Array(work_package.custom_value_for(custom_field))
+                           .reject(&:available_in_project?)
+                           .map(&:value)
+
+    values - [API::V3::URN_UNDISCLOSED] + undisclosed_values
   end
 
   def custom_field_context_changed?

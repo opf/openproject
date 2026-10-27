@@ -48,6 +48,14 @@ RSpec.describe "form configuration required attributes", :js do
     end
   end
 
+  def required_action(attribute)
+    page.find_test_selector("type-form-configuration-toggle-required-#{attribute}")
+  end
+
+  def click_required_action(attribute, label)
+    page.find_test_selector("type-form-configuration-toggle-required-#{attribute}", text: label).click
+  end
+
   def required_badge(attribute)
     page.test_selector("type-form-configuration-required-#{attribute}")
   end
@@ -73,7 +81,7 @@ RSpec.describe "form configuration required attributes", :js do
       expect(page).to have_text("Impact")
       expect(page).to have_no_css(required_badge(custom_field.attribute_name))
 
-      form.invoke_attribute_action(custom_field.attribute_name, mark)
+      click_required_action(custom_field.attribute_name, mark)
 
       expect_badge(custom_field.attribute_name, text: in_type_label, scheme: "severe")
       expect(variant.reload.required_attributes).to contain_exactly(custom_field.attribute_name)
@@ -84,15 +92,14 @@ RSpec.describe "form configuration required attributes", :js do
 
       expect(page).to have_text("Impact")
       expect(page).to have_no_css(required_badge(custom_field.attribute_name))
-      form.open_attribute_menu(custom_field.attribute_name)
-      expect(page).to have_text(mark)
+      expect(required_action(custom_field.attribute_name)).to have_text(mark)
     end
 
     it "makes the field optional again" do
-      form.invoke_attribute_action(custom_field.attribute_name, mark)
+      click_required_action(custom_field.attribute_name, mark)
       expect(page).to have_css(required_badge(custom_field.attribute_name))
 
-      form.invoke_attribute_action(custom_field.attribute_name, unmark)
+      click_required_action(custom_field.attribute_name, unmark)
 
       expect(page).to have_no_css(required_badge(custom_field.attribute_name))
       expect(variant.reload.required_attributes).to eq([])
@@ -100,7 +107,14 @@ RSpec.describe "form configuration required attributes", :js do
 
     it "offers nothing for a built-in attribute" do
       expect(page).to have_text("Priority")
-      expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-priority")
+      expect(page).to have_no_test_selector("type-form-configuration-toggle-required-priority")
+    end
+
+    it "places the action left of the exclusion toggle" do
+      action = required_action(custom_field.attribute_name)
+      toggle = page.find_test_selector("toggle-form-config-exclusion-#{custom_field.attribute_name}")
+
+      expect(action.rect["right"]).to be <= toggle.rect["left"]
     end
   end
 
@@ -113,16 +127,18 @@ RSpec.describe "form configuration required attributes", :js do
     it "says so and disables the action, naming where the setting lives" do
       expect_badge(custom_field.attribute_name, text: globally_label, scheme: "attention")
 
-      form.open_attribute_menu(custom_field.attribute_name)
+      action = required_action(custom_field.attribute_name)
 
-      item = page.find_test_selector("type-form-configuration-toggle-required-#{custom_field.attribute_name}",
-                                     visible: :all)
+      expect(action).to have_text(mark)
+      expect(action.tag_name).to eq("button")
+      expect(action[:"aria-disabled"]).to eq("true")
 
-      expect(item).to have_text(mark)
-      expect(item).to have_text(I18n.t("types.edit.form_configuration.required.globally_hint"))
-      expect(item[:class]).to include("ActionListItem--disabled")
-      expect(item).to have_css("[aria-disabled='true']", visible: :all)
-      expect(item).to have_no_css("a", visible: :all)
+      action.hover
+      expect(page).to have_css("tool-tip[for='#{action[:id]}']",
+                               text: I18n.t("types.edit.form_configuration.required.globally_hint"))
+
+      action.click
+      expect(variant.reload.required_attributes).to eq([])
     end
   end
 
@@ -139,7 +155,7 @@ RSpec.describe "form configuration required attributes", :js do
       expect(page).to have_text("Impact")
       expect(page).to have_no_css(required_badge(custom_field.attribute_name))
 
-      form.invoke_attribute_action(custom_field.attribute_name, mark)
+      click_required_action(custom_field.attribute_name, mark)
 
       expect_badge(custom_field.attribute_name, text: in_type_label, scheme: "severe")
       expect(sharer.reload.required_attributes).to contain_exactly(custom_field.attribute_name)
