@@ -9,9 +9,9 @@
   [attr.data-qa-selected]="selected || undefined"
   [ngClass]="cardClasses()"
   [title]="cardTitle()"
-  (click)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (keydown.enter)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
-  (keydown.space)="cardClicked.emit({ workPackageId: workPackage.id, event: $event })"
+  (click)="activateCard($event)"
+  (keydown.enter)="activateCard($event)"
+  (keydown.space)="activateCard($event)"
   (dblclick)="cardDblClicked.emit({ workPackageId: workPackage.id, event: $event })"
   (contextmenu)="cardContextMenu.emit({ workPackageId: workPackage.id, event: $event })"
   >

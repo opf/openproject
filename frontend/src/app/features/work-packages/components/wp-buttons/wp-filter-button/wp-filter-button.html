@@ -2,8 +2,9 @@
   class="button"
   [attr.id]="buttonId"
   [attr.accesskey]="accessKey"
-  [attr.title]="title"
-  [attr.aria-label]="label"
+  opTooltip
+  [label]="label"
+  tooltipWhenObscured=".button--text"
   [disabled]="disabled"
   (click)="performAction($event)"
   [ngClass]="{ '-active': isActive }"
