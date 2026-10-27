@@ -145,11 +145,11 @@ Naming/FileName:
 
 Naming/MethodParameterName:
   AllowedNames:
-    - "id"
     - "cf" # custom fields are commonly abbreviated like that
-    - "to" # pairs with `from` for ranges, as in Day.from_range(from:, to:)
-    - "on"
+    - "id"
     - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
+    - "on"
+    - "to" # pairs with `from` for ranges, as in Day.from_range(from:, to:)
 
 Naming/PredicateMethod:
   # disabling this cop as it enforces a method name solely based on the return type (if the method returns a boolean, the name must end in "?")
