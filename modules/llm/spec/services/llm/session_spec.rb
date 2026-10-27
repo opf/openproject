@@ -77,6 +77,16 @@ RSpec.describe Llm::Session, :llm_server_helpers, :webmock do
         .with(headers: { "apikey" => "gateway-secret" })
     end
 
+    it "sends instructions with the system role" do
+      mock_llm_chat_response(base_url)
+
+      described_class.for(connection, max_retries: 0).chat("qwen3.6-27b").with_instructions("Be brief.").ask("ping")
+
+      expect(WebMock).to(have_requested(:post, "#{base_url}/chat/completions").with do |request|
+        JSON.parse(request.body)["messages"].first == { "role" => "system", "content" => "Be brief." }
+      end)
+    end
+
     it "translates a rejected key into an authentication error" do
       mock_llm_chat_response(base_url, response_code: 401)
 

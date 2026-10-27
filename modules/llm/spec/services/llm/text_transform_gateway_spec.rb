@@ -113,8 +113,8 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
         body = JSON.parse(request.body)
         body["model"] == "qwen3.6-27b" &&
           body["stream"] == true &&
-          body["messages"].pluck("content") == ["Fix the grammar.", "Teh text"] &&
-          body["messages"].last["role"] == "user"
+          body["messages"] == [{ "role" => "system", "content" => "Fix the grammar." },
+                               { "role" => "user", "content" => "Teh text" }]
       end)
     end
 
