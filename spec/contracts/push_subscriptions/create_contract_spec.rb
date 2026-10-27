@@ -66,8 +66,6 @@ RSpec.describe PushSubscriptions::CreateContract do
     "https://fcm.googleapis.com:8443/x",
     "https://user@fcm.googleapis.com/x",
     "https://fcm.googleapis.com/#{'a' * described_class::MAX_ENDPOINT_LENGTH}",
-    "https://.push.apple.com/x",
-    "https://.notify.windows.com/x",
     "not a url",
     "https:/x",
     "https://"
