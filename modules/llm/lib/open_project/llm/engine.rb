@@ -83,7 +83,7 @@ module OpenProject::Llm
 
     initializer "openproject_llm.features" do
       # The description assistant rewrites work package text on explicit user action.
-      # Plain chat completions only: no tools, no JSON mode, no streaming. Individual
+      # Streamed plain chat completions only: no tools, no JSON mode. Individual
       # actions may override the model, which is why it is overridable.
       OpenProject::Llm::Features.register :description_assistant,
                                           kind: :chat,
@@ -102,6 +102,12 @@ module OpenProject::Llm
                                           kind: :embedding,
                                           requires: %i[embeddings],
                                           available: -> { OpenProject::FeatureDecisions.semantic_search_active? }
+    end
+
+    initializer "openproject_llm.text_transform_gateway" do
+      config.to_prepare do
+        AI::TextTransforms::Gateway.factory = -> { Llm::TextTransformGateway.new }
+      end
     end
 
     initializer "openproject_llm.load_patches" do

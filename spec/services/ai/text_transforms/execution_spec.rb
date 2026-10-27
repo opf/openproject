@@ -131,6 +131,9 @@ RSpec.describe AI::TextTransforms::Execution,
     AI::TextTransforms::Errors::NotAvailable => ["not_available", "The AI assistant is not available."],
     AI::TextTransforms::Errors::ConnectionFailed => ["connection_failed", "The AI service could not be reached."],
     AI::TextTransforms::Errors::TimedOut => ["timeout", "The AI service did not respond in time."],
+    AI::TextTransforms::Errors::RateLimited => ["rate_limited", "The AI service is busy. Try again in a moment."],
+    AI::TextTransforms::Errors::ContextTooLong => ["context_too_long",
+                                                   "The text is too long for the AI model. Shorten it and try again."],
     AI::TextTransforms::Errors::Upstream => ["upstream_error", "The AI service returned an error."]
   }.each do |error_class, (reason, message)|
     it "maps #{error_class.name.demodulize} to #{reason} without the upstream text" do
