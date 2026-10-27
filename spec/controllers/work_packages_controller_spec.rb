@@ -315,7 +315,7 @@ RSpec.describe WorkPackagesController do
   end
 
   describe "generate_pdf" do
-    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[view_work_packages export_work_packages]) }
     let(:pdf_result) do
       instance_double(Exports::Result, content: "%PDF", title: "export.pdf", mime_type: "application/pdf")
     end
