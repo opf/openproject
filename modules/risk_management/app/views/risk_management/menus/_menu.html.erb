@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "risk_log_sidemenu",
+                    src: project_risk_log_menu_path(@project, **params.permit(:view)),
+                    target: "_top",
+                    data: { turbo: false, query_param: "view" },
+                    loading: :lazy %>

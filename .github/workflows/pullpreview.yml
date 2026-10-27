@@ -46,10 +46,12 @@ jobs:
         cp ./docker/pullpreview/Caddyfile ./Caddyfile
         cp ./docker/prod/Dockerfile ./Dockerfile
     - uses: pullpreview/action@7ef9914ea29854d3e9cd60a0cec35ce3f060855a # v6
+      id: pullpreview
       with:
         # allows to ssh to the instance using our GitHub ssh key
         admins: "crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard,@collaborators/push"
         compose_files: docker-compose.pullpreview.yml
+        pre_script: docker/pullpreview/prepare-database.sh
         provider: hetzner
         region: fsn1
         instance_type: cpx42
@@ -60,3 +62,10 @@ jobs:
       env:
         HCLOUD_TOKEN: "${{ secrets.HCLOUD_TOKEN }}"
         HETZNER_CA_KEY: "${{ secrets.HETZNER_CA_KEY }}"
+    - name: Verify preview HTTP readiness
+      if: steps.pullpreview.outputs.live == 'true'
+      env:
+        PREVIEW_URL: ${{ steps.pullpreview.outputs.url }}
+      run: |
+        curl --fail --silent --show-error --retry 18 --retry-delay 10 --retry-all-errors \
+          --max-time 10 --output /dev/null "${PREVIEW_URL%/}/health_checks/web"

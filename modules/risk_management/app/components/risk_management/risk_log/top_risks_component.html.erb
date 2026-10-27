@@ -1,0 +1,52 @@
+<%= render Grids::WidgetBoxComponent.new(
+      key: "top-risk-exposure",
+      title: t("risk_management.risk_log.dashboard.top_risks.title"),
+      turbo_enabled: false,
+      full_width: true,
+      classes: "op-risk-top-risks"
+    ) do %>
+  <% if @risks.any? %>
+    <ol class="op-risk-top-risks__list">
+      <% @risks.each do |entry| %>
+        <li class="op-risk-top-risks__item">
+          <div class="op-risk-top-risks__header">
+            <%= render(Primer::Beta::Link.new(href: risk_path(entry[:risk]))) { entry[:risk].subject } %>
+          </div>
+          <div class="op-risk-top-risks__value">
+            <%= render Primer::Beta::Label.new(scheme: :secondary) do %>
+              <%= t(
+                    "risk_management.risk_log.dashboard.top_risks.response",
+                    response: response(entry)
+                  ) %>
+            <% end %>
+            <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold)) do %>
+              <%= formatted_value(entry[:value]) %>
+            <% end %>
+          </div>
+          <div class="op-risk-top-risks__details">
+            <%= render WorkPackages::StatusBadgeComponent.new(status: entry[:risk].status) %>
+            <%= render(Primer::Beta::Text.new(tag: :span, color: :muted)) do %>
+              <%= t(
+                    "risk_management.risk_log.dashboard.top_risks.likelihood",
+                    likelihood: formatted_likelihood(entry[:likelihood])
+                  ) %>
+            <% end %>
+            <%= render(Primer::Beta::Text.new(tag: :span, color: :muted)) do %>
+              <%= t(
+                    "risk_management.risk_log.dashboard.top_risks.impact",
+                    impact: formatted_value(entry[:impact])
+                  ) %>
+            <% end %>
+          </div>
+          <%= render Primer::Beta::ProgressBar.new(size: :small, bg: :default) do |bar| %>
+            <% bar.with_item(percentage: percentage(entry[:value]), bg: :accent_emphasis) %>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) do %>
+      <%= t("risk_management.risk_log.dashboard.top_risks.empty") %>
+    <% end %>
+  <% end %>
+<% end %>

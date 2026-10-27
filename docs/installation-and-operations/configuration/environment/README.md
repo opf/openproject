@@ -341,6 +341,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_PLUGIN__OPENPROJECT__OPENID__CONNECT` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__RECAPTCHA` | `{"recaptcha_type" => "disabled", "response_limit" => 5000}` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__RESOURCE__MANAGEMENT` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__RISK__MANAGEMENT` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__STORAGES` | `nil` |  |
 | `OPENPROJECT_PLUGIN__OPENPROJECT__TEAM__PLANNER` | `nil` |  |
 | `OPENPROJECT_PROJECT__GANTT__QUERY` | `nil` | Project portfolio Gantt view |

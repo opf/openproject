@@ -1,0 +1,20 @@
+<section class="op-risk-metrics widget-boxes" aria-label="<%= t("risk_management.risk_log.dashboard.metrics.label") %>">
+  <% self.class::METRICS.each do |metric| %>
+    <%= render Grids::WidgetBoxComponent.new(
+          key: "risk-metric-#{metric}",
+          title: t("risk_management.risk_log.dashboard.metrics.#{metric}"),
+          turbo_enabled: false,
+          full_width: true
+        ) do %>
+      <%= render Primer::Beta::Link.new(
+            href: metric_path(metric),
+            classes: "op-risk-metrics__link",
+            aria: { current: selected?(metric) ? "page" : nil, label: metric_accessible_label(metric) }
+          ) do %>
+        <%= render(Primer::Beta::Text.new(tag: :strong, font_size: 2)) do %>
+          <%= metric_value(metric) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</section>

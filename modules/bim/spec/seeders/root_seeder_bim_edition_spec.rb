@@ -41,7 +41,7 @@ RSpec.describe RootSeeder,
     clear_performed_jobs
   end
 
-  shared_examples "creates BIM demo data" do
+  shared_examples "creates BIM demo data" do |status_count:|
     def group_name(reference)
       root_seeder.seed_data.find_reference(reference)["name"]
     end
@@ -52,13 +52,13 @@ RSpec.describe RootSeeder,
 
     it "creates the BIM demo data" do
       expect(Project.count).to eq 4
-      expect(EnabledModule.count).to eq 26
-      expect(WorkPackage.count).to eq 76
+      expect(EnabledModule.count).to eq 27
+      expect(WorkPackage.count).to eq 88
       expect(Wiki.count).to eq 0
       expect(Query.count).to eq 29
       expect(Group.count).to eq 8
-      expect(Type.count).to eq 7
-      expect(Status.count).to eq 4
+      expect(Type.count).to eq 8
+      expect(Status.count).to eq status_count
       expect(IssuePriority.count).to eq 4
       expect(Bim::IfcModels::IfcModel.count).to eq 3
       expect(Grids::Overview.count).to eq 4
@@ -93,7 +93,7 @@ RSpec.describe RootSeeder,
         "Group: #{group_name(:group__bim_modellers)}" => 21,
         "Group: #{group_name(:group__lead_bim_coordinators)}" => 8,
         "Group: #{group_name(:group__planners)}" => 21,
-        "User: #{root_seeder.admin_user.name}" => 12
+        "User: #{root_seeder.admin_user.name}" => 23
       )
     end
 
@@ -110,9 +110,9 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: Color, expected_count: 148
     include_examples "it creates records", model: DocumentType, expected_count: 6
     include_examples "it creates records", model: IssuePriority, expected_count: 4
-    include_examples "it creates records", model: Status, expected_count: 4
+    include_examples "it creates records", model: Status, expected_count: status_count
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 3
-    include_examples "it creates records", model: Workflows::StatusTransition, expected_count: 273
+    include_examples "it creates records", model: Workflows::StatusTransition, expected_count: 453
     include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
@@ -126,7 +126,7 @@ RSpec.describe RootSeeder,
       end
     end
 
-    include_examples "creates BIM demo data"
+    include_examples "creates BIM demo data", status_count: 9
 
     include_examples "no email deliveries"
 
@@ -141,12 +141,12 @@ RSpec.describe RootSeeder,
 
       it "does not create additional data and does not raise any errors" do
         expect(Project.count).to eq 4
-        expect(WorkPackage.count).to eq 76
+        expect(WorkPackage.count).to eq 88
         expect(Wiki.count).to eq 0
         expect(Query.count).to eq 29
         expect(Group.count).to eq 8
-        expect(Type.count).to eq 7
-        expect(Status.count).to eq 4
+        expect(Type.count).to eq 8
+        expect(Status.count).to eq 9
         expect(IssuePriority.count).to eq 4
         expect(Bim::IfcModels::IfcModel.count).to eq 3
         expect(Grids::Overview.count).to eq 4
@@ -189,14 +189,18 @@ RSpec.describe RootSeeder,
       end
     end
 
-    include_examples "creates BIM demo data"
+    include_examples "creates BIM demo data", status_count: 10
 
     it "has all Query.name translated" do
       expect(Query.pluck(:name)).to all(start_with("tr: "))
     end
 
     context "for work packages NOT related to a BCF issue" do
-      let(:work_packages) { WorkPackage.left_joins(:bcf_issue).where("bcf_issues.id": nil) }
+      let(:work_packages) do
+        risk_type_id = RiskManagement::Configuration.load.risk_type_id
+
+        WorkPackage.left_joins(:bcf_issue).where("bcf_issues.id": nil).where.not(type_id: risk_type_id)
+      end
 
       %w[subject description].each do |field|
         it "have their #{field} field translated" do
@@ -236,7 +240,7 @@ RSpec.describe RootSeeder,
       expect(Color.where(name: "Gelb")).to exist
     end
 
-    include_examples "creates BIM demo data"
+    include_examples "creates BIM demo data", status_count: 10
   end
 
   describe "demo data with development data" do
@@ -264,8 +268,8 @@ RSpec.describe RootSeeder,
       expect(Project.count).to eq 10
     end
 
-    it "creates 5 additional work packages for development" do
-      expect(WorkPackage.count).to eq 81
+    it "creates additional work packages for development" do
+      expect(WorkPackage.count).to eq 93
     end
 
     it "creates 1 project with custom fields" do
@@ -273,8 +277,8 @@ RSpec.describe RootSeeder,
       expect(CustomField.count).to eq 18
     end
 
-    it "creates 2 additional types for development" do
-      expect(Type.count).to eq 9
+    it "creates additional types for development" do
+      expect(Type.count).to eq 10
     end
 
     include_examples "no email deliveries"
@@ -298,7 +302,7 @@ RSpec.describe RootSeeder,
 
     it "seeds without any errors, but locks the admin user", :aggregate_failures do
       expect(Project.count).to eq 4
-      expect(WorkPackage.count).to eq 76
+      expect(WorkPackage.count).to eq 88
       expect(root_seeder.admin_user).to be_locked
     end
   end

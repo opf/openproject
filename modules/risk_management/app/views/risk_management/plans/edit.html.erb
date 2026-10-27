@@ -1,0 +1,20 @@
+<% html_title t("risk_management.plan.edit") %>
+
+<% content_for :content_header do %>
+  <%= render Primer::OpenProject::PageHeader.new do |header| %>
+    <% header.with_title { t("risk_management.plan.edit") } %>
+    <% header.with_breadcrumbs(
+         [
+           { href: project_overview_path(@project), text: @project.name },
+           { href: project_risk_management_plan_path(@project), text: t("risk_management.plan.label") },
+           t(:button_edit)
+         ]
+       ) %>
+  <% end %>
+<% end %>
+
+<% content_for :content_body do %>
+  <%= primer_form_with(model: @plan, url: project_risk_management_plan_path(@project), method: :patch) do |form| %>
+    <%= render RiskManagement::PlanForm.new(form) %>
+  <% end %>
+<% end %>

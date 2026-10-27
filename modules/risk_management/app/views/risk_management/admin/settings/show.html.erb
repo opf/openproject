@@ -1,0 +1,22 @@
+<% html_title t(:label_administration), t("risk_management.label") %>
+
+<%= render(RiskManagement::Admin::PageHeaderComponent.new) %>
+
+<%= settings_primer_form_with(
+      model: @configuration,
+      scope: :risk_management_configuration,
+      url: risk_management_admin_settings_path,
+      method: :patch,
+      data: { test_selector: "risk-management-settings-form" }
+    ) do |form| %>
+  <%= render(RiskManagement::Admin::SettingsForm.new(form)) %>
+<% end %>
+
+<%= render Primer::Beta::Button.new(
+      tag: :a,
+      href: risk_management_admin_categories_path,
+      scheme: :default,
+      mt: 3
+    ) do %>
+  <%= t("risk_management.admin.categories.manage") %>
+<% end %>

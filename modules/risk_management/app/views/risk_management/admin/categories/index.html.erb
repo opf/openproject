@@ -1,0 +1,33 @@
+<% html_title t(:label_administration), t("risk_management.admin.categories.label") %>
+
+<%= render Primer::OpenProject::PageHeader.new do |header| %>
+  <% header.with_title { t("risk_management.admin.categories.label") } %>
+  <% header.with_breadcrumbs(
+       [
+         { href: risk_management_admin_settings_path, text: t("risk_management.label") },
+         t("risk_management.admin.categories.label")
+       ]
+     ) %>
+  <% header.with_action_button(
+       tag: :a,
+       href: new_risk_management_admin_category_path,
+       scheme: :primary,
+       mobile_icon: :plus,
+       mobile_label: t("risk_management.admin.categories.new")
+     ) do |button| %>
+    <% button.with_leading_visual_icon(icon: :plus) %>
+    <%= t("risk_management.admin.categories.new") %>
+  <% end %>
+<% end %>
+
+<%= render Primer::Beta::BorderBox.new do |box| %>
+  <% @categories.each do |category| %>
+    <% box.with_row do %>
+      <%= render Colors::SwatchComponent.new(hexcode: category.color&.hexcode || "#ffffff") %>
+      <%= render(Primer::Beta::Text.new(tag: :span, ml: 2, color: category.active? ? :default : :muted)) { category.name } %>
+      <%= render Primer::Beta::Link.new(href: edit_risk_management_admin_category_path(category), float: :right) do %>
+        <%= t(:button_edit) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
