@@ -30,6 +30,8 @@
 require "spec_helper"
 
 RSpec.describe "Query name inline edit", :js do
+  include_context "with axe on Cuprite"
+
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -121,12 +123,29 @@ RSpec.describe "Query name inline edit", :js do
     expect(assignee_query.name).to eq "Some other name"
   end
 
+  it "names the unsaved changes and toast controls" do
+    wp_table.expect_work_package_listed work_package
+
+    filters.open
+    filters.remove_filter :assignee
+
+    expect(page).to have_button(accessible_name: "This view has unsaved changes. Click to save them.")
+    expect(page).to be_axe_clean.within(".editable-toolbar-title--container")
+
+    query_title.press_save_button
+
+    wp_table.expect_toast message: "Successful update."
+    expect(page).to have_button(accessible_name: "Close popup")
+    expect(page).to be_axe_clean.within(".op-toast")
+  end
+
   it "shows the save icon when changing the columns (Regression #32835)" do
     wp_table.expect_work_package_listed work_package
     query_title.expect_not_changed
 
     modal.open!
     modal.switch_to "Columns"
+    expect(page).to be_axe_clean.within(".wp-table--configuration-modal .op-scrollable-tabs")
 
     columns.assume_opened
     columns.uncheck_all save_changes: false

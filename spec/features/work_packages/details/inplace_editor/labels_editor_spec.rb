@@ -8,6 +8,8 @@ require "features/work_packages/work_packages_page"
 require "features/page_objects/notification"
 
 RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: true } do
+  include_context "with axe on Cuprite"
+
   let(:project) { create(:project) }
   let!(:label) { create(:label, name: "Bug") }
   let!(:other_label) { create(:label, name: "Feature") }
@@ -106,6 +108,16 @@ RSpec.describe "labels inplace editor", :js, with_flag: { work_package_labels: t
       dropdown = field.autocomplete(other_label.name.upcase, select: false)
       expect(dropdown).to have_selector(:list_box_option, text: other_label.name)
       expect(dropdown).to have_no_selector(:list_box_option, text: create_option_text(other_label.name.upcase))
+    end
+
+    it "names the save and cancel controls" do
+      field.activate!
+
+      within(".inplace-edit--controls") do
+        expect(page).to have_button(accessible_name: "Labels: Save")
+        expect(page).to have_button(accessible_name: "Labels: Cancel")
+      end
+      expect(page).to be_axe_clean.within(".inplace-edit--controls")
     end
 
     it "discards the selection when the edit is cancelled" do

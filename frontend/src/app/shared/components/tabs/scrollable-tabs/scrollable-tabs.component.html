@@ -28,7 +28,8 @@
             [class.op-tab-row--link_disabled]="tab.disable !== undefined"
             [attr.aria-selected]="tab.id === currentTabId"
             (click)="clickTab(tab, $event)"
-            [attr.title]="tabTitle(tab)"
+            opTooltip
+            [description]="disabledReason(tab)"
             >
             <span [textContent]="tab.name"></span>
             @if (counter(tab) | async; as tabCounter) {

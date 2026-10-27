@@ -189,8 +189,8 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
     this.pane.scrollLeft -= this.container.clientWidth;
   }
 
-  public tabTitle(tab:TabDefinition):string {
-    return (typeof tab.disable === 'string') ? tab.disable : tab.name;
+  public disabledReason(tab:TabDefinition):string|undefined {
+    return typeof tab.disable === 'string' ? tab.disable : undefined;
   }
 
   private scrollIntoVisibleArea(tabId:string) {
