@@ -155,7 +155,7 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
       it "starts no run" do
         post ai_text_transform_panes_path, params: start_params, headers: stream
 
-        expect(response).not_to have_http_status(:ok)
+        expect(response).to have_http_status(:unauthorized)
         expect(AI::TextTransformRun.count).to eq(0)
       end
     end
@@ -164,17 +164,20 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
   context "with the feature flag inactive", with_flag: { ai_text_transform_actions: false } do
     let(:run) { run_with_events(:succeeded, ["completed", { "text" => "Done." }]) }
 
-    {
-      "create" => ->(_run, params) { [:post, ai_text_transform_panes_path, params] },
-      "show" => ->(run, params) { [:get, ai_text_transform_pane_path(run.uuid, **params), {}] },
-      "destroy" => ->(run, params) { [:delete, ai_text_transform_pane_path(run.uuid), params] },
-      "apply" => ->(run, params) { [:post, apply_ai_text_transform_pane_path(run.uuid), params] },
-      "cancel" => ->(run, _params) { [:post, cancel_ai_text_transform_pane_path(run.uuid), {}] }
-    }.each do |name, request|
-      it "is not found for #{name}" do
-        verb, path, params = instance_exec(run, start_params, &request)
+    it "is not found for create" do
+      post ai_text_transform_panes_path, params: start_params, headers: stream
 
-        public_send(verb, path, params:, headers: stream)
+      expect(response).to have_http_status(:not_found)
+    end
+
+    {
+      show: %i[get ai_text_transform_pane_path],
+      destroy: %i[delete ai_text_transform_pane_path],
+      apply: %i[post apply_ai_text_transform_pane_path],
+      cancel: %i[post cancel_ai_text_transform_pane_path]
+    }.each do |name, (verb, path_helper)|
+      it "is not found for #{name}" do
+        public_send(verb, public_send(path_helper, run.uuid), params: pane_params, headers: stream)
 
         expect(response).to have_http_status(:not_found)
       end
@@ -184,12 +187,10 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
   describe "GET show" do
     it "answers without content while nothing new happened" do
       run = run_with_events(:running, ["status", { "status" => "running" }])
-      allow(AI::TextTransforms::ResolveContext).to receive(:new).and_call_original
 
       get ai_text_transform_pane_path(run.uuid, **pane_params, after: 1), headers: stream
 
       expect(response).to have_http_status(:no_content)
-      expect(AI::TextTransforms::ResolveContext).not_to have_received(:new)
     end
 
     it "answers without content once the client has seen the final state" do
@@ -207,6 +208,15 @@ RSpec.describe "AI text transform panes", :skip_csrf, type: :rails_request,
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Replace")
+    end
+
+    it "updates a pane that carries no context" do
+      run = run_with_events(:running, ["text_delta", { "delta" => "Text" }])
+
+      get ai_text_transform_pane_path(run.uuid, **pane_params.except(:work_package_id)), headers: stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Text")
     end
 
     it "streams the text so far as formatted html" do

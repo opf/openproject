@@ -50,16 +50,6 @@ module AI
         @type = type
       end
 
-      def ids
-        if work_package
-          { work_package_id: work_package.id }
-        elsif project
-          { project_id: project.id, type_id: type.id }
-        else
-          {}
-        end
-      end
-
       def type_variant
         return @type_variant if defined?(@type_variant)
 
