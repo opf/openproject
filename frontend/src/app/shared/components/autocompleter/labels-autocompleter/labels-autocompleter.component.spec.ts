@@ -65,7 +65,7 @@ describe('LabelsAutocompleterComponent', () => {
     expect(component.createLabel('   ')).toBeUndefined();
   });
 
-  it('returns a pending label with no href for a trimmed term', () => {
+  it('returns a label with no href for a trimmed term', () => {
     expect(component.createLabel('  Needs triage ')).toEqual({ id: null, name: 'Needs triage', href: null });
   });
 
@@ -96,12 +96,12 @@ describe('LabelsAutocompleterComponent', () => {
     expect(currentUser.hasCapabilities$).not.toHaveBeenCalled();
   });
 
-  it('treats pending and persisted labels with the same name as the same label, ignoring case', () => {
-    const pending = { id: null, name: 'Needs Triage', href: null };
+  it('treats a label with no href and a persisted label with the same name as the same label, ignoring case', () => {
+    const unsaved = { id: null, name: 'Needs Triage', href: null };
     const persisted = { id: 9, name: 'needs triage', href: '/api/v3/labels/9' };
     const other = { id: 10, name: 'Blocked', href: '/api/v3/labels/10' };
 
-    expect(component.compareWith?.(pending, persisted)).toBe(true);
-    expect(component.compareWith?.(pending, other)).toBe(false);
+    expect(component.compareWith?.(unsaved, persisted)).toBe(true);
+    expect(component.compareWith?.(unsaved, other)).toBe(false);
   });
 });

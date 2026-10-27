@@ -75,10 +75,10 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
       }
     }
 
-    return this.applyPendingLabels(super.applyChanges(payload));
+    return this.applyLabelLinks(super.applyChanges(payload));
   }
 
-  private applyPendingLabels(payload:ChangesetPayload):ChangesetPayload {
+  private applyLabelLinks(payload:ChangesetPayload):ChangesetPayload {
     const labels = this.changeset.getValue('labels');
 
     if (!Array.isArray(labels) || !this.schema.isAttributeEditable('labels')) {

@@ -101,9 +101,9 @@ describe('WorkPackageChangeset labels', () => {
     _links: { self: { href: '/api/v3/labels/1', title: 'Bug' } },
   });
 
-  it('sends pending labels as title-only links next to existing ones', () => {
-    const pending = halResourceService.createHalResourceOfType('Label', { id: null, name: 'Needs triage', href: null });
-    changeset.setValue('labels', [existing(), pending]);
+  it('sends new record labels as title-only links next to existing ones', () => {
+    const newRecord = halResourceService.createHalResourceOfType('Label', { id: null, name: 'Needs triage', href: null });
+    changeset.setValue('labels', [existing(), newRecord]);
 
     expect(buildPayload()._links.labels).toEqual([
       { href: '/api/v3/labels/1' },
@@ -111,7 +111,7 @@ describe('WorkPackageChangeset labels', () => {
     ]);
   });
 
-  it('handles pending labels echoed back by the form', () => {
+  it('handles new record labels echoed back by the form', () => {
     const echoed = halResourceService.createHalResourceOfType('Label', {
       _links: { self: { href: null, title: 'Needs triage' } },
     });
@@ -133,7 +133,7 @@ describe('WorkPackageChangeset labels', () => {
     expect(buildPayload()._links.labels).toEqual([]);
   });
 
-  it('sends pending labels even when the reference resource has no labels link', () => {
+  it('sends new record labels even when the reference resource has no labels link', () => {
     const bare = halResourceService.createHalResourceOfClass(WorkPackageResource, {
       _type: 'WorkPackage',
       id: '2',
@@ -142,8 +142,8 @@ describe('WorkPackageChangeset labels', () => {
     }) as unknown as WorkPackageResource;
     changeset = new WorkPackageChangeset(bare);
 
-    const pending = halResourceService.createHalResourceOfType('Label', { id: null, name: 'Needs triage', href: null });
-    changeset.setValue('labels', [pending]);
+    const newRecord = halResourceService.createHalResourceOfType('Label', { id: null, name: 'Needs triage', href: null });
+    changeset.setValue('labels', [newRecord]);
 
     const payload = buildPayload();
 
