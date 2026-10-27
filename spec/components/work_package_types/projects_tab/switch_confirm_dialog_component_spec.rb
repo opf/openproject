@@ -41,7 +41,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::SwitchConfirmDialogComponent, type
   shared_let(:depot) { create(:project, name: "Depot") }
 
   let(:switching) { ProjectType.where(type:, project: [laboratory, bookshop]) }
-  let(:link_path) { link_type_variant_projects_path(type_id: type.id, variant_id: hardware.id) }
+  let(:link_path) { type_variant_projects_link_path(type_id: type.id, variant_id: hardware.id) }
   let(:url) { link_path }
   let(:project_ids) { [laboratory.id, bookshop.id, depot.id] }
 
