@@ -152,10 +152,13 @@ pl:
         min_value: Wartość minimalna
         multi_value: Zezwól na wybór wielokrotny
         possible_values: Możliwe wartości
+        project_specific_value_restriction: Project-specific values
         regexp: Wyrażenie regularne
         searchable: Wyszukiwalne
         semantic_key: Znaczenie semantyczne
         visible_on_user_card: Pokaż na karcie użytkownika
+      custom_field/project_specific_value_restriction:
+        restriction: Restriction
       custom_value:
         value: Wartość
       design_color:
@@ -294,6 +297,7 @@ pl:
         project_creation_wizard_status_when_submitted: Status w chwili przesłania
         project_creation_wizard_work_package_comment: Komentarz do pakietu roboczego
         project_creation_wizard_work_package_type: Typy pakietu roboczego
+        project_specific_values: Project-specific values
         project_types: Typy
         public_value:
           false: prywatne
@@ -698,6 +702,8 @@ pl:
               invalid: Wzór jest nieprawidłowy.
               invalid_tokens: Dozwolone są tylko wartości liczbowe, operatory, funkcje, słowa kluczowe i atrybuty projektu typu liczba całkowita, liczba zmiennoprzecinkowa, obliczana wartość i lista ważona.
               not_allowed_custom_fields_referenced: Nie można użyć atrybutu %{custom_fields}, ponieważ prowadzi to do odwołania cyklicznego; jeden atrybut zależy od drugiego.
+            project_specific_value_restriction:
+              not_supported: is only available for work package custom fields of the formats list, hierarchy and weighted item list.
             required:
               cannot_be_true: nie można ustawić na wartość true.
           previous_custom_field_recalculation_unprocessed: Ponowne obliczenie poprzednich zmian tego pola niestandardowego nie zostało jeszcze zastosowane, spróbuj ponownie za kilka minut.
@@ -1696,6 +1702,11 @@ pl:
         desktop:
           description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
           title: Custom desktop logos
+        favicon:
+          field: Favicon
+          field_description: The image should be 32x32px in PNG format on transparent background.
+          title: Custom favicon
+          title_description: This is the tiny icon that appears next to the page title in the browser. By default the OpenProject favicon is used, but if you upload a new favicon the theme will automatically be changed to Custom theme.
         mobile:
           description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
           title: Custom mobile logos
@@ -1709,6 +1720,11 @@ pl:
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
             name: High contrast mode logo
+        touch_icon:
+          field: Touch icon
+          field_description: The image should be 180x180px in PNG format and colour background to avoid contrast problems.
+          title: Custom touch icon
+          title_description: This is the icon that appears when bookmark in the tablets or mobiles home. By default the OpenProject touch icon is used, but if you upload a new touch icon the theme will automatically be changed to Custom theme.
       color_groups:
         base_colors: Kolory podstawowe
         main_menu: Główne menu boczne
@@ -1726,11 +1742,15 @@ pl:
       default_colors:
         description: Zdefiniuj paletę kolorów do użycia w innym miejscu aplikacji. Będą one dostępne, na przykład podczas wybierania koloru do reprezentowania statusu lub typu.
       edit_color: Edytuj %{color}
+      export:
+        description: Upload and manage custom image files used in your PDF exports.
+        title: Custom export
       fonts:
         file_is_invalid: nie jest prawidłowym plikiem czcionki TTF.
         file_too_large: jest za duży (rozmiar maksymalny to %{count} MB).
       instructions:
         accent-color: Kolor linków i innych ostatnio wyróżnionych elementów.
+        export_cover_text_color: Color of the text on top of the cover background to ensure readability.
         header-bg-color: Domyślny kolor tła nagłówka aplikacji.
         main-menu-bg-color: Kolor tła lewego menu.
         main-menu-bg-selected-background: Kolor tła pozycji menu po ich wybraniu.
@@ -1739,7 +1759,6 @@ pl:
       tab_branding: Branding
       tab_default_colors: Kolory domyślne
       tab_interface: Interfejs
-      tab_pdf_export_font: Czcionka eksportu PDF
       tab_pdf_export_styles: Style eksportu PDF
       theme_warning:
         confirmation: I understand that this action cannot be reversed
@@ -2483,7 +2502,6 @@ pl:
       pane:
         cancel: Cancel
         close: Close
-        copied: Copied
         copy: Copy
         discard: Discard
         editor_gone: The editor is no longer open, so the text cannot be replaced. You can still copy it.
@@ -2974,6 +2992,30 @@ pl:
           weight: Waga
       notice:
         remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
+      projects:
+        changes_heading: Important changes
+        changes_text: 'Starting version 18.0, custom fields are no longer enabled or disabled at a project level. They are included in forms, which are then used in different types and variants. The following list shows projects that use types or variants using forms including this custom field.
+
+          '
+        configure: Configure project-specific values for %{project}
+        disable_all: Disable all
+        editing_values_notice: You are currently editing the list of values visible for this custom field in the project [%{project}](project_url).
+        empty_state:
+          description: Add this custom field to the form of a type that is used in a project.
+          title: No project uses this custom field
+        enable_all: Enable all
+        enabled_values:
+          all: All
+          none: None
+          some: "%{count} of %{total}"
+        filter: Filter by text
+        filter_no_results:
+          description: Change the filters to see more projects.
+          title: No projects match this filter
+        quick_filter:
+          all: All projects
+          with_project_specific_values: With project-specific values
+        types_column: Displayed in type
       role_assignment:
         description: Możesz automatycznie przyznać określoną rolę w projekcie każdemu użytkownikowi przypisanemu do tego atrybutu projektu, niezależnie od pierwotnej roli tego użytkownika w tym projekcie.
         dialog:
@@ -2997,6 +3039,11 @@ pl:
     calculated_field_not_editable: Atrybut nieedytowalny. Ta wartość jest obliczana automatycznie.
     confirm_destroy_option: Usunięcie tej opcji spowoduje usunięcie wszystkich powiązanych wystąpień (np. w Work Package). Czy na pewno chcesz to usunąć?
     contained_in_type: Zawartość
+    disable_project_specific_values:
+      button: Apply
+      confirmation: I understand that any project-specific settings will be overridden
+      description: All values for this custom field will be available to all projects using it.
+      title: Make all values available to all projects?
     enabled_in_project: Włączone w projekcie
     instructions:
       admin_only:
@@ -3044,6 +3091,13 @@ pl:
       description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
       heading: Settings moved
     placeholder_version_select: W pierwszej kolejności wymagany jest wybór pakietu roboczego lub projektu
+    project_specific_values:
+      all:
+        caption: All projects will show the same list of values for this custom field
+        label: Show the same values for all projects
+      allow:
+        caption: Projects using this custom field will show the values you activate for them in the Projects tab. By default, each project's list is empty until you activate at least one value.
+        label: Manually choose which values to activate for each project
     reorder_alphabetical: Ustaw kolejność wartości alfabetycznie
     reorder_confirmation: 'Ostrzeżenie: bieżąca kolejność dostępnych wartości oraz wszystkie niezapisane wartości zostaną utracone. Czy na pewno chcesz kontynuować?'
     semantic_keys:
@@ -3340,6 +3394,7 @@ pl:
       portfolio_management: Zarządzanie portfoliami
       project_creation_wizard: Żądanie zainicjowania projektu
       project_list_sharing: Udostępnianie listy projektów
+      project_specific_list_values: Project-specific values for custom fields
       readonly_work_packages: Pakiety robocze tylko do odczytu
       scim_api: Interfejs API serwera SCIM
       sso_auth_providers: Logowanie jednokrotne
@@ -3446,6 +3501,8 @@ pl:
         description: Wygeneruj kreatora krok po kroku, aby pomóc kierownikom projektów wypełnić żądanie zainicjowania projektu.
       project_list_sharing:
         description: Udostępniaj listy projektów poszczególnym użytkownikom.
+      project_specific_list_values:
+        description: Select which values of a list should be visible in individual projects.
       readonly_work_packages:
         description: Oznacz pakiety robocze jako tylko do odczytu w przypadku określonych statusów.
       scim_api:
@@ -4234,21 +4291,16 @@ pl:
   label_current_status: Aktualny stan
   label_current_version: Aktualna wersja
   label_custom_comment: Komentarz %{name}
-  label_custom_export_cover: Niestandardowe tło okładki eksportu
-  label_custom_export_cover_overlay: Nakładka niestandardowego tła okładki eksportu
-  label_custom_export_cover_text_color: Kolor tekstu
+  label_custom_export_cover: Cover background
+  label_custom_export_cover_text_color: Text color for cover background
+  label_custom_export_font: Custom Font
   label_custom_export_font_bold: Pogrubiona
   label_custom_export_font_bold_italic: Pogrubiona kursywa
-  label_custom_export_font_instructions: 'Przesyłaj niestandardowe czcionki TrueType (.ttf) używane w Twoich eksportowanych plikach PDF i zarządzaj nimi. Aby uzyskać najlepsze wyniki, używaj pasujących plików z tej samej rodziny czcionek. Jeśli nie zostanie podana żadna czcionka, zostanie użyta domyślna czcionka NotoSans.
-
-    '
+  label_custom_export_font_colors: Custom font colors
   label_custom_export_font_italic: Kursywa
   label_custom_export_font_regular: Zwykła
-  label_custom_export_footer: Niestandardowy obraz stopki eksportu
-  label_custom_export_images_instructions: 'Przesyłaj niestandardowe pliki graficzne używane w eksportowanych plikach PDF i zarządzaj nimi.
-
-    '
-  label_custom_export_logo: Logotyp eksportu niestandardowego
+  label_custom_export_footer: Footer image
+  label_custom_export_logo: Logo
   label_custom_favicon: Własny favicon
   label_custom_field_add_no_type: Dodaj to pole do typu zadania
   label_custom_field_default_type: Typ pusty
@@ -4258,6 +4310,7 @@ pl:
   label_custom_style: Kompozycja
   label_custom_style_description: Skonfiguruj wygląd OpenProject za pomocą motywów, wybierz domyślne kolory do wykorzystania w aplikacji i zaprojektuj wygląd eksportu produktów.
   label_custom_touch_icon: Własny touch icon
+  label_custom_value_no_longer_available: "(Value no longer available)"
   label_dashboard: Pulpit nawigacyjny
   label_database_version: Wersja PostgreSQL
   label_date: Data
@@ -7464,12 +7517,12 @@ pl:
         rename_group: Zmień nazwę sekcji
         required:
           already_required_globally: To pole niestandardowe jest wymagane dla wszystkich typów.
-          for_variant: Wymagane w tym typie
+          for_variant: Required for this type
           globally: Wymagane
           globally_hint: Zmień to w polu niestandardowym
-          mark: Wymagaj w tym typie
+          mark: Require for this type
           not_a_custom_field: Tylko pole niestandardowe można ustawić jako wymagane dla jednego typu.
-          unmark: Nie wymagaj w tym typie
+          unmark: Do not require for this type
         reset_description: 'Spowoduje to zresetowanie atrybutów do ich domyślnej grupy i wyłączenie WSZYSTKICH pól niestandardowych.
 
           '

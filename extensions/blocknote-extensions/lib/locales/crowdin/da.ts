@@ -54,7 +54,8 @@ export const en = {
       'placeholder': "Søg efter arbejdspakkens id eller emne",
       'dropdownAriaLabel': "Søgeresultater for arbejdspakker",
       'noResults': "Ingen resultater",
-      'error': "Fejl. Indholdet kunne ikke indlæses."
+      'error': "Fejl. Indholdet kunne ikke indlæses.",
+      'createWorkPackage': "Opret ny arbejdspakke"
     },
     'unavailableWorkPackage': {
       'loading': {
