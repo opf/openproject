@@ -156,6 +156,14 @@ export const WpOptionsPopover = ({
     sizeButtonEl?.focus(KEYBOARD_FOCUS);
   };
 
+  const openSizesFromArrowKey = (event:React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    event.preventDefault();
+    event.stopPropagation();
+    setSizesTakeFocus(true);
+    setShowSizes(true);
+  };
+
   const handleKeyDown = (event:React.KeyboardEvent<HTMLDivElement>) => {
     if (navigateMenu(event, 'horizontal')) return;
     if (!CLOSING_KEYS.includes(event.key)) return;
@@ -223,6 +231,7 @@ export const WpOptionsPopover = ({
           aria-haspopup="menu"
           aria-expanded={showSizes}
           aria-controls={showSizes ? sizeMenuId : undefined}
+          onKeyDown={openSizesFromArrowKey}
           {...tapProps((event) => {
             event?.stopPropagation();
             setSizesTakeFocus(isKeyboardClick(event));

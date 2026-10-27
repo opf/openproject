@@ -24,8 +24,8 @@ export function useSelectionAnnouncement(
     let wasSelected = false;
     const followSelection = () => {
       const selected = isWorkPackageNodeSelected(editor, elementRef.current);
-      if (selected && !wasSelected) announcer.announce(message);
-      if (!selected && wasSelected) announcer.clearAnnouncement();
+      if (selected && !wasSelected) announcer.announce(message, elementRef);
+      if (!selected && wasSelected) announcer.clearAnnouncement(elementRef);
       wasSelected = selected;
     };
 

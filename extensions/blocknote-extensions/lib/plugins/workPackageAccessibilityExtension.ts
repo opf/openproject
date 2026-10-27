@@ -62,15 +62,22 @@ function keepFormattingToolbarClosed(editor:AnyEditor):(() => void) | undefined 
 export const WorkPackageAccessibilityExtension = createExtension(({ editor }:{ editor:AnyEditor }) => {
   let liveRegion:HTMLElement | null = null;
   let pendingAnnouncement = 0;
+  let announcedBy:unknown;
 
-  const clearAnnouncement = () => {
+  const empty = () => {
     cancelAnimationFrame(pendingAnnouncement);
     if (liveRegion) liveRegion.textContent = '';
+    announcedBy = undefined;
+  };
+
+  const clearAnnouncement = (announcer:unknown) => {
+    if (announcer === announcedBy) empty();
   };
 
   // Emptied first, so that selecting the same work package again is announced again.
-  const announce = (message:string) => {
-    clearAnnouncement();
+  const announce = (message:string, announcer:unknown) => {
+    empty();
+    announcedBy = announcer;
     pendingAnnouncement = requestAnimationFrame(() => {
       if (liveRegion) liveRegion.textContent = message;
     });
@@ -88,7 +95,7 @@ export const WorkPackageAccessibilityExtension = createExtension(({ editor }:{ e
 
       signal.addEventListener('abort', () => {
         releaseFormattingToolbar?.();
-        clearAnnouncement();
+        empty();
         region.remove();
         liveRegion = null;
       });

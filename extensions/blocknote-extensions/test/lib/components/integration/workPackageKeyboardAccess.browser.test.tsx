@@ -1,27 +1,30 @@
 import { describe, it, expect, onTestFinished } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
-import { http, HttpResponse } from 'msw';
+import { http } from 'msw';
 import { worker } from '../../../mocks/browser';
-import { mockWorkPackage } from '../../../mocks/handlers';
+import { mockWorkPackage, workPackageCollection } from '../../../mocks/handlers';
 import { renderEditor, renderEditorInShadowDom } from '../../../helpers/renderEditor';
 import {
   formattingToolbarVisible,
   openBlockCardPopover,
   openInlineWorkPackagePopover,
 } from '../../../helpers/editorHelpers';
+import { selectBlockNode } from '../../../../lib/utils/selection';
 
 const NEXT_LINE = 'next line';
 
-const chipDocument = [
+const chipDocumentOfSize = (size:'xxs' | 'xs' | 's') => [
   {
     type: 'paragraph',
     content: [
       'before ',
-      { type: 'openProjectWorkPackageInline', props: { wpid: '123', size: 's', displayId: '123' } },
+      { type: 'openProjectWorkPackageInline', props: { wpid: '123', size, displayId: '123' } },
     ],
   },
   { type: 'paragraph', content: NEXT_LINE },
 ];
+
+const chipDocument = chipDocumentOfSize('s');
 
 const blockDocument = [
   { type: 'paragraph', content: 'above' },
@@ -35,16 +38,16 @@ function putCaretBehindChip(editor:any) {
   editor.setTextCursorPosition(editor.document[0], 'end');
 }
 
-async function renderChipWithCaretBehindIt() {
+async function renderChipWithCaretBehindIt(initialContent = chipDocument) {
   let editor:any;
-  renderEditor({ initialContent: chipDocument, onEditor: (created) => { editor = created; } });
+  renderEditor({ initialContent, onEditor: (created) => { editor = created; } });
   await expect.element(page.getByText('#123', { exact: true })).toBeVisible();
 
   putCaretBehindChip(editor);
 }
 
-async function selectChipWithKeyboard() {
-  await renderChipWithCaretBehindIt();
+async function selectChipWithKeyboard(initialContent = chipDocument) {
+  await renderChipWithCaretBehindIt(initialContent);
   await userEvent.keyboard('{ArrowLeft}');
 }
 
@@ -69,9 +72,9 @@ describe('Work package keyboard access - selecting an inline chip', () => {
   it('announces a chip selected while it was still loading once it has loaded', async () => {
     let respond = () => {};
     const responded = new Promise<void>((resolve) => { respond = resolve; });
-    worker.use(http.get('http://localhost:3000/api/v3/work_packages/123', async () => {
+    worker.use(http.get('http://localhost:3000/api/v3/work_packages', async () => {
       await responded;
-      return HttpResponse.json(mockWorkPackage);
+      return workPackageCollection([mockWorkPackage]);
     }));
     onTestFinished(() => worker.resetHandlers());
 
@@ -85,6 +88,20 @@ describe('Work package keyboard access - selecting an inline chip', () => {
 
     await expect.poll(() => liveRegion()?.textContent)
       .toBe('Work package #123, Bug, In Progress, Fix login bug. Press Enter to open its options.');
+  });
+
+  it('announces only what a compact chip shows', async () => {
+    await selectChipWithKeyboard(chipDocumentOfSize('xs'));
+
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Work package #123, Bug, Fix login bug. Press Enter to open its options.');
+  });
+
+  it('announces only the identifier of a tiny chip', async () => {
+    await selectChipWithKeyboard(chipDocumentOfSize('xxs'));
+
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Work package #123. Press Enter to open its options.');
   });
 
   it('keeps the formatting toolbar closed while the chip is selected', async () => {
@@ -187,6 +204,27 @@ describe('Work package keyboard access - the options menu of an inline chip', ()
     await expect.element(page.getByText('In Progress', { exact: true })).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
     await expect.element(page.getByRole('textbox')).toHaveFocus();
+  });
+
+  it('opens the size menu with the up and down arrow keys as well', async () => {
+    await selectChipWithKeyboard();
+    await userEvent.keyboard('{Enter}{ArrowRight}{ArrowDown}');
+
+    const regular = page.getByRole('menuitemradio', { name: 'Regular' });
+    await expect.element(regular).toHaveFocus();
+    await expect.element(sizeItem()).toHaveAttribute('aria-expanded', 'true');
+
+    await userEvent.keyboard('{Escape}{ArrowUp}');
+    await expect.element(regular).toHaveFocus();
+  });
+
+  it('opens its options rather than the preview of a tiny chip', async () => {
+    await selectChipWithKeyboard(chipDocumentOfSize('xxs'));
+
+    await userEvent.keyboard('{Enter}');
+
+    await expect.element(openItem()).toHaveFocus();
+    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
   });
 
   it('closes only the size menu on Escape and puts the focus back on the item that opened it', async () => {
@@ -308,6 +346,29 @@ describe('Work package keyboard access - a block card', () => {
 
     await userEvent.keyboard('{Escape}');
     await expect.element(page.getByRole('textbox')).toHaveFocus();
+  });
+
+  it('announces the next card when the selection moves straight from one card to another', async () => {
+    let editor:any;
+    renderEditor({
+      onEditor: (created) => { editor = created; },
+      initialContent: [
+        { type: 'openProjectWorkPackageBlock', props: { wpid: 123, size: 'm', displayId: '123' } },
+        { type: 'openProjectWorkPackageBlock', props: { wpid: 456, size: 'm', displayId: '456' } },
+        { type: 'paragraph', content: 'below' },
+      ],
+    });
+    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+
+    await userEvent.click(page.getByText('below'));
+    await userEvent.keyboard('{Home}{ArrowUp}');
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Work package #456, Feature, Open, Add dark mode. Press Enter to open its options.');
+
+    // In one transaction, so the card gaining the selection hears of it first.
+    selectBlockNode(editor, editor.document[0].id);
+    await expect.poll(() => liveRegion()?.textContent)
+      .toBe('Work package #123, Bug, In Progress, Fix login bug. Press Enter to open its options.');
   });
 
   it('only closes on Tab when a pointer opened it, instead of nesting the block', async () => {

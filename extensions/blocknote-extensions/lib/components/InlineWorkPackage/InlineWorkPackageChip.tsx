@@ -86,7 +86,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     options.open(true);
   });
 
-  useSelectionAnnouncement(chipRef, editor, describeLinkedWorkPackage(t, displayId, wp, unavailableKind));
+  useSelectionAnnouncement(chipRef, editor, describeLinkedWorkPackage(t, displayId, size, wp, unavailableKind));
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;

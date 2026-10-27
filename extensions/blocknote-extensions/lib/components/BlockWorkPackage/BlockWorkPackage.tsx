@@ -114,7 +114,7 @@ export const BlockWorkPackageComponent = ({
     if (hasOptions) options.open(true);
   });
 
-  useSelectionAnnouncement(cardRef, editor, describeLinkedWorkPackage(t, displayId, selectedWorkPackage, unavailableKind));
+  useSelectionAnnouncement(cardRef, editor, describeLinkedWorkPackage(t, displayId, cardSize, selectedWorkPackage, unavailableKind));
 
   const menuButton = menuButtonProps(workPackageLabel(t, displayId), options.isOpen);
 
