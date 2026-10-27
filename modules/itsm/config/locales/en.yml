@@ -1,4 +1,77 @@
 ---
 en:
+  activerecord:
+    attributes:
+      itsm/email_message:
+        direction: Direction
+        from_address: From
+        message_id: Message ID
+        status: Status
+        subject: Subject
+      itsm/email_thread:
+        recipients: Recipients
+        requester_email: Requester email
+        requester_name: Requester name
+        work_package: Work package
+      itsm/incoming_mailbox:
+        active: Active
+        aliases: Known email addresses
+        connection: IMAP connection
+        email: Email address
+        password: Password
+        project: Project
+        username: Username
+      itsm/mail_server:
+        imap_connection: IMAP connection
+        mailboxes: Mailboxes
+        name: Name
+        smtp_connection: SMTP connection
+      itsm/mail_server/connection:
+        encryption: Encryption
+        host: Server name
+        incoming_mailboxes: Incoming mailboxes
+        outgoing_mailboxes: Outgoing mailboxes
+        port: Port
+        protocol: Protocol
+      itsm/outgoing_mailbox:
+        connection: SMTP connection
+        password: Password
+        project: Project
+        sender_email: Sender email
+        sender_name: Sender name
+        username: Username
+    errors:
+      models:
+        itsm/incoming_mailbox:
+          attributes:
+            project:
+              mailbox_limit_reached: "already has an incoming mailbox."
+        itsm/mail_server:
+          attributes:
+            base:
+              mail_server_limit_reached: "Only one mail server can be set up."
+        itsm/outgoing_mailbox:
+          attributes:
+            project:
+              mailbox_limit_reached: "already has an outgoing mailbox."
+    models:
+      itsm/email_message:
+        one: Email message
+        other: Email messages
+      itsm/email_thread:
+        one: Email thread
+        other: Email threads
+      itsm/incoming_mailbox:
+        one: Incoming mailbox
+        other: Incoming mailboxes
+      itsm/mail_server:
+        one: Mail server
+        other: Mail servers
+      itsm/mail_server/connection:
+        one: Mail server connection
+        other: Mail server connections
+      itsm/outgoing_mailbox:
+        one: Outgoing mailbox
+        other: Outgoing mailboxes
   permission_manage_helpdesk: "Manage helpdesk"
   project_module_helpdesk: "Helpdesk"

@@ -58,5 +58,7 @@ module OpenProject::ITSM
                    require: :member
       end
     end
+
+    include_module "Projects::HelpdeskMailboxes", into: "Project"
   end
 end
