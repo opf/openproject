@@ -43,10 +43,33 @@ export function setOrRemove(element:Element, name:string, value:string|null):voi
   }
 }
 
-export function paintRowRole(row:HTMLTableRowElement, level:number, cellRole:'gridcell'|'columnheader' = 'gridcell'):void {
+type RowHeaderColumn = 'subject'|'id';
+
+export function paintRowRole(
+  row:HTMLTableRowElement,
+  level:number,
+  cellRole:'gridcell'|'columnheader' = 'gridcell',
+  rowHeaderColumn:RowHeaderColumn|null = null,
+):void {
   row.setAttribute('role', 'row');
   row.setAttribute('aria-level', String(level));
-  Array.from(row.cells).forEach((cell) => cell.setAttribute('role', cellRole));
+  const cells = Array.from(row.cells);
+  const rowHeader = cellRole === 'gridcell' && rowHeaderColumn !== null
+    ? cells.find((cell) => cell.classList.contains(rowHeaderColumn))
+    : undefined;
+
+  cells.forEach((cell) => {
+    const isRowHeader = cell === rowHeader;
+    const wasRowHeader = cell.getAttribute('role') === 'rowheader';
+    if (wasRowHeader || isRowHeader) {
+      cell.removeAttribute('aria-label');
+      cell.removeAttribute('aria-labelledby');
+    }
+    cell.setAttribute('role', isRowHeader ? 'rowheader' : cellRole);
+    if (isRowHeader) {
+      cell.setAttribute('aria-label', cell.dataset.rowHeaderName!);
+    }
+  });
 }
 
 export function paintSectionExposure(section:HTMLTableSectionElement):void {
@@ -90,7 +113,11 @@ export class TreegridSemantics {
       return;
     }
 
-    paintRowRole(row, occurrence.level);
+    const cells = occurrence.workPackageId === null ? [] : Array.from(row.cells);
+    const rowHeaderColumn:RowHeaderColumn|null = cells.some((cell) => cell.classList.contains('subject'))
+      ? 'subject'
+      : cells.some((cell) => cell.classList.contains('id')) ? 'id' : null;
+    paintRowRole(row, occurrence.level, 'gridcell', rowHeaderColumn);
     setOrRemove(row, 'aria-expanded', this.expansionOf(occurrence, kind));
     this.paintSelected(occurrence);
   }

@@ -365,7 +365,18 @@ describe('Hierarchy indicator text', () => {
   it('reads the row level, also after a refresh', async () => {
     const harness = await mount();
 
-    expect(harness.row('1')).toHaveAccessibleName(expect.stringContaining('Hierarchy level 1,'));
+    const expectIdentityAndControls = () => {
+      ['1', '2', '3'].forEach((id) => {
+        expect(within(harness.row(id)).getByRole('rowheader', { name: `Work package ${id}` }))
+          .toBe(subjectCell(harness, id));
+      });
+      ['1', '2'].forEach((id) => {
+        expect(within(indicator(harness, id)).getByRole('button'))
+          .toHaveAccessibleName(levelText(harness.row(id).getAttribute('aria-level')));
+      });
+    };
+
+    expectIdentityAndControls();
     ['1', '2', '3'].forEach((id) => {
       expect(indicator(harness, id)).toHaveTextContent(levelText(harness.row(id).getAttribute('aria-level')));
     });
@@ -373,6 +384,7 @@ describe('Hierarchy indicator text', () => {
 
     ['1', '2', '3'].forEach((id) => harness.table.refreshRows(harness.injector.get(States).workPackages.get(id).value!));
 
+    expectIdentityAndControls();
     expect(indicator(harness, '1')).toHaveTextContent('Hierarchy level 1,');
     expect(indicator(harness, '2')).toHaveTextContent('Hierarchy level 2,');
     expect(indicator(harness, '3')).toHaveTextContent('Work package leaf at level 3.');

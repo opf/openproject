@@ -51,6 +51,7 @@ import { WorkPackageViewSumService } from 'core-app/features/work-packages/routi
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import {
@@ -99,6 +100,7 @@ describe('WorkPackagesTableComponent lifecycle', () => {
 
     const injector = TestBed.inject(Injector);
     injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    injector.get(DisplayFieldService).addFieldType(IntegerDisplayField, 'integer', ['Integer']);
     querySpace = TestBed.inject(IsolatedQuerySpace);
     states = TestBed.inject(States);
     timeline = TestBed.inject(WorkPackageViewTimelineService);
@@ -327,6 +329,7 @@ describe('WorkPackagesTableComponent physical columns', () => {
 
     const injector = TestBed.inject(Injector);
     injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    injector.get(DisplayFieldService).addFieldType(IntegerDisplayField, 'integer', ['Integer']);
     const querySpace = TestBed.inject(IsolatedQuerySpace);
     const states = TestBed.inject(States);
     const query = buildQuery(['id', 'subject'], null, false, false);
@@ -459,6 +462,7 @@ describe('WorkPackagesTableComponent treegrid structure', () => {
 
     const injector = TestBed.inject(Injector);
     injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+    injector.get(DisplayFieldService).addFieldType(IntegerDisplayField, 'integer', ['Integer']);
     querySpace = TestBed.inject(IsolatedQuerySpace);
     states = TestBed.inject(States);
     states.workPackages.get(HAL_NEW_RESOURCE_ID).putValue(newWorkPackage);
