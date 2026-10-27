@@ -25,8 +25,6 @@ he:
     button_log_costs: Log unit costs
     label_hour: שעה
     label_hours: שעות
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: האם הינך בטוח?
     work_packages:
       properties:

@@ -72,6 +72,10 @@ sl:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -158,7 +162,6 @@ sl:
   button_add_time_entry: Beleži čas
   button_log_costs: Stroški enote dnevnika
   button_log_time: Log
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Rezervirano na projektu
@@ -192,9 +195,13 @@ sl:
       cost_types:
         for_all_projects_hint: This cost type is enabled in all projects.
         heading: Cost types
+        hint: Select which cost types are displayed in your project when members log their costs.
         in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
         none_active: No cost types are currently active in this project.
       time_and_costs: Time and costs
+      time_entry_activities:
+        heading: Time tracking
+        hint: Select which time tracking activities are displayed in your project when members log their time.
   costs:
     widgets:
       actual_costs:
@@ -225,11 +232,11 @@ sl:
   label_costlog: Stroški enote dnevnika
   label_costs: Stroški
   label_costs_per_page: Strošek na stran
+  label_current: Current
   label_current_default_rate: 'Trenuten prevzeti tečaj
 
     '
   label_date_on: vključeno
-  label_day: Dan
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Izbrisane vrste stroškov
   label_display_cost_entries: Prikaži strošek enote
@@ -245,21 +252,12 @@ sl:
   label_less_or_equal: "<="
   label_list: Seznam
   label_log_costs: Stroški enote dnevnika
-  label_month: Mesec
-  label_my_time_tracking: My time tracking
   label_new_time_entry_activity: New time entry activity
-  label_next_day: Next day
-  label_next_month: Next month
-  label_next_week: Naslednji teden
-  label_next_workweek: Next work week
   label_no: Ne
-  label_no_time: No time tracked
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_option_plural: Možnosti
   label_overall_costs: Celotni stroški
-  label_previous_day: Previous day
-  label_previous_month: Previous month
-  label_previous_week: Prejšnji teden
-  label_previous_workweek: Previous work week
   label_rate_plural: Cene
   label_show: Pokaži
   label_specific_day: Day %{day}
@@ -268,15 +266,14 @@ sl:
   label_status_finished: Končano
   label_time: Čas
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: Danes
   label_units: Stroškovne enote
   label_until: do
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Veljavno od
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: Dodajte filter delovnega paketa
-  label_workweek: Work week
   label_yes: Da
   notice_cost_logged_successfully: Stroški na enoto so bili uspešno prijavljeni.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
@@ -292,6 +289,10 @@ sl:
   permission_edit_rates: Uredite cene
   permission_log_costs: Stroški knjižne enote
   permission_log_own_costs: Stroški knjižne enote zase
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Oglejte si rezervirane stroške
   permission_view_cost_rates: Oglejte si stopnje stroškov
   permission_view_hourly_rates: Oglejte si vse urne postavke
@@ -329,6 +330,11 @@ sl:
   text_destroy_cost_entries_question: "%{cost_entries} so bili prijavljeni v delovnih paketih, ki jih boste izbrisali. Kaj želiš narediti ?"
   text_destroy_time_and_cost_entries: Izbrišite prijavljene ure in stroške
   text_destroy_time_and_cost_entries_question: "%{hours} ur , %{cost_entries} so bili prijavljeni v delovnih paketih, ki jih boste izbrisali. Kaj želiš narediti ?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Ponovno dodelite tem delovnemu paketu prijavljene ure in stroške:'
   text_warning_hidden_elements: Nekateri vnosi so bili morda izključeni iz združevanja.
   total_times:

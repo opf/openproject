@@ -60,7 +60,7 @@ cs:
 
           '
       label_n_groups_found:
-        one: 1 skupina nalezena ve filtru
+        one: "%{count} group found by the filter"
         other: "%{count} skupin nalezeno pomocí filtru"
         zero: Ve filtru nebyly nalezeny žádné skupiny
       plural: LDAP skupina synchronizační filtry
@@ -95,7 +95,7 @@ cs:
       plural: Synchronizované LDAP skupiny
       singular: Synchronizovaná LDAP skupina
       upsell:
-        description: Využijte synchronizované skupiny LDAP pro správu uživatelů, změnu jejich oprávnění a usnadnění správy uživatelů napříč skupinami.
+        description: Take advantage of synchronized LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
     description: Synchronizace členství ve skupině LDAP.
     name: OpenProject LDAP skupiny
