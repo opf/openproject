@@ -243,7 +243,7 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     it "keeps rendering formatted strings" do
       expect(header_value_pairs).to eq [
         ["#{byte_order_mark}Start date", "08/24/2026"],
-        ["% Complete", "25"],
+        ["% Complete", "0.25"],
         ["Total % complete", ""],
         ["Work", "10.0"],
         ["Total work", ""]

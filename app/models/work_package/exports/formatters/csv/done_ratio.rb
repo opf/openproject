@@ -33,6 +33,12 @@ module WorkPackage::Exports
         def self.apply?(attribute, export_format)
           attribute.to_sym.in?(%i[done_ratio derived_done_ratio]) && export_format == :csv
         end
+
+        def format_value(value, _options = {})
+          return if value.nil?
+
+          (value.to_f / 100).ceil(2)
+        end
       end
     end
   end

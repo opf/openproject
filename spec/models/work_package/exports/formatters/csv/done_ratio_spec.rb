@@ -35,12 +35,12 @@ RSpec.describe WorkPackage::Exports::Formatters::CSV::DoneRatio do
     expect(described_class.apply?(:done_ratio, :xls)).to be false
   end
 
-  it "exports percentage points as text" do
+  it "exports the percentage as a fraction" do
     formatter = described_class.new(:done_ratio)
 
-    expect(formatter.format_value(25, {})).to eq("25")
-    expect(formatter.format_value(0, {})).to eq("0")
-    expect(formatter.format_value(nil, {})).to eq("")
+    expect(formatter.format_value(25, {})).to eq(0.25)
+    expect(formatter.format_value(0, {})).to eq(0.0)
+    expect(formatter.format_value(nil, {})).to be_nil
   end
 
   it "is selected for CSV without changing the XLS formatter" do
