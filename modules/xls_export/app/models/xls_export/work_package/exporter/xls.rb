@@ -77,7 +77,7 @@ module XlsExport::WorkPackage::Exporter
 
   module WithRelations
     def add_headers!(spreadsheet)
-      headers_0 = [I18n.t(:label_work_package_plural)] +
+      headers_0 = ["", I18n.t(:label_work_package_plural)] +
         Array.new(record_headers.size, "") +
         [I18n.t("js.work_packages.tabs.relations")]
 

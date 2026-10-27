@@ -110,8 +110,10 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     it "renders the header rows and duplicates rows per relation" do
       expect(query.columns.map(&:name)).to eq %i[type id subject status assigned_to priority]
 
-      # the first header row divides the sheet into work packages and relation columns
-      expect(sheet.rows.first.take(8)).to eq ["Work packages", nil, nil, nil, nil, nil, nil, "Relations"]
+      # the first header row divides the sheet into work packages and relation columns,
+      # each banner sitting above the first column of its block
+      expect(sheet.rows.first.take(9))
+        .to eq [nil, "Work packages", nil, nil, nil, nil, nil, nil, "Relations"]
 
       # the second header row includes the column names for work packages and relations and the related work package
       expect(sheet.rows[1])
@@ -192,6 +194,11 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
 
     context "with descriptions as well" do
       let(:options) { { show_relations: "true", show_descriptions: "true" } }
+
+      it "keeps the relations banner above the relation columns" do
+        expect(sheet.rows.first[9]).to eq "Relations"
+        expect(sheet.rows[1][9]).to eq "Relation type"
+      end
 
       it "applies the column formats to both work package column blocks" do
         expect(sheet.row(2).format(2).number_format).to eq("0")
