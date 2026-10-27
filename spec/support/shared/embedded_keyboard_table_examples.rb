@@ -39,6 +39,14 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
     wp_table.expect_selected_rows(*selected, among: rows)
   end
 
+  it "exposes one clean Subject row header for each work package" do
+    expect(wp_table.treegrid).to have_selector(:role, "rowheader", count: rows.size)
+    rows.each do |work_package|
+      expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: work_package.subject,
+                                                                     exact: true, count: 1)
+    end
+  end
+
   it "enters on the first row with Tab and leaves to the entry control with Shift+Tab" do
     wp_table.tab_into_table
     wp_table.expect_focus_on_row(rows.first)
@@ -154,6 +162,7 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
 
   if editable
     it "edits the subject through the keyboard editor and returns focus to the cell" do
+      previous_subject = rows.first.subject
       wp_table.focus_cell_by_keyboard(rows.first, :subject)
       wp_table.press_keys(:enter)
       field = wp_table.edit_field(rows.first, :subject)
@@ -164,6 +173,9 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
       field.expect_inactive!
       field.expect_display_value("Saved by embedded keyboard")
       wp_table.expect_focus_on_cell(rows.first, :subject)
+      expect(wp_table.treegrid).to have_selector(:role, "rowheader", accessible_name: "Saved by embedded keyboard", exact: true)
+      expect(wp_table.treegrid).to have_no_selector(:role, "rowheader", accessible_name: previous_subject,
+                                                                        exact: true, visible: :all)
     end
   end
 
