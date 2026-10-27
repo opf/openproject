@@ -148,6 +148,7 @@ Naming/MethodParameterName:
     - "cf" # custom fields are commonly abbreviated like that
     - "id"
     - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
+    - "io"
     - "on"
     - "to" # pairs with `from` for ranges, as in Day.from_range(from:, to:)
 
