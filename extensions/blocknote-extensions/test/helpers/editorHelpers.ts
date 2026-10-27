@@ -19,12 +19,38 @@ export function touchStartElement(element:Element, touch = touchAt(element)) {
   }));
 }
 
-export function tapElement(element:Element) {
+export function tapElement(element:Element):TouchEvent {
   const touch = touchAt(element);
   touchStartElement(element, touch);
-  element.dispatchEvent(new TouchEvent('touchend', {
+  const touchEnd = new TouchEvent('touchend', {
     bubbles: true, cancelable: true, changedTouches: [touch], touches: [],
-  }));
+  });
+  element.dispatchEvent(touchEnd);
+  return touchEnd;
+}
+
+export interface RecordedClick {
+  defaultPrevented:boolean;
+  href:string | undefined;
+}
+
+// Records each click as the page saw it, then cancels it so a link does not open a tab.
+export async function withNavigationPrevented(act:() => Promise<unknown>):Promise<RecordedClick[]> {
+  const clicks:RecordedClick[] = [];
+  const recordClick = (event:MouseEvent) => {
+    clicks.push({
+      defaultPrevented: event.defaultPrevented,
+      href: (event.target as Element).closest('a')?.href,
+    });
+    event.preventDefault();
+  };
+  window.addEventListener('click', recordClick);
+  try {
+    await act();
+  } finally {
+    window.removeEventListener('click', recordClick);
+  }
+  return clicks;
 }
 
 // Insert

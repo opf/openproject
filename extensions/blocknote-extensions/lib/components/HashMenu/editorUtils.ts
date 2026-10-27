@@ -5,10 +5,12 @@ import {
   promoteInlineChipToBlockAt,
   removePendingInlineChip,
 } from '../../utils/inlineChipActions';
+import { insertInline, restoreTypedQuery } from '../../utils/insertInline';
 import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
 import { subjectOf } from '../../utils/subject';
 import { makePendingWpid, registerInlineWpCallbacks } from '../InlineWorkPackage/callbacks';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
+import { HASH_TRIGGER } from './hashTrigger';
 import type { HashTarget } from './hashTrigger';
 
 // Discarded right away, so the cheapest chip to render will do.
@@ -33,13 +35,11 @@ export function createWpForTarget(
   registerInlineWpCallbacks(
     pendingWpid,
     (workPackage) => replacePendingChip(editor, pendingWpid, () => insertWpForTarget(editor, workPackage, target)),
-    () => replacePendingChip(editor, pendingWpid, () => restoreHashQuery(editor, query)),
+    () => replacePendingChip(editor, pendingWpid, () => restoreTypedQuery(editor, HASH_TRIGGER, query)),
     { mode: 'create', initialSubject: subjectOf(query) }
   );
 
-  (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: INLINE_WP_TYPE, props: { wpid: pendingWpid } },
-  ]);
+  insertInline(editor, [{ type: INLINE_WP_TYPE, props: { wpid: pendingWpid } }]);
 }
 
 // The cursor stays right behind the pending chip while the form is open, so
@@ -94,15 +94,9 @@ function insertChipAtCursor(
   if (withTrailingSpace) content.push({ type: 'text', text: ' ', styles: {} });
 
   const chipPosition = editor.transact((tr) => tr.selection.from);
-  (editor.insertInlineContent as (content:unknown[]) => void)(content);
+  insertInline(editor, content);
 
   return removeTriggerBeforeChip(editor, chipPosition);
-}
-
-export function restoreHashQuery(editor:AnyEditor, query:string):void {
-  (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: 'text', text: `#${query}`, styles: {} },
-  ]);
 }
 
 /**

@@ -60,6 +60,16 @@ initializeOpBlockNoteExtensions({
 });
 ```
 
+Optionally, you can pass a `documentId`: the id of the edited document. Every user mention inserted in the editor, whether picked, pasted or duplicated, then notifies the mentioned user through the OpenProject API. Moved mentions and mentions inserted by collaborators notify nobody. This needs `UserMentionNotificationExtension` registered on the editor (see below).
+
+```js
+initializeOpBlockNoteExtensions({
+  baseUrl: 'https://my.openproject.url',
+  locale: 'en',
+  documentId: 5,
+});
+```
+
 Then set up a BlockNote schema extending it with the block and inline specs:
 
 ```tsx
@@ -69,15 +79,16 @@ const schema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectUserMention: openProjectUserMentionSpec,
   },
 });
 type EditorType = typeof schema.BlockNoteEditor;
 ```
 
-Create the editor:
+Create the editor with `UserMentionNotificationExtension`, which BlockNote does not pick up from the inline content specs:
 
 ```tsx
-const editor = useCreateBlockNote({ schema });
+const editor = useCreateBlockNote({ schema, extensions: [UserMentionNotificationExtension] });
 ```
 
 Build the slash menu:
@@ -108,6 +119,8 @@ Where the host builds the `#` menu itself, `useHashWpMenu(editor)` hands back th
 
 The create form is built from the work package form endpoint of the API, so the attributes it asks for - and their labels - come from the OpenProject instance: subject, project, type, assignee, plus every other attribute the selected type requires. Attributes the API already has a default for (status and priority, for instance) are left to it and are not shown, required or not.
 
+`OpenProjectMentionMenu` is the `@` command for mentioning a user: it searches the users who are not locked and are members of the document's project by name, login or email. It opens only where a word starts, so an `@` within an email address stays text. The picked user becomes an inline mention, which is stored as OpenProject's `<mention>` tag. Render it beside the editor.
+
 Include everything in a `BlockNoteView`:
 
 ```tsx
@@ -119,6 +132,7 @@ return (
       getItems={getSlashItems}
     />
     <OpenProjectHashMenu />
+    <OpenProjectMentionMenu />
   </BlockNoteView>
 );
 ```

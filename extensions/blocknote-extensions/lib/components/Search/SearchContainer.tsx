@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
+import { editorThemeVariables, menuSurfaceStyles } from '../shared/theme';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 
 export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
@@ -14,7 +14,7 @@ export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
 export const SearchContainer = styled.div.attrs({
   className: 'op-bn-search',
 })<{ $flipped:boolean }>`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   position: absolute;
   z-index: ${FLOATING_Z_INDEX.search};
   top: 1.6em;
@@ -65,19 +65,6 @@ export const SearchInput = styled.input.attrs({
   color: var(--bn-colors-editor-text, #333);
   font-size: 0.9em;
   box-sizing: border-box;
-`;
-
-export const SearchMessage = styled.div.attrs({
-  className: 'op-bn-search--message',
-  role: 'status',
-})`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacer-m);
-  padding: var(--spacer-m) var(--spacer-l);
-  font-size: 0.85em;
-  color: var(--bn-colors-highlights-gray-text, #888);
 `;
 
 export const DropdownList = styled.div`

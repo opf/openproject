@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
 import { searchWorkPackages } from '../services/openProjectApi';
+import { useDebouncedSearch } from './useDebouncedSearch';
 
 export const MAX_SEARCH_RESULTS = 5;
 
@@ -17,10 +18,6 @@ export function useWorkPackageSearch(
   const [searchResults, setSearchResults] = useState<WorkPackage[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Used to cancel debounce in imperative search()
-  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pendingResolveRef = useRef<((results:WorkPackage[]) => void) | null>(null);
 
   // Reactive search (used by SearchDropdown)
   useEffect(() => {
@@ -63,40 +60,23 @@ export function useWorkPackageSearch(
     };
   }, [searchQuery, debounce]);
 
+  const { search: debouncedSearch, cancel: cancelSearch } = useDebouncedSearch(searchWorkPackages, { debounce });
+
   // Imperative search (used by BlockNote getItems — must return results immediately)
-  const search = useCallback(
-    (query:string):Promise<WorkPackage[]> => {
-      // A superseded call must still settle, otherwise its caller awaits forever
-      if (debounceTimerRef.current !== null) {
-        clearTimeout(debounceTimerRef.current);
-        debounceTimerRef.current = null;
-      }
-      pendingResolveRef.current?.([]);
-      pendingResolveRef.current = null;
+  const latestCallRef = useRef(0);
 
-      if (!query.trim()) {
-        setSearchResults([]);
-        return Promise.resolve([]);
-      }
-
-      return new Promise<WorkPackage[]>((resolve, reject) => {
-        pendingResolveRef.current = resolve;
-        debounceTimerRef.current = setTimeout(async () => {
-          debounceTimerRef.current = null;
-          pendingResolveRef.current = null;
-          try {
-            const results = await searchWorkPackages(query);
-            setSearchResults(results);
-            resolve(results);
-          } catch (error) {
-            setSearchResults([]);
-            reject(error instanceof Error ? error : new Error(String(error)));
-          }
-        }, debounce);
-      });
-    },
-    [debounce]
-  );
+  const search = useCallback(async (query:string):Promise<WorkPackage[]> => {
+    latestCallRef.current += 1;
+    const call = latestCallRef.current;
+    try {
+      const results = await debouncedSearch(query);
+      if (call === latestCallRef.current) setSearchResults(results);
+      return results;
+    } catch (error) {
+      if (call === latestCallRef.current) setSearchResults([]);
+      throw error;
+    }
+  }, [debouncedSearch]);
 
   return {
     searchQuery,
@@ -105,5 +85,6 @@ export function useWorkPackageSearch(
     loading,
     error,
     search,
+    cancelSearch,
   };
 }

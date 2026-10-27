@@ -124,3 +124,8 @@ export interface OpenProjectApiErrorBody extends OpenProjectApiErrorEntry {
 }
 
 export type OpColorMode = 'light' | 'dark';
+
+export interface Principal {
+  id:number;
+  name:string;
+}
