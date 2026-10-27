@@ -5960,14 +5960,14 @@ en:
         placeholder: "New project list"
       shared: "Shared project lists"
     phase_status:
-      title:
-        completed: 'Completed'
-        in_progress: 'In progress'
-        open: 'Open'
       description:
         completed: 'Marking a phase as complete will complete all previous phases.'
         in_progress: 'Marking a phase as complete will complete all previous phases.'
         open: 'Re-opening a phase will also open all future phases.'
+      title:
+        completed: 'Completed'
+        in_progress: 'In progress'
+        open: 'Open'
     settings:
       actions:
         label_disable_all: "Disable all"
