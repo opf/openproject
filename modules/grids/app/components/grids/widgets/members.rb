@@ -51,6 +51,7 @@ module Grids
           .joins(:members)
           .where(members: { project_id: project.id })
           .group(:id, :name)
+          .order(name: :asc)
           .count
           .map do |(id, name), total_count|
             {
