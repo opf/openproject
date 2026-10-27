@@ -1678,6 +1678,8 @@ en:
             title: "Create versions for '%{jira_project_name}'"
           JiraCreateProjectWorkPackageAttachmentsJob:
             title: "Download work package attachments for '%{jira_project_name}'"
+          JiraCreateParentChildRelationsFromSubtasksJob:
+            title: "Create parent-child relations for '%{jira_project_name}'"
           JiraCreateProjectWorkPackagesJob:
             title: "Create work packages for '%{jira_project_name}'"
           JiraCreateUsersJob:
@@ -1904,6 +1906,9 @@ en:
               rest_line_text: "Creating work packages for %{projects_number} more projects"
               title: "Create work packages"
             "9":
+              rest_line_text: "Creating parent-child relations from subtasks for %{projects_number} more projects"
+              title: "Creaating parent-child relations from subtasks"
+            "10":
               rest_line_text: "Downloading attachments for %{projects_number} more projects"
               title: "Download attachments"
       test:
