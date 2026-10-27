@@ -45,7 +45,7 @@ export function totalsRowOf(table:WorkPackageTable):HTMLTableRowElement|null {
   return Array.from(rows).find((row) => !table.tbody.contains(row)) ?? null;
 }
 
-/** The navigable kind of a rendered occurrence, or null for rows navigation skips. */
+/** The row's navigation category, or null when the occurrence is excluded from keyboard navigation. */
 export function rowKindOf(occurrence:RenderedOccurrence):RowKind|null {
   if (occurrence.key.startsWith('group:')) {
     return occurrence.key.endsWith(':sums') ? 'sums' : 'groupHeader';
@@ -54,7 +54,7 @@ export function rowKindOf(occurrence:RenderedOccurrence):RowKind|null {
   return occurrence.workPackageId === null ? null : 'workPackage';
 }
 
-function expandedOf(
+function expansionStateOf(
   table:WorkPackageTable,
   hierarchies:WorkPackageViewHierarchiesService,
   occurrence:RenderedOccurrence,
@@ -86,7 +86,7 @@ function occurrenceRow(
     kind,
     hidden: occurrence.hidden,
     cellCount: navigableCells(occurrence.element).length,
-    expanded: expandedOf(table, hierarchies, occurrence, kind),
+    expanded: expansionStateOf(table, hierarchies, occurrence, kind),
   };
 
   return occurrence.groupIdentifier === undefined ? row : { ...row, groupIdentifier: occurrence.groupIdentifier };
