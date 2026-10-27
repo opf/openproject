@@ -20,9 +20,12 @@ _State management in OpenProject frontend..._
 
 ## Choosing an approach for new code
 
+> [!NOTE]
+> This page describes `reactivestates` for existing code. For new code, follow the choices below. Akita entity stores remain the current option for shared API resources in Angular code, but Akita is no longer maintained and the frontend is moving towards Hotwire.
+
 - **Server-rendered UI with Hotwire and Primer.** For new screens and features, render HTML in Rails with Primer ViewComponents and add behaviour with Stimulus. State then lives on the server and in the DOM, not in a frontend store. See [Using Hotwire with ViewComponents](../hotwire-view-components) and [Stimulus](../stimulus).
 - **Signals in existing Angular screens.** New Angular components are still fine where they integrate with existing Angular screens, such as the work package table or work package editing. Hold component and local state in Signals (`signal`, `computed`, signal inputs) wherever RxJS is not the right mental model, and keep RxJS for streams of events and requests.
-- **Akita entity stores in `core/state`.** For API resources shared across Angular components, use a [`ResourceStoreService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/state/resource-store.service.ts) subclass such as `ProjectsResourceService`, following the entity store rules in the [frontend style guide](../../style-guide/frontend/). These are the current option for Angular code, not a long-term direction: Akita is no longer maintained, and the frontend is moving towards Hotwire.
+- **Akita entity stores in `core/state`.** For API resources shared across Angular components, use a [`ResourceStoreService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/state/resource-store.service.ts) subclass such as `ProjectsResourceService`, following the entity store rules in the [frontend style guide](../../style-guide/frontend/).
 - **`reactivestates`.** Use it only when working on existing code built around it, such as the `States` cache or the work package query space.
 
 ## InputState

@@ -194,11 +194,10 @@ console.log(project.name); // Demo Project
 console.log(wp.project.$loaded); // true
 ```
 
-On first glance, it might look nice to be able to `$load()` the embedded project on the fly and use the returning promise. However, this request will not be cached anywhere, thus loading the same project on multiple work packages will result in multiple requests.
+> [!CAUTION]
+> `$load()` is not cached and mutates the shared resource. Loading the same linked resource from several places sends repeated requests. Prefer a resource store where one exists.
 
-Also, the `workPackage` state will be constantly mutated whenever these requests happen. You will always have to check whether the resource was loaded.
-
-Instead of explicitly loading linked resources, prefer a resource store that loads and caches resources of a specific type. For example, `ProjectsResourceService#requireEntity(href)` returns an observable of the project, fetched from the API only if it is not already cached. This does not mutate the work package resource. See [Choosing an approach for new code](#choosing-an-approach-for-new-code).
+For example, `ProjectsResourceService#requireEntity(href)` returns an observable of the project, fetched from the API only if it is not already cached. This does not mutate the work package resource. See [Choosing an approach for new code](#choosing-an-approach-for-new-code).
 
 However, there are still use cases where `.$load()` is used and the resource is mutated.
 

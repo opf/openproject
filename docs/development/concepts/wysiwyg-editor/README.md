@@ -19,9 +19,12 @@ In the frontend, the [`CKEditorSetupService`](https://github.com/opf/openproject
 
 ## TypeScript declarations in OpenProject core
 
-Core imports CKEditor declarations with `import type` from version-pinned development dependencies. The runtime remains the vendored build in `frontend/src/vendor/ckeditor/`; do not add runtime imports from the npm packages.
+> [!IMPORTANT]
+> Import CKEditor declarations with `import type` from version-pinned development dependencies. Runtime code must continue using the vendored build in `frontend/src/vendor/ckeditor/`; do not add runtime imports from the npm packages.
+>
+> When updating the vendored build, update all direct `@ckeditor/ckeditor5-*` development dependencies in `frontend/package.json` to the exact CKEditor version used by that build and regenerate `frontend/package-lock.json`.
 
-When updating the vendored build, update all direct `@ckeditor/ckeditor5-*` development dependencies in `frontend/package.json` to the exact CKEditor version used by that build and regenerate `frontend/package-lock.json`. The version is also recorded in the vendored source map's `ckeditor5-utils` source. Run application/spec typechecks and the editor browser specs after updating.
+The version is also recorded in the vendored source map's `ckeditor5-utils` source. Run application/spec typechecks and the editor browser specs after updating.
 
 `ckeditor.types.ts` retains only the OpenProject configuration and `createCustomized` and `onEditorError` extensions alongside an alias for the upstream editor type. This is an interim integration until [OP-18993](https://community.openproject.org/wp/OP-18993) provides declarations from the custom build itself.
 
@@ -108,7 +111,8 @@ editor.conversion.for('dataDowncast').add((dispatcher) => {
 
 ## Debugging
 
-CKEditor comes with a debugger inspector that will make the development process easier, showing in real time the view and model representation that the editor has:
+> [!TIP]
+> Use CKEditor Inspector to inspect the editor's model and view while debugging plugins.
 
 ![ckeditor-inspector](ckeditor-inspector.png)
 

@@ -131,7 +131,8 @@ The detail table must follow these conventions:
 | Required columns | FK (non-null), `created_at`, `updated_at`    |
 | Unique index     | On the FK column (enforces 1:1)              |
 
-The concern reads the detail table's columns at load time to set up delegation, so **the migration should run before the model is loaded**. If it hasn't, delegation is deferred to `after_initialize` (see [Gotchas](#gotchas)). In practice this means the migration should exist before or alongside the code change — standard Rails migration ordering.
+> [!IMPORTANT]
+> Run the detail-table migration before relying on column delegation at class-load time. If the table is absent, delegation is deferred to `after_initialize` (see [Gotchas](#gotchas)). Include the migration before or alongside the code change.
 
 ## Adding associations to the detail
 
