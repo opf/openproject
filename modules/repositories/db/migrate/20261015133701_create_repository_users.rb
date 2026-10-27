@@ -31,13 +31,15 @@
 class CreateRepositoryUsers < ActiveRecord::Migration[8.1]
   def change
     create_table :repository_users do |t|
-      t.references :provider, null: false, foreign_key: { to_table: :repository_providers, on_delete: :cascade }
+      t.references :provider, null: false, index: false, foreign_key: { to_table: :repository_providers, on_delete: :cascade }
       t.string :external_id, null: false
       t.string :name, null: false
       t.string :username, null: false
       t.string :avatar_url, null: false
 
       t.timestamps precision: nil, null: false
+
+      t.index %i[provider_id external_id], unique: true
     end
   end
 end

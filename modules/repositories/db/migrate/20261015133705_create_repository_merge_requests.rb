@@ -32,7 +32,7 @@ class CreateRepositoryMergeRequests < ActiveRecord::Migration[8.1]
   # rubocop:disable-next Metrics/AbcSize
   def change
     create_table :repository_merge_requests do |t|
-      t.references :provider, null: false, foreign_key: { to_table: :repository_providers, on_delete: :cascade }
+      t.references :provider, null: false, index: false, foreign_key: { to_table: :repository_providers, on_delete: :cascade }
       t.references :repository_user, foreign_key: { on_delete: :nullify }
 
       t.string :external_id, null: false
@@ -46,6 +46,8 @@ class CreateRepositoryMergeRequests < ActiveRecord::Migration[8.1]
       t.datetime :external_updated_at, precision: nil, null: false
 
       t.timestamps precision: nil, null: false
+
+      t.index %i[provider_id web_url], unique: true
     end
 
     create_join_table :repository_merge_requests, :work_packages do |t|
