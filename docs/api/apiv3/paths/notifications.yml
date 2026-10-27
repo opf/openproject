@@ -107,3 +107,87 @@ get:
             errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
             message: Filters Invalid filter does not exist.
       description: Returned if the client sends invalid request parameters e.g. filters
+post:
+  summary: Create mention notification
+  operationId: create_notification
+  tags:
+    - Notifications
+  description: |-
+    Notifies the recipient that the current user mentioned them in the referenced resource.
+    Currently, only documents support mentioning users this way.
+
+    If the request is valid but the recipient is not to be notified, no notification is created and the response
+    has no content. This is the case if the recipient is the current user or if the recipient has disabled
+    notifications for being mentioned, either globally or for the resource's project.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/notification_mention_write_model.yml'
+        examples:
+          'Mention a user in a document':
+            $ref: '../components/examples/notification_mention_create_request.yml'
+  responses:
+    '201':
+      description: |-
+        Created. As the notification belongs to the recipient, only a reduced representation is returned.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/notification_created_model.yml'
+          examples:
+            'Created notification':
+              $ref: '../components/examples/notification_created_response.yml'
+    '204':
+      description: |-
+        Returned if the request is valid but no notification is created, because the recipient is the current user
+        or has disabled notifications for being mentioned.
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      description: |-
+        Returned if the client is not logged in and login is required or if the client does not have sufficient
+        permissions.
+
+        **Required permission:** manage documents in the document's project
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+    '404':
+      description: Returned if the resource does not exist or the client does not have sufficient permissions to see it.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      description: |-
+        Returned if:
+
+        - a constraint for a property was violated (`PropertyConstraintViolation`), e.g.
+          - the `reason` is not `mentioned`
+          - the `resource` does not support mentioning users via the API (e.g. a work package)
+          - the `recipient` does not exist, is not an active user or is not allowed to view the resource
+        - the client provides a link to an invalid resource (`ResourceTypeMismatch`)
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: resource
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Resource does not support mentioning users.
