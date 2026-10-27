@@ -825,7 +825,7 @@ describe('KeyboardNavigationTransformer', () => {
         relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
         editing: { fields: ['id', 'subject'] },
       }, (harness) => {
-        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String']);
+        harness.injector.get(DisplayFieldService).addFieldType(AnchorDisplayField, 'text', ['String', 'Integer']);
       });
       const hierarchies = table.injector.get(WorkPackageViewHierarchiesService);
       const idCell = table.row('1').querySelector<HTMLTableCellElement>('td.id')!;
