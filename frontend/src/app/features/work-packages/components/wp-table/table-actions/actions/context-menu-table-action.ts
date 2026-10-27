@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import {
   contextColumnIcon,
   contextMenuLinkClassName,
@@ -43,9 +44,9 @@ export class OpContextMenuTableAction extends OpTableAction {
     const contextMenu = document.createElement('a');
     contextMenu.href = '#';
     contextMenu.classList.add(contextMenuLinkClassName, contextColumnIcon);
-    contextMenu.title = this.text.linkTitle;
+
     contextMenu.appendChild(opIconElement('icon', 'icon-show-more-horizontal'));
 
-    return contextMenu;
+    return withTooltip(contextMenu, this.text.linkTitle, 'label');
   }
 }

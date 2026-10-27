@@ -48,5 +48,5 @@ export abstract class OpTableAction {
   public abstract readonly identifier:string;
 
   /** The actual action factory to return the action element, if it can be rendered */
-  public abstract buildElement():HTMLElement|null;
+  public abstract buildElement():HTMLElement|DocumentFragment|null;
 }

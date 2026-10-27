@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -122,15 +123,14 @@ export class WorkDisplayField extends DisplayField {
     const link = document.createElement('a');
 
     link.textContent = `Σ ${displayText}`;
-    link.title = `${this.derivedValueString} ${this.derivedText}`;
     link.classList.add('-derived-value', uiStateLinkClass);
 
     this.hierarchyQueryLinkHelper.addHref(link, this.resource);
 
-    element.appendChild(link);
+    element.appendChild(withTooltip(link, this.derivedText, 'description'));
   }
 
-  public get title():string|null {
+  public override get title():string|null {
     return null; // we want to render separate titles ourselves
   }
 
