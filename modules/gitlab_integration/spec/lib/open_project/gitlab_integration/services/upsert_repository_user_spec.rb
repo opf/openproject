@@ -31,9 +31,10 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe OpenProject::GitlabIntegration::Services::UpsertGitlabUser do
-  subject(:gitlab_user) { described_class.new.call(payload) }
+RSpec.describe OpenProject::GitlabIntegration::Services::UpsertRepositoryUser do
+  subject(:repository_user) { described_class.new.call(payload, provider:) }
 
+  let(:provider) { create(:repository_provider) }
   let(:email) { "admin@gitlab.com" }
 
   let(:payload) do
@@ -47,18 +48,37 @@ RSpec.describe OpenProject::GitlabIntegration::Services::UpsertGitlabUser do
   end
 
   it "stores the user" do
-    expect { gitlab_user }.to change(GitlabUser, :count).by(1)
-    expect(gitlab_user).to have_attributes(gitlab_id: 1,
-                                           name: "Administrator",
-                                           username: "root",
-                                           avatar_url: "https://www.gravatar.com/avatar/1?s=80&d=identicon")
+    expect { repository_user }.to change(Repositories::User, :count).by(1)
+    expect(repository_user).to have_attributes(provider:,
+                                               external_id: "1",
+                                               name: "Administrator",
+                                               username: "root",
+                                               avatar_url: "https://www.gravatar.com/avatar/1?s=80&d=identicon")
   end
 
   context "when the payload carries no email address" do
     let(:email) { nil }
 
     it "stores the user" do
-      expect { gitlab_user }.to change(GitlabUser, :count).by(1)
+      expect { repository_user }.to change(Repositories::User, :count).by(1)
+    end
+  end
+
+  context "when the user is already known" do
+    let!(:existing_user) { create(:repository_user, provider:, external_id: "1", name: "Old name") }
+
+    it "updates the user" do
+      expect { repository_user }.not_to change(Repositories::User, :count)
+      expect(existing_user.reload.name).to eq("Administrator")
+    end
+  end
+
+  context "when a user with the same ID is known to another provider" do
+    let!(:other_user) { create(:repository_user, external_id: "1", name: "Someone else") }
+
+    it "stores a separate user" do
+      expect { repository_user }.to change(Repositories::User, :count).by(1)
+      expect(other_user.reload.name).to eq("Someone else")
     end
   end
 end

@@ -87,16 +87,8 @@ module OpenProject::GitlabIntegration
                gitlab_user_url: payload.user.avatar_url)
       end
 
-      def merge_request
-        return @merge_request if defined?(@merge_request)
-
-        @merge_request = GitlabMergeRequest.find_by(gitlab_html_url: mr_attributes.url)
-      end
-
       def upsert_merge_request(work_packages)
-        return if work_packages.empty? && merge_request.nil?
-
-        OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new.call(payload, work_packages:)
+        OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new.call(payload, provider:, work_packages:)
       end
     end
   end

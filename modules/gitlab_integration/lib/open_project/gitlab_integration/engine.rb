@@ -86,14 +86,5 @@ module OpenProject::GitlabIntegration
       ::OpenProject::Notifications.subscribe("gitlab.push_hook") { |payload| NotificationHandlers.push_hook(payload) }
       ::OpenProject::Notifications.subscribe("gitlab.pipeline_hook") { |payload| NotificationHandlers.pipeline_hook(payload) }
     end
-
-    add_cron_jobs do
-      {
-        "Cron::ClearOldMergeRequestsJob": {
-          cron: "25 1 * * *", # runs at 1:25 nightly
-          class: ::Cron::ClearOldMergeRequestsJob.name
-        }
-      }
-    end
   end
 end

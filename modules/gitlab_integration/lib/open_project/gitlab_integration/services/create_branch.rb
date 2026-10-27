@@ -32,34 +32,22 @@ module OpenProject
   module GitlabIntegration
     module Services
       class CreateBranch
-        def call(payload, name:, work_package:)
-          GitlabBranch.find_or_create_by!(gitlab_project_id: payload.project_id, name:) do |branch|
-            branch.assign_attributes(work_package:, **extract_params(payload))
+        include ParamsHelper
+
+        def call(payload, provider:, name:, work_package:)
+          provider.branches.find_or_create_by!(external_project_id: payload.project_id.to_s, name:) do |branch|
+            branch.assign_attributes(work_package:, **extract_params(payload, provider))
           end
         end
 
         private
 
-        def extract_params(payload)
+        def extract_params(payload, provider)
           {
-            namespace: payload.project.path_with_namespace.rpartition("/").first,
-            project_html_url: payload.project.web_url,
-            repository: payload.repository.name,
-            gitlab_user: gitlab_user(payload)
+            project_name: payload.repository.name,
+            project_web_url: payload.project.web_url,
+            repository_user: pusher(payload, provider)
           }
-        end
-
-        # Push hooks flatten the pusher into user_* keys instead of the nested
-        # "user" object every other GitLab event sends.
-        def gitlab_user(payload)
-          UpsertGitlabUser.new.call(
-            ::OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
-              "id" => payload.user_id,
-              "name" => payload.user_name,
-              "username" => payload.user_username,
-              "avatar_url" => payload.user_avatar
-            )
-          )
         end
       end
     end

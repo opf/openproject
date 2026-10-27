@@ -36,11 +36,11 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
 
   shared_let(:gitlab_system_user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
+  shared_let(:provider) { create(:repository_provider, url: "http://79dfcd98b723") }
 
   let(:handler_instance) { described_class.new }
   let(:upsert_service) { OpenProject::GitlabIntegration::Services::UpsertIssue.new }
   let(:gitlab_url) { "http://79dfcd98b723/root/hot_do/-/issues/4" }
-  let(:gitlab_issue) { GitlabIssue.find_by_gitlab_identifiers(id: 5, url: gitlab_url) }
 
   let(:mr_description) { "Mentioning OP##{work_package.id}" }
   let(:gitlab_action) { "open" }
@@ -51,6 +51,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
   let(:payload) do
     {
       "open_project_user_id" => gitlab_system_user.id,
+      "repository_provider_id" => provider.id,
       "object_kind" => "issue",
       "event_type" => "issue",
       "user" => {
@@ -70,7 +71,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
         "draft" => issue_draft,
         "work_in_progress" => issue_draft,
         "state" => issue_state,
-        "id" => 5,
+        "id" => 1005,
         "iid" => 5,
         "head_pipeline_id" => nil,
         "url" => gitlab_url,
@@ -129,15 +130,16 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
     it "calls the issue upsert service" do
       process
       expect(upsert_service).to have_received(:call)
-        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package])
+        .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+              provider:,
+              work_packages: [work_package])
     end
 
     context "when no work_package was mentioned" do
       let(:mr_description) { "some text that does not mention any work package" }
 
-      it "does not call the issue upsert service" do
-        process
-        expect(upsert_service).not_to have_received(:call)
+      it "does not store the issue" do
+        expect { process }.not_to change(Repositories::Issue, :count)
       end
     end
   end
@@ -166,22 +168,30 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
     it_behaves_like "adding a comment"
     it_behaves_like "calls the issue upsert service"
 
-    context "when the work package is already known to the GitlabIssue" do
-      let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 5, gitlab_html_url: gitlab_url, work_packages: [work_package]) }
+    context "when the work package is already known to the issue" do
+      let!(:issue) do
+        create(:repository_issue,
+               provider:, external_id: "1005", display_id: "5", web_url: gitlab_url, work_packages: [work_package])
+      end
 
       it_behaves_like "adding a comment"
 
       it "calls the issue upsert service" do
-        expect { process }.to change { gitlab_issue.reload.state }.from("opened").to("closed")
+        expect { process }.to change { issue.reload.state }.from("opened").to("closed")
         expect(upsert_service).to have_received(:call).with(
-          a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package]
+          a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+          provider:,
+          work_packages: [work_package]
         )
       end
     end
   end
 
   context "with a labeled action" do
-    let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 5, work_packages: [work_package]) }
+    let!(:issue) do
+      create(:repository_issue,
+             provider:, external_id: "1005", display_id: "5", web_url: gitlab_url, work_packages: [work_package])
+    end
     let(:gitlab_action) { "update" }
     let(:issue_state) { "opened" }
 
@@ -222,11 +232,12 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
     it_behaves_like "adding a comment"
 
     it "calls the issue upsert service with all work_packages" do
-      gitlab_issue = process.reload
-      expect(gitlab_issue.labels).to eq([{ "title" => "feature", "color" => "#009966" },
+      issue = process.reload
+      expect(issue.labels).to eq([{ "title" => "feature", "color" => "#009966" },
                                          { "title" => "needs review", "color" => "#9400d3" }])
 
       expect(upsert_service).to have_received(:call).with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload),
+                                                          provider:,
                                                           work_packages: [work_package])
     end
   end
@@ -243,5 +254,34 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
 
     it_behaves_like "adding a comment"
     it_behaves_like "calls the issue upsert service"
+  end
+
+  context "when the issue was stored with its iid as external ID" do
+    let!(:issue) do
+      create(:repository_issue,
+             provider:, external_id: "5", display_id: "5", web_url: gitlab_url, work_packages: [work_package])
+    end
+
+    it "updates the stored issue and corrects its external ID" do
+      expect { process }.not_to change(Repositories::Issue, :count)
+      expect(issue.reload.external_id).to eq("1005")
+    end
+  end
+
+  context "when the project of a tracked issue was moved and no work package is mentioned" do
+    let(:mr_description) { "some text that does not mention any work package" }
+    let!(:issue) do
+      create(:repository_issue,
+             provider:,
+             external_id: "1005",
+             display_id: "5",
+             web_url: "http://79dfcd98b723/old_group/hot_do/-/issues/4",
+             work_packages: [work_package])
+    end
+
+    it "updates the issue with its new URL" do
+      expect { process }.not_to change(Repositories::Issue, :count)
+      expect(issue.reload.web_url).to eq(gitlab_url)
+    end
   end
 end

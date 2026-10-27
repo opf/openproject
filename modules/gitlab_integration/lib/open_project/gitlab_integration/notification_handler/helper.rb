@@ -143,6 +143,10 @@ module OpenProject::GitlabIntegration
       def wrap_payload(payload)
         Payload.new(payload)
       end
+
+      def provider
+        @provider ||= ::Repositories::GitlabProvider.find(payload.repository_provider_id)
+      end
     end
   end
 end

@@ -35,14 +35,31 @@ module OpenProject
         private
 
         EMPTY_AVATAR_URL = "https://www.gravatar.com/avatar/?d=mp"
-        EMPTY_DESCRIPTION = "No description provided"
 
         def avatar_url(raw_url)
           raw_url.presence || EMPTY_AVATAR_URL
         end
 
-        def description(raw_description)
-          raw_description.presence || EMPTY_DESCRIPTION
+        def repository_user(user_payload, provider)
+          return if user_payload.blank?
+
+          UpsertRepositoryUser.new.call(user_payload, provider:)
+        end
+
+        # Push hooks flatten the pusher into user_* keys instead of the nested
+        # "user" object every other GitLab event sends.
+        def pusher(push_payload, provider)
+          user_payload = ::OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
+            "id" => push_payload.user_id,
+            "name" => push_payload.user_name,
+            "username" => push_payload.user_username,
+            "avatar_url" => push_payload.user_avatar
+          )
+          repository_user(user_payload, provider)
+        end
+
+        def labels(label_payloads)
+          label_payloads.map { |label| { title: label["title"], color: label["color"] } }
         end
       end
     end
