@@ -162,7 +162,7 @@ export default class PatternInputController extends Controller {
     // This resets the cursor position without changing it.
     // It is necessary because chromium based browsers try to
     // retain styling and adds an unwanted <font> tag,
-    // breaking the behaviour of this component
+    // breaking the behavior of this component
     const selection = document.getSelection();
     if (selection?.rangeCount) {
       const range = selection.getRangeAt(0);

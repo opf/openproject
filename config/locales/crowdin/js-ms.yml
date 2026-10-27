@@ -61,6 +61,7 @@ ms:
         single: Pilih "%{name}"
       remove: Keluarkan %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Tiada item ditemui
       placeholder: Taip untuk cari
       project:
@@ -162,6 +163,7 @@ ms:
     button_stop_timer: Stop timer
     button_uncheck_all: Batalkan semua pilihan
     button_update: Kemas kini
+    button_view_markdown: View Markdown
     caption_rate_history: Sejarah kadar
     card:
       add_new: Tambah kad baharu
@@ -359,8 +361,8 @@ ms:
     ical_sharing_modal:
       copy_url_label: Salin URL
       description: Anda boleh menggunakan URL (iCalendar) untuk melanggan kalendar ini dalam pelanggan luaran dan lihat maklumat pakej kerja terkini dari situ.
-      ical_generation_error_text: Ralat berlaku semasa menjana URL kalendar.
-      inital_setup_error_message: Ralat berlaku ketika sedang mengambil data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: '"%{name}" URL berjaya disalin ke papan klip anda. Sisipkan ia dalam kalendar pelanggan anda untuk lengkapkan langganan.'
       title: Langgan kalendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -552,6 +554,8 @@ ms:
     label_reset: Tetapkan semula
     label_resize_project_menu: Resize project menu
     label_save_as: Simpan sebagai
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Cari kolum
     label_select_watcher: Pilih pemerhati...
     label_selected_filter_list: Penyaring yang dipilih

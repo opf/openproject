@@ -32,7 +32,7 @@ module WorkPackage::Exports
     module PDF
       class CompoundDoneRatio < ::Exports::Formatters::Default
         def self.apply?(name, export_format)
-          name.to_sym == :done_ratio && export_format == :pdf
+          name.to_sym == :done_ratio && export_format.in?(%i[pdf md])
         end
 
         def format(work_package, **)

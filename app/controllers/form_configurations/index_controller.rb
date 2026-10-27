@@ -61,6 +61,16 @@ module FormConfigurations
              layout: false
     end
 
+    def types_dialog
+      record = ::FormConfiguration.find(params.expect(:id))
+
+      respond_with_dialog(
+        WorkPackageTypes::NamedReferences::Index::TypesDialogComponent.new(
+          record:, model_class:, variants: ordered_variants.where(form_configuration_id: record.id)
+        )
+      )
+    end
+
     private
 
     def model_class = ::FormConfiguration
@@ -120,13 +130,15 @@ module FormConfigurations
     end
 
     def form_variants
-      @form_variants ||= TypeVariant
-                           .where(form_configuration_id: forms.map(&:id))
-                           .includes(:type, :projects)
-                           .joins(:type)
-                           .merge(::Type.order(:position))
-                           .in_display_order
-                           .group_by(&:form_configuration_id)
+      @form_variants ||= ordered_variants.where(form_configuration_id: forms.map(&:id)).group_by(&:form_configuration_id)
+    end
+
+    def ordered_variants
+      TypeVariant
+        .includes(:type, :projects)
+        .joins(:type)
+        .merge(::Type.order(:position))
+        .in_display_order
     end
 
     def candidate_projects

@@ -69,7 +69,6 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     },
     buttons: {
       submit: this.i18n.t('js.storages.choose_location'),
-      submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
       newFolder: this.i18n.t('js.storages.new_folder'),

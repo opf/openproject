@@ -26,34 +26,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_scoped(:heading) } %>
 <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:lead_html) } %>
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:description) } %>
-<%= render(Primer::Beta::Text.new(tag: :p, mb: 4)) { t_scoped(:step_by_step) } %>
 
-<% if show_reuse? %>
-  <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 2)) { t_start(:reuse_heading) } %>
-  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_intro) } %>
-  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_named) } %>
-  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_start(:reuse_inherit) } %>
+<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_scoped(:options_heading) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:options_intro) } %>
 
-  <%= flex_layout(align_items: :stretch, classes: "gap-3", direction: [:column, nil, :row]) do |modes| %>
-    <% modes.with_box(flex: 1) do %>
-      <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
-        <% box.with_title { t_start(:inherit_title) } %>
-        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:inherit_description) } %>
-        <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
-        <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+<%= render(Primer::Box.new(mb: 3)) do %>
+  <% options.each do |key, icon| %>
+    <%= flex_layout(py: 3) do |option| %>
+      <% option.with_column(mr: 2) do %>
+        <%= render(Primer::Beta::Octicon.new(icon:)) %>
       <% end %>
-    <% end %>
-
-    <% modes.with_box(flex: 1) do %>
-      <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
-        <% box.with_title { t_start(:manual_title) } %>
-        <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t_start(:manual_description) } %>
-        <%# Temporary placeholder, replaced by the mode illustration soon (MAW-3949) %>
-        <%= render(Primer::Box.new(mt: 3, py: 6, text_align: :center, color: :muted)) { "Illustration" } %>
+      <% option.with_column(flex: 1) do %>
+        <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :semibold, mb: 1)) { t_scoped(:"#{key}_title") } %>
+        <%= render(Primer::Beta::Text.new(tag: :p, mb: 0)) { t_scoped(:"#{key}_description") } %>
       <% end %>
     <% end %>
   <% end %>
 <% end %>
+
+<% if adding_variant? %>
+  <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_scoped(:objects_heading) } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:objects_description) } %>
+<% end %>
+
+<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mb: 3)) { t_start(:next_heading) } %>
+<%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t_scoped(:next_steps) } %>

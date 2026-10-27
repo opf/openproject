@@ -76,7 +76,7 @@ module Projects::CreationWizard
     end
 
     # Creating the attachment does not create a work package
-    # journal on its own, so the artefact would only surface in the Activity tab after
+    # journal on its own, so the artifact would only surface in the Activity tab after
     # the next unrelated change. Create the journal explicitly so it shows up right away.
     def journalize_attachment(author)
       OpenProject::Mutex.with_advisory_lock_transaction(artifact_work_package) do

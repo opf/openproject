@@ -61,6 +61,7 @@ el:
         single: Επιλογή "%{name}"
       remove: Διαγραφή %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: No items found
       placeholder: Πληκτρολογήστε για αναζήτηση
       project:
@@ -162,6 +163,7 @@ el:
     button_stop_timer: Διακοπή χρονόμετρου
     button_uncheck_all: Αποεπιλογή όλων
     button_update: Ενημέρωση
+    button_view_markdown: View Markdown
     caption_rate_history: Ιστορικό αμοιβής
     card:
       add_new: Προσθέστε νέα κάρτα
@@ -359,8 +361,8 @@ el:
     ical_sharing_modal:
       copy_url_label: Copy URL
       description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
       title: Subscribe to calendar
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -552,6 +554,8 @@ el:
     label_reset: Επαναφορά
     label_resize_project_menu: Resize project menu
     label_save_as: Αποθήκευση ως
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Search a column
     label_select_watcher: Επιλέξτε έναν παρατηρητή...
     label_selected_filter_list: Επιλεγμένα φίλτρα

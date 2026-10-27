@@ -47,7 +47,7 @@ RSpec.describe IncomingEmails::Handlers::MeetingResponse do
       let(:email) do
         Mail.new do
           from "somebody@example.com"
-          add_file filename: "reponse.ics", content: "BEGIN:VCALENDAR..."
+          add_file filename: "response.ics", content: "BEGIN:VCALENDAR..."
         end
       end
 
@@ -88,7 +88,7 @@ RSpec.describe IncomingEmails::Handlers::MeetingResponse do
 
         Mail.new do
           from "somebody@example.com"
-          add_file filename: "reponse.ics", content: ical_string
+          add_file filename: "response.ics", content: ical_string
         end
       end
 

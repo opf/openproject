@@ -75,7 +75,7 @@ RSpec.describe API::V3::AllocatableWorkPackages::AllocatableWorkPackagesAPI,
                                   filters: [{ subject: { operator: "~", values: ["Allocatable"] } }])
       end
 
-      it "still honours the full work package filter vocabulary" do
+      it "still honors the full work package filter vocabulary" do
         expect(last_response).to have_http_status(:ok)
         expect(returned_ids).to contain_exactly(allocatable.id)
       end

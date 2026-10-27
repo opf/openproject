@@ -40,9 +40,11 @@ class WorkPackagesController < ApplicationController
   UPDATED_EVENT_NAME = "op-dispatched:work-packages:updated"
 
   accept_rss_key_auth :index, :show
+  accept_api_key_auth :show
 
   before_action :authorize_on_work_package,
                 :project, only: %i[show generate_pdf_dialog generate_pdf]
+  before_action :authorize_export_on_work_package, only: %i[generate_pdf_dialog generate_pdf]
   before_action :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
 
@@ -112,6 +114,8 @@ class WorkPackagesController < ApplicationController
         render :show,
                locals: { work_package:, menu_name: project_or_global_menu }
       end
+
+      format.md { render_markdown_export }
 
       handle_standard_show_formats(format)
     end
@@ -200,6 +204,8 @@ class WorkPackagesController < ApplicationController
 
   protected
 
+  def api_key_auth_format? = request.format == Mime[:md]
+
   def load_and_validate_query_for_export
     if params[:query_id].present?
       # A saved query may be opened from a project other than the one it belongs to
@@ -237,6 +243,12 @@ class WorkPackagesController < ApplicationController
     redirect_back(fallback_location: work_package_path(work_package))
   end
 
+  def render_markdown_export
+    export = Exports::Register.single_exporter(WorkPackage, :md).new(work_package).export!
+    response.headers["Content-Disposition"] = %(inline; filename="#{export.title}")
+    render markdown: export.content
+  end
+
   def atom_journals
     render template: "journals/index",
            layout: false,
@@ -257,7 +269,7 @@ class WorkPackagesController < ApplicationController
 
   def handle_standard_show_formats(format)
     format.any(*supported_single_formats) do
-      export_single(request.format.symbol)
+      export_allowed? ? export_single(request.format.symbol) : head(:forbidden)
     end
 
     format.atom do
@@ -289,6 +301,14 @@ class WorkPackagesController < ApplicationController
 
   def authorize_on_work_package
     deny_access(not_found: true) unless work_package
+  end
+
+  def authorize_export_on_work_package
+    deny_access unless export_allowed?
+  end
+
+  def export_allowed?
+    current_user.allowed_in_work_package?(:export_work_packages, work_package)
   end
 
   def render_assign_to_me_result(call)

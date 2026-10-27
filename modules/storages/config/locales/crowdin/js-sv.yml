@@ -26,7 +26,7 @@ sv:
         select: Välj filer
         select_all: Välj alla
         selection:
-          zero: Välj filer att länka
+          none: Select files to link
           one: Link %{count} file
           other: Link %{count} files
         success_create:

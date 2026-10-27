@@ -32,6 +32,23 @@ require "spec_helper"
 RSpec.describe WorkPackage::Exports::Formatters::PDF::CompoundDoneRatio do
   subject { described_class.new(:done_ratio) }
 
+  describe ".apply?" do
+    it "applies to done_ratio in pdf and md exports", :aggregate_failures do
+      expect(described_class.apply?(:done_ratio, :pdf)).to be true
+      expect(described_class.apply?(:done_ratio, :md)).to be true
+    end
+
+    it "does not apply to csv exports" do
+      expect(described_class.apply?(:done_ratio, :csv)).to be false
+    end
+  end
+
+  describe "registration" do
+    it "is the formatter picked for done_ratio in md exports" do
+      expect(Exports::Register.formatter_for(WorkPackage, :done_ratio, :md)).to be_a(described_class)
+    end
+  end
+
   describe "#format" do
     it "returns empty string if neither done_ratio or derived_done_ratio is set" do
       work_package = build(:work_package, done_ratio: nil, derived_done_ratio: nil)

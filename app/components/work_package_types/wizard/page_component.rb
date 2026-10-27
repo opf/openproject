@@ -73,7 +73,11 @@ module WorkPackageTypes
         variant_settings_path(nil, type.default_variant)
       end
 
-      def step_title = Steps.title(current_step)
+      def step_title
+        return I18n.t("types.creation_wizard.start.#{adding_variant? ? 'variant' : 'type'}.heading") if current_step == :start
+
+        Steps.title(current_step)
+      end
 
       def step_url
         variant_creation_wizard_path(helpers.variant_scope_project, variant, step: current_step, **carried_params)

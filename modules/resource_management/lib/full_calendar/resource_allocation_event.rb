@@ -65,7 +65,7 @@ module FullCalendar
       end
 
       def hidden_label
-        I18n.t("resource_management.my_work.hidden_work_package")
+        I18n.t("resource_management.my_time_management.hidden_work_package")
       end
     end
 

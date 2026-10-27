@@ -26,7 +26,7 @@
         select: Velg filer
         select_all: Velg alle
         selection:
-          zero: Velg filer som skal kobles
+          none: Select files to link
           one: Link %{count} file
           other: Link %{count} files
         success_create:

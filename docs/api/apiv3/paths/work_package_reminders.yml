@@ -1,4 +1,4 @@
-# /api/v3/work_packages/{work_package_id}/reminders
+# /api/v3/work_packages/{id}/reminders
 ---
 get:
   summary: List work package reminders
@@ -11,7 +11,7 @@ get:
 
     Only active reminders that belong to the current user are returned.
   parameters:
-    - name: work_package_id
+    - name: id
       in: path
       description: Work package id
       example: 1
@@ -82,7 +82,7 @@ post:
 
     **Note:** A user can only have one **active** reminder at a time for a given work package.
   parameters:
-    - name: work_package_id
+    - name: id
       in: path
       description: Work package id
       example: 1

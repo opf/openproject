@@ -1,0 +1,52 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <% if forms.any? %>
+    <%= render(Primer::Beta::BorderBox.new(test_selector: "custom-field-forms-list")) do |box| %>
+      <% box.with_header do %>
+        <%= render(Primer::Beta::Text.new(font_weight: :semibold, color: :muted)) { header_label } %>
+      <% end %>
+      <% forms.each do |form| %>
+        <% box.with_row(test_selector: "custom-field-form-row-#{form.id}") do %>
+          <%= render(Primer::Beta::Link.new(href: helpers.edit_polymorphic_path(form), font_weight: :bold)) { form.name } %>
+          <% if form.description.present? %>
+            <%= render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) { form.description } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= helpers.pagination_links_full(forms, params: { action: "forms" }, allowed_params: %w[filters]) %>
+  <% else %>
+    <%= render(Primer::Beta::Blankslate.new(border: true)) do |blank_slate| %>
+      <% blank_slate.with_visual_icon(icon: blank_icon, size: :medium) %>
+      <% blank_slate.with_heading(tag: :h2) { blank_title } %>
+      <% blank_slate.with_description { blank_description } %>
+    <% end %>
+  <% end %>
+<% end %>

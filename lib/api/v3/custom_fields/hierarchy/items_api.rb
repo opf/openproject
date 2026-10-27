@@ -32,6 +32,8 @@ module API
         class ItemsAPI < ::API::OpenProjectAPI
           include Dry::Monads[:result]
 
+          helpers ::API::V3::CustomFields::ProjectSpecificValuesHelper
+
           helpers do
             def item_list(query)
               hierarchy_root = get_hierarchy_root(query)
@@ -41,16 +43,18 @@ module API
 
               start_item = ::CustomField::Hierarchy::Item.find_by(id: validation[:parent]) || hierarchy_root
               depth = validation[:depth] || -1
+              visible_ids = visible_value_ids(@custom_field)
+              raise ::API::Errors::NotFound if !start_item.root? && hidden_value?(start_item, visible_ids)
 
-              flat_tree(start_item, depth)
+              flat_tree(start_item, depth, visible_ids)
             end
 
-            def flat_tree(item, depth)
+            def flat_tree(item, depth, visible_ids)
               ::CustomFields::Hierarchy::HierarchicalItemService
                 .new
                 .hashed_subtree(item:, depth:)
                 .either(
-                  ->(value) { ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(value) },
+                  ->(value) { ::CustomFields::Hierarchy::HierarchicalItemAggregator.flatten_tree_hash(value, visible_ids:) },
                   ->(error) do
                     msg = "#{I18n.t('api_v3.errors.code_500')} #{error}"
                     raise ::API::Errors::SafeInternalError.new(msg)
@@ -97,7 +101,8 @@ module API
                 raise ::API::Errors::InvalidQuery.new(message)
               end
 
-              self_link = api_v3_paths.custom_field_items(@custom_field.id, params[:parent], params[:depth])
+              self_link = api_v3_paths.custom_field_items(@custom_field.id, params[:parent], params[:depth],
+                                                          project: params[:project])
               HierarchyItemCollectionRepresenter.new(item_list(query), self_link:, current_user:)
             end
           end

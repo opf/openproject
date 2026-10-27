@@ -51,8 +51,8 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { EventHandler } from 'ng-dynamic-component';
 
 export interface DynamicComponentDefinition {
-  component:ComponentType<any>;
-  inputs?:Record<string, any>;
+  component:ComponentType<unknown>;
+  inputs?:Record<string, unknown>;
   outputs?:Record<string, EventHandler>;
 }
 

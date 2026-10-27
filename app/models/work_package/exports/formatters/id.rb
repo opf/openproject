@@ -34,7 +34,7 @@ module WorkPackage::Exports
     # ID in classic mode.
     class Id < ::Exports::Formatters::Default
       def self.apply?(attribute, export_format)
-        attribute.to_sym == :id && export_format == :csv
+        attribute.to_sym == :id && export_format.in?(%i[csv md])
       end
 
       protected

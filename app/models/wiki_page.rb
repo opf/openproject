@@ -95,7 +95,7 @@ class WikiPage < ApplicationRecord
   end
 
   # Using a hook will not allow us to retry the call
-  # rubocop:disable Rails/ActiveRecordOverride
+  # rubocop:disable-next Rails/ActiveRecordOverride
   def destroy
     super
   rescue ActiveRecord::StaleObjectError
@@ -104,7 +104,6 @@ class WikiPage < ApplicationRecord
     reload
     super
   end
-  # rubocop:enable Rails/ActiveRecordOverride
 
   def delete_wiki_menu_item
     menu_item&.destroy

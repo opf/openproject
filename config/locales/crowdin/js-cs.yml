@@ -61,6 +61,7 @@ cs:
         single: Vybrat "%{name}"
       remove: Odstranit %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenalezeny žádné položky
       placeholder: Zadejte hledaný text
       project:
@@ -162,6 +163,7 @@ cs:
     button_stop_timer: Zastavit časovač
     button_uncheck_all: Odznačit vše
     button_update: Aktualizovat
+    button_view_markdown: View Markdown
     caption_rate_history: Historie sazeb
     card:
       add_new: Přidat novou kartu
@@ -359,8 +361,8 @@ cs:
     ical_sharing_modal:
       copy_url_label: Kopírovat URL
       description: Můžete použít URL (iCalendar) k odběru tohoto kalendáře v externím klientovi a zobrazit aktuální informace o pracovním balíčku.
-      ical_generation_error_text: Při generování adresy URL kalendáře došlo k chybě.
-      inital_setup_error_message: Při načítání dat došlo k chybě.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: URL "%{name}" byla úspěšně zkopírována do vaší schránky. Vložte ji do vašeho klienta kalendáře pro dokončení odběru.
       title: Přihlásit kalendář k odběru
       token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
@@ -552,6 +554,8 @@ cs:
     label_reset: Reset
     label_resize_project_menu: Resize project menu
     label_save_as: Uložit jako
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Vyhledávání ve sloupci
     label_select_watcher: Zvolte sledujícího...
     label_selected_filter_list: Vybrané filtry

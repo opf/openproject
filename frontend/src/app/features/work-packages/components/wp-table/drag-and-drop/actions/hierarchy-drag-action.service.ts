@@ -87,7 +87,7 @@ export class HierarchyDragActionService extends TableDragActionService {
 
       const previousWpId = (previous as HTMLElement).dataset.workPackageId!;
 
-      if (this.isHiearchyRoot(previous, previousWpId)) {
+      if (this.isHierarchyRoot(previous, previousWpId)) {
         const droppedIntoCollapsedGroup = isInsideCollapsedGroup(next);
 
         if (droppedIntoCollapsedGroup) {
@@ -137,7 +137,7 @@ export class HierarchyDragActionService extends TableDragActionService {
     return !skipDroppedIntoGroup && inGroup || isRoot;
   }
 
-  private isHiearchyRoot(previous:Element, previousWpId:string):boolean {
+  private isHierarchyRoot(previous:Element, previousWpId:string):boolean {
     return previous.classList.contains(hierarchyRootClass(previousWpId));
   }
 

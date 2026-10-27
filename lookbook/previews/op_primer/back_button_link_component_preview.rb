@@ -32,7 +32,7 @@ module OpPrimer
   # @display min_height 250px
   class BackButtonLinkComponentPreview < Lookbook::Preview
     # Use [`link_to :back`](https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to)
-    # special behaviour with Primer styling.
+    # special behavior with Primer styling.
     #
     # `Primer::Beta::Button.new(tag: :a, href: :back)` links to `/back` unfortunately,
     # hence this tiny component…

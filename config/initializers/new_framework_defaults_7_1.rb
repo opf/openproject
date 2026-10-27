@@ -239,7 +239,7 @@ Rails.application.config.active_record.marshalling_format_version = 7.1
 
 ###
 # Run `after_commit` and `after_*_commit` callbacks in the order they are defined in a model.
-# This matches the behaviour of all other callbacks.
+# This matches the behavior of all other callbacks.
 # In previous versions of Rails, they ran in the inverse order.
 #++
 # Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = true

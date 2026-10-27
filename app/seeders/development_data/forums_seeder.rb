@@ -25,6 +25,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
+#++
+
 module DevelopmentData
   class ForumsSeeder < Seeder
     PROJECT_IDENTIFIER = "dev-forums"

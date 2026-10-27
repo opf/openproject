@@ -126,7 +126,7 @@ module ScimV2
     private
 
     # There is a bug in scimitar gem.
-    # When "$ref" sub-attribute is present then scim_reosource cannot be intialized
+    # When "$ref" sub-attribute is present then scim_resource cannot be initialized
     # Firstly it fails because $ref is not part of the schema.
     # Secondly if it has been added to the schema then "$ref" cannot be a parameter for `attr_accessor` call.
     # Hopefully helpful code links:

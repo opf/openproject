@@ -114,14 +114,14 @@ pt-PT:
       outside_dates:
         description: As datas do recurso selecionado, %{resource_dates}, encontram-se fora do intervalo de datas do pacote de trabalho, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} disponível · %{scheduled} agendado"
         description: O utilizador selecionado, %{user}, seria destacado para fora do seu horário de trabalho neste período.
-        hidden_work: Outras atribuições
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule} (%{factor}% disponível para trabalhar no projeto)"
         schedule_change: até %{date}, depois %{schedule}
         schedule_note: Este utilizador trabalha %{schedule}.
         submit: Atribuir horas extraordinárias
         title: Quer atribuir horas extraordinárias ao utilizador?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: Atribuir
       success_message: Recurso atribuído.
@@ -173,7 +173,7 @@ pt-PT:
     label_new_resource_planner: Novo planeador de recursos
     label_resource_planner: Planeador de recursos
     label_resource_planner_plural: Planeadores de recursos
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Adicionar vista
@@ -261,7 +261,8 @@ pt-PT:
       no_work_schedule: Não existe qualquer horário de trabalho previsto para este utilizador
       overbooked: Este utilizador excedeu a sua quota no período selecionado.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} agendado, %{available} disponível"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: Adicionar utilizador
     view_types:

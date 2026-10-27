@@ -38,7 +38,7 @@ module WorkPackages
 
       # The job runs with a clean request store, so User.current would be
       # Anonymous here. Act as the user who caused the journalized change so the
-      # generated artefacts (attachment and its journal entry) are attributed to them.
+      # generated artifacts (attachment and its journal entry) are attributed to them.
       User.execute_as(journal.user) do
         services.each do |service|
           service.new(current_user: journal.user, work_package:).call!(changes:)
