@@ -294,6 +294,16 @@ RSpec.shared_examples "work package contract" do
         it_behaves_like "contract is invalid", labels: :too_long
       end
 
+      context "with more pending names than allowed" do
+        let(:permissions) { super() + %i[edit_work_packages] }
+
+        before do
+          work_package.label_name_replacements = Array.new(Labelable::MAX_PENDING_LABEL_NAMES + 1) { "Label #{it}" }
+        end
+
+        it_behaves_like "contract is invalid", labels: :too_many
+      end
+
       context "with several pending names the user may create" do
         let(:permissions) { super() + %i[edit_work_packages] }
 

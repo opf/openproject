@@ -1047,6 +1047,8 @@ en:
             identifier:
               must_not_be_changed: "must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent."
               semantic_identifier_incomplete: "and sequence_number must both be set at the same time."
+            labels:
+              too_many: "can't include more than %{count} new labels."
             observed_in_versions:
               error_readonly: "cannot be set because you are not allowed to assign versions in this project."
             parent:

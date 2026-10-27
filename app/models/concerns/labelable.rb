@@ -30,6 +30,8 @@
 module Labelable
   extend ActiveSupport::Concern
 
+  MAX_PENDING_LABEL_NAMES = 50
+
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
     has_many :labels, -> { order(:id) }, through: :labelings

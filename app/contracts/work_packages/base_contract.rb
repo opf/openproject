@@ -433,6 +433,11 @@ module WorkPackages
       return if model.label_name_replacements.blank?
       return unless writable?(:labels)
 
+      if model.label_name_replacements.size > Labelable::MAX_PENDING_LABEL_NAMES
+        errors.add(:labels, :too_many, count: Labelable::MAX_PENDING_LABEL_NAMES)
+        return
+      end
+
       pending_label_error_symbols.each { errors.add(:labels, it) }
     end
 
@@ -457,7 +462,7 @@ module WorkPackages
 
     def label_name_errors(name)
       label = Label.new(name:)
-      Label.validators_on(:name).grep_v(ActiveRecord::Validations::UniquenessValidator).each { it.validate(label) }
+      label.valid?
       label.errors.symbols_for(:name)
     end
 
