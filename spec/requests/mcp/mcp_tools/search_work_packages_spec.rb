@@ -262,7 +262,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       end
     end
 
-    describe "filtering by label_id" do
+    describe "filtering by label_id", with_flag: { work_package_labels: true } do
       let(:label) { create(:label) }
 
       before { work_package_a.labels << label }
@@ -282,6 +282,15 @@ RSpec.describe McpTools::SearchWorkPackages do
         it "returns work packages without any label" do
           mcp_request
           expect(result_items.pluck("id")).to contain_exactly(work_package_b.id)
+        end
+      end
+
+      context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
+        let(:call_args) { { label_id: label.id } }
+
+        it "does not find any work packages" do
+          mcp_request
+          expect(result_items).to be_empty
         end
       end
     end
