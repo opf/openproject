@@ -4,6 +4,8 @@ on:
   pull_request:
     paths-ignore:
       - "docs/**"
+      - "extensions/blocknote-extensions/**"
+      - "extensions/op-blocknote-hocuspocus/**"
 
 jobs:
   rubocop:

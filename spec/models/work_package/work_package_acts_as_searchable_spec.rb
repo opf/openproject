@@ -79,5 +79,37 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
         expect(WorkPackage.search(wp_subject.split, nil, offset:).first).to include(work_package)
       end
     end
+
+    describe "with a searchable list custom field with project-specific values" do
+      let(:type) { create(:type) }
+      let(:project) { create(:project, public: false, types: [type]) }
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist,
+               types: [type], searchable: true, possible_values: %w[Acme Oscorp])
+      end
+      let(:acme) { custom_field.custom_options.find_by!(value: "Acme") }
+      let(:oscorp) { custom_field.custom_options.find_by!(value: "Oscorp") }
+      let!(:acme_work_package) do
+        create(:work_package, project:, type:, custom_values: { custom_field.id => acme.id.to_s })
+      end
+      let!(:oscorp_work_package) do
+        create(:work_package, project:, type:, custom_values: { custom_field.id => oscorp.id.to_s })
+      end
+
+      before do
+        create(:project_specific_value_restriction, project:, custom_option: acme)
+        allow(User).to receive(:current).and_return user
+
+        become_member_with_permissions(project, user, :view_work_packages)
+      end
+
+      it "finds the work package by an option usable in its project" do
+        expect(described_class.search(["Acme"]).first).to contain_exactly(acme_work_package)
+      end
+
+      it "does not find the work package by an option no longer usable in its project" do
+        expect(described_class.search(["Oscorp"]).first).to be_empty
+      end
+    end
   end
 end

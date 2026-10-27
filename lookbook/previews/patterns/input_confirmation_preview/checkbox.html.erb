@@ -1,0 +1,36 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.check_box(
+        name: :project_specific_values,
+        label: "Project-specific values",
+        checked: true,
+        data: { input_confirmation_target: "input" }
+      )
+    end
+  end
+%>
+
+<div data-controller="input-confirmation">
+  <%=
+    primer_form_with(url: "/abc", method: :post) do |f|
+      render(the_form.new(f))
+    end
+  %>
+
+  <%=
+    render(
+      Primer::OpenProject::DangerDialog.new(
+        id: "input-confirmation-checkbox-preview-dialog",
+        title: "Disable project-specific values",
+        confirm_button_text: "Disable",
+        data: { input_confirmation_target: "dialog" }
+      )
+    ) do |dialog|
+      dialog.with_confirmation_message do |message|
+        message.with_heading(tag: :h2) { "Disable project-specific values?" }
+        message.with_description_content("All values enabled per project will be removed.")
+      end
+    end
+  %>
+</div>
