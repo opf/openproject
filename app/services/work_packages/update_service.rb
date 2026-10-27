@@ -42,16 +42,13 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   private
 
-  def persist(call)
+  def after_validate(call)
     labels_call = find_or_create_labels(call.result)
+    return super if labels_call.success?
 
-    if labels_call.failure?
-      call.success = false
-      call.errors = labels_call.errors
-      return call
-    end
-
-    super
+    call.success = false
+    call.errors = labels_call.errors
+    call
   end
 
   def after_perform(service_call)
