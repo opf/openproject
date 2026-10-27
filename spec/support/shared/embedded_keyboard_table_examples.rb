@@ -58,7 +58,11 @@ RSpec.shared_examples "an embedded keyboard table" do |editable: true, drag_and_
     end
 
     wp_table.press_keys(:tab)
-    expect(page).to have_selector(next_control[:role], next_control[:name], focused: true)
+    if next_control.key?(:element)
+      expect(page).to have_element(next_control[:element], text: next_control[:text], focused: true)
+    else
+      expect(page).to have_selector(next_control[:role], next_control[:name], focused: true)
+    end
     wp_table.expect_focus_outside_table
 
     wp_table.press_keys(%i[shift tab])

@@ -83,6 +83,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     columnMenuEnabled: true,
     contextMenuEnabled: false,
     inlineCreateEnabled: false,
+    keyboardNavigationEnabled: true,
     withFilters: true,
     showFilterButton: true,
     filterButtonText: this.I18n.t('js.button_advanced_filter'),
