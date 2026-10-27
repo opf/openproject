@@ -85,6 +85,16 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
         expect(response.body).not_to include("Prototype")
       end
     end
+
+    context "with several projects of which only one uses the type" do
+      let(:projects) { [bookshop, unrelated] }
+
+      it "still opens the bulk dialog" do
+        subject
+
+        expect(response.body).to include("Bulk switch type or variant")
+      end
+    end
   end
 
   describe "GET switch/confirmation/new" do
@@ -179,13 +189,44 @@ RSpec.describe "Switching the variant of a work package type's projects", :skip_
       end
 
       context "with a project that does not use the type" do
-        let(:projects) { [bookshop, unrelated] }
+        let(:projects) { [bookshop, foundry, unrelated] }
 
         it "leaves it alone" do
           expect { subject }.not_to change { unrelated.reload.project_types.pluck(:id) }
 
           expect(response).to have_http_status(:ok)
           expect(bookshop.reload.type_variant(bug)).to eq(firmware)
+        end
+      end
+
+      context "when only one of them uses the type" do
+        let(:projects) { [bookshop, unrelated] }
+
+        it "still answers as a bulk switch" do
+          subject
+
+          expect(response.body).to include("type-projects-bulk-switch-confirm-dialog")
+            .and include("The selected projects now use Bug: Firmware.")
+        end
+      end
+
+      context "when the switch is refused for one project" do
+        before do
+          refusal = ServiceResult.failure(result: foundry)
+          refusal.errors.add(:base, "Refused for a reason")
+
+          allow(Projects::Types::SwitchVariantService).to receive(:new).and_call_original
+          allow(Projects::Types::SwitchVariantService)
+            .to receive(:new).with(user: anything, model: foundry)
+            .and_return(instance_double(Projects::Types::SwitchVariantService, call: refusal))
+        end
+
+        it "switches the others and names the refused one" do
+          subject
+
+          expect(bookshop.reload.type_variant(bug)).to eq(firmware)
+          expect(foundry.reload.type_variant(bug)).to eq(hardware)
+          expect(response.body).to include("Foundry: Refused for a reason")
         end
       end
     end
