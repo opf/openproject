@@ -2853,6 +2853,27 @@ fa:
     semantic_keys:
       job_title: عنوان شغلی
       none: هیچ‌کدام
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'برای افزودن فیلدهای سفارشی جدید به پروژه، ابتدا باید آن‌ها را ایجاد کنید تا بتوانید به این پروژه اضافه‌شان کنید.
 
       '
@@ -3544,6 +3565,7 @@ fa:
         caption_html: فرم %{name} در انواع و گونه‌های زیر استفاده می‌شود.
         title: فرم مورداستفاده در انواع
         variant_of: گونه‌ای از %{type}
+        variant_of_html: Variant of %{type}
         variants: گونه‌ها
       unused: هنوز هیچ نوع یا گونه‌ای از این فرم استفاده نمی‌کند.
       used_by_types:
@@ -8135,6 +8157,7 @@ fa:
         caption_html: گردش کاری %{name} در انواع و گونه‌های زیر استفاده می‌شود.
         title: گردش کاری استفاده‌شده در انواع
         variant_of: گونه‌ای از %{type}
+        variant_of_html: Variant of %{type}
         variants: گونه‌ها
       unused: هنوز هیچ نوع یا گونه‌ای از این گردش کاری استفاده نمی‌کند.
       used_by_types:

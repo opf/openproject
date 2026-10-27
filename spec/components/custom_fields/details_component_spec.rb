@@ -63,25 +63,43 @@ RSpec.describe CustomFields::DetailsComponent, type: :component do
     end
   end
 
-  describe "the confirmation for disabling project-specific values" do
-    let(:confirmation) { rendered.css("[data-controller~='input-confirmation']") }
+  describe "the warning when switching how project-specific values are chosen" do
+    let(:banner_for) { ->(mode) { rendered.css("[data-test-selector='project-specific-values-switch-to-#{mode}']") } }
 
-    context "when project-specific values are enabled" do
+    context "when values are activated for each project" do
       let(:custom_field) { create(:list_wp_custom_field, :project_specific_allowlist) }
 
-      it "asks for confirmation before showing the same values for all projects" do
-        expect(confirmation.attr("data-input-confirmation-trigger-value").value).to eq("checked")
-        expect(confirmation.css("input[type='radio'][value=''][data-input-confirmation-target='input']")).to be_present
-        expect(confirmation.css("dialog[data-input-confirmation-target='dialog']")).to be_present
+      it "prepares a hidden warning for switching to each other option" do
+        expect(banner_for.call("allow")).to be_empty
+
+        expect(banner_for.call("all").attr("hidden")).to be_present
+        expect(banner_for.call("all").attr("data-value").value).to eq("")
+        expect(banner_for.call("all").text).to include(I18n.t("custom_fields.project_specific_values.switch_warning.all"))
+
+        expect(banner_for.call("block").attr("hidden")).to be_present
+        expect(banner_for.call("block").attr("data-value").value).to eq("block")
+        expect(banner_for.call("block").text).to include(I18n.t("custom_fields.project_specific_values.switch_warning.block"))
       end
     end
 
-    context "when project-specific values are not enabled" do
+    context "when the same values are shown for all projects" do
       let(:custom_field) { create(:list_wp_custom_field) }
 
-      it "does not ask for confirmation" do
-        expect(confirmation).to be_empty
-        expect(rendered.css("dialog#disable-project-specific-values-dialog")).to be_empty
+      it "prepares a hidden warning for switching to each other option" do
+        expect(banner_for.call("all")).to be_empty
+        expect(banner_for.call("allow").text).to include(I18n.t("custom_fields.project_specific_values.switch_warning.allow"))
+        expect(banner_for.call("block").text).to include(I18n.t("custom_fields.project_specific_values.switch_warning.block"))
+      end
+    end
+
+    context "when another option is selected but not yet saved" do
+      let(:custom_field) do
+        create(:list_wp_custom_field).tap { it.project_specific_value_restriction = "block" }
+      end
+
+      it "shows the warning for the selected option" do
+        expect(banner_for.call("block").attr("hidden")).to be_nil
+        expect(banner_for.call("allow").attr("hidden")).to be_present
       end
     end
   end

@@ -38,7 +38,7 @@ module Lists
     #
     # Returns false without mutating for any other `prev_id`, or when the
     # anchor is unknown, outside the scope, or the record itself.
-    def move_after_anchor(prev_id, scope:) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
+    def move_after_anchor(prev_id, scope:)
       if prev_id.nil? || prev_id == ""
         move_to_top
         return true

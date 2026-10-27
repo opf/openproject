@@ -2855,6 +2855,27 @@ sv:
     semantic_keys:
       job_title: Befattning
       none: Ingen
+    show:
+      columns:
+        form: Form
+        type_or_variant: Type or variant
+      forms:
+        blank_slate:
+          description: This custom field is not part of any form yet.
+          filtered_description: No form matches the current filter.
+          filtered_title: No matching forms
+          title: No forms
+        filter_placeholder: Filter by form name or description…
+      tabs:
+        forms: Forms
+        types_and_variants: Types and variants
+      types_and_variants:
+        blank_slate:
+          description: No type or variant shows this custom field yet.
+          filtered_description: No type or variant matches the current filters.
+          filtered_title: No matching types or variants
+          title: No types or variants
+        filter_placeholder: Filter by type or variant name…
     text_add_new_custom_field: 'Innan du kan lägga till nya anpassade fält till ett projekt måste du skapa dessa.
 
       '
@@ -3546,6 +3567,7 @@ sv:
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
         variant_of: Variant of %{type}
+        variant_of_html: Variant of %{type}
         variants: Variants
       unused: No type or variant uses this form yet.
       used_by_types:
@@ -8119,6 +8141,7 @@ sv:
         caption_html: Arbetsflödet %{name} används av följande typer och varianter.
         title: Arbetsflöde som används av typer
         variant_of: Variant av %{type}
+        variant_of_html: Variant of %{type}
         variants: Varianter
       unused: Ingen typ eller variant använder det här arbetsflödet ännu.
       used_by_types:

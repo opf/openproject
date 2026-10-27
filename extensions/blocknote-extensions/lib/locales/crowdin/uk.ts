@@ -1,123 +1,123 @@
 export const en = {
   translation: {
     'slashMenu': {
-      'title': 'Link existing work package',
-      'subtext': 'Add a dynamic link to a single work package',
+      'title': "Додати наявні пакети робіт",
+      'subtext': "Додати динамічне посилання на окремий робочий пакет",
       'create': {
-        'title': 'Create new work package',
-        'subtext': 'Create a work package and link it here'
+        'title': "Створити новий робочий пакет",
+        'subtext': "Створити новий робочий пакет і додати посилання тут"
       },
       'aliases': {
-        'workpackage': 'workpackage',
-        'work package': 'work package',
-        'wp': 'wp',
-        'link': 'link',
-        'create': 'create'
+        'workpackage': "робочий пакет",
+        'work package': "пакет робіт",
+        'wp': "пр",
+        'link': "посилання",
+        'create': "створити"
       }
     },
     'formattingToolbar': {
-      'createWorkPackage': 'Create work package'
+      'createWorkPackage': "Створити пакет робіт"
     },
     'createWorkPackage': {
-      'title': 'Create new work package',
-      'close': 'Close',
-      'cancel': 'Cancel',
-      'create': 'Create',
-      'creating': 'Creating…',
-      'selectPlaceholder': 'Please select…',
-      'searchPlaceholder': 'Type to search…',
-      'loading': 'Loading…',
-      'noResults': 'No results',
-      'filterBy': 'Filter the list',
-      'allValues': 'All',
-      'favorites': 'Favorites',
-      'clear': 'Clear',
-      'deselect': 'Remove selection',
-      'removeValue': 'Remove {{value}}',
-      'openOptions': 'Show options',
-      'closeOptions': 'Hide options',
-      'subjectPlaceholder': 'Enter subject here',
-      'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
-      'projectPlaceholder': 'Select a project…',
-      'loadFailed': 'The work package form could not be loaded: {{message}}',
-      'notAllowed': 'You are not allowed to create work packages.',
-      'validationFailed': 'Please correct the highlighted fields below.',
-      'requiredField': 'This field is required.',
-      'notANumber': 'Please enter a number.',
-      'notAWholeNumber': 'Please enter a whole number, without a decimal separator.',
-      'unsupportedField': '"{{field}}" cannot be set here.',
-      'unsupportedRequired': 'This work package requires a field that cannot be set here.',
-      'createInOpenProject': 'Create it in OpenProject'
+      'title': "Створити новий робочий пакет",
+      'close': "Закрити",
+      'cancel': "Скасувати",
+      'create': "Створити",
+      'creating': "Створення…",
+      'selectPlaceholder': "Будь ласка, виберіть…",
+      'searchPlaceholder': "Введіть текст для пошуку…",
+      'loading': "Завантаження…",
+      'noResults': "Немає результатів",
+      'filterBy': "Фільтрувати список",
+      'allValues': "Усі",
+      'favorites': "Обране",
+      'clear': "Очистити",
+      'deselect': "Видалити вибір",
+      'removeValue': "Видалити {{value}}",
+      'openOptions': "Показати варіанти",
+      'closeOptions': "Приховати варіанти",
+      'subjectPlaceholder': "Введіть тему тут",
+      'subjectClipped': "Вибраний текст був занадто довгим і був скорочений до перших {{limit}} символів.",
+      'projectPlaceholder': "Виберіть проєкт…",
+      'loadFailed': "Не вдалося завантажити форму робочого пакета: {{message}}",
+      'notAllowed': "Вам не дозволено створювати робочі пакети.",
+      'validationFailed': "Будь ласка, виправте виділені поля нижче.",
+      'requiredField': "Це поле обов'язкове.",
+      'notANumber': "Будь ласка, введіть число.",
+      'notAWholeNumber': "Будь ласка, введіть ціле число без десяткового роздільника.",
+      'unsupportedField': "Поле «{{field}}» не можна встановити тут.",
+      'unsupportedRequired': "Цей робочий пакет вимагає поле, яке не можна встановити тут.",
+      'createInOpenProject': "Створити в OpenProject"
     },
     'search': {
-      'label': 'Link existing work package',
-      'placeholder': 'Search by work package ID or subject',
-      'dropdownAriaLabel': 'Work package search results',
-      'noResults': 'No results',
-      'error': 'Error. Unable to load content.',
-      'createWorkPackage': 'Create new work package'
+      'label': "Додати наявні пакети робіт",
+      'placeholder': "Пошук за ID робочого пакета або темою",
+      'dropdownAriaLabel': "Результати пошуку робочого пакета",
+      'noResults': "Немає результатів",
+      'error': "Помилка. Не вдалося завантажити вміст.",
+      'createWorkPackage': "Створити новий робочий пакет"
     },
     'unavailableWorkPackage': {
       'loading': {
-        'header': 'Loading',
-        'message': 'Please wait'
+        'header': "Завантаження…",
+        'message': "Будь ласка, зачекайте"
       },
       'unauthorized': {
-        'header': 'Linked work package unavailable',
-        'message': 'You do not have permission to see this',
-        'short_message': 'Work package unavailable: no permission'
+        'header': "Пов'язаний робочий пакет недоступний",
+        'message': "У вас немає прав щоб побачити це.",
+        'short_message': "Робочий пакет недоступний: немає прав доступу"
       },
       'error': {
-        'header': 'Error',
-        'message': 'Could not load work package',
-        'short_message': 'Unavailable: error'
+        'header': "Помилка",
+        'message': "Не вдалося завантажити робочий пакет",
+        'short_message': "Недоступно: помилка"
       }
     },
     'options': {
-      'openInNewTab': 'Open in new tab',
-      'open': 'Open',
-      'changeSize': 'Change size',
-      'remove': 'Remove',
-      'removeAriaLabel': 'Remove work package',
-      'openAriaLabel': 'Open work package {{id}} in new tab',
-      'inlineSizeLabel': 'Inline size',
-      'blockSizeLabel': 'Block size',
-      'chipAriaLabel': 'Work package {{id}}'
+      'openInNewTab': "Відкрити у новій вкладці",
+      'open': "Відкрити",
+      'changeSize': "Змінити розмір",
+      'remove': "Видалити",
+      'removeAriaLabel': "Видалити робочий пакет",
+      'openAriaLabel': "Відкрити робочий пакет {{id}} у новій вкладці",
+      'inlineSizeLabel': "Вбудований розмір",
+      'blockSizeLabel': "Розмір блоку",
+      'chipAriaLabel': "Робочий пакет {{id}}"
     },
     'preview': {
-      'showAriaLabel': 'Show details of work package {{id}}'
+      'showAriaLabel': "Показати деталі для робочого пакету {{id}}"
     },
     'sizes': {
       'xxs': {
-        'label': 'Tiny',
-        'desc': 'Identifier'
+        'label': "Крихітний",
+        'desc': "Ідентифікатор"
       },
       'xs': {
-        'label': 'Compact',
-        'desc': 'Type, Identifier, Subject'
+        'label': "Компактний",
+        'desc': "Тип, Ідентифікатор, Тема"
       },
       's': {
-        'label': 'Regular',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "Звичайний",
+        'desc': "Статус, Тип, Ідентифікатор, Тема"
       },
       'm': {
-        'label': 'Compact card',
-        'desc': 'Status, Type, Identifier, Subject'
+        'label': "Компактна картка",
+        'desc': "Статус, Тип, Ідентифікатор, Тема"
       },
       'l': {
-        'label': 'Regular card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project'
+        'label': "Звичайна картка",
+        'desc': "Ідентифікатор, Тема, Тип, Статус, Батьківський, Проєкт"
       },
       'xl': {
-        'label': 'Full card',
-        'desc': 'Identifier, Subject, Type, Status, Parent, Project, Description'
+        'label': "Повна картка",
+        'desc': "Ідентифікатор, Тема, Тип, Статус, Батьківський, Проєкт, Опис"
       }
     },
     'hashMenu': {
-      'typeToSearch': 'Type to search work packages…'
+      'typeToSearch': "Введіть для пошуку робочих пакетів…"
     },
     'spinner': {
-      'ariaLabel': 'Loading'
+      'ariaLabel': "Завантаження…"
     }
   }
 };

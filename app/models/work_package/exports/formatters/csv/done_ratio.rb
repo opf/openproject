@@ -22,38 +22,22 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
-#
-# See COPYRIGHT and LICENSE files for more details.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-module Exports
+module WorkPackage::Exports
   module Formatters
-    class CustomFieldPdf < CustomField
-      def self.apply?(attribute, export_format)
-        export_format == :pdf && attribute.start_with?("cf_")
-      end
+    module CSV
+      class DoneRatio < ::Exports::Formatters::Default
+        def self.apply?(attribute, export_format)
+          attribute.to_sym.in?(%i[done_ratio derived_done_ratio]) && export_format == :csv
+        end
 
-      def format_value(value, options)
-        # avoid the value transformed in to a string by the super method
-        return value if value.is_a?(::Exports::Formatters::LinkFormatter)
+        def format_value(value, _options = {})
+          return if value.nil?
 
-        super
-      end
-
-      ##
-      # Print the value meant for PDF export.
-      #
-      # - For boolean values, use the Yes/No formatting for the PDF
-      #   treat nil as false
-      def format_for_export(object, custom_field)
-        if custom_field.field_format == "bool"
-          value = object.typed_custom_value_for(custom_field)
-          value ? I18n.t(:general_text_Yes) : I18n.t(:general_text_No)
-        elsif custom_field.field_format == "link"
-          LinkFormatter.new(object, custom_field)
-        else
-          super
+          (value.to_f / 100).ceil(2)
         end
       end
     end

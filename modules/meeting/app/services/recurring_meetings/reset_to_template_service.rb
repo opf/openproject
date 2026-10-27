@@ -81,7 +81,7 @@ module RecurringMeetings
       meeting.recurring_meeting.template
     end
 
-    def reset_to_template! # rubocop:disable Naming/PredicateMethod
+    def reset_to_template!
       meeting.transaction do
         clear_existing_content
         copy_agenda_from_template

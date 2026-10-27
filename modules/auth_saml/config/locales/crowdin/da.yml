@@ -13,7 +13,7 @@ da:
         icon: Tilpasset ikon
         identifier: Id
         idp_cert: Identitetsudbyderens offentlige certifikat
-        idp_cert_fingerprint: Identity provider certificate fingerprint
+        idp_cert_fingerprint: Fingeraftryk for identitetsudbyderens certifikat
         idp_entity_id: Identitetsudbyderens entitets-id
         idp_slo_service_url: Identitetsudbyderens logud-endepunkt
         idp_sso_service_url: Identitetsudbyderens login-endepunkt
@@ -154,8 +154,8 @@ da:
       success: Opsætningen er opdateret vha. identitetsudbyderens metadata.
     providers:
       apply_metadata:
-        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
-        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
+        expired: Forhåndsvisningen af metadata er udløbet eller ugyldig. Opdater metadata igen for at se den seneste konfiguration.
+        provider_changed: Udbyderens konfiguration er ændret siden forhåndsvisningen. Opdater metadata igen for at se den seneste konfiguration.
       attribute_mapping: Tilknytning af attributter
       attribute_mapping_text: 'Følgende felter styrer, hvilke attributter fra SAML-identitetsudbyderen der bruges til brugerattributterne i OpenProject
 
@@ -177,17 +177,17 @@ da:
         dialog: 'Dette er URL''en, hvor OpenProject SAML-metadataene er tilgængelige. Brug den evt. til opsætning af identitetsudbyderen:'
       metadata_changes:
         table_component:
-          current_value: Current value
-          mobile_title: Metadata changes
-          new_value: New value
+          current_value: Nuværende værdi
+          mobile_title: Ændringer i metadata
+          new_value: Ny værdi
       no_results_table: Ingen SAML-identitetsudbydere defineret endnu.
       notice_created: Der er oprettet en ny SAML-identitetsudbyder.
       plural: SAML-identitetsudbydere
       refresh_metadata:
-        apply: Apply changes
-        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
-        no_changes: The metadata matches the current configuration.
-        title: Review metadata changes
+        apply: Anvend ændringer
+        description: Gennemgå konfigurationen, der er hentet fra din identitetsudbyder. Ændringerne gemmes først, når du anvender dem.
+        no_changes: Metadataene svarer til den nuværende konfiguration.
+        title: Gennemgå ændringer i metadata
       request_attributes:
         format: Attributformat
         legend: 'Attributterne føjes til SAML-metadataene i XML for at vise identitetsudbyderen, hvilke attributter OpenProject kræver. Du skal muligvis stadig konfigurere identitetsudbyderen til at sende attributterne. Se dokumentationen til din IdP.
@@ -213,8 +213,8 @@ da:
       seeded_from_env: Udbyderen er oprettet ud fra miljøkonfigurationen. Den kan ikke redigeres.
       side_panel:
         refresh_metadata_component:
-          button: Refresh metadata
-          description: You can check if the configuration fetched from your identity provider has changed.
+          button: Opdater metadata
+          description: Du kan kontrollere, om konfigurationen, der er hentet fra din identitetsudbyder, er ændret.
       singular: SAML-identitetsudbyder
       upsell:
         description: Forbind OpenProject til en SAML-identitetsudbyder
