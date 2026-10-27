@@ -64,7 +64,7 @@ describe('TreegridSemantics', () => {
     harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       ...options,
-      configuration: { keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { ...options.configuration },
     });
     return harness;
   };
@@ -298,7 +298,7 @@ describe('TreegridSemantics', () => {
     const before = harness.tbody.outerHTML;
 
     harness.table.refreshRows(workPackage);
-    const semantics = harness.table.semantics!;
+    const semantics = harness.table.semantics;
     semantics.paint();
     semantics.paintWorkPackage('1');
     semantics.paintSelection();
@@ -361,7 +361,7 @@ describe('TreegridSemantics', () => {
     await harness.render();
     const observer = new MutationObserver(() => undefined);
     observer.observe(harness.tbody, { subtree: true, attributes: true, attributeFilter: ['aria-expanded', 'aria-hidden'] });
-    harness.table.semantics!.paint();
+    harness.table.semantics.paint();
     const records = observer.takeRecords();
     observer.disconnect();
     expect(records).toEqual([]);
@@ -402,11 +402,16 @@ describe('TreegridSemantics', () => {
   });
 
   describe('when a collapse lands on a queued render', () => {
-    const queueRedraw = () => {
+    const holdFrames = () => {
       const frames:(() => void)[] = [];
       vi.spyOn(harness.table.uiWork, 'frame').mockImplementation((callback) => { frames.push(callback); });
-      harness.table.redrawTable();
       return () => frames.splice(0).forEach((callback) => callback());
+    };
+
+    const queueRedraw = (redraw:() => void = () => harness.table.redrawTable()) => {
+      const release = holdFrames();
+      redraw();
+      return release;
     };
 
     const collapseState = (parentRow:() => HTMLElement, childId:string, before:HTMLElement) => () => ({
@@ -419,10 +424,6 @@ describe('TreegridSemantics', () => {
 
     const collapsed = {
       committed: true, expanded: 'false', hidden: null, ledgerHidden: true, display: 'none',
-    };
-
-    const raced = {
-      committed: true, expanded: null, hidden: null, ledgerHidden: false, display: 'table-row',
     };
 
     const releaseAfter = async <T>(state:() => T, collapse:() => void, release:() => void) => {
@@ -448,35 +449,47 @@ describe('TreegridSemantics', () => {
       expect(await releaseAfter(state, () => hierarchies().collapse('1'), queueRedraw())).toEqual({ published: collapsed, final: collapsed });
     });
 
-    it('keeps the capability-off group race unchanged', async () => {
-      mount({ ...groupedFixtures, configuration: { keyboardNavigationEnabled: false } });
-      await harness.render();
-      const state = collapseState(() => groupHeader(0), '1', harness.row('1'));
+    describe('with the timeline shown', () => {
+      const redrawWithTimeline = () => harness.table.redrawTableAndTimeline();
 
-      expect(await releaseAfter(state, () => toggleGroup(0), queueRedraw())).toEqual({ published: raced, final: raced });
+      it('hides the timeline cells of a collapsed group', async () => {
+        mount({ ...groupedFixtures, timelineVisible: true });
+        await harness.render();
+        const state = collapseState(() => groupHeader(0), '1', harness.row('1'));
+        const timelineBefore = harness.timelineRow('1');
+
+        expect(await releaseAfter(state, () => toggleGroup(0), queueRedraw(redrawWithTimeline))).toEqual({ published: collapsed, final: collapsed });
+        expect(harness.timelineRow('1')).not.toBe(timelineBefore);
+        expect(harness.timelineRow('1')).not.toBeVisible();
+        expect(harness.timelineRow('3')).toBeVisible();
+      });
+
+      it('hides the timeline cells of a collapsed hierarchy parent', async () => {
+        mount({ workPackages: [parent, child], showHierarchies: true, timelineVisible: true });
+        await harness.render();
+        const state = collapseState(() => harness.row('1'), '2', harness.row('2'));
+        const timelineBefore = harness.timelineRow('2');
+
+        expect(await releaseAfter(state, () => hierarchies().collapse('1'), queueRedraw(redrawWithTimeline))).toEqual({ published: collapsed, final: collapsed });
+        expect(harness.timelineRow('2')).not.toBe(timelineBefore);
+        expect(harness.timelineRow('2')).not.toBeVisible();
+        expect(harness.timelineRow('1')).toBeVisible();
+      });
     });
 
-    it('keeps the capability-off hierarchy race unchanged', async () => {
-      mount({ workPackages: [parent, child], showHierarchies: true, configuration: { keyboardNavigationEnabled: false } });
+    it('hides a child that arrives only with the queued render', async () => {
+      mount({ workPackages: [parent], showHierarchies: true });
       await harness.render();
-      const state = collapseState(() => harness.row('1'), '2', harness.row('2'));
+      const release = holdFrames();
+      const rendered = harness.render([parent, child]);
+      expect(harness.table.ledger.byWorkPackageId('2')).toEqual([]);
 
-      expect(await releaseAfter(state, () => hierarchies().collapse('1'), queueRedraw())).toEqual({ published: raced, final: raced });
-    });
-  });
+      hierarchies().collapse('1');
+      release();
+      await rendered;
 
-  it('leaves capability-off tables untouched', async () => {
-    harness = buildTable({ ...groupedFixtures, configuration: { dragAndDropEnabled: true } });
-    await harness.render();
-    harness.click('1');
-    toggleGroup(0);
-    await waitFor(() => expect(harness.row('1')).not.toBeVisible());
-
-    expect(harness.table.semantics).toBeNull();
-    const rows = Array.from(harness.tbody.rows);
-    [harness.tbody, ...rows, ...rows.flatMap((row) => Array.from(row.cells))].forEach((node) => {
-      ['role', 'aria-level', 'aria-selected', 'aria-expanded', 'aria-hidden']
-        .forEach((name) => expect(node).not.toHaveAttribute(name));
+      expect(getComputedStyle(harness.row('2')).display).toBe('none');
+      expect(harness.table.ledger.byWorkPackageId('2')[0].hidden).toBe(true);
     });
   });
 });

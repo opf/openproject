@@ -116,10 +116,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     return this.mode !== 'inactive';
   }
 
-  get treegrid():boolean {
-    return this.table.configuration.keyboardNavigationEnabled;
-  }
-
   ngOnInit() {
     this.element = this.elementRef.nativeElement as HTMLTableSectionElement;
   }
@@ -354,8 +350,6 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
   }
 
   private reconcileExposure():void {
-    if (this.treegrid) {
-      this.table.reconcileSection(this.element);
-    }
+    this.table.reconcileSection(this.element);
   }
 }

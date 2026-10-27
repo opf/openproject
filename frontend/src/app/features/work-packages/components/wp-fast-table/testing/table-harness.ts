@@ -271,7 +271,7 @@ export function consumerConfiguration(name:ConsumerName):WorkPackageTableConfigu
       .filter(([, value]) => typeof value === 'boolean'),
   ) as WorkPackageTableConfigurationObject;
 
-  return { ...productionDefaults, ...consumerLiterals[name], keyboardNavigationEnabled: true };
+  return { ...productionDefaults, ...consumerLiterals[name] };
 }
 
 const unbuildableColumns:WorkPackageTableConfigurationObject = {
@@ -703,9 +703,8 @@ function productionMarkupElement<T extends HTMLElement = HTMLElement>(wrapper:HT
 }
 
 function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configuration:WorkPackageTableConfiguration) {
-  const keyboardNavigationEnabled = configuration.keyboardNavigationEnabled;
-  const tabindex = keyboardNavigationEnabled ? ' tabindex="-1"' : '';
-  const navigable = keyboardNavigationEnabled ? ' wp-table--navigable-cell' : '';
+  const tabindex = ' tabindex="-1"';
+  const navigable = ' wp-table--navigable-cell';
   const columns = query.columns as unknown as { id:string, name:string, sortable?:boolean }[];
   const headerCells = columns.map(({ id, name, sortable }) => `
     <th class="wp-table--table-header${navigable}">
@@ -732,7 +731,7 @@ function fillProductionMarkup(wrapper:HTMLElement, query:QueryResource, configur
     ...(hasConfigurationCell ? [internalContextMenuColumn] : []),
   ];
   productionMarkupElement(wrapper, 'tr.wp-table--sums-row').innerHTML = augmentedColumns
-    .map((column) => `<td${keyboardNavigationEnabled && isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
+    .map((column) => `<td${isNavigableColumn(column, configuration) ? ` class="${navigableCellClassName}"` : ''}></td>`)
     .join('');
 }
 

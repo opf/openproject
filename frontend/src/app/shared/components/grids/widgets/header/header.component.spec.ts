@@ -65,7 +65,7 @@ describe('WidgetHeaderComponent', () => {
     }).overrideTemplate(WidgetStandInComponent, `
     <widget-header name="Assigned to me" headingId="widget-heading">
     </widget-header>
-    <wp-table [configuration]="{ keyboardNavigationEnabled: true, labelledBy: 'widget-heading' }" />
+    <wp-table [configuration]="{ labelledBy: 'widget-heading' }" />
   `);
 
     const injector = TestBed.inject(Injector);

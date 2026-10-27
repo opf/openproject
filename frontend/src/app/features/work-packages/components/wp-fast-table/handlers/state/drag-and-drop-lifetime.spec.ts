@@ -197,7 +197,7 @@ describe('accepted table drag persistence lifetime', () => {
       ...(positions ? {
         productionMarkup: true,
         pagination: { offset: 1, pageSize: 50, total: 3 },
-        configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true },
+        configuration: { inlineCreateEnabled: true },
       } : {}),
     });
     await table.render();

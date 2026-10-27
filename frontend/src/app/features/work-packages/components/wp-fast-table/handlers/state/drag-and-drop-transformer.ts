@@ -208,7 +208,7 @@ export class DragAndDropTransformer {
         recoverIfCurrent = () => {
           if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
           parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
-          table.rowPositions?.paint();
+          table.rowPositions.paint();
         };
         if (!stillEligible()) {
           complete(false);
@@ -238,7 +238,7 @@ export class DragAndDropTransformer {
         // Only preparation observes the staged neighbors. Persistence captures no row.
         if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
         else table.tbody.appendChild(source);
-        table.rowPositions?.paint();
+        table.rowPositions.paint();
         const preparedAction = await actionService.prepareDrop(workPackage, source);
         if (!stillEligible()) {
           recoverIfCurrent();

@@ -35,8 +35,6 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { keyboardNavigationEnabled } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/keyboard/roving-tabindex';
 import { getBaselineState } from '../../../wp-baseline/baseline-helpers';
 import {
   opArrowInIconData,
@@ -73,10 +71,7 @@ export class BaselineColumnBuilder {
 
   @LazyInject() I18n:I18nService;
 
-  constructor(
-    public readonly injector:Injector,
-    private readonly configuration:WorkPackageTableConfiguration,
-  ) {
+  constructor(public readonly injector:Injector) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
@@ -100,12 +95,10 @@ export class BaselineColumnBuilder {
     const text = this.I18n.t(label);
     td.appendChild(octiconElement(icon, 'small', className, text));
 
-    if (keyboardNavigationEnabled(this.configuration)) {
-      const status = document.createElement('span');
-      status.classList.add('sr-only');
-      status.textContent = text;
-      td.appendChild(status);
-    }
+    const status = document.createElement('span');
+    status.classList.add('sr-only');
+    status.textContent = text;
+    td.appendChild(status);
 
     return td;
   }

@@ -125,8 +125,6 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     limitedResults:(count:number, total:number) => string;
     sorting:string;
     tableName:string;
-    tableSummary:string;
-    tableSummaryHints:string;
     actionsHeader:string;
     baselineHeader:string;
     configurationHeader:string;
@@ -173,12 +171,6 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       limitedResults: (count:number, total:number) => this.I18n.t('js.work_packages.limited_results', { count, total }),
       sorting: this.I18n.t('js.label_sorting'),
       tableName: this.I18n.t('js.label_work_package_plural'),
-      tableSummary: this.I18n.t('js.work_packages.table.summary'),
-      tableSummaryHints: [
-        this.I18n.t('js.work_packages.table.text_inline_edit'),
-        this.I18n.t('js.work_packages.table.text_select_hint'),
-        this.I18n.t('js.work_packages.table.text_sort_hint'),
-      ].join(' '),
       actionsHeader: this.I18n.t('js.work_packages.table.grid_actions_header'),
       baselineHeader: this.I18n.t('js.work_packages.table.grid_baseline_header'),
       configurationHeader: this.I18n.t('js.toolbar.settings.configure_view'),
@@ -212,23 +204,10 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.baselineEnabled = this.wpTableBaseline.isActive();
       this.limitedResults = this.manualSortEnabled && results.total > results.count;
 
-      if (this.configuration.keyboardNavigationEnabled) {
-        this.sortDescription = this.describeSort();
-        const rendered = renderedColumns(this.configuration, this.baselineEnabled);
-        this.trailingColumnRendered = rendered.trailing;
-        this.numTableColumns = rendered.count(this.columns.length);
-      } else {
-        // Total columns = all available columns + id + context menu
-        this.numTableColumns = this.columns.length + 2;
-
-        if (this.manualSortEnabled) {
-          this.numTableColumns += 1;
-        }
-
-        if (this.baselineEnabled) {
-          this.numTableColumns += 1;
-        }
-      }
+      this.sortDescription = this.describeSort();
+      const rendered = renderedColumns(this.configuration, this.baselineEnabled);
+      this.trailingColumnRendered = rendered.trailing;
+      this.numTableColumns = rendered.count(this.columns.length);
 
       if (this.workPackageTable) {
         this.workPackageTable.colspan = this.numTableColumns;
@@ -298,7 +277,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   private renderHeader():void {
     this.cdRef.detectChanges();
-    this.workPackageTable?.rowPositions?.paint();
+    this.workPackageTable?.rowPositions.paint();
   }
 
   public get isEmbedded() {
@@ -310,10 +289,6 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   }
 
   public ariaSort(column:QueryColumn):'ascending'|'descending'|null {
-    if (!this.configuration.keyboardNavigationEnabled) {
-      return null;
-    }
-
     switch (primarySortDirection(this.wpTableSortBy.current, column)) {
       case 'asc':
         return 'ascending';

@@ -49,10 +49,6 @@ export function insideGrid(root:HTMLElement, node:Node|null):boolean {
   return !element?.closest(inlineCreateSelector);
 }
 
-export function keyboardNavigationEnabled(configuration?:WorkPackageTableConfiguration):boolean {
-  return configuration?.keyboardNavigationEnabled ?? false;
-}
-
 export function isNavigableColumn(column:QueryColumn, configuration:WorkPackageTableConfiguration):boolean {
   switch (column.id) {
     case internalSortColumn.id:

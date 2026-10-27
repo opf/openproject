@@ -109,7 +109,6 @@ describe('WorkPackageTable lifecycle', () => {
       workPackages: [{ id: '1' }],
       editing: {},
       productionMarkup: true,
-      configuration: { keyboardNavigationEnabled: true },
     };
     const first = await mount(options);
     const second = await mount(options);
@@ -675,6 +674,7 @@ describe('WorkPackageTable lifecycle', () => {
       expect(secondRefresh).toHaveBeenCalledOnce();
 
       second.click('2');
+      second.row('1').focus();
       fireEvent.keyDown(second.row('1'), { key: 'a', ctrlKey: true });
       expect(second.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
       fireEvent.keyDown(document.body, { key: 'Escape' });
@@ -758,6 +758,7 @@ describe('WorkPackageTable lifecycle', () => {
       expect(second.injector).not.toBe(first.injector);
       second.click('2');
       fireEvent.contextMenu(second.row('1'));
+      second.row('1').focus();
       fireEvent.keyDown(second.row('1'), { key: 'a', ctrlKey: true });
       expect(second.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
       fireEvent.keyDown(document.body, { key: 'Escape' });

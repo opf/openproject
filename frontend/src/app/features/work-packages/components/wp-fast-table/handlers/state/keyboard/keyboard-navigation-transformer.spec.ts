@@ -99,7 +99,7 @@ describe('KeyboardNavigationTransformer', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true, ...options.configuration },
+      configuration: { inlineCreateEnabled: true, ...options.configuration },
     });
     harnesses.push(table);
     beforeRender?.(table);
@@ -240,14 +240,10 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.row('3')).toHaveFocus();
   });
 
-  it('takes the scroll container and its wrapper out of the Tab order only when enabled', async () => {
-    const enabled = await mount();
-    expect(enabled.table.scrollContainer).toHaveAttribute('tabindex', '-1');
-    expect(enabled.table.tableAndTimelineContainer).toHaveAttribute('tabindex', '-1');
-
-    const disabled = await mount({ configuration: { keyboardNavigationEnabled: false } });
-    expect(disabled.table.scrollContainer).not.toHaveAttribute('tabindex');
-    expect(disabled.table.tableAndTimelineContainer).not.toHaveAttribute('tabindex');
+  it('takes the scroll container and its wrapper out of the Tab order', async () => {
+    const table = await mount();
+    expect(table.table.scrollContainer).toHaveAttribute('tabindex', '-1');
+    expect(table.table.tableAndTimelineContainer).toHaveAttribute('tabindex', '-1');
   });
 
   it('ArrowDown/ArrowUp walk visible rows and reach the header and totals rows', async () => {
@@ -612,16 +608,6 @@ describe('KeyboardNavigationTransformer', () => {
     expect(table.focus.focusedWorkPackage).toBe('2');
     table.click('3', { shiftKey: true });
     expect(selectedIds(table)).toEqual(['2', '3']);
-  });
-
-  it('flag off: no keydown handling', async () => {
-    const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
-    table.row('1').focus();
-
-    expect(press(table.row('1'), 'ArrowDown')).toBe(true);
-
-    expect(table.table.keyboardNavigation).toBeNull();
-    expect(table.row('1')).toHaveFocus();
   });
 
   it('returnFocus ignores a vanished origin and focus that left the table', async () => {
@@ -1288,7 +1274,7 @@ describe('KeyboardNavigationTransformer', () => {
       expect(selectedIds(table)).toEqual([]);
     });
 
-    it('handle Ctrl+A once on a capability-on table', async () => {
+    it('handle Ctrl+A once', async () => {
       const table = await mount();
       const selectAll = vi.spyOn(table.selection, 'selectAll');
       table.row('1').focus();
@@ -1302,7 +1288,7 @@ describe('KeyboardNavigationTransformer', () => {
     it.each([
       ['Ctrl+D', { code: 'KeyD', ctrlKey: true }],
       ['Meta+D', { code: 'KeyD', metaKey: true }],
-    ])('leave %s to the browser on a capability-on table', async (_chord, init) => {
+    ])('leave %s to the browser', async (_chord, init) => {
       const table = await mount();
       table.row('1').focus();
       expect(pressActive(' ', { shiftKey: true })).toBe(false);
@@ -1312,16 +1298,6 @@ describe('KeyboardNavigationTransformer', () => {
 
       expect(selectedIds(table)).toEqual(['1']);
       expect(table.row('1')).toHaveFocus();
-    });
-
-    it('still select all through the legacy registration on a capability-off table', async () => {
-      const table = await mount({ configuration: { keyboardNavigationEnabled: false } });
-      const selectAll = vi.spyOn(table.selection, 'selectAll');
-
-      expect(press(table.row('1'), 'a', { code: 'KeyA', ctrlKey: true })).toBe(false);
-
-      expect(selectAll).toHaveBeenCalledTimes(1);
-      expect(selectedIds(table)).toEqual(['1', '2', '3']);
     });
   });
 

@@ -86,7 +86,6 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false,
-    keyboardNavigationEnabled: true,
   };
 
   public showViewPointInFlight:boolean;

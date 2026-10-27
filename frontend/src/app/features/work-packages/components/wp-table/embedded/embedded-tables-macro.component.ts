@@ -51,7 +51,6 @@ export class EmbeddedTablesMacroComponent {
     actionsColumnEnabled: false,
     columnMenuEnabled: false,
     contextMenuEnabled: false,
-    keyboardNavigationEnabled: true,
   };
 
   constructor() {

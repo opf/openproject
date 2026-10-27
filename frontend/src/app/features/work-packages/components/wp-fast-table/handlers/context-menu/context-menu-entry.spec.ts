@@ -160,7 +160,7 @@ describe('Context menu origin during a row-control walk', () => {
     const harness = buildTable({
       workPackages: [{ id: '1' }],
       productionMarkup: true,
-      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true },
+      configuration: { contextMenuEnabled: true },
     });
     await harness.render();
     const link = document.createElement('a');
@@ -185,7 +185,7 @@ describe('Context menu origin after direct control focus', () => {
     const harness = buildTable({
       workPackages: [{ id: '1' }, { id: '2' }],
       productionMarkup: true,
-      configuration: { actionsColumnEnabled: true, contextMenuEnabled: true, keyboardNavigationEnabled: true },
+      configuration: { actionsColumnEnabled: true, contextMenuEnabled: true },
     });
     try {
       await harness.render();
@@ -350,7 +350,7 @@ describe('Context menu keyboard chords', () => {
       workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }],
       productionMarkup: true,
       ...options,
-      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { contextMenuEnabled: true, ...options.configuration },
     });
     await harness.render();
 
@@ -610,60 +610,6 @@ describe('Context menu keyboard chords', () => {
     });
   });
 
-  describe('on a capability-off table', () => {
-    beforeEach(() => mount({ editing: {}, configuration: { keyboardNavigationEnabled: false } }));
-
-    const openSubjectEditor = () => {
-      fireEvent.click(harness.row('1').querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
-      return within(harness.row('1')).findByRole('textbox');
-    };
-
-    it('leaves Shift+F10 and Menu unhandled', () => {
-      harness.row('2').focus();
-
-      expect(press('Shift+F10', harness.row('2'))).toBe(true);
-      expect(press('Menu', harness.row('2'))).toBe(true);
-
-      expect(opened).not.toHaveBeenCalled();
-    });
-
-    it('opens on Shift+Alt+F10', () => {
-      harness.row('2').focus();
-
-      expect(press('Shift+Alt+F10', harness.row('2'))).toBe(false);
-
-      expect(menuTargets).toEqual([['2']]);
-    });
-
-    it('opens the row menu on Shift+Alt+F10 on the id link', () => {
-      const link = document.createElement('a');
-      link.className = uiStateLinkClass;
-      link.href = '#';
-      harness.row('1').querySelector('td.subject')!.append(link);
-      link.focus();
-
-      expect(press('Shift+Alt+F10', link)).toBe(false);
-
-      expect(menuTargets).toEqual([['1']]);
-    });
-
-    it('opens the row menu on Shift+Alt+F10 inside an open editor', async () => {
-      const input = await openSubjectEditor();
-
-      expect(press('Shift+Alt+F10', input)).toBe(false);
-
-      expect(menuTargets).toEqual([['1']]);
-    });
-
-    it('opens the row menu on right-click inside an open editor', async () => {
-      const input = await openSubjectEditor();
-
-      expect(fireEvent.contextMenu(input)).toBe(false);
-
-      expect(menuTargets).toEqual([['1']]);
-    });
-  });
-
   describe('with the context menu disabled', () => {
     beforeEach(() => mount({ configuration: { contextMenuEnabled: false } }));
 
@@ -705,7 +651,7 @@ describe('Context menu focus return', () => {
       productionMarkup: true,
       providers: [OPContextMenuService],
       ...options,
-      configuration: { contextMenuEnabled: true, keyboardNavigationEnabled: true, ...options.configuration },
+      configuration: { contextMenuEnabled: true, ...options.configuration },
     });
     await harness.render();
 
@@ -784,7 +730,7 @@ describe('Context menu focus return', () => {
     });
   });
 
-  describe('on a capability-on table', () => {
+  describe('in a flat list', () => {
     beforeEach(() => mount());
 
     it('row menu: an action that re-renders the row returns focus to the origin cell, not the body', async () => {
@@ -1002,28 +948,6 @@ describe('Context menu focus return', () => {
       await clickAction();
 
       await waitFor(() => expect(harness.row('1')).toHaveFocus());
-    });
-  });
-
-  describe('on a capability-off table', () => {
-    beforeEach(() => mount({ productionMarkup: false, configuration: { keyboardNavigationEnabled: false } }));
-
-    it('menu close behaves as before: an action leaves focus alone, Escape focuses the trigger', async () => {
-      const openByRightClick = () => {
-        fireEvent.contextMenu(harness.row('2'));
-        return waitFor(() => expect(document.querySelector('.op-context-menu--overlay .menu-item')).toHaveFocus());
-      };
-      await openByRightClick();
-      await clickAction();
-
-      expect(document.body).toHaveFocus();
-
-      await openByRightClick();
-      fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
-
-      expect(harness.table.keyboardNavigation).toBeNull();
-      expect(menu.active).toBeNull();
-      expect(harness.row('2')).toHaveFocus();
     });
   });
 });

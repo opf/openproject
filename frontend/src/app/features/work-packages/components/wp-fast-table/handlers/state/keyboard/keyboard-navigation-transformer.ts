@@ -104,7 +104,7 @@ const commandKeys:Record<string, NavKey> = {
 
 const pointerEndEvents = ['mouseup', 'click', 'pointerup', 'pointercancel', 'dragend'] as const;
 
-/** Moves focus across the rows and cells of a table with the keyboard, behind `keyboardNavigationEnabled`. */
+/** Moves focus across the rows and cells of a table with the keyboard. */
 export class KeyboardNavigationTransformer implements KeyboardNavigation {
   @LazyInject() public querySpace:IsolatedQuerySpace;
 
@@ -144,10 +144,6 @@ export class KeyboardNavigationTransformer implements KeyboardNavigation {
     private readonly table:WorkPackageTable,
     private readonly view:TableEventComponent|null = null,
   ) {
-    if (!table.configuration.keyboardNavigationEnabled) {
-      return;
-    }
-
     const { destroyRef, scrollContainer } = table;
     table.keyboardNavigation = this;
     this.selecting = new KeyboardSelection(table, this.wpTableSelection);

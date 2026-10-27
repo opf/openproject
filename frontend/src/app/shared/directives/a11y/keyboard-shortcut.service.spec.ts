@@ -43,7 +43,7 @@ describe('KeyboardShortcutService', () => {
       workPackages: ids.map((id) => ({ id })),
       productionMarkup: true,
       ...options,
-      configuration: { keyboardNavigationEnabled: true, inlineCreateEnabled: true },
+      configuration: { inlineCreateEnabled: true },
     });
     harnesses.push(table);
     table.tbody.closest('table')!.classList.add('keyboard-accessible-list');

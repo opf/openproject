@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
@@ -58,11 +57,6 @@ describe('table harness production markup', () => {
 
     expect(harness.headerCells()).toHaveLength(2);
     expect(harness.totalsRow().cells).toHaveLength(2);
-  });
-
-  it('keyboardNavigationEnabled defaults to false and can be turned on', () => {
-    expect(new WorkPackageTableConfiguration({}).keyboardNavigationEnabled).toBe(false);
-    expect(new WorkPackageTableConfiguration({ keyboardNavigationEnabled: true }).keyboardNavigationEnabled).toBe(true);
   });
 
   it('keeps the baseline inactive and the translator returning keys by default', () => {

@@ -49,7 +49,7 @@ describe('WorkPackageTable', () => {
 
     await harness.render();
 
-    const cells = within(harness.row('1')).getAllByRole('cell');
+    const cells = within(harness.row('1')).getAllByRole('gridcell');
     expect(cells).toHaveLength(3);
     expect(cells[0]).not.toHaveClass('subject');
     expect(cells[1]).toHaveClass('subject');
