@@ -63,7 +63,7 @@ module Users
         .call(pref)
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def assign_name_attributes_from_mail(params)
       placeholder = placeholder_name(params[:mail])
 
@@ -71,7 +71,6 @@ module Users
       model.firstname = model.firstname.presence || placeholder.first
       model.lastname = model.lastname.presence || placeholder.last
     end
-    # rubocop:enable Metrics/AbcSize
 
     def assign_default_language
       model.language = model.language.presence || Setting.default_language

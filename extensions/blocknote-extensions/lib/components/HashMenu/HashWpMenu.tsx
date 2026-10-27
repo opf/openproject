@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
 import { SearchMessage } from '../Search/SearchContainer';
+import { CreateWorkPackageOption } from '../Search/CreateWorkPackageOption';
 import { Spinner } from '../Spinner';
 import { supportsHover } from '../../utils/device';
 import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
@@ -67,7 +68,11 @@ export function createHashWpMenuComponent(
       if (items[index]) onItemClick?.(items[index]);
     };
 
-    useActiveOptionInView(menuRef, selectedIndex ?? -1, results);
+    // Without results the first item is the placeholder, which has no row.
+    const createIndex = items.findIndex((item) => item.createsWorkPackage);
+    const rowIndexOf = (index:number) => (index === createIndex ? results.length : index);
+
+    useActiveOptionInView(menuRef, rowIndexOf(selectedIndex ?? -1), results);
 
     useEffect(() => {
       setHoveredIndex(null);
@@ -94,34 +99,38 @@ export function createHashWpMenuComponent(
       );
     }
 
-    if (error || results.length === 0) {
-      return (
-        <Menu>
-          <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
-        </Menu>
-      );
-    }
+    const nothingFound = results.length === 0 && (
+      <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
+    );
+
+    if (nothingFound && createIndex === -1) return <Menu>{nothingFound}</Menu>;
+
+    const optionProps = (index:number) => ({
+      $highlighted: highlightedIndex === index,
+      onMouseMove: canHover ? () => setHoveredIndex(index) : undefined,
+      role: 'option',
+      'aria-selected': selectedIndex === index,
+      onMouseDown: (event:React.MouseEvent) => event.preventDefault(),
+      ...tapProps(() => pick(index)),
+    });
 
     return (
-      <Menu
-        ref={menuRef}
-        role="listbox"
-        aria-label={t('search.dropdownAriaLabel')}
-        onMouseLeave={canHover ? () => setHoveredIndex(null) : undefined}
-      >
-        {results.map((wp, index) => (
-          <MenuItem
-            key={wp.id}
-            $highlighted={highlightedIndex === index}
-            onMouseMove={canHover ? () => setHoveredIndex(index) : undefined}
-            role="option"
-            aria-selected={selectedIndex === index}
-            onMouseDown={(e) => e.preventDefault()}
-            {...tapProps(() => pick(index))}
-          >
-            <BlockCard workPackage={wp} inDropdown />
-          </MenuItem>
-        ))}
+      <Menu ref={menuRef} onMouseLeave={canHover ? () => setHoveredIndex(null) : undefined}>
+        {nothingFound}
+
+        <div role="listbox" aria-label={t('search.dropdownAriaLabel')}>
+          {results.map((wp, index) => (
+            <MenuItem key={wp.id} {...optionProps(index)}>
+              <BlockCard workPackage={wp} inDropdown />
+            </MenuItem>
+          ))}
+
+          {createIndex !== -1 && (
+            <MenuItem {...optionProps(createIndex)}>
+              <CreateWorkPackageOption />
+            </MenuItem>
+          )}
+        </div>
       </Menu>
     );
   };

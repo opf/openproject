@@ -324,18 +324,22 @@ fr:
   meeting:
     agenda_sorting:
       change: Change sorting mode
+      current_mode: Currently in %{mode} mode
       invalid_reaction: Only upvotes and downvotes are allowed on agenda items.
       manual: Manual
-      manual_description: Arrange agenda items yourself. Switching back restores the manual order.
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
       manual_order_disabled: Agenda items are ordered by votes. Switch to manual sorting to reorder them.
       remove_thumbs_down: Retirer le vote négatif
       remove_thumbs_up: Retirer le vote positif
+      sidebar_title: Agenda sorting
       sorted_by_votes: Ordre du jour classé par nombre de votes.
       thumbs_down: Voter contre
       thumbs_up: Voter pour
       title: Mode de tri
       vote_based: Basé sur les votes
-      vote_based_description: Classer les points de l'ordre du jour en fonction du nombre de votes positifs moins le nombre de votes négatifs au sein de chaque section. Le classement des sections reste manuel.
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
       votes: 'Votes : %{count}'
     attachments:
       onetime_template: Ces fichiers joints seront inclus dans toutes les futures réunions créées à l'aide de ce modèle.

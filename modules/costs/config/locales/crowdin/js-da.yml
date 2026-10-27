@@ -25,7 +25,7 @@ da:
     button_log_costs: Registrér enhedsomkostninger
     label_hour: time
     label_hours: timer
-    text_are_you_sure: Sikker?
+    text_are_you_sure: Er du sikker?
     work_packages:
       properties:
         overallCosts: Samlede omkostninger

@@ -41,7 +41,7 @@ module Llm
     module_function
 
     # @param message [RubyLLM::Message] the answer from Chat#ask
-    # @raise [Llm::Errors::ParseError] when the model did not honour the schema
+    # @raise [Llm::Errors::ParseError] when the model did not honor the schema
     # @return [Hash]
     def parse!(message)
       content = message.respond_to?(:content) ? message.content : message

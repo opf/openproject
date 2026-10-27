@@ -84,7 +84,7 @@ OpenProject 17.0 introduces several great improvements that make meeting prepara
 
 New meetings now open in **draft mode**, allowing moderators to prepare agendas, add participants, and structure content before sending out invitations or updates.
 
-A banner clearly indicates draft mode, and invitations are only sent once the meeting is explicitly opened by clicking on the green "Open meeting" button. Only then, invitations can be sent and the usual update behaviour applies.
+A banner clearly indicates draft mode, and invitations are only sent once the meeting is explicitly opened by clicking on the green "Open meeting" button. Only then, invitations can be sent and the usual update behavior applies.
 
 ![OpenProject meeting draft mode, indicated by a "Draft" status and a banner explaining draft mode. There is a green button "Open meeting in the upper right corner".](openproject-17-0-meeting-draft-mode.png)
 
@@ -103,7 +103,7 @@ See our user guide to [learn how to present a meeting in OpenProject](../../user
 
 #### Multiple text-based outcomes per agenda item
 
-Agenda items can now hold **multiple text-based outcomes**: The **+ Outcome** button remains available while the meeting is _In progress_ and allows moderators to record more than one result for the same item. The first outcome is labelled "Outcome", additional ones are numbered ("Outcome 1", "Outcome 2", and so on). These outcomes are also supported in the PDF exports of meetings. This feature is a preparation for future improvements, such as [creating work packages as outcomes](https://community.openproject.org/work_packages/62093).
+Agenda items can now hold **multiple text-based outcomes**: The **+ Outcome** button remains available while the meeting is _In progress_ and allows moderators to record more than one result for the same item. The first outcome is labeled "Outcome", additional ones are numbered ("Outcome 1", "Outcome 2", and so on). These outcomes are also supported in the PDF exports of meetings. This feature is a preparation for future improvements, such as [creating work packages as outcomes](https://community.openproject.org/work_packages/62093).
 
 ![OpenProject meeting which is in progress, below the first agenda item (a work package) are "Outcome 1" and "Outcome 2" displayed, and the + Outcome button is still available as well](openproject-17-0-meeting-multiple-outcomes.png)
 

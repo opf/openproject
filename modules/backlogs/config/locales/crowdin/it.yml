@@ -135,6 +135,10 @@ it:
       details: Il bucket del backlog '%{name}' verrà eliminato e tutte le macro-attività verranno spostate nella posta in arrivo del backlog. Nessuna macro-attività verrà eliminata.
       title: Eliminare il bucket del backlog?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Imposta la data di inizio e di fine dello sprint per generare un grafico di burndown.
         blankslate_title: Non sono disponibili dati di burndown
@@ -300,9 +304,6 @@ it:
       update_service:
         invalid_target_type: 'list_type deve essere uno dei seguenti valori: backlog_bucket con un list_id, sprint con un list_id oppure inbox senza list_id.'
         missing_target: È necessario che sia presente list_type o list_id.
-  burndown:
-    story_points: Punti story
-    story_points_ideal: Punti story (ideali)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

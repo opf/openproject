@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
     <% if variant == :undeletable %>
       <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
-        <%# helpers.t, not I18n.t: only the Rails helper honours the _html suffix %>
+        <%# helpers.t, not I18n.t: only the Rails helper honors the _html suffix %>
         <%= helpers.t(
               "work_packages.bulk_delete_dialog.#{undeletable_warning_key}",
               count: undeletable_count,

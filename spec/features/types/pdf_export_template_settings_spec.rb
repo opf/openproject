@@ -80,7 +80,7 @@ RSpec.describe "type PDF export template settings", :js do
   end
 
   it "keeps the table of contents enabled and the hyphenation language unset when saving " \
-     "artefact settings that were never configured" do
+     "artifact settings that were never configured" do
     click_link_or_button type.default_variant.pdf_export_templates.find("artefact").label
 
     expect(page).to have_checked_field("toc_enabled")

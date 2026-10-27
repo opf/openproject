@@ -11,7 +11,7 @@ import {
 } from '../../../../lib/components/InlineWorkPackage/externalHtml';
 
 // Simulate a paste from an external source (e.g. Hocuspocus markdown export or
-// another editor) by dispatching a ClipboardEvent carrying the serialised HTML.
+// another editor) by dispatching a ClipboardEvent carrying the serialized HTML.
 function pasteHtml(html:string, plain:string) {
   const el = document.querySelector('[contenteditable]');
   if (!(el instanceof HTMLElement)) {
@@ -24,7 +24,7 @@ function pasteHtml(html:string, plain:string) {
 }
 
 describe('Paste external HTML — block work package', () => {
-  it('recreates a block card from serialised HTML', async () => {
+  it('recreates a block card from serialized HTML', async () => {
     renderEditor();
     await userEvent.click(page.getByRole('textbox'));
 
@@ -37,7 +37,7 @@ describe('Paste external HTML — block work package', () => {
 });
 
 describe('Paste external HTML — inline work package', () => {
-  it('recreates an inline chip from serialised HTML', async () => {
+  it('recreates an inline chip from serialized HTML', async () => {
     renderEditor();
     await userEvent.click(page.getByRole('textbox'));
 

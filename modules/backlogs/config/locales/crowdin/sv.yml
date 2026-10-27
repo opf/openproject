@@ -135,6 +135,10 @@ sv:
       details: Backlogggruppen ”%{name}” tas bort och alla arbetspaket flyttas till backloggens inkorg. Inget arbetspaket tas bort.
       title: Ta bort backlogggruppen?
     burndown_chart:
+      series:
+        guideline: Guideline
+        projection: Remaining story points (projection)
+        remaining: Remaining story points
       show:
         blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
         blankslate_title: Inga burndown-data tillgängliga
@@ -300,9 +304,6 @@ sv:
       update_service:
         invalid_target_type: 'list_type måste vara något av följande: backlog_bucket med ett list_id, sprint med ett list_id eller inbox utan ett list_id.'
         missing_target: list_type eller list_id måste anges.
-  burndown:
-    story_points: Berättelsepoäng
-    story_points_ideal: Berättelsepoäng (idealiskt)
   created_resolved:
     wp_created: Created
     wp_resolved: Resolved

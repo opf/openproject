@@ -12,6 +12,7 @@ on:
       - '**.mjs'
       - '**.ts'
       - 'COPYRIGHT_short'
+      - '!extensions/blocknote-extensions/**'
 
 jobs:
   eslint:
@@ -30,7 +31,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: '24.18.0'
+          node-version: '24.22.1'
           package-manager-cache: false
           cache: npm
           cache-dependency-path: |

@@ -549,7 +549,7 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
-        # Deprecated in favour of `targetVersions`
+        # Deprecated in favor of `targetVersions`
         # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,

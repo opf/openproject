@@ -111,7 +111,7 @@ export default class ContextualActionMenuController extends Controller<HTMLEleme
   };
 
   // Both `pointerdown` and `mousedown` route here: a mouse fires both, a long
-  // press fires only the former, and a driver-synthesised gesture may fire only
+  // press fires only the former, and a driver-synthesized gesture may fire only
   // the latter.
   private readonly onPointerPress = ():void => {
     this.expectKeyboardEcho = false;

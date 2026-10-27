@@ -105,7 +105,7 @@ export function EffectHandler<T extends new(...args:any[]) => EffectClass>(const
     // Registered from a field initializer, not a constructor, on purpose: an
     // explicit constructor on this @Injectable() subclass of a generic base
     // (`extends constructor`) breaks the ngtsc AOT compiler, which cannot
-    // analyse the `super(...args)` injection parameters. With
+    // analyze the `super(...args)` injection parameters. With
     // useDefineForClassFields:false this initializer still runs in the
     // constructor body after super(), so the wrapped service (and its actions$)
     // is fully constructed before effect callbacks bind to it.

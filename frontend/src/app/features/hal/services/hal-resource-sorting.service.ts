@@ -39,9 +39,6 @@ export class HalResourceSortingService {
     project: 'name',
   };
 
-  constructor() {
-  }
-
   /**
    * Sort the given HalResource based on its type.
    * If the type is not given, guess from the first element.

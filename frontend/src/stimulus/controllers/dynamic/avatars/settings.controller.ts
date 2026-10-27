@@ -27,6 +27,8 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { resizeImage } from 'core-app/shared/helpers/images/resizer';
+import { decodeImageFile, updateObjectUrlPreview } from 'core-app/shared/helpers/images/object-url-preview';
+import { setInputFiles } from 'core-app/shared/helpers/dom-helpers';
 
 const SURROUNDING_SPACE = /^[\s\u0085]+|[\s\u0085]+$/gu;
 const INVISIBLE_CODEPOINT = /[\p{Cc}\p{Cs}\p{Noncharacter_Code_Point}]|(?![\u200D\u{E0020}-\u{E007F}])\p{Cf}/u;
@@ -87,7 +89,7 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
 
   disconnect() {
     this.imageGeneration += 1;
-    if (this.imagePreview) URL.revokeObjectURL(this.imagePreview);
+    this.imagePreview = updateObjectUrlPreview(this.imagePreview, undefined);
   }
 
   update(event?:Event) {
@@ -184,27 +186,20 @@ export default class AvatarSettingsController extends Controller<HTMLElement> {
     this.resizing = true;
     this.uploadErrorTarget.hidden = true;
     this.update();
-    const source = URL.createObjectURL(file);
     try {
       if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) throw new Error('Invalid image');
-      const image = new Image();
-      image.src = source;
-      await image.decode();
+      const image = await decodeImageFile(file);
       if (generation !== this.imageGeneration) return;
 
       const [, blob] = resizeImage(128, image);
-      const transfer = new DataTransfer();
-      transfer.items.add(new File([blob], file.name, { type: blob.type }));
-      this.fileTarget.files = transfer.files;
-      if (this.imagePreview) URL.revokeObjectURL(this.imagePreview);
-      this.imagePreview = URL.createObjectURL(blob);
+      setInputFiles(this.fileTarget, new File([blob], file.name, { type: blob.type }));
+      this.imagePreview = updateObjectUrlPreview(this.imagePreview, blob);
     } catch {
       if (generation !== this.imageGeneration) return;
       this.fileTarget.value = '';
       this.invalidImage = true;
       this.uploadErrorTarget.hidden = false;
     } finally {
-      URL.revokeObjectURL(source);
       if (generation === this.imageGeneration) {
         this.resizing = false;
         this.update();

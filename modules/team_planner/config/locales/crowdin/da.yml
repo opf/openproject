@@ -10,7 +10,7 @@ da:
   permission_manage_team_planner: Administrer teamplanlægger
   permission_view_team_planner: Vis teamplanlægger
   plugin_openproject_team_planner:
-    description: Provides team planner views.
+    description: Giver visninger med teamplanlægger.
     name: OpenProject Team Planner
   project_module_team_planner_view: Teamplanlæggere
   team_planner:

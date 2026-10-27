@@ -49,7 +49,7 @@ module Workflows
       @displayed_status_ids = status_ids_from(displayed_status_ids)
     end
 
-    # Normalised, so that rendering, the status query and persistence cannot disagree
+    # Normalized, so that rendering, the status query and persistence cannot disagree
     # about which tab is being edited. The raw value is absent whenever the matrix is
     # opened without one.
     def tab

@@ -780,7 +780,7 @@ OPENPROJECT_RATE_LIMITING_LOGIN_BAN__PERIOD="3600"
 > application-level setting counts only **failed** attempts and operates over a longer rolling window.
 > If you lower `brute_force_block_after_failed_logins` below `BURST_LIMIT` (default 20), the
 > application-level lockout will fire before this rule does. Keep the two thresholds consistent to
-> avoid surprising behaviour. For example, set `BURST_LIMIT` to match or be lower than
+> avoid surprising behavior. For example, set `BURST_LIMIT` to match or be lower than
 > `brute_force_block_after_failed_logins`.
 
 ##### Lost password rate limiting (disabled by default)

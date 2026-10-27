@@ -316,7 +316,7 @@ function listItems(root:HTMLElement, from:HTMLElement):HTMLElement[] {
 
 // Arrows step through the list as rendered, fixed cards included. Not
 // symmetric with listBoundaryItem below, which does filter.
-export function neighbourItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
+export function neighborItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
   const items = listItems(root, from);
   const index = items.indexOf(from);
 

@@ -264,7 +264,7 @@ RSpec.describe WorkPackageMailer do
         allow(work_package).to receive(:target_versions).and_return(target_versions)
       end
 
-      context "with multiple versions disabled (legacy behaviour)",
+      context "with multiple versions disabled (legacy behavior)",
               with_settings: { work_package_multiple_versions: false } do
         let(:target_versions) { [version_a] }
 
