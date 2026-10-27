@@ -42,6 +42,15 @@ module WorkPackageTypes
       end
     end
 
+    def switch(projects, target:)
+      aggregate(projects) do |project|
+        source = project.project_types.find_by(type_id: target.type_id)&.variant
+        next ServiceResult.success(result: project) if source == target
+
+        ::Projects::Types::SwitchVariantService.new(user:, model: project).call(source:, target:)
+      end
+    end
+
     private
 
     attr_reader :user, :variant

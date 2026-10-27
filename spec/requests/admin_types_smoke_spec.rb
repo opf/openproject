@@ -118,7 +118,7 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   it "renders the switch dialog for a listed project" do
     project = create(:project, types: [variant])
 
-    get new_switch_type_projects_path(type_id: type.id, project_id: project.id),
+    get new_type_projects_switch_path(type_id: type.id, project_ids: [project.id]),
         as: :turbo_stream
 
     expect(response).to have_http_status(:ok)
