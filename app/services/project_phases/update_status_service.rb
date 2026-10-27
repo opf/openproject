@@ -41,23 +41,32 @@ module ProjectPhases
     private
 
     def cascade_to_other_phases
-      project.available_phases.each do |other|
-        next if other == model
+      earlier, later = project.available_phases
+                              .reject { it == model }
+                              .partition { it.position < model.position }
 
-        target = cascaded_status(earlier: other.position < model.position)
-        next if target.nil? || other.status == target
+      earlier_status, later_status = cascaded_statuses.values_at(:earlier, :later)
 
-        other.update!(status: target)
-      end
+      update_statuses(earlier, earlier_status)
+      update_statuses(later, later_status)
     end
 
-    def cascaded_status(earlier:)
+    def update_statuses(phases, status)
+      return if status.nil?
+
+      ids = phases.reject { it.status == status }.map(&:id)
+      return if ids.empty?
+
+      Project::Phase.where(id: ids).update_all(status:, updated_at: Time.current)
+    end
+
+    def cascaded_statuses
       open, in_progress, completed = Project::Phase.statuses.values_at(:open, :in_progress, :completed)
 
       case model.status
-      when open        then open unless earlier
-      when in_progress then earlier ? completed : open
-      when completed   then completed if earlier
+      when open        then { later: open }
+      when in_progress then { earlier: completed, later: open }
+      when completed   then { earlier: completed }
       end
     end
 
