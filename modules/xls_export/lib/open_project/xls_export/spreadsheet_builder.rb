@@ -72,6 +72,9 @@ module OpenProject::XlsExport
     # Update column widths and wrap text if necessary
     def update_sheet_widths
       @column_widths.count.times do |idx|
+        # a column that was given a format but never a value has no tracked width
+        @column_widths[idx] ||= 0
+
         if @column_widths[idx] > 60
           limit_and_wrap_column(idx, 60)
         else

@@ -121,6 +121,16 @@ RSpec.describe "SpreadsheetBuilder" do
     it "leaves number formats to the plain value width" do
       expect(width_for("0.00")).to eq(width_for("YYYY-MM-DD"))
     end
+
+    it "copes with a column that was given a format but never a value" do
+      builder = OpenProject::XlsExport::SpreadsheetBuilder.new
+      builder.add_headers([""], 0)
+      builder.add_row([Date.new(2026, 8, 24)])
+      builder.add_format_option_to_column(3, number_format: "YYYY-MM-DD")
+
+      expect { builder.xls }.not_to raise_error
+      expect(builder.send(:raw_sheet).column(1).width).to eq(0)
+    end
   end
 
   it "keeps booleans as booleans" do
