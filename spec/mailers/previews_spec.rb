@@ -36,11 +36,13 @@ Rails.root.glob("{,modules/*/}spec/mailers/**/*_mailer_preview.rb") { require it
 module PendingMailerPreviews
   MAILERS = [
     AnnouncementMailer,
-    DocumentsMailer,
     MemberMailer
   ].freeze
 
   MAILER_ACTIONS = {
+    DocumentsMailer => %i[
+      attachments_added
+    ],
     MeetingMailer => %i[
       ended_series
       icalendar_notification
