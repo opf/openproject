@@ -26,7 +26,8 @@ zh-CN:
         select: 选择文件
         select_all: 全选
         selection:
-          zero: 选择文件以链接
+          none: Select files to link
+          one: Link %{count} file
           other: Link %{count} files
         success_create:
           other: Successfully created %{count} file links.

@@ -39,7 +39,7 @@
 #
 # for this purpose.
 
-# rubocop:disable Rails/SquishedSQLHeredocs
+# rubocop:disable-next Rails/SquishedSQLHeredocs
 module Journals
   class CreateService
     include Helpers
@@ -631,4 +631,3 @@ module Journals
     end
   end
 end
-# rubocop:enable Rails/SquishedSQLHeredocs

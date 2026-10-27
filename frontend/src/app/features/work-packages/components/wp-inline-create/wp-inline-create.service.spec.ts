@@ -41,7 +41,7 @@ describe('WorkPackageInlineCreateService', () => {
     });
   });
 
-  it('initialises via dependency injection', () => {
+  it('initializes via dependency injection', () => {
     expect(TestBed.inject(WorkPackageInlineCreateService)).toBeTruthy();
   });
 });

@@ -81,7 +81,7 @@ pt-BR:
       group_regexes: Um padrão de expressão regular por linha. Leia [a documentação](docs_url) para obter mais informações sobre como fazer isso.
       group_regexes_detail_html: Opcionalmente, defina padrões usando expressões regulares para corresponder aos nomes de grupos da reivindicação de grupos. Por exemplo, o padrão <code>^Level1/Level2/([\w/]+)$</code> extrairá o grupo “GroupName/SubGroup” de uma resposta que inclua “Level1/Level2/GroupName/SubGroup”. Se nenhum padrão corresponder, o grupo será ignorado. Deixe o campo vazio para sincronizar todos os grupos usando seus nomes completos.
       group_regexes_testing: Clique em “Testar padrão” para testar seu padrão de expressão regular com dados de exemplo do OIDC userinfo.
-      group_sync: Extraia e sincronize automaticamente as informações de associação a grupos fornecidas pelo provedor de identidade.
+      group_sync: Automatically extract and synchronize group membership information from the identity provider.
       groups_claim: Informe o nome da declaração que indica os grupos dos quais o usuário é membro.
       limit_self_registration: Se ativado, os usuários só poderão se registrar usando este provedor se a configuração no lado do provedor permitir.
       mapping_admin: 'Forneça um mapeamento personalizado na resposta do userinfo para ser usado no status de administrador. Espera-se que um atributo booleano seja retornado.

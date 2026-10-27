@@ -122,7 +122,7 @@ describe('Sortable lists scrollable controller', () => {
     expect(options?.getConfiguration?.(scrollArgs(element, { type: 'x' }))).toEqual({ maxScrollSpeed: 'standard' });
   });
 
-  it('honours valid overrides and falls back on invalid ones', async () => {
+  it('honors valid overrides and falls back on invalid ones', async () => {
     const valid = await mount('data-sortable-lists--scrollable-allowed-axis-value="horizontal" data-sortable-lists--scrollable-max-scroll-speed-value="fast"');
     let options = vi.mocked(autoScrollForElements).mock.lastCall?.[0];
     expect(options?.getAllowedAxis?.(scrollArgs(valid.element, { type: 'x' }))).toEqual('horizontal');

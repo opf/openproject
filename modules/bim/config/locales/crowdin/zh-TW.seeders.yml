@@ -61,7 +61,7 @@ zh-TW:
         item_2:
           name: BIM管理者
         item_3:
-          name: BIM建模者
+          name: BIM Modelers
         item_4:
           name: 主BIM協調者
         item_5:
@@ -508,18 +508,18 @@ zh-TW:
               description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
               children:
                 item_0:
-                  subject: 建模初始 BIM 模型
+                  subject: Modeling initial BIM model
                   description: |-
-                    ＃ 目標
+                    # Goal
 
-                    * 對初始 BIM 模型進行建模
-                    * 為整個專案團隊建立 BIM 模型
+                    *   Modeling the initial BIM model
+                    *   Creating a BIM model for the whole project team
 
-                    ＃ 描述
+                    # Description
 
-                    * 根據客戶收集的數據，建立初始模型
-                    * 模型應根據LOD矩陣建模並包含所需的信息
-                    * ...
+                    *   According to the gathered data from the customer, the initial model will be modeled
+                    *   The model shall be modeled according to the LOD Matrices and contain the information needed
+                    *   ...
                 item_1:
                   subject: 初始、內部模型檢查與修改
                   description: |-
@@ -535,23 +535,23 @@ zh-TW:
                   subject: 提交初始 BIM 模型
                   description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
             item_4:
-              subject: 建模，第一個週期
+              subject: Modeling, first cycle
               description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
               children:
                 item_0:
                   subject: 參照外部 BIM 模型
                   description: |-
-                    ＃ 目標
+                    # Goal
 
-                    * 為發展內部模型/提供答案奠定基礎
-                    * 使用外部模型開發內部模型
+                    *   Having a foundation for developing the internal model/ offering answers
+                    *   Using the external model to develop the internal model
 
-                    ＃ 描述
+                    # Description
 
-                    * 外部模型將在BIM平台中引用，用於內部模型的建模
-                    * ...
+                    *   The external model will be referenced in the BIM platform, thus used for modeling the internal model
+                    *   ...
                 item_1:
-                  subject: 建模 BIM 模型
+                  subject: Modeling the BIM model
                   description: |-
                     ＃ 目標
 
@@ -599,19 +599,19 @@ zh-TW:
                   subject: 完成協調整合，第一個週期
                   description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
             item_6:
-              subject: 建模＆協調整合，第二個週期
+              subject: Modeling & coordinating, second cycle
               description: "## 目標\r\n\r\n* ...\r\n\r\n## 描述\r\n\r\n* \\ ..."
             item_7:
-              subject: 建模＆協調整合，... 週期
+              subject: Modeling & coordinating, ... cycle
               description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
             item_8:
-              subject: 建模＆協調整合，(n-th minus 1) 週期
+              subject: Modeling & coordinating, (n-th minus 1) cycle
               description: "## 目標\r\n\r\n* ...\r\n\r\n## 描述\r\n\r\n* \\ ..."
             item_9:
-              subject: 建模＆協調整合，n-th 週期
+              subject: Modeling & coordinating n-th cycle
               description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
             item_10:
-              subject: 完成 建模＆協調整合，n-th 週期
+              subject: Finishing modeling & coordinating, n-th cycle
               description: 此類型在層級上是「衝突&quot;」類型&quot;的父代。因此，「請求&quot;」和「請求&quot;」代表一般註釋。
             item_11:
               subject: 施工階段使用模型

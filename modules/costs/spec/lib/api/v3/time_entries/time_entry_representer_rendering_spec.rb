@@ -180,16 +180,17 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
       let(:href) { api_v3_paths.time_entry_schema }
     end
 
-    context "custom value" do
+    context "with a user custom value" do
       let(:custom_field) do
         build_stubbed(:time_entry_custom_field, :user)
       end
       let(:custom_value) do
-        double("CustomValue",
-               custom_field:,
-               customized: time_entry,
-               value: "1",
-               typed_value: user)
+        instance_double(CustomValue,
+                        custom_field:,
+                        customized: time_entry,
+                        value: "1",
+                        typed_value: user,
+                        available_in_project?: true)
       end
       let(:user) do
         build_stubbed(:user)

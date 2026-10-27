@@ -30,6 +30,7 @@
 module WhatsNew
   class Release
     Item = Data.define(:key, :title, :description, :url)
+    VISIBLE_AFTER_FIRST_OPEN = 7.days
 
     attr_reader :major, :minor
 
@@ -59,7 +60,7 @@ module WhatsNew
     end
 
     def visible_to?(user)
-      user.logged? && items.any?
+      user.logged? && items.any? && !expired_for?(user)
     end
 
     def item?(key)
@@ -76,6 +77,11 @@ module WhatsNew
 
     def seen?(user)
       user.pref.whats_new_seen_version == version_key
+    end
+
+    def expired_for?(user)
+      seen?(user) && user.pref.whats_new_seen_at.present? &&
+        user.pref.whats_new_seen_at.before?(VISIBLE_AFTER_FIRST_OPEN.ago)
     end
 
     private

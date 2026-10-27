@@ -39,7 +39,7 @@ module AuthenticationHelpers
     if is_a?(RSpec::Rails::FeatureExampleGroup)
       # If we want to mock having finished the login process
       # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
+      # Otherwise e.g. calls to Warden will behave unexpectedly
       # as they will login AnonymousUser
       if using_cuprite? && js_enabled?
         page.driver.set_cookie(

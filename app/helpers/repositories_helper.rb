@@ -236,10 +236,9 @@ module RepositoriesHelper
   end
 
   def scm_vendor_tag(repository)
-    # rubocop:disable Rails/HelperInstanceVariable
+    # rubocop:disable-next Rails/HelperInstanceVariable
     url = url_for(controller: "/projects/settings/repository", action: "show", id: @project.id)
-    # rubocop:enable Rails/HelperInstanceVariable
-    #
+
     select_tag("scm_vendor",
                scm_options(repository),
                class: "form--select",

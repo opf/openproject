@@ -74,29 +74,54 @@ RSpec.describe "Sprint report page", :js, with_ee: [:sprint_report_pro_widgets],
     end
   end
 
+  describe "navigation between reports" do
+    let!(:previous_sprint) do
+      create(:sprint,
+             project:,
+             name: "Sprint 41",
+             start_date: 20.days.ago,
+             finish_date: 10.days.ago,
+             status: :completed)
+    end
+
+    before { visit_sprint_report }
+
+    it "navigates to the chronologically previous report" do
+      expect(page).to have_test_selector("sprint-report-previous")
+      expect(page).to have_no_test_selector("sprint-report-next")
+
+      click_on "Previous"
+
+      expect(page).to have_heading("Sprint 41 report", level: 2)
+      expect(page).to have_test_selector("sprint-report-next", text: "Next")
+      expect(page).to have_no_test_selector("sprint-report-previous")
+    end
+  end
+
   describe "widget area", with_ee: %i[sprint_report_pro_widgets] do
     before { visit_sprint_report }
 
     let(:widget_boxes) { page.all(".widget-boxes .widget-box", minimum: 3) }
 
-    it "renders the sprint goal widget first" do
-      expect(widget_boxes[0]).to have_text("Add sprint goal widget")
-    end
+    it "renders the widgets in the correct order" do
+      order = [
+        [:text, "Add sprint goal widget"],
+        [:text, "Work packages within the sprint"],
+        [:css, "opce-burndown-chart"],
+        [:css, "opce-created-resolved-chart"],
+        [:text, "Epic progress"],
+        [:css, "opce-wp-overview-graph"]
+      ]
 
-    it "renders the work package overview widget second" do
-      expect(widget_boxes[1]).to have_text("Work packages within the sprint")
-    end
+      order.each_with_index do |entry, i|
+        type, value = entry
 
-    it "renders the work package graph widget third" do
-      expect(widget_boxes[2]).to have_css("opce-wp-overview-graph")
-    end
-
-    it "renders the burndown chart widget fourth" do
-      expect(widget_boxes[3]).to have_css("opce-burndown-chart")
-    end
-
-    it "renders the epic progress widget last" do
-      expect(widget_boxes.last).to have_text("Epic progress")
+        if type == :text
+          expect(widget_boxes[i]).to have_text(value)
+        elsif type == :css
+          expect(widget_boxes[i]).to have_css(value)
+        end
+      end
     end
   end
 end

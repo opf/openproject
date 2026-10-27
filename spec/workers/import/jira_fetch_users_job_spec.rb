@@ -116,6 +116,47 @@ RSpec.describe Import::JiraFetchUsersJob do
     end
   end
 
+  describe "#collect_markup_mentions" do
+    let(:mention_usernames) { Set.new }
+
+    def mentions_in(markup)
+      job.send(:collect_markup_mentions, markup, mention_usernames)
+      mention_usernames
+    end
+
+    it "collects a mention from a paragraph" do
+      expect(mentions_in("hello [~jdoe]")).to contain_exactly("jdoe")
+    end
+
+    it "collects mentions from header and data cells of a table" do
+      expect(mentions_in("||[~alice]||B||\n|[~bob]|2|")).to contain_exactly("alice", "bob")
+    end
+
+    it "collects a mention from a headerless table" do
+      expect(mentions_in("|[~jdoe]|2|")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention nested in markup inside a cell" do
+      expect(mentions_in("|*see [~jdoe]*|b|")).to contain_exactly("jdoe")
+    end
+
+    it "collects mentions from every line of a multi-line quote" do
+      expect(mentions_in("{quote}\n[~alice]\nand [~bob]\n{quote}")).to contain_exactly("alice", "bob")
+    end
+
+    it "collects a mention nested in markup inside a quote" do
+      expect(mentions_in("{quote}\n*see [~jdoe]*\n{quote}")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention from a panel body" do
+      expect(mentions_in("{panel:title=T}\n[~jdoe]\n{panel}")).to contain_exactly("jdoe")
+    end
+
+    it "collects a mention from a panel inside a table cell" do
+      expect(mentions_in("|{panel}[~jdoe]{panel}|b|")).to contain_exactly("jdoe")
+    end
+  end
+
   describe "#resolve_mention_user_keys" do
     context "when all mentioned users exist" do
       before do
@@ -146,10 +187,10 @@ RSpec.describe Import::JiraFetchUsersJob do
         expect(user_keys).to contain_exactly("JIRAUSER100")
       end
 
-      it "logs the error" do
-        allow(Rails.logger).to receive(:info)
+      it "logs a warning" do
+        allow(Rails.logger).to receive(:warn)
         job.send(:resolve_mention_user_keys, %w[alice ghost], user_keys, jira_client)
-        expect(Rails.logger).to have_received(:info).with(a_string_including("ghost"))
+        expect(Rails.logger).to have_received(:warn).with(a_string_including("ghost"))
       end
     end
 

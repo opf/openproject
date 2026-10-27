@@ -115,7 +115,7 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes:SimpleChanges):void {
     if (changes.inputTitle) {
-      this.selectedTitle = changes.inputTitle.currentValue;
+      this.selectedTitle = changes.inputTitle.currentValue as string;
     }
 
     if (changes.initialFocus && changes.initialFocus.firstChange && this.inputField!) {

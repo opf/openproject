@@ -50,7 +50,7 @@ module OpenProject
       # For more complex implementations involving date pickers (the work package date field or the baseline modal),
       # please refer to documentation concerning those specific features for notes on mobile-specific rendering.
       #
-      # The library gives us certain functionality out of the box with a fairly high degree of customisation,
+      # The library gives us certain functionality out of the box with a fairly high degree of customization,
       # but also introduces limits (which will be mentioned below when relevant).
       #
       # Please read the [Flatpickr documentation](https://flatpickr.js.org/instance-methods-properties-elements/)
@@ -66,13 +66,13 @@ module OpenProject
       ##
       # **Range date picker**
       # ---------------------
-      # Range datepicker allow inputing a range (2023-02-09 - 2023-02-14),
+      # Range datepicker allow inputting a range (2023-02-09 - 2023-02-14),
       # and shows the date picker with two months.
       #
       # All date picker are built on the [Flatpickr javascript library](https://flatpickr.js.org/).
       # On mobile devices, the component will automatically degrade to two inputs with the device's native date picker.
       #
-      # The library gives us certain functionality out of the box with a fairly high degree of customisation,
+      # The library gives us certain functionality out of the box with a fairly high degree of customization,
       # but also introduces limits (which will be mentioned below when relevant).
       #
       # Please read the [Flatpickr documentation](https://flatpickr.js.org/instance-methods-properties-elements/)

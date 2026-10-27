@@ -9,7 +9,7 @@ reference that description through `aria-describedby` on their focus host.
 
 Items declare `mobility`: `fixed`, `confined`, or `free`. Mobility gates dragging,
 selection eligibility, and positional moves. A missing value defaults to `free`;
-an unrecognised value resolves to `fixed`. Structural rows such as “Show more”
+an unrecognized value resolves to `fixed`. Structural rows such as “Show more”
 are not sortable items and do not participate in selection.
 
 ## Model and ownership

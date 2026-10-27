@@ -50,7 +50,7 @@ export class OPContextMenuComponent {
 
   constructor() {
     this.items = this.locals.items.filter((item) => !item?.hidden);
-    this.service = this.locals.service;
+    this.service = this.locals.service!;
   }
 
   public handleClick(item:OpContextMenuItem, event:MouseEvent) {
@@ -59,7 +59,7 @@ export class OPContextMenuComponent {
     }
 
     if (item.onClick!(event)) {
-      this.locals.service.close();
+      this.locals.service!.close();
       event.preventDefault();
       event.stopPropagation();
       return false;

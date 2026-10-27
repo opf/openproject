@@ -51,7 +51,7 @@ module ProjectIdentifiers
 
     # Generates a unique classic-format identifier from +name+.
     # Appends -1, -2, … until a slug not in the taken set is found.
-    # Falls back to a randomised +FALLBACK_BASE+ slug when +name+ produces no valid slug.
+    # Falls back to a randomized +FALLBACK_BASE+ slug when +name+ produces no valid slug.
     def suggest_identifier(name)
       base = slugify(name) || fallback_base
 

@@ -29,7 +29,7 @@
 
 class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
   def validate_type_of_value
-    unless custom_field.custom_options.pluck(:id).include?(value.to_i)
+    unless custom_field.custom_options.pluck(:id).include?(value.to_i) && usable_in_project?
       :inclusion
     end
   end

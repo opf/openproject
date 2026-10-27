@@ -141,6 +141,9 @@ If an OpenProject custom field with the same name and format already exists (fro
 the migrator reuses it instead of creating a duplicate. The existing custom field is linked to the import and its values are preserved.
 
 If a name collision exists but the formats differ, the migrator appends a numeric suffix to the new field name (e.g., `My Field (2)`).
+Such a numeric suffix is disregarded when the migrator looks for a field to reuse, so a later run reuses `My Field (2)`
+instead of creating `My Field (3)`. Only a numeric suffix is treated this way - the project-key suffixes described under
+[Field contexts](#field-contexts) stay part of the name.
 
 For **Hierarchy** and **List** fields, deduplication is attempted but not guaranteed because option lists may differ. 
 A new custom field with a numeric suffix may be created for these types.

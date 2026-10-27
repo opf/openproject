@@ -108,14 +108,14 @@ ko:
       outside_dates:
         description: 선택된 리소스 날짜(%{resource_dates})가 작업 패키지 날짜(%{work_package_dates}) 범위를 벗어납니다.
       overbooking:
-        capacity_summary: "%{available} 사용 가능 · %{scheduled} 예약됨"
         description: 선택된 사용자(%{user})에게 이 기간 동안 근무 시간 외 시간이 할당됩니다.
-        hidden_work: 기타 할당
+        overtime_summary_html: This allocation adds %{hours} between %{start_date} and %{end_date}, <strong>causing %{overtime} of overtime between %{overtime_start_date} and %{overtime_end_date}</strong>.
         schedule_availability: "%{schedule}(프로젝트 작업에 %{factor}% 사용 가능)"
         schedule_change: "%{date}까지, 그 이후에는 %{schedule}"
         schedule_note: 이 사용자는 %{schedule}에 근무합니다.
         submit: 초과 근무 할당
         title: 해당 사용자에게 초과 근무를 할당하시겠습니까?
+        unplannable: "%{user} has no working day between %{start_date} and %{end_date}, so this allocation cannot be planned."
       staffed_from: Staffed from placeholder user %{placeholder}
       submit: 할당
       success_message: 리소스가 할당되었습니다.
@@ -167,7 +167,7 @@ ko:
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
     label_resource_planner_plural: 리소스 플래너
-    my_work:
+    my_time_management:
       hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 보기 추가
@@ -255,7 +255,8 @@ ko:
       no_work_schedule: 이 사용자에 대해 계획된 근무 스케줄 없음
       overbooked: 이 사용자는 선택한 기간에 초과 할당되었습니다.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} 예약됨, %{available} 사용 가능"
+        dates: Beyond working hours on %{dates}
+        unplannable: This user has no working day in this period.
       subheader:
         add_user: 사용자 추가
     view_types:

@@ -216,6 +216,34 @@ RSpec.describe LaborBudgetItem do
       end
     end
 
+    describe "WHEN a placeholder user without an assignable role is provided" do
+      let(:principal) { create(:placeholder_user) }
+
+      before do
+        create(:member, principal:, project:, roles: [create(:project_role, permissions: %i[view_work_packages])])
+      end
+
+      it "is valid" do
+        expect(item).to be_valid
+      end
+    end
+
+    describe "WHEN the principal is only a member of a work package in the budget project" do
+      before do
+        item
+        Member.where(project:, principal: user).destroy_all
+        create(:work_package_member,
+               entity: create(:work_package, project:),
+               principal: user,
+               roles: [create(:work_package_role)])
+      end
+
+      it "is not valid" do
+        expect(item).not_to be_valid
+        expect(item.errors.where(:principal, :not_a_member_of_budget_project)).not_to be_empty
+      end
+    end
+
     describe "WHEN the budget has no project yet" do
       before do
         item.budget = build(:budget, project: nil)

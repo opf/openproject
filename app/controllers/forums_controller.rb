@@ -40,6 +40,9 @@ class ForumsController < ApplicationController
   include SortHelper
   include PaginationHelper
   include OpTurbo::ComponentStream
+  include SortableLists::DropRequestValidation
+
+  configure_drop_request list_type: Forum::SORTABLE_LIST_TYPE, list_id_scoped: false
 
   def index
     @forums = @project.forums.includes(last_message: :author)
@@ -148,17 +151,6 @@ class ForumsController < ApplicationController
 
   def move_after_anchor
     valid_drop_request? && @forum.move_after_anchor(drop_params[:prev_id], scope: @project.forums)
-  end
-
-  def valid_drop_request?
-    drop_params[:list_type] == Forum::SORTABLE_LIST_TYPE &&
-      params[:list_id].blank? &&
-      (params[:list_id].nil? || drop_params.key?(:list_id)) &&
-      drop_params.key?(:prev_id)
-  end
-
-  def drop_params
-    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
   end
 
   def find_forum

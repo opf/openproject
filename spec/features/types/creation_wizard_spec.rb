@@ -128,7 +128,7 @@ RSpec.describe "Type creation wizard", :js do
     click_on I18n.t(:button_continue)
     expect_step_saved(:projects)
 
-    expect(page).to have_heading("PDF generation")
+    expect(page).to have_heading("Generate PDF")
     click_on I18n.t("types.creation_wizard.finish")
 
     expect_flash(message: I18n.t("types.creation_wizard.success"))
@@ -182,7 +182,7 @@ RSpec.describe "Type creation wizard", :js do
       expect_step_saved(:details)
       variant = bug_type.variants.reload.find_by!(variant_name: "Hardware")
 
-      within_test_selector("wizard-step-details") { click_on I18n.t("types.creation_wizard.steps.details") }
+      find_test_selector("wizard-step-details").click
 
       expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
       expect(page).to have_field(TypeVariant.human_attribute_name(:variant_name), with: "Hardware")

@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper do %>
   <%=
     flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
-      bar.with_column(mr: 2, classes: "op-ai-result-pane--grip") do
+      bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(beginDrag: :pointerdown)) do
         render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
       end
       bar.with_column(flex: 1) do
@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
         when "done"
           flex_layout(align_items: :center) do |footer|
             footer.with_column(flex: 1) do
-              render(Primer::Beta::Button.new(scheme: :invisible)) { label(:copy) }
+              render(Primer::Beta::ClipboardCopyButton.new(scheme: :invisible, value: pane.text, "aria-label": label(:copy)))
             end
             footer.with_column(mr: 2) do
               render(Primer::Beta::Button.new) { label(:discard) }

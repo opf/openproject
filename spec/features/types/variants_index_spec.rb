@@ -38,6 +38,13 @@ RSpec.describe "Work package variants index", :js do
 
   let(:index_page) { Pages::Types::Index.new }
 
+  let(:banner_text) do
+    I18n.t("types.index.migrated_variants_banner.text",
+           label: I18n.t("types.index.created_by_migration"))
+        .sub(/\[.+\z/m, "")
+        .squish
+  end
+
   before { login_as(admin) }
 
   it "makes only types draggable via a drag handle" do
@@ -217,5 +224,139 @@ RSpec.describe "Work package variants index", :js do
       expect { zeta_variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(project.project_types.find_by(type: bug_type).variant).to eq(alfa_variant)
     end
+  end
+
+  it "filters the listed types by name" do
+    visit types_path
+
+    expect(page).to have_text(bug_type.name)
+
+    index_page.filter_by_name("Feature")
+
+    expect(page).to have_text(feature_type.name)
+    expect(page).to have_no_text(bug_type.name)
+  end
+
+  it "leaves the search field alone while the list reloads" do
+    visit types_path
+
+    index_page.filter_by_name("Feature")
+
+    expect(page).to have_no_text(bug_type.name)
+    expect(page).to have_css("input[name='query']:focus")
+  end
+
+  it "takes the move actions away while the name filter is on" do
+    visit types_path
+
+    index_page.filter_by_name("Feature")
+
+    expect(page).to have_no_text(bug_type.name)
+
+    index_page.within_actions_menu(feature_type) do
+      expect(page).to have_selector(:menuitem, I18n.t(:button_delete), exact: true)
+      expect(page).to have_no_selector(:menuitem, I18n.t(:button_move), exact: true)
+    end
+
+    expect(index_page.type_group(feature_type))
+      .to have_no_selector(:button, accessible_name: I18n.t("drag_handle.button_drag"))
+  end
+
+  it "says so when the name filter matches no type" do
+    visit types_path
+
+    index_page.filter_by_name("Nothing by this name")
+
+    expect(page).to have_text(I18n.t("types.index.filter_no_results"))
+  end
+
+  it "labels a variant a migration created" do
+    converted = create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+
+    visit types_path(expand: bug_type.id)
+
+    within(".Box-row", text: converted.variant_name) do
+      expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
+    end
+
+    within(".Box-row", text: alfa_variant.variant_name) do
+      expect(page).to have_no_css(".Label--attention")
+    end
+  end
+
+  it "finds a type by one of its variant names, listing the matching variants only" do
+    visit types_path
+
+    index_page.filter_by_name(zeta_variant.variant_name)
+
+    expect(page).to have_text(bug_type.name)
+    expect(page).to have_no_text(feature_type.name)
+    expect(page).to have_link(
+      zeta_variant.variant_name,
+      href: type_variant_settings_path(type_id: bug_type.id, variant_id: zeta_variant.id)
+    )
+    expect(page).to have_no_text(alfa_variant.variant_name)
+  end
+
+  it "lists every variant of a type the name filter matches by its own name" do
+    visit types_path
+
+    index_page.filter_by_name(bug_type.name)
+
+    expect(page).to have_text(zeta_variant.variant_name)
+    expect(page).to have_text(alfa_variant.variant_name)
+  end
+
+  describe "the migration filter" do
+    shared_let(:converted) do
+      create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+    end
+
+    def filter_migrated
+      within_test_selector("types-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+    end
+
+    it "narrows the list to the variants a migration created" do
+      visit types_path
+
+      filter_migrated
+
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(zeta_variant.variant_name)
+      expect(page).to have_no_text(feature_type.name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+    end
+
+    it "carries the filter into a type's project-specific variants" do
+      project = create(:project, types: [bug_type])
+      create(:project_owned_type_variant, type: bug_type, project:, variant_name: "Owned",
+                                          created_by_migration: true)
+      create(:project_owned_type_variant, type: bug_type, project:, variant_name: "Authored")
+
+      visit types_path
+
+      filter_migrated
+
+      expect(page).to have_link(I18n.t("types.index.project_variants_count", count: 1),
+                                href: type_variants_path(type_id: bug_type.id, created_by_migration: "t"))
+    end
+  end
+
+  it "explains on a banner what the migrated variants are" do
+    create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+
+    visit types_path
+
+    expect(page).to have_test_selector("migrated-variants-banner", text: banner_text)
+  end
+
+  it "leaves the banner and the migration filter out when no variant came from a migration" do
+    visit types_path
+
+    expect(page).to have_no_test_selector("migrated-variants-banner")
+    expect(page).to have_no_test_selector("types-migration-filter")
   end
 end

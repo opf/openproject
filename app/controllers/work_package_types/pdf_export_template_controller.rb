@@ -33,6 +33,9 @@ module WorkPackageTypes
     include ::WorkPackageTypes::ConfiguredInScope
     include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
+    include SortableLists::DropRequestValidation
+
+    configure_drop_request list_type: ::Type::PdfExportTemplates::SORTABLE_LIST_TYPE, list_id_scoped: false
 
     before_action :find_type,
                   only: %i[edit toggle move enable_all disable_all update_artefact_export edit_settings
@@ -164,26 +167,6 @@ module WorkPackageTypes
       moved = @variant.pdf_export_templates.move_after_anchor(@template.id, drop_params[:prev_id])
       @variant.save! if moved
       moved
-    end
-
-    def valid_drop_request?
-      drop_params[:list_type] == sortable_list_type &&
-        unscoped_list_id? &&
-        drop_params.key?(:prev_id)
-    end
-
-    # The raw param is checked because permit cannot tell an absent
-    # value from a filtered-out array or hash.
-    def unscoped_list_id?
-      params[:list_id].nil? || params[:list_id] == ""
-    end
-
-    def drop_params
-      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
-    end
-
-    def sortable_list_type
-      ::Type::PdfExportTemplates::SORTABLE_LIST_TYPE
     end
 
     def render_404_turbo_stream

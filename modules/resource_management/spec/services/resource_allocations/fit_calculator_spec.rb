@@ -83,7 +83,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:due_tuesday) { allocation(2, mon, tue, 480) }
     let(:allocations) { [due_monday, due_tuesday] }
 
-    it "prioritises the earlier deadline and shifts the other" do
+    it "prioritizes the earlier deadline and shifts the other" do
       expect(result).to be_feasible
       expect(result.placements).to eq(
         due_monday => { mon => 480 },
@@ -113,7 +113,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:earlier_start) { allocation(2, mon, wed, 480) }
     let(:allocations) { [later_start, earlier_start] }
 
-    it "prioritises the earlier start" do
+    it "prioritizes the earlier start" do
       expect(result.placements).to eq(earlier_start => { wed => 480 })
       expect(result.overtime).to eq(later_start => { wed => 480 })
     end
@@ -125,7 +125,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:lower_id) { allocation(1, mon, mon, 480) }
     let(:allocations) { [higher_id, lower_id] }
 
-    it "prioritises the lower id regardless of the given order" do
+    it "prioritizes the lower id regardless of the given order" do
       expect(result.placements).to eq(lower_id => { mon => 480 })
       expect(result.overtime).to eq(higher_id => { mon => 480 })
     end
@@ -137,7 +137,7 @@ RSpec.describe ResourceAllocations::FitCalculator do
     let(:persisted) { allocation(1, mon, mon, 480) }
     let(:allocations) { [unsaved, persisted] }
 
-    it "prioritises the persisted one" do
+    it "prioritizes the persisted one" do
       expect(result.placements).to eq(persisted => { mon => 480 })
       expect(result.overtime).to eq(unsaved => { mon => 480 })
     end
@@ -297,6 +297,62 @@ RSpec.describe ResourceAllocations::FitCalculator do
         )
         expect(result.overtime).to eq(exceeding => { mon => 160, tue => 160, wed => 160 })
       end
+    end
+  end
+
+  describe "resuming from a date" do
+    let(:cal) { static_calendar(mon => 480, tue => 480, wed => 480, thu => 480, fri => 240) }
+    let(:whole_week) { allocation(1, mon, fri, 1440) }
+    let(:wednesday_only) { allocation(2, wed, wed, 480) }
+    let(:exceeding) { allocation(3, tue, thu, 960) }
+    let(:allocations) { [whole_week, wednesday_only, exceeding] }
+
+    (Date.new(2026, 1, 5)..Date.new(2026, 1, 9)).each do |from|
+      context "when resumed on #{from} with the work remaining at its start" do
+        let(:remaining) do
+          allocations.index_with do |allocation|
+            placed_before = result.placements.fetch(allocation, {}).sum { |day, minutes| day < from ? minutes : 0 }
+            allocation.allocated_time - placed_before
+          end
+        end
+        let(:placements_from) do
+          result.placements
+            .transform_values { |by_date| by_date.select { |day, _| day >= from } }
+            .reject { |_, by_date| by_date.empty? }
+        end
+
+        subject(:resumed) { described_class.new(calendar: cal, allocations:, from:, remaining:).call }
+
+        it "places what the full run places from that day on" do
+          expect(resumed.placements).to eq(placements_from)
+        end
+
+        it "spreads the same overtime as the full run" do
+          expect(resumed.overtime).to eq(result.overtime)
+        end
+      end
+    end
+
+    it "spreads overtime over the whole window of an allocation that started before the date" do
+      resumed = described_class.new(calendar: cal, allocations: [exceeding], from: wed,
+                                    remaining: { exceeding => 960 }).call
+
+      expect(resumed.placements).to eq(exceeding => { wed => 480, thu => 480 })
+      expect(resumed.overtime).to be_empty
+
+      resumed = described_class.new(calendar: cal, allocations: [exceeding], from: thu,
+                                    remaining: { exceeding => 960 }).call
+
+      expect(resumed.placements).to eq(exceeding => { thu => 480 })
+      expect(resumed.overtime).to eq(exceeding => { tue => 160, wed => 160, thu => 160 })
+    end
+
+    it "does not place an allocation without work remaining" do
+      resumed = described_class.new(calendar: cal, allocations: [whole_week], from: wed,
+                                    remaining: { whole_week => 0 }).call
+
+      expect(resumed).to be_feasible
+      expect(resumed.placements).to be_empty
     end
   end
 end

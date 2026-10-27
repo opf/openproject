@@ -1,0 +1,46 @@
+@import "fullcalendar_frame"
+@import "time_entry_card"
+
+.my-time-management-calendar-view
+  height: 100%
+  +fc-frame-grid
+  +fc-day-total
+
+  .op-fc-wrapper
+    flex-grow: 1
+    +fc-frame-container
+
+    .fc-daygrid-day-bottom
+      display: flex
+      align-items: center
+      justify-content: center
+
+    .calendar-time-entry-event
+      +te-time-entry-event
+      +te-entry-card
+
+      &.fc-timegrid-event-short, &.fc-daygrid-block-event
+        +te-entry-card-condensed
+
+    .calendar-allocation-event
+      +te-allocation-event
+      +te-entry-card
+
+      &.fc-daygrid-block-event
+        +te-entry-card-condensed
+
+      // The global FullCalendar styles color every all-day event through #content-wrapper.
+      &.fc-daygrid-event
+        background: var(--bgColor-muted) !important
+        border-color: var(--allocation-border-color) !important
+
+    .fc-popover
+      background: var(--fc-page-bg-color) !important
+
+    // event in the the all day area
+    .fc-daygrid-event:not(.calendar-allocation-event)
+      background: var(--bgColor-default) !important
+
+    .fc-timegrid-more-link
+      background: var(--fc-page-bg-color) !important
+      border: 1px solid var(--borderColor-default)
