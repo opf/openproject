@@ -285,6 +285,14 @@ module Components
         end
       end
 
+      def select_value(id, query:, select_text:)
+        select_autocomplete -> { page.find("#filter_#{id} ng-select") },
+                            query:,
+                            select_text:,
+                            results_selector: ".ng-dropdown-panel-items"
+        close_autocompleter(id)
+      end
+
       protected
 
       def with_filter_input(id)
