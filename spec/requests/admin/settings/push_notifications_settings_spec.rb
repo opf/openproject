@@ -60,14 +60,14 @@ RSpec.describe "Push Notifications Settings",
       end
 
       context "with browser notifications disallowed", with_settings: { web_push_enabled: false } do
-        it "checks the disallow option and hides the reachability panel" do
+        it "checks the disallow option and still offers the reachability check" do
           get "/admin/settings/push_notifications"
 
           expect(page).to have_checked_field(I18n.t(:setting_web_push_enabled_false))
           expect(page).to have_unchecked_field(I18n.t(:setting_web_push_enabled_true))
-          expect(page).to have_test_selector("push-reachability-panel", visible: :hidden)
-          expect(page).to have_no_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
-          expect(page).to have_no_link(I18n.t("admin.settings.push_notifications.renew_key"))
+          expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
+          expect(page).to have_button(I18n.t("admin.settings.push_notifications.verify_reachability"))
+          expect(page).to have_link(I18n.t("admin.settings.push_notifications.renew_key"))
         end
       end
 
@@ -178,6 +178,17 @@ RSpec.describe "Push Notifications Settings",
         expect(page).to have_text(I18n.t("admin.settings.push_notifications.http_status", code: "404"))
         expect(page).to have_text(I18n.t("admin.settings.push_notifications.unreachable"))
         expect(page).to have_text(I18n.t("admin.settings.push_notifications.reasons.unresolved"))
+      end
+
+      context "with browser notifications disallowed", with_settings: { web_push_enabled: false } do
+        it "shows the per-host results so reachability can be checked before allowing" do
+          post "/admin/settings/push_notifications/check"
+          follow_redirect!
+
+          expect(page).to have_test_selector("push-reachability-panel", visible: :visible)
+          expect(page).to have_text(I18n.t("admin.settings.push_notifications.reachable"))
+          expect(page).to have_text(I18n.t("admin.settings.push_notifications.unreachable"))
+        end
       end
 
       context "when logged in as a non-admin" do
