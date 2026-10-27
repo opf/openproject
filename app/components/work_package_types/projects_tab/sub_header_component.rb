@@ -87,7 +87,7 @@ module WorkPackageTypes
 
       def wizard_params = wizard? ? { wizard: true } : {}
 
-      def add_path = new_link_variant_projects_path(variant, **wizard_params)
+      def add_path = new_variant_projects_link_path(variant, **wizard_params)
 
       def toggle_all_path
         enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1", **wizard_params)

@@ -35,23 +35,27 @@ module WorkPackageTypes
 
       private
 
-      def aggregate_refusal_message(result)
+      def aggregate_refusal_message(result) # rubocop:disable Metrics/AbcSize
         refused = result.dependent_results.reject(&:success?)
         blocked = blocked_project_ids(refused.map { |failed| failed.result.id })
+        return refusal_list(refused) if blocked.empty?
 
-        return blocked_message(blocked) if blocked.any?
-
-        refusal_list_message(result)
+        others = refused.reject { |failed| blocked.include?(failed.result.id) }
+        helpers.join_flash_messages(blocked_messages(blocked) + [refusal_list(others)].compact_blank)
       end
 
-      def refusal_list_message(result)
-        result.dependent_results.reject(&:success?)
-              .map { |failed| "#{failed.result.name}: #{failed.errors.full_messages.to_sentence}" }
-              .to_sentence
+      def refusal_list_message(result) = refusal_list(result.dependent_results.reject(&:success?))
+
+      def refusal_list(refused)
+        refused.map { |failed| "#{failed.result.name}: #{failed.errors.full_messages.to_sentence}" }.to_sentence
       end
 
-      def blocked_message(project_ids)
-        helpers.join_flash_messages(type_deactivation_error_messages(@variant, project_ids:))
+      # Named by each project's own variant: on the type's tab a blocked project may run any of them.
+      def blocked_messages(project_ids)
+        projects = visible_projects(project_ids)
+        messages = projects.map { |project| type_deactivation_error_message(project.type_variant(@type) || @variant, project:) }
+        messages << I18n.t(:error_can_not_deactivate_type_invisible_projects) if hidden_any?(project_ids, projects)
+        messages
       end
 
       def blocked_project_ids(project_ids)
