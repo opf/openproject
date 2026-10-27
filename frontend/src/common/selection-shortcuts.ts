@@ -28,7 +28,7 @@
 // Latin layouts use the key's meaning (AZERTY's Ctrl+A is physical KeyQ).
 // Non-Latin layouts use the physical key (Cyrillic ф or Greek α on KeyA).
 export function isSelectAllShortcut(event:KeyboardEvent, applePlatform:boolean):boolean {
-  if (event.isComposing || event.altKey || event.getModifierState('AltGraph')) return false;
+  if (event.isComposing || event.altKey || event.shiftKey || event.getModifierState('AltGraph')) return false;
   if (!(applePlatform ? event.metaKey : event.ctrlKey)) return false;
   return event.key === 'a' || event.key === 'A'
     || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));

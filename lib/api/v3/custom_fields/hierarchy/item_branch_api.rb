@@ -39,7 +39,11 @@ module API
               ::CustomFields::Hierarchy::HierarchicalItemService
                 .new
                 .get_branch(item: @custom_field_item)
-                .fmap { |items| items.map { |item| HierarchicalItemAggregate.new(item:, depth: item.depth - 1) } }
+                .fmap do |items|
+                  items.map do |item|
+                    HierarchicalItemAggregate.new(item:, depth: item.depth - 1, visible_ids: @visible_value_ids)
+                  end
+                end
                 .either(
                   ->(items) do
                     self_link = api_v3_paths.custom_field_item_branch(@custom_field_item.id)

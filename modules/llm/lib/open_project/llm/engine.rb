@@ -45,7 +45,7 @@ module OpenProject::Llm
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
            caption: :"menus.admin.llm_connection",
            parent: :ai,
-           before: :mcp_configurations
+           first: true
 
       menu :admin_menu,
            :ai_assistants,

@@ -30,6 +30,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { URN_UNDISCLOSED } from 'core-app/core/apiv3/api-v3-urns';
 
 describe('ResourcesDisplayField', () => {
   const mockI18n = { t: (key:string) => key };
@@ -43,8 +44,12 @@ describe('ResourcesDisplayField', () => {
   };
 
   function buildField(name:string, type:string, values:string[]):ResourcesDisplayField {
+    return buildFieldFor(name, type, values.map((value) => ({ name: value })));
+  }
+
+  function buildFieldFor(name:string, type:string, values:{ name:string, href?:string }[]):ResourcesDisplayField {
     const resource = {
-      [name]: values.map((value) => ({ name: value })),
+      [name]: values,
     } as unknown as HalResource;
 
     const field = new ResourcesDisplayField(name, {
@@ -74,5 +79,20 @@ describe('ResourcesDisplayField', () => {
     const field = buildField('targetVersions', '[]Version', ['Version 1', 'Version 2']);
 
     expect(field.valueString).toEqual('Version 1, Version 2');
+  });
+
+  it('renders undisclosed values muted', () => {
+    const field = buildFieldFor('customField1', '[]CustomOption', [
+      { name: 'A', href: '/api/v3/custom_options/1' },
+      { name: '(Value no longer available)', href: URN_UNDISCLOSED },
+    ]);
+    const element = document.createElement('div');
+
+    field.render(element, field.valueString);
+
+    const muted = element.querySelectorAll('.color-fg-subtle');
+    expect(muted.length).toEqual(1);
+    expect(muted[0].textContent).toEqual('(Value no longer available)');
+    expect(element.textContent).toEqual('A, (Value no longer available)');
   });
 });

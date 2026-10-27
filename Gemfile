@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -207,7 +206,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.233"
 
-gem "openproject-token", "~> 8.13.0"
+gem "openproject-token", "~> 8.15.0"
 
 gem "plaintext", "~> 0.4.0"
 
@@ -303,7 +302,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.49"
+  gem "selenium-webdriver", "~> 4.51"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -311,7 +310,7 @@ group :test do
   # Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.
   gem "vcr"
   # Mock backend requests (for ruby tests)
-  gem "webmock", "~> 3.26", require: false
+  gem "webmock", "~> 3.29", require: false
 
   # Mock selenium requests through proxy (for feature tests)
   gem "puffing-billy", "~> 4.0.0"

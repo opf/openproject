@@ -314,18 +314,22 @@ zh-TW:
   meeting:
     agenda_sorting:
       change: 變更排序模式
+      current_mode: Currently in %{mode} mode
       invalid_reaction: 議程項目僅允許投贊成票和反對票。
       manual: 使用說明
-      manual_description: 請自行安排議程項目。切換回原模式將恢復手動排序。
+      manual_description: You can manually arrange agenda items in any order you like by dragging and dropping them up or down.
       manual_order_disabled: 議程項目是按投票數排序的。若要重新排序，請切換至手動排序。
       remove_thumbs_down: 撤銷負評
       remove_thumbs_up: 撤銷讚
+      sidebar_title: Agenda sorting
       sorted_by_votes: 議程依票數排序。
       thumbs_down: 投反對票
       thumbs_up: 投贊成票
       title: 排序模式
       vote_based: 基於投票的
-      vote_based_description: 依各區塊內「贊成票數減去反對票數」的結果，對議程項目進行排序。各區塊的排序順序仍由手動設定。
+      vote_based_description: 'Participants can vote agenda items up or down. Items with the most votes are put on top within each section. Sections remain manually sorted.
+
+        '
       votes: 投票數： %{count}
     attachments:
       onetime_template: These attached files will be included in all future meetings using this template.

@@ -64,5 +64,9 @@ RSpec.describe API::V3::Utilities::ResourceLinkGenerator do
       record = Object.new
       expect(subject.make_link(record)).to be_nil
     end
+
+    it "returns the undisclosed URN for custom field values the user may not see" do
+      expect(subject.make_link(CustomField::UnavailableValue.new)).to eql API::V3::URN_UNDISCLOSED
+    end
   end
 end

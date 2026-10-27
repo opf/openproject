@@ -1,0 +1,113 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% unless manageable? %>
+  <%= render(
+        EnterpriseEdition::BannerComponent.new(
+          :project_specific_list_values,
+          variant: :medium,
+          image: "enterprise/project-specific-values.png",
+          mb: 3
+        )
+      ) %>
+<% end %>
+
+<%= helpers.turbo_frame_tag("custom-field-project-values", **frame_arguments) do %>
+<%=
+  render(Primer::Beta::BorderBox.new(test_selector: "custom-field-project-values", padding: :condensed)) do |box|
+    box.with_header do
+      flex_layout(justify_content: :space_between, align_items: :center) do |header|
+        header.with_column do
+          render(Primer::Beta::Text.new(font_weight: :bold)) { custom_field.name }
+        end
+
+        if manageable?
+          header.with_column do
+            safe_join(
+              [
+                render(
+                  Primer::Beta::Button.new(
+                    scheme: :invisible,
+                    size: :small,
+                    tag: :a,
+                    href: enable_all_path,
+                    data: { turbo_method: :post }
+                  )
+                ) do |button|
+                  button.with_leading_visual_icon(icon: :"check-circle")
+                  t("custom_fields.admin.projects.enable_all")
+                end,
+                render(
+                  Primer::Beta::Button.new(
+                    scheme: :invisible,
+                    size: :small,
+                    tag: :a,
+                    href: disable_all_path,
+                    data: { turbo_method: :post }
+                  )
+                ) do |button|
+                  button.with_leading_visual_icon(icon: :"x-circle")
+                  t("custom_fields.admin.projects.disable_all")
+                end
+              ]
+            )
+          end
+        end
+      end
+    end
+
+    rows.each do |row|
+      box.with_row(test_selector: "custom-field-project-value-#{row.id}") do
+        flex_layout(justify_content: :space_between, align_items: :center) do |line|
+          line.with_column(pl: indentation(row)) do
+            safe_join(
+              [
+                render(Primer::Beta::Text.new) { row.label },
+                (render(Primer::Beta::Text.new(color: :muted, font_size: :small, ml: 2)) { row.caption } if row.caption)
+              ]
+            )
+          end
+
+          line.with_column do
+            render(
+              Primer::Alpha::ToggleSwitch.new(
+                src: toggle_path(row),
+                csrf_token: helpers.form_authenticity_token,
+                checked: row.enabled,
+                enabled: manageable?,
+                size: :small,
+                aria: { label: row.label }
+              )
+            )
+          end
+        end
+      end
+    end
+  end
+%>
+<% end %>

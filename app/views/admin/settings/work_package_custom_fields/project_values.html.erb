@@ -26,19 +26,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<p><%= I18n.t(:label_custom_export_font_instructions) %></p>
+<% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", @configured_project.name %>
 
 <%=
-  render(Primer::Beta::Button.new(
-    target: "_blank",
-    data: { turbo: false },
-    tag: :a,
-    href: export_demo_pdf_download_custom_style_path
-  )) do |_c|
-    t("export.demo.button_text")
+  render(
+    Admin::CustomFields::EditFormHeaderComponent.new(
+      custom_field: @custom_field,
+      selected: :projects,
+      section_label:,
+      page_title: custom_field_page_title,
+      project: @configured_project
+    )
+  )
+%>
+
+<%=
+  render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do
+    link_translate(
+      "custom_fields.admin.projects.editing_values_notice",
+      i18n_args: { project: @configured_project.name },
+      links: { project_url: project_path(@configured_project) },
+      external: false
+    )
   end
 %>
 
-<% export_fonts_fields(@custom_style).each do |font| %>
-  <%= render partial: "custom_styles/uploads/font",  locals: { font: } %>
-<% end %>
+<%= render(Admin::CustomFields::Projects::ValuesComponent.new(custom_field: @custom_field, project: @configured_project)) %>
