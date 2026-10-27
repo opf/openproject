@@ -30,11 +30,8 @@
 module WorkPackageTypes
   class ProjectsTabController < BaseTabController
     include OpTurbo::ComponentStream
-    include PaginationHelper
-    include TypeDeactivationErrorMessage
-
-    VARIANT_FILTER_KEY = ::Queries::Projects::Filters::TypeVariantFilter.key.to_s
-    NAME_FILTER_KEY = ::Queries::Projects::Filters::NameAndIdentifierFilter.key.to_s
+    include ProjectsTab::TableRefresh
+    include ProjectsTab::RefusalMessages
 
     before_action :load_query, only: %i[edit update link unlink switch enable_all_projects]
     before_action :load_linked_project, only: %i[unlink new_switch switch]
@@ -42,8 +39,6 @@ module WorkPackageTypes
     current_menu_item [:edit, :update] do
       :types
     end
-
-    helper_method :projects_table_component, :sub_header_component
 
     def edit
       respond_to do |format|
@@ -127,56 +122,11 @@ module WorkPackageTypes
       if params[:value] == "1"
         enable_everywhere
       else
-        respond_to_bulk_change(remove_from(@variant.projects))
+        respond_to_bulk_change(project_assignments.remove(@variant.projects))
       end
     end
 
     private
-
-    def load_query
-      @query = ProjectQuery.new(name: "work-package-type-variant-projects-#{@variant.id}") do |query|
-        query.where(:type_variant_id, "=", filtered_variant_ids)
-        query.where(:name_and_identifier, "~", [project_name_term]) if project_name_term.present?
-        query.order("lft" => "asc")
-      end
-    end
-
-    # The text input and the variant panel both write the one `filters` param, which is what lets
-    # them narrow the table together rather than overwriting each other.
-
-    def project_name_term
-      @project_name_term ||= values_for(NAME_FILTER_KEY).first.to_s.strip
-    end
-
-    def filtered_variant_ids
-      (requested_variant_ids & own_variant_ids).presence || default_variant_ids
-    end
-
-    def default_variant_ids
-      params[:variant_id].present? ? [@variant.id.to_s] : own_variant_ids
-    end
-
-    def own_variant_ids
-      @own_variant_ids ||= @type.variants.pluck(:id).map(&:to_s)
-    end
-
-    def requested_variant_ids = values_for(VARIANT_FILTER_KEY)
-
-    def values_for(filter_key)
-      requested_filters
-        .select { |filter| filter[:attribute].to_s == filter_key }
-        .flat_map { |filter| Array(filter[:values]).map(&:to_s) }
-    end
-
-    # Parsed by the app's own parser rather than by hand: the filter form writes
-    # `name ~ "term"` by default and only switches to JSON when told to, and both reach here.
-    def requested_filters
-      return @requested_filters if defined?(@requested_filters)
-
-      @requested_filters = params[:filters].blank? ? [] : Array(::Queries::ParamsParser.parse(params)[:filters])
-    rescue StandardError
-      @requested_filters = []
-    end
 
     def load_linked_project
       @linked_project = ::Project.find(params.expect(:project_id))
@@ -193,10 +143,8 @@ module WorkPackageTypes
     def sync_projects(desired)
       applying = @variant.projects.pluck(:id)
 
-      new_aggregate.tap do |aggregated|
-        apply_to(::Project.where(id: desired - applying), into: aggregated)
-        remove_from(::Project.where(id: applying - desired), into: aggregated)
-      end
+      apply_to(::Project.where(id: desired - applying))
+        .merge!(project_assignments.remove(::Project.where(id: applying - desired)))
     end
 
     def apply_to(projects, into: new_aggregate)
@@ -223,15 +171,9 @@ module WorkPackageTypes
       project.project_types.find_by(type_id: @type.id)&.variant
     end
 
-    def remove_from(projects, into: new_aggregate)
-      projects.find_each do |project|
-        into.add_dependent!(::Projects::Types::RemoveService.new(user: current_user, model: project).call(variant: @variant))
-      end
-
-      into
-    end
-
     def new_aggregate = ServiceResult.success(result: @variant)
+
+    def project_assignments = ProjectAssignments.new(user: current_user, variant: @variant)
 
     def on_switched(target)
       close_dialog_via_turbo_stream(
@@ -256,26 +198,6 @@ module WorkPackageTypes
           url: switch_path
         )
       )
-    end
-
-    def refresh_projects
-      update_via_turbo_stream(component: projects_table_component)
-      replace_via_turbo_stream(component: sub_header_component)
-    end
-
-    # Built in one place so the first render and every stream that replaces it cannot drift.
-    def sub_header_component
-      ProjectsTab::SubHeaderComponent.new(type: @type, variant: @variant, query: @query)
-    end
-
-    def projects_table_component
-      ProjectsTab::TableComponent.new(rows: paginated_projects, variant: @variant, filtered: requested_filters.any?)
-    end
-
-    def paginated_projects
-      @query.results
-            .includes(project_types: :variant)
-            .paginate(page: page_param, per_page: per_page_param)
     end
 
     def refuse_empty_selection
@@ -372,27 +294,10 @@ module WorkPackageTypes
         Array(JSON.parse(params.expect(type: [:project_ids])[:project_ids])).compact_blank.map(&:to_i)
     end
 
-    def aggregate_refusal_message(result)
-      refused = result.dependent_results.reject(&:success?)
-      blocked = blocked_project_ids(refused.map { |failed| failed.result.id })
-
-      return blocked_message(blocked) if blocked.any?
-
-      refused.map { |failed| "#{failed.result.name}: #{failed.errors.full_messages.to_sentence}" }.to_sentence
-    end
-
-    def blocked_message(project_ids)
-      helpers.join_flash_messages(type_deactivation_error_messages(@variant, project_ids:))
-    end
-
     def removal_refusal_message(result)
       return type_deactivation_error_message(applied_variant, project: @linked_project) if blocked?(@linked_project)
 
       "#{@linked_project.name}: #{result.errors.full_messages.to_sentence}"
-    end
-
-    def blocked_project_ids(project_ids)
-      WorkPackage.where(type_id: @type.id, project_id: project_ids).distinct.pluck(:project_id)
     end
 
     def blocked?(project) = WorkPackage.exists?(type_id: @type.id, project_id: project.id)
