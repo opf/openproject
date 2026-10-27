@@ -1,7 +1,38 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsViews
   def generate
     @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new(I18n.t(:label_money))
-    default_query = serialize_query_without_hidden(@query)
+    # The unit is view state rather than a stored filter, so the configuration
+    # can be rebuilt per tab with a different one.
+    default_query = @query.to_query_params
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |(unit_id, name), idx|
       setup_query_for_tab(default_query, unit_id)
@@ -13,15 +44,13 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
     spreadsheet
   end
 
-  def setup_query_for_tab(query, unit_id)
-    @query = CostQuery.deserialize(query)
+  def setup_query_for_tab(report_params, unit_id)
     @cost_type = nil
     @unit_id = unit_id
+    params = @unit_id == 0 ? report_params.except(:unit) : report_params.merge(unit: @unit_id)
 
-    if @unit_id != 0
-      @query.filter :cost_type_id, operator: "=", value: @unit_id.to_s
-      @cost_type = CostType.find(unit_id) if unit_id.positive?
-    end
+    @query = ::CostReports::ParamsToReport.new(params, project: @project, user: User.current).call
+    @cost_type = CostType.find(unit_id) if unit_id.positive?
   end
 
   def build_spreadsheet

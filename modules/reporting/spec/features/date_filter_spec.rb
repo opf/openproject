@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 #
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -23,11 +23,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -45,7 +44,7 @@ RSpec.describe "Cost report date filter", :js do
   current_user { create(:admin) }
 
   before do
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
   end
 
   it "filters the time entries" do
@@ -55,7 +54,7 @@ RSpec.describe "Cost report date filter", :js do
 
     # 'Date (spent on)' filter is also selected by default
     select "today", from: "operators[spent_on]"
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(today_time_entry.hours)
     expect(page).to have_content(today_time_entry.entity.subject)
@@ -64,7 +63,7 @@ RSpec.describe "Cost report date filter", :js do
 
     select "<=", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_val", with: 4.days.ago.iso8601
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(five_days_ago_time_entry.hours)
     expect(page).to have_content(five_days_ago_time_entry.entity.subject)
@@ -73,7 +72,7 @@ RSpec.describe "Cost report date filter", :js do
 
     select "during the last days", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_integers_val", with: "5"
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(five_days_ago_time_entry.hours)
     expect(page).to have_content(five_days_ago_time_entry.entity.subject)
@@ -83,7 +82,7 @@ RSpec.describe "Cost report date filter", :js do
 
     select ">=", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_val", with: 4.days.from_now.iso8601
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(five_days_from_now_time_entry.hours)
     expect(page).to have_content(five_days_from_now_time_entry.entity.subject)
@@ -93,7 +92,7 @@ RSpec.describe "Cost report date filter", :js do
     select "between", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_val", with: 4.days.ago.iso8601
     fill_in "spent_on_arg_2_val", with: 4.days.from_now.iso8601
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(today_time_entry.hours)
     expect(page).to have_content(today_time_entry.entity.subject)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,10 @@
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
+  include CustomField::ProjectSpecificValues
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "custom_field"
 
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
@@ -104,7 +107,7 @@ class CustomField < ApplicationRecord
 
   # make sure int, float, date, and bool are not searchable
   def check_searchability
-    self.searchable = false if %w(int float date bool user version).include?(field_format)
+    self.searchable = false if %w(int float date datetime bool user version).include?(field_format)
     true
   end
 
@@ -264,7 +267,7 @@ class CustomField < ApplicationRecord
     items.value_or([])
   end
 
-  def cast_value(value)
+  def cast_value(value) # rubocop:disable Metrics/AbcSize
     return if value.blank?
 
     case field_format
@@ -273,6 +276,12 @@ class CustomField < ApplicationRecord
     when "date"
       begin
         value.to_date
+      rescue StandardError
+        nil
+      end
+    when "datetime"
+      begin
+        ActiveSupport::TimeZone["UTC"].iso8601(value)
       rescue StandardError
         nil
       end

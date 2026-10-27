@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,7 +44,7 @@ module WorkPackageTypes
           .to_json
       end
 
-      subject(:service) { described_class.new(user:, variant:) }
+      subject(:service) { described_class.new(user:, form_configuration: variant.form_configuration) }
 
       it "creates an attribute group from service params" do
         result = service.call(group_type: "attribute", name: "New Group")

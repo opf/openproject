@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "support/pages/projects/index"
 
@@ -34,7 +33,7 @@ module Pages
   module CustomFields
     class ProjectMappings < ::Pages::Projects::Index
       def path(project_custom_field)
-        "/custom_fields/#{project_custom_field.id}/projects"
+        "/admin/settings/work_package_custom_fields/#{project_custom_field.id}/projects"
       end
 
       def within_row(project)
@@ -43,6 +42,12 @@ module Pages
         within row do
           yield row
         end
+      end
+
+      def project_in_first_actionable_row
+        menu = page.first("[data-test-selector='project-list-row--action-menu']")
+        row = menu.ancestor("tr")
+        Project.find(row["id"].delete_prefix("#{row_id_prefix[1..]}-"))
       end
 
       def row_id_prefix = "#admin-custom-fields-custom-field-projects-row-component-project"

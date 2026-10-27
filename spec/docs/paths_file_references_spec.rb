@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "References to paths" do # rubocop:disable RSpec/DescribeClass
-  let(:existing_files) { Dir[Rails.root.join("docs/api/apiv3/paths/*.yml").to_s].map { |path| path.split("/").last } }
+  let(:existing_files) { Rails.root.glob("docs/api/apiv3/paths/*.yml").map { it.basename.to_s } }
   let(:referenced_files) do
     YAML.load_file(Rails.root.join("docs/api/apiv3/openapi-spec.yml"))
         .fetch("paths")

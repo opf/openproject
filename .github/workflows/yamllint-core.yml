@@ -13,6 +13,7 @@ jobs:
   yamllint:
     name: Yamllint
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       checks: write
@@ -22,7 +23,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Run Yamllint
-        uses: reviewdog/action-yamllint@de68272fdca5f2a961fb309e0d2e13c2eb186d9e # v1.23.1
+        uses: reviewdog/action-yamllint@3224b47de22a2fd9c8c0fbc120e6d0049d1f5060 # v1.25.2
         with:
           reporter: github-pr-annotations
           fail_level: any

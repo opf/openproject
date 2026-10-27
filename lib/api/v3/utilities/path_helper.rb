@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,6 +112,29 @@ module API
 
           index :activity
           show :activity
+
+          def self.ai_text_transform_action(id)
+            "#{root}/ai_text_transform_actions/#{id}"
+          end
+
+          def self.ai_text_transform_actions
+            "#{root}/ai_text_transform_actions"
+          end
+
+          def self.ai_text_transform_actions_by_work_package(id)
+            "#{work_package(id)}/ai_text_transform_actions"
+          end
+
+          def self.ai_text_transform_actions_by_project(id, type_id:)
+            "#{project(id)}/ai_text_transform_actions?typeId=#{type_id}"
+          end
+
+          index :ai_text_transform_run
+          show :ai_text_transform_run
+
+          def self.ai_text_transform_run_cancel(uuid)
+            "#{ai_text_transform_run(uuid)}/cancel"
+          end
 
           def self.api_spec
             "#{root}/spec.json"
@@ -261,8 +283,8 @@ module API
             "#{custom_field_item(id)}/branch"
           end
 
-          def self.custom_field_items(id, parent = nil, depth = nil)
-            query = { parent:, depth: }.compact_blank.to_query
+          def self.custom_field_items(id, parent = nil, depth = nil, project: nil)
+            query = { parent:, depth:, project: }.compact_blank.to_query
 
             if query.present?
               "#{custom_field(id)}/items?#{query}"
@@ -617,6 +639,10 @@ module API
           index :group
           show :group
 
+          def self.group_avatar(id)
+            "#{group(id)}/avatar"
+          end
+
           def self.value_schema(property)
             "#{root}/values/schemas/#{property}"
           end
@@ -628,6 +654,13 @@ module API
 
           def self.views_type(type)
             "#{views}/#{type}"
+          end
+
+          index :label
+          show :label
+
+          def self.labels_by_workspace(workspace_id)
+            "#{workspace(workspace_id)}/labels"
           end
 
           def self.versions_available_projects

@@ -20,13 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { sortableListsRootSelector } from '../stimulus/controllers/dynamic/sortable-lists/list-dom';
+import { batchSelectedAttribute } from '../stimulus/controllers/dynamic/sortable-lists/selection';
 
 // `data-dragging` is shared with the legacy generic-drag-and-drop controller,
 // so preservation is scoped to elements inside a sortable-lists root.
@@ -45,10 +45,13 @@ const preservedAttributes = new Set([
   'data-drop-position',
   'data-drop-position-owner',
   'data-drop-container',
-  // Split view selection markers set by the backlogs work-package
-  // controller; the controller only re-syncs them on `turbo:visit`, so a
-  // morph would otherwise strip the highlight of the open work package.
-  'data-selected',
+  // Batch membership, owned by the sortable-lists root. The root reconciles it
+  // after every morph batch anyway, but preserving it avoids a visible flash
+  // between the morph and that reconciliation.
+  batchSelectedAttribute,
+  // Current-work-package marker set by the backlogs work-package controller,
+  // which only re-syncs it on `turbo:visit`; a morph would otherwise strip
+  // the highlight of the open work package.
   'aria-current',
 ]);
 

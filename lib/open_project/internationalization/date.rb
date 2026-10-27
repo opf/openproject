@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2025 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 # The module is not called I18n as that leads to tons of conflicts
 # where I18n is called within the OpenProject module and rails I18n is meant.
@@ -35,6 +34,7 @@ module OpenProject
   module Internationalization
     module Date
       module_function
+
       WEEKDAY_NAMES = ::Date::DAYNAMES.map(&:downcase).freeze
 
       def self.beginning_of_week
@@ -48,6 +48,11 @@ module OpenProject
         else
           ::Date.beginning_of_week
         end
+      end
+
+      # The day the week starts on counted from Sunday, as the JavaScript calendars and Date#wday number the weekdays.
+      def self.first_day_of_week_index
+        WEEKDAY_NAMES.index(beginning_of_week.to_s)
       end
 
       def time_at_beginning_of_week

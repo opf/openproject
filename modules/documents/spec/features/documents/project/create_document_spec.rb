@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,8 +33,7 @@ require_module_spec_helper
 require_relative "support/documents_index_page"
 
 RSpec.describe "Create Document",
-               :js,
-               :selenium do
+               :js do
   shared_let(:project) { create(:project) }
   shared_let(:manager_role) { create(:existing_project_role, permissions: %i[view_documents manage_documents]) }
   shared_let(:viewer_role) { create(:existing_project_role, permissions: [:view_documents]) }
@@ -92,7 +90,8 @@ RSpec.describe "Create Document",
       click_on "Create"
       expect(page).to have_current_path(project_documents_path(project))
 
-      expect(page).to have_list_item("My classic document") & have_test_selector("label-legacy", text: "Legacy")
+      expect(page).to have_css(".Box-row", text: "My classic document") &
+                       have_test_selector("label-legacy", text: "Legacy")
     end
   end
 

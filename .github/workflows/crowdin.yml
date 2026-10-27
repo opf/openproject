@@ -9,6 +9,7 @@ jobs:
   setup:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
     steps:
@@ -29,9 +30,6 @@ jobs:
           echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
-    permissions:
-      contents: write # for git push
-
     runs-on: ubuntu-latest
     needs: setup
     timeout-minutes: 60
@@ -46,6 +44,7 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
+          token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
         with:
           bundler-cache: true
@@ -66,7 +65,7 @@ jobs:
             bundle exec script/i18n/generate_seeders_i18n_source_file
           fi
       - name: "Crowdin: upload sources and download translations"
-        uses: crowdin/github-action@71fdb8814261dd703be4ca7c6450d21b1868da4b # v3.0.1
+        uses: crowdin/github-action@72955432d4aa4f6dd64cf17eeb88dd34d6ba064c # v3.4.0
         with:
           # Upload current source files
           upload_sources: true
@@ -91,7 +90,7 @@ jobs:
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
           echo "Updating combined translations"
-          git ls-files -m -o | grep 'crowdin\/.*\.yml$' | xargs git add
+          git ls-files -m -o | grep -E 'crowdin/.*\.(yml|ts)$' | xargs git add
           git diff --staged --name-only
           if ! git diff --staged --exit-code --quiet; then
             git commit -m "update locales from crowdin [ci skip]"

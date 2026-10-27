@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -264,7 +263,7 @@ RSpec.describe "Omniauth authentication" do
         # to a symbol will force omniauth to fail /auth/failure
         OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:developer] = :invalid_credentials
-        # seems like this default behaviour is removed when running the full
+        # seems like this default behavior is removed when running the full
         # test suite, so let's set it back when running this test
         original_on_failure = OmniAuth.config.on_failure
         OmniAuth.config.on_failure = Proc.new do |env|

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
   let(:type) do
     create(:type_bug,
-           custom_fields: [cf_long_text, cf_empty_long_text, cf_disabled_in_project, cf_global_bool, cf_link])
+           custom_fields: [cf_long_text, cf_empty_long_text, cf_global_bool, cf_link])
   end
   let(:parent_project) do
     create(:project, name: "Parent project")
@@ -69,11 +68,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            custom_field_values: {
              project_custom_field_bool.id => true,
              project_custom_field_long_text.id => "foo"
-           },
-           work_package_custom_fields: [cf_long_text, cf_empty_long_text, cf_disabled_in_project, cf_global_bool, cf_link],
-
-           # cf_disabled_in_project.id not included == disabled
-           work_package_custom_field_ids: [cf_long_text.id, cf_empty_long_text.id, cf_global_bool.id, cf_link.id])
+           })
   end
   let(:phase_definition) { create(:project_phase_definition, name: "Test Phase") }
   let!(:project_phase) do
@@ -83,23 +78,19 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     create(:project,
            name: "Forbidden project",
            types: [type],
-           id: 666,
            identifier: "forbidden-project",
            public: false,
            status_code: "on_track",
            active: true,
            description: "A **rich** text description",
-           parent: parent_project,
-           work_package_custom_fields: [cf_long_text, cf_empty_long_text, cf_disabled_in_project, cf_global_bool, cf_link],
-
-           # cf_disabled_in_project.id not included == disabled
-           work_package_custom_field_ids: [cf_long_text.id, cf_empty_long_text.id, cf_global_bool.id, cf_link.id])
+           parent: parent_project)
   end
   let(:user) do
     create(:user,
            member_with_permissions: {
              project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
-                           view_budgets]
+                           view_budgets],
+             parent_work_package.project => %w[view_work_packages]
            })
   end
   let(:another_user) do
@@ -126,9 +117,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:cf_empty_long_text) do
     create(:issue_custom_field, :text, name: "Empty Work Package Custom Field Long Text")
   end
-  let!(:cf_disabled_in_project) do
-    # NOT enabled by project.work_package_custom_field_ids => NOT in PDF
-    create(:float_wp_custom_field, name: "DisabledCustomField")
+  let!(:cf_not_on_the_type) do
+    create(:float_wp_custom_field, name: "NotOnTypeCustomField")
   end
   let(:cf_global_bool) do
     create(
@@ -166,7 +156,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:work_package) do
     create(:work_package,
-           id: 1,
            project:,
            type:,
            subject: "Work package 1",
@@ -190,7 +179,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            custom_values: {
              cf_long_text.id => cf_long_text_description,
              cf_empty_long_text.id => cf_empty_long_text_description,
-             cf_disabled_in_project.id => "6.25",
+             cf_not_on_the_type.id => "6.25",
              cf_global_bool.id => true,
              cf_link.id => "https://example.com"
            }).tap do |wp|
@@ -201,7 +190,6 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:forbidden_work_package) do
     create(:work_package,
-           id: 10,
            project: forbidden_project,
            type:,
            subject: "forbidden Work package",
@@ -246,24 +234,38 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Remaining work", "9h",
       "% Complete", "25%",
       "Spent time", "0h",
-      "Story Points", "1",
+      *(project.module_enabled?(:backlogs) ? ["Story Points", "1"] : []),
       "Details",
       "Priority", "Normal",
-      *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
-      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
+      *(if project.module_enabled?(:backlogs)
+          [
+            *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
+            *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"])
+          ]
+        else
+          []
+        end),
       WorkPackage.human_attribute_name(:version), work_package.target_versions.first,
       "Category", work_package.category,
       "Project phase",
       "Date", "05/30/2024 - 03/13/2025",
       "Other",
-      "Position", "1",
+      *(project.module_enabled?(:backlogs) ? ["Position", "1"] : []),
       "Work Package Custom Field Long Text", "foo   faa",
       "Empty Work Package Custom Field Long Text",
       "Work Package Custom Field Boolean", "Yes",
       "My Link", "https://example.com",
-      "Costs",
-      "Spent units", "Labor costs", "Unit costs", "Overall costs",
-      *(project.module_enabled?(:budgets) ? ["Budget"] : [])
+      *(if project.costs_enabled?
+          [
+            "Costs",
+            *(project.cost_types_available? ? ["Spent units"] : []),
+            "Labor costs",
+            *(project.cost_types_available? ? ["Unit costs", "Overall costs"] : []),
+            *(project.module_enabled?(:budgets) ? ["Budget"] : [])
+          ]
+        else
+          []
+        end)
     ]
   end
 
@@ -319,7 +321,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
-        expect(result).not_to include("DisabledCustomField")
+        expect(result).not_to include("NotOnTypeCustomField")
         expect(pdf[:images].length).to eq(4)
       end
     end
@@ -330,6 +332,18 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
 
         expect(result).to include("#{WorkPackage.human_attribute_name(:target_versions)} #{version.name}")
+      end
+    end
+
+    describe "with the work package labels feature active", with_flag: { work_package_labels: true } do
+      before do
+        create(:labeling, label: create(:label, name: "Urgent"), labelable: work_package)
+      end
+
+      it "renders the labels attribute" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+
+        expect(result).to include("#{WorkPackage.human_attribute_name(:labels)} Urgent")
       end
     end
 
@@ -418,6 +432,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
     end
 
     describe "with embedded work package attributes" do
+      before do
+        work_package.description = description.gsub("WORK_PACKAGE_ID", work_package.id.to_s)
+      end
+
       let(:supported_work_package_embeds) do
         [
           ["assignee", user.name],
@@ -451,10 +469,10 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           ## Work package attributes and labels
           <table><tbody>#{supported_work_package_embeds_table}
             <tr><td>Custom field boolean</td><td>
-                workPackageValue:1:"#{cf_global_bool.name}"
+                workPackageValue:WORK_PACKAGE_ID:"#{cf_global_bool.name}"
             </td></tr>
             <tr><td>Custom field rich text</td><td>
-                workPackageValue:1:"#{cf_long_text.name}"
+                workPackageValue:WORK_PACKAGE_ID:"#{cf_long_text.name}"
             </td></tr>
             <tr><td>My link in table</td><td>workPackageValue:"#{cf_link.name}"</td></tr>
             <tr><td>No replacement of:</td><td>
@@ -663,7 +681,20 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
-        expect(result).not_to include("DisabledCustomField")
+        expect(result).not_to include("NotOnTypeCustomField")
+      end
+    end
+
+    context "with the backlogs module disabled" do
+      let(:enabled_module_names) { %i[work_package_tracking] }
+      let(:attachments) { [] }
+      let(:description) { "Lorem ipsum" }
+
+      it "omits backlogs attributes" do
+        result = remove_pdf_page_footers(pdf[:strings].join(" "), 2)
+        expect(result).not_to include("Story Points")
+        expect(result).to include("Priority Normal")
+        expect(result).to include("Lorem")
       end
     end
   end

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,12 +31,13 @@ class MeetingPresentationController < ApplicationController
   include OpTurbo::ComponentStream
   include Meetings::AgendaComponentStreams
   include Meetings::PresentationComponentStreams
+  include Meetings::PresentationNavigation
 
   load_and_authorize_with_permission_in_project :view_meetings
 
   before_action :find_meeting
   before_action :check_presentable
-  before_action :determine_current_id
+  before_action :determine_current_position
   before_action :set_started_at
   before_action :find_agenda_item, only: [:check_for_updates]
 
@@ -72,7 +72,7 @@ class MeetingPresentationController < ApplicationController
   end
 
   def set_started_at
-    @started_at = params[:started_at].present? ? Time.zone.parse(params[:started_at]) : Time.current
+    @started_at = presentation_started_at
   end
 
   def check_presentable
@@ -83,44 +83,11 @@ class MeetingPresentationController < ApplicationController
     end
   end
 
-  def determine_current_id
-    return nil if params[:current_id].blank?
+  def determine_current_position
+    @current_slide = params.fetch(:slide, 1).to_i
+    return if params[:current_id].blank?
 
     @current_id = params[:current_id].to_i
-    return if params[:action_type].blank?
-
-    # In case we have a navigation action, determine the new current id
-    @current_id = navigate_from_current_id(@current_id)
+    navigate_from_current_position if params[:action_type].present?
   end
-
-  def navigate_from_current_id(current_id)
-    current_index = sorted_agenda_item_ids.index(current_id)
-    return current_id if current_index.nil?
-
-    case params[:action_type]
-    when "next"
-      navigate_next(current_index, current_id)
-    when "previous"
-      navigate_previous(current_index, current_id)
-    else
-      current_id
-    end
-  end
-
-  def navigate_next(current_index, fallback_id)
-    current_index < sorted_agenda_item_ids.size - 1 ? sorted_agenda_item_ids[current_index + 1] : fallback_id
-  end
-
-  def navigate_previous(current_index, fallback_id)
-    current_index.positive? ? sorted_agenda_item_ids[current_index - 1] : fallback_id
-  end
-
-  def sorted_agenda_item_ids
-    @sorted_agenda_item_ids ||= @meeting.sections
-                                        .includes(:agenda_items)
-                                        .order(:position)
-                                        .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
-  end
-
-  helper_method :sorted_agenda_item_ids
 end

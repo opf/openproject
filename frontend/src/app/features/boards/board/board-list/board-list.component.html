@@ -12,6 +12,7 @@
       </div>
     }
     <div class="op-board-list--header"
+      [ngClass]="{ '-large-header': hasLargeHeader }"
       data-test-selector="op-board-list--header">
       @if (headerComponent) {
         <ndc-dynamic [ndcDynamicComponent]="headerComponent"
@@ -64,13 +65,13 @@
       <p>
         <span [textContent]="errorMessage"></span>
         &ngsp;
-        <buton
+        <button
           type="button"
           class="spot-link"
           (click)="onRemove.emit()"
           >
           <span [textContent]="text.click_to_remove"></span>
-        </buton>
+        </button>
       </p>
     </div>
   }

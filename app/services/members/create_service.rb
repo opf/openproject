@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -68,12 +67,10 @@ class Members::CreateService < BaseServices::Create
     return unless member.principal.is_a?(Group)
 
     group = member.principal
-    project_ids = member.project_id.nil? ? nil : [member.project_id]
-    principal_ids = inheritable_principal_ids(group)
 
     Groups::CreateInheritedRolesService
       .new(group, current_user: user, contract_class: EmptyContract)
-      .call(user_ids: principal_ids, send_notifications: false, project_ids:)
+      .call(user_ids: inheritable_principal_ids(group), send_notifications: false, member_id: member.id)
   end
 
   def inheritable_principal_ids(group)

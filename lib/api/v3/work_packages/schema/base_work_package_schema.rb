@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -43,6 +42,14 @@ module API
           # may resolve the family to a variant configured differently.
           def type_variant
             project&.type_variant(type)
+          end
+
+          def form_configuration
+            type_variant&.form_configuration
+          end
+
+          def custom_field_required?(custom_field_id)
+            type_variant&.required_custom_field_ids&.include?(custom_field_id) || false
           end
 
           def assignable_values(_property, _current_user)

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -61,7 +60,7 @@ RSpec.describe "Markdown static-HTML rendering" do # rubocop:disable RSpec/Descr
     end
   end
 
-  describe "basic mention (#N) — no behaviour change" do
+  describe "basic mention (#N) — no behavior change" do
     let(:input) { "see ##{work_package.id} please" }
 
     context "in semantic mode",

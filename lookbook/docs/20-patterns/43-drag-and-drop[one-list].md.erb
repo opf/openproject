@@ -1,0 +1,150 @@
+---
+label: One list
+---
+
+One list whose rows the server can reorder. `Admin::TextTransformActions` is
+the smallest complete implementation in the codebase; the samples below
+follow it.
+
+<%= embed Patterns::SortableListsPreview, :single_list, panels: %i[source] %>
+
+The preview's move URL points at a path that does not exist, so a drop moves
+the row, the request fails, and the row rolls back with an error toast. That
+is the whole failure path; persistence needs the endpoint described at the
+end of this tab.
+
+## The root
+
+One wrapper per page region. It carries the move URL template and the outlet
+selectors, scoped to its own id:
+
+```html
+<div id="text_transform_actions_list"
+     data-controller="sortable-lists"
+     data-sortable-lists-move-url-template-value="<%%= move_url_template %>"
+     data-sortable-lists-sortable-lists--list-outlet="#text_transform_actions_list [data-controller~='sortable-lists--list']"
+     data-sortable-lists-sortable-lists--item-outlet="#text_transform_actions_list [data-controller~='sortable-lists--item']">
+```
+
+Build the template from the route helper through a sentinel, so an
+installation under a relative URL root keeps working; `{id}` is expanded on
+the client with the dragged row's id:
+
+```ruby
+def move_url_template
+  id_placeholder = "__id__"
+  drop_admin_text_transform_action_path(id_placeholder).sub(id_placeholder, "{id}")
+end
+```
+
+The expanded URL must stay same-origin and relative; only path, query and
+fragment survive.
+
+## The list
+
+The list element declares the type it persists and the type it accepts.
+`type` doubles as the `list_type` the server receives, so a list without one
+cannot accept drops and warns in the console. `name` is what screen readers
+hear when a row arrives from another list; give it even for one list, it
+costs nothing and the list may gain siblings.
+
+```html
+<div data-controller="sortable-lists--list"
+     data-sortable-lists--list-type-value="text_transform_action"
+     data-sortable-lists--list-accepted-type-value="text_transform_action"
+     data-sortable-lists--list-name-value="<%%= t(".title") %>">
+  <ul>
+    …rows…
+  </ul>
+</div>
+```
+
+Rows may sit in a child `<ul>`, as `BorderBoxList` renders them, or directly
+under the list element. Both resolve without configuration, so table rows
+and cards need no special markup.
+
+## The row
+
+Each row declares its identity and hosts the drag handle:
+
+```html
+<li data-controller="sortable-lists--item"
+    data-sortable-lists--item-id-value="<%%= action.id %>"
+    data-sortable-lists--item-type-value="text_transform_action"
+    data-sortable-lists--item-label-value="<%%= action.label %>">
+  <button type="button" class="handle" data-sortable-lists--item-target="handle" aria-hidden="true" tabindex="-1">
+    <%%= primer_octicon(:grabber) %>
+  </button>
+  …
+</li>
+```
+
+`Primer::OpenProject::DragHandle` renders that button for you; give it the
+`handle` target.
+
+Without a `handle` target the whole row is the handle, which fights with
+links and buttons inside it. Add a `preview` target on an inner element when
+the row's own box is not what should follow the pointer (a card inside a
+padded `<li>`, for instance); the default preview is the row itself.
+
+## The move menu
+
+A drag is a pointer gesture, so every sortable row also needs a keyboard-
+and screen-reader-reachable path. Put move actions in the row's Primer
+`ActionMenu`; the controller depends on that component. Each action is a
+`moveItem` target with a `direction` param (`top`, `up`, `down`, `bottom`)
+and the `move` action, passed to `with_item` so the attributes land on the
+menu's `<li>`, not on the button inside it:
+
+```erb
+<%%= render(Primer::Alpha::ActionMenu.new) do |menu| %>
+  <%% menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": action.label) %>
+  <%% menu.with_divider(data: { sortable_lists__item_target: "moveDivider" }) %>
+  <%% menu.with_item(
+        label: "Move up",
+        tag: :button,
+        data: {
+          sortable_lists__item_target: "moveItem",
+          sortable_lists__item_direction_param: "up",
+          action: "click->sortable-lists--item#move"
+        }
+      ) %>
+<%% end %>
+```
+
+`move` looks up the row's `<action-menu>` element and asks it whether that
+`<li>` is disabled or hidden before moving anything; the click reaches the
+`<li>` by bubbling up from the button. A row without an `ActionMenu` still
+drags, its `move` action just does nothing. The `moveDivider` target on the
+divider above the group lets the controller hide it together with the
+actions when none applies.
+
+Availability is recomputed every time the menu opens: the first row has no
+"up", the last no "down". Unavailable actions are hidden; set
+`data-sortable-lists--item-hide-unavailable-value="false"` on the row to
+disable them instead.
+
+## The backend request
+
+A drop, or a move action, sends `PUT` to the expanded move URL with
+`responseKind: 'turbo-stream'` and three form fields:
+
+| Field | Value for one list |
+| --- | --- |
+| `list_type` | the list's `type` |
+| `list_id` | blank; the list declares no `id` |
+| `prev_id` | id of the row the moved row now follows, or blank when it landed first |
+
+`prev_id` is an anchor, not an index: a stale ordinal cannot silently move
+the wrong row. A drop that leaves the row where it was sends nothing.
+
+The row moves in the DOM before the request resolves. The endpoint answers
+by streaming the re-rendered list, and the morph replaces the optimistic
+placement with the server's order. A failure rolls the row back; a `422`
+stays silent because the server has already streamed its own message, any
+other status raises a generic toast.
+
+For `acts_as_list` models the endpoint is a few lines with the
+`Lists::MoveAfterAnchor` concern; the API reference tab describes the server
+half, including the anchor rules and what to do when the model orders by
+something other than a position column.

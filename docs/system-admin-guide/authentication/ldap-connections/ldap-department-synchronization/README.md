@@ -14,7 +14,7 @@ keywords: synchronize ldap departments, ldap department, organizational unit, or
 In OpenProject Enterprise edition, you can mirror the organizational unit (OU) structure of your LDAP or Active Directory into the OpenProject [organization](../../../users-permissions/organization/): each OU below a configured base DN becomes a department, and users are assigned to the department of the OU they reside in. This guide assumes that you:
 
 - have set up your LDAP authentication source (see the “[Manage LDAP authentication](../../ldap-connections/)” guide)
-- have an LDAP subtree in which departments are modelled as organizational unit entries, with user entries placed directly below the OU they belong to
+- have an LDAP subtree in which departments are modeled as organizational unit entries, with user entries placed directly below the OU they belong to
 
 > [!NOTE]
 > This feature is available for both Enterprise cloud and Enterprise on-premises. When using Enterprise cloud, your LDAP server must be reachable from the OpenProject cloud infrastructure, which typically means exposing it to the internet, which is not recommended. This is a network and security consideration for your organization to evaluate. Consider using [SAML](../../saml/) or [SCIM provisioning](../../scim/) as a more secure alternative.

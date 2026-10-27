@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,17 +30,16 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Overview::RowComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
-  shared_let(:type) { create(:type, name: "Bug") }
-  shared_let(:source_type) { create(:type, name: "Feature") }
-  shared_let(:variant) { type.default_variant }
-  shared_let(:source) { source_type.default_variant }
+  include_context "with variant scope"
 
-  let(:aspect) { TypeVariant::WORKFLOWS }
-  let(:tab) { { name: "workflow", path: "/workflow", label: "Workflows", aspect: } }
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:variant) { type.default_variant }
+
+  let(:aspect) { TypeVariant::DEFAULTS }
+  let(:tab) { { name: "defaults", path: "/defaults", label: "Defaults", aspect: } }
   let(:table) { WorkPackageTypes::Overview::TableComponent.new(variant:, tabs: [tab]) }
 
   subject(:row) { described_class.new(row: tab, table:) }
@@ -50,7 +48,7 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
     it "links to its own tab" do
       render_inline(row)
 
-      expect(page).to have_link("Workflows", href: "/workflow")
+      expect(page).to have_link("Defaults", href: "/defaults")
     end
   end
 
@@ -74,46 +72,42 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
     end
 
     context "when the setting is inherited" do
-      before { link_configuration(variant, source:, aspect:) }
+      let(:variant) { create(:type_variant, type:) }
 
-      it "names the source, linking to that setting on it" do
+      before { link_configuration(variant, aspect:) }
+
+      it "names the base, linking to that setting on it" do
         render_inline(row)
 
-        expect(page).to have_text("Inheriting from")
-        expect(page).to have_link("Feature",
-                                  href: edit_type_workflow_path(type_id: source.type_id, variant_id: source.id))
+        expect(page).to have_text("Using the same as type")
+        expect(page).to have_link(type.default_variant.composite_name,
+                                  href: edit_type_defaults_path(type_id: type.id))
       end
     end
-  end
 
-  describe "the dependents" do
-    it "are a dash when nothing depends on the setting" do
-      render_inline(row)
-
-      expect(page).to have_text("-")
-      expect(page).to have_no_text("dependent type")
-    end
-
-    context "when the setting cannot be reused" do
+    context "when the setting is a form configuration" do
       let(:aspect) { nil }
+      let(:tab) { { name: "form_configuration", path: "/forms", label: "Form", aspect: } }
 
-      it "are a dash" do
+      it "names the form it uses, linking to that form" do
         render_inline(row)
 
-        expect(page).to have_text("-")
+        expect(page).to have_text("Using form")
+        expect(page).to have_link(variant.form_configuration.name,
+                                  href: edit_form_configuration_path(variant.form_configuration))
       end
     end
 
-    context "when another variant borrows the setting" do
-      before { link_configuration(source, source: variant, aspect:) }
+    context "when the setting is a workflow" do
+      let(:aspect) { nil }
+      let(:tab) { { name: "workflow", path: "/workflow", label: "Workflow", aspect: } }
 
-      it "are counted, opening their dialog" do
+      it "names the workflow it uses, linking to that workflow" do
         render_inline(row)
 
-        expect(page).to have_link(
-          "1 dependent type",
-          href: type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
-        )
+        expect(page).to have_text("Using workflow")
+        expect(page).to have_link(variant.workflow.name,
+                                  href: edit_workflow_path(variant.workflow))
       end
     end
   end

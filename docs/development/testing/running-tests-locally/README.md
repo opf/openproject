@@ -63,6 +63,14 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 ./node_modules/.bin/ng test --watch
 ```
 
+CI additionally typechecks the application and spec sources with `tsc`, which reports errors that the build and the test run can miss. To reproduce that locally, run the following in the `frontend/` folder:
+
+```shell
+npm run typecheck
+```
+
+For guidance on writing frontend specs — the Stimulus test helpers, Testing Library queries and coverage — see [frontend/doc/TESTING.md](https://github.com/opf/openproject/blob/dev/frontend/doc/TESTING.md).
+
 ## Unit tests
 
 After following the prerequisites, use the following command to run individual specs:
@@ -79,7 +87,7 @@ RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/pr
 
 ## System tests
 
-System tests are also called _rspec feature specs_ and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) and [Selenium](https://www.selenium.dev/documentation/webdriver/) to run. They are automatically executed with an actual browser when `js: true` is set.
+System tests are also called _rspec feature specs_ and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) to run. They are automatically executed with an actual browser when `js: true` is set. The default browser driver is [Cuprite](https://github.com/rubycdp/cuprite). Some specs use [Selenium](https://www.selenium.dev/documentation/webdriver/). See [Browser drivers](../browser-drivers/) for when to use which driver.
 
 To run feature specs, it is important that the frontend assets are being served. This is done by running `npm run serve`
 in a separate terminal tab. This will start the Angular CLI and serve the frontend assets on `http://localhost:4200`.
@@ -99,7 +107,7 @@ variable `SKIP_CAPYBARA_BROWSER_LOGS` to `true` in your `.env` file or export it
 
 For the javascript dependent integration tests, you have to install Chrome and Firefox, to run them locally.
 
-Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. We have tests that mostly depend on Chrome and Chromedriver, but some also require specific behavior that works better in automated Firefox browsers.
+Capybara uses Cuprite to drive Chrome and perform the actions we describe in each spec. Specs that need a Selenium driver use Chrome and Chromedriver, and some of them need Firefox. See [Browser drivers](../browser-drivers/) for the details.
 
 ### Running system tests
 
@@ -181,7 +189,7 @@ There is no need to prefix this with the `RAILS_ENV` here since we've exported i
 
 ### Headless testing
 
-Firefox tests through Selenium are run with Chrome as `--headless` by default. This means that you do not see the browser that is being tested. Sometimes you will want to see what the test is doing to debug. To override this behavior and watch the Chrome or Firefox instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
+Browser tests run headless by default, with Cuprite and with Selenium. This means that you do not see the browser that is being tested. Sometimes you will want to see what the test is doing to debug. To override this behavior and watch the Chrome or Firefox instance set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
 
 #### Troubleshooting
 
@@ -202,6 +210,46 @@ You can run the specs with the following commands:
 - `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on GitHub Actions CI as part of your pull request.
 
 - `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
+
+## Ruby coverage
+
+Set `COVERAGE=1` to collect Ruby line and branch coverage with SimpleCov. This starts
+before Rails loads and includes `app`, `lib`, `lib_static`, module `app`/`lib` code,
+and evaluated ERB templates from those directories.
+It does not measure browser JavaScript coverage. Coverage is disabled by default.
+
+Use a fresh output directory for each run or comparison:
+
+```shell
+mkdir -p coverage
+export COVERAGE_DIR=$(mktemp -d coverage/rspec.XXXXXX)
+COVERAGE=1 mise exec -- bundle exec rspec spec/models/project_spec.rb
+```
+
+After the tests succeed, generate HTML and JSON reports:
+
+```shell
+mise exec -- bundle exec ruby script/coverage_report "$COVERAGE_DIR" 1
+```
+
+Open `$COVERAGE_DIR/report/index.html`. The final argument is the expected number of
+RSpec processes. Each process writes a separate resultset, and report generation fails
+if the expected number is missing. Reusing a directory can mix results from different
+runs, so always start with a fresh directory.
+
+For units and features in one parallel CI job, use the same `COVERAGE_DIR` for both
+phases and collate once after they both succeed. For example, 32 unit workers and
+16 feature workers produce 48 reports; a separate final retry process adds another.
+`COVERAGE_SUITE` optionally labels the phase in the report. Pass these environment
+variables into containers explicitly and collate in the same environment and checkout
+used by the tests, before editing source files. If tests used mounted source overrides,
+report generation must see those same source files.
+
+Focused runs include unloaded Ruby files at zero coverage, so their aggregate percentage
+is not a full-suite coverage result. Unloaded ERB is not assigned guessed executable
+lines. Compare affected lines and branches together with retained behavior assertions;
+code coverage does not prove equivalent UI, permission, or browser interaction checks.
+Run performance comparisons without coverage instrumentation.
 
 ## Parallel testing
 
@@ -340,6 +388,13 @@ good as a test server.
 
 Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
 docker development documentation](../../development-environment/docker).
+
+## Shared spec contexts
+
+`spec/support/shared/` holds RSpec shared contexts for setup that several specs need. Pull one in with `include_context "<name>"` or the metadata tag noted below. Two of them change how the database or the settings registry behave, so choose deliberately:
+
+- `with real database commits` commits every write instead of running the example inside a rolled-back transaction, so threads, advisory locks and background workers can see each other's rows. Use it only for genuine concurrency specs. Every table is truncated after each example (the settings rows are restored), so the spec must create all data it needs, must not rely on shared fixtures and must stop any workers before it ends.
+- `with settings reset` (metadata tag `:settings_reset`) snapshots `Settings::Definition` before the example group and restores it after each example. Use it when a spec adds, resets or overrides definitions or stubs `configuration.yml`. A spec that only needs a different setting value should use the `with_settings: { ... }` metadata instead, which stubs `Setting[]` without touching the definitions.
 
 ## Generators
 

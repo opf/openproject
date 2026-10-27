@@ -1,6 +1,6 @@
 <div class="op-step-wizard-footer">
   <div class="op-step-wizard-footer--actions-left">
-    <% unless first_step? %>
+    <% if back_href.present? %>
       <%= render(Primer::Beta::Button.new(tag: :a, href: back_href, scheme: :invisible, color: :muted)) do |button| %>
         <% button.with_leading_visual_icon(icon: :"arrow-left") %>
         <%= I18n.t(:button_back) %>
@@ -27,12 +27,16 @@
   <div class="op-step-wizard-footer--actions-right">
     <%= render(Primer::Beta::Button.new(tag: :a, href: cancel_href)) { I18n.t(:button_cancel) } %>
 
-    <%= render(
-          Primer::Beta::Button.new(
-            type: :submit,
-            form: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
-            scheme: :primary
-          )
-        ) { primary_action_label } %>
+    <% if start_step? %>
+      <%= render(Primer::Beta::Button.new(tag: :a, href: start_next_href, scheme: :primary)) { primary_action_label } %>
+    <% else %>
+      <%= render(
+            Primer::Beta::Button.new(
+              type: :submit,
+              form: WorkPackageTypes::Wizard::FooterComponent::FORM_IDENTIFIER,
+              scheme: :primary
+            )
+          ) { primary_action_label } %>
+    <% end %>
   </div>
 </div>

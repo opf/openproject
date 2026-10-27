@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,20 +56,6 @@ RSpec.describe Projects::SettingsController do
       expect(patch("/projects/123/settings/modules"))
         .to route_to(
           controller: "projects/settings/modules", action: "update", project_id: "123"
-        )
-    end
-
-    it do
-      expect(get("/projects/123/settings/work_packages/custom_fields"))
-        .to route_to(
-          controller: "projects/settings/work_packages/custom_fields", action: "show", project_id: "123"
-        )
-    end
-
-    it do
-      expect(patch("/projects/123/settings/work_packages/custom_fields"))
-        .to route_to(
-          controller: "projects/settings/work_packages/custom_fields", action: "update", project_id: "123"
         )
     end
 
@@ -127,13 +112,6 @@ RSpec.describe Projects::SettingsController do
       expect(delete("/projects/123/settings/work_packages/types/5"))
         .to route_to(
           controller: "projects/settings/work_packages/types", action: "destroy", project_id: "123", id: "5"
-        )
-    end
-
-    it do
-      expect(patch("/projects/123/settings/work_packages/types/bulk_update"))
-        .to route_to(
-          controller: "projects/settings/work_packages/types", action: "bulk_update", project_id: "123"
         )
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -20,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -49,12 +50,12 @@ module Components
     end
 
     def delete_current_viewpoint(confirm: true)
-      page.find(".icon-delete.ngx-gallery-icon-content").click
+      action = proc { page.find(".icon-delete.ngx-gallery-icon-content").click }
 
       if confirm
-        page.driver.browser.switch_to.alert.accept
+        page.accept_confirm(&action)
       else
-        page.driver.browser.switch_to.alert.dismiss
+        page.dismiss_confirm(&action)
       end
     end
 

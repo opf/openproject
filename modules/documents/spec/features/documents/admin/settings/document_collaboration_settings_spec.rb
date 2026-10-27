@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -62,7 +61,7 @@ RSpec.describe "Document collaboration settings admin",
       expect_and_dismiss_flash(message: "Successful update.")
 
       expect(page).to have_field("Hocuspocus server URL", with: "wss://hocuspocus.example.com")
-      expect(page).to have_field("Client secret", with: "") # Secret is not exposed on forms
+      expect(page).to have_field("Client secret", with: Settings::Definition::SECRET_PLACEHOLDER)
 
       setting_url = Setting.find_by(name: "collaborative_editing_hocuspocus_url")
       setting_secret = Setting.find_by(name: "collaborative_editing_hocuspocus_secret")
@@ -71,6 +70,7 @@ RSpec.describe "Document collaboration settings admin",
 
       # Now disable text collaboration
       click_on "Disable"
+      expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
 
       within_dialog("Disable real-time collaboration") do
         expect(page).to have_heading "Disable real-time collaboration?"
@@ -78,7 +78,11 @@ RSpec.describe "Document collaboration settings admin",
                                      "Please only do this if you are certain you want to " \
                                      "disable real-time collaboration and the BlockNote editor in this instance."
 
-        check "I understand that I might permanently lose data"
+        page.document.synchronize do
+          confirmation = find_field("I understand that I might permanently lose data", exact: true, wait: 0)
+          confirmation.click unless confirmation.checked?
+          expect(confirmation).to be_checked
+        end
 
         click_on "Disable"
       end
@@ -124,7 +128,7 @@ RSpec.describe "Document collaboration settings admin",
                                  disabled: true)
 
       expect(page).to have_field("Client secret",
-                                 with: "",
+                                 with: Settings::Definition::SECRET_PLACEHOLDER,
                                  disabled: false)
     end
   end
@@ -160,7 +164,7 @@ RSpec.describe "Document collaboration settings admin",
                                  with: "wss://env-hocuspocus.example.com",
                                  disabled: false)
       expect(page).to have_field("Client secret",
-                                 with: "",
+                                 with: Settings::Definition::SECRET_PLACEHOLDER,
                                  disabled: true)
     end
   end
@@ -183,7 +187,7 @@ RSpec.describe "Document collaboration settings admin",
                                  with: "wss://env-hocuspocus.example.com",
                                  disabled: true)
       expect(page).to have_field("Client secret",
-                                 with: "",
+                                 with: Settings::Definition::SECRET_PLACEHOLDER,
                                  disabled: true)
     end
 

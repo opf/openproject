@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,7 +59,7 @@ const DEFAULT_GRANULARITY_VIEW = GRANULARITY_VIEWS.resourceTimelineDays;
 // The resource (row) axis differs per view: the work-package timeline has one
 // row per work package, the user timeline one row per user. Everything else —
 // feeds, navigation, granularity, background spans — is identical, so a single
-// controller drives both. The only behavioural difference is which query param
+// controller drives both. The only behavioral difference is which query param
 // a date-range selection pre-fills on the new-allocation dialog, which each view
 // passes explicitly through the `selectionParam` value.
 export default class ResourceTimelineController extends Controller {
@@ -77,7 +76,7 @@ export default class ResourceTimelineController extends Controller {
     reloadEventName: String,
     selectionParam: String,
     // The planner's date range (ISO dates, blank when it has none). Drives where
-    // the first render is centred — see `initialFocusDate`.
+    // the first render is centered — see `initialFocusDate`.
     rangeStart: String,
     rangeEnd: String,
   };
@@ -257,10 +256,10 @@ export default class ResourceTimelineController extends Controller {
     this.calendar.gotoDate(this.startCentered(this.initialDateValue, this.calendar.view.type));
   }
 
-  // Where the first render is centred: today when it falls within the planner's
+  // Where the first render is centered: today when it falls within the planner's
   // range (or there is no range), otherwise the range start nudged in by
-  // COLUMNS_BEFORE_TODAY so that — once centred — the range begins at the left
-  // edge. Navigating ("today", granularity) always re-centres on today instead.
+  // COLUMNS_BEFORE_TODAY so that — once centered — the range begins at the left
+  // edge. Navigating ("today", granularity) always re-centers on today instead.
   private initialFocusDate():string {
     if (!this.rangeStartValue || !this.rangeEndValue) { return this.initialDateValue; }
 
@@ -281,7 +280,7 @@ export default class ResourceTimelineController extends Controller {
   }
 
   // Mark each header column active when an active-span band covers it.
-  // FullCalendar offers no header-colouring input, so we toggle the class
+  // FullCalendar offers no header-coloring input, so we toggle the class
   // on the rendered header cells, depending on the union of active columns.
   private markActiveColumns():void {
     if (!this.calendar) { return; }

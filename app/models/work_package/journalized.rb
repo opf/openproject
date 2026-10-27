@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -99,7 +98,8 @@ module WorkPackage::Journalized
     register_journal_formatted_fields /\Acustom_fields_\d+\z/,
                                       formatter_key: :custom_field,
                                       view_permission: ->(custom_field) do
-                                        custom_field.nil? || visible_custom_field_ids(project).include?(custom_field.id)
+                                        custom_field.nil? ||
+                                        visible_work_package_custom_field_ids(project).include?(custom_field.id)
                                       end
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause
@@ -107,6 +107,7 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "project_phase_definition_id", formatter_key: :project_phase_definition
     register_journal_formatted_fields "target_versions", formatter_key: :target_versions
     register_journal_formatted_fields "observed_in_versions", formatter_key: :observed_in_versions
+    register_journal_formatted_fields "labels", formatter_key: :labels
 
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,

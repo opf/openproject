@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -111,6 +110,19 @@ RSpec.describe Exports::Formatters::HierarchyFormatter, with_ee: [:custom_field_
       it "returns the values joined by a comma" do
         expect(formatter.format(work_package, custom_field))
           .to eq("Homer (HS), Homer / Bart (BS), Homer / Lisa, Homer / Lisa / Zia")
+      end
+    end
+
+    context "with a value that is no longer available in the project" do
+      let(:custom_value) { CustomValue.new(custom_field:, value: bart.id) }
+      let(:custom_values) { [custom_value] }
+
+      before do
+        allow(custom_value).to receive(:available_in_project?).and_return(false)
+      end
+
+      it "returns the placeholder instead of the item" do
+        expect(formatter.format(work_package, custom_field)).to eq(I18n.t(:label_custom_value_no_longer_available))
       end
     end
 

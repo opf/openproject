@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,7 +38,7 @@ import moment from 'moment-timezone';
 
 @Injectable()
 export class CalendarDragDropService {
-  readonly authorisation = inject(AuthorisationService);
+  readonly authorization = inject(AuthorisationService);
   readonly schemaCache = inject(SchemaCacheService);
   readonly workPackagesCalendarService = inject(OpWorkPackagesCalendarService);
   readonly I18n = inject(I18nService);
@@ -120,7 +119,7 @@ export class CalendarDragDropService {
   }
 
   private workPackageDisabled(workPackage:WorkPackageResource):{ disabled:boolean, reason?:string } {
-    if (!this.authorisation.can('work_packages', 'editWorkPackage')) {
+    if (!this.authorization.can('work_packages', 'editWorkPackage')) {
       return { disabled: true, reason: this.text.draggingDisabled.permissionDenied };
     }
 
@@ -144,7 +143,7 @@ export class CalendarDragDropService {
 
     const startDate = moment(workPackage.startDate);
     const dueDate = moment(workPackage.dueDate);
-    const duration = Number(moment.duration(workPackage.duration).asDays().toFixed(0));
+    const duration = Number(moment.duration(workPackage.duration as string).asDays().toFixed(0));
     const diff = duration > 0 ? duration : dueDate.diff(startDate, 'days') + 1;
 
     return {

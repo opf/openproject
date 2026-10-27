@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -113,9 +112,11 @@ module OpenProject
     # (Redmine::Acts::Customizable::InstanceMethods) plugin.
     # Ideally we would override the `ActiveRecord::Base#changes`, but adding the custom field attributes
     # to the `ActiveRecord::Base#changes` may produce some unwanted side effects.
+    # - Same as above for labels
     def model_changes
       changes.tap do |c|
         c.merge!(custom_field_changes) if respond_to?(:custom_field_changes)
+        c.merge!(label_changes) if respond_to?(:label_changes)
         c
       end
     end

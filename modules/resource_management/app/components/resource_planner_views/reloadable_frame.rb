@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,6 +38,8 @@ module ResourcePlannerViews
   # its feeds in place on the same event, so they opt out of the frame-level reload
   # to avoid tearing down and re-instantiating the calendar.
   module ReloadableFrame
+    include ResourceManagement::PlannerRoutes
+
     FRAME_ID = "resource-planner-view-content"
     RELOAD_EVENT_NAME = "op-dispatched:resource-allocations:changed"
 
@@ -52,9 +53,7 @@ module ResourcePlannerViews
       {
         controller: "reload-frame-on-event",
         "reload-frame-on-event-event-name-value": RELOAD_EVENT_NAME,
-        "reload-frame-on-event-url-value": helpers.project_resource_planner_view_path(
-          @project, @resource_planner, @view
-        )
+        "reload-frame-on-event-url-value": planner_view_path(@resource_planner, @view)
       }
     end
   end

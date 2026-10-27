@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,14 +22,13 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-Dir[Rails.root.join("db/migrate/tables/*.rb").to_s].each { |file| require file }
-Dir[Rails.root.join("db/migrate/extensions/*.rb").to_s].each { |file| require file }
+Rails.root.glob("db/migrate/tables/*.rb") { require it }
+Rails.root.glob("db/migrate/extensions/*.rb") { require it }
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
 
 # This migration aggregates a set of former migrations
@@ -37,7 +36,7 @@ class AggregatedMigrations < SquashedMigration
   extensions Extensions::BtreeGist,
              Extensions::PgTrgm,
              Extensions::Unaccent,
-             Extensions::VersionNameCollation
+             Extensions::VersionsNameCollation
 
   tables Tables::Projects,
          Tables::Colors,

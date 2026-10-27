@@ -4,7 +4,7 @@ description: |-
   (e.g. work packages, wikis) into smaller sets. They are typically used to group, structure and manage projects that 
   target similar strategic goals of the organization and belong to a portfolio. 
 
-  As containers, they also control behaviour of the elements within them. One of the most important aspects of this is that programs limit permissions by having members with a certain permission set (roles) assigned to them.
+  As containers, they also control behavior of the elements within them. One of the most important aspects of this is that programs limit permissions by having members with a certain permission set (roles) assigned to them.
 
   ## Actions
 

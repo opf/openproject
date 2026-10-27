@@ -22,16 +22,14 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 require "spec_helper"
 
-RSpec.describe "form configuration exclusions", :js,
-               with_flag: { type_variants: true } do
+RSpec.describe "form configuration exclusions", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }
@@ -57,9 +55,10 @@ RSpec.describe "form configuration exclusions", :js,
   end
 
   before do
-    link_configuration(variant, source: owner, aspect:)
+    owner
+    link_configuration(variant, aspect:)
     login_as admin
-    visit edit_type_form_configuration_path(type_id: type.id, variant_id: variant.id)
+    visit edit_type_variant_form_configuration_path(type_id: type.id, variant_id: variant.id)
   end
 
   it "stops and resumes inheriting an attribute" do

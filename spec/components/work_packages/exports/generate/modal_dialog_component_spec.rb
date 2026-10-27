@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,12 +35,13 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
   let(:type) { create(:type) }
   let(:work_package) { build_stubbed(:work_package, type:) }
 
-  describe "#templates_options", with_flag: { type_variants: true } do
-    it "lists the enabled templates of the type the PDF config is linked to" do
-      source = create(:type)
-      source.default_variant.pdf_export_templates.disable_all
-      source.default_variant.save!
-      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
+  describe "#templates_options" do
+    it "lists the templates enabled on the base the PDF config is inherited from" do
+      type.default_variant.pdf_export_templates.disable_all
+      type.default_variant.save!
+      variant = create(:type_variant, type:)
+      link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
+      allow(work_package).to receive(:type_variant).and_return(variant)
 
       expect(component.templates_options).to be_empty
     end
