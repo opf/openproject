@@ -76,7 +76,10 @@ module WorkPackageTypes
 
       def mobile_title = I18n.t("types.edit.projects.tab")
 
-      def pagination_params = { params: { action: "edit" }, turbo_action: "advance" }
+      # Pinned to the tab: the bulk actions repaint this table from their own controllers.
+      def pagination_params
+        { params: { controller: "/work_package_types/projects_tab", action: "edit" }, turbo_action: "advance" }
+      end
 
       # Inviting the admin to add a project reads as a lie when they have just searched for one:
       # the table is empty because of the filter, not because the variant has no projects.

@@ -349,6 +349,20 @@ module WorkPackageTypes
                                    **)
     end
 
+    def variant_projects_link_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :type_projects_link_path,
+                                   named: :type_variant_projects_link_path,
+                                   **)
+    end
+
+    def new_variant_projects_link_deletion_path(variant, **)
+      administration_variant_route(variant,
+                                   base: :new_type_projects_link_deletion_path,
+                                   named: :new_type_variant_projects_link_deletion_path,
+                                   **)
+    end
+
     def new_switch_variant_projects_path(variant, **)
       administration_variant_route(variant,
                                    base: :new_switch_type_projects_path,

@@ -1,0 +1,38 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(OpPrimer::InsetBoxComponent.new(mb: 3, test_selector: "type-projects-bulk-list")) do %>
+  <%= render(Primer::Box.new(tag: :ul, m: 0, classes: "list-style-none")) do %>
+    <% projects.each do |project| %>
+      <%= render(Primer::Box.new(tag: :li, py: 1)) do %>
+        <%= render(Primer::Beta::Link.new(href: project_path(project), font_weight: :semibold, mr: 2)) { project.name } %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { variant_name(project) } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

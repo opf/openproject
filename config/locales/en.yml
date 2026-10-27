@@ -7497,10 +7497,16 @@ en:
         actions:
           confirm_remove: "Remove the type %{type} from %{project}?"
           remove_from_project: "Remove type from this project"
+          remove_from_projects: "Remove type from these projects"
           switch_variant: "Switch variant"
         add_dialog:
           no_projects_selected: "Please select at least one project."
           search_placeholder: "Search projects"
+        bulk_remove:
+          confirmation: "I understand that this type will no longer be available in the selected projects"
+          description: "This type will no longer be available in the following projects. Projects that still have work packages of this type keep it."
+          submit: "Remove"
+          title: "Remove type '%{type}' from these projects?"
         disable_all: Disable for all projects
         empty_state:
           description: Add a project to use this configuration there.
