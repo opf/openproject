@@ -111,6 +111,10 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
   context "with a stored subscription endpoint on a sample host" do
     before { create(:push_subscription, endpoint: "https://web.push.apple.com/abc") }
 
+    it "probes it once" do
+      expect(results.map(&:host)).to eq(%w[fcm.googleapis.com updates.push.services.mozilla.com web.push.apple.com])
+    end
+
     it "reports it as unresolved rather than inconclusive when it does not resolve" do
       allow(OpenProject::SsrfProtection).to receive(:head).and_raise(SsrfFilter::UnresolvedHostname.new("x"))
 
