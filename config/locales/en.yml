@@ -2278,7 +2278,9 @@ en:
     text_transform:
       errors:
         connection_failed: "The AI service could not be reached."
+        context_too_long: "The text is too long for the AI model. Shorten it and try again."
         not_available: "The AI assistant is not available."
+        rate_limited: "The AI service is busy. Try again in a moment."
         timeout: "The AI service did not respond in time."
         upstream_error: "The AI service returned an error."
       pane:

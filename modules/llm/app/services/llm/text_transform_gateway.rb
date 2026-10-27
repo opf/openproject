@@ -35,16 +35,22 @@ module Llm
       Readiness.new(resolution.ready?, resolution.ready? ? nil : resolution.status)
     end
 
-    def stream(system:, user:, timeout:, &)
-      answer = chat(system:, timeout:).ask(user) { |chunk| forward(chunk, &) }
+    # Chunks without content (a reasoning model thinking) are yielded as empty
+    # deltas, so that the consumer can still cancel or enforce its budget.
+    def stream(system:, user:, timeout:)
+      consumer_error = nil
+      answer = chat(system:, timeout:).ask(user) do |chunk|
+        yield chunk.content.to_s
+      rescue StandardError => e
+        consumer_error = e
+        raise
+      end
       text = answer.content.to_s
       raise AI::TextTransforms::Errors::Upstream, "empty completion" if text.strip.empty?
 
       text
     rescue Llm::Errors::Error => e
-      raise e.cause if raised_by_consumer?(e.cause)
-
-      raise translate(e)
+      raise consumer_error || translate(e)
     end
 
     private
@@ -53,19 +59,14 @@ module Llm
       Llm::Runtime.for(FEATURE).chat(timeout:, max_retries: 0).with_instructions(system)
     end
 
-    def forward(chunk)
-      delta = chunk.content.to_s
-      yield delta unless delta.empty?
-    end
-
-    def raised_by_consumer?(cause)
-      cause.is_a?(AI::TextTransforms::Cancelled) || cause.is_a?(AI::TextTransforms::Errors::Error)
-    end
-
     def translate(error)
       case error
       when Llm::Errors::NotReady, Llm::Errors::ConfigurationError
         AI::TextTransforms::Errors::NotAvailable.new(error.message)
+      when Llm::Errors::RateLimitedError
+        AI::TextTransforms::Errors::RateLimited.new(error.message)
+      when Llm::Errors::ContextLengthError
+        AI::TextTransforms::Errors::ContextTooLong.new(error.message)
       when Llm::Errors::TimeoutError
         AI::TextTransforms::Errors::TimedOut.new(error.message)
       when Llm::Errors::ConnectionError

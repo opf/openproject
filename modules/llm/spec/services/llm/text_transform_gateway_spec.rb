@@ -62,6 +62,16 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
 
       expect(gateway.readiness).to be_ready
     end
+
+    %i[feature_disabled no_connection unbound model_missing incapable].each do |status|
+      it "is not ready and reports #{status} when the resolution is #{status}" do
+        resolution = instance_double(Llm::Runtime::Resolution, ready?: false, status:)
+        allow(Llm::Runtime).to receive(:for).with(:description_assistant).and_return(resolution)
+
+        expect(gateway.readiness).not_to be_ready
+        expect(gateway.readiness.reason).to eq(status)
+      end
+    end
   end
 
   describe "#stream" do
@@ -77,13 +87,13 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
       expect(text).to eq("Hello world")
     end
 
-    it "ignores chunks that carry no content" do
+    it "yields chunks without content as empty deltas" do
       stub_stream(nil, "Hello", nil, " world")
       deltas = []
 
       text = stream { |delta| deltas << delta }
 
-      expect(deltas).to eq(["Hello", " world"])
+      expect(deltas).to eq(["", "Hello", "", " world"])
       expect(text).to eq("Hello world")
     end
 
@@ -114,6 +124,20 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
         .to raise_error(AI::TextTransforms::Cancelled)
     end
 
+    it "lets an exceeded budget raised by the consumer through untranslated" do
+      stub_stream(nil, nil)
+
+      expect { stream { raise AI::TextTransforms::Errors::TimedOut, "budget exceeded" } }
+        .to raise_error(AI::TextTransforms::Errors::TimedOut, "budget exceeded")
+    end
+
+    it "lets an unexpected error raised by the consumer through untranslated" do
+      stub_stream("Hello")
+
+      expect { stream { raise ActiveRecord::InvalidForeignKey, "run gone" } }
+        .to raise_error(ActiveRecord::InvalidForeignKey, "run gone")
+    end
+
     it "reports a read timeout as a timed out transform" do
       stub_request(:post, completions).to_raise(Net::ReadTimeout)
 
@@ -132,6 +156,34 @@ RSpec.describe Llm::TextTransformGateway, :llm_server_helpers, :webmock,
       expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::Upstream) do |error|
         expect(error.message).not_to include("secret details")
       end
+    end
+
+    it "reports a throttling server as rate limited without retrying" do
+      stub_request(:post, completions)
+        .to_return(status: 429, body: '{"error":{"message":"slow down","type":"rate_limit_exceeded"}}')
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::RateLimited)
+      expect(WebMock).to have_requested(:post, completions).once
+    end
+
+    it "reports a prompt beyond the model's context window as too long" do
+      stub_request(:post, completions)
+        .to_return(status: 400, body: '{"error":{"message":"This model\'s maximum context length is 8192 tokens."}}')
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::ContextTooLong)
+    end
+
+    it "reports a rejected API key as an upstream error" do
+      stub_request(:post, completions).to_return(status: 401, body: '{"error":{"message":"bad key"}}')
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::Upstream)
+    end
+
+    it "does not retry a failed completion" do
+      stub_request(:post, completions).to_return(status: 503, body: "{}")
+
+      expect { stream { nil } }.to raise_error(AI::TextTransforms::Errors::Upstream)
+      expect(WebMock).to have_requested(:post, completions).once
     end
 
     it "reports the assistant as not available when no model resolves" do
