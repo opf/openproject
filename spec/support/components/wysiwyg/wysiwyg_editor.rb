@@ -91,6 +91,14 @@ module Components
       JS
     end
 
+    def replace_text(text)
+      platform = page.evaluate_script("navigator.userAgentData?.platform || navigator.platform")
+      select_all_modifier = platform.match?(/mac|iphone|ipad|ipod/i) ? :command : :control
+
+      editor_element.click
+      editor_element.send_keys([select_all_modifier, "a"], text)
+    end
+
     def clear
       textarea = container.find(".op-ckeditor-source-element", visible: :all)
       last_updated_before = last_updated_for(textarea)
