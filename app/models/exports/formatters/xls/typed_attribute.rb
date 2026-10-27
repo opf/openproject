@@ -49,12 +49,12 @@ module Exports
           end
         end
 
-        def format_value(value, _options = {})
+        def format_value(value, options = {})
           return nil if value.nil?
 
           case column_type
           when :date then value.to_date
-          when :datetime then in_user_zone(value)
+          when :datetime then in_user_zone(value, user: options[:current_user] || User.current)
           when :integer then value.to_i
           when :boolean then value
           else value.to_f

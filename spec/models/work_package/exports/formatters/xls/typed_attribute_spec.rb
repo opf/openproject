@@ -102,6 +102,17 @@ RSpec.describe WorkPackage::Exports::Formatters::XLS::TypedAttribute do
       expect(formatted.time_zone).to eq(zone)
     end
 
+    it "prefers the time zone of the user the export runs for" do
+      zone = ActiveSupport::TimeZone["Pacific/Auckland"]
+      exporting_user = build_stubbed(:user)
+      allow(exporting_user).to receive(:time_zone).and_return(zone)
+
+      formatted = described_class.new(:created_at)
+                                 .format(work_package, current_user: exporting_user)
+
+      expect(formatted.time_zone).to eq(zone)
+    end
+
     it "keeps booleans as booleans" do
       expect(described_class.new(:schedule_manually).format(work_package)).to be false
     end
