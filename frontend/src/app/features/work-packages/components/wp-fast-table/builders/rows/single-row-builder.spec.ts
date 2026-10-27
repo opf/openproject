@@ -302,4 +302,62 @@ describe('SingleRowBuilder refresh with an active editor', () => {
     expect(harness.row('1')).toHaveAttribute('aria-level', '1');
     expect(harness.row('1')).toHaveAttribute('aria-selected', 'true');
   });
+
+  it('refreshes duplicate displays while retaining only the active occurrence editor', async () => {
+    harness = buildTable({
+      workPackages: [
+        { id: '1', children: [{ id: '2', subject: 'Original' }] },
+        { id: '3', children: [{ id: '2', subject: 'Original' }] },
+        { id: '2', subject: 'Original' },
+      ],
+      columns: [
+        'id', 'subject',
+        { id: 'relationsOfTypeFollows', relationType: 'follows' },
+        { id: 'children', children: true },
+      ],
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      editing: {},
+    });
+    harness.expand('1', 'relationsOfTypeFollows');
+    harness.expand('3', 'children');
+    await harness.render();
+
+    const origin = harness.row('2').querySelector<HTMLTableCellElement>('td.subject')!;
+    const siblingCells = [
+      harness.relationRow('1', '2').querySelector('td.subject'),
+      harness.relationRow('3', '2', 'children').querySelector('td.subject'),
+    ];
+    const navigation = harness.table.keyboardNavigation!;
+    navigation.focusPosition(navigation.positionOfCell(origin)!);
+    fireEvent.keyDown(origin, { key: 'Enter' });
+    const input = await waitFor(() => within(origin).getByRole<HTMLInputElement>('textbox'));
+    await waitFor(() => expect(input).toHaveFocus());
+    input.value = 'Draft in the origin';
+
+    const form = harness.table.editing.forms['2'];
+    const handler = form.activeFields.subject;
+    const renamed = buildWorkPackage({ id: '2', subject: 'Renamed' });
+    form.resource = renamed;
+    harness.injector.get(States).workPackages.get('2').putValue(renamed);
+
+    await waitFor(() => {
+      [harness.relationRow('1', '2'), harness.relationRow('3', '2', 'children')]
+        .forEach((row, index) => {
+          const cell = row.querySelector('td.subject')!;
+          expect(cell).not.toBe(siblingCells[index]);
+          expect(cell.querySelector('.inline-edit--display-field')).toHaveTextContent('Renamed');
+          expect(within(row).queryByRole('textbox')).toBeNull();
+        });
+    });
+    expect(harness.row('2').querySelector('td.subject')).toBe(origin);
+    expect(within(origin).getByRole('textbox')).toBe(input);
+    expect(input).toHaveFocus();
+    expect(input).toHaveValue('Draft in the origin');
+    expect(form.activeFields.subject).toBe(handler);
+
+    handler.deactivate(true, true);
+    await waitFor(() => expect(within(origin).queryByRole('textbox')).toBeNull());
+    expect(origin).toHaveFocus();
+    expect(origin.querySelector('.inline-edit--display-field')).toHaveTextContent('Renamed');
+  });
 });

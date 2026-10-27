@@ -213,7 +213,7 @@ export class SingleRowBuilder {
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
       const oldTd = oldCells.find((cell) => cell.matches(`td.${column.id}`));
-      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column))) {
+      if (oldTd && (this.retainsOnRefresh(column) || this.isColumnBeingEdited(workPackage, column, oldTd))) {
         retained.set(column.id, oldTd);
       }
     });
@@ -246,10 +246,14 @@ export class SingleRowBuilder {
     return column.id !== internalBaselineColumn.id && column.id.startsWith('__internal');
   }
 
-  protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
-    const form = this.workPackageTable.editing.forms[workPackage.id!];
+  protected isColumnBeingEdited(
+    workPackage:WorkPackageResource,
+    column:QueryColumn,
+    cell:HTMLTableCellElement,
+  ):boolean {
+    const field = this.workPackageTable.editing.forms[workPackage.id!]?.activeFields[column.id];
 
-    return form?.activeFields[column.id];
+    return field?.element !== undefined && cell.contains(field.element);
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
