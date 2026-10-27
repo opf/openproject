@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { withTooltip } from 'core-app/shared/helpers/tooltip-helper';
 import {
   contextColumnIcon,
   OpTableAction,
@@ -70,7 +71,7 @@ export class OpUnlinkTableAction extends OpTableAction {
     }
 
     const element = document.createElement('a');
-    element.title = this.title;
+
     element.href = '#';
     element.classList.add(contextColumnIcon, 'wp-table-action--unlink');
     element.dataset.workPackageId = this.workPackage.id!;
@@ -81,6 +82,6 @@ export class OpUnlinkTableAction extends OpTableAction {
       this.onClick(this.workPackage);
     });
 
-    return element;
+    return withTooltip(element, this.title, 'label');
   }
 }
