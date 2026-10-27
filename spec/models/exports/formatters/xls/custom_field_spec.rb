@@ -116,4 +116,20 @@ RSpec.describe Exports::Formatters::XLS::CustomField do
       expect(described_class.new("cf_0").format_options).to eq({})
     end
   end
+
+  describe "a custom field that is not available on the record" do
+    let(:elsewhere_cf) { create(:date_wp_custom_field) }
+    let(:work_package) do
+      build_stubbed(:work_package) do |wp|
+        allow(wp).to receive(:available_custom_fields).and_return([])
+      end
+    end
+
+    it "exports a blank value but still formats the column" do
+      formatter = described_class.new(elsewhere_cf.column_name)
+
+      expect(formatter.format(work_package)).to eq("")
+      expect(formatter.format_options).to eq({ number_format: "YYYY-MM-DD" })
+    end
+  end
 end

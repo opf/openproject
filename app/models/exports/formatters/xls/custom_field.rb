@@ -38,8 +38,8 @@ module Exports
           export_format == :xls && attribute.start_with?("cf_")
         end
 
-        def format_for_export(object, custom_field)
-          return super unless typed?(custom_field)
+        def format_for_export(object, available_field)
+          return super unless typed?
 
           object.typed_custom_value_for(custom_field)
         end
@@ -51,7 +51,7 @@ module Exports
         end
 
         def format_options
-          return {} unless custom_field && typed?(custom_field)
+          return {} unless typed?
 
           case custom_field.field_format
           when "date" then { number_format: date_format }
@@ -62,7 +62,9 @@ module Exports
 
         private
 
-        def typed?(custom_field)
+        def typed?
+          return false if custom_field.nil?
+
           custom_field.field_format.in?(TYPED_FORMATS) && !custom_field.multi_value?
         end
 
