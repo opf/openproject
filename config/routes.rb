@@ -354,6 +354,9 @@ Rails.application.routes.draw do
     collection do
       get :projects_tree
     end
+    member do
+      get :types_dialog
+    end
   end
 
   resources :workflows, only: %i[new create edit update destroy], controller: "workflows/workflows" do
@@ -380,6 +383,9 @@ Rails.application.routes.draw do
   resources :form_configurations, path: "forms", only: %i[index], controller: "form_configurations/index" do
     collection do
       get :projects_tree
+    end
+    member do
+      get :types_dialog
     end
   end
 
