@@ -178,13 +178,17 @@ class FillFromGitlab < ActiveRecord::Migration[8.1]
       SQL
 
       execute(<<~SQL.squish)
-        INSERT INTO repository_issues_work_packages(
-          repository_issue_id,
-          work_package_id
+        INSERT INTO repository_issue_work_packages(
+          issue_id,
+          work_package_id,
+          created_at,
+          updated_at
         )
         SELECT
           repository_issues.id,
-          gitlab_issues_work_packages.work_package_id
+          gitlab_issues_work_packages.work_package_id,
+          NOW(),
+          NOW()
         FROM gitlab_issues_work_packages
         JOIN gitlab_issues ON gitlab_issues.id = gitlab_issues_work_packages.gitlab_issue_id
         JOIN repository_issues ON repository_issues.web_url = gitlab_issues.gitlab_html_url
@@ -192,13 +196,17 @@ class FillFromGitlab < ActiveRecord::Migration[8.1]
       SQL
 
       execute(<<~SQL.squish)
-        INSERT INTO repository_merge_requests_work_packages(
-          repository_merge_request_id,
-          work_package_id
+        INSERT INTO repository_merge_request_work_packages(
+          merge_request_id,
+          work_package_id,
+          created_at,
+          updated_at
         )
         SELECT
           repository_merge_requests.id,
-          gitlab_merge_requests_work_packages.work_package_id
+          gitlab_merge_requests_work_packages.work_package_id,
+          NOW(),
+          NOW()
         FROM gitlab_merge_requests_work_packages
         JOIN gitlab_merge_requests ON gitlab_merge_requests.id = gitlab_merge_requests_work_packages.gitlab_merge_request_id
         JOIN repository_merge_requests ON repository_merge_requests.web_url = gitlab_merge_requests.gitlab_html_url

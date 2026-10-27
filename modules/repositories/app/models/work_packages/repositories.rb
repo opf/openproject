@@ -34,16 +34,20 @@ module WorkPackages::Repositories
   included do
     has_many :repository_branches, dependent: :destroy, class_name: "Repositories::Branch"
 
-    # rubocop:disable Rails/HasAndBelongsToMany
-    has_and_belongs_to_many :repository_commits,
-                            class_name: "Repositories::Commit",
-                            association_foreign_key: "repository_commit_id"
-    has_and_belongs_to_many :repository_issues,
-                            class_name: "Repositories::Issue",
-                            association_foreign_key: "repository_issue_id"
-    has_and_belongs_to_many :repository_merge_requests,
-                            class_name: "Repositories::MergeRequest",
-                            association_foreign_key: "repository_merge_request_id"
-    # rubocop:enable Rails/HasAndBelongsToMany
+    has_many :repository_commit_work_packages, dependent: :destroy, class_name: "Repositories::CommitWorkPackage"
+    has_many :repository_commits,
+             through: :repository_commit_work_packages,
+             source: :commit,
+             class_name: "Repositories::Commit"
+    has_many :repository_issue_work_packages, dependent: :destroy, class_name: "Repositories::IssueWorkPackage"
+    has_many :repository_issues,
+             through: :repository_issue_work_packages,
+             source: :issue,
+             class_name: "Repositories::Issue"
+    has_many :repository_merge_request_work_packages, dependent: :destroy, class_name: "Repositories::MergeRequestWorkPackage"
+    has_many :repository_merge_requests,
+             through: :repository_merge_request_work_packages,
+             source: :merge_request,
+             class_name: "Repositories::MergeRequest"
   end
 end

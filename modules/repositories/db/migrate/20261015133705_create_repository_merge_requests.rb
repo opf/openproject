@@ -50,10 +50,13 @@ class CreateRepositoryMergeRequests < ActiveRecord::Migration[8.1]
       t.index %i[provider_id web_url], unique: true
     end
 
-    create_join_table :repository_merge_requests, :work_packages do |t|
-      t.index %i[work_package_id repository_merge_request_id], unique: true
-      t.foreign_key :work_packages, on_delete: :cascade
-      t.foreign_key :repository_merge_requests, on_delete: :cascade
+    create_table :repository_merge_request_work_packages do |t|
+      t.references :merge_request, null: false, foreign_key: { to_table: :repository_merge_requests, on_delete: :cascade }
+      t.references :work_package, null: false, index: false, foreign_key: { on_delete: :cascade }
+
+      t.timestamps precision: nil, null: false
+
+      t.index %i[work_package_id merge_request_id], unique: true
     end
   end
 end

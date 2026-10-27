@@ -35,6 +35,7 @@ module Repositories
     belongs_to :provider
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
 
-    has_and_belongs_to_many :work_packages # rubocop:disable Rails/HasAndBelongsToMany
+    has_many :commit_work_packages, dependent: :destroy
+    has_many :work_packages, through: :commit_work_packages
   end
 end

@@ -45,10 +45,13 @@ class CreateRepositoryCommits < ActiveRecord::Migration[8.1]
       t.timestamps precision: nil, null: false
     end
 
-    create_join_table :repository_commits, :work_packages do |t|
-      t.index %i[work_package_id repository_commit_id], unique: true
-      t.foreign_key :work_packages, on_delete: :cascade
-      t.foreign_key :repository_commits, on_delete: :cascade
+    create_table :repository_commit_work_packages do |t|
+      t.references :commit, null: false, foreign_key: { to_table: :repository_commits, on_delete: :cascade }
+      t.references :work_package, null: false, index: false, foreign_key: { on_delete: :cascade }
+
+      t.timestamps precision: nil, null: false
+
+      t.index %i[work_package_id commit_id], unique: true
     end
   end
 end

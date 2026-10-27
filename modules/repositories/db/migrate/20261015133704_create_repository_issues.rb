@@ -50,10 +50,13 @@ class CreateRepositoryIssues < ActiveRecord::Migration[8.1]
       t.index %i[provider_id web_url], unique: true
     end
 
-    create_join_table :repository_issues, :work_packages do |t|
-      t.index %i[work_package_id repository_issue_id], unique: true
-      t.foreign_key :work_packages, on_delete: :cascade
-      t.foreign_key :repository_issues, on_delete: :cascade
+    create_table :repository_issue_work_packages do |t|
+      t.references :issue, null: false, foreign_key: { to_table: :repository_issues, on_delete: :cascade }
+      t.references :work_package, null: false, index: false, foreign_key: { on_delete: :cascade }
+
+      t.timestamps precision: nil, null: false
+
+      t.index %i[work_package_id issue_id], unique: true
     end
   end
 end

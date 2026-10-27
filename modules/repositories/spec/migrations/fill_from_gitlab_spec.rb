@@ -40,15 +40,6 @@ RSpec.describe FillFromGitlab, type: :model do
   let(:wp_two) { create(:work_package, project: wp_one.project) }
   let(:wp_three) { create(:work_package, project: wp_one.project) }
 
-  def linked_work_package_ids(join_table, foreign_key, id)
-    ActiveRecord::Base.connection.select_values(
-      "SELECT work_package_id FROM #{join_table} WHERE #{foreign_key} = #{id.to_i}"
-    )
-  end
-
-  def issue_wp_ids(issue) = linked_work_package_ids("repository_issues_work_packages", "repository_issue_id", issue.id)
-  def mr_wp_ids(mr) = linked_work_package_ids("repository_merge_requests_work_packages", "repository_merge_request_id", mr.id)
-
   context "without any GitLab data" do
     it "does not create a provider" do
       migrate
@@ -134,8 +125,8 @@ RSpec.describe FillFromGitlab, type: :model do
       issue_a = Repositories::Issue.find_by!(web_url: issue_in_project_a.gitlab_html_url)
       issue_b = Repositories::Issue.find_by!(web_url: issue_in_project_b.gitlab_html_url)
 
-      expect(issue_wp_ids(issue_a)).to contain_exactly(wp_one.id)
-      expect(issue_wp_ids(issue_b)).to contain_exactly(wp_two.id)
+      expect(issue_a.work_package_ids).to contain_exactly(wp_one.id)
+      expect(issue_b.work_package_ids).to contain_exactly(wp_two.id)
     end
 
     it "attributes issues of duplicated users to the single migrated user" do
@@ -160,7 +151,7 @@ RSpec.describe FillFromGitlab, type: :model do
       migrate
       mr = Repositories::MergeRequest.find_by!(web_url: merge_request.gitlab_html_url)
 
-      expect(mr_wp_ids(mr)).to contain_exactly(wp_one.id, wp_three.id)
+      expect(mr.work_package_ids).to contain_exactly(wp_one.id, wp_three.id)
     end
 
     it "migrates each pipeline exactly once and attributes it to the deduplicated user" do

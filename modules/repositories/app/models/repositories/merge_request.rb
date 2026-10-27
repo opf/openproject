@@ -37,6 +37,7 @@ module Repositories
 
     has_many :pipelines, dependent: :destroy
 
-    has_and_belongs_to_many :work_packages # rubocop:disable Rails/HasAndBelongsToMany
+    has_many :merge_request_work_packages, dependent: :destroy
+    has_many :work_packages, through: :merge_request_work_packages
   end
 end
