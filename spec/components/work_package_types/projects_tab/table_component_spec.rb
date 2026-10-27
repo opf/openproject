@@ -87,6 +87,23 @@ RSpec.describe WorkPackageTypes::ProjectsTab::TableComponent, type: :component d
       .to have_css(".color-fg-muted", exact_text: I18n.t("projects.settings.types.project_specific_variant"))
   end
 
+  it "lets rows be selected but not dragged" do
+    table = page.find_by_id("project-table")
+
+    expect(table["data-sortable-lists-selection-enabled-value"]).to eq("true")
+    expect(table["data-sortable-lists-drag-enabled-value"]).to eq("false")
+  end
+
+  it "makes each row a focusable selection item identified by its project" do
+    expect(base_row["data-sortable-lists--item-id-value"]).to eq(on_base.id.to_s)
+    expect(base_row["tabindex"]).to eq("0")
+  end
+
+  it "offers switching and removal for the row's own project" do
+    expect(base_row).to have_css(".ActionListItem", text: "Switch variant")
+    expect(base_row).to have_css(".ActionListItem", text: "Remove type from this project")
+  end
+
   context "without any project" do
     let(:projects) { Project.none }
 

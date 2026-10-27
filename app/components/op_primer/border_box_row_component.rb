@@ -31,6 +31,8 @@ module OpPrimer
   class BorderBoxRowComponent < RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include ComponentHelpers
 
+    def row_tabindex = nil
+
     def mobile_label(column)
       return unless table.mobile_labels.include?(column)
 
