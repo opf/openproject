@@ -36,6 +36,18 @@ module WorkPackageTypes
       @variant = variant
     end
 
+    def apply(projects)
+      aggregate(projects) do |project|
+        source = applied_variant_of(project)
+
+        if source.nil?
+          ::Projects::Types::AddService.new(user:, model: project).call(variant:)
+        else
+          switch_one(project, source:, target: variant)
+        end
+      end
+    end
+
     def remove(projects)
       aggregate(projects) do |project|
         ::Projects::Types::RemoveService.new(user:, model: project).call(variant:)
@@ -44,16 +56,21 @@ module WorkPackageTypes
 
     def switch(projects, target:)
       aggregate(projects) do |project|
-        source = project.project_types.find_by(type_id: target.type_id)&.variant
-        next ServiceResult.success(result: project) if source == target
-
-        ::Projects::Types::SwitchVariantService.new(user:, model: project).call(source:, target:)
+        switch_one(project, source: applied_variant_of(project), target:)
       end
     end
 
     private
 
     attr_reader :user, :variant
+
+    def switch_one(project, source:, target:)
+      return ServiceResult.success(result: project) if source == target
+
+      ::Projects::Types::SwitchVariantService.new(user:, model: project).call(source:, target:)
+    end
+
+    def applied_variant_of(project) = project.project_types.find_by(type_id: variant.type_id)&.variant
 
     def aggregate(projects)
       ServiceResult.success(result: variant).tap do |aggregated|

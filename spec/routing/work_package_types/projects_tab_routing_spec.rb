@@ -60,9 +60,25 @@ RSpec.describe "Work package type projects tab routes" do
       expect(get: "#{prefix}/projects/new_switch").not_to be_routable
     end
 
-    it "still removes a single project through the legacy action" do
-      expect(delete: "#{prefix}/projects/unlink")
-        .to route_to("work_package_types/projects_tab#unlink", **ids)
+    it "opens the add dialog through the link resource" do
+      expect(get: "#{prefix}/projects/link/new")
+        .to route_to("work_package_types/projects_tab/links#new", **ids)
+    end
+
+    it "adds projects through the link resource" do
+      expect(post: "#{prefix}/projects/link")
+        .to route_to("work_package_types/projects_tab/links#create", **ids)
+    end
+
+    it "lists the projects that can be linked as nested candidates" do
+      expect(get: "#{prefix}/projects/link/candidates")
+        .to route_to("work_package_types/projects_tab/links/candidates#index", **ids)
+    end
+
+    it "no longer offers the legacy link actions" do
+      expect(get: "#{prefix}/projects/new_link").not_to be_routable
+      expect(get: "#{prefix}/projects/tree").not_to be_routable
+      expect(delete: "#{prefix}/projects/unlink").not_to be_routable
     end
   end
 
