@@ -78,6 +78,18 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
     end
   end
 
+  context "when there are several relevant epics" do
+    let!(:epic_charlie) { create(:work_package, type: epic_type, project:, sprint:, subject: "Charlie epic") }
+    let!(:epic_alpha) { create(:work_package, type: epic_type, project:, sprint:, subject: "Alpha epic") }
+    let!(:epic_bravo) { create(:work_package, type: epic_type, project:, sprint:, subject: "Bravo epic") }
+
+    it "shows them in alphabetical order" do
+      card_texts = rendered_component.css(".op-work-package-card").map(&:text)
+
+      expect(card_texts).to match([include("Alpha epic"), include("Bravo epic"), include("Charlie epic")])
+    end
+  end
+
   context "when a work package in the sprint has an epic ancestor" do
     let!(:epic) { create(:work_package, type: epic_type, project:) }
     let!(:feature) { create(:work_package, type: task_type, project:, parent: epic) }

@@ -57,7 +57,7 @@ module Backlogs
           @relevant_epics ||= begin
             epic_ids = historic? ? historic_relevant_epic_ids : live_relevant_epic_ids
 
-            as_of.where(id: epic_ids, type_id: epic_type_id).visible
+            as_of.where(id: epic_ids, type_id: epic_type_id).visible.order(:subject)
           end
         end
 

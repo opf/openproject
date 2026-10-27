@@ -106,6 +106,16 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
     end
   end
 
+  context "when a visible descendant sits below an invisible one" do
+    let(:other_project) { create(:project, types: [task_type]) }
+    let!(:invisible_feature) { create(:work_package, type: task_type, project: other_project, parent: epic) }
+    let!(:visible_story) { create(:work_package, type: task_type, project:, parent: invisible_feature) }
+
+    it "counts the visible descendant only" do
+      expect(rendered_component).to have_text("0 / 1 work packages")
+    end
+  end
+
   context "when the sprint is completed" do
     let(:before_completion) { 3.days.ago }
     let(:completed_at) { 2.days.ago }
@@ -156,6 +166,22 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
           expect(rendered_component).to have_text("1 / 1 work packages")
           expect(rendered_component).to have_text("(100%)")
         end
+      end
+    end
+
+    context "when a visible descendant sits below an invisible one" do
+      let(:other_project) { create(:project, types: [task_type]) }
+      let!(:invisible_feature) do
+        create(:work_package, :created_in_past, type: task_type, project: other_project, parent: epic,
+                                                created_at: before_completion)
+      end
+      let!(:visible_story) do
+        create(:work_package, :created_in_past, type: task_type, project:, parent: invisible_feature,
+                                                created_at: before_completion)
+      end
+
+      it "counts the visible descendant only" do
+        expect(rendered_component).to have_text("0 / 1 work packages")
       end
     end
   end
