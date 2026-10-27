@@ -35,8 +35,7 @@ RSpec.describe "Sprint report page", :js, with_ee: [:sprint_report_pro_widgets],
   # Required for epic progress widget:
   shared_let(:epic_type) { create(:type, name: "Epic") }
 
-  shared_let(:task_type) { create(:type_task) }
-  shared_let(:project) { create(:project, types: [epic_type, task_type]) }
+  shared_let(:project) { create(:project, types: [epic_type, create(:type_task)]) }
   shared_let(:sprint) do
     create(:sprint,
            project:,

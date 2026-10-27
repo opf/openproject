@@ -48,7 +48,7 @@ module Backlogs
 
         def render?
           EnterpriseToken.allows_to?(:sprint_report_pro_widgets) &&
-            user_allowed?(:view_sprints) && epic_type.present?
+            user_allowed?(:view_sprints) && epic_type_id.present?
         end
 
         private
@@ -57,18 +57,18 @@ module Backlogs
           @relevant_epics ||= begin
             epic_ids = historic? ? historic_relevant_epic_ids : live_relevant_epic_ids
 
-            as_of.where(id: epic_ids, type_id: epic_type.id).visible
+            as_of.where(id: epic_ids, type_id: epic_type_id).visible
           end
         end
 
-        def epic_type
-          return @epic_type if defined?(@epic_type)
+        def epic_type_id
+          return @epic_type_id if defined?(@epic_type_id)
 
-          @epic_type = Type.find_by(name: "Epic")
+          @epic_type_id = Type.where(name: "Epic").pick(:id)
         end
 
         def work_packages_in_sprint
-          as_of.where(sprint_id: sprint.id, project_id: project.id).visible
+          as_of.where(sprint:, project:).visible
         end
 
         def live_relevant_epic_ids

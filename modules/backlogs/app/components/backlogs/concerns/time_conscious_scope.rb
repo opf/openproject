@@ -35,11 +35,7 @@ module Backlogs::Concerns
   module TimeConsciousScope
     private
 
-    def historic?
-      return @historic if defined?(@historic)
-
-      @historic = sprint.completed_at.present?
-    end
+    def historic? = sprint.completed_at?
 
     def as_of
       @as_of ||= historic? ? WorkPackage.at_timestamp(Timestamp.new(sprint.completed_at)) : WorkPackage.all

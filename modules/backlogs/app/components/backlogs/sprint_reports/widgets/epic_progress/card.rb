@@ -64,8 +64,7 @@ module Backlogs
           end
 
           def resolved_work_packages_count
-            @resolved_work_packages_count ||=
-              work_packages_in_epic.where(status_id: project.done_status_ids | Status.where(is_closed: true).ids).count
+            @resolved_work_packages_count ||= work_packages_in_epic.where(status: project.statuses_considered_closed).count
           end
 
           def total_work_packages_count
@@ -77,11 +76,11 @@ module Backlogs
             children = ids
 
             until children.empty?
-              children = as_of.where(parent_id: children).pluck(:id) - found.to_a
+              children = as_of.where(parent_id: children).pluck(:id).to_set - found
               found.merge(children)
             end
 
-            found.to_a
+            found
           end
         end
       end
