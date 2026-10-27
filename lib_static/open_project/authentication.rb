@@ -33,6 +33,14 @@ module OpenProject
   ##
   # OpenProject uses Warden strategies for request authentication.
   module Authentication
+    ##
+    # Allowed segments of OpenProject's OAuth scopes, formatted as `op:<kind>:<resource>:<action>`.
+    # The `op` prefix keeps them apart from other services' scopes on a shared identity provider.
+    # Extending the lists is a deliberate core change. See docs/development/concepts/oauth-scopes.
+    OAUTH_SCOPE_KINDS = %w[resource].freeze
+    OAUTH_SCOPE_RESOURCES = %w[documents].freeze
+    OAUTH_SCOPE_ACTION_FORMAT = /\A[a-z][a-z0-9_]*\z/
+
     class << self
       ##
       # Registers a given Warden strategy to be used for authentication.
@@ -65,7 +73,9 @@ module OpenProject
       # @yieldparam [Set] strategies The strategies currently used by this scope. May be empty.
       # @yieldreturn [Set] The strategies to be used by this scope.
       def update_strategies(scope, opts = {}, &)
-        raise ArgumentError, "invalid scope: #{scope}" unless Scope.values.include? scope
+        unless Scope.values.include?(scope) # rubocop:disable Performance/InefficientHashSearch
+          raise ArgumentError, "invalid scope: #{scope}"
+        end
 
         config = Manager.scope_config scope
         config.update!(opts, &)
@@ -85,6 +95,59 @@ module OpenProject
       # @yieldreturn [Array] A rack standard response such as `[401, {}, ['unauthenticated']]`.
       def handle_failure(scope: nil, &block)
         Manager.failure_handlers[scope] = block
+      end
+
+      ##
+      # Registers an OAuth scope that authenticates for the given Warden scope, but only grants
+      # access to endpoints opting in via `route_setting :oauth_scopes`. The scope is always
+      # internal, i.e. it can't be assigned to OAuth applications.
+      # Raises an ArgumentError on an invalid format or an unknown Warden scope.
+      # See docs/development/concepts/oauth-scopes.
+      #
+      # @param [String] oauth_scope The OAuth scope, formatted as `op:<kind>:<resource>:<action>`.
+      # @param [Symbol] restricted_to The Warden scope (see `OpenProject::Authentication::Scope`).
+      def register_restricted_oauth_scope(oauth_scope, restricted_to:)
+        oauth_scope = oauth_scope.to_s
+        validate_oauth_scope_format!(oauth_scope)
+        unless Scope.values.include?(restricted_to) # rubocop:disable Performance/InefficientHashSearch
+          raise ArgumentError, "unknown Warden scope: #{restricted_to}"
+        end
+
+        Doorkeeper.configuration.scopes.add(oauth_scope)
+        internal_oauth_scope_registry << oauth_scope
+        restricted_oauth_scope_registry[restricted_to] << oauth_scope
+      end
+
+      def restricted_oauth_scopes(warden_scope)
+        restricted_oauth_scope_registry.fetch(warden_scope, []).to_a
+      end
+
+      def internal_oauth_scopes
+        internal_oauth_scope_registry.to_a
+      end
+
+      private
+
+      def validate_oauth_scope_format!(oauth_scope)
+        prefix, kind, resource, action, *rest = oauth_scope.split(":", -1)
+        return if prefix == "op" &&
+                  OAUTH_SCOPE_KINDS.include?(kind) &&
+                  OAUTH_SCOPE_RESOURCES.include?(resource) &&
+                  OAUTH_SCOPE_ACTION_FORMAT.match?(action.to_s) &&
+                  rest.empty?
+
+        raise ArgumentError,
+              "invalid OAuth scope #{oauth_scope.inspect}: expected op:<kind>:<resource>:<action> " \
+              "with kind in #{OAUTH_SCOPE_KINDS.inspect}, resource in #{OAUTH_SCOPE_RESOURCES.inspect} " \
+              "and a lowercase action"
+      end
+
+      def restricted_oauth_scope_registry
+        @restricted_oauth_scope_registry ||= Hash.new { |hash, key| hash[key] = Set.new }
+      end
+
+      def internal_oauth_scope_registry
+        @internal_oauth_scope_registry ||= Set.new
       end
     end
 
@@ -249,9 +312,10 @@ module OpenProject
         Manager.scope_config(scope).realm || default_realm
       end
 
-      def response_header(env:, scope: nil, error: nil, error_description: nil)
+      def response_header(env:, scope: nil, oauth_scopes: nil, error: nil, error_description: nil)
+        oauth_scope = oauth_scopes ? oauth_scopes.join(" ") : scope
         header = %{Bearer realm="#{scope_realm(scope)}", resource_metadata="#{resource_metadata(env)}"}
-        header << %{, scope="#{escape_string scope}"} if scope
+        header << %{, scope="#{escape_string oauth_scope}"} if oauth_scope
 
         if error
           header << %{, error="#{escape_string error}"}
