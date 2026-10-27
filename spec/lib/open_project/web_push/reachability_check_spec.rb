@@ -94,7 +94,7 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
   context "when only the Apple probe raises" do
     before do
       allow(OpenProject::SsrfProtection).to receive(:head) do |url, **|
-        raise Net::OpenTimeout if url.include?("apple.com")
+        raise Net::OpenTimeout if url == "https://web.push.apple.com/"
 
         response
       end
