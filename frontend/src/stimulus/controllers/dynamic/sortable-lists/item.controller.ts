@@ -50,6 +50,7 @@ import {
   type SortableListsRoot,
 } from './drag-and-drop';
 import {
+  dragDisabledByRoot,
   isMoveDirection,
   isOrderableItem,
   itemMobility,
@@ -189,8 +190,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private register():void {
     this.cleanupFn = combine(
       // A non-movable item registers no draggable but stays a drop target:
-      // its movable neighbors still anchor on it.
-      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
+      // its movable neighbors still anchor on it. Nor does any item of a root
+      // that only selects.
+      isOrderableItem(this.element) && !dragDisabledByRoot(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }
