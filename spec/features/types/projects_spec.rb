@@ -291,4 +291,69 @@ RSpec.describe "Work package type projects tab", :js do
     expect(page).to have_test_selector("type-projects-enable-all",
                                        text: I18n.t("types.edit.projects.disable_all"))
   end
+
+  describe "acting on several projects at once" do
+    def row(project) = find_test_selector("type-projects-row-#{project.id}")
+
+    def toggle(project)
+      row(project).click(BrowserPlatform.multi_select_modifier(page), x: 6, y: 6, offset: :position)
+    end
+
+    def open_menu_of(project)
+      row(project).right_click(x: 6, y: 6, offset: :position)
+    end
+
+    def choose_menu_item(label)
+      find("[role='menuitem']", text: label, visible: :visible).click
+    end
+
+    it "switches the selected projects to another variant" do
+      visit edit_type_projects_path(type_id: type.id)
+
+      toggle(on_base)
+      toggle(on_hardware)
+      open_menu_of(on_hardware)
+
+      expect(page).to have_css("[role='menuitem']", text: "Remove type from these projects", visible: :visible)
+      choose_menu_item("Switch variant")
+
+      within "#type-projects-bulk-switch-dialog" do
+        select "Bug: Firmware", from: "New type or variant"
+        click_button "Apply"
+      end
+
+      wait_for_size_animation_completion("#type-projects-bulk-switch-confirm-dialog")
+      within "#type-projects-bulk-switch-confirm-dialog" do
+        check "I understand that I will lose information from some custom fields"
+        click_button "Switch"
+      end
+
+      expect(page).to have_text("The selected projects now use Bug: Firmware.")
+      expect(row(on_base)).to have_text("Firmware")
+      expect(row(on_hardware)).to have_text("Firmware")
+    end
+
+    it "removes the type where it can and names the projects where it cannot" do
+      create(:work_package, project: on_base, type:)
+      visit edit_type_projects_path(type_id: type.id)
+
+      toggle(on_base)
+      toggle(on_firmware)
+      open_menu_of(on_firmware)
+      choose_menu_item("Remove type from these projects")
+
+      wait_for_size_animation_completion("#type-projects-bulk-remove-dialog")
+      within "#type-projects-bulk-remove-dialog" do
+        check "I understand that this type will no longer be available in the selected projects"
+        click_button "Remove"
+      end
+
+      within "#project-table" do
+        expect(page).to have_no_text("Laboratory")
+        expect(page).to have_text("Bookshop")
+        expect(page).to have_no_css("[data-batch-selected]")
+      end
+      expect(page).to have_css(".op-primer-flash--item", text: "Bookshop")
+    end
+  end
 end
