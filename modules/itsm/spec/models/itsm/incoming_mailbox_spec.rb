@@ -100,7 +100,7 @@ RSpec.describe ITSM::IncomingMailbox do
   end
 
   context "with aliases" do
-    let(:aliases) { [" Help@Example.com ", "", "help@example.com", "billing@example.com"] }
+    let(:aliases) { [" Help@Example.com ", "", nil, "help@example.com", "billing@example.com"] }
 
     it "normalizes them" do
       expect(mailbox.aliases).to eq(%w[help@example.com billing@example.com])

@@ -55,9 +55,15 @@ RSpec.describe ITSM::MailServer::Connection do
   end
 
   context "with an unknown protocol" do
-    before { connection.protocol = "pop3" }
+    subject(:connection) { build(:itsm_mail_server_connection, :imap, mail_server:, protocol: "pop3") }
 
     it { is_expected.not_to be_valid }
+  end
+
+  context "when its protocol is changed" do
+    it "is rejected" do
+      expect { connection.protocol = "smtp" }.to raise_error(ActiveRecord::ReadonlyAttributeError)
+    end
   end
 
   context "with an upper case host, surrounding whitespace and a trailing dot" do

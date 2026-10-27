@@ -30,6 +30,6 @@
 module ITSM
   module EmailAddress
     NORMALIZE = ->(address) { address.strip.downcase }
-    NORMALIZE_ALL = ->(addresses) { addresses.map(&NORMALIZE).compact_blank.uniq }
+    NORMALIZE_ALL = ->(addresses) { addresses.compact.map(&NORMALIZE).compact_blank.uniq }
   end
 end

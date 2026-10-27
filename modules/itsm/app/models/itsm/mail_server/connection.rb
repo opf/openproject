@@ -37,6 +37,8 @@ module ITSM
                                     dependent: :restrict_with_error
       has_many :health_reports, as: :subject, dependent: :delete_all
 
+      attr_readonly :protocol
+
       enum :protocol, { imap: "imap", smtp: "smtp" }, validate: true
       enum :encryption, { tls: "tls", starttls: "starttls" }, validate: true
 
