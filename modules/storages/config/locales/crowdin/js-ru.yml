@@ -26,16 +26,14 @@ ru:
         select: Выберите файлы
         select_all: Выбрать все
         selection:
-          zero: Выберите файлы для связывания
-          one: Ссылка на файл
-          few: Ссылка на %{count} файлов
-          many: Ссылка на %{count} файлов
-          other: Ссылка на %{count} файлов
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: 1 ссылка на файл успешно создана.
-          few: Успешно создано %{count} ссылок на файл.
-          many: Успешно создано %{count} ссылок на файл.
-          other: Успешно создано %{count} ссылок на файл.
+          one: Successfully created %{count} file link.
+          few: Successfully created %{count} file links.
+          many: Successfully created %{count} file links.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Этот файл не найден.
           not_logged_in: Пожалуйста, войдите в хранилище для доступа к этому файлу.

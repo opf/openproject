@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -90,14 +89,14 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
     end
 
     # The browser runs five hours behind the server here, which must not move the entry
-    # to the neighbouring day.
+    # to the neighboring day.
     select_day(thursday)
 
     time_logging_modal.has_field_with_value "spent_on", thursday.iso8601
   end
 
   # The slot lanes lie over the day columns and are what a click actually lands on, so the
-  # day is picked by clicking a lane at that column's horizontal centre, as a user does.
+  # day is picked by clicking a lane at that column's horizontal center, as a user does.
   def select_day(date)
     # The stack renders once its frame has loaded, so wait for the grid before measuring it.
     find("td.fc-timegrid-col[data-date='#{date.iso8601}']")

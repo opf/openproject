@@ -56,7 +56,7 @@ export const sortableItemMobilityAttribute = 'data-sortable-lists--item-mobility
  */
 export type ItemMobility = 'fixed'|'confined'|'free';
 
-const recognisedMobilities = new Set<string>(['fixed', 'confined', 'free']);
+const recognizedMobilities = new Set<string>(['fixed', 'confined', 'free']);
 
 // Rows are the direct children of the list's resolved rows container. The
 // rows container itself (a nested <ul>, the list element, ...) is decided by the list
@@ -91,7 +91,7 @@ export const sortableItemTypeAttribute = 'data-sortable-lists--item-type-value';
  * The item's mobility.
  *
  * An absent attribute means `free`, so a consumer that renders no mobility
- * keeps working. A present but unrecognised value fails closed to `fixed`: a
+ * keeps working. A present but unrecognized value fails closed to `fixed`: a
  * typo must not hand the user a draggable card, live move actions and a
  * selectable row that only fail once the request comes back.
  */
@@ -102,8 +102,8 @@ export function itemMobility(itemElement:Element):ItemMobility {
     return 'free';
   }
 
-  if (!recognisedMobilities.has(value)) {
-    debugLog(`sortable-lists: unrecognised mobility "${value}", treating the item as fixed`);
+  if (!recognizedMobilities.has(value)) {
+    debugLog(`sortable-lists: unrecognized mobility "${value}", treating the item as fixed`);
     return 'fixed';
   }
 
@@ -468,7 +468,7 @@ export function resolveMoveAvailability({
   };
 }
 
-// The item's row neighbourhood, scanned once and shared by the per-direction
+// The item's row neighborhood, scanned once and shared by the per-direction
 // resolutions above.
 interface RowContext {
   rows:Element[];

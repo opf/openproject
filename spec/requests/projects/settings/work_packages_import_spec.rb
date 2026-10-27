@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -36,7 +35,8 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
   shared_let(:default_status) { create(:default_status, name: "New") }
   shared_let(:default_priority) { create(:default_priority, name: "Normal") }
   shared_let(:importer_role) do
-    create(:project_role, permissions: %i[view_work_packages add_work_packages import_work_packages])
+    create(:project_role,
+           permissions: %i[view_work_packages add_work_packages import_work_packages work_package_assigned])
   end
   shared_let(:plain_role) { create(:project_role, permissions: %i[view_work_packages add_work_packages]) }
   shared_let(:importer) { create(:user, member_with_roles: { project => importer_role }) }
@@ -73,11 +73,12 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
         expect(response).to have_http_status(:ok)
       end
 
-      it "serves the template" do
+      it "serves the template, with the examples naming the user downloading it" do
         get template_path
 
         expect(response).to have_http_status(:ok)
         expect(response.media_type).to eq("text/csv")
+        expect(response.body).to include(importer.mail)
       end
 
       it "accepts an upload" do
@@ -387,7 +388,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     before { login_as importer }
 
     def upload(dry_run: "1")
-      upload_content(WorkPackages::Import::CSV::Template.call(project:), dry_run:)
+      upload_content("Subject,Type\nWrite the docs,Task\nFix the bug,Task\n", dry_run:)
     end
 
     def upload_content(body, dry_run: "1")
@@ -725,7 +726,7 @@ RSpec.describe "Work package CSV import", :skip_csrf, type: :rails_request do
     it "sends what the template builder produced, named for download" do
       get template_path
 
-      expect(response.body).to eq(WorkPackages::Import::CSV::Template.call(project:))
+      expect(response.body).to eq(WorkPackages::Import::CSV::Template.call(project:, user: importer))
       expect(response.headers["Content-Disposition"])
         .to include(WorkPackages::Import::CSV::Template::FILENAME)
     end

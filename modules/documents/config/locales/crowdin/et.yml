@@ -48,7 +48,7 @@ et:
   documents:
     active_editors: Aktiivsed toimetajad
     active_editors_count:
-      one: 1 active editor
+      one: "%{count} active editor"
       other: "%{count} active editors"
     admin:
       collaboration_settings:

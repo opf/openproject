@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -168,23 +167,28 @@ RSpec.describe "Creating a named workflow", :js do
 
     visit edit_workflow_path(spare)
     find_test_selector("workflow-actions").click
+    click_on I18n.t(:button_delete)
 
-    accept_confirm { find_test_selector("workflow-delete-action").click }
+    within("##{Workflows::Index::DeleteDialogComponent::DIALOG_ID}") do
+      click_on I18n.t("workflows.delete.button")
+    end
 
     expect(page).to have_current_path(workflows_path)
     expect(page).to have_text(I18n.t(:notice_successful_delete))
     expect(Workflow).not_to exist(spare.id)
   end
 
-  it "refuses to delete a workflow a type still uses" do
+  it "requires a replacement to delete a workflow a type still uses" do
     in_use = create(:type, name: "Task").default_variant.workflow
 
     visit edit_workflow_path(in_use)
     find_test_selector("workflow-actions").click
+    click_on I18n.t(:button_delete)
 
-    accept_confirm { find_test_selector("workflow-delete-action").click }
+    within("##{Workflows::Index::DeleteDialogComponent::DIALOG_ID}") do
+      expect(page).to have_text(I18n.t("workflows.delete.replace_label"))
+    end
 
-    expect(page).to have_current_path(workflows_path)
     expect(Workflow).to exist(in_use.id)
   end
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -128,6 +127,8 @@ Rails.application.config.after_initialize do
       img_src = %w('self') + Array(OpenProject::Configuration.csp_img_src)
       img_src << asset_host if asset_host.present?
       policy.img_src(*img_src.compact.uniq)
+      policy.manifest_src("'self'")
+      policy.worker_src("'self'")
       policy.script_src(*script_src)
       policy.script_src_attr("'none'")
       policy.style_src(*assets_src, "'unsafe-inline'")

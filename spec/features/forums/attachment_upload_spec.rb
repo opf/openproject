@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -65,11 +64,14 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     click_link_or_button "Create"
     wait_for_network_idle
 
-    expect(page).to have_css("#content .wiki img", count: 1)
+    expect(page).to have_css("#content .op-uc-container img", count: 1)
     expect(page).to have_content("Image uploaded on creation")
     attachments_list.expect_attached("image.png")
 
-    page.find_test_selector("message-edit-button").click
+    within_test_selector("forum-post-#{Message.last.id}") do
+      click_on accessible_name: "Message actions"
+      click_on "Edit message"
+    end
 
     editor.wait_until_loaded
     editor.drag_attachment image_fixture.path, "Image uploaded the second time"
@@ -80,7 +82,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     click_link_or_button "Save"
     wait_for_network_idle
 
-    expect(page).to have_css("#content .wiki img", count: 2)
+    expect(page).to have_css("#content .op-uc-container img", count: 2)
     expect(page).to have_content("Image uploaded on creation")
     expect(page).to have_content("Image uploaded the second time")
 

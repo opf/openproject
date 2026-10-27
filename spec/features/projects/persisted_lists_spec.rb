@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,11 +22,10 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -38,7 +37,7 @@ RSpec.describe "Persisted lists on projects index page",
 
   shared_let(:manager)   { create(:project_role, name: "Manager") }
   # The permission is not necessary for any of the tests. But it enables one more code path
-  # where a regression occured before (#72362).
+  # where a regression occurred before (#72362).
   shared_let(:developer) { create(:project_role, name: "Developer", permissions: %i(export_projects)) }
 
   shared_let(:custom_field) { create(:text_project_custom_field) }
@@ -251,7 +250,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
+      wait_for_reload # changing filters is still done via page reload
 
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
@@ -348,7 +347,7 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.open_filters
       projects_page.filter_by_membership("yes")
 
-      wait_for_reload # chnaging filters is still done via page reload
+      wait_for_reload # changing filters is still done via page reload
 
       # Rename menu item is now shown after applying filters
       projects_page.expect_no_menu_item("Rename", visible: false)

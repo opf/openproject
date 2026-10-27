@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -339,7 +338,7 @@ module OpenProject
 
     describe "#format_date" do
       context "without a date_format setting", with_settings: { date_format: "" } do
-        it "uses the locale formate" do
+        it "uses the locale format" do
           expect(format_date(Time.zone.today))
             .to eql described_class.l(Time.zone.today)
         end
@@ -373,7 +372,7 @@ module OpenProject
       end
     end
 
-    describe "#numer_to_human_size" do
+    describe "#number_to_human_size" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
           it "does not raise an error" do

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
   end
 
-  describe "with correct updating behaviour" do
+  describe "with correct updating behavior" do
     def open_dialog
       dialog = overview_page.open_modal_for_custom_field(custom_field).dialog
 
@@ -463,7 +462,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
                                       member_with_roles: { project => reader_role })
           end
 
-          it "saves selected placeholer user properly" do
+          it "saves selected placeholder user properly" do
             custom_field.custom_values.delete_all
 
             overview_page.visit_page
@@ -695,7 +694,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         # all the custom field accessors on every project, and that leads to having the
         # empty custom values created. This is a compromise to avoid further patching the
         # aac plugin and increase complexity. We will also get rid of the patch and this
-        # behaviour in a latter ticket https://community.openproject.org/wp/53729 .
+        # behavior in a latter ticket https://community.openproject.org/wp/53729 .
         # An extra expectation is added to make sure we don't activate other custom fields,
         # so there are no unwanted side effects.
 

@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -76,7 +75,7 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
         # The candidate set is too large to enumerate (`allowed_values`
         # intentionally raises), so the filter must render as a server-side
         # autocompleter against the work_packages resource. Matches the
-        # Angular `op-filter-searchable-multiselect-value` behaviour.
+        # Angular `op-filter-searchable-multiselect-value` behavior.
         expect(filter.autocomplete_options).to eq(
           component: "opce-autocompleter",
           resource: "work_packages",

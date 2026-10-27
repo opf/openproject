@@ -184,8 +184,8 @@ fr:
         all: Toutes les pages du wiki
         main: Pages principales du wiki
       sub_pages_count:
-        one: 1 sous-page
-        other: "%{count} sous-pages"
+        one: Sous-page %{count}
+        other: Sous-pages %{count}
     inline_wiki_page_dialog:
       title_add: Ajouter une page wiki existante
       title_create: Créer une nouvelle page wiki

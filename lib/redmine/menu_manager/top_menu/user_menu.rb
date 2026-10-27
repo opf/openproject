@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -85,7 +84,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
 
     if User.current.logged?
       if avatar.present?
-        dialog.with_show_button(px: 0, **options) do |button|
+        dialog.with_show_button(px: 0, aria: { label: I18n.t("label_user_menu") }, **options) do |button|
           button.with_tooltip(text: I18n.t("label_user_menu"))
           avatar
         end
@@ -151,7 +150,7 @@ module Redmine::MenuManager::TopMenu::UserMenu
       test_selector: "op-menu--whats-new",
       content_arguments: { data: { controller: "async-dialog" } }
     ) do |menu_item|
-      menu_item.with_leading_visual_icon(icon: :megaphone)
+      menu_item.with_leading_visual_icon(icon: :gift)
       unless release.seen?(User.current)
         menu_item.with_trailing_visual_icon(
           icon: :"dot-fill",

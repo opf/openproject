@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -142,14 +141,14 @@ module API
           end
         end
 
-        # Overriding Roar::Hypermedia#perpare_link_for
+        # Overriding Roar::Hypermedia#prepare_link_for
         # to remove the cache_if option which would otherwise
         # be visible in the output
         def prepare_link_for(href, options)
           super(href, options.except(:cache_if, :uncacheable))
         end
 
-        # Overriding Roar::Hypermedia#combile_links_for
+        # Overriding Roar::Hypermedia#compile_links_for
         # to remove all uncacheable links if the caching_state is set to :cacheable
         def compile_links_for(configs, *)
           current_configs = case caching_state

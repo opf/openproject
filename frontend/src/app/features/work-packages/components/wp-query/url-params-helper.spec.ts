@@ -57,7 +57,7 @@ describe('UrlParamsHelper', () => {
       queryString = UrlParamsHelper.buildQueryString(params)!;
     });
 
-    it("concatenates propertys with '&'", () => {
+    it("concatenates properties with '&'", () => {
       expect(queryString.split('&').length).toEqual(5);
     });
 

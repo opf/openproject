@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -52,7 +51,7 @@ module OpenProject
             # For all other requests, to mitigate CSRF vectors,
             # require browser indication that this was a same-origin request
             # we also allow the legacy X-Requested-With header in addition to that, since Sec-Fetch-Site
-            # is only sent via HTTPS (specifically: Only to "potentially trustworty origin"s)
+            # is only sent via HTTPS (specifically: Only to "potentially trustworthy origin"s)
             same_origin? || (!Setting.https? && xml_request_header_set?)
           end
 

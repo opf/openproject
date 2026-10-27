@@ -13,6 +13,7 @@ uk:
         icon: Користувацький значок
         identifier: Ідентифікатор
         idp_cert: Загальнодоступний сертифікат постачальника ідентифікаційних даних
+        idp_cert_fingerprint: Identity provider certificate fingerprint
         idp_entity_id: ID сутності постачальника ідентифікаційних даних
         idp_slo_service_url: Кінцева точка виходу постачальника ідентифікаційних даних
         idp_sso_service_url: Кінцева точка входу постачальника ідентифікаційних даних
@@ -154,6 +155,9 @@ uk:
       metadata_too_large: Розмір файлу метаданих перевищує максимально допустимий.
       success: Конфігурацію оновлено за допомогою метаданих постачальника ідентифікаційних даних.
     providers:
+      apply_metadata:
+        expired: This metadata preview has expired or is invalid. Refresh the metadata again to review the latest configuration.
+        provider_changed: The provider configuration has changed since this preview. Refresh the metadata again to review the latest configuration.
       attribute_mapping: Зіставлення атрибутів
       attribute_mapping_text: 'Наведені нижче поля визначають, які атрибути, надані постачальником ідентифікаційних даних SAML, використовуються для надання атрибутів користувача в OpenProject
 
@@ -173,9 +177,19 @@ uk:
       label_uid: Внутрішній ID користувача
       metadata:
         dialog: 'Це URL-адреса, за якою доступні метадані SAML OpenProject. Ви можете використовувати її для налаштування свого постачальника ідентифікаційних даних:'
+      metadata_changes:
+        table_component:
+          current_value: Current value
+          mobile_title: Metadata changes
+          new_value: New value
       no_results_table: Поки не визначеного жодного постачальника ідентифікаційних даних SAML.
       notice_created: Нового постачальника ідентифікаційних даних SAML успішно створено.
       plural: Постачальники ідентифікаційних даних SAML
+      refresh_metadata:
+        apply: Apply changes
+        description: Review the configuration fetched from your identity provider. Changes are saved only when you apply them.
+        no_changes: The metadata matches the current configuration.
+        title: Review metadata changes
       request_attributes:
         format: Формат атрибута
         legend: 'Ці атрибути додаються до XML метаданих SAML. Таким чином постачальник ідентифікаційних даних може дізнатися, які атрибути потрібні OpenProject. Можливо, вам усе одно знадобиться явно налаштувати свого постачальника ідентифікаційних даних для надсилання цих атрибутів. Ознайомтеся з документацією постачальника ідентифікаційних даних.
@@ -199,6 +213,10 @@ uk:
         metadata_form_banner: 'Редагування метаданих може замінити наявні значення в інших розділах. '
         requested_attributes: Визначте набір атрибутів, які передаватимуться в запиті SAML, що надсилається вашому постачальнику ідентифікаційних даних.
       seeded_from_env: Цього постачальника додано з конфігурації середовища. Його не можна змінити.
+      side_panel:
+        refresh_metadata_component:
+          button: Refresh metadata
+          description: You can check if the configuration fetched from your identity provider has changed.
       singular: Постачальник ідентифікаційних даних SAML
       upsell:
         description: Підключіть OpenProject до постачальника ідентифікаційних даних SAML

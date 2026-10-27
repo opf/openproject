@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -169,7 +168,7 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
       context "with #{value.inspect}" do
         let(:value) { value }
 
-        it "normalises to the DB true value" do
+        it "normalizes to the DB true value" do
           expect(subject).to eql OpenProject::Database::DB_VALUE_TRUE
         end
       end
@@ -179,7 +178,7 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
       context "with #{value.inspect}" do
         let(:value) { value }
 
-        it "normalises to the DB false value" do
+        it "normalizes to the DB false value" do
           expect(subject).to eql OpenProject::Database::DB_VALUE_FALSE
         end
       end

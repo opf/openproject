@@ -61,6 +61,7 @@ pt-BR:
         single: Selecionar "%{name}"
       remove: Remover %{name}
     autocompleter:
+      create_label: Create label
       notFoundText: Nenhum item encontrado
       placeholder: Escreva para pesquisar
       project:
@@ -162,6 +163,7 @@ pt-BR:
     button_stop_timer: Parar temporizador
     button_uncheck_all: Desmarcar todos
     button_update: Atualizar
+    button_view_markdown: View Markdown
     caption_rate_history: Taxa histórica
     card:
       add_new: Adicionar novo cartão
@@ -359,8 +361,8 @@ pt-BR:
     ical_sharing_modal:
       copy_url_label: Copiar URL
       description: Você pode usar a URL (iCalendar) para assinar este calendário em um cliente externo e exibir informações atualizadas do pacote de trabalho a partir dele.
-      ical_generation_error_text: Ocorreu um erro ao gerar o URL do calendário.
-      inital_setup_error_message: Ocorreu um erro ao buscar dados.
+      ical_generation_error_text: An error occurred while generating the calendar URL.
+      inital_setup_error_message: An error occurred while fetching data.
       success_message: O URL "%{name}" foi copiado com sucesso para sua área de transferência. Cole-o em seu cliente de calendário para concluir a assinatura.
       title: Assinar calendário
       token_name_description_text: Se você assinar este calendário em vários dispositivos, este nome ajudará a diferenciá-los na sua lista de <a href="%{myAccessTokensUrl}" target="_blank">tokens de acesso</a>.
@@ -552,6 +554,8 @@ pt-BR:
     label_reset: Reiniciar
     label_resize_project_menu: Redimensionar menu do projeto
     label_save_as: Salvar como
+    label_scroll_left: Scroll left
+    label_scroll_right: Scroll right
     label_search_columns: Buscar uma coluna
     label_select_watcher: Selecione um observador...
     label_selected_filter_list: Filtros selecionados
@@ -624,8 +628,8 @@ pt-BR:
     notifications:
       center:
         and_more_users:
-          one: e 1 outro
-          other: e %{count} outros
+          one: and %{count} other
+          other: and %{count} others
         empty_state:
           no_notification: Parece que você já está com tudo em dia.
           no_notification_for_filter: Parece que você já está com tudo em dia para este filtro.
@@ -828,12 +832,12 @@ pt-BR:
         not_selectable: Seleção inalterada. Este item não faz parte da ordenação desta lista.
         range_blocked: Seleção inalterada. Esse intervalo contém um item que não faz parte da ordenação desta lista.
         range_restarted:
-          one: Não foi possível ampliar o intervalo. 1 item selecionado.
-          other: Não foi possível ampliar o intervalo. %{count} itens selecionados.
+          one: Could not extend the range. %{count} item selected.
+          other: Could not extend the range. %{count} items selected.
         range_unavailable: Seleção inalterada. Expanda a lista para selecionar todo o intervalo.
         selected:
-          one: 1 item selecionado.
-          other: "%{count} itens selecionados."
+          one: "%{count} item selected."
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: Fechar o modal
@@ -882,20 +886,20 @@ pt-BR:
       label_two_factor_authentication: Autenticação de dois fatores
     units:
       child_work_packages:
-        one: um pacote de trabalho filho
-        other: "%{count} pacotes de trabalho filhos"
+        one: "%{count} child work package"
+        other: "%{count} work package children"
       day:
-        one: 1 dia
+        one: "%{count} day"
         other: "%{count} dias"
         zero: 0 dias
       hour:
-        one: 1 h
+        one: "%{count} h"
         other: "%{count} hs"
         zero: 0 h
       hour_string: "%{hours} h"
       word:
-        one: 1 palavra
-        other: "%{count} palavras"
+        one: "%{count} word"
+        other: "%{count} words"
       workPackage:
         one: pacote de trabalho
         other: pacotes de trabalho

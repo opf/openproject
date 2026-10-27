@@ -110,9 +110,12 @@ describe('Progress preview controller', () => {
     await setValue('estimated_hours', '12');
 
     const frame = ctx.container.querySelector('turbo-frame') as HTMLElement & { src:string };
-    await waitFor(() => { expect(frame.src).toContain('/work_packages/1/progress/preview?'); });
-    const params = new URL(frame.src, window.location.origin).searchParams;
-    expect(params.get('work_package[estimated_hours]')).toBe('12');
+    const previewParams = () => new URL(frame.src, window.location.origin).searchParams;
+    await waitFor(() => {
+      expect(frame.src).toContain('/work_packages/1/progress/preview?');
+      expect(previewParams().get('work_package[estimated_hours]')).toBe('12');
+    });
+    const params = previewParams();
     expect(params.get('work_package[estimated_hours_touched]')).toBe('true');
     expect(params.get('work_package[remaining_hours_touched]')).toBe('false');
     expect(params.get('field')).toBe('work_package[estimated_hours]');

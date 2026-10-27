@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -50,6 +49,7 @@ class WorkPackage < ApplicationRecord
 
   include OpenProject::Journal::AttachmentHelper
 
+  AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX = "work_package_custom_fields_"
   DONE_RATIO_OPTIONS = %w[field status].freeze
   TOTAL_PERCENT_COMPLETE_MODE_OPTIONS = %w[work_weighted_average simple_average].freeze
 
@@ -506,6 +506,10 @@ class WorkPackage < ApplicationRecord
     end
   end
 
+  def self.clear_available_custom_fields_cache
+    RequestStore.store.delete_if { |key, _| key.to_s.start_with?(AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX) }
+  end
+
   def self.preload_available_custom_fields(work_packages)
     type_variant_ids = type_variant_ids_by_pair(work_packages)
 
@@ -592,7 +596,7 @@ class WorkPackage < ApplicationRecord
   private_class_method :form_configuration_custom_fields_join
 
   def self.available_custom_field_key(work_package)
-    :"work_package_custom_fields_#{work_package.project_id}_#{work_package.type_id}"
+    :"#{AVAILABLE_CUSTOM_FIELDS_CACHE_PREFIX}#{work_package.project_id}_#{work_package.type_id}"
   end
 
   private_class_method :available_custom_field_key
@@ -623,6 +627,10 @@ class WorkPackage < ApplicationRecord
   end
 
   private
+
+  def default_custom_field_value(custom_field)
+    custom_field.keep_usable_values(super, project)
+  end
 
   def derived_progress_hints
     @derived_progress_hints ||= {}

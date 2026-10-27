@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -160,7 +159,7 @@ class TimeEntriesController < ApplicationController
   end
 
   def prefill_time_entry_from_params # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    # correct time calcuation needs a time zone
+    # correct time calculation needs a time zone
     @time_entry.time_zone ||= User.current.time_zone.name
 
     if params[:date].present?
@@ -174,7 +173,7 @@ class TimeEntriesController < ApplicationController
       @time_entry.spent_on = parsed_start_time.to_date
 
       # FullCalendar sends the same time for start and end if the event is an "all-day event" or
-      # in our case "no speicific time"
+      # in our case "no specific time"
       if parsed_start_time != parsed_end_time
         @time_entry.start_time = (parsed_start_time.hour * 60) + parsed_start_time.min
         @time_entry.hours = ((parsed_end_time - parsed_start_time) / 1.hour).round(2)

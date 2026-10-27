@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -45,6 +44,38 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
   end
 
   before { login_as admin }
+
+  describe "default role selection" do
+    shared_let(:other_role) { create(:project_role) }
+    shared_let(:other_transition) do
+      create(:status_transition, workflow: type.default_variant.workflow, role: other_role,
+                                 old_status: status_a, new_status: status_b, author: true)
+    end
+
+    it "selects all used roles in the standalone page, type tab, and creation wizard" do
+      [edit_workflow_path(type.default_variant.workflow),
+       edit_type_workflow_path(type),
+       type_creation_wizard_path(type, step: :workflows)].each do |path|
+        get path
+
+        expect(response).to have_http_status(:ok)
+        frame = response.parsed_body.at_css("turbo-frame#workflow-table")
+        query = Rack::Utils.parse_nested_query(URI.parse(frame["src"]).query)
+        expect(query["role_ids"]).to contain_exactly(role.id.to_s, other_role.id.to_s)
+      end
+    end
+
+    it "groups used roles first and keeps unused roles available" do
+      unused_role = create(:project_role, name: "Unused role")
+      get type_workflow_matrix_path(type), headers: { "Turbo-Frame" => "workflow-table" }
+
+      panel = response.parsed_body.at_css("[data-test-selector='role-panel']")
+      items = panel.css("[data-item-id]")
+      expect(items.first(2).pluck("data-item-id")).to contain_exactly(role.id.to_s, other_role.id.to_s)
+      expect(panel.css(".ActionList-sectionDivider").map(&:text)).to eq(["With transitions", "Without transitions"])
+      expect(items.pluck("data-item-id")).to include(unused_role.id.to_s)
+    end
+  end
 
   it "renders the matrix frame with the transition menu and no form of its own" do
     get type_workflow_matrix_path(type, tab: "always", role_ids: [role.id]),
@@ -89,7 +120,7 @@ RSpec.describe "Workflow matrix on the type tab", type: :rails_request do
 
     def get_matrix
       get type_variant_workflow_matrix_path(type_id: type.id, variant_id: variant.id,
-                                    tab: "always", role_ids: [role.id]),
+                                            tab: "always", role_ids: [role.id]),
           headers: { "Turbo-Frame" => "workflow-table" }
     end
 

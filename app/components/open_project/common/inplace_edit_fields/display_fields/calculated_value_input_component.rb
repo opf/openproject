@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,12 +39,11 @@ module OpenProject
 
           # If the writable attribute is not explicitly listed as an argument,
           # it will be interpreted as one of the system_arguments and thus overwrite the `writable: false`
-          # rubocop:disable Lint/UnusedMethodArgument
+          # rubocop:disable-next Lint/UnusedMethodArgument
           def initialize(model:, attribute:, writable: nil, truncated: false, has_comment: false, show_comment: false,
                          **system_arguments)
             super(model:, attribute:, writable: false, truncated:, has_comment:, show_comment:, **system_arguments)
           end
-          # rubocop:enable Lint/UnusedMethodArgument
 
           def render_calculation_error
             error = custom_field&.first_calculation_error(model)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -126,6 +126,22 @@ RSpec.describe "Meetings", "Index", :js do
   before do
     travel_to(business_day_at_noon)
     login_as user
+  end
+
+  context "as an accessible page", :selenium do
+    before { setup_meeting_involvement }
+
+    it "is AXe clean on the project meetings index" do
+      visit project_meetings_path(project)
+      expect(page).to have_text("Awesome meeting tomorrow!")
+      expect(page).to be_axe_clean
+    end
+
+    it "is AXe clean on the global meetings index" do
+      visit meetings_path
+      expect(page).to have_text("Awesome meeting tomorrow!")
+      expect(page).to be_axe_clean
+    end
   end
 
   shared_examples "sidebar filtering" do |context:|

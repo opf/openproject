@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,7 +45,7 @@ RSpec.describe "External link capture", :js do
   current_user { admin }
 
   shared_examples "opens external link directly in a new window" do
-    it "keeps the default external link behaviour" do
+    it "keeps the default external link behavior" do
       visit project_wiki_path(project, wiki_page)
 
       link = page.find_link("OpenProject", href: external_url)

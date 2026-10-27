@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -524,7 +523,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
         end
       end
 
-      context "for a local JS file (normalised to text/plain, uses configured default charset)" do
+      context "for a local JS file (normalized to text/plain, uses configured default charset)" do
         it_behaves_like "for a local file" do
           let(:expected_content_type) { "text/plain; charset=#{Setting.attachment_default_charset}" }
           let(:mock_file) { FileHelpers.mock_uploaded_file name: "foobar.js", content_type: "text/x-javascript" }

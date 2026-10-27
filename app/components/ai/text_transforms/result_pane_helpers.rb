@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,6 +30,7 @@
 module AI
   module TextTransforms
     module ResultPaneHelpers
+      STIMULUS_CONTROLLER = "ai-text-transform-pane"
       CLOSE_FORM_ID = "ai-text-transform-pane-close"
       APPLY_FORM_ID = "ai-text-transform-pane-apply"
       RETRY_FORM_ID = "ai-text-transform-pane-retry"
@@ -39,6 +39,14 @@ module AI
 
       def label(key)
         I18n.t("ai.text_transform.pane.#{key}")
+      end
+
+      def target(name)
+        { ai_text_transform_pane_target: name }
+      end
+
+      def action(**events_by_name)
+        { action: events_by_name.map { |name, event| "#{event}->#{STIMULUS_CONTROLLER}##{name}" }.join(" ") }
       end
     end
   end

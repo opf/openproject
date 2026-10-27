@@ -47,3 +47,68 @@ get:
       required: false
       schema:
         type: string
+post:
+  summary: Create Label
+  operationId: create_label
+  tags:
+    - Labels
+  description: |-
+    Creates a label with the given name, or returns the existing label whose name matches case-insensitively.
+    Leading, trailing and repeated whitespace in the name is collapsed before matching.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/label_write_model.yml"
+  responses:
+    '200':
+      description: OK. A label with that name already exists and is returned unchanged.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/label_model.yml"
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/label_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work packages (on any project)
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: |-
+        Returned if:
+
+        * a constraint for a property was violated (`PropertyConstraintViolation`)
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Name cannot be empty.
+                _embedded:
+                  details:
+                    attribute: name

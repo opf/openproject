@@ -20,8 +20,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -38,7 +37,7 @@ RSpec.describe HourlyRatesController do
       login_as(user)
     end
 
-    context "when accessing the hourly rates of a user with a non exisiting project" do
+    context "when accessing the hourly rates of a user with a non existing project" do
       it "responds with 404" do
         get :show, params: { project_id: "this-does-not-exist", id: user.id }
         expect(response).to have_http_status(:not_found)

@@ -26,12 +26,12 @@ hy:
         select: Ընտրել նիշքեր
         select_all: Ընտրել բոլորը
         selection:
-          zero: Ընտրել նիշքեր հղելու համար
-          one: Հղել 1 նիշք
-          other: Հղել %{count} նիշք
+          none: Select files to link
+          one: Link %{count} file
+          other: Link %{count} files
         success_create:
-          one: Հաջողությամբ ստեղծվել է 1 նիշքի հղում։
-          other: Հաջողությամբ ստեղծվել է %{count} նիշքի հղում։
+          one: Successfully created %{count} file link.
+          other: Successfully created %{count} file links.
         tooltip:
           not_found: Այս նիշքը չի գտնվել։
           not_logged_in: Այս նիշքին հասանելիություն ստանալու համար խնդրում ենք մտնել պահեստ։

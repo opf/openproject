@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -40,7 +39,7 @@
 #
 # for this purpose.
 
-# rubocop:disable Rails/SquishedSQLHeredocs
+# rubocop:disable-next Rails/SquishedSQLHeredocs
 module Journals
   class CreateService
     include Helpers
@@ -612,7 +611,7 @@ module Journals
     end
 
     def only_one_or_same_cause?(predecessor, cause)
-      predecessor.cause.empty? || cause.blank? || predecessor.cause == cause
+      predecessor.cause.empty? || predecessor.cause == cause
     end
 
     def only_one_note?(predecessor, notes)
@@ -632,4 +631,3 @@ module Journals
     end
   end
 end
-# rubocop:enable Rails/SquishedSQLHeredocs

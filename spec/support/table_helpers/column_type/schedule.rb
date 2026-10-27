@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -34,7 +33,7 @@ module TableHelpers
     #
     # The title of the column is "MTWTFSS" to represent the days of the week.
     #
-    # The Monday is the next occuring Monday meaning the dates can be different
+    # The Monday is the next occurring Monday meaning the dates can be different
     # from one test run to another. To always use the same dates please use
     # `travel_to` with a fixed date.
     #

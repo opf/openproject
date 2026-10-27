@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -41,7 +40,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     overview_page.visit_page
   end
 
-  describe "with correct validation behaviour" do
+  describe "with correct validation behavior" do
     describe "after validation" do
       it "keeps showing only activated custom fields (tricky regression)" do
         custom_field = string_project_custom_field

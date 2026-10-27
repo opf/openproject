@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -293,7 +292,7 @@ RSpec.describe WikiController do
           { project_id: project, id: existing_page.title }
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -331,7 +330,7 @@ RSpec.describe WikiController do
           %i[view_wiki_pages edit_wiki_pages manage_wiki]
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end
@@ -356,7 +355,7 @@ RSpec.describe WikiController do
           { project_id: project, id: "foobar" }
         end
 
-        it "is sucessful" do
+        it "is successful" do
           expect(response)
             .to have_http_status(:ok)
         end

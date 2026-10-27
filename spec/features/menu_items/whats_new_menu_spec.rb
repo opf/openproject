@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -149,6 +148,39 @@ RSpec.describe "What's new menu", :js do
           expect(page).to have_no_test_selector("op-menu--whats-new-badge")
         end
       end
+    end
+  end
+
+  context "when the user first opened the release six days ago" do
+    before do
+      travel_to(6.days.ago) { user.pref.mark_whats_new_seen(release.version_key) }
+      user.pref.save!
+    end
+
+    it "still shows the button without the badge" do
+      visit home_path
+
+      expect(page).to have_test_selector("op-header-whats-new-button")
+      expect(page).to have_no_test_selector("op-header-whats-new-badge", visible: :all)
+    end
+  end
+
+  context "when the user first opened the release eight days ago" do
+    before do
+      travel_to(8.days.ago) { user.pref.mark_whats_new_seen(release.version_key) }
+      user.pref.save!
+    end
+
+    it "shows neither the button nor the user menu link" do
+      visit home_path
+
+      expect(page).to have_test_selector("header-help-button")
+      expect(page).to have_no_test_selector("op-header-whats-new-button", visible: :all)
+
+      find_test_selector("op-app-header--user-menu-button").click
+
+      expect(page).to have_css("#op-app-header--user-menu-list")
+      expect(page).to have_no_test_selector("op-menu--whats-new", visible: :all)
     end
   end
 

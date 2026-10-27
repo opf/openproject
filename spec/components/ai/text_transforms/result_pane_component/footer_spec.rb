@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -46,6 +45,10 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
     run.events.build(kind: "text_delta", payload: { "delta" => "Login **works** again" }, seq: 1)
   end
 
+  it "lets the grip drag the pane" do
+    expect(subject).to have_css(".op-ai-result-pane--grip[data-action='pointerdown->ai-text-transform-pane#beginDrag']")
+  end
+
   context "when generating" do
     it "offers only Cancel" do
       expect(subject).to have_text("Generating…")
@@ -57,11 +60,14 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent::Footer, type: :component
   context "when done" do
     let(:status) { "succeeded" }
 
-    it "offers Copy, Discard and Replace" do
-      expect(subject).to have_button("Copy")
+    it "offers Discard and Replace" do
       expect(subject).to have_button("Discard")
       expect(subject).to have_css(".Button--primary", text: "Replace")
       expect(subject).to have_no_button("Cancel")
+    end
+
+    it "copies the raw text with a clipboard button" do
+      expect(subject).to have_element(:"clipboard-copy", "aria-label": "Copy", value: "Login **works** again")
     end
   end
 

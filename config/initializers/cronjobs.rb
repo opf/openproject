@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -71,14 +70,6 @@ Rails.application.config.after_initialize do
       "Ldap::SynchronizationJob": {
         cron: "30 23 * * *",
         class: Ldap::SynchronizationJob.name
-      },
-      "Llm::HealthCheckJob": {
-        cron: "7 */6 * * *", # every six hours at xx:07
-        class: Llm::HealthCheckJob.name
-      },
-      "Llm::PruneHealthReportsJob": {
-        cron: "25 3 * * *", # runs at 3:25 nightly
-        class: Llm::PruneHealthReportsJob.name
       },
       "RecurringMeetings::InitNextOccurrenceWatchdogJob": {
         cron: "11 05 * * *",

@@ -22,11 +22,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require "spec_helper"
 
 # This is a feature spec for the project creation wizard, but only when creating
@@ -267,7 +267,7 @@ RSpec.describe "Project creation wizard",
     fill_in "Team Size", with: "5"
 
     wait_for_turbo(wait: 20) { click_button "Complete" }
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page).to have_text("Project attributes saved and artifact work package created successfully.")
 
     project.reload
     expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -396,7 +396,7 @@ RSpec.describe "Project creation wizard",
 
       click_button "Complete"
 
-      expect(page).to have_text("Project attributes saved and artefact work package created successfully.", wait: 20)
+      expect(page).to have_text("Project attributes saved and artifact work package created successfully.", wait: 20)
 
       project.reload
       expect(page).to have_current_path("/projects/#{project.identifier}/" \

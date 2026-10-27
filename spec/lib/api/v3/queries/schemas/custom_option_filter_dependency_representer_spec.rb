@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -92,6 +91,40 @@ RSpec.describe API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresente
 
           it_behaves_like "filter dependency empty"
         end
+      end
+    end
+
+    describe "with project-specific values" do
+      let(:type) { create(:type) }
+      let(:project) { create(:project, types: [type]) }
+      let(:other_project) { create(:project, types: [type]) }
+      let(:query) { build_stubbed(:query, project: nil) }
+      let(:custom_field) do
+        create(:list_wp_custom_field, :project_specific_allowlist, types: [type], possible_values: %w[A B])
+      end
+      let(:option_a) { custom_field.custom_options.find_by!(value: "A") }
+      let(:option_b) { custom_field.custom_options.find_by!(value: "B") }
+      let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+      let(:other_member) { create(:user, member_with_permissions: { other_project => %i[view_work_packages] }) }
+      let(:operator) { Queries::Operators::Equals }
+
+      before do
+        create(:project_specific_value_restriction, project:, custom_option: option_a)
+        create(:project_specific_value_restriction, project: other_project, custom_option: option_b)
+      end
+
+      it "only allows the options visible to the user, even when another user's schema is cached" do
+        json = User.execute_as(member) do
+          API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+        end
+        other_json = User.execute_as(other_member) do
+          API::V3::Queries::Schemas::FilterDependencyRepresenterFactory.create(filter, operator, form_embedded: true).to_json
+        end
+
+        expect(JSON.parse(json).dig("values", "_links", "allowedValues").pluck("href"))
+          .to eq([api_v3_paths.custom_option(option_a.id)])
+        expect(JSON.parse(other_json).dig("values", "_links", "allowedValues").pluck("href"))
+          .to eq([api_v3_paths.custom_option(option_b.id)])
       end
     end
 

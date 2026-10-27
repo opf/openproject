@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,7 +30,7 @@
 require "digest/sha1"
 
 class User < Principal
-  ScimEmail = Struct.new("ScimEmail", :value, :primary, :type)
+  ScimEmail = Struct.new(:value, :primary, :type)
 
   VALID_NAME_CHARS = "\\d\\p{Alpha}\\p{Mark}\\p{Space}\\p{Emoji}'\\u{2019}´\\-_.,@()+&*–"
   INVALID_NAME_REGEX = /[^#{VALID_NAME_CHARS}]/
@@ -503,7 +502,7 @@ class User < Principal
 
   ##
   # Finds all users with the mail address matching the given mail
-  # Includes searching for suffixes from +Setting.mail_suffix_separtors+.
+  # Includes searching for suffixes from +Setting.mail_suffix_separators+.
   #
   # For example:
   #  - With Setting.mail_suffix_separators = '+'

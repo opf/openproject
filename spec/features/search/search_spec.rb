@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -574,7 +573,7 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
           it_behaves_like "does not find the project"
         end
 
-        context "when using % in the query string the escaping works correcly and" do
+        context "when using % in the query string the escaping works correctly and" do
           let(:query) { "%#{project_list_cf.possible_values.pick(:value)}" }
 
           it_behaves_like "does not find the project"

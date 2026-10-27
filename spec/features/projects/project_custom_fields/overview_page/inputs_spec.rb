@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -55,7 +54,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     overview_page.visit_page
   end
 
-  describe "with correct initialization and input behaviour" do
+  describe "with correct initialization and input behavior" do
     def field = overview_page.open_inplace_edit_field_for_custom_field(custom_field)
 
     describe "with single select fields" do

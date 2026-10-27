@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -48,7 +47,7 @@ RSpec.describe IncomingEmails::Handlers::MeetingResponse do
       let(:email) do
         Mail.new do
           from "somebody@example.com"
-          add_file filename: "reponse.ics", content: "BEGIN:VCALENDAR..."
+          add_file filename: "response.ics", content: "BEGIN:VCALENDAR..."
         end
       end
 
@@ -89,7 +88,7 @@ RSpec.describe IncomingEmails::Handlers::MeetingResponse do
 
         Mail.new do
           from "somebody@example.com"
-          add_file filename: "reponse.ics", content: ical_string
+          add_file filename: "response.ics", content: ical_string
         end
       end
 
