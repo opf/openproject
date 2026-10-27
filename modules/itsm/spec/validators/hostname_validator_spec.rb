@@ -53,8 +53,15 @@ RSpec.describe HostnameValidator do
     end
   end
 
-  %w[192.168.1.10 ::1 imap.mailbox.org/inbox -imap.example.com imap-.example.com imap..example.com imap_1.example.com]
-    .each do |invalid_host|
+  %w[
+    192.168.1.10
+    ::1
+    imap.mailbox.org/inbox
+    -imap.example.com
+    imap-.example.com
+    imap..example.com
+    imap_1.example.com
+  ].each do |invalid_host|
     context "with #{invalid_host}" do
       let(:host) { invalid_host }
 
