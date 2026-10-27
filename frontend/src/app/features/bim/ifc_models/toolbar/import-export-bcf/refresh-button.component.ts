@@ -27,26 +27,16 @@
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { generateId } from 'core-app/shared/helpers/dom-helpers';
 
 @Component({
   template: `
     <button type="button"
-       [attr.id]="buttonId"
-       [attr.aria-labelledby]="tooltipId"
+       opTooltip
+       [label]="text.refresh_hover"
        class="button refresh-button"
        (click)="refresh()">
       <op-icon icon-classes="button--icon icon-workflow" />
     </button>
-    <tool-tip
-      class="sr-only position-absolute"
-      [attr.for]="buttonId"
-      [attr.id]="tooltipId"
-      popover="manual"
-      data-direction="s"
-      data-type="label"
-      [textContent]="text.refresh_hover"
-      />
   `,
   selector: 'op-refresh-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,10 +44,6 @@ import { generateId } from 'core-app/shared/helpers/dom-helpers';
 })
 export class RefreshButtonComponent {
   readonly I18n = inject(I18nService);
-
-  readonly buttonId = generateId('refresh-button');
-
-  readonly tooltipId = generateId('tooltip');
 
   public text = {
     refresh: this.I18n.t('js.bcf.refresh'),

@@ -25,9 +25,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import '@openproject/primer-view-components/app/components/primer/alpha/tool_tip.js';
 import { TestBed } from '@angular/core/testing';
 import { screen } from '@testing-library/dom';
+import { OpTooltipDirective } from 'core-app/shared/components/primer/tooltip.directive';
+import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -39,7 +41,8 @@ describe('TriggerActionsEntryComponent', () => {
   beforeEach(async () => {
     await TestBed
       .configureTestingModule({
-        declarations: [TriggerActionsEntryComponent],
+        imports: [OpTooltipDirective],
+        declarations: [TriggerActionsEntryComponent, OpIconComponent],
         providers: [
           { provide: I18nService, useValue: { t: (key:string) => key } },
           { provide: ApiV3Service, useValue: {} },
@@ -47,7 +50,6 @@ describe('TriggerActionsEntryComponent', () => {
           { provide: PathHelperService, useValue: {} },
           { provide: TurboRequestsService, useValue: {} },
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       })
       .overrideComponent(TriggerActionsEntryComponent, { set: { providers: [] } })
       .compileComponents();
