@@ -30,9 +30,7 @@
 require "digest/sha1"
 
 class User < Principal
-  # NOTE: Defining a struct like this is a little odd in Rails, but to make
-  #       sure it is reload safe and not produce warnings, we only do it once.
-  ScimEmail = Struct.new("ScimEmail", :value, :primary, :type) unless Struct.const_defined?("ScimEmail", false)
+  ScimEmail = Struct.new(:value, :primary, :type)
 
   VALID_NAME_CHARS = "\\d\\p{Alpha}\\p{Mark}\\p{Space}\\p{Emoji}'\\u{2019}´\\-_.,@()+&*–"
   INVALID_NAME_REGEX = /[^#{VALID_NAME_CHARS}]/
