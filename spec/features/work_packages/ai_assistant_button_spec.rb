@@ -64,6 +64,7 @@ RSpec.describe "Editor Assistant button",
     expect(assistant).to have_css(".ck-splitbutton__action", text: labels.first)
 
     assistant.find(".ck-splitbutton__arrow").click
+    expect(assistant).to have_css(".ck-list__item", count: labels.size)
     expect(assistant.all(".ck-list__item").map(&:text)).to eq(labels)
   end
 

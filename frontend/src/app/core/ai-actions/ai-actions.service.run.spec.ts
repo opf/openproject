@@ -30,6 +30,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AI_SELECTION_MARKER, AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { ModelWriter } from 'core-app/core/ai-actions/editor-content';
 import {
   AI_TEXT_TRANSFORM_APPLIED_EVENT,
@@ -115,6 +116,7 @@ describe('AiActionsService run (demo)', () => {
       providers: [
         AiActionsService,
         { provide: TurboRequestsService, useValue: turboRequestsStub },
+        { provide: ConfigurationService, useValue: { activeFeatureFlags: ['aiTextTransformActions'] } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

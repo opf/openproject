@@ -30,7 +30,10 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { IEditorWithContent } from 'core-app/core/ai-actions/editor-content';
 import {
@@ -50,7 +53,7 @@ export interface IAiTextTransformAction {
 }
 
 interface IEditorContextResource {
-  id?:string|null;
+  id:string|null;
   _type?:string;
   $links?:{
     type?:{ href?:string };
@@ -58,6 +61,7 @@ interface IEditorContextResource {
   };
 }
 
+const FEATURE_FLAG = 'aiTextTransformActions';
 interface IPendingRequest {
   editor:IEditorWithContent;
   scope:AiTextTransformScope;
@@ -65,8 +69,6 @@ interface IPendingRequest {
 
 export const AI_SELECTION_MARKER = 'ai-text-transform:selection';
 const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
-// Demo only: ?ai_demo_fault=blocked or =failed in the page URL makes the next runs end that way.
-const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
  * Counterpart of the CKEditor Assistant button, which only renders the list and reports the chosen
@@ -80,6 +82,8 @@ export class AiActionsService {
   private http = inject(HttpClient);
 
   private pathHelper = inject(PathHelperService);
+
+  private configuration = inject(ConfigurationService);
 
   private turboRequests = inject(TurboRequestsService);
 
@@ -95,6 +99,10 @@ export class AiActionsService {
   }
 
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
+    if (!this.configuration.activeFeatureFlags.includes(FEATURE_FLAG)) {
+      return [];
+    }
+
     const path = this.listPath(resource, field);
 
     if (path === null) {
@@ -276,8 +284,8 @@ export class AiActionsService {
   private workPackageListPath(workPackage:IEditorContextResource):string|null {
     const paths = this.pathHelper.api.v3;
 
-    if (workPackage.id && workPackage.id !== 'new') {
-      return paths.aiTextTransformActionsByWorkPackage(workPackage.id);
+    if (!isNewResource(workPackage)) {
+      return paths.aiTextTransformActionsByWorkPackage(workPackage.id!);
     }
 
     const projectId = this.linkedId(workPackage.$links?.project?.href);

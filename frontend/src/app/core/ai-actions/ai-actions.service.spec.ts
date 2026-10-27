@@ -31,6 +31,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 const halCollection = (elements:unknown[]) => ({
   _type: 'Collection',
@@ -65,13 +66,16 @@ const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemp
 describe('AiActionsService', () => {
   let service:AiActionsService;
   let httpMock:HttpTestingController;
+  let activeFeatureFlags:string[];
 
   beforeEach(() => {
+    activeFeatureFlags = ['aiTextTransformActions'];
     TestBed.configureTestingModule({
       providers: [
         AiActionsService,
         // Demo only (AI-126 demo branch): the demo run needs Turbo requests.
         { provide: TurboRequestsService, useValue: { request: () => Promise.resolve({ html: '', headers: new Headers() }) } },
+        { provide: ConfigurationService, useValue: { get activeFeatureFlags() { return activeFeatureFlags; } } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -84,6 +88,14 @@ describe('AiActionsService', () => {
   afterEach(() => httpMock.verify());
 
   describe('actionsFor', () => {
+    it('resolves to no actions without requesting any while the feature flag is off', async () => {
+      activeFeatureFlags = [];
+
+      expect(await service.actionsFor(existingWorkPackage, 'description')).toEqual([]);
+      expect(await service.actionsFor(undefined, undefined)).toEqual([]);
+      httpMock.expectNone(() => true);
+    });
+
     it('lists the actions of an existing work package ordered by position', async () => {
       const promise = service.actionsFor(existingWorkPackage, 'description');
 
