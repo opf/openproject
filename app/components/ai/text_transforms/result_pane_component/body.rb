@@ -56,7 +56,8 @@ module AI
         end
 
         def output
-          helpers.format_text(pane.text, object: pane.work_package, project: pane.project, untrusted_source: true)
+          helpers.format_text(pane.text, object: pane.work_package, project: pane.project,
+                                         untrusted_source: true, disable_macro_expansion: true)
         end
       end
     end
